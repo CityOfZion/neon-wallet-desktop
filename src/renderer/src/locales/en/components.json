@@ -106,5 +106,13 @@
       "step3": "Choose the accounts to migrate",
       "step4": "Enter your account passwords"
     }
+  },
+  "passwordStrenght": {
+    "label": "Password strenght",
+    "none": "-",
+    "tooShort": "Too short",
+    "weak": "Weak",
+    "good": "Good",
+    "strong": "Strong"
   }
 }

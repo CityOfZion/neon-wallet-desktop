@@ -23,6 +23,10 @@ const saveWallet: CaseReducer<IWalletReducer, PayloadAction<IWalletState>> = (st
   state.data[indexWallet] = wallet
 }
 
+const replaceAllWallets: CaseReducer<IWalletReducer, PayloadAction<IWalletState[]>> = (state, action) => {
+  state.data = action.payload
+}
+
 const deleteWallet: CaseReducer<IWalletReducer, PayloadAction<string>> = (state, action) => {
   const idWallet = action.payload
   state.data = state.data.filter(it => it.id !== idWallet)
@@ -34,6 +38,7 @@ const WalletReducer = createSlice({
   reducers: {
     deleteWallet,
     saveWallet,
+    replaceAllWallets,
   },
 })
 
