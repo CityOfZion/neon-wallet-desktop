@@ -9,6 +9,7 @@ export type TUseActionsActionState<T> = {
   isActing: boolean
   errors: TUseActionsErrors<T>
   changed: TUseActionsChanged<T>
+  hasActed: boolean
 }
 export type TUseActionsKeysMatching<T, V> = { [K in keyof T]: T[K] extends V ? K : never }[keyof T]
 

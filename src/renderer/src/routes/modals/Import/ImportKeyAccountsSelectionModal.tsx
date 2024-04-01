@@ -8,12 +8,12 @@ import { AccountSelection } from '@renderer/components/AccountSelection'
 import { Button } from '@renderer/components/Button'
 import { Loader } from '@renderer/components/Loader'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+import { useAccountUtils } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useBsAggregator } from '@renderer/hooks/useBsAggregator'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useMount } from '@renderer/hooks/useMount'
-import { useAppSelector } from '@renderer/hooks/useRedux'
 import { EndModalLayout } from '@renderer/layouts/EndModal'
 
 type TLocation = {
@@ -35,7 +35,7 @@ export const ImportKeyAccountsSelectionModal = () => {
   const navigate = useNavigate()
   const { t } = useTranslation('modals', { keyPrefix: 'importKeyAccountsSelection' })
   const { bsAggregator } = useBsAggregator()
-  const { ref: allAccountsRef } = useAppSelector(state => state.account.data.map(it => it.address))
+  const { doesAccountExist } = useAccountUtils()
 
   const { actionData, setData, actionState, handleAct } = useActions<TActionsData>({
     accountsByBlockchain: new Map(),
@@ -76,7 +76,7 @@ export const ImportKeyAccountsSelectionModal = () => {
 
     await UtilsHelper.promiseAll(bsAggregator.blockchainServices, async service => {
       const account = service.generateAccountFromKey(key)
-      if (allAccountsRef.current.some(address => address === account.address)) throw new Error()
+      if (doesAccountExist(account.address)) throw new Error()
       accountsByBlockchain.set(service.blockchainName, [{ ...account, blockchain: service.blockchainName }])
       selectedAccounts.push({ ...account, blockchain: service.blockchainName })
     })
@@ -85,7 +85,7 @@ export const ImportKeyAccountsSelectionModal = () => {
       accountsByBlockchain,
       selectedAccounts,
     })
-  }, [bsAggregator, key, allAccountsRef])
+  }, [bsAggregator, key, doesAccountExist])
 
   return (
     <EndModalLayout heading={t('title')} withBackButton headingIcon={<TbFileImport />} contentClassName="flex flex-col">

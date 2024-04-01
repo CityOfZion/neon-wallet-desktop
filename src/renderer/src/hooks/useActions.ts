@@ -15,6 +15,7 @@ export const useActions = <T extends TUseActionsData>(initialData: T) => {
     return {
       isValid: false,
       isActing: false,
+      hasActed: false,
       errors: {} as TUseActionsErrors<T>,
       changed: initialDataKeys.reduce(
         (acc, key) => ({ ...acc, [key]: !!initialData[key] }),
@@ -92,6 +93,7 @@ export const useActions = <T extends TUseActionsData>(initialData: T) => {
       actionDataRef.current = { ...actionDataRef.current, ...newValues }
 
       setState(prev => ({
+        hasActed: false,
         changed: {
           ...prev.changed,
           ...Object.keys(newValues).reduce((acc, key) => ({ ...acc, [key]: true }), {} as Record<keyof T, boolean>),
@@ -129,17 +131,15 @@ export const useActions = <T extends TUseActionsData>(initialData: T) => {
         setPrivateActionState(prev => ({ ...prev, isActing: true }))
         await callback(actionDataRef.current)
       } finally {
-        setPrivateActionState(prev => ({ ...prev, isActing: false }))
+        setPrivateActionState(prev => ({ ...prev, isActing: false, hasActed: true }))
       }
     }
   }, [])
 
   const reset = useCallback(() => {
     setPrivateActionData(initialData)
-    setPrivateActionState(initialState)
     actionDataRef.current = initialData
-    actionStateRef.current = initialState
-  }, [initialData, initialState])
+  }, [initialData])
 
   return { actionData, setData, setError, setDataFromEventWrapper, clearErrors, actionState, handleAct, reset }
 }

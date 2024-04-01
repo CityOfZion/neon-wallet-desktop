@@ -1,12 +1,13 @@
 import { ChangeEvent } from 'react'
 import { useTranslation } from 'react-i18next'
-import { MdOutlineLock } from 'react-icons/md'
+import { MdOutlineKey } from 'react-icons/md'
 import { Button } from '@renderer/components/Button'
-import { Input } from '@renderer/components/Input'
 import { useActions } from '@renderer/hooks/useActions'
 import { useBsAggregator } from '@renderer/hooks/useBsAggregator'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+import { SettingsLayout } from '@renderer/layouts/Settings'
 
+import { SettingsEncryptInputStep } from './SettingsEncryptInputStep'
 import { SettingsEncryptKeySuccessContent } from './SettingsEncryptKeySuccessContent'
 
 type TFormData = {
@@ -73,7 +74,7 @@ export const SettingsEncryptKeyPage = (): JSX.Element => {
     modalNavigate('success', {
       state: {
         heading: t('encryptKey.successModal.title'),
-        headingIcon: <MdOutlineLock />,
+        headingIcon: <MdOutlineKey />,
         content: <SettingsEncryptKeySuccessContent encryptedKey={encryptedKey} />,
         subtitle: t('encryptKey.successModal.subtitle'),
       },
@@ -83,74 +84,55 @@ export const SettingsEncryptKeyPage = (): JSX.Element => {
   }
 
   return (
-    <div className="w-full px-5">
-      <header className="w-full mb-5 h-14 border-b border-gray-300/30 items-center flex">
-        <h1 className="text-sm">{t('securityOption.encryptKey')}</h1>
-      </header>
+    <SettingsLayout title={t('securityOption.encryptKey')}>
+      <form className="flex flex-col items-center text-xs flex-grow" onSubmit={handleAct(handleSubmit)}>
+        <div className="max-w-[22.5rem] w-full flex flex-grow flex-col">
+          <span className="text-gray-100 text-center mb-6">{t('encryptKey.subtitle')}</span>
 
-      <form className="flex justify-center items-center" onSubmit={handleAct(handleSubmit)}>
-        <div className="text-[12px] min-w-[360px]">
-          <div className="mb-6 text-center">
-            <span className="text-gray-100">{t('encryptKey.subtitle')}</span>
-          </div>
-          <div className="w-full flex mb-2">
-            <div className="rounded-full leading-5 text-xs w-5 h-5 bg-blue text-gray-900 text-center text-[10px]">
-              1
-            </div>
-            <span className="text-red-500 ml-4 text-xs">{t('encryptKey.titleInput1')}</span>
-          </div>
-          <div className="flex items-center ml-2 mb-5">
-            <div className="border-l border-gray-500 mr-7 h-16 mt-3"></div>
-            <Input
+          <div className="flex flex-col gap-4">
+            <SettingsEncryptInputStep
+              step={1}
+              description={t('encryptKey.titleInput1')}
               placeholder={t('encryptKey.inputPrivateKeyPlaceholder')}
               onChange={handlePrivateKeyChange}
               value={actionData.privateKey}
               errorMessage={actionState.errors.privateKey}
             />
-          </div>
-          <div className="w-full flex mb-2">
-            <div className="rounded-full leading-5 text-xs w-5 h-5 bg-blue text-gray-900 text-center text-[10px]">
-              2
-            </div>
-            <span className="text-red-500 ml-4 text-xs">{t('encryptKey.titleInput2')}</span>
-          </div>
-          <div className="flex items-center ml-2 mb-5">
-            <div className="border-l border-gray-500 mr-7 h-16 mt-3"></div>
-            <Input
-              type="password"
+
+            <SettingsEncryptInputStep
+              step={2}
+              description={t('encryptKey.titleInput2')}
               placeholder={t('encryptKey.inputPassphrasePlaceholder')}
+              type="password"
               onChange={handlePassphraseChange}
               value={actionData.passphrase}
               errorMessage={actionState.errors.passphrase}
             />
-          </div>
-          <div className="w-full flex mb-5">
-            <div className="rounded-full leading-5 text-xs w-5 h-5 bg-blue text-gray-900 text-center text-[10px]">
-              3
-            </div>
-            <span className="text-red-500 ml-4 text-xs">{t('encryptKey.titleInput2')}</span>
-          </div>
-          <div className="flex items-center ml-9 mb-7">
-            <Input
-              type="password"
+
+            <SettingsEncryptInputStep
+              step={3}
+              description={t('encryptKey.titleInput2')}
               placeholder={t('encryptKey.inputConfirmPassphrasePlaceholder')}
               onChange={handleConfirmationPassphraseChange}
+              type="password"
               value={actionData.confirmationPassphrase}
               errorMessage={actionState.errors.confirmationPassphrase}
-            />
-          </div>
-          <div className="flex justify-center w-full">
-            <Button
-              className="mt-8 w-full"
-              type="submit"
-              label={t('encryptKey.buttonGenerate')}
-              loading={actionState.isActing}
-              disabled={!actionState.isValid}
-              leftIcon={<MdOutlineLock />}
+              withLine={false}
             />
           </div>
         </div>
+
+        <div className="flex justify-center">
+          <Button
+            className="w-fit"
+            type="submit"
+            label={t('encryptKey.buttonGenerate')}
+            loading={actionState.isActing}
+            disabled={!actionState.isValid}
+            leftIcon={<MdOutlineKey />}
+          />
+        </div>
       </form>
-    </div>
+    </SettingsLayout>
   )
 }

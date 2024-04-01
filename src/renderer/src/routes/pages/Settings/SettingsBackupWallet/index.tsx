@@ -5,9 +5,10 @@ import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+import { SettingsLayout } from '@renderer/layouts/Settings'
 
 export const SettingsBackupWallet = () => {
-  const { t } = useTranslation('pages', { keyPrefix: 'settings.backupWallet' })
+  const { t } = useTranslation('pages', { keyPrefix: 'settings.settingsBackupWallet' })
   const { modalNavigateWrapper } = useModalNavigate()
 
   const [selectedFilePath, setSelectedFilePath] = useState<string>('')
@@ -18,33 +19,31 @@ export const SettingsBackupWallet = () => {
   }
 
   return (
-    <div className=" flex flex-col px-5 w-full h-full items-center justify-between">
-      <div className="flex flex-col w-full">
-        <header className="w-full h-[3.25rem] border-b border-gray-300/30 items-center flex justify-between">
-          <h1 className="text-white text-sm">{t('title')}</h1>
-        </header>
+    <SettingsLayout title={t('title')}>
+      <p className="mb-7 text-xs">{t('description')}</p>
 
-        <div className="my-7 text-xs">{t('description')}</div>
+      <p className="uppercase text-gray-100 font-bold text-xs mb-3.5">{t('saveBackupLabel')}</p>
 
-        <div className="uppercase text-gray-100 font-bold text-xs mb-3.5">{t('saveBackupLabel')}</div>
+      <div className="flex flex-col flex-grow gap-y-10">
+        <div className="flex gap-2.5">
+          <Input value={selectedFilePath} compacted readOnly containerClassName="max-w-[17rem]" />
 
-        <div className="flex flex-col gap-y-10 max-w-[29rem]">
-          <div className="flex gap-2.5">
-            <Input value={selectedFilePath} compacted readOnly className="text-gray-100" />
-
-            <Button flat label={t('browse')} onClick={handlePathSelectionButton} className="w-36" />
-          </div>
-          <Banner type="info" message={t('warning')} />
+          <Button flat label={t('browse')} onClick={handlePathSelectionButton} className="w-36" />
         </div>
+
+        <Banner type="info" message={t('warning')} />
       </div>
-      <Button
-        label={t('backup')}
-        leftIcon={<MdOutlineSave />}
-        iconsOnEdge={false}
-        disabled={!selectedFilePath}
-        onClick={modalNavigateWrapper('confirm-password-backup', { state: { selectedFilePath } })}
-        className="w-52 mb-10"
-      />
-    </div>
+
+      <div className="flex justify-center">
+        <Button
+          label={t('backup')}
+          leftIcon={<MdOutlineSave />}
+          iconsOnEdge={false}
+          disabled={!selectedFilePath}
+          onClick={modalNavigateWrapper('confirm-password-backup', { state: { selectedFilePath } })}
+          className="w-52"
+        />
+      </div>
+    </SettingsLayout>
   )
 }

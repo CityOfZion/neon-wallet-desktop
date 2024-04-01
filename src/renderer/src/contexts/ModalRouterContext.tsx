@@ -1,4 +1,4 @@
-import { createContext, useCallback, useEffect, useMemo, useState } from 'react'
+import { createContext, useCallback, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import {
   THistory,
@@ -8,7 +8,8 @@ import {
 } from '@renderer/@types/modal'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { AnimatePresence } from 'framer-motion'
-import cloneDeep from 'lodash.clonedeep'
+
+import { ModalRouterCurrentHistoryProvider } from './ModalRouterCurrentHistoryContext'
 
 type TModalPortalProps = {
   children: React.ReactNode
@@ -21,13 +22,7 @@ const ModalPortal = ({ children }: TModalPortalProps) => {
 export const ModalRouterContext = createContext<TModalRouterContextValue>({} as TModalRouterContextValue)
 
 export const ModalRouterProvider = ({ routes, children }: TModalRouterProviderProps) => {
-  const [history, setHistory] = useState<THistory[]>([])
-
-  const renderRoutes = useMemo(
-    () =>
-      history.filter(item => item.status === 'mounted').map(item => routes.find(route => route.name === item.name)!),
-    [history, routes]
-  )
+  const [histories, setHistories] = useState<THistory[]>([])
 
   const navigate = useCallback(
     (name: string | number, options?: TModalRouterContextNavigateOptions) => {
@@ -37,15 +32,19 @@ export const ModalRouterProvider = ({ routes, children }: TModalRouterProviderPr
           throw new Error(`Route not found: ${name}`)
         }
 
-        setHistory(prevState => {
-          const lastMountedItem = cloneDeep(prevState)
-            .reverse()
-            .find(item => item.status === 'mounted')
+        setHistories(prevState => {
+          const lastMountedItem = prevState.filter(item => item.status === 'mounted').slice(-1)[0]
           if (lastMountedItem && lastMountedItem.name === name) {
             return prevState.map(item => (item.id === lastMountedItem.id ? { ...item, state: options?.state } : item))
           }
 
-          const newHistory: THistory = { name, state: options?.state, status: 'mounted', id: UtilsHelper.uuid() }
+          const newHistory: THistory = {
+            name,
+            state: options?.state,
+            status: 'mounted',
+            id: UtilsHelper.uuid(),
+            replaced: options?.replace ?? false,
+          }
           if (options?.replace) {
             return [...prevState.slice(0, -1), newHistory]
           }
@@ -59,7 +58,7 @@ export const ModalRouterProvider = ({ routes, children }: TModalRouterProviderPr
         throw new Error('Number is only allowed to go back in history')
       }
 
-      setHistory(prevState =>
+      setHistories(prevState =>
         prevState.map((item, index) => (index < prevState.length + name ? item : { ...item, status: 'unmounted' }))
       )
     },
@@ -67,7 +66,7 @@ export const ModalRouterProvider = ({ routes, children }: TModalRouterProviderPr
   )
 
   const removeUnmounted = useCallback(() => {
-    setHistory(prevState => prevState.filter(item => item.status === 'mounted'))
+    setHistories(prevState => prevState.filter(item => item.status === 'mounted'))
   }, [])
 
   useEffect(() => {
@@ -79,13 +78,21 @@ export const ModalRouterProvider = ({ routes, children }: TModalRouterProviderPr
   }, [routes])
 
   return (
-    <ModalRouterContext.Provider value={{ navigate, history }}>
+    <ModalRouterContext.Provider value={{ navigate, history: histories }}>
       {children}
 
       <AnimatePresence onExitComplete={removeUnmounted}>
-        {renderRoutes.map((route, index) => {
-          return <ModalPortal key={`${route.name}-${index}`}>{route.element}</ModalPortal>
-        })}
+        {histories
+          .filter(item => item.status === 'mounted')
+          .map((history, index) => {
+            const route = routes.find(route => route.name === history.name)!
+
+            return (
+              <ModalRouterCurrentHistoryProvider value={history} key={`${route.name}-${index}`}>
+                <ModalPortal>{route.element}</ModalPortal>
+              </ModalRouterCurrentHistoryProvider>
+            )
+          })}
       </AnimatePresence>
     </ModalRouterContext.Provider>
   )

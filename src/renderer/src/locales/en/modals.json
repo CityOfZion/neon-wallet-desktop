@@ -407,5 +407,39 @@
     "modalDescription": "Backup imported successfully!",
     "downloadQRCodePassword": "Download password QR code",
     "returnSettings": "Return to Settings"
+  },
+  "migrateWallets": {
+    "title": "Migrate from NEON 2",
+    "instructionTitle": "Instructions",
+    "step2": {
+      "title": "Import your NEON 2 accounts",
+      "description": "In order to complete the NEON 2 migration process,  please locate your NEON 2 wallet migration file:",
+      "inputLabel": "Locate your NEON 2 migration file",
+      "buttonBrowseLabel": "Browse...",
+      "buttonImportLabel": "Import",
+      "error": "File not recognised"
+    },
+    "step3": {
+      "title": "Choose the accounts to migrate",
+      "selectTitle": "Select which accounts you want to import",
+      "selectLabel": "Accounts",
+      "selectAllButtonLabel": "Select all",
+      "selectedQuantity": "{{selected}} of {{total}} accounts selected",
+      "alreadyImportedLabel": "Imported",
+      "buttonLabel": "Choose selected accounts"
+    },
+    "step4": {
+      "title": "Enter your account passwords",
+      "description": "Enter your passwords for each account you want to import",
+      "inputLabel": "Password",
+      "inputPlaceholder": "Enter account password...",
+      "buttonLabel": "Migrate accounts",
+      "passwordError": "Password not recognised!",
+      "migrateError": "There was an error trying to migrate. Please, try again.",
+      "success": {
+        "subtitle": "Your NEON 2 accounts have been successfully migrated!",
+        "buttonLabel": "View your portfolio"
+      }
+    }
   }
 }

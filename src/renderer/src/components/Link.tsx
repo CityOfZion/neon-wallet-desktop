@@ -17,6 +17,7 @@ export const Link = ({
   className,
   disabled,
   onClick,
+  wide,
   ...props
 }: TProps) => {
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
@@ -39,6 +40,7 @@ export const Link = ({
         disabled={disabled}
         colorSchema={colorSchema}
         iconsOnEdge={iconsOnEdge}
+        wide={wide}
       />
     </RRDLink>
   )

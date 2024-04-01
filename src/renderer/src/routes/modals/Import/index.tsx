@@ -7,7 +7,7 @@ import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
 import { Textarea } from '@renderer/components/Textarea'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
-import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
+import { useAccountUtils } from '@renderer/hooks/useAccountSelector'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useImportAction } from '@renderer/hooks/useImportAction'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
@@ -17,7 +17,7 @@ export const ImportModal = () => {
   const { modalNavigate } = useModalNavigate()
   const { t } = useTranslation('modals', { keyPrefix: 'import' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'wallet' })
-  const { accountsRef } = useAccountsSelector()
+  const { doesAccountExist } = useAccountUtils()
   const { createWallet, importAccount } = useBlockchainActions()
   const navigate = useNavigate()
 
@@ -41,9 +41,7 @@ export const ImportModal = () => {
               encryptedKey,
               blockchain,
               onDecrypt: async (key: string, address: string) => {
-                const addressAlreadyExist = accountsRef.current.some(acc => acc.address === address)
-
-                if (addressAlreadyExist) {
+                if (doesAccountExist(address)) {
                   throw new Error(t('addressAlreadyExist'))
                 }
 

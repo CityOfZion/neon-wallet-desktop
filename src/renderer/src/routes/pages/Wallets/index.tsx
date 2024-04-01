@@ -169,7 +169,7 @@ export const WalletsPage = () => {
                   to={`/wallets/${selectedAccount.address}/transactions`}
                 />
 
-                {selectedAccount?.accountType !== 'watch' && (
+                {selectedAccount?.type !== 'watch' && (
                   <SidebarMenuButton
                     title={t('accountConnections.title')}
                     to={`/wallets/${selectedAccount.address}/connections`}

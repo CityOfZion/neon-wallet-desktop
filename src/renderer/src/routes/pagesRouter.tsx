@@ -15,6 +15,7 @@ import { SendPage } from './pages/Send'
 import { SettingsPage } from './pages/Settings'
 import { SettingsBackupWallet } from './pages/Settings/SettingsBackupWallet'
 import { SettingsEncryptKeyPage } from './pages/Settings/SettingsEncryptKey'
+import { SettingsMigrateWalletsPage } from './pages/Settings/SettingsMigrateWallets'
 import { SettingsNetwork } from './pages/Settings/SettingsNetwork'
 import { SettingsRecoverWallet } from './pages/Settings/SettingsRecoverWallet'
 import { SettingsReleaseNotesPage } from './pages/Settings/SettingsReleaseNotes'
@@ -175,6 +176,10 @@ export const pagesRouter = routeHandler([
               {
                 path: 'backup-wallet',
                 element: <SettingsBackupWallet />,
+              },
+              {
+                path: 'migrate-accounts',
+                element: <SettingsMigrateWalletsPage />,
               },
             ],
           },

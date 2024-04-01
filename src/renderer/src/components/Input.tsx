@@ -1,4 +1,4 @@
-import { cloneElement, forwardRef, useImperativeHandle, useRef, useState } from 'react'
+import { cloneElement, forwardRef, MouseEvent, useImperativeHandle, useRef, useState } from 'react'
 import { MdCancel, MdContentCopy, MdContentPasteGo, MdVisibility, MdVisibilityOff } from 'react-icons/md'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
@@ -16,6 +16,7 @@ export type TInputProps = Omit<React.ComponentProps<'input'>, 'type' | 'ref'> & 
   type?: 'text' | 'password' | 'number'
   leftIcon?: JSX.Element
   loading?: boolean
+  label?: string
 }
 
 export const Input = forwardRef<HTMLInputElement, TInputProps>(
@@ -30,8 +31,10 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
       clearable,
       pastable,
       leftIcon,
+      readOnly,
       copyable,
       loading,
+      label,
       ...props
     },
     ref
@@ -70,14 +73,36 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
       }
     }
 
+    const handleContainerClick = () => {
+      if (readOnly) return
+
+      internalRef.current?.focus()
+      internalRef.current?.setSelectionRange(internalRef.current?.value.length, internalRef.current?.value.length)
+    }
+
+    const handleClick = (event: MouseEvent<HTMLInputElement>) => {
+      event.stopPropagation()
+      props.onClick?.(event)
+    }
+
+    const handleMouseDown = (event: MouseEvent<HTMLInputElement>) => {
+      if (readOnly) {
+        event.preventDefault()
+      }
+
+      props.onMouseDown?.(event)
+    }
+
     useImperativeHandle(ref, () => internalRef.current!, [])
 
     return (
       <div className={StyleHelper.mergeStyles('w-full relative', containerClassName)}>
+        {label && <label className="block text-gray-100 text-xs uppercase mb-2 font-bold">{label}</label>}
+
         <div
           aria-disabled={props.disabled}
           className={StyleHelper.mergeStyles(
-            'flex items-center gap-x-1.5 rounded bg-asphalt ring-2 ring-transparent w-full px-5 outline-none font-medium placeholder:text-white/50 text-white aria-disabled:opacity-50 aria-disabled:cursor-not-allowed transition-colors',
+            'flex items-center gap-x-1.5 rounded bg-asphalt ring-2 ring-transparent w-full px-5 outline-none font-medium placeholder:text-white/50 text-white aria-disabled:opacity-50 aria-disabled:cursor-not-allowed transition-colors cursor-text',
             {
               'h-8.5 py-1.5 text-xs': compacted,
               'h-12 py-2 text-sm': !compacted,
@@ -88,6 +113,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
             },
             className
           )}
+          onClick={handleContainerClick}
         >
           {leftIcon &&
             cloneElement(leftIcon, {
@@ -107,9 +133,12 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
               'bg-transparent disabled:cursor-not-allowed flex-grow outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none',
               className
             )}
+            onMouseDown={handleMouseDown}
+            onClick={handleClick}
             type={realType}
             spellCheck="false"
             autoComplete="off"
+            readOnly={readOnly}
             {...props}
           />
 

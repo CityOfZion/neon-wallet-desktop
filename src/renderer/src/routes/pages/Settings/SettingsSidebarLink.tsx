@@ -7,26 +7,33 @@ type TProps = {
   title: string
   to: string
   match?: boolean
+  colorSchema?: 'neon' | 'gray'
 }
 
-export const SettingsSidebarLink = ({ icon, title, to, match }: TProps): JSX.Element => {
+export const SettingsSidebarLink = ({ icon, title, to, match, colorSchema = 'gray' }: TProps): JSX.Element => {
   return (
     <li className="my-3">
-      <NavLink
-        to={to}
-        className={({ isActive }) => {
-          return StyleHelper.mergeStyles('tab-button p-2 pl-3 w-full flex border-l-[0.1875rem] justify-content-end', {
-            'border-l-neon bg-asphalt stroke-neon text-neon': isActive || match,
-            'border-l-transparent cursor-pointer opacity-60 hover:border-l-neon hover:bg-asphalt hover:opacity-100 hover:stroke-neon hover:text-neon':
-              !isActive && !match,
-          })
-        }}
-      >
-        {cloneElement(icon, {
-          className: `w-5 h-5 object-contain`,
-        })}
+      <NavLink to={to} className={({ isActive }) => `group ${isActive || match ? 'active' : ''}`}>
+        <div className="py-2 px-3 gap-3 w-full flex border-l-3 justify-content-end transition-colors border-transparent cursor-pointer group-[.active]:border-neon group-[.active]:bg-asphalt group-hover:border-neon group-hover:bg-asphalt">
+          {cloneElement(icon, {
+            className: StyleHelper.mergeStyles(
+              'w-5 h-5 object-contain group-[.active]:text-neon group-hover:text-neon transition-colors',
+              {
+                'text-neon': colorSchema === 'neon',
+                'text-gray-300': colorSchema === 'gray',
+              }
+            ),
+          })}
 
-        <span className="ml-3 leading-5 text-white">{title}</span>
+          <span
+            className={StyleHelper.mergeStyles('leading-5  transition-colors', {
+              'text-neon': colorSchema === 'neon',
+              'text-gray-300 group-[.active]:text-white group-hover:text-white': colorSchema === 'gray',
+            })}
+          >
+            {title}
+          </span>
+        </div>
       </NavLink>
     </li>
   )

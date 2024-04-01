@@ -18,14 +18,14 @@ export const SuccessModal = () => {
       heading={heading}
       headingIcon={headingIcon}
       size="md"
-      contentClassName="flex flex-col flex-grow min-w-0 items-center justify-between"
+      contentClassName="flex flex-col flex-grow min-w-0 items-center justify-between px-5"
     >
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center min-h-0 flex-grow">
         <div className="w-28 h-28 p-2 bg-asphalt rounded-full flex items-center">
           <PiSealCheck className="w-24 h-24 text-blue" />
         </div>
 
-        <p className="text-lg text-white mt-7">{subtitle}</p>
+        <p className="text-lg text-white mt-7 text-center px-8">{subtitle}</p>
 
         {content}
       </div>

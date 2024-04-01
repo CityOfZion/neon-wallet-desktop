@@ -13,7 +13,7 @@ export const CommonAccountActions = ({ account }: TProps) => {
   const navigate = useNavigate()
   const { t } = useTranslation('common', { keyPrefix: 'general' })
 
-  return account?.accountType !== 'watch' ? (
+  return account?.type !== 'watch' ? (
     <div className="flex gap-2">
       <Button
         leftIcon={<TbStepInto className="text-neon w-5 h-5" />}

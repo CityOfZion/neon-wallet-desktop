@@ -82,6 +82,9 @@ module.exports = {
         8.5: '2.125rem',
         4.5: '1.125rem',
       },
+      lineHeight: {
+        2: '0.625rem',
+      },
     },
   },
   plugins: [require('tailwindcss-animate')],

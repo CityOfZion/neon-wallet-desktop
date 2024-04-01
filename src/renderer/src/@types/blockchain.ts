@@ -41,7 +41,7 @@ export type TNetworkType = Exclude<NetworkType, 'custom'>
 
 export type TAccountBackupFormat = {
   address: string
-  accountType: TWalletType
+  type: TWalletType
   idWallet: string
   name: string
   backgroundColor: string

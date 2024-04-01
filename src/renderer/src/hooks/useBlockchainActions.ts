@@ -75,7 +75,7 @@ export function useBlockchainActions() {
         blockchain,
         backgroundColor: backgroundColor ? backgroundColor : accountColorsKeys[UtilsHelper.getRandomNumber(7)],
         address: generatedAccount.address,
-        accountType: wallet.walletType,
+        type: wallet.walletType,
         encryptedKey,
         order,
       }
@@ -104,7 +104,7 @@ export function useBlockchainActions() {
         blockchain,
         backgroundColor: backgroundColor ?? accountColorsKeys[UtilsHelper.getRandomNumber(7)],
         address,
-        accountType: type,
+        type,
         encryptedKey,
         order: accountOrder,
       }

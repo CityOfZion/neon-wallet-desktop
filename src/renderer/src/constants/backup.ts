@@ -1,1 +1,1 @@
-export const BACKUP_FILE_EXTENTION = 'neonbkp'
+export const BACKUP_FILE_EXTENSION = 'neonbkp'

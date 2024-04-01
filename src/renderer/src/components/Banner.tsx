@@ -28,7 +28,7 @@ const iconByType: Record<TBannerType, JSX.Element> = {
 export const Banner = ({ message, type, className, ...props }: TProps) => {
   return (
     <div
-      className={StyleHelper.mergeStyles('flex bg-gray-300/15 rounded-md overflow-hidden items-center', className)}
+      className={StyleHelper.mergeStyles('flex bg-gray-300/15 rounded overflow-hidden items-center', className)}
       {...props}
     >
       <div className="flex py-3 px-4 h-full items-center justify-center bg-gray-300/30">{iconByType[type]}</div>

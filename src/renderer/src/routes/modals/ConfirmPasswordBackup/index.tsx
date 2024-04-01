@@ -6,7 +6,7 @@ import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
-import { BACKUP_FILE_EXTENTION } from '@renderer/constants/backup'
+import { BACKUP_FILE_EXTENSION } from '@renderer/constants/backup'
 import { DateHelper } from '@renderer/helpers/DateHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
@@ -74,11 +74,11 @@ export const ConfirmPasswordBackupModal = () => {
           .filter(account => account.idWallet === wallet.id)
           .map(
             async (account): Promise<TAccountBackupFormat> => ({
-              accountType: account.accountType,
+              type: account.type,
               address: account.address,
               backgroundColor: account.backgroundColor,
               blockchain: account.blockchain,
-              idWallet: account.accountType,
+              idWallet: account.idWallet,
               name: account.name,
               order: account.order,
               key: account.encryptedKey
@@ -107,7 +107,7 @@ export const ConfirmPasswordBackupModal = () => {
       const content = await window.api.encryptBasedSecret(JSON.stringify(backupFile), decryptedPassword)
 
       window.api.saveFile(
-        `${selectedFilePath}/NEON3-Backup-${DateHelper.getNowUnix()}.${BACKUP_FILE_EXTENTION}`,
+        `${selectedFilePath}/NEON3-Backup-${DateHelper.getNowUnix()}.${BACKUP_FILE_EXTENSION}`,
         content
       )
       modalNavigate('success', {
