@@ -82,7 +82,7 @@ export const ConfirmPasswordBackupModal = () => {
               name: account.name,
               order: account.order,
               key: account.encryptedKey
-                ? await window.api.decryptBasedEncryptedSecret(account.encryptedKey)
+                ? await window.api.decryptBasedEncryptedSecret(account.encryptedKey, encryptedPassword)
                 : undefined,
             })
           )
@@ -94,7 +94,7 @@ export const ConfirmPasswordBackupModal = () => {
           name: wallet.name,
           walletType: wallet.walletType,
           mnemonic: wallet.encryptedMnemonic
-            ? await window.api.decryptBasedEncryptedSecret(wallet.encryptedMnemonic)
+            ? await window.api.decryptBasedEncryptedSecret(wallet.encryptedMnemonic, encryptedPassword)
             : '',
           accounts: accountsToBackup,
         }
