@@ -16,7 +16,7 @@ export const AccountTransactionsList = () => {
 
   return (
     <AccountDetailsLayout title={t('title')} actions={<CommonAccountActions account={account} />}>
-      <TransactionsTable accounts={account ? [account] : []} />
+      <TransactionsTable accounts={account ? [account] : []} showSimplified tableHeaderClassName="bg-gray-950" />
     </AccountDetailsLayout>
   )
 }

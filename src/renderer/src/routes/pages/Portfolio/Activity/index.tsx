@@ -46,7 +46,7 @@ export const PortfolioActivityPage = () => {
       </div>
 
       <ul className="w-full flex flex-col flex-grow px-4 py-3 min-h-0">
-        <TransactionsTable accounts={accounts} />
+        <TransactionsTable accounts={accounts} tableHeaderClassName="bg-gray-800" />
       </ul>
     </section>
   )
