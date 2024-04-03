@@ -20,7 +20,11 @@ export const Checkbox = forwardRef<HTMLButtonElement, TProps>(({ className, onCh
     <RadixCheckbox.Root
       ref={ref}
       className={StyleHelper.mergeStyles(
-        'min-w-[1.125rem] flex items-center justify-center min-h-[1.125rem] max-w-[1.125rem] max-h-[1.125rem]  rounded-sm border-2 data-[state=unchecked]:border-gray-300 data-[state=checked]:border-neon data-[state=unchecked]:bg-transparent data-[state=checked]:bg-neon disabled:cursor-not-allowed',
+        'min-w-[1.125rem] flex items-center justify-center min-h-[1.125rem] max-w-[1.125rem] max-h-[1.125rem] rounded-sm border-2',
+        {
+          'cursor-not-allowed bg-gray-300 border-gray-300': props.disabled,
+          'border-neon data-[state=unchecked]:bg-transparent data-[state=checked]:bg-neon': !props.disabled,
+        },
         className
       )}
       onCheckedChange={handleCheckedChange}

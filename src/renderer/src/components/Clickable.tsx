@@ -11,6 +11,7 @@ export type TCustomClickableProps = {
   disabled?: boolean
   loading?: boolean
   flat?: boolean
+  wide?: boolean
   colorSchema?: 'neon' | 'gray' | 'white' | 'error'
   iconsOnEdge?: boolean
 }
@@ -82,6 +83,7 @@ const Base = ({
   flat,
   colorSchema,
   iconsOnEdge,
+  wide,
   ...props
 }: TClickableProps) => {
   const { className: leftIconClassName = '', ...leftIconProps } = leftIcon ? leftIcon.props : {}
@@ -91,15 +93,10 @@ const Base = ({
 
   const buildIconClassName = (className: string) => {
     return StyleHelper.mergeStyles(
-      'object-contain group-aria-[disabled=true]:fill-gray-100/50',
+      'object-contain',
       {
         'w-6 h-6': !flat,
         'w-5 h-5': flat,
-        'text-neon': colorSchema === 'neon',
-        'text-gray-200': colorSchema === 'gray',
-        'text-white': colorSchema === 'white',
-        'text-pink': colorSchema === 'error',
-        'text-gray-100/50': isDisabled,
       },
       className
     )
@@ -111,8 +108,11 @@ const Base = ({
       className={StyleHelper.mergeStyles(
         'aria-[disabled=true]:cursor-not-allowed w-full aria-[disabled=true]:opacity-50 aria-[disabled=false]:cursor-pointer',
         {
-          'h-10 text-sm px-3': !flat,
-          'h-8.5 text-xs px-2': flat,
+          'px-7': wide,
+          'h-10 text-sm': !flat,
+          'h-8.5 text-xs': flat,
+          'px-3': !flat && !wide,
+          'px-2': flat && !wide,
           'text-neon': colorSchema === 'neon',
           'text-gray-200': colorSchema === 'gray',
           'text-white': colorSchema === 'white',
@@ -162,9 +162,10 @@ export const Clickable = ({
   loading = false,
   flat = false,
   iconsOnEdge = true,
+  wide = false,
   ...rest
 }: TClickableProps) => {
-  const props = { ...rest, colorSchema, disabled, loading, flat, iconsOnEdge }
+  const props = { ...rest, wide, colorSchema, disabled, loading, flat, iconsOnEdge }
 
   return props.variant === 'outlined' ? (
     <Outline {...props} />

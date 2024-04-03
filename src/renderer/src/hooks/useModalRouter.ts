@@ -1,6 +1,7 @@
-import { useCallback, useContext, useMemo, useRef } from 'react'
+import { useCallback, useContext } from 'react'
 import { TModalRouterContextNavigateOptions } from '@renderer/@types/modal'
 import { ModalRouterContext } from '@renderer/contexts/ModalRouterContext'
+import { ModalRouterCurrentHistoryContext } from '@renderer/contexts/ModalRouterCurrentHistoryContext'
 
 export const useModalNavigate = () => {
   const { navigate: modalNavigate } = useContext(ModalRouterContext)
@@ -21,14 +22,9 @@ export const useModalNavigate = () => {
 }
 
 export const useModalState = <T = any>(): T => {
-  const { history } = useContext(ModalRouterContext)
-  const currentHistoryId = useRef<string>(history[history.length - 1].id)
+  const { value } = useContext(ModalRouterCurrentHistoryContext)
 
-  const state = useMemo(() => {
-    return (history.find(item => item.id === currentHistoryId.current)?.state ?? {}) as T
-  }, [history])
-
-  return state
+  return (value?.state ?? {}) as T
 }
 
 export const useModalHistory = () => {

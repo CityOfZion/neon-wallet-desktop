@@ -21,7 +21,8 @@
     "encryptedName": "Encrypted Wallet",
     "watchAccount": "Watch Account",
     "mnemonicWalletName": "Mnemonic Wallet",
-    "firstWalletName": "My First Wallet"
+    "firstWalletName": "My First Wallet",
+    "migratedWalletName": "Migrated Wallet"
   },
   "account": {
     "defaultName": "Account {{accountNumber}}"

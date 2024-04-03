@@ -3,6 +3,7 @@ export type THistory<T = any> = {
   state: T
   status: 'mounted' | 'unmounted'
   id: string
+  replaced: boolean
 }
 
 export type TRoute = {
@@ -23,4 +24,13 @@ export type TModalRouterProviderProps = {
 export type TModalRouterContextNavigateOptions = {
   state?: any
   replace?: boolean
+}
+
+export type TModalRouterCurrentHistoryContextValue<T = any> = {
+  value: THistory<T>
+}
+
+export type TModalRouterCurrentHistoryProviderProps<T = any> = {
+  value: THistory<T>
+  children: React.ReactNode
 }

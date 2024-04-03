@@ -23,6 +23,7 @@ interface Resources {
       watchAccount: 'Watch Account'
       mnemonicWalletName: 'Mnemonic Wallet'
       firstWalletName: 'My First Wallet'
+      migratedWalletName: 'Migrated Wallet'
     }
     account: {
       defaultName: 'Account {{accountNumber}}'
@@ -134,6 +135,18 @@ interface Resources {
       disconnect: 'Disconnect'
       emptyList: 'No dApp connections'
     }
+    migrateSteps: {
+      inNeon2: {
+        label: 'In NEON 2'
+        step1: 'Export your NEON 2 wallet'
+      }
+      inNeon3: {
+        label: 'In NEON 3'
+        step2: 'Import your NEON 2 accounts'
+        step3: 'Choose the accounts to migrate'
+        step4: 'Enter your account passwords'
+      }
+    }
   }
   hooks: {
     useImportAction: {
@@ -143,6 +156,10 @@ interface Resources {
         allAddressesAlreadyImported: 'All addresses are already imported'
         mnemonicIncomplete: 'Mnemonic incomplete'
       }
+    }
+    useBackupOrMigrate: {
+      neon3BackupFileDetected: 'NEON3 backup file detected'
+      neon2MigrateFileDetected: 'NEON2 migrate file detected'
     }
   }
   modals: {
@@ -553,6 +570,40 @@ interface Resources {
       modalDescription: 'Backup imported successfully!'
       returnSettings: 'Return to Settings'
     }
+    migrateWallets: {
+      title: 'Migrate from NEON 2'
+      instructionTitle: 'Instructions'
+      step2: {
+        title: 'Import your NEON 2 accounts'
+        description: 'In order to complete the NEON 2 migration process,  please locate your NEON 2 wallet migration file:'
+        inputLabel: 'Locate your NEON 2 migration file'
+        buttonBrowseLabel: 'Browse...'
+        buttonImportLabel: 'Import'
+        error: 'File not recognised'
+      }
+      step3: {
+        title: 'Choose the accounts to migrate'
+        selectTitle: 'Select which accounts you want to import'
+        selectLabel: 'Accounts'
+        selectAllButtonLabel: 'Select all'
+        selectedQuantity: '{{selected}} of {{total}} accounts selected'
+        alreadyImportedLabel: 'Imported'
+        buttonLabel: 'Choose selected accounts'
+      }
+      step4: {
+        title: 'Enter your account passwords'
+        description: 'Enter your passwords for each account you want to import'
+        inputLabel: 'Password'
+        inputPlaceholder: 'Enter account password...'
+        buttonLabel: 'Migrate accounts'
+        passwordError: 'Password not recognised!'
+        migrateError: 'There was an error trying to migrate. Please, try again.'
+        success: {
+          subtitle: 'Your NEON 2 accounts have been successfully migrated!'
+          buttonLabel: 'View your portfolio'
+        }
+      }
+    }
   }
   pages: {
     welcome: {
@@ -728,6 +779,7 @@ interface Resources {
         encryptKey: 'Encrypt Key'
         recoverWallet: 'Import NEON Backup'
         backupWallet: 'Backup NEON'
+        migrateWallets: 'Migrate from NEON 2.0'
       }
       encryptKey: {
         subtitle: 'Choose a passphrase to encrypt an existing key:'
@@ -762,7 +814,7 @@ interface Resources {
           learnMore: 'Learn More'
         }
       }
-      backupWallet: {
+      settingsBackupWallet: {
         title: 'Backup NEON'
         description: 'Save a backup file to your computer that will allow you to restore your wallet in the event that you lose access or damage your device.'
         saveBackupLabel: 'Where would you like to save your backup?'
@@ -770,13 +822,22 @@ interface Resources {
         backup: 'Backup'
         warning: 'Note: This process will back up your entire wallet'
       }
-      recoverWallet: {
+      settingsRecoverWallet: {
         title: 'Import NEON Backup'
         description: 'In the event that you lose access to you wallet, you can import it from a local backup file. Simply locate your local backup file and enter the password you used when you created the backup file and your access will be restored.'
         saveBackupLabel: 'Locate your backup file'
         browse: 'Browse...'
         backup: 'Import backup'
-        nameExtention: 'NEON Backup Files'
+        nameExtension: 'NEON Backup Files'
+        fileError: 'File not recognized'
+      }
+      settingsMigrateWallets: {
+        title: 'Migrate from NEON 2.0'
+        subtitleWhy: 'Why migrate to NEON 3?'
+        descriptionWhy: 'Migrating your NEON 2 wallet will give you access to a broader range of supported assets, and a sleeker, improved user experience that will make the management of your assets a breeze!'
+        subtitleHow: 'How do I migrate from Neon 2?'
+        importButtonLabel: 'Import your NEON 2 wallet'
+        startProcessButtonLabel: 'Start the process in NEON 2'
       }
     }
     receive: {

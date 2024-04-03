@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
-import { MdOutlineLock, MdOutlineSave } from 'react-icons/md'
-import { TbReload } from 'react-icons/tb'
+import { MdOutlineKey, MdOutlineSave } from 'react-icons/md'
+import { TbPackageImport, TbReload } from 'react-icons/tb'
 import { useMatch } from 'react-router-dom'
 
 import { SettingsSidebarLink } from './SettingsSidebarLink'
@@ -14,7 +14,7 @@ export const SettingsSecurityTabContent = () => {
       <ul className="max-w-full w-full">
         <SettingsSidebarLink
           title={t('securityOption.encryptKey')}
-          icon={<MdOutlineLock />}
+          icon={<MdOutlineKey />}
           to="/settings/security/encrypt-key"
           match={!!matchRootEncryptKey}
         />
@@ -27,6 +27,12 @@ export const SettingsSecurityTabContent = () => {
           title={t('securityOption.backupWallet')}
           icon={<MdOutlineSave />}
           to="/settings/security/backup-wallet"
+        />
+        <SettingsSidebarLink
+          title={t('securityOption.migrateWallets')}
+          icon={<TbPackageImport />}
+          to="/settings/security/migrate-accounts"
+          colorSchema="neon"
         />
       </ul>
     </nav>

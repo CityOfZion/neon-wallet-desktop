@@ -24,6 +24,9 @@ import { ImportModal } from './modals/Import'
 import { ImportKeyAccountsSelectionModal } from './modals/Import/ImportKeyAccountsSelectionModal'
 import { ImportMnemonicAccountsSelectionModal } from './modals/Import/ImportMnemonicAccountsSelectionModal'
 import { InputAmount } from './modals/InputAmount'
+import { MigrateAccountsStep2Modal } from './modals/MigrateAccounts/MigrateAccountsStep2'
+import { MigrateAccountsStep3Modal } from './modals/MigrateAccounts/MigrateAccountsStep3'
+import { MigrateAccountsStep4Modal } from './modals/MigrateAccounts/MigrateAccountsStep4'
 import { NetworkSelection } from './modals/NetworkSelection'
 import { PersistAccountModal } from './modals/PersistAccount'
 import { PersistContactModal } from './modals/PersistContact'
@@ -66,4 +69,7 @@ export const modalsRouter: TRoute[] = [
   { name: 'select-token', element: <SelectToken /> },
   { name: 'input-amount', element: <InputAmount /> },
   { name: 'network-selection', element: <NetworkSelection /> },
+  { name: 'migrate-accounts-step-2', element: <MigrateAccountsStep2Modal /> },
+  { name: 'migrate-accounts-step-3', element: <MigrateAccountsStep3Modal /> },
+  { name: 'migrate-accounts-step-4', element: <MigrateAccountsStep4Modal /> },
 ]

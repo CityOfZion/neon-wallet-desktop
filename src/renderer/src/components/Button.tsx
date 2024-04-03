@@ -13,6 +13,7 @@ export const Button = ({
   colorSchema,
   iconsOnEdge,
   disabled,
+  wide,
   ...props
 }: TProps) => {
   const isDisabled = disabled || loading
@@ -30,6 +31,7 @@ export const Button = ({
         disabled={isDisabled}
         colorSchema={colorSchema}
         iconsOnEdge={iconsOnEdge}
+        wide={wide}
       />
     </button>
   )

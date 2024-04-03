@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 
 import { useAppSelector } from './useRedux'
 
@@ -23,5 +23,18 @@ export const useAccountsByWalletIdSelector = (walletId: string) => {
   return {
     accountsByWalletId,
     accountsByWalletIdRef,
+  }
+}
+
+export const useAccountUtils = () => {
+  const { accountsRef } = useAccountsSelector()
+
+  const doesAccountExist = useCallback(
+    (address: string) => accountsRef.current.some(account => account.address === address),
+    [accountsRef]
+  )
+
+  return {
+    doesAccountExist,
   }
 }

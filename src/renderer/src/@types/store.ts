@@ -4,7 +4,7 @@ import { TBlockchainServiceKey, TNetworkType } from './blockchain'
 
 export interface IAccountState {
   address: string
-  accountType: TWalletType
+  type: TWalletType
   idWallet: string
   name: string
   backgroundColor: string

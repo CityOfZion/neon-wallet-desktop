@@ -6,5 +6,9 @@
       "allAddressesAlreadyImported": "All addresses are already imported",
       "mnemonicIncomplete": "Mnemonic incomplete"
     }
+  },
+  "useBackupOrMigrate": {
+    "neon3BackupFileDetected": "NEON3 backup file detected",
+    "neon2MigrateFileDetected": "NEON2 migrate file detected"
   }
 }

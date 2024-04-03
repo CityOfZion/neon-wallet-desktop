@@ -94,5 +94,17 @@
     "account": "Account",
     "disconnect": "Disconnect",
     "emptyList": "No dApp connections"
+  },
+  "migrateSteps": {
+    "inNeon2": {
+      "label": "In NEON 2",
+      "step1": "Export your NEON 2 wallet"
+    },
+    "inNeon3": {
+      "label": "In NEON 3",
+      "step2": "Import your NEON 2 accounts",
+      "step3": "Choose the accounts to migrate",
+      "step4": "Enter your account passwords"
+    }
   }
 }
