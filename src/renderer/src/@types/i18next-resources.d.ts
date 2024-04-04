@@ -179,6 +179,7 @@ interface Resources {
       buttonContinueLabel: 'Next'
       errors: {
         allAddressesAlreadyImported: 'All addresses are already imported'
+        mnemonicAlreadyExist: 'Mnemonic already exists'
       }
       success: {
         mnemonic: 'Mnemonic complete!'

@@ -1,4 +1,7 @@
+import { useCallback } from 'react'
+
 import { useAppSelector } from './useRedux'
+import { useEncryptedPasswordSelector } from './useSettingsSelector'
 
 export const useWalletsSelector = () => {
   const { ref, value } = useAppSelector(state => state.wallet.data)
@@ -16,4 +19,31 @@ export const useWalletSelectorByID = (id: string) => {
   })
 
   return { wallet: value, walletRef: ref }
+}
+
+export const useWalletsUtils = () => {
+  const { walletsRef } = useWalletsSelector()
+  const { encryptedPasswordRef } = useEncryptedPasswordSelector()
+
+  const doesMnemonicExist = useCallback(
+    async (mnemonic: string) => {
+      for (const wallet of walletsRef.current) {
+        if (!wallet.encryptedMnemonic) continue
+
+        const walletMnemonic = await window.api.decryptBasedEncryptedSecret(
+          wallet.encryptedMnemonic,
+          encryptedPasswordRef.current
+        )
+
+        if (walletMnemonic === mnemonic) return true
+      }
+
+      return false
+    },
+    [walletsRef, encryptedPasswordRef]
+  )
+
+  return {
+    doesMnemonicExist,
+  }
 }
