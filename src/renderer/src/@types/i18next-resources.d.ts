@@ -147,6 +147,14 @@ interface Resources {
         step4: 'Enter your account passwords'
       }
     }
+    passwordStrenght: {
+      label: 'Password strenght'
+      none: '-'
+      tooShort: 'Too short'
+      weak: 'Weak'
+      good: 'Good'
+      strong: 'Strong'
+    }
   }
   hooks: {
     useImportAction: {
@@ -776,6 +784,7 @@ interface Resources {
         releaseNotes: 'Release Notes'
       }
       securityOption: {
+        changePassword: 'Change password'
         encryptKey: 'Encrypt Key'
         recoverWallet: 'Import NEON Backup'
         backupWallet: 'Backup NEON'
@@ -838,6 +847,27 @@ interface Resources {
         subtitleHow: 'How do I migrate from Neon 2?'
         importButtonLabel: 'Import your NEON 2 wallet'
         startProcessButtonLabel: 'Start the process in NEON 2'
+      }
+      changePassword: {
+        title: 'Change Password'
+        step1: {
+          subtitle: 'If you’d like to create a new password, simply change it here and confirm the change with your current password!'
+          titleInput1: 'New password'
+          inputNewPasswordPlaceholder: 'Enter a new password...'
+          titleInput2: 'Current Neon password'
+          inputCurrentPasswordPlaceholder: 'Enter your current password...'
+          generatePassword: 'Generate password'
+          buttonContinue: 'Continue'
+          error: 'Password not recognised!'
+        }
+        step2: {
+          subtitle: 'If you lose your password, it isn’t retrievable.'
+          description: 'To complete your password change, you’ll need to make a backup of your new password. Tap the button below to get a QR code that you can download and keep safe.'
+          buttonDownload: 'Download QR and save changes'
+        }
+        step3: {
+          subtitle: 'Your NEON 3 password has been successfully changed!'
+        }
       }
     }
     receive: {

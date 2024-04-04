@@ -14,6 +14,10 @@ import { RootPage } from './pages/Root'
 import { SendPage } from './pages/Send'
 import { SettingsPage } from './pages/Settings'
 import { SettingsBackupWallet } from './pages/Settings/SettingsBackupWallet'
+import { SettingsChangePasswordPage } from './pages/Settings/SettingsChangePassword'
+import { ChangePasswordStep1 } from './pages/Settings/SettingsChangePassword/ChangePasswordStep1'
+import { ChangePasswordStep2 } from './pages/Settings/SettingsChangePassword/ChangePasswordStep2'
+import { ChangePasswordStep3 } from './pages/Settings/SettingsChangePassword/ChangePasswordStep3'
 import { SettingsEncryptKeyPage } from './pages/Settings/SettingsEncryptKey'
 import { SettingsMigrateWalletsPage } from './pages/Settings/SettingsMigrateWallets'
 import { SettingsNetwork } from './pages/Settings/SettingsNetwork'
@@ -166,7 +170,25 @@ export const pagesRouter = routeHandler([
             path: 'security',
             children: [
               {
-                path: 'encrypt-key?',
+                path: 'change-password?',
+                element: <SettingsChangePasswordPage />,
+                children: [
+                  {
+                    path: 'step-1?',
+                    element: <ChangePasswordStep1 />,
+                  },
+                  {
+                    path: 'step-2',
+                    element: <ChangePasswordStep2 />,
+                  },
+                  {
+                    path: 'step-3',
+                    element: <ChangePasswordStep3 />,
+                  },
+                ],
+              },
+              {
+                path: 'encrypt-key',
                 element: <SettingsEncryptKeyPage />,
               },
               {

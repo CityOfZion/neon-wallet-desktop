@@ -1,4 +1,5 @@
 import { getI18n } from 'react-i18next'
+import _ from 'lodash'
 import * as uuid from 'uuid'
 
 import { ToastHelper } from './ToastHelper'
@@ -11,6 +12,63 @@ export type TImageSize = {
 export class UtilsHelper {
   static getRandomNumber(max: number) {
     return Math.floor(Math.random() * Math.floor(max))
+  }
+
+  static randomLower() {
+    let result = ''
+    const characters = 'abcdefghijklmnopqrstuvwxyz'
+    const charactersLength = characters.length
+    let counter = 0
+    while (counter < length) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength))
+      counter += 1
+    }
+    return result
+  }
+
+  static randomUpper() {
+    let result = ''
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    const charactersLength = characters.length
+    let counter = 0
+    while (counter < length) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength))
+      counter += 1
+    }
+    return result
+  }
+
+  static randomSymbol() {
+    let result = ''
+    const characters = '!@#$%^&*()_+[\\]{};\':"\\|,.<>/?'
+    const charactersLength = characters.length
+    let counter = 0
+    while (counter < length) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength))
+      counter += 1
+    }
+    return result
+  }
+
+  static generateStrongPassword() {
+    const passwordLength = 15
+    let password = this.getRandomNumber(9).toString() + this.randomSymbol() + this.randomUpper() + this.randomLower()
+    for (let i = 0; i < passwordLength; i++) {
+      const choice = this.getRandomNumber(4)
+      if (choice === 0) {
+        password += this.randomLower()
+      } else if (choice === 1) {
+        password += this.randomUpper()
+      } else if (choice === 2) {
+        password += this.randomSymbol()
+      } else if (choice === 3) {
+        password += this.getRandomNumber(9).toString()
+      } else {
+        i--
+      }
+    }
+
+    return _.shuffle(password).join('')
   }
 
   static async promiseAll<T, R>(array: T[], callback: (item: T) => Promise<R> | R): Promise<R[]> {

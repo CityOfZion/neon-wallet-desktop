@@ -37,6 +37,10 @@ const saveAccount: CaseReducer<IAccountReducer, PayloadAction<IAccountState>> = 
   state.data[findIndex] = account
 }
 
+const replaceAllAccounts: CaseReducer<IAccountReducer, PayloadAction<IAccountState[]>> = (state, action) => {
+  state.data = action.payload
+}
+
 const reorderAccounts: CaseReducer<IAccountReducer, PayloadAction<string[]>> = (state, action) => {
   const accountsOrder = action.payload
 
@@ -91,6 +95,7 @@ const AccountReducer = createSlice({
     deleteAccount,
     deleteAccounts,
     saveAccount,
+    replaceAllAccounts,
     reorderAccounts,
     addPendingTransaction,
     removeAllPendingTransactions,
