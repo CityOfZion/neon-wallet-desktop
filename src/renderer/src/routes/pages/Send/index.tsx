@@ -202,7 +202,7 @@ export const SendPage = () => {
           to: nsAddress || selectedRecipient,
           from: selectedAccount.address,
           hash: transactionHash,
-          time: Date.now(),
+          time: Date.now() / 1000,
           contractHash: sendService.token.token.hash,
           type: 'token',
           fromAccount: selectedAccount,
