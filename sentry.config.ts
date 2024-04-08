@@ -6,7 +6,7 @@ export const sentryConfig: Omit<BrowserOptions, 'transportOptions' | 'transport'
   autoSessionTracking: true,
   debug: false,
   enableTracing: true,
-  environment: 'release',
+  environment: 'NEON-3',
   release: version,
   // Capture Replay for 10% of all sessions,
   // plus for 100% of sessions with an error
