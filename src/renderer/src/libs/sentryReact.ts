@@ -12,6 +12,12 @@ export function setupSentryReact() {
       {
         dsn: import.meta.env.RENDERER_VITE_SENTRY_DSN,
         ...sentryConfig,
+        integrations: [
+          new ElectronRedererSentry.Integrations.Breadcrumbs(),
+          new ElectronRedererSentry.Integrations.Dedupe(),
+          new ElectronRedererSentry.Integrations.FunctionToString(),
+          new ElectronRedererSentry.Integrations.LinkedErrors(),
+        ],
         anrDetection: { captureStackTrace: true },
       },
       // @ts-expect-error Something wrong with Sentry's typings
