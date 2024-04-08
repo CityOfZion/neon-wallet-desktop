@@ -1,12 +1,13 @@
 import { forwardRef, useImperativeHandle, useMemo, useState } from 'react'
 import { MdContentCopy } from 'react-icons/md'
-import { TbChevronRight, TbUsers } from 'react-icons/tb'
+import { TbChevronRight } from 'react-icons/tb'
 import { TUseTransactionsTransfer } from '@renderer/@types/hooks'
 import { IAccountState } from '@renderer/@types/store'
 import { DoraHelper } from '@renderer/helpers/DoraHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
+import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useInfiniteScroll } from '@renderer/hooks/useInfiniteScroll'
 import { useAppSelector } from '@renderer/hooks/useRedux'
 import { useNetworkTypeSelector } from '@renderer/hooks/useSettingsSelector'
@@ -40,81 +41,76 @@ const columnHelper = createColumnHelper<TUseTransactionsTransfer>()
 export const TransactionsTable = forwardRef<HTMLDivElement, TTransactionListProps>(
   ({ accounts, showSimplified, tableHeaderClassName }, ref) => {
     const { transfers, fetchNextPage, isLoading } = useTransactions({ accounts })
-    const { value: pendingTransactions } = useAppSelector(state =>
-      state.account.pendingTransactions.filter(transaction =>
-        accounts.some(account => account.address === transaction.account.address)
-      )
-    )
+    const { value: pendingTransactions } = useAppSelector(state => state.account.pendingTransactions)
 
     const { networkType } = useNetworkTypeSelector()
     const { handleScroll, ref: scrollRef } = useInfiniteScroll<HTMLDivElement>(fetchNextPage)
 
     const [sorting, setSorting] = useState<SortingState>([])
 
-    const columns = [
-      ...(!showSimplified
-        ? [
-            columnHelper.accessor(row => row.account.blockchain, {
-              cell: info => <BlockchainIcon blockchain={info.getValue()} />,
-              id: 'blockchain',
-              header: undefined,
-              enableSorting: false,
-            }),
-          ]
-        : []),
-      columnHelper.accessor('time', {
-        cell: info => format(info.getValue() * 1000, 'MM/dd/yyyy HH:mm:ss'),
-        header: t('components:transactionsTable.date'),
-      }),
-      columnHelper.accessor('token.name', {
-        cell: info => info.getValue(),
-        header: t('components:transactionsTable.asset'),
-      }),
-      columnHelper.accessor('amount', {
-        cell: info => Number(info.getValue()).toFixed(info.row.original.token?.decimals ?? 8),
-        header: t('components:transactionsTable.amount'),
-      }),
-      ...(!showSimplified
-        ? [
-            columnHelper.accessor(row => row.fromAccount?.name ?? row.from, {
-              cell: info => StringHelper.truncateStringMiddle(info.getValue(), 15),
-              id: 'from',
-              header: t('components:transactionsTable.from'),
-            }),
-          ]
-        : []),
-      columnHelper.accessor(row => row.toAccount?.name ?? row.to, {
-        cell: info => (
-          <Button
-            className="flex flex-row"
-            label={StringHelper.truncateStringMiddle(info.getValue(), 25)}
-            rightIcon={
-              info.row.original.toAccount?.name ? (
-                <TbUsers className="text-neon w-4.5 h-4.5" />
-              ) : (
-                <MdContentCopy className="text-neon w-4.5 h-4.5" />
-              )
-            }
-            variant="text-slim"
-            colorSchema="white"
-            clickableProps={{ className: 'text-xs' }}
-            onClick={() =>
-              info.row.original.toAccount?.name
-                ? handleClick(info.row.original)
-                : navigator.clipboard.writeText(info.row.original.to ?? '')
-            }
-          />
-        ),
-        id: 'to',
-        header: t('components:transactionsTable.to'),
-      }),
-      columnHelper.display({
-        id: 'actions',
-        cell: () => <TbChevronRight className="w-4 h-4 my-2 text-gray-300" />,
-      }),
-    ]
+    const columns = useMemo(
+      () => [
+        ...(!showSimplified
+          ? [
+              columnHelper.accessor(row => row.account.blockchain, {
+                cell: info => <BlockchainIcon blockchain={info.getValue()} />,
+                id: 'blockchain',
+                header: undefined,
+                enableSorting: false,
+              }),
+            ]
+          : []),
+        columnHelper.accessor('time', {
+          cell: info => format(info.getValue() * 1000, 'MM/dd/yyyy HH:mm:ss'),
+          header: t('components:transactionsTable.date'),
+        }),
+        columnHelper.accessor('token.name', {
+          cell: info => info.getValue(),
+          header: t('components:transactionsTable.asset'),
+        }),
+        columnHelper.accessor('amount', {
+          cell: info => Number(info.getValue()).toFixed(info.row.original.token?.decimals ?? 8),
+          header: t('components:transactionsTable.amount'),
+        }),
+        ...(!showSimplified
+          ? [
+              columnHelper.accessor(row => row.fromAccount?.name ?? row.from, {
+                cell: info => StringHelper.truncateStringMiddle(info.getValue(), 15),
+                id: 'from',
+                header: t('components:transactionsTable.from'),
+              }),
+            ]
+          : []),
+        columnHelper.accessor(row => row.toAccount?.name ?? row.to, {
+          cell: info => (
+            <Button
+              className="flex flex-row"
+              label={StringHelper.truncateStringMiddle(info.getValue(), 25)}
+              rightIcon={<MdContentCopy className="text-neon w-4.5 h-4.5" />}
+              variant="text-slim"
+              colorSchema="white"
+              clickableProps={{ className: 'text-xs' }}
+              onClick={() => UtilsHelper.copyToClipboard(info.row.original.to ?? '')}
+            />
+          ),
+          id: 'to',
+          header: t('components:transactionsTable.to'),
+        }),
+        columnHelper.display({
+          id: 'actions',
+          cell: () => <TbChevronRight className="w-4 h-4 my-2 text-gray-300" />,
+        }),
+      ],
+      [showSimplified]
+    )
 
-    const allTransfers = useMemo(() => pendingTransactions.concat(transfers), [pendingTransactions, transfers])
+    const allTransfers = useMemo(
+      () =>
+        pendingTransactions
+          .filter(transaction => accounts.some(account => account.address === transaction.account.address))
+          .concat(transfers),
+      [accounts, pendingTransactions, transfers]
+    )
 
     const table = useReactTable({
       data: allTransfers,
