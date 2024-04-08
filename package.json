@@ -24,11 +24,11 @@
     "i18next:interfaces": "i18next-resources-for-ts interface -i src/renderer/src/locales/en -o src/renderer/src/@types/i18next-resources.d.ts"
   },
   "dependencies": {
-    "@cityofzion/blockchain-service": "0.9.1",
+    "@cityofzion/blockchain-service": "0.10.0",
     "@cityofzion/bs-asteroid-sdk": "0.7.3",
-    "@cityofzion/bs-ethereum": "1.0.3",
-    "@cityofzion/bs-neo-legacy": "0.9.2",
-    "@cityofzion/bs-neo3": "0.9.3",
+    "@cityofzion/bs-ethereum": "1.1.0",
+    "@cityofzion/bs-neo-legacy": "0.9.3",
+    "@cityofzion/bs-neo3": "0.10.0",
     "@cityofzion/neon-core": "5.5.1",
     "@cityofzion/wallet-connect-sdk-wallet-react": "4.0.0",
     "@electron-toolkit/preload": "^2.0.0",
