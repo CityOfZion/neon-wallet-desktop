@@ -20,7 +20,9 @@ export const useImportAction = (
   const { bsAggregator } = useBsAggregator()
   const { t } = useTranslation('hooks', { keyPrefix: 'useImportAction' })
 
-  const { handleAct, setError, actionState, actionData, setData, clearErrors } = useActions<TFormData>({ text: '' })
+  const { handleAct, setError, actionState, actionData, setData, clearErrors, reset } = useActions<TFormData>({
+    text: '',
+  })
 
   const validateMnemonic = (value: string) => {
     const isValid = UtilsHelper.isValidMnemonic(value)
@@ -77,6 +79,8 @@ export const useImportAction = (
       await submitByInputType[data.inputType](data.text, data.inputType)
     } catch (error: any) {
       setError('text', error.message)
+    } finally {
+      reset()
     }
   }
 

@@ -11,6 +11,7 @@ import { useAccountUtils } from '@renderer/hooks/useAccountSelector'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useImportAction } from '@renderer/hooks/useImportAction'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+import { useWalletsUtils } from '@renderer/hooks/useWalletSelector'
 import { EndModalLayout } from '@renderer/layouts/EndModal'
 
 export const ImportModal = () => {
@@ -20,12 +21,17 @@ export const ImportModal = () => {
   const { doesAccountExist } = useAccountUtils()
   const { createWallet, importAccount } = useBlockchainActions()
   const navigate = useNavigate()
+  const { doesMnemonicExist } = useWalletsUtils()
 
   const submitKey = async (key: string) => {
     modalNavigate('import-key-accounts-selection', { state: { key } })
   }
 
   const submitMnemonic = async (mnemonic: string) => {
+    if (await doesMnemonicExist(mnemonic)) {
+      throw new Error(t('errors.mnemonicAlreadyExist'))
+    }
+
     modalNavigate('import-mnemonic-accounts-selection', { state: { mnemonic } })
   }
 
