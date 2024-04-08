@@ -2,8 +2,12 @@ import { Fragment } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbStepInto, TbStepOut } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
+import { isClaimable } from '@cityofzion/blockchain-service'
 import { IAccountState } from '@renderer/@types/store'
 import { Button } from '@renderer/components/Button'
+import { useBsAggregator } from '@renderer/hooks/useBsAggregator'
+
+import { ClaimGasButton } from './ClaimGasButton'
 
 type TProps = {
   account: IAccountState
@@ -12,9 +16,13 @@ type TProps = {
 export const CommonAccountActions = ({ account }: TProps) => {
   const navigate = useNavigate()
   const { t } = useTranslation('common', { keyPrefix: 'general' })
+  const { bsAggregator } = useBsAggregator()
+  const blockchainService = bsAggregator.blockchainServicesByName[account.blockchain]
 
   return account?.type !== 'watch' ? (
     <div className="flex gap-2">
+      {isClaimable(blockchainService) && <ClaimGasButton blockchainService={blockchainService} account={account} />}
+
       <Button
         leftIcon={<TbStepInto className="text-neon w-5 h-5" />}
         label={t('receive')}
