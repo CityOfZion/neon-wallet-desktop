@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { BsCash } from 'react-icons/bs'
-import { MdOutlineLanguage, MdOutlineListAlt } from 'react-icons/md'
-import { RiShapesLine } from 'react-icons/ri'
+import { MdOutlineListAlt } from 'react-icons/md'
 import { Tb3DCubeSphere } from 'react-icons/tb'
 import { useMatch } from 'react-router-dom'
 
@@ -26,16 +25,6 @@ export const SettingsPersonalizationTabContent = () => {
           title={t('personalisationOption.currency')}
           icon={<BsCash />}
           to="/settings/personalisation/currency"
-        />
-        <SettingsSidebarLink
-          title={t('personalisationOption.language')}
-          icon={<MdOutlineLanguage />}
-          to="/settings/personalisation/language"
-        />
-        <SettingsSidebarLink
-          title={t('personalisationOption.theme')}
-          icon={<RiShapesLine />}
-          to="/settings/personalisation/theme"
         />
         <SettingsSidebarLink
           title={t('personalisationOption.releaseNotes')}
