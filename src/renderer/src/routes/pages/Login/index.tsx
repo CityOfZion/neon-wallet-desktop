@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { ReactComponent as LoginIcon } from '@renderer/assets/images/loginIcon.svg'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
@@ -16,7 +16,6 @@ type TFormData = {
 export const LoginPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'login' })
 
-  const location = useLocation()
   const { ref: isFirstTimeRef } = useAppSelector(state => state.settings.isFirstTime)
   const navigate = useNavigate()
   const { login } = useLogin()
@@ -38,7 +37,7 @@ export const LoginPage = () => {
   const handleSubmit = async (data: TFormData) => {
     try {
       await login(data.password)
-      navigate(location.state.from ?? '/')
+      navigate('/portfolio')
     } catch (error: any) {
       setError('password', t('invalidPassword'))
     }
