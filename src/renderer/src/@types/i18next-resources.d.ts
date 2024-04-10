@@ -155,6 +155,10 @@ interface Resources {
       good: 'Good'
       strong: 'Strong'
     }
+    claimGasButton: {
+      label: 'Claim {{amount}} GAS'
+      errorDecryptKey: 'Error decrypting key'
+    }
   }
   hooks: {
     useImportAction: {
