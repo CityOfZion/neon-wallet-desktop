@@ -153,14 +153,6 @@ export const pagesRouter = routeHandler([
                 element: <Fragment />,
               },
               {
-                path: 'language',
-                element: <Fragment />,
-              },
-              {
-                path: 'theme',
-                element: <Fragment />,
-              },
-              {
                 path: 'release-notes',
                 element: <SettingsReleaseNotesPage />,
               },
