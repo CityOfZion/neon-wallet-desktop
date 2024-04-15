@@ -1,14 +1,13 @@
 import { useMemo } from 'react'
 import { hasNft } from '@cityofzion/blockchain-service'
 import { IAccountState } from '@renderer/@types/store'
+import { bsAggregator } from '@renderer/libs/blockchainService'
 import { useInfiniteQuery } from '@tanstack/react-query'
 
-import { useBsAggregator } from './useBsAggregator'
 import { useNetworkTypeSelector } from './useSettingsSelector'
 
 export const useNfts = (account: IAccountState) => {
   const { networkType } = useNetworkTypeSelector()
-  const { bsAggregator } = useBsAggregator()
 
   const query = useInfiniteQuery({
     queryKey: ['nfts', account.address, networkType],

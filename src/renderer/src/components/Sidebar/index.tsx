@@ -20,13 +20,13 @@ export const Sidebar = (): JSX.Element => {
       <nav className="flex-grow">
         <ul className="flex flex-col justify-between h-full">
           <div>
-            <SidebarLink to="/portfolio" title={t('portfolio')} icon={<TbHome2 />} />
-            <SidebarLink to="/wallets" title={t('wallets')} icon={<WalletIcon />} />
-            <SidebarLink to="/send" title={t('send')} icon={<TbStepOut />} />
-            <SidebarLink to="/receive" title={t('receive')} icon={<TbStepInto />} />
-            <SidebarLink to="/contacts" title={t('contacts')} icon={<TbUsers />} />
-            <SidebarLink to="/settings" title={t('settings')} icon={<TbSettings />} />
-            <SidebarLink to="/mobile" title={t('mobile')} disabled isNew icon={<TbDeviceMobile />} />
+            <SidebarLink to="/app/portfolio" title={t('portfolio')} icon={<TbHome2 />} />
+            <SidebarLink to="/app/wallets" title={t('wallets')} icon={<WalletIcon />} />
+            <SidebarLink to="/app/send" title={t('send')} icon={<TbStepOut />} />
+            <SidebarLink to="/app/receive" title={t('receive')} icon={<TbStepInto />} />
+            <SidebarLink to="/app/contacts" title={t('contacts')} icon={<TbUsers />} />
+            <SidebarLink to="/app/settings" title={t('settings')} icon={<TbSettings />} />
+            <SidebarLink to="/app/mobile" title={t('mobile')} disabled isNew icon={<TbDeviceMobile />} />
           </div>
 
           <SidebarButton onClick={logout} title={t('logout')} icon={<TbDoorExit />} />

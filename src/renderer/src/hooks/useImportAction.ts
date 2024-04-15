@@ -2,9 +2,9 @@ import { ChangeEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TUseImportActionInputType } from '@renderer/@types/hooks'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+import { bsAggregator } from '@renderer/libs/blockchainService'
 
 import { useActions } from './useActions'
-import { useBsAggregator } from './useBsAggregator'
 
 type TFormData = {
   text: string
@@ -17,7 +17,6 @@ export const useImportAction = (
     (value: string, inputType: TUseImportActionInputType) => Promise<void>
   >
 ) => {
-  const { bsAggregator } = useBsAggregator()
   const { t } = useTranslation('hooks', { keyPrefix: 'useImportAction' })
 
   const { handleAct, setError, actionState, actionData, setData, clearErrors, reset } = useActions<TFormData>({

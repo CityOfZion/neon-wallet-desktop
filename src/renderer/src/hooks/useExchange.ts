@@ -1,10 +1,10 @@
 import { useCallback, useState } from 'react'
 import { TokenPricesResponse } from '@cityofzion/blockchain-service'
 import { MultiExchange, UseExchangeResult } from '@renderer/@types/query'
+import { bsAggregator } from '@renderer/libs/blockchainService'
 import { useQuery, UseQueryOptions } from '@tanstack/react-query'
 import lodash from 'lodash'
 
-import { useBsAggregator } from './useBsAggregator'
 import { useNetworkTypeSelector } from './useSettingsSelector'
 
 type ExchangeInfoByKey = Record<string, TokenPricesResponse[]>
@@ -12,10 +12,9 @@ type ExchangeInfoByKey = Record<string, TokenPricesResponse[]>
 export function useExchange(
   queryOptions?: Omit<UseQueryOptions<MultiExchange, unknown, MultiExchange, string[]>, 'queryKey' | 'queryFn'>
 ): UseExchangeResult {
-  const { bsAggregator } = useBsAggregator()
-  const { networkTypeRef } = useNetworkTypeSelector()
+  const { networkType } = useNetworkTypeSelector()
   const fetchExchanges = useCallback(async (): Promise<MultiExchange> => {
-    const promises = bsAggregator.blockchainServices.map(
+    const promises = Object.values(bsAggregator.blockchainServicesByName).map(
       async (service): Promise<ExchangeInfoByKey> => ({
         [service.blockchainName]: await service.exchangeDataService.getTokenPrices('USD'),
       })
@@ -27,12 +26,12 @@ export function useExchange(
       .map(exchange => exchange.value)
 
     return lodash.merge({}, ...exchangesFiltered)
-  }, [bsAggregator])
+  }, [])
 
   const [isRefetchingByUser, setIsRefetchingByUser] = useState(false)
 
   const { refetch, ...rest } = useQuery({
-    queryKey: ['exchange', networkTypeRef.current],
+    queryKey: ['exchange', networkType],
     queryFn: () => fetchExchanges(),
     ...queryOptions,
   })

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { MdAdd, MdOutlineContentCopy } from 'react-icons/md'
 import { TbFileImport, TbPencil } from 'react-icons/tb'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
+import { hasNft } from '@cityofzion/blockchain-service'
 import { IAccountState, IWalletState } from '@renderer/@types/store'
 import { Button } from '@renderer/components/Button'
 import { IconButton } from '@renderer/components/IconButton'
@@ -10,11 +11,13 @@ import { Separator } from '@renderer/components/Separator'
 import { SidebarMenuButton } from '@renderer/components/SidebarMenuButton'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useBalancesAndExchange } from '@renderer/hooks/useBalancesAndExchange'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
 import { MainLayout } from '@renderer/layouts/Main'
+import { bsAggregator } from '@renderer/libs/blockchainService'
 
 import { AccountList } from './AccountList'
 import { WalletsSelect } from './WalletsSelect'
@@ -34,9 +37,11 @@ export const WalletsPage = () => {
 
   const balanceExchange = useBalancesAndExchange(accounts)
 
+  const service = selectedAccount ? bsAggregator.blockchainServicesByName[selectedAccount.blockchain] : undefined
+
   const handleSelectAccount = (selected: IAccountState) => {
     setSelectedAccount(selected)
-    navigate(`/wallets/${selected.address}/overview`)
+    navigate(`/app/wallets/${selected.address}/overview`)
   }
 
   useEffect(() => {
@@ -58,7 +63,7 @@ export const WalletsPage = () => {
   useEffect(() => {
     const firstAccount = accounts.find(account => account.idWallet === selectedWallet?.id)
     setSelectedAccount(firstAccount)
-    if (firstAccount) navigate(`/wallets/${firstAccount.address}/overview`)
+    if (firstAccount) navigate(`/app/wallets/${firstAccount.address}/overview`)
   }, [selectedWallet, accounts, navigate])
 
   return (
@@ -128,7 +133,7 @@ export const WalletsPage = () => {
           </section>
 
           <section className="bg-gray-800 w-full h-full flex rounded flex-grow flex-col">
-            <header className="w-full h-14 items-center flex justify-between px-5 bg-gray-800">
+            <header className="w-full h-14 items-center flex justify-between px-5">
               <div className="flex items-center gap-2 text-sm">
                 <h1 className="text-white pr-3">{selectedAccount.name}</h1>
                 <p className="text-gray-300">{t('address')}</p>
@@ -157,27 +162,33 @@ export const WalletsPage = () => {
               <ul className="max-w-[11.625rem] min-w-[11.625rem] w-full border-r border-gray-300/30">
                 <SidebarMenuButton
                   title={t('accountOverview.title')}
-                  to={`/wallets/${selectedAccount.address}/overview`}
+                  to={`/app/wallets/${selectedAccount.address}/overview`}
                 />
                 <SidebarMenuButton
                   title={t('accountTokensList.title')}
-                  to={`/wallets/${selectedAccount.address}/tokens`}
+                  to={`/app/wallets/${selectedAccount.address}/tokens`}
                 />
-                <SidebarMenuButton title={t('accountNftList.title')} to={`/wallets/${selectedAccount.address}/nfts`} />
-                <SidebarMenuButton
-                  title={t('accountTransactionsList.title')}
-                  to={`/wallets/${selectedAccount.address}/transactions`}
-                />
-
-                {selectedAccount?.type !== 'watch' && (
+                {service && hasNft(service) && (
                   <SidebarMenuButton
-                    title={t('accountConnections.title')}
-                    to={`/wallets/${selectedAccount.address}/connections`}
+                    title={t('accountNftList.title')}
+                    to={`/app/wallets/${selectedAccount.address}/nfts`}
                   />
                 )}
+                <SidebarMenuButton
+                  title={t('accountTransactionsList.title')}
+                  to={`/app/wallets/${selectedAccount.address}/transactions`}
+                />
+
+                {selectedAccount?.type !== 'watch' &&
+                  WalletConnectHelper.blockchainsByBlockchainServiceKey[selectedAccount.blockchain] && (
+                    <SidebarMenuButton
+                      title={t('accountConnections.title')}
+                      to={`/app/wallets/${selectedAccount.address}/connections`}
+                    />
+                  )}
               </ul>
 
-              <Outlet />
+              <Outlet context={{ account: selectedAccount }} />
             </div>
           </section>
         </Fragment>

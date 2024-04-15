@@ -1,31 +1,33 @@
-import { useEffect, useRef, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { TFetchTransactionsResponse, TUseTransactionsTransfer } from '@renderer/@types/hooks'
 import { IAccountState } from '@renderer/@types/store'
+import { bsAggregator } from '@renderer/libs/blockchainService'
 import { useQueries } from '@tanstack/react-query'
 
 import { useAccountsSelector } from './useAccountSelector'
-import { useBsAggregator } from './useBsAggregator'
+import { useNetworkTypeSelector } from './useSettingsSelector'
 
 type TProps = {
   accounts: IAccountState[]
 }
 
 export const useTransactions = ({ accounts }: TProps) => {
-  const { bsAggregator } = useBsAggregator()
   const { accountsRef: allAccountRef } = useAccountsSelector()
+  const { networkType } = useNetworkTypeSelector()
   const [page, setPage] = useState(1)
 
   const combinedQueries = useQueries({
     queries: accounts.map(account => ({
       // eslint-disable-next-line @tanstack/query/exhaustive-deps
-      queryKey: ['transactions', account.address, page],
+      queryKey: ['transactions', account.address, page, networkType],
       queryFn: async (): Promise<TFetchTransactionsResponse> => {
-        const service = bsAggregator.getBlockchainByName(account.blockchain)
+        const service = bsAggregator.blockchainServicesByName[account.blockchain]
         try {
           const data = await service.blockchainDataService.getTransactionsByAddress({
             address: account.address,
             page,
           })
+
           const totalPages = Math.ceil(data.totalCount / data.limit)
 
           const transfers: TUseTransactionsTransfer[] = []
@@ -49,7 +51,8 @@ export const useTransactions = ({ accounts }: TProps) => {
             hasMore: page < totalPages,
             page,
           }
-        } catch {
+        } catch (error: any) {
+          console.error(error)
           return {
             transfers: [],
             hasMore: false,
@@ -57,8 +60,6 @@ export const useTransactions = ({ accounts }: TProps) => {
           }
         }
       },
-      gcTime: 1 * 60 * 1000, // 1 minute
-      staleTime: 1 * 60 * 1000, // 1 minute
     })),
     combine: results => {
       return {
@@ -72,8 +73,6 @@ export const useTransactions = ({ accounts }: TProps) => {
     },
   })
 
-  const [transfers, setTransfers] = useState<TUseTransactionsTransfer[]>(combinedQueries.data)
-  const [isLoading, setIsLoading] = useState(combinedQueries.isLoading)
   const dataRef = useRef<TFetchTransactionsResponse[]>([
     {
       hasMore: combinedQueries.hasMore,
@@ -82,19 +81,7 @@ export const useTransactions = ({ accounts }: TProps) => {
     },
   ])
 
-  const fetchNextPage = () => {
-    const last = dataRef.current[dataRef.current.length - 1]
-
-    if (!last || !last.hasMore) return
-
-    setPage(prev => prev + 1)
-  }
-
-  useEffect(() => {
-    if (combinedQueries.isLoading) {
-      return
-    }
-
+  const transfers = useMemo(() => {
     if (dataRef.current.some(item => item.page === page)) {
       dataRef.current = dataRef.current.map(item => {
         if (item.page === page) {
@@ -115,9 +102,21 @@ export const useTransactions = ({ accounts }: TProps) => {
       })
     }
 
-    setTransfers(dataRef.current.map(item => item.transfers).flat())
-    setIsLoading(false)
-  }, [combinedQueries, page])
+    return dataRef.current.map(item => item.transfers).flat()
+  }, [combinedQueries.data, combinedQueries.hasMore, page])
+
+  const isLoading = useMemo(() => {
+    if (transfers.length === 0) return combinedQueries.isLoading
+    return false
+  }, [transfers, combinedQueries.isLoading])
+
+  const fetchNextPage = () => {
+    const last = dataRef.current[dataRef.current.length - 1]
+
+    if (!last || !last.hasMore) return
+
+    setPage(prev => prev + 1)
+  }
 
   return {
     transfers,

@@ -7,7 +7,7 @@ import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Input } from '@renderer/components/Input'
 import { useActions } from '@renderer/hooks/useActions'
 import { TMigrateAccountSchema } from '@renderer/hooks/useBackupOrMigrate'
-import { useBsAggregator } from '@renderer/hooks/useBsAggregator'
+import { bsAggregator } from '@renderer/libs/blockchainService'
 
 export type TMigrateDecryptedAccountSchema = TMigrateAccountSchema & {
   decryptedKey: string
@@ -25,7 +25,6 @@ type TActionData = {
 
 export const DecryptAccountPasswordContainer = ({ accountToMigrate, onDecrypt }: TProps) => {
   const { t } = useTranslation('modals', { keyPrefix: 'migrateWallets.step4' })
-  const { bsAggregator } = useBsAggregator()
 
   const { actionData, actionState, setDataFromEventWrapper, setError, handleAct } = useActions<TActionData>({
     password: '',
@@ -33,15 +32,17 @@ export const DecryptAccountPasswordContainer = ({ accountToMigrate, onDecrypt }:
 
   const handleSubmit = async (data: TActionData) => {
     try {
-      const blockchainService = bsAggregator.getBlockchainByAddress(accountToMigrate.address)
-      if (!blockchainService) throw new Error()
+      const serviceName = bsAggregator.getBlockchainNameByAddress(accountToMigrate.address)
+      if (!serviceName) throw new Error()
 
-      const decryptedAccount = await blockchainService.decrypt(accountToMigrate.key, data.password)
+      const service = bsAggregator.blockchainServicesByName[serviceName]
+
+      const decryptedAccount = await service.decrypt(accountToMigrate.key, data.password)
 
       onDecrypt?.({
         ...accountToMigrate,
         decryptedKey: decryptedAccount.key,
-        blockchain: blockchainService.blockchainName,
+        blockchain: serviceName,
       })
     } catch (error) {
       setError('password', t('passwordError'))

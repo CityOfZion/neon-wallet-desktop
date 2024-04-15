@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { MdAdd } from 'react-icons/md'
 import { TbFileExport, TbFileImport } from 'react-icons/tb'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useMatch } from 'react-router-dom'
 import { IconButton } from '@renderer/components/IconButton'
 import { Separator } from '@renderer/components/Separator'
 import { SidebarMenuButton } from '@renderer/components/SidebarMenuButton'
@@ -11,6 +11,8 @@ import { MainLayout } from '@renderer/layouts/Main'
 export const PortfolioPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'portfolio' })
   const { modalNavigateWrapper } = useModalNavigate()
+
+  const matchRoot = useMatch('app/portfolio')
 
   return (
     <MainLayout
@@ -40,9 +42,9 @@ export const PortfolioPage = () => {
           <Separator />
         </div>
         <ul className="max-w-full w-full">
-          <SidebarMenuButton title={t('overview')} to="/portfolio/overview" />
-          <SidebarMenuButton title={t('allActivity')} to="/portfolio/activity" />
-          <SidebarMenuButton title={t('allConnections')} to="/portfolio/connections" />
+          <SidebarMenuButton title={t('overview')} to="/app/portfolio/overview" match={!!matchRoot} />
+          <SidebarMenuButton title={t('allActivity')} to="/app/portfolio/activity" />
+          <SidebarMenuButton title={t('allConnections')} to="/app/portfolio/connections" />
         </ul>
       </section>
       <Outlet />

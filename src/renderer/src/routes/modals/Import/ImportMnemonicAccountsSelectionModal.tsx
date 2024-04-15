@@ -7,13 +7,13 @@ import { TAccountsToImport, TBlockchainServiceKey } from '@renderer/@types/block
 import { AccountSelection } from '@renderer/components/AccountSelection'
 import { Button } from '@renderer/components/Button'
 import { Loader } from '@renderer/components/Loader'
+import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
-import { useBsAggregator } from '@renderer/hooks/useBsAggregator'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useMount } from '@renderer/hooks/useMount'
-import { useAppSelector } from '@renderer/hooks/useRedux'
 import { EndModalLayout } from '@renderer/layouts/EndModal'
+import { bsAggregator } from '@renderer/libs/blockchainService'
 
 type TLocation = {
   mnemonic: string
@@ -33,8 +33,7 @@ export const ImportMnemonicAccountsSelectionModal = () => {
   const { modalNavigate } = useModalNavigate()
   const navigate = useNavigate()
   const { t } = useTranslation('modals', { keyPrefix: 'importMnemonicAccountsSelection' })
-  const { bsAggregator } = useBsAggregator()
-  const { ref: allAccountsRef } = useAppSelector(state => state.account.data.map(it => it.address))
+  const { accountsRef } = useAccountsSelector()
 
   const { actionData, setData, actionState, handleAct } = useActions<TActionsData>({
     mnemonicAccounts: new Map(),
@@ -69,13 +68,13 @@ export const ImportMnemonicAccountsSelectionModal = () => {
     })
 
     modalNavigate(-2)
-    navigate('/wallets', { state: { wallet } })
+    navigate('/app/wallets', { state: { wallet } })
   }
 
   const { isMounting } = useMount(async () => {
     const mnemonicAccounts = await bsAggregator.generateAccountFromMnemonicAllBlockchains(
       mnemonic,
-      allAccountsRef.current
+      accountsRef.current.map(it => it.address)
     )
     const selectedAccounts = Array.from(mnemonicAccounts.entries())
       .map(([blockchain, accounts]) => {
@@ -87,7 +86,7 @@ export const ImportMnemonicAccountsSelectionModal = () => {
       mnemonicAccounts,
       selectedAccounts,
     })
-  }, [bsAggregator, mnemonic])
+  }, [mnemonic])
 
   return (
     <EndModalLayout

@@ -1,7 +1,8 @@
 /// <reference types="vite/client" />
 
 interface ImportMetaEnv {
-  readonly MAIN_VITE_SENTRY_DSN?: string
+  readonly VITE_SENTRY_DSN?: string
+  readonly MAIN_VITE_BITQUERY_API_KEY?: string
 }
 
 interface ImportMeta {

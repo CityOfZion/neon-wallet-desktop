@@ -16,11 +16,11 @@ export const SettingsPage = () => {
   const navigate = useNavigate()
 
   const handlePersonalisationClick = () => {
-    navigate('/settings/personalisation')
+    navigate('/app/settings/personalisation')
   }
 
   const handleSecurityClick = () => {
-    navigate('/settings/security')
+    navigate('/app/settings/security')
   }
 
   return (

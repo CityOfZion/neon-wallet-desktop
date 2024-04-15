@@ -39,4 +39,6 @@ export const customAPI = {
   readFile: (path: string): Promise<string> => electronAPI.ipcRenderer.invoke('readFile', path),
 
   saveFile: (path: string, content: string): Promise<void> => electronAPI.ipcRenderer.invoke('saveFile', path, content),
+
+  startLedgerListen: () => electronAPI.ipcRenderer.invoke('startLedgerListen'),
 }

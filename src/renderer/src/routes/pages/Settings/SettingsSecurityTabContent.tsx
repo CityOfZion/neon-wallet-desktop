@@ -7,7 +7,7 @@ import { SettingsSidebarLink } from './SettingsSidebarLink'
 
 export const SettingsSecurityTabContent = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'settings' })
-  const matchRootEncryptKey = useMatch('/settings/security')
+  const matchRootEncryptKey = useMatch('app/settings/security')
 
   return (
     <nav className="flex flex-row justify-between h-15 w-full mb-5 text-[14px]">
@@ -15,28 +15,28 @@ export const SettingsSecurityTabContent = () => {
         <SettingsSidebarLink
           title={t('securityOption.changePassword')}
           icon={<MdOutlineLock />}
-          to="/settings/security/change-password"
+          to="/app/settings/security/change-password"
           match={!!matchRootEncryptKey}
         />
         <SettingsSidebarLink
           title={t('securityOption.encryptKey')}
           icon={<MdOutlineKey />}
-          to="/settings/security/encrypt-key"
+          to="/app/settings/security/encrypt-key"
         />
         <SettingsSidebarLink
           title={t('securityOption.recoverWallet')}
           icon={<TbReload />}
-          to="/settings/security/recover-wallet"
+          to="/app/settings/security/recover-wallet"
         />
         <SettingsSidebarLink
           title={t('securityOption.backupWallet')}
           icon={<MdOutlineSave />}
-          to="/settings/security/backup-wallet"
+          to="/app/settings/security/backup-wallet"
         />
         <SettingsSidebarLink
           title={t('securityOption.migrateWallets')}
           icon={<TbPackageImport />}
-          to="/settings/security/migrate-accounts"
+          to="/app/settings/security/migrate-accounts"
           colorSchema="neon"
         />
       </ul>

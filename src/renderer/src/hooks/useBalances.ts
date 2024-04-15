@@ -8,9 +8,9 @@ import {
   UseMultipleBalancesResult,
   UseUniqueBalancesResult,
 } from '@renderer/@types/query'
+import { bsAggregator } from '@renderer/libs/blockchainService'
 import { QueryKey, useQueries, UseQueryOptions, UseQueryResult } from '@tanstack/react-query'
 
-import { useBsAggregator } from './useBsAggregator'
 import { useNetworkTypeSelector } from './useSettingsSelector'
 
 export function useBalances(params: UseBalancesParams[], queryOptions?: BaseOptions<Balance>): UseMultipleBalancesResult
@@ -27,37 +27,33 @@ export function useBalances(
   queryOptions?: BaseOptions<Balance>
 ): UseBalancesResult {
   const [isRefetchingByUser, setIsRefetchingByUser] = useState(false)
-  const { bsAggregator } = useBsAggregator()
-  const { networkTypeRef } = useNetworkTypeSelector()
+  const { networkType } = useNetworkTypeSelector()
 
-  const fetchBalance = useCallback(
-    async (address: string, blockchain: TBlockchainServiceKey): Promise<Balance> => {
-      const service = bsAggregator.getBlockchainByName(blockchain)
-      const balance = await service.blockchainDataService.getBalance(address)
-      const tokensBalances = balance.map(balance => ({
-        ...balance,
-        blockchain,
-        amount: balance.amount,
-        amountNumber: Number(balance.amount),
-      }))
+  const fetchBalance = useCallback(async (address: string, blockchain: TBlockchainServiceKey): Promise<Balance> => {
+    const service = bsAggregator.blockchainServicesByName[blockchain]
+    const balance = await service.blockchainDataService.getBalance(address)
+    const tokensBalances = balance.map(balance => ({
+      ...balance,
+      blockchain,
+      amount: balance.amount,
+      amountNumber: Number(balance.amount),
+    }))
 
-      return {
-        address,
-        tokensBalances,
-      }
-    },
-    [bsAggregator]
-  )
+    return {
+      address,
+      tokensBalances,
+    }
+  }, [])
 
   const generateQuery = useCallback(
     (param: UseBalancesParams): UseQueryOptions<Balance, unknown, Balance, QueryKey> => {
       return {
-        queryKey: ['balance', param.address ?? '', networkTypeRef.current],
+        queryKey: ['balance', param.address ?? '', networkType],
         queryFn: () => fetchBalance(param.address ?? '', param.blockchain),
         ...queryOptions,
       }
     },
-    [queryOptions, fetchBalance, networkTypeRef]
+    [queryOptions, fetchBalance, networkType]
   )
 
   const queries = useMemo(() => {

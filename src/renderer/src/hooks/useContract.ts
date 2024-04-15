@@ -1,7 +1,7 @@
 import { TBlockchainServiceKey } from '@renderer/@types/blockchain'
+import { bsAggregator } from '@renderer/libs/blockchainService'
 import { useQuery } from '@tanstack/react-query'
 
-import { useBsAggregator } from './useBsAggregator'
 import { useNetworkTypeSelector } from './useSettingsSelector'
 
 type TProps = {
@@ -11,7 +11,6 @@ type TProps = {
 
 export const useContract = ({ blockchain, hash }: TProps) => {
   const { networkType } = useNetworkTypeSelector()
-  const { bsAggregator } = useBsAggregator()
 
   const query = useQuery({
     // eslint-disable-next-line @tanstack/query/exhaustive-deps

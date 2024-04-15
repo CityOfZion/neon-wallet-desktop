@@ -2,7 +2,7 @@ import { Fragment } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TBlockchainServiceKey } from '@renderer/@types/blockchain'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
-import { useBsAggregator } from '@renderer/hooks/useBsAggregator'
+import { bsAggregator } from '@renderer/libs/blockchainService'
 
 import { BlockchainIcon } from './BlockchainIcon'
 import { Select } from './Select'
@@ -13,7 +13,6 @@ type TProps = {
 }
 
 export const BlockchainSelect = ({ value, onSelect }: TProps) => {
-  const { bsAggregator } = useBsAggregator()
   const { t } = useTranslation('components', { keyPrefix: 'blockchainSelect' })
   const { t: commonT } = useTranslation('common', { keyPrefix: 'blockchain' })
 

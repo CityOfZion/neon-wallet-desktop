@@ -45,7 +45,7 @@ export const ChangePasswordStep2 = (): JSX.Element => {
     dispatch(walletReducerActions.replaceAllWallets(newWallets))
     dispatch(settingsReducerActions.setEncryptedPassword(state.encryptedNewPassword))
 
-    navigate('/settings/security/change-password/step-3')
+    navigate('/app/settings/security/change-password/step-3')
   }
 
   return (

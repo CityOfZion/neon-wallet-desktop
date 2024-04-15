@@ -9,9 +9,9 @@ import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
 import { useActions } from '@renderer/hooks/useActions'
-import { useBsAggregator } from '@renderer/hooks/useBsAggregator'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { EndModalLayout } from '@renderer/layouts/EndModal'
+import { bsAggregator } from '@renderer/libs/blockchainService'
 import debounce from 'lodash/debounce'
 
 type TLocationState = {
@@ -31,7 +31,6 @@ export const AddAddressModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'addAddress' })
   const { contactName, address, handleAddAddress } = useModalState<TLocationState>()
   const { modalNavigate } = useModalNavigate()
-  const { bsAggregator } = useBsAggregator()
   const [validating, setValidating] = useState(false)
 
   const { actionData, setData, handleAct } = useActions<TActionData>({
@@ -54,14 +53,10 @@ export const AddAddressModal = () => {
       let isValid = false
       let nnsAddress: string | undefined
       try {
-        const blockchainService = bsAggregator.getBlockchainByName(blockchain)
-        isValid = blockchainService.validateAddress(address)
-        if (
-          !isValid &&
-          hasNameService(blockchainService) &&
-          blockchainService.validateNameServiceDomainFormat(address)
-        ) {
-          nnsAddress = await blockchainService.resolveNameServiceDomain(address)
+        const service = bsAggregator.blockchainServicesByName[blockchain]
+        isValid = service.validateAddress(address)
+        if (!isValid && hasNameService(service) && service.validateNameServiceDomainFormat(address)) {
+          nnsAddress = await service.resolveNameServiceDomain(address)
           isValid = true
         }
       } catch {
@@ -71,7 +66,7 @@ export const AddAddressModal = () => {
         setData({ nnsAddress, isAddressValid: isValid })
       }
     }, 1000),
-    [bsAggregator, setData]
+    [setData]
   )
 
   const handleSelectBlockchain = (blockchain: TBlockchainServiceKey) => {

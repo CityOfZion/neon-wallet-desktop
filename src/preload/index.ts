@@ -1,6 +1,8 @@
 import { electronAPI } from '@electron-toolkit/preload'
 import { contextBridge } from 'electron'
 
+import '@cityofzion/bs-electron/dist/preload'
+
 import { customAPI } from './customAPI'
 
 // Use `contextBridge` APIs to expose Electron APIs to

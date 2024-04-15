@@ -5,12 +5,9 @@ import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'
 import { StringHelper } from '@renderer/helpers/StringHelper'
-import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
+import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
-import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { EndModalLayout } from '@renderer/layouts/EndModal'
-import { accountReducerActions } from '@renderer/store/reducers/AccountReducer'
-import { walletReducerActions } from '@renderer/store/reducers/WalletReducer'
 
 type TLocationState = {
   wallet: IWalletState
@@ -18,16 +15,12 @@ type TLocationState = {
 
 export const DeleteWalletModal = () => {
   const { wallet } = useModalState<TLocationState>()
-  const { accounts } = useAccountsSelector()
   const { t } = useTranslation('modals', { keyPrefix: 'deleteWallet' })
   const { modalNavigate } = useModalNavigate()
-
-  const dispatch = useAppDispatch()
+  const { deleteWallet } = useBlockchainActions()
 
   const handleDelete = () => {
-    dispatch(walletReducerActions.deleteWallet(wallet.id))
-    const accountsToRemove = accounts.filter(it => it.idWallet === wallet.id).map(it => it.address)
-    dispatch(accountReducerActions.deleteAccounts(accountsToRemove))
+    deleteWallet(wallet.id)
     modalNavigate(-2)
   }
 
