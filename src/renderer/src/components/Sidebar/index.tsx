@@ -1,15 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import {
-  TbDeviceMobile,
-  TbDiamond,
-  TbDoorExit,
-  TbHome2,
-  TbNews,
-  TbSettings,
-  TbStepInto,
-  TbStepOut,
-  TbUsers,
-} from 'react-icons/tb'
+import { TbDeviceMobile, TbDoorExit, TbHome2, TbSettings, TbStepInto, TbStepOut, TbUsers } from 'react-icons/tb'
 import { useLogin } from '@renderer/hooks/useLogin'
 
 import { ReactComponent as NeonLogoIcon } from '../../assets/images/neon-wallet-compact.svg'
@@ -34,8 +24,6 @@ export const Sidebar = (): JSX.Element => {
             <SidebarLink to="/wallets" title={t('wallets')} icon={<WalletIcon />} />
             <SidebarLink to="/send" title={t('send')} icon={<TbStepOut />} />
             <SidebarLink to="/receive" title={t('receive')} icon={<TbStepInto />} />
-            <SidebarLink to="/nfts" title={t('nfts')} disabled icon={<TbDiamond />} />
-            <SidebarLink to="/news" title={t('news')} disabled icon={<TbNews />} />
             <SidebarLink to="/contacts" title={t('contacts')} icon={<TbUsers />} />
             <SidebarLink to="/settings" title={t('settings')} icon={<TbSettings />} />
             <SidebarLink to="/mobile" title={t('mobile')} disabled isNew icon={<TbDeviceMobile />} />
