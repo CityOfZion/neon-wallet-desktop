@@ -64,12 +64,12 @@ export const useBackupOrMigrate = () => {
     if (!file || hasError) return
 
     if (file.path.endsWith(BACKUP_FILE_EXTENSION)) {
-      navigate('/settings/security/recover-wallet')
+      navigate('/app/settings/security/recover-wallet')
       modalNavigate('confirm-password-recover', { state: { content: file.content as string }, replace: true })
       return
     }
 
-    navigate('/settings/security/migrate-accounts')
+    navigate('/app/settings/security/migrate-accounts')
     modalNavigate('migrate-accounts-step-3', { state: { content: file.content as TMigrateAccountSchema[] } })
   }
 

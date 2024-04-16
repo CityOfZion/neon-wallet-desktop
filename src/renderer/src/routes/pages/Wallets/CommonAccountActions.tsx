@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { isClaimable } from '@cityofzion/blockchain-service'
 import { IAccountState } from '@renderer/@types/store'
 import { Button } from '@renderer/components/Button'
-import { useBsAggregator } from '@renderer/hooks/useBsAggregator'
+import { bsAggregator } from '@renderer/libs/blockchainService'
 
 import { ClaimGasButton } from './ClaimGasButton'
 
@@ -16,7 +16,7 @@ type TProps = {
 export const CommonAccountActions = ({ account }: TProps) => {
   const navigate = useNavigate()
   const { t } = useTranslation('common', { keyPrefix: 'general' })
-  const { bsAggregator } = useBsAggregator()
+
   const blockchainService = bsAggregator.blockchainServicesByName[account.blockchain]
 
   return account?.type !== 'watch' ? (
@@ -31,7 +31,7 @@ export const CommonAccountActions = ({ account }: TProps) => {
         colorSchema="neon"
         flat
         clickableProps={{ className: 'text-xs' }}
-        onClick={() => navigate('/receive', { state: { account: account } })}
+        onClick={() => navigate('/app/receive', { state: { account: account } })}
       />
       <Button
         leftIcon={<TbStepOut className="text-neon w-5 h-5" />}
@@ -41,7 +41,7 @@ export const CommonAccountActions = ({ account }: TProps) => {
         flat
         colorSchema="neon"
         clickableProps={{ className: 'text-xs' }}
-        onClick={() => navigate('/send', { state: { account: account } })}
+        onClick={() => navigate('/app/send', { state: { account: account } })}
       />
     </div>
   ) : (

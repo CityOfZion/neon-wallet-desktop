@@ -5,10 +5,9 @@ import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'
 import { StringHelper } from '@renderer/helpers/StringHelper'
+import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
-import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { EndModalLayout } from '@renderer/layouts/EndModal'
-import { accountReducerActions } from '@renderer/store/reducers/AccountReducer'
 
 type TLocationState = {
   account: IAccountState
@@ -18,14 +17,11 @@ export const DeleteAccountModal = () => {
   const { account } = useModalState<TLocationState>()
   const { t } = useTranslation('modals', { keyPrefix: 'deleteAccount' })
   const { modalNavigate } = useModalNavigate()
-
-  const dispatch = useAppDispatch()
+  const { deleteAccount } = useBlockchainActions()
 
   const handleDelete = () => {
-    if (account) {
-      dispatch(accountReducerActions.deleteAccount(account.address))
-      modalNavigate(-2)
-    }
+    deleteAccount(account.address)
+    modalNavigate(-2)
   }
 
   return (

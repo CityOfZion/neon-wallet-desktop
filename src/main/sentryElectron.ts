@@ -5,7 +5,7 @@ import { session } from 'electron'
 
 import { sentryConfig } from '../../sentry.config'
 
-const isProductionMode = Boolean(import.meta.env?.MAIN_VITE_SENTRY_DSN && import.meta.env.PROD)
+const isProductionMode = Boolean(import.meta.env?.VITE_SENTRY_DSN && import.meta.env.PROD)
 
 const exitReasons: ExitReason[] = [
   'clean-exit',
@@ -20,7 +20,7 @@ const exitReasons: ExitReason[] = [
 export function setupSentry() {
   if (isProductionMode) {
     ElectronSentry.init({
-      dsn: import.meta.env.MAIN_VITE_SENTRY_DSN,
+      dsn: import.meta.env.VITE_SENTRY_DSN,
       ...sentryConfig,
       getSessions: () => [session.defaultSession, session.fromPartition('persist:my-session')],
       integrations: [

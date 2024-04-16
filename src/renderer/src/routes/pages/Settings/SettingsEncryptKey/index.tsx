@@ -3,9 +3,9 @@ import { useTranslation } from 'react-i18next'
 import { MdOutlineKey } from 'react-icons/md'
 import { Button } from '@renderer/components/Button'
 import { useActions } from '@renderer/hooks/useActions'
-import { useBsAggregator } from '@renderer/hooks/useBsAggregator'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { SettingsLayout } from '@renderer/layouts/Settings'
+import { bsAggregator } from '@renderer/libs/blockchainService'
 
 import { SettingsEncryptInputStep } from './SettingsEncryptInputStep'
 import { SettingsEncryptKeySuccessContent } from './SettingsEncryptKeySuccessContent'
@@ -20,7 +20,6 @@ const MIN_LENGTH_PASSPHRASE = 4
 
 export const SettingsEncryptKeyPage = (): JSX.Element => {
   const { t } = useTranslation('pages', { keyPrefix: 'settings' })
-  const { bsAggregator } = useBsAggregator()
   const { modalNavigate } = useModalNavigate()
 
   const { handleAct, setError, actionState, actionData, setData, reset } = useActions<TFormData>({
@@ -64,12 +63,14 @@ export const SettingsEncryptKeyPage = (): JSX.Element => {
   }
 
   const handleSubmit = async (data: TFormData) => {
-    const blockchainService = bsAggregator.getBlockchainByKey(data.privateKey)
-    if (!blockchainService) {
+    const serviceName = bsAggregator.getBlockchainNameByKey(data.privateKey)
+    if (!serviceName) {
       setError('privateKey', t('encryptKey.error.privateKeyNotFound'))
       return
     }
-    const encryptedKey = await blockchainService.encrypt(data.privateKey, data.passphrase)
+
+    const service = bsAggregator.blockchainServicesByName[serviceName]
+    const encryptedKey = await service.encrypt(data.privateKey, data.passphrase)
 
     modalNavigate('success', {
       state: {

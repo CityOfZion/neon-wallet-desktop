@@ -102,7 +102,6 @@ export const InputAmount = () => {
             onBlur={handleTokenAmountBlur}
             onChange={handleChangeTokenAmount}
             onKeyDown={handleKeyDown}
-            type="number"
             value={inputTokenAmount}
             placeholder={t('inputPlaceholder')}
             compacted
@@ -129,7 +128,7 @@ export const InputAmount = () => {
           <span
             className="
                   absolute top-1/2 left-1/2 rounded-full w-11 h-11
-                  transform -translate-x-1/2 -translate-y-1/2 mt-[1.2rem] 
+                  transform -translate-x-1/2 -translate-y-1/2 mt-[1.2rem]
                   items-center justify-center flex font-bold
                   border-[0.5rem] border-gray-800
                   bg-gray-100 text-gray-800"
@@ -149,7 +148,6 @@ export const InputAmount = () => {
             onBlur={handleUsdAmountBlur}
             onChange={handleUsdBlur}
             onKeyDown={handleKeyDown}
-            type="number"
             value={inputUsdAmount}
             placeholder={t('inputPlaceholder')}
             compacted

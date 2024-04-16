@@ -20,6 +20,7 @@ interface Resources {
     wallet: {
       importedName: 'Imported Wallet'
       encryptedName: 'Encrypted Wallet'
+      ledgerName: 'Ledger Wallet'
       watchAccount: 'Watch Account'
       mnemonicWalletName: 'Mnemonic Wallet'
       firstWalletName: 'My First Wallet'
@@ -36,6 +37,9 @@ interface Resources {
     networkTypeLabel: {
       mainnet: 'MainNet'
       testnet: 'TestNet'
+    }
+    ledger: {
+      requestingPermission: 'Please confirm on your Ledger device'
     }
   }
   components: {
@@ -172,6 +176,10 @@ interface Resources {
     useBackupOrMigrate: {
       neon3BackupFileDetected: 'NEON3 backup file detected'
       neon2MigrateFileDetected: 'NEON2 migrate file detected'
+    }
+    useLedgerFlow: {
+      ledgerConnected: 'New Ledger detected \n{{address}}'
+      ledgerDisconnected: 'Ledger disconnected \n{{address}}'
     }
   }
   modals: {

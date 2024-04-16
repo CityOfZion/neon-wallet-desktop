@@ -11,10 +11,10 @@ import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useAccountUtils } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
-import { useBsAggregator } from '@renderer/hooks/useBsAggregator'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useMount } from '@renderer/hooks/useMount'
 import { EndModalLayout } from '@renderer/layouts/EndModal'
+import { bsAggregator } from '@renderer/libs/blockchainService'
 
 type TLocation = {
   key: string
@@ -34,7 +34,6 @@ export const ImportKeyAccountsSelectionModal = () => {
   const { modalNavigate } = useModalNavigate()
   const navigate = useNavigate()
   const { t } = useTranslation('modals', { keyPrefix: 'importKeyAccountsSelection' })
-  const { bsAggregator } = useBsAggregator()
   const { doesAccountExist } = useAccountUtils()
 
   const { actionData, setData, actionState, handleAct } = useActions<TActionsData>({
@@ -67,14 +66,14 @@ export const ImportKeyAccountsSelectionModal = () => {
     await blockchainActions.importAccounts({ wallet, accounts: accountsToImport })
 
     modalNavigate(-2)
-    navigate('/wallets', { state: { wallet } })
+    navigate('/app/wallets', { state: { wallet } })
   }
 
   const { isMounting } = useMount(async () => {
     const accountsByBlockchain = new Map<TBlockchainServiceKey, TAccountWithBlockchain[]>()
     const selectedAccounts: TAccountWithBlockchain[] = []
 
-    await UtilsHelper.promiseAll(bsAggregator.blockchainServices, async service => {
+    await UtilsHelper.promiseAll(Object.values(bsAggregator.blockchainServicesByName), async service => {
       const account = service.generateAccountFromKey(key)
       if (doesAccountExist(account.address)) throw new Error()
       accountsByBlockchain.set(service.blockchainName, [{ ...account, blockchain: service.blockchainName }])
@@ -85,7 +84,7 @@ export const ImportKeyAccountsSelectionModal = () => {
       accountsByBlockchain,
       selectedAccounts,
     })
-  }, [bsAggregator, key, doesAccountExist])
+  }, [key, doesAccountExist])
 
   return (
     <EndModalLayout heading={t('title')} withBackButton headingIcon={<TbFileImport />} contentClassName="flex flex-col">

@@ -1,12 +1,12 @@
-import { Fragment, useMemo, useState } from 'react'
+import { Fragment, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdFormatListBulleted, MdGridView } from 'react-icons/md'
-import { useParams } from 'react-router-dom'
+import { useOutletContext } from 'react-router-dom'
+import { IAccountState } from '@renderer/@types/store'
 import { IconButton } from '@renderer/components/IconButton'
 import { Loader } from '@renderer/components/Loader'
 import { NftGallery } from '@renderer/components/NftGallery'
 import { NftList } from '@renderer/components/NftList'
-import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useNfts } from '@renderer/hooks/useNfts'
 import { AccountDetailsLayout } from '@renderer/layouts/AccountDetailsLayout'
 
@@ -15,12 +15,14 @@ enum ENftViewOption {
   GALLERY,
 }
 
+type TOutletContext = {
+  account: IAccountState
+}
+
 export const AccountNftList = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'wallets.accountNftList' })
-  const { address } = useParams()
-  const { accounts } = useAccountsSelector()
 
-  const account = useMemo(() => accounts.find(account => account.address === address)!, [accounts, address])
+  const { account } = useOutletContext<TOutletContext>()
 
   const { aggregatedData, isLoading } = useNfts(account)
 

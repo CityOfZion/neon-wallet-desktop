@@ -1,7 +1,7 @@
 import { DEFAULT_URL_BY_NETWORK_TYPE } from '@cityofzion/bs-neo3'
 import { tx } from '@cityofzion/neon-core'
 import { AbstractWalletConnectNeonAdapter } from '@cityofzion/wallet-connect-sdk-wallet-core'
-import type { TAdapterMethodParam } from '@cityofzion/wallet-connect-sdk-wallet-react'
+import type { TAdapterMethodParam, WalletInfo } from '@cityofzion/wallet-connect-sdk-wallet-react'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { RootStore } from '@renderer/store/RootStore'
 
@@ -32,10 +32,17 @@ export class WalletConnectNeonAdapter extends AbstractWalletConnectNeonAdapter {
     return key
   }
 
-  async getWalletInfo(): Promise<any> {
-    // TODO: Implement this method when ledger is supported. Task link: https://app.clickup.com/t/86a1n66zt
+  async getWalletInfo({ session }: TAdapterMethodParam): Promise<WalletInfo> {
+    const {
+      account: { data: accounts },
+    } = RootStore.store.getState()
+
+    const { address } = WalletConnectHelper.getAccountInformationFromSession(session)
+    const account = accounts.find(account => account.address === address)
+    if (!account) throw new Error('Account not found')
+
     return {
-      isLedger: false,
+      isLedger: account.type === 'ledger',
     }
   }
 

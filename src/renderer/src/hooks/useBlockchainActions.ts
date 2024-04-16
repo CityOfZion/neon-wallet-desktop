@@ -1,24 +1,26 @@
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
 import { TAccountToCreate, TAccountToImport, TImportAccountsParam, TWalletToCreate } from '@renderer/@types/blockchain'
 import { IAccountState, IWalletState } from '@renderer/@types/store'
 import { accountColorsKeys } from '@renderer/constants/blockchain'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
+import { bsAggregator } from '@renderer/libs/blockchainService'
 import { accountReducerActions } from '@renderer/store/reducers/AccountReducer'
 import { walletReducerActions } from '@renderer/store/reducers/WalletReducer'
 import * as uuid from 'uuid'
 
 import { useAccountsSelector } from './useAccountSelector'
-import { useBsAggregator } from './useBsAggregator'
 import { useAppDispatch } from './useRedux'
 import { useEncryptedPasswordSelector } from './useSettingsSelector'
 
 export function useBlockchainActions() {
   const dispatch = useAppDispatch()
   const { accountsRef } = useAccountsSelector()
-  const { bsAggregator } = useBsAggregator()
   const { encryptedPasswordRef } = useEncryptedPasswordSelector()
   const { t } = useTranslation('common', { keyPrefix: 'account' })
+  const { disconnect, sessions } = useWalletConnectWallet()
 
   const createWallet = useCallback(
     async ({ name, walletType, mnemonic }: TWalletToCreate) => {
@@ -59,7 +61,7 @@ export function useBlockchainActions() {
         account => account.idWallet === wallet.id && account.blockchain === blockchain
       ).length
 
-      const service = bsAggregator.getBlockchainByName(blockchain)
+      const service = bsAggregator.blockchainServicesByName[blockchain]
       const generatedAccount = service.generateAccountFromMnemonic(mnemonic, generateIndex)
 
       const encryptedKey = await window.api.encryptBasedEncryptedSecret(
@@ -84,14 +86,14 @@ export function useBlockchainActions() {
 
       return newAccount
     },
-    [dispatch, accountsRef, bsAggregator, encryptedPasswordRef]
+    [dispatch, accountsRef, encryptedPasswordRef]
   )
 
   const importAccount = useCallback(
     async ({ address, blockchain, type, wallet, key, name, order, backgroundColor }: TAccountToImport) => {
       let encryptedKey: string | undefined
 
-      if (type === 'standard' || type === 'legacy') {
+      if (type === 'standard' || type === 'legacy' || type === 'ledger') {
         if (!key) throw new Error('Key not defined')
         encryptedKey = await window.api.encryptBasedEncryptedSecret(key, encryptedPasswordRef.current)
       }
@@ -128,10 +130,36 @@ export function useBlockchainActions() {
     [importAccount, accountsRef]
   )
 
+  const deleteAccount = useCallback(
+    (address: string) => {
+      Promise.all(
+        sessions.map(async session => {
+          const info = WalletConnectHelper.getAccountInformationFromSession(session)
+          if (info.address !== address) return
+
+          await disconnect(session)
+        })
+      )
+      dispatch(accountReducerActions.deleteAccount(address))
+    },
+    [disconnect, dispatch, sessions]
+  )
+
+  const deleteWallet = useCallback(
+    (id: string) => {
+      const accounts = accountsRef.current.filter(account => account.idWallet === id)
+      accounts.forEach(account => deleteAccount(account.address))
+      dispatch(walletReducerActions.deleteWallet(id))
+    },
+    [accountsRef, deleteAccount, dispatch]
+  )
+
   return {
     createWallet,
     createAccount,
     importAccount,
     importAccounts,
+    deleteWallet,
+    deleteAccount,
   }
 }

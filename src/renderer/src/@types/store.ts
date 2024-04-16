@@ -13,7 +13,7 @@ export interface IAccountState {
   order: number
 }
 
-export type TWalletType = 'standard' | 'watch' | 'legacy'
+export type TWalletType = 'standard' | 'watch' | 'legacy' | 'ledger'
 export interface IWalletState {
   id: string
   name: string

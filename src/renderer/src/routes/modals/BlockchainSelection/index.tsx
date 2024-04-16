@@ -5,9 +5,9 @@ import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { Button } from '@renderer/components/Button'
 import { RadioGroup } from '@renderer/components/RadioGroup'
 import { Separator } from '@renderer/components/Separator'
-import { useBsAggregator } from '@renderer/hooks/useBsAggregator'
 import { useModalState } from '@renderer/hooks/useModalRouter'
 import { EndModalLayout } from '@renderer/layouts/EndModal'
+import { bsAggregator } from '@renderer/libs/blockchainService'
 
 type TLocation = {
   heading: string
@@ -31,7 +31,6 @@ export const BlockchainSelectionModal = () => {
     subtitle,
     withBackButton = true,
   } = useModalState<TLocation>()
-  const { bsAggregator } = useBsAggregator()
 
   const [selectedBlockchain, setSelectedBlockchain] = useState<TBlockchainServiceKey>('neo3')
 

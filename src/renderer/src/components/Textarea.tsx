@@ -35,8 +35,10 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TProps>(
     const handlePaste = async () => {
       if (internalRef.current) {
         const text = await navigator.clipboard.readText()
-        const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype, 'value')!
-          .set!
+        const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
+          window.HTMLTextAreaElement.prototype,
+          'value'
+        )!.set!
         nativeInputValueSetter.call(internalRef.current, text)
         const inputEvent = new Event('input', { bubbles: true })
         internalRef.current.dispatchEvent(inputEvent)

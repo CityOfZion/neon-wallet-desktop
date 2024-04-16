@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbStepInto } from 'react-icons/tb'
-import { BlockchainService, isCalculableFee, isClaimable } from '@cityofzion/blockchain-service'
+import { BlockchainService, hasLedger, isCalculableFee, isClaimable } from '@cityofzion/blockchain-service'
 import { TBlockchainServiceKey } from '@renderer/@types/blockchain'
 import { IAccountState } from '@renderer/@types/store'
 import { Button } from '@renderer/components/Button'
@@ -19,6 +19,7 @@ type TProps = {
 
 export const ClaimGasButton = ({ account, blockchainService }: TProps) => {
   const { t } = useTranslation('components', { keyPrefix: 'claimGasButton' })
+  const { t: commonT } = useTranslation('common')
   const { encryptedPassword } = useEncryptedPasswordSelector()
   const dispatch = useAppDispatch()
   const balance = useBalances(account)
@@ -41,7 +42,8 @@ export const ClaimGasButton = ({ account, blockchainService }: TProps) => {
   const { data: unclaimedData, isLoading: unclaimedDataIsLoading } = useQuery({
     queryKey: ['claim', account.address],
     queryFn: async () => {
-      if (!isClaimable(blockchainService) || !account.encryptedKey || !isCalculableFee(blockchainService)) return
+      if (!isClaimable(blockchainService) || !account.encryptedKey || !isCalculableFee(blockchainService))
+        throw new Error()
 
       const unclaimed = await blockchainService.blockchainDataService.getUnclaimed(account.address)
 
@@ -61,6 +63,7 @@ export const ClaimGasButton = ({ account, blockchainService }: TProps) => {
     },
     gcTime: 0,
     staleTime: 0,
+    retry: false,
   })
 
   const handleClaimGas = async () => {
@@ -73,7 +76,20 @@ export const ClaimGasButton = ({ account, blockchainService }: TProps) => {
 
       const key = await window.api.decryptBasedEncryptedSecret(account.encryptedKey, encryptedPassword)
 
-      const transactionHash = await blockchainService.claim({ address: account.address, key, type: 'wif' })
+      const isLedger = account.type === 'ledger'
+
+      const serviceAccount =
+        isLedger && hasLedger(blockchainService)
+          ? blockchainService.generateAccountFromPublicKey(key)
+          : blockchainService.generateAccountFromKey(key)
+
+      let transactionHash: string
+      const claimPromise = blockchainService.claim(serviceAccount, isLedger)
+      if (isLedger) {
+        transactionHash = await ToastHelper.promise(claimPromise, { message: commonT('ledger.requestingPermission') })
+      } else {
+        transactionHash = await claimPromise
+      }
 
       dispatch(
         accountReducerActions.addPendingTransaction({

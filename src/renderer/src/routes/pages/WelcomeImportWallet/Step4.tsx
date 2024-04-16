@@ -8,8 +8,8 @@ import { Progress } from '@renderer/components/Progress'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
-import { useBsAggregator } from '@renderer/hooks/useBsAggregator'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
+import { bsAggregator } from '@renderer/libs/blockchainService'
 import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
 
 type TLocationState = {
@@ -23,7 +23,6 @@ export const WelcomeImportWalletStep4Page = () => {
   const { t: commonT } = useTranslation('common', { keyPrefix: 'wallet' })
   const { state } = useLocation() as Location<TLocationState>
   const navigate = useNavigate()
-  const { bsAggregator } = useBsAggregator()
   const dispatch = useAppDispatch()
   const { createWallet, importAccount, importAccounts } = useBlockchainActions()
 
@@ -32,8 +31,8 @@ export const WelcomeImportWalletStep4Page = () => {
   const [progress, setProgress] = useState(0)
 
   const importAddress = async (address: string) => {
-    const blockchainService = bsAggregator.getBlockchainByAddress(address)
-    if (!blockchainService) throw new Error(t('canNotFindBlockchainError'))
+    const serviceName = bsAggregator.getBlockchainNameByAddress(address)
+    if (!serviceName) throw new Error(t('canNotFindBlockchainError'))
 
     setProgress(33)
 
@@ -44,7 +43,7 @@ export const WelcomeImportWalletStep4Page = () => {
 
     setProgress(66)
 
-    await importAccount({ wallet, address: address, blockchain: blockchainService.blockchainName, type: 'watch' })
+    await importAccount({ wallet, address: address, blockchain: serviceName, type: 'watch' })
 
     setProgress(100)
   }
@@ -52,7 +51,7 @@ export const WelcomeImportWalletStep4Page = () => {
   const importKey = async (key: string) => {
     const accountsToImport: TAccountsToImport = []
 
-    await UtilsHelper.promiseAll(bsAggregator.blockchainServices, async service => {
+    await UtilsHelper.promiseAll(Object.values(bsAggregator.blockchainServicesByName), async service => {
       const account = service.generateAccountFromKey(key)
       accountsToImport.push({ address: account.address, blockchain: service.blockchainName, key, type: 'legacy' })
     })
@@ -101,9 +100,11 @@ export const WelcomeImportWalletStep4Page = () => {
   }
 
   const importEncryptedKey = async () => {
-    const blockchainService = bsAggregator.getBlockchainByKey(state.input)
-    if (!blockchainService) throw new Error(t('canNotFindBlockchainError'))
-    const { address, key } = blockchainService.generateAccountFromKey(state.input)
+    const serviceName = bsAggregator.getBlockchainNameByEncrypted(state.input)
+    if (!serviceName) throw new Error(t('canNotFindBlockchainError'))
+
+    const service = bsAggregator.blockchainServicesByName[serviceName]
+    const { address, key } = service.generateAccountFromKey(state.input)
 
     setProgress(33)
 
@@ -114,7 +115,7 @@ export const WelcomeImportWalletStep4Page = () => {
 
     setProgress(66)
 
-    await importAccount({ address, blockchain: blockchainService.blockchainName, wallet, key, type: 'legacy' })
+    await importAccount({ address, blockchain: serviceName, wallet, key, type: 'legacy' })
 
     setProgress(100)
   }

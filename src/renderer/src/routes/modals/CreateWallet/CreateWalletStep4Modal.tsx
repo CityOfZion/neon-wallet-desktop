@@ -22,7 +22,7 @@ export const CreateWalletStep4Modal = () => {
     const firstAccount = accounts.find(account => account.idWallet === wallet.id)
     if (firstAccount) {
       modalNavigate(-4)
-      navigate('/wallets', { state: { wallet } })
+      navigate('/app/wallets', { state: { wallet } })
     }
   }
 

@@ -6,9 +6,9 @@ import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { useActions } from '@renderer/hooks/useActions'
-import { useBsAggregator } from '@renderer/hooks/useBsAggregator'
 import { useModalState } from '@renderer/hooks/useModalRouter'
 import { EndModalLayout } from '@renderer/layouts/EndModal'
+import { bsAggregator } from '@renderer/libs/blockchainService'
 
 type TLocation = {
   encryptedKey: string
@@ -23,7 +23,6 @@ type TFormData = {
 export const DecryptKeyModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'decryptKeyModal' })
   const { blockchain, encryptedKey, onDecrypt } = useModalState<TLocation>()
-  const { bsAggregator } = useBsAggregator()
 
   const { actionData, setData, actionState, handleAct, reset } = useActions<TFormData>({
     password: '',
@@ -35,7 +34,7 @@ export const DecryptKeyModal = () => {
 
   const handleSubmit = async () => {
     try {
-      const service = bsAggregator.getBlockchainByName(blockchain)
+      const service = bsAggregator.blockchainServicesByName[blockchain]
       const { address, key } = await service.decrypt(encryptedKey, actionData.password)
 
       await onDecrypt?.(key, address)

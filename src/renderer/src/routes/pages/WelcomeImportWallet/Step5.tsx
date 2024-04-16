@@ -19,7 +19,7 @@ export const WelcomeImportWalletStep5Page = () => {
       <div className="flex gap-2.5">
         <ButtonDownloadPasswordQRCode />
         <Link
-          to="/portfolio"
+          to="/app/portfolio"
           label={t('openWalletButtonLabel')}
           rightIcon={<MdOutlineAutoAwesome />}
           variant="contained"

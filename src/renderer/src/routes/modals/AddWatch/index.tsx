@@ -9,9 +9,9 @@ import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
-import { useBsAggregator } from '@renderer/hooks/useBsAggregator'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { EndModalLayout } from '@renderer/layouts/EndModal'
+import { bsAggregator } from '@renderer/libs/blockchainService'
 
 import { BlockchainIcon } from '../../../components/BlockchainIcon'
 
@@ -27,7 +27,6 @@ type TValidatedAddress = {
 }
 
 export const AddWatch = () => {
-  const { bsAggregator } = useBsAggregator()
   const { modalNavigate } = useModalNavigate()
   const blockchainActions = useBlockchainActions()
   const { t } = useTranslation('modals', { keyPrefix: 'addWatch' })
@@ -94,7 +93,7 @@ export const AddWatch = () => {
       setError(t('errors.empty'))
       return
     }
-    for (const blockchainService of bsAggregator.blockchainServices) {
+    for (const blockchainService of Object.values(bsAggregator.blockchainServicesByName)) {
       const isValid = blockchainService.validateAddress(address)
       if (isValid) {
         setValidatedAddress({
@@ -106,6 +105,7 @@ export const AddWatch = () => {
         return
       }
     }
+
     setValidatedAddress({
       blockchain: undefined,
       abbreviatedAddress: '',

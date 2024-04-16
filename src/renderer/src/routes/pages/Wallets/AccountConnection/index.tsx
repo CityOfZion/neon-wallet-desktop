@@ -1,28 +1,28 @@
-import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbPlugX, TbPlus } from 'react-icons/tb'
-import { useParams } from 'react-router-dom'
+import { useOutletContext } from 'react-router-dom'
 import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
+import { IAccountState } from '@renderer/@types/store'
 import { Button } from '@renderer/components/Button'
 import { ConnectionsTable } from '@renderer/components/ConnectionsTable'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
-import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { AccountDetailsLayout } from '@renderer/layouts/AccountDetailsLayout'
+
+type TOutletContext = {
+  account: IAccountState
+}
 
 export const AccountConnections = () => {
   const { sessions } = useWalletConnectWallet()
   const { modalNavigateWrapper } = useModalNavigate()
 
   const { t } = useTranslation('pages', { keyPrefix: 'wallets.accountConnections' })
-  const { address } = useParams()
 
-  const { accounts } = useAccountsSelector()
-
-  const account = useMemo(() => accounts.find(account => account.address === address)!, [accounts, address])
+  const { account } = useOutletContext<TOutletContext>()
 
   const filteredSessions = sessions.filter(session =>
-    WalletConnectHelper.getAccountInformationFromSession(session).address.includes(address ?? '')
+    WalletConnectHelper.getAccountInformationFromSession(session).address.includes(account.address)
   )
 
   return (

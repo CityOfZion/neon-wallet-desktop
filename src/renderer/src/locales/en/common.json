@@ -19,6 +19,7 @@
   "wallet": {
     "importedName": "Imported Wallet",
     "encryptedName": "Encrypted Wallet",
+    "ledgerName": "Ledger Wallet",
     "watchAccount": "Watch Account",
     "mnemonicWalletName": "Mnemonic Wallet",
     "firstWalletName": "My First Wallet",
@@ -35,5 +36,8 @@
   "networkTypeLabel": {
     "mainnet": "MainNet",
     "testnet": "TestNet"
+  },
+  "ledger": {
+    "requestingPermission": "Please confirm on your Ledger device"
   }
 }

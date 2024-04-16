@@ -44,12 +44,12 @@ export const PasswordStrenght = ({ password }: TProps) => {
           {password.length === 0
             ? t('none')
             : isPasswordTooShort
-            ? t('tooShort')
-            : isPasswordStrong
-            ? t('strong')
-            : isPasswordGood
-            ? t('good')
-            : t('weak')}
+              ? t('tooShort')
+              : isPasswordStrong
+                ? t('strong')
+                : isPasswordGood
+                  ? t('good')
+                  : t('weak')}
         </span>
       </div>
     </div>

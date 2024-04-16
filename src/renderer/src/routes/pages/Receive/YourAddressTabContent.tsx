@@ -75,16 +75,16 @@ export const YourAddressTabContent = forwardRef<HTMLDivElement>((_, ref) => {
             )}
           </div>
         </div>
-
-        <Button
-          className="w-[16rem] mt-20"
-          label={!selectedAccount?.address ? t('sendQRCode') : t('downloadQRCode')}
-          leftIcon={!selectedAccount?.address ? <TbSend /> : <TbCopy />}
-          disabled={!selectedAccount?.address}
-          onClick={handleDownload}
-          iconsOnEdge={false}
-        />
       </div>
+
+      <Button
+        className="w-[16rem]"
+        label={!selectedAccount?.address ? t('sendQRCode') : t('downloadQRCode')}
+        leftIcon={!selectedAccount?.address ? <TbSend /> : <TbCopy />}
+        disabled={!selectedAccount?.address}
+        onClick={handleDownload}
+        iconsOnEdge={false}
+      />
     </section>
   )
 })

@@ -2,18 +2,19 @@ import { Fragment, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbArrowDown, TbEye, TbStepOut } from 'react-icons/tb'
 import { useLocation } from 'react-router-dom'
-import { Account, BlockchainService, hasNameService, isCalculableFee } from '@cityofzion/blockchain-service'
+import { hasLedger, hasNameService, isCalculableFee } from '@cityofzion/blockchain-service'
 import { TBlockchainServiceKey } from '@renderer/@types/blockchain'
 import { TokenBalance } from '@renderer/@types/query'
 import { IAccountState } from '@renderer/@types/store'
 import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'
 import { DoraHelper } from '@renderer/helpers/DoraHelper'
-import { useBsAggregator } from '@renderer/hooks/useBsAggregator'
+import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useEncryptedPasswordSelector, useNetworkTypeSelector } from '@renderer/hooks/useSettingsSelector'
 import { ContentLayout } from '@renderer/layouts/ContentLayout'
+import { bsAggregator } from '@renderer/libs/blockchainService'
 import { accountReducerActions } from '@renderer/store/reducers/AccountReducer'
 import debounce from 'lodash/debounce'
 
@@ -31,15 +32,9 @@ enum SendPageStep {
   Send = 5,
 }
 
-type TSendServiceResult = {
-  serviceAccount: Account
-  service: BlockchainService<TBlockchainServiceKey>
-  token: TokenBalance
-}
-
 export const SendPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'send' })
-  const { bsAggregator } = useBsAggregator()
+  const { t: commonT } = useTranslation('common')
   const { encryptedPasswordRef } = useEncryptedPasswordSelector()
   const { modalNavigate } = useModalNavigate()
   const { networkType } = useNetworkTypeSelector()
@@ -100,15 +95,11 @@ export const SendPage = () => {
       let isValid = false
 
       try {
-        const blockchainService = bsAggregator.getBlockchainByName(blockchain)
-        isValid = blockchainService.validateAddress(recipientAddress)
+        const service = bsAggregator.blockchainServicesByName[blockchain]
+        isValid = service.validateAddress(recipientAddress)
 
-        if (
-          !isValid &&
-          hasNameService(blockchainService) &&
-          blockchainService.validateNameServiceDomainFormat(recipientAddress)
-        ) {
-          const nnsAddress = await blockchainService.resolveNameServiceDomain(recipientAddress)
+        if (!isValid && hasNameService(service) && service.validateNameServiceDomainFormat(recipientAddress)) {
+          const nnsAddress = await service.resolveNameServiceDomain(recipientAddress)
 
           if (nnsAddress) {
             isValid = true
@@ -121,41 +112,43 @@ export const SendPage = () => {
           setIsAddressValid(isValid)
         }
       } catch {
-        // empty block
+        /* empty */
       } finally {
         setValidating(false)
       }
     }, 1000),
-    [bsAggregator]
+    []
   )
 
-  const getSendService = useCallback(async (): Promise<TSendServiceResult | null> => {
-    if (!selectedAccount || !selectedToken || !selectedAmount || !selectedRecipient || !selectedAccount.encryptedKey) {
-      return null
-    }
-
-    const service = bsAggregator.getBlockchainByName(selectedAccount.blockchain)
+  const getSendService = useCallback(async () => {
+    if (!selectedAccount || !selectedToken || !selectedAmount || !selectedRecipient || !selectedAccount.encryptedKey)
+      return
 
     const key = await window.api.decryptBasedEncryptedSecret(selectedAccount.encryptedKey, encryptedPasswordRef.current)
     if (!key) throw new Error(t('error.decryptKey'))
-    const serviceAccount = service.generateAccountFromKey(key)
+
+    const service = bsAggregator.blockchainServicesByName[selectedAccount.blockchain]
+    const serviceAccount =
+      selectedAccount.type === 'ledger' && hasLedger(service)
+        ? service.generateAccountFromPublicKey(key)
+        : service.generateAccountFromKey(key)
+
     return {
-      serviceAccount: serviceAccount,
+      serviceAccount,
+      selectedAccount,
       service: service,
       token: selectedToken,
     }
-  }, [bsAggregator, encryptedPasswordRef, selectedAccount, selectedAmount, selectedRecipient, selectedToken, t])
+  }, [encryptedPasswordRef, selectedAccount, selectedAmount, selectedRecipient, selectedToken, t])
 
   const populateTotalFee = useCallback(async () => {
     if (validating || !isAddressValid) return
 
     const sendService = await getSendService()
-    if (!sendService) {
+    if (!sendService || !isCalculableFee(sendService.service)) {
       return
     }
-    if (!isCalculableFee(sendService.service)) {
-      return
-    }
+
     const fee = await sendService.service.calculateTransferFee({
       senderAccount: sendService.serviceAccount,
       intent: {
@@ -181,7 +174,8 @@ export const SendPage = () => {
       return
     }
     try {
-      const transactionHash = await sendService.service.transfer({
+      const isLedger = sendService.selectedAccount.type === 'ledger'
+      const sendPromise = sendService.service.transfer({
         senderAccount: sendService.serviceAccount,
         intent: {
           receiverAddress: nsAddress || selectedRecipient,
@@ -189,11 +183,17 @@ export const SendPage = () => {
           amount: selectedAmount.toString(),
           tokenDecimals: sendService.token.token.decimals,
         },
+        isLedger,
       })
-      if (!transactionHash) {
-        showErrorModal()
-        return
+
+      let transactionHash: string
+
+      if (isLedger) {
+        transactionHash = await ToastHelper.promise(sendPromise, { message: commonT('ledger.requestingPermission') })
+      } else {
+        transactionHash = await sendPromise
       }
+
       dispatch(
         accountReducerActions.addPendingTransaction({
           account: selectedAccount,
@@ -213,7 +213,7 @@ export const SendPage = () => {
         accountReducerActions.watchPendingTransaction({ transactionHash, blockchainService: sendService.service })
       )
       showSuccessModal(transactionHash)
-    } catch {
+    } catch (error) {
       showErrorModal()
     }
   }

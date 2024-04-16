@@ -23,13 +23,6 @@ export class WalletConnectEIP155Adapter extends AbstractWalletConnectEIP155Adapt
     return key
   }
 
-  async getWalletInfo(): Promise<any> {
-    // TODO: Implement this method when ledger is supported. Task link: https://app.clickup.com/t/86a1n66zt
-    return {
-      isLedger: false,
-    }
-  }
-
   async getRPCUrl(): Promise<string> {
     const {
       settings: { networkType },

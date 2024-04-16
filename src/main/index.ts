@@ -1,3 +1,8 @@
+import { BSAggregator } from '@cityofzion/blockchain-service'
+import { exposeApiToRenderer } from '@cityofzion/bs-electron/dist/main'
+import { BSEthereum } from '@cityofzion/bs-ethereum'
+import { BSNeoLegacy } from '@cityofzion/bs-neo-legacy'
+import { BSNeo3 } from '@cityofzion/bs-neo3'
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import { app, BrowserWindow, shell } from 'electron'
 import { join } from 'path'
@@ -5,6 +10,7 @@ import { join } from 'path'
 import icon from '../../resources/icon.png?asset'
 
 import { registerEncryptionHandlers } from './encryption'
+import { getLedgerTransport, registerLedgerHandler } from './ledger'
 import { setupSentry } from './sentryElectron'
 import { registerWindowHandlers } from './window'
 
@@ -67,5 +73,18 @@ app.on('window-all-closed', () => {
   }
 })
 
+const bsAggregator = new BSAggregator({
+  neo3: new BSNeo3('neo3', { type: 'mainnet' }, getLedgerTransport),
+  neoLegacy: new BSNeoLegacy('neoLegacy', { type: 'mainnet' }),
+  ethereum: new BSEthereum(
+    'ethereum',
+    { type: 'mainnet' },
+    import.meta.env.MAIN_VITE_BITQUERY_API_KEY ?? '',
+    getLedgerTransport
+  ),
+})
+
 registerWindowHandlers()
 registerEncryptionHandlers()
+registerLedgerHandler(bsAggregator)
+exposeApiToRenderer(bsAggregator)

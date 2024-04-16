@@ -38,7 +38,7 @@ export const ChangePasswordStep1 = (): JSX.Element => {
       return
     }
 
-    navigate('/settings/security/change-password/step-2', { state: { encryptedNewPassword } })
+    navigate('/app/settings/security/change-password/step-2', { state: { encryptedNewPassword } })
 
     reset()
   }

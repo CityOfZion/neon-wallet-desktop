@@ -5,12 +5,12 @@ import * as ReactSentry from '@sentry/react'
 
 import { sentryConfig } from '../../../../sentry.config'
 
-const isProductionMode = Boolean(import.meta.env?.RENDERER_VITE_SENTRY_DSN && import.meta.env.PROD)
+const isProductionMode = Boolean(import.meta.env?.VITE_SENTRY_DSN && import.meta.env.PROD)
 export function setupSentryReact() {
   if (isProductionMode) {
     ElectronRedererSentry.init(
       {
-        dsn: import.meta.env.RENDERER_VITE_SENTRY_DSN,
+        dsn: import.meta.env.VITE_SENTRY_DSN,
         ...sentryConfig,
         integrations: [
           new ElectronRedererSentry.Integrations.Breadcrumbs(),
@@ -20,7 +20,6 @@ export function setupSentryReact() {
         ],
         anrDetection: { captureStackTrace: true },
       },
-      // @ts-expect-error Something wrong with Sentry's typings
       ReactSentry.init
     )
   }
