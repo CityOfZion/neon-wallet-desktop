@@ -30,9 +30,7 @@ mac:
   type: distribution
   target:
     target: default
-    arch:
-      - arm64
-      - x64
+    arch: universal
   extendInfo:
     - NSCameraUsageDescription: Application requests access to the device's camera.
     - NSMicrophoneUsageDescription: Application requests access to the device's microphone.
