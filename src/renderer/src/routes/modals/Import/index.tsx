@@ -69,6 +69,10 @@ export const ImportModal = () => {
   }
 
   const submitAddress = async (address: string) => {
+    if (doesAccountExist(address)) {
+      throw new Error(t('addressAlreadyExist'))
+    }
+
     modalNavigate('add-watch', { replace: true, state: { address } })
   }
 
