@@ -22,6 +22,7 @@ export const useMount = (
     return () => {
       clearTimeout(timeoutRef.current)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, changingStateVars)
 
   return { isMounting }

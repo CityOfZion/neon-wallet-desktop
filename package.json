@@ -89,7 +89,7 @@
     "electron": "29.1.6",
     "electron-builder": "^24.6.3",
     "electron-builder-notarize": "^1.2.0",
-    "electron-vite": "^1.0.27",
+    "electron-vite": "^2.1.0",
     "eslint": "^8.47.0",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
