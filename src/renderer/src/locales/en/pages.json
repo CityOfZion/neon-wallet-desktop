@@ -5,7 +5,11 @@
   },
   "welcomeSecuritySetup": {
     "title": "Securing your new wallet",
-    "steps": ["Create Password", "Confirm Password", "Complete"],
+    "steps": [
+      "Create Password",
+      "Confirm Password",
+      "Complete"
+    ],
     "step1": {
       "formTitle": "Please create a password to secure your wallet",
       "passwordPlaceholder": "Create a password...",
@@ -23,7 +27,13 @@
   },
   "welcomeImportWallet": {
     "title": "Import a wallet",
-    "steps": ["Create Password", "Confirm Password", "Enter address or key", "Import", "Complete"],
+    "steps": [
+      "Create Password",
+      "Confirm Password",
+      "Enter address or key",
+      "Import",
+      "Complete"
+    ],
     "step3": {
       "formTitle": "Enter an address, encrypted key, private key or mnemonic",
       "inputPlaceholder": "Enter an address, key or mnemonic...",
@@ -34,7 +44,8 @@
     },
     "step4": {
       "title": "Please be patient, we are now setting up your wallet",
-      "canNotFindBlockchainError": "We can't find the blockchain for this address"
+      "invalidAddress": "Invalid address",
+      "unexpectedError": "Unexpected error"
     },
     "step5": {
       "title": "Wallet imported successfully!",
