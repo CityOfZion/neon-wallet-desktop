@@ -5,7 +5,7 @@ export const sentryConfig: Omit<BrowserOptions, 'transportOptions' | 'transport'
   attachStacktrace: true,
   autoSessionTracking: true,
   debug: false,
-  enableTracing: true,
+  enableTracing: false,
   environment: 'NEON-3',
   release: version,
   // Capture Replay for 10% of all sessions,
@@ -17,4 +17,5 @@ export const sentryConfig: Omit<BrowserOptions, 'transportOptions' | 'transport'
   // Set tracesSampleRate to 1.0 to capture 100%
   // of transactions for performance monitoring.
   tracesSampleRate: 1.0,
+  sendDefaultPii: false,
 }

@@ -9,6 +9,7 @@ import { ToastProvider } from '@renderer/libs/sonner'
 import { walletConnectOptions } from '@renderer/libs/walletConnectSDK'
 import { modalsRouter } from '@renderer/routes/modalsRouter'
 import { RootStore } from '@renderer/store/RootStore'
+import * as Sentry from '@sentry/react'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { PersistGate } from 'redux-persist/integration/react'
 
@@ -26,17 +27,19 @@ export const RootPage = () => {
   }, [navigate])
 
   return (
-    <StoreProvider store={RootStore.store}>
-      <PersistGate persistor={RootStore.persistor}>
-        <WalletConnectWalletProvider options={walletConnectOptions}>
-          <QueryClientProvider client={queryClient}>
-            <ModalRouterProvider routes={modalsRouter}>
-              <Child />
-              <ToastProvider />
-            </ModalRouterProvider>
-          </QueryClientProvider>
-        </WalletConnectWalletProvider>
-      </PersistGate>
-    </StoreProvider>
+    <Sentry.ErrorBoundary>
+      <StoreProvider store={RootStore.store}>
+        <PersistGate persistor={RootStore.persistor}>
+          <WalletConnectWalletProvider options={walletConnectOptions}>
+            <QueryClientProvider client={queryClient}>
+              <ModalRouterProvider routes={modalsRouter}>
+                <Child />
+                <ToastProvider />
+              </ModalRouterProvider>
+            </QueryClientProvider>
+          </WalletConnectWalletProvider>
+        </PersistGate>
+      </StoreProvider>
+    </Sentry.ErrorBoundary>
   )
 }
