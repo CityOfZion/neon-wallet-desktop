@@ -26,10 +26,10 @@
   "dependencies": {
     "@cityofzion/blockchain-service": "0.11.0",
     "@cityofzion/bs-asteroid-sdk": "0.8.0",
-    "@cityofzion/bs-electron": "0.1.1",
+    "@cityofzion/bs-electron": "0.1.2",
     "@cityofzion/bs-ethereum": "1.2.0",
     "@cityofzion/bs-neo-legacy": "0.10.0",
-    "@cityofzion/bs-neo3": "0.11.0",
+    "@cityofzion/bs-neo3": "0.11.1",
     "@cityofzion/neon-core": "5.5.1",
     "@cityofzion/wallet-connect-sdk-wallet-react": "4.0.0",
     "@electron-toolkit/preload": "^2.0.0",
