@@ -89,12 +89,7 @@ if (!gotTheLock) {
   const bsAggregator = new BSAggregator({
     neo3: new BSNeo3('neo3', { type: 'mainnet' }, getLedgerTransport),
     neoLegacy: new BSNeoLegacy('neoLegacy', { type: 'mainnet' }),
-    ethereum: new BSEthereum(
-      'ethereum',
-      { type: 'mainnet' },
-      import.meta.env.MAIN_VITE_BITQUERY_API_KEY ?? '',
-      getLedgerTransport
-    ),
+    ethereum: new BSEthereum('ethereum', { type: 'mainnet' }, getLedgerTransport),
   })
 
   registerWindowHandlers()
