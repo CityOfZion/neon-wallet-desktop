@@ -14,10 +14,11 @@ import { getLedgerTransport, registerLedgerHandler } from './ledger'
 import { setupSentry } from './sentryElectron'
 import { registerWindowHandlers } from './window'
 
-setupSentry()
+const gotTheLock = app.requestSingleInstanceLock()
+let mainWindow: BrowserWindow | null = null
 
 function createWindow(): void {
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 1280,
     height: 720,
     minWidth: 1280,
@@ -32,7 +33,7 @@ function createWindow(): void {
   })
 
   mainWindow.on('ready-to-show', () => {
-    mainWindow.show()
+    mainWindow?.show()
   })
 
   mainWindow.webContents.setWindowOpenHandler(details => {
@@ -47,44 +48,57 @@ function createWindow(): void {
   }
 }
 
-app.whenReady().then(() => {
-  // Set app user model id for windows
-  electronApp.setAppUserModelId('com.electron')
+if (!gotTheLock) {
+  app.quit()
+} else {
+  setupSentry()
 
-  // Default open or close DevTools by F12 in development
-  // and ignore CommandOrControl + R in production.
-  // see https://github.com/alex8088/electron-toolkit/tree/master/packages/utils
-  app.on('browser-window-created', (_, window) => {
-    optimizer.watchWindowShortcuts(window)
+  app.on('second-instance', () => {
+    if (mainWindow) {
+      if (mainWindow.isMinimized()) mainWindow.restore()
+      mainWindow.focus()
+    }
   })
 
-  createWindow()
+  app.whenReady().then(() => {
+    // Set app user model id for windows
+    electronApp.setAppUserModelId('com.electron')
 
-  app.on('activate', function () {
-    // On macOS it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) createWindow()
+    // Default open or close DevTools by F12 in development
+    // and ignore CommandOrControl + R in production.
+    // see https://github.com/alex8088/electron-toolkit/tree/master/packages/utils
+    app.on('browser-window-created', (_, window) => {
+      optimizer.watchWindowShortcuts(window)
+    })
+
+    createWindow()
+
+    app.on('activate', function () {
+      // On macOS it's common to re-create a window in the app when the
+      // dock icon is clicked and there are no other windows open.
+      if (BrowserWindow.getAllWindows().length === 0) createWindow()
+    })
   })
-})
 
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
-})
+  app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') {
+      app.quit()
+    }
+  })
 
-const bsAggregator = new BSAggregator({
-  neo3: new BSNeo3('neo3', { type: 'mainnet' }, getLedgerTransport),
-  neoLegacy: new BSNeoLegacy('neoLegacy', { type: 'mainnet' }),
-  ethereum: new BSEthereum(
-    'ethereum',
-    { type: 'mainnet' },
-    import.meta.env.MAIN_VITE_BITQUERY_API_KEY ?? '',
-    getLedgerTransport
-  ),
-})
+  const bsAggregator = new BSAggregator({
+    neo3: new BSNeo3('neo3', { type: 'mainnet' }, getLedgerTransport),
+    neoLegacy: new BSNeoLegacy('neoLegacy', { type: 'mainnet' }),
+    ethereum: new BSEthereum(
+      'ethereum',
+      { type: 'mainnet' },
+      import.meta.env.MAIN_VITE_BITQUERY_API_KEY ?? '',
+      getLedgerTransport
+    ),
+  })
 
-registerWindowHandlers()
-registerEncryptionHandlers()
-registerLedgerHandler(bsAggregator)
-exposeApiToRenderer(bsAggregator)
+  registerWindowHandlers()
+  registerEncryptionHandlers()
+  registerLedgerHandler(bsAggregator)
+  exposeApiToRenderer(bsAggregator)
+}
