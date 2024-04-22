@@ -123,16 +123,14 @@ export const SettingsEncryptKeyPage = (): JSX.Element => {
           </div>
         </div>
 
-        <div className="flex justify-center">
-          <Button
-            className="w-fit"
-            type="submit"
-            label={t('encryptKey.buttonGenerate')}
-            loading={actionState.isActing}
-            disabled={!actionState.isValid}
-            leftIcon={<MdOutlineKey />}
-          />
-        </div>
+        <Button
+          className="w-full max-w-[15.625rem]"
+          type="submit"
+          label={t('encryptKey.buttonGenerate')}
+          loading={actionState.isActing}
+          disabled={!actionState.isValid}
+          leftIcon={<MdOutlineKey />}
+        />
       </form>
     </SettingsLayout>
   )
