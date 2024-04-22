@@ -40,7 +40,9 @@ export const WelcomeImportWalletStep3Page = () => {
               blockchain,
               onDecrypt: async (key: string) => {
                 modalNavigate(-2)
-                navigate('/welcome-import-wallet/4', { state: { input: key, inputType, password: state.password } })
+                navigate('/welcome-import-wallet/4', {
+                  state: { input: key, inputType, blockchain, password: state.password },
+                })
               },
             },
           })

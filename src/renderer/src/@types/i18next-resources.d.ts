@@ -662,7 +662,8 @@ interface Resources {
       }
       step4: {
         title: 'Please be patient, we are now setting up your wallet'
-        canNotFindBlockchainError: "We can't find the blockchain for this address"
+        invalidAddress: 'Invalid address'
+        unexpectedError: 'Unexpected error'
       }
       step5: {
         title: 'Wallet imported successfully!'

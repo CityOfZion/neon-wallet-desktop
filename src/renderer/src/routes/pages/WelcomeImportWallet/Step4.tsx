@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Location, useLocation, useNavigate } from 'react-router-dom'
-import { TAccountsToImport } from '@renderer/@types/blockchain'
+import { TAccountsToImport, TBlockchainServiceKey } from '@renderer/@types/blockchain'
 import { TUseImportActionInputType } from '@renderer/@types/hooks'
 import { ReactComponent as NeonWalletLogo } from '@renderer/assets/images/neon-wallet-compact.svg'
 import { Progress } from '@renderer/components/Progress'
@@ -16,6 +16,7 @@ type TLocationState = {
   input: string
   inputType: TUseImportActionInputType
   password: string
+  blockchain?: TBlockchainServiceKey
 }
 
 export const WelcomeImportWalletStep4Page = () => {
@@ -32,7 +33,7 @@ export const WelcomeImportWalletStep4Page = () => {
 
   const importAddress = async (address: string) => {
     const serviceName = bsAggregator.getBlockchainNameByAddress(address)
-    if (!serviceName) throw new Error(t('canNotFindBlockchainError'))
+    if (!serviceName) throw new Error(t('invalidAddress'))
 
     setProgress(33)
 
@@ -100,10 +101,9 @@ export const WelcomeImportWalletStep4Page = () => {
   }
 
   const importEncryptedKey = async () => {
-    const serviceName = bsAggregator.getBlockchainNameByEncrypted(state.input)
-    if (!serviceName) throw new Error(t('canNotFindBlockchainError'))
+    if (!state.blockchain) throw new Error(t('unexpectedError'))
 
-    const service = bsAggregator.blockchainServicesByName[serviceName]
+    const service = bsAggregator.blockchainServicesByName[state.blockchain]
     const { address, key } = service.generateAccountFromKey(state.input)
 
     setProgress(33)
@@ -115,7 +115,7 @@ export const WelcomeImportWalletStep4Page = () => {
 
     setProgress(66)
 
-    await importAccount({ address, blockchain: serviceName, wallet, key, type: 'legacy' })
+    await importAccount({ address, blockchain: state.blockchain, wallet, key, type: 'legacy' })
 
     setProgress(100)
   }

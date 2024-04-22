@@ -36,7 +36,6 @@ export const DecryptKeyModal = () => {
     try {
       const service = bsAggregator.blockchainServicesByName[blockchain]
       const { address, key } = await service.decrypt(encryptedKey, actionData.password)
-
       await onDecrypt?.(key, address)
     } catch (error: any) {
       ToastHelper.error({ message: error.message })

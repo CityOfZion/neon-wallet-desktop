@@ -52,7 +52,6 @@ export const useTransactions = ({ accounts }: TProps) => {
             page,
           }
         } catch (error: any) {
-          console.error(error)
           return {
             transfers: [],
             hasMore: false,
