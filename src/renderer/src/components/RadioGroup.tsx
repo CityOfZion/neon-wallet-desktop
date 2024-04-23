@@ -1,40 +1,45 @@
+import { ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react'
 import * as RadixRadioGroup from '@radix-ui/react-radio-group'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
-type ItemProps = RadixRadioGroup.RadioGroupItemProps & {
-  label: string
-  leftIcon?: JSX.Element
-  containerClassname?: string
-}
+const Group = forwardRef<
+  ElementRef<typeof RadixRadioGroup.Root>,
+  ComponentPropsWithoutRef<typeof RadixRadioGroup.Root>
+>((props, ref) => {
+  return <RadixRadioGroup.Root {...props} ref={ref} />
+})
 
-const Root = (props: RadixRadioGroup.RadioGroupProps) => {
-  return <RadixRadioGroup.Root {...props} />
-}
-
-const Item = ({ label, leftIcon, className, containerClassname, ...props }: ItemProps) => {
-  return (
-    <div
-      className={StyleHelper.mergeStyles(
-        'flex flex-row gap-y-2 gap-x-4 h-10 items-center justify-between hover:bg-asphalt border-b border-gray-300/30',
-        containerClassname
-      )}
-    >
-      <div className="flex items-center gap-2.5">
-        {leftIcon && leftIcon}
-        <label>{label}</label>
-      </div>
-
+const Item = forwardRef<ElementRef<typeof RadixRadioGroup.Item>, ComponentPropsWithoutRef<typeof RadixRadioGroup.Item>>(
+  (props, ref) => {
+    return (
       <RadixRadioGroup.Item
-        className={StyleHelper.mergeStyles(
-          'data-[state=unchecked]:border-gray-300 data-[state=checked]:border-neon border border-2 bg-transparent w-4 h-4 rounded-full outline-none cursor-pointer mx-4',
-          className
-        )}
         {...props}
-      >
-        <RadixRadioGroup.Indicator className="flex items-center justify-center w-full h-full relative after:content-[''] after:block after:w-2 after:h-2 after:rounded-[50%] after:bg-neon" />
-      </RadixRadioGroup.Item>
+        ref={ref}
+        className={StyleHelper.mergeStyles(
+          'px-4 hover:bg-asphalt border-b border-gray-300/30 bg-transparent outline-none cursor-pointer flex flex-row gap-y-2 gap-x-4 h-10 items-center justify-between w-full group',
+          props.className
+        )}
+      />
+    )
+  }
+)
+
+const Indicator = forwardRef<
+  ElementRef<typeof RadixRadioGroup.Indicator>,
+  ComponentPropsWithoutRef<typeof RadixRadioGroup.Indicator>
+>((props, ref) => {
+  return (
+    <div className="group-data-[state=unchecked]:border-gray-300 group-data-[state=checked]:border-neon border-2 bg-transparent w-4 h-4 rounded-full outline-none cursor-pointer">
+      <RadixRadioGroup.Indicator
+        {...props}
+        ref={ref}
+        className={StyleHelper.mergeStyles(
+          "flex items-center justify-center w-full h-full relative after:content-[''] after:block after:w-2 after:h-2 after:rounded-[50%] after:bg-neon",
+          props.className
+        )}
+      />
     </div>
   )
-}
+})
 
-export const RadioGroup = { Root, Item }
+export const RadioGroup = { Group, Item, Indicator }

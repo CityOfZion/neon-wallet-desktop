@@ -64,17 +64,17 @@ export const BlockchainSelectionModal = () => {
 
       <form className="flex flex-col  flex-grow mt-6" onSubmit={handleSubmit}>
         <ul className="flex flex-col flex-grow gap-2.5">
-          <RadioGroup.Root value={selectedBlockchain} onValueChange={handleSelectRadioItem}>
+          <RadioGroup.Group value={selectedBlockchain} onValueChange={handleSelectRadioItem}>
             {(Object.keys(bsAggregator.blockchainServicesByName) as TBlockchainServiceKey[]).map((service, index) => (
-              <RadioGroup.Item
-                containerClassname="h-12 rounded bg-asphalt p-5 border-none mb-2.5"
-                key={index}
-                value={service}
-                label={blockchainT(service)}
-                leftIcon={<BlockchainIcon blockchain={service} type="gray" />}
-              />
+              <RadioGroup.Item key={index} value={service} className="h-12 rounded bg-asphalt p-5 border-none mb-2.5">
+                <div className="flex items-center gap-4">
+                  <BlockchainIcon blockchain={service} type="gray" />
+                  <label>{blockchainT(service)}</label>
+                </div>
+                <RadioGroup.Indicator />
+              </RadioGroup.Item>
             ))}
-          </RadioGroup.Root>
+          </RadioGroup.Group>
         </ul>
 
         <Button
