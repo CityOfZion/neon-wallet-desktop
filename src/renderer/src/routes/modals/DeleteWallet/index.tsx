@@ -43,14 +43,13 @@ export const DeleteWalletModal = () => {
           <Banner message={t('alert')} type="error" className="mb-7" />
           <Separator />
           <span className="text-xs py-6">{t('warning')}</span>
-          <div className="flex gap-2.5">
+          <div className="flex gap-2.5 w-full px-6">
             <Button
-              className="w-fit"
+              className="w-full"
               variant="contained"
               label={t('cancel')}
               onClick={() => modalNavigate(-1)}
               colorSchema="gray"
-              flat
             />
             <Button
               className="w-full"
@@ -58,7 +57,6 @@ export const DeleteWalletModal = () => {
               label={t('delete')}
               leftIcon={<TbTrash />}
               colorSchema="error"
-              flat
               onClick={() => handleDelete()}
             />
           </div>
