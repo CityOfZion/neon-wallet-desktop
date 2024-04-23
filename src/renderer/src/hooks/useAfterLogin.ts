@@ -1,18 +1,31 @@
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
+import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
 import { useAccountsSelector } from './useAccountSelector'
 import { useBlockchainActions } from './useBlockchainActions'
-import { useModalNavigate } from './useModalRouter'
+import { useModalHistories, useModalNavigate } from './useModalRouter'
 
 const useRegisterWalletConnectListeners = () => {
   const { sessions, requests } = useWalletConnectWallet()
   const { modalNavigate } = useModalNavigate()
+  const { historiesRef } = useModalHistories()
 
-  useEffect(() => {
+  const watchRequests = useCallback(async () => {
+    await UtilsHelper.sleep(1500)
+
+    const currentHistory = historiesRef.current.slice(-1)[0]
+    if (currentHistory && currentHistory.name === 'dapp-permission') {
+      if (!requests.some(request => request.id === currentHistory.state?.request?.id)) {
+        modalNavigate(-1)
+      }
+
+      return
+    }
+
     if (requests.length <= 0) return
     const request = requests[0]
 
@@ -21,7 +34,11 @@ const useRegisterWalletConnectListeners = () => {
 
     window.api.restoreWindow()
     modalNavigate('dapp-permission', { state: { session, request } })
-  }, [requests, sessions, modalNavigate])
+  }, [requests, sessions, modalNavigate, historiesRef])
+
+  useEffect(() => {
+    watchRequests()
+  }, [watchRequests])
 }
 
 const useRegisterLedgerListeners = () => {

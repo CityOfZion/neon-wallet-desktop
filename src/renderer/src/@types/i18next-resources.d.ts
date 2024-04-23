@@ -221,6 +221,8 @@ interface Resources {
       saveButtonLabel: 'Save'
       cancelButtonLabel: 'Cancel'
       nameLengthError: 'Name must be at least 1 character long'
+      deleteWalletTitle: 'Delete Wallet'
+      deleteWalletSubtext: 'This will remove your wallet and all transaction history'
     }
     persistAccount: {
       titleEdit: 'Edit Account'

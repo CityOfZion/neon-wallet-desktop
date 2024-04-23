@@ -13,7 +13,8 @@ export type TRoute = {
 
 export type TModalRouterContextValue = {
   navigate: (name: string | number, options?: TModalRouterContextNavigateOptions) => void
-  history: THistory[]
+  histories: THistory[]
+  historiesRef: React.MutableRefObject<THistory[]>
 }
 
 export type TModalRouterProviderProps = {

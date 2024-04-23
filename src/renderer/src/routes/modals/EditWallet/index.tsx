@@ -72,8 +72,8 @@ export const EditWalletModal = () => {
       <div className="flex flex-col">
         <Separator />
 
-        <p className="text-gray-300 uppercase text-xs font-bold mt-4">Delete Wallet</p>
-        <span className="text-xs text-white mt-2">This will remove your wallet and all transaction history</span>
+        <p className="text-gray-300 uppercase text-xs font-bold mt-4">${t('deleteWalletTitle')}</p>
+        <span className="text-xs text-white mt-2">{t('deleteWalletSubtext')}</span>
 
         <Button
           label="Delete Wallet"

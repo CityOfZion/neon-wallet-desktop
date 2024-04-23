@@ -27,8 +27,8 @@ export const useModalState = <T = any>(): T => {
   return (value?.state ?? {}) as T
 }
 
-export const useModalHistory = () => {
-  const { history } = useContext(ModalRouterContext)
+export const useModalHistories = () => {
+  const { histories, historiesRef } = useContext(ModalRouterContext)
 
-  return history
+  return { histories, historiesRef }
 }

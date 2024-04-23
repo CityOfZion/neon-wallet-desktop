@@ -1,4 +1,4 @@
-import { createContext, useCallback, useEffect, useState } from 'react'
+import { createContext, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import {
   THistory,
@@ -23,6 +23,7 @@ export const ModalRouterContext = createContext<TModalRouterContextValue>({} as 
 
 export const ModalRouterProvider = ({ routes, children }: TModalRouterProviderProps) => {
   const [histories, setHistories] = useState<THistory[]>([])
+  const historiesRef = useRef<THistory[]>([])
 
   const navigate = useCallback(
     (name: string | number, options?: TModalRouterContextNavigateOptions) => {
@@ -77,8 +78,12 @@ export const ModalRouterProvider = ({ routes, children }: TModalRouterProviderPr
     }
   }, [routes])
 
+  useLayoutEffect(() => {
+    historiesRef.current = histories
+  }, [histories])
+
   return (
-    <ModalRouterContext.Provider value={{ navigate, history: histories }}>
+    <ModalRouterContext.Provider value={{ navigate, histories, historiesRef }}>
       {children}
 
       <AnimatePresence onExitComplete={removeUnmounted}>
