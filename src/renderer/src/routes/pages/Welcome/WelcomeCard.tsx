@@ -1,12 +1,21 @@
-// TODO: It is just a placeholder for now. It will be replaced by real information later.
-export const WelcomeCard = () => {
-  return (
-    <div className="w-full max-w-[10.875rem]  flex flex-col gap-y-5">
-      <div className="w-full h-[10.875rem] rounded bg-asphalt"></div>
+type TProps = {
+  image: JSX.Element
+  title: string
+  description: string
+}
 
-      <p className="text-xs text-white text-center">
-        Certe, inquam, pertinax non recusandae itaque turbent, ut de utilitatibus, nihil molestiae.
-      </p>
+export const WelcomeCard = ({ image, title, description }: TProps) => {
+  return (
+    <div className="w-full max-w-[10.875rem] flex flex-col gap-y-4">
+      <div className="flex w-[10.875rem] h-[10.875rem] rounded bg-asphalt justify-center items-center drop-shadow-md">
+        {image}
+      </div>
+
+      <div className="flex flex-col gap-y-2">
+        <p className="text-xl text-white text-center">{title}</p>
+
+        <p className="text-xs text-gray-100 text-center">{description}</p>
+      </div>
     </div>
   )
 }

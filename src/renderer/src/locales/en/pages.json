@@ -1,7 +1,23 @@
 {
   "welcome": {
     "title": "Welcome to Neon Wallet",
-    "setupSecurityButtonLabel": "Password Protect Neon Wallet"
+    "setupSecurityButtonLabel": "Create your first Wallet",
+    "card1": {
+      "title": "Intuitive",
+      "description": "Easily store, send and receive your digital assets across multiple wallets"
+    },
+    "card2": {
+      "title": "Connected",
+      "description": "Neon uses the open-source WalletConnect protocol to securely connect your wallet to a growing catalogue of dApps"
+    },
+    "card3": {
+      "title": "Flexible",
+      "description": "Digital asset management has never been easier using the Neon desktop and mobile (Android and iOS) apps"
+    },
+    "card4": {
+      "title": "Integrated",
+      "description": "Simply connect to your Ledger hardware wallet to control your Ethereum and Neo assets, using the highest security standards"
+    }
   },
   "welcomeSecuritySetup": {
     "title": "Securing your new wallet",
