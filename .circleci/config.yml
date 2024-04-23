@@ -10,9 +10,9 @@ references:
       - image: electronuserland/builder:wine-chrome
         environment:
           TARGET_ARCH: x64
-    working_directory: ~/neon-wallet
+    working_directory: ~/neon-wallet-desktop
 
-  workspace_root: &workspace_root ~/neon-wallet
+  workspace_root: &workspace_root ~/neon-wallet-desktop
 
   attach_workspace: &attach_workspace
     attach_workspace:
