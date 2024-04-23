@@ -151,7 +151,7 @@ export const AddWatch = () => {
 
             <div className="flex justify-center w-full">
               <Button
-                className="mt-8 absolute bottom-10"
+                className="mt-8 absolute bottom-10 w-full px-5"
                 type="submit"
                 label={t('buttonAdd')}
                 leftIcon={<MdAdd />}
