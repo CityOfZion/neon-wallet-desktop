@@ -42,16 +42,19 @@ export const NetworkSelection = () => {
       <div className="flex flex-col h-full justify-between">
         <div>
           <div className="mb-5">{t('selectNetwork')}</div>
-          <RadioGroup.Root value={selectedNetwork} onValueChange={onSelectRadioItem}>
+          <RadioGroup.Group value={selectedNetwork} onValueChange={onSelectRadioItem}>
             {AVAILABLE_NETWORKS.map(network => (
-              <RadioGroup.Item
-                label={commonT(network)}
-                value={network}
-                key={network}
-                leftIcon={<div className={`w-[0.4rem] h-[0.4rem] rounded mx-4 ${COLOR_BY_NETWORK[network]}`} />}
-              />
+              <RadioGroup.Item key={network} value={network}>
+                <div className="flex items-center gap-4">
+                  <div
+                    className={`w-[0.4rem] h-[0.4rem] min-w-[0.4rem] min-h-[0.4rem] rounded-full ${COLOR_BY_NETWORK[network]}`}
+                  />
+                  <label>{commonT(network)}</label>
+                </div>
+                <RadioGroup.Indicator />
+              </RadioGroup.Item>
             ))}
-          </RadioGroup.Root>
+          </RadioGroup.Group>
         </div>
 
         <div className="flex flex-col gap-y-8">
