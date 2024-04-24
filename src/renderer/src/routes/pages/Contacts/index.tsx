@@ -7,6 +7,7 @@ import { ContactAddressTable } from '@renderer/components/Contact/ContactAddress
 import { IconButton } from '@renderer/components/IconButton'
 import { Separator } from '@renderer/components/Separator'
 import { Tabs } from '@renderer/components/Tabs'
+import { StringHelper } from '@renderer/helpers/StringHelper'
 import { useContactsSelector } from '@renderer/hooks/useContactSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { MainLayout } from '@renderer/layouts/Main'
@@ -61,7 +62,7 @@ export const ContactsPage = () => {
           <div className="w-full px-2">
             <div className="flex flex-col gap-y-1 mt-2 mb-5 h-[3.25rem]">
               <div className="w-full h-10 flex items-center justify-between px-2">
-                {selectedContact.name}
+                {StringHelper.truncateStringMiddle(selectedContact.name, 70)}
                 <Button
                   leftIcon={<TbPencil className="text-neon" />}
                   label={commonGeneral('edit')}

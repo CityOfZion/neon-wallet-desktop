@@ -8,6 +8,7 @@ import { BlockchainSelect } from '@renderer/components/BlockchainSelect'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
+import { StringHelper } from '@renderer/helpers/StringHelper'
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { EndModalLayout } from '@renderer/layouts/EndModal'
@@ -86,7 +87,7 @@ export const AddAddressModal = () => {
         <div className="flex flex-col gap-y-5">
           <div>
             <div className="text-gray-100 font-bold pb-2">{t('name')}</div>
-            {contactName}
+            {StringHelper.truncateStringMiddle(contactName, 35)}
           </div>
 
           <Separator />
