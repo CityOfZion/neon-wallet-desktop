@@ -23,6 +23,7 @@ type TFormData = {
 
 type TLocationState = {
   contact?: IContactState
+  addresses?: TContactAddress[]
 }
 
 export const PersistContactModal = () => {
@@ -30,12 +31,12 @@ export const PersistContactModal = () => {
   const { t: commonT } = useTranslation('common', { keyPrefix: 'general' })
 
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
-  const { contact } = useModalState<TLocationState>()
+  const { contact, addresses } = useModalState<TLocationState>()
   const dispatch = useAppDispatch()
 
   const { actionData, actionState, handleAct, setData, setError } = useActions<TFormData>({
     name: contact?.name ?? '',
-    addresses: contact?.addresses ?? [],
+    addresses: contact?.addresses ?? addresses ?? [],
   })
 
   const handleAddAddress = (address: TContactAddress) => {

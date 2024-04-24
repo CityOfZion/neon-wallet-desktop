@@ -15,7 +15,6 @@ export type TUseActionsActionState<T> = {
   changed: TUseActionsChanged<T>
   hasActed: boolean
 }
-export type TUseActionsKeysMatching<T, V> = { [K in keyof T]: T[K] extends V ? K : never }[keyof T]
 
 export type TUseImportActionInputType = 'key' | 'mnemonic' | 'encrypted' | 'address'
 

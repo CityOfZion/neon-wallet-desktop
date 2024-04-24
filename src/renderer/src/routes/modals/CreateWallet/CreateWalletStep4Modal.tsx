@@ -1,29 +1,24 @@
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { IWalletState } from '@renderer/@types/store'
+import { IAccountState } from '@renderer/@types/store'
 import { ReactComponent as NeonWalletIcon3D } from '@renderer/assets/images/neon-wallet-icon-3d.svg'
 import { Button } from '@renderer/components/Button'
-import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { CreateWalletModalLayout } from '@renderer/layouts/CreateWalletModalLayout'
 
 type TLocationState = {
-  wallet: IWalletState
+  account: IAccountState
 }
 
 export const CreateWalletStep4Modal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'createWallet.step4' })
-  const { wallet } = useModalState<TLocationState>()
-  const { accounts } = useAccountsSelector()
+  const { account } = useModalState<TLocationState>()
   const { modalNavigate } = useModalNavigate()
   const navigate = useNavigate()
 
   const handleNavigate = () => {
-    const firstAccount = accounts.find(account => account.idWallet === wallet.id)
-    if (firstAccount) {
-      modalNavigate(-4)
-      navigate('/app/wallets', { state: { wallet } })
-    }
+    modalNavigate(-4)
+    navigate(`/app/wallets/${account.address}/overview`)
   }
 
   return (

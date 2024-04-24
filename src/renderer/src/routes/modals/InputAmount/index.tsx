@@ -1,191 +1,175 @@
-import { ChangeEvent, KeyboardEvent, useState } from 'react'
+import { ChangeEvent } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TbArrowBigDown, TbStepOut } from 'react-icons/tb'
-import { TbAlertTriangle } from 'react-icons/tb'
+import { TbStepOut } from 'react-icons/tb'
 import { TokenBalance, UseUniqueBalanceAndExchangeResult } from '@renderer/@types/query'
+import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { Button } from '@renderer/components/Button'
-import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
 import { BalanceHelper } from '@renderer/helpers/BalanceHelper'
-import { FilterHelper } from '@renderer/helpers/FilterHelper'
+import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
+import { StyleHelper } from '@renderer/helpers/StyleHelper'
+import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { EndModalLayout } from '@renderer/layouts/EndModal'
 
-type TTokenState = {
+import { FiatAmountInput } from './FiatAmountInput'
+import { TokenAmountInput } from './TokenAmountInput'
+
+type TState = {
   balanceExchange: UseUniqueBalanceAndExchangeResult
-  selectedToken: TokenBalance
-  onSelectAmount: (amount: number) => void
+  tokenBalance: TokenBalance
+  onSelectAmount: (amount: string) => void
 }
 
-const parseNumberOrZero = (value: string): number => {
-  return parseFloat(value) || 0
+type TActionData = {
+  amount: string
+  fiatAmount: string
+  tokenAmount: string
 }
 
 export const InputAmount = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'inputAmount' })
   const { modalNavigate } = useModalNavigate()
-  const { balanceExchange, selectedToken, onSelectAmount } = useModalState<TTokenState>()
-  const [inputTokenAmount, setInputTokenAmount] = useState<string>('')
-  const [inputUsdAmount, setInputUsdAmount] = useState<string>('')
-  const [selectedAmount, setSelectedAmount] = useState<number>(0)
-  const parsedInputTokenAmount = parseNumberOrZero(inputTokenAmount)
-  const parsedInputUsdAmount = parseNumberOrZero(inputUsdAmount)
-  const fiatEstimated =
-    parsedInputTokenAmount *
-    BalanceHelper.getExchangeRatio(selectedToken.token.hash, selectedToken.blockchain, balanceExchange.exchange.data)
-  const tokenEstimated = parsedInputUsdAmount > 0 ? selectedAmount : 0
-  const balanceAfterTransaction = selectedToken.amountNumber - selectedAmount
+  const { balanceExchange, tokenBalance, onSelectAmount } = useModalState<TState>()
 
-  const handleTokenAmountBlur = (event: ChangeEvent<HTMLInputElement>) => {
-    setInputTokenAmount(event.target.value)
-    setInputUsdAmount('')
-    setSelectedAmount(parseNumberOrZero(event.target.value))
-  }
+  const { actionData, actionState, handleAct, setData, setError } = useActions<TActionData>({
+    amount: '',
+    fiatAmount: '',
+    tokenAmount: '',
+  })
 
-  const handleUsdAmountBlur = (event: ChangeEvent<HTMLInputElement>) => {
-    setInputUsdAmount(event.target.value)
-    setInputTokenAmount('')
-    const usdParsed = parseNumberOrZero(event.target.value)
-    const tokenAmount =
-      usdParsed /
-      BalanceHelper.getExchangeRatio(selectedToken.token.hash, selectedToken.blockchain, balanceExchange.exchange.data)
-    setSelectedAmount(tokenAmount)
-  }
+  const exchangeRatio = BalanceHelper.getExchangeRatio(
+    tokenBalance.token.hash,
+    tokenBalance.blockchain,
+    balanceExchange.exchange.data
+  )
+  const balanceRest = (tokenBalance.amountNumber - NumberHelper.number(actionData.amount)).toFixed(
+    tokenBalance.token.decimals
+  )
 
-  const handleChangeTokenAmount = (event: ChangeEvent<HTMLInputElement>) => {
-    setInputTokenAmount(event.target.value)
-  }
+  const handleTokenAmountChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = NumberHelper.formatString(event.target.value, tokenBalance.token.decimals)
 
-  const handleUsdBlur = (event: ChangeEvent<HTMLInputElement>) => {
-    setInputUsdAmount(event.target.value)
-  }
+    const valueNumber = NumberHelper.number(value)
 
-  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      event.currentTarget.blur()
+    setData({
+      amount: value,
+      tokenAmount: value,
+      fiatAmount: '',
+    })
+
+    if (valueNumber <= 0 || tokenBalance.amountNumber < valueNumber) {
+      setError('tokenAmount', t('insufficientBalanceAvailable'))
     }
   }
 
-  const selectAmount = () => {
-    if (!selectedAmount) {
-      return
+  const handleFiatAmountChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value
+
+    const valueNumber = NumberHelper.number(value)
+
+    const tokenAmount = (valueNumber / exchangeRatio).toFixed(tokenBalance.token.decimals)
+    const tokenAmountNumber = NumberHelper.number(tokenAmount)
+
+    setData({
+      amount: tokenAmount,
+      tokenAmount: '',
+      fiatAmount: value,
+    })
+
+    if (tokenBalance.amountNumber < tokenAmountNumber) {
+      setError('fiatAmount', t('insufficientBalanceAvailable'))
     }
-    onSelectAmount(selectedAmount)
+  }
+
+  const handleSubmit = (data: TActionData) => {
+    onSelectAmount(data.amount)
     modalNavigate(-1)
   }
 
-  const inputMaxAmount = () => {
-    setInputTokenAmount(selectedToken.amount)
-    setInputUsdAmount('')
-    setSelectedAmount(selectedToken.amountNumber)
+  const handleMaxClick = () => {
+    setData({
+      amount: tokenBalance.amount,
+      tokenAmount: tokenBalance.amount,
+      fiatAmount: '',
+    })
   }
 
   return (
     <EndModalLayout heading={t('title')} headingIcon={<TbStepOut />}>
-      <section className="w-full flex flex-col h-full items-center">
-        <div className="flex w-full items-center justify-between bg-gray-900/50 rounded-full px-3 h-8">
-          <div className="flex">
-            <div className="rounded-lg bg-gray-300 w-4.5 h-4.5 flex justify-center items-center">
-              <BlockchainIcon blockchain={selectedToken.blockchain} type="white" className="w-2.5 h-2.5" />
+      <form
+        className="w-full flex flex-col h-full items-center text-sm flex-grow min-w-0"
+        onSubmit={handleAct(handleSubmit)}
+      >
+        <div className="flex w-full items-center justify-between bg-gray-900/50 rounded-full px-3 py-1.5">
+          <div className="flex gap-2.5 items-center">
+            <div className="rounded-full bg-gray-300 w-6 h-6 p-1.5 flex justify-center items-center">
+              <BlockchainIcon blockchain={tokenBalance.blockchain} type="white" className="w-full h-full" />
             </div>
-            <span className="pl-2" title={selectedToken.token.symbol}>
-              {StringHelper.truncateString(selectedToken.token.symbol, 4)}
+
+            <span className="uppercase" title={tokenBalance.token.symbol}>
+              {StringHelper.truncateString(tokenBalance.token.symbol, 4)}
             </span>
           </div>
-          <span className="text-gray-100">{selectedToken.amount}</span>
+
+          <span className="text-gray-100">{tokenBalance.amount}</span>
         </div>
-        <span className="w-full text-left text-gray-100 pt-5">{t('enterTokenAmount')}</span>
-        <div className="w-full flex pt-3">
-          <Input
-            onBlur={handleTokenAmountBlur}
-            onChange={handleChangeTokenAmount}
-            onKeyDown={handleKeyDown}
-            value={inputTokenAmount}
-            placeholder={t('inputPlaceholder')}
-            compacted
-            className="w-full mx-auto rounded-e-none"
-            clearable={true}
-          />
-          <Button
-            clickableProps={{
-              className: 'rounded-l-none',
-            }}
-            onClick={inputMaxAmount}
-            colorSchema="gray"
-            flat={true}
-            type="submit"
-            label={t('max')}
-          />
-        </div>
-        <div className="w-full flex justify-between mt-4 italic">
-          <span className="text-gray-300">{t('fiatValue')}</span>
-          <span className="text-gray-100">{FilterHelper.currency(fiatEstimated)}</span>
-        </div>
-        <div className="w-full relative pt-10">
-          <Separator />
-          <span
-            className="
-                  absolute top-1/2 left-1/2 rounded-full w-11 h-11
-                  transform -translate-x-1/2 -translate-y-1/2 mt-[1.2rem]
-                  items-center justify-center flex font-bold
-                  border-[0.5rem] border-gray-800
-                  bg-gray-100 text-gray-800"
-          >
+
+        <TokenAmountInput
+          onChange={handleTokenAmountChange}
+          value={actionData.tokenAmount}
+          onMaxClick={handleMaxClick}
+          exchangeRatio={exchangeRatio}
+          error={!!actionState.errors.tokenAmount}
+        />
+
+        <div
+          className={StyleHelper.mergeStyles('w-full relative my-6 flex justify-center', {
+            'opacity-25': exchangeRatio === 0,
+          })}
+        >
+          <Separator className="absolute top-1/2" />
+
+          <span className="rounded-full relative text-xs p-1.5 border-[0.5rem] border-gray-800 bg-white text-gray-800 font-bold">
             {t('or')}
           </span>
         </div>
-        <div className="w-full flex justify-between mt-10">
-          <span className="text-gray-100">{t('enterUsdAmount')}</span>
-          <div className="flex items-center text-neon">
-            <TbArrowBigDown className="w-5 h-5" />
-            <span className="leading-[0.2rem]">{t('roundDown')}</span>
+
+        <FiatAmountInput
+          onChange={handleFiatAmountChange}
+          value={actionData.fiatAmount}
+          exchangeRatio={exchangeRatio}
+          tokenBalance={tokenBalance}
+          error={!!actionState.errors.fiatAmount}
+        />
+
+        <Separator className="my-9" />
+
+        <div className="flex justify-between text-xs italic min-w-0 gap-4 w-full">
+          <span className="block text-gray-300 whitespace-nowrap">{t('balanceAfterTransaction')}</span>
+
+          <div className="text-gray-100 flex gap-0.5 min-w-0">
+            <span className="block truncate">{balanceRest}</span>
+            <span className="block">{StringHelper.truncateString(tokenBalance.token.symbol, 4)}</span>
           </div>
         </div>
-        <div className="w-full mt-3">
-          <Input
-            onBlur={handleUsdAmountBlur}
-            onChange={handleUsdBlur}
-            onKeyDown={handleKeyDown}
-            value={inputUsdAmount}
-            placeholder={t('inputPlaceholder')}
-            compacted
-            className="w-full"
-            clearable={true}
+
+        {(actionState.errors.tokenAmount || actionState.errors.fiatAmount) && (
+          <AlertErrorBanner
+            message={actionState.errors.tokenAmount! || actionState.errors.fiatAmount!}
+            className="w-full mt-3.5"
           />
-        </div>
-        <div className="w-full flex justify-between mt-4 italic">
-          <span className="text-gray-300">{t('tokenValue')}</span>
-          <span className="text-gray-100">
-            <span className="mr-1">{tokenEstimated}</span>
-            {StringHelper.truncateString(selectedToken.token.symbol, 4)}
-          </span>
-        </div>
-        <div className="w-full relative pt-8">
-          <Separator />
-        </div>
-        <div className="w-full flex justify-between mt-8">
-          <span className="text-gray-300">{t('balanceAfterTransaction')}</span>
-          <div className="text-gray-100 italic">
-            <span>{balanceAfterTransaction}</span>
-            <span className="ml-1">{StringHelper.truncateString(selectedToken.token.symbol, 4)}</span>
-          </div>
-        </div>
-        {selectedToken.amountNumber < parsedInputTokenAmount && (
-          <div className="w-full h-11 rounded flex items-center justify-center bg-magenta-700 mt-5">
-            <TbAlertTriangle className="text-magenta w-6 h-6" />
-            <span className="text-sm pl-4">{t('insufficientBalanceAvailable')}</span>
-          </div>
         )}
+
         <Button
-          className="w-[16rem] mt-8"
+          className="w-full px-5 mt-auto"
           type="submit"
           label={t('selectAmountSend')}
-          onClick={selectAmount}
-          disabled={selectedAmount === 0}
+          disabled={!actionState.isValid}
         />
-      </section>
+      </form>
     </EndModalLayout>
   )
 }

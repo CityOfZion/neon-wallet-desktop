@@ -1,27 +1,30 @@
-import { Fragment, useCallback, useEffect, useState } from 'react'
+import { useCallback, useLayoutEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TbArrowDown, TbEye, TbStepOut } from 'react-icons/tb'
+import { TbArrowDown, TbStepOut } from 'react-icons/tb'
 import { useLocation } from 'react-router-dom'
-import { hasLedger, hasNameService, isCalculableFee } from '@cityofzion/blockchain-service'
+import { Account, BlockchainService, hasLedger, isCalculableFee } from '@cityofzion/blockchain-service'
 import { TBlockchainServiceKey } from '@renderer/@types/blockchain'
 import { TokenBalance } from '@renderer/@types/query'
 import { IAccountState } from '@renderer/@types/store'
+import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'
-import { DoraHelper } from '@renderer/helpers/DoraHelper'
+import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
+import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+import { useNameService } from '@renderer/hooks/useNameService'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
-import { useEncryptedPasswordSelector, useNetworkTypeSelector } from '@renderer/hooks/useSettingsSelector'
+import { useEncryptedPasswordSelector } from '@renderer/hooks/useSettingsSelector'
 import { ContentLayout } from '@renderer/layouts/ContentLayout'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { accountReducerActions } from '@renderer/store/reducers/AccountReducer'
-import debounce from 'lodash/debounce'
 
 import { Recipient } from './Recipient'
 import { SelectAccount } from './SelectAccount'
 import { SelectToken } from './SelectToken'
 import { SendAmount } from './SendAmount'
+import { SuccessModalContent } from './SuccessModalContent'
 import { TotalFee } from './TotalFee'
 
 enum SendPageStep {
@@ -29,159 +32,148 @@ enum SendPageStep {
   SelectToken = 2,
   SelectAmount = 3,
   SelectContact = 4,
-  Send = 5,
 }
+
+type TActionsData = {
+  selectedAccount?: IAccountState
+  selectedToken?: TokenBalance
+  selectedAmount?: string
+  selectedRecipient?: string
+  fee?: string
+  currentStep: SendPageStep
+}
+
+export type TSendServiceResponse =
+  | {
+      serviceAccount: Account
+      selectedAccount: IAccountState
+      selectedToken: TokenBalance
+      selectedAmount: string
+      selectedRecipientAddress: string
+      service: BlockchainService<TBlockchainServiceKey>
+    }
+  | undefined
 
 export const SendPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'send' })
-  const { t: commonT } = useTranslation('common')
   const { encryptedPasswordRef } = useEncryptedPasswordSelector()
+  const { t: commonT } = useTranslation('common')
   const { modalNavigate } = useModalNavigate()
-  const { networkType } = useNetworkTypeSelector()
   const { state } = useLocation()
   const dispatch = useAppDispatch()
 
-  const [selectedAccount, setSelectedAccount] = useState<IAccountState>(state?.account)
-  const [selectedToken, setSelectedToken] = useState<TokenBalance | null>()
-  const [selectedAmount, setSelectedAmount] = useState<number>(0)
-  const [selectedRecipient, setSelectedRecipient] = useState<string>('')
-  const [currentStep, setCurrentStep] = useState<number>(SendPageStep.SelectAccount)
-  const [totalFee, setTotalFee] = useState<string>('0.00')
-  const [validating, setValidating] = useState(false)
-  const [nsAddress, setNsAddress] = useState<string | undefined>()
-  const [isAddressValid, setIsAddressValid] = useState<boolean | undefined>()
+  const {
+    isNameService,
+    validatedAddress,
+    isValidAddressOrDomainAddress,
+    isValidatingAddressOrDomainAddress,
+    validateAddressOrNS,
+  } = useNameService()
 
-  const handleSelectAccount = (account: IAccountState) => {
-    setSelectedAccount(account)
-    setSelectedToken(null)
-    setSelectedAmount(0)
-    setSelectedRecipient('')
-    setCurrentStep(SendPageStep.SelectToken)
-  }
+  const { actionData, actionState, setData, setError, handleAct, reset } = useActions<TActionsData>({
+    currentStep: SendPageStep.SelectAccount,
+  })
 
-  const handleSelectToken = (token: TokenBalance) => {
-    setSelectedToken(token)
-    setSelectedAmount(0)
-    setSelectedRecipient('')
-    setCurrentStep(SendPageStep.SelectAmount)
-  }
+  const service = useMemo(() => {
+    if (!actionData.selectedAccount) return
+    return bsAggregator.blockchainServicesByName[actionData.selectedAccount.blockchain]
+  }, [actionData.selectedAccount])
 
-  const handleSelectAmount = (amount: number) => {
-    setSelectedAmount(amount)
-    setSelectedRecipient('')
-    setCurrentStep(SendPageStep.SelectContact)
-  }
-
-  const handleSelectRecipientAddress = (recipientAddress: string) => {
-    setIsAddressValid(undefined)
-    setNsAddress(undefined)
-
-    validateAddressOrNSS(recipientAddress, selectedAccount.blockchain)
-    setSelectedRecipient(recipientAddress)
-
-    if (recipientAddress === '') {
-      setCurrentStep(SendPageStep.SelectContact)
-    } else {
-      setCurrentStep(SendPageStep.Send)
-    }
-  }
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const validateAddressOrNSS = useCallback(
-    debounce(async (recipientAddress: string, blockchain?: TBlockchainServiceKey) => {
-      if (!blockchain) return
-
-      setValidating(true)
-      let isValid = false
-
-      try {
-        const service = bsAggregator.blockchainServicesByName[blockchain]
-        isValid = service.validateAddress(recipientAddress)
-
-        if (!isValid && hasNameService(service) && service.validateNameServiceDomainFormat(recipientAddress)) {
-          const nnsAddress = await service.resolveNameServiceDomain(recipientAddress)
-
-          if (nnsAddress) {
-            isValid = true
-            setNsAddress(nnsAddress)
-            setIsAddressValid(true)
-          } else {
-            setIsAddressValid(false)
-          }
-        } else {
-          setIsAddressValid(isValid)
-        }
-      } catch {
-        /* empty */
-      } finally {
-        setValidating(false)
-      }
-    }, 1000),
-    []
-  )
-
-  const getSendService = useCallback(async () => {
-    if (!selectedAccount || !selectedToken || !selectedAmount || !selectedRecipient || !selectedAccount.encryptedKey)
+  const getSendFields = useCallback(async (): Promise<TSendServiceResponse> => {
+    if (
+      !actionData.selectedAccount ||
+      !actionData.selectedToken ||
+      !actionData.selectedAmount ||
+      !validatedAddress ||
+      !actionData.selectedAccount.encryptedKey ||
+      !service
+    )
       return
 
-    const key = await window.api.decryptBasedEncryptedSecret(selectedAccount.encryptedKey, encryptedPasswordRef.current)
-    if (!key) throw new Error(t('error.decryptKey'))
+    const key = await window.api.decryptBasedEncryptedSecret(
+      actionData.selectedAccount.encryptedKey,
+      encryptedPasswordRef.current
+    )
 
-    const service = bsAggregator.blockchainServicesByName[selectedAccount.blockchain]
     const serviceAccount =
-      selectedAccount.type === 'ledger' && hasLedger(service)
+      actionData.selectedAccount.type === 'ledger' && hasLedger(service)
         ? service.generateAccountFromPublicKey(key)
         : service.generateAccountFromKey(key)
 
     return {
       serviceAccount,
-      selectedAccount,
+      selectedAccount: actionData.selectedAccount,
+      selectedToken: actionData.selectedToken,
+      selectedAmount: actionData.selectedAmount,
+      selectedRecipientAddress: validatedAddress,
       service: service,
-      token: selectedToken,
     }
-  }, [encryptedPasswordRef, selectedAccount, selectedAmount, selectedRecipient, selectedToken, t])
+  }, [
+    actionData.selectedAccount,
+    actionData.selectedToken,
+    actionData.selectedAmount,
+    encryptedPasswordRef,
+    validatedAddress,
+    service,
+  ])
 
-  const populateTotalFee = useCallback(async () => {
-    if (validating || !isAddressValid) return
-
-    const sendService = await getSendService()
-    if (!sendService || !isCalculableFee(sendService.service)) {
-      return
-    }
-
-    const fee = await sendService.service.calculateTransferFee({
-      senderAccount: sendService.serviceAccount,
-      intent: {
-        receiverAddress: nsAddress || selectedRecipient,
-        tokenHash: sendService.token.token.hash,
-        amount: selectedAmount.toString(),
-        tokenDecimals: sendService.token.token.decimals,
-      },
+  const handleSelectAccount = (account: IAccountState) => {
+    setData({
+      selectedAccount: account,
+      currentStep: SendPageStep.SelectToken,
+      selectedToken: undefined,
+      selectedAmount: undefined,
     })
-    setTotalFee(fee)
-  }, [getSendService, selectedAmount, selectedRecipient, nsAddress, validating, isAddressValid])
 
-  const showTransactionStatus = (hash: string) => {
-    window.open(DoraHelper.buildTransactionUrl(hash, networkType), '_blank')
+    handleSelectRecipientAddress(undefined)
   }
 
-  const handleSendToken = async () => {
-    const sendService = await getSendService()
-    if (!sendService) {
-      return
-    }
-    if (!isCalculableFee(sendService.service)) {
-      return
-    }
+  const handleSelectToken = (token: TokenBalance) => {
+    setData({
+      selectedToken: token,
+      selectedAmount: undefined,
+      currentStep: SendPageStep.SelectAmount,
+    })
+  }
+
+  const handleSelectAmount = (amount: string) => {
+    setData({
+      selectedAmount: amount,
+      currentStep: SendPageStep.SelectContact,
+    })
+  }
+
+  const handleSelectRecipientAddress = async (recipientAddress?: string) => {
+    setData({
+      selectedRecipient: recipientAddress,
+    })
+
+    validateAddressOrNS(recipientAddress, actionData.selectedAccount?.blockchain)
+  }
+
+  const handleSelectFee = useCallback(
+    (fee: string) => {
+      setData({
+        fee,
+      })
+    },
+    [setData]
+  )
+
+  const handleSubmit = async () => {
+    const fields = await getSendFields()
+    if (!fields) return
+
     try {
-      const isLedger = sendService.selectedAccount.type === 'ledger'
-      const sendPromise = sendService.service.transfer({
-        senderAccount: sendService.serviceAccount,
+      const isLedger = fields.selectedAccount.type === 'ledger'
+
+      const sendPromise = fields.service.transfer({
+        senderAccount: fields.serviceAccount,
         intent: {
-          receiverAddress: nsAddress || selectedRecipient,
-          tokenHash: sendService.token.token.hash,
-          amount: selectedAmount.toString(),
-          tokenDecimals: sendService.token.token.decimals,
+          receiverAddress: fields.selectedRecipientAddress,
+          tokenHash: fields.selectedToken.token.hash,
+          amount: fields.selectedAmount,
+          tokenDecimals: fields.selectedToken.token.decimals,
         },
         isLedger,
       })
@@ -196,67 +188,66 @@ export const SendPage = () => {
 
       dispatch(
         accountReducerActions.addPendingTransaction({
-          account: selectedAccount,
-          amount: selectedAmount.toString(),
-          token: sendService.token.token,
-          to: nsAddress || selectedRecipient,
-          from: selectedAccount.address,
+          account: fields.selectedAccount,
+          amount: fields.selectedAmount,
+          token: fields.selectedToken.token,
+          to: fields.selectedRecipientAddress,
+          from: fields.selectedAccount.address,
           hash: transactionHash,
           time: Date.now() / 1000,
-          contractHash: sendService.token.token.hash,
+          contractHash: fields.selectedToken.token.hash,
           type: 'token',
-          fromAccount: selectedAccount,
+          fromAccount: fields.selectedAccount,
           isPending: true,
         })
       )
-      dispatch(
-        accountReducerActions.watchPendingTransaction({ transactionHash, blockchainService: sendService.service })
-      )
-      showSuccessModal(transactionHash)
-    } catch (error) {
-      showErrorModal()
+      dispatch(accountReducerActions.watchPendingTransaction({ transactionHash, blockchainService: fields.service }))
+
+      modalNavigate('success', {
+        state: {
+          heading: t('title'),
+          headingIcon: <TbStepOut />,
+          subtitle: t('sendSuccess.title'),
+          content: (
+            <SuccessModalContent
+              selectedAccount={fields.selectedAccount}
+              selectedRecipientAddress={fields.selectedRecipientAddress}
+            />
+          ),
+        },
+      })
+    } catch {
+      modalNavigate('error', {
+        state: {
+          heading: t('title'),
+          headingIcon: <TbStepOut />,
+          subtitle: t('sendFail.title'),
+          description: t('sendFail.subtitle'),
+        },
+      })
+    } finally {
+      reset()
     }
   }
 
-  const showSuccessModal = (transactionHash: string) => {
-    modalNavigate('success', {
-      state: {
-        heading: t('title'),
-        headingIcon: <TbStepOut />,
-        subtitle: t('sendSuccess.title'),
-        content: (
-          <Fragment>
-            <div className="flex w-full justify-center mt-16">
-              <Button
-                className="w-[11rem]"
-                type="submit"
-                label={t('viewStatus')}
-                leftIcon={<TbEye />}
-                onClick={() => {
-                  showTransactionStatus(transactionHash)
-                }}
-              />
-            </div>
-          </Fragment>
-        ),
-      },
-    })
-  }
+  useLayoutEffect(() => {
+    if (!actionData.selectedToken || !actionData.selectedAmount || !actionData.fee) return
 
-  const showErrorModal = () => {
-    modalNavigate('error', {
-      state: {
-        heading: t('title'),
-        headingIcon: <TbStepOut />,
-        subtitle: t('sendFail.title'),
-        description: t('sendFail.subtitle'),
-      },
-    })
-  }
+    const amountNumber = NumberHelper.number(actionData.selectedAmount)
+    const balanceNumber = actionData.selectedToken.amountNumber
+    const feeNumber = NumberHelper.number(actionData.fee)
 
-  useEffect(() => {
-    populateTotalFee()
-  }, [populateTotalFee])
+    if (amountNumber + feeNumber > balanceNumber) {
+      setError('fee', t('error.insufficientFunds'))
+    }
+  }, [actionData.fee, actionData.selectedAmount, actionData.selectedToken, setError, t])
+
+  useLayoutEffect(() => {
+    if (state?.account) {
+      handleSelectAccount(state.account)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state])
 
   return (
     <ContentLayout title={t('title')} titleIcon={<TbStepOut />}>
@@ -265,12 +256,12 @@ export const SendPage = () => {
 
         <Separator />
 
-        <div className="max-w-[32rem] w-full flex flex-col items-center py-10">
+        <div className="max-w-[32rem] w-full flex-grow flex flex-col items-center py-10">
           <div className="bg-gray-700/60 flex flex-col rounded px-3 w-full">
             <SelectAccount
-              selectedAccount={selectedAccount}
+              selectedAccount={actionData.selectedAccount}
               onSelectAccount={handleSelectAccount}
-              active={currentStep === SendPageStep.SelectAccount}
+              active={actionData.currentStep === SendPageStep.SelectAccount}
               title={t('sourceAccount')}
               modalTitle={t('selectAccountModal.title')}
               buttonLabel={t('selectAccountModal.selectSourceAccount')}
@@ -280,20 +271,20 @@ export const SendPage = () => {
             <Separator />
 
             <SelectToken
-              selectedAccount={selectedAccount}
-              selectedToken={selectedToken}
+              selectedAccount={actionData.selectedAccount}
+              selectedToken={actionData.selectedToken}
               onSelectToken={handleSelectToken}
-              active={currentStep === SendPageStep.SelectToken}
+              active={actionData.currentStep === SendPageStep.SelectToken}
             />
 
             <Separator />
 
             <SendAmount
-              selectedAccount={selectedAccount}
-              selectedToken={selectedToken}
-              selectedAmount={selectedAmount}
+              selectedAccount={actionData.selectedAccount}
+              selectedToken={actionData.selectedToken}
+              selectedAmount={actionData.selectedAmount}
               onSelectAmount={handleSelectAmount}
-              active={currentStep === SendPageStep.SelectAmount}
+              active={actionData.currentStep === SendPageStep.SelectAmount}
             />
           </div>
 
@@ -301,29 +292,45 @@ export const SendPage = () => {
             <TbArrowDown className="w-5 h-5 p-1 bg-gray-600 rounded-full border-8 border-gray-800 box-content absolute top-2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
           </div>
 
-          <div className="bg-gray-700/60 flex flex-col rounded px-3 w-full mt-2">
-            <Recipient
-              selectedToken={selectedToken}
-              selectedAddress={selectedRecipient}
-              active={currentStep === SendPageStep.SelectContact || currentStep === SendPageStep.Send}
-              onSelectRecipient={handleSelectRecipientAddress}
-              validating={validating}
-              nsAddress={nsAddress}
-              isAddressValid={isAddressValid}
-            />
-          </div>
+          <Recipient
+            selectedToken={actionData.selectedToken}
+            selectedAmount={actionData.selectedAmount}
+            selectedRecipient={actionData.selectedRecipient}
+            active={actionData.currentStep === SendPageStep.SelectContact}
+            onSelectRecipient={handleSelectRecipientAddress}
+            loading={isValidatingAddressOrDomainAddress}
+            selectedRecipientDomainAddress={isNameService ? validatedAddress : undefined}
+            error={isValidAddressOrDomainAddress === false}
+          />
 
-          <div className="bg-gray-700/60 flex flex-col rounded px-3 w-full mt-2">
-            <TotalFee totalFee={totalFee} />
-          </div>
+          {(!service || (service && isCalculableFee(service))) && (
+            <TotalFee getSendFields={getSendFields} onFeeChange={handleSelectFee} fee={actionData.fee} />
+          )}
+
+          {isValidAddressOrDomainAddress === false ? (
+            <AlertErrorBanner className="w-full mt-2" message={t('error.invalidAddress')} />
+          ) : (
+            actionState.errors.fee && <AlertErrorBanner className="w-full mt-2" message={actionState.errors.fee} />
+          )}
 
           <Button
-            className="mt-10 w-[16rem]"
+            className="mt-auto max-w-[16rem] w-full"
             iconsOnEdge={false}
-            onClick={handleSendToken}
+            onClick={handleAct(handleSubmit)}
             label={t('sendNow')}
+            loading={actionState.isActing}
             leftIcon={<TbStepOut />}
-            disabled={currentStep === SendPageStep.Send && isAddressValid && !validating ? false : true}
+            disabled={
+              !actionData.selectedAccount ||
+              !actionData.selectedToken ||
+              !actionData.selectedAmount ||
+              !validatedAddress ||
+              !isValidAddressOrDomainAddress ||
+              isValidatingAddressOrDomainAddress ||
+              !service ||
+              (isCalculableFee(service) && !actionData.fee) ||
+              !actionState.isValid
+            }
           />
         </div>
       </section>

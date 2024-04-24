@@ -1,11 +1,5 @@
-import { ChangeEvent, FormEvent, MouseEvent, useCallback, useMemo, useRef, useState } from 'react'
-import {
-  TUseActionsActionState,
-  TUseActionsChanged,
-  TUseActionsData,
-  TUseActionsErrors,
-  TUseActionsKeysMatching,
-} from '@renderer/@types/hooks'
+import { FormEvent, MouseEvent, useCallback, useMemo, useRef, useState } from 'react'
+import { TUseActionsActionState, TUseActionsChanged, TUseActionsData, TUseActionsErrors } from '@renderer/@types/hooks'
 import { cloneDeep } from 'lodash'
 
 export const useActions = <T extends TUseActionsData>(initialData: T) => {
@@ -106,10 +100,16 @@ export const useActions = <T extends TUseActionsData>(initialData: T) => {
   )
 
   const setDataFromEventWrapper = useCallback(
-    (key: TUseActionsKeysMatching<T, string>) => {
-      return (event: ChangeEvent) => {
-        if (typeof (event.target as any).value !== 'string') throw new Error('Invalid event')
-        setData({ [key]: (event.target as any).value } as Partial<T>)
+    (key: keyof T) => {
+      return (event: any) => {
+        let value: string
+        if (typeof event === 'object' && event.target.value) {
+          value = event.target.value
+        } else {
+          value = event
+        }
+
+        setData({ [key]: value } as Partial<T>)
       }
     },
     [setData]

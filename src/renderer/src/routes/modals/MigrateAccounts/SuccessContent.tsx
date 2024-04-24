@@ -1,23 +1,22 @@
 import { useTranslation } from 'react-i18next'
 import { MdCheck, MdOutlineRemoveRedEye } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
-import { IAccountState, IWalletState } from '@renderer/@types/store'
+import { IAccountState } from '@renderer/@types/store'
 import { Button } from '@renderer/components/Button'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 
 type TProps = {
-  wallet: IWalletState
   accounts: IAccountState[]
 }
 
-export const SuccessContent = ({ wallet, accounts }: TProps) => {
+export const SuccessContent = ({ accounts }: TProps) => {
   const { t } = useTranslation('modals', { keyPrefix: 'migrateWallets.step4.success' })
   const { modalNavigate } = useModalNavigate()
   const navigate = useNavigate()
 
   const handleView = () => {
     modalNavigate(-1)
-    navigate('/app/wallets', { state: { wallet } })
+    navigate(`/app/wallets/${accounts[0].address}/overview`)
   }
 
   return (

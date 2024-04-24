@@ -63,10 +63,10 @@ export const ImportKeyAccountsSelectionModal = () => {
       type: 'legacy',
     }))
 
-    await blockchainActions.importAccounts({ wallet, accounts: accountsToImport })
+    const accounts = await blockchainActions.importAccounts({ wallet, accounts: accountsToImport })
 
     modalNavigate(-2)
-    navigate('/app/wallets', { state: { wallet } })
+    navigate(`/app/wallets/${accounts[0].address}/overview`)
   }
 
   const { isMounting } = useMount(async () => {

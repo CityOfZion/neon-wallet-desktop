@@ -736,7 +736,6 @@ interface Resources {
       addressInputHint: 'Enter recipient address...'
       totalFee: 'Total fee'
       sendNow: 'Send Now'
-      invalidAddress: 'Invalid address'
       selectAccountModal: {
         title: 'Select a source account'
         selectSourceAccount: 'Select source account'
@@ -752,6 +751,8 @@ interface Resources {
       }
       error: {
         decryptKey: 'Error to decrypt key'
+        invalidAddress: 'Invalid address'
+        insufficientFunds: 'Insufficient funds'
       }
       transactionCompleted: 'Transaction completed'
       transactionFailed: 'Transaction failed'
