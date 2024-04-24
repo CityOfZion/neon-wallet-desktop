@@ -644,8 +644,6 @@ interface Resources {
       description: 'Safely store, view and manage all of your digital assets and multiple wallets in one place. Take advantage of the additional security options on your device to keep your assets safe'
       downloadForIOS: 'Download for iOS'
       downloadForAndroid: 'Download for Android'
-      iosLink: 'https://apps.apple.com/br/app/neon-wallet-mobile/id1530111452'
-      androidLink: 'https://play.google.com/store/apps/details?id=io.cityofzion.neon&pcampaignid=web_share'
       buttonContinueLabel: 'Continue to your wallet'
     }
   }
