@@ -10,6 +10,7 @@ import { ModalLayout, TModalProps } from './Modal'
 type TProps = {
   contentClassName?: string
   withBackButton?: boolean
+  size?: 'sm' | 'lg'
 } & ComponentProps<'div'> &
   TModalProps
 
@@ -20,6 +21,7 @@ export const CenterModalLayout = ({
   closeOnEsc = true,
   closeOnOutsideClick = true,
   onClose,
+  size = 'sm',
 }: TProps) => {
   const { modalNavigate } = useModalNavigate()
 
@@ -50,7 +52,12 @@ export const CenterModalLayout = ({
           opacity: 0,
         }}
       >
-        <div className="bg-gray-800 rounded-md w-[32rem] h-[38.75rem] px-4 flex flex-col">
+        <div
+          className={StyleHelper.mergeStyles('bg-gray-800 rounded-md h-[38.75rem] px-4 flex flex-col', {
+            'w-[32rem]': size === 'sm',
+            'w-[53rem]': size === 'lg',
+          })}
+        >
           <header
             className={StyleHelper.mergeStyles('flex items-center pt-5', {
               'justify-between': withBackButton,

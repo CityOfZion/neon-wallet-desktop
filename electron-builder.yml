@@ -54,3 +54,5 @@ publish:
   provider: github
   owner: CityOfZion
   repo: neon-wallet-desktop
+  private: true
+  token: ${env.GH_TOKEN}

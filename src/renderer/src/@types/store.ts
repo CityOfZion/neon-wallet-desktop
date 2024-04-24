@@ -33,6 +33,7 @@ export interface ISettingsState {
   securityType: TSecurityType
   networkType: TNetworkType
   currency: TCurrency
+  hasOverTheAirUpdates: boolean
 }
 
 export type TContactAddress = { address: string; blockchain: TBlockchainServiceKey }

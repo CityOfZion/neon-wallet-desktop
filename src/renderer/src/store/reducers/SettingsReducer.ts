@@ -11,6 +11,7 @@ const initialState: ISettingsState = {
   isFirstTime: true,
   networkType: 'mainnet',
   currency: availableCurrencies[0],
+  hasOverTheAirUpdates: false,
 }
 
 const setEncryptedPassword: CaseReducer<ISettingsState, PayloadAction<string | undefined>> = (state, action) => {
@@ -33,6 +34,10 @@ const setCurrency: CaseReducer<ISettingsState, PayloadAction<TCurrency>> = (stat
   state.currency = action.payload
 }
 
+const setHasOverTheAirUpdates: CaseReducer<ISettingsState, PayloadAction<boolean>> = (state, action) => {
+  state.hasOverTheAirUpdates = action.payload
+}
+
 const SettingsReducer = createSlice({
   name: settingsReducerName,
   initialState,
@@ -42,6 +47,7 @@ const SettingsReducer = createSlice({
     setEncryptedPassword,
     setNetworkType,
     setCurrency,
+    setHasOverTheAirUpdates,
   },
 })
 
