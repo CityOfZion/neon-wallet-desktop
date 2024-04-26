@@ -62,13 +62,13 @@ export const ImportMnemonicAccountsSelectionModal = () => {
       type: 'standard',
     }))
 
-    await blockchainActions.importAccounts({
+    const accounts = await blockchainActions.importAccounts({
       accounts: accountsToImport,
       wallet,
     })
 
     modalNavigate(-2)
-    navigate('/app/wallets', { state: { wallet } })
+    navigate(`/app/wallets/${accounts[0].address}/overview`)
   }
 
   const { isMounting } = useMount(async () => {

@@ -43,13 +43,13 @@ export const CreateWalletStep3Modal = () => {
       mnemonic: words.join(' '),
     })
 
-    await createAccount({
+    const account = await createAccount({
       wallet,
       blockchain: 'neo3',
       name: commonT('account.defaultName', { accountNumber: 1 }),
     })
 
-    modalNavigate('create-wallet-step-4', { state: { wallet } })
+    modalNavigate('create-wallet-step-4', { state: { account } })
   }
 
   return (

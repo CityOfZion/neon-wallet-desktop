@@ -1,8 +1,8 @@
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdAdd, MdOutlineContentCopy } from 'react-icons/md'
 import { TbFileImport, TbPencil } from 'react-icons/tb'
-import { Outlet, useLocation, useNavigate } from 'react-router-dom'
+import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import { hasNft } from '@cityofzion/blockchain-service'
 import { IAccountState, IWalletState } from '@renderer/@types/store'
 import { Button } from '@renderer/components/Button'
@@ -22,13 +22,17 @@ import { bsAggregator } from '@renderer/libs/blockchainService'
 import { AccountList } from './AccountList'
 import { WalletsSelect } from './WalletsSelect'
 
+type TParams = {
+  address: string
+}
+
 export const WalletsPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'wallets' })
   const { wallets } = useWalletsSelector()
   const { accounts } = useAccountsSelector()
   const { modalNavigateWrapper } = useModalNavigate()
   const navigate = useNavigate()
-  const { state } = useLocation()
+  const { address } = useParams<TParams>()
 
   const [selectedWallet, setSelectedWallet] = useState<IWalletState | undefined>(wallets[0])
   const [selectedAccount, setSelectedAccount] = useState<IAccountState | undefined>(
@@ -44,27 +48,33 @@ export const WalletsPage = () => {
     navigate(`/app/wallets/${selected.address}/overview`)
   }
 
-  useEffect(() => {
-    if (state?.wallet) {
-      setSelectedWallet(state?.wallet)
-    } else {
-      setSelectedWallet(prev => {
-        if (prev) {
-          const updatedWallet = wallets.find(wallet => wallet.id === prev.id)
-          if (updatedWallet) {
-            return updatedWallet
-          }
-        }
-        return wallets[0]
-      })
+  useLayoutEffect(() => {
+    const navigateToFirstAccount = () => {
+      const [wallet] = wallets
+      const firstAccount = accounts.find(account => account.idWallet === wallet?.id)
+      if (firstAccount) navigate(`/app/wallets/${firstAccount.address}/overview`)
     }
-  }, [state?.wallet, wallets])
 
-  useEffect(() => {
-    const firstAccount = accounts.find(account => account.idWallet === selectedWallet?.id)
-    setSelectedAccount(firstAccount)
-    if (firstAccount) navigate(`/app/wallets/${firstAccount.address}/overview`)
-  }, [selectedWallet, accounts, navigate])
+    if (!address) {
+      navigateToFirstAccount()
+      return
+    }
+
+    const account = accounts.find(account => account.address === address)
+    if (!account) {
+      navigateToFirstAccount()
+      return
+    }
+
+    const wallet = wallets.find(wallet => wallet.id === account.idWallet)
+    if (!wallet) {
+      navigateToFirstAccount()
+      return
+    }
+
+    setSelectedWallet(wallet)
+    setSelectedAccount(account)
+  }, [address, wallets, accounts, navigate])
 
   return (
     <MainLayout

@@ -1,7 +1,8 @@
-export type InputType = string | number | null
+export type InputType = string | number
 
+/** @deprecated Use NumberHelper instead */
 export class FilterHelper {
-  static currency(input?: InputType, minimumFractionDigits = 2, maximumFractionDigits = 2) {
+  static currency(input: InputType, minimumFractionDigits = 2, maximumFractionDigits = 2) {
     const num = Number(input)
 
     try {
@@ -10,7 +11,10 @@ export class FilterHelper {
         currency: 'USD',
         minimumFractionDigits,
         maximumFractionDigits,
-      }).format(isNaN(num) ? 0 : num)
+      })
+        .format(isNaN(num) ? 0 : num)
+        .replace(/^(\D+)/, '$1 ')
+        .replace(/\s+/, ' ')
     } catch {
       return '0'
     }

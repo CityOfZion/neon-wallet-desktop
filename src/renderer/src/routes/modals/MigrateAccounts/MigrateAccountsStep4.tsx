@@ -61,7 +61,7 @@ export const MigrateAccountsStep4Modal = () => {
           heading: t('title'),
           headingIcon: <TbPackageImport />,
           subtitle: t('step4.success.subtitle'),
-          content: <SuccessContent wallet={wallet} accounts={accounts} />,
+          content: <SuccessContent accounts={accounts} />,
         },
       })
     } catch (error) {

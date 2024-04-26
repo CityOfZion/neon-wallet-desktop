@@ -7,15 +7,16 @@ import { IAccountState } from '@renderer/@types/store'
 import { Button } from '@renderer/components/Button'
 import { BalanceHelper } from '@renderer/helpers/BalanceHelper'
 import { FilterHelper } from '@renderer/helpers/FilterHelper'
+import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { useBalancesAndExchange } from '@renderer/hooks/useBalancesAndExchange'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 
 type TAmountParams = {
-  selectedAccount?: IAccountState | null
-  selectedToken?: TokenBalance | null
-  selectedAmount: number
-  onSelectAmount?: (amount: number) => void
+  selectedAccount?: IAccountState
+  selectedToken?: TokenBalance
+  selectedAmount?: string
+  onSelectAmount?: (amount: string) => void
   active: boolean
 }
 
@@ -39,7 +40,7 @@ export const SendAmount = ({
       balanceExchange.exchange.data
     )
 
-    return FilterHelper.currency(selectedAmount * pricePerToken)
+    return FilterHelper.currency(NumberHelper.number(selectedAmount) * pricePerToken)
   }, [selectedToken, selectedAmount, balanceExchange])
 
   return (
@@ -64,7 +65,7 @@ export const SendAmount = ({
           onClick={modalNavigateWrapper('input-amount', {
             state: {
               balanceExchange: balanceExchange,
-              selectedToken: selectedToken,
+              tokenBalance: selectedToken,
               onSelectAmount: onSelectAmount,
             },
           })}
@@ -73,7 +74,7 @@ export const SendAmount = ({
           }}
           variant="text"
           colorSchema={active ? 'neon' : 'white'}
-          label={selectedAmount > 0 ? selectedAmount.toString() : t('inputAmount')}
+          label={selectedAmount?.toString() ?? t('inputAmount')}
           rightIcon={<TbChevronRight />}
           flat
         />
