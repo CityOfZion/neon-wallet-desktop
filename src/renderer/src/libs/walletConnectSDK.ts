@@ -33,8 +33,16 @@ export const walletConnectOptions: TInitOptions = {
         'decryptFromArray',
         'calculateFee',
         'signTransaction',
+        'wipeRequests',
       ],
-      autoAcceptMethods: ['testInvoke', 'getWalletInfo', 'traverseIterator', 'getNetworkVersion', 'calculateFee'],
+      autoAcceptMethods: [
+        'testInvoke',
+        'getWalletInfo',
+        'traverseIterator',
+        'getNetworkVersion',
+        'calculateFee',
+        'wipeRequests',
+      ],
       adapter: new WalletConnectNeonAdapter(),
     },
     eip155: {
