@@ -3,7 +3,7 @@ import { MdContentCopy } from 'react-icons/md'
 import { TbChevronRight } from 'react-icons/tb'
 import { TUseTransactionsTransfer } from '@renderer/@types/hooks'
 import { IAccountState } from '@renderer/@types/store'
-import { DoraHelper } from '@renderer/helpers/DoraHelper'
+import { ExplorerHelper } from '@renderer/helpers/ExplorerHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
@@ -130,7 +130,7 @@ export const TransactionsTable = forwardRef<HTMLDivElement, TTransactionListProp
       if (row.isPending) return
 
       try {
-        const url = DoraHelper.buildTransactionUrl(row.hash, networkType, row.account.blockchain)
+        const url = ExplorerHelper.buildTransactionUrl(row.hash, networkType, row.account.blockchain)
         window.open(url)
       } catch (error) {
         ToastHelper.error({ message: t('components:transactionsTable.doraError') })
