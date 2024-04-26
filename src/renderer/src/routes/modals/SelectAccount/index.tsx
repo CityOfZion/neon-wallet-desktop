@@ -6,6 +6,7 @@ import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { Button } from '@renderer/components/Button'
 import { Select } from '@renderer/components/Select'
 import { Separator } from '@renderer/components/Separator'
+import { StringHelper } from '@renderer/helpers/StringHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
@@ -110,7 +111,12 @@ export const SelectAccount = () => {
                         type="gray"
                         className="min-h-[1rem] min-w-[1rem]"
                       />
-                      <span className="text-sm text-white truncate">{account.name}</span>
+                      <div className="flex flex-col text-left">
+                        <span className="text-sm text-white truncate">{account.name}</span>
+                        <span className="text-xs text-gray-300 truncate">
+                          {StringHelper.truncateStringMiddle(account.address, 22)}
+                        </span>
+                      </div>
                     </div>
 
                     {selectedAccount?.address === account.address && (
