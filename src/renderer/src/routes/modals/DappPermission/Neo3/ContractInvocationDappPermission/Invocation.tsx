@@ -6,7 +6,7 @@ import { Separator } from '@radix-ui/react-select'
 import { TBlockchainServiceKey } from '@renderer/@types/blockchain'
 import { IconButton } from '@renderer/components/IconButton'
 import { Loader } from '@renderer/components/Loader'
-import { DoraHelper } from '@renderer/helpers/DoraHelper'
+import { ExplorerHelper } from '@renderer/helpers/ExplorerHelper'
 import { useContract } from '@renderer/hooks/useContract'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useNetworkTypeSelector } from '@renderer/hooks/useSettingsSelector'
@@ -24,7 +24,7 @@ export const Invocation = ({ invocation, session, blockchain }: TProps) => {
   const { t } = useTranslation('modals', { keyPrefix: 'dappPermission.requests.neo3.contractInvocation' })
 
   const handleHashClick = () => {
-    window.open(DoraHelper.buildContractUrl(invocation.scriptHash, networkType), '_blank')
+    window.open(ExplorerHelper.buildContractUrl(invocation.scriptHash, networkType, blockchain), '_blank')
   }
 
   return (

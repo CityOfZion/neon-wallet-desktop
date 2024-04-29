@@ -8,7 +8,7 @@ import { DappPermissionHeader } from '@renderer/components/DappPermissionHeader'
 import { IconButton } from '@renderer/components/IconButton'
 import { Loader } from '@renderer/components/Loader'
 import { Separator } from '@renderer/components/Separator'
-import { DoraHelper } from '@renderer/helpers/DoraHelper'
+import { ExplorerHelper } from '@renderer/helpers/ExplorerHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useContract } from '@renderer/hooks/useContract'
@@ -48,7 +48,7 @@ export const DappPermissionContractDetailsModal = () => {
   })
 
   const handleHashClick = () => {
-    window.open(DoraHelper.buildContractUrl(hash, networkType), '_blank')
+    window.open(ExplorerHelper.buildContractUrl(hash, networkType, blockchain), '_blank')
   }
 
   return (
@@ -99,8 +99,8 @@ export const DappPermissionContractDetailsModal = () => {
                       <div
                         className="rounded-full px-3.5 py-1 text-asphalt text-xs"
                         style={{
-                          backgroundColor: DoraHelper.colorsByType[param.type].color,
-                          color: DoraHelper.colorsByType[param.type].textColor === 'dark' ? 'black' : 'white',
+                          backgroundColor: ExplorerHelper.colorsByType[param.type].color,
+                          color: ExplorerHelper.colorsByType[param.type].textColor === 'dark' ? 'black' : 'white',
                         }}
                       >
                         {param.type}

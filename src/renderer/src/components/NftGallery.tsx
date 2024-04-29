@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import PhotoAlbum from 'react-photo-album'
 import { NftResponse } from '@cityofzion/blockchain-service'
 import { IAccountState } from '@renderer/@types/store'
-import { DoraHelper } from '@renderer/helpers/DoraHelper'
+import { ExplorerHelper } from '@renderer/helpers/ExplorerHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { useNetworkTypeSelector } from '@renderer/hooks/useSettingsSelector'
 
@@ -29,7 +29,7 @@ export const NftGallery = ({ account, nfts }: TProps) => {
   )
 
   const handleClick = (nft: NftResponse) => {
-    window.open(DoraHelper.buildNftUrl(nft.contractHash, nft.id, networkType), '_blank')
+    window.open(ExplorerHelper.buildNftUrl(nft.contractHash, nft.id, networkType, account.blockchain), '_blank')
   }
 
   return (
