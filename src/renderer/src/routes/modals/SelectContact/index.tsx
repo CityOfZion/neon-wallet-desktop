@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbStepOut } from 'react-icons/tb'
-import { TokenBalance } from '@renderer/@types/query'
+import { TTokenBalance } from '@renderer/@types/query'
 import { TContactAddress } from '@renderer/@types/store'
 import { Button } from '@renderer/components/Button'
 import { ContactList } from '@renderer/components/Contact/ContactList'
@@ -9,7 +9,7 @@ import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 type TLocationState = {
-  selectedToken?: TokenBalance | null
+  selectedToken?: TTokenBalance
   handleSelectContact: (address: TContactAddress) => void
 }
 

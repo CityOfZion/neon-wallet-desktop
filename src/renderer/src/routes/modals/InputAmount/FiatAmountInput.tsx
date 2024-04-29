@@ -1,6 +1,6 @@
 import { ChangeEvent } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TokenBalance } from '@renderer/@types/query'
+import { TTokenBalance } from '@renderer/@types/query'
 import { Input } from '@renderer/components/Input'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
@@ -11,7 +11,7 @@ type TProps = {
   value: string
   onChange(event: ChangeEvent<HTMLInputElement>): void
   exchangeRatio: number
-  tokenBalance: TokenBalance
+  tokenBalance: TTokenBalance
   error?: boolean
 }
 

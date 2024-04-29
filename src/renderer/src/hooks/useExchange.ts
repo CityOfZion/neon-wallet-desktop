@@ -1,55 +1,38 @@
-import { useCallback, useState } from 'react'
-import { TokenPricesResponse } from '@cityofzion/blockchain-service'
-import { MultiExchange, UseExchangeResult } from '@renderer/@types/query'
+import { BlockchainService, TokenPricesResponse } from '@cityofzion/blockchain-service'
+import { TBlockchainServiceKey } from '@renderer/@types/blockchain'
+import { TBaseOptions, TUseExchangeResult } from '@renderer/@types/query'
+import { TCurrency } from '@renderer/@types/store'
 import { bsAggregator } from '@renderer/libs/blockchainService'
-import { useQuery, UseQueryOptions } from '@tanstack/react-query'
+import { useQueries } from '@tanstack/react-query'
 import lodash from 'lodash'
 
 import { useCurrencySelector, useNetworkTypeSelector } from './useSettingsSelector'
 
-type ExchangeInfoByKey = Record<string, TokenPricesResponse[]>
+const fetchExchange = async (
+  service: BlockchainService<TBlockchainServiceKey>,
+  currency: TCurrency
+): Promise<Record<string, TokenPricesResponse[]>> => {
+  const results = await service.exchangeDataService.getTokenPrices(currency.label as any)
+  return { [service.blockchainName]: results }
+}
 
 export function useExchange(
-  queryOptions?: Omit<UseQueryOptions<MultiExchange, unknown, MultiExchange, string[]>, 'queryKey' | 'queryFn'>
-): UseExchangeResult {
+  queryOptions?: TBaseOptions<Record<TBlockchainServiceKey, TokenPricesResponse[]>>
+): TUseExchangeResult {
   const { networkType } = useNetworkTypeSelector()
   const { currency } = useCurrencySelector()
-  const fetchExchanges = useCallback(async (): Promise<MultiExchange> => {
-    const promises = Object.values(bsAggregator.blockchainServicesByName).map(
-      async (service): Promise<ExchangeInfoByKey> => ({
-        [service.blockchainName]: await service.exchangeDataService.getTokenPrices(currency.label as any),
-      })
-    )
 
-    const exchanges = await Promise.allSettled(promises)
-    const exchangesFiltered = exchanges
-      .filter((exchange): exchange is PromiseFulfilledResult<ExchangeInfoByKey> => exchange.status === 'fulfilled')
-      .map(exchange => exchange.value)
-
-    return lodash.merge({}, ...exchangesFiltered)
-  }, [currency.label])
-
-  const [isRefetchingByUser, setIsRefetchingByUser] = useState(false)
-
-  const { refetch, ...rest } = useQuery({
-    queryKey: ['exchange', networkType],
-    queryFn: () => fetchExchanges(),
-    ...queryOptions,
+  const query = useQueries({
+    queries: Object.values(bsAggregator.blockchainServicesByName).map(service => ({
+      queryKey: ['exchange', service.blockchainName, networkType],
+      queryFn: fetchExchange.bind(null, service, currency),
+      ...queryOptions,
+    })),
+    combine: results => ({
+      data: lodash.merge({}, ...results.map(result => result.data)),
+      isLoading: results.some(result => result.isLoading),
+    }),
   })
 
-  const customRefetch = useCallback(async () => {
-    setIsRefetchingByUser(true)
-
-    try {
-      await refetch()
-    } finally {
-      setIsRefetchingByUser(false)
-    }
-  }, [refetch])
-
-  return {
-    ...rest,
-    refetch: customRefetch,
-    isRefetchingByUser,
-  }
+  return query
 }

@@ -1,7 +1,7 @@
 import { ChangeEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbStepInto, TbUsers } from 'react-icons/tb'
-import { TokenBalance } from '@renderer/@types/query'
+import { TTokenBalance } from '@renderer/@types/query'
 import { TContactAddress } from '@renderer/@types/store'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
@@ -9,7 +9,7 @@ import { Separator } from '@renderer/components/Separator'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 
 type TRecipientParams = {
-  selectedToken?: TokenBalance
+  selectedToken?: TTokenBalance
   selectedRecipient?: string
   selectedRecipientDomainAddress?: string
   selectedAmount?: string

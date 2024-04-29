@@ -1,7 +1,6 @@
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { UseMultipleBalanceAndExchangeResult } from '@renderer/@types/query'
-import { BalanceConvertedToExchange, BalanceHelper } from '@renderer/helpers/BalanceHelper'
+import { TTokenBalance, TUseBalancesResult } from '@renderer/@types/query'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
@@ -9,7 +8,7 @@ import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 import { Loader } from './Loader'
 
 type TProps = {
-  balanceExchange: UseMultipleBalanceAndExchangeResult
+  balances: TUseBalancesResult
 }
 
 type TBar = {
@@ -19,74 +18,61 @@ type TBar = {
   value: string
 }
 
-export const BalanceChart = ({ balanceExchange }: TProps) => {
+export const BalanceChart = ({ balances }: TProps) => {
   const { t } = useTranslation('components', { keyPrefix: 'balanceChart' })
   const { currency } = useCurrencySelector()
 
-  const totalTokensBalances = useMemo(
-    () => BalanceHelper.calculateTotalBalances(balanceExchange.balance.data, balanceExchange.exchange.data),
-    [balanceExchange]
-  )
-
   const bars = useMemo<TBar[] | undefined>(() => {
-    if (balanceExchange.isLoading) return undefined
-    const convertedBalances = BalanceHelper.convertBalancesToCurrency(
-      balanceExchange.balance.data,
-      balanceExchange.exchange.data
-    )
-    if (!totalTokensBalances || totalTokensBalances <= 0 || !convertedBalances)
+    if (balances.isLoading) return undefined
+
+    if (balances.exchangeTotal === 0)
       return [
         { color: '#676767', name: t('noAssets'), value: NumberHelper.currency(0, currency.label), widthPercent: 100 },
       ]
 
-    const filteredBalances = convertedBalances
-      .filter(balance => balance.convertedAmount > 0)
+    const tokensBalances = balances.data.map(balance => balance.tokensBalances).flat()
+
+    const filteredTokenBalances = tokensBalances
+      .filter(balance => balance.exchangeAmount > 0)
       .reduce((acc, balance) => {
         const repeated = acc.find(item => item.token.hash === balance.token.hash)
         if (repeated) {
           repeated.amountNumber += balance.amountNumber
-          repeated.convertedAmount += balance.convertedAmount
-          repeated.amount = repeated.amountNumber.toFixed(repeated.token.decimals)
+          repeated.exchangeAmount += balance.exchangeAmount
+          repeated.amount = NumberHelper.removeLeadingZero(repeated.amountNumber.toFixed(repeated.token.decimals))
           return acc
         }
 
         acc.push(balance)
         return acc
-      }, [] as BalanceConvertedToExchange[])
-      .sort((token1, token2) => token2.convertedAmount - token1.convertedAmount)
+      }, [] as TTokenBalance[])
+      .sort((token1, token2) => token2.exchangeAmount - token1.exchangeAmount)
 
-    const firstFourBars = filteredBalances.slice(0, 4).map<TBar>(balance => {
-      const color = UtilsHelper.generateTokenColor(balance.token.hash)
-      const widthPercent = (balance.convertedAmount * 100) / totalTokensBalances
+    const firstFourBars = filteredTokenBalances.slice(0, 4).map<TBar>(tokenBalance => {
+      const color = UtilsHelper.generateTokenColor(tokenBalance.token.hash)
+      const widthPercent = (tokenBalance.exchangeAmount * 100) / balances.exchangeTotal
       return {
-        name: balance.token.name,
-        value: NumberHelper.currency(balance.convertedAmount, currency.label),
+        name: tokenBalance.token.name,
+        value: NumberHelper.currency(tokenBalance.exchangeAmount, currency.label),
         color,
         widthPercent,
       }
     })
 
-    if (filteredBalances.length <= 4) {
+    if (filteredTokenBalances.length <= 4) {
       return firstFourBars
     }
 
-    const othersAmount = filteredBalances.slice(4).reduce((acc, balance) => acc + balance.convertedAmount, 0)
+    const othersAmount = filteredTokenBalances.slice(4).reduce((acc, balance) => acc + balance.exchangeAmount, 0)
     const otherBar: TBar = {
       color: '#47BEFF',
       value: NumberHelper.currency(othersAmount, currency.label),
       name: t('othersTokens'),
-      widthPercent: (othersAmount * 100) / totalTokensBalances,
+      widthPercent: (othersAmount * 100) / balances.exchangeTotal,
     }
 
     return [...firstFourBars, otherBar]
-  }, [
-    balanceExchange.balance.data,
-    balanceExchange.exchange.data,
-    balanceExchange.isLoading,
-    currency.label,
-    t,
-    totalTokensBalances,
-  ])
+  }, [balances, t, currency])
 
   if (bars === undefined) {
     return <Loader />

@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { TbChevronRight } from 'react-icons/tb'
 import { VscCircleFilled } from 'react-icons/vsc'
-import { TokenBalance } from '@renderer/@types/query'
+import { TTokenBalance } from '@renderer/@types/query'
 import { IAccountState } from '@renderer/@types/store'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { Button } from '@renderer/components/Button'
@@ -11,8 +11,8 @@ import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 
 type TTokenParams = {
   selectedAccount?: IAccountState
-  selectedToken?: TokenBalance | null
-  onSelectToken?: (token: TokenBalance) => void
+  selectedToken?: TTokenBalance
+  onSelectToken?: (token: TTokenBalance) => void
   active: boolean
 }
 

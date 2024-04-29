@@ -1,25 +1,25 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbStepOut } from 'react-icons/tb'
-import { TokenBalance } from '@renderer/@types/query'
+import { TTokenBalance } from '@renderer/@types/query'
 import { IAccountState } from '@renderer/@types/store'
 import { Button } from '@renderer/components/Button'
 import { TokensTable } from '@renderer/components/TokensTable'
-import { useBalancesAndExchange } from '@renderer/hooks/useBalancesAndExchange'
+import { useBalances } from '@renderer/hooks/useBalances'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 type TTokenState = {
   selectedAccount: IAccountState
-  onSelectToken: (token: TokenBalance) => void
+  onSelectToken: (token: TTokenBalance) => void
 }
 
 export const SelectToken = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'selectToken' })
   const { modalNavigate } = useModalNavigate()
   const { selectedAccount, onSelectToken } = useModalState<TTokenState>()
-  const balanceExchange = useBalancesAndExchange([selectedAccount])
-  const [selectedToken, setSelectedToken] = useState<TokenBalance>()
+  const balances = useBalances([selectedAccount])
+  const [selectedToken, setSelectedToken] = useState<TTokenBalance>()
 
   const selectToken = () => {
     if (!selectedToken) {
@@ -35,7 +35,7 @@ export const SelectToken = () => {
         <h2 className="text-sm text-left w-full">{t('yourBalances')}</h2>
 
         <TokensTable
-          balanceExchange={balanceExchange}
+          balances={balances}
           showSimplified
           onTokenSelected={setSelectedToken}
           selectedToken={selectedToken}

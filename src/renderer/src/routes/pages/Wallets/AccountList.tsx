@@ -1,44 +1,31 @@
-import { Fragment, useMemo } from 'react'
-import { UseMultipleBalanceAndExchangeResult } from '@renderer/@types/query'
+import { Fragment } from 'react'
 import { IAccountState, IWalletState } from '@renderer/@types/store'
 import { AccountIcon } from '@renderer/components/AccountIcon'
 import { Separator } from '@renderer/components/Separator'
 import { Tooltip } from '@renderer/components/Tooltip'
-import { BalanceHelper } from '@renderer/helpers/BalanceHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useAccountsByWalletIdSelector } from '@renderer/hooks/useAccountSelector'
+import { useBalances } from '@renderer/hooks/useBalances'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 
 type TProps = {
   onSelect: (account: IAccountState) => void
   selectedAccount?: IAccountState | undefined
   selectedWallet: IWalletState
-  balanceExchange: UseMultipleBalanceAndExchangeResult
 }
 
 type TAccountItemProps = {
   account: IAccountState
-  balanceExchange: UseMultipleBalanceAndExchangeResult
   active?: boolean
   onClick?: () => void
 }
 
-const AccountItem = ({ account, balanceExchange, onClick, active }: TAccountItemProps) => {
+const AccountItem = ({ account, onClick, active }: TAccountItemProps) => {
+  const balance = useBalances([account])
   const { currency } = useCurrencySelector()
 
-  const totalTokensBalances = useMemo(
-    () =>
-      BalanceHelper.calculateTotalBalances(balanceExchange.balance.data, balanceExchange.exchange.data, [
-        account.address,
-      ]),
-    [balanceExchange, account]
-  )
-
-  const formattedTotalTokensBalances = useMemo(
-    () => NumberHelper.currency(totalTokensBalances || 0, currency.label),
-    [currency.label, totalTokensBalances]
-  )
+  const totalExchangeFormatted = NumberHelper.currency(balance.exchangeTotal, currency.label)
 
   return (
     <li>
@@ -54,8 +41,8 @@ const AccountItem = ({ account, balanceExchange, onClick, active }: TAccountItem
         <div className="flex flex-col flex-grow  min-w-0 gap-x-2">
           <p className="text-xs text-white truncate text-left">{account.name}</p>
 
-          <Tooltip title={formattedTotalTokensBalances}>
-            <span className="block text-xs text-gray-100 text-left truncate">{formattedTotalTokensBalances}</span>
+          <Tooltip title={totalExchangeFormatted}>
+            <span className="block text-xs text-gray-100 text-left truncate">{totalExchangeFormatted}</span>
           </Tooltip>
         </div>
       </button>
@@ -63,7 +50,7 @@ const AccountItem = ({ account, balanceExchange, onClick, active }: TAccountItem
   )
 }
 
-export const AccountList = ({ selectedWallet, selectedAccount, balanceExchange, onSelect }: TProps) => {
+export const AccountList = ({ selectedWallet, selectedAccount, onSelect }: TProps) => {
   const { accountsByWalletId } = useAccountsByWalletIdSelector(selectedWallet.id)
 
   const orderedAccounts = UtilsHelper.orderBy(accountsByWalletId, 'order', 'asc')
@@ -75,7 +62,6 @@ export const AccountList = ({ selectedWallet, selectedAccount, balanceExchange, 
           <AccountItem
             onClick={() => onSelect(account)}
             account={account}
-            balanceExchange={balanceExchange}
             active={account?.address === selectedAccount?.address}
           />
 

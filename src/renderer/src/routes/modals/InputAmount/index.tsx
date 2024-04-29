@@ -1,12 +1,11 @@
 import { ChangeEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbStepOut } from 'react-icons/tb'
-import { TokenBalance, UseUniqueBalanceAndExchangeResult } from '@renderer/@types/query'
+import { TTokenBalance } from '@renderer/@types/query'
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'
-import { BalanceHelper } from '@renderer/helpers/BalanceHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
@@ -18,8 +17,7 @@ import { FiatAmountInput } from './FiatAmountInput'
 import { TokenAmountInput } from './TokenAmountInput'
 
 type TState = {
-  balanceExchange: UseUniqueBalanceAndExchangeResult
-  tokenBalance: TokenBalance
+  tokenBalance: TTokenBalance
   onSelectAmount: (amount: string) => void
 }
 
@@ -32,7 +30,7 @@ type TActionData = {
 export const InputAmount = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'inputAmount' })
   const { modalNavigate } = useModalNavigate()
-  const { balanceExchange, tokenBalance, onSelectAmount } = useModalState<TState>()
+  const { tokenBalance, onSelectAmount } = useModalState<TState>()
 
   const { actionData, actionState, handleAct, setData, setError } = useActions<TActionData>({
     amount: '',
@@ -40,11 +38,6 @@ export const InputAmount = () => {
     tokenAmount: '',
   })
 
-  const exchangeRatio = BalanceHelper.getExchangeRatio(
-    tokenBalance.token.hash,
-    tokenBalance.blockchain,
-    balanceExchange.exchange.data
-  )
   const balanceRest = (tokenBalance.amountNumber - NumberHelper.number(actionData.amount)).toFixed(
     tokenBalance.token.decimals
   )
@@ -70,7 +63,7 @@ export const InputAmount = () => {
 
     const valueNumber = NumberHelper.number(value)
 
-    const tokenAmount = (valueNumber / exchangeRatio).toFixed(tokenBalance.token.decimals)
+    const tokenAmount = (valueNumber / tokenBalance.exchangeRatio).toFixed(tokenBalance.token.decimals)
     const tokenAmountNumber = NumberHelper.number(tokenAmount)
 
     setData({
@@ -121,13 +114,13 @@ export const InputAmount = () => {
           onChange={handleTokenAmountChange}
           value={actionData.tokenAmount}
           onMaxClick={handleMaxClick}
-          exchangeRatio={exchangeRatio}
+          exchangeRatio={tokenBalance.exchangeRatio}
           error={!!actionState.errors.tokenAmount}
         />
 
         <div
           className={StyleHelper.mergeStyles('w-full relative my-6 flex justify-center', {
-            'opacity-25': exchangeRatio === 0,
+            'opacity-25': tokenBalance.exchangeRatio === 0,
           })}
         >
           <Separator className="absolute top-1/2" />
@@ -140,7 +133,7 @@ export const InputAmount = () => {
         <FiatAmountInput
           onChange={handleFiatAmountChange}
           value={actionData.fiatAmount}
-          exchangeRatio={exchangeRatio}
+          exchangeRatio={tokenBalance.exchangeRatio}
           tokenBalance={tokenBalance}
           error={!!actionState.errors.fiatAmount}
         />

@@ -47,4 +47,8 @@ export class NumberHelper {
       return b + c.replace(/\./g, '')
     })
   }
+
+  static removeLeadingZero(value: string) {
+    return value.replace(/^0+/, '')
+  }
 }

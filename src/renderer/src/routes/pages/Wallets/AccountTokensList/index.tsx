@@ -1,11 +1,9 @@
-import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useOutletContext } from 'react-router-dom'
 import { IAccountState } from '@renderer/@types/store'
 import { TokensTable } from '@renderer/components/TokensTable'
-import { BalanceHelper } from '@renderer/helpers/BalanceHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
-import { useBalancesAndExchange } from '@renderer/hooks/useBalancesAndExchange'
+import { useBalances } from '@renderer/hooks/useBalances'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 import { AccountDetailsLayout } from '@renderer/layouts/AccountDetailsLayout'
 
@@ -21,23 +19,17 @@ export const AccountTokensList = () => {
   const { account } = useOutletContext<TOutletContext>()
   const { currency } = useCurrencySelector()
 
-  const balanceExchange = useBalancesAndExchange(account ? [account] : [])
+  const balances = useBalances([account])
 
-  const formattedTotalTokensBalances = useMemo(
-    () =>
-      NumberHelper.currency(
-        BalanceHelper.calculateTotalBalances(balanceExchange.balance.data, balanceExchange.exchange.data) || 0,
-        currency.label
-      ),
-    [balanceExchange.balance.data, balanceExchange.exchange.data, currency.label]
-  )
+  const exchangeTotalFormatted = NumberHelper.currency(balances.exchangeTotal, currency.label)
 
   return (
     <AccountDetailsLayout title={t('title')} actions={account ? <CommonAccountActions account={account} /> : undefined}>
       <div className="text-right pt-4">
-        <span className="text-gray-300">{t('balance')}</span> {formattedTotalTokensBalances}
+        <span className="text-gray-300">{t('balance')}</span>
+        <span>{exchangeTotalFormatted}</span>
       </div>
-      <TokensTable balanceExchange={balanceExchange} />
+      <TokensTable balances={balances} />
     </AccountDetailsLayout>
   )
 }

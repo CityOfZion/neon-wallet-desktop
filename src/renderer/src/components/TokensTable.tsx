@@ -1,7 +1,6 @@
-import { forwardRef, useImperativeHandle, useMemo, useRef, useState } from 'react'
-import { Balance, TokenBalance, UseMultipleBalanceAndExchangeResult } from '@renderer/@types/query'
+import { forwardRef, useMemo } from 'react'
+import { TTokenBalance, TUseBalancesResult } from '@renderer/@types/query'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
-import { BalanceHelper } from '@renderer/helpers/BalanceHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
@@ -11,7 +10,6 @@ import {
   flexRender,
   getCoreRowModel,
   getSortedRowModel,
-  SortingState,
   useReactTable,
 } from '@tanstack/react-table'
 
@@ -19,61 +17,45 @@ import { Loader } from './Loader'
 import { Table } from './Table'
 
 type TProps = {
-  balanceExchange: UseMultipleBalanceAndExchangeResult
+  balances: TUseBalancesResult
   showSimplified?: boolean
   className?: string
   containerClassName?: string
-  onTokenSelected?: (token: TokenBalance) => void
-  selectedToken?: TokenBalance
-}
-
-type TTokenBalanceWithExchange = TokenBalance & {
-  exchangeRatio: number
-  convertedAmount: number
+  onTokenSelected?: (token: TTokenBalance) => void
+  selectedToken?: TTokenBalance
 }
 
 const { t } = getI18next()
 
-const columnHelper = createColumnHelper<TTokenBalanceWithExchange>()
+const columnHelper = createColumnHelper<TTokenBalance>()
 
 export const TokensTable = forwardRef<HTMLDivElement, TProps>(
-  ({ balanceExchange, showSimplified, className, onTokenSelected, selectedToken, containerClassName }, ref) => {
+  ({ balances, showSimplified, className, onTokenSelected, selectedToken, containerClassName }, ref) => {
     const { currency } = useCurrencySelector()
 
-    const filteredTokenBalance = useMemo(() => {
-      const groupedTokens = new Map<string, TTokenBalanceWithExchange>()
+    const groupedTokenBalances = useMemo(() => {
+      const groupedTokens = new Map<string, TTokenBalance>()
 
-      balanceExchange.balance.data.forEach((balance: Balance) => {
-        balance.tokensBalances.forEach((token: TokenBalance) => {
-          if (token.amountNumber <= 0) return
+      balances.data.forEach(balance =>
+        balance.tokensBalances.forEach(tokenBalance => {
+          if (tokenBalance.amountNumber <= 0) return
 
-          const groupedToken = groupedTokens.get(token.token.hash)
+          const groupedToken = groupedTokens.get(tokenBalance.token.hash)
           if (!groupedToken) {
-            groupedTokens.set(token.token.hash, {
-              ...token,
-              exchangeRatio: BalanceHelper.getExchangeRatio(
-                token.token.hash,
-                token.blockchain,
-                balanceExchange.exchange.data
-              ),
-              convertedAmount:
-                BalanceHelper.convertBalanceToCurrency(token, balanceExchange.exchange.data)?.convertedAmount ?? 0,
-            })
+            groupedTokens.set(tokenBalance.token.hash, tokenBalance)
             return
           }
 
-          groupedToken.amountNumber += token.amountNumber
-          groupedToken.amount = token.amountNumber.toFixed(token.token.decimals)
-          groupedToken.convertedAmount =
-            BalanceHelper.convertBalanceToCurrency(token, balanceExchange.exchange.data)?.convertedAmount ?? 0
+          groupedToken.amountNumber += tokenBalance.amountNumber
+          groupedToken.amount = NumberHelper.removeLeadingZero(
+            groupedToken.amountNumber.toFixed(tokenBalance.token.decimals)
+          )
+          groupedToken.exchangeAmount += tokenBalance.exchangeAmount
         })
-      })
+      )
 
       return Array.from(groupedTokens.values())
-    }, [balanceExchange.balance.data, balanceExchange.exchange.data])
-
-    const [sorting, setSorting] = useState<SortingState>([])
-    const scrollRef = useRef<HTMLDivElement>(null)
+    }, [balances])
 
     const columns = useMemo(
       () =>
@@ -109,7 +91,7 @@ export const TokensTable = forwardRef<HTMLDivElement, TProps>(
                 cell: info => NumberHelper.currency(info.getValue(), currency.label),
                 header: t('components:tokensTable.price'),
               }),
-              columnHelper.accessor('convertedAmount', {
+              columnHelper.accessor('exchangeAmount', {
                 cell: info => NumberHelper.currency(info.getValue(), currency.label),
                 header: t('components:tokensTable.value'),
               }),
@@ -137,29 +119,20 @@ export const TokensTable = forwardRef<HTMLDivElement, TProps>(
                 id: 'holdings',
                 header: t('components:tokensTable.holdings'),
               }),
-              columnHelper.accessor('convertedAmount', {
+              columnHelper.accessor('exchangeRatio', {
                 cell: info => NumberHelper.currency(info.getValue(), currency.label),
-                header: t('components:tokensTable.value'),
+                header: t('components:tokensTable.price'),
               }),
             ],
       [currency.label, showSimplified]
     )
 
     const table = useReactTable({
-      data: filteredTokenBalance,
+      data: groupedTokenBalances,
       columns,
-      state: {
-        sorting,
-      },
       getCoreRowModel: getCoreRowModel(),
       getSortedRowModel: getSortedRowModel(),
-      onSortingChange: newSorting => {
-        setSorting(newSorting)
-        scrollRef.current?.scrollTo(0, 0)
-      },
     })
-
-    useImperativeHandle(ref, () => scrollRef.current!, [scrollRef])
 
     return (
       <section
@@ -167,11 +140,11 @@ export const TokensTable = forwardRef<HTMLDivElement, TProps>(
           'overflow-auto flex flex-col min-h-0 w-full flex-grow mt-4 min-w-0 ',
           containerClassName
         )}
-        ref={scrollRef}
+        ref={ref}
       >
-        {balanceExchange.isLoading ? (
+        {balances.isLoading ? (
           <Loader containerClassName="mt-4 flex-grow items-center" />
-        ) : filteredTokenBalance.length <= 0 ? (
+        ) : groupedTokenBalances.length <= 0 ? (
           <div className="flex justify-center mt-4">
             <p className="text-gray-300">{t('components:tokensTable.empty')}</p>
           </div>

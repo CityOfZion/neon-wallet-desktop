@@ -1,11 +1,9 @@
-import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Separator } from '@renderer/components/Separator'
 import { TransactionsTable } from '@renderer/components/TransactionsTable'
-import { BalanceHelper } from '@renderer/helpers/BalanceHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
-import { useBalancesAndExchange } from '@renderer/hooks/useBalancesAndExchange'
+import { useBalances } from '@renderer/hooks/useBalances'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
 
@@ -14,16 +12,7 @@ export const PortfolioActivityPage = () => {
   const { accounts } = useAccountsSelector()
   const { wallets } = useWalletsSelector()
   const { currency } = useCurrencySelector()
-  const balanceExchange = useBalancesAndExchange(accounts)
-
-  const formattedTotalTokensBalances = useMemo(
-    () =>
-      NumberHelper.currency(
-        BalanceHelper.calculateTotalBalances(balanceExchange.balance.data, balanceExchange.exchange.data) || 0,
-        currency.label
-      ),
-    [balanceExchange.balance.data, balanceExchange.exchange.data, currency.label]
-  )
+  const balances = useBalances(accounts)
 
   return (
     <section className="w-full flex flex-col bg-gray-800 rounded shadow-lg py-3 h-full px-4 min-w-0">
@@ -44,7 +33,7 @@ export const PortfolioActivityPage = () => {
       <div className="w-full flex justify-end">
         <div className="flex gap-2 pt-7 text-xl ml-2">
           <span className="text-gray-300">{t('balance')}</span>
-          <span className=" text-white">{formattedTotalTokensBalances}</span>
+          <span className=" text-white">{NumberHelper.currency(balances.exchangeTotal, currency.label)}</span>
         </div>
       </div>
 
