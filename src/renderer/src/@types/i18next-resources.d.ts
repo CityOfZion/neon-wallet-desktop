@@ -434,6 +434,7 @@ interface Resources {
             feeError: 'Error to calculate fee. The request was cancelled.'
             feeLabel: 'Fee'
             hashLabel: 'HASH'
+            amountLabel: 'AMOUNT'
             signatureScopeTitle: 'Signature scope'
             acceptButtonLabel: 'Confirm'
             cancelButtonLabel: 'Cancel'
