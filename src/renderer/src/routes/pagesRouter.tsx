@@ -19,6 +19,7 @@ import { ChangePasswordStep2 } from './pages/Settings/SettingsChangePassword/Cha
 import { ChangePasswordStep3 } from './pages/Settings/SettingsChangePassword/ChangePasswordStep3'
 import { SettingsEncryptKeyPage } from './pages/Settings/SettingsEncryptKey'
 import { SettingsMigrateWalletsPage } from './pages/Settings/SettingsMigrateWallets'
+import { SettingsMobileApp } from './pages/Settings/SettingsMobileApp'
 import { SettingsNetwork } from './pages/Settings/SettingsNetwork'
 import { SettingsRecoverWallet } from './pages/Settings/SettingsRecoverWallet'
 import { SettingsReleaseNotesPage } from './pages/Settings/SettingsReleaseNotes'
@@ -130,6 +131,10 @@ export const pagesRouter = routeHandler([
                   {
                     path: 'release-notes',
                     element: <SettingsReleaseNotesPage />,
+                  },
+                  {
+                    path: 'mobile-app',
+                    element: <SettingsMobileApp />,
                   },
                 ],
               },
