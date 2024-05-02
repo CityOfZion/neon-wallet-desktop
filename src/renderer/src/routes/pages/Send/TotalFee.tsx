@@ -6,6 +6,7 @@ import { Loader } from '@renderer/components/Loader'
 import { BalanceHelper } from '@renderer/helpers/BalanceHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { useExchange } from '@renderer/hooks/useExchange'
+import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 
 import { TSendServiceResponse } from '.'
 
@@ -18,6 +19,7 @@ type TTotalFeeParams = {
 export const TotalFee = ({ getSendFields, onFeeChange, fee }: TTotalFeeParams) => {
   const { t } = useTranslation('pages', { keyPrefix: 'send' })
   const exchange = useExchange()
+  const { currency } = useCurrencySelector()
 
   const [fiatFee, setFiatFee] = useState<number>()
   const [loading, setLoading] = useState(false)
@@ -71,7 +73,7 @@ export const TotalFee = ({ getSendFields, onFeeChange, fee }: TTotalFeeParams) =
       ) : (
         <div className="flex items-center gap-4.5">
           <span className="text-gray-100">{fee}</span>
-          <span className="text-gray-300">{NumberHelper.currency(fiatFee ?? 0)}</span>
+          <span className="text-gray-300">{NumberHelper.currency(fiatFee ?? 0, currency.label)}</span>
         </div>
       )}
     </div>

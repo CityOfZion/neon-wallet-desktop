@@ -22,11 +22,17 @@ export interface IWalletState {
 }
 export type TSecurityType = 'none' | 'password'
 
+export type TAvailableCurrency = 'USD' | 'BRL' | 'EUR' | 'GBP' | 'CNY'
+export type TCurrency = {
+  symbol: string
+  label: TAvailableCurrency
+}
 export interface ISettingsState {
   encryptedPassword?: string
   isFirstTime: boolean
   securityType: TSecurityType
   networkType: TNetworkType
+  currency: TCurrency
 }
 
 export type TContactAddress = { address: string; blockchain: TBlockchainServiceKey }

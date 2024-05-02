@@ -5,9 +5,10 @@ import { AccountIcon } from '@renderer/components/AccountIcon'
 import { Separator } from '@renderer/components/Separator'
 import { Tooltip } from '@renderer/components/Tooltip'
 import { BalanceHelper } from '@renderer/helpers/BalanceHelper'
-import { FilterHelper } from '@renderer/helpers/FilterHelper'
+import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useAccountsByWalletIdSelector } from '@renderer/hooks/useAccountSelector'
+import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 
 type TProps = {
   onSelect: (account: IAccountState) => void
@@ -24,6 +25,8 @@ type TAccountItemProps = {
 }
 
 const AccountItem = ({ account, balanceExchange, onClick, active }: TAccountItemProps) => {
+  const { currency } = useCurrencySelector()
+
   const totalTokensBalances = useMemo(
     () =>
       BalanceHelper.calculateTotalBalances(balanceExchange.balance.data, balanceExchange.exchange.data, [
@@ -32,7 +35,10 @@ const AccountItem = ({ account, balanceExchange, onClick, active }: TAccountItem
     [balanceExchange, account]
   )
 
-  const formattedTotalTokensBalances = useMemo(() => FilterHelper.currency(totalTokensBalances), [totalTokensBalances])
+  const formattedTotalTokensBalances = useMemo(
+    () => NumberHelper.currency(totalTokensBalances || 0, currency.label),
+    [currency.label, totalTokensBalances]
+  )
 
   return (
     <li>

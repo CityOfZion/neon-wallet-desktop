@@ -2,8 +2,9 @@ import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { UseMultipleBalanceAndExchangeResult } from '@renderer/@types/query'
 import { BalanceConvertedToExchange, BalanceHelper } from '@renderer/helpers/BalanceHelper'
-import { FilterHelper } from '@renderer/helpers/FilterHelper'
+import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 
 import { Loader } from './Loader'
 
@@ -20,6 +21,7 @@ type TBar = {
 
 export const BalanceChart = ({ balanceExchange }: TProps) => {
   const { t } = useTranslation('components', { keyPrefix: 'balanceChart' })
+  const { currency } = useCurrencySelector()
 
   const totalTokensBalances = useMemo(
     () => BalanceHelper.calculateTotalBalances(balanceExchange.balance.data, balanceExchange.exchange.data),
@@ -33,7 +35,9 @@ export const BalanceChart = ({ balanceExchange }: TProps) => {
       balanceExchange.exchange.data
     )
     if (!totalTokensBalances || totalTokensBalances <= 0 || !convertedBalances)
-      return [{ color: '#676767', name: t('noAssets'), value: FilterHelper.currency(0), widthPercent: 100 }]
+      return [
+        { color: '#676767', name: t('noAssets'), value: NumberHelper.currency(0, currency.label), widthPercent: 100 },
+      ]
 
     const filteredBalances = convertedBalances
       .filter(balance => balance.convertedAmount > 0)
@@ -56,7 +60,7 @@ export const BalanceChart = ({ balanceExchange }: TProps) => {
       const widthPercent = (balance.convertedAmount * 100) / totalTokensBalances
       return {
         name: balance.token.name,
-        value: FilterHelper.currency(balance.convertedAmount),
+        value: NumberHelper.currency(balance.convertedAmount, currency.label),
         color,
         widthPercent,
       }
@@ -69,13 +73,20 @@ export const BalanceChart = ({ balanceExchange }: TProps) => {
     const othersAmount = filteredBalances.slice(4).reduce((acc, balance) => acc + balance.convertedAmount, 0)
     const otherBar: TBar = {
       color: '#47BEFF',
-      value: FilterHelper.currency(othersAmount),
+      value: NumberHelper.currency(othersAmount, currency.label),
       name: t('othersTokens'),
       widthPercent: (othersAmount * 100) / totalTokensBalances,
     }
 
     return [...firstFourBars, otherBar]
-  }, [balanceExchange.balance.data, balanceExchange.exchange.data, balanceExchange.isLoading, t, totalTokensBalances])
+  }, [
+    balanceExchange.balance.data,
+    balanceExchange.exchange.data,
+    balanceExchange.isLoading,
+    currency.label,
+    t,
+    totalTokensBalances,
+  ])
 
   if (bars === undefined) {
     return <Loader />

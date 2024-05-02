@@ -1,4 +1,3 @@
-import { Fragment } from 'react'
 import { createRouteHandler } from '@renderer/libs/sentryReact'
 
 import { AppPage } from './pages/AppPage'
@@ -17,6 +16,7 @@ import { SettingsChangePasswordPage } from './pages/Settings/SettingsChangePassw
 import { ChangePasswordStep1 } from './pages/Settings/SettingsChangePassword/ChangePasswordStep1'
 import { ChangePasswordStep2 } from './pages/Settings/SettingsChangePassword/ChangePasswordStep2'
 import { ChangePasswordStep3 } from './pages/Settings/SettingsChangePassword/ChangePasswordStep3'
+import { SettingsCurrency } from './pages/Settings/SettingsCurrency'
 import { SettingsEncryptKeyPage } from './pages/Settings/SettingsEncryptKey'
 import { SettingsMigrateWalletsPage } from './pages/Settings/SettingsMigrateWallets'
 import { SettingsNetwork } from './pages/Settings/SettingsNetwork'
@@ -125,7 +125,7 @@ export const pagesRouter = routeHandler([
                   },
                   {
                     path: 'currency',
-                    element: <Fragment />,
+                    element: <SettingsCurrency />,
                   },
                   {
                     path: 'release-notes',

@@ -5,6 +5,7 @@ import { Input } from '@renderer/components/Input'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 
 type TProps = {
   value: string
@@ -16,6 +17,7 @@ type TProps = {
 
 export const FiatAmountInput = ({ onChange, value, exchangeRatio, tokenBalance, error }: TProps) => {
   const { t } = useTranslation('modals', { keyPrefix: 'inputAmount' })
+  const { currency } = useCurrencySelector()
 
   const valueNumber = NumberHelper.number(value)
   const estimatedToken = valueNumber > 0 && exchangeRatio > 0 ? valueNumber / exchangeRatio : 0
@@ -27,7 +29,7 @@ export const FiatAmountInput = ({ onChange, value, exchangeRatio, tokenBalance, 
       })}
     >
       <label className="text-gray-100" htmlFor="fiatAmount">
-        {t('enterUsdAmount')}
+        {t('enterAmount', { currencyType: currency.label })}
       </label>
 
       <Input

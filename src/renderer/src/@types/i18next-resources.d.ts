@@ -402,13 +402,13 @@ interface Resources {
     inputAmount: {
       title: 'Amount you want to send'
       enterTokenAmount: 'Enter token amount:'
-      fiatValue: 'Fiat value (USD estimated)'
+      fiatValue: 'Fiat value ({{currencyType}} estimated)'
       balanceAfterTransaction: 'Balance after transaction'
       insufficientBalanceAvailable: 'Insufficient balance available'
       max: 'Max'
       or: 'OR'
       inputPlaceholder: '0,000.00'
-      enterUsdAmount: 'Enter a USD amount:'
+      enterAmount: 'Enter a {{currencyType}} amount:'
       roundDown: 'Round down'
       selectAmountSend: 'Select amount to send'
       tokenValue: 'Token value'
@@ -731,7 +731,7 @@ interface Resources {
       sourceAccount: 'Source account'
       inputAmount: 'Input amount...'
       amount: 'Amount'
-      fiatValue: 'Fiat value (USD estimated)'
+      fiatValue: 'Fiat value ({{currencyType}} estimated)'
       recipientAddress: 'Recipient address'
       contacts: 'Contacts'
       addressInputHint: 'Enter recipient address...'
@@ -902,6 +902,9 @@ interface Resources {
         step3: {
           subtitle: 'Your NEON 3 password has been successfully changed!'
         }
+      }
+      settingsCurrency: {
+        title: 'Currency'
       }
     }
     receive: {

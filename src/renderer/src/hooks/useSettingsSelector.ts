@@ -15,3 +15,11 @@ export const useNetworkTypeSelector = () => {
     networkTypeRef: ref,
   }
 }
+
+export const useCurrencySelector = () => {
+  const { ref, value } = useAppSelector(state => state.settings.currency)
+  return {
+    currency: value,
+    currencyRef: ref,
+  }
+}

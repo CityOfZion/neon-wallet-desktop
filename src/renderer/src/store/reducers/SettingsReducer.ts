@@ -1,6 +1,7 @@
 import { CaseReducer, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { TNetworkType } from '@renderer/@types/blockchain'
-import { ISettingsState, TSecurityType } from '@renderer/@types/store'
+import { ISettingsState, TCurrency, TSecurityType } from '@renderer/@types/store'
+import { availableCurrencies } from '@renderer/constants/currency'
 
 export const settingsReducerName = 'settingsReducer'
 
@@ -9,6 +10,7 @@ const initialState: ISettingsState = {
   securityType: 'none',
   isFirstTime: true,
   networkType: 'mainnet',
+  currency: availableCurrencies[0],
 }
 
 const setEncryptedPassword: CaseReducer<ISettingsState, PayloadAction<string | undefined>> = (state, action) => {
@@ -27,6 +29,10 @@ const setNetworkType: CaseReducer<ISettingsState, PayloadAction<TNetworkType>> =
   state.networkType = action.payload
 }
 
+const setCurrency: CaseReducer<ISettingsState, PayloadAction<TCurrency>> = (state, action) => {
+  state.currency = action.payload
+}
+
 const SettingsReducer = createSlice({
   name: settingsReducerName,
   initialState,
@@ -35,6 +41,7 @@ const SettingsReducer = createSlice({
     setSecurityType,
     setEncryptedPassword,
     setNetworkType,
+    setCurrency,
   },
 })
 

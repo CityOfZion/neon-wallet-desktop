@@ -5,9 +5,10 @@ import { Select } from '@renderer/components/Select'
 import { Tooltip } from '@renderer/components/Tooltip'
 import { WalletIcon } from '@renderer/components/WalletIcon'
 import { BalanceHelper } from '@renderer/helpers/BalanceHelper'
-import { FilterHelper } from '@renderer/helpers/FilterHelper'
+import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { useAccountsByWalletIdSelector } from '@renderer/hooks/useAccountSelector'
+import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 
 type TProps = {
   balanceExchange: UseMultipleBalanceAndExchangeResult
@@ -16,6 +17,7 @@ type TProps = {
 
 export const WalletSelectItem = ({ balanceExchange, wallet }: TProps) => {
   const { accountsByWalletId } = useAccountsByWalletIdSelector(wallet.id)
+  const { currency } = useCurrencySelector()
 
   const totalTokensBalances = useMemo(
     () =>
@@ -27,7 +29,10 @@ export const WalletSelectItem = ({ balanceExchange, wallet }: TProps) => {
     [balanceExchange, accountsByWalletId]
   )
 
-  const formattedTotalTokensBalances = useMemo(() => FilterHelper.currency(totalTokensBalances), [totalTokensBalances])
+  const formattedTotalTokensBalances = useMemo(
+    () => NumberHelper.currency(totalTokensBalances || 0, currency.label),
+    [currency.label, totalTokensBalances]
+  )
 
   return (
     <Select.Item
