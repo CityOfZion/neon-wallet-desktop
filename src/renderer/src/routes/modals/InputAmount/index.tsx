@@ -98,7 +98,7 @@ export const InputAmount = () => {
   }
 
   return (
-    <EndModalLayout heading={t('title')} headingIcon={<TbStepOut />}>
+    <EndModalLayout heading={t('title')} headingIcon={<TbStepOut />} closeOnOutsideClick={false}>
       <form
         className="w-full flex flex-col h-full items-center text-sm flex-grow min-w-0"
         onSubmit={handleAct(handleSubmit)}
