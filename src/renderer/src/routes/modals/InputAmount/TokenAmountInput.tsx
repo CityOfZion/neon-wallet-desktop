@@ -4,6 +4,7 @@ import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 
 type TProps = {
   value: string
@@ -15,6 +16,7 @@ type TProps = {
 
 export const TokenAmountInput = ({ onChange, onMaxClick, value, exchangeRatio, error }: TProps) => {
   const { t } = useTranslation('modals', { keyPrefix: 'inputAmount' })
+  const { currency } = useCurrencySelector()
 
   const estimatedFiat = NumberHelper.number(value) * exchangeRatio
 
@@ -52,8 +54,10 @@ export const TokenAmountInput = ({ onChange, onMaxClick, value, exchangeRatio, e
           'opacity-50': exchangeRatio === 0,
         })}
       >
-        <span className="text-gray-300 whitespace-nowrap">{t('fiatValue')}</span>
-        <span className="text-gray-100 whitespace-nowrap truncate">{NumberHelper.currency(estimatedFiat)}</span>
+        <span className="text-gray-300 whitespace-nowrap">{t('fiatValue', { currencyType: currency.label })}</span>
+        <span className="text-gray-100 whitespace-nowrap truncate">
+          {NumberHelper.currency(estimatedFiat, currency.label)}
+        </span>
       </div>
     </div>
   )

@@ -6,11 +6,11 @@ import { TokenBalance } from '@renderer/@types/query'
 import { IAccountState } from '@renderer/@types/store'
 import { Button } from '@renderer/components/Button'
 import { BalanceHelper } from '@renderer/helpers/BalanceHelper'
-import { FilterHelper } from '@renderer/helpers/FilterHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { useBalancesAndExchange } from '@renderer/hooks/useBalancesAndExchange'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 
 type TAmountParams = {
   selectedAccount?: IAccountState
@@ -29,10 +29,11 @@ export const SendAmount = ({
 }: TAmountParams) => {
   const { t } = useTranslation('pages', { keyPrefix: 'send' })
   const { modalNavigateWrapper } = useModalNavigate()
+  const { currency } = useCurrencySelector()
   const balanceExchange = useBalancesAndExchange(selectedAccount ? [selectedAccount] : [])
 
   const estimatedFee = useMemo(() => {
-    if (!selectedToken || !selectedAmount) return FilterHelper.currency(0)
+    if (!selectedToken || !selectedAmount) return NumberHelper.currency(0, currency.label)
 
     const pricePerToken = BalanceHelper.getExchangeRatio(
       selectedToken.token.hash,
@@ -40,8 +41,8 @@ export const SendAmount = ({
       balanceExchange.exchange.data
     )
 
-    return FilterHelper.currency(NumberHelper.number(selectedAmount) * pricePerToken)
-  }, [selectedToken, selectedAmount, balanceExchange])
+    return NumberHelper.currency(NumberHelper.number(selectedAmount) * pricePerToken, currency.label)
+  }, [selectedToken, selectedAmount, currency.label, balanceExchange.exchange.data])
 
   return (
     <div>
@@ -81,7 +82,7 @@ export const SendAmount = ({
       </div>
 
       <div className="flex justify-between p-3 pt-0">
-        <span className="text-gray-100 ml-5 italic">{t('fiatValue')}</span>
+        <span className="text-gray-100 ml-5 italic">{t('fiatValue', { currencyType: currency.label })}</span>
         <span className="text-gray-100 mr-5">{estimatedFee}</span>
       </div>
     </div>

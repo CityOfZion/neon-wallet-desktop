@@ -3,23 +3,26 @@ import { useTranslation } from 'react-i18next'
 import { BalanceChart } from '@renderer/components/BalanceChart'
 import { Separator } from '@renderer/components/Separator'
 import { BalanceHelper } from '@renderer/helpers/BalanceHelper'
-import { FilterHelper } from '@renderer/helpers/FilterHelper'
+import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useBalancesAndExchange } from '@renderer/hooks/useBalancesAndExchange'
+import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
 
 export const PortfolioOverviewPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'portfolio.portfolioOverview' })
   const { accounts } = useAccountsSelector()
   const { wallets } = useWalletsSelector()
+  const { currency } = useCurrencySelector()
   const balanceExchange = useBalancesAndExchange(accounts)
 
   const formattedTotalTokensBalances = useMemo(
     () =>
-      FilterHelper.currency(
-        BalanceHelper.calculateTotalBalances(balanceExchange.balance.data, balanceExchange.exchange.data)
+      NumberHelper.currency(
+        BalanceHelper.calculateTotalBalances(balanceExchange.balance.data, balanceExchange.exchange.data) || 0,
+        currency.label
       ),
-    [balanceExchange.balance.data, balanceExchange.exchange.data]
+    [balanceExchange.balance.data, balanceExchange.exchange.data, currency.label]
   )
   return (
     <section className="w-full flex flex-col bg-gray-800 rounded shadow-lg py-3 h-full px-4 min-w-0">

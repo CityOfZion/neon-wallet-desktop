@@ -2,8 +2,9 @@ import { forwardRef, useImperativeHandle, useMemo, useRef, useState } from 'reac
 import { Balance, TokenBalance, UseMultipleBalanceAndExchangeResult } from '@renderer/@types/query'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { BalanceHelper } from '@renderer/helpers/BalanceHelper'
-import { FilterHelper } from '@renderer/helpers/FilterHelper'
+import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 import { getI18next } from '@renderer/libs/i18next'
 import {
   createColumnHelper,
@@ -37,6 +38,8 @@ const columnHelper = createColumnHelper<TTokenBalanceWithExchange>()
 
 export const TokensTable = forwardRef<HTMLDivElement, TProps>(
   ({ balanceExchange, showSimplified, className, onTokenSelected, selectedToken, containerClassName }, ref) => {
+    const { currency } = useCurrencySelector()
+
     const filteredTokenBalance = useMemo(() => {
       const groupedTokens = new Map<string, TTokenBalanceWithExchange>()
 
@@ -103,11 +106,11 @@ export const TokensTable = forwardRef<HTMLDivElement, TProps>(
                 header: t('components:tokensTable.holdings'),
               }),
               columnHelper.accessor('exchangeRatio', {
-                cell: info => FilterHelper.currency(info.getValue()),
+                cell: info => NumberHelper.currency(info.getValue(), currency.label),
                 header: t('components:tokensTable.price'),
               }),
               columnHelper.accessor('convertedAmount', {
-                cell: info => FilterHelper.currency(info.getValue()),
+                cell: info => NumberHelper.currency(info.getValue(), currency.label),
                 header: t('components:tokensTable.value'),
               }),
             ]
@@ -135,11 +138,11 @@ export const TokensTable = forwardRef<HTMLDivElement, TProps>(
                 header: t('components:tokensTable.holdings'),
               }),
               columnHelper.accessor('exchangeRatio', {
-                cell: info => FilterHelper.currency(info.getValue()),
+                cell: info => NumberHelper.currency(info.getValue(), currency.label),
                 header: t('components:tokensTable.price'),
               }),
             ],
-      [showSimplified]
+      [currency.label, showSimplified]
     )
 
     const table = useReactTable({

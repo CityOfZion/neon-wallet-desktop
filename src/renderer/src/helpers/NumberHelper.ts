@@ -12,13 +12,13 @@ export class NumberHelper {
     return decimals?.length ?? 0
   }
 
-  static currency(input: string | number, minimumFractionDigits = 2, maximumFractionDigits = 2) {
+  static currency(input: string | number, currencyName: string, minimumFractionDigits = 2, maximumFractionDigits = 2) {
     const num = Number(input)
 
     try {
       return new Intl.NumberFormat('en-US', {
         style: 'currency',
-        currency: 'USD',
+        currency: currencyName,
         minimumFractionDigits,
         maximumFractionDigits,
       })
