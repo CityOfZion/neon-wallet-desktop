@@ -160,7 +160,11 @@ interface Resources {
       strong: 'Strong'
     }
     claimGasButton: {
-      label: 'Claim {{amount}} GAS'
+      buttonLabel: 'Claim GAS'
+      claimAmount: '{{amount}} {{symbol}}'
+      youHaveUnclaimed: 'You have unclaimed {{symbol}}!'
+      feeToClaim: 'Fee to claim: {{fee}} {{symbol}}'
+      cantClaim: "Can't claim because balance will not cover network fees!"
       errorDecryptKey: 'Error decrypting key'
     }
   }
@@ -862,7 +866,7 @@ interface Resources {
         title: 'Mobile App'
         subtitle: 'Your wallet is available on mobile too!'
         descriptionLine1: 'Safely store, view and manage all of your digital assets and multiple wallets in one place.'
-        descriptionLine2: 'Take advantage of the additional security options on your device to keep your assets safe'
+        descriptionLine2: 'Take advantage of the additional security options on your device to keep your assets safe.'
       }
       settingsBackupWallet: {
         title: 'Backup NEON'

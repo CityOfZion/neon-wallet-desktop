@@ -116,7 +116,11 @@
     "strong": "Strong"
   },
   "claimGasButton": {
-    "label": "Claim {{amount}} GAS",
+    "buttonLabel": "Claim GAS",
+    "claimAmount": "{{amount}} {{symbol}}",
+    "youHaveUnclaimed": "You have unclaimed {{symbol}}!",
+    "feeToClaim": "Fee to claim: {{fee}} {{symbol}}",
+    "cantClaim": "Can't claim because balance will not cover network fees!",
     "errorDecryptKey": "Error decrypting key"
   }
 }

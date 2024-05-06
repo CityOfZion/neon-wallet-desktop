@@ -3,7 +3,7 @@ import { NetworkType } from '@cityofzion/blockchain-service'
 import { IContactState, IWalletState, TWalletType } from './store'
 
 export type TBlockchainServiceKey = 'neo3' | 'neoLegacy' | 'ethereum'
-export type TBlockchainImageColor = 'white' | 'gray' | 'blue'
+export type TBlockchainImageColor = 'white' | 'gray' | 'blue' | 'green'
 export type TAccountColorKey = 'green' | 'blue' | 'magenta' | 'lightBlue' | 'yellow' | 'purple' | 'orange'
 
 export type TAccountToImport = {
