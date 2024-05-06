@@ -20,19 +20,14 @@ export const useBeforeLogin = () => {
   }, [networkType])
 
   useEffect(() => {
-    const listener = () => {
-      walletsRef.current
-        .filter(it => it.walletType === 'ledger')
-        .forEach(wallet => {
-          deleteWallet(wallet.id)
-        })
+    walletsRef.current
+      .filter(it => it.walletType === 'ledger')
+      .forEach(wallet => {
+        deleteWallet(wallet.id)
+      })
 
-      dispatch(accountReducerActions.removeAllPendingTransactions())
-    }
-    window.addEventListener('beforeunload', listener)
+    dispatch(accountReducerActions.removeAllPendingTransactions())
 
-    return () => {
-      window.removeEventListener('beforeunload', listener)
-    }
-  }, [walletsRef, deleteWallet, dispatch])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 }
