@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { BsCash } from 'react-icons/bs'
 import { MdOutlineListAlt } from 'react-icons/md'
-import { Tb3DCubeSphere } from 'react-icons/tb'
+import { Tb3DCubeSphere, TbDeviceMobile } from 'react-icons/tb'
 import { useMatch } from 'react-router-dom'
 
 import { SettingsSidebarLink } from './SettingsSidebarLink'
@@ -30,6 +30,11 @@ export const SettingsPersonalizationTabContent = () => {
           title={t('personalisationOption.releaseNotes')}
           icon={<MdOutlineListAlt />}
           to="/app/settings/personalisation/release-notes"
+        />
+        <SettingsSidebarLink
+          title={t('personalisationOption.mobileApp')}
+          icon={<TbDeviceMobile />}
+          to="/app/settings/personalisation/mobile-app"
         />
       </ul>
     </nav>

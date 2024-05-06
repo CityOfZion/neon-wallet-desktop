@@ -816,6 +816,7 @@ interface Resources {
         language: 'Language'
         theme: 'Theme'
         releaseNotes: 'Release Notes'
+        mobileApp: 'Mobile App'
       }
       securityOption: {
         changePassword: 'Change password'
@@ -856,6 +857,12 @@ interface Resources {
         button: {
           learnMore: 'Learn More'
         }
+      }
+      settingsMobileApp: {
+        title: 'Mobile App'
+        subtitle: 'Your wallet is available on mobile too!'
+        descriptionLine1: 'Safely store, view and manage all of your digital assets and multiple wallets in one place.'
+        descriptionLine2: 'Take advantage of the additional security options on your device to keep your assets safe'
       }
       settingsBackupWallet: {
         title: 'Backup NEON'
