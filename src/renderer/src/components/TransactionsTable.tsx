@@ -141,7 +141,7 @@ export const TransactionsTable = forwardRef<HTMLDivElement, TTransactionListProp
 
     return (
       <section
-        className="overflow-auto min-h-0 w-full flex flex-col flex-grow mt-4 pr-1 text-xs min-w-0"
+        className="overflow-auto min-h-0 w-full flex flex-col flex-grow mt-4 text-xs min-w-0"
         ref={scrollRef}
         onScroll={handleScroll}
       >
