@@ -1,5 +1,5 @@
 appId: com.electron.neon3
-productName: Neon3
+productName: Neon Wallet
 directories:
   buildResources: build
 files:

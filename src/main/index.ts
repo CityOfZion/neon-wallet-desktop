@@ -7,6 +7,7 @@ import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import { app, BrowserWindow, shell } from 'electron'
 import { join } from 'path'
 
+import * as packageJson from '../../package.json'
 import icon from '../../resources/icon.png?asset'
 
 import { registerEncryptionHandlers } from './encryption'
@@ -19,6 +20,7 @@ let mainWindow: BrowserWindow | null = null
 
 function createWindow(): void {
   mainWindow = new BrowserWindow({
+    title: `Neon Wallet ${packageJson.version}`,
     width: 1280,
     height: 720,
     minWidth: 1280,
@@ -34,6 +36,10 @@ function createWindow(): void {
 
   mainWindow.on('ready-to-show', () => {
     mainWindow?.show()
+  })
+
+  mainWindow.on('page-title-updated', function (e) {
+    e.preventDefault()
   })
 
   mainWindow.webContents.setWindowOpenHandler(details => {
