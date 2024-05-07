@@ -19,7 +19,7 @@ export const YourAddressTabContent = forwardRef<HTMLDivElement>((_, ref) => {
   const [selectedAccount, setSelectedAccount] = useState<IAccountState>(state?.account)
 
   const handleDownload = () => {
-    UtilsHelper.donwloadSVGToPng('QRCode', selectedAccount.address || 'QRCode')
+    UtilsHelper.donwloadSVGToPng('QRCode', selectedAccount.address)
   }
 
   return (

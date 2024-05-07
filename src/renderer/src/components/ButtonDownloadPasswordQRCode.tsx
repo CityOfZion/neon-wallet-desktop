@@ -20,7 +20,7 @@ export const ButtonDownloadPasswordQRCode = ({ label, variant, leftIcon, onDownl
   const [decryptedPassword, setDecryptedPassword] = useState<string>('')
 
   const handleDownload = () => {
-    UtilsHelper.donwloadSVGToPng('QRCode', t('passwordNEONQRCode'))
+    UtilsHelper.donwloadSVGToPng('QRCode')
     if (onDownload) onDownload()
   }
 

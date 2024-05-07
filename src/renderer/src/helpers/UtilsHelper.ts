@@ -2,6 +2,7 @@ import { getI18n } from 'react-i18next'
 import _ from 'lodash'
 import * as uuid from 'uuid'
 
+import { DateHelper } from './DateHelper'
 import { ToastHelper } from './ToastHelper'
 
 export type TImageSize = {
@@ -141,7 +142,7 @@ export class UtilsHelper {
     return wordArray.length > 1
   }
 
-  static donwloadSVGToPng(elementId: string, fileName: string) {
+  static donwloadSVGToPng(elementId: string, suggestedFileName?: string) {
     const svg = document.getElementById(elementId)
     if (!svg) return
 
@@ -152,6 +153,9 @@ export class UtilsHelper {
     if (!ctx) return
 
     const img = new Image()
+
+    const dateString = DateHelper.getCurrentFullDateString()
+    const fileName = suggestedFileName || `Neon3_QRCode_${dateString}.png`
 
     img.onload = () => {
       canvas.width = img.width
