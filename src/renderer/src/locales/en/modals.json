@@ -385,7 +385,8 @@
     "alert": "Deleting an wallet that contains assets will cause these assets to become inaccessible after deletion!",
     "warning": "Are you sure you want to continue?",
     "delete": "Delete Wallet",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "deleteLastWalletError": "Must have at least one wallet"
   },
   "confirmPasswordBackup": {
     "title": "Backup NEON",

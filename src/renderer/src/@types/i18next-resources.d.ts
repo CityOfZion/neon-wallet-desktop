@@ -574,6 +574,7 @@ interface Resources {
       warning: 'Are you sure you want to continue?'
       delete: 'Delete Wallet'
       cancel: 'Cancel'
+      deleteLastWalletError: 'Must have at least one wallet'
     }
     confirmPasswordBackup: {
       title: 'Backup NEON'
