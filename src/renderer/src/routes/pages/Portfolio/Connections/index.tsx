@@ -24,8 +24,8 @@ export const PortfolioConnectionsPage = () => {
         'bg-gray-800 rounded shadow-lg': !address,
       })}
     >
-      <div className="flex justify-between items-center text-sm mb-3 max-h-[1.75rem] h-full">
-        <p className="text-white text-sm">{t('title')}</p>
+      <div className="flex justify-between text-sm mb-3">
+        <p className="text-white">{t('title')}</p>
 
         <span className="text-gray-300">
           {t('walletsAndAccounts', { wallets: wallets.length, accounts: accounts.length })}
