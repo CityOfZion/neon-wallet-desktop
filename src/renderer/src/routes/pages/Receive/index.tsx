@@ -1,36 +1,22 @@
 import { useTranslation } from 'react-i18next'
 import { TbStepInto } from 'react-icons/tb'
-import { Tabs } from '@renderer/components/Tabs'
+import { useLocation } from 'react-router-dom'
 import { ContentLayout } from '@renderer/layouts/ContentLayout'
+import { MainLayout } from '@renderer/layouts/Main'
 
-import { YourAddressTabContent } from './YourAddressTabContent'
-
-enum ETabbarOption {
-  YOUR_ADDRESS = 'YOUR_ADDRESS',
-  REQUEST_TOKENS = 'REQUEST_TOKENS',
-}
+import { ReceiveYourAddressContent } from './ReceivePageContent'
 
 export const ReceiveYourAddress = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'receive' })
+  const { state } = useLocation()
 
-  return (
+  return state?.account ? (
     <ContentLayout title={t('title')} titleIcon={<TbStepInto />}>
-      <section className="bg-gray-800 w-full flex-grow flex flex-col rounded text-xs">
-        <Tabs.Root defaultValue={ETabbarOption.YOUR_ADDRESS} className="flex flex-col w-full flex-grow  px-4 my-4">
-          <Tabs.List className="uppercase">
-            <Tabs.Trigger value={ETabbarOption.YOUR_ADDRESS} className="border-transparent">
-              {t('yourAddressTabTitle')}
-            </Tabs.Trigger>
-            <Tabs.Trigger value={ETabbarOption.REQUEST_TOKENS} className="border-transparent" disabled>
-              {t('requestTokenTabTitle')}
-            </Tabs.Trigger>
-          </Tabs.List>
-
-          <Tabs.Content value={ETabbarOption.YOUR_ADDRESS} asChild>
-            <YourAddressTabContent />
-          </Tabs.Content>
-        </Tabs.Root>
-      </section>
+      <ReceiveYourAddressContent />
     </ContentLayout>
+  ) : (
+    <MainLayout heading={t('title')}>
+      <ReceiveYourAddressContent />
+    </MainLayout>
   )
 }
