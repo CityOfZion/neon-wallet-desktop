@@ -84,7 +84,6 @@ export const ImportModal = () => {
 
   return (
     <EndModalLayout heading={t('title')} headingIcon={<TbFileImport />} contentClassName="flex flex-col">
-      <p className="text-gray-300 uppercase font-bold">{t('subtitle')}</p>
       <p className="text-xs">{t('description')}</p>
 
       <form className="mt-10 flex flex-col justify-between flex-grow" onSubmit={handleAct(handleSubmit)}>
