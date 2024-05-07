@@ -162,6 +162,7 @@ export const PersistContactModal = () => {
                   leftIcon={<TbPlus className="stroke-neon" />}
                   label={t('addAddress')}
                   variant="outlined"
+                  disabled={!actionData.name}
                   onClick={() => openAddAddressModal()}
                   className="w-[17.125rem]"
                   flat
