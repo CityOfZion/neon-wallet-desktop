@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useOutletContext } from 'react-router-dom'
+import { isClaimable } from '@cityofzion/blockchain-service'
 import { IAccountState } from '@renderer/@types/store'
 import { BalanceChart } from '@renderer/components/BalanceChart'
 import { BalanceHelper } from '@renderer/helpers/BalanceHelper'
@@ -8,7 +9,9 @@ import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { useBalancesAndExchange } from '@renderer/hooks/useBalancesAndExchange'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 import { AccountDetailsLayout } from '@renderer/layouts/AccountDetailsLayout'
+import { bsAggregator } from '@renderer/libs/blockchainService'
 
+import { ClaimGasBanner } from '../ClaimGasBanner'
 import { CommonAccountActions } from '../CommonAccountActions'
 
 type TOutletContext = {
@@ -23,6 +26,8 @@ export const AccountOverview = () => {
   const { currency } = useCurrencySelector()
 
   const balanceExchange = useBalancesAndExchange(account ? [account] : [])
+
+  const blockchainService = bsAggregator.blockchainServicesByName[account.blockchain]
 
   const formattedTotalTokensBalances = useMemo(
     () =>
@@ -46,6 +51,8 @@ export const AccountOverview = () => {
         </div>
 
         <BalanceChart balanceExchange={balanceExchange} />
+
+        {isClaimable(blockchainService) && <ClaimGasBanner blockchainService={blockchainService} account={account} />}
       </div>
     </AccountDetailsLayout>
   )

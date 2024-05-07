@@ -1,10 +1,12 @@
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TbStepInto } from 'react-icons/tb'
+import { TbTransform } from 'react-icons/tb'
 import { BlockchainService, hasLedger, isCalculableFee, isClaimable } from '@cityofzion/blockchain-service'
 import { TBlockchainServiceKey } from '@renderer/@types/blockchain'
 import { IAccountState } from '@renderer/@types/store'
+import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { Button } from '@renderer/components/Button'
+import { Loader } from '@renderer/components/Loader'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { useBalances } from '@renderer/hooks/useBalances'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
@@ -17,7 +19,7 @@ type TProps = {
   blockchainService: BlockchainService<TBlockchainServiceKey>
 }
 
-export const ClaimGasButton = ({ account, blockchainService }: TProps) => {
+export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
   const { t } = useTranslation('components', { keyPrefix: 'claimGasButton' })
   const { t: commonT } = useTranslation('common')
   const { encryptedPassword } = useEncryptedPasswordSelector()
@@ -116,21 +118,74 @@ export const ClaimGasButton = ({ account, blockchainService }: TProps) => {
     }
   }
 
+  const claimTokenSymbol = useMemo(() => {
+    return isClaimable(blockchainService) && blockchainService.claimToken.symbol
+  }, [blockchainService])
+
   return (
-    <Button
-      label={t('label', { amount: hasClaimed ? undefined : unclaimedData?.unclaimed })}
-      leftIcon={<TbStepInto className="text-neon w-5 h-5" />}
-      variant="outlined"
-      disabled={
-        !accountFeeTokenBalance ||
-        !unclaimedData ||
-        !unclaimedData.unclaimed ||
-        parseFloat(unclaimedData.fee) > accountFeeTokenBalance ||
-        hasClaimed
-      }
-      loading={unclaimedDataIsLoading || balance.isLoading || loadingClaim}
-      flat
-      onClick={handleClaimGas}
-    />
+    <div className="w-full bg-asphalt flex items-center justify-center rounded h-[55px] mt-5 text-sm">
+      {unclaimedDataIsLoading || balance.isLoading ? (
+        <Loader />
+      ) : (
+        <div className="w-full flex justify-between items-center h-full px-4">
+          <div className="flex items-center gap-x-2">
+            <div className="flex items-center gap-x-1">
+              <BlockchainIcon blockchain={account.blockchain} type="green" />
+              {claimTokenSymbol}
+            </div>
+
+            {!!accountFeeTokenBalance &&
+            unclaimedData &&
+            unclaimedData.unclaimed &&
+            !hasClaimed &&
+            parseFloat(unclaimedData.fee) <= accountFeeTokenBalance ? (
+              <div className="flex gap-x-1">
+                <span className="text-gray-100">
+                  {t('youHaveUnclaimed', {
+                    symbol: claimTokenSymbol,
+                  })}
+                </span>
+                <span className="text-gray-300">
+                  {t('feeToClaim', {
+                    fee: unclaimedData?.fee,
+                    symbol: claimTokenSymbol,
+                  })}
+                </span>
+              </div>
+            ) : (
+              unclaimedData &&
+              !!accountFeeTokenBalance &&
+              parseFloat(unclaimedData.fee) > accountFeeTokenBalance && (
+                <span className="text-gray-300">{t('cantClaim')}</span>
+              )
+            )}
+          </div>
+          <div className="flex items-center gap-x-2">
+            {unclaimedData?.unclaimed && (
+              <span>
+                {t('claimAmount', {
+                  amount: unclaimedData?.unclaimed,
+                  symbol: claimTokenSymbol,
+                })}
+              </span>
+            )}
+            <Button
+              label={t('buttonLabel')}
+              leftIcon={<TbTransform className="text-neon w-5 h-5" />}
+              disabled={
+                !accountFeeTokenBalance ||
+                !unclaimedData ||
+                !unclaimedData.unclaimed ||
+                parseFloat(unclaimedData.fee) > accountFeeTokenBalance ||
+                hasClaimed
+              }
+              flat
+              loading={loadingClaim}
+              onClick={handleClaimGas}
+            />
+          </div>
+        </div>
+      )}
+    </div>
   )
 }
