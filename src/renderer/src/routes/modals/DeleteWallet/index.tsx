@@ -5,8 +5,10 @@ import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'
 import { StringHelper } from '@renderer/helpers/StringHelper'
+import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
+import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
 import { EndModalLayout } from '@renderer/layouts/EndModal'
 
 type TLocationState = {
@@ -16,11 +18,17 @@ type TLocationState = {
 export const DeleteWalletModal = () => {
   const { wallet } = useModalState<TLocationState>()
   const { t } = useTranslation('modals', { keyPrefix: 'deleteWallet' })
+  const { wallets } = useWalletsSelector()
   const { modalNavigate } = useModalNavigate()
   const { deleteWallet } = useBlockchainActions()
 
   const handleDelete = () => {
-    deleteWallet(wallet.id)
+    if (wallets.length === 1 && wallets[0].id === wallet.id) {
+      ToastHelper.error({ message: t('deleteLastWalletError') })
+    } else {
+      deleteWallet(wallet.id)
+    }
+
     modalNavigate(-2)
   }
 
