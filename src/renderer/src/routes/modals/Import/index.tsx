@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next'
-import { MdChevronRight } from 'react-icons/md'
 import { TbFileImport } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
 import { TBlockchainServiceKey } from '@renderer/@types/blockchain'
@@ -114,7 +113,7 @@ export const ImportModal = () => {
           className="mt-8"
           type="submit"
           label={t('buttonContinueLabel')}
-          rightIcon={<MdChevronRight />}
+          disabled={!actionData.text}
           loading={actionState.isActing}
           flat
         />
