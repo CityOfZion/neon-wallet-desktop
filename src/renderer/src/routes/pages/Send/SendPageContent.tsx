@@ -265,7 +265,7 @@ export const SendPageContent = ({ account }: TProps) => {
             title={t('sourceAccount')}
             modalTitle={t('selectAccountModal.title')}
             buttonLabel={t('selectAccountModal.selectSourceAccount')}
-            leftIcon={<TbStepOut />}
+            leftIcon={<TbStepOut className="text-neon" />}
           />
 
           <Separator />

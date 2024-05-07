@@ -33,7 +33,7 @@ export const YourAddressTabContent = forwardRef<HTMLDivElement>((_, ref) => {
             title={t('receivingAccountTitle')}
             modalTitle={t('selectAccountModal.title')}
             buttonLabel={t('selectAccountModal.selectReceivingAccount')}
-            leftIcon={<TbStepInto />}
+            leftIcon={<TbStepInto className="text-neon" />}
           />
         </div>
 
