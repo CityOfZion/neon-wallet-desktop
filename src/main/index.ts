@@ -13,6 +13,7 @@ import icon from '../../resources/icon.png?asset'
 import { registerEncryptionHandlers } from './encryption'
 import { getLedgerTransport, registerLedgerHandler } from './ledger'
 import { setupSentry } from './sentryElectron'
+import { registerUpdaterHandler } from './updater'
 import { registerWindowHandlers } from './window'
 
 const gotTheLock = app.requestSingleInstanceLock()
@@ -98,6 +99,7 @@ if (!gotTheLock) {
     ethereum: new BSEthereum('ethereum', { type: 'mainnet' }, getLedgerTransport),
   })
 
+  registerUpdaterHandler()
   registerWindowHandlers()
   registerEncryptionHandlers()
   registerLedgerHandler(bsAggregator)

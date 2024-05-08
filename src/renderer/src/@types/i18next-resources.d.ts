@@ -633,6 +633,21 @@ interface Resources {
         }
       }
     }
+    updateComplete: {
+      title: 'Your wallet has been updated!'
+      description: 'Neon updates provide your wallet with new and improved security and functionality while addressing existing issues, such as bugs and crashes'
+      buttonPatchNotesLabel: 'Patch notes'
+      buttonContinueLabel: 'Start using your wallet'
+    }
+    downloadWalletMobile: {
+      title: 'Your wallet is available on mobile too!'
+      description: 'Safely store, view and manage all of your digital assets and multiple wallets in one place. Take advantage of the additional security options on your device to keep your assets safe'
+      downloadForIOS: 'Download for iOS'
+      downloadForAndroid: 'Download for Android'
+      iosLink: 'https://apps.apple.com/br/app/neon-wallet-mobile/id1530111452'
+      androidLink: 'https://play.google.com/store/apps/details?id=io.cityofzion.neon&pcampaignid=web_share'
+      buttonContinueLabel: 'Continue to your wallet'
+    }
   }
   pages: {
     welcome: {

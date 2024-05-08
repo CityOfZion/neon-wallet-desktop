@@ -41,4 +41,8 @@ export const customAPI = {
   saveFile: (path: string, content: string): Promise<void> => electronAPI.ipcRenderer.invoke('saveFile', path, content),
 
   startLedgerListen: () => electronAPI.ipcRenderer.invoke('startLedgerListen'),
+
+  checkForUpdates: (): Promise<void> => electronAPI.ipcRenderer.invoke('checkForUpdates'),
+
+  quitAndInstall: (): Promise<void> => electronAPI.ipcRenderer.invoke('quitAndInstall'),
 }
