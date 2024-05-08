@@ -5,12 +5,12 @@ import { Button } from '@renderer/components/Button'
 import { Checkbox } from '@renderer/components/Checkbox'
 import { Separator } from '@renderer/components/Separator'
 import { useAccountUtils } from '@renderer/hooks/useAccountSelector'
-import { TMigrateAccountSchema } from '@renderer/hooks/useBackupOrMigrate'
+import { TMigrateSchema, TMigrateWalletsSchema } from '@renderer/hooks/useBackupOrMigrate'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { MigrateAccountsModalLayout } from '@renderer/layouts/MigrateAccountsModalLayout'
 
 type TState = {
-  content: TMigrateAccountSchema[]
+  content: TMigrateSchema
 }
 
 export const MigrateAccountsStep3Modal = () => {
@@ -19,9 +19,9 @@ export const MigrateAccountsStep3Modal = () => {
   const { modalNavigateWrapper } = useModalNavigate()
   const { doesAccountExist } = useAccountUtils()
 
-  const [selectedAccountsToMigrate, setSelectedAccountsToMigrate] = useState<TMigrateAccountSchema[]>([])
+  const [selectedAccountsToMigrate, setSelectedAccountsToMigrate] = useState<TMigrateWalletsSchema[]>([])
 
-  const handleSelect = (wallet: TMigrateAccountSchema) => {
+  const handleSelect = (wallet: TMigrateWalletsSchema) => {
     setSelectedAccountsToMigrate(prev => {
       const index = prev.findIndex(prevWallet => prevWallet.address === wallet.address)
 
@@ -34,7 +34,7 @@ export const MigrateAccountsStep3Modal = () => {
   }
 
   const handleSelectAll = () => {
-    const filteredContent = content.filter(wallet => !doesAccountExist(wallet.address))
+    const filteredContent = content.accounts.filter(wallet => !doesAccountExist(wallet.address))
     setSelectedAccountsToMigrate(filteredContent)
   }
 
@@ -49,7 +49,7 @@ export const MigrateAccountsStep3Modal = () => {
       </div>
 
       <div className="w-full flex-grow flex flex-col overflow-y-auto min-h-0 mt-1 pr-2">
-        {content.map((wallet, index) => {
+        {content.accounts.map((wallet, index) => {
           const isAccountExist = doesAccountExist(wallet.address)
 
           return (
@@ -73,14 +73,14 @@ export const MigrateAccountsStep3Modal = () => {
                 />
               </div>
 
-              {index < content.length - 1 && <Separator />}
+              {index < content.accounts.length - 1 && <Separator />}
             </Fragment>
           )
         })}
       </div>
 
       <span className="text-center text-blue my-3.5">
-        {t('selectedQuantity', { selected: selectedAccountsToMigrate.length, total: content.length })}
+        {t('selectedQuantity', { selected: selectedAccountsToMigrate.length, total: content.accounts.length })}
       </span>
 
       <Button
@@ -88,7 +88,7 @@ export const MigrateAccountsStep3Modal = () => {
         flat
         className="px-16"
         disabled={selectedAccountsToMigrate.length <= 0}
-        onClick={modalNavigateWrapper('migrate-accounts-step-4', { state: { selectedAccountsToMigrate } })}
+        onClick={modalNavigateWrapper('migrate-accounts-step-4', { state: { selectedAccountsToMigrate, content } })}
       />
     </MigrateAccountsModalLayout>
   )

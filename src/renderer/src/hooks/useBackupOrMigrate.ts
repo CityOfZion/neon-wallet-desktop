@@ -7,11 +7,12 @@ import zod from 'zod'
 
 import { useModalNavigate } from './useModalRouter'
 
-export type TMigrateAccountSchema = zod.infer<typeof migrateWalletsSchema>
+export type TMigrateWalletsSchema = zod.infer<typeof migrateWalletsSchema>
+export type TMigrateSchema = zod.infer<typeof migrateSchema>
 
 type TFile = {
   path: string
-  content: string | TMigrateAccountSchema[]
+  content: string | TMigrateSchema
 }
 
 const migrateWalletsSchema = zod.object({
@@ -22,6 +23,11 @@ const migrateWalletsSchema = zod.object({
   key: zod.string(),
   contract: zod.any(),
   extra: zod.any(),
+})
+
+const migrateSchema = zod.object({
+  accounts: zod.array(migrateWalletsSchema),
+  contacts: zod.array(zod.object({ name: zod.string(), addresses: zod.array(zod.string()) })),
 })
 
 export const useBackupOrMigrate = () => {
@@ -48,7 +54,7 @@ export const useBackupOrMigrate = () => {
 
     try {
       const parsedContent = JSON.parse(fileContent)
-      const validatedContent = await migrateWalletsSchema.array().parseAsync(parsedContent)
+      const validatedContent = await migrateSchema.parseAsync(parsedContent)
       ToastHelper.success({ message: t('neon2MigrateFileDetected') })
       setFile({ path: filePath, content: validatedContent })
       setHasError(false)
@@ -70,7 +76,7 @@ export const useBackupOrMigrate = () => {
     }
 
     navigate('/app/settings/security/migrate-accounts')
-    modalNavigate('migrate-accounts-step-3', { state: { content: file.content as TMigrateAccountSchema[] } })
+    modalNavigate('migrate-accounts-step-3', { state: { content: file.content } })
   }
 
   return {

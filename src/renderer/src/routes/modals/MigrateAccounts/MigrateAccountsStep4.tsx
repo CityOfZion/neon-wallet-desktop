@@ -2,20 +2,26 @@ import { Fragment } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdLooks4 } from 'react-icons/md'
 import { TbPackageImport } from 'react-icons/tb'
+import { useDispatch } from 'react-redux'
+import { TContactAddress } from '@renderer/@types/store'
 import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
+import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useActions } from '@renderer/hooks/useActions'
-import { TMigrateAccountSchema } from '@renderer/hooks/useBackupOrMigrate'
+import { TMigrateSchema, TMigrateWalletsSchema } from '@renderer/hooks/useBackupOrMigrate'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { MigrateAccountsModalLayout } from '@renderer/layouts/MigrateAccountsModalLayout'
+import { bsAggregator } from '@renderer/libs/blockchainService'
+import { contactReducerActions } from '@renderer/store/reducers/ContactReducer'
 
 import { DecryptAccountPasswordContainer, TMigrateDecryptedAccountSchema } from './DecryptAccountPasswordContainer'
 import { SuccessContent } from './SuccessContent'
 
 type TState = {
-  selectedAccountsToMigrate: TMigrateAccountSchema[]
+  selectedAccountsToMigrate: TMigrateWalletsSchema[]
+  content: TMigrateSchema
 }
 
 type TActionData = {
@@ -25,9 +31,10 @@ type TActionData = {
 export const MigrateAccountsStep4Modal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'migrateWallets' })
   const { t: commonT } = useTranslation('common', { keyPrefix: 'wallet' })
-  const { selectedAccountsToMigrate } = useModalState<TState>()
+  const { selectedAccountsToMigrate, content } = useModalState<TState>()
   const { createWallet, importAccounts } = useBlockchainActions()
   const { modalNavigate } = useModalNavigate()
+  const dispatch = useDispatch()
 
   const { actionData, actionState, setData, handleAct } = useActions<TActionData>({
     decryptedAccounts: [],
@@ -53,6 +60,27 @@ export const MigrateAccountsStep4Modal = () => {
           type: 'legacy',
           name: decryptedWallet.label,
         })),
+      })
+
+      content.contacts.map(contact => {
+        const contactAddresses: TContactAddress[] = []
+
+        contact.addresses.forEach(address => {
+          const blockchain = bsAggregator.getBlockchainNameByAddress(address)
+          if (!blockchain) return
+
+          contactAddresses.push({ address, blockchain })
+        })
+
+        if (!contactAddresses.length) return
+
+        dispatch(
+          contactReducerActions.saveContact({
+            name: contact.name,
+            id: UtilsHelper.uuid(),
+            addresses: contactAddresses,
+          })
+        )
       })
 
       modalNavigate(-3)
