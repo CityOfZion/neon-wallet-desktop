@@ -1,4 +1,4 @@
-import { forwardRef, useImperativeHandle, useMemo, useState } from 'react'
+import { forwardRef, useImperativeHandle, useMemo } from 'react'
 import { MdContentCopy } from 'react-icons/md'
 import { TbChevronRight } from 'react-icons/tb'
 import { TUseTransactionsTransfer } from '@renderer/@types/hooks'
@@ -13,14 +13,7 @@ import { useAppSelector } from '@renderer/hooks/useRedux'
 import { useNetworkTypeSelector } from '@renderer/hooks/useSettingsSelector'
 import { useTransactions } from '@renderer/hooks/useTransactions'
 import { getI18next } from '@renderer/libs/i18next'
-import {
-  createColumnHelper,
-  flexRender,
-  getCoreRowModel,
-  getSortedRowModel,
-  SortingState,
-  useReactTable,
-} from '@tanstack/react-table'
+import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
 import { format } from 'date-fns'
 
 import { BlockchainIcon } from './BlockchainIcon'
@@ -46,8 +39,6 @@ export const TransactionsTable = forwardRef<HTMLDivElement, TTransactionListProp
     const { networkType } = useNetworkTypeSelector()
     const { handleScroll, ref: scrollRef } = useInfiniteScroll<HTMLDivElement>(fetchNextPage)
 
-    const [sorting, setSorting] = useState<SortingState>([])
-
     const columns = useMemo(
       () => [
         ...(!showSimplified
@@ -56,7 +47,6 @@ export const TransactionsTable = forwardRef<HTMLDivElement, TTransactionListProp
                 cell: info => <BlockchainIcon blockchain={info.getValue()} />,
                 id: 'blockchain',
                 header: undefined,
-                enableSorting: false,
               }),
             ]
           : []),
@@ -115,15 +105,7 @@ export const TransactionsTable = forwardRef<HTMLDivElement, TTransactionListProp
     const table = useReactTable({
       data: allTransfers,
       columns,
-      state: {
-        sorting,
-      },
       getCoreRowModel: getCoreRowModel(),
-      getSortedRowModel: getSortedRowModel(),
-      onSortingChange: newSorting => {
-        setSorting(newSorting)
-        scrollRef.current?.scrollTo(0, 0)
-      },
     })
 
     const handleClick = (row: TUseTransactionsTransfer) => {
@@ -157,12 +139,7 @@ export const TransactionsTable = forwardRef<HTMLDivElement, TTransactionListProp
               {table.getHeaderGroups().map(headerGroup => (
                 <Table.HeaderRow key={headerGroup.id}>
                   {headerGroup.headers.map(header => (
-                    <Table.Head
-                      key={header.id}
-                      sortable={header.column.getCanSort()}
-                      sortedBy={header.column.getIsSorted()}
-                      onClick={header.column.getToggleSortingHandler()}
-                    >
+                    <Table.Head key={header.id}>
                       {flexRender(header.column.columnDef.header, header.getContext())}
                     </Table.Head>
                   ))}
