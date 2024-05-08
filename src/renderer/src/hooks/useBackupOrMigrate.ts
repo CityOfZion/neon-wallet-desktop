@@ -40,7 +40,7 @@ export const useBackupOrMigrate = () => {
     const fileContent = await window.api.readFile(filePath)
 
     if (filePath.endsWith(BACKUP_FILE_EXTENSION)) {
-      ToastHelper.info({ message: t('neon3BackupFileDetected') })
+      ToastHelper.success({ message: t('neon3BackupFileDetected') })
       setFile({ path: filePath, content: fileContent })
       setHasError(false)
       return
@@ -49,7 +49,7 @@ export const useBackupOrMigrate = () => {
     try {
       const parsedContent = JSON.parse(fileContent)
       const validatedContent = await migrateWalletsSchema.array().parseAsync(parsedContent)
-      ToastHelper.info({ message: t('neon2MigrateFileDetected') })
+      ToastHelper.success({ message: t('neon2MigrateFileDetected') })
       setFile({ path: filePath, content: validatedContent })
       setHasError(false)
       return
