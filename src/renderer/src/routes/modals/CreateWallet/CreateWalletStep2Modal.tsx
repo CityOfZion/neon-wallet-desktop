@@ -16,7 +16,7 @@ type TLocationState = {
 export const CreateWalletStep2Modal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'createWallet.step2' })
   const { words } = useModalState<TLocationState>()
-  const { modalNavigate } = useModalNavigate()
+  const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
 
   const shuffledWords = useMemo(() => _.shuffle(words), [words])
   const [pressedWords, setPressedWords] = useState<string[]>([])
@@ -71,13 +71,17 @@ export const CreateWalletStep2Modal = () => {
           <Banner type="info" message={t('warning')} className="mx-10" />
         </div>
 
-        <Button
-          className="w-48"
-          label={t('nextButtonLabel')}
-          flat
-          onClick={() => validateAndNext()}
-          disabled={isDisabled()}
-        />
+        <div className="flex gap-2">
+          <Button label={t('backButtonLabel')} colorSchema="gray" flat wide onClick={modalNavigateWrapper(-1)} />
+
+          <Button
+            className="w-48"
+            label={t('nextButtonLabel')}
+            flat
+            onClick={() => validateAndNext()}
+            disabled={isDisabled()}
+          />
+        </div>
       </div>
     </CreateWalletModalLayout>
   )

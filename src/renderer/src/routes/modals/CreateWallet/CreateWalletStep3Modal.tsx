@@ -20,7 +20,7 @@ export const CreateWalletStep3Modal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'createWallet.step3' })
   const { t: commonT } = useTranslation('common')
   const { words } = useModalState<TLocationState>()
-  const { modalNavigate } = useModalNavigate()
+  const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
   const { createWallet, createAccount } = useBlockchainActions()
 
   const form = useActions<TFormData>({
@@ -82,7 +82,11 @@ export const CreateWalletStep3Modal = () => {
           </div>
         </div>
 
-        <Button className="w-48" type="submit" label={t('createWalletButtonLabel')} flat />
+        <div className="flex gap-2">
+          <Button label={t('backButtonLabel')} colorSchema="gray" flat wide onClick={modalNavigateWrapper(-1)} />
+
+          <Button className="w-48" type="submit" label={t('createWalletButtonLabel')} flat />
+        </div>
       </form>
     </CreateWalletModalLayout>
   )
