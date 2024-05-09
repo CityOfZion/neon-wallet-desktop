@@ -32,13 +32,15 @@ export const CreateWalletStep3Modal = () => {
   }
 
   const handleSubmit = async ({ name }: TFormData) => {
-    if (name.length <= 0) {
+    const nameTrimmed = name.trim()
+
+    if (nameTrimmed.length <= 0) {
       form.setError('name', t('nameLengthError'))
       return
     }
 
     const wallet = await createWallet({
-      name: name,
+      name: nameTrimmed,
       walletType: 'standard',
       mnemonic: words.join(' '),
     })

@@ -61,7 +61,7 @@ export const DeleteModal = () => {
         <Button
           label={buttonLabel}
           type="button"
-          leftIcon={<MdDeleteForever className="fill-pink" />}
+          leftIcon={<MdDeleteForever />}
           variant="outlined"
           colorSchema="error"
           flat

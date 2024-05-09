@@ -160,7 +160,7 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
               )
             )}
           </div>
-          <div className="flex items-center gap-x-2">
+          <div className="flex items-center gap-x-5">
             {unclaimedData?.unclaimed && (
               <span>
                 {t('claimAmount', {
@@ -169,9 +169,10 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
                 })}
               </span>
             )}
+
             <Button
               label={t('buttonLabel')}
-              leftIcon={<TbTransform className="text-neon w-5 h-5" />}
+              leftIcon={<TbTransform />}
               disabled={
                 !accountFeeTokenBalance ||
                 !unclaimedData ||

@@ -31,7 +31,7 @@ export const SettingsNetwork = () => {
       title={t('title')}
       actions={
         <Button
-          leftIcon={<MdRestartAlt className="text-neon w-6 h-6" />}
+          leftIcon={<MdRestartAlt className="text-neon" />}
           label={commonGeneral('reset')}
           clickableProps={{ className: 'w-fit' }}
           variant="text"

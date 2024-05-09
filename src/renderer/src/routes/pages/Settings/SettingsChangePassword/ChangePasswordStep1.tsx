@@ -84,7 +84,7 @@ export const ChangePasswordStep1 = (): JSX.Element => {
                 variant="text"
                 flat
                 type="button"
-                leftIcon={<TbReload className="text-neon" />}
+                leftIcon={<TbReload />}
                 label={t('generatePassword')}
                 onClick={handleGeneratePassword}
               />

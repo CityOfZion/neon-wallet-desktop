@@ -16,7 +16,7 @@ export const CommonAccountActions = ({ account }: TProps) => {
   return account?.type !== 'watch' ? (
     <div className="flex gap-2">
       <Button
-        leftIcon={<TbStepInto className="text-neon w-5 h-5" />}
+        leftIcon={<TbStepInto />}
         label={t('receive')}
         className="w-fit h-9"
         variant="text"
@@ -26,7 +26,7 @@ export const CommonAccountActions = ({ account }: TProps) => {
         onClick={() => navigate('/app/receive', { state: { account: account } })}
       />
       <Button
-        leftIcon={<TbStepOut className="text-neon w-5 h-5" />}
+        leftIcon={<TbStepOut />}
         label={t('send')}
         className="w-fit h-9"
         variant="text"
