@@ -18,9 +18,9 @@ export const SettingsReleaseNotesPage = () => {
           <li key={item.tag_name}>
             <span className="text-gray-300 block text-xs mb-1">{item.published_at}</span>
             <span className="text-white block text-lg mb-2">{item.tag_name}</span>
-            <p className="markdown-body bg-transparent text-xs text-white">
-              <Markdown rehypePlugins={[rehypeRaw]}>{item.body}</Markdown>
-            </p>
+            <Markdown className="markdown-body bg-transparent text-white font-sans text-xs" rehypePlugins={[rehypeRaw]}>
+              {item.body}
+            </Markdown>
 
             {item.html_url && (
               <div className="w-40 mt-6">

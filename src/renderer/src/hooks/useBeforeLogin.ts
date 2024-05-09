@@ -50,7 +50,7 @@ export const useBeforeLogin = () => {
 
   useEffect(() => {
     if (hasOverTheAirUpdatesRef.current) {
-      modalNavigate('updated-completed')
+      modalNavigate('auto-update-completed')
     }
   }, [modalNavigate, hasOverTheAirUpdatesRef])
 }
