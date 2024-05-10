@@ -759,10 +759,13 @@ interface Resources {
         title: 'Select a source account'
         selectSourceAccount: 'Select source account'
       }
-      saveContact: 'Save contact'
-      viewStatus: 'View status'
       sendSuccess: {
         title: 'Your tokens have been sent successfully!'
+        saveContactButtonLabel: 'Save contact'
+        viewStatusButtonLabel: 'View status'
+        detailsTitle: 'Transaction details'
+        addressLabel: 'ADDRESS'
+        transactionHashLabel: 'TRANSACTION HASH'
       }
       sendFail: {
         title: "Oops! We've encountered an error."

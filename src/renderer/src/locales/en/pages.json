@@ -21,7 +21,11 @@
   },
   "welcomeSecuritySetup": {
     "title": "Securing your new wallet",
-    "steps": ["Create Password", "Confirm Password", "Complete"],
+    "steps": [
+      "Create Password",
+      "Confirm Password",
+      "Complete"
+    ],
     "step1": {
       "formTitle": "Please create a password to secure your wallet",
       "passwordPlaceholder": "Create a password...",
@@ -39,7 +43,13 @@
   },
   "welcomeImportWallet": {
     "title": "Import a wallet",
-    "steps": ["Create Password", "Confirm Password", "Enter address or key", "Import", "Complete"],
+    "steps": [
+      "Create Password",
+      "Confirm Password",
+      "Enter address or key",
+      "Import",
+      "Complete"
+    ],
     "step3": {
       "formTitle": "Enter an address, encrypted key, private key or mnemonic",
       "inputPlaceholder": "Enter an address, key or mnemonic...",
@@ -110,10 +120,13 @@
       "title": "Select a source account",
       "selectSourceAccount": "Select source account"
     },
-    "saveContact": "Save contact",
-    "viewStatus": "View status",
     "sendSuccess": {
-      "title": "Your tokens have been sent successfully!"
+      "title": "Your tokens have been sent successfully!",
+      "saveContactButtonLabel": "Save contact",
+      "viewStatusButtonLabel": "View status",
+      "detailsTitle": "Transaction details",
+      "addressLabel": "ADDRESS",
+      "transactionHashLabel": "TRANSACTION HASH"
     },
     "sendFail": {
       "title": "Oops! We've encountered an error.",

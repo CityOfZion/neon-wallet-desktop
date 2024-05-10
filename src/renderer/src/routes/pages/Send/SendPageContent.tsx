@@ -211,6 +211,9 @@ export const SendPageContent = ({ account }: TProps) => {
           subtitle: t('sendSuccess.title'),
           content: (
             <SuccessModalContent
+              selectedAmount={fields.selectedAmount}
+              selectedToken={fields.selectedToken}
+              transactionHash={transactionHash}
               selectedAccount={fields.selectedAccount}
               selectedRecipientAddress={fields.selectedRecipientAddress}
             />
