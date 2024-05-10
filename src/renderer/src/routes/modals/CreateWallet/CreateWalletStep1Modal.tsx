@@ -67,12 +67,16 @@ export const CreateWalletStep1Modal = () => {
           <Banner type="error" message={t('warning')} className="mx-10 print:hidden" />
         </div>
 
-        <Button
-          className="w-48 print:hidden"
-          label={t('nextButtonLabel')}
-          flat
-          onClick={() => modalNavigate('create-wallet-step-2', { state: { words } })}
-        />
+        <div className="flex gap-2">
+          <Button label={t('backButtonLabel')} colorSchema="gray" flat disabled wide />
+
+          <Button
+            className="w-48 print:hidden"
+            label={t('nextButtonLabel')}
+            flat
+            onClick={() => modalNavigate('create-wallet-step-2', { state: { words } })}
+          />
+        </div>
       </div>
     </CreateWalletModalLayout>
   )

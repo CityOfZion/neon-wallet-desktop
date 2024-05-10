@@ -244,7 +244,7 @@ interface Resources {
       deleteAccountSubtext: 'Deleting an account that contains assets will cause these assets to become inaccessible after deletion!'
     }
     createWallet: {
-      title: 'Create Wallet'
+      title: 'Create new wallet'
       heading: 'Creating your new BIP39 wallet'
       step1Header: 'Generate security phrase'
       step1Description: 'This set of secret words make it easy to back up and restore your account. This makes your wallet really secure'
@@ -258,6 +258,7 @@ interface Resources {
         description: 'Write this phrase down on a piece of paper or record it in a secure digital note. You can also download it below but be sure to keep it safe.'
         copyButtonLabel: 'Copy'
         printButtonLabel: 'Print'
+        backButtonLabel: 'Back'
         nextButtonLabel: 'Next'
         warning: 'Anyone with this phrase will be able to access your hard-earned assets and you won’t be able to get them back!'
       }
@@ -265,6 +266,7 @@ interface Resources {
         title: 'Confirm security phrase'
         step2of3: '2 of 3'
         description: 'Please select each phrase in the correct order to make sure you’ve got it right:'
+        backButtonLabel: 'Back'
         nextButtonLabel: 'Next'
         warning: 'If you can’t remember your security phrase, don’t worry, you can find it in the ‘Settings’ section of the wallet'
         tryAgain: 'Please try again to confirm your back up'
@@ -275,6 +277,7 @@ interface Resources {
         description: 'Give your wallet a memorable name, it could be helpful to name it with a label related to what you want to use the wallet for (such as ‘Investments’ or ‘Trading Wallet’).'
         inputLabel: 'Wallet name'
         inputPlaceholder: 'Enter your wallet name...'
+        backButtonLabel: 'Back'
         createWalletButtonLabel: 'Create wallet'
         nameLengthError: 'Name must be at least 1 character long'
       }
