@@ -64,7 +64,7 @@ const columns = [
           <Button
             variant="text"
             label={t('components:contactAddressTable.sendAssets')}
-            leftIcon={<FiSend className="text-neon" />}
+            leftIcon={<FiSend />}
             disabled
             flat
           />

@@ -135,7 +135,7 @@ export const WalletsPage = () => {
                   variant="outlined"
                   className="w-full"
                   flat
-                  leftIcon={<MdAdd className="text-neon" />}
+                  leftIcon={<MdAdd />}
                   onClick={modalNavigateWrapper('persist-account', { state: { wallet: selectedWallet } })}
                 />
               </footer>
@@ -158,10 +158,11 @@ export const WalletsPage = () => {
               </div>
 
               <Button
-                leftIcon={<TbPencil className="text-gray-100 w-5 h-5" />}
+                leftIcon={<TbPencil />}
                 label={t('editAccountButton')}
                 className="w-fit"
                 variant="text"
+                flat
                 colorSchema="gray"
                 clickableProps={{ className: 'text-xs' }}
                 onClick={modalNavigateWrapper('persist-account', { state: { account: selectedAccount } })}

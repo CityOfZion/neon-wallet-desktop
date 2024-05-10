@@ -242,6 +242,7 @@ interface Resources {
       cancelButtonLabel: 'Cancel'
       deleteAccountTitle: 'Delete Account'
       deleteAccountSubtext: 'Deleting an account that contains assets will cause these assets to become inaccessible after deletion!'
+      nameLengthError: 'Name must be at least 1 character long'
     }
     createWallet: {
       title: 'Create new wallet'

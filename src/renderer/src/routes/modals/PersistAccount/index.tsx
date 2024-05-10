@@ -42,13 +42,15 @@ export const PersistAccountModal = () => {
   }
 
   const handleSubmit = async ({ name, backgroundColor }: TFormData) => {
-    if (name.length === 0) {
-      setError('name', 'Name cannot be empty')
+    const nameTrimmed = name.trim()
+
+    if (nameTrimmed.length === 0) {
+      setError('name', t('nameLengthError'))
       return
     }
 
     if (account) {
-      dispatch(accountReducerActions.saveAccount({ ...account, name, backgroundColor }))
+      dispatch(accountReducerActions.saveAccount({ ...account, name: nameTrimmed, backgroundColor }))
       modalNavigate(-1)
     }
 
@@ -62,7 +64,7 @@ export const PersistAccountModal = () => {
             await createAccount({
               wallet,
               blockchain: blockchain,
-              name: name,
+              name: nameTrimmed,
               backgroundColor: backgroundColor,
             })
             modalNavigate(-2)

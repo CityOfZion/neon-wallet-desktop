@@ -69,17 +69,20 @@ export const PersistContactModal = () => {
   const handleChangeName = (event: ChangeEvent<HTMLInputElement>) => {
     const name = event.target.value
     setData({ name })
-
-    if (!name.length) {
-      setError('name', t('invalidName'))
-    }
   }
 
   const handleSubmit = async (data: TFormData) => {
+    const nameTrimmed = data.name.trim()
+
+    if (!nameTrimmed.length) {
+      setError('name', t('invalidName'))
+      return
+    }
+
     if (contact) {
       dispatch(contactReducerActions.saveContact({ name: data.name, addresses: data.addresses, id: contact.id }))
     } else {
-      const newContact: IContactState = { name: data.name, addresses: data.addresses, id: UtilsHelper.uuid() }
+      const newContact: IContactState = { name: nameTrimmed, addresses: data.addresses, id: UtilsHelper.uuid() }
       dispatch(contactReducerActions.saveContact(newContact))
     }
 
@@ -159,7 +162,7 @@ export const PersistContactModal = () => {
               <div className="flex justify-center">
                 <Button
                   type="button"
-                  leftIcon={<TbPlus className="stroke-neon" />}
+                  leftIcon={<TbPlus />}
                   label={t('addAddress')}
                   variant="outlined"
                   disabled={!actionData.name}
@@ -180,7 +183,7 @@ export const PersistContactModal = () => {
               <Button
                 label={t('deleteContact.title')}
                 type="button"
-                leftIcon={<MdDeleteForever className="fill-pink" />}
+                leftIcon={<MdDeleteForever />}
                 variant="outlined"
                 onClick={modalNavigateWrapper('delete-contact', {
                   state: {

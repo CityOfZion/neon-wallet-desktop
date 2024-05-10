@@ -35,11 +35,12 @@ export const EditWalletModal = () => {
   }
 
   const handleSubmit = ({ name }: TFormData) => {
-    if (name.length <= 0) {
+    const nameTrimmed = name.trim()
+    if (nameTrimmed.length <= 0) {
       form.setError('name', t('nameLengthError'))
       return
     }
-    dispatch(walletReducerActions.saveWallet({ ...wallet, name }))
+    dispatch(walletReducerActions.saveWallet({ ...wallet, name: nameTrimmed }))
     modalNavigate(-1)
   }
 
