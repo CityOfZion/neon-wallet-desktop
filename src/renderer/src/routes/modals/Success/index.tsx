@@ -25,7 +25,7 @@ export const SuccessModal = () => {
           <PiSealCheck className="w-24 h-24 text-blue" />
         </div>
 
-        <p className="text-lg text-white mt-7 text-center px-8">{subtitle}</p>
+        <p className="text-lg text-white mt-7 text-center">{subtitle}</p>
 
         {content}
       </div>
