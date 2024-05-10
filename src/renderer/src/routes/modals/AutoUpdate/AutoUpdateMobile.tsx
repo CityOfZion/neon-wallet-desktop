@@ -9,8 +9,8 @@ import { MOBILE_APP_APPSTORE_LINK, MOBILE_APP_PLAYSTORE_LINK } from '@renderer/c
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
 
-export const DownloadWalletMobileModal = () => {
-  const { t } = useTranslation('modals', { keyPrefix: 'downloadWalletMobile' })
+export const AutoUpdateMobile = () => {
+  const { t } = useTranslation('modals', { keyPrefix: 'autoUpdate.mobile' })
   const { modalNavigate } = useModalNavigate()
 
   const appstoreClick = () => {

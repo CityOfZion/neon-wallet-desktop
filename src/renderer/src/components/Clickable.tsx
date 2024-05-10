@@ -109,7 +109,7 @@ const Base = ({
         'aria-[disabled=true]:cursor-not-allowed w-full aria-[disabled=true]:opacity-50 aria-[disabled=false]:cursor-pointer',
         {
           'px-7': wide,
-          'h-10 text-sm': !flat,
+          'h-12 text-sm': !flat,
           'h-8.5 text-xs': flat,
           'px-3': !flat && !wide,
           'px-2': flat && !wide,

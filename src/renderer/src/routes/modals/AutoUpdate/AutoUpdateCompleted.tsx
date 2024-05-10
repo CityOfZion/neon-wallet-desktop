@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { MdOutlineAutoAwesome } from 'react-icons/md'
 import { PiSealCheck } from 'react-icons/pi'
 import { TbNotes } from 'react-icons/tb'
-import { useNavigate } from 'react-router-dom'
 import { ReactComponent as NeonWalletLogo } from '@renderer/assets/images/neon-wallet-full.svg'
 import { Button } from '@renderer/components/Button'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
@@ -11,10 +10,9 @@ import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
 import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
 
-export const UpdateCompleteModal = () => {
-  const { t } = useTranslation('modals', { keyPrefix: 'updateComplete' })
-  const { modalNavigateWrapper, modalNavigate } = useModalNavigate()
-  const navigate = useNavigate()
+export const AutoUpdateCompleted = () => {
+  const { t } = useTranslation('modals', { keyPrefix: 'autoUpdate.completed' })
+  const { modalNavigateWrapper } = useModalNavigate()
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -41,24 +39,19 @@ export const UpdateCompleteModal = () => {
 
       <div className="flex w-full justify-center gap-x-2">
         <Button
-          variant="text"
           label={t('buttonPatchNotesLabel')}
           rightIcon={<TbNotes />}
-          className="w-full max-w-40"
           colorSchema="gray"
+          wide
           iconsOnEdge={false}
-          clickableProps={{ className: 'bg-gray-700' }}
-          onClick={() => {
-            modalNavigate(-1)
-            navigate('/app/settings/personalisation/release-notes')
-          }}
+          onClick={modalNavigateWrapper('auto-update-notes')}
         />
         <Button
           label={t('buttonContinueLabel')}
           iconsOnEdge={false}
+          wide
           rightIcon={<MdOutlineAutoAwesome />}
-          className="w-full max-w-56"
-          onClick={modalNavigateWrapper('download-wallet-mobile')}
+          onClick={modalNavigateWrapper('auto-update-mobile')}
         />
       </div>
     </CenterModalLayout>

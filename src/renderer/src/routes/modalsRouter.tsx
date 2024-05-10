@@ -2,6 +2,9 @@ import { TRoute } from '@renderer/@types/modal'
 
 import { AddAddressModal } from './modals/AddAddress'
 import { AddWatch } from './modals/AddWatch'
+import { AutoUpdateCompleted } from './modals/AutoUpdate/AutoUpdateCompleted'
+import { AutoUpdateMobile } from './modals/AutoUpdate/AutoUpdateMobile'
+import { AutoUpdateNotes } from './modals/AutoUpdate/AutoUpdateNotes'
 import { BlockchainSelectionModal } from './modals/BlockchainSelection'
 import { ConfirmPasswordBackupModal } from './modals/ConfirmPasswordBackup'
 import { ConfirmPasswordRecoverModal } from './modals/ConfirmPasswordRecover'
@@ -18,7 +21,6 @@ import { DappPermissionSignatureScopeModal } from './modals/DappPermissionSignat
 import { DecryptKeyModal } from './modals/DecryptKeyModal'
 import { DeleteAccountModal } from './modals/DeleteAccount'
 import { DeleteWalletModal } from './modals/DeleteWallet'
-import { DownloadWalletMobileModal } from './modals/DownloadWalletMobile'
 import { EditWalletModal } from './modals/EditWallet'
 import { ErrorModal } from './modals/Error'
 import { ImportModal } from './modals/Import'
@@ -36,7 +38,6 @@ import { SelectAccount } from './modals/SelectAccount'
 import { SelectContact } from './modals/SelectContact'
 import { SelectToken } from './modals/SelectToken'
 import { SuccessModal } from './modals/Success'
-import { UpdateCompleteModal } from './modals/UpdateComplete'
 
 export const modalsRouter: TRoute[] = [
   { name: 'import', element: <ImportModal /> },
@@ -74,6 +75,7 @@ export const modalsRouter: TRoute[] = [
   { name: 'migrate-accounts-step-2', element: <MigrateAccountsStep2Modal /> },
   { name: 'migrate-accounts-step-3', element: <MigrateAccountsStep3Modal /> },
   { name: 'migrate-accounts-step-4', element: <MigrateAccountsStep4Modal /> },
-  { name: 'updated-completed', element: <UpdateCompleteModal /> },
-  { name: 'download-wallet-mobile', element: <DownloadWalletMobileModal /> },
+  { name: 'auto-update-completed', element: <AutoUpdateCompleted /> },
+  { name: 'auto-update-mobile', element: <AutoUpdateMobile /> },
+  { name: 'auto-update-notes', element: <AutoUpdateNotes /> },
 ]
