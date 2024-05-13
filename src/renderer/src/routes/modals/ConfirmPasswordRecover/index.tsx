@@ -10,7 +10,7 @@ import { useActions } from '@renderer/hooks/useActions'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
-import { EndModalLayout } from '@renderer/layouts/EndModal'
+import { SideModalLayout } from '@renderer/layouts/SideModal'
 import { contactReducerActions } from '@renderer/store/reducers/ContactReducer'
 
 type TFormData = {
@@ -73,7 +73,6 @@ export const ConfirmPasswordRecoverModal = () => {
       await Promise.allSettled(importPromises)
 
       modalNavigate('success', {
-        replace: true,
         state: {
           heading: t('title'),
           headingIcon: <TbReload className="text-neon" />,
@@ -88,7 +87,7 @@ export const ConfirmPasswordRecoverModal = () => {
   }
 
   return (
-    <EndModalLayout
+    <SideModalLayout
       heading={t('title')}
       headingIcon={<TbReload className="text-neon" />}
       contentClassName="flex flex-col"
@@ -117,6 +116,6 @@ export const ConfirmPasswordRecoverModal = () => {
           <Button className="w-60" type="submit" label={t('buttonContinueLabel')} loading={actionState.isActing} flat />
         </div>
       </form>
-    </EndModalLayout>
+    </SideModalLayout>
   )
 }

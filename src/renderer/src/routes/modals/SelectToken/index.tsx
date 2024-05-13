@@ -7,7 +7,7 @@ import { Button } from '@renderer/components/Button'
 import { TokensTable } from '@renderer/components/TokensTable'
 import { useBalancesAndExchange } from '@renderer/hooks/useBalancesAndExchange'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
-import { EndModalLayout } from '@renderer/layouts/EndModal'
+import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 type TTokenState = {
   selectedAccount: IAccountState
@@ -30,7 +30,7 @@ export const SelectToken = () => {
   }
 
   return (
-    <EndModalLayout heading={t('title')} headingIcon={<TbStepOut />}>
+    <SideModalLayout heading={t('title')} headingIcon={<TbStepOut />}>
       <section className="w-full flex flex-col h-full items-center min-w-0">
         <h2 className="text-sm text-left w-full">{t('yourBalances')}</h2>
 
@@ -49,6 +49,6 @@ export const SelectToken = () => {
           onClick={selectToken}
         />
       </section>
-    </EndModalLayout>
+    </SideModalLayout>
   )
 }

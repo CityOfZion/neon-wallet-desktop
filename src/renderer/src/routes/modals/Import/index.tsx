@@ -11,7 +11,7 @@ import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useImportAction } from '@renderer/hooks/useImportAction'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useWalletsUtils } from '@renderer/hooks/useWalletSelector'
-import { EndModalLayout } from '@renderer/layouts/EndModal'
+import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 export const ImportModal = () => {
   const { modalNavigate } = useModalNavigate()
@@ -72,7 +72,7 @@ export const ImportModal = () => {
       throw new Error(t('addressAlreadyExist'))
     }
 
-    modalNavigate('add-watch', { replace: true, state: { address } })
+    modalNavigate('add-watch', { state: { address } })
   }
 
   const { actionData, actionState, handleAct, handleChange, handleSubmit } = useImportAction({
@@ -83,7 +83,7 @@ export const ImportModal = () => {
   })
 
   return (
-    <EndModalLayout heading={t('title')} headingIcon={<TbFileImport />} contentClassName="flex flex-col">
+    <SideModalLayout heading={t('title')} headingIcon={<TbFileImport />} contentClassName="flex flex-col">
       <p className="text-xs">{t('description')}</p>
 
       <form className="mt-10 flex flex-col justify-between flex-grow" onSubmit={handleAct(handleSubmit)}>
@@ -117,6 +117,6 @@ export const ImportModal = () => {
           flat
         />
       </form>
-    </EndModalLayout>
+    </SideModalLayout>
   )
 }

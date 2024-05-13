@@ -3,7 +3,7 @@ import { PiWarningLight } from 'react-icons/pi'
 import { Button } from '@renderer/components/Button'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
-import { EndModalLayout } from '@renderer/layouts/EndModal'
+import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 type TLocationState = {
   modalTitle: string
@@ -43,7 +43,7 @@ export const DeleteModal = () => {
   }
 
   return (
-    <EndModalLayout heading={modalTitle} headingIcon={<MdDeleteForever className="text-pink" />}>
+    <SideModalLayout heading={modalTitle} headingIcon={<MdDeleteForever className="text-pink" />}>
       <div className="flex flex-col justify-between h-full">
         <div className="flex flex-col items-center gap-y-6 text-lg text-center">
           <div className="bg-asphalt rounded-full w-[9.25rem] h-[9.25rem] flex items-center justify-center">
@@ -69,6 +69,6 @@ export const DeleteModal = () => {
           onClick={handleButtonClick}
         />
       </div>
-    </EndModalLayout>
+    </SideModalLayout>
   )
 }

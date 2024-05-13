@@ -6,16 +6,16 @@ import { TBlockchainServiceKey } from '@renderer/@types/blockchain'
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Input } from '@renderer/components/Input'
 import { useActions } from '@renderer/hooks/useActions'
-import { TMigrateAccountSchema } from '@renderer/hooks/useBackupOrMigrate'
+import { TMigrateWalletsSchema } from '@renderer/hooks/useBackupOrMigrate'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 
-export type TMigrateDecryptedAccountSchema = TMigrateAccountSchema & {
+export type TMigrateDecryptedAccountSchema = TMigrateWalletsSchema & {
   decryptedKey: string
   blockchain: TBlockchainServiceKey
 }
 
 type TProps = {
-  accountToMigrate: TMigrateAccountSchema
+  accountToMigrate: TMigrateWalletsSchema
   onDecrypt?: (decryptedAccount: TMigrateDecryptedAccountSchema) => void
 }
 

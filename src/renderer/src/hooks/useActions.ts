@@ -103,7 +103,6 @@ export const useActions = <T extends TUseActionsData>(initialData: T) => {
     (key: keyof T) => {
       return (event: any) => {
         let value: string
-        console.log(event.target.value)
         if (typeof event === 'object' && event.target.value !== undefined) {
           value = event.target.value
         } else {

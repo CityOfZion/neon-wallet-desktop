@@ -1,6 +1,6 @@
 import { PiSealCheck } from 'react-icons/pi'
 import { useModalState } from '@renderer/hooks/useModalRouter'
-import { EndModalLayout } from '@renderer/layouts/EndModal'
+import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 type TState = {
   heading: string
@@ -14,10 +14,9 @@ export const SuccessModal = () => {
   const { heading, headingIcon, content, subtitle, footer } = useModalState<TState>()
 
   return (
-    <EndModalLayout
+    <SideModalLayout
       heading={heading}
       headingIcon={headingIcon}
-      size="md"
       contentClassName="flex flex-col flex-grow min-w-0 items-center justify-between px-5"
     >
       <div className="flex flex-col items-center min-h-0 flex-grow">
@@ -30,6 +29,6 @@ export const SuccessModal = () => {
         {content}
       </div>
       {footer}
-    </EndModalLayout>
+    </SideModalLayout>
   )
 }

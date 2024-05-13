@@ -6,7 +6,7 @@ import { TContactAddress } from '@renderer/@types/store'
 import { Button } from '@renderer/components/Button'
 import { ContactList } from '@renderer/components/Contact/ContactList'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
-import { EndModalLayout } from '@renderer/layouts/EndModal'
+import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 type TLocationState = {
   selectedToken?: TokenBalance | null
@@ -28,7 +28,7 @@ export const SelectContact = () => {
   }
 
   return (
-    <EndModalLayout heading={t('title')} headingIcon={<TbStepOut />}>
+    <SideModalLayout heading={t('title')} headingIcon={<TbStepOut />}>
       <ContactList
         onAddressSelected={setSelectedAddress}
         selectFirst={false}
@@ -43,6 +43,6 @@ export const SelectContact = () => {
           onClick={selectRecipient}
         />
       </ContactList>
-    </EndModalLayout>
+    </SideModalLayout>
   )
 }

@@ -13,7 +13,7 @@ import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
-import { EndModalLayout } from '@renderer/layouts/EndModal'
+import { SideModalLayout } from '@renderer/layouts/SideModal'
 import { contactReducerActions } from '@renderer/store/reducers/ContactReducer'
 
 type TFormData = {
@@ -90,7 +90,7 @@ export const PersistContactModal = () => {
   }
 
   return (
-    <EndModalLayout
+    <SideModalLayout
       heading={contact ? t('editContact') : t('addContact')}
       headingIcon={contact ? <TbPencil /> : <TbPlus />}
     >
@@ -211,6 +211,6 @@ export const PersistContactModal = () => {
           />
         </div>
       </form>
-    </EndModalLayout>
+    </SideModalLayout>
   )
 }

@@ -20,12 +20,7 @@ export const AutoUpdateNotes = () => {
   const { modalNavigateWrapper } = useModalNavigate()
 
   return (
-    <CenterModalLayout
-      contentClassName="flex flex-col w-full items-center justify-between"
-      size="lg"
-      closeOnEsc={false}
-      closeOnOutsideClick={false}
-    >
+    <CenterModalLayout contentClassName="flex flex-col w-full items-center justify-between">
       <div className="flex flex-col items-center w-full min-h-0 flex-grow">
         <NeonWalletLogo className="w-56 h-min" />
         <h2 className="text-2xl text-white mt-11">{t('title')}</h2>

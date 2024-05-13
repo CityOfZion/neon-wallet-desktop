@@ -6,7 +6,7 @@ import { Button } from '@renderer/components/Button'
 import { RadioGroup } from '@renderer/components/RadioGroup'
 import { Separator } from '@renderer/components/Separator'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
-import { EndModalLayout } from '@renderer/layouts/EndModal'
+import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 type TState = {
   onNetworkChange: (networkType: TNetworkType) => void | Promise<void>
@@ -38,7 +38,7 @@ export const NetworkSelection = () => {
   }
 
   return (
-    <EndModalLayout heading={t('title')} headingIcon={<Tb3DCubeSphere />}>
+    <SideModalLayout heading={t('title')} headingIcon={<Tb3DCubeSphere />}>
       <div className="flex flex-col h-full justify-between">
         <div>
           <div className="mb-5">{t('selectNetwork')}</div>
@@ -74,6 +74,6 @@ export const NetworkSelection = () => {
           </div>
         </div>
       </div>
-    </EndModalLayout>
+    </SideModalLayout>
   )
 }

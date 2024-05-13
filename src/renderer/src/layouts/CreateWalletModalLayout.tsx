@@ -5,7 +5,7 @@ import { TbPlus } from 'react-icons/tb'
 import { Separator } from '@renderer/components/Separator'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
-import { EndModalLayout } from './EndModal'
+import { SideModalLayout } from './SideModal'
 
 type TProps = {
   contentClassName?: string
@@ -15,11 +15,10 @@ type TProps = {
 export const CreateWalletModalLayout = ({ children, contentClassName }: TProps) => {
   const { t } = useTranslation('modals', { keyPrefix: 'createWallet' })
   return (
-    <EndModalLayout
+    <SideModalLayout
       heading={t('title')}
       headingIcon={<TbPlus className="text-neon" />}
       contentClassName="flex flex-col justify-between"
-      size="xl"
     >
       <section className="w-full flex-grow flex flex-row">
         <div className="min-w-[22rem] max-w-[22rem] border-r border-gray-300/30 pr-5 print:hidden">
@@ -56,6 +55,6 @@ export const CreateWalletModalLayout = ({ children, contentClassName }: TProps) 
           {children}
         </section>
       </section>
-    </EndModalLayout>
+    </SideModalLayout>
   )
 }

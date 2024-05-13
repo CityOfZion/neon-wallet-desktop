@@ -11,7 +11,7 @@ import { useActions } from '@renderer/hooks/useActions'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
-import { EndModalLayout } from '@renderer/layouts/EndModal'
+import { SideModalLayout } from '@renderer/layouts/SideModal'
 import { accountReducerActions } from '@renderer/store/reducers/AccountReducer'
 
 type TFormData = {
@@ -75,7 +75,7 @@ export const PersistAccountModal = () => {
   }
 
   return (
-    <EndModalLayout
+    <SideModalLayout
       heading={account ? t('titleEdit') : t('titleCreate')}
       headingIcon={account ? <TbPencil /> : <TbPlus className="text-neon" />}
       contentClassName="flex flex-col justify-between"
@@ -135,6 +135,6 @@ export const PersistAccountModal = () => {
           </>
         </div>
       )}
-    </EndModalLayout>
+    </SideModalLayout>
   )
 }

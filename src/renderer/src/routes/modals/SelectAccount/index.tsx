@@ -11,7 +11,7 @@ import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
-import { EndModalLayout } from '@renderer/layouts/EndModal'
+import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 type TLocationState = {
   onSelectAccount: (contact: IAccountState) => void
@@ -62,7 +62,7 @@ export const SelectAccount = () => {
   }, [wallets])
 
   return (
-    <EndModalLayout heading={title} headingIcon={leftIcon} contentClassName="flex flex-col min-h-0">
+    <SideModalLayout heading={title} headingIcon={leftIcon} contentClassName="flex flex-col min-h-0">
       <Select.Root value={selectedWallet?.id} onValueChange={handleSelectWallet}>
         <Select.Trigger
           className={StyleHelper.mergeStyles('bg-asphalt', {
@@ -139,6 +139,6 @@ export const SelectAccount = () => {
           />
         </section>
       )}
-    </EndModalLayout>
+    </SideModalLayout>
   )
 }
