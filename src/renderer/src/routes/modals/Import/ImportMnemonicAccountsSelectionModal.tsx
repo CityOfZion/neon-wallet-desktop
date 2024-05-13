@@ -12,7 +12,7 @@ import { useActions } from '@renderer/hooks/useActions'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useMount } from '@renderer/hooks/useMount'
-import { EndModalLayout } from '@renderer/layouts/EndModal'
+import { SideModalLayout } from '@renderer/layouts/SideModal'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 
 type TLocation = {
@@ -89,12 +89,7 @@ export const ImportMnemonicAccountsSelectionModal = () => {
   }, [mnemonic])
 
   return (
-    <EndModalLayout
-      heading={t('title')}
-      withBackButton
-      headingIcon={<TbFileImport />}
-      contentClassName="flex flex-col min-h-0"
-    >
+    <SideModalLayout heading={t('title')} headingIcon={<TbFileImport />} contentClassName="flex flex-col min-h-0">
       <p className="text-sm mr-">{t('description')}</p>
 
       <div className="flex flex-col gap-y-2.5 mt-6 flex-grow min-h-0 overflow-y-auto mb-3">
@@ -132,6 +127,6 @@ export const ImportMnemonicAccountsSelectionModal = () => {
         disabled={actionData.selectedAccounts.length === 0}
         flat
       />
-    </EndModalLayout>
+    </SideModalLayout>
   )
 }

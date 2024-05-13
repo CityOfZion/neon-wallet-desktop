@@ -1,22 +1,19 @@
-import { createContext, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { createPortal } from 'react-dom'
+import { createContext, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import {
   THistory,
   TModalRouterContextNavigateOptions,
   TModalRouterContextValue,
   TModalRouterProviderProps,
+  TRouteType,
 } from '@renderer/@types/modal'
+import { CenterModal } from '@renderer/components/Modal/CenterModal'
+import { SideModal } from '@renderer/components/Modal/SideModal'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { AnimatePresence } from 'framer-motion'
 
-import { ModalRouterCurrentHistoryProvider } from './ModalRouterCurrentHistoryContext'
-
-type TModalPortalProps = {
-  children: React.ReactNode
-}
-const ModalPortal = ({ children }: TModalPortalProps) => {
-  const modalRoot = document.querySelector('body') as HTMLBodyElement
-  return createPortal(children, modalRoot)
+const modalByRouteType: Record<TRouteType, (...props: any[]) => JSX.Element> = {
+  side: SideModal,
+  center: CenterModal,
 }
 
 export const ModalRouterContext = createContext<TModalRouterContextValue>({} as TModalRouterContextValue)
@@ -24,6 +21,11 @@ export const ModalRouterContext = createContext<TModalRouterContextValue>({} as 
 export const ModalRouterProvider = ({ routes, children }: TModalRouterProviderProps) => {
   const [histories, setHistories] = useState<THistory[]>([])
   const historiesRef = useRef<THistory[]>([])
+
+  const typesToRender = useMemo<TRouteType[]>(() => {
+    const uniqueTypes = new Set(histories.map(history => history.route.type))
+    return Array.from(uniqueTypes)
+  }, [histories])
 
   const navigate = useCallback(
     (name: string | number, options?: TModalRouterContextNavigateOptions) => {
@@ -34,20 +36,15 @@ export const ModalRouterProvider = ({ routes, children }: TModalRouterProviderPr
         }
 
         setHistories(prevState => {
-          const lastMountedItem = prevState.filter(item => item.status === 'mounted').slice(-1)[0]
-          if (lastMountedItem && lastMountedItem.name === name) {
-            return prevState.map(item => (item.id === lastMountedItem.id ? { ...item, state: options?.state } : item))
+          const lastItem = prevState.slice(-1)[0]
+          if (lastItem && lastItem.route.name === name) {
+            return prevState.map(item => (item.id === lastItem.id ? { ...item, state: options?.state } : item))
           }
 
           const newHistory: THistory = {
-            name,
-            state: options?.state,
-            status: 'mounted',
             id: UtilsHelper.uuid(),
-            replaced: options?.replace ?? false,
-          }
-          if (options?.replace) {
-            return [...prevState.slice(0, -1), newHistory]
+            state: options?.state,
+            route: routeExist,
           }
 
           return [...prevState, newHistory]
@@ -59,15 +56,13 @@ export const ModalRouterProvider = ({ routes, children }: TModalRouterProviderPr
         throw new Error('Number is only allowed to go back in history')
       }
 
-      setHistories(prevState =>
-        prevState.map((item, index) => (index < prevState.length + name ? item : { ...item, status: 'unmounted' }))
-      )
+      setHistories(prevState => prevState.slice(0, name))
     },
     [routes]
   )
 
-  const removeUnmounted = useCallback(() => {
-    setHistories(prevState => prevState.filter(item => item.status === 'mounted'))
+  const erase = useCallback((type: TRouteType) => {
+    setHistories(prevState => prevState.filter(history => history.route.type !== type))
   }, [])
 
   useEffect(() => {
@@ -83,21 +78,14 @@ export const ModalRouterProvider = ({ routes, children }: TModalRouterProviderPr
   }, [histories])
 
   return (
-    <ModalRouterContext.Provider value={{ navigate, histories, historiesRef }}>
+    <ModalRouterContext.Provider value={{ navigate, erase, histories, historiesRef }}>
       {children}
 
-      <AnimatePresence onExitComplete={removeUnmounted}>
-        {histories
-          .filter(item => item.status === 'mounted')
-          .map((history, index) => {
-            const route = routes.find(route => route.name === history.name)!
-
-            return (
-              <ModalRouterCurrentHistoryProvider value={history} key={`${route.name}-${index}`}>
-                <ModalPortal>{route.element}</ModalPortal>
-              </ModalRouterCurrentHistoryProvider>
-            )
-          })}
+      <AnimatePresence>
+        {typesToRender.map(type => {
+          const Component = modalByRouteType[type]
+          return <Component key={type} />
+        })}
       </AnimatePresence>
     </ModalRouterContext.Provider>
   )

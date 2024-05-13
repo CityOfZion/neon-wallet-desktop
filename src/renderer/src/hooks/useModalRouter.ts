@@ -1,10 +1,10 @@
 import { useCallback, useContext } from 'react'
-import { TModalRouterContextNavigateOptions } from '@renderer/@types/modal'
+import { TModalRouterContextNavigateOptions, TRouteType } from '@renderer/@types/modal'
 import { ModalRouterContext } from '@renderer/contexts/ModalRouterContext'
 import { ModalRouterCurrentHistoryContext } from '@renderer/contexts/ModalRouterCurrentHistoryContext'
 
 export const useModalNavigate = () => {
-  const { navigate: modalNavigate } = useContext(ModalRouterContext)
+  const { navigate: modalNavigate, erase: modalErase } = useContext(ModalRouterContext)
 
   const modalNavigateWrapper = useCallback(
     (name: string | number, options?: TModalRouterContextNavigateOptions) => {
@@ -15,9 +15,20 @@ export const useModalNavigate = () => {
     [modalNavigate]
   )
 
+  const modalEraseWrapper = useCallback(
+    (type: TRouteType) => {
+      return () => {
+        modalErase(type)
+      }
+    },
+    [modalErase]
+  )
+
   return {
     modalNavigate,
     modalNavigateWrapper,
+    modalErase,
+    modalEraseWrapper,
   }
 }
 

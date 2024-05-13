@@ -9,7 +9,7 @@ import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
-import { EndModalLayout } from '@renderer/layouts/EndModal'
+import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 type TLocationState = {
   wallet: IWalletState
@@ -33,7 +33,7 @@ export const DeleteWalletModal = () => {
   }
 
   return (
-    <EndModalLayout heading={t('title')} withBackButton size="md" headingIcon={<TbPencil className="text-neon" />}>
+    <SideModalLayout heading={t('title')} headingIcon={<TbPencil className="text-neon" />}>
       <div className="bg-gray-800 h-full w-full flex flex-col px-4 rounded text-xs items-center justify-between">
         <div className="flex flex-col items-center">
           <div className="w-36 h-36 rounded-full bg-asphalt flex items-center justify-center">
@@ -70,6 +70,6 @@ export const DeleteWalletModal = () => {
           </div>
         </div>
       </div>
-    </EndModalLayout>
+    </SideModalLayout>
   )
 }

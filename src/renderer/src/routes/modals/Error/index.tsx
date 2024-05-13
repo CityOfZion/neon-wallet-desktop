@@ -1,6 +1,6 @@
 import { MdCancel } from 'react-icons/md'
 import { useModalState } from '@renderer/hooks/useModalRouter'
-import { EndModalLayout } from '@renderer/layouts/EndModal'
+import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 type TState = {
   heading: string
@@ -14,10 +14,9 @@ export const ErrorModal = () => {
   const { heading, headingIcon, content, subtitle, description } = useModalState<TState>()
 
   return (
-    <EndModalLayout
+    <SideModalLayout
       heading={heading}
       headingIcon={headingIcon}
-      size="md"
       contentClassName="flex flex-col flex-grow items-center justify-center min-w-0"
     >
       <div className="w-28 h-28 p-2 bg-asphalt rounded-full flex items-center">
@@ -28,6 +27,6 @@ export const ErrorModal = () => {
       {description && <p className="text-xs text-gray-300 mt-2">{description}</p>}
 
       {content}
-    </EndModalLayout>
+    </SideModalLayout>
   )
 }

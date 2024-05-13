@@ -7,7 +7,7 @@ import { Input } from '@renderer/components/Input'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalState } from '@renderer/hooks/useModalRouter'
-import { EndModalLayout } from '@renderer/layouts/EndModal'
+import { SideModalLayout } from '@renderer/layouts/SideModal'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 
 type TLocation = {
@@ -45,7 +45,7 @@ export const DecryptKeyModal = () => {
   }
 
   return (
-    <EndModalLayout heading={t('title')} withBackButton headingIcon={<TbFileImport />} contentClassName="flex flex-col">
+    <SideModalLayout heading={t('title')} headingIcon={<TbFileImport />} contentClassName="flex flex-col">
       <p>{t('description')}</p>
 
       <form className="flex flex-col justify-between mt-6 flex-grow" onSubmit={handleAct(handleSubmit)}>
@@ -67,6 +67,6 @@ export const DecryptKeyModal = () => {
           loading={actionState.isActing}
         />
       </form>
-    </EndModalLayout>
+    </SideModalLayout>
   )
 }

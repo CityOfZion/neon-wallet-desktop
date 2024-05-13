@@ -12,7 +12,7 @@ import { StringHelper } from '@renderer/helpers/StringHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
-import { EndModalLayout } from '@renderer/layouts/EndModal'
+import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 import { FiatAmountInput } from './FiatAmountInput'
 import { TokenAmountInput } from './TokenAmountInput'
@@ -98,7 +98,7 @@ export const InputAmount = () => {
   }
 
   return (
-    <EndModalLayout heading={t('title')} headingIcon={<TbStepOut />} closeOnOutsideClick={false}>
+    <SideModalLayout heading={t('title')} headingIcon={<TbStepOut />}>
       <form
         className="w-full flex flex-col h-full items-center text-sm flex-grow min-w-0"
         onSubmit={handleAct(handleSubmit)}
@@ -170,6 +170,6 @@ export const InputAmount = () => {
           disabled={!actionState.isValid}
         />
       </form>
-    </EndModalLayout>
+    </SideModalLayout>
   )
 }

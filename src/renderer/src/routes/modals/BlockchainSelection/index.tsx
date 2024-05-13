@@ -6,7 +6,7 @@ import { Button } from '@renderer/components/Button'
 import { RadioGroup } from '@renderer/components/RadioGroup'
 import { Separator } from '@renderer/components/Separator'
 import { useModalState } from '@renderer/hooks/useModalRouter'
-import { EndModalLayout } from '@renderer/layouts/EndModal'
+import { SideModalLayout } from '@renderer/layouts/SideModal'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 
 type TLocation = {
@@ -15,22 +15,13 @@ type TLocation = {
   description?: string
   subtitle?: string
   buttonLabel?: string
-  withBackButton?: boolean
   onSelect?: (blockchain: TBlockchainServiceKey) => void
 }
 
 export const BlockchainSelectionModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'blockchaiinSelectionModal' })
   const { t: blockchainT } = useTranslation('common', { keyPrefix: 'blockchain' })
-  const {
-    heading,
-    headingIcon,
-    description,
-    buttonLabel,
-    onSelect,
-    subtitle,
-    withBackButton = true,
-  } = useModalState<TLocation>()
+  const { heading, headingIcon, description, buttonLabel, onSelect, subtitle } = useModalState<TLocation>()
 
   const [selectedBlockchain, setSelectedBlockchain] = useState<TBlockchainServiceKey>('neo3')
 
@@ -46,12 +37,7 @@ export const BlockchainSelectionModal = () => {
   }
 
   return (
-    <EndModalLayout
-      heading={heading}
-      withBackButton={withBackButton}
-      headingIcon={headingIcon}
-      contentClassName="flex flex-col"
-    >
+    <SideModalLayout heading={heading} headingIcon={headingIcon} contentClassName="flex flex-col">
       {subtitle && (
         <Fragment>
           <p className="text-gray-100 text-xs">{subtitle}</p>
@@ -85,6 +71,6 @@ export const BlockchainSelectionModal = () => {
           disabled={!selectedBlockchain}
         />
       </form>
-    </EndModalLayout>
+    </SideModalLayout>
   )
 }

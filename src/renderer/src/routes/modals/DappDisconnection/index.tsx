@@ -4,7 +4,7 @@ import { TSession, useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk
 import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
-import { EndModalLayout } from '@renderer/layouts/EndModal'
+import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 type TLocationState = {
   sessions: TSession[]
@@ -27,7 +27,7 @@ export const DappDisconnectionModal = () => {
   }
 
   return (
-    <EndModalLayout heading={t('title')} headingIcon={<TbPlug className="text-neon" />}>
+    <SideModalLayout heading={t('title')} headingIcon={<TbPlug className="text-neon" />}>
       <div className="bg-gray-800 h-full w-full flex flex-col px-4 rounded text-xs items-center justify-between">
         <div className="flex flex-col items-center">
           <div className="w-36 h-36 rounded-full bg-asphalt flex items-center justify-center">
@@ -87,6 +87,6 @@ export const DappDisconnectionModal = () => {
           </div>
         </div>
       </div>
-    </EndModalLayout>
+    </SideModalLayout>
   )
 }

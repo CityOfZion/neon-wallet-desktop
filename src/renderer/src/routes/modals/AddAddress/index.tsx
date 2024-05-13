@@ -11,7 +11,7 @@ import { Separator } from '@renderer/components/Separator'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
-import { EndModalLayout } from '@renderer/layouts/EndModal'
+import { SideModalLayout } from '@renderer/layouts/SideModal'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import debounce from 'lodash/debounce'
 
@@ -82,7 +82,7 @@ export const AddAddressModal = () => {
   }
 
   return (
-    <EndModalLayout heading={address ? t('editTitle') : t('title')} withBackButton>
+    <SideModalLayout heading={address ? t('editTitle') : t('title')}>
       <form className="flex flex-col gap-y-5 justify-between h-full" onSubmit={handleAct(handleSubmit)}>
         <div className="flex flex-col gap-y-5">
           <div>
@@ -120,6 +120,6 @@ export const AddAddressModal = () => {
 
         <Button label={t('saveAddress')} className="w-full" type="submit" flat disabled={!actionData.isAddressValid} />
       </form>
-    </EndModalLayout>
+    </SideModalLayout>
   )
 }

@@ -16,7 +16,7 @@ import { useContactsSelector } from '@renderer/hooks/useContactSelector'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useEncryptedPasswordSelector } from '@renderer/hooks/useSettingsSelector'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
-import { EndModalLayout } from '@renderer/layouts/EndModal'
+import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 type TFormData = {
   password: string
@@ -105,7 +105,6 @@ export const ConfirmPasswordBackupModal = () => {
         content
       )
       modalNavigate('success', {
-        replace: true,
         state: {
           heading: t('title'),
           headingIcon: <MdOutlineSave className="text-neon" />,
@@ -119,7 +118,7 @@ export const ConfirmPasswordBackupModal = () => {
   }
 
   return (
-    <EndModalLayout
+    <SideModalLayout
       heading={t('title')}
       headingIcon={<MdOutlineSave className="text-neon" />}
       contentClassName="flex flex-col"
@@ -163,6 +162,6 @@ export const ConfirmPasswordBackupModal = () => {
           />
         </div>
       </form>
-    </EndModalLayout>
+    </SideModalLayout>
   )
 }

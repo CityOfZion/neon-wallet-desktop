@@ -8,7 +8,7 @@ import { Separator } from '@renderer/components/Separator'
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
-import { EndModalLayout } from '@renderer/layouts/EndModal'
+import { SideModalLayout } from '@renderer/layouts/SideModal'
 import { walletReducerActions } from '@renderer/store/reducers/WalletReducer'
 
 type TFormData = {
@@ -45,7 +45,7 @@ export const EditWalletModal = () => {
   }
 
   return (
-    <EndModalLayout heading={t('title')} headingIcon={<TbPencil />} contentClassName="flex flex-col justify-between">
+    <SideModalLayout heading={t('title')} headingIcon={<TbPencil />} contentClassName="flex flex-col justify-between">
       <form onSubmit={form.handleAct(handleSubmit)}>
         <Input
           placeholder={t('inputPlaceholder')}
@@ -88,6 +88,6 @@ export const EditWalletModal = () => {
           iconsOnEdge={false}
         />
       </div>
-    </EndModalLayout>
+    </SideModalLayout>
   )
 }
