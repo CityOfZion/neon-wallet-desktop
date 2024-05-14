@@ -111,6 +111,7 @@ export const ConfirmPasswordBackupModal = () => {
           subtitle: t('modalDescription'),
           footer: <SuccessFooter />,
         },
+        replace: true,
       })
     } catch {
       ToastHelper.error({ message: t('errorBackup') })

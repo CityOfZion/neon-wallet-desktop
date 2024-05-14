@@ -79,6 +79,7 @@ export const ConfirmPasswordRecoverModal = () => {
           subtitle: t('modalDescription'),
           footer: <SuccessFooter />,
         },
+        replace: true,
       })
     } catch {
       setError('password', t('error'))

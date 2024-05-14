@@ -1,6 +1,7 @@
 import { useLayoutEffect, useMemo, useState } from 'react'
 import { THistory, TRouterSize } from '@renderer/@types/modal'
 import { ModalRouterCurrentHistoryProvider } from '@renderer/contexts/ModalRouterCurrentHistoryContext'
+import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { useModalHistories } from '@renderer/hooks/useModalRouter'
 import { motion, useAnimate, usePresence } from 'framer-motion'
 
@@ -18,29 +19,29 @@ export const SideModal = () => {
   const [isPresent, safeToRemove] = usePresence()
   const [scope, animate] = useAnimate()
 
-  const [lastSideHistory, setLastSideHistory] = useState<THistory>()
+  const [sideHistories, setSideHistories] = useState<THistory[]>([])
 
-  const width = useMemo(() => {
+  const lastSideHistoryWidth = useMemo(() => {
+    const lastSideHistory = sideHistories[sideHistories.length - 1]
     if (!lastSideHistory) return
+
     const widthBySize = widthBySizes[lastSideHistory.route.size ?? 'sm']
     if (!widthBySize) throw new Error('Invalid size')
 
     return widthBySize
-  }, [lastSideHistory])
+  }, [sideHistories])
 
   useLayoutEffect(() => {
-    if (!isPresent) {
-      return
-    }
+    if (!isPresent) return
 
-    setLastSideHistory(histories.filter(history => history.route.type === 'side').pop())
+    setSideHistories(histories.filter(history => history.route.type === 'side'))
   }, [histories, isPresent])
 
   useLayoutEffect(() => {
-    if (!width) return
+    if (!lastSideHistoryWidth) return
 
     if (isPresent) {
-      animate(scope.current, { width }, { type: 'spring', duration: 0.2 })
+      animate(scope.current, { width: lastSideHistoryWidth }, { type: 'spring', duration: 0.2 })
     } else {
       const exitAnimation = async () => {
         await animate(scope.current, { width: 0 }, { duration: 0.1 })
@@ -49,16 +50,24 @@ export const SideModal = () => {
 
       exitAnimation()
     }
-  }, [width, isPresent, animate, scope, safeToRemove])
+  }, [lastSideHistoryWidth, isPresent, animate, scope, safeToRemove])
 
   return (
     <ModalContainer className="flex justify-end">
       <motion.div className="h-full relative" ref={scope} initial={{ width: 0 }}>
-        {lastSideHistory && width && (
-          <ModalRouterCurrentHistoryProvider value={lastSideHistory} key={lastSideHistory.id}>
-            <div className={`min-w-[${width}] h-full`}>{lastSideHistory.route.element}</div>
-          </ModalRouterCurrentHistoryProvider>
-        )}
+        {lastSideHistoryWidth &&
+          sideHistories.map((history, index) => (
+            <div
+              className={StyleHelper.mergeStyles(`min-w-[${lastSideHistoryWidth}] h-full`, {
+                'invisible hidden': index !== sideHistories.length - 1,
+              })}
+              key={history.id}
+            >
+              <ModalRouterCurrentHistoryProvider value={history}>
+                {history.route.element}
+              </ModalRouterCurrentHistoryProvider>
+            </div>
+          ))}
       </motion.div>
     </ModalContainer>
   )

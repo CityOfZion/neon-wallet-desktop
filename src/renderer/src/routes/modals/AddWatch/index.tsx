@@ -69,7 +69,7 @@ export const AddWatch = () => {
 
       onAddWallet?.(wallet)
 
-      modalNavigate(-1)
+      modalNavigate(-2)
     } catch (error: any) {
       setError(error.message)
     } finally {
