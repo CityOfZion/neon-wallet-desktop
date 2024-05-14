@@ -5,6 +5,8 @@ import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'
 import { StringHelper } from '@renderer/helpers/StringHelper'
+import { ToastHelper } from '@renderer/helpers/ToastHelper'
+import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
@@ -15,12 +17,22 @@ type TLocationState = {
 
 export const DeleteAccountModal = () => {
   const { account } = useModalState<TLocationState>()
+  const { accounts } = useAccountsSelector()
   const { t } = useTranslation('modals', { keyPrefix: 'deleteAccount' })
   const { modalNavigate } = useModalNavigate()
   const { deleteAccount } = useBlockchainActions()
 
   const handleDelete = () => {
-    deleteAccount(account.address)
+    const idWallet = account.idWallet
+
+    const walletAccounts = accounts.filter(account => account.idWallet === idWallet)
+
+    if (walletAccounts.length === 1) {
+      ToastHelper.error({ message: t('deleteLastAccountError') })
+    } else {
+      deleteAccount(account.address)
+    }
+
     modalNavigate(-2)
   }
 
