@@ -48,7 +48,7 @@ export const SuccessModalContent = ({
         <div className="flex flex-col mt-4.5 gap-2.5 items-start">
           <span className="text-gray-100 text-xs uppercase">{t('addressLabel')}</span>
 
-          <div className="flex gap-8 w-full items-center">
+          <div className="flex gap-6 w-full items-center">
             <span className="text-sm text-white break-all">{selectedRecipientAddress}</span>
             <IconButton
               icon={<MdOutlineContentCopy className="text-neon" />}
@@ -74,7 +74,7 @@ export const SuccessModalContent = ({
         <div className="flex flex-col mt-4.5 gap-3 items-start">
           <span className="text-gray-100 text-xs uppercase">{t('transactionHashLabel')}</span>
 
-          <div className="flex gap-8 w-full items-center">
+          <div className="flex gap-6 w-full items-center">
             <span className="text-sm text-white break-all">{transactionHash}</span>
             <IconButton
               icon={<MdOutlineContentCopy className="text-neon" />}
