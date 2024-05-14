@@ -137,9 +137,9 @@ export const TokensTable = forwardRef<HTMLDivElement, TProps>(
                 id: 'holdings',
                 header: t('components:tokensTable.holdings'),
               }),
-              columnHelper.accessor('exchangeRatio', {
+              columnHelper.accessor('convertedAmount', {
                 cell: info => NumberHelper.currency(info.getValue(), currency.label),
-                header: t('components:tokensTable.price'),
+                header: t('components:tokensTable.value'),
               }),
             ],
       [currency.label, showSimplified]
