@@ -44,8 +44,13 @@ export const WalletsPage = () => {
   const service = selectedAccount ? bsAggregator.blockchainServicesByName[selectedAccount.blockchain] : undefined
 
   const handleSelectAccount = (selected: IAccountState) => {
-    setSelectedAccount(selected)
     navigate(`/app/wallets/${selected.address}/overview`)
+  }
+
+  const handleSelectWallet = (selected: IWalletState) => {
+    const firstAccount = accounts.find(account => account.idWallet === selected.id)
+    if (!firstAccount) return
+    navigate(`/app/wallets/${firstAccount.address}/overview`)
   }
 
   useLayoutEffect(() => {
@@ -76,13 +81,15 @@ export const WalletsPage = () => {
     setSelectedAccount(account)
   }, [address, wallets, accounts, navigate])
 
+  useLayoutEffect(() => {}, [selectedWallet, selectedAccount])
+
   return (
     <MainLayout
       heading={
         <WalletsSelect
           wallets={wallets}
           value={selectedWallet}
-          onSelect={setSelectedWallet}
+          onSelect={handleSelectWallet}
           balanceExchange={balanceExchange}
         />
       }

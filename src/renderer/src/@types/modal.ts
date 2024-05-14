@@ -10,11 +10,12 @@ export type TRoute = {
 
 export type THistory<T = any> = {
   state: T
+  replace: boolean
   id: string
   route: TRoute
 }
 
-export type TModalRouterContextNavigateOptions = Partial<Pick<THistory, 'state'>>
+export type TModalRouterContextNavigateOptions = Partial<Pick<THistory, 'state' | 'replace'>>
 
 export type TModalRouterContextValue = {
   navigate: (name: string | number, options?: TModalRouterContextNavigateOptions) => void

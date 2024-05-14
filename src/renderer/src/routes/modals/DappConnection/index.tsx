@@ -56,7 +56,7 @@ export const DappConnectionModal = () => {
     const proposal = proposals[0]
     if (!proposal || !account) return
 
-    modalNavigate('dapp-connection-details', { state: { proposal, account } })
+    modalNavigate('dapp-connection-details', { state: { proposal, account }, replace: true })
   }, [proposals, modalNavigate, account])
 
   return (
