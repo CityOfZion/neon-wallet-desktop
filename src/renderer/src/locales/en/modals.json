@@ -380,7 +380,8 @@
     "alert": "Deleting an account that contains assets will cause these assets to become inaccessible after deletion!",
     "warning": "Are you sure you want to continue?",
     "delete": "Delete Account",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "deleteLastAccountError": "To remove the last account from a wallet, you need to delete the entire wallet"
   },
   "deleteWallet": {
     "title": "Edit wallet",

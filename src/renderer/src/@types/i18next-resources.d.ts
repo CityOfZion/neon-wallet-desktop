@@ -569,6 +569,7 @@ interface Resources {
       warning: 'Are you sure you want to continue?'
       delete: 'Delete Account'
       cancel: 'Cancel'
+      deleteLastAccountError: 'To remove the last account from a wallet, you need to delete the entire wallet'
     }
     deleteWallet: {
       title: 'Edit wallet'
