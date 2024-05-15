@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   win: circleci/windows@5.0.0
+  macos: circleci/macos@2.5.0
   node: circleci/node@5.1.0
 
 references:
