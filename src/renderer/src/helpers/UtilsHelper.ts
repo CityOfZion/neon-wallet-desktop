@@ -1,4 +1,5 @@
 import { getI18n } from 'react-i18next'
+import { AVAILABLE_RANDOM_COLORS, MANDATORY_TOKEN_COLORS } from '@renderer/constants/colors'
 import _ from 'lodash'
 import * as uuid from 'uuid'
 
@@ -86,25 +87,6 @@ export class UtilsHelper {
     return results
   }
 
-  static arrayMove(array: any[], fromIndex: number, toIndex: number) {
-    const newArray = [...array]
-
-    const startIndex = fromIndex < 0 ? newArray.length + fromIndex : fromIndex
-
-    if (startIndex >= 0 && startIndex < newArray.length) {
-      const endIndex = toIndex < 0 ? newArray.length + toIndex : toIndex
-
-      const [item] = newArray.splice(fromIndex, 1)
-      newArray.splice(endIndex, 0, item)
-    }
-
-    return newArray
-  }
-
-  static mapFiltered<T, R>(array: T[], callback: (item: T) => R): Exclude<R, null | undefined>[] {
-    return array.map(callback).filter((item): item is Exclude<R, null | undefined> => item !== undefined)
-  }
-
   static orderBy<T>(array: T[], field: keyof T, direction: 'asc' | 'desc' = 'asc') {
     return array.sort((a, b) => {
       const aValue = a[field]
@@ -179,27 +161,15 @@ export class UtilsHelper {
 
     const normalizedHash = this.normalizeHash(hash)
 
-    const mandatoryColors: Record<string, string> = {
-      ef4073a0f2b305a38ec4050e4d3d28bc40ea63f5: '#56f33f',
-      d2a4cff31913016155e38e474a2c06d08be276cf: '#02c797',
+    if (MANDATORY_TOKEN_COLORS[normalizedHash]) return MANDATORY_TOKEN_COLORS[normalizedHash]
+
+    let sum = 0
+    for (let i = 0; i < hash.length; i++) {
+      sum += hash.charCodeAt(i)
     }
 
-    if (mandatoryColors[normalizedHash]) return mandatoryColors[normalizedHash]
-
-    let hashCode = 0
-
-    for (let index = 0; index < normalizedHash.length; index++) {
-      hashCode = normalizedHash.charCodeAt(index) + ((hashCode << 5) - hashCode)
-      hashCode = hashCode & hashCode
-    }
-
-    let color = '#'
-    for (let index = 0; index < 3; index++) {
-      const value = (hashCode >> (index * 8)) & 255
-      color += ('00' + value.toString(16)).substr(-2)
-    }
-
-    return color
+    const randomColorIndex = sum % AVAILABLE_RANDOM_COLORS.length
+    return AVAILABLE_RANDOM_COLORS[randomColorIndex]
   }
 
   static sleep(ms: number) {
