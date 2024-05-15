@@ -12,7 +12,7 @@ export const Sidebar = (): JSX.Element => {
   const { t } = useTranslation('components', { keyPrefix: 'sidebar' })
   const { logout } = useLogin()
   return (
-    <aside className="bg-gray-800 h-screen w-[4rem] min-w-[4rem] flex flex-col">
+    <aside className="bg-gray-800 w-[4rem] min-w-[4rem] h-screen-minus-drag-region flex flex-col">
       <div className="flex justify-center pt-4 pb-2">
         <NeonLogoIcon className="border border-green rounded p-1" />
       </div>

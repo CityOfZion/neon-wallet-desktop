@@ -51,6 +51,16 @@ module.exports = {
       },
     },
     extend: {
+      minHeight: {
+        'drag-region': 'var(--drag-region-height)',
+      },
+      height: {
+        'screen-minus-drag-region': 'calc(100vh - var(--drag-region-height))',
+        'drag-region': 'var(--drag-region-height)',
+      },
+      inset: {
+        'drag-region': 'var(--drag-region-height)',
+      },
       borderWidth: {
         3: '3px',
       },

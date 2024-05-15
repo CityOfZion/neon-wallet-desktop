@@ -31,7 +31,7 @@ export const ContentLayout = ({
   }
 
   return (
-    <div className={StyleHelper.mergeStyles('flex h-screen', className)} {...props}>
+    <div className={StyleHelper.mergeStyles('flex h-screen-minus-drag-region', className)} {...props}>
       <div
         className={StyleHelper.mergeStyles('flex-grow flex flex-col bg-asphalt text-white px-7 py-4', {
           'pt-10': networkType === 'testnet',

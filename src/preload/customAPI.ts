@@ -45,4 +45,10 @@ export const customAPI = {
   checkForUpdates: (): Promise<void> => electronAPI.ipcRenderer.invoke('checkForUpdates'),
 
   quitAndInstall: (): Promise<void> => electronAPI.ipcRenderer.invoke('quitAndInstall'),
+
+  setTitleBarOverlay: (options: Electron.TitleBarOverlay): Promise<void> =>
+    electronAPI.ipcRenderer.invoke('setTitleBarOverlay', options),
+
+  setWindowButtonPosition: (options: Electron.Point): Promise<void> =>
+    electronAPI.ipcRenderer.invoke('setWindowButtonPosition', options),
 }
