@@ -27,6 +27,7 @@ nsis:
 afterSign: electron-builder-notarize
 mac:
   hardenedRuntime: true
+  gatekeeperAssess: false
   entitlements: build/entitlements.mac.plist
   entitlementsInherit: build/entitlements.mac.plist
   type: distribution
