@@ -20,7 +20,7 @@ export const MainLayout = ({
   ...props
 }: TMainLayoutProps): JSX.Element => {
   return (
-    <div className={StyleHelper.mergeStyles('flex h-screen w-screen', className)} {...props}>
+    <div className={StyleHelper.mergeStyles('flex w-screen h-screen-minus-drag-region', className)} {...props}>
       <Sidebar />
 
       <div className="h-full w-full flex flex-col bg-asphalt text-white px-7 pb-4 min-w-0 min-h-0">

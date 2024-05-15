@@ -29,4 +29,18 @@ export function registerWindowHandlers() {
     const buff = Buffer.from(content, 'utf-8')
     await writeFile(path, buff)
   })
+
+  ipcMain.handle('setTitleBarOverlay', async (_event, options: Electron.TitleBarOverlay) => {
+    const [mainWindow] = BrowserWindow.getAllWindows()
+    if (!mainWindow) return
+
+    mainWindow.setTitleBarOverlay(options)
+  })
+
+  ipcMain.handle('setWindowButtonPosition', async (_event, options: Electron.Point) => {
+    const [mainWindow] = BrowserWindow.getAllWindows()
+    if (!mainWindow) return
+
+    mainWindow.setWindowButtonPosition(options)
+  })
 }

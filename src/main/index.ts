@@ -26,6 +26,8 @@ function createWindow(): void {
     height: 720,
     minWidth: 1280,
     minHeight: 720,
+    titleBarStyle: 'hidden',
+    titleBarOverlay: true,
     show: false,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {

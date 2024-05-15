@@ -16,7 +16,10 @@ export const ModalContent = ({ children, className }: TModalContainerProps) => {
 
   return (
     <div
-      className={StyleHelper.mergeStyles('fixed left-0 top-0 w-screen h-screen overflow-hidden', className)}
+      className={StyleHelper.mergeStyles(
+        `fixed left-0 top-drag-region h-screen-minus-drag-region w-screen overflow-hidden`,
+        className
+      )}
       ref={containerRef}
       tabIndex={0}
     >
@@ -34,6 +37,6 @@ export const ModalContent = ({ children, className }: TModalContainerProps) => {
 }
 
 export const ModalContainer = (props: TModalContainerProps) => {
-  const modalRoot = document.querySelector('body') as HTMLBodyElement
+  const modalRoot = document.querySelector('#root') as HTMLDivElement
   return createPortal(<ModalContent {...props} />, modalRoot)
 }

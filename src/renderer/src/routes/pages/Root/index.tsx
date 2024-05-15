@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
 import { Provider as StoreProvider } from 'react-redux'
-import { Outlet, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { WalletConnectWalletProvider } from '@cityofzion/wallet-connect-sdk-wallet-react'
+import { DragRegion } from '@renderer/components/DragRegion'
 import { ModalRouterProvider } from '@renderer/contexts/ModalRouterContext'
-import { useBeforeLogin } from '@renderer/hooks/useBeforeLogin'
 import { queryClient } from '@renderer/libs/query'
 import { ToastProvider } from '@renderer/libs/sonner'
 import { walletConnectOptions } from '@renderer/libs/walletConnectSDK'
@@ -13,11 +13,7 @@ import * as Sentry from '@sentry/react'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { PersistGate } from 'redux-persist/integration/react'
 
-// It should be a different component because the contexts are in the parent component
-const Child = () => {
-  useBeforeLogin()
-  return <Outlet />
-}
+import { Child } from './Child'
 
 export const RootPage = () => {
   const navigate = useNavigate()
@@ -33,6 +29,7 @@ export const RootPage = () => {
           <WalletConnectWalletProvider options={walletConnectOptions}>
             <QueryClientProvider client={queryClient}>
               <ModalRouterProvider routes={modalsRouter}>
+                <DragRegion />
                 <Child />
                 <ToastProvider />
               </ModalRouterProvider>
