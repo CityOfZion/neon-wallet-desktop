@@ -49,7 +49,7 @@ export const SuccessModalContent = ({
           <span className="text-gray-100 text-xs uppercase">{t('addressLabel')}</span>
 
           <div className="flex gap-6 w-full items-center">
-            <span className="text-sm text-white break-all">{selectedRecipientAddress}</span>
+            <span className="text-sm text-white break-all w-full">{selectedRecipientAddress}</span>
             <IconButton
               icon={<MdOutlineContentCopy className="text-neon" />}
               size="md"
