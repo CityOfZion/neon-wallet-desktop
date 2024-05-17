@@ -14,11 +14,7 @@ export const SuccessModal = () => {
   const { heading, headingIcon, content, subtitle, footer } = useModalState<TState>()
 
   return (
-    <SideModalLayout
-      heading={heading}
-      headingIcon={headingIcon}
-      contentClassName="flex flex-col flex-grow min-w-0 items-center justify-between px-5"
-    >
+    <SideModalLayout heading={heading} headingIcon={headingIcon} contentClassName="flex flex-col">
       <div className="flex flex-col items-center min-h-0 flex-grow">
         <div className="w-28 h-28 p-2 bg-asphalt rounded-full flex items-center">
           <PiSealCheck className="w-24 h-24 text-blue" />
@@ -28,6 +24,7 @@ export const SuccessModal = () => {
 
         {content}
       </div>
+
       {footer}
     </SideModalLayout>
   )
