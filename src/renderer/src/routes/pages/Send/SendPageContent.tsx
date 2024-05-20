@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect, useMemo } from 'react'
+import { useCallback, useLayoutEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbArrowDown, TbStepOut } from 'react-icons/tb'
 import { Account, BlockchainService, hasLedger, isCalculableFee } from '@cityofzion/blockchain-service'
@@ -43,6 +43,7 @@ type TActionsData = {
 
 type TProps = {
   account?: IAccountState
+  recipient?: string
 }
 
 export type TSendServiceResponse =
@@ -56,12 +57,13 @@ export type TSendServiceResponse =
     }
   | undefined
 
-export const SendPageContent = ({ account }: TProps) => {
+export const SendPageContent = ({ account, recipient }: TProps) => {
   const { t } = useTranslation('pages', { keyPrefix: 'send' })
   const { encryptedPasswordRef } = useEncryptedPasswordSelector()
   const { t: commonT } = useTranslation('common')
   const { modalNavigate } = useModalNavigate()
   const dispatch = useAppDispatch()
+  const [originalRecipient, setoOriginalRecipient] = useState(recipient)
 
   const {
     isNameService,
@@ -126,7 +128,7 @@ export const SendPageContent = ({ account }: TProps) => {
       selectedAmount: undefined,
     })
 
-    handleSelectRecipientAddress(undefined)
+    handleSelectRecipientAddress(originalRecipient)
   }
 
   const handleSelectToken = (token: TokenBalance) => {
@@ -145,6 +147,9 @@ export const SendPageContent = ({ account }: TProps) => {
   }
 
   const handleSelectRecipientAddress = async (recipientAddress?: string) => {
+    if (recipientAddress != recipient) {
+      setoOriginalRecipient(undefined)
+    }
     setData({
       selectedRecipient: recipientAddress,
     })
@@ -252,6 +257,13 @@ export const SendPageContent = ({ account }: TProps) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account])
+
+  useLayoutEffect(() => {
+    if (recipient) {
+      handleSelectRecipientAddress(recipient)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [recipient])
 
   return (
     <section className="bg-gray-800 h-full w-full flex flex-col px-4 rounded text-sm items-center">
