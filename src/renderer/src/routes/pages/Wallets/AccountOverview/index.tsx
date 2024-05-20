@@ -1,12 +1,10 @@
-import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useOutletContext } from 'react-router-dom'
 import { isClaimable } from '@cityofzion/blockchain-service'
 import { IAccountState } from '@renderer/@types/store'
 import { BalanceChart } from '@renderer/components/BalanceChart'
-import { BalanceHelper } from '@renderer/helpers/BalanceHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
-import { useBalancesAndExchange } from '@renderer/hooks/useBalancesAndExchange'
+import { useBalances } from '@renderer/hooks/useBalances'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 import { AccountDetailsLayout } from '@renderer/layouts/AccountDetailsLayout'
 import { bsAggregator } from '@renderer/libs/blockchainService'
@@ -20,23 +18,13 @@ type TOutletContext = {
 
 export const AccountOverview = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'wallets.accountOverview' })
-
+  const { currency } = useCurrencySelector()
   const { account } = useOutletContext<TOutletContext>()
 
-  const { currency } = useCurrencySelector()
-
-  const balanceExchange = useBalancesAndExchange(account ? [account] : [])
-
   const blockchainService = bsAggregator.blockchainServicesByName[account.blockchain]
+  const balances = useBalances([account])
 
-  const formattedTotalTokensBalances = useMemo(
-    () =>
-      NumberHelper.currency(
-        BalanceHelper.calculateTotalBalances(balanceExchange.balance.data, balanceExchange.exchange.data) || 0,
-        currency.label
-      ),
-    [balanceExchange.balance.data, balanceExchange.exchange.data, currency.label]
-  )
+  const exchangeTotalFormatted = NumberHelper.currency(balances.exchangeTotal, currency.label)
 
   return (
     <AccountDetailsLayout title={t('title')} actions={account ? <CommonAccountActions account={account} /> : undefined}>
@@ -46,11 +34,11 @@ export const AccountOverview = () => {
 
           <div className="flex gap-2">
             <span className="text-gray-300">{t('balance')}</span>
-            <span className="text-white">{formattedTotalTokensBalances}</span>
+            <span className="text-white">{exchangeTotalFormatted}</span>
           </div>
         </div>
 
-        <BalanceChart balanceExchange={balanceExchange} />
+        <BalanceChart balances={balances} />
 
         {isClaimable(blockchainService) && <ClaimGasBanner blockchainService={blockchainService} account={account} />}
       </div>

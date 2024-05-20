@@ -1,6 +1,5 @@
 import { Fragment } from 'react'
 import { useTranslation } from 'react-i18next'
-import { UseMultipleBalanceAndExchangeResult } from '@renderer/@types/query'
 import { IWalletState } from '@renderer/@types/store'
 import { Select } from '@renderer/components/Select'
 
@@ -11,10 +10,9 @@ type TProps = {
   disabled?: boolean
   onSelect?: (wallet: IWalletState) => void
   wallets: IWalletState[]
-  balanceExchange: UseMultipleBalanceAndExchangeResult
 }
 
-export const WalletsSelect = ({ wallets, balanceExchange, value, onSelect }: TProps) => {
+export const WalletsSelect = ({ wallets, value, onSelect }: TProps) => {
   const { t } = useTranslation('components', { keyPrefix: 'walletsSelect' })
 
   const handleValueChange = (value: string) => {
@@ -39,7 +37,7 @@ export const WalletsSelect = ({ wallets, balanceExchange, value, onSelect }: TPr
       <Select.Content>
         {wallets.map((wallet, index) => (
           <Fragment key={wallet.id}>
-            <WalletSelectItem balanceExchange={balanceExchange} wallet={wallet} />
+            <WalletSelectItem wallet={wallet} />
 
             {index + 1 !== wallets.length && <Select.Separator />}
           </Fragment>

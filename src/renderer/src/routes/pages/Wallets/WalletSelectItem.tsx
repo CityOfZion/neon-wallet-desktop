@@ -1,38 +1,24 @@
-import { useMemo } from 'react'
-import { UseMultipleBalanceAndExchangeResult } from '@renderer/@types/query'
 import { IWalletState } from '@renderer/@types/store'
 import { Select } from '@renderer/components/Select'
 import { Tooltip } from '@renderer/components/Tooltip'
 import { WalletIcon } from '@renderer/components/WalletIcon'
-import { BalanceHelper } from '@renderer/helpers/BalanceHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { useAccountsByWalletIdSelector } from '@renderer/hooks/useAccountSelector'
+import { useBalances } from '@renderer/hooks/useBalances'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 
 type TProps = {
-  balanceExchange: UseMultipleBalanceAndExchangeResult
   wallet: IWalletState
 }
 
-export const WalletSelectItem = ({ balanceExchange, wallet }: TProps) => {
+export const WalletSelectItem = ({ wallet }: TProps) => {
   const { accountsByWalletId } = useAccountsByWalletIdSelector(wallet.id)
   const { currency } = useCurrencySelector()
 
-  const totalTokensBalances = useMemo(
-    () =>
-      BalanceHelper.calculateTotalBalances(
-        balanceExchange.balance.data,
-        balanceExchange.exchange.data,
-        accountsByWalletId.map(account => account.address)
-      ),
-    [balanceExchange, accountsByWalletId]
-  )
+  const balances = useBalances(accountsByWalletId)
 
-  const formattedTotalTokensBalances = useMemo(
-    () => NumberHelper.currency(totalTokensBalances || 0, currency.label),
-    [currency.label, totalTokensBalances]
-  )
+  const exchangeTotalFormatted = NumberHelper.currency(balances.exchangeTotal, currency.label)
 
   return (
     <Select.Item
@@ -45,8 +31,8 @@ export const WalletSelectItem = ({ balanceExchange, wallet }: TProps) => {
         <div className="flex flex-col flex-grow min-w-0 gap-x-2">
           <p className="text-xs text-gray-100 truncate">{wallet.name}</p>
 
-          <Tooltip title={formattedTotalTokensBalances}>
-            <span className="block w-fit max-w-full text-sm text-white truncate">{formattedTotalTokensBalances}</span>
+          <Tooltip title={exchangeTotalFormatted}>
+            <span className="block w-fit max-w-full text-sm text-white truncate">{exchangeTotalFormatted}</span>
           </Tooltip>
         </div>
       </div>

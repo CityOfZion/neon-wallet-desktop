@@ -13,7 +13,6 @@ import { StringHelper } from '@renderer/helpers/StringHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
-import { useBalancesAndExchange } from '@renderer/hooks/useBalancesAndExchange'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
 import { MainLayout } from '@renderer/layouts/Main'
@@ -38,8 +37,6 @@ export const WalletsPage = () => {
   const [selectedAccount, setSelectedAccount] = useState<IAccountState | undefined>(
     accounts.find(account => account.idWallet === selectedWallet?.id)
   )
-
-  const balanceExchange = useBalancesAndExchange(accounts)
 
   const service = selectedAccount ? bsAggregator.blockchainServicesByName[selectedAccount.blockchain] : undefined
 
@@ -85,14 +82,7 @@ export const WalletsPage = () => {
 
   return (
     <MainLayout
-      heading={
-        <WalletsSelect
-          wallets={wallets}
-          value={selectedWallet}
-          onSelect={handleSelectWallet}
-          balanceExchange={balanceExchange}
-        />
-      }
+      heading={<WalletsSelect wallets={wallets} value={selectedWallet} onSelect={handleSelectWallet} />}
       rightComponent={
         <div className="flex gap-x-2">
           <IconButton
@@ -129,7 +119,6 @@ export const WalletsPage = () => {
 
               <AccountList
                 selectedWallet={selectedWallet}
-                balanceExchange={balanceExchange}
                 onSelect={handleSelectAccount}
                 selectedAccount={selectedAccount}
               />

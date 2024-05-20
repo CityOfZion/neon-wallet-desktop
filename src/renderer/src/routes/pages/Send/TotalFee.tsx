@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { TbReceipt } from 'react-icons/tb'
 import { isCalculableFee } from '@cityofzion/blockchain-service'
 import { Loader } from '@renderer/components/Loader'
-import { BalanceHelper } from '@renderer/helpers/BalanceHelper'
+import { ExchangeHelper } from '@renderer/helpers/ExchangeHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { useExchange } from '@renderer/hooks/useExchange'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
@@ -46,9 +46,9 @@ export const TotalFee = ({ getSendFields, onFeeChange, fee }: TTotalFeeParams) =
 
         onFeeChange(`${fee} ${fields.service.feeToken.symbol}`)
 
-        const exchangeRatio = BalanceHelper.getExchangeRatio(
-          fields.selectedToken.token.hash,
-          fields.selectedToken.blockchain,
+        const exchangeRatio = ExchangeHelper.getExchangeRatio(
+          fields.service.feeToken.hash,
+          fields.service.blockchainName,
           exchange.data
         )
 

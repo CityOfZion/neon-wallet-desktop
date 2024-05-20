@@ -1,20 +1,18 @@
-import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbChevronRight } from 'react-icons/tb'
 import { VscCircleFilled } from 'react-icons/vsc'
-import { TokenBalance } from '@renderer/@types/query'
+import { TTokenBalance } from '@renderer/@types/query'
 import { IAccountState } from '@renderer/@types/store'
 import { Button } from '@renderer/components/Button'
-import { BalanceHelper } from '@renderer/helpers/BalanceHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
-import { useBalancesAndExchange } from '@renderer/hooks/useBalancesAndExchange'
+import { useBalances } from '@renderer/hooks/useBalances'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 
 type TAmountParams = {
   selectedAccount?: IAccountState
-  selectedToken?: TokenBalance
+  selectedToken?: TTokenBalance
   selectedAmount?: string
   onSelectAmount?: (amount: string) => void
   active: boolean
@@ -30,19 +28,7 @@ export const SendAmount = ({
   const { t } = useTranslation('pages', { keyPrefix: 'send' })
   const { modalNavigateWrapper } = useModalNavigate()
   const { currency } = useCurrencySelector()
-  const balanceExchange = useBalancesAndExchange(selectedAccount ? [selectedAccount] : [])
-
-  const estimatedFee = useMemo(() => {
-    if (!selectedToken || !selectedAmount) return NumberHelper.currency(0, currency.label)
-
-    const pricePerToken = BalanceHelper.getExchangeRatio(
-      selectedToken.token.hash,
-      selectedToken.blockchain,
-      balanceExchange.exchange.data
-    )
-
-    return NumberHelper.currency(NumberHelper.number(selectedAmount) * pricePerToken, currency.label)
-  }, [selectedToken, selectedAmount, currency.label, balanceExchange.exchange.data])
+  const balanceExchange = useBalances(selectedAccount ? [selectedAccount] : [])
 
   return (
     <div>
@@ -82,8 +68,13 @@ export const SendAmount = ({
       </div>
 
       <div className="flex justify-between p-3 pt-0">
-        <span className="text-gray-100 ml-5 italic">{t('fiatValue', { currencyType: currency.label })}</span>
-        <span className="text-gray-100 mr-5">{estimatedFee}</span>
+        <span className="text-gray-100 ml-5 italic">{t('fiatValue')}</span>
+        <span className="text-gray-100 mr-5">
+          {NumberHelper.currency(
+            selectedAmount && selectedToken ? NumberHelper.number(selectedAmount) * selectedToken.exchangeRatio : 0,
+            currency.label
+          )}
+        </span>
       </div>
     </div>
   )
