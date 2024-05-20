@@ -95,8 +95,8 @@ const Base = ({
     return StyleHelper.mergeStyles(
       'object-contain',
       {
-        'w-6 h-6': !flat,
-        'w-5 h-5': flat,
+        'w-[1.5rem] h-[1.5rem] min-w-[1.5rem] min-h-[1.5rem]': !flat,
+        'w-[1.25rem] h-[1.25rem] min-w-[1.25rem] min-h-[1.25rem]': flat,
       },
       className
     )
