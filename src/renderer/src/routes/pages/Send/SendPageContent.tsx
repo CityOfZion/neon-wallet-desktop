@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { TbArrowDown, TbStepOut } from 'react-icons/tb'
 import { Account, BlockchainService, hasLedger, isCalculableFee } from '@cityofzion/blockchain-service'
 import { TBlockchainServiceKey } from '@renderer/@types/blockchain'
-import { TokenBalance } from '@renderer/@types/query'
+import { TTokenBalance } from '@renderer/@types/query'
 import { IAccountState } from '@renderer/@types/store'
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Button } from '@renderer/components/Button'
@@ -34,7 +34,7 @@ enum SendPageStep {
 
 type TActionsData = {
   selectedAccount?: IAccountState
-  selectedToken?: TokenBalance
+  selectedToken?: TTokenBalance
   selectedAmount?: string
   selectedRecipient?: string
   fee?: string
@@ -49,7 +49,7 @@ export type TSendServiceResponse =
   | {
       serviceAccount: Account
       selectedAccount: IAccountState
-      selectedToken: TokenBalance
+      selectedToken: TTokenBalance
       selectedAmount: string
       selectedRecipientAddress: string
       service: BlockchainService<TBlockchainServiceKey>
@@ -129,7 +129,7 @@ export const SendPageContent = ({ account }: TProps) => {
     handleSelectRecipientAddress(undefined)
   }
 
-  const handleSelectToken = (token: TokenBalance) => {
+  const handleSelectToken = (token: TTokenBalance) => {
     setData({
       selectedToken: token,
       selectedAmount: undefined,

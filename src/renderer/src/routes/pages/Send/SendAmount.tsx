@@ -68,7 +68,7 @@ export const SendAmount = ({
       </div>
 
       <div className="flex justify-between p-3 pt-0">
-        <span className="text-gray-100 ml-5 italic">{t('fiatValue')}</span>
+        <span className="text-gray-100 ml-5 italic">{t('fiatValue', { currencyType: currency.label })}</span>
         <span className="text-gray-100 mr-5">
           {NumberHelper.currency(
             selectedAmount && selectedToken ? NumberHelper.number(selectedAmount) * selectedToken.exchangeRatio : 0,
