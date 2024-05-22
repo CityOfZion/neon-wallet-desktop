@@ -55,7 +55,7 @@ export function useBalances(params: TUseBalancesParams[], queryOptions?: TBaseOp
     queries: exchange.data
       ? params.map(param => ({
           queryKey: ['balance', param.address ?? '', param.blockchain, networkType],
-          queryFn: fetchBalance.bind(null, param, exchange.data),
+          queryFn: fetchBalance.bind(null, param, exchange.data!),
           ...queryOptions,
         }))
       : [],

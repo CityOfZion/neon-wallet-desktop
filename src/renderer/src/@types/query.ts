@@ -20,7 +20,7 @@ export type TBalance = {
 }
 
 export type TUseExchangeResult = {
-  data: TMultiExchange
+  data: TMultiExchange | undefined
   isLoading: boolean
 }
 

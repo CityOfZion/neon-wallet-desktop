@@ -36,7 +36,7 @@ export function useExchange(
   })
 
   return {
-    data: query.data ?? { ethereum: [], neo3: [], neoLegacy: [] },
+    data: query.data,
     isLoading: query.isLoading,
   }
 }
