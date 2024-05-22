@@ -57,7 +57,6 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
   const unclaimed = useQuery({
     queryKey: ['claim', account.address],
     queryFn: getUnclaimedInfos.bind(null, account, blockchainService, encryptedPassword),
-    gcTime: 0,
     staleTime: 0,
     retry: false,
   })
