@@ -66,7 +66,7 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
   const feeIsLessThanBalance = useMemo(() => {
     if (!balances.data || !unclaimed.data || unclaimed.data.unclaimedNumber <= 0) return undefined
 
-    const tokenBalance = balances.data[0].tokensBalances.find(
+    const tokenBalance = balances.data[0]?.tokensBalances.find(
       tokenBalance => tokenBalance.token.symbol === blockchainService.feeToken.symbol
     )
     if (!tokenBalance) return false
