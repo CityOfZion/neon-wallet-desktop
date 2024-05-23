@@ -133,7 +133,7 @@ export const ContactList = ({
 
   return (
     <Fragment>
-      <div className="px-2 flex flex-col w-full h-full items-center">
+      <div className="flex flex-col w-full h-full items-center">
         <div className="mb-8 w-full">
           <SearchInput placeholder={contactT('search')} onChange={event => setSearch(event.target.value)} compacted />
         </div>

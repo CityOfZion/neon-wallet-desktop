@@ -830,6 +830,7 @@ interface Resources {
     }
     contacts: {
       title: 'Contacts'
+      listTitle: 'All contacts'
       buttonAddContactLabel: 'Add Contact'
       contactList: {
         contacts: 'CONTACTS'
