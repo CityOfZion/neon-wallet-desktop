@@ -14,7 +14,10 @@ import { useQueries } from '@tanstack/react-query'
 import { useExchange } from './useExchange'
 import { useNetworkTypeSelector } from './useSettingsSelector'
 
-const fetchBalance = async (param: TUseBalancesParams, multiExchange: TMultiExchange): Promise<TBalance> => {
+const fetchBalance = async (
+  param: TUseBalancesParams,
+  multiExchange: TMultiExchange | undefined
+): Promise<TBalance> => {
   const service = bsAggregator.blockchainServicesByName[param.blockchain]
   const balance = await service.blockchainDataService.getBalance(param.address)
 
@@ -52,10 +55,10 @@ export function useBalances(params: TUseBalancesParams[], queryOptions?: TBaseOp
   const exchange = useExchange()
 
   const queries = useQueries({
-    queries: exchange.data
+    queries: !exchange.isLoading
       ? params.map(param => ({
-          queryKey: ['balance', param.address ?? '', param.blockchain, networkType],
-          queryFn: fetchBalance.bind(null, param, exchange.data!),
+          queryKey: ['balance', param.address, param.blockchain, networkType],
+          queryFn: fetchBalance.bind(null, param, exchange.data),
           ...queryOptions,
         }))
       : [],

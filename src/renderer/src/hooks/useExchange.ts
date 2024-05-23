@@ -14,11 +14,15 @@ const fetchExchange = async (currency: TCurrency): Promise<TMultiExchange> => {
     neoLegacy: [],
   }
 
-  await Promise.all(
-    Object.values(bsAggregator.blockchainServicesByName).map(async service => {
-      result[service.blockchainName] = await service.exchangeDataService.getTokenPrices(currency.label as any)
-    })
-  )
+  try {
+    await Promise.all(
+      Object.values(bsAggregator.blockchainServicesByName).map(async service => {
+        result[service.blockchainName] = await service.exchangeDataService.getTokenPrices(currency.label as any)
+      })
+    )
+  } catch (error) {
+    /* empty */
+  }
 
   return result
 }
