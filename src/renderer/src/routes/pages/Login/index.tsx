@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { ReactComponent as LoginIcon } from '@renderer/assets/images/loginIcon.svg'
+import { ReactComponent as LoginIcon } from '@renderer/assets/images/login-icon.svg'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { useActions } from '@renderer/hooks/useActions'
