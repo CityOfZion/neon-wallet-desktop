@@ -1,6 +1,7 @@
-import { useRef, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { FiSend } from 'react-icons/fi'
 import { MdOutlineContentCopy } from 'react-icons/md'
+import { useNavigate } from 'react-router-dom'
 import { TContactAddress } from '@renderer/@types/store'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
@@ -26,58 +27,62 @@ const { t } = getI18next()
 
 const columnHelper = createColumnHelper<TContactAddress>()
 
-const columns = [
-  columnHelper.accessor('blockchain', {
-    cell: info => {
-      return (
-        <div className="flex flex-row items-center">
-          <div className="mr-2 bg-gray-700 p-2 rounded-full">
-            <BlockchainIcon blockchain={info.row.original.blockchain} type="white" />
-          </div>
-          <span className="uppercase">{t(`common:blockchain.${info.row.original.blockchain}`)}</span>
-        </div>
-      )
-    },
-    header: t('components:contactAddressTable.blockchain'),
-  }),
-  columnHelper.accessor('address', {
-    cell: info => {
-      return (
-        <div className="flex items-center gap-x-1">
-          {info.row.original.address}
-          <IconButton
-            icon={<MdOutlineContentCopy className="text-neon" />}
-            size="sm"
-            onClick={() => UtilsHelper.copyToClipboard(info.row.original.address)}
-          />
-        </div>
-      )
-    },
-    enableSorting: false,
-    header: t('components:contactAddressTable.address'),
-  }),
-  columnHelper.display({
-    id: 'actions',
-    cell: () => {
-      return (
-        <div className="w-full flex justify-end">
-          <Button
-            variant="text"
-            label={t('components:contactAddressTable.sendAssets')}
-            leftIcon={<FiSend />}
-            disabled
-            flat
-          />
-        </div>
-      )
-    },
-    enableSorting: false,
-  }),
-]
-
 export const ContactAddressTable = ({ contactAddresses }: TProps) => {
   const [sorting, setSorting] = useState<SortingState>([])
   const scrollRef = useRef<HTMLDivElement>(null)
+  const navigate = useNavigate()
+
+  const columns = useMemo(
+    () => [
+      columnHelper.accessor('blockchain', {
+        cell: info => {
+          return (
+            <div className="flex flex-row items-center">
+              <div className="mr-2 bg-gray-700 p-2 rounded-full">
+                <BlockchainIcon blockchain={info.row.original.blockchain} type="white" />
+              </div>
+              <span className="uppercase">{t(`common:blockchain.${info.row.original.blockchain}`)}</span>
+            </div>
+          )
+        },
+        header: t('components:contactAddressTable.blockchain'),
+      }),
+      columnHelper.accessor('address', {
+        cell: info => {
+          return (
+            <div className="flex items-center gap-x-1">
+              {info.row.original.address}
+              <IconButton
+                icon={<MdOutlineContentCopy className="text-neon" />}
+                size="sm"
+                onClick={() => UtilsHelper.copyToClipboard(info.row.original.address)}
+              />
+            </div>
+          )
+        },
+        enableSorting: false,
+        header: t('components:contactAddressTable.address'),
+      }),
+      columnHelper.display({
+        id: 'actions',
+        cell: info => {
+          return (
+            <div className="w-full flex justify-end">
+              <Button
+                variant="text"
+                label={t('components:contactAddressTable.sendAssets')}
+                leftIcon={<FiSend />}
+                onClick={() => navigate('/app/send', { state: { recipient: info.row.original.address } })}
+                flat
+              />
+            </div>
+          )
+        },
+        enableSorting: false,
+      }),
+    ],
+    [navigate]
+  )
 
   const table = useReactTable({
     data: contactAddresses,
