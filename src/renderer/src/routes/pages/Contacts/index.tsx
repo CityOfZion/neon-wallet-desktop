@@ -4,20 +4,13 @@ import { TbPencil, TbPlus } from 'react-icons/tb'
 import { IContactState } from '@renderer/@types/store'
 import { Button } from '@renderer/components/Button'
 import { ContactAddressTable } from '@renderer/components/Contact/ContactAddressTable'
+import { ContactList } from '@renderer/components/Contact/ContactList'
 import { IconButton } from '@renderer/components/IconButton'
 import { Separator } from '@renderer/components/Separator'
-import { Tabs } from '@renderer/components/Tabs'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { useContactsSelector } from '@renderer/hooks/useContactSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { MainLayout } from '@renderer/layouts/Main'
-
-import { ContactsTabContent } from './ContactsTabContent'
-
-enum ESidebarOption {
-  CONTACTS = 'CONTACTS',
-  MY_ACCOUNTS = 'MY_ACCOUNTS',
-}
 
 export const ContactsPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'contacts' })
@@ -41,27 +34,19 @@ export const ContactsPage = () => {
       }
     >
       <section className="bg-gray-800 w-full h-full flex rounded">
-        <div className="w-full max-w-[17.188rem] px-2 border-r border-gray-300/15 flex flex-col items-center">
-          <Tabs.Root defaultValue={ESidebarOption.CONTACTS} className="w-full h-full flex-col flex">
-            <Tabs.List className="w-full mt-3 mb-7">
-              <Tabs.Trigger value={ESidebarOption.CONTACTS} className="px-8">
-                {t('contactList.contacts')}
-              </Tabs.Trigger>
-              <Tabs.Trigger value={ESidebarOption.MY_ACCOUNTS} className="px-8" disabled>
-                {t('contactList.myAccounts')}
-              </Tabs.Trigger>
-            </Tabs.List>
+        <div className="w-full max-w-[17.188rem] px-4 border-r border-gray-300/15 flex flex-col items-center">
+          <div className="flex flex-col gap-y-1 mt-2 mb-9 h-[3.25rem]a w-full">
+            <span className="w-full h-10 flex items-center justify-between  text-sm">{t('listTitle')}</span>
+            <Separator />
+          </div>
 
-            <Tabs.Content value={ESidebarOption.CONTACTS} className="h-full">
-              <ContactsTabContent onContactSelected={setSelectedContact} />
-            </Tabs.Content>
-          </Tabs.Root>
+          <ContactList onContactSelected={setSelectedContact} selectFirst={true} showSelectedIcon={false} />
         </div>
 
         {selectedContact && (
-          <div className="w-full px-2">
+          <div className="w-full px-4">
             <div className="flex flex-col gap-y-1 mt-2 mb-5 h-[3.25rem]">
-              <div className="w-full h-10 flex items-center justify-between px-2">
+              <div className="w-full h-10 flex items-center justify-between">
                 {StringHelper.truncateStringMiddle(selectedContact.name, 70)}
                 <Button
                   leftIcon={<TbPencil className="text-neon" />}
