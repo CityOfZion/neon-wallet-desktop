@@ -5,13 +5,7 @@ import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 import { getI18next } from '@renderer/libs/i18next'
-import {
-  createColumnHelper,
-  flexRender,
-  getCoreRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from '@tanstack/react-table'
+import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
 
 import { Loader } from './Loader'
 import { Table } from './Table'
@@ -131,7 +125,6 @@ export const TokensTable = forwardRef<HTMLDivElement, TProps>(
       data: groupedTokenBalances,
       columns,
       getCoreRowModel: getCoreRowModel(),
-      getSortedRowModel: getSortedRowModel(),
     })
 
     return (
@@ -154,12 +147,7 @@ export const TokensTable = forwardRef<HTMLDivElement, TProps>(
               {table.getHeaderGroups().map(headerGroup => (
                 <Table.HeaderRow key={headerGroup.id}>
                   {headerGroup.headers.map(header => (
-                    <Table.Head
-                      key={header.id}
-                      sortable={header.column.getCanSort()}
-                      sortedBy={header.column.getIsSorted()}
-                      onClick={header.column.getToggleSortingHandler()}
-                    >
+                    <Table.Head key={header.id}>
                       {flexRender(header.column.columnDef.header, header.getContext())}
                     </Table.Head>
                   ))}
