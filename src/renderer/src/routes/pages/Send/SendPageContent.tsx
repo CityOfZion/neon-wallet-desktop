@@ -144,6 +144,10 @@ export const SendPageContent = ({ account, recipient }: TProps) => {
       selectedAmount: amount,
       currentStep: SendPageStep.SelectContact,
     })
+
+    if (originalRecipient) {
+      validateAddressOrNS(originalRecipient, actionData.selectedAccount?.blockchain)
+    }
   }
 
   const handleSelectRecipientAddress = async (recipientAddress?: string) => {
