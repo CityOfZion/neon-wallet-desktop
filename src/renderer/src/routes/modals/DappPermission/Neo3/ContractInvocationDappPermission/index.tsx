@@ -2,6 +2,7 @@ import { Fragment, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ContractInvocationMulti } from '@cityofzion/wallet-connect-sdk-wallet-core'
 import { Button } from '@renderer/components/Button'
+import { DappPermissionContextualMessage } from '@renderer/components/DappPermissionContextualMessage'
 import { DappPermissionHeader } from '@renderer/components/DappPermissionHeader'
 import { Separator } from '@renderer/components/Separator'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
@@ -36,6 +37,8 @@ export const Neo3ContractInvocationDappPermission = ({
   const { t } = useTranslation('modals', { keyPrefix: 'dappPermission.requests.neo3.contractInvocation' })
   const params = useMemo(() => request.params.request.params as ContractInvocationMulti, [request])
   const { modalNavigate } = useModalNavigate()
+
+  const contextualMessage = request.params.request.params.contextualMessage
 
   const {
     data: fee,
@@ -107,6 +110,10 @@ export const Neo3ContractInvocationDappPermission = ({
           <Fee loading={feeIsLoading} fee={fee} />
         </div>
       </div>
+
+      {request.params.request.params.contextualMessage && (
+        <DappPermissionContextualMessage contextualMessage={String(contextualMessage).trim()} />
+      )}
 
       <div className="flex gap-2.5 px-10 mt-8 pb-10 z-50 ">
         <Button label={t('cancelButtonLabel')} colorSchema="gray" onClick={onReject} />
