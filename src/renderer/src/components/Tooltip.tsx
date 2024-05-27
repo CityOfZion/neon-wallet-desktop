@@ -20,7 +20,7 @@ export const Tooltip = ({ children, title, ...props }: TProps) => {
           <RadixTooltip.Content
             side="bottom"
             className={StyleHelper.mergeStyles(
-              'bg-gray-100 rounded-sm text-xs text-asphalt px-1 py-0.5',
+              'bg-gray-100 rounded-sm text-xs text-asphalt px-1 py-0.5 z-[1010]',
               contentClassName
             )}
             {...contentProps}
