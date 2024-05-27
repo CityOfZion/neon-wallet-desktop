@@ -15,10 +15,8 @@ import { Separator } from '@renderer/components/Separator'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
-import { useAppDispatch } from '@renderer/hooks/useRedux'
-import { useNetworkTypeSelector } from '@renderer/hooks/useSettingsSelector'
+import { useNetworkTypeActions, useNetworkTypeSelector } from '@renderer/hooks/useSettingsSelector'
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
-import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
 
 import { DappConnectionErrorContent } from './DappConnectionErrorContent'
 import { DappConnectionSuccessContent } from './DappConnectionSuccessContent'
@@ -34,9 +32,9 @@ export const DappConnectionDetailsModal = () => {
   const { modalNavigate } = useModalNavigate()
   const { networkTypeRef } = useNetworkTypeSelector()
   const { t } = useTranslation('modals', { keyPrefix: 'dappConnectionDetails' })
-  const dispatch = useAppDispatch()
+  const { handleChangeNetwork } = useNetworkTypeActions()
 
-  const [proposalInformation, setProposalInformation] = useState<TWalletConnectHelperProposalInformation>()
+  const [proposalInformation, setProposalInformation] = useState<TWalletConnectHelperProposalInformation[]>()
 
   const handleClose = async () => {
     await rejectProposal(proposal)
@@ -47,14 +45,26 @@ export const DappConnectionDetailsModal = () => {
     modalNavigate(-1)
   }
 
-  const handleAccountSelection = async (account: IAccountState) => {
-    if (!proposalInformation || !account) return
+  const handleAccept = async () => {
+    if (!proposalInformation) return
+
+    const accountProposalInformation = proposalInformation.find(info => info.blockchain === account.blockchain)
+    if (!accountProposalInformation) {
+      rejectProposal(proposal)
+      ToastHelper.error({ message: 'Account blockchain cannot be different from proposal blockchain' })
+      modalNavigate(-1)
+      return
+    }
+
+    if (accountProposalInformation.network !== networkTypeRef.current) {
+      await handleChangeNetwork(accountProposalInformation.network)
+    }
 
     try {
       await approveProposal(proposal, {
         address: account.address,
-        chain: proposalInformation.proposalNetwork,
-        blockchain: proposalInformation.proposalBlockchain,
+        chain: accountProposalInformation.proposalNetwork,
+        blockchain: accountProposalInformation.proposalBlockchain,
       })
       modalNavigate(-1)
       modalNavigate('success', {
@@ -76,16 +86,6 @@ export const DappConnectionDetailsModal = () => {
         },
       })
     }
-  }
-
-  const handleAccept = async () => {
-    if (!proposalInformation) return
-
-    if (proposalInformation.network !== networkTypeRef.current) {
-      dispatch(settingsReducerActions.setNetworkType(proposalInformation.network))
-    }
-
-    handleAccountSelection(account)
   }
 
   useEffect(() => {
@@ -118,33 +118,37 @@ export const DappConnectionDetailsModal = () => {
 
           <p className="text-white text-2xl mt-9">{t('title')}</p>
 
-          <p className="text-gray-100 text-sm mt-6">
+          <p className="text-gray-100 text-sm mt-6 text-center">
             {t('description', { name: proposal.params.proposer.metadata.name })}
           </p>
 
-          <div className="w-full flex flex-col bg-gray-900 rounded text-white px-4 py-2.5 mt-5">
-            <div className="flex justify-between text-sm items-center">
-              <div className="flex items-center gap-x-2.5">
-                <TbPlug className="stroke-blue w-6 h-6" />
+          <ul className="flex flex-col gap-2 flex-grow  w-full mt-2 overflow-y-auto">
+            {proposalInformation.map(info => (
+              <li key={info.blockchain} className="w-full flex flex-col bg-gray-900 rounded text-white px-4 py-2.5">
+                <div className="flex justify-between text-sm items-center">
+                  <div className="flex items-center gap-x-2.5">
+                    <TbPlug className="stroke-blue w-6 h-6" />
 
-                <span>{t('connectionDetailsTitle')}</span>
-              </div>
+                    <span>{t('connectionDetailsTitle')}</span>
+                  </div>
 
-              <span className="text-gray-300">{proposalInformation.chain}</span>
-            </div>
+                  <span className="text-gray-300">{info.chain}</span>
+                </div>
 
-            <Separator className="my-2.5" />
+                <Separator className="my-2.5" />
 
-            <ul className="text-xs grid max-h-[10rem] overflow-y-scroll grid-cols-2">
-              {proposalInformation.methods.map(method => (
-                <li key={method} className="list-disc w-1/2 mx-4">
-                  {method}
-                </li>
-              ))}
-            </ul>
-          </div>
+                <ul className="text-xs grid max-h-[10rem] overflow-y-scroll grid-cols-2">
+                  {info.methods.map(method => (
+                    <li key={method} className="list-disc w-1/2 mx-4">
+                      {method}
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
 
-          <div className="flex gap-x-2.5 w-full flex-grow items-end">
+          <div className="flex gap-x-2.5 w-full mt-4 items-end">
             <Button label="Decline" colorSchema="gray" className="min-w-[7.5rem]" onClick={handleDecline} />
 
             <Button label="Accept" className="flex-grow" onClick={handleAccept} />

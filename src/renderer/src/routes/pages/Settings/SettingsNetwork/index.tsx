@@ -2,15 +2,11 @@ import { useTranslation } from 'react-i18next'
 import { MdRestartAlt } from 'react-icons/md'
 import { MdOutlineLanguage } from 'react-icons/md'
 import { TbChevronRight } from 'react-icons/tb'
-import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
-import { TNetworkType } from '@renderer/@types/blockchain'
 import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
-import { useAppDispatch } from '@renderer/hooks/useRedux'
-import { useNetworkTypeSelector } from '@renderer/hooks/useSettingsSelector'
+import { useNetworkTypeActions, useNetworkTypeSelector } from '@renderer/hooks/useSettingsSelector'
 import { SettingsLayout } from '@renderer/layouts/Settings'
-import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
 
 export const SettingsNetwork = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'settings.settingsNetwork' })
@@ -18,13 +14,7 @@ export const SettingsNetwork = () => {
   const { t: commonGeneral } = useTranslation('common', { keyPrefix: 'general' })
   const { modalNavigateWrapper } = useModalNavigate()
   const { networkType } = useNetworkTypeSelector()
-  const dispatch = useAppDispatch()
-  const { sessions, disconnect } = useWalletConnectWallet()
-
-  const handleChangeNetwork = async (networkType: TNetworkType) => {
-    await Promise.allSettled(sessions.map(session => disconnect(session)))
-    dispatch(settingsReducerActions.setNetworkType(networkType))
-  }
+  const { handleChangeNetwork } = useNetworkTypeActions()
 
   return (
     <SettingsLayout

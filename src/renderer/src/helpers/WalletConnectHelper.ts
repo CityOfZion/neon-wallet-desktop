@@ -4,6 +4,7 @@ import {
   TWalletConnectHelperProposalInformation,
   TWalletConnectHelperSessionInformation,
 } from '@renderer/@types/helpers'
+import merge from 'lodash.merge'
 
 export abstract class WalletConnectHelper {
   static blockchainsByBlockchainServiceKey: Partial<Record<TBlockchainServiceKey, string>> = {
@@ -51,41 +52,44 @@ export abstract class WalletConnectHelper {
     }
   }
 
-  static getInformationFromProposal(proposal: TSessionProposal): TWalletConnectHelperProposalInformation {
-    const namespace = Object.values(proposal.params.requiredNamespaces)[0]
-    const optionsNamespace = Object.values(proposal.params.optionalNamespaces)[0]
+  static getInformationFromProposal(proposal: TSessionProposal): TWalletConnectHelperProposalInformation[] {
+    const combinedNamespaces = merge({}, proposal.params.requiredNamespaces, proposal.params.optionalNamespaces)
 
-    const chains = namespace.chains
-    if (!chains) throw new Error('Chains not found')
+    const proposalInformation = Object.values(combinedNamespaces).map((namespace: any) => {
+      const chains = namespace.chains
+      if (!chains) throw new Error('Chains not found')
 
-    const methods = namespace.methods.concat(optionsNamespace?.methods ?? [])
-    const chain = chains[0]
+      const methods = namespace?.methods ?? []
+      const chain = chains[0]
 
-    const [proposalBlockchain, proposalNetwork] = chain.split(':')
+      const [proposalBlockchain, proposalNetwork] = chain.split(':')
 
-    const blockchainByBlockchainServiceKey = Object.entries(this.blockchainsByBlockchainServiceKey).find(
-      ([, value]) => value === proposalBlockchain
-    )
-    if (!blockchainByBlockchainServiceKey) throw new Error('Blockchain not supported')
+      const blockchainByBlockchainServiceKey = Object.entries(this.blockchainsByBlockchainServiceKey).find(
+        ([, value]) => value === proposalBlockchain
+      )
+      if (!blockchainByBlockchainServiceKey) throw new Error('Blockchain not supported')
 
-    const blockchain = blockchainByBlockchainServiceKey[0] as TBlockchainServiceKey
+      const blockchain = blockchainByBlockchainServiceKey[0] as TBlockchainServiceKey
 
-    const networks = this.networksByBlockchainServiceKey[blockchain]
-    if (!networks) throw new Error('Blockchain not supported')
+      const networks = this.networksByBlockchainServiceKey[blockchain]
+      if (!networks) throw new Error('Blockchain not supported')
 
-    const networkByNetworkType = Object.entries(networks).find(entry => entry[1] === proposalNetwork)
-    if (!networkByNetworkType) throw new Error('Network not supported')
+      const networkByNetworkType = Object.entries(networks).find(entry => entry[1] === proposalNetwork)
+      if (!networkByNetworkType) throw new Error('Network not supported')
 
-    const network = networkByNetworkType[0] as TNetworkType
+      const network = networkByNetworkType[0] as TNetworkType
 
-    return {
-      blockchain,
-      network,
-      chain,
-      methods,
-      proposalBlockchain,
-      proposalNetwork,
-    }
+      return {
+        blockchain,
+        network,
+        chain,
+        methods,
+        proposalBlockchain,
+        proposalNetwork,
+      }
+    })
+
+    return proposalInformation
   }
 
   static isValidURI(uri: string) {
