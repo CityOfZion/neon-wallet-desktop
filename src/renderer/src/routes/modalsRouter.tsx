@@ -73,7 +73,7 @@ export const modalsRouter: TRoute[] = [
   { name: 'blockchain-selection', type: 'side', element: <BlockchainSelectionModal /> },
   { name: 'decrypt-key', type: 'side', element: <DecryptKeyModal /> },
   { name: 'select-account', type: 'side', element: <SelectAccount /> },
-  { name: 'select-token', type: 'side', element: <SelectToken /> },
+  { name: 'select-token', type: 'side', size: 'md', element: <SelectToken /> },
   { name: 'input-amount', type: 'side', element: <InputAmount /> },
   { name: 'network-selection', type: 'side', element: <NetworkSelection /> },
   { name: 'migrate-accounts-step-2', type: 'side', size: 'lg', element: <MigrateAccountsStep2Modal /> },

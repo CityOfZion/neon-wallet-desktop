@@ -87,6 +87,7 @@ interface Resources {
       holdings: 'HOLDINGS'
       price: 'PRICE'
       value: 'VALUE'
+      hash: 'HASH'
       empty: 'No tokens to display'
     }
     blockchainDataPanel: {
