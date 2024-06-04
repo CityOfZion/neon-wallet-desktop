@@ -17,7 +17,7 @@ type TLocationState = {
   onSelectAccount: (contact: IAccountState) => void
   title: string
   buttonLabel: string
-  leftIcon: JSX.Element
+  leftIcon?: JSX.Element
 }
 
 export const SelectAccount = () => {
@@ -53,8 +53,8 @@ export const SelectAccount = () => {
     if (!selectedAccount) {
       return
     }
-    onSelectAccount(selectedAccount)
     modalNavigate(-1)
+    onSelectAccount(selectedAccount)
   }
 
   const filteredWallets = useMemo(() => {

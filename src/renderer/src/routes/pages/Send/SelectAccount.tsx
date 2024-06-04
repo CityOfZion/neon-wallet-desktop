@@ -14,7 +14,7 @@ type TAccountParams = {
   title: string
   modalTitle: string
   buttonLabel: string
-  leftIcon: JSX.Element
+  leftIcon?: JSX.Element
 }
 
 export const SelectAccount = ({
