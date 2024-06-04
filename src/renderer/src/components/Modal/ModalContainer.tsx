@@ -17,7 +17,7 @@ export const ModalContent = ({ children, className }: TModalContainerProps) => {
   return (
     <div
       className={StyleHelper.mergeStyles(
-        `fixed left-0 top-drag-region h-screen-minus-drag-region w-screen overflow-hidden`,
+        `fixed left-0 top-drag-region h-screen-minus-drag-region w-screen overflow-hidden z-[1000]`,
         className
       )}
       ref={containerRef}
