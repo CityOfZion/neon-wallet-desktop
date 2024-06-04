@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { EncryptedPayload } from '@cityofzion/wallet-connect-sdk-wallet-react'
 import { Button } from '@renderer/components/Button'
+import { DappPermissionContextualMessage } from '@renderer/components/DappPermissionContextualMessage'
 import { DappPermissionHeader } from '@renderer/components/DappPermissionHeader'
 
 import { TDappPermissionComponentProps } from '../index'
@@ -17,6 +18,7 @@ export const Neo3DecryptFromArrayDappPermission = ({
   const [isApproving, setIsApproving] = useState(false)
 
   const params = request.params.request.params[0] as EncryptedPayload[]
+  const contextualMessage = request.params.request.params.contextualMessage
 
   const handleAccept = async () => {
     setIsApproving(true)
@@ -47,6 +49,10 @@ export const Neo3DecryptFromArrayDappPermission = ({
           </div>
         ))}
       </div>
+
+      {request.params.request.params.contextualMessage && (
+        <DappPermissionContextualMessage contextualMessage={String(contextualMessage).trim()} />
+      )}
 
       <div className="flex gap-2.5 px-10 mt-8 pb-10 z-50 ">
         <Button label={t('cancelButtonLabel')} colorSchema="gray" onClick={onReject} />

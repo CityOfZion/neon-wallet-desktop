@@ -167,6 +167,9 @@ interface Resources {
       cantClaim: "Can't claim because balance will not cover network fees!"
       errorDecryptKey: 'Error decrypting key'
     }
+    dappPermissionContextualMessage: {
+      messageLabel: 'Contextual Message'
+    }
   }
   hooks: {
     useImportAction: {
