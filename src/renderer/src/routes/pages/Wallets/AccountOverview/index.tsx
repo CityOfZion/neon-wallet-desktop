@@ -4,6 +4,7 @@ import { isClaimable } from '@cityofzion/blockchain-service'
 import { IAccountState } from '@renderer/@types/store'
 import { BalanceChart } from '@renderer/components/BalanceChart'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
+import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { useBalances } from '@renderer/hooks/useBalances'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 import { AccountDetailsLayout } from '@renderer/layouts/AccountDetailsLayout'
@@ -24,11 +25,16 @@ export const AccountOverview = () => {
   const blockchainService = bsAggregator.blockchainServicesByName[account.blockchain]
   const balances = useBalances([account])
 
-  const exchangeTotalFormatted = NumberHelper.currency(balances.exchangeTotal, currency.label)
+  const exchangeTotalFormatted = NumberHelper.currency(balances.exchangeTotal, currency.label, 2, 2, false)
 
   return (
     <AccountDetailsLayout title={t('title')} actions={account ? <CommonAccountActions account={account} /> : undefined}>
-      <div className="flex flex-col h-full items-center justify-center w-full">
+      <div
+        className={StyleHelper.mergeStyles('flex flex-col h-full items-center w-full', {
+          'justify-start mt-7': balances.exchangeTotal === 0,
+          'justify-center': balances.exchangeTotal > 0,
+        })}
+      >
         <div className="flex justify-between items-center w-full text-sm mb-3 px-2">
           <h1 className="text-gray-200">{t('holdings')}</h1>
 
@@ -38,9 +44,11 @@ export const AccountOverview = () => {
           </div>
         </div>
 
-        <BalanceChart balances={balances} />
+        <BalanceChart balances={balances} account={account} />
 
-        {isClaimable(blockchainService) && <ClaimGasBanner blockchainService={blockchainService} account={account} />}
+        {balances.exchangeTotal > 0 && isClaimable(blockchainService) && (
+          <ClaimGasBanner blockchainService={blockchainService} account={account} />
+        )}
       </div>
     </AccountDetailsLayout>
   )

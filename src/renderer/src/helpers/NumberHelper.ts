@@ -12,11 +12,17 @@ export class NumberHelper {
     return decimals?.length ?? 0
   }
 
-  static currency(input: string | number, currencyName: string, minimumFractionDigits = 2, maximumFractionDigits = 2) {
+  static currency(
+    input: string | number,
+    currencyName: string,
+    minimumFractionDigits = 2,
+    maximumFractionDigits = 2,
+    showZero = true
+  ) {
     const num = Number(input)
 
     try {
-      return new Intl.NumberFormat('en-US', {
+      const result = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: currencyName,
         minimumFractionDigits,
@@ -25,6 +31,12 @@ export class NumberHelper {
         .format(isNaN(num) ? 0 : num)
         .replace(/^(\D+)/, '$1 ')
         .replace(/\s+/, ' ')
+
+      if (!showZero && num === 0) {
+        return result.replace('0', '--').replaceAll('0', '-')
+      }
+
+      return result
     } catch {
       return '0'
     }

@@ -1,14 +1,17 @@
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TTokenBalance, TUseBalancesResult } from '@renderer/@types/query'
+import { IAccountState } from '@renderer/@types/store'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 
+import { EmptyState } from './EmptyState'
 import { Loader } from './Loader'
 
 type TProps = {
   balances: TUseBalancesResult
+  account?: IAccountState
 }
 
 type TBar = {
@@ -18,7 +21,7 @@ type TBar = {
   value: string
 }
 
-export const BalanceChart = ({ balances }: TProps) => {
+export const BalanceChart = ({ balances, account }: TProps) => {
   const { t } = useTranslation('components', { keyPrefix: 'balanceChart' })
   const { currency } = useCurrencySelector()
 
@@ -80,34 +83,38 @@ export const BalanceChart = ({ balances }: TProps) => {
 
   return (
     <ul className="flex w-full justify-center">
-      {bars.map(bar => (
-        <li
-          key={bar.name}
-          className="flex flex-col mx-2 min-w-[5rem]"
-          style={{
-            width: `${bar.widthPercent}%`,
-          }}
-        >
-          <div
-            className="h-2 w-full rounded-full drop-shadow-lg bg-white"
+      {balances.exchangeTotal !== 0 ? (
+        bars.map(bar => (
+          <li
+            key={bar.name}
+            className="flex flex-col mx-2 min-w-[5rem]"
             style={{
-              backgroundImage: `linear-gradient(0deg, ${bar.color} 0%, ${bar.color}80 100%)`,
+              width: `${bar.widthPercent}%`,
             }}
-          ></div>
-          <div className="flex items-start mt-5">
+          >
             <div
-              className="w-2 min-w-[0.5rem] h-2 rounded-full mt-1"
+              className="h-2 w-full rounded-full drop-shadow-lg bg-white"
               style={{
-                backgroundColor: bar.color,
+                backgroundImage: `linear-gradient(0deg, ${bar.color} 0%, ${bar.color}80 100%)`,
               }}
             ></div>
-            <div className="flex flex-col pl-2 min-w-0">
-              <span className="text-white text-xs font-normal truncate">{bar.name}</span>
-              <span className="text-gray-300 text-sm">{bar.value}</span>
+            <div className="flex items-start mt-5">
+              <div
+                className="w-2 min-w-[0.5rem] h-2 rounded-full mt-1"
+                style={{
+                  backgroundColor: bar.color,
+                }}
+              ></div>
+              <div className="flex flex-col pl-2 min-w-0">
+                <span className="text-white text-xs font-normal truncate">{bar.name}</span>
+                <span className="text-gray-300 text-sm">{bar.value}</span>
+              </div>
             </div>
-          </div>
-        </li>
-      ))}
+          </li>
+        ))
+      ) : (
+        <EmptyState account={account} />
+      )}
     </ul>
   )
 }

@@ -120,7 +120,7 @@ interface Resources {
     transactionsTableEmpty: {
       title: 'Your wallet is currently empty, why not add some assets or connect a dApp?'
       subtitle: 'Your wallet is compatible with Neo, Gas and Ethereum assets'
-      requestAssetsLabel: 'Request assets'
+      connectDappLabel: 'Connect dApp'
       importAccountLabel: 'Import account'
     }
     contactAddressTable: {
