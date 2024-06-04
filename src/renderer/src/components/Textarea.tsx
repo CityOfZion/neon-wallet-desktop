@@ -91,8 +91,8 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TProps>(
           className={StyleHelper.mergeStyles(
             'flex items-center gap-x-1 rounded bg-asphalt ring-2 ring-transparent w-full px-5 outline-none font-medium placeholder:text-white/50 text-white',
             {
-              'py-[0.3125rem]  text-xs': compacted,
-              'py-2 text-sm': !compacted,
+              'py-[0.3125rem] text-xs': compacted,
+              'py-3 text-sm': !compacted,
               'ring-pink': !!errorMessage || error === true,
               'focus:ring-neon': !errorMessage || error === false,
               'pr-3': clearable,

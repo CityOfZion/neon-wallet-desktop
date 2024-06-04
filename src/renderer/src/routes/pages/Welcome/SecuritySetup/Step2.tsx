@@ -23,7 +23,7 @@ type TProps = {
 
 export const WelcomeSecuritySetupStep2Page = ({ onSubmit }: TProps) => {
   const { state } = useLocation() as Location<TLocationState>
-  const { t } = useTranslation('pages', { keyPrefix: 'welcomeSecuritySetup.step2' })
+  const { t } = useTranslation('pages', { keyPrefix: 'welcome.securitySetup.step2' })
   const { t: commonT } = useTranslation('common')
   const navigate = useNavigate()
   const dispatch = useAppDispatch()

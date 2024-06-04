@@ -1,18 +1,17 @@
-import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 import { BACKUP_FILE_EXTENSION } from '@renderer/constants/backup'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import zod from 'zod'
 
-import { useModalNavigate } from './useModalRouter'
+import { useActions } from './useActions'
 
 export type TMigrateWalletsSchema = zod.infer<typeof migrateWalletsSchema>
 export type TMigrateSchema = zod.infer<typeof migrateSchema>
 
-type TFile = {
-  path: string
-  content: string | TMigrateSchema
+export type TUseBackupOrMigrateActionsData = {
+  path?: string
+  content?: string | TMigrateSchema
+  type?: 'backup' | 'migrate'
 }
 
 const migrateWalletsSchema = zod.object({
@@ -32,10 +31,10 @@ const migrateSchema = zod.object({
 
 export const useBackupOrMigrate = () => {
   const { t } = useTranslation('hooks', { keyPrefix: 'useBackupOrMigrate' })
-  const [file, setFile] = useState<TFile>()
-  const [hasError, setHasError] = useState<boolean>(false)
-  const { modalNavigate } = useModalNavigate()
-  const navigate = useNavigate()
+
+  const { actionData, actionState, handleAct, setData, setError, reset } = useActions<TUseBackupOrMigrateActionsData>(
+    {}
+  )
 
   const handleBrowse = async () => {
     const [filePath] = await window.api.openDialog({
@@ -47,42 +46,31 @@ export const useBackupOrMigrate = () => {
 
     if (filePath.endsWith(BACKUP_FILE_EXTENSION)) {
       ToastHelper.success({ message: t('neon3BackupFileDetected') })
-      setFile({ path: filePath, content: fileContent })
-      setHasError(false)
+
+      setData({ path: filePath, content: fileContent, type: 'backup' })
       return
     }
 
     try {
       const parsedContent = JSON.parse(fileContent)
       const validatedContent = await migrateSchema.parseAsync(parsedContent)
+
       ToastHelper.success({ message: t('neon2MigrateFileDetected') })
-      setFile({ path: filePath, content: validatedContent })
-      setHasError(false)
+
+      setData({ path: filePath, content: validatedContent, type: 'migrate' })
       return
     } catch {
       /* empty */
     }
 
-    setHasError(true)
-  }
-
-  const handleImport = async () => {
-    if (!file || hasError) return
-
-    if (file.path.endsWith(BACKUP_FILE_EXTENSION)) {
-      navigate('/app/settings/security/recover-wallet')
-      modalNavigate('confirm-password-recover', { state: { content: file.content as string }, replace: true })
-      return
-    }
-
-    navigate('/app/settings/security/migrate-accounts')
-    modalNavigate('migrate-accounts-step-3', { state: { content: file.content } })
+    setError('path', t('error'))
   }
 
   return {
-    file,
+    actionData,
+    actionState,
+    handleAct,
     handleBrowse,
-    handleImport,
-    hasError,
+    reset,
   }
 }

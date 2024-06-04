@@ -19,6 +19,7 @@ type TFormData = {
 
 type TLocationState = {
   content: string
+  onDecrypt: (data: TBackupFormat) => void
 }
 
 const SuccessFooter = () => {
@@ -35,7 +36,7 @@ const SuccessFooter = () => {
 
 export const ConfirmPasswordRecoverModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'confirmPasswordRecover' })
-  const { content } = useModalState<TLocationState>()
+  const { content, onDecrypt } = useModalState<TLocationState>()
   const dispatch = useAppDispatch()
   const { doesAccountExist } = useAccountUtils()
   const { modalNavigate } = useModalNavigate()
@@ -54,6 +55,11 @@ export const ConfirmPasswordRecoverModal = () => {
     try {
       const contentDecrypted = await window.api.decryptBasedSecret(content, password)
       const backupFile = JSON.parse(contentDecrypted) as TBackupFormat
+
+      if (onDecrypt) {
+        onDecrypt(backupFile)
+        return
+      }
 
       backupFile.contacts.forEach(contact => dispatch(contactReducerActions.saveContact(contact)))
 

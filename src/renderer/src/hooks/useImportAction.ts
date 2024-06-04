@@ -83,5 +83,5 @@ export const useImportAction = (
     }
   }
 
-  return { actionData, actionState, handleAct, handleChange, handleSubmit }
+  return { actionData, actionState, handleAct, handleChange, handleSubmit, reset }
 }

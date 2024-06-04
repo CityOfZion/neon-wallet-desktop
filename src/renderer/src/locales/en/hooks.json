@@ -9,7 +9,8 @@
   },
   "useBackupOrMigrate": {
     "neon3BackupFileDetected": "NEON3 backup file detected",
-    "neon2MigrateFileDetected": "NEON2 migrate file detected"
+    "neon2MigrateFileDetected": "NEON2 migrate file detected",
+    "error": "File not recognised"
   },
   "useLedgerFlow": {
     "ledgerConnected": "New Ledger detected \n{{address}}",

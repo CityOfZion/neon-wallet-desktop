@@ -4,7 +4,7 @@ import { TbDiscountCheck } from 'react-icons/tb'
 import { Link } from '@renderer/components/Link'
 
 export const WelcomeSecuritySetupStep3Page = () => {
-  const { t } = useTranslation('pages', { keyPrefix: 'welcomeSecuritySetup.step3' })
+  const { t } = useTranslation('pages', { keyPrefix: 'welcome.securitySetup.step3' })
 
   return (
     <div className="flex-grow w-full flex flex-col justify-between items-center">

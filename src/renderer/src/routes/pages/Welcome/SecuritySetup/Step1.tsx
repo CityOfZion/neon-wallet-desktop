@@ -16,7 +16,7 @@ type TProps = {
 const MIN_PASSWORD_LENGTH = 4
 
 export const WelcomeSecuritySetupStep1Page = ({ onSubmit }: TProps) => {
-  const { t } = useTranslation('pages', { keyPrefix: 'welcomeSecuritySetup.step1' })
+  const { t } = useTranslation('pages', { keyPrefix: 'welcome.securitySetup.step1' })
   const { t: commonT } = useTranslation('common')
   const navigate = useNavigate()
 

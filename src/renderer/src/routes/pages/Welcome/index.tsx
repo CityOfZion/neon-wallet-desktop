@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { TbArrowRight } from 'react-icons/tb'
+import { TbArrowRight, TbFileImport } from 'react-icons/tb'
 import { ReactComponent as GetAppImage } from '@renderer/assets/images/get-app-image.svg'
 import { ReactComponent as LedgerLogo } from '@renderer/assets/images/ledger-logo.svg'
 import { ReactComponent as NeonPageImage } from '@renderer/assets/images/neon-page-image.svg'
@@ -34,13 +34,22 @@ export const WelcomePage = () => {
         </li>
       </ul>
 
-      <div className="flex gap-x-5 ">
+      <div className="flex gap-x-2.5 ">
+        <Link
+          to="/welcome-import-wallet/1"
+          label={t('migrationButtonLabel')}
+          rightIcon={<TbFileImport />}
+          variant="outlined"
+          iconsOnEdge={false}
+          state={{ isMigration: true }}
+        />
+
         <Link
           to="/welcome-security-setup"
           label={t('setupSecurityButtonLabel')}
           rightIcon={<TbArrowRight />}
           variant="contained"
-          clickableProps={{ className: 'py-3 px-8' }}
+          clickableProps={{ className: 'px-8' }}
           iconsOnEdge={false}
         />
       </div>
