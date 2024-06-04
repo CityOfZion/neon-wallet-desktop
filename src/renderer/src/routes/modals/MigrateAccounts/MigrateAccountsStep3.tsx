@@ -1,6 +1,7 @@
 import { Fragment, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdLooks3 } from 'react-icons/md'
+import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { Button } from '@renderer/components/Button'
 import { Checkbox } from '@renderer/components/Checkbox'
 import { Separator } from '@renderer/components/Separator'
@@ -8,6 +9,7 @@ import { useAccountUtils } from '@renderer/hooks/useAccountSelector'
 import { TMigrateSchema, TMigrateWalletsSchema } from '@renderer/hooks/useBackupOrMigrate'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { MigrateAccountsModalLayout } from '@renderer/layouts/MigrateAccountsModalLayout'
+import { bsAggregator } from '@renderer/libs/blockchainService'
 
 type TState = {
   content: TMigrateSchema
@@ -52,15 +54,20 @@ export const MigrateAccountsStep3Modal = () => {
         {content.accounts.map((wallet, index) => {
           const isAccountExist = doesAccountExist(wallet.address)
 
+          const blockchain = bsAggregator.getBlockchainNameByAddress(wallet.address)
+
           return (
             <Fragment key={wallet.address}>
               <div className="flex py-4 items-center justify-between">
-                <div className="flex flex-col gap-1">
-                  <div className="flex gap-2">
-                    <span className="text-sm text-white">{wallet.label}</span>
-                    {isAccountExist && <span className="text-sm text-green italic">{t('alreadyImportedLabel')}</span>}
+                <div className="flex items-center">
+                  {blockchain && <BlockchainIcon className="mr-2" blockchain={blockchain} type="gray" />}
+                  <div className="flex flex-col gap-1">
+                    <div className="flex gap-2">
+                      <span className="text-sm text-white">{wallet.label}</span>
+                      {isAccountExist && <span className="text-sm text-green italic">{t('alreadyImportedLabel')}</span>}
+                    </div>
+                    <span className="text-xs text-gray-300">{wallet.address}</span>
                   </div>
-                  <span className="text-xs text-gray-300">{wallet.address}</span>
                 </div>
 
                 <Checkbox
