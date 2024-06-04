@@ -1,38 +1,53 @@
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
+import { StringHelper } from '@renderer/helpers/StringHelper'
+import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { accountReducerActions } from '@renderer/store/reducers/AccountReducer'
 import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
 
+import { useAccountsSelector } from './useAccountSelector'
 import { useBlockchainActions } from './useBlockchainActions'
 import { useAppDispatch, useAppSelector } from './useRedux'
 import { useNetworkTypeSelector } from './useSettingsSelector'
 import { useWalletsSelector } from './useWalletSelector'
 
-export const useBeforeLogin = () => {
-  const { ref: hasOverTheAirUpdatesRef } = useAppSelector(state => state.settings.hasOverTheAirUpdates)
-  const { networkType } = useNetworkTypeSelector()
-  const { walletsRef } = useWalletsSelector()
+const useRegisterLedgerListeners = () => {
+  const { t } = useTranslation('hooks', { keyPrefix: 'useLedgerFlow' })
   const { deleteWallet } = useBlockchainActions()
-  const dispatch = useAppDispatch()
-  const { modalNavigate } = useModalNavigate()
+  const { accountsRef } = useAccountsSelector()
 
   useEffect(() => {
-    Object.values(bsAggregator.blockchainServicesByName).forEach(service => {
-      service.setNetwork({ type: networkType })
+    const removeLedgerConnectedListener = window.electron.ipcRenderer.on('ledgerConnected', async (_event, address) => {
+      ToastHelper.success({
+        message: t('ledgerConnected', { address: StringHelper.truncateStringMiddle(address, 20) }),
+      })
     })
-  }, [networkType])
 
-  useEffect(() => {
-    walletsRef.current
-      .filter(it => it.walletType === 'ledger')
-      .forEach(wallet => {
-        deleteWallet(wallet.id)
+    const removeLedgerDisconnectedListener = window.electron.ipcRenderer.on('ledgerDisconnected', (_event, address) => {
+      ToastHelper.error({
+        message: t('ledgerDisconnected', { address: StringHelper.truncateStringMiddle(address, 20) }),
       })
 
-    dispatch(accountReducerActions.removeAllPendingTransactions())
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+      const account = accountsRef.current.find(it => it.address === address)
+      if (!account) return
+      deleteWallet(account.idWallet)
+    })
+
+    window.electron.ipcRenderer.send('startLedger')
+
+    return () => {
+      removeLedgerConnectedListener()
+      removeLedgerDisconnectedListener()
+    }
+  }, [t, deleteWallet, accountsRef])
+}
+
+const useOverTheAirUpdate = () => {
+  const { ref: hasOverTheAirUpdatesRef } = useAppSelector(state => state.settings.hasOverTheAirUpdates)
+  const { modalNavigate } = useModalNavigate()
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     window.electron.ipcRenderer.on('updateCompleted', () => {
@@ -53,4 +68,38 @@ export const useBeforeLogin = () => {
       modalNavigate('auto-update-completed')
     }
   }, [modalNavigate, hasOverTheAirUpdatesRef])
+}
+
+const useNetworkChange = () => {
+  const { networkType } = useNetworkTypeSelector()
+
+  useEffect(() => {
+    Object.values(bsAggregator.blockchainServicesByName).forEach(service => {
+      service.setNetwork({ type: networkType })
+    })
+  }, [networkType])
+}
+
+const useStoreStartup = () => {
+  const { walletsRef } = useWalletsSelector()
+  const { deleteWallet } = useBlockchainActions()
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    walletsRef.current
+      .filter(it => it.walletType === 'ledger')
+      .forEach(wallet => {
+        deleteWallet(wallet.id)
+      })
+
+    dispatch(accountReducerActions.removeAllPendingTransactions())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+}
+
+export const useBeforeLogin = () => {
+  useRegisterLedgerListeners()
+  useOverTheAirUpdate()
+  useNetworkChange()
+  useStoreStartup()
 }

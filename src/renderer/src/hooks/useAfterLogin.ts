@@ -1,8 +1,6 @@
 import { useCallback, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
-import { StringHelper } from '@renderer/helpers/StringHelper'
-import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
 import { useAccountsSelector } from './useAccountSelector'
@@ -18,7 +16,7 @@ const useRegisterWalletConnectListeners = () => {
     await UtilsHelper.sleep(1500)
 
     const currentHistory = historiesRef.current.slice(-1)[0]
-    if (currentHistory && currentHistory.name === 'dapp-permission') {
+    if (currentHistory && currentHistory.route.name === 'dapp-permission') {
       if (!requests.some(request => request.id === currentHistory.state?.request?.id)) {
         modalNavigate(-1)
       }
@@ -48,32 +46,31 @@ const useRegisterLedgerListeners = () => {
   const { t } = useTranslation('hooks', { keyPrefix: 'useLedgerFlow' })
 
   useEffect(() => {
-    window.electron.ipcRenderer.on('ledgerConnected', async (_event, address, publicKey, blockchain) => {
-      ToastHelper.success({
-        message: t('ledgerConnected', { address: StringHelper.truncateStringMiddle(address, 20) }),
-      })
+    const createLedgerWallet = async (address, publicKey, blockchain) => {
+      const account = accountsRef.current.find(it => it.address === address)
+      if (account) return
+
       const wallet = await createWallet({ name: commonT('ledgerName'), walletType: 'ledger' })
       await importAccount({ wallet, address, blockchain, type: 'ledger', key: publicKey })
-    })
+    }
 
-    window.electron.ipcRenderer.on('ledgerDisconnected', (_event, address) => {
-      const account = accountsRef.current.find(it => it.address === address)
-      if (!account) return
-      ToastHelper.error({
-        message: t('ledgerDisconnected', { address: StringHelper.truncateStringMiddle(address, 20) }),
-      })
-      deleteWallet(account.idWallet)
+    const removeLedgerConnectedListener = window.electron.ipcRenderer.on(
+      'ledgerConnected',
+      async (_event, address, publicKey, blockchain) => {
+        await createLedgerWallet(address, publicKey, blockchain)
+      }
+    )
+
+    window.electron.ipcRenderer.invoke('getConnectedLedgers').then(async connectedLedgers => {
+      await Promise.all(
+        connectedLedgers.map(({ address, publicKey, blockchain }) => createLedgerWallet(address, publicKey, blockchain))
+      )
     })
 
     return () => {
-      window.electron.ipcRenderer.removeAllListeners('ledgerConnected')
-      window.electron.ipcRenderer.removeAllListeners('ledgerDisconnected')
+      removeLedgerConnectedListener()
     }
   }, [accountsRef, createWallet, deleteWallet, importAccount, commonT, t])
-
-  useEffect(() => {
-    window.electron.ipcRenderer.send('startLedger')
-  }, [])
 }
 
 export const useAfterLogin = () => {
