@@ -2,6 +2,7 @@ import { forwardRef, useMemo } from 'react'
 import { TTokenBalance, TUseBalancesResult } from '@renderer/@types/query'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
+import { StringHelper } from '@renderer/helpers/StringHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 import { getI18next } from '@renderer/libs/i18next'
@@ -9,6 +10,7 @@ import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from '
 
 import { Loader } from './Loader'
 import { Table } from './Table'
+import { Tooltip } from './Tooltip'
 
 type TProps = {
   balances: TUseBalancesResult
@@ -72,6 +74,16 @@ export const TokensTable = forwardRef<HTMLDivElement, TProps>(
                 },
                 header: t('components:tokensTable.ticker'),
               }),
+              columnHelper.accessor('token.hash', {
+                cell: info => {
+                  return (
+                    <Tooltip title={info.getValue()}>
+                      <span>{StringHelper.truncateStringMiddle(info.getValue(), 12)}</span>
+                    </Tooltip>
+                  )
+                },
+                header: t('components:tokensTable.hash'),
+              }),
               columnHelper.accessor('token.name', {
                 cell: info => info.getValue(),
                 header: t('components:tokensTable.token'),
@@ -95,7 +107,7 @@ export const TokensTable = forwardRef<HTMLDivElement, TProps>(
                 cell: info => {
                   return (
                     <div className="flex gap-2">
-                      <div className="rounded-lg bg-gray-300 w-4.5 h-4.5 flex justify-center items-center">
+                      <div className="rounded-lg bg-gray-300 w-4.5 h-4.5 min-w-4.5 flex justify-center items-center">
                         <BlockchainIcon
                           blockchain={info.row.original.blockchain}
                           type="white"
@@ -108,13 +120,35 @@ export const TokensTable = forwardRef<HTMLDivElement, TProps>(
                 },
                 header: t('components:tokensTable.ticker'),
               }),
+              columnHelper.accessor('token.hash', {
+                cell: info => {
+                  return (
+                    <Tooltip title={info.getValue()}>
+                      <span>{StringHelper.truncateStringMiddle(info.getValue(), 6)}</span>
+                    </Tooltip>
+                  )
+                },
+                header: t('components:tokensTable.hash'),
+              }),
               columnHelper.accessor(row => Number(row.amount).toFixed(row.token?.decimals ?? 8), {
-                cell: info => info.getValue(),
+                cell: info => {
+                  return (
+                    <Tooltip title={info.getValue()}>
+                      <span>{info.getValue()}</span>
+                    </Tooltip>
+                  )
+                },
                 id: 'holdings',
                 header: t('components:tokensTable.holdings'),
               }),
               columnHelper.accessor('exchangeRatio', {
-                cell: info => NumberHelper.currency(info.getValue(), currency.label),
+                cell: info => {
+                  return (
+                    <Tooltip title={NumberHelper.currency(info.getValue(), currency.label)}>
+                      <span>{NumberHelper.currency(info.getValue(), currency.label)}</span>
+                    </Tooltip>
+                  )
+                },
                 header: t('components:tokensTable.price'),
               }),
             ],
