@@ -1,6 +1,7 @@
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
+import { IAccountState } from '@renderer/@types/store'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
 import { useAccountsSelector } from './useAccountSelector'
@@ -73,7 +74,61 @@ const useRegisterLedgerListeners = () => {
   }, [accountsRef, createWallet, deleteWallet, importAccount, commonT, t])
 }
 
+function isWalletConnectUri(uri) {
+  return /^wc:.+@\d.*$/g.test(uri)
+}
+
+const useRegisterDeeplinkListeners = () => {
+  const { modalNavigate } = useModalNavigate()
+  const { t: commonWc } = useTranslation('hooks', { keyPrefix: 'DappConnection' })
+  const [decodedDeeplinkUri, setDecodedDeeplinkUri] = useState<string | null>(null)
+
+  const handleDeeplink = useCallback(async (uri: string) => {
+    if (!uri) return
+
+    await window.electron.ipcRenderer.invoke('restore')
+
+    const realUri = uri.split('uri=').pop()
+    if (!realUri) return
+
+    const decodedUri = decodeURIComponent(realUri)
+    if (isWalletConnectUri(decodedUri)) {
+      setDecodedDeeplinkUri(decodedUri)
+      return
+    }
+
+    const decodedBase64Uri = atob(decodedUri)
+    if (isWalletConnectUri(decodedBase64Uri)) {
+      setDecodedDeeplinkUri(decodedBase64Uri)
+    }
+  }, [])
+
+  useEffect(() => {
+    window.electron.ipcRenderer.invoke('getInitialDeepLinkUri').then(handleDeeplink)
+
+    window.electron.ipcRenderer.once('deeplink', (_event, uri: string) => {
+      handleDeeplink(uri)
+    })
+  }, [handleDeeplink])
+
+  useEffect(() => {
+    if (!decodedDeeplinkUri) return
+
+    modalNavigate('select-account', {
+      state: {
+        onSelectAccount: (account: IAccountState) => {
+          modalNavigate('dapp-connection', { state: { account: account, uri: decodedDeeplinkUri } })
+          setDecodedDeeplinkUri(null)
+        },
+        title: commonWc('selectAccountModal.title'),
+        buttonLabel: commonWc('selectAccountModal.selectSourceAccount'),
+      },
+    })
+  }, [commonWc, decodedDeeplinkUri, modalNavigate])
+}
+
 export const useAfterLogin = () => {
   useRegisterWalletConnectListeners()
   useRegisterLedgerListeners()
+  useRegisterDeeplinkListeners()
 }

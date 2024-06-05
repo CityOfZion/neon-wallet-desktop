@@ -10,6 +10,7 @@ import { join } from 'path'
 import * as packageJson from '../../package.json'
 import icon from '../../resources/icon.png?asset'
 
+import { registerDeeplinkHandler, registerNeonDeeplink, registerOpenUrl, sendDeeplink, setDeeplink } from './deeplink'
 import { registerEncryptionHandlers } from './encryption'
 import { getLedgerTransport, registerLedgerHandler } from './ledger'
 import { setupSentry } from './sentryElectron'
@@ -18,6 +19,8 @@ import { registerWindowHandlers } from './window'
 
 const gotTheLock = app.requestSingleInstanceLock()
 let mainWindow: BrowserWindow | null = null
+
+registerNeonDeeplink()
 
 function createWindow(): void {
   mainWindow = new BrowserWindow({
@@ -62,10 +65,16 @@ if (!gotTheLock) {
 } else {
   setupSentry()
 
-  app.on('second-instance', () => {
+  app.on('second-instance', (_event, commandLine) => {
+    // The commandLine is an array of strings, where the last element is the deep link URL.
+    const deeplinkUrl = commandLine.pop()
     if (mainWindow) {
       if (mainWindow.isMinimized()) mainWindow.restore()
       mainWindow.focus()
+
+      sendDeeplink(mainWindow, deeplinkUrl)
+    } else {
+      setDeeplink(deeplinkUrl)
     }
   })
 
@@ -89,6 +98,8 @@ if (!gotTheLock) {
     })
   })
 
+  registerOpenUrl(mainWindow)
+
   app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
       app.quit()
@@ -106,4 +117,5 @@ if (!gotTheLock) {
   registerEncryptionHandlers()
   registerLedgerHandler(bsAggregator)
   exposeApiToRenderer(bsAggregator)
+  registerDeeplinkHandler()
 }

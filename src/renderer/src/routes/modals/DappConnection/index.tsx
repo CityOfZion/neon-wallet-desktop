@@ -20,15 +20,16 @@ type TFormData = {
 
 type TLocationState = {
   account: IAccountState
+  uri?: string
 }
 
 export const DappConnectionModal = () => {
   const { connect, proposals } = useWalletConnectWallet()
   const { modalNavigate } = useModalNavigate()
   const { t } = useTranslation('modals', { keyPrefix: 'dappConnection' })
-  const { account } = useModalState<TLocationState>()
+  const { account, uri } = useModalState<TLocationState>()
   const { actionData, setData, actionState, setError, handleAct } = useActions<TFormData>({
-    url: '',
+    url: uri ?? '',
     isConnecting: false,
   })
 

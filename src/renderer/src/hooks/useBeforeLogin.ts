@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
@@ -70,6 +70,27 @@ const useOverTheAirUpdate = () => {
   }, [modalNavigate, hasOverTheAirUpdatesRef])
 }
 
+const useDeeplinkListeners = () => {
+  const { t } = useTranslation('hooks', { keyPrefix: 'DappConnection' })
+  const [hasDeeplink, setHasDeeplink] = useState<boolean>(false)
+
+  const handleDeeplink = useCallback(async (hasUri: boolean) => {
+    await window.electron.ipcRenderer.invoke('restore')
+    setHasDeeplink(hasUri)
+  }, [])
+
+  useEffect(() => {
+    window.electron.ipcRenderer.invoke('hasDeeplink').then(handleDeeplink)
+  }, [handleDeeplink])
+
+  useEffect(() => {
+    if (hasDeeplink) {
+      ToastHelper.info({
+        message: t('pleaseLogin'),
+      })
+    }
+  }, [hasDeeplink, t])
+}
 const useNetworkChange = () => {
   const { networkType } = useNetworkTypeSelector()
 
@@ -102,4 +123,5 @@ export const useBeforeLogin = () => {
   useOverTheAirUpdate()
   useNetworkChange()
   useStoreStartup()
+  useDeeplinkListeners()
 }
