@@ -9,6 +9,9 @@ export const SettingsMigrateWalletsPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'settings.settingsMigrateWallets' })
   const { modalNavigateWrapper } = useModalNavigate()
 
+  const openNeon2Click = () => {
+    window.open('neon://open')
+  }
   return (
     <SettingsLayout title={t('title')} contentClassName="items-center">
       <div className="max-w-[33rem] flex flex-col flex-grow">
@@ -28,7 +31,14 @@ export const SettingsMigrateWalletsPage = () => {
           flat
           onClick={modalNavigateWrapper('migrate-accounts-step-2')}
         />
-        <Button label={t('startProcessButtonLabel')} rightIcon={<MdLaunch />} iconsOnEdge={false} wide flat />
+        <Button
+          label={t('startProcessButtonLabel')}
+          rightIcon={<MdLaunch />}
+          onClick={openNeon2Click}
+          iconsOnEdge={false}
+          wide
+          flat
+        />
       </div>
     </SettingsLayout>
   )
