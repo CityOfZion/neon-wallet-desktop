@@ -10,7 +10,7 @@ export const SettingsMigrateWalletsPage = () => {
   const { modalNavigateWrapper } = useModalNavigate()
 
   const openNeon2Click = () => {
-    window.open('neon://open')
+    window.open('neon2://open')
   }
   return (
     <SettingsLayout title={t('title')} contentClassName="items-center">
