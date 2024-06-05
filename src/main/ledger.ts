@@ -26,6 +26,12 @@ export const getLedgerTransport = async (account: Account) => {
 }
 
 export function registerLedgerHandler(bsAggregator: BSAggregator) {
+  ipcMain.handle('getConnectedLedgers', () => {
+    return Array.from(transportersInfoByDescriptor.values()).map(({ address, publicKey, blockchain }) => {
+      return { address, publicKey, blockchain }
+    })
+  })
+
   ipcMain.on('startLedger', () => {
     if (started) return
     started = true
