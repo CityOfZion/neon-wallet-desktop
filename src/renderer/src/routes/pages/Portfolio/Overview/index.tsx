@@ -31,7 +31,9 @@ export const PortfolioOverviewPage = () => {
       <div className="w-full flex justify-end">
         <div className="flex gap-2 pt-7 text-xl ml-2">
           <span className="text-gray-300">{t('balance')}</span>
-          <span className=" text-white">{NumberHelper.currency(balances.exchangeTotal, currency.label)}</span>
+          <span className=" text-white">
+            {NumberHelper.currency(balances.exchangeTotal, currency.label, 2, 2, false)}
+          </span>
         </div>
       </div>
 
