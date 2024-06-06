@@ -1,6 +1,8 @@
 import { Fragment, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdLooks3 } from 'react-icons/md'
+import { TAccountsToImport, TWalletToCreate } from '@renderer/@types/blockchain'
+import { IContactState } from '@renderer/@types/store'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { Button } from '@renderer/components/Button'
 import { Checkbox } from '@renderer/components/Checkbox'
@@ -13,11 +15,12 @@ import { bsAggregator } from '@renderer/libs/blockchainService'
 
 type TState = {
   content: TMigrateSchema
+  onDecrypt?: (wallet: TWalletToCreate, accounts: TAccountsToImport, contacts: IContactState[]) => void
 }
 
 export const MigrateAccountsStep3Modal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'migrateWallets.step3' })
-  const { content } = useModalState<TState>()
+  const { content, onDecrypt } = useModalState<TState>()
   const { modalNavigateWrapper } = useModalNavigate()
   const { doesAccountExist } = useAccountUtils()
 
@@ -95,7 +98,9 @@ export const MigrateAccountsStep3Modal = () => {
         flat
         className="px-16"
         disabled={selectedAccountsToMigrate.length <= 0}
-        onClick={modalNavigateWrapper('migrate-accounts-step-4', { state: { selectedAccountsToMigrate, content } })}
+        onClick={modalNavigateWrapper('migrate-accounts-step-4', {
+          state: { selectedAccountsToMigrate, content, onDecrypt },
+        })}
       />
     </MigrateAccountsModalLayout>
   )

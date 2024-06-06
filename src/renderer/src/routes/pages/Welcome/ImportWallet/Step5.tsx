@@ -6,7 +6,7 @@ import { ButtonDownloadPasswordQRCode } from '@renderer/components/ButtonDownloa
 import { Link } from '@renderer/components/Link'
 
 export const WelcomeImportWalletStep5Page = () => {
-  const { t } = useTranslation('pages', { keyPrefix: 'welcomeImportWallet.step5' })
+  const { t } = useTranslation('pages', { keyPrefix: 'welcome.importWallet.step5' })
 
   return (
     <Fragment>

@@ -138,8 +138,8 @@ export const useActions = <T extends TUseActionsData>(initialData: T) => {
 
   const reset = useCallback(() => {
     setPrivateActionData(initialData)
-    actionDataRef.current = initialData
-  }, [initialData])
+    setPrivateActionState(initialState)
+  }, [initialData, initialState])
 
   return { actionData, setData, setError, setDataFromEventWrapper, clearErrors, actionState, handleAct, reset }
 }

@@ -184,6 +184,7 @@ interface Resources {
     useBackupOrMigrate: {
       neon3BackupFileDetected: 'NEON3 backup file detected'
       neon2MigrateFileDetected: 'NEON2 migrate file detected'
+      error: 'File not recognised'
     }
     useLedgerFlow: {
       ledgerConnected: 'New Ledger detected \n{{address}}'
@@ -624,7 +625,6 @@ interface Resources {
         inputLabel: 'Locate your NEON 2 migration file'
         buttonBrowseLabel: 'Browse...'
         buttonImportLabel: 'Import'
-        error: 'File not recognised'
       }
       step3: {
         title: 'Choose the accounts to migrate'
@@ -674,7 +674,8 @@ interface Resources {
   pages: {
     welcome: {
       title: 'Welcome to Neon Wallet'
-      setupSecurityButtonLabel: 'Create your first Wallet'
+      setupSecurityButtonLabel: 'Create your first wallet'
+      migrationButtonLabel: 'Migrate your old NEON wallet'
       card1: {
         title: 'Intuitive'
         description: 'Easily store, send and receive your digital assets across multiple wallets'
@@ -691,44 +692,46 @@ interface Resources {
         title: 'Integrated'
         description: 'Simply connect to your Ledger hardware wallet to control your Ethereum and Neo assets, using the highest security standards'
       }
-    }
-    welcomeSecuritySetup: {
-      title: 'Securing your new wallet'
-      steps: ['Create Password', 'Confirm Password', 'Complete']
-      step1: {
-        formTitle: 'Please create a password to secure your wallet'
-        passwordPlaceholder: 'Create a password...'
-        passwordError: 'Password must be at least {{length}} characters long'
+      securitySetup: {
+        title: 'Securing your new wallet'
+        steps: ['Create Password', 'Confirm Password', 'Complete']
+        step1: {
+          formTitle: 'Please create a password to secure your wallet'
+          passwordPlaceholder: 'Create a password...'
+          passwordError: 'Password must be at least {{length}} characters long'
+        }
+        step2: {
+          formTitle: 'Please confirm your password'
+          confirmPasswordPlaceholder: 'Confirm your password...'
+          confirmPasswordError: 'Passwords do not match'
+        }
+        step3: {
+          title: 'Password created successfully!'
+          buttonContinueLabel: 'Open your wallet'
+        }
       }
-      step2: {
-        formTitle: 'Please confirm your password'
-        confirmPasswordPlaceholder: 'Confirm your password...'
-        confirmPasswordError: 'Passwords do not match'
-      }
-      step3: {
-        title: 'Password created successfully!'
-        buttonContinueLabel: 'Open your wallet'
-      }
-    }
-    welcomeImportWallet: {
-      title: 'Import a wallet'
-      steps: ['Create Password', 'Confirm Password', 'Enter address or key', 'Import', 'Complete']
-      step3: {
-        formTitle: 'Enter an address, encrypted key, private key or mnemonic'
-        inputPlaceholder: 'Enter an address, key or mnemonic...'
-        encryptedKeyMessage: 'Encrypted key identified - Password required'
-        importEncryptedDescription: 'Select the desired blockchain for your new account'
-        importEncryptedTitle: 'Import a wallet'
-        importEncryptedSubtitle: 'Your encrypted key has been recognised, please complete the below fields to continue.'
-      }
-      step4: {
-        title: 'Please be patient, we are now setting up your wallet'
-        invalidAddress: 'Invalid address'
-        unexpectedError: 'Unexpected error'
-      }
-      step5: {
-        title: 'Wallet imported successfully!'
-        openWalletButtonLabel: 'Open your wallet'
+      importWallet: {
+        title: 'Import a wallet'
+        steps: ['Create Password', 'Confirm Password', 'Add details or locate file', 'Import', 'Complete']
+        migrationLabel: 'Locate your migration file'
+        step3: {
+          formTitle: 'Enter an address, encrypted key, private key, mnemonic or locate backup file'
+          migrationFormTitle: 'Browse your computer to find a migration file'
+          inputPlaceholder: 'Enter an address, key or mnemonic...'
+          importEncryptedDescription: 'Select the desired blockchain for your new account'
+          importEncryptedTitle: 'Import a wallet'
+          importEncryptedSubtitle: 'Your encrypted key has been recognised, please complete the below fields to continue.'
+          invalidAddress: 'Invalid address'
+          unexpectedError: 'Unexpected error'
+          locateFileButtonLabel: 'Locate file...'
+        }
+        step4: {
+          title: 'Please be patient, we are now setting up your wallet'
+        }
+        step5: {
+          title: 'Wallet imported successfully!'
+          openWalletButtonLabel: 'Open your wallet'
+        }
       }
     }
     portfolio: {
@@ -925,7 +928,6 @@ interface Resources {
         browse: 'Browse...'
         backup: 'Import backup'
         nameExtension: 'NEON Backup Files'
-        fileError: 'File not recognized'
       }
       settingsMigrateWallets: {
         title: 'Migrate from NEON 2.0'
