@@ -22,7 +22,7 @@ const Trigger = forwardRef<
     <AccordionPrimitive.Trigger
       ref={ref}
       className={StyleHelper.mergeStyles(
-        'flex flex-1 px-2.5 items-center justify-between py-2.5 border-b border-gray-100/50 text-sm font-medium transition-all group-last:border-b-0  [&[data-state=open]>svg]:rotate-180',
+        'flex flex-1 px-2.5 items-center justify-between py-2.5 border-b border-gray-100/50 text-sm font-medium transition-all  [&[data-state=open]>svg]:rotate-180',
         className
       )}
       {...props}

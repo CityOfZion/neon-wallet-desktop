@@ -1,9 +1,9 @@
 import { useTranslation } from 'react-i18next'
-import { TBlockchainServiceKey, TNetwork } from '@renderer/@types/blockchain'
+import { TBlockchainServiceKey } from '@renderer/@types/blockchain'
 import { Accordion } from '@renderer/components/Accordion'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
-import { useNetworkActions, useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
+import { useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
 
 import { BlockchainNetworkButton } from './BlockchainNetworkButton'
 
@@ -15,7 +15,6 @@ export const BlockchainNetworkAccordion = ({ blockchain }: TProps) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'blockchain' })
   const { t } = useTranslation('pages', { keyPrefix: 'settings.settingsNetwork' })
   const { modalNavigateWrapper } = useModalNavigate()
-  const { setNetwork, setNetworkNode } = useNetworkActions()
   const { network } = useSelectedNetworkSelector(blockchain)
   return (
     <Accordion.Item value={blockchain}>
@@ -35,8 +34,6 @@ export const BlockchainNetworkAccordion = ({ blockchain }: TProps) => {
           onClick={modalNavigateWrapper('network-selection', {
             state: {
               blockchain,
-              onNetworkChange: (selectedNetwork: TNetwork) => setNetwork(blockchain, selectedNetwork),
-              network,
             },
           })}
         />
@@ -47,8 +44,6 @@ export const BlockchainNetworkAccordion = ({ blockchain }: TProps) => {
           onClick={modalNavigateWrapper('network-node-selection', {
             state: {
               blockchain,
-              onNetworkNodeChange: (url: string) => setNetworkNode(blockchain, url),
-              network,
             },
           })}
         />

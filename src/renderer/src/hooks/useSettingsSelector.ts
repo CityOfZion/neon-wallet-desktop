@@ -29,6 +29,14 @@ export const useSelectedNetworkSelector = (blockchain: TBlockchainServiceKey) =>
   }
 }
 
+export const useCustomNetworksSelector = () => {
+  const { ref, value } = useAppSelector(state => state.settings.customNetworks)
+  return {
+    customNetworks: value,
+    customNetworksRef: ref,
+  }
+}
+
 export const useCurrencySelector = () => {
   const { ref, value } = useAppSelector(state => state.settings.currency)
   return {

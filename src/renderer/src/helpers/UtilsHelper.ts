@@ -195,4 +195,15 @@ export class UtilsHelper {
       img.src = url
     })
   }
+
+  static validateURL(text: string) {
+    try {
+      const url = new URL(text)
+      return url.protocol === 'http:' || url.protocol === 'https:'
+    } catch {
+      /* empty */
+    }
+
+    return false
+  }
 }

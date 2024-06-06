@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Tb3DCubeSphere, TbRefresh } from 'react-icons/tb'
-import { TBlockchainServiceKey, TNetwork } from '@renderer/@types/blockchain'
+import { TBlockchainServiceKey } from '@renderer/@types/blockchain'
 import { Button } from '@renderer/components/Button'
 import { Checkbox } from '@renderer/components/Checkbox'
 import { Loader } from '@renderer/components/Loader'
@@ -11,11 +11,10 @@ import { DEFAULT_NETWORK_URL_BY_BLOCKCHAIN } from '@renderer/constants/networks'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useNodes } from '@renderer/hooks/useNodes'
+import { useNetworkActions, useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 type TState = {
-  onNetworkNodeChange: (url: string) => void | Promise<void>
-  network: TNetwork
   blockchain: TBlockchainServiceKey
 }
 
@@ -23,7 +22,9 @@ export const NetworkNodeSelection = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'networkNodeSelection' })
   const { t: commonGeneral } = useTranslation('common', { keyPrefix: 'general' })
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
-  const { network, onNetworkNodeChange, blockchain } = useModalState<TState>()
+  const { blockchain } = useModalState<TState>()
+  const { network } = useSelectedNetworkSelector(blockchain)
+  const { setNetworkNode } = useNetworkActions()
   const query = useNodes(blockchain)
 
   const [selectedUrl, setSelectedUrl] = useState<string>(network.url)
@@ -46,7 +47,7 @@ export const NetworkNodeSelection = () => {
 
   const handleSave = async () => {
     modalNavigate(-1)
-    onNetworkNodeChange(selectedUrl)
+    setNetworkNode(blockchain, selectedUrl)
   }
 
   return (

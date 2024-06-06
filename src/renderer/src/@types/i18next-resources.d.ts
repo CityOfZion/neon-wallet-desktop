@@ -436,6 +436,8 @@ interface Resources {
     networkSelection: {
       title: 'Network'
       selectNetwork: 'Select a network'
+      addCustomNetworkButtonLabel: 'Add custom network'
+      editCustomNetworkButtonLabel: 'Edit custom network'
     }
     dappPermission: {
       unsupportedMethodError: 'The method {{method}} is not supported'
@@ -678,6 +680,21 @@ interface Resources {
       selectAutomaticallyLabel: 'Select automatically'
       blockHeight: 'Block height: {{height}}'
       latency: '{{latency}}ms'
+    }
+    addCustomNetwork: {
+      title: 'Add custom network'
+      namePlaceholder: 'Enter network name'
+      nameLabel: 'Network name'
+      urlPlaceholder: "Example: 'http://127.0.0.1:50012"
+      urlLabel: 'RPC url'
+      successUrl: 'Successfully connected to the node'
+      deleteButtonLabel: 'Delete network'
+      errors: {
+        invalidURL: 'Invalid URL'
+        notConnect: "Can't connect to this node"
+        networkNameIsRequired: 'Network name is required'
+        networkNameIsTooLong: 'Network name is too long'
+      }
     }
   }
   pages: {

@@ -1,3 +1,6 @@
+import { BSEthereum } from '@cityofzion/bs-ethereum'
+import { BSNeoLegacy } from '@cityofzion/bs-neo-legacy'
+import { BSNeo3 } from '@cityofzion/bs-neo3'
 import { TAccountColorKey, TBlockchainImageColor, TBlockchainServiceKey } from '@renderer/@types/blockchain'
 import { ReactComponent as EthereumBlue } from '@renderer/assets/blockchain/images/ethereum_blue.svg'
 import { ReactComponent as EthereumGray } from '@renderer/assets/blockchain/images/ethereum_gray.svg'
@@ -54,4 +57,10 @@ export const backgroundColorByAccountColor: Record<TAccountColorKey, string> = {
   yellow: 'bg-[#FEC42F]',
   purple: 'bg-[#9747FF]',
   orange: 'bg-[#FE872F]',
+}
+
+export const SERVICES_BY_BLOCKCHAIN = {
+  neo3: BSNeo3,
+  ethereum: BSEthereum,
+  neoLegacy: BSNeoLegacy,
 }
