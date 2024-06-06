@@ -1,12 +1,14 @@
 import { createPortal } from 'react-dom'
 import { useTranslation } from 'react-i18next'
-import { useNetworkTypeSelector } from '@renderer/hooks/useSettingsSelector'
+import { useSelectedNetworkByBlockchainSelector } from '@renderer/hooks/useSettingsSelector'
 
 const Banner = () => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'networkTypeLabel' })
-  const { networkType } = useNetworkTypeSelector()
+  const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
 
-  if (networkType !== 'testnet') return <></>
+  const hasTestnet = Object.values(networkByBlockchain).some(({ type }) => type === 'testnet')
+
+  if (!hasTestnet) return <></>
 
   return (
     <div className="w-screen border-t-3 border-purple flex justify-center absolute top-drag-region left-0 z-50">

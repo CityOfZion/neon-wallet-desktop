@@ -4,7 +4,7 @@ import { NftResponse } from '@cityofzion/blockchain-service'
 import { IAccountState } from '@renderer/@types/store'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { ExplorerHelper } from '@renderer/helpers/ExplorerHelper'
-import { useNetworkTypeSelector } from '@renderer/hooks/useSettingsSelector'
+import { useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
 
 type TProps = {
   nfts: NftResponse[]
@@ -13,10 +13,10 @@ type TProps = {
 
 export const NftList = ({ account, nfts }: TProps) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'blockchain' })
-  const { networkType } = useNetworkTypeSelector()
+  const { network } = useSelectedNetworkSelector(account.blockchain)
 
   const handleClick = (nft: NftResponse) => {
-    window.open(ExplorerHelper.buildNftUrl(nft.contractHash, nft.id, networkType, account.blockchain), '_blank')
+    window.open(ExplorerHelper.buildNftUrl(nft.contractHash, nft.id, network.type, account.blockchain), '_blank')
   }
 
   return (

@@ -12,10 +12,11 @@ import { Button } from '@renderer/components/Button'
 import { ImageWithFallback } from '@renderer/components/ImageWithFallback'
 import { Loader } from '@renderer/components/Loader'
 import { Separator } from '@renderer/components/Separator'
+import { NETWORK_OPTIONS_BY_BLOCKCHAIN } from '@renderer/constants/networks'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
-import { useNetworkTypeActions, useNetworkTypeSelector } from '@renderer/hooks/useSettingsSelector'
+import { useNetworkActions, useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
 
 import { DappConnectionErrorContent } from './DappConnectionErrorContent'
@@ -30,9 +31,9 @@ export const DappConnectionDetailsModal = () => {
   const { proposal, account } = useModalState<TModalState>()
   const { rejectProposal, approveProposal } = useWalletConnectWallet()
   const { modalNavigate } = useModalNavigate()
-  const { networkTypeRef } = useNetworkTypeSelector()
+  const { networkRef } = useSelectedNetworkSelector(account.blockchain)
   const { t } = useTranslation('modals', { keyPrefix: 'dappConnectionDetails' })
-  const { handleChangeNetwork } = useNetworkTypeActions()
+  const { handleChangeNetwork } = useNetworkActions()
 
   const [proposalInformation, setProposalInformation] = useState<TWalletConnectHelperProposalInformation[]>()
 
@@ -56,8 +57,13 @@ export const DappConnectionDetailsModal = () => {
       return
     }
 
-    if (accountProposalInformation.network !== networkTypeRef.current) {
-      await handleChangeNetwork(accountProposalInformation.network)
+    if (accountProposalInformation.network !== networkRef.current.type) {
+      const network = NETWORK_OPTIONS_BY_BLOCKCHAIN[account.blockchain].find(
+        network => network.type === accountProposalInformation.network
+      )
+      if (network) {
+        await handleChangeNetwork(account.blockchain, network)
+      }
     }
 
     try {

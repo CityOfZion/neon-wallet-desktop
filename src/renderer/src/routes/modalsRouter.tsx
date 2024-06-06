@@ -30,6 +30,7 @@ import { InputAmount } from './modals/InputAmount'
 import { MigrateAccountsStep2Modal } from './modals/MigrateAccounts/MigrateAccountsStep2'
 import { MigrateAccountsStep3Modal } from './modals/MigrateAccounts/MigrateAccountsStep3'
 import { MigrateAccountsStep4Modal } from './modals/MigrateAccounts/MigrateAccountsStep4'
+import { NetworkNodeSelection } from './modals/NetworkNodeSelection'
 import { NetworkSelection } from './modals/NetworkSelection'
 import { PersistAccountModal } from './modals/PersistAccount'
 import { PersistContactModal } from './modals/PersistContact'
@@ -82,4 +83,5 @@ export const modalsRouter: TRoute[] = [
   { name: 'auto-update-completed', type: 'center', size: 'lg', element: <AutoUpdateCompleted /> },
   { name: 'auto-update-mobile', type: 'center', size: 'lg', element: <AutoUpdateMobile /> },
   { name: 'auto-update-notes', type: 'center', size: 'lg', element: <AutoUpdateNotes /> },
+  { name: 'network-node-selection', type: 'side', element: <NetworkNodeSelection /> },
 ]

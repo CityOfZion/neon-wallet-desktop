@@ -30,7 +30,7 @@ interface Resources {
       defaultName: 'Account {{accountNumber}}'
     }
     blockchain: {
-      neo3: 'Neo'
+      neo3: 'Neo N3'
       neoLegacy: 'Neo Legacy'
       ethereum: 'Ethereum'
     }
@@ -670,6 +670,15 @@ interface Resources {
         buttonContinueLabel: 'Start using your wallet'
       }
     }
+    networkNodeSelection: {
+      title: 'Node Selection'
+      description: 'If you’re experiencing performance issues, try selecting a custom node below'
+      listLabel: 'NODES LIST'
+      refreshButtonLabel: 'Refresh'
+      selectAutomaticallyLabel: 'Select automatically'
+      blockHeight: 'Block height: {{height}}'
+      latency: '{{latency}}ms'
+    }
   }
   pages: {
     welcome: {
@@ -895,8 +904,8 @@ interface Resources {
       settingsNetwork: {
         title: 'Network Configuration'
         youAreConnectedNeoAndEth: 'You are connected to both the Neo and Ethereum networks'
-        globalConfiguration: 'Global controls'
         currentNetwork: 'Current Network'
+        nodeSelection: 'Node Selection'
       }
       settingsReleaseNotes: {
         title: 'Release Notes'

@@ -5,7 +5,7 @@ import { bsAggregator } from '@renderer/libs/blockchainService'
 import { useQueries } from '@tanstack/react-query'
 
 import { useAccountsSelector } from './useAccountSelector'
-import { useNetworkTypeSelector } from './useSettingsSelector'
+import { useSelectedNetworkByBlockchainSelector } from './useSettingsSelector'
 
 type TProps = {
   accounts: IAccountState[]
@@ -13,13 +13,13 @@ type TProps = {
 
 export const useTransactions = ({ accounts }: TProps) => {
   const { accountsRef: allAccountRef } = useAccountsSelector()
-  const { networkType } = useNetworkTypeSelector()
+  const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
   const [page, setPage] = useState(1)
 
   const combinedQueries = useQueries({
     queries: accounts.map(account => ({
       // eslint-disable-next-line @tanstack/query/exhaustive-deps
-      queryKey: ['transactions', account.address, page, networkType],
+      queryKey: ['transactions', account.address, page, networkByBlockchain[account.blockchain].type],
       queryFn: async (): Promise<TFetchTransactionsResponse> => {
         const service = bsAggregator.blockchainServicesByName[account.blockchain]
         try {

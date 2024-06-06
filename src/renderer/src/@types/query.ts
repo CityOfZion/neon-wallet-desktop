@@ -5,7 +5,12 @@ import { TBlockchainServiceKey } from './blockchain'
 
 export type TBaseOptions<T = unknown> = Omit<UseQueryOptions<T, unknown, T, QueryKey>, 'queryKey' | 'queryFn'>
 
+export type TExchange = { prices: TokenPricesResponse[]; blockchain: TBlockchainServiceKey }
 export type TMultiExchange = Record<TBlockchainServiceKey, TokenPricesResponse[]>
+export type TUseExchangeResult = {
+  data: TMultiExchange | undefined
+  isLoading: boolean
+}
 
 export type TTokenBalance = BalanceResponse & {
   blockchain: TBlockchainServiceKey
@@ -17,11 +22,6 @@ export type TBalance = {
   address: string
   tokensBalances: TTokenBalance[]
   exchangeTotal: number
-}
-
-export type TUseExchangeResult = {
-  data: TMultiExchange | undefined
-  isLoading: boolean
 }
 
 export type TUseBalancesResult = {
