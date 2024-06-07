@@ -13,6 +13,11 @@ const initialState: ISettingsState = {
   isFirstTime: true,
   currency: availableCurrencies[0],
   hasOverTheAirUpdates: false,
+  customNetworks: {
+    ethereum: [],
+    neo3: [],
+    neoLegacy: [],
+  },
   selectedNetworkByBlockchain: {
     neo3: DEFAULT_NETWORK_BY__BLOCKCHAIN.neo3,
     neoLegacy: DEFAULT_NETWORK_BY__BLOCKCHAIN.neoLegacy,
@@ -64,6 +69,48 @@ const setSelectedNetworkUrl: CaseReducer<
   state.selectedNetworkByBlockchain = cloneSelectedNetworkByBlockchain
 }
 
+const saveCustomNetwork: CaseReducer<
+  ISettingsState,
+  PayloadAction<{
+    blockchain: TBlockchainServiceKey
+    network: TNetwork
+  }>
+> = (state, action) => {
+  const { blockchain, network } = action.payload
+  const cloneNetworks = cloneDeep(state.customNetworks)
+
+  const findIndex = cloneNetworks[blockchain].findIndex(it => it.id === network.id)
+  if (findIndex < 0) {
+    cloneNetworks[blockchain].push(network)
+  }
+
+  cloneNetworks[blockchain][findIndex] = network
+
+  state.customNetworks = cloneNetworks
+}
+
+const deleteCustomNetwork: CaseReducer<
+  ISettingsState,
+  PayloadAction<{
+    blockchain: TBlockchainServiceKey
+    network: TNetwork
+  }>
+> = (state, action) => {
+  const { network, blockchain } = action.payload
+
+  const cloneNetworks = cloneDeep(state.customNetworks)
+  const cloneSelectedNetwork = cloneDeep(state.selectedNetworkByBlockchain)
+
+  const filteredNetworks = cloneNetworks[blockchain].filter(network => network.id !== network.id)
+  cloneNetworks[blockchain] = filteredNetworks
+  state.customNetworks = cloneNetworks
+
+  if (cloneSelectedNetwork[blockchain].id === network.id) {
+    cloneSelectedNetwork[blockchain] = DEFAULT_NETWORK_BY__BLOCKCHAIN[blockchain]
+    state.selectedNetworkByBlockchain = cloneSelectedNetwork
+  }
+}
+
 const SettingsReducer = createSlice({
   name: settingsReducerName,
   initialState,
@@ -75,6 +122,8 @@ const SettingsReducer = createSlice({
     setHasOverTheAirUpdates,
     setSelectNetwork,
     setSelectedNetworkUrl,
+    saveCustomNetwork,
+    deleteCustomNetwork,
   },
 })
 

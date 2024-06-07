@@ -27,6 +27,7 @@ export type TCurrency = {
   symbol: string
   label: TAvailableCurrency
 }
+export type TCustomNetwork = Record<TBlockchainServiceKey, TNetwork[]>
 export type TSelectedNetworks = Record<TBlockchainServiceKey, TNetwork>
 export interface ISettingsState {
   encryptedPassword?: string
@@ -34,6 +35,7 @@ export interface ISettingsState {
   securityType: TSecurityType
   currency: TCurrency
   hasOverTheAirUpdates: boolean
+  customNetworks: TCustomNetwork
   selectedNetworkByBlockchain: TSelectedNetworks
 }
 

@@ -1,6 +1,7 @@
 import { TRoute } from '@renderer/@types/modal'
 
 import { AddAddressModal } from './modals/AddAddress'
+import { AddCustomNetwork } from './modals/AddCustomNetwork'
 import { AddWatch } from './modals/AddWatch'
 import { AutoUpdateCompleted } from './modals/AutoUpdate/AutoUpdateCompleted'
 import { AutoUpdateMobile } from './modals/AutoUpdate/AutoUpdateMobile'
@@ -84,4 +85,5 @@ export const modalsRouter: TRoute[] = [
   { name: 'auto-update-mobile', type: 'center', size: 'lg', element: <AutoUpdateMobile /> },
   { name: 'auto-update-notes', type: 'center', size: 'lg', element: <AutoUpdateNotes /> },
   { name: 'network-node-selection', type: 'side', element: <NetworkNodeSelection /> },
+  { name: 'add-custom-network', type: 'side', element: <AddCustomNetwork /> },
 ]

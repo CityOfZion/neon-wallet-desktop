@@ -13,7 +13,7 @@ import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 import { bsAggregator } from '@renderer/libs/blockchainService'
-import debounce from 'lodash/debounce'
+import { debounce } from 'lodash'
 
 type TLocationState = {
   contactName: string

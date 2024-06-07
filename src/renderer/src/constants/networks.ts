@@ -69,5 +69,7 @@ export const DEFAULT_NETWORK_BY__BLOCKCHAIN: Record<TBlockchainServiceKey, TNetw
 export const COLOR_BY_NETWORK_TYPE: Record<TNetworkType, string> = {
   mainnet: 'bg-neon',
   testnet: 'bg-magenta',
-  custom: '',
+  custom: 'bg-pink',
 }
+
+export const BLOCKCHAIN_WITH_CUSTOM_NETWORK: TBlockchainServiceKey[] = ['neo3', 'ethereum']
