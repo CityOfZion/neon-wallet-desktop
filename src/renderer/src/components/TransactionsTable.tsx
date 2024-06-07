@@ -10,7 +10,7 @@ import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useInfiniteScroll } from '@renderer/hooks/useInfiniteScroll'
 import { useAppSelector } from '@renderer/hooks/useRedux'
-import { useNetworkTypeSelector } from '@renderer/hooks/useSettingsSelector'
+import { useSelectedNetworkByBlockchainSelector } from '@renderer/hooks/useSettingsSelector'
 import { useTransactions } from '@renderer/hooks/useTransactions'
 import { getI18next } from '@renderer/libs/i18next'
 import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
@@ -36,7 +36,7 @@ export const TransactionsTable = forwardRef<HTMLDivElement, TTransactionListProp
     const { transfers, fetchNextPage, isLoading } = useTransactions({ accounts })
     const { value: pendingTransactions } = useAppSelector(state => state.account.pendingTransactions)
 
-    const { networkType } = useNetworkTypeSelector()
+    const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
     const { handleScroll, ref: scrollRef } = useInfiniteScroll<HTMLDivElement>(fetchNextPage)
 
     const columns = useMemo(
@@ -112,7 +112,11 @@ export const TransactionsTable = forwardRef<HTMLDivElement, TTransactionListProp
       if (row.isPending) return
 
       try {
-        const url = ExplorerHelper.buildTransactionUrl(row.hash, networkType, row.account.blockchain)
+        const url = ExplorerHelper.buildTransactionUrl(
+          row.hash,
+          networkByBlockchain[row.account.blockchain].type,
+          row.account.blockchain
+        )
         window.open(url)
       } catch (error) {
         ToastHelper.error({ message: t('components:transactionsTable.doraError') })

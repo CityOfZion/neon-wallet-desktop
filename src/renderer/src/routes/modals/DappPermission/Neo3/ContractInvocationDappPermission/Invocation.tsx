@@ -9,7 +9,7 @@ import { Loader } from '@renderer/components/Loader'
 import { ExplorerHelper } from '@renderer/helpers/ExplorerHelper'
 import { useContract } from '@renderer/hooks/useContract'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
-import { useNetworkTypeSelector } from '@renderer/hooks/useSettingsSelector'
+import { useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
 
 type TProps = {
   invocation: ContractInvocation
@@ -18,13 +18,13 @@ type TProps = {
 }
 
 export const Invocation = ({ invocation, session, blockchain }: TProps) => {
-  const { networkType } = useNetworkTypeSelector()
+  const { network } = useSelectedNetworkSelector(blockchain)
   const { data, isLoading } = useContract({ blockchain, hash: invocation.scriptHash })
   const { modalNavigateWrapper } = useModalNavigate()
   const { t } = useTranslation('modals', { keyPrefix: 'dappPermission.requests.neo3.contractInvocation' })
 
   const handleHashClick = () => {
-    window.open(ExplorerHelper.buildContractUrl(invocation.scriptHash, networkType, blockchain), '_blank')
+    window.open(ExplorerHelper.buildContractUrl(invocation.scriptHash, network.type, blockchain), '_blank')
   }
 
   const showAmount =

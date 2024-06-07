@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
@@ -10,7 +10,7 @@ import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer
 import { useAccountsSelector } from './useAccountSelector'
 import { useBlockchainActions } from './useBlockchainActions'
 import { useAppDispatch, useAppSelector } from './useRedux'
-import { useNetworkTypeSelector } from './useSettingsSelector'
+import { useSelectedNetworkByBlockchainSelector } from './useSettingsSelector'
 import { useWalletsSelector } from './useWalletSelector'
 
 const useRegisterLedgerListeners = () => {
@@ -92,13 +92,14 @@ const useDeeplinkListeners = () => {
   }, [hasDeeplink, t])
 }
 const useNetworkChange = () => {
-  const { networkType } = useNetworkTypeSelector()
+  const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     Object.values(bsAggregator.blockchainServicesByName).forEach(service => {
-      service.setNetwork({ type: networkType })
+      const network = networkByBlockchain[service.blockchainName]
+      service.setNetwork({ type: network.type, url: network.url })
     })
-  }, [networkType])
+  }, [networkByBlockchain])
 }
 
 const useStoreStartup = () => {

@@ -1,6 +1,6 @@
 import { RootStore } from '@renderer/store/RootStore'
 
-import { TBlockchainServiceKey, TNetworkType } from './blockchain'
+import { TBlockchainServiceKey, TNetwork } from './blockchain'
 
 export interface IAccountState {
   address: string
@@ -27,13 +27,14 @@ export type TCurrency = {
   symbol: string
   label: TAvailableCurrency
 }
+export type TSelectedNetworks = Record<TBlockchainServiceKey, TNetwork>
 export interface ISettingsState {
   encryptedPassword?: string
   isFirstTime: boolean
   securityType: TSecurityType
-  networkType: TNetworkType
   currency: TCurrency
   hasOverTheAirUpdates: boolean
+  selectedNetworkByBlockchain: TSelectedNetworks
 }
 
 export type TContactAddress = { address: string; blockchain: TBlockchainServiceKey }

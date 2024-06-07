@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
-import { TNetworkType } from '@renderer/@types/blockchain'
+import { TBlockchainServiceKey, TNetwork } from '@renderer/@types/blockchain'
 import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
 
 import { useAppDispatch, useAppSelector } from './useRedux'
@@ -13,11 +13,19 @@ export const useEncryptedPasswordSelector = () => {
   }
 }
 
-export const useNetworkTypeSelector = () => {
-  const { ref, value } = useAppSelector(state => state.settings.networkType)
+export const useSelectedNetworkByBlockchainSelector = () => {
+  const { ref, value } = useAppSelector(state => state.settings.selectedNetworkByBlockchain)
   return {
-    networkType: value,
-    networkTypeRef: ref,
+    networkByBlockchain: value,
+    networkByBlockchainRef: ref,
+  }
+}
+
+export const useSelectedNetworkSelector = (blockchain: TBlockchainServiceKey) => {
+  const { ref, value } = useAppSelector(state => state.settings.selectedNetworkByBlockchain[blockchain])
+  return {
+    network: value,
+    networkRef: ref,
   }
 }
 
@@ -29,19 +37,28 @@ export const useCurrencySelector = () => {
   }
 }
 
-export const useNetworkTypeActions = () => {
+export const useNetworkActions = () => {
   const dispatch = useAppDispatch()
   const { sessions, disconnect } = useWalletConnectWallet()
 
-  const handleChangeNetwork = useCallback(
-    async (networkType: TNetworkType) => {
+  const setNetwork = useCallback(
+    async (blockchain: TBlockchainServiceKey, network: TNetwork) => {
+      console.log({ network, blockchain })
       await Promise.allSettled(sessions.map(session => disconnect(session)))
-      dispatch(settingsReducerActions.setNetworkType(networkType))
+      dispatch(settingsReducerActions.setSelectNetwork({ blockchain, network }))
     },
     [disconnect, dispatch, sessions]
   )
 
+  const setNetworkNode = useCallback(
+    (blockchain: TBlockchainServiceKey, url: string) => {
+      dispatch(settingsReducerActions.setSelectedNetworkUrl({ blockchain, url }))
+    },
+    [dispatch]
+  )
+
   return {
-    handleChangeNetwork,
+    setNetwork,
+    setNetworkNode,
   }
 }

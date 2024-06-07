@@ -37,7 +37,13 @@ export type TWalletToCreate = {
   mnemonic?: string
 }
 
-export type TNetworkType = Exclude<NetworkType, 'custom'>
+export type TNetworkType = NetworkType
+export type TNetwork = {
+  id: string
+  name: string
+  type: TNetworkType
+  url: string
+}
 
 export type TAccountBackupFormat = {
   address: string

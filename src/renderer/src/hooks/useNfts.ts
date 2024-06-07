@@ -4,13 +4,13 @@ import { IAccountState } from '@renderer/@types/store'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { useInfiniteQuery } from '@tanstack/react-query'
 
-import { useNetworkTypeSelector } from './useSettingsSelector'
+import { useSelectedNetworkSelector } from './useSettingsSelector'
 
 export const useNfts = (account: IAccountState) => {
-  const { networkType } = useNetworkTypeSelector()
+  const { network } = useSelectedNetworkSelector(account.blockchain)
 
   const query = useInfiniteQuery({
-    queryKey: ['nfts', account.address, networkType],
+    queryKey: ['nfts', account.address, network.type],
     queryFn: async ({ pageParam }) => {
       const blockchainService = bsAggregator.blockchainServicesByName[account.blockchain]
       if (!hasNft(blockchainService)) return { items: [] }

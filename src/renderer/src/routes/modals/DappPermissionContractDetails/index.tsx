@@ -13,7 +13,7 @@ import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useContract } from '@renderer/hooks/useContract'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
-import { useNetworkTypeSelector } from '@renderer/hooks/useSettingsSelector'
+import { useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
 
 type TModalState = {
@@ -26,7 +26,7 @@ type TModalState = {
 
 export const DappPermissionContractDetailsModal = () => {
   const { session, operation, hash, blockchain, values } = useModalState<TModalState>()
-  const { networkType } = useNetworkTypeSelector()
+  const { network } = useSelectedNetworkSelector(blockchain)
   const { data, isLoading } = useContract({ blockchain, hash })
   const { modalNavigate } = useModalNavigate()
   const { t } = useTranslation('modals', { keyPrefix: 'dappPermissionContractDetails' })
@@ -48,7 +48,7 @@ export const DappPermissionContractDetailsModal = () => {
   })
 
   const handleHashClick = () => {
-    window.open(ExplorerHelper.buildContractUrl(hash, networkType, blockchain), '_blank')
+    window.open(ExplorerHelper.buildContractUrl(hash, network.type, blockchain), '_blank')
   }
 
   return (

@@ -4,7 +4,7 @@ import { NftResponse } from '@cityofzion/blockchain-service'
 import { IAccountState } from '@renderer/@types/store'
 import { ExplorerHelper } from '@renderer/helpers/ExplorerHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
-import { useNetworkTypeSelector } from '@renderer/hooks/useSettingsSelector'
+import { useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
 
 import { BlockchainIcon } from './BlockchainIcon'
 
@@ -14,7 +14,8 @@ type TProps = {
 }
 
 export const NftGallery = ({ account, nfts }: TProps) => {
-  const { networkType } = useNetworkTypeSelector()
+  const { network } = useSelectedNetworkSelector(account.blockchain)
+
   const photos = useMemo(
     () =>
       nfts.map(nft => ({
@@ -29,7 +30,7 @@ export const NftGallery = ({ account, nfts }: TProps) => {
   )
 
   const handleClick = (nft: NftResponse) => {
-    window.open(ExplorerHelper.buildNftUrl(nft.contractHash, nft.id, networkType, account.blockchain), '_blank')
+    window.open(ExplorerHelper.buildNftUrl(nft.contractHash, nft.id, network.type, account.blockchain), '_blank')
   }
 
   return (

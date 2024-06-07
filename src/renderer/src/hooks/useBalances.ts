@@ -12,7 +12,7 @@ import { bsAggregator } from '@renderer/libs/blockchainService'
 import { useQueries } from '@tanstack/react-query'
 
 import { useExchange } from './useExchange'
-import { useNetworkTypeSelector } from './useSettingsSelector'
+import { useSelectedNetworkByBlockchainSelector } from './useSettingsSelector'
 
 const fetchBalance = async (
   param: TUseBalancesParams,
@@ -50,14 +50,14 @@ const fetchBalance = async (
 }
 
 export function useBalances(params: TUseBalancesParams[], queryOptions?: TBaseOptions<TBalance>): TUseBalancesResult {
-  const { networkType } = useNetworkTypeSelector()
+  const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
 
   const exchange = useExchange()
 
   const queries = useQueries({
     queries: !exchange.isLoading
       ? params.map(param => ({
-          queryKey: ['balance', param.address, param.blockchain, networkType],
+          queryKey: ['balance', param.address, param.blockchain, networkByBlockchain[param.blockchain].type],
           queryFn: fetchBalance.bind(null, param, exchange.data),
           ...queryOptions,
         }))

@@ -2,6 +2,8 @@ import { ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react'
 import * as RadixRadioGroup from '@radix-ui/react-radio-group'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
+import { Separator } from './Separator'
+
 const Group = forwardRef<
   ElementRef<typeof RadixRadioGroup.Root>,
   ComponentPropsWithoutRef<typeof RadixRadioGroup.Root>
@@ -10,16 +12,21 @@ const Group = forwardRef<
 })
 
 const Item = forwardRef<ElementRef<typeof RadixRadioGroup.Item>, ComponentPropsWithoutRef<typeof RadixRadioGroup.Item>>(
-  (props, ref) => {
+  ({ className, children, ...props }, ref) => {
     return (
       <RadixRadioGroup.Item
         {...props}
         ref={ref}
-        className={StyleHelper.mergeStyles(
-          'px-4 hover:bg-asphalt border-b border-gray-300/30 bg-transparent outline-none cursor-pointer flex flex-row gap-y-2 gap-x-4 h-10 items-center justify-between w-full group',
-          props.className
-        )}
-      />
+        className={StyleHelper.mergeStyles('flex flex-col w-full h-10 group', className)}
+      >
+        <div className="px-5 hover:bg-asphalt bg-transparent outline-none cursor-pointer flex flex-row gap-y-2 gap-x-4  items-center justify-between w-full h-full">
+          {children}
+        </div>
+
+        <div className="w-full px-4 group-last:hidden">
+          <Separator />
+        </div>
+      </RadixRadioGroup.Item>
     )
   }
 )
@@ -29,7 +36,7 @@ const Indicator = forwardRef<
   ComponentPropsWithoutRef<typeof RadixRadioGroup.Indicator>
 >((props, ref) => {
   return (
-    <div className="group-data-[state=unchecked]:border-gray-300 group-data-[state=checked]:border-neon border-2 bg-transparent w-4 h-4 rounded-full outline-none cursor-pointer">
+    <div className="group-data-[state=unchecked]:border-gray-300 group-data-[state=checked]:border-neon border-2 bg-transparent min-w-[1rem] min-h-[1rem] w-[1rem] h-[1rem] rounded-full outline-none cursor-pointer">
       <RadixRadioGroup.Indicator
         {...props}
         ref={ref}

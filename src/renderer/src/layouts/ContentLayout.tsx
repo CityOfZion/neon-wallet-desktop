@@ -3,7 +3,7 @@ import { cloneElement } from 'react'
 import { TbArrowLeft } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
-import { useNetworkTypeSelector } from '@renderer/hooks/useSettingsSelector'
+import { useSelectedNetworkByBlockchainSelector } from '@renderer/hooks/useSettingsSelector'
 
 export type TMainLayoutProps = {
   children?: ReactNode
@@ -23,8 +23,10 @@ export const ContentLayout = ({
   ...props
 }: TMainLayoutProps): JSX.Element => {
   const navigate = useNavigate()
-  const { networkType } = useNetworkTypeSelector()
+  const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
   const { className: titleIconClassName = '', ...titleIconProps } = titleIcon ? titleIcon.props : {}
+
+  const hasTestnet = Object.values(networkByBlockchain).some(({ type }) => type === 'testnet')
 
   const handleBackClick = () => {
     navigate(-1)
@@ -34,7 +36,7 @@ export const ContentLayout = ({
     <div className={StyleHelper.mergeStyles('flex h-screen-minus-drag-region', className)} {...props}>
       <div
         className={StyleHelper.mergeStyles('flex-grow flex flex-col bg-asphalt text-white px-7 py-4', {
-          'pt-10': networkType === 'testnet',
+          'pt-10': hasTestnet,
         })}
       >
         <header
