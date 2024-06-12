@@ -12,6 +12,7 @@ interface Resources {
       send: 'Send'
       passwordNEONQRCode: 'QRCode'
       downloadQRCodePassword: 'Download password QR code'
+      default: 'Default'
     }
     walletConnect: {
       name: 'Neon Wallet'
@@ -696,6 +697,14 @@ interface Resources {
         networkNameIsTooLong: 'Network name is too long'
       }
     }
+    addNetworkProfileModal: {
+      title: 'Add new network profile'
+      inputLabel: 'Profile name'
+      deleteButtonLabel: 'Delete profile'
+      errors: {
+        profileNameIsRequired: 'Profile name is required'
+      }
+    }
   }
   pages: {
     welcome: {
@@ -926,6 +935,11 @@ interface Resources {
         youAreConnectedNeoAndEth: 'You are connected to both the Neo and Ethereum networks'
         currentNetwork: 'Current Network'
         nodeSelection: 'Node Selection'
+        selectProfilePlaceholder: 'Select a profile...'
+        updateProfileButtonLabel: 'Update profile'
+        createProfileButtonLabel: 'Create profile'
+        editProfileButtonLabel: 'Edit profile'
+        resetProfileButtonLabel: 'Reset profile'
       }
       settingsReleaseNotes: {
         title: 'Release Notes'

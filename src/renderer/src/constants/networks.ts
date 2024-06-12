@@ -66,6 +66,12 @@ export const DEFAULT_NETWORK_BY__BLOCKCHAIN: Record<TBlockchainServiceKey, TNetw
   neoLegacy: NETWORK_OPTIONS_BY_BLOCKCHAIN.neoLegacy[0],
 }
 
+export const DEFAULT_NETWORK_PROFILE = {
+  name: t('common:general.default'),
+  id: 'default',
+  networkByBlockchain: DEFAULT_NETWORK_BY__BLOCKCHAIN,
+}
+
 export const COLOR_BY_NETWORK_TYPE: Record<TNetworkType, string> = {
   mainnet: 'bg-neon',
   testnet: 'bg-magenta',

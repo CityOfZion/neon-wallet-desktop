@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react'
 import { hasNameService } from '@cityofzion/blockchain-service'
 import { TBlockchainServiceKey } from '@renderer/@types/blockchain'
 import { bsAggregator } from '@renderer/libs/blockchainService'
-import debounce from 'lodash/debounce'
+import { debounce } from 'lodash'
 
 export const useNameService = () => {
   const [isValidatingAddressOrDomainAddress, setIsValidatingAddressOrDomainAddress] = useState(false)

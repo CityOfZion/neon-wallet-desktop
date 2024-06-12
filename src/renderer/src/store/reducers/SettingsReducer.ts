@@ -1,9 +1,9 @@
 import { CaseReducer, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { TBlockchainServiceKey, TNetwork } from '@renderer/@types/blockchain'
-import { ISettingsState, TCurrency, TSecurityType } from '@renderer/@types/store'
+import { ISettingsState, TCurrency, TNetworkProfile, TSecurityType } from '@renderer/@types/store'
 import { availableCurrencies } from '@renderer/constants/currency'
-import { DEFAULT_NETWORK_BY__BLOCKCHAIN } from '@renderer/constants/networks'
-import cloneDeep from 'lodash.clonedeep'
+import { DEFAULT_NETWORK_BY__BLOCKCHAIN, DEFAULT_NETWORK_PROFILE } from '@renderer/constants/networks'
+import { cloneDeep } from 'lodash'
 
 export const settingsReducerName = 'settingsReducer'
 
@@ -18,11 +18,9 @@ const initialState: ISettingsState = {
     neo3: [],
     neoLegacy: [],
   },
-  selectedNetworkByBlockchain: {
-    neo3: DEFAULT_NETWORK_BY__BLOCKCHAIN.neo3,
-    neoLegacy: DEFAULT_NETWORK_BY__BLOCKCHAIN.neoLegacy,
-    ethereum: DEFAULT_NETWORK_BY__BLOCKCHAIN.ethereum,
-  },
+  selectedNetworkByBlockchain: DEFAULT_NETWORK_BY__BLOCKCHAIN,
+  networkProfiles: [DEFAULT_NETWORK_PROFILE],
+  selectedNetworkProfile: DEFAULT_NETWORK_PROFILE,
 }
 
 const setEncryptedPassword: CaseReducer<ISettingsState, PayloadAction<string | undefined>> = (state, action) => {
@@ -111,6 +109,41 @@ const deleteCustomNetwork: CaseReducer<
   }
 }
 
+const saveNetworkProfile: CaseReducer<ISettingsState, PayloadAction<TNetworkProfile>> = (state, action) => {
+  const profile = action.payload
+
+  const findIndex = state.networkProfiles.findIndex(it => it.id === profile.id)
+  if (findIndex < 0) {
+    state.networkProfiles = [...state.networkProfiles, profile]
+  }
+
+  state.networkProfiles[findIndex] = profile
+
+  if (state.selectedNetworkProfile.id === profile.id) {
+    state.selectedNetworkProfile = profile
+    state.selectedNetworkByBlockchain = profile.networkByBlockchain
+  }
+}
+
+const deleteNetworkProfile: CaseReducer<ISettingsState, PayloadAction<string>> = (state, action) => {
+  const profileId = action.payload
+  state.networkProfiles = state.networkProfiles.filter(profile => profile.id !== profileId)
+
+  if (state.selectedNetworkProfile.id === profileId) {
+    state.selectedNetworkProfile = DEFAULT_NETWORK_PROFILE
+  }
+}
+
+const setSelectNetworkProfile: CaseReducer<ISettingsState, PayloadAction<string>> = (state, action) => {
+  const profileId = action.payload
+
+  const profile = state.networkProfiles.find(it => it.id === profileId)
+  if (!profile) return
+
+  state.selectedNetworkProfile = profile
+  state.selectedNetworkByBlockchain = profile.networkByBlockchain
+}
+
 const SettingsReducer = createSlice({
   name: settingsReducerName,
   initialState,
@@ -124,6 +157,9 @@ const SettingsReducer = createSlice({
     setSelectedNetworkUrl,
     saveCustomNetwork,
     deleteCustomNetwork,
+    saveNetworkProfile,
+    deleteNetworkProfile,
+    setSelectNetworkProfile,
   },
 })
 

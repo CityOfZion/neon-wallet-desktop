@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { TBlockchainServiceKey } from '@renderer/@types/blockchain'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
@@ -10,7 +11,7 @@ import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer
 import { useAccountsSelector } from './useAccountSelector'
 import { useBlockchainActions } from './useBlockchainActions'
 import { useAppDispatch, useAppSelector } from './useRedux'
-import { useSelectedNetworkByBlockchainSelector } from './useSettingsSelector'
+import { useSelectedNetworkByBlockchainSelector, useSelectedNetworkProfileSelector } from './useSettingsSelector'
 import { useWalletsSelector } from './useWalletSelector'
 
 const useRegisterLedgerListeners = () => {
@@ -104,6 +105,7 @@ const useNetworkChange = () => {
 
 const useStoreStartup = () => {
   const { walletsRef } = useWalletsSelector()
+  const { selectedNetworkProfile } = useSelectedNetworkProfileSelector()
   const { deleteWallet } = useBlockchainActions()
   const dispatch = useAppDispatch()
 
@@ -115,6 +117,11 @@ const useStoreStartup = () => {
       })
 
     dispatch(accountReducerActions.removeAllPendingTransactions())
+
+    Object.entries(selectedNetworkProfile.networkByBlockchain).forEach(([blockchain, network]) => {
+      dispatch(settingsReducerActions.setSelectNetwork({ blockchain: blockchain as TBlockchainServiceKey, network }))
+    })
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 }

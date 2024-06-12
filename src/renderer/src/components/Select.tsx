@@ -15,7 +15,7 @@ const Trigger = forwardRef<
     ref={ref}
     aria-disabled={disabled}
     className={StyleHelper.mergeStyles(
-      'flex items-center h-fit justify-between group w-full min-w-[11.625rem] text-sm py-1.5 px-2.5 transition-colors outline-none rounded [&>span]:truncate',
+      'flex items-center justify-between group w-full min-w-[11.625rem] text-sm h-8.5 px-2.5 transition-colors outline-none rounded [&>span]:truncate',
       'aria-[disabled=false]:hover:bg-gray-300/15 aria-[disabled=true]:opacity-50 aria-[disabled=true]:cursor-not-allowed aria-expanded:bg-gray-300/15',
       className
     )}

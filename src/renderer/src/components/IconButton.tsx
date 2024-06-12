@@ -18,7 +18,7 @@ export const IconButton = forwardRef<HTMLButtonElement, TProps>(
         ref={ref}
         {...props}
         className={StyleHelper.mergeStyles(
-          'flex flex-col h-fit  justify-center items-center disabled:cursor-not-allowed disabled:opacity-50 flex-grow-0 rounded transition-colors hover:enabled:bg-gray-300/15 aria-selected:bg-gray-300/15 aria-selected:hover:bg-gray-300/30',
+          'flex flex-col h-fit  justify-center items-center disabled:cursor-not-allowed disabled:opacity-50 flex-grow-0 rounded transition-colors hover:enabled:bg-gray-300/15 aria-selected:bg-gray-300/15 aria-selected:hover:bg-gray-300/30 aria-expanded:bg-gray-300/15 aria-expanded:hover:bg-gray-300/30',
           {
             'py-1 px-2 gap-y-0.5': size === 'sm' && !compacted,
             'p-1 gap-y-0.5': size === 'sm' && compacted,
