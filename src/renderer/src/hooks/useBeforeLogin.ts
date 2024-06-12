@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useState } from 'react'
+import { useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TBlockchainServiceKey } from '@renderer/@types/blockchain'
 import { StringHelper } from '@renderer/helpers/StringHelper'
@@ -72,25 +72,32 @@ const useOverTheAirUpdate = () => {
 }
 
 const useDeeplinkListeners = () => {
+  const { encryptedPasswordRef } = useEncryptedPasswordSelector()
   const { t } = useTranslation('hooks', { keyPrefix: 'DappConnection' })
-  const [hasDeeplink, setHasDeeplink] = useState<boolean>(false)
-
-  const handleDeeplink = useCallback(async (hasUri: boolean) => {
-    await window.electron.ipcRenderer.invoke('restore')
-    setHasDeeplink(hasUri)
-  }, [])
 
   useEffect(() => {
-    window.electron.ipcRenderer.invoke('hasDeeplink').then(handleDeeplink)
-  }, [handleDeeplink])
+    // handleDeeplink function is inside useEffect
+    const handleDeeplink = async (uri?: string) => {
+      if (!uri) return
 
-  useEffect(() => {
-    if (hasDeeplink) {
-      ToastHelper.info({
-        message: t('pleaseLogin'),
-      })
+      await window.electron.ipcRenderer.invoke('restore')
+
+      // It means the user is not logged in
+      // Toast directly within the handleDeeplink function instead of set a state
+      if (!encryptedPasswordRef.current)
+        ToastHelper.info({
+          message: t('pleaseLogin'),
+        })
     }
-  }, [hasDeeplink, t])
+
+    // Listen to deeplink event
+    const removeListener = window.electron.ipcRenderer.on('deeplink', (_event, uri) => handleDeeplink(uri))
+    window.electron.ipcRenderer.invoke('getInitialDeepLinkUri').then(handleDeeplink)
+
+    return () => {
+      removeListener()
+    }
+  }, [t, encryptedPasswordRef])
 }
 const useNetworkChange = () => {
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
