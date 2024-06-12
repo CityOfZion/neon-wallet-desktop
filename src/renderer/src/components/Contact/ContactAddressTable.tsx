@@ -1,10 +1,8 @@
 import { useMemo, useRef, useState } from 'react'
 import { FiSend } from 'react-icons/fi'
-import { MdOutlineContentCopy } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
 import { TContactAddress } from '@renderer/@types/store'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { getI18next } from '@renderer/libs/i18next'
 import {
   createColumnHelper,
@@ -16,8 +14,9 @@ import {
 } from '@tanstack/react-table'
 
 import { Button } from '../Button'
-import { IconButton } from '../IconButton'
 import { Table } from '../Table'
+
+import { AddressCell } from './AddressCell'
 
 type TProps = {
   contactAddresses: TContactAddress[]
@@ -48,18 +47,7 @@ export const ContactAddressTable = ({ contactAddresses }: TProps) => {
         header: t('components:contactAddressTable.blockchain'),
       }),
       columnHelper.accessor('address', {
-        cell: info => {
-          return (
-            <div className="flex items-center gap-x-1">
-              {info.row.original.address}
-              <IconButton
-                icon={<MdOutlineContentCopy className="text-neon" />}
-                size="sm"
-                onClick={() => UtilsHelper.copyToClipboard(info.row.original.address)}
-              />
-            </div>
-          )
-        },
+        cell: info => <AddressCell address={info.row.original.address} blockchain={info.row.original.blockchain} />,
         enableSorting: false,
         header: t('components:contactAddressTable.address'),
       }),
