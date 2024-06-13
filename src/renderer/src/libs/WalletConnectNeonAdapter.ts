@@ -1,4 +1,3 @@
-import { DEFAULT_URL_BY_NETWORK_TYPE } from '@cityofzion/bs-neo3'
 import { tx } from '@cityofzion/neon-core'
 import { AbstractWalletConnectNeonAdapter } from '@cityofzion/wallet-connect-sdk-wallet-core'
 import type { TAdapterMethodParam, WalletInfo } from '@cityofzion/wallet-connect-sdk-wallet-react'
@@ -48,10 +47,10 @@ export class WalletConnectNeonAdapter extends AbstractWalletConnectNeonAdapter {
 
   async getRPCUrl(): Promise<string> {
     const {
-      settings: { networkType },
+      settings: { selectedNetworkByBlockchain },
     } = RootStore.store.getState()
 
-    return DEFAULT_URL_BY_NETWORK_TYPE[networkType]
+    return selectedNetworkByBlockchain.neo3.url
   }
 
   static resolveSigner(scope: string | number) {

@@ -1,4 +1,3 @@
-import { DEFAULT_URL_BY_NETWORK_TYPE } from '@cityofzion/bs-ethereum'
 import { AbstractWalletConnectEIP155Adapter } from '@cityofzion/wallet-connect-sdk-wallet-core'
 import type { TAdapterMethodParam } from '@cityofzion/wallet-connect-sdk-wallet-react'
 
@@ -25,9 +24,9 @@ export class WalletConnectEIP155Adapter extends AbstractWalletConnectEIP155Adapt
 
   async getRPCUrl(): Promise<string> {
     const {
-      settings: { networkType },
+      settings: { selectedNetworkByBlockchain },
     } = RootStore.store.getState()
 
-    return DEFAULT_URL_BY_NETWORK_TYPE[networkType]
+    return selectedNetworkByBlockchain.ethereum.url
   }
 }

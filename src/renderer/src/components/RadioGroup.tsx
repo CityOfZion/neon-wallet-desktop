@@ -11,8 +11,12 @@ const Group = forwardRef<
   return <RadixRadioGroup.Root {...props} ref={ref} />
 })
 
-const Item = forwardRef<ElementRef<typeof RadixRadioGroup.Item>, ComponentPropsWithoutRef<typeof RadixRadioGroup.Item>>(
-  ({ className, children, ...props }, ref) => {
+type ItemProps = ComponentPropsWithoutRef<typeof RadixRadioGroup.Item> & {
+  withSeparator?: boolean
+}
+
+const Item = forwardRef<ElementRef<typeof RadixRadioGroup.Item>, ItemProps>(
+  ({ className, withSeparator = true, children, ...props }, ref) => {
     return (
       <RadixRadioGroup.Item
         {...props}
@@ -23,9 +27,11 @@ const Item = forwardRef<ElementRef<typeof RadixRadioGroup.Item>, ComponentPropsW
           {children}
         </div>
 
-        <div className="w-full px-4 group-last:hidden">
-          <Separator />
-        </div>
+        {withSeparator && (
+          <div className="w-full px-4 group-last:hidden">
+            <Separator />
+          </div>
+        )}
       </RadixRadioGroup.Item>
     )
   }

@@ -23,6 +23,8 @@ const fetchExchange = async (currency: TCurrency, blockchain: TBlockchainService
   return result
 }
 
+const emptyRecord = {}
+
 export function useExchange(queryOptions?: TBaseOptions<TExchange[]>): TUseExchangeResult {
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
   const { currency } = useCurrencySelector()
@@ -41,7 +43,7 @@ export function useExchange(queryOptions?: TBaseOptions<TExchange[]>): TUseExcha
         }
 
         return acc
-      }, {} as TMultiExchange),
+      }, emptyRecord as TMultiExchange),
     }),
   })
 
