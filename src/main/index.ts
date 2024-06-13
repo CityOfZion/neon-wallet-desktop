@@ -10,7 +10,13 @@ import { join } from 'path'
 import * as packageJson from '../../package.json'
 import icon from '../../resources/icon.png?asset'
 
-import { registerDeeplinkHandler, registerNeonDeeplink, registerOpenUrl, sendDeeplink, setDeeplink } from './deeplink'
+import {
+  dispatchDeeplinkEvent,
+  registerDeeplinkHandler,
+  registerDeeplinkProtocol,
+  registerOpenUrlListener,
+  setInitialDeeplink,
+} from './deeplink'
 import { registerEncryptionHandlers } from './encryption'
 import { getLedgerTransport, registerLedgerHandler } from './ledger'
 import { setupSentry } from './sentryElectron'
@@ -20,7 +26,7 @@ import { registerWindowHandlers } from './window'
 const gotTheLock = app.requestSingleInstanceLock()
 let mainWindow: BrowserWindow | null = null
 
-registerNeonDeeplink()
+registerDeeplinkProtocol()
 
 function createWindow(): void {
   mainWindow = new BrowserWindow({
@@ -72,9 +78,9 @@ if (!gotTheLock) {
       if (mainWindow.isMinimized()) mainWindow.restore()
       mainWindow.focus()
 
-      sendDeeplink(mainWindow, deeplinkUrl)
+      dispatchDeeplinkEvent(deeplinkUrl)
     } else {
-      setDeeplink(deeplinkUrl)
+      setInitialDeeplink(deeplinkUrl)
     }
   })
 
@@ -98,7 +104,7 @@ if (!gotTheLock) {
     })
   })
 
-  registerOpenUrl(mainWindow)
+  registerOpenUrlListener()
 
   app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {

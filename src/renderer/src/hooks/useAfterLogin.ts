@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
 import { IAccountState } from '@renderer/@types/store'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
@@ -80,51 +81,63 @@ function isWalletConnectUri(uri) {
 
 const useRegisterDeeplinkListeners = () => {
   const { modalNavigate } = useModalNavigate()
+  const navigate = useNavigate()
   const { t: commonWc } = useTranslation('hooks', { keyPrefix: 'DappConnection' })
-  const [decodedDeeplinkUri, setDecodedDeeplinkUri] = useState<string | null>(null)
-
-  const handleDeeplink = useCallback(async (uri: string) => {
-    if (!uri) return
-
-    await window.electron.ipcRenderer.invoke('restore')
-
-    const realUri = uri.split('uri=').pop()
-    if (!realUri) return
-
-    const decodedUri = decodeURIComponent(realUri)
-    if (isWalletConnectUri(decodedUri)) {
-      setDecodedDeeplinkUri(decodedUri)
-      return
-    }
-
-    const decodedBase64Uri = atob(decodedUri)
-    if (isWalletConnectUri(decodedBase64Uri)) {
-      setDecodedDeeplinkUri(decodedBase64Uri)
-    }
-  }, [])
 
   useEffect(() => {
+    // handleDeeplink function is inside useEffect
+    const handleDeeplink = async (uri: string) => {
+      if (!uri) return
+
+      window.electron.ipcRenderer.invoke('resetInitialDeeplink')
+
+      if (uri === 'neon3://migration') {
+        // Navigate to migration screen
+        navigate('/app/settings/security/migrate-accounts')
+        // Navigation directly within the handleDeeplink function instead of set a state
+        modalNavigate('migrate-accounts-step-2')
+        return
+      }
+
+      const realWCUri = uri.split('uri=').pop()
+      if (realWCUri) {
+        let wcUri: string | undefined
+
+        const decodedUri = decodeURIComponent(realWCUri)
+        if (isWalletConnectUri(decodedUri)) {
+          wcUri = decodedUri
+        } else {
+          const decodedBase64Uri = atob(decodedUri)
+          if (isWalletConnectUri(decodedBase64Uri)) {
+            wcUri = decodedBase64Uri
+          }
+        }
+
+        if (wcUri) {
+          // Navigation directly within the handleDeeplink function instead of set a state
+          modalNavigate('select-account', {
+            state: {
+              onSelectAccount: (account: IAccountState) => {
+                modalNavigate('dapp-connection', { state: { account: account, uri: wcUri } })
+              },
+              title: commonWc('selectAccountModal.title'),
+              buttonLabel: commonWc('selectAccountModal.selectSourceAccount'),
+            },
+          })
+        }
+      }
+    }
+
     window.electron.ipcRenderer.invoke('getInitialDeepLinkUri').then(handleDeeplink)
 
-    window.electron.ipcRenderer.once('deeplink', (_event, uri: string) => {
+    const removeDeeplinkListener = window.electron.ipcRenderer.on('deeplink', (_event, uri: string) => {
       handleDeeplink(uri)
     })
-  }, [handleDeeplink])
 
-  useEffect(() => {
-    if (!decodedDeeplinkUri) return
-
-    modalNavigate('select-account', {
-      state: {
-        onSelectAccount: (account: IAccountState) => {
-          modalNavigate('dapp-connection', { state: { account: account, uri: decodedDeeplinkUri } })
-          setDecodedDeeplinkUri(null)
-        },
-        title: commonWc('selectAccountModal.title'),
-        buttonLabel: commonWc('selectAccountModal.selectSourceAccount'),
-      },
-    })
-  }, [commonWc, decodedDeeplinkUri, modalNavigate])
+    return () => {
+      removeDeeplinkListener()
+    }
+  }, [commonWc, modalNavigate, navigate])
 }
 
 export const useAfterLogin = () => {

@@ -192,7 +192,7 @@ interface Resources {
       ledgerDisconnected: 'Ledger disconnected \n{{address}}'
     }
     DappConnection: {
-      pleaseLogin: 'Please login before connection to a dApp.'
+      pleaseLogin: 'Please login to continue.'
       selectAccountModal: {
         title: 'Select an account to connect to the dapp.'
         selectSourceAccount: 'Select account'

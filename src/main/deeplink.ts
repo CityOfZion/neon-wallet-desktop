@@ -2,49 +2,46 @@ import { app, BrowserWindow, ipcMain } from 'electron'
 import path from 'path'
 
 let initialDeepLinkUri: string | undefined = undefined
-let hasDeeplink: boolean = false
 
-export function registerNeonDeeplink() {
+export function registerDeeplinkProtocol() {
   if (process.defaultApp) {
     if (process.argv.length >= 2) {
       app.setAsDefaultProtocolClient('neon', process.execPath, [path.resolve(process.argv[1])])
+      app.setAsDefaultProtocolClient('neon3', process.execPath, [path.resolve(process.argv[1])])
     }
   } else {
     app.setAsDefaultProtocolClient('neon')
+    app.setAsDefaultProtocolClient('neon3')
   }
 }
 
-export function sendDeeplink(mainWindow: BrowserWindow, deeplinkUrl: string | undefined) {
+export function dispatchDeeplinkEvent(deeplinkUrl: string | undefined) {
   if (deeplinkUrl) {
-    mainWindow.webContents.send('deeplink', deeplinkUrl)
+    const mainWindow = BrowserWindow.getFocusedWindow()
+    if (mainWindow) {
+      mainWindow.webContents.send('deeplink', deeplinkUrl)
+    }
   }
 }
 
-export function setDeeplink(deeplinkUrl: string | undefined) {
+export function setInitialDeeplink(deeplinkUrl: string | undefined) {
   initialDeepLinkUri = deeplinkUrl
 }
 
-export function registerOpenUrl(mainWindow: BrowserWindow | null) {
+export function registerOpenUrlListener() {
   app.on('open-url', (_event, url) => {
-    if (!mainWindow) {
-      initialDeepLinkUri = url
-      hasDeeplink = true
-      return
-    }
+    initialDeepLinkUri = url
 
-    mainWindow.webContents.send('deeplink', url)
+    dispatchDeeplinkEvent(url)
   })
 }
 
 export function registerDeeplinkHandler() {
   ipcMain.handle('getInitialDeepLinkUri', async () => {
-    const uri = initialDeepLinkUri
-    initialDeepLinkUri = undefined
-    hasDeeplink = false
-    return uri
+    return initialDeepLinkUri
   })
 
-  ipcMain.handle('hasDeeplink', async () => {
-    return hasDeeplink
+  ipcMain.handle('resetInitialDeeplink', async () => {
+    initialDeepLinkUri = undefined
   })
 }
