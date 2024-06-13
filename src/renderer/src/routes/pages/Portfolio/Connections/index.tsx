@@ -35,16 +35,21 @@ export const PortfolioConnectionsPage = () => {
       <Separator />
 
       <div className="mt-7 flex-grow flex flex-col min-h-0">
-        <div className="flex flex-row justify-between">
-          <Button
-            variant="text"
-            label={t('disconnectAllButtonLabel')}
-            leftIcon={<TbPlugX />}
-            flat
-            disabled={sessions.length === 0}
-            colorSchema="error"
-            onClick={modalNavigateWrapper('dapp-disconnection', { state: { sessions } })}
-          />
+        <div
+          className={StyleHelper.mergeStyles('flex flex-row justify-between', {
+            'justify-end': sessions.length === 0,
+          })}
+        >
+          {sessions.length > 0 && (
+            <Button
+              variant="text"
+              label={t('disconnectAllButtonLabel')}
+              leftIcon={<TbPlugX />}
+              flat
+              colorSchema="error"
+              onClick={modalNavigateWrapper('dapp-disconnection', { state: { sessions } })}
+            />
+          )}
 
           <p className="text-gray-300 text-lg">{t('totalConnections', { connections: sessions.length })}</p>
         </div>

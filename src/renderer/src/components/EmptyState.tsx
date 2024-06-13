@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { TbDiamondOff, TbFileImport, TbPlug } from 'react-icons/tb'
 import { IAccountState } from '@renderer/@types/store'
+import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 
 import { BlockchainIcon } from './BlockchainIcon'
@@ -29,7 +30,7 @@ export const EmptyState = ({ account }: TProps) => {
         <div className="flex justify-center text-center text-white font-normal text-lg">{t('title')}</div>
         <div className="flex justify-center text-center text-gray-300 text-xs mt-2">{t('subtitle')}</div>
         <div className="flex gap-3 my-5">
-          {account && (
+          {account && !!WalletConnectHelper.blockchainsByBlockchainServiceKey[account.blockchain] && (
             <Button
               className="w-full"
               label={t('connectDappLabel')}

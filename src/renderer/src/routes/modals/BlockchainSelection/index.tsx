@@ -52,7 +52,12 @@ export const BlockchainSelectionModal = () => {
         <ul className="flex flex-col flex-grow gap-2.5">
           <RadioGroup.Group value={selectedBlockchain} onValueChange={handleSelectRadioItem}>
             {(Object.keys(bsAggregator.blockchainServicesByName) as TBlockchainServiceKey[]).map((service, index) => (
-              <RadioGroup.Item key={index} value={service} className="h-12 rounded bg-asphalt p-5 border-none mb-2.5">
+              <RadioGroup.Item
+                key={index}
+                value={service}
+                className="h-12 rounded bg-asphalt border-none mb-2.5"
+                withSeparator={false}
+              >
                 <div className="flex items-center gap-4">
                   <BlockchainIcon blockchain={service} type="gray" />
                   <label>{blockchainT(service)}</label>
