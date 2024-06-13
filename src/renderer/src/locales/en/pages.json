@@ -236,7 +236,12 @@
       "title": "Network Configuration",
       "youAreConnectedNeoAndEth": "You are connected to both the Neo and Ethereum networks",
       "currentNetwork": "Current Network",
-      "nodeSelection": "Node Selection"
+      "nodeSelection": "Node Selection",
+      "selectProfilePlaceholder": "Select a profile...",
+      "updateProfileButtonLabel": "Update profile",
+      "createProfileButtonLabel": "Create profile",
+      "editProfileButtonLabel": "Edit profile",
+      "resetProfileButtonLabel": "Reset profile"
     },
     "settingsReleaseNotes": {
       "title": "Release Notes",

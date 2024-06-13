@@ -4,7 +4,7 @@ import {
   TWalletConnectHelperProposalInformation,
   TWalletConnectHelperSessionInformation,
 } from '@renderer/@types/helpers'
-import merge from 'lodash.merge'
+import { merge } from 'lodash'
 
 export abstract class WalletConnectHelper {
   static blockchainsByBlockchainServiceKey: Partial<Record<TBlockchainServiceKey, string>> = {
@@ -16,10 +16,12 @@ export abstract class WalletConnectHelper {
     neo3: {
       mainnet: 'mainnet',
       testnet: 'testnet',
+      custom: 'private',
     },
     ethereum: {
       mainnet: '1',
       testnet: '5',
+      custom: '',
     },
   }
 

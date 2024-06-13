@@ -22,8 +22,7 @@ const Outline = ({ className, ...props }: TClickableProps) => {
   return (
     <Base
       className={StyleHelper.mergeStyles(
-        className,
-        'group flex items-center justify-center border text-center rounded py-3 gap-x-2.5 cursor-pointer transition-colors ',
+        'group flex items-center justify-center border text-center py-3 gap-x-2.5 cursor-pointer transition-colors ',
         'aria-[disabled=true]:opacity-100 aria-[disabled=true]:text-gray-100/50 aria-[disabled=true]:border-gray-100/50',
         'aria-[disabled=false]:hover:bg-gray-300/15',
         {
@@ -31,7 +30,8 @@ const Outline = ({ className, ...props }: TClickableProps) => {
           'border-gray-100': props.colorSchema === 'gray',
           'border-white': props.colorSchema === 'white',
           'border-pink': props.colorSchema === 'error',
-        }
+        },
+        className
       )}
       {...props}
     />
@@ -56,8 +56,8 @@ const Text = ({ className, ...props }: TClickableProps) => {
   return (
     <Base
       className={StyleHelper.mergeStyles(
-        className,
-        'flex min-w-0 justify-center items-center text-center gap-x-1.5 aria-[disabled=false]:hover:bg-gray-300/15 rounded transition-colors'
+        'flex min-w-0 justify-center items-center text-center gap-x-1.5 aria-[disabled=false]:hover:bg-gray-300/15 rounded transition-colors',
+        className
       )}
       {...props}
     />

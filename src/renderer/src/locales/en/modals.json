@@ -495,5 +495,13 @@
       "networkNameIsRequired": "Network name is required",
       "networkNameIsTooLong": "Network name is too long"
     }
+  },
+  "addNetworkProfileModal": {
+    "title": "Add new network profile",
+    "inputLabel": "Profile name",
+    "deleteButtonLabel": "Delete profile",
+    "errors": {
+      "profileNameIsRequired": "Profile name is required"
+    }
   }
 }

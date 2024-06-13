@@ -29,6 +29,11 @@ export type TCurrency = {
 }
 export type TCustomNetwork = Record<TBlockchainServiceKey, TNetwork[]>
 export type TSelectedNetworks = Record<TBlockchainServiceKey, TNetwork>
+export type TNetworkProfile = {
+  id: string
+  name: string
+  networkByBlockchain: TSelectedNetworks
+}
 export interface ISettingsState {
   encryptedPassword?: string
   isFirstTime: boolean
@@ -37,6 +42,8 @@ export interface ISettingsState {
   hasOverTheAirUpdates: boolean
   customNetworks: TCustomNetwork
   selectedNetworkByBlockchain: TSelectedNetworks
+  networkProfiles: TNetworkProfile[]
+  selectedNetworkProfile: TNetworkProfile
 }
 
 export type TContactAddress = { address: string; blockchain: TBlockchainServiceKey }
