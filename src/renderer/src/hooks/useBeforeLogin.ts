@@ -11,7 +11,11 @@ import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer
 import { useAccountsSelector } from './useAccountSelector'
 import { useBlockchainActions } from './useBlockchainActions'
 import { useAppDispatch, useAppSelector } from './useRedux'
-import { useSelectedNetworkByBlockchainSelector, useSelectedNetworkProfileSelector } from './useSettingsSelector'
+import {
+  useEncryptedPasswordSelector,
+  useSelectedNetworkByBlockchainSelector,
+  useSelectedNetworkProfileSelector,
+} from './useSettingsSelector'
 import { useWalletsSelector } from './useWalletSelector'
 
 const useRegisterLedgerListeners = () => {

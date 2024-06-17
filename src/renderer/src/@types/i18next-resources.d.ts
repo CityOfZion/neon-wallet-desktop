@@ -384,6 +384,7 @@ interface Resources {
         subtitle2: 'The dApp hasn’t been connected'
         subtitle3: 'Please try again later.'
         buttonReturnLabel: 'Return to your dashboard'
+        accountProposalError: 'Account blockchain cannot be different from proposal blockchain'
       }
     }
     dappConnectionAccountSelection: {
