@@ -23,7 +23,7 @@ export const WalletsSelect = ({ wallets, value, onSelect }: TProps) => {
 
   return (
     <Select.Root value={value?.id} onValueChange={handleValueChange}>
-      <Select.Trigger className="max-w-[11.625rem]">
+      <Select.Trigger className="max-w-[11.625rem] py-1.5">
         <div className="flex flex-col min-w-0 [&>span]:truncate [&>span]:w-full">
           <span className="text-xs text-gray-300 text-left">{t('title')}</span>
           <Select.Value aria-label={value?.name} placeholder={t('placeholder')}>

@@ -1,4 +1,5 @@
 import type { TInitOptions } from '@cityofzion/wallet-connect-sdk-wallet-react'
+import { Core } from '@walletconnect/core'
 import i18n from 'i18next'
 
 import { WalletConnectEIP155Adapter } from './WalletConnectEIP155Adapter'
@@ -6,7 +7,11 @@ import { WalletConnectNeonAdapter } from './WalletConnectNeonAdapter'
 
 export const walletConnectOptions: TInitOptions = {
   clientOptions: {
-    projectId: '56de852a69580b46d61b53f7b3922ce1',
+    core: new Core({
+      projectId: '56de852a69580b46d61b53f7b3922ce1',
+      logger: import.meta.env.DEV ? 'debug' : undefined,
+      relayUrl: 'wss://relay.walletconnect.com',
+    }),
     metadata: {
       name: i18n.t('common:walletConnect.name'),
       description: i18n.t('common:walletConnect.description'),
@@ -15,8 +20,6 @@ export const walletConnectOptions: TInitOptions = {
         'https://raw.githubusercontent.com/CityOfZion/visual-identity/develop/_CoZ%20Branding/_Logo/_Logo%20icon/_PNG%20200x178px/CoZ_Icon_DARKBLUE_200x178px.png',
       ],
     },
-    logger: import.meta.env.DEV ? 'debug' : undefined,
-    relayUrl: 'wss://relay.walletconnect.com',
   },
   blockchains: {
     neo3: {

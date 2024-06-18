@@ -33,7 +33,7 @@ export const DappConnectionDetailsModal = () => {
   const { modalNavigate } = useModalNavigate()
   const { networkRef } = useSelectedNetworkSelector(account.blockchain)
   const { t } = useTranslation('modals', { keyPrefix: 'dappConnectionDetails' })
-  const { handleChangeNetwork } = useNetworkActions()
+  const { setNetwork } = useNetworkActions()
 
   const [proposalInformation, setProposalInformation] = useState<TWalletConnectHelperProposalInformation[]>()
 
@@ -52,7 +52,7 @@ export const DappConnectionDetailsModal = () => {
     const accountProposalInformation = proposalInformation.find(info => info.blockchain === account.blockchain)
     if (!accountProposalInformation) {
       rejectProposal(proposal)
-      ToastHelper.error({ message: 'Account blockchain cannot be different from proposal blockchain' })
+      ToastHelper.error({ message: t('errorModal.accountProposalError') })
       modalNavigate(-1)
       return
     }
@@ -62,7 +62,7 @@ export const DappConnectionDetailsModal = () => {
         network => network.type === accountProposalInformation.network
       )
       if (network) {
-        await handleChangeNetwork(account.blockchain, network)
+        await setNetwork(account.blockchain, network)
       }
     }
 
