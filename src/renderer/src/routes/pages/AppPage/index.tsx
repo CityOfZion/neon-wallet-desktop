@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { RootState } from '@renderer/@types/store'
-import { TestnetBanner } from '@renderer/components/TestnetBanner'
+import { CustomProfileBanner } from '@renderer/components/CustomProfileBanner'
 import { useAfterLogin } from '@renderer/hooks/useAfterLogin'
 import { useAppSelector } from '@renderer/hooks/useRedux'
 import { useEncryptedPasswordSelector } from '@renderer/hooks/useSettingsSelector'
@@ -19,7 +19,7 @@ export const AppPage = () => {
 
   return (
     <Fragment>
-      <TestnetBanner />
+      <CustomProfileBanner />
       <Outlet />
     </Fragment>
   )

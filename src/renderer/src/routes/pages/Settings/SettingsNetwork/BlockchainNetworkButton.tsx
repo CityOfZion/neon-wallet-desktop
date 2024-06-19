@@ -6,13 +6,16 @@ type TProps = {
   subLabel: string
   onClick?(): void
   className?: string
+  disabled?: boolean
 }
 
-export const BlockchainNetworkButton = ({ label, subLabel, onClick, className }: TProps) => {
+export const BlockchainNetworkButton = ({ label, subLabel, onClick, className, disabled }: TProps) => {
   return (
     <button
+      aria-disabled={disabled}
+      disabled={disabled}
       className={StyleHelper.mergeStyles(
-        'text-xs flex items-center py-2.5 justify-between px-1 aria-[disabled=false]:text-gray-300 h-fit hover:opacity-75 w-full border-b border-gray-300/30',
+        'text-xs flex items-center py-2.5 justify-between px-1 aria-[disabled=false]:text-gray-300 h-fit aria-[disabled=false]:hover:opacity-75 w-full border-b border-gray-300/30 aria-[disabled=true]:opacity-50',
         className
       )}
       onClick={onClick}

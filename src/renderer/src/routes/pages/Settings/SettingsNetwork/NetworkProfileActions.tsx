@@ -1,4 +1,3 @@
-import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdAdd, MdRestartAlt } from 'react-icons/md'
 import { TbDotsVertical, TbPencil, TbReload } from 'react-icons/tb'
@@ -21,10 +20,8 @@ export const NetworkProfileActions = () => {
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
   const dispatch = useAppDispatch()
 
-  const shouldShowUpdate = useMemo(
-    () => !isEqual(selectedNetworkProfile.networkByBlockchain, networkByBlockchain),
-    [selectedNetworkProfile, networkByBlockchain]
-  )
+  const isDefaultSelected = selectedNetworkProfile.id === DEFAULT_NETWORK_PROFILE.id
+  const shouldShowUpdate = !isEqual(selectedNetworkProfile.networkByBlockchain, networkByBlockchain)
 
   const handleReset = () => {
     dispatch(
@@ -66,7 +63,7 @@ export const NetworkProfileActions = () => {
           label={t('createProfileButtonLabel')}
         />
 
-        {selectedNetworkProfile.id !== DEFAULT_NETWORK_PROFILE.id && (
+        {!isDefaultSelected && (
           <ActionPopover.Item
             leftIcon={<TbPencil />}
             iconsOnEdge={false}
@@ -75,12 +72,14 @@ export const NetworkProfileActions = () => {
           />
         )}
 
-        <ActionPopover.Item
-          leftIcon={<MdRestartAlt />}
-          iconsOnEdge={false}
-          label={t('resetProfileButtonLabel')}
-          onClick={handleReset}
-        />
+        {!isDefaultSelected && (
+          <ActionPopover.Item
+            leftIcon={<MdRestartAlt />}
+            iconsOnEdge={false}
+            label={t('resetProfileButtonLabel')}
+            onClick={handleReset}
+          />
+        )}
       </ActionPopover.Content>
     </ActionPopover.Root>
   )
