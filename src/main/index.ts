@@ -1,8 +1,3 @@
-import { BSAggregator } from '@cityofzion/blockchain-service'
-import { exposeApiToRenderer } from '@cityofzion/bs-electron/dist/main'
-import { BSEthereum } from '@cityofzion/bs-ethereum'
-import { BSNeoLegacy } from '@cityofzion/bs-neo-legacy'
-import { BSNeo3 } from '@cityofzion/bs-neo3'
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import { app, BrowserWindow, shell } from 'electron'
 import { join } from 'path'
@@ -10,6 +5,7 @@ import { join } from 'path'
 import * as packageJson from '../../package.json'
 import icon from '../../resources/icon.png?asset'
 
+import { exposeBsAggregatorToRenderer } from './bsAggregator'
 import {
   dispatchDeeplinkEvent,
   registerDeeplinkHandler,
@@ -18,9 +14,10 @@ import {
   setInitialDeeplink,
 } from './deeplink'
 import { registerEncryptionHandlers } from './encryption'
-import { getLedgerTransport, registerLedgerHandler } from './ledger'
+import { registerLedgerHandler } from './ledger'
 import { setupSentry } from './sentryElectron'
 import { registerUpdaterHandler } from './updater'
+import { exposeWalletConnectAdaptersToRenderer } from './walletConnect'
 import { registerWindowHandlers } from './window'
 
 const gotTheLock = app.requestSingleInstanceLock()
@@ -111,17 +108,11 @@ if (!gotTheLock) {
       app.quit()
     }
   })
-
-  const bsAggregator = new BSAggregator({
-    neo3: new BSNeo3('neo3', { type: 'mainnet' }, getLedgerTransport),
-    neoLegacy: new BSNeoLegacy('neoLegacy', { type: 'mainnet' }),
-    ethereum: new BSEthereum('ethereum', { type: 'mainnet' }, getLedgerTransport),
-  })
-
+  exposeBsAggregatorToRenderer()
+  exposeWalletConnectAdaptersToRenderer()
   registerUpdaterHandler()
   registerWindowHandlers()
   registerEncryptionHandlers()
-  registerLedgerHandler(bsAggregator)
-  exposeApiToRenderer(bsAggregator)
+  registerLedgerHandler()
   registerDeeplinkHandler()
 }

@@ -1,6 +1,8 @@
-import { Account, BSAggregator, hasLedger } from '@cityofzion/blockchain-service'
+import { Account, hasLedger } from '@cityofzion/blockchain-service'
 import NodeHidTransport from '@ledgerhq/hw-transport-node-hid'
 import { BrowserWindow, ipcMain } from 'electron'
+
+import { bsAggregator } from './bsAggregator'
 
 const NodeHidTransportFixed = (NodeHidTransport as any).default as typeof NodeHidTransport
 
@@ -25,7 +27,7 @@ export const getLedgerTransport = async (account: Account) => {
   throw new Error(`No ledger found for account ${account.address}`)
 }
 
-export function registerLedgerHandler(bsAggregator: BSAggregator) {
+export function registerLedgerHandler() {
   ipcMain.handle('getConnectedLedgers', () => {
     return Array.from(transportersInfoByDescriptor.values()).map(({ address, publicKey, blockchain }) => {
       return { address, publicKey, blockchain }
@@ -72,6 +74,24 @@ export function registerLedgerHandler(bsAggregator: BSAggregator) {
           transportersInfoByDescriptor.delete(String(event.descriptor))
         }
       },
+    })
+  })
+
+  Object.values(bsAggregator.blockchainServicesByName).forEach(service => {
+    if (!hasLedger(service)) return
+
+    service.ledgerService.emitter.on('getSignatureStart', () => {
+      const browserWindow = BrowserWindow.getFocusedWindow()
+      if (!browserWindow) return
+
+      browserWindow.webContents.send('getLedgerSignatureStart')
+    })
+
+    service.ledgerService.emitter.on('getSignatureEnd', () => {
+      const browserWindow = BrowserWindow.getFocusedWindow()
+      if (!browserWindow) return
+
+      browserWindow.webContents.send('getLedgerSignatureEnd')
     })
   })
 }

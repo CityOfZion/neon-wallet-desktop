@@ -1,17 +1,21 @@
-import type { TInitOptions } from '@cityofzion/wallet-connect-sdk-wallet-react'
-import { Core } from '@walletconnect/core'
+import { bindApiFromMain } from '@cityofzion/bs-electron/dist/renderer'
+import {
+  AbstractWalletConnectEIP155Adapter,
+  type AbstractWalletConnectNeonAdapter,
+  type TInitOptions,
+} from '@cityofzion/wallet-connect-sdk-wallet-react'
 import i18n from 'i18next'
 
-import { WalletConnectEIP155Adapter } from './WalletConnectEIP155Adapter'
-import { WalletConnectNeonAdapter } from './WalletConnectNeonAdapter'
+export const walletConnectNeonAdapter = bindApiFromMain<AbstractWalletConnectNeonAdapter>('WalletConnectNeonAdapter')
+
+export const walletConnectEIP155Adapter =
+  bindApiFromMain<AbstractWalletConnectEIP155Adapter>('WalletConnectEIP155Adapter')
 
 export const walletConnectOptions: TInitOptions = {
   clientOptions: {
-    core: new Core({
-      projectId: '56de852a69580b46d61b53f7b3922ce1',
-      logger: import.meta.env.DEV ? 'debug' : undefined,
-      relayUrl: 'wss://relay.walletconnect.com',
-    }),
+    projectId: '56de852a69580b46d61b53f7b3922ce1',
+    logger: import.meta.env.DEV ? 'silent' : 'silent',
+    relayUrl: 'wss://relay.walletconnect.com',
     metadata: {
       name: i18n.t('common:walletConnect.name'),
       description: i18n.t('common:walletConnect.description'),
@@ -46,7 +50,7 @@ export const walletConnectOptions: TInitOptions = {
         'calculateFee',
         'wipeRequests',
       ],
-      adapter: new WalletConnectNeonAdapter(),
+      adapter: walletConnectNeonAdapter,
     },
     eip155: {
       methods: [
@@ -59,7 +63,7 @@ export const walletConnectOptions: TInitOptions = {
         'eth_sendTransaction',
       ],
       events: ['chainChanged', 'accountsChanged'],
-      adapter: new WalletConnectEIP155Adapter(),
+      adapter: walletConnectEIP155Adapter,
     },
   },
 }

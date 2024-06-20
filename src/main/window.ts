@@ -2,7 +2,7 @@ import { BrowserWindow, dialog, ipcMain, OpenDialogOptions } from 'electron'
 import { readFile, writeFile } from 'fs/promises'
 
 export function registerWindowHandlers() {
-  ipcMain.handle('restore', () => {
+  ipcMain.on('restore', () => {
     const [mainWindow] = BrowserWindow.getAllWindows()
     if (!mainWindow) return
 

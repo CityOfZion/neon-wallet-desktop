@@ -2,12 +2,15 @@ import { useCallback, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
+import { TBlockchainServiceKey } from '@renderer/@types/blockchain'
 import { IAccountState } from '@renderer/@types/store'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 
 import { useAccountsSelector } from './useAccountSelector'
 import { useBlockchainActions } from './useBlockchainActions'
 import { useModalHistories, useModalNavigate } from './useModalRouter'
+import { useMountUnsafe } from './useMount'
 
 const useRegisterWalletConnectListeners = () => {
   const { sessions, requests } = useWalletConnectWallet()
@@ -44,39 +47,49 @@ const useRegisterWalletConnectListeners = () => {
 const useRegisterLedgerListeners = () => {
   const { accountsRef } = useAccountsSelector()
   const { createWallet, importAccount, deleteWallet } = useBlockchainActions()
-  const { t: commonT } = useTranslation('common', { keyPrefix: 'wallet' })
-  const { t } = useTranslation('hooks', { keyPrefix: 'useLedgerFlow' })
+  const { t: commonT } = useTranslation('common')
 
-  useEffect(() => {
-    const createLedgerWallet = async (address, publicKey, blockchain) => {
+  const createLedgerWallet = useCallback(
+    async (address: string, publicKey: string, blockchain: TBlockchainServiceKey) => {
       const account = accountsRef.current.find(it => it.address === address)
       if (account) return
 
-      const wallet = await createWallet({ name: commonT('ledgerName'), walletType: 'ledger' })
+      const wallet = await createWallet({ name: commonT('wallet.ledgerName'), walletType: 'ledger' })
       await importAccount({ wallet, address, blockchain, type: 'ledger', key: publicKey })
-    }
+    },
+    [accountsRef, commonT, createWallet, importAccount]
+  )
 
-    const removeLedgerConnectedListener = window.electron.ipcRenderer.on(
-      'ledgerConnected',
+  useMountUnsafe(() => {
+    window.api.getConnectedLedgers().then(async connectedLedgers => {
+      await Promise.allSettled(
+        accountsRef.current.map(async account => {
+          if (account.type !== 'ledger') return
+
+          const connectedLedger = connectedLedgers.find(it => it.address === account.address)
+          if (!connectedLedger) {
+            await deleteWallet(account.idWallet)
+          }
+        })
+      )
+
+      await Promise.allSettled(
+        connectedLedgers.map(({ address, publicKey, blockchain }) => createLedgerWallet(address, publicKey, blockchain))
+      )
+    })
+  })
+
+  useEffect(() => {
+    const removeLedgerConnectedListener = window.listeners.ledgerConnected(
       async (_event, address, publicKey, blockchain) => {
         await createLedgerWallet(address, publicKey, blockchain)
       }
     )
 
-    window.electron.ipcRenderer.invoke('getConnectedLedgers').then(async connectedLedgers => {
-      await Promise.all(
-        connectedLedgers.map(({ address, publicKey, blockchain }) => createLedgerWallet(address, publicKey, blockchain))
-      )
-    })
-
     return () => {
       removeLedgerConnectedListener()
     }
-  }, [accountsRef, createWallet, deleteWallet, importAccount, commonT, t])
-}
-
-function isWalletConnectUri(uri) {
-  return /^wc:.+@\d.*$/g.test(uri)
+  }, [accountsRef, commonT, createLedgerWallet, deleteWallet])
 }
 
 const useRegisterDeeplinkListeners = () => {
@@ -85,16 +98,13 @@ const useRegisterDeeplinkListeners = () => {
   const { t: commonWc } = useTranslation('hooks', { keyPrefix: 'DappConnection' })
 
   useEffect(() => {
-    // handleDeeplink function is inside useEffect
     const handleDeeplink = async (uri: string) => {
       if (!uri) return
 
-      window.electron.ipcRenderer.invoke('resetInitialDeeplink')
+      window.api.resetInitialDeeplink()
 
       if (uri === 'neon3://migration') {
-        // Navigate to migration screen
         navigate('/app/settings/security/migrate-accounts')
-        // Navigation directly within the handleDeeplink function instead of set a state
         modalNavigate('migrate-accounts-step-2')
         return
       }
@@ -104,17 +114,16 @@ const useRegisterDeeplinkListeners = () => {
         let wcUri: string | undefined
 
         const decodedUri = decodeURIComponent(realWCUri)
-        if (isWalletConnectUri(decodedUri)) {
+        if (WalletConnectHelper.isValidURI(decodedUri)) {
           wcUri = decodedUri
         } else {
           const decodedBase64Uri = atob(decodedUri)
-          if (isWalletConnectUri(decodedBase64Uri)) {
+          if (WalletConnectHelper.isValidURI(decodedBase64Uri)) {
             wcUri = decodedBase64Uri
           }
         }
 
         if (wcUri) {
-          // Navigation directly within the handleDeeplink function instead of set a state
           modalNavigate('select-account', {
             state: {
               onSelectAccount: (account: IAccountState) => {
@@ -128,9 +137,9 @@ const useRegisterDeeplinkListeners = () => {
       }
     }
 
-    window.electron.ipcRenderer.invoke('getInitialDeepLinkUri').then(handleDeeplink)
+    window.api.getInitialDeepLinkUri().then(handleDeeplink)
 
-    const removeDeeplinkListener = window.electron.ipcRenderer.on('deeplink', (_event, uri: string) => {
+    const removeDeeplinkListener = window.listeners.deeplink((_event, uri: string) => {
       handleDeeplink(uri)
     })
 

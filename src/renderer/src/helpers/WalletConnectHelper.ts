@@ -20,7 +20,7 @@ export abstract class WalletConnectHelper {
     },
     ethereum: {
       mainnet: '1',
-      testnet: '5',
+      testnet: '11155111',
       custom: '',
     },
   }
@@ -95,10 +95,6 @@ export abstract class WalletConnectHelper {
   }
 
   static isValidURI(uri: string) {
-    if (uri.startsWith('wc')) {
-      return true
-    }
-
-    return false
+    return /^wc:.+@\d.*$/g.test(uri)
   }
 }

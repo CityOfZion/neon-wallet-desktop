@@ -6,25 +6,11 @@ export const customAPI = {
 
   decryptBasedOS: (value: string): Promise<string> => electronAPI.ipcRenderer.invoke('decryptBasedOS', value),
 
-  encryptBasedEncryptedSecret: async (value: string, encryptedSecret?: string): Promise<string> => {
-    if (!encryptedSecret) {
-      return await electronAPI.ipcRenderer.invoke('encryptBasedOS', value)
-    }
+  encryptBasedEncryptedSecret: async (value: string, encryptedSecret?: string): Promise<string> =>
+    electronAPI.ipcRenderer.invoke('encryptBasedEncryptedSecret', value, encryptedSecret),
 
-    const secret = await electronAPI.ipcRenderer.invoke('decryptBasedOS', encryptedSecret)
-    const encryptedBySecretValue = await electronAPI.ipcRenderer.invoke('encryptBasedSecret', value, secret)
-    return await electronAPI.ipcRenderer.invoke('encryptBasedOS', encryptedBySecretValue)
-  },
-
-  decryptBasedEncryptedSecret: async (value: string, encryptedSecret?: string): Promise<string> => {
-    if (!encryptedSecret) {
-      return await electronAPI.ipcRenderer.invoke('decryptBasedOS', value)
-    }
-
-    const decryptedByOSValue = await electronAPI.ipcRenderer.invoke('decryptBasedOS', value)
-    const secret = await electronAPI.ipcRenderer.invoke('decryptBasedOS', encryptedSecret)
-    return await electronAPI.ipcRenderer.invoke('decryptBasedSecret', decryptedByOSValue, secret)
-  },
+  decryptBasedEncryptedSecret: async (value: string, encryptedSecret?: string): Promise<string> =>
+    electronAPI.ipcRenderer.invoke('decryptBasedEncryptedSecret', value, encryptedSecret),
 
   encryptBasedSecret: (value: string, secret: string): Promise<string> =>
     electronAPI.ipcRenderer.invoke('encryptBasedSecret', value, secret),
@@ -32,15 +18,11 @@ export const customAPI = {
   decryptBasedSecret: (value: string, secret: string): Promise<string> =>
     electronAPI.ipcRenderer.invoke('decryptBasedSecret', value, secret),
 
-  restoreWindow: () => electronAPI.ipcRenderer.invoke('restore'),
-
   openDialog: (options: OpenDialogOptions): Promise<string[]> => electronAPI.ipcRenderer.invoke('openDialog', options),
 
   readFile: (path: string): Promise<string> => electronAPI.ipcRenderer.invoke('readFile', path),
 
   saveFile: (path: string, content: string): Promise<void> => electronAPI.ipcRenderer.invoke('saveFile', path, content),
-
-  startLedgerListen: () => electronAPI.ipcRenderer.invoke('startLedgerListen'),
 
   checkForUpdates: (): Promise<void> => electronAPI.ipcRenderer.invoke('checkForUpdates'),
 
@@ -51,4 +33,16 @@ export const customAPI = {
 
   setWindowButtonPosition: (options: Electron.Point): Promise<void> =>
     electronAPI.ipcRenderer.invoke('setWindowButtonPosition', options),
+
+  getInitialDeepLinkUri: (): Promise<string> => electronAPI.ipcRenderer.invoke('getInitialDeepLinkUri'),
+
+  resetInitialDeeplink: (): Promise<void> => electronAPI.ipcRenderer.invoke('resetInitialDeeplink'),
+
+  sendStoreFromWC: (store: any): void => electronAPI.ipcRenderer.send('storeFromWC', store),
+
+  startLedger: (): void => electronAPI.ipcRenderer.send('startLedger'),
+
+  restoreWindow: (): void => electronAPI.ipcRenderer.send('restore'),
+
+  getConnectedLedgers: (): Promise<any> => electronAPI.ipcRenderer.invoke('getConnectedLedgers'),
 }

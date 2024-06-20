@@ -9,7 +9,6 @@ import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
-import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useNameService } from '@renderer/hooks/useNameService'
@@ -60,7 +59,6 @@ export type TSendServiceResponse =
 export const SendPageContent = ({ account, recipient }: TProps) => {
   const { t } = useTranslation('pages', { keyPrefix: 'send' })
   const { encryptedPasswordRef } = useEncryptedPasswordSelector()
-  const { t: commonT } = useTranslation('common')
   const { modalNavigate } = useModalNavigate()
   const dispatch = useAppDispatch()
   const [originalRecipient, setoOriginalRecipient] = useState(recipient)
@@ -177,7 +175,7 @@ export const SendPageContent = ({ account, recipient }: TProps) => {
     try {
       const isLedger = fields.selectedAccount.type === 'ledger'
 
-      const sendPromise = fields.service.transfer({
+      const transactionHash = await fields.service.transfer({
         senderAccount: fields.serviceAccount,
         intent: {
           receiverAddress: fields.selectedRecipientAddress,
@@ -187,14 +185,6 @@ export const SendPageContent = ({ account, recipient }: TProps) => {
         },
         isLedger,
       })
-
-      let transactionHash: string
-
-      if (isLedger) {
-        transactionHash = await ToastHelper.promise(sendPromise, { message: commonT('ledger.requestingPermission') })
-      } else {
-        transactionHash = await sendPromise
-      }
 
       dispatch(
         accountReducerActions.addPendingTransaction({

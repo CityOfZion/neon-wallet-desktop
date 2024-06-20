@@ -385,6 +385,7 @@ interface Resources {
         subtitle3: 'Please try again later.'
         buttonReturnLabel: 'Return to your dashboard'
         accountProposalError: 'Account blockchain cannot be different from proposal blockchain'
+        genericError: 'Oops! we’ve encountered an error. Try to generate a new uri and try again.'
       }
     }
     dappConnectionAccountSelection: {
