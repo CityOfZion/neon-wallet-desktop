@@ -1,4 +1,4 @@
-import { DependencyList, useEffect, useRef, useState } from 'react'
+import { DependencyList, EffectCallback, useEffect, useRef, useState } from 'react'
 
 export const useMount = (
   effect: () => void | Promise<void>,
@@ -26,4 +26,16 @@ export const useMount = (
   }, changingStateVars)
 
   return { isMounting }
+}
+
+export const useMountUnsafe = (effect: EffectCallback) => {
+  const initialized = useRef(false)
+
+  useEffect(() => {
+    if (initialized.current) return
+
+    initialized.current = true
+    return effect()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 }

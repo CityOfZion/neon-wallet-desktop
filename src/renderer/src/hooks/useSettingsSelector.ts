@@ -67,7 +67,6 @@ export const useNetworkActions = () => {
 
   const setNetwork = useCallback(
     async (blockchain: TBlockchainServiceKey, network: TNetwork) => {
-      console.log({ network, blockchain })
       await Promise.allSettled(sessions.map(session => disconnect(session)))
       dispatch(settingsReducerActions.setSelectNetwork({ blockchain, network }))
     },

@@ -98,12 +98,12 @@ export const DappConnectionDetailsModal = () => {
     try {
       const proposalInformation = WalletConnectHelper.getInformationFromProposal(proposal)
       setProposalInformation(proposalInformation)
-    } catch (error: any) {
+    } catch {
       rejectProposal(proposal)
-      ToastHelper.error(error.message)
+      ToastHelper.error({ message: t('errorModal.genericError'), id: 'dapp-connection-details-proposal-error' })
       modalNavigate(-1)
     }
-  }, [proposal, modalNavigate, rejectProposal])
+  }, [proposal, modalNavigate, rejectProposal, t])
 
   return (
     <CenterModalLayout onClose={handleClose} contentClassName="items-center justify-center flex flex-col">

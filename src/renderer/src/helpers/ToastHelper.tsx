@@ -9,6 +9,10 @@ type TToastProp = {
 }
 
 export class ToastHelper {
+  static dismiss(id: string | number) {
+    toast.dismiss(id)
+  }
+
   static success(props: TToastProp) {
     const customId = props.id ?? UtilsHelper.uuid()
     toast.custom(sonnerId => <SuccessToast sonnerId={sonnerId} message={props.message} />, {
@@ -33,18 +37,13 @@ export class ToastHelper {
     })
   }
 
-  static async promise<T = any>(promise: Promise<T>, props: TToastProp) {
+  static async loading(props: TToastProp) {
     const customId = props.id ?? UtilsHelper.uuid()
+
     toast.custom(sonnerId => <PromiseToast sonnerId={sonnerId} message={props.message} />, {
       id: customId,
       unstyled: true,
       duration: Infinity,
     })
-    try {
-      const result = await promise
-      return result
-    } finally {
-      toast.dismiss(customId)
-    }
   }
 }

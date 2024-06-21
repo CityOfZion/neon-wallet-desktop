@@ -131,8 +131,9 @@ export function useBlockchainActions() {
   )
 
   const deleteAccount = useCallback(
-    (address: string) => {
-      Promise.all(
+    async (address: string) => {
+      dispatch(accountReducerActions.deleteAccount(address))
+      await Promise.allSettled(
         sessions.map(async session => {
           const info = WalletConnectHelper.getAccountInformationFromSession(session)
           if (info.address !== address) return
@@ -140,16 +141,15 @@ export function useBlockchainActions() {
           await disconnect(session)
         })
       )
-      dispatch(accountReducerActions.deleteAccount(address))
     },
     [disconnect, dispatch, sessions]
   )
 
   const deleteWallet = useCallback(
-    (id: string) => {
-      const accounts = accountsRef.current.filter(account => account.idWallet === id)
-      accounts.forEach(account => deleteAccount(account.address))
+    async (id: string) => {
       dispatch(walletReducerActions.deleteWallet(id))
+      const accounts = accountsRef.current.filter(account => account.idWallet === id)
+      await Promise.allSettled(accounts.map(account => deleteAccount(account.address)))
     },
     [accountsRef, deleteAccount, dispatch]
   )

@@ -7,7 +7,7 @@ import { DappPermissionHeader } from '@renderer/components/DappPermissionHeader'
 import { Separator } from '@renderer/components/Separator'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
-import { WalletConnectNeonAdapter } from '@renderer/libs/WalletConnectNeonAdapter'
+import { walletConnectNeonAdapter } from '@renderer/libs/walletConnectSDK'
 import { useQuery } from '@tanstack/react-query'
 
 import { TDappPermissionComponentProps } from '../../index'
@@ -47,8 +47,7 @@ export const Neo3ContractInvocationDappPermission = ({
   } = useQuery({
     queryKey: ['fee', request.id],
     queryFn: async () => {
-      const adapter = new WalletConnectNeonAdapter()
-      const { total } = await adapter.calculateFee({ request, session })
+      const { total } = await walletConnectNeonAdapter.calculateFee({ request, session })
       return total
     },
     gcTime: 0,
