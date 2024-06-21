@@ -18,7 +18,7 @@ export const NetworkProfileSelect = () => {
 
   return (
     <Select.Root value={selectedNetworkProfile.id} onValueChange={handleSelect}>
-      <Select.Trigger className={StyleHelper.mergeStyles('bg-asphalt')}>
+      <Select.Trigger className={StyleHelper.mergeStyles('bg-asphalt max-w-[11.625rem]')}>
         <Select.Value placeholder={t('selectProfilePlaceholder')} />
 
         <Select.Icon className="text-neon" />
