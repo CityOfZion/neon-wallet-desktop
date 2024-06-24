@@ -11,8 +11,11 @@ import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 import { walletReducerActions } from '@renderer/store/reducers/WalletReducer'
 
+import { SkinSelector } from './SkinSelector'
+
 type TFormData = {
   name: string
+  selectedSkinId?: string
 }
 
 type TLocationState = {
@@ -28,25 +31,30 @@ export const EditWalletModal = () => {
 
   const form = useActions<TFormData>({
     name: wallet.name,
+    selectedSkinId: wallet.selectedSkinId,
   })
 
   const handleChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
     form.setData({ name: event.target.value })
   }
 
-  const handleSubmit = ({ name }: TFormData) => {
+  const handleSelectSkin = (skinId?: string) => {
+    form.setData({ selectedSkinId: skinId })
+  }
+
+  const handleSubmit = ({ name, selectedSkinId }: TFormData) => {
     const nameTrimmed = name.trim()
     if (nameTrimmed.length <= 0) {
       form.setError('name', t('nameLengthError'))
       return
     }
-    dispatch(walletReducerActions.saveWallet({ ...wallet, name: nameTrimmed }))
+    dispatch(walletReducerActions.saveWallet({ ...wallet, name: nameTrimmed, selectedSkinId }))
     modalNavigate(-1)
   }
 
   return (
-    <SideModalLayout heading={t('title')} headingIcon={<TbPencil />} contentClassName="flex flex-col justify-between">
-      <form onSubmit={form.handleAct(handleSubmit)}>
+    <SideModalLayout heading={t('title')} headingIcon={<TbPencil />} contentClassName="flex flex-col">
+      <form onSubmit={form.handleAct(handleSubmit)} className="flex flex-col flex-grow">
         <Input
           placeholder={t('inputPlaceholder')}
           errorMessage={form.actionState.errors.name}
@@ -56,7 +64,11 @@ export const EditWalletModal = () => {
           compacted
         />
 
-        <div className="flex gap-x-3 mt-8">
+        <Separator className="my-4" />
+
+        <SkinSelector selectedSkinId={form.actionData.selectedSkinId} onClick={handleSelectSkin} />
+
+        <div className="flex gap-x-3 mt-auto mb-4">
           <Button
             className="w-full"
             type="button"
