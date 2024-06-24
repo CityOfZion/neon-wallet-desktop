@@ -57,10 +57,6 @@ export const SelectAccount = () => {
     onSelectAccount(selectedAccount)
   }
 
-  const filteredWallets = useMemo(() => {
-    return wallets.filter(wallet => wallet.walletType !== 'watch')
-  }, [wallets])
-
   return (
     <SideModalLayout heading={title} headingIcon={leftIcon} contentClassName="flex flex-col min-h-0">
       <Select.Root value={selectedWallet?.id} onValueChange={handleSelectWallet}>
@@ -75,7 +71,7 @@ export const SelectAccount = () => {
         </Select.Trigger>
 
         <Select.Content>
-          {filteredWallets.map((wallet, index) => (
+          {wallets.map((wallet, index) => (
             <Fragment key={wallet.id}>
               <Select.Item
                 value={wallet.id}
@@ -84,7 +80,7 @@ export const SelectAccount = () => {
                 <Select.ItemText>{wallet.name}</Select.ItemText>
               </Select.Item>
 
-              {index + 1 !== filteredWallets.length && <Select.Separator />}
+              {index + 1 !== wallets.length && <Select.Separator />}
             </Fragment>
           ))}
         </Select.Content>

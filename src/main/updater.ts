@@ -3,7 +3,7 @@ import { autoUpdater } from 'electron-updater'
 
 export function registerUpdaterHandler() {
   autoUpdater.on('update-downloaded', () => {
-    const browserWindow = BrowserWindow.getFocusedWindow()
+    const browserWindow = BrowserWindow.getAllWindows()[0]
     if (!browserWindow) return
     browserWindow.webContents.send('updateCompleted')
   })

@@ -12,6 +12,12 @@ export const customAPI = {
   decryptBasedEncryptedSecret: async (value: string, encryptedSecret?: string): Promise<string> =>
     electronAPI.ipcRenderer.invoke('decryptBasedEncryptedSecret', value, encryptedSecret),
 
+  encryptBasedEncryptedSecretSync: (value: string, encryptedSecret?: string): string =>
+    electronAPI.ipcRenderer.sendSync('encryptBasedEncryptedSecretSync', value, encryptedSecret),
+
+  decryptBasedEncryptedSecretSync: (value: string, encryptedSecret?: string): string =>
+    electronAPI.ipcRenderer.sendSync('decryptBasedEncryptedSecretSync', value, encryptedSecret),
+
   encryptBasedSecret: (value: string, secret: string): Promise<string> =>
     electronAPI.ipcRenderer.invoke('encryptBasedSecret', value, secret),
 

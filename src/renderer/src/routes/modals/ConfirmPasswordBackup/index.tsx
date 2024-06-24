@@ -86,7 +86,6 @@ export const ConfirmPasswordBackupModal = () => {
         return {
           id: wallet.id,
           name: wallet.name,
-          walletType: wallet.walletType,
           mnemonic: wallet.encryptedMnemonic
             ? await window.api.decryptBasedEncryptedSecret(wallet.encryptedMnemonic, encryptedPassword)
             : '',

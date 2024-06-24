@@ -53,8 +53,6 @@ export const AddWatch = () => {
 
       const wallet = await blockchainActions.createWallet({
         name: commomT('watchAccount'),
-        walletType: 'watch',
-        mnemonic: undefined,
       })
 
       const accountsToImport: TImportAccountsParam['accounts'] = [
@@ -65,7 +63,7 @@ export const AddWatch = () => {
         },
       ]
 
-      await blockchainActions.importAccounts({ wallet, accounts: accountsToImport })
+      blockchainActions.importAccounts({ wallet, accounts: accountsToImport })
 
       onAddWallet?.(wallet)
 

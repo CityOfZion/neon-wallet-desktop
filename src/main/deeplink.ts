@@ -17,7 +17,7 @@ export function registerDeeplinkProtocol() {
 
 export function dispatchDeeplinkEvent(deeplinkUrl: string | undefined) {
   if (deeplinkUrl) {
-    const mainWindow = BrowserWindow.getFocusedWindow()
+    const mainWindow = BrowserWindow.getAllWindows()[0]
     if (mainWindow) {
       mainWindow.webContents.send('deeplink', deeplinkUrl)
     }

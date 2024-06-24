@@ -49,9 +49,8 @@ export const ImportMnemonicAccountsSelectionModal = () => {
   }
 
   const handleImport = async (data: TActionsData) => {
-    const wallet = await blockchainActions.createWallet({
+    const wallet = blockchainActions.createWallet({
       name: commonT('mnemonicWalletName'),
-      walletType: 'standard',
       mnemonic,
     })
 

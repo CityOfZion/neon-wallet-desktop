@@ -1,7 +1,13 @@
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
-import { TAccountToCreate, TAccountToImport, TImportAccountsParam, TWalletToCreate } from '@renderer/@types/blockchain'
+import {
+  TAccountToCreate,
+  TAccountToEdit,
+  TAccountToImport,
+  TImportAccountsParam,
+  TWalletToCreate,
+} from '@renderer/@types/blockchain'
 import { IAccountState, IWalletState } from '@renderer/@types/store'
 import { accountColorsKeys } from '@renderer/constants/blockchain'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
@@ -9,7 +15,6 @@ import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { accountReducerActions } from '@renderer/store/reducers/AccountReducer'
 import { walletReducerActions } from '@renderer/store/reducers/WalletReducer'
-import * as uuid from 'uuid'
 
 import { useAccountsSelector } from './useAccountSelector'
 import { useAppDispatch } from './useRedux'
@@ -23,21 +28,18 @@ export function useBlockchainActions() {
   const { disconnect, sessions } = useWalletConnectWallet()
 
   const createWallet = useCallback(
-    async ({ name, walletType, mnemonic }: TWalletToCreate) => {
+    ({ name, mnemonic, id }: TWalletToCreate) => {
       let encryptedMnemonic: string | undefined
 
-      if (walletType === 'standard') {
-        if (!mnemonic) throw new Error('Standard Wallet needs to have a security phrase')
-
-        encryptedMnemonic = await window.api.encryptBasedEncryptedSecret(mnemonic, encryptedPasswordRef.current)
+      if (mnemonic) {
+        encryptedMnemonic = window.api.encryptBasedEncryptedSecretSync(mnemonic, encryptedPasswordRef.current)
       }
 
-      const id = uuid.v4()
+      const newId = id ?? UtilsHelper.uuid()
 
       const newWallet: IWalletState = {
         name,
-        walletType,
-        id,
+        id: newId,
         encryptedMnemonic,
       }
 
@@ -49,10 +51,10 @@ export function useBlockchainActions() {
   )
 
   const createAccount = useCallback(
-    async ({ blockchain, name, wallet, backgroundColor }: TAccountToCreate) => {
-      if (wallet.walletType !== 'standard' || !wallet.encryptedMnemonic) throw new Error('Problem to create account')
+    ({ blockchain, name, wallet, backgroundColor }: TAccountToCreate) => {
+      if (!wallet.encryptedMnemonic) throw new Error('Problem to create account')
 
-      const mnemonic = await window.api.decryptBasedEncryptedSecret(
+      const mnemonic = window.api.decryptBasedEncryptedSecretSync(
         wallet.encryptedMnemonic,
         encryptedPasswordRef.current
       )
@@ -64,7 +66,7 @@ export function useBlockchainActions() {
       const service = bsAggregator.blockchainServicesByName[blockchain]
       const generatedAccount = service.generateAccountFromMnemonic(mnemonic, generateIndex)
 
-      const encryptedKey = await window.api.encryptBasedEncryptedSecret(
+      const encryptedKey = window.api.encryptBasedEncryptedSecretSync(
         generatedAccount.key,
         encryptedPasswordRef.current
       )
@@ -77,7 +79,7 @@ export function useBlockchainActions() {
         blockchain,
         backgroundColor: backgroundColor ? backgroundColor : accountColorsKeys[UtilsHelper.getRandomNumber(7)],
         address: generatedAccount.address,
-        type: wallet.walletType,
+        type: 'standard',
         encryptedKey,
         order,
       }
@@ -90,12 +92,12 @@ export function useBlockchainActions() {
   )
 
   const importAccount = useCallback(
-    async ({ address, blockchain, type, wallet, key, name, order, backgroundColor }: TAccountToImport) => {
+    ({ address, blockchain, type, wallet, key, name, order, backgroundColor }: TAccountToImport) => {
       let encryptedKey: string | undefined
 
       if (type === 'standard' || type === 'legacy' || type === 'ledger') {
         if (!key) throw new Error('Key not defined')
-        encryptedKey = await window.api.encryptBasedEncryptedSecret(key, encryptedPasswordRef.current)
+        encryptedKey = window.api.encryptBasedEncryptedSecretSync(key, encryptedPasswordRef.current)
       }
 
       const accountOrder = order ?? accountsRef.current.filter(account => account.idWallet === wallet.id).length
@@ -121,7 +123,7 @@ export function useBlockchainActions() {
     async ({ accounts: accountsToImport, wallet }: TImportAccountsParam) => {
       const lastOrder = accountsRef.current.filter(account => account.idWallet === wallet.id).length
 
-      const promises = accountsToImport.map((account, index) =>
+      const promises = accountsToImport.map(async (account, index) =>
         importAccount({ ...account, wallet, order: account.order ?? lastOrder + index })
       )
 
@@ -154,6 +156,28 @@ export function useBlockchainActions() {
     [accountsRef, deleteAccount, dispatch]
   )
 
+  const editAccount = useCallback(
+    ({ account, data }: TAccountToEdit) => {
+      let encryptedKey = account.encryptedKey
+
+      if (data.type) {
+        if (data.type === 'watch') {
+          encryptedKey = undefined
+        } else {
+          if (!data.key) throw new Error('Key not defined')
+          encryptedKey = window.api.encryptBasedEncryptedSecretSync(data.key, encryptedPasswordRef.current)
+        }
+      }
+
+      delete data.key
+
+      const editedAccount: IAccountState = Object.assign({}, account, { ...data, encryptedKey })
+
+      dispatch(accountReducerActions.saveAccount(editedAccount))
+    },
+    [dispatch, encryptedPasswordRef]
+  )
+
   return {
     createWallet,
     createAccount,
@@ -161,5 +185,6 @@ export function useBlockchainActions() {
     importAccounts,
     deleteWallet,
     deleteAccount,
+    editAccount,
   }
 }

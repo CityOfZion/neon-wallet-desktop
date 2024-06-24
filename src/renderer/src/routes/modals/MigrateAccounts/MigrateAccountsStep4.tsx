@@ -51,7 +51,6 @@ export const MigrateAccountsStep4Modal = () => {
 
   const handleMigrate = async (data: TActionData) => {
     const walletToCreate: TWalletToCreate = {
-      walletType: 'legacy',
       name: commonT('migratedWalletName'),
     }
 
