@@ -72,4 +72,12 @@ export function registerEncryptionHandlers() {
   ipcMain.handle('decryptBasedEncryptedSecret', async (_event, value: string, encryptedSecret?: string) => {
     return decryptBasedEncryptedSecret(value, encryptedSecret)
   })
+
+  ipcMain.on('encryptBasedEncryptedSecretSync', async (event, value: string, encryptedSecret?: string) => {
+    event.returnValue = encryptBasedEncryptedSecret(value, encryptedSecret)
+  })
+
+  ipcMain.on('decryptBasedEncryptedSecretSync', async (event, value: string, encryptedSecret?: string) => {
+    event.returnValue = decryptBasedEncryptedSecret(value, encryptedSecret)
+  })
 }

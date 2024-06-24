@@ -53,7 +53,6 @@ export const WelcomeImportWalletStep4Page = () => {
       for (const walletToCreate of state.wallets) {
         const wallet = await createWallet({
           name: walletToCreate.name,
-          walletType: walletToCreate.walletType,
           mnemonic: walletToCreate.mnemonic,
         })
         await importAccounts({

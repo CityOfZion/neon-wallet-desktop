@@ -45,16 +45,15 @@ export const ImportModal = () => {
             state: {
               encryptedKey,
               blockchain,
-              onDecrypt: async (key: string, address: string) => {
+              onDecrypt: (key: string, address: string) => {
                 if (doesAccountExist(address)) {
                   throw new Error(t('addressAlreadyExist'))
                 }
 
-                const wallet = await createWallet({
+                const wallet = createWallet({
                   name: tCommon('encryptedName'),
-                  walletType: 'legacy',
                 })
-                await importAccount({ address, blockchain, wallet, key, type: 'legacy' })
+                importAccount({ address, blockchain, wallet, key, type: 'legacy' })
 
                 ToastHelper.success({ message: t('successEncryptKey') })
                 modalNavigate(-3)

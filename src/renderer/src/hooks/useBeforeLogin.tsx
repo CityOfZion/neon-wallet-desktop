@@ -11,7 +11,6 @@ import { accountReducerActions } from '@renderer/store/reducers/AccountReducer'
 import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
 
 import { useAccountsSelector } from './useAccountSelector'
-import { useBlockchainActions } from './useBlockchainActions'
 import { useAppDispatch, useAppSelector } from './useRedux'
 import {
   useEncryptedPasswordSelector,
@@ -44,8 +43,6 @@ const useWalletConnectListeners = () => {
 
 const useRegisterLedgerListeners = () => {
   const { t } = useTranslation('hooks', { keyPrefix: 'useLedgerFlow' })
-  const { deleteWallet } = useBlockchainActions()
-  const { accountsRef } = useAccountsSelector()
   const { t: commonT } = useTranslation('common')
 
   useEffect(() => {
@@ -59,10 +56,6 @@ const useRegisterLedgerListeners = () => {
       ToastHelper.error({
         message: t('ledgerDisconnected', { address: StringHelper.truncateStringMiddle(address, 20) }),
       })
-
-      const account = accountsRef.current.find(it => it.address === address)
-      if (!account) return
-      deleteWallet(account.idWallet)
     })
 
     const removeGetLedgerSignatureStartListener = window.listeners.getLedgerSignatureStart(() => {
@@ -81,7 +74,7 @@ const useRegisterLedgerListeners = () => {
       removeGetLedgerSignatureStartListener()
       removeGetLedgerSignatureEndListener()
     }
-  }, [t, commonT, deleteWallet, accountsRef])
+  }, [t, commonT])
 }
 
 const useOverTheAirUpdate = () => {

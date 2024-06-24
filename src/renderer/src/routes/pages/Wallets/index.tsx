@@ -124,7 +124,7 @@ export const WalletsPage = () => {
               />
             </main>
 
-            {selectedWallet.walletType === 'standard' && (
+            {selectedWallet.encryptedMnemonic && (
               <footer className="px-4 pb-6">
                 <Button
                   label={t('addAccountButtonLabel')}

@@ -30,7 +30,6 @@ export const WelcomeImportWalletStep3Page = () => {
 
     const wallet: TWalletToCreate = {
       name: commonT('wallet.watchAccount'),
-      walletType: 'watch',
     }
 
     const accounts: TAccountsToImport = [{ address: address, blockchain: serviceName, type: 'watch' }]
@@ -48,7 +47,6 @@ export const WelcomeImportWalletStep3Page = () => {
 
     const wallet: TWalletToCreate = {
       name: commonT('wallet.encryptedName'),
-      walletType: 'legacy',
     }
 
     navigate('/welcome-import-wallet/4', { state: { wallets: [{ ...wallet, accounts }], password: state.password } })
@@ -70,7 +68,6 @@ export const WelcomeImportWalletStep3Page = () => {
 
     const wallet: TWalletToCreate = {
       name: commonT('wallet.mnemonicWalletName'),
-      walletType: 'standard',
       mnemonic,
     }
 
@@ -83,7 +80,6 @@ export const WelcomeImportWalletStep3Page = () => {
 
       const wallet: TWalletToCreate = {
         name: commonT('wallet.encryptedName'),
-        walletType: 'legacy',
       }
 
       const accounts: TAccountsToImport = [{ address, blockchain, key, type: 'legacy' }]

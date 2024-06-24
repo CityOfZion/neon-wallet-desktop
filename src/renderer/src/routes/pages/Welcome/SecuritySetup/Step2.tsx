@@ -54,9 +54,8 @@ export const WelcomeSecuritySetupStep2Page = ({ onSubmit }: TProps) => {
 
     const words = generateMnemonic()
 
-    const wallet = await createWallet({
+    const wallet = createWallet({
       name: commonT('wallet.firstWalletName'),
-      walletType: 'standard',
       mnemonic: words.join(' '),
     })
 

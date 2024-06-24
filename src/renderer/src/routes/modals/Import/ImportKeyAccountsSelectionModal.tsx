@@ -50,10 +50,8 @@ export const ImportKeyAccountsSelectionModal = () => {
   }
 
   const handleImport = async (data: TActionsData) => {
-    const wallet = await blockchainActions.createWallet({
+    const wallet = blockchainActions.createWallet({
       name: commomT('importedName'),
-      walletType: 'legacy',
-      mnemonic: undefined,
     })
 
     const accountsToImport: TImportAccountsParam['accounts'] = data.selectedAccounts.map(({ address, blockchain }) => ({
