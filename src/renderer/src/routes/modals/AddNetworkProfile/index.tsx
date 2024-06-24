@@ -37,6 +37,11 @@ export const AddNetworkProfileModal = () => {
       return
     }
 
+    if (data.name.length >= 30) {
+      setError('name', t('errors.profileNameIsTooLong'))
+      return
+    }
+
     dispatch(
       settingsReducerActions.saveNetworkProfile({
         id: profile?.id ?? UtilsHelper.uuid(),

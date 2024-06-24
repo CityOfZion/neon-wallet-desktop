@@ -705,6 +705,7 @@ interface Resources {
       deleteButtonLabel: 'Delete profile'
       errors: {
         profileNameIsRequired: 'Profile name is required'
+        profileNameIsTooLong: 'Profile name is too long'
       }
     }
   }
