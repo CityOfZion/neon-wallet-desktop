@@ -58,7 +58,7 @@ export const ImportKeyAccountsSelectionModal = () => {
       address,
       blockchain,
       key,
-      type: 'legacy',
+      type: 'standard',
     }))
 
     const accounts = await blockchainActions.importAccounts({ wallet, accounts: accountsToImport })
