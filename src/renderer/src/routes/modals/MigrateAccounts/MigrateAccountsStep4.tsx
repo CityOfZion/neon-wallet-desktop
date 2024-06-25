@@ -58,7 +58,7 @@ export const MigrateAccountsStep4Modal = () => {
       address: decryptedWallet.address,
       blockchain: decryptedWallet.blockchain,
       key: decryptedWallet.decryptedKey,
-      type: 'legacy',
+      type: 'standard',
       name: decryptedWallet.label,
     }))
 

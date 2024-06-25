@@ -2,7 +2,8 @@ import { RootStore } from '@renderer/store/RootStore'
 
 import { TBlockchainServiceKey, TNetwork } from './blockchain'
 
-export type TAccountType = 'standard' | 'watch' | 'legacy' | 'ledger'
+export type TAccountType = 'standard' | 'watch' | 'ledger'
+export type TWalletType = 'standard' | 'ledger'
 export interface IAccountState {
   address: string
   type: TAccountType
@@ -16,6 +17,7 @@ export interface IAccountState {
 export interface IWalletState {
   id: string
   name: string
+  type: TWalletType
   encryptedMnemonic?: string
 }
 

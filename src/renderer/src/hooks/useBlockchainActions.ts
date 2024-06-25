@@ -28,19 +28,18 @@ export function useBlockchainActions() {
   const { disconnect, sessions } = useWalletConnectWallet()
 
   const createWallet = useCallback(
-    ({ name, mnemonic, id }: TWalletToCreate) => {
+    ({ name, mnemonic, id, type = 'standard' }: TWalletToCreate) => {
       let encryptedMnemonic: string | undefined
 
       if (mnemonic) {
         encryptedMnemonic = window.api.encryptBasedEncryptedSecretSync(mnemonic, encryptedPasswordRef.current)
       }
 
-      const newId = id ?? UtilsHelper.uuid()
-
       const newWallet: IWalletState = {
         name,
-        id: newId,
+        id: id ?? UtilsHelper.uuid(),
         encryptedMnemonic,
+        type,
       }
 
       dispatch(walletReducerActions.saveWallet(newWallet))
@@ -95,7 +94,7 @@ export function useBlockchainActions() {
     ({ address, blockchain, type, wallet, key, name, order, backgroundColor }: TAccountToImport) => {
       let encryptedKey: string | undefined
 
-      if (type === 'standard' || type === 'legacy' || type === 'ledger') {
+      if (type === 'standard' || type === 'ledger') {
         if (!key) throw new Error('Key not defined')
         encryptedKey = window.api.encryptBasedEncryptedSecretSync(key, encryptedPasswordRef.current)
       }

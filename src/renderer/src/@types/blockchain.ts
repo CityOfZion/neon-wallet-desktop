@@ -1,6 +1,6 @@
 import { NetworkType } from '@cityofzion/blockchain-service'
 
-import { IAccountState, IContactState, IWalletState, TAccountType } from './store'
+import { IAccountState, IContactState, IWalletState, TAccountType, TWalletType } from './store'
 
 export type TBlockchainServiceKey = 'neo3' | 'neoLegacy' | 'ethereum'
 export type TBlockchainImageColor = 'white' | 'gray' | 'blue' | 'green'
@@ -35,6 +35,7 @@ export type TWalletToCreate = {
   name: string
   mnemonic?: string
   id?: string
+  type?: TWalletType
 }
 
 export type TNetworkType = NetworkType

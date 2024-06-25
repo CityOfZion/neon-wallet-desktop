@@ -42,7 +42,7 @@ export const WelcomeImportWalletStep3Page = () => {
 
     await UtilsHelper.promiseAll(Object.values(bsAggregator.blockchainServicesByName), async service => {
       const account = service.generateAccountFromKey(key)
-      accounts.push({ address: account.address, blockchain: service.blockchainName, key, type: 'legacy' })
+      accounts.push({ address: account.address, blockchain: service.blockchainName, key, type: 'standard' })
     })
 
     const wallet: TWalletToCreate = {
@@ -82,7 +82,7 @@ export const WelcomeImportWalletStep3Page = () => {
         name: commonT('wallet.encryptedName'),
       }
 
-      const accounts: TAccountsToImport = [{ address, blockchain, key, type: 'legacy' }]
+      const accounts: TAccountsToImport = [{ address, blockchain, key, type: 'standard' }]
 
       navigate('/welcome-import-wallet/4', { state: { wallets: [{ ...wallet, accounts }], password: state.password } })
     }

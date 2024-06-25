@@ -13,7 +13,6 @@ const transportersInfoByDescriptor: Map<
     publicKey: string
     blockchain: string
     transport: NodeHidTransport
-    vendorId: number
   }
 > = new Map()
 let started = false
@@ -30,8 +29,8 @@ export const getLedgerTransport = async (account: Account) => {
 
 export function registerLedgerHandler() {
   ipcMain.handle('getConnectedLedgers', () => {
-    return Array.from(transportersInfoByDescriptor.values()).map(({ address, publicKey, blockchain, vendorId }) => {
-      return { address, publicKey, blockchain, vendorId }
+    return Array.from(transportersInfoByDescriptor.values()).map(({ address, publicKey, blockchain }) => {
+      return { address, publicKey, blockchain }
     })
   })
 
@@ -46,8 +45,6 @@ export function registerLedgerHandler() {
         const browserWindow = BrowserWindow.getAllWindows()[0]
         if (!browserWindow) return
 
-        const vendorId = event.device.vendorId.toString()
-
         if (event.type === 'add') {
           const transport = await NodeHidTransportFixed.open(event.descriptor)
 
@@ -61,9 +58,9 @@ export function registerLedgerHandler() {
                 publicKey,
                 blockchain: service.blockchainName,
                 transport,
-                vendorId,
               })
-              browserWindow.webContents.send('ledgerConnected', address, publicKey, service.blockchainName, vendorId)
+
+              browserWindow.webContents.send('ledgerConnected', address, publicKey, service.blockchainName)
             } catch {
               /* empty */
             }

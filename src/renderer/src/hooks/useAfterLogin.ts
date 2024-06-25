@@ -11,7 +11,6 @@ import { useAccountsSelector } from './useAccountSelector'
 import { useBlockchainActions } from './useBlockchainActions'
 import { useModalHistories, useModalNavigate } from './useModalRouter'
 import { useMountUnsafe } from './useMount'
-import { useWalletsSelector } from './useWalletSelector'
 
 const useRegisterWalletConnectListeners = () => {
   const { sessions, requests } = useWalletConnectWallet()
@@ -47,19 +46,15 @@ const useRegisterWalletConnectListeners = () => {
 
 const useRegisterLedgerListeners = () => {
   const { accountsRef } = useAccountsSelector()
-  const { walletsRef } = useWalletsSelector()
   const { createWallet, importAccount, editAccount } = useBlockchainActions()
   const { t: commonT } = useTranslation('common')
 
   const createLedgerWallet = useCallback(
-    (address: string, publicKey: string, blockchain: TBlockchainServiceKey, vendorId: string) => {
+    (address: string, publicKey: string, blockchain: TBlockchainServiceKey) => {
       const account = accountsRef.current.find(it => it.address === address)
 
       if (!account) {
-        const wallet =
-          walletsRef.current.find(it => it.id === vendorId) ??
-          createWallet({ name: commonT('wallet.ledgerName'), id: vendorId })
-
+        const wallet = createWallet({ name: commonT('wallet.ledgerName'), type: 'ledger' })
         importAccount({ wallet, address, blockchain, type: 'ledger', key: publicKey })
         return
       }
@@ -72,7 +67,7 @@ const useRegisterLedgerListeners = () => {
         },
       })
     },
-    [accountsRef, editAccount, walletsRef, createWallet, commonT, importAccount]
+    [accountsRef, editAccount, createWallet, commonT, importAccount]
   )
 
   const convertLedgerToWatch = useCallback(
@@ -101,18 +96,16 @@ const useRegisterLedgerListeners = () => {
         }
       })
 
-      connectedLedgers.forEach(({ address, publicKey, blockchain, vendorId }) =>
-        createLedgerWallet(address, publicKey, blockchain, vendorId)
+      connectedLedgers.forEach(({ address, publicKey, blockchain }) =>
+        createLedgerWallet(address, publicKey, blockchain)
       )
     })
   })
 
   useEffect(() => {
-    const removeLedgerConnectedListener = window.listeners.ledgerConnected(
-      (_event, address, publicKey, blockchain, vendorId) => {
-        createLedgerWallet(address, publicKey, blockchain, vendorId)
-      }
-    )
+    const removeLedgerConnectedListener = window.listeners.ledgerConnected((_event, address, publicKey, blockchain) => {
+      createLedgerWallet(address, publicKey, blockchain)
+    })
 
     const removeLedgerDisconnectedListener = window.listeners.ledgerDisconnected((_event, address) => {
       convertLedgerToWatch(address)
