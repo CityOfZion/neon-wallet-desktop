@@ -12,6 +12,7 @@ import { Loader } from './Loader'
 type TProps = {
   balances: TUseBalancesResult
   account?: IAccountState
+  tokenBalance: TTokenBalance[]
 }
 
 type TBar = {
@@ -21,7 +22,7 @@ type TBar = {
   value: string
 }
 
-export const BalanceChart = ({ balances, account }: TProps) => {
+export const BalanceChart = ({ balances, account, tokenBalance }: TProps) => {
   const { t } = useTranslation('components', { keyPrefix: 'balanceChart' })
   const { currency } = useCurrencySelector()
 
@@ -33,25 +34,7 @@ export const BalanceChart = ({ balances, account }: TProps) => {
         { color: '#676767', name: t('noAssets'), value: NumberHelper.currency(0, currency.label), widthPercent: 100 },
       ]
 
-    const tokensBalances = balances.data.map(balance => balance.tokensBalances).flat()
-
-    const filteredTokenBalances = tokensBalances
-      .filter(balance => balance.exchangeAmount > 0)
-      .reduce((acc, balance) => {
-        const repeated = acc.find(item => item.token.hash === balance.token.hash)
-        if (repeated) {
-          repeated.amountNumber += balance.amountNumber
-          repeated.exchangeAmount += balance.exchangeAmount
-          repeated.amount = NumberHelper.removeLeadingZero(repeated.amountNumber.toFixed(repeated.token.decimals))
-          return acc
-        }
-
-        acc.push(balance)
-        return acc
-      }, [] as TTokenBalance[])
-      .sort((token1, token2) => token2.exchangeAmount - token1.exchangeAmount)
-
-    const firstFourBars = filteredTokenBalances.slice(0, 4).map<TBar>(tokenBalance => {
+    const firstFourBars = tokenBalance.slice(0, 4).map<TBar>(tokenBalance => {
       const color = UtilsHelper.generateTokenColor(tokenBalance.token.hash)
       const widthPercent = (tokenBalance.exchangeAmount * 100) / balances.exchangeTotal
       return {
@@ -62,11 +45,11 @@ export const BalanceChart = ({ balances, account }: TProps) => {
       }
     })
 
-    if (filteredTokenBalances.length <= 4) {
+    if (tokenBalance.length <= 4) {
       return firstFourBars
     }
 
-    const othersAmount = filteredTokenBalances.slice(4).reduce((acc, balance) => acc + balance.exchangeAmount, 0)
+    const othersAmount = tokenBalance.slice(4).reduce((acc, balance) => acc + balance.exchangeAmount, 0)
     const otherBar: TBar = {
       color: '#47BEFF',
       value: NumberHelper.currency(othersAmount, currency.label),
@@ -75,7 +58,7 @@ export const BalanceChart = ({ balances, account }: TProps) => {
     }
 
     return [...firstFourBars, otherBar]
-  }, [balances, t, currency])
+  }, [balances, t, currency, tokenBalance])
 
   if (bars === undefined) {
     return <Loader />

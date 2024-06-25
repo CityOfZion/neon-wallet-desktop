@@ -172,6 +172,14 @@ interface Resources {
     dappPermissionContextualMessage: {
       messageLabel: 'Contextual Message'
     }
+    chartCardList: {
+      title: 'Token Pricing'
+    }
+    chartCard: {
+      unableToFetchData: 'Unable to fetch data'
+      holdings: 'Holdings:'
+      variation: '{{variationType}}{{variation}}%'
+    }
   }
   hooks: {
     useImportAction: {

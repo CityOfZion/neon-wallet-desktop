@@ -1,4 +1,6 @@
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { TTokenBalance } from '@renderer/@types/query'
 import { BalanceChart } from '@renderer/components/BalanceChart'
 import { Separator } from '@renderer/components/Separator'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
@@ -7,12 +9,34 @@ import { useBalances } from '@renderer/hooks/useBalances'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
 
+import { ChartCardList } from './ChartCardList'
+
 export const PortfolioOverviewPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'portfolio.portfolioOverview' })
   const { accounts } = useAccountsSelector()
   const { wallets } = useWalletsSelector()
   const { currency } = useCurrencySelector()
   const balances = useBalances(accounts)
+
+  const filteredTokenBalances = useMemo(() => {
+    const tokensBalances = balances.data.map(balance => balance.tokensBalances).flat()
+
+    return tokensBalances
+      .filter(balance => balance.exchangeAmount > 0)
+      .reduce((acc, balance) => {
+        const repeated = acc.find(item => item.token.hash === balance.token.hash)
+        if (repeated) {
+          repeated.amountNumber += balance.amountNumber
+          repeated.exchangeAmount += balance.exchangeAmount
+          repeated.amount = NumberHelper.removeLeadingZero(repeated.amountNumber.toFixed(repeated.token.decimals))
+          return acc
+        }
+
+        acc.push(balance)
+        return acc
+      }, [] as TTokenBalance[])
+      .sort((token1, token2) => token2.exchangeAmount - token1.exchangeAmount)
+  }, [balances.data])
 
   return (
     <section className="w-full flex flex-col bg-gray-800 rounded shadow-lg py-3 h-full px-4 min-w-0">
@@ -37,9 +61,16 @@ export const PortfolioOverviewPage = () => {
         </div>
       </div>
 
-      <ul className="flex h-full items-center px-20">
-        <BalanceChart balances={balances} />
+      <ul className="flex h-[50%] items-center px-20">
+        <BalanceChart balances={balances} tokenBalance={filteredTokenBalances} />
       </ul>
+
+      {filteredTokenBalances.length > 0 && (
+        <div className="flex flex-col gap-y-4">
+          <Separator />
+          <ChartCardList tokenBalance={filteredTokenBalances.slice(0, 4)} />
+        </div>
+      )}
     </section>
   )
 }
