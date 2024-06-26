@@ -240,6 +240,7 @@ interface Resources {
       nameLengthError: 'Name must be at least 1 character long'
       deleteWalletTitle: 'Delete Wallet'
       deleteWalletSubtext: 'This will remove your wallet and all transaction history'
+      selectSkinLabel: 'Select a skin'
     }
     persistAccount: {
       titleEdit: 'Edit Account'

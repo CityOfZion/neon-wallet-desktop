@@ -19,6 +19,7 @@ export interface IWalletState {
   name: string
   type: TWalletType
   encryptedMnemonic?: string
+  selectedSkinId?: string
 }
 
 export type TSecurityType = 'none' | 'password'
@@ -45,6 +46,7 @@ export interface ISettingsState {
   selectedNetworkByBlockchain: TSelectedNetworks
   networkProfiles: TNetworkProfile[]
   selectedNetworkProfile: TNetworkProfile
+  unlockedSkins: string[]
 }
 
 export type TContactAddress = { address: string; blockchain: TBlockchainServiceKey }

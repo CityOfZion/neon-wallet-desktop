@@ -1,42 +1,29 @@
-import { IWalletState } from '@renderer/@types/store'
-import { backgroundColorByAccountColor } from '@renderer/constants/blockchain'
-import { useAccountsByWalletIdSelector } from '@renderer/hooks/useAccountSelector'
+import { cloneElement } from 'react'
+import { IWalletState, TWalletType } from '@renderer/@types/store'
+import { SKINS } from '@renderer/constants/skins'
+import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
-import { ReactComponent as FrontImage } from '../assets/images/wallet-icon-front.svg'
-import { ReactComponent as FrontHorizImage } from '../assets/images/wallet-icon-front-horiz.svg'
+import { ReactComponent as WalletIconLedger } from '../assets/images/wallet-icon-ledger.svg'
+import { ReactComponent as WalletIconStandard } from '../assets/images/wallet-icon-standard.svg'
 
 type TProps = {
   wallet: IWalletState
-  withAccounts?: boolean
 }
 
-export const WalletIcon = ({ wallet, withAccounts }: TProps) => {
-  const { accountsByWalletId } = useAccountsByWalletIdSelector(wallet.id)
+const IMAGES_BY_TYPE: Record<TWalletType, JSX.Element> = {
+  ledger: <WalletIconLedger className="-mb-1" />,
+  standard: <WalletIconStandard className="-mb-1" />,
+}
 
-  return withAccounts ? (
-    <div className="relative w-[2.25rem] h-[2.25rem] min-w-[2rem] min-h-[2.25rem] top-3">
-      {accountsByWalletId
-        .filter((_account, index) => index < 3)
-        .map((account, index, array) => (
-          <div
-            key={account.address}
-            className={`w-[1.525rem] h-[1.125rem] rounded-sm absolute left-[5px] top-0.5 ${
-              backgroundColorByAccountColor[account.backgroundColor]
-            }`}
-            style={{
-              opacity: 1 - 0.2 * (array.length - index),
-              top: `-${0.15 * (array.length - index)}rem`,
-            }}
-          />
-        ))}
+export const WalletIcon = ({ wallet }: TProps) => {
+  const selectedSkin = SKINS.find(skin => skin.id === wallet.selectedSkinId)
 
-      <FrontHorizImage className="w-full relative -top-0.5" />
-    </div>
-  ) : (
-    <div className="relative w-[2rem] h-[2.25rem] min-w-[2rem] min-h-[2.25rem] top-0.5">
-      <div className="w-[1.125rem] h-[1.625rem] bg-neon rounded-sm absolute left-1.5 top-px" />
+  const component = selectedSkin?.component ?? IMAGES_BY_TYPE[wallet.type]
 
-      <FrontImage className="w-full h-full relative" />
-    </div>
-  )
+  return cloneElement(component, {
+    className: StyleHelper.mergeStyles(
+      'w-[2.25rem] h-[2.25rem] min-w-[2rem] min-h-[2.25rem]',
+      component.props.className
+    ),
+  })
 }

@@ -21,6 +21,7 @@ const initialState: ISettingsState = {
   selectedNetworkByBlockchain: DEFAULT_NETWORK_BY__BLOCKCHAIN,
   networkProfiles: [DEFAULT_NETWORK_PROFILE],
   selectedNetworkProfile: DEFAULT_NETWORK_PROFILE,
+  unlockedSkins: [],
 }
 
 const setEncryptedPassword: CaseReducer<ISettingsState, PayloadAction<string | undefined>> = (state, action) => {
@@ -144,6 +145,11 @@ const setSelectNetworkProfile: CaseReducer<ISettingsState, PayloadAction<string>
   state.selectedNetworkByBlockchain = profile.networkByBlockchain
 }
 
+const unlockSkin: CaseReducer<ISettingsState, PayloadAction<string>> = (state, action) => {
+  const skinId = action.payload
+  state.unlockedSkins = [...state.unlockedSkins, skinId]
+}
+
 const SettingsReducer = createSlice({
   name: settingsReducerName,
   initialState,
@@ -160,6 +166,7 @@ const SettingsReducer = createSlice({
     saveNetworkProfile,
     deleteNetworkProfile,
     setSelectNetworkProfile,
+    unlockSkin,
   },
 })
 

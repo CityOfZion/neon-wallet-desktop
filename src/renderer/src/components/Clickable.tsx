@@ -22,7 +22,7 @@ const Outline = ({ className, ...props }: TClickableProps) => {
   return (
     <Base
       className={StyleHelper.mergeStyles(
-        'group flex items-center justify-center border text-center py-3 gap-x-2.5 cursor-pointer transition-colors ',
+        'group flex items-center justify-center border text-center py-3 gap-x-2.5 cursor-pointer transition-colors rounded',
         'aria-[disabled=true]:opacity-100 aria-[disabled=true]:text-gray-100/50 aria-[disabled=true]:border-gray-100/50',
         'aria-[disabled=false]:hover:bg-gray-300/15',
         {

@@ -85,3 +85,11 @@ export const useNetworkActions = () => {
     setNetworkNode,
   }
 }
+
+export const useUnlockedSkinsSelector = () => {
+  const { ref, value } = useAppSelector(state => state.settings.unlockedSkins)
+  return {
+    unlockedSkins: value,
+    unlockedSkinsRef: ref,
+  }
+}

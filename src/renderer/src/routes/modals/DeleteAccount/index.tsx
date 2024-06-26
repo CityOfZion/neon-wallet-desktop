@@ -57,13 +57,16 @@ export const DeleteAccountModal = () => {
           <span className="text-xs py-6">{t('warning')}</span>
           <div className="flex gap-2.5 w-full px-6">
             <Button
+              flat
               className="w-full"
               variant="contained"
               label={t('cancel')}
               onClick={() => modalNavigate(-1)}
               colorSchema="gray"
             />
+
             <Button
+              flat
               className="w-full"
               variant="outlined"
               label={t('delete')}
