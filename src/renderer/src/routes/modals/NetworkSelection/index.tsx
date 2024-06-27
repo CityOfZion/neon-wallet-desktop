@@ -1,7 +1,6 @@
 import { Fragment, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Tb3DCubeSphere, TbPencil, TbPlus } from 'react-icons/tb'
-import { TBlockchainServiceKey, TNetwork } from '@renderer/@types/blockchain'
 import { Button } from '@renderer/components/Button'
 import { RadioGroup } from '@renderer/components/RadioGroup'
 import { Separator } from '@renderer/components/Separator'
@@ -17,6 +16,7 @@ import {
   useSelectedNetworkSelector,
 } from '@renderer/hooks/useSettingsSelector'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
+import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
 
 type TState = {
   blockchain: TBlockchainServiceKey

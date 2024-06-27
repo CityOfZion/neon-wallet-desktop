@@ -7,26 +7,21 @@ import {
   AbstractWalletConnectNeonAdapter,
 } from '@cityofzion/wallet-connect-sdk-wallet-core'
 import type { TAdapterMethodParam, TCustomSigner, WalletInfo } from '@cityofzion/wallet-connect-sdk-wallet-react'
-import { BrowserWindow, ipcMain } from 'electron'
+import { TGetStoreFromWCSession } from '@shared/@types/ipc'
+import { mainApi } from '@shared/api/main'
 
 import { bsAggregator } from './bsAggregator'
 import { decryptBasedEncryptedSecret } from './encryption'
 import { getLedgerTransport } from './ledger'
 
-const getStoreAccountFromWCSession = async ({ session }: TAdapterMethodParam): Promise<any> => {
-  return new Promise((resolve, reject) => {
-    const window = BrowserWindow.getAllWindows()[0]
-    if (!window) {
-      reject(new Error('Window not found'))
-      return
-    }
-
-    ipcMain.on('storeFromWC', (_event, infos) => {
-      resolve(infos)
-      ipcMain.removeAllListeners('storeFromWC')
+const getStoreAccountFromWCSession = async ({ session }: TAdapterMethodParam): Promise<TGetStoreFromWCSession> => {
+  return new Promise(resolve => {
+    mainApi.listenSync('sendStoreFromWC', ({ args, removeAllListeners }) => {
+      resolve(args)
+      removeAllListeners()
     })
 
-    window.webContents.send('getStoreFromWC', session)
+    mainApi.send('getStoreFromWC', session)
   })
 }
 

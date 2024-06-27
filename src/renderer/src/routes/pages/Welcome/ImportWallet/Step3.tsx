@@ -2,8 +2,6 @@ import { Fragment, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbFileImport } from 'react-icons/tb'
 import { Location, useLocation, useNavigate } from 'react-router-dom'
-import { TAccountsToImport, TBackupFormat, TBlockchainServiceKey, TWalletToCreate } from '@renderer/@types/blockchain'
-import { IContactState } from '@renderer/@types/store'
 import { Button } from '@renderer/components/Button'
 import { Textarea } from '@renderer/components/Textarea'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
@@ -11,6 +9,8 @@ import { TUseBackupOrMigrateActionsData, useBackupOrMigrate } from '@renderer/ho
 import { useImportAction } from '@renderer/hooks/useImportAction'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { bsAggregator } from '@renderer/libs/blockchainService'
+import { TAccountsToImport, TBackupFormat, TBlockchainServiceKey, TWalletToCreate } from '@shared/@types/blockchain'
+import { IContactState } from '@shared/@types/store'
 
 type TLocationState = {
   password: string

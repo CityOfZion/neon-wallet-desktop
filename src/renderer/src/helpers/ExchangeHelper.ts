@@ -1,5 +1,5 @@
-import { TBlockchainServiceKey } from '@renderer/@types/blockchain'
-import { TMultiExchange } from '@renderer/@types/query'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
+import { TMultiExchange } from '@shared/@types/query'
 
 export class ExchangeHelper {
   static getExchangeRatio(hash: string, blockchain: TBlockchainServiceKey, multiExchange?: TMultiExchange): number {

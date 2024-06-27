@@ -1,4 +1,3 @@
-import { IWalletState } from '@renderer/@types/store'
 import { Select } from '@renderer/components/Select'
 import { Tooltip } from '@renderer/components/Tooltip'
 import { WalletIcon } from '@renderer/components/WalletIcon'
@@ -7,6 +6,7 @@ import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { useAccountsByWalletIdSelector } from '@renderer/hooks/useAccountSelector'
 import { useBalances } from '@renderer/hooks/useBalances'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
+import { IWalletState } from '@shared/@types/store'
 
 type TProps = {
   wallet: IWalletState

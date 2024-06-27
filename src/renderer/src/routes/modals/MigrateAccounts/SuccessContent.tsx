@@ -1,9 +1,9 @@
 import { useTranslation } from 'react-i18next'
 import { MdCheck, MdOutlineRemoveRedEye } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
-import { IAccountState } from '@renderer/@types/store'
 import { Button } from '@renderer/components/Button'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+import { IAccountState } from '@shared/@types/store'
 
 type TProps = {
   accounts: IAccountState[]

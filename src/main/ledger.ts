@@ -1,20 +1,13 @@
 import { Account, hasLedger } from '@cityofzion/blockchain-service'
 import NodeHidTransport from '@ledgerhq/hw-transport-node-hid'
-import { BrowserWindow, ipcMain } from 'electron'
+import { TLedgerInfoWithTransport } from '@shared/@types/ipc'
+import { mainApi } from '@shared/api/main'
 
 import { bsAggregator } from './bsAggregator'
 
 const NodeHidTransportFixed = (NodeHidTransport as any).default as typeof NodeHidTransport
 
-const transportersInfoByDescriptor: Map<
-  string,
-  {
-    address: string
-    publicKey: string
-    blockchain: string
-    transport: NodeHidTransport
-  }
-> = new Map()
+const transportersInfoByDescriptor: Map<string, TLedgerInfoWithTransport> = new Map()
 let started = false
 
 export const getLedgerTransport = async (account: Account) => {
@@ -28,13 +21,13 @@ export const getLedgerTransport = async (account: Account) => {
 }
 
 export function registerLedgerHandler() {
-  ipcMain.handle('getConnectedLedgers', () => {
+  mainApi.listenAsync('getConnectedLedgers', () => {
     return Array.from(transportersInfoByDescriptor.values()).map(({ address, publicKey, blockchain }) => {
       return { address, publicKey, blockchain }
     })
   })
 
-  ipcMain.on('startLedger', () => {
+  mainApi.listenSync('startLedger', () => {
     if (started) return
     started = true
 
@@ -42,9 +35,6 @@ export function registerLedgerHandler() {
       complete: () => {},
       error: () => {},
       next: async event => {
-        const browserWindow = BrowserWindow.getAllWindows()[0]
-        if (!browserWindow) return
-
         if (event.type === 'add') {
           const transport = await NodeHidTransportFixed.open(event.descriptor)
 
@@ -60,7 +50,7 @@ export function registerLedgerHandler() {
                 transport,
               })
 
-              browserWindow.webContents.send('ledgerConnected', address, publicKey, service.blockchainName)
+              mainApi.send('ledgerConnected', { address, publicKey, blockchain: service.blockchainName })
             } catch {
               /* empty */
             }
@@ -71,7 +61,7 @@ export function registerLedgerHandler() {
           const info = transportersInfoByDescriptor.get(String(event.descriptor))
           if (!info) return
 
-          browserWindow.webContents.send('ledgerDisconnected', info.address)
+          mainApi.send('ledgerDisconnected', info.address)
           transportersInfoByDescriptor.delete(String(event.descriptor))
         }
       },
@@ -82,17 +72,11 @@ export function registerLedgerHandler() {
     if (!hasLedger(service)) return
 
     service.ledgerService.emitter.on('getSignatureStart', () => {
-      const browserWindow = BrowserWindow.getFocusedWindow()
-      if (!browserWindow) return
-
-      browserWindow.webContents.send('getLedgerSignatureStart')
+      mainApi.send('getLedgerSignatureStart')
     })
 
     service.ledgerService.emitter.on('getSignatureEnd', () => {
-      const browserWindow = BrowserWindow.getFocusedWindow()
-      if (!browserWindow) return
-
-      browserWindow.webContents.send('getLedgerSignatureEnd')
+      mainApi.send('getLedgerSignatureEnd')
     })
   })
 }

@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next'
 import { TbDiamondOff, TbFileImport, TbPlug } from 'react-icons/tb'
-import { IAccountState } from '@renderer/@types/store'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+import { IAccountState } from '@shared/@types/store'
 
 import { BlockchainIcon } from './BlockchainIcon'
 import { Button } from './Button'

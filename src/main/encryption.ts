@@ -1,4 +1,5 @@
-import { ipcMain, safeStorage } from 'electron'
+import { mainApi } from '@shared/api/main'
+import { safeStorage } from 'electron'
 import crypto from 'node:crypto'
 
 const ALGORITHM = 'aes-192-cbc'
@@ -49,35 +50,35 @@ export const decryptBasedEncryptedSecret = (value: string, encryptedSecret?: str
 }
 
 export function registerEncryptionHandlers() {
-  ipcMain.handle('encryptBasedOS', async (_event, value: string) => {
-    return encryptBasedOS(value)
+  mainApi.listenAsync('encryptBasedOS', ({ args }) => {
+    return encryptBasedOS(args)
   })
 
-  ipcMain.handle('decryptBasedOS', async (_event, value: string) => {
-    return decryptBasedOS(value)
+  mainApi.listenAsync('decryptBasedOS', ({ args }) => {
+    return decryptBasedOS(args)
   })
 
-  ipcMain.handle('encryptBasedSecret', async (_event, value: string, secret: string) => {
-    return encryptBasedSecret(value, secret)
+  mainApi.listenAsync('encryptBasedSecret', ({ args }) => {
+    return encryptBasedSecret(args.value, args.secret)
   })
 
-  ipcMain.handle('decryptBasedSecret', async (_event, value: string, secret: string) => {
-    return decryptBasedSecret(value, secret)
+  mainApi.listenAsync('decryptBasedSecret', ({ args }) => {
+    return decryptBasedSecret(args.value, args.secret)
   })
 
-  ipcMain.handle('encryptBasedEncryptedSecret', async (_event, value: string, encryptedSecret?: string) => {
-    return encryptBasedEncryptedSecret(value, encryptedSecret)
+  mainApi.listenAsync('encryptBasedEncryptedSecret', ({ args }) => {
+    return encryptBasedEncryptedSecret(args.value, args.encryptedSecret)
   })
 
-  ipcMain.handle('decryptBasedEncryptedSecret', async (_event, value: string, encryptedSecret?: string) => {
-    return decryptBasedEncryptedSecret(value, encryptedSecret)
+  mainApi.listenAsync('decryptBasedEncryptedSecret', ({ args }) => {
+    return decryptBasedEncryptedSecret(args.value, args.encryptedSecret)
   })
 
-  ipcMain.on('encryptBasedEncryptedSecretSync', async (event, value: string, encryptedSecret?: string) => {
-    event.returnValue = encryptBasedEncryptedSecret(value, encryptedSecret)
+  mainApi.listenSync('encryptBasedEncryptedSecretSync', ({ args }) => {
+    return encryptBasedEncryptedSecret(args.value, args.encryptedSecret)
   })
 
-  ipcMain.on('decryptBasedEncryptedSecretSync', async (event, value: string, encryptedSecret?: string) => {
-    event.returnValue = decryptBasedEncryptedSecret(value, encryptedSecret)
+  mainApi.listenSync('decryptBasedEncryptedSecretSync', ({ args }) => {
+    return decryptBasedEncryptedSecret(args.value, args.encryptedSecret)
   })
 }

@@ -4,8 +4,10 @@
     "src/renderer/src/env.d.ts",
     "src/renderer/src/**/*",
     "src/renderer/src/**/*.tsx",
-    "src/preload/*.d.ts",
     "src/renderer/src/**/*.json",
+    "src/preload/*.d.ts",
+    "src/shared/**/*",
+    "src/shared/**/*.json",
     "sentry.config.ts",
     "package.json",
   ],
@@ -18,7 +20,10 @@
     "paths": {
       "@renderer/*": [
         "src/renderer/src/*"
-      ]
+      ],
+      "@shared/*": [
+        "src/shared/*"
+      ],
     }
   },
   "references": [{ "path": "./tsconfig.node.json" }]

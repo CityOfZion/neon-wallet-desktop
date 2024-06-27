@@ -26,15 +26,27 @@ export const ChangePasswordStep2 = (): JSX.Element => {
   const onDownload = async () => {
     const walletPromises = wallets.map(async wallet => {
       if (!wallet.encryptedMnemonic) return wallet
-      const mnemonic = await window.api.decryptBasedEncryptedSecret(wallet.encryptedMnemonic, encryptedPassword)
-      const newEncryptedMnemonic = await window.api.encryptBasedEncryptedSecret(mnemonic, state.encryptedNewPassword)
+      const mnemonic = await window.api.sendAsync('decryptBasedEncryptedSecret', {
+        value: wallet.encryptedMnemonic,
+        encryptedSecret: encryptedPassword,
+      })
+      const newEncryptedMnemonic = await window.api.sendAsync('encryptBasedEncryptedSecret', {
+        value: mnemonic,
+        encryptedSecret: state.encryptedNewPassword,
+      })
       return { ...wallet, encryptedMnemonic: newEncryptedMnemonic }
     })
 
     const accountPromises = accounts.map(async account => {
       if (!account.encryptedKey) return account
-      const key = await window.api.decryptBasedEncryptedSecret(account.encryptedKey, encryptedPassword)
-      const newEncryptedKey = await window.api.encryptBasedEncryptedSecret(key, state.encryptedNewPassword)
+      const key = await window.api.sendAsync('decryptBasedEncryptedSecret', {
+        value: account.encryptedKey,
+        encryptedSecret: encryptedPassword,
+      })
+      const newEncryptedKey = await window.api.sendAsync('encryptBasedEncryptedSecret', {
+        value: key,
+        encryptedSecret: state.encryptedNewPassword,
+      })
       return { ...account, encryptedKey: newEncryptedKey }
     })
 

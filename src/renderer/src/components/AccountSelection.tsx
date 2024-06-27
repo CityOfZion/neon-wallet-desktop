@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { TBlockchainServiceKey } from '@renderer/@types/blockchain'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 
 import { BlockchainIcon } from './BlockchainIcon'
 import { Checkbox } from './Checkbox'

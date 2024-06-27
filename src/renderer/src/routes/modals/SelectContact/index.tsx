@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbStepOut } from 'react-icons/tb'
-import { TTokenBalance } from '@renderer/@types/query'
-import { TContactAddress } from '@renderer/@types/store'
 import { Button } from '@renderer/components/Button'
 import { ContactList } from '@renderer/components/Contact/ContactList'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
+import { TTokenBalance } from '@shared/@types/query'
+import { TContactAddress } from '@shared/@types/store'
 
 type TLocationState = {
   selectedToken?: TTokenBalance

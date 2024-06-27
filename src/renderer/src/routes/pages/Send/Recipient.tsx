@@ -1,12 +1,12 @@
 import { ChangeEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbStepInto, TbUsers } from 'react-icons/tb'
-import { TTokenBalance } from '@renderer/@types/query'
-import { TContactAddress } from '@renderer/@types/store'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+import { TTokenBalance } from '@shared/@types/query'
+import { TContactAddress } from '@shared/@types/store'
 
 type TRecipientParams = {
   selectedToken?: TTokenBalance

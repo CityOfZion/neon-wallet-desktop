@@ -1,20 +1,20 @@
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
-import {
-  TAccountToCreate,
-  TAccountToEdit,
-  TAccountToImport,
-  TImportAccountsParam,
-  TWalletToCreate,
-} from '@renderer/@types/blockchain'
-import { IAccountState, IWalletState } from '@renderer/@types/store'
 import { accountColorsKeys } from '@renderer/constants/blockchain'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { accountReducerActions } from '@renderer/store/reducers/AccountReducer'
 import { walletReducerActions } from '@renderer/store/reducers/WalletReducer'
+import {
+  TAccountToCreate,
+  TAccountToEdit,
+  TAccountToImport,
+  TImportAccountsParam,
+  TWalletToCreate,
+} from '@shared/@types/blockchain'
+import { IAccountState, IWalletState } from '@shared/@types/store'
 
 import { useAccountsSelector } from './useAccountSelector'
 import { useAppDispatch } from './useRedux'
@@ -32,7 +32,10 @@ export function useBlockchainActions() {
       let encryptedMnemonic: string | undefined
 
       if (mnemonic) {
-        encryptedMnemonic = window.api.encryptBasedEncryptedSecretSync(mnemonic, encryptedPasswordRef.current)
+        encryptedMnemonic = window.api.sendSync('encryptBasedEncryptedSecretSync', {
+          value: mnemonic,
+          password: encryptedPasswordRef.current,
+        })
       }
 
       const newWallet: IWalletState = {
@@ -53,10 +56,10 @@ export function useBlockchainActions() {
     ({ blockchain, name, wallet, backgroundColor }: TAccountToCreate) => {
       if (!wallet.encryptedMnemonic) throw new Error('Problem to create account')
 
-      const mnemonic = window.api.decryptBasedEncryptedSecretSync(
-        wallet.encryptedMnemonic,
-        encryptedPasswordRef.current
-      )
+      const mnemonic = window.api.sendSync('decryptBasedEncryptedSecretSync', {
+        value: wallet.encryptedMnemonic,
+        encryptedSecret: encryptedPasswordRef.current,
+      })
 
       const generateIndex = accountsRef.current.filter(
         account => account.idWallet === wallet.id && account.blockchain === blockchain
@@ -65,10 +68,10 @@ export function useBlockchainActions() {
       const service = bsAggregator.blockchainServicesByName[blockchain]
       const generatedAccount = service.generateAccountFromMnemonic(mnemonic, generateIndex)
 
-      const encryptedKey = window.api.encryptBasedEncryptedSecretSync(
-        generatedAccount.key,
-        encryptedPasswordRef.current
-      )
+      const encryptedKey = window.api.sendSync('encryptBasedEncryptedSecretSync', {
+        value: generatedAccount.key,
+        encryptedSecret: encryptedPasswordRef.current,
+      })
 
       const order = accountsRef.current.filter(account => account.idWallet === wallet.id).length
 
@@ -96,7 +99,10 @@ export function useBlockchainActions() {
 
       if (type === 'standard' || type === 'ledger') {
         if (!key) throw new Error('Key not defined')
-        encryptedKey = window.api.encryptBasedEncryptedSecretSync(key, encryptedPasswordRef.current)
+        encryptedKey = window.api.sendSync('encryptBasedEncryptedSecretSync', {
+          value: key,
+          encryptedSecret: encryptedPasswordRef.current,
+        })
       }
 
       const accountOrder = order ?? accountsRef.current.filter(account => account.idWallet === wallet.id).length
@@ -164,7 +170,10 @@ export function useBlockchainActions() {
           encryptedKey = undefined
         } else {
           if (!data.key) throw new Error('Key not defined')
-          encryptedKey = window.api.encryptBasedEncryptedSecretSync(data.key, encryptedPasswordRef.current)
+          encryptedKey = window.api.sendSync('encryptBasedEncryptedSecretSync', {
+            value: data.key,
+            encryptedSecret: encryptedPasswordRef.current,
+          })
         }
       }
 

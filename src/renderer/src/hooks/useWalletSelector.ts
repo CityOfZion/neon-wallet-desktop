@@ -30,10 +30,10 @@ export const useWalletsUtils = () => {
       for (const wallet of walletsRef.current) {
         if (!wallet.encryptedMnemonic) continue
 
-        const walletMnemonic = await window.api.decryptBasedEncryptedSecret(
-          wallet.encryptedMnemonic,
-          encryptedPasswordRef.current
-        )
+        const walletMnemonic = await window.api.sendAsync('decryptBasedEncryptedSecret', {
+          value: wallet.encryptedMnemonic,
+          encryptedSecret: encryptedPasswordRef.current,
+        })
 
         if (walletMnemonic === mnemonic) return true
       }

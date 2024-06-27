@@ -1,8 +1,8 @@
 import { DEFAULT_URL_BY_NETWORK_TYPE as BSETHEREUM_DEFAULT_URL_BY_NETWORK_TYPE } from '@cityofzion/bs-ethereum'
 import { DEFAULT_URL_BY_NETWORK_TYPE as BSNEOLEGACY_DEFAULT_URL_BY_NETWORK_TYPE } from '@cityofzion/bs-neo-legacy'
 import { DEFAULT_URL_BY_NETWORK_TYPE as BSNEO3_DEFAULT_URL_BY_NETWORK_TYPE } from '@cityofzion/bs-neo3'
-import { TBlockchainServiceKey, TNetwork, TNetworkType } from '@renderer/@types/blockchain'
 import { getI18next } from '@renderer/libs/i18next'
+import { TBlockchainServiceKey, TNetwork, TNetworkType } from '@shared/@types/blockchain'
 
 const { t } = getI18next()
 

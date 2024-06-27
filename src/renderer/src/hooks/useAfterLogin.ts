@@ -3,13 +3,13 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { hasNft } from '@cityofzion/blockchain-service'
 import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
-import { TBlockchainServiceKey } from '@renderer/@types/blockchain'
-import { IAccountState } from '@renderer/@types/store'
 import { SKINS } from '@renderer/constants/skins'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
+import { IAccountState } from '@shared/@types/store'
 
 import { useAccountsSelector } from './useAccountSelector'
 import { useBlockchainActions } from './useBlockchainActions'
@@ -41,7 +41,7 @@ const useRegisterWalletConnectListeners = () => {
     const session = sessions.find(session => session.topic === request.topic)
     if (!session) return
 
-    window.api.restoreWindow()
+    window.api.sendSync('restore')
     modalNavigate('dapp-permission', { state: { session, request } })
   }, [requests, sessions, modalNavigate, historiesRef])
 
@@ -92,29 +92,27 @@ const useRegisterLedgerListeners = () => {
   )
 
   useMountUnsafe(() => {
-    window.api.getConnectedLedgers().then(connectedLedgers => {
+    window.api.sendAsync('getConnectedLedgers').then(ledgers => {
       accountsRef.current.forEach(async account => {
         if (account.type !== 'ledger') return
 
-        const connectedLedger = connectedLedgers.find(it => it.address === account.address)
+        const connectedLedger = ledgers.find(it => it.address === account.address)
         if (!connectedLedger) {
           convertLedgerToWatch(account.address)
         }
       })
 
-      connectedLedgers.forEach(({ address, publicKey, blockchain }) =>
-        createLedgerWallet(address, publicKey, blockchain)
-      )
+      ledgers.forEach(({ address, publicKey, blockchain }) => createLedgerWallet(address, publicKey, blockchain))
     })
   })
 
   useEffect(() => {
-    const removeLedgerConnectedListener = window.listeners.ledgerConnected((_event, address, publicKey, blockchain) => {
-      createLedgerWallet(address, publicKey, blockchain)
+    const removeLedgerConnectedListener = window.api.listen('ledgerConnected', ({ args }) => {
+      createLedgerWallet(args.address, args.publicKey, args.blockchain)
     })
 
-    const removeLedgerDisconnectedListener = window.listeners.ledgerDisconnected((_event, address) => {
-      convertLedgerToWatch(address)
+    const removeLedgerDisconnectedListener = window.api.listen('ledgerDisconnected', ({ args }) => {
+      convertLedgerToWatch(args)
     })
 
     return () => {
@@ -130,10 +128,10 @@ const useRegisterDeeplinkListeners = () => {
   const { t: commonWc } = useTranslation('hooks', { keyPrefix: 'DappConnection' })
 
   useEffect(() => {
-    const handleDeeplink = async (uri: string) => {
+    const handleDeeplink = async (uri?: string) => {
       if (!uri) return
 
-      window.api.resetInitialDeeplink()
+      window.api.sendAsync('resetInitialDeeplink')
 
       if (uri === 'neon3://migration') {
         navigate('/app/settings/security/migrate-accounts')
@@ -169,10 +167,10 @@ const useRegisterDeeplinkListeners = () => {
       }
     }
 
-    window.api.getInitialDeepLinkUri().then(handleDeeplink)
+    window.api.sendAsync('getInitialDeepLinkUri').then(handleDeeplink)
 
-    const removeDeeplinkListener = window.listeners.deeplink((_event, uri: string) => {
-      handleDeeplink(uri)
+    const removeDeeplinkListener = window.api.listen('deeplink', ({ args }) => {
+      handleDeeplink(args)
     })
 
     return () => {

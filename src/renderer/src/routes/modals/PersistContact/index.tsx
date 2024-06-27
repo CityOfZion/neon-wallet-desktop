@@ -2,7 +2,6 @@ import { ChangeEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdDeleteForever } from 'react-icons/md'
 import { TbPencil, TbPlus } from 'react-icons/tb'
-import { IContactState, TContactAddress } from '@renderer/@types/store'
 import { Banner } from '@renderer/components/Banner'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { Button } from '@renderer/components/Button'
@@ -15,6 +14,7 @@ import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 import { contactReducerActions } from '@renderer/store/reducers/ContactReducer'
+import { IContactState, TContactAddress } from '@shared/@types/store'
 
 type TFormData = {
   name: string

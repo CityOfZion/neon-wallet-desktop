@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next'
-import { TBlockchainServiceKey } from '@renderer/@types/blockchain'
 import { Accordion } from '@renderer/components/Accordion'
 import { SettingsLayout } from '@renderer/layouts/Settings'
 import { bsAggregator } from '@renderer/libs/blockchainService'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 
 import { BlockchainNetworkAccordion } from './BlockchainNetworkAccordion'
 import { NetworkProfileActions } from './NetworkProfileActions'

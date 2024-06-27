@@ -1,46 +1,38 @@
-import { BrowserWindow, dialog, ipcMain, OpenDialogOptions } from 'electron'
+import { mainApi } from '@shared/api/main'
+import { dialog } from 'electron'
 import { readFile, writeFile } from 'fs/promises'
 
 export function registerWindowHandlers() {
-  ipcMain.on('restore', () => {
-    const [mainWindow] = BrowserWindow.getAllWindows()
-    if (!mainWindow) return
-
-    if (mainWindow.isMinimized()) {
-      mainWindow.restore()
+  mainApi.listenSync('restore', ({ window }) => {
+    if (window.isMinimized()) {
+      window.restore()
     } else {
-      mainWindow.show()
+      window.show()
     }
-    mainWindow.focus()
+    window.focus()
   })
 
-  ipcMain.handle('openDialog', async (_event, options: OpenDialogOptions) => {
-    const result = await dialog.showOpenDialog(options)
+  mainApi.listenAsync('openDialog', async ({ args }) => {
+    const result = await dialog.showOpenDialog(args)
     if (result.canceled) throw new Error('Dialog cancelled')
     return result.filePaths
   })
 
-  ipcMain.handle('readFile', async (_event, path: string) => {
-    const file = await readFile(path)
+  mainApi.listenAsync('readFile', async ({ args }) => {
+    const file = await readFile(args)
     return file.toString('utf-8')
   })
 
-  ipcMain.handle('saveFile', async (_event, path: string, content: string) => {
-    const buff = Buffer.from(content, 'utf-8')
-    await writeFile(path, buff)
+  mainApi.listenAsync('saveFile', async ({ args }) => {
+    const buff = Buffer.from(args.content, 'utf-8')
+    await writeFile(args.path, buff)
   })
 
-  ipcMain.handle('setTitleBarOverlay', async (_event, options: Electron.TitleBarOverlay) => {
-    const [mainWindow] = BrowserWindow.getAllWindows()
-    if (!mainWindow) return
-
-    mainWindow.setTitleBarOverlay(options)
+  mainApi.listenAsync('setTitleBarOverlay', ({ args, window }) => {
+    window.setTitleBarOverlay(args)
   })
 
-  ipcMain.handle('setWindowButtonPosition', async (_event, options: Electron.Point) => {
-    const [mainWindow] = BrowserWindow.getAllWindows()
-    if (!mainWindow) return
-
-    mainWindow.setWindowButtonPosition(options)
+  mainApi.listenAsync('setWindowButtonPosition', ({ args, window }) => {
+    window.setWindowButtonPosition(args)
   })
 }

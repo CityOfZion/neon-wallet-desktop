@@ -1,10 +1,8 @@
 import { electronAPI } from '@electron-toolkit/preload'
+import { rendererApi } from '@shared/api/renderer'
 import { contextBridge } from 'electron'
 
 import '@cityofzion/bs-electron/dist/preload'
-
-import { customAPI } from './customAPI'
-import { customListeners } from './customListeners'
 
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise
@@ -12,8 +10,7 @@ import { customListeners } from './customListeners'
 if (process.contextIsolated) {
   try {
     contextBridge.exposeInMainWorld('electron', electronAPI)
-    contextBridge.exposeInMainWorld('api', customAPI)
-    contextBridge.exposeInMainWorld('listeners', customListeners)
+    contextBridge.exposeInMainWorld('api', rendererApi)
   } catch (error) {
     console.error(error)
   }

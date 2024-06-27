@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbStepOut } from 'react-icons/tb'
-import { TTokenBalance } from '@renderer/@types/query'
-import { IAccountState } from '@renderer/@types/store'
 import { Button } from '@renderer/components/Button'
 import { TokensTable } from '@renderer/components/TokensTable'
 import { useBalances } from '@renderer/hooks/useBalances'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
+import { TTokenBalance } from '@shared/@types/query'
+import { IAccountState } from '@shared/@types/store'
 
 type TTokenState = {
   selectedAccount: IAccountState

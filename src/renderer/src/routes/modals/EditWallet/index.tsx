@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { MdDeleteForever } from 'react-icons/md'
 import { TbPencil } from 'react-icons/tb'
-import { IWalletState } from '@renderer/@types/store'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
@@ -10,6 +9,7 @@ import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 import { walletReducerActions } from '@renderer/store/reducers/WalletReducer'
+import { IWalletState } from '@shared/@types/store'
 
 import { SkinSelector } from './SkinSelector'
 

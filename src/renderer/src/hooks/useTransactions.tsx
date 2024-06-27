@@ -1,7 +1,7 @@
 import { useMemo, useRef, useState } from 'react'
-import { TFetchTransactionsResponse, TUseTransactionsTransfer } from '@renderer/@types/hooks'
-import { IAccountState } from '@renderer/@types/store'
 import { bsAggregator } from '@renderer/libs/blockchainService'
+import { TFetchTransactionsResponse, TUseTransactionsTransfer } from '@shared/@types/hooks'
+import { IAccountState } from '@shared/@types/store'
 import { useQueries } from '@tanstack/react-query'
 
 import { useAccountsSelector } from './useAccountSelector'

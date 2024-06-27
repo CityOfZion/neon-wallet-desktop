@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { TbFileImport } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
-import { TBlockchainServiceKey } from '@renderer/@types/blockchain'
 import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
 import { Textarea } from '@renderer/components/Textarea'
@@ -12,6 +11,7 @@ import { useImportAction } from '@renderer/hooks/useImportAction'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useWalletsUtils } from '@renderer/hooks/useWalletSelector'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 
 export const ImportModal = () => {
   const { modalNavigate } = useModalNavigate()

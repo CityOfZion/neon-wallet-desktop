@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next'
 import { TbPencil, TbTrash } from 'react-icons/tb'
-import { IAccountState } from '@renderer/@types/store'
 import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'
@@ -10,6 +9,7 @@ import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
+import { IAccountState } from '@shared/@types/store'
 
 type TLocationState = {
   account: IAccountState

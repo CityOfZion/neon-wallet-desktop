@@ -3,8 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { TbPlug } from 'react-icons/tb'
 import { TSessionProposal } from '@cityofzion/wallet-connect-sdk-wallet-core'
 import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
-import { TWalletConnectHelperProposalInformation } from '@renderer/@types/helpers'
-import { IAccountState } from '@renderer/@types/store'
 import dappFallbackIcon from '@renderer/assets/images/dapp-fallback-icon.png'
 import { ReactComponent as NeonWalletLogo } from '@renderer/assets/images/neon-wallet-full.svg'
 import { ReactComponent as WalletConnectLogo } from '@renderer/assets/images/wallet-connect.svg'
@@ -18,6 +16,8 @@ import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useNetworkActions, useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
+import { TWalletConnectHelperProposalInformation } from '@shared/@types/helpers'
+import { IAccountState } from '@shared/@types/store'
 
 import { DappConnectionErrorContent } from './DappConnectionErrorContent'
 import { DappConnectionSuccessContent } from './DappConnectionSuccessContent'
@@ -36,6 +36,7 @@ export const DappConnectionDetailsModal = () => {
   const { setNetwork } = useNetworkActions()
 
   const [proposalInformation, setProposalInformation] = useState<TWalletConnectHelperProposalInformation[]>()
+  const [loading, setLoading] = useState(false)
 
   const handleClose = async () => {
     await rejectProposal(proposal)
@@ -47,50 +48,55 @@ export const DappConnectionDetailsModal = () => {
   }
 
   const handleAccept = async () => {
-    if (!proposalInformation) return
-
-    const accountProposalInformation = proposalInformation.find(info => info.blockchain === account.blockchain)
-    if (!accountProposalInformation) {
-      rejectProposal(proposal)
-      ToastHelper.error({ message: t('errorModal.accountProposalError') })
-      modalNavigate(-1)
-      return
-    }
-
-    if (accountProposalInformation.network !== networkRef.current.type) {
-      const network = NETWORK_OPTIONS_BY_BLOCKCHAIN[account.blockchain].find(
-        network => network.type === accountProposalInformation.network
-      )
-      if (network) {
-        await setNetwork(account.blockchain, network)
-      }
-    }
-
     try {
-      await approveProposal(proposal, {
-        address: account.address,
-        chain: accountProposalInformation.proposalNetwork,
-        blockchain: accountProposalInformation.proposalBlockchain,
-      })
-      modalNavigate(-1)
-      modalNavigate('success', {
-        state: {
-          heading: t('successModal.title'),
-          headingIcon: <TbPlug />,
-          subtitle: t('successModal.subtitle'),
-          content: <DappConnectionSuccessContent />,
-        },
-      })
-    } catch {
-      modalNavigate(-1)
-      modalNavigate('error', {
-        state: {
-          heading: t('errorModal.title'),
-          headingIcon: <TbPlug />,
-          subtitle: t('errorModal.subtitle'),
-          content: <DappConnectionErrorContent />,
-        },
-      })
+      setLoading(true)
+      if (!proposalInformation) return
+
+      const accountProposalInformation = proposalInformation.find(info => info.blockchain === account.blockchain)
+      if (!accountProposalInformation) {
+        rejectProposal(proposal)
+        ToastHelper.error({ message: t('errorModal.accountProposalError') })
+        modalNavigate(-1)
+        return
+      }
+
+      if (accountProposalInformation.network !== networkRef.current.type) {
+        const network = NETWORK_OPTIONS_BY_BLOCKCHAIN[account.blockchain].find(
+          network => network.type === accountProposalInformation.network
+        )
+        if (network) {
+          await setNetwork(account.blockchain, network)
+        }
+      }
+
+      try {
+        await approveProposal(proposal, {
+          address: account.address,
+          chain: accountProposalInformation.proposalNetwork,
+          blockchain: accountProposalInformation.proposalBlockchain,
+        })
+        modalNavigate(-1)
+        modalNavigate('success', {
+          state: {
+            heading: t('successModal.title'),
+            headingIcon: <TbPlug />,
+            subtitle: t('successModal.subtitle'),
+            content: <DappConnectionSuccessContent />,
+          },
+        })
+      } catch {
+        modalNavigate(-1)
+        modalNavigate('error', {
+          state: {
+            heading: t('errorModal.title'),
+            headingIcon: <TbPlug />,
+            subtitle: t('errorModal.subtitle'),
+            content: <DappConnectionErrorContent />,
+          },
+        })
+      }
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -155,9 +161,15 @@ export const DappConnectionDetailsModal = () => {
           </ul>
 
           <div className="flex gap-x-2.5 w-full mt-4 items-end">
-            <Button label="Decline" colorSchema="gray" className="min-w-[7.5rem]" onClick={handleDecline} />
+            <Button
+              label="Decline"
+              colorSchema="gray"
+              className="min-w-[7.5rem]"
+              onClick={handleDecline}
+              disabled={loading}
+            />
 
-            <Button label="Accept" className="flex-grow" onClick={handleAccept} />
+            <Button label="Accept" className="flex-grow" onClick={handleAccept} loading={loading} />
           </div>
         </Fragment>
       ) : (

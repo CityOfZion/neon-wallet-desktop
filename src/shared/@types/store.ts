@@ -1,5 +1,3 @@
-import { RootStore } from '@renderer/store/RootStore'
-
 import { TBlockchainServiceKey, TNetwork } from './blockchain'
 
 export type TAccountType = 'standard' | 'watch' | 'ledger'
@@ -55,6 +53,3 @@ export interface IContactState {
   name: string
   addresses: TContactAddress[]
 }
-
-export type RootState = ReturnType<typeof RootStore.reducers>
-export type AppDispatch = typeof RootStore.store.dispatch

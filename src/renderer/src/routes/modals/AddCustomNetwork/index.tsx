@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { Tb3DCubeSphere } from 'react-icons/tb'
 import { useDispatch } from 'react-redux'
-import { TBlockchainServiceKey, TNetwork } from '@renderer/@types/blockchain'
 import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
@@ -12,6 +11,7 @@ import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
+import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
 
 type TState = {
   blockchain: TBlockchainServiceKey

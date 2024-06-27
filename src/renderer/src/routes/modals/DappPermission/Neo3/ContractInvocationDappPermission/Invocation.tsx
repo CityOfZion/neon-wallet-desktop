@@ -3,13 +3,13 @@ import { MdChevronRight, MdLaunch } from 'react-icons/md'
 import { TbArrowsSort } from 'react-icons/tb'
 import { ContractInvocation, TSession } from '@cityofzion/wallet-connect-sdk-wallet-react'
 import { Separator } from '@radix-ui/react-select'
-import { TBlockchainServiceKey } from '@renderer/@types/blockchain'
 import { IconButton } from '@renderer/components/IconButton'
 import { Loader } from '@renderer/components/Loader'
 import { ExplorerHelper } from '@renderer/helpers/ExplorerHelper'
 import { useContract } from '@renderer/hooks/useContract'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 
 type TProps = {
   invocation: ContractInvocation

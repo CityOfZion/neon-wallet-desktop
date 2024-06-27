@@ -1,7 +1,7 @@
 import React from 'react'
-import { TBlockchainImageColor, TBlockchainServiceKey } from '@renderer/@types/blockchain'
 import { blockchainIconsByBlockchain } from '@renderer/constants/blockchain'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+import { TBlockchainImageColor, TBlockchainServiceKey } from '@shared/@types/blockchain'
 
 type Props = React.SVGProps<SVGSVGElement> & {
   blockchain: TBlockchainServiceKey

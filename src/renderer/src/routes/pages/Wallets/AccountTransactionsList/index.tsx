@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next'
 import { useOutletContext } from 'react-router-dom'
-import { IAccountState } from '@renderer/@types/store'
 import { TransactionsTable } from '@renderer/components/TransactionsTable'
 import { AccountDetailsLayout } from '@renderer/layouts/AccountDetailsLayout'
+import { IAccountState } from '@shared/@types/store'
 
 import { CommonAccountActions } from '../CommonAccountActions'
 

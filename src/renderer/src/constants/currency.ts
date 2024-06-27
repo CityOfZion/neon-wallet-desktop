@@ -1,4 +1,4 @@
-import { TCurrency } from '@renderer/@types/store'
+import { TCurrency } from '@shared/@types/store'
 
 export const availableCurrencies: TCurrency[] = [
   { symbol: 'U$', label: 'USD' },

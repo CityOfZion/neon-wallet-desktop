@@ -2,13 +2,13 @@ import { useTranslation } from 'react-i18next'
 import { MdOutlineContentCopy } from 'react-icons/md'
 import { TbEye, TbReceipt, TbUsers } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
-import { TokenBalance } from '@renderer/@types/query'
-import { IAccountState } from '@renderer/@types/store'
 import { Button } from '@renderer/components/Button'
 import { IconButton } from '@renderer/components/IconButton'
 import { Separator } from '@renderer/components/Separator'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+import { TokenBalance } from '@shared/@types/query'
+import { IAccountState } from '@shared/@types/store'
 
 type TProps = {
   selectedAccount: IAccountState

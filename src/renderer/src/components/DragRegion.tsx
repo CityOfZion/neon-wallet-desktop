@@ -9,11 +9,11 @@ export const DragRegion = () => {
     rootElement.style.setProperty('--height-screen-minus-drag-region', `calc(100vh - ${DRAG_REGION_HEIGHT}px)`)
 
     if (window.electron.process.platform === 'darwin') {
-      window.api.setWindowButtonPosition({ x: 12, y: 8 })
+      window.api.sendAsync('setWindowButtonPosition', { x: 12, y: 8 })
       return
     }
 
-    window.api.setTitleBarOverlay({ height: DRAG_REGION_HEIGHT, symbolColor: '#FFFFFF', color: '#293139' })
+    window.api.sendAsync('setTitleBarOverlay', { height: DRAG_REGION_HEIGHT, symbolColor: '#FFFFFF', color: '#293139' })
   }, [])
 
   return (

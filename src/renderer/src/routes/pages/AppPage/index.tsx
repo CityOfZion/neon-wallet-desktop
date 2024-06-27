@@ -1,10 +1,10 @@
 import { Fragment } from 'react'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
-import { RootState } from '@renderer/@types/store'
 import { CustomProfileBanner } from '@renderer/components/CustomProfileBanner'
 import { useAfterLogin } from '@renderer/hooks/useAfterLogin'
 import { useAppSelector } from '@renderer/hooks/useRedux'
 import { useEncryptedPasswordSelector } from '@renderer/hooks/useSettingsSelector'
+import { RootState } from '@shared/@types/store'
 
 export const AppPage = () => {
   useAfterLogin()

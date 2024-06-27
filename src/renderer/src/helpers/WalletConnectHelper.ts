@@ -1,9 +1,6 @@
 import { TSession, TSessionProposal } from '@cityofzion/wallet-connect-sdk-wallet-react'
-import { TBlockchainServiceKey, TNetworkType } from '@renderer/@types/blockchain'
-import {
-  TWalletConnectHelperProposalInformation,
-  TWalletConnectHelperSessionInformation,
-} from '@renderer/@types/helpers'
+import { TBlockchainServiceKey, TNetworkType } from '@shared/@types/blockchain'
+import { TWalletConnectHelperProposalInformation, TWalletConnectHelperSessionInformation } from '@shared/@types/helpers'
 import { merge } from 'lodash'
 
 export abstract class WalletConnectHelper {

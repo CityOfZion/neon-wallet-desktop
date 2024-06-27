@@ -1,5 +1,4 @@
 import { Fragment } from 'react'
-import { IAccountState, IWalletState } from '@renderer/@types/store'
 import { AccountIcon } from '@renderer/components/AccountIcon'
 import { Separator } from '@renderer/components/Separator'
 import { Tooltip } from '@renderer/components/Tooltip'
@@ -8,6 +7,7 @@ import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useAccountsByWalletIdSelector } from '@renderer/hooks/useAccountSelector'
 import { useBalances } from '@renderer/hooks/useBalances'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
+import { IAccountState, IWalletState } from '@shared/@types/store'
 
 type TProps = {
   onSelect: (account: IAccountState) => void

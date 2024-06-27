@@ -1,4 +1,4 @@
-import { TBlockchainServiceKey } from '@renderer/@types/blockchain'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 
 import { ReactComponent as WalletNeonIcon } from '../assets/images/wallet-icon-neon.svg'
 

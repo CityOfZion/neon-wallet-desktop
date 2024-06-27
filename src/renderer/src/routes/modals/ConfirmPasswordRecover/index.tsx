@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next'
 import { TbReload } from 'react-icons/tb'
-import { TAccountsToImport, TBackupFormat } from '@renderer/@types/blockchain'
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
@@ -12,6 +11,7 @@ import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 import { contactReducerActions } from '@renderer/store/reducers/ContactReducer'
+import { TAccountsToImport, TBackupFormat } from '@shared/@types/blockchain'
 
 type TFormData = {
   password: string
@@ -53,7 +53,7 @@ export const ConfirmPasswordRecoverModal = () => {
     }
 
     try {
-      const contentDecrypted = await window.api.decryptBasedSecret(content, password)
+      const contentDecrypted = await window.api.sendAsync('decryptBasedSecret', { value: content, secret: password })
       const backupFile = JSON.parse(contentDecrypted) as TBackupFormat
 
       if (onDecrypt) {

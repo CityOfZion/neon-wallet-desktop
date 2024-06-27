@@ -1,8 +1,6 @@
 import { ChangeEvent, Fragment, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { hasNameService } from '@cityofzion/blockchain-service'
-import { TBlockchainServiceKey } from '@renderer/@types/blockchain'
-import { TContactAddress } from '@renderer/@types/store'
 import { Banner } from '@renderer/components/Banner'
 import { BlockchainSelect } from '@renderer/components/BlockchainSelect'
 import { Button } from '@renderer/components/Button'
@@ -13,6 +11,8 @@ import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 import { bsAggregator } from '@renderer/libs/blockchainService'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
+import { TContactAddress } from '@shared/@types/store'
 import { debounce } from 'lodash'
 
 type TLocationState = {

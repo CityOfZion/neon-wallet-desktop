@@ -2,9 +2,6 @@ import { useCallback, useLayoutEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbArrowDown, TbStepOut } from 'react-icons/tb'
 import { Account, BlockchainService, hasLedger, isCalculableFee } from '@cityofzion/blockchain-service'
-import { TBlockchainServiceKey } from '@renderer/@types/blockchain'
-import { TTokenBalance } from '@renderer/@types/query'
-import { IAccountState } from '@renderer/@types/store'
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'
@@ -16,6 +13,9 @@ import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useEncryptedPasswordSelector } from '@renderer/hooks/useSettingsSelector'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { accountReducerActions } from '@renderer/store/reducers/AccountReducer'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
+import { TTokenBalance } from '@shared/@types/query'
+import { IAccountState } from '@shared/@types/store'
 
 import { Recipient } from './Recipient'
 import { SelectAccount } from './SelectAccount'
@@ -91,10 +91,10 @@ export const SendPageContent = ({ account, recipient }: TProps) => {
     )
       return
 
-    const key = await window.api.decryptBasedEncryptedSecret(
-      actionData.selectedAccount.encryptedKey,
-      encryptedPasswordRef.current
-    )
+    const key = await window.api.sendAsync('decryptBasedEncryptedSecret', {
+      value: actionData.selectedAccount.encryptedKey,
+      encryptedSecret: encryptedPasswordRef.current,
+    })
 
     const serviceAccount =
       actionData.selectedAccount.type === 'ledger' && hasLedger(service)

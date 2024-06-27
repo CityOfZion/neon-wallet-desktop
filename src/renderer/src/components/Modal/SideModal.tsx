@@ -1,8 +1,8 @@
 import { useLayoutEffect, useMemo, useState } from 'react'
-import { THistory, TRouterSize } from '@renderer/@types/modal'
 import { ModalRouterCurrentHistoryProvider } from '@renderer/contexts/ModalRouterCurrentHistoryContext'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { useModalHistories } from '@renderer/hooks/useModalRouter'
+import { THistory, TRouterSize } from '@shared/@types/modal'
 import { motion, useAnimate, usePresence } from 'framer-motion'
 
 import { ModalContainer } from './ModalContainer'

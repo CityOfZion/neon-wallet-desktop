@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Tb3DCubeSphere, TbRefresh } from 'react-icons/tb'
-import { TBlockchainServiceKey } from '@renderer/@types/blockchain'
 import { Button } from '@renderer/components/Button'
 import { Checkbox } from '@renderer/components/Checkbox'
 import { Loader } from '@renderer/components/Loader'
@@ -13,6 +12,7 @@ import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useNodes } from '@renderer/hooks/useNodes'
 import { useNetworkActions, useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 
 type TState = {
   blockchain: TBlockchainServiceKey

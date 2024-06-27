@@ -1,7 +1,6 @@
+import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { ErrorToast, InfoToast, PromiseToast, SuccessToast } from '@renderer/libs/sonner'
 import { toast } from 'sonner'
-
-import { UtilsHelper } from './UtilsHelper'
 
 type TToastProp = {
   message: string

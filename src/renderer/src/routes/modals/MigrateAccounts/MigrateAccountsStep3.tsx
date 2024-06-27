@@ -1,8 +1,6 @@
 import { Fragment, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdLooks3 } from 'react-icons/md'
-import { TAccountsToImport, TWalletToCreate } from '@renderer/@types/blockchain'
-import { IContactState } from '@renderer/@types/store'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { Button } from '@renderer/components/Button'
 import { Checkbox } from '@renderer/components/Checkbox'
@@ -12,6 +10,8 @@ import { TMigrateSchema, TMigrateWalletsSchema } from '@renderer/hooks/useBackup
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { MigrateAccountsModalLayout } from '@renderer/layouts/MigrateAccountsModalLayout'
 import { bsAggregator } from '@renderer/libs/blockchainService'
+import { TAccountsToImport, TWalletToCreate } from '@shared/@types/blockchain'
+import { IContactState } from '@shared/@types/store'
 
 type TState = {
   content: TMigrateSchema
