@@ -16,9 +16,10 @@ type TProps = {
   token: TTokenBalance
 }
 
-const gradientColors: Record<string, (opacity: number) => string> = {
-  neon: (opacity: number) => `rgba(0, 221, 180, ${opacity})`,
-  pink: (opacity: number) => `rgba(231, 85, 149, ${opacity})`,
+const gradientColors = {
+  neon: '#00DDB4',
+  pink: '#E75595',
+  asphalt: '#1A2026',
 }
 
 const fetchTokenData = async (token: TTokenBalance, currency: TCurrency) => {
@@ -64,7 +65,7 @@ export const ChartCard = ({ token }: TProps) => {
   })
 
   return (
-    <div className="w-[220px] h-[205px] flex flex-col bg-asphalt rounded py-2 px-3 gap-y-2 text-xs overflow-hidden">
+    <div className="w-[200px] h-[195px] flex flex-col bg-asphalt rounded py-2 px-3 gap-y-2 text-xs overflow-hidden">
       {query.isLoading ? (
         <div className="flex h-full justify-center items-center">
           <Loader className="w-4 h-4" />
@@ -79,7 +80,7 @@ export const ChartCard = ({ token }: TProps) => {
             <div className="flex flex-col gap-y-1.5">
               <div className="flex items-center gap-x-2">
                 <div className="bg-gray-600 rounded-full p-1">
-                  <BlockchainIcon blockchain={token.blockchain} type="white" />
+                  <BlockchainIcon blockchain={token.blockchain} type="white" className="w-3 h-3" />
                 </div>
                 <div>{token.token.name}</div>
                 <div className="text-gray-300">({token.token.symbol})</div>
@@ -96,17 +97,20 @@ export const ChartCard = ({ token }: TProps) => {
 
               <div className="flex flex-col">
                 <span className="text-lg">{NumberHelper.currency(query.data.todayPrice, currency.label)}</span>
-                <span
-                  className={StyleHelper.mergeStyles('', {
-                    'text-neon': query.data.dailyVariation >= 0,
-                    'text-pink': query.data.dailyVariation < 0,
-                  })}
-                >
-                  {t('variation', {
-                    variation: query.data.dailyVariation.toFixed(2),
-                    variationType: Math.sign(query.data.dailyVariation) >= 0 ? '+' : '',
-                  })}
-                </span>
+                <div className="space-x-1">
+                  <span
+                    className={StyleHelper.mergeStyles('', {
+                      'text-neon': query.data.dailyVariation >= 0,
+                      'text-pink': query.data.dailyVariation < 0,
+                    })}
+                  >
+                    {t('variation', {
+                      variation: query.data.dailyVariation.toFixed(2),
+                      variationType: Math.sign(query.data.dailyVariation) >= 0 ? '+' : '',
+                    })}
+                  </span>
+                  <span className="text-gray-300">{t('24h')}</span>
+                </div>
               </div>
 
               <Separator />
@@ -115,7 +119,7 @@ export const ChartCard = ({ token }: TProps) => {
             <EChart
               option={{
                 grid: {
-                  height: 30,
+                  height: 35,
                   top: 0,
                   bottom: 0,
                   left: 0,
@@ -129,26 +133,27 @@ export const ChartCard = ({ token }: TProps) => {
                 yAxis: {
                   show: false,
                   type: 'value',
-                  max: query.data.max,
-                  min: query.data.min,
+                  scale: true,
                 },
                 series: [
                   {
                     type: 'line',
                     smooth: true,
                     itemStyle: {
-                      color: query.data.dailyVariation >= 0 ? gradientColors.neon(1) : gradientColors.pink(1),
+                      color: query.data.dailyVariation >= 0 ? gradientColors.neon : gradientColors.pink,
                     },
                     showSymbol: false,
+
                     areaStyle: {
+                      opacity: 0.2,
                       color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
                         {
-                          offset: 0.5,
-                          color: query.data.dailyVariation >= 0 ? gradientColors.neon(0.3) : gradientColors.pink(0.3),
+                          offset: 0,
+                          color: query.data.dailyVariation >= 0 ? gradientColors.neon : gradientColors.pink,
                         },
                         {
                           offset: 1,
-                          color: query.data.dailyVariation >= 0 ? gradientColors.neon(0) : gradientColors.pink(0),
+                          color: gradientColors.asphalt,
                         },
                       ]),
                     },
