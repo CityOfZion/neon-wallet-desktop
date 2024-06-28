@@ -133,6 +133,7 @@
   "chartCard": {
     "unableToFetchData": "Unable to fetch data",
     "holdings": "Holdings:",
-    "variation": "{{variationType}}{{variation}}%"
+    "variation": "{{variationType}}{{variation}}%",
+    "24h": "(24h)"
   }
 }

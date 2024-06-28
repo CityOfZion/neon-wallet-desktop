@@ -6,6 +6,7 @@ import { BalanceChart } from '@renderer/components/BalanceChart'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { useBalances } from '@renderer/hooks/useBalances'
+import { useFilteredBalance } from '@renderer/hooks/useFilteredBalance'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 import { AccountDetailsLayout } from '@renderer/layouts/AccountDetailsLayout'
 import { bsAggregator } from '@renderer/libs/blockchainService'
@@ -27,6 +28,8 @@ export const AccountOverview = () => {
 
   const exchangeTotalFormatted = NumberHelper.currency(balances.exchangeTotal, currency.label, 2, 2, false)
 
+  const filteredTokenBalances = useFilteredBalance(balances)
+
   return (
     <AccountDetailsLayout title={t('title')} actions={account ? <CommonAccountActions account={account} /> : undefined}>
       <div
@@ -44,7 +47,7 @@ export const AccountOverview = () => {
           </div>
         </div>
 
-        <BalanceChart balances={balances} account={account} />
+        <BalanceChart balances={balances} account={account} tokenBalance={filteredTokenBalances} />
 
         {balances.exchangeTotal > 0 && isClaimable(blockchainService) && (
           <ClaimGasBanner blockchainService={blockchainService} account={account} />

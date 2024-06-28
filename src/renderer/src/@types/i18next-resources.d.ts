@@ -179,6 +179,7 @@ interface Resources {
       unableToFetchData: 'Unable to fetch data'
       holdings: 'Holdings:'
       variation: '{{variationType}}{{variation}}%'
+      '24h': '(24h)'
     }
   }
   hooks: {
