@@ -1,7 +1,6 @@
 import { BSEthereum } from '@cityofzion/bs-ethereum'
 import { BSNeoLegacy } from '@cityofzion/bs-neo-legacy'
 import { BSNeo3 } from '@cityofzion/bs-neo3'
-import { TAccountColorKey, TBlockchainImageColor, TBlockchainServiceKey } from '@renderer/@types/blockchain'
 import { ReactComponent as EthereumBlue } from '@renderer/assets/blockchain/images/ethereum_blue.svg'
 import { ReactComponent as EthereumGray } from '@renderer/assets/blockchain/images/ethereum_gray.svg'
 import { ReactComponent as EthereumGreen } from '@renderer/assets/blockchain/images/ethereum_green.svg'
@@ -14,6 +13,7 @@ import { ReactComponent as Neo3Blue } from '@renderer/assets/blockchain/images/n
 import { ReactComponent as Neo3Gray } from '@renderer/assets/blockchain/images/neo3_gray.svg'
 import { ReactComponent as Neo3Green } from '@renderer/assets/blockchain/images/neo3_green.svg'
 import { ReactComponent as Neo3White } from '@renderer/assets/blockchain/images/neo3_white.svg'
+import { TAccountColorKey, TBlockchainImageColor, TBlockchainServiceKey } from '@shared/@types/blockchain'
 
 export const blockchainIconsByBlockchain: Record<
   TBlockchainServiceKey,

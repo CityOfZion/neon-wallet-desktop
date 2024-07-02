@@ -2,7 +2,6 @@ import { ChangeEvent, useEffect } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { TbLink } from 'react-icons/tb'
 import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
-import { IAccountState } from '@renderer/@types/store'
 import { ReactComponent as NeonWalletLogo } from '@renderer/assets/images/neon-wallet-full.svg'
 import { ReactComponent as WalletConnectLogo } from '@renderer/assets/images/wallet-connect.svg'
 import { Button } from '@renderer/components/Button'
@@ -12,6 +11,7 @@ import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
+import { IAccountState } from '@shared/@types/store'
 
 type TFormData = {
   url: string

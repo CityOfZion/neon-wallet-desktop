@@ -1,10 +1,10 @@
 import { useTranslation } from 'react-i18next'
 import { TbChevronRight } from 'react-icons/tb'
 import { NftResponse } from '@cityofzion/blockchain-service'
-import { IAccountState } from '@renderer/@types/store'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { ExplorerHelper } from '@renderer/helpers/ExplorerHelper'
 import { useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
+import { IAccountState } from '@shared/@types/store'
 
 type TProps = {
   nfts: NftResponse[]

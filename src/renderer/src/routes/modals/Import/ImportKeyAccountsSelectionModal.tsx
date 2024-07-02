@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { TbFileImport } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
 import { Account } from '@cityofzion/blockchain-service'
-import { TBlockchainServiceKey, TImportAccountsParam } from '@renderer/@types/blockchain'
 import { AccountSelection } from '@renderer/components/AccountSelection'
 import { Button } from '@renderer/components/Button'
 import { Loader } from '@renderer/components/Loader'
@@ -15,6 +14,7 @@ import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useMount } from '@renderer/hooks/useMount'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 import { bsAggregator } from '@renderer/libs/blockchainService'
+import { TBlockchainServiceKey, TImportAccountsParam } from '@shared/@types/blockchain'
 
 type TLocation = {
   key: string

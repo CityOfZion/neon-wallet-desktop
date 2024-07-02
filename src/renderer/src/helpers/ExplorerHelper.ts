@@ -1,4 +1,4 @@
-import { TBlockchainServiceKey, TNetworkType } from '@renderer/@types/blockchain'
+import { TBlockchainServiceKey, TNetworkType } from '@shared/@types/blockchain'
 
 type ColorsByType = { color: string; textColor: 'dark' | 'light' }
 
@@ -8,6 +8,7 @@ class DoraHelper {
   static networkToDoraNetwork: Record<TNetworkType, string> = {
     mainnet: 'mainnet',
     testnet: 'testnet',
+    custom: '',
   }
 
   static buildTransactionUrl = (hash: string, network: TNetworkType): string => {
@@ -27,6 +28,7 @@ class EtherscanHelper {
   static networkToEthereumNetwork: Record<TNetworkType, string> = {
     mainnet: 'https://etherscan.io',
     testnet: 'https://sepolia.etherscan.io',
+    custom: '',
   }
 
   static buildTransactionUrl = (hash: string, network: TNetworkType): string => {

@@ -1,4 +1,4 @@
-import { TRoute } from '@renderer/@types/modal'
+import { TRoute } from '@shared/@types/modal'
 
 import { AddAddressModal } from './modals/AddAddress'
 import { AddCustomNetwork } from './modals/AddCustomNetwork'

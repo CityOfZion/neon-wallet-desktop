@@ -1,14 +1,14 @@
 import { useTranslation } from 'react-i18next'
 import { TbChevronRight } from 'react-icons/tb'
 import { VscCircleFilled } from 'react-icons/vsc'
-import { TTokenBalance } from '@renderer/@types/query'
-import { IAccountState } from '@renderer/@types/store'
 import { Button } from '@renderer/components/Button'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { useBalances } from '@renderer/hooks/useBalances'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
+import { TTokenBalance } from '@shared/@types/query'
+import { IAccountState } from '@shared/@types/store'
 
 type TAmountParams = {
   selectedAccount?: IAccountState

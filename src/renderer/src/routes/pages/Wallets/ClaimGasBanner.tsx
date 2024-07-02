@@ -2,8 +2,6 @@ import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbTransform } from 'react-icons/tb'
 import { BlockchainService, BSClaimable, hasLedger, isCalculableFee } from '@cityofzion/blockchain-service'
-import { TBlockchainServiceKey } from '@renderer/@types/blockchain'
-import { IAccountState } from '@renderer/@types/store'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { Button } from '@renderer/components/Button'
 import { Loader } from '@renderer/components/Loader'
@@ -12,6 +10,8 @@ import { useBalances } from '@renderer/hooks/useBalances'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useEncryptedPasswordSelector } from '@renderer/hooks/useSettingsSelector'
 import { accountReducerActions } from '@renderer/store/reducers/AccountReducer'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
+import { IAccountState } from '@shared/@types/store'
 import { useQuery } from '@tanstack/react-query'
 
 type TProps = {
@@ -28,7 +28,10 @@ const getUnclaimedInfos = async (
 
   const unclaimed = await blockchainService.blockchainDataService.getUnclaimed(account.address)
 
-  const key = await window.api.decryptBasedEncryptedSecret(account.encryptedKey, encryptedPassword)
+  const key = await window.api.sendAsync('decryptBasedEncryptedSecret', {
+    value: account.encryptedKey,
+    encryptedSecret: encryptedPassword,
+  })
 
   let fee = '0'
 
@@ -49,7 +52,6 @@ const getUnclaimedInfos = async (
 
 export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
   const { t } = useTranslation('components', { keyPrefix: 'claimGasButton' })
-  const { t: commonT } = useTranslation('common')
   const { encryptedPassword } = useEncryptedPasswordSelector()
   const dispatch = useAppDispatch()
   const balances = useBalances([account])
@@ -79,7 +81,10 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
       setClaiming(true)
       if (!unclaimed.data?.unclaimed || !account.encryptedKey) return
 
-      const key = await window.api.decryptBasedEncryptedSecret(account.encryptedKey, encryptedPassword)
+      const key = await window.api.sendAsync('decryptBasedEncryptedSecret', {
+        value: account.encryptedKey,
+        encryptedSecret: encryptedPassword,
+      })
 
       const isLedger = account.type === 'ledger'
 
@@ -88,14 +93,7 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
           ? blockchainService.generateAccountFromPublicKey(key)
           : blockchainService.generateAccountFromKey(key)
 
-      let transactionHash: string
-      const claimPromise = blockchainService.claim(serviceAccount, isLedger)
-
-      if (isLedger) {
-        transactionHash = await ToastHelper.promise(claimPromise, { message: commonT('ledger.requestingPermission') })
-      } else {
-        transactionHash = await claimPromise
-      }
+      const transactionHash = await blockchainService.claim(serviceAccount, isLedger)
 
       dispatch(
         accountReducerActions.addPendingTransaction({

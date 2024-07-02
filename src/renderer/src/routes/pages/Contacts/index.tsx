@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbPencil, TbPlus } from 'react-icons/tb'
-import { IContactState } from '@renderer/@types/store'
 import { Button } from '@renderer/components/Button'
 import { ContactAddressTable } from '@renderer/components/Contact/ContactAddressTable'
 import { ContactList } from '@renderer/components/Contact/ContactList'
@@ -11,6 +10,7 @@ import { StringHelper } from '@renderer/helpers/StringHelper'
 import { useContactsSelector } from '@renderer/hooks/useContactSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { MainLayout } from '@renderer/layouts/Main'
+import { IContactState } from '@shared/@types/store'
 
 export const ContactsPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'contacts' })

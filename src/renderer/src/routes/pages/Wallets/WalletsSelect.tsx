@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
 import { useTranslation } from 'react-i18next'
-import { IWalletState } from '@renderer/@types/store'
 import { Select } from '@renderer/components/Select'
+import { IWalletState } from '@shared/@types/store'
 
 import { WalletSelectItem } from './WalletSelectItem'
 

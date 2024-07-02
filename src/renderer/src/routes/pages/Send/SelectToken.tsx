@@ -1,13 +1,13 @@
 import { useTranslation } from 'react-i18next'
 import { TbChevronRight } from 'react-icons/tb'
 import { VscCircleFilled } from 'react-icons/vsc'
-import { TTokenBalance } from '@renderer/@types/query'
-import { IAccountState } from '@renderer/@types/store'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { Button } from '@renderer/components/Button'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+import { TTokenBalance } from '@shared/@types/query'
+import { IAccountState } from '@shared/@types/store'
 
 type TTokenParams = {
   selectedAccount?: IAccountState

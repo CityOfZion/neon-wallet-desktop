@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { TTokenBalance } from '@renderer/@types/query'
+import { TTokenBalance } from '@shared/@types/query'
 
 import { ChartCard } from './ChartCard'
 

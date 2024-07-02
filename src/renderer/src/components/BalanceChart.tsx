@@ -1,10 +1,10 @@
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TTokenBalance, TUseBalancesResult } from '@renderer/@types/query'
-import { IAccountState } from '@renderer/@types/store'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
+import { TTokenBalance, TUseBalancesResult } from '@shared/@types/query'
+import { IAccountState } from '@shared/@types/store'
 
 import { EmptyState } from './EmptyState'
 import { Loader } from './Loader'

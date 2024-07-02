@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { MdContentCopy, MdLaunch } from 'react-icons/md'
 import { TbArrowsSort } from 'react-icons/tb'
 import { TSession } from '@cityofzion/wallet-connect-sdk-wallet-react'
-import { TBlockchainServiceKey } from '@renderer/@types/blockchain'
 import { DappPermissionHeader } from '@renderer/components/DappPermissionHeader'
 import { IconButton } from '@renderer/components/IconButton'
 import { Loader } from '@renderer/components/Loader'
@@ -15,6 +14,7 @@ import { useContract } from '@renderer/hooks/useContract'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 
 type TModalState = {
   session: TSession

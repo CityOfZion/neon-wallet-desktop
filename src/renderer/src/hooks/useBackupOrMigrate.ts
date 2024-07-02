@@ -37,12 +37,12 @@ export const useBackupOrMigrate = () => {
   )
 
   const handleBrowse = async () => {
-    const [filePath] = await window.api.openDialog({
+    const [filePath] = await window.api.sendAsync('openDialog', {
       properties: ['openFile'],
       filters: [{ name: '', extensions: [BACKUP_FILE_EXTENSION, 'json'] }],
     })
 
-    const fileContent = await window.api.readFile(filePath)
+    const fileContent = await window.api.sendAsync('readFile', filePath)
 
     if (filePath.endsWith(BACKUP_FILE_EXTENSION)) {
       ToastHelper.success({ message: t('neon3BackupFileDetected') })

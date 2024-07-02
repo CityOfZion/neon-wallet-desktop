@@ -1,8 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { MdDeleteForever } from 'react-icons/md'
 import { TbPencil, TbPlus } from 'react-icons/tb'
-import { TBlockchainServiceKey } from '@renderer/@types/blockchain'
-import { IAccountState, IWalletState } from '@renderer/@types/store'
 import { Button } from '@renderer/components/Button'
 import { ColorSelector } from '@renderer/components/ColorSelector'
 import { Input } from '@renderer/components/Input'
@@ -13,6 +11,8 @@ import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 import { accountReducerActions } from '@renderer/store/reducers/AccountReducer'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
+import { IAccountState, IWalletState } from '@shared/@types/store'
 
 type TFormData = {
   name: string

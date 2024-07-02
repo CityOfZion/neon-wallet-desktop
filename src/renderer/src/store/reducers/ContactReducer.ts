@@ -1,5 +1,5 @@
 import { CaseReducer, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { IContactState } from '@renderer/@types/store'
+import { IContactState } from '@shared/@types/store'
 
 export interface IContactReducer {
   data: IContactState[]

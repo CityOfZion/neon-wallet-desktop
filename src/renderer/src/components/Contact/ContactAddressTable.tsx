@@ -1,9 +1,9 @@
 import { useMemo, useRef, useState } from 'react'
 import { FiSend } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
-import { TContactAddress } from '@renderer/@types/store'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { getI18next } from '@renderer/libs/i18next'
+import { TContactAddress } from '@shared/@types/store'
 import {
   createColumnHelper,
   flexRender,

@@ -48,7 +48,7 @@ export const WelcomeSecuritySetupStep2Page = ({ onSubmit }: TProps) => {
       return
     }
 
-    const encryptedPassword = await window.api.encryptBasedOS(data.confirmPassword)
+    const encryptedPassword = await window.api.sendAsync('encryptBasedOS', data.confirmPassword)
     dispatch(settingsReducerActions.setEncryptedPassword(encryptedPassword))
     dispatch(settingsReducerActions.setSecurityType('password'))
 

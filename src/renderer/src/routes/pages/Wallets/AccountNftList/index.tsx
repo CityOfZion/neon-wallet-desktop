@@ -2,13 +2,13 @@ import { Fragment, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdFormatListBulleted, MdGridView } from 'react-icons/md'
 import { useOutletContext } from 'react-router-dom'
-import { IAccountState } from '@renderer/@types/store'
 import { IconButton } from '@renderer/components/IconButton'
 import { Loader } from '@renderer/components/Loader'
 import { NftGallery } from '@renderer/components/NftGallery'
 import { NftList } from '@renderer/components/NftList'
 import { useNfts } from '@renderer/hooks/useNfts'
 import { AccountDetailsLayout } from '@renderer/layouts/AccountDetailsLayout'
+import { IAccountState } from '@shared/@types/store'
 
 enum ENftViewOption {
   LIST,

@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next'
 import { MdOutlineSave } from 'react-icons/md'
-import { TAccountBackupFormat, TBackupFormat, TWalletBackupFormat } from '@renderer/@types/blockchain'
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
@@ -17,6 +16,7 @@ import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useEncryptedPasswordSelector } from '@renderer/hooks/useSettingsSelector'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
+import { TAccountBackupFormat, TBackupFormat, TWalletBackupFormat } from '@shared/@types/blockchain'
 
 type TFormData = {
   password: string
@@ -53,7 +53,7 @@ export const ConfirmPasswordBackupModal = () => {
   })
 
   const handleSubmit = async ({ password }: TFormData) => {
-    const decryptedPassword = await window.api.decryptBasedOS(encryptedPassword ?? '')
+    const decryptedPassword = await window.api.sendAsync('decryptBasedOS', encryptedPassword ?? '')
     if (password.length === 0 || password !== decryptedPassword) {
       setError('password', t('error'))
       return
@@ -76,7 +76,10 @@ export const ConfirmPasswordBackupModal = () => {
               name: account.name,
               order: account.order,
               key: account.encryptedKey
-                ? await window.api.decryptBasedEncryptedSecret(account.encryptedKey, encryptedPassword)
+                ? await window.api.sendAsync('decryptBasedEncryptedSecret', {
+                    value: account.encryptedKey,
+                    encryptedSecret: encryptedPassword,
+                  })
                 : undefined,
             })
           )
@@ -87,7 +90,10 @@ export const ConfirmPasswordBackupModal = () => {
           id: wallet.id,
           name: wallet.name,
           mnemonic: wallet.encryptedMnemonic
-            ? await window.api.decryptBasedEncryptedSecret(wallet.encryptedMnemonic, encryptedPassword)
+            ? await window.api.sendAsync('decryptBasedEncryptedSecret', {
+                value: wallet.encryptedMnemonic,
+                encryptedSecret: encryptedPassword,
+              })
             : '',
           accounts: accountsToBackup,
         }
@@ -97,12 +103,16 @@ export const ConfirmPasswordBackupModal = () => {
 
       backupFile.wallets = walletsToBackup
 
-      const content = await window.api.encryptBasedSecret(JSON.stringify(backupFile), decryptedPassword)
+      const content = await window.api.sendAsync('encryptBasedSecret', {
+        value: JSON.stringify(backupFile),
+        secret: decryptedPassword,
+      })
 
-      window.api.saveFile(
-        `${selectedFilePath}/NEON3-Backup-${DateHelper.getNowUnix()}.${BACKUP_FILE_EXTENSION}`,
-        content
-      )
+      await window.api.sendAsync('saveFile', {
+        path: `${selectedFilePath}/NEON3-Backup-${DateHelper.getNowUnix()}.${BACKUP_FILE_EXTENSION}`,
+        content,
+      })
+
       modalNavigate('success', {
         state: {
           heading: t('title'),

@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TCurrency } from '@renderer/@types/store'
 import { RadioGroup } from '@renderer/components/RadioGroup'
 import { availableCurrencies } from '@renderer/constants/currency'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 import { SettingsLayout } from '@renderer/layouts/Settings'
 import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
+import { TCurrency } from '@shared/@types/store'
 
 export const SettingsCurrency = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'settings.settingsCurrency' })

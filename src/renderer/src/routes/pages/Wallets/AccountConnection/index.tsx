@@ -2,12 +2,12 @@ import { useTranslation } from 'react-i18next'
 import { TbPlugX, TbPlus } from 'react-icons/tb'
 import { useOutletContext } from 'react-router-dom'
 import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
-import { IAccountState } from '@renderer/@types/store'
 import { Button } from '@renderer/components/Button'
 import { ConnectionsTable } from '@renderer/components/ConnectionsTable'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { AccountDetailsLayout } from '@renderer/layouts/AccountDetailsLayout'
+import { IAccountState } from '@shared/@types/store'
 
 type TOutletContext = {
   account: IAccountState

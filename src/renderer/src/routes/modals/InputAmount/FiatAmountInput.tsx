@@ -1,11 +1,11 @@
 import { ChangeEvent } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TTokenBalance } from '@renderer/@types/query'
 import { Input } from '@renderer/components/Input'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
+import { TTokenBalance } from '@shared/@types/query'
 
 type TProps = {
   value: string

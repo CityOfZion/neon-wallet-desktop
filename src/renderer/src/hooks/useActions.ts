@@ -1,5 +1,5 @@
 import { FormEvent, MouseEvent, useCallback, useMemo, useRef, useState } from 'react'
-import { TUseActionsActionState, TUseActionsChanged, TUseActionsData, TUseActionsErrors } from '@renderer/@types/hooks'
+import { TUseActionsActionState, TUseActionsChanged, TUseActionsData, TUseActionsErrors } from '@shared/@types/hooks'
 import { cloneDeep } from 'lodash'
 
 export const useActions = <T extends TUseActionsData>(initialData: T) => {

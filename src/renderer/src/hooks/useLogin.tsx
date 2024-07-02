@@ -12,19 +12,26 @@ export const useLogin = () => {
 
   const login = useCallback(
     async (password: string) => {
-      const encryptedPassword = await window.api.encryptBasedOS(password)
+      const encryptedPassword = await window.api.sendAsync('encryptBasedOS', password)
 
       const walletPromises = walletsRef.current.map(async wallet => {
         if (!wallet.encryptedMnemonic) return
-        await window.api.decryptBasedEncryptedSecret(wallet.encryptedMnemonic, encryptedPassword)
+        await window.api.sendAsync('decryptBasedEncryptedSecret', {
+          value: wallet.encryptedMnemonic,
+          encryptedSecret: encryptedPassword,
+        })
       })
 
       const accountPromises = accountsRef.current.map(async account => {
         if (!account.encryptedKey) return
-        await window.api.decryptBasedEncryptedSecret(account.encryptedKey, encryptedPassword)
+        await window.api.sendAsync('decryptBasedEncryptedSecret', {
+          value: account.encryptedKey,
+          encryptedSecret: encryptedPassword,
+        })
       })
 
       await Promise.all([...walletPromises, ...accountPromises])
+
       dispatch(settingsReducerActions.setEncryptedPassword(encryptedPassword))
     },
     [walletsRef, accountsRef, dispatch]

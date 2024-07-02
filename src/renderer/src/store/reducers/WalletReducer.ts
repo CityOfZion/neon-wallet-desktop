@@ -1,5 +1,5 @@
 import { CaseReducer, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { IWalletState } from '@renderer/@types/store'
+import { IWalletState } from '@shared/@types/store'
 
 export const walletReducerName = 'walletReducer'
 

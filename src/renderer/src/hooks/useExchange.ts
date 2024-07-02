@@ -1,8 +1,8 @@
 import { Currency } from '@cityofzion/blockchain-service'
-import { TBlockchainServiceKey } from '@renderer/@types/blockchain'
-import { TBaseOptions, TExchange, TMultiExchange, TUseExchangeResult } from '@renderer/@types/query'
-import { TCurrency } from '@renderer/@types/store'
 import { bsAggregator } from '@renderer/libs/blockchainService'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
+import { TBaseOptions, TExchange, TMultiExchange, TUseExchangeResult } from '@shared/@types/query'
+import { TCurrency } from '@shared/@types/store'
 import { useQueries } from '@tanstack/react-query'
 
 import { useCurrencySelector, useSelectedNetworkByBlockchainSelector } from './useSettingsSelector'

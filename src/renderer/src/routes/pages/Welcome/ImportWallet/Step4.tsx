@@ -1,8 +1,6 @@
 import { Fragment, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Location, useLocation, useNavigate } from 'react-router-dom'
-import { TAccountsToImport, TWalletToCreate } from '@renderer/@types/blockchain'
-import { IContactState } from '@renderer/@types/store'
 import { ReactComponent as NeonWalletLogo } from '@renderer/assets/images/neon-wallet-compact.svg'
 import { Progress } from '@renderer/components/Progress'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
@@ -11,6 +9,8 @@ import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { contactReducerActions } from '@renderer/store/reducers/ContactReducer'
 import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
+import { TAccountsToImport, TWalletToCreate } from '@shared/@types/blockchain'
+import { IContactState } from '@shared/@types/store'
 
 type TLocationState = {
   wallets: (TWalletToCreate & {
@@ -35,7 +35,7 @@ export const WelcomeImportWalletStep4Page = () => {
     try {
       const progressByStep = 100 / state.wallets.length + 3
 
-      const encryptedPassword = await window.api.encryptBasedOS(state.password)
+      const encryptedPassword = await window.api.sendAsync('encryptBasedOS', state.password)
       dispatch(settingsReducerActions.setEncryptedPassword(encryptedPassword))
       dispatch(settingsReducerActions.setSecurityType('password'))
 

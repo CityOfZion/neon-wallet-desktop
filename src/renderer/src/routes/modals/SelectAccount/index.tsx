@@ -1,7 +1,6 @@
 import { Fragment, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdCheck } from 'react-icons/md'
-import { IAccountState, IWalletState } from '@renderer/@types/store'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { Button } from '@renderer/components/Button'
 import { Select } from '@renderer/components/Select'
@@ -12,6 +11,7 @@ import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
+import { IAccountState, IWalletState } from '@shared/@types/store'
 
 type TLocationState = {
   onSelectAccount: (contact: IAccountState) => void

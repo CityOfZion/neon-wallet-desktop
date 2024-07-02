@@ -1,7 +1,6 @@
 import { ChangeEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbFileImport } from 'react-icons/tb'
-import { TBlockchainServiceKey } from '@renderer/@types/blockchain'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
@@ -9,6 +8,7 @@ import { useActions } from '@renderer/hooks/useActions'
 import { useModalState } from '@renderer/hooks/useModalRouter'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 import { bsAggregator } from '@renderer/libs/blockchainService'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 
 type TLocation = {
   encryptedKey: string

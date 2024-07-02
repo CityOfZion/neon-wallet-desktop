@@ -1,4 +1,5 @@
-import { BrowserWindow, ipcMain } from 'electron'
+import { mainApi } from '@shared/api/main'
+import { BrowserWindow } from 'electron'
 import { autoUpdater } from 'electron-updater'
 
 export function registerUpdaterHandler() {
@@ -7,11 +8,12 @@ export function registerUpdaterHandler() {
     if (!browserWindow) return
     browserWindow.webContents.send('updateCompleted')
   })
-  ipcMain.handle('checkForUpdates', async () => {
+
+  mainApi.listenAsync('checkForUpdates', async () => {
     await autoUpdater.checkForUpdates()
   })
 
-  ipcMain.handle('quitAndInstall', () => {
+  mainApi.listenAsync('quitAndInstall', async () => {
     autoUpdater.quitAndInstall()
   })
 }

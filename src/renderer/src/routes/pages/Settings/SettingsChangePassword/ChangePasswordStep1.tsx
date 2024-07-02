@@ -31,8 +31,8 @@ export const ChangePasswordStep1 = (): JSX.Element => {
     })
 
   const handleSubmit = async (data: TFormData) => {
-    const decryptedPassword = await window.api.decryptBasedOS(encryptedPassword ?? '')
-    const encryptedNewPassword = await window.api.encryptBasedOS(data.newPassword)
+    const decryptedPassword = await window.api.sendAsync('decryptBasedOS', encryptedPassword ?? '')
+    const encryptedNewPassword = await window.api.sendAsync('encryptBasedOS', data.newPassword)
     if (data.currentPassword.length === 0 || data.currentPassword !== decryptedPassword) {
       setError('currentPassword', t('error'))
       return

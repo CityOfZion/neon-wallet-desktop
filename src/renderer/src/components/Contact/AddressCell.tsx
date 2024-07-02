@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
 import { MdOutlineContentCopy } from 'react-icons/md'
-import { TContactAddress } from '@renderer/@types/store'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useNameService } from '@renderer/hooks/useNameService'
+import { TContactAddress } from '@shared/@types/store'
 
 import { IconButton } from '../IconButton'
 

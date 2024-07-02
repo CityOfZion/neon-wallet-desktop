@@ -1,8 +1,8 @@
 import { ChangeEvent } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TUseImportActionInputType } from '@renderer/@types/hooks'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { bsAggregator } from '@renderer/libs/blockchainService'
+import { TUseImportActionInputType } from '@shared/@types/hooks'
 
 import { useActions } from './useActions'
 

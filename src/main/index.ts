@@ -1,4 +1,5 @@
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
+import { mainApi } from '@shared/api/main'
 import { app, BrowserWindow, shell } from 'electron'
 import { join } from 'path'
 
@@ -7,7 +8,6 @@ import icon from '../../resources/icon.png?asset'
 
 import { exposeBsAggregatorToRenderer } from './bsAggregator'
 import {
-  dispatchDeeplinkEvent,
   registerDeeplinkHandler,
   registerDeeplinkProtocol,
   registerOpenUrlListener,
@@ -15,7 +15,7 @@ import {
 } from './deeplink'
 import { registerEncryptionHandlers } from './encryption'
 import { registerLedgerHandler } from './ledger'
-import { setupSentry } from './sentryElectron'
+import { setupSentry } from './sentry'
 import { registerUpdaterHandler } from './updater'
 import { exposeWalletConnectAdaptersToRenderer } from './walletConnect'
 import { registerWindowHandlers } from './window'
@@ -75,7 +75,9 @@ if (!gotTheLock) {
       if (mainWindow.isMinimized()) mainWindow.restore()
       mainWindow.focus()
 
-      dispatchDeeplinkEvent(deeplinkUrl)
+      if (deeplinkUrl) {
+        mainApi.send('deeplink', deeplinkUrl)
+      }
     } else {
       setInitialDeeplink(deeplinkUrl)
     }
@@ -108,6 +110,7 @@ if (!gotTheLock) {
       app.quit()
     }
   })
+
   exposeBsAggregatorToRenderer()
   exposeWalletConnectAdaptersToRenderer()
   registerUpdaterHandler()

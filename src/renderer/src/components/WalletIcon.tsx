@@ -1,7 +1,7 @@
 import { cloneElement } from 'react'
-import { IWalletState, TWalletType } from '@renderer/@types/store'
 import { SKINS } from '@renderer/constants/skins'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+import { IWalletState, TWalletType } from '@shared/@types/store'
 
 import { ReactComponent as WalletIconLedger } from '../assets/images/wallet-icon-ledger.svg'
 import { ReactComponent as WalletIconStandard } from '../assets/images/wallet-icon-standard.svg'

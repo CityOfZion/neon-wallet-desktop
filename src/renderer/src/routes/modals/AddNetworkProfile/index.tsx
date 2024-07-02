@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next'
 import { MdDeleteForever } from 'react-icons/md'
-import { TNetworkProfile } from '@renderer/@types/store'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
@@ -10,6 +9,7 @@ import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useSelectedNetworkByBlockchainSelector } from '@renderer/hooks/useSettingsSelector'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
+import { TNetworkProfile } from '@shared/@types/store'
 
 type TModalState = {
   profile?: TNetworkProfile

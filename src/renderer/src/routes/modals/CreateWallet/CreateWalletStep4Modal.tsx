@@ -1,10 +1,10 @@
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { IAccountState } from '@renderer/@types/store'
 import { ReactComponent as NeonWalletIcon3D } from '@renderer/assets/images/neon-wallet-icon-3d.svg'
 import { Button } from '@renderer/components/Button'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { CreateWalletModalLayout } from '@renderer/layouts/CreateWalletModalLayout'
+import { IAccountState } from '@shared/@types/store'
 
 type TLocationState = {
   account: IAccountState

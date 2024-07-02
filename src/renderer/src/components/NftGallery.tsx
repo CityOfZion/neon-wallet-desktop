@@ -1,10 +1,10 @@
 import { useMemo } from 'react'
 import PhotoAlbum from 'react-photo-album'
 import { NftResponse } from '@cityofzion/blockchain-service'
-import { IAccountState } from '@renderer/@types/store'
 import { ExplorerHelper } from '@renderer/helpers/ExplorerHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
+import { IAccountState } from '@shared/@types/store'
 
 import { BlockchainIcon } from './BlockchainIcon'
 

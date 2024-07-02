@@ -1,7 +1,5 @@
 import { useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TSession } from '@cityofzion/wallet-connect-sdk-wallet-react'
-import { TBlockchainServiceKey } from '@renderer/@types/blockchain'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
@@ -9,6 +7,7 @@ import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { accountReducerActions } from '@renderer/store/reducers/AccountReducer'
 import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 
 import { useAccountsSelector } from './useAccountSelector'
 import { useAppDispatch, useAppSelector } from './useRedux'
@@ -24,11 +23,11 @@ const useWalletConnectListeners = () => {
   const { networkByBlockchainRef } = useSelectedNetworkByBlockchainSelector()
 
   useEffect(() => {
-    const removeGetStoreFromWCListener = window.listeners.getStoreFromWC((_event, session: TSession) => {
-      const { address } = WalletConnectHelper.getAccountInformationFromSession(session)
+    const removeGetStoreFromWCListener = window.api.listen('getStoreFromWC', ({ args }) => {
+      const { address } = WalletConnectHelper.getAccountInformationFromSession(args)
       const account = accountsRef.current.find(account => account.address === address)
 
-      window.api.sendStoreFromWC({
+      window.api.sendSync('sendStoreFromWC', {
         account,
         encryptedPassword: encryptedPasswordRef.current,
         networkByBlockchain: networkByBlockchainRef.current,
@@ -46,27 +45,27 @@ const useRegisterLedgerListeners = () => {
   const { t: commonT } = useTranslation('common')
 
   useEffect(() => {
-    const removeLedgerConnectedListener = window.listeners.ledgerConnected(async (_event, address) => {
+    const removeLedgerConnectedListener = window.api.listen('ledgerConnected', ({ args }) => {
       ToastHelper.success({
-        message: t('ledgerConnected', { address: StringHelper.truncateStringMiddle(address, 20) }),
+        message: t('ledgerConnected', { address: StringHelper.truncateStringMiddle(args.address, 20) }),
       })
     })
 
-    const removeLedgerDisconnectedListener = window.listeners.ledgerDisconnected((_event, address) => {
+    const removeLedgerDisconnectedListener = window.api.listen('ledgerDisconnected', ({ args }) => {
       ToastHelper.error({
-        message: t('ledgerDisconnected', { address: StringHelper.truncateStringMiddle(address, 20) }),
+        message: t('ledgerDisconnected', { address: StringHelper.truncateStringMiddle(args, 20) }),
       })
     })
 
-    const removeGetLedgerSignatureStartListener = window.listeners.getLedgerSignatureStart(() => {
+    const removeGetLedgerSignatureStartListener = window.api.listen('getLedgerSignatureStart', () => {
       ToastHelper.loading({ message: commonT('ledger.requestingPermission'), id: 'ledger-request-permission' })
     })
 
-    const removeGetLedgerSignatureEndListener = window.listeners.getLedgerSignatureEnd(() => {
+    const removeGetLedgerSignatureEndListener = window.api.listen('getLedgerSignatureEnd', () => {
       ToastHelper.dismiss('ledger-request-permission')
     })
 
-    window.api.startLedger()
+    window.api.sendSync('startLedger')
 
     return () => {
       removeLedgerConnectedListener()
@@ -83,12 +82,12 @@ const useOverTheAirUpdate = () => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    const removeUpdateCompletedListener = window.listeners.updateCompleted(() => {
+    const removeUpdateCompletedListener = window.api.listen('updateCompleted', () => {
       dispatch(settingsReducerActions.setHasOverTheAirUpdates(true))
-      window.api.quitAndInstall()
+      window.api.sendAsync('quitAndInstall')
     })
 
-    window.api.checkForUpdates()
+    window.api.sendAsync('checkForUpdates')
 
     return () => {
       removeUpdateCompletedListener()
@@ -110,7 +109,7 @@ const useDeeplinkListeners = () => {
     const handleDeeplink = async (uri?: string) => {
       if (!uri) return
 
-      window.api.restoreWindow()
+      window.api.sendSync('restore')
 
       if (!encryptedPasswordRef.current)
         ToastHelper.info({
@@ -118,8 +117,8 @@ const useDeeplinkListeners = () => {
         })
     }
 
-    const removeListener = window.listeners.deeplink((_event, uri) => handleDeeplink(uri))
-    window.api.getInitialDeepLinkUri().then(handleDeeplink)
+    const removeListener = window.api.listen('deeplink', ({ args }) => handleDeeplink(args))
+    window.api.sendAsync('getInitialDeepLinkUri').then(handleDeeplink)
 
     return () => {
       removeListener()

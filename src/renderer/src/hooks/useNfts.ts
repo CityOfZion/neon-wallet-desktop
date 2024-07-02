@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { hasNft } from '@cityofzion/blockchain-service'
-import { IAccountState } from '@renderer/@types/store'
 import { bsAggregator } from '@renderer/libs/blockchainService'
+import { IAccountState } from '@shared/@types/store'
 import { useInfiniteQuery } from '@tanstack/react-query'
 
 import { useSelectedNetworkSelector } from './useSettingsSelector'

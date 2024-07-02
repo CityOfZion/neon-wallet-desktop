@@ -1,3 +1,6 @@
+import { ExchangeHelper } from '@renderer/helpers/ExchangeHelper'
+import { NumberHelper } from '@renderer/helpers/NumberHelper'
+import { bsAggregator } from '@renderer/libs/blockchainService'
 import {
   TBalance,
   TBaseOptions,
@@ -5,10 +8,7 @@ import {
   TTokenBalance,
   TUseBalancesParams,
   TUseBalancesResult,
-} from '@renderer/@types/query'
-import { ExchangeHelper } from '@renderer/helpers/ExchangeHelper'
-import { NumberHelper } from '@renderer/helpers/NumberHelper'
-import { bsAggregator } from '@renderer/libs/blockchainService'
+} from '@shared/@types/query'
 import { useQueries } from '@tanstack/react-query'
 
 import { useExchange } from './useExchange'

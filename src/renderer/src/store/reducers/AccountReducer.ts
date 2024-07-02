@@ -1,10 +1,10 @@
 import { BlockchainService, waitForTransaction } from '@cityofzion/blockchain-service'
 import { CaseReducer, createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { TBlockchainServiceKey } from '@renderer/@types/blockchain'
-import { TUseTransactionsTransfer } from '@renderer/@types/hooks'
-import { IAccountState } from '@renderer/@types/store'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { getI18next } from '@renderer/libs/i18next'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
+import { TUseTransactionsTransfer } from '@shared/@types/hooks'
+import { IAccountState } from '@shared/@types/store'
 
 export interface IAccountReducer {
   data: IAccountState[]

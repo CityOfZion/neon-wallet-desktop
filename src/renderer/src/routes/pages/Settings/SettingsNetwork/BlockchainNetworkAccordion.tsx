@@ -1,10 +1,10 @@
 import { useTranslation } from 'react-i18next'
-import { TBlockchainServiceKey } from '@renderer/@types/blockchain'
 import { Accordion } from '@renderer/components/Accordion'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { DEFAULT_NETWORK_PROFILE } from '@renderer/constants/networks'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useSelectedNetworkProfileSelector, useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 
 import { BlockchainNetworkButton } from './BlockchainNetworkButton'
 

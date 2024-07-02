@@ -1,6 +1,6 @@
-import { IAccountState } from '@renderer/@types/store'
 import placeholderImage from '@renderer/assets/images/account-card-placeholder.png'
 import { backgroundColorByAccountColor } from '@renderer/constants/blockchain'
+import { IAccountState } from '@shared/@types/store'
 
 import { BlockchainIcon } from './BlockchainIcon'
 type TProps = {

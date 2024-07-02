@@ -2,8 +2,8 @@ import { Fragment } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbStepInto, TbStepOut } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
-import { IAccountState } from '@renderer/@types/store'
 import { Button } from '@renderer/components/Button'
+import { IAccountState } from '@shared/@types/store'
 
 type TProps = {
   account: IAccountState

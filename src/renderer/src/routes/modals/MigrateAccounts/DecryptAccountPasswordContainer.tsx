@@ -2,12 +2,12 @@ import { Fragment } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdCheck, MdChevronRight } from 'react-icons/md'
 import { TbAlertTriangle } from 'react-icons/tb'
-import { TBlockchainServiceKey } from '@renderer/@types/blockchain'
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Input } from '@renderer/components/Input'
 import { useActions } from '@renderer/hooks/useActions'
 import { TMigrateWalletsSchema } from '@renderer/hooks/useBackupOrMigrate'
 import { bsAggregator } from '@renderer/libs/blockchainService'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 
 export type TMigrateDecryptedAccountSchema = TMigrateWalletsSchema & {
   decryptedKey: string

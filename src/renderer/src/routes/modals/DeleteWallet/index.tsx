@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next'
 import { TbPencil, TbTrash } from 'react-icons/tb'
-import { IWalletState } from '@renderer/@types/store'
 import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'
@@ -10,6 +9,7 @@ import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
+import { IWalletState } from '@shared/@types/store'
 
 type TLocationState = {
   wallet: IWalletState

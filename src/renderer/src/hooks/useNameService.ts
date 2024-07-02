@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react'
 import { hasNameService } from '@cityofzion/blockchain-service'
-import { TBlockchainServiceKey } from '@renderer/@types/blockchain'
 import { bsAggregator } from '@renderer/libs/blockchainService'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { debounce } from 'lodash'
 
 export const useNameService = () => {

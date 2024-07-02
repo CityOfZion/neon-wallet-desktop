@@ -1,8 +1,8 @@
 import { CaseReducer, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { TBlockchainServiceKey, TNetwork } from '@renderer/@types/blockchain'
-import { ISettingsState, TCurrency, TNetworkProfile, TSecurityType } from '@renderer/@types/store'
 import { availableCurrencies } from '@renderer/constants/currency'
 import { DEFAULT_NETWORK_BY__BLOCKCHAIN, DEFAULT_NETWORK_PROFILE } from '@renderer/constants/networks'
+import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
+import { ISettingsState, TCurrency, TNetworkProfile, TSecurityType } from '@shared/@types/store'
 import { cloneDeep } from 'lodash'
 
 export const settingsReducerName = 'settingsReducer'

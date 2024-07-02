@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
-import { TBlockchainServiceKey, TNetwork } from '@renderer/@types/blockchain'
 import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
+import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
 
 import { useAppDispatch, useAppSelector } from './useRedux'
 
