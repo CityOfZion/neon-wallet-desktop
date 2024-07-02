@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react'
 import { useEffect, useRef } from 'react'
 import type { ECharts, EChartsOption, SetOptionOpts } from 'echarts'
-import { getInstanceByDom, init } from 'echarts'
+import { init } from 'echarts'
 
 export interface ReactEChartsProps {
   option: EChartsOption
@@ -10,31 +10,32 @@ export interface ReactEChartsProps {
 }
 
 export function EChart({ option, style, settings }: ReactEChartsProps): JSX.Element {
-  const chartRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const chartRef = useRef<ECharts>()
 
   useEffect(() => {
-    let chart: ECharts | undefined
-    if (chartRef.current !== null) {
-      chart = init(chartRef.current)
+    if (containerRef.current !== null) {
+      chartRef.current = init(containerRef.current)
+      chartRef.current?.setOption(option, settings)
     }
 
     function resizeChart() {
-      chart?.resize()
+      chartRef.current?.resize()
     }
+
     window.addEventListener('resize', resizeChart)
 
     return () => {
-      chart?.dispose()
+      chartRef.current?.dispose()
       window.removeEventListener('resize', resizeChart)
     }
   }, [])
 
   useEffect(() => {
-    if (chartRef.current !== null) {
-      const chart = getInstanceByDom(chartRef.current)
-      chart?.setOption(option, settings)
+    if (containerRef.current !== null) {
+      chartRef.current?.setOption(option, settings)
     }
   }, [option, settings])
 
-  return <div ref={chartRef} style={{ width: '100%', height: '100%', ...style }} />
+  return <div ref={containerRef} style={{ width: '100%', height: '100%', ...style }} />
 }

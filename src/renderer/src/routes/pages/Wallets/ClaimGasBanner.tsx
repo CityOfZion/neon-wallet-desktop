@@ -119,13 +119,13 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
   }
 
   return (
-    <div className="w-full bg-asphalt flex items-center justify-center rounded h-[55px] mt-5 text-sm">
+    <div className="w-full bg-asphalt flex items-center justify-center rounded h-[55px] mb-5 text-sm">
       {unclaimed.isLoading || balances.isLoading ? (
         <Loader />
       ) : (
         <div className="w-full flex justify-between items-center h-full px-4">
           <div className="flex items-center gap-x-2">
-            <div className="flex items-center gap-x-1">
+            <div className="flex items-center gap-x-1.5">
               <BlockchainIcon blockchain={account.blockchain} type="green" />
               {blockchainService.claimToken.symbol}
             </div>

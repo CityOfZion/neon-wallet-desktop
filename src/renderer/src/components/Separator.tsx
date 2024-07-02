@@ -5,6 +5,6 @@ type TProps = ComponentProps<'div'>
 
 export const Separator = ({ className, ...props }: TProps) => {
   return (
-    <div className={StyleHelper.mergeStyles('w-full h-px bg-gray-300/30 min-h-[0.0625rem]', className)} {...props} />
+    <div className={StyleHelper.mergeStyles('w-full h-px bg-gray-300/15 min-h-[0.0625rem]', className)} {...props} />
   )
 }

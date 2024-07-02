@@ -34,3 +34,16 @@ export type TUseBalancesParams = {
   address: string
   blockchain: TBlockchainServiceKey
 }
+
+export type TPriceHistory = {
+  tokenBalance: TTokenBalance
+  todayPrice: number
+  dailyVariation: number
+  sortedPrices: number[]
+  sortedPricesByTimestamp: number[]
+}
+
+export type TUsePriceHistoryResult = {
+  data: TPriceHistory[]
+  isLoading: boolean
+}

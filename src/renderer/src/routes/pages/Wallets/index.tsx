@@ -139,9 +139,9 @@ export const WalletsPage = () => {
           </section>
 
           <section className="bg-gray-800 w-full h-full flex rounded flex-grow flex-col">
-            <header className="w-full h-14 items-center flex justify-between px-5">
+            <header className="w-full h-12 items-center flex justify-between px-5">
               <div className="flex items-center gap-2 text-sm">
-                <h1 className="text-white pr-3">{selectedAccount.name}</h1>
+                <h1 className="text-white pr-3 ">{selectedAccount.name}</h1>
                 <p className="text-gray-300">{t('address')}</p>
                 <p className="text-gray-100">{StringHelper.truncateStringMiddle(selectedAccount.address, 8)}</p>
                 <IconButton

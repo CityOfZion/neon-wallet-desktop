@@ -18,34 +18,42 @@ const fetchBalance = async (
   param: TUseBalancesParams,
   multiExchange: TMultiExchange | undefined
 ): Promise<TBalance> => {
-  const service = bsAggregator.blockchainServicesByName[param.blockchain]
-  const balance = await service.blockchainDataService.getBalance(param.address)
+  try {
+    const service = bsAggregator.blockchainServicesByName[param.blockchain]
+    const balance = await service.blockchainDataService.getBalance(param.address)
 
-  const tokensBalances: TTokenBalance[] = []
-  let exchangeTotal = 0
+    const tokensBalances: TTokenBalance[] = []
+    let exchangeTotal = 0
 
-  await Promise.allSettled(
-    balance.map(async balance => {
-      const exchangeRatio = ExchangeHelper.getExchangeRatio(balance.token.hash, param.blockchain, multiExchange)
-      const amountNumber = NumberHelper.number(balance.amount)
-      const exchangeAmount = amountNumber * exchangeRatio
+    await Promise.allSettled(
+      balance.map(async balance => {
+        const exchangeRatio = ExchangeHelper.getExchangeRatio(balance.token.hash, param.blockchain, multiExchange)
+        const amountNumber = NumberHelper.number(balance.amount)
+        const exchangeAmount = amountNumber * exchangeRatio
 
-      exchangeTotal += exchangeAmount
-      tokensBalances.push({
-        ...balance,
-        blockchain: param.blockchain,
-        amount: balance.amount,
-        amountNumber,
-        exchangeAmount,
-        exchangeRatio,
+        exchangeTotal += exchangeAmount
+        tokensBalances.push({
+          ...balance,
+          blockchain: param.blockchain,
+          amount: balance.amount,
+          amountNumber,
+          exchangeAmount,
+          exchangeRatio,
+        })
       })
-    })
-  )
+    )
 
-  return {
-    address: param.address,
-    tokensBalances,
-    exchangeTotal,
+    return {
+      address: param.address,
+      tokensBalances,
+      exchangeTotal,
+    }
+  } catch (error) {
+    return {
+      address: param.address,
+      tokensBalances: [],
+      exchangeTotal: 0,
+    }
   }
 }
 

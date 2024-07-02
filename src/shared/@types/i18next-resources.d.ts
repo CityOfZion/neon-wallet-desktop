@@ -113,11 +113,8 @@ interface Resources {
     balanceChart: {
       othersTokens: 'Others'
       noAssets: 'No assets'
-    }
-    balanceChartPanel: {
       holdings: 'Holdings'
-      walletsAndAccounts: '{{wallets}} Wallets / {{accounts}} Accounts'
-      totalValue: 'Total value'
+      balance: 'Balance'
     }
     transactionsTableEmpty: {
       title: 'Your wallet is currently empty, why not add some assets or connect a dApp?'
@@ -874,8 +871,6 @@ interface Resources {
       }
       accountOverview: {
         title: 'Account Overview'
-        balance: 'Balance'
-        holdings: 'Holdings'
       }
       accountTokensList: {
         title: 'Tokens'
