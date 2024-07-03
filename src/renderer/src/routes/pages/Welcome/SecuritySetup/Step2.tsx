@@ -59,7 +59,7 @@ export const WelcomeSecuritySetupStep2Page = ({ onSubmit }: TProps) => {
       mnemonic: words.join(' '),
     })
 
-    await createAccount({
+    createAccount({
       wallet,
       blockchain: 'neo3',
       name: commonT('account.defaultName', { accountNumber: 1 }),

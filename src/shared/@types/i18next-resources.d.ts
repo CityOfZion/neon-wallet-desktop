@@ -250,6 +250,7 @@ interface Resources {
       deleteWalletTitle: 'Delete Wallet'
       deleteWalletSubtext: 'This will remove your wallet and all transaction history'
       selectSkinLabel: 'Select a skin'
+      noSkinsUnlocked: 'No skins unlocked'
     }
     persistAccount: {
       titleEdit: 'Edit Account'
