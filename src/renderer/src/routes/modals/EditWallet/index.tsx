@@ -9,13 +9,13 @@ import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 import { walletReducerActions } from '@renderer/store/reducers/WalletReducer'
-import { IWalletState } from '@shared/@types/store'
+import { IWalletState, TSelectedLocalSkin, TSelectedSkin } from '@shared/@types/store'
 
-import { SkinSelector } from './SkinSelector'
+import { LocalSkinSelector } from './LocalSkinSelector'
 
 type TFormData = {
   name: string
-  selectedSkinId?: string
+  selectedSkin?: TSelectedSkin
 }
 
 type TLocationState = {
@@ -31,24 +31,24 @@ export const EditWalletModal = () => {
 
   const form = useActions<TFormData>({
     name: wallet.name,
-    selectedSkinId: wallet.selectedSkinId,
+    selectedSkin: wallet.selectedSkin,
   })
 
   const handleChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
     form.setData({ name: event.target.value })
   }
 
-  const handleSelectSkin = (skinId?: string) => {
-    form.setData({ selectedSkinId: skinId })
+  const handleSelectSkin = (skin?: TSelectedLocalSkin) => {
+    form.setData({ selectedSkin: skin })
   }
 
-  const handleSubmit = ({ name, selectedSkinId }: TFormData) => {
+  const handleSubmit = ({ name, selectedSkin }: TFormData) => {
     const nameTrimmed = name.trim()
     if (nameTrimmed.length <= 0) {
       form.setError('name', t('nameLengthError'))
       return
     }
-    dispatch(walletReducerActions.saveWallet({ ...wallet, name: nameTrimmed, selectedSkinId }))
+    dispatch(walletReducerActions.saveWallet({ ...wallet, name: nameTrimmed, selectedSkin }))
     modalNavigate(-1)
   }
 
@@ -66,7 +66,10 @@ export const EditWalletModal = () => {
 
         <Separator className="my-4" />
 
-        <SkinSelector selectedSkinId={form.actionData.selectedSkinId} onClick={handleSelectSkin} />
+        <LocalSkinSelector
+          selectedSkin={form.actionData.selectedSkin?.type === 'local' ? form.actionData.selectedSkin : undefined}
+          onClick={handleSelectSkin}
+        />
 
         <div className="flex gap-x-3 mt-auto mb-4">
           <Button

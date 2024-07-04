@@ -34,7 +34,7 @@ export function useBlockchainActions() {
       if (mnemonic) {
         encryptedMnemonic = window.api.sendSync('encryptBasedEncryptedSecretSync', {
           value: mnemonic,
-          password: encryptedPasswordRef.current,
+          encryptedSecret: encryptedPasswordRef.current,
         })
       }
 

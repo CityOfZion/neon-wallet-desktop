@@ -2,7 +2,7 @@ import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 
 import { ReactComponent as WalletNeonIcon } from '../assets/images/wallet-icon-neon.svg'
 
-export const WALLET_SKINS: {
+export const LOCAL_WALLET_SKINS: {
   id: string
   component: JSX.Element
   blockchain: TBlockchainServiceKey
@@ -16,4 +16,4 @@ export const WALLET_SKINS: {
   },
 ]
 
-export const SKINS = [...WALLET_SKINS]
+export const LOCAL_SKINS = [...LOCAL_WALLET_SKINS]

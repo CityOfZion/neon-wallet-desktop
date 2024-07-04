@@ -21,7 +21,7 @@
     "create-release:minor": "node scripts/create-release.js minor",
     "create-release:major": "node scripts/create-release.js major",
     "prepare": "husky install",
-    "i18next:interfaces": "i18next-resources-for-ts interface -i src/renderer/src/locales/en -o src/renderer/src/@types/i18next-resources.d.ts"
+    "i18next:interfaces": "i18next-resources-for-ts interface -i src/renderer/src/locales/en -o src/shared/@types/i18next-resources.d.ts"
   },
   "dependencies": {
     "@cityofzion/blockchain-service": "0.12.0",
