@@ -5,28 +5,32 @@ import { useQueries } from '@tanstack/react-query'
 
 import { useCurrencySelector } from './useSettingsSelector'
 
-const fetchTokenData = async (tokenBalance: TTokenBalance, currency: TCurrency): Promise<TPriceHistory> => {
-  const service = bsAggregator.blockchainServicesByName[tokenBalance.blockchain]
+const fetchTokenData = async (tokenBalance: TTokenBalance, currency: TCurrency): Promise<TPriceHistory | null> => {
+  try {
+    const service = bsAggregator.blockchainServicesByName[tokenBalance.blockchain]
 
-  const prices = await service.exchangeDataService.getTokenPriceHistory({
-    currency: currency.label as any,
-    tokenSymbol: tokenBalance.token.symbol,
-    limit: 24,
-    type: 'hour',
-  })
+    const prices = await service.exchangeDataService.getTokenPriceHistory({
+      currency: currency.label as any,
+      tokenSymbol: tokenBalance.token.symbol,
+      limit: 24,
+      type: 'hour',
+    })
 
-  const sortedPricesByTimestamp = prices.sort((a, b) => a.timestamp - b.timestamp)
+    const sortedPricesByTimestamp = prices.sort((a, b) => a.timestamp - b.timestamp)
 
-  const oldPrice = sortedPricesByTimestamp[0].price
-  const todayPrice = sortedPricesByTimestamp[sortedPricesByTimestamp.length - 1].price
-  const dailyVariation = ((todayPrice - oldPrice) / oldPrice) * 100
+    const oldPrice = sortedPricesByTimestamp[0].price
+    const todayPrice = sortedPricesByTimestamp[sortedPricesByTimestamp.length - 1].price
+    const dailyVariation = ((todayPrice - oldPrice) / oldPrice) * 100
 
-  return {
-    tokenBalance,
-    todayPrice,
-    dailyVariation,
-    sortedPrices: sortedPricesByTimestamp.map(item => item.price),
-    sortedPricesByTimestamp: sortedPricesByTimestamp.map(item => item.timestamp),
+    return {
+      tokenBalance,
+      todayPrice,
+      dailyVariation,
+      sortedPrices: sortedPricesByTimestamp.map(item => item.price),
+      sortedPricesByTimestamp: sortedPricesByTimestamp.map(item => item.timestamp),
+    }
+  } catch {
+    return null
   }
 }
 
