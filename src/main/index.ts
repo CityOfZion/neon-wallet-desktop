@@ -28,10 +28,10 @@ registerDeeplinkProtocol()
 function createWindow(): void {
   mainWindow = new BrowserWindow({
     title: `Neon Wallet ${packageJson.version}`,
-    width: 1280,
-    height: 720,
-    minWidth: 1280,
-    minHeight: 720,
+    width: 1350,
+    height: 752,
+    minWidth: 1350,
+    minHeight: 752,
     titleBarStyle: 'hidden',
     titleBarOverlay: true,
     show: false,

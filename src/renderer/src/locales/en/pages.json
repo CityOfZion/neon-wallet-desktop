@@ -161,9 +161,7 @@
       "total": "{{length}} items"
     },
     "accountOverview": {
-      "title": "Account Overview",
-      "balance": "Balance",
-      "holdings": "Holdings"
+      "title": "Account Overview"
     },
     "accountTokensList": {
       "title": "Tokens",
