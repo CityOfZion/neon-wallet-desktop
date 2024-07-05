@@ -70,7 +70,8 @@ export const ConfirmPasswordBackupModal = () => {
             async (account): Promise<TAccountBackupFormat> => ({
               type: account.type,
               address: account.address,
-              backgroundColor: account.backgroundColor,
+              skin: account.skin,
+              lastNftSkin: account.lastNftSkin,
               blockchain: account.blockchain,
               idWallet: account.idWallet,
               name: account.name,

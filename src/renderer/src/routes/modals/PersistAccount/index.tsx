@@ -1,10 +1,11 @@
 import { useTranslation } from 'react-i18next'
-import { MdDeleteForever } from 'react-icons/md'
+import { MdChevronRight, MdDeleteForever } from 'react-icons/md'
 import { TbPencil, TbPlus } from 'react-icons/tb'
+import { NftResponse } from '@cityofzion/blockchain-service'
 import { Button } from '@renderer/components/Button'
-import { ColorSelector } from '@renderer/components/ColorSelector'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
+import { ACCOUNT_COLOR_SKINS } from '@renderer/constants/skins'
 import { useActions } from '@renderer/hooks/useActions'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
@@ -12,11 +13,14 @@ import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 import { accountReducerActions } from '@renderer/store/reducers/AccountReducer'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { IAccountState, IWalletState } from '@shared/@types/store'
+import { IAccountState, IWalletState, TNftSkin, TSkin } from '@shared/@types/store'
+
+import { SkinSelector } from './SkinSelector'
 
 type TFormData = {
   name: string
-  backgroundColor: string
+  skin: TSkin
+  lastNftSkin?: TNftSkin
 }
 
 type TLocationState = {
@@ -26,7 +30,7 @@ type TLocationState = {
 
 export const PersistAccountModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'persistAccount' })
-  const { modalNavigate } = useModalNavigate()
+  const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
   const { account, wallet } = useModalState<TLocationState>()
   const { createAccount } = useBlockchainActions()
 
@@ -34,26 +38,32 @@ export const PersistAccountModal = () => {
 
   const { actionData, actionState, handleAct, setDataFromEventWrapper, setData, setError } = useActions<TFormData>({
     name: account ? account.name : '',
-    backgroundColor: account ? account.backgroundColor : 'green',
+    skin: account ? account.skin : { id: ACCOUNT_COLOR_SKINS[0].id, type: 'color' },
+    lastNftSkin: account ? account.lastNftSkin : undefined,
   })
 
-  const handleBackgroundColorChange = (color: string) => {
-    setData({ backgroundColor: color })
+  const handleSelectColorSkin = (skin: TSkin) => {
+    setData({ skin })
   }
 
-  const handleSubmit = async ({ name, backgroundColor }: TFormData) => {
-    const nameTrimmed = name.trim()
+  const handleSelectNftSkin = (nft: NftResponse) => {
+    if (!account || !nft.image) return
 
+    const skin: TSkin = { id: nft.id, imgUrl: nft.image, type: 'nft' }
+    setData({ skin, lastNftSkin: skin })
+  }
+
+  const handleSubmit = async ({ name, skin, lastNftSkin }: TFormData) => {
+    const nameTrimmed = name.trim()
     if (nameTrimmed.length === 0) {
       setError('name', t('nameLengthError'))
       return
     }
 
     if (account) {
-      dispatch(accountReducerActions.saveAccount({ ...account, name: nameTrimmed, backgroundColor }))
+      dispatch(accountReducerActions.saveAccount({ ...account, name: nameTrimmed, skin, lastNftSkin }))
       modalNavigate(-1)
     }
-
     if (wallet) {
       modalNavigate('blockchain-selection', {
         state: {
@@ -61,11 +71,11 @@ export const PersistAccountModal = () => {
           headingIcon: <TbPlus className="text-neon" />,
           description: t('selectBlockchainDescription'),
           onSelect: async (blockchain: TBlockchainServiceKey) => {
-            await createAccount({
+            createAccount({
               wallet,
               blockchain: blockchain,
               name: nameTrimmed,
-              backgroundColor: backgroundColor,
+              skin: skin,
             })
             modalNavigate(-2)
           },
@@ -101,12 +111,32 @@ export const PersistAccountModal = () => {
             <Separator />
           </div>
 
-          <ColorSelector
+          <SkinSelector
             label={t('colorSelectorLabel')}
-            setNewColor={handleBackgroundColorChange}
-            accountColor={actionData.backgroundColor}
+            onSelectSkin={handleSelectColorSkin}
+            selectedSkin={actionData.skin}
+            lastNftSkin={actionData.lastNftSkin}
           />
+
+          {account && (
+            <Button
+              label={t('useNftButtonLabel')}
+              className="w-full mt-4"
+              variant="card"
+              type="button"
+              clickableProps={{
+                className: 'px-4',
+              }}
+              colorSchema="white"
+              textClassName="text-left"
+              flat
+              wide
+              onClick={modalNavigateWrapper('nft-selection', { state: { account, onSelect: handleSelectNftSkin } })}
+              rightIcon={<MdChevronRight />}
+            />
+          )}
         </div>
+
         <Button
           className="w-full"
           type="submit"

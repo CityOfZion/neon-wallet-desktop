@@ -7,7 +7,6 @@ import { LOCAL_SKINS } from '@renderer/constants/skins'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { bsAggregator } from '@renderer/libs/blockchainService'
-import { accountReducerActions } from '@renderer/store/reducers/AccountReducer'
 import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { IAccountState } from '@shared/@types/store'
@@ -216,31 +215,9 @@ const useUnlockedSkins = () => {
     )
   }, [accounts, dispatch, networkByBlockchainRef, unlockedSkinIdsRef])
 
-  const checkSelectedNftSkin = useCallback(() => {
-    accounts.map(async account => {
-      if (!account.selectedSkin || account.selectedSkin.type !== 'nft') return
-
-      const service = bsAggregator.blockchainServicesByName[account.blockchain]
-      if (!hasNft(service)) return
-
-      const hasToken = await service.nftDataService.hasToken({
-        contractHash: account.selectedSkin.contractHash,
-        address: account.address,
-      })
-
-      if (!hasToken) {
-        dispatch(accountReducerActions.saveAccount({ ...account, selectedSkin: undefined }))
-      }
-    })
-  }, [dispatch, accounts])
-
   useEffect(() => {
     unlockSkins()
   }, [unlockSkins])
-
-  useEffect(() => {
-    checkSelectedNftSkin()
-  }, [checkSelectedNftSkin])
 }
 
 export const useAfterLogin = () => {

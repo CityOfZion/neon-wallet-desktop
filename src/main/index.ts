@@ -29,9 +29,9 @@ function createWindow(): void {
   mainWindow = new BrowserWindow({
     title: `Neon Wallet ${packageJson.version}`,
     width: 1350,
-    height: 752,
+    height: 800,
     minWidth: 1350,
-    minHeight: 752,
+    minHeight: 800,
     titleBarStyle: 'hidden',
     titleBarOverlay: true,
     show: false,

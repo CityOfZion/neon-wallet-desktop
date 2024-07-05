@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
-import { accountColorsKeys } from '@renderer/constants/blockchain'
+import { ACCOUNT_COLOR_SKINS } from '@renderer/constants/skins'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { bsAggregator } from '@renderer/libs/blockchainService'
@@ -53,7 +53,7 @@ export function useBlockchainActions() {
   )
 
   const createAccount = useCallback(
-    ({ blockchain, name, wallet, backgroundColor }: TAccountToCreate) => {
+    ({ blockchain, name, wallet, skin }: TAccountToCreate) => {
       if (!wallet.encryptedMnemonic) throw new Error('Problem to create account')
 
       const mnemonic = window.api.sendSync('decryptBasedEncryptedSecretSync', {
@@ -79,7 +79,8 @@ export function useBlockchainActions() {
         idWallet: wallet.id,
         name,
         blockchain,
-        backgroundColor: backgroundColor ? backgroundColor : accountColorsKeys[UtilsHelper.getRandomNumber(7)],
+        skin: skin ?? { type: 'color', id: ACCOUNT_COLOR_SKINS[UtilsHelper.getRandomNumber(7)].id },
+        lastNftSkin: skin?.type === 'nft' ? skin : undefined,
         address: generatedAccount.address,
         type: 'standard',
         encryptedKey,
@@ -94,7 +95,7 @@ export function useBlockchainActions() {
   )
 
   const importAccount = useCallback(
-    ({ address, blockchain, type, wallet, key, name, order, backgroundColor }: TAccountToImport) => {
+    ({ address, blockchain, type, wallet, key, name, order, skin }: TAccountToImport) => {
       let encryptedKey: string | undefined
 
       if (type === 'standard' || type === 'ledger') {
@@ -111,7 +112,8 @@ export function useBlockchainActions() {
         idWallet: wallet.id,
         name: name ?? t('defaultName', { accountNumber: accountOrder + 1 }),
         blockchain,
-        backgroundColor: backgroundColor ?? accountColorsKeys[UtilsHelper.getRandomNumber(7)],
+        skin: skin ?? { type: 'color', id: ACCOUNT_COLOR_SKINS[UtilsHelper.getRandomNumber(7)].id },
+        lastNftSkin: skin?.type === 'nft' ? skin : undefined,
         address,
         type,
         encryptedKey,

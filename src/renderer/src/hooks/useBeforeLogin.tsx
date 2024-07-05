@@ -138,16 +138,31 @@ const useNetworkChange = () => {
 }
 
 const useStoreStartup = () => {
+  const { accountsRef } = useAccountsSelector()
   const { selectedNetworkProfile } = useSelectedNetworkProfileSelector()
   const dispatch = useAppDispatch()
 
   useEffect(() => {
     dispatch(accountReducerActions.removeAllPendingTransactions())
 
+    // Migrate backgroundColor to skin
+    accountsRef.current.forEach(account => {
+      const backgroundColor = (account as any).backgroundColor
+      if (!backgroundColor) return
+
+      dispatch(
+        accountReducerActions.saveAccount({
+          ...account,
+          skin: { id: backgroundColor, type: 'color' },
+          backgroundColor: undefined,
+        } as any)
+      )
+    })
+
     Object.entries(selectedNetworkProfile.networkByBlockchain).forEach(([blockchain, network]) => {
       dispatch(settingsReducerActions.setSelectNetwork({ blockchain: blockchain as TBlockchainServiceKey, network }))
     })
-  }, [dispatch, selectedNetworkProfile.networkByBlockchain])
+  }, [dispatch, selectedNetworkProfile.networkByBlockchain, accountsRef])
 }
 
 export const useBeforeLogin = () => {

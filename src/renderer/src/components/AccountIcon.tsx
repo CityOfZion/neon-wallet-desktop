@@ -1,40 +1,50 @@
-import { Fragment } from 'react/jsx-runtime'
-import placeholderImage from '@renderer/assets/images/account-card-placeholder.png'
-import { backgroundColorByAccountColor } from '@renderer/constants/blockchain'
-import { StyleHelper } from '@renderer/helpers/StyleHelper'
-import { IAccountState } from '@shared/@types/store'
+import { cloneElement } from 'react'
+import { ACCOUNT_COLOR_SKINS, ACCOUNT_LOCAL_SKINS } from '@renderer/constants/skins'
+import { IAccountState, TNftSkin } from '@shared/@types/store'
 
 import { BlockchainIcon } from './BlockchainIcon'
 type TProps = {
   account: IAccountState
 }
 
+const AccountIconColor = ({ account }: TProps) => {
+  const color = ACCOUNT_COLOR_SKINS.find(it => it.id === account.skin.id)!.color
+
+  return (
+    <div className={`w-full h-full flex items-center  justify-center relative ${color}`}>
+      <div className="w-3.5 h-3.5 flex items-center justify-center relative">
+        <div className="w-full h-full rounded-full bg-asphalt mix-blend-overlay absolute" />
+        <BlockchainIcon blockchain={account.blockchain} type="white" className="w-2 h-2" />
+      </div>
+    </div>
+  )
+}
+
+const AccountIconNFT = ({ account }: TProps) => {
+  const skin = account.skin as TNftSkin
+  return (
+    <div className="w-full h-full relative bg-gray-300/30">
+      <img src={skin.imgUrl} className="w-full h-full object-cover" />
+    </div>
+  )
+}
+
+const AccountIconLocal = ({ account }: TProps) => {
+  const component = ACCOUNT_LOCAL_SKINS.find(it => it.id === account.skin.id)!.component
+
+  return <div className="w-full h-full relative">{cloneElement(component, { className: 'w-full h-full' })}</div>
+}
+
 export const AccountIcon = ({ account }: TProps) => {
   return (
-    <div className="w-[2.25rem] h-[2.25rem] flex justify-center items-center">
-      <div
-        className={StyleHelper.mergeStyles(
-          `w-7 h-5 relative rounded-sm flex items-center shadow-sm justify-center overflow-hidden ${
-            backgroundColorByAccountColor[account.backgroundColor]
-          }`,
-          {
-            'bg-opacity-45': account.selectedSkin,
-          }
-        )}
-      >
-        {account.selectedSkin && account.selectedSkin.type === 'nft' ? (
-          <img src={account.selectedSkin.imgUrl} className="absolute left-0 top-0 object-cover w-full h-full" />
-        ) : (
-          <Fragment>
-            <div className="w-full h-full absolute border-l-0 border-b-0 border-r-[1.75rem] border-t-[1.25rem] border-l-transparent border-r-transparent border-b-transparent border-t-white/5" />
-            <img src={placeholderImage} className="absolute -left-1 -bottom-1 opacity-80" />
-            <div className="w-4 h-4 flex items-center justify-center relative">
-              <div className="w-full h-full rounded-full bg-asphalt/50 mix-blend-overlay absolute" />
-              <BlockchainIcon blockchain={account.blockchain} type="white" className="w-2.5 h-2.5" />
-            </div>
-          </Fragment>
-        )}
-      </div>
+    <div className="w-7 h-5 rounded-sm shadow-sm overflow-hidden">
+      {account.skin.type === 'color' ? (
+        <AccountIconColor account={account} />
+      ) : account.skin.type === 'nft' ? (
+        <AccountIconNFT account={account} />
+      ) : (
+        <AccountIconLocal account={account} />
+      )}
     </div>
   )
 }

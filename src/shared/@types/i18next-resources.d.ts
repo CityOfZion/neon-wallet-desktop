@@ -264,6 +264,7 @@ interface Resources {
       deleteAccountTitle: 'Delete Account'
       deleteAccountSubtext: 'Deleting an account that contains assets will cause these assets to become inaccessible after deletion!'
       nameLengthError: 'Name must be at least 1 character long'
+      useNftButtonLabel: 'Use an NFT image'
     }
     createWallet: {
       title: 'Create new wallet'
@@ -715,6 +716,12 @@ interface Resources {
         profileNameIsRequired: 'Profile name is required'
         profileNameIsTooLong: 'Profile name is too long'
       }
+    }
+    nftSelection: {
+      title: 'Theme with an NFT image'
+      description: 'Please select which image you would like to use for this account card.'
+      selectTitle: 'SELECT AN NFT'
+      emptyList: 'No NFTs found'
     }
   }
   pages: {

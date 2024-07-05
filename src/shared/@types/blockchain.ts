@@ -1,10 +1,9 @@
 import { NetworkType } from '@cityofzion/blockchain-service'
 
-import { IAccountState, IContactState, IWalletState, TAccountType, TWalletType } from './store'
+import { IAccountState, IContactState, IWalletState, TAccountType, TSkin, TWalletType } from './store'
 
 export type TBlockchainServiceKey = 'neo3' | 'neoLegacy' | 'ethereum'
 export type TBlockchainImageColor = 'white' | 'gray' | 'blue' | 'green'
-export type TAccountColorKey = 'green' | 'blue' | 'magenta' | 'lightBlue' | 'yellow' | 'purple' | 'orange'
 
 export type TAccountToImport = {
   address: string
@@ -14,7 +13,7 @@ export type TAccountToImport = {
   key?: string
   name?: string
   order?: number
-  backgroundColor?: string
+  skin?: TSkin
 }
 
 export type TAccountsToImport = Omit<TAccountToImport, 'wallet'>[]
@@ -28,7 +27,7 @@ export type TAccountToCreate = {
   wallet: IWalletState
   name: string
   blockchain: TBlockchainServiceKey
-  backgroundColor?: string
+  skin?: TSkin
 }
 
 export type TWalletToCreate = {
@@ -51,7 +50,8 @@ export type TAccountBackupFormat = {
   type: TAccountType
   idWallet: string
   name: string
-  backgroundColor: string
+  skin: TSkin
+  lastNftSkin?: TSkin
   blockchain: TBlockchainServiceKey
   key?: string
   order: number
