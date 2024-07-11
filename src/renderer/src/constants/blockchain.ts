@@ -13,7 +13,7 @@ import { ReactComponent as Neo3Blue } from '@renderer/assets/blockchain/images/n
 import { ReactComponent as Neo3Gray } from '@renderer/assets/blockchain/images/neo3_gray.svg'
 import { ReactComponent as Neo3Green } from '@renderer/assets/blockchain/images/neo3_green.svg'
 import { ReactComponent as Neo3White } from '@renderer/assets/blockchain/images/neo3_white.svg'
-import { TAccountColorKey, TBlockchainImageColor, TBlockchainServiceKey } from '@shared/@types/blockchain'
+import { TBlockchainImageColor, TBlockchainServiceKey } from '@shared/@types/blockchain'
 
 export const blockchainIconsByBlockchain: Record<
   TBlockchainServiceKey,
@@ -37,26 +37,6 @@ export const blockchainIconsByBlockchain: Record<
     blue: EthereumBlue,
     green: EthereumGreen,
   },
-}
-
-export const accountColorsKeys: TAccountColorKey[] = [
-  'green',
-  'blue',
-  'magenta',
-  'lightBlue',
-  'yellow',
-  'orange',
-  'purple',
-]
-
-export const backgroundColorByAccountColor: Record<TAccountColorKey, string> = {
-  blue: 'bg-[#4786FF]',
-  green: 'bg-[#00DDB4]',
-  lightBlue: 'bg-[#47BEFF]',
-  magenta: 'bg-[#D355E7]',
-  yellow: 'bg-[#FEC42F]',
-  purple: 'bg-[#9747FF]',
-  orange: 'bg-[#FE872F]',
 }
 
 export const SERVICES_BY_BLOCKCHAIN = {

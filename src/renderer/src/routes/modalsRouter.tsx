@@ -34,6 +34,7 @@ import { MigrateAccountsStep3Modal } from './modals/MigrateAccounts/MigrateAccou
 import { MigrateAccountsStep4Modal } from './modals/MigrateAccounts/MigrateAccountsStep4'
 import { NetworkNodeSelection } from './modals/NetworkNodeSelection'
 import { NetworkSelection } from './modals/NetworkSelection'
+import { NFTSelectionModal } from './modals/NftSelection'
 import { PersistAccountModal } from './modals/PersistAccount'
 import { PersistContactModal } from './modals/PersistContact'
 import { DeleteModal } from './modals/PersistContact/DeleteModal'
@@ -88,4 +89,5 @@ export const modalsRouter: TRoute[] = [
   { name: 'network-node-selection', type: 'side', element: <NetworkNodeSelection /> },
   { name: 'add-custom-network', type: 'side', element: <AddCustomNetwork /> },
   { name: 'add-network-profile', type: 'side', element: <AddNetworkProfileModal /> },
+  { name: 'nft-selection', type: 'side', element: <NFTSelectionModal /> },
 ]

@@ -7,13 +7,14 @@ export type TCustomClickableProps = {
   label: string
   leftIcon?: JSX.Element
   rightIcon?: JSX.Element
-  variant?: 'outlined' | 'contained' | 'text' | 'text-slim'
+  variant?: 'outlined' | 'contained' | 'text' | 'text-slim' | 'card'
   disabled?: boolean
   loading?: boolean
   flat?: boolean
   wide?: boolean
   colorSchema?: 'neon' | 'gray' | 'white' | 'error'
   iconsOnEdge?: boolean
+  textClassName?: string
 }
 
 export type TClickableProps = TCustomClickableProps & React.ComponentProps<'div'>
@@ -76,6 +77,20 @@ const TextSlim = ({ className, ...props }: TClickableProps) => {
   )
 }
 
+const Card = ({ className, ...props }: TClickableProps) => {
+  return (
+    <Base
+      className={StyleHelper.mergeStyles(
+        'flex min-w-0 justify-center items-center text-center py-3 gap-x-2.5 transition-colors rounded',
+        'aria-[disabled=true]:bg-gray-300/30 aria-[disabled=true]:text-gray-100/50 aria-[disabled=true]:opacity-100',
+        'aria-[disabled=false]:bg-gray-300/15 aria-[disabled=false]:hover:bg-gray-300/30',
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
 const Base = ({
   leftIcon,
   rightIcon,
@@ -86,6 +101,7 @@ const Base = ({
   colorSchema,
   iconsOnEdge,
   wide,
+  textClassName,
   ...props
 }: TClickableProps) => {
   const { className: leftIconClassName = '', ...leftIconProps } = leftIcon ? leftIcon.props : {}
@@ -133,9 +149,13 @@ const Base = ({
             })}
 
           <span
-            className={StyleHelper.mergeStyles('font-medium truncate', {
-              'flex-grow': iconsOnEdge,
-            })}
+            className={StyleHelper.mergeStyles(
+              'font-medium truncate',
+              {
+                'flex-grow': iconsOnEdge,
+              },
+              textClassName
+            )}
           >
             {label}
           </span>
@@ -165,9 +185,10 @@ export const Clickable = ({
   flat = false,
   iconsOnEdge = true,
   wide = false,
+  variant = 'contained',
   ...rest
 }: TClickableProps) => {
-  const props = { ...rest, wide, colorSchema, disabled, loading, flat, iconsOnEdge }
+  const props = { ...rest, wide, variant, colorSchema, disabled, loading, flat, iconsOnEdge }
 
   return props.variant === 'outlined' ? (
     <Outline {...props} />
@@ -175,7 +196,9 @@ export const Clickable = ({
     <Text {...props} />
   ) : props.variant === 'text-slim' ? (
     <TextSlim {...props} />
-  ) : (
+  ) : props.variant === 'contained' ? (
     <Contained {...props} />
+  ) : (
+    <Card {...props} />
   )
 }

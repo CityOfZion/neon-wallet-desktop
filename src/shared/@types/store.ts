@@ -3,34 +3,33 @@ import { TBlockchainServiceKey, TNetwork } from './blockchain'
 export type TAccountType = 'standard' | 'watch' | 'ledger'
 export type TWalletType = 'standard' | 'ledger'
 
-export type TSelectedNftSkin = {
+export type TNftSkin = {
+  id: string
   type: 'nft'
   imgUrl: string
-  contractHash: string
 }
-export type TSelectedLocalSkin = {
-  type: 'local'
+export type TColorOrLocalSkin = {
   id: string
+  type: 'local' | 'color'
 }
 
-export type TSelectedSkin = TSelectedLocalSkin | TSelectedNftSkin
+export type TSkin = TColorOrLocalSkin | TNftSkin
 export interface IAccountState {
   address: string
   type: TAccountType
   idWallet: string
   name: string
-  backgroundColor: string
   blockchain: TBlockchainServiceKey
   encryptedKey?: string
   order: number
-  selectedSkin?: TSelectedSkin
+  skin: TSkin
+  lastNftSkin?: TNftSkin
 }
 export interface IWalletState {
   id: string
   name: string
   type: TWalletType
   encryptedMnemonic?: string
-  selectedSkin?: TSelectedSkin
 }
 
 export type TSecurityType = 'none' | 'password'

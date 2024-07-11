@@ -12,7 +12,7 @@ export const useActions = <T extends TUseActionsData>(initialData: T) => {
       hasActed: false,
       errors: {} as TUseActionsErrors<T>,
       changed: initialDataKeys.reduce(
-        (acc, key) => ({ ...acc, [key]: !!initialData[key] }),
+        (acc, key) => ({ ...acc, [key]: initialData[key] === undefined ? true : !!initialData[key] }),
         {} as TUseActionsChanged<T>
       ),
     }

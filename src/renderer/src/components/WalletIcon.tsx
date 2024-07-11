@@ -1,5 +1,4 @@
-import { cloneElement, useMemo } from 'react'
-import { LOCAL_WALLET_SKINS } from '@renderer/constants/skins'
+import { cloneElement } from 'react'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { IWalletState, TWalletType } from '@shared/@types/store'
 
@@ -16,14 +15,7 @@ const IMAGES_BY_TYPE: Record<TWalletType, JSX.Element> = {
 }
 
 export const WalletIcon = ({ wallet }: TProps) => {
-  const selectedWalletLocalSkin = useMemo(() => {
-    if (!wallet.selectedSkin || wallet.selectedSkin.type !== 'local') return
-    const selectedSkin = wallet.selectedSkin
-
-    return LOCAL_WALLET_SKINS.find(skin => skin.id === selectedSkin.id)
-  }, [wallet])
-
-  const component = selectedWalletLocalSkin?.component ?? IMAGES_BY_TYPE[wallet.type]
+  const component = IMAGES_BY_TYPE[wallet.type]
 
   return cloneElement(component, {
     className: StyleHelper.mergeStyles(

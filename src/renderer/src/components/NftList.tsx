@@ -1,11 +1,9 @@
 import { useTranslation } from 'react-i18next'
-import { TbChevronRight, TbPhotoHeart } from 'react-icons/tb'
-import { useDispatch } from 'react-redux'
+import { TbChevronRight } from 'react-icons/tb'
 import { NftResponse } from '@cityofzion/blockchain-service'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { ExplorerHelper } from '@renderer/helpers/ExplorerHelper'
 import { useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
-import { accountReducerActions } from '@renderer/store/reducers/AccountReducer'
 import { IAccountState } from '@shared/@types/store'
 
 type TProps = {
@@ -16,30 +14,16 @@ type TProps = {
 export const NftList = ({ account, nfts }: TProps) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'blockchain' })
   const { network } = useSelectedNetworkSelector(account.blockchain)
-  const dispatch = useDispatch()
-
-  const handleClick = (nft: NftResponse) => {
-    window.open(ExplorerHelper.buildNftUrl(nft.contractHash, nft.id, network.type, account.blockchain), '_blank')
-  }
-
-  const handleSelectSkinClick = (nft: NftResponse) => {
-    if (!nft.image) return
-
-    dispatch(
-      accountReducerActions.saveAccount({
-        ...account,
-        selectedSkin: { type: 'nft', imgUrl: nft.image, contractHash: nft.contractHash },
-      })
-    )
-  }
 
   return (
     <ul className="flex flex-col gap-1 min-w-0">
       {nfts.map(nft => (
-        <li key={`${nft.contractHash}-${nft.id}`} className="flex w-full gap-2">
-          <div
+        <li key={`${nft.contractHash}-${nft.id}`} className="w-full">
+          <a
+            href={ExplorerHelper.buildNftUrl(nft.contractHash, nft.id, network.type, account.blockchain)}
+            target="_blank"
             className="flex p-2.5 gap-5 bg-gray-700/60 rounded-md text-sm items-center cursor-pointer hover:bg-gray-300/30 w-full transition-colors min-w-0"
-            onClick={handleClick.bind(null, nft)}
+            rel="noreferrer"
           >
             <div className="min-w-[5rem] w-[5rem] h-[3.5rem] mi-h-[3.5rem] rounded bg-gray-300/30 overflow-hidden">
               <img className="w-full h-full object-cover" src={nft.image} />
@@ -71,14 +55,7 @@ export const NftList = ({ account, nfts }: TProps) => {
 
               <TbChevronRight className="w-6 h-6 text-gray-300" />
             </div>
-          </div>
-
-          <button
-            className="p-4 h-full w-[4rem] bg-gray-700/60 rounded-md flex items-center justify-center hover:bg-gray-300/30 transition-colors"
-            onClick={handleSelectSkinClick.bind(null, nft)}
-          >
-            <TbPhotoHeart className="w-full h-full text-gray-300" />
-          </button>
+          </a>
         </li>
       ))}
     </ul>

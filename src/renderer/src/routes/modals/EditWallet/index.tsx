@@ -9,9 +9,7 @@ import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 import { walletReducerActions } from '@renderer/store/reducers/WalletReducer'
-import { IWalletState, TSelectedLocalSkin, TSelectedSkin } from '@shared/@types/store'
-
-import { LocalSkinSelector } from './LocalSkinSelector'
+import { IWalletState, TSelectedSkin } from '@shared/@types/store'
 
 type TFormData = {
   name: string
@@ -31,24 +29,19 @@ export const EditWalletModal = () => {
 
   const form = useActions<TFormData>({
     name: wallet.name,
-    selectedSkin: wallet.selectedSkin,
   })
 
   const handleChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
     form.setData({ name: event.target.value })
   }
 
-  const handleSelectSkin = (skin?: TSelectedLocalSkin) => {
-    form.setData({ selectedSkin: skin })
-  }
-
-  const handleSubmit = ({ name, selectedSkin }: TFormData) => {
+  const handleSubmit = ({ name }: TFormData) => {
     const nameTrimmed = name.trim()
     if (nameTrimmed.length <= 0) {
       form.setError('name', t('nameLengthError'))
       return
     }
-    dispatch(walletReducerActions.saveWallet({ ...wallet, name: nameTrimmed, selectedSkin }))
+    dispatch(walletReducerActions.saveWallet({ ...wallet, name: nameTrimmed }))
     modalNavigate(-1)
   }
 
@@ -65,11 +58,6 @@ export const EditWalletModal = () => {
         />
 
         <Separator className="my-4" />
-
-        <LocalSkinSelector
-          selectedSkin={form.actionData.selectedSkin?.type === 'local' ? form.actionData.selectedSkin : undefined}
-          onClick={handleSelectSkin}
-        />
 
         <div className="flex gap-x-3 mt-auto mb-4">
           <Button

@@ -110,12 +110,14 @@ export const WalletsPage = () => {
       {selectedWallet && selectedAccount && (
         <Fragment>
           <section className="bg-gray-800 rounded drop-shadow-lg max-w-[11.625rem] min-w-[11.625rem] w-full flex flex-col">
-            <header className="flex justify-between pl-4 pr-2 py-3 items-center h-fit gap-x-1">
+            <header className="flex justify-between px-4 py-3 items-center h-fit gap-x-1">
               <h2 className="text-sm truncate">{t('accounts')}</h2>
             </header>
 
             <main className="flex flex-col w-full items-center flex-grow min-h-0">
-              <Separator className="w-[80%]" />
+              <div className="px-4 w-full">
+                <Separator />
+              </div>
 
               <AccountList
                 selectedWallet={selectedWallet}
