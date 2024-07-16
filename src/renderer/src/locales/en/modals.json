@@ -415,7 +415,7 @@
   },
   "confirmPasswordRecover": {
     "title": "Import NEON Backup",
-    "description": "In order to create your backup file, please provide your NEON password below:",
+    "description": "In order to import your backup file, please provide the password you used to create the backup:",
     "subtitle": "Backup Password",
     "inputPlaceholder": "Enter your password...",
     "buttonContinueLabel": "Import this NEON backup",
