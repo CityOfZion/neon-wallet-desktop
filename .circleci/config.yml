@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   win: circleci/windows@5.0.0
+  macos: circleci/macos@2.5.2
   node: circleci/node@5.1.0
 
 references:
@@ -58,7 +59,7 @@ jobs:
 
   build_macos:
     macos:
-      xcode: "15.2.0"
+      xcode: "16.0.0"
     resource_class: macos.m1.medium.gen1
     steps:
       - checkout
