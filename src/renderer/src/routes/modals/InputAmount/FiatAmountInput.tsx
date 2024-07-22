@@ -21,11 +21,12 @@ export const FiatAmountInput = ({ onChange, value, exchangeRatio, tokenBalance, 
 
   const valueNumber = NumberHelper.number(value)
   const estimatedToken = valueNumber > 0 && exchangeRatio > 0 ? valueNumber / exchangeRatio : 0
+  const disabled = exchangeRatio === 0 || tokenBalance.token.decimals === 0
 
   return (
     <div
       className={StyleHelper.mergeStyles('w-full', {
-        'opacity-50': exchangeRatio === 0,
+        'opacity-50': disabled,
       })}
     >
       <label className="text-gray-100" htmlFor="fiatAmount">
@@ -41,7 +42,7 @@ export const FiatAmountInput = ({ onChange, value, exchangeRatio, tokenBalance, 
         containerClassName="mt-3.5"
         clearable={true}
         name="fiatAmount"
-        disabled={exchangeRatio === 0}
+        disabled={disabled}
         error={error}
       />
 
