@@ -51,7 +51,7 @@ export const OverviewCharts = ({
       {balances.isLoading ? (
         <Loader className="w-10 h-10" />
       ) : balances.exchangeTotal !== 0 ? (
-        <Fragment>
+        <Fragment key={account?.address}>
           <BalanceChart
             balances={balances}
             sortedBalances={sortedBalances}
