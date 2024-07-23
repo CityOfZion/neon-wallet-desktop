@@ -622,7 +622,7 @@ interface Resources {
     }
     confirmPasswordRecover: {
       title: 'Import NEON Backup'
-      description: 'In order to create your backup file, please provide your NEON password below:'
+      description: 'In order to import your backup file, please provide the password you used to create the backup:'
       subtitle: 'Backup Password'
       inputPlaceholder: 'Enter your password...'
       buttonContinueLabel: 'Import this NEON backup'
@@ -939,6 +939,7 @@ interface Resources {
           privateKeyNotFound: 'Unable to validate the private key'
           passphrase: 'Invalid passphrase'
           confirmationPassphrase: 'Confirmation passphrase is different from the passphrase'
+          errorToEncryptKey: 'Error to encrypt key'
         }
         successModal: {
           title: 'Encrypted Key'

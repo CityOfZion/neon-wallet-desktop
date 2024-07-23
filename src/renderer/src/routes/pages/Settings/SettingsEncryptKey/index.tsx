@@ -2,10 +2,12 @@ import { ChangeEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdOutlineKey } from 'react-icons/md'
 import { Button } from '@renderer/components/Button'
+import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { SettingsLayout } from '@renderer/layouts/Settings'
 import { bsAggregator } from '@renderer/libs/blockchainService'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 
 import { SettingsEncryptInputStep } from './SettingsEncryptInputStep'
 import { SettingsEncryptKeySuccessContent } from './SettingsEncryptKeySuccessContent'
@@ -39,6 +41,7 @@ export const SettingsEncryptKeyPage = (): JSX.Element => {
       return
     }
   }
+
   const handlePassphraseChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value
     setData({
@@ -50,6 +53,7 @@ export const SettingsEncryptKeyPage = (): JSX.Element => {
       return
     }
   }
+
   const handleConfirmationPassphraseChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value
     setData({
@@ -62,26 +66,37 @@ export const SettingsEncryptKeyPage = (): JSX.Element => {
     }
   }
 
-  const handleSubmit = async (data: TFormData) => {
-    const serviceName = bsAggregator.getBlockchainNameByKey(data.privateKey)
-    if (!serviceName) {
-      setError('privateKey', t('encryptKey.error.privateKeyNotFound'))
-      return
+  const handleSelect = async (blockchain: TBlockchainServiceKey) => {
+    modalNavigate(-1)
+
+    try {
+      const service = bsAggregator.blockchainServicesByName[blockchain]
+      const encryptedKey = await service.encrypt(actionData.privateKey, actionData.passphrase)
+
+      modalNavigate('success', {
+        state: {
+          heading: t('encryptKey.successModal.title'),
+          headingIcon: <MdOutlineKey />,
+          content: <SettingsEncryptKeySuccessContent encryptedKey={encryptedKey} />,
+          subtitle: t('encryptKey.successModal.subtitle'),
+        },
+      })
+
+      reset()
+    } catch (error) {
+      ToastHelper.error({ message: t('encryptKey.error.errorToEncryptKey') })
     }
+  }
 
-    const service = bsAggregator.blockchainServicesByName[serviceName]
-    const encryptedKey = await service.encrypt(data.privateKey, data.passphrase)
-
-    modalNavigate('success', {
+  const handleSubmit = async () => {
+    modalNavigate('blockchain-selection', {
       state: {
         heading: t('encryptKey.successModal.title'),
         headingIcon: <MdOutlineKey />,
-        content: <SettingsEncryptKeySuccessContent encryptedKey={encryptedKey} />,
-        subtitle: t('encryptKey.successModal.subtitle'),
+        withBackButton: false,
+        onSelect: handleSelect,
       },
     })
-
-    reset()
   }
 
   return (
