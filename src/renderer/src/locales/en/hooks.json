@@ -13,8 +13,8 @@
     "error": "File not recognised"
   },
   "useLedgerFlow": {
-    "ledgerConnected": "New Ledger detected \n{{address}}",
-    "ledgerDisconnected": "Ledger disconnected \n{{address}}"
+    "ledgerConnected": "{{blockchain}} ledger connected.\n{{address}}",
+    "ledgerDisconnected": "{{blockchain}} Ledger disconnected.\n{{address}}"
   },
   "DappConnection": {
     "pleaseLogin": "Please login to continue.",

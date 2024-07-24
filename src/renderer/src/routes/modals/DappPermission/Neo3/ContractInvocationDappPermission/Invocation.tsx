@@ -1,14 +1,14 @@
 import { useTranslation } from 'react-i18next'
 import { MdChevronRight, MdLaunch } from 'react-icons/md'
 import { TbArrowsSort } from 'react-icons/tb'
+import { hasExplorerService } from '@cityofzion/blockchain-service'
 import { ContractInvocation, TSession } from '@cityofzion/wallet-connect-sdk-wallet-react'
 import { Separator } from '@radix-ui/react-select'
 import { IconButton } from '@renderer/components/IconButton'
 import { Loader } from '@renderer/components/Loader'
-import { ExplorerHelper } from '@renderer/helpers/ExplorerHelper'
 import { useContract } from '@renderer/hooks/useContract'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
-import { useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
+import { bsAggregator } from '@renderer/libs/blockchainService'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 
 type TProps = {
@@ -18,13 +18,15 @@ type TProps = {
 }
 
 export const Invocation = ({ invocation, session, blockchain }: TProps) => {
-  const { network } = useSelectedNetworkSelector(blockchain)
   const { data, isLoading } = useContract({ blockchain, hash: invocation.scriptHash })
   const { modalNavigateWrapper } = useModalNavigate()
   const { t } = useTranslation('modals', { keyPrefix: 'dappPermission.requests.neo3.contractInvocation' })
 
   const handleHashClick = () => {
-    window.open(ExplorerHelper.buildContractUrl(invocation.scriptHash, network.type, blockchain), '_blank')
+    const service = bsAggregator.blockchainServicesByName[blockchain]
+    if (!hasExplorerService(service)) return
+
+    window.open(service.explorerService.buildContractUrl(invocation.scriptHash), '_blank')
   }
 
   const showAmount =

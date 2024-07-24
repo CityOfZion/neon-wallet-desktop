@@ -1,5 +1,4 @@
 import { TMainApiListenersAsync, TMainApiListenersSync, TMainApiSend } from '@shared/@types/api'
-import {} from '@shared/@types/ipc'
 import { BrowserWindow, ipcMain } from 'electron'
 
 function listenSync<

@@ -2,8 +2,9 @@ import { ComponentProps, ReactNode } from 'react'
 import { cloneElement } from 'react'
 import { TbArrowLeft } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
+import { DEFAULT_NETWORK_PROFILE } from '@renderer/constants/networks'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
-import { useSelectedNetworkByBlockchainSelector } from '@renderer/hooks/useSettingsSelector'
+import { useSelectedNetworkProfileSelector } from '@renderer/hooks/useSettingsSelector'
 
 export type TMainLayoutProps = {
   children?: ReactNode
@@ -23,10 +24,11 @@ export const ContentLayout = ({
   ...props
 }: TMainLayoutProps): JSX.Element => {
   const navigate = useNavigate()
-  const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
   const { className: titleIconClassName = '', ...titleIconProps } = titleIcon ? titleIcon.props : {}
 
-  const hasTestnet = Object.values(networkByBlockchain).some(({ type }) => type === 'testnet')
+  const { selectedNetworkProfile } = useSelectedNetworkProfileSelector()
+
+  const hasCustomProfile = selectedNetworkProfile.id !== DEFAULT_NETWORK_PROFILE.id
 
   const handleBackClick = () => {
     navigate(-1)
@@ -36,7 +38,7 @@ export const ContentLayout = ({
     <div className={StyleHelper.mergeStyles('flex h-screen-minus-drag-region', className)} {...props}>
       <div
         className={StyleHelper.mergeStyles('flex-grow flex flex-col bg-asphalt text-white px-7 py-4', {
-          'pt-10': hasTestnet,
+          'pt-10': hasCustomProfile,
         })}
       >
         <header

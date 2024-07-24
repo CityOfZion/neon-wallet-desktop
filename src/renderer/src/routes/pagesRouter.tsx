@@ -75,7 +75,7 @@ export const pagesRouter = routeHandler([
             element: <WalletsPage />,
             children: [
               {
-                path: ':address',
+                path: ':id',
                 children: [
                   {
                     path: 'overview?',

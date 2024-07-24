@@ -28,7 +28,8 @@ const { t } = getI18next()
 const saveAccount: CaseReducer<IAccountReducer, PayloadAction<IAccountState>> = (state, action) => {
   const account = action.payload
 
-  const findIndex = state.data.findIndex(it => it.address === account.address)
+  const findIndex = state.data.findIndex(it => it.id === account.id)
+
   if (findIndex < 0) {
     state.data = [...state.data, account]
     return
@@ -44,8 +45,8 @@ const replaceAllAccounts: CaseReducer<IAccountReducer, PayloadAction<IAccountSta
 const reorderAccounts: CaseReducer<IAccountReducer, PayloadAction<string[]>> = (state, action) => {
   const accountsOrder = action.payload
 
-  accountsOrder.forEach((address, index) => {
-    const accountIndex = state.data.findIndex(it => it.address === address)
+  accountsOrder.forEach((id, index) => {
+    const accountIndex = state.data.findIndex(it => it.id === id)
     if (accountIndex < 0) return
 
     state.data[accountIndex].order = index
@@ -53,13 +54,13 @@ const reorderAccounts: CaseReducer<IAccountReducer, PayloadAction<string[]>> = (
 }
 
 const deleteAccount: CaseReducer<IAccountReducer, PayloadAction<string>> = (state, action) => {
-  const address = action.payload
-  state.data = state.data.filter(account => account.address !== address)
+  const id = action.payload
+  state.data = state.data.filter(account => account.id !== id)
 }
 
 const deleteAccounts: CaseReducer<IAccountReducer, PayloadAction<string[]>> = (state, action) => {
-  const addresses = action.payload
-  state.data = state.data.filter(account => !addresses.includes(account.address))
+  const ids = action.payload
+  state.data = state.data.filter(account => !ids.includes(account.id))
 }
 
 const addPendingTransaction: CaseReducer<IAccountReducer, PayloadAction<TUseTransactionsTransfer>> = (

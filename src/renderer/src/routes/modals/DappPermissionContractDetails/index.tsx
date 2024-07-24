@@ -2,18 +2,18 @@ import { Fragment } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdContentCopy, MdLaunch } from 'react-icons/md'
 import { TbArrowsSort } from 'react-icons/tb'
+import { hasExplorerService } from '@cityofzion/blockchain-service'
 import { TSession } from '@cityofzion/wallet-connect-sdk-wallet-react'
 import { DappPermissionHeader } from '@renderer/components/DappPermissionHeader'
 import { IconButton } from '@renderer/components/IconButton'
 import { Loader } from '@renderer/components/Loader'
 import { Separator } from '@renderer/components/Separator'
-import { ExplorerHelper } from '@renderer/helpers/ExplorerHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useContract } from '@renderer/hooks/useContract'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
-import { useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
+import { bsAggregator } from '@renderer/libs/blockchainService'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 
 type TModalState = {
@@ -24,9 +24,71 @@ type TModalState = {
   values: any[]
 }
 
+const COLORS_BY_TYPE = {
+  Signature: {
+    color: '#E9265C',
+    textColor: 'dark',
+  },
+  Boolean: {
+    color: '#D355E7',
+    textColor: 'dark',
+  },
+  Integer: {
+    color: '#B167F2',
+    textColor: 'dark',
+  },
+  Hash160: {
+    color: '#008529',
+    textColor: 'light',
+  },
+  Null: {
+    color: 'rgba(255, 255, 255, 0.08)',
+    textColor: 'dark',
+  },
+  Hash256: {
+    color: '#1DB5FF',
+    textColor: 'dark',
+  },
+  ByteArray: {
+    color: '#0DCDFF',
+    textColor: 'dark',
+  },
+  PublicKey: {
+    color: '#00D69D',
+    textColor: 'dark',
+  },
+  String: {
+    color: '#67DD8B',
+    textColor: 'dark',
+  },
+  ByteString: {
+    color: '#67DD8B',
+    textColor: 'dark',
+  },
+  Array: {
+    color: '#F28F00',
+    textColor: 'dark',
+  },
+  Buffer: {
+    color: '#F28F00',
+    textColor: 'dark',
+  },
+  InteropInterface: {
+    color: '#A50000',
+    textColor: 'light',
+  },
+  Void: {
+    color: '#528D93',
+    textColor: 'dark',
+  },
+  Any: {
+    color: '#00D69D',
+    textColor: 'dark',
+  },
+}
+
 export const DappPermissionContractDetailsModal = () => {
   const { session, operation, hash, blockchain, values } = useModalState<TModalState>()
-  const { network } = useSelectedNetworkSelector(blockchain)
   const { data, isLoading } = useContract({ blockchain, hash })
   const { modalNavigate } = useModalNavigate()
   const { t } = useTranslation('modals', { keyPrefix: 'dappPermissionContractDetails' })
@@ -48,7 +110,10 @@ export const DappPermissionContractDetailsModal = () => {
   })
 
   const handleHashClick = () => {
-    window.open(ExplorerHelper.buildContractUrl(hash, network.type, blockchain), '_blank')
+    const service = bsAggregator.blockchainServicesByName[blockchain]
+    if (!hasExplorerService(service)) return
+
+    window.open(service.explorerService.buildContractUrl(hash), '_blank')
   }
 
   return (
@@ -99,8 +164,8 @@ export const DappPermissionContractDetailsModal = () => {
                       <div
                         className="rounded-full px-3.5 py-1 text-asphalt text-xs"
                         style={{
-                          backgroundColor: ExplorerHelper.colorsByType[param.type].color,
-                          color: ExplorerHelper.colorsByType[param.type].textColor === 'dark' ? 'black' : 'white',
+                          backgroundColor: COLORS_BY_TYPE[param.type].color,
+                          color: COLORS_BY_TYPE[param.type].textColor === 'dark' ? 'black' : 'white',
                         }}
                       >
                         {param.type}

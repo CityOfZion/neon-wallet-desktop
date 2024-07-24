@@ -1,26 +1,25 @@
 import { TSession, TSessionProposal } from '@cityofzion/wallet-connect-sdk-wallet-react'
-import { TBlockchainServiceKey, TNetworkType } from '@shared/@types/blockchain'
+import { NETWORK_OPTIONS_BY_BLOCKCHAIN } from '@renderer/constants/networks'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TWalletConnectHelperProposalInformation, TWalletConnectHelperSessionInformation } from '@shared/@types/helpers'
 import { merge } from 'lodash'
 
 export abstract class WalletConnectHelper {
-  static blockchainsByBlockchainServiceKey: Partial<Record<TBlockchainServiceKey, string>> = {
+  static supportedBlockchains: Partial<Record<TBlockchainServiceKey, string>> = {
     neo3: 'neo3',
     ethereum: 'eip155',
+    neox: 'eip155',
   }
 
-  static networksByBlockchainServiceKey: Partial<Record<TBlockchainServiceKey, Record<TNetworkType, string>>> = {
-    neo3: {
-      mainnet: 'mainnet',
-      testnet: 'testnet',
-      custom: 'private',
+  static supportedChainIds = Object.keys(this.supportedBlockchains as TBlockchainServiceKey[]).reduce(
+    (acc, key) => {
+      const networks = NETWORK_OPTIONS_BY_BLOCKCHAIN[key].all
+      const chainIds = networks.map(({ id }) => `${this.supportedBlockchains[key]}:${id}`)
+      acc[key] = chainIds
+      return acc
     },
-    ethereum: {
-      mainnet: '1',
-      testnet: '11155111',
-      custom: '',
-    },
-  }
+    {} as Partial<Record<TBlockchainServiceKey, string[]>>
+  )
 
   static getAccountInformationFromSession(session: TSession): TWalletConnectHelperSessionInformation {
     const accounts = Object.values(session.namespaces)[0].accounts
@@ -29,20 +28,23 @@ export abstract class WalletConnectHelper {
     const account = accounts[0]
     const [sessionBlockchain, sessionNetwork, sessionAddress] = account.split(':')
 
-    const blockchainByBlockchainServiceKey = Object.entries(this.blockchainsByBlockchainServiceKey).find(
-      ([, value]) => value === sessionBlockchain
-    )
-    if (!blockchainByBlockchainServiceKey) throw new Error('Blockchain not supported')
+    const chainId = `${sessionBlockchain}:${sessionNetwork}`
 
-    const blockchain = blockchainByBlockchainServiceKey[0] as TBlockchainServiceKey
+    let blockchain: TBlockchainServiceKey | undefined
+    let network: string | undefined
 
-    const networks = this.networksByBlockchainServiceKey[blockchain]
-    if (!networks) throw new Error('Blockchain not supported')
+    for (const supportedChainIds of Object.entries(this.supportedChainIds)) {
+      const [key, chainIds] = supportedChainIds
 
-    const networkByNetworkType = Object.entries(networks).find(entry => entry[1] === sessionNetwork)
-    if (!networkByNetworkType) throw new Error('Network not supported')
+      if (chainIds.includes(chainId)) {
+        const splitChainId = chainId.split(':')
+        network = splitChainId[1]
+        blockchain = key as TBlockchainServiceKey
+        break
+      }
+    }
 
-    const network = networkByNetworkType[0] as TNetworkType
+    if (!blockchain || !network) throw new Error('Chain not supported')
 
     return {
       address: sessionAddress,
@@ -59,32 +61,32 @@ export abstract class WalletConnectHelper {
       if (!chains) throw new Error('Chains not found')
 
       const methods = namespace?.methods ?? []
-      const chain = chains[0]
 
-      const [proposalBlockchain, proposalNetwork] = chain.split(':')
+      const chainId = chains[0]
 
-      const blockchainByBlockchainServiceKey = Object.entries(this.blockchainsByBlockchainServiceKey).find(
-        ([, value]) => value === proposalBlockchain
-      )
-      if (!blockchainByBlockchainServiceKey) throw new Error('Blockchain not supported')
+      let proposalBlockchain: string | undefined
+      let blockchain: TBlockchainServiceKey | undefined
+      let network: string | undefined
 
-      const blockchain = blockchainByBlockchainServiceKey[0] as TBlockchainServiceKey
+      for (const supportedChainIds of Object.entries(this.supportedChainIds)) {
+        const [key, chainIds] = supportedChainIds
+        if (chainIds.includes(chainId)) {
+          const splitChainId = chainId.split(':')
+          proposalBlockchain = splitChainId[0]
+          network = splitChainId[1]
+          blockchain = key as TBlockchainServiceKey
+          break
+        }
+      }
 
-      const networks = this.networksByBlockchainServiceKey[blockchain]
-      if (!networks) throw new Error('Blockchain not supported')
-
-      const networkByNetworkType = Object.entries(networks).find(entry => entry[1] === proposalNetwork)
-      if (!networkByNetworkType) throw new Error('Network not supported')
-
-      const network = networkByNetworkType[0] as TNetworkType
+      if (!blockchain || !network || !proposalBlockchain) throw new Error('Chain not supported')
 
       return {
         blockchain,
         network,
-        chain,
+        chain: chainId,
         methods,
         proposalBlockchain,
-        proposalNetwork,
       }
     })
 

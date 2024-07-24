@@ -7,14 +7,14 @@ import { IconButton } from '@renderer/components/IconButton'
 import { Separator } from '@renderer/components/Separator'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
-import { TokenBalance } from '@shared/@types/query'
+import { TTokenBalance } from '@shared/@types/query'
 import { IAccountState } from '@shared/@types/store'
 
 type TProps = {
   selectedAccount: IAccountState
   selectedRecipientAddress: string
   selectedAmount: string
-  selectedToken: TokenBalance
+  selectedToken: TTokenBalance
   transactionHash: string
 }
 
@@ -92,7 +92,7 @@ export const SuccessModalContent = ({
         iconsOnEdge={false}
         onClick={() => {
           modalNavigate(-1)
-          navigate(`/app/wallets/${selectedAccount.address}/transactions`)
+          navigate(`/app/wallets/${selectedAccount.id}/transactions`)
         }}
       />
     </div>

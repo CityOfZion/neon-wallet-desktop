@@ -5,17 +5,19 @@ import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
-import { SERVICES_BY_BLOCKCHAIN } from '@renderer/constants/blockchain'
+import { CUSTOM_NETWORK_ID } from '@renderer/constants/networks'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
+import { bsAggregator } from '@renderer/libs/blockchainService'
 import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
 import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
+import { cloneDeep } from 'lodash'
 
 type TState = {
   blockchain: TBlockchainServiceKey
-  network?: TNetwork
+  network?: TNetwork<TBlockchainServiceKey>
 }
 
 type TActionData = {
@@ -51,7 +53,10 @@ export const AddCustomNetwork = () => {
     setData({ validating: true })
 
     try {
-      const service = new SERVICES_BY_BLOCKCHAIN[blockchain](blockchain, { type: 'custom', url: actionData.url })
+      const service = bsAggregator.blockchainServicesByName[blockchain]
+      const clonedService = cloneDeep(service)
+
+      clonedService.setNetwork({ id: CUSTOM_NETWORK_ID, name: actionData.name, url: actionData.url })
       await service.blockchainDataService.getBlockHeight()
       clearErrors('url')
       setData({ isValid: true })
@@ -86,8 +91,7 @@ export const AddCustomNetwork = () => {
         network: {
           name: data.name,
           url: data.url,
-          type: networkToEdit?.type ?? 'custom',
-          id: networkToEdit?.id ?? UtilsHelper.uuid(),
+          id: networkToEdit?.id ?? `${CUSTOM_NETWORK_ID}-${UtilsHelper.uuid()}`,
         },
       })
     )

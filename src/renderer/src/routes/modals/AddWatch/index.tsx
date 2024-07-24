@@ -51,7 +51,7 @@ export const AddWatch = () => {
         throw new Error(t('errors.invalid'))
       }
 
-      const wallet = await blockchainActions.createWallet({
+      const wallet = blockchainActions.createWallet({
         name: commomT('watchAccount'),
       })
 

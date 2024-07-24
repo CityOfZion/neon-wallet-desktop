@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
@@ -24,8 +25,8 @@ const useWalletConnectListeners = () => {
 
   useEffect(() => {
     const removeGetStoreFromWCListener = window.api.listen('getStoreFromWC', ({ args }) => {
-      const { address } = WalletConnectHelper.getAccountInformationFromSession(args)
-      const account = accountsRef.current.find(account => account.address === address)
+      const info = WalletConnectHelper.getAccountInformationFromSession(args)
+      const account = accountsRef.current.find(AccountHelper.predicate(info))
 
       window.api.sendSync('sendStoreFromWC', {
         account,
@@ -47,13 +48,19 @@ const useRegisterLedgerListeners = () => {
   useEffect(() => {
     const removeLedgerConnectedListener = window.api.listen('ledgerConnected', ({ args }) => {
       ToastHelper.success({
-        message: t('ledgerConnected', { address: StringHelper.truncateStringMiddle(args.address, 20) }),
+        message: t('ledgerConnected', {
+          address: StringHelper.truncateStringMiddle(args.address, 25),
+          blockchain: commonT(`blockchain.${args.blockchain}`),
+        }),
       })
     })
 
     const removeLedgerDisconnectedListener = window.api.listen('ledgerDisconnected', ({ args }) => {
       ToastHelper.error({
-        message: t('ledgerDisconnected', { address: StringHelper.truncateStringMiddle(args, 20) }),
+        message: t('ledgerDisconnected', {
+          address: StringHelper.truncateStringMiddle(args.address, 25),
+          blockchain: commonT(`blockchain.${args.blockchain}`),
+        }),
       })
     })
 
@@ -132,7 +139,7 @@ const useNetworkChange = () => {
   useLayoutEffect(() => {
     Object.values(bsAggregator.blockchainServicesByName).forEach(service => {
       const network = networkByBlockchain[service.blockchainName]
-      service.setNetwork({ type: network.type, url: network.url })
+      service.setNetwork(network)
     })
   }, [networkByBlockchain])
 }

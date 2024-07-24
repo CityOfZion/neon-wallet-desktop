@@ -2,6 +2,7 @@ import { useCallback } from 'react'
 import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
 import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
 import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
+import { TSelectedNetworks } from '@shared/@types/store'
 
 import { useAppDispatch, useAppSelector } from './useRedux'
 
@@ -21,8 +22,10 @@ export const useSelectedNetworkByBlockchainSelector = () => {
   }
 }
 
-export const useSelectedNetworkSelector = (blockchain: TBlockchainServiceKey) => {
-  const { ref, value } = useAppSelector(state => state.settings.selectedNetworkByBlockchain[blockchain])
+export const useSelectedNetworkSelector = <T extends TBlockchainServiceKey>(blockchain: T) => {
+  const { ref, value } = useAppSelector(
+    state => state.settings.selectedNetworkByBlockchain[blockchain] as TSelectedNetworks[T]
+  )
   return {
     network: value,
     networkRef: ref,
@@ -66,16 +69,16 @@ export const useNetworkActions = () => {
   const { sessions, disconnect } = useWalletConnectWallet()
 
   const setNetwork = useCallback(
-    async (blockchain: TBlockchainServiceKey, network: TNetwork) => {
+    async (blockchain: TBlockchainServiceKey, network: TNetwork<TBlockchainServiceKey>) => {
       await Promise.allSettled(sessions.map(session => disconnect(session)))
       dispatch(settingsReducerActions.setSelectNetwork({ blockchain, network }))
     },
     [disconnect, dispatch, sessions]
-  )
+  ) as <T extends TBlockchainServiceKey>(blockchain: T, network: TNetwork<T>) => Promise<void>
 
   const setNetworkNode = useCallback(
-    (blockchain: TBlockchainServiceKey, url: string) => {
-      dispatch(settingsReducerActions.setSelectedNetworkUrl({ blockchain, url }))
+    (blockchain: TBlockchainServiceKey, url: string, isAutomatic?: boolean) => {
+      dispatch(settingsReducerActions.setSelectedNetworkUrl({ blockchain, url, isAutomatic }))
     },
     [dispatch]
   )

@@ -1,15 +1,15 @@
 import { forwardRef, useImperativeHandle, useMemo } from 'react'
 import { MdContentCopy } from 'react-icons/md'
 import { TbChevronRight } from 'react-icons/tb'
-import { ExplorerHelper } from '@renderer/helpers/ExplorerHelper'
+import { hasExplorerService } from '@cityofzion/blockchain-service'
+import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
-import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useInfiniteScroll } from '@renderer/hooks/useInfiniteScroll'
 import { useAppSelector } from '@renderer/hooks/useRedux'
-import { useSelectedNetworkByBlockchainSelector } from '@renderer/hooks/useSettingsSelector'
 import { useTransactions } from '@renderer/hooks/useTransactions'
+import { bsAggregator } from '@renderer/libs/blockchainService'
 import { getI18next } from '@renderer/libs/i18next'
 import { TUseTransactionsTransfer } from '@shared/@types/hooks'
 import { IAccountState } from '@shared/@types/store'
@@ -36,7 +36,6 @@ export const TransactionsTable = forwardRef<HTMLDivElement, TTransactionListProp
     const { transfers, fetchNextPage, isLoading } = useTransactions({ accounts })
     const { value: pendingTransactions } = useAppSelector(state => state.account.pendingTransactions)
 
-    const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
     const { handleScroll, ref: scrollRef } = useInfiniteScroll<HTMLDivElement>(fetchNextPage)
 
     const columns = useMemo(
@@ -97,7 +96,7 @@ export const TransactionsTable = forwardRef<HTMLDivElement, TTransactionListProp
     const allTransfers = useMemo(
       () =>
         pendingTransactions
-          .filter(transaction => accounts.some(account => account.address === transaction.account.address))
+          .filter(transaction => accounts.some(AccountHelper.predicate(transaction.account)))
           .concat(transfers),
       [accounts, pendingTransactions, transfers]
     )
@@ -110,17 +109,10 @@ export const TransactionsTable = forwardRef<HTMLDivElement, TTransactionListProp
 
     const handleClick = (row: TUseTransactionsTransfer) => {
       if (row.isPending) return
+      const service = bsAggregator.blockchainServicesByName[row.account.blockchain]
+      if (!hasExplorerService(service)) return
 
-      try {
-        const url = ExplorerHelper.buildTransactionUrl(
-          row.hash,
-          networkByBlockchain[row.account.blockchain].type,
-          row.account.blockchain
-        )
-        window.open(url)
-      } catch (error) {
-        ToastHelper.error({ message: t('components:transactionsTable.doraError') })
-      }
+      window.open(service.explorerService.buildTransactionUrl(row.hash))
     }
 
     useImperativeHandle(ref, () => scrollRef.current!, [scrollRef])

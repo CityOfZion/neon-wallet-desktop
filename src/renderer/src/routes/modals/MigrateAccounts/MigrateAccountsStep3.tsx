@@ -6,10 +6,9 @@ import { Button } from '@renderer/components/Button'
 import { Checkbox } from '@renderer/components/Checkbox'
 import { Separator } from '@renderer/components/Separator'
 import { useAccountUtils } from '@renderer/hooks/useAccountSelector'
-import { TMigrateSchema, TMigrateWalletsSchema } from '@renderer/hooks/useBackupOrMigrate'
+import { TMigrateAccountsSchema, TMigrateSchema } from '@renderer/hooks/useBackupOrMigrate'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { MigrateAccountsModalLayout } from '@renderer/layouts/MigrateAccountsModalLayout'
-import { bsAggregator } from '@renderer/libs/blockchainService'
 import { TAccountsToImport, TWalletToCreate } from '@shared/@types/blockchain'
 import { IContactState } from '@shared/@types/store'
 
@@ -24,9 +23,9 @@ export const MigrateAccountsStep3Modal = () => {
   const { modalNavigateWrapper } = useModalNavigate()
   const { doesAccountExist } = useAccountUtils()
 
-  const [selectedAccountsToMigrate, setSelectedAccountsToMigrate] = useState<TMigrateWalletsSchema[]>([])
+  const [selectedAccountsToMigrate, setSelectedAccountsToMigrate] = useState<TMigrateAccountsSchema[]>([])
 
-  const handleSelect = (wallet: TMigrateWalletsSchema) => {
+  const handleSelect = (wallet: TMigrateAccountsSchema) => {
     setSelectedAccountsToMigrate(prev => {
       const index = prev.findIndex(prevWallet => prevWallet.address === wallet.address)
 
@@ -39,7 +38,10 @@ export const MigrateAccountsStep3Modal = () => {
   }
 
   const handleSelectAll = () => {
-    const filteredContent = content.accounts.filter(wallet => !doesAccountExist(wallet.address))
+    const filteredContent = content.accounts.filter(account => {
+      return !doesAccountExist(account)
+    })
+
     setSelectedAccountsToMigrate(filteredContent)
   }
 
@@ -54,30 +56,29 @@ export const MigrateAccountsStep3Modal = () => {
       </div>
 
       <div className="w-full flex-grow flex flex-col overflow-y-auto min-h-0 mt-1 pr-2">
-        {content.accounts.map((wallet, index) => {
-          const isAccountExist = doesAccountExist(wallet.address)
-
-          const blockchain = bsAggregator.getBlockchainNameByAddress(wallet.address)
+        {content.accounts.map((account, index) => {
+          const isAccountExist = doesAccountExist(account)
 
           return (
-            <Fragment key={wallet.address}>
+            <Fragment key={account.address}>
               <div className="flex py-4 items-center justify-between">
                 <div className="flex items-center">
-                  {blockchain && <BlockchainIcon className="mr-2" blockchain={blockchain} type="gray" />}
+                  <BlockchainIcon className="mr-2" blockchain={account.blockchain} type="gray" />
+
                   <div className="flex flex-col gap-1">
                     <div className="flex gap-2">
-                      <span className="text-sm text-white">{wallet.label}</span>
+                      <span className="text-sm text-white">{account.label}</span>
                       {isAccountExist && <span className="text-sm text-green italic">{t('alreadyImportedLabel')}</span>}
                     </div>
-                    <span className="text-xs text-gray-300">{wallet.address}</span>
+                    <span className="text-xs text-gray-300">{account.address}</span>
                   </div>
                 </div>
 
                 <Checkbox
-                  onClick={handleSelect.bind(null, wallet)}
+                  onClick={handleSelect.bind(null, account)}
                   checked={
                     isAccountExist ||
-                    selectedAccountsToMigrate.some(selectWallet => selectWallet.address === wallet.address)
+                    selectedAccountsToMigrate.some(selectWallet => selectWallet.address === account.address)
                   }
                   disabled={isAccountExist}
                 />

@@ -15,6 +15,7 @@ export type TColorOrLocalSkin = {
 
 export type TSkin = TColorOrLocalSkin | TNftSkin
 export interface IAccountState {
+  id: string
   address: string
   type: TAccountType
   idWallet: string
@@ -39,8 +40,14 @@ export type TCurrency = {
   symbol: string
   label: TAvailableCurrency
 }
-export type TCustomNetwork = Record<TBlockchainServiceKey, TNetwork[]>
-export type TSelectedNetworks = Record<TBlockchainServiceKey, TNetwork>
+export type TCustomNetwork = {
+  [K in TBlockchainServiceKey]: TNetwork<K>[]
+}
+
+export type TSelectedNetworks = {
+  [K in TBlockchainServiceKey]: TNetwork<K>
+}
+
 export type TNetworkProfile = {
   id: string
   name: string

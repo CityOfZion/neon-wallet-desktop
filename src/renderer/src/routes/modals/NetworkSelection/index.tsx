@@ -4,11 +4,8 @@ import { Tb3DCubeSphere, TbPencil, TbPlus } from 'react-icons/tb'
 import { Button } from '@renderer/components/Button'
 import { RadioGroup } from '@renderer/components/RadioGroup'
 import { Separator } from '@renderer/components/Separator'
-import {
-  BLOCKCHAIN_WITH_CUSTOM_NETWORK,
-  COLOR_BY_NETWORK_TYPE,
-  NETWORK_OPTIONS_BY_BLOCKCHAIN,
-} from '@renderer/constants/networks'
+import { BLOCKCHAIN_WITH_CUSTOM_NETWORK, NETWORK_OPTIONS_BY_BLOCKCHAIN } from '@renderer/constants/networks'
+import { NetworkHelper } from '@renderer/helpers/NetworkHelper'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import {
   useCustomNetworksSelector,
@@ -31,9 +28,9 @@ export const NetworkSelection = () => {
   const { network } = useSelectedNetworkSelector(blockchain)
   const { customNetworks } = useCustomNetworksSelector()
 
-  const [selectedNetwork, setSelectedNetwork] = useState<TNetwork>(network)
+  const [selectedNetwork, setSelectedNetwork] = useState<TNetwork<TBlockchainServiceKey>>(network)
 
-  const options = NETWORK_OPTIONS_BY_BLOCKCHAIN[blockchain].concat(...customNetworks[blockchain])
+  const options = NETWORK_OPTIONS_BY_BLOCKCHAIN[blockchain].all.concat(...customNetworks[blockchain])
 
   const onSelectRadioItem = (selectedValue: string) => {
     const network = options.find(network => network.id === selectedValue)
@@ -54,7 +51,7 @@ export const NetworkSelection = () => {
 
   return (
     <SideModalLayout heading={t('title')} headingIcon={<Tb3DCubeSphere />} contentClassName="px-0 flex flex-col">
-      <div className="flex-grow">
+      <div className="flex-grow min-h-0 overflow-auto ">
         <span className="mb-5 block px-4 text-gray-300">{t('selectNetwork')}</span>
 
         <RadioGroup.Group value={selectedNetwork.id} onValueChange={onSelectRadioItem}>
@@ -62,7 +59,7 @@ export const NetworkSelection = () => {
             <RadioGroup.Item key={network.id} value={network.id}>
               <div className="flex items-center gap-4">
                 <div
-                  className={`w-[0.375rem] h-[0.375rem] min-w-[0.375rem] min-h-[0.375rem] rounded-full ${COLOR_BY_NETWORK_TYPE[network.type]}`}
+                  className={`w-[0.375rem] h-[0.375rem] min-w-[0.375rem] min-h-[0.375rem] rounded-full ${NetworkHelper.getColorByNetwork(network, blockchain)}`}
                 />
                 <label>{network.name}</label>
               </div>
@@ -75,7 +72,7 @@ export const NetworkSelection = () => {
 
       {BLOCKCHAIN_WITH_CUSTOM_NETWORK.includes(blockchain) && (
         <Fragment>
-          {selectedNetwork.type === 'custom' && (
+          {NetworkHelper.isCustom(blockchain, selectedNetwork) && (
             <Button
               label={t('editCustomNetworkButtonLabel')}
               rightIcon={<TbPencil />}

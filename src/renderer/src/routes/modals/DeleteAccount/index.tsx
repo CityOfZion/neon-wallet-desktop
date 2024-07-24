@@ -30,7 +30,7 @@ export const DeleteAccountModal = () => {
     if (walletAccounts.length === 1) {
       ToastHelper.error({ message: t('deleteLastAccountError') })
     } else {
-      deleteAccount(account.address)
+      deleteAccount(account)
     }
 
     modalNavigate(-2)

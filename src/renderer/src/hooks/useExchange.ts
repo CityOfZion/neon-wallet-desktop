@@ -32,7 +32,7 @@ export function useExchange(queryOptions?: TBaseOptions<TExchange[]>): TUseExcha
   const query = useQueries({
     queries: Object.values(bsAggregator.blockchainServicesByName).map(service => ({
       queryOptions,
-      queryKey: ['exchange', currency, service.blockchainName, networkByBlockchain[service.blockchainName].type],
+      queryKey: ['exchange', currency, service.blockchainName, networkByBlockchain[service.blockchainName].id],
       queryFn: fetchExchange.bind(null, currency, service.blockchainName),
     })),
     combine: result => ({

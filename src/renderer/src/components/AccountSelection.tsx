@@ -14,6 +14,8 @@ type TItemProps = {
   onCheckedChange?(checked: boolean): void
   address: string
   label?: string
+  checked?: boolean
+  disabled?: boolean
 }
 
 const Root = ({ blockchain, children }: TRootProps) => {
@@ -33,13 +35,13 @@ const Root = ({ blockchain, children }: TRootProps) => {
   )
 }
 
-const Item = ({ onCheckedChange, address, label }: TItemProps) => {
+const Item = ({ onCheckedChange, address, label, checked, disabled }: TItemProps) => {
   return (
     <li className="flex flex-col w-full gap-y-0.5 text-white text-xs">
       <span className="text-gray-300">{label}</span>
       <div className="flex gap-x-2 justify-between">
         <span className="block truncate min-w-0">{address}</span>
-        <Checkbox defaultChecked onCheckedChange={onCheckedChange} />
+        <Checkbox checked={checked} onCheckedChange={onCheckedChange} disabled={disabled} />
       </div>
     </li>
   )

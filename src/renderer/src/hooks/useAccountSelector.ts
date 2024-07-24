@@ -1,4 +1,6 @@
 import { useCallback, useMemo } from 'react'
+import { AccountHelper } from '@renderer/helpers/AccountHelper'
+import { TAccountHelperPredicateParams } from '@shared/@types/helpers'
 
 import { useAppSelector } from './useRedux'
 
@@ -30,7 +32,7 @@ export const useAccountUtils = () => {
   const { accountsRef } = useAccountsSelector()
 
   const doesAccountExist = useCallback(
-    (address: string) => accountsRef.current.some(account => account.address === address),
+    (params: TAccountHelperPredicateParams) => accountsRef.current.some(AccountHelper.predicate(params)),
     [accountsRef]
   )
 

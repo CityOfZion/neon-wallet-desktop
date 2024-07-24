@@ -7,24 +7,19 @@ import { bsAggregator } from './bsAggregator'
 
 const NodeHidTransportFixed = (NodeHidTransport as any).default as typeof NodeHidTransport
 
-const transportersInfoByDescriptor: Map<string, TLedgerInfoWithTransport> = new Map()
+let transporters: TLedgerInfoWithTransport[] = []
 let started = false
 
 export const getLedgerTransport = async (account: Account) => {
-  for (const { address, transport } of transportersInfoByDescriptor.values()) {
-    if (account.address === address) {
-      return transport
-    }
-  }
+  const transporter = transporters.find(transporter => transporter.address === account.address)
+  if (!transporter) throw new Error(`No ledger found for account ${account.address}`)
 
-  throw new Error(`No ledger found for account ${account.address}`)
+  return transporter.transport
 }
 
 export function registerLedgerHandler() {
   mainApi.listenAsync('getConnectedLedgers', () => {
-    return Array.from(transportersInfoByDescriptor.values()).map(({ address, publicKey, blockchain }) => {
-      return { address, publicKey, blockchain }
-    })
+    return transporters.map(({ address, publicKey, blockchain }) => ({ address, publicKey, blockchain }))
   })
 
   mainApi.listenSync('startLedger', () => {
@@ -43,11 +38,12 @@ export function registerLedgerHandler() {
               if (!hasLedger(service)) continue
               const address = await service.ledgerService.getAddress(transport)
               const publicKey = await service.ledgerService.getPublicKey(transport)
-              transportersInfoByDescriptor.set(String(event.descriptor), {
+              transporters.push({
                 address,
                 publicKey,
                 blockchain: service.blockchainName,
                 transport,
+                descriptor: String(event.descriptor),
               })
 
               mainApi.send('ledgerConnected', { address, publicKey, blockchain: service.blockchainName })
@@ -58,11 +54,22 @@ export function registerLedgerHandler() {
         }
 
         if (event.type === 'remove') {
-          const info = transportersInfoByDescriptor.get(String(event.descriptor))
-          if (!info) return
+          const newTransporters: TLedgerInfoWithTransport[] = []
 
-          mainApi.send('ledgerDisconnected', info.address)
-          transportersInfoByDescriptor.delete(String(event.descriptor))
+          transporters.forEach(transporter => {
+            if (String(event.descriptor) === transporter.descriptor) {
+              mainApi.send('ledgerDisconnected', {
+                address: transporter.address,
+                blockchain: transporter.blockchain,
+                publicKey: transporter.publicKey,
+              })
+              return
+            }
+
+            newTransporters.push(transporter)
+          })
+
+          transporters = newTransporters
         }
       },
     })

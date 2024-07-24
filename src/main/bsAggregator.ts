@@ -11,9 +11,10 @@ export let bsAggregator: BSAggregator<TBlockchainServiceKey>
 
 export function exposeBsAggregatorToRenderer() {
   bsAggregator = new BSAggregator<TBlockchainServiceKey>({
-    neo3: new BSNeo3('neo3', { type: 'mainnet' }, getLedgerTransport),
-    neoLegacy: new BSNeoLegacy('neoLegacy', { type: 'mainnet' }),
-    ethereum: new BSEthereum('ethereum', { type: 'mainnet' }, getLedgerTransport),
+    neo3: new BSNeo3('neo3', undefined, getLedgerTransport),
+    neoLegacy: new BSNeoLegacy('neoLegacy'),
+    ethereum: new BSEthereum('ethereum', undefined, getLedgerTransport),
+    neox: new BSEthereum('neox', undefined, getLedgerTransport),
   })
 
   exposeApiToRenderer(bsAggregator)

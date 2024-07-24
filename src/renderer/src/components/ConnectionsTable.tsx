@@ -7,6 +7,7 @@ import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { Button } from '@renderer/components/Button'
 import { ImageWithFallback } from '@renderer/components/ImageWithFallback'
 import { Table } from '@renderer/components/Table'
+import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { DateHelper } from '@renderer/helpers/DateHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
@@ -41,7 +42,7 @@ export const ConnectionsTable = forwardRef<HTMLDivElement, TConnectionsTableProp
                 src={info.getValue().icons[0]}
                 alt={`${info.getValue().name} icon`}
                 fallbackSrc={dappFallbackIcon}
-                className="h-5 w-5 min-w-[1.25rem] object-contain rounded-full bg-gray-300/30"
+                className="h-5 w-5 min-w-[1.25rem] object-contain rounded-full bg-gray-300/30 overflow-hidden"
               />
               <span className="truncate">{info.getValue().name}</span>
             </div>
@@ -62,9 +63,9 @@ export const ConnectionsTable = forwardRef<HTMLDivElement, TConnectionsTableProp
         }),
         ...(hasAddress
           ? [
-              columnHelper.accessor(row => WalletConnectHelper.getAccountInformationFromSession(row).address, {
+              columnHelper.accessor(row => WalletConnectHelper.getAccountInformationFromSession(row), {
                 header: t('account'),
-                cell: info => accounts.find(account => account.address === info.getValue())?.name ?? info.getValue(),
+                cell: info => accounts.find(AccountHelper.predicate(info.getValue()))?.name ?? info.getValue(),
               }),
             ]
           : []),

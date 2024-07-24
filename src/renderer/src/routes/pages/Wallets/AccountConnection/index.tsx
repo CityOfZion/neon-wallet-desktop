@@ -21,9 +21,10 @@ export const AccountConnections = () => {
 
   const { account } = useOutletContext<TOutletContext>()
 
-  const filteredSessions = sessions.filter(session =>
-    WalletConnectHelper.getAccountInformationFromSession(session).address.includes(account.address)
-  )
+  const filteredSessions = sessions.filter(session => {
+    const { address, blockchain } = WalletConnectHelper.getAccountInformationFromSession(session)
+    return address === account.address && blockchain === account.blockchain
+  })
 
   return (
     <AccountDetailsLayout

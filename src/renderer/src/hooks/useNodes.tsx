@@ -13,7 +13,7 @@ export const useNodes = (blockchain: TBlockchainServiceKey) => {
   const { network } = useSelectedNetworkSelector(blockchain)
 
   const query = useQuery({
-    queryKey: ['nodes', blockchain, network.type],
+    queryKey: ['nodes', blockchain, network.id],
     queryFn: fetchNodes.bind(null, blockchain),
     staleTime: 0,
   })

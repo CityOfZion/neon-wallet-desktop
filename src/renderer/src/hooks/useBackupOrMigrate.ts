@@ -1,11 +1,12 @@
 import { useTranslation } from 'react-i18next'
 import { BACKUP_FILE_EXTENSION } from '@renderer/constants/backup'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
+import { bsAggregator } from '@renderer/libs/blockchainService'
 import zod from 'zod'
 
 import { useActions } from './useActions'
 
-export type TMigrateWalletsSchema = zod.infer<typeof migrateWalletsSchema>
+export type TMigrateAccountsSchema = zod.infer<typeof migrateAccountsSchema>
 export type TMigrateSchema = zod.infer<typeof migrateSchema>
 
 export type TUseBackupOrMigrateActionsData = {
@@ -14,19 +15,36 @@ export type TUseBackupOrMigrateActionsData = {
   type?: 'backup' | 'migrate'
 }
 
-const migrateWalletsSchema = zod.object({
-  address: zod.string(),
-  label: zod.string(),
-  isDefault: zod.boolean(),
-  lock: zod.boolean(),
-  key: zod.string(),
-  contract: zod.any(),
-  extra: zod.any(),
+const migrateAccountsSchema = zod
+  .object({
+    address: zod.string(),
+    label: zod.string(),
+    isDefault: zod.boolean(),
+    lock: zod.boolean(),
+    key: zod.string(),
+    contract: zod.any(),
+    extra: zod.any(),
+  })
+  .transform(data => {
+    const [blockchain] = bsAggregator.getBlockchainNameByAddress(data.address)
+    return {
+      ...data,
+      blockchain,
+    }
+  })
+
+const migrateContactsSchema = zod.object({ name: zod.string(), addresses: zod.array(zod.string()) }).transform(data => {
+  const addressesWithBlockchain = data.addresses.map(address => {
+    const [blockchain] = bsAggregator.getBlockchainNameByAddress(address)
+    return { address, blockchain }
+  })
+
+  return { ...data, addresses: addressesWithBlockchain }
 })
 
 const migrateSchema = zod.object({
-  accounts: zod.array(migrateWalletsSchema),
-  contacts: zod.array(zod.object({ name: zod.string(), addresses: zod.array(zod.string()) })),
+  accounts: zod.array(migrateAccountsSchema),
+  contacts: zod.array(migrateContactsSchema),
 })
 
 export const useBackupOrMigrate = () => {
@@ -54,10 +72,21 @@ export const useBackupOrMigrate = () => {
     try {
       const parsedContent = JSON.parse(fileContent)
       const validatedContent = await migrateSchema.parseAsync(parsedContent)
+      const accountWithBlockchain = validatedContent.accounts.map(account => {
+        const [blockchain] = bsAggregator.getBlockchainNameByAddress(account.address)
+        return {
+          ...account,
+          blockchain,
+        }
+      })
 
       ToastHelper.success({ message: t('neon2MigrateFileDetected') })
 
-      setData({ path: filePath, content: validatedContent, type: 'migrate' })
+      setData({
+        path: filePath,
+        content: { contacts: validatedContent.contacts, accounts: accountWithBlockchain },
+        type: 'migrate',
+      })
       return
     } catch {
       /* empty */

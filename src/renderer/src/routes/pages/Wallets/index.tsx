@@ -22,7 +22,7 @@ import { AccountList } from './AccountList'
 import { WalletsSelect } from './WalletsSelect'
 
 type TParams = {
-  address: string
+  id: string
 }
 
 export const WalletsPage = () => {
@@ -31,7 +31,7 @@ export const WalletsPage = () => {
   const { accounts } = useAccountsSelector()
   const { modalNavigateWrapper } = useModalNavigate()
   const navigate = useNavigate()
-  const { address } = useParams<TParams>()
+  const { id } = useParams<TParams>()
 
   const [selectedWallet, setSelectedWallet] = useState<IWalletState | undefined>(wallets[0])
   const [selectedAccount, setSelectedAccount] = useState<IAccountState | undefined>(
@@ -41,28 +41,28 @@ export const WalletsPage = () => {
   const service = selectedAccount ? bsAggregator.blockchainServicesByName[selectedAccount.blockchain] : undefined
 
   const handleSelectAccount = (selected: IAccountState) => {
-    navigate(`/app/wallets/${selected.address}/overview`)
+    navigate(`/app/wallets/${selected.id}/overview`)
   }
 
   const handleSelectWallet = (selected: IWalletState) => {
     const firstAccount = accounts.find(account => account.idWallet === selected.id)
     if (!firstAccount) return
-    navigate(`/app/wallets/${firstAccount.address}/overview`)
+    navigate(`/app/wallets/${firstAccount.id}/overview`)
   }
 
   useLayoutEffect(() => {
     const navigateToFirstAccount = () => {
       const [wallet] = wallets
       const firstAccount = accounts.find(account => account.idWallet === wallet?.id)
-      if (firstAccount) navigate(`/app/wallets/${firstAccount.address}/overview`)
+      if (firstAccount) navigate(`/app/wallets/${firstAccount.id}/overview`)
     }
 
-    if (!address) {
+    if (!id) {
       navigateToFirstAccount()
       return
     }
 
-    const account = accounts.find(account => account.address === address)
+    const account = accounts.find(account => account.id === id)
     if (!account) {
       navigateToFirstAccount()
       return
@@ -76,7 +76,7 @@ export const WalletsPage = () => {
 
     setSelectedWallet(wallet)
     setSelectedAccount(account)
-  }, [address, wallets, accounts, navigate])
+  }, [id, wallets, accounts, navigate])
 
   useLayoutEffect(() => {}, [selectedWallet, selectedAccount])
 
@@ -171,28 +171,25 @@ export const WalletsPage = () => {
               <ul className="max-w-[11.625rem] min-w-[11.625rem] w-full border-r border-gray-300/30">
                 <SidebarMenuButton
                   title={t('accountOverview.title')}
-                  to={`/app/wallets/${selectedAccount.address}/overview`}
+                  to={`/app/wallets/${selectedAccount.id}/overview`}
                 />
                 <SidebarMenuButton
                   title={t('accountTokensList.title')}
-                  to={`/app/wallets/${selectedAccount.address}/tokens`}
+                  to={`/app/wallets/${selectedAccount.id}/tokens`}
                 />
                 {service && hasNft(service) && (
-                  <SidebarMenuButton
-                    title={t('accountNftList.title')}
-                    to={`/app/wallets/${selectedAccount.address}/nfts`}
-                  />
+                  <SidebarMenuButton title={t('accountNftList.title')} to={`/app/wallets/${selectedAccount.id}/nfts`} />
                 )}
                 <SidebarMenuButton
                   title={t('accountTransactionsList.title')}
-                  to={`/app/wallets/${selectedAccount.address}/transactions`}
+                  to={`/app/wallets/${selectedAccount.id}/transactions`}
                 />
 
                 {selectedAccount?.type !== 'watch' &&
-                  WalletConnectHelper.blockchainsByBlockchainServiceKey[selectedAccount.blockchain] && (
+                  WalletConnectHelper.supportedBlockchains[selectedAccount.blockchain] && (
                     <SidebarMenuButton
                       title={t('accountConnections.title')}
-                      to={`/app/wallets/${selectedAccount.address}/connections`}
+                      to={`/app/wallets/${selectedAccount.id}/connections`}
                     />
                   )}
               </ul>

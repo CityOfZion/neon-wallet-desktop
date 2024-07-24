@@ -6,7 +6,6 @@ import { Checkbox } from '@renderer/components/Checkbox'
 import { Loader } from '@renderer/components/Loader'
 import { RadioGroup } from '@renderer/components/RadioGroup'
 import { Separator } from '@renderer/components/Separator'
-import { DEFAULT_NETWORK_URL_BY_BLOCKCHAIN } from '@renderer/constants/networks'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useNodes } from '@renderer/hooks/useNodes'
@@ -28,26 +27,25 @@ export const NetworkNodeSelection = () => {
   const query = useNodes(blockchain)
 
   const [selectedUrl, setSelectedUrl] = useState<string>(network.url)
-  const [isAutomatically, setIsAutomatically] = useState<boolean>(
-    network.url === DEFAULT_NETWORK_URL_BY_BLOCKCHAIN[blockchain][network.type]
-  )
+  const [isAutomatic, setIsAutomatic] = useState<boolean>(network.isAutomatic ?? false)
 
   const handleSelectRadioItem = (selectedValue: string) => {
-    setIsAutomatically(false)
+    setIsAutomatic(false)
     setSelectedUrl(selectedValue)
   }
 
   const handleIsAutomaticallyChange = (value: boolean) => {
-    if (value) {
-      setSelectedUrl(DEFAULT_NETWORK_URL_BY_BLOCKCHAIN[blockchain][network.type])
+    const firstNode = query.data?.[0]
+    if (firstNode) {
+      setSelectedUrl(firstNode.url)
     }
 
-    setIsAutomatically(value)
+    setIsAutomatic(value)
   }
 
   const handleSave = async () => {
     modalNavigate(-1)
-    setNetworkNode(blockchain, selectedUrl)
+    setNetworkNode(blockchain, selectedUrl, isAutomatic)
   }
 
   return (
@@ -70,7 +68,12 @@ export const NetworkNodeSelection = () => {
           <label className="text-xs font-medium" htmlFor="automatically">
             {t('selectAutomaticallyLabel')}
           </label>
-          <Checkbox id="automatically" checked={isAutomatically} onCheckedChange={handleIsAutomaticallyChange} />
+          <Checkbox
+            id="automatically"
+            checked={isAutomatic}
+            onCheckedChange={handleIsAutomaticallyChange}
+            disabled={query.isLoading}
+          />
         </div>
       </div>
 

@@ -65,13 +65,15 @@ export const ConfirmPasswordRecoverModal = () => {
 
       const importPromises = backupFile.wallets.map(async wallet => {
         const accountsToImport: TAccountsToImport = []
+
         wallet.accounts.forEach(account => {
-          if (doesAccountExist(account.address)) return
+          if (doesAccountExist(account)) return
           accountsToImport.push({ ...account, type: account.type })
         })
+
         if (accountsToImport.length === 0) return
 
-        const newWallet = await createWallet(wallet)
+        const newWallet = createWallet(wallet)
 
         await importAccounts({ wallet: newWallet, accounts: accountsToImport })
       })
