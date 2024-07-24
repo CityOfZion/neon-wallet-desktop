@@ -222,7 +222,8 @@
         "privateKey": "Invalid private key",
         "privateKeyNotFound": "Unable to validate the private key",
         "passphrase": "Invalid passphrase",
-        "confirmationPassphrase": "Confirmation passphrase is different from the passphrase"
+        "confirmationPassphrase": "Confirmation passphrase is different from the passphrase",
+        "errorToEncryptKey": "Error to encrypt key"
       },
       "successModal": {
         "title": "Encrypted Key",
