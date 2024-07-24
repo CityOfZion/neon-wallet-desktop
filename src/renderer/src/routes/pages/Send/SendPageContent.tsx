@@ -219,7 +219,8 @@ export const SendPageContent = ({ account, recipient }: TProps) => {
           ),
         },
       })
-    } catch {
+    } catch (error) {
+      console.error(error)
       modalNavigate('error', {
         state: {
           heading: t('title'),

@@ -17,6 +17,7 @@ const initialState: ISettingsState = {
     ethereum: [],
     neo3: [],
     neoLegacy: [],
+    neox: [],
   },
   selectedNetworkByBlockchain: DEFAULT_NETWORK_BY__BLOCKCHAIN,
   networkProfiles: [DEFAULT_NETWORK_PROFILE],
@@ -44,37 +45,38 @@ const setHasOverTheAirUpdates: CaseReducer<ISettingsState, PayloadAction<boolean
   state.hasOverTheAirUpdates = action.payload
 }
 
-const setSelectNetwork: CaseReducer<
-  ISettingsState,
-  PayloadAction<{ blockchain: TBlockchainServiceKey; network: TNetwork }>
-> = (state, action) => {
+const setSelectNetwork = <T extends TBlockchainServiceKey>(
+  state: ISettingsState,
+  action: PayloadAction<{ blockchain: T; network: TNetwork<T> }>
+) => {
   const { blockchain, network } = action.payload
 
   const cloneSelectedNetworkByBlockchain = cloneDeep(state.selectedNetworkByBlockchain)
-  cloneSelectedNetworkByBlockchain[blockchain] = network
+  cloneSelectedNetworkByBlockchain[blockchain] = network as any
 
   state.selectedNetworkByBlockchain = cloneSelectedNetworkByBlockchain
 }
 
 const setSelectedNetworkUrl: CaseReducer<
   ISettingsState,
-  PayloadAction<{ blockchain: TBlockchainServiceKey; url: string }>
+  PayloadAction<{ blockchain: TBlockchainServiceKey; url: string; isAutomatic?: boolean }>
 > = (state, action) => {
-  const { blockchain, url } = action.payload
+  const { blockchain, url, isAutomatic } = action.payload
 
   const cloneSelectedNetworkByBlockchain = cloneDeep(state.selectedNetworkByBlockchain)
   cloneSelectedNetworkByBlockchain[blockchain].url = url
+  cloneSelectedNetworkByBlockchain[blockchain].isAutomatic = isAutomatic
 
   state.selectedNetworkByBlockchain = cloneSelectedNetworkByBlockchain
 }
 
-const saveCustomNetwork: CaseReducer<
-  ISettingsState,
-  PayloadAction<{
-    blockchain: TBlockchainServiceKey
-    network: TNetwork
+const saveCustomNetwork = <T extends TBlockchainServiceKey>(
+  state: ISettingsState,
+  action: PayloadAction<{
+    blockchain: T
+    network: TNetwork<T>
   }>
-> = (state, action) => {
+) => {
   const { blockchain, network } = action.payload
   const cloneNetworks = cloneDeep(state.customNetworks)
 
@@ -88,20 +90,20 @@ const saveCustomNetwork: CaseReducer<
   state.customNetworks = cloneNetworks
 }
 
-const deleteCustomNetwork: CaseReducer<
-  ISettingsState,
-  PayloadAction<{
-    blockchain: TBlockchainServiceKey
-    network: TNetwork
+const deleteCustomNetwork = <T extends TBlockchainServiceKey>(
+  state: ISettingsState,
+  action: PayloadAction<{
+    blockchain: T
+    network: TNetwork<T>
   }>
-> = (state, action) => {
+) => {
   const { network, blockchain } = action.payload
 
   const cloneNetworks = cloneDeep(state.customNetworks)
   const cloneSelectedNetwork = cloneDeep(state.selectedNetworkByBlockchain)
 
   const filteredNetworks = cloneNetworks[blockchain].filter(network => network.id !== network.id)
-  cloneNetworks[blockchain] = filteredNetworks
+  cloneNetworks[blockchain] = filteredNetworks as any
   state.customNetworks = cloneNetworks
 
   if (cloneSelectedNetwork[blockchain].id === network.id) {

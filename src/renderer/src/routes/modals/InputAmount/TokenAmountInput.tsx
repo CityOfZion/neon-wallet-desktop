@@ -36,6 +36,7 @@ export const TokenAmountInput = ({ onChange, onMaxClick, value, exchangeRatio, e
           clearable={true}
           name="tokenAmount"
           error={error}
+          autoFocus
         />
         <Button
           clickableProps={{

@@ -10,11 +10,10 @@ import { Button } from '@renderer/components/Button'
 import { ImageWithFallback } from '@renderer/components/ImageWithFallback'
 import { Loader } from '@renderer/components/Loader'
 import { Separator } from '@renderer/components/Separator'
-import { NETWORK_OPTIONS_BY_BLOCKCHAIN } from '@renderer/constants/networks'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
-import { useNetworkActions, useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
+import { useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
 import { TWalletConnectHelperProposalInformation } from '@shared/@types/helpers'
 import { IAccountState } from '@shared/@types/store'
@@ -33,7 +32,6 @@ export const DappConnectionDetailsModal = () => {
   const { modalNavigate } = useModalNavigate()
   const { networkRef } = useSelectedNetworkSelector(account.blockchain)
   const { t } = useTranslation('modals', { keyPrefix: 'dappConnectionDetails' })
-  const { setNetwork } = useNetworkActions()
 
   const [proposalInformation, setProposalInformation] = useState<TWalletConnectHelperProposalInformation[]>()
   const [loading, setLoading] = useState(false)
@@ -50,50 +48,44 @@ export const DappConnectionDetailsModal = () => {
   const handleAccept = async () => {
     try {
       setLoading(true)
-      if (!proposalInformation) return
-
-      const accountProposalInformation = proposalInformation.find(info => info.blockchain === account.blockchain)
-      if (!accountProposalInformation) {
-        rejectProposal(proposal)
-        ToastHelper.error({ message: t('errorModal.accountProposalError') })
-        modalNavigate(-1)
-        return
-      }
-
-      if (accountProposalInformation.network !== networkRef.current.type) {
-        const network = NETWORK_OPTIONS_BY_BLOCKCHAIN[account.blockchain].find(
-          network => network.type === accountProposalInformation.network
-        )
-        if (network) {
-          await setNetwork(account.blockchain, network)
-        }
-      }
 
       try {
-        await approveProposal(proposal, {
-          address: account.address,
-          chain: accountProposalInformation.proposalNetwork,
-          blockchain: accountProposalInformation.proposalBlockchain,
-        })
+        const accountProposalInformation = proposalInformation?.find(info => info.blockchain === account.blockchain)
+        if (!accountProposalInformation) throw new Error(t('errorModal.accountProposalError'))
+
+        if (accountProposalInformation.network !== networkRef.current.id)
+          throw new Error(t('errorModal.differentNetworkError'))
+
+        try {
+          await approveProposal(proposal, {
+            address: account.address,
+            chain: accountProposalInformation.network,
+            blockchain: accountProposalInformation.proposalBlockchain,
+          })
+          modalNavigate(-1)
+          modalNavigate('success', {
+            state: {
+              heading: t('successModal.title'),
+              headingIcon: <TbPlug />,
+              subtitle: t('successModal.subtitle'),
+              content: <DappConnectionSuccessContent />,
+            },
+          })
+        } catch {
+          modalNavigate(-1)
+          modalNavigate('error', {
+            state: {
+              heading: t('errorModal.title'),
+              headingIcon: <TbPlug />,
+              subtitle: t('errorModal.subtitle'),
+              content: <DappConnectionErrorContent />,
+            },
+          })
+        }
+      } catch (error: any) {
+        rejectProposal(proposal)
+        ToastHelper.error({ message: error.message })
         modalNavigate(-1)
-        modalNavigate('success', {
-          state: {
-            heading: t('successModal.title'),
-            headingIcon: <TbPlug />,
-            subtitle: t('successModal.subtitle'),
-            content: <DappConnectionSuccessContent />,
-          },
-        })
-      } catch {
-        modalNavigate(-1)
-        modalNavigate('error', {
-          state: {
-            heading: t('errorModal.title'),
-            headingIcon: <TbPlug />,
-            subtitle: t('errorModal.subtitle'),
-            content: <DappConnectionErrorContent />,
-          },
-        })
       }
     } finally {
       setLoading(false)

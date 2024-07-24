@@ -19,7 +19,7 @@ export const useTransactions = ({ accounts }: TProps) => {
   const combinedQueries = useQueries({
     queries: accounts.map(account => ({
       // eslint-disable-next-line @tanstack/query/exhaustive-deps
-      queryKey: ['transactions', account.address, page, networkByBlockchain[account.blockchain].type],
+      queryKey: ['transactions', account.id, page, networkByBlockchain[account.blockchain].id],
       queryFn: async (): Promise<TFetchTransactionsResponse> => {
         const service = bsAggregator.blockchainServicesByName[account.blockchain]
         try {

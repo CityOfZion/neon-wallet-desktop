@@ -5,6 +5,7 @@ import { isCalculableFee } from '@cityofzion/blockchain-service'
 import { Loader } from '@renderer/components/Loader'
 import { ExchangeHelper } from '@renderer/helpers/ExchangeHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
+import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { useExchange } from '@renderer/hooks/useExchange'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 
@@ -30,6 +31,7 @@ export const TotalFee = ({ getSendFields, onFeeChange, fee }: TTotalFeeParams) =
         onFeeChange(undefined)
         setFiatFee(undefined)
         const fields = await getSendFields()
+
         if (!fields || !isCalculableFee(fields.service)) return
         setLoading(true)
         const fee = await fields.service.calculateTransferFee({
@@ -40,21 +42,25 @@ export const TotalFee = ({ getSendFields, onFeeChange, fee }: TTotalFeeParams) =
             tokenDecimals: fields.selectedToken.token.decimals,
           },
           senderAccount: fields.serviceAccount,
+          isLedger: fields.selectedAccount.type === 'ledger',
         })
         onFeeChange(`${fee} ${fields.service.feeToken.symbol}`)
+
         const exchangeRatio = ExchangeHelper.getExchangeRatio(
           fields.service.feeToken.hash,
           fields.service.blockchainName,
           exchange.data
         )
         setFiatFee(NumberHelper.number(fee) * exchangeRatio)
+      } catch {
+        ToastHelper.error({ message: t('error.feeError') })
       } finally {
         setLoading(false)
       }
     }
 
     handle()
-  }, [onFeeChange, getSendFields, exchange.data])
+  }, [onFeeChange, getSendFields, exchange.data, t])
 
   return (
     <div className="flex justify-between bg-gray-700/60 py-2.5 rounded px-3 w-full mt-2">

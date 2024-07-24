@@ -32,7 +32,8 @@
   "blockchain": {
     "neo3": "Neo N3",
     "neoLegacy": "Neo Legacy",
-    "ethereum": "Ethereum"
+    "ethereum": "Ethereum",
+    "neox": "NeoX"
   },
   "networkTypeLabel": {
     "mainnet": "MainNet",

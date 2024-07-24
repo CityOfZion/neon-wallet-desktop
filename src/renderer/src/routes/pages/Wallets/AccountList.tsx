@@ -3,7 +3,6 @@ import { AccountIcon } from '@renderer/components/AccountIcon'
 import { Separator } from '@renderer/components/Separator'
 import { Tooltip } from '@renderer/components/Tooltip'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useAccountsByWalletIdSelector } from '@renderer/hooks/useAccountSelector'
 import { useBalances } from '@renderer/hooks/useBalances'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
@@ -53,19 +52,17 @@ const AccountItem = ({ account, onClick, active }: TAccountItemProps) => {
 export const AccountList = ({ selectedWallet, selectedAccount, onSelect }: TProps) => {
   const { accountsByWalletId } = useAccountsByWalletIdSelector(selectedWallet.id)
 
-  const orderedAccounts = UtilsHelper.orderBy(accountsByWalletId, 'order', 'asc')
-
   return (
     <ul className="flex flex-grow flex-col min-h-0 min-w-0 w-full overflow-y-auto">
-      {orderedAccounts.map((account, index) => (
-        <Fragment key={account?.address}>
+      {accountsByWalletId.map((account, index) => (
+        <Fragment key={account?.id}>
           <AccountItem
             onClick={() => onSelect(account)}
             account={account}
-            active={account?.address === selectedAccount?.address}
+            active={account.id === selectedAccount?.id}
           />
 
-          {index + 1 !== orderedAccounts.length && <Separator />}
+          {index + 1 !== accountsByWalletId.length && <Separator />}
         </Fragment>
       ))}
     </ul>

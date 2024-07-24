@@ -22,7 +22,7 @@ export const Checkbox = forwardRef<HTMLButtonElement, TProps>(({ className, onCh
       className={StyleHelper.mergeStyles(
         'min-w-[1.125rem] flex items-center justify-center min-h-[1.125rem] max-w-[1.125rem] max-h-[1.125rem] rounded-sm border-2',
         {
-          'cursor-not-allowed bg-gray-300 border-gray-300': props.disabled,
+          'cursor-not-allowed border-gray-300': props.disabled,
           'border-neon data-[state=unchecked]:bg-transparent data-[state=checked]:bg-neon': !props.disabled,
         },
         className

@@ -1,6 +1,3 @@
-import { BSEthereum } from '@cityofzion/bs-ethereum'
-import { BSNeoLegacy } from '@cityofzion/bs-neo-legacy'
-import { BSNeo3 } from '@cityofzion/bs-neo3'
 import { ReactComponent as EthereumBlue } from '@renderer/assets/blockchain/images/ethereum_blue.svg'
 import { ReactComponent as EthereumGray } from '@renderer/assets/blockchain/images/ethereum_gray.svg'
 import { ReactComponent as EthereumGreen } from '@renderer/assets/blockchain/images/ethereum_green.svg'
@@ -13,6 +10,10 @@ import { ReactComponent as Neo3Blue } from '@renderer/assets/blockchain/images/n
 import { ReactComponent as Neo3Gray } from '@renderer/assets/blockchain/images/neo3_gray.svg'
 import { ReactComponent as Neo3Green } from '@renderer/assets/blockchain/images/neo3_green.svg'
 import { ReactComponent as Neo3White } from '@renderer/assets/blockchain/images/neo3_white.svg'
+import { ReactComponent as NeoxBlue } from '@renderer/assets/blockchain/images/neox_blue.svg'
+import { ReactComponent as NeoxGray } from '@renderer/assets/blockchain/images/neox_gray.svg'
+import { ReactComponent as NeoxGreen } from '@renderer/assets/blockchain/images/neox_green.svg'
+import { ReactComponent as NeoxWhite } from '@renderer/assets/blockchain/images/neox_white.svg'
 import { TBlockchainImageColor, TBlockchainServiceKey } from '@shared/@types/blockchain'
 
 export const blockchainIconsByBlockchain: Record<
@@ -37,10 +38,10 @@ export const blockchainIconsByBlockchain: Record<
     blue: EthereumBlue,
     green: EthereumGreen,
   },
-}
-
-export const SERVICES_BY_BLOCKCHAIN = {
-  neo3: BSNeo3,
-  ethereum: BSEthereum,
-  neoLegacy: BSNeoLegacy,
+  neox: {
+    gray: NeoxGray,
+    white: NeoxWhite,
+    blue: NeoxBlue,
+    green: NeoxGreen,
+  },
 }

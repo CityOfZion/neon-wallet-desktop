@@ -30,17 +30,15 @@ export const EmptyState = ({ account }: TProps) => {
         <div className="flex justify-center text-center text-white font-normal text-lg">{t('title')}</div>
         <div className="flex justify-center text-center text-gray-300 text-xs mt-2">{t('subtitle')}</div>
         <div className="flex gap-3 my-5">
-          {account &&
-            account.type !== 'watch' &&
-            !!WalletConnectHelper.blockchainsByBlockchainServiceKey[account.blockchain] && (
-              <Button
-                className="w-full"
-                label={t('connectDappLabel')}
-                rightIcon={<TbPlug />}
-                onClick={modalNavigateWrapper('dapp-connection', { state: { account } })}
-                clickableProps={{ className: 'h-10 text-sm' }}
-              />
-            )}
+          {account && account.type !== 'watch' && !!WalletConnectHelper.supportedBlockchains[account.blockchain] && (
+            <Button
+              className="w-full"
+              label={t('connectDappLabel')}
+              rightIcon={<TbPlug />}
+              onClick={modalNavigateWrapper('dapp-connection', { state: { account } })}
+              clickableProps={{ className: 'h-10 text-sm' }}
+            />
+          )}
           <Button
             className="w-full"
             label={t('importAccountLabel')}

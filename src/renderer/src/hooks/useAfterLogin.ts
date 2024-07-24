@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import { hasNft } from '@cityofzion/blockchain-service'
 import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
 import { LOCAL_SKINS } from '@renderer/constants/skins'
+import { AccountHelper } from '@renderer/helpers/AccountHelper'
+import { NetworkHelper } from '@renderer/helpers/NetworkHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { bsAggregator } from '@renderer/libs/blockchainService'
@@ -57,7 +59,7 @@ const useRegisterLedgerListeners = () => {
 
   const createLedgerWallet = useCallback(
     (address: string, publicKey: string, blockchain: TBlockchainServiceKey) => {
-      const account = accountsRef.current.find(it => it.address === address)
+      const account = accountsRef.current.find(AccountHelper.predicate({ address, blockchain }))
 
       if (!account) {
         const wallet = createWallet({ name: commonT('wallet.ledgerName'), type: 'ledger' })
@@ -77,8 +79,8 @@ const useRegisterLedgerListeners = () => {
   )
 
   const convertLedgerToWatch = useCallback(
-    (address: string) => {
-      const account = accountsRef.current.find(it => it.address === address)
+    (address: string, blockchain: TBlockchainServiceKey) => {
+      const account = accountsRef.current.find(AccountHelper.predicate({ address, blockchain }))
       if (!account) return
 
       editAccount({
@@ -96,9 +98,10 @@ const useRegisterLedgerListeners = () => {
       accountsRef.current.forEach(async account => {
         if (account.type !== 'ledger') return
 
-        const connectedLedger = ledgers.find(it => it.address === account.address)
+        const connectedLedger = ledgers.find(AccountHelper.predicate(account))
+
         if (!connectedLedger) {
-          convertLedgerToWatch(account.address)
+          convertLedgerToWatch(account.address, account.blockchain)
         }
       })
 
@@ -112,7 +115,7 @@ const useRegisterLedgerListeners = () => {
     })
 
     const removeLedgerDisconnectedListener = window.api.listen('ledgerDisconnected', ({ args }) => {
-      convertLedgerToWatch(args)
+      convertLedgerToWatch(args.address, args.blockchain)
     })
 
     return () => {
@@ -190,7 +193,7 @@ const useUnlockedSkins = () => {
       LOCAL_SKINS.map(async skin => {
         if (
           unlockedSkinIdsRef.current.includes(skin.id) ||
-          networkByBlockchainRef.current[skin.blockchain].type !== 'mainnet'
+          !NetworkHelper.isMainnet(skin.blockchain, networkByBlockchainRef.current[skin.blockchain])
         )
           return
 

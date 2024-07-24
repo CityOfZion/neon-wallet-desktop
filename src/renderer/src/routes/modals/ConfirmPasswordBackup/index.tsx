@@ -16,7 +16,7 @@ import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useEncryptedPasswordSelector } from '@renderer/hooks/useSettingsSelector'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
-import { TAccountBackupFormat, TBackupFormat, TWalletBackupFormat } from '@shared/@types/blockchain'
+import { TAccountBackupFormat, TBackupFormat } from '@shared/@types/blockchain'
 
 type TFormData = {
   password: string
@@ -62,47 +62,39 @@ export const ConfirmPasswordBackupModal = () => {
     try {
       const backupFile: TBackupFormat = { wallets: [], contacts: [] }
       backupFile.contacts = contacts
+      backupFile.wallets = wallets.map(({ encryptedMnemonic, ...wallet }) => {
+        let mnemonic: string | undefined
+        if (encryptedMnemonic) {
+          mnemonic = window.api.sendSync('decryptBasedEncryptedSecretSync', {
+            value: encryptedMnemonic,
+            encryptedSecret: encryptedPassword,
+          })
+        }
 
-      const walletsToBackupPromises = wallets.map(async (wallet): Promise<TWalletBackupFormat> => {
-        const accountsToBackupPromises = accounts
-          .filter(account => account.idWallet === wallet.id)
-          .map(
-            async (account): Promise<TAccountBackupFormat> => ({
-              type: account.type,
-              address: account.address,
-              skin: account.skin,
-              lastNftSkin: account.lastNftSkin,
-              blockchain: account.blockchain,
-              idWallet: account.idWallet,
-              name: account.name,
-              order: account.order,
-              key: account.encryptedKey
-                ? await window.api.sendAsync('decryptBasedEncryptedSecret', {
-                    value: account.encryptedKey,
-                    encryptedSecret: encryptedPassword,
-                  })
-                : undefined,
+        const walletAccounts: TAccountBackupFormat[] = []
+        accounts.forEach(({ encryptedKey, ...account }) => {
+          if (account.idWallet !== wallet.id) return
+
+          let key: string | undefined
+          if (encryptedKey) {
+            key = window.api.sendSync('decryptBasedEncryptedSecretSync', {
+              value: encryptedKey,
+              encryptedSecret: encryptedPassword,
             })
-          )
+          }
 
-        const accountsToBackup = await Promise.all(accountsToBackupPromises)
+          walletAccounts.push({
+            ...account,
+            key,
+          })
+        })
 
         return {
-          id: wallet.id,
-          name: wallet.name,
-          mnemonic: wallet.encryptedMnemonic
-            ? await window.api.sendAsync('decryptBasedEncryptedSecret', {
-                value: wallet.encryptedMnemonic,
-                encryptedSecret: encryptedPassword,
-              })
-            : '',
-          accounts: accountsToBackup,
+          ...wallet,
+          mnemonic,
+          accounts: walletAccounts,
         }
       })
-
-      const walletsToBackup = await Promise.all(walletsToBackupPromises)
-
-      backupFile.wallets = walletsToBackup
 
       const content = await window.api.sendAsync('encryptBasedSecret', {
         value: JSON.stringify(backupFile),

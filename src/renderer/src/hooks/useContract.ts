@@ -14,7 +14,7 @@ export const useContract = ({ blockchain, hash }: TProps) => {
 
   const query = useQuery({
     // eslint-disable-next-line @tanstack/query/exhaustive-deps
-    queryKey: ['contract', network.type, blockchain, hash],
+    queryKey: ['contract', network.id, blockchain, hash],
     queryFn: async () => {
       const service = bsAggregator.blockchainServicesByName[blockchain]
       return service.blockchainDataService.getContract(hash)

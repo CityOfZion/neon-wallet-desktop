@@ -18,7 +18,7 @@ export const CreateWalletStep4Modal = () => {
 
   const handleNavigate = () => {
     modalNavigate(-4)
-    navigate(`/app/wallets/${account.address}/overview`)
+    navigate(`/app/wallets/${account.id}/overview`)
   }
 
   return (

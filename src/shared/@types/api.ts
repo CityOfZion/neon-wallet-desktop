@@ -33,7 +33,7 @@ export type TMainApiListenersAsync = {
 export type TMainApiSend = {
   getStoreFromWC: TSession
   ledgerConnected: TLedgerInfo
-  ledgerDisconnected: string
+  ledgerDisconnected: TLedgerInfo
   updateCompleted: undefined
   deeplink: string
   getLedgerSignatureStart: undefined

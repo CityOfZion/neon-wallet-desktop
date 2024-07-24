@@ -22,13 +22,15 @@ export const useLogin = () => {
         })
       })
 
-      const accountPromises = accountsRef.current.map(async account => {
-        if (!account.encryptedKey) return
-        await window.api.sendAsync('decryptBasedEncryptedSecret', {
-          value: account.encryptedKey,
-          encryptedSecret: encryptedPassword,
+      const accountPromises = accountsRef.current
+        .filter(account => account.type !== 'ledger')
+        .map(async account => {
+          if (!account.encryptedKey) return
+          await window.api.sendAsync('decryptBasedEncryptedSecret', {
+            value: account.encryptedKey,
+            encryptedSecret: encryptedPassword,
+          })
         })
-      })
 
       await Promise.all([...walletPromises, ...accountPromises])
 

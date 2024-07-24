@@ -25,14 +25,15 @@ export const WelcomeImportWalletStep3Page = () => {
   const { modalErase, modalNavigate } = useModalNavigate()
 
   const submitAddress = async (address: string) => {
-    const serviceName = bsAggregator.getBlockchainNameByAddress(address)
-    if (!serviceName) throw new Error(t('invalidAddress'))
-
     const wallet: TWalletToCreate = {
       name: commonT('wallet.watchAccount'),
     }
-
-    const accounts: TAccountsToImport = [{ address: address, blockchain: serviceName, type: 'watch' }]
+    const serviceNames = bsAggregator.getBlockchainNameByAddress(address)
+    const accounts: TAccountsToImport = serviceNames.map(serviceName => ({
+      address: address,
+      blockchain: serviceName,
+      type: 'watch',
+    }))
 
     navigate('/welcome-import-wallet/4', { state: { wallets: [{ ...wallet, accounts }], password: state.password } })
   }

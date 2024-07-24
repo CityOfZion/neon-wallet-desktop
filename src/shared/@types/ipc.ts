@@ -40,4 +40,5 @@ export type TLedgerInfo = {
 
 export type TLedgerInfoWithTransport = TLedgerInfo & {
   transport: NodeHidTransport
+  descriptor: string
 }

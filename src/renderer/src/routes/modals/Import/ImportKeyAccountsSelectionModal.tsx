@@ -6,7 +6,7 @@ import { Account } from '@cityofzion/blockchain-service'
 import { AccountSelection } from '@renderer/components/AccountSelection'
 import { Button } from '@renderer/components/Button'
 import { Loader } from '@renderer/components/Loader'
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { useAccountUtils } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
@@ -45,7 +45,7 @@ export const ImportKeyAccountsSelectionModal = () => {
     setData(({ selectedAccounts }) => ({
       selectedAccounts: checked
         ? [...selectedAccounts, account]
-        : selectedAccounts.filter(it => it.address !== account.address),
+        : selectedAccounts.filter(AccountHelper.predicateNot(account)),
     }))
   }
 
@@ -64,17 +64,19 @@ export const ImportKeyAccountsSelectionModal = () => {
     const accounts = await blockchainActions.importAccounts({ wallet, accounts: accountsToImport })
 
     modalNavigate(-2)
-    navigate(`/app/wallets/${accounts[0].address}/overview`)
+    navigate(`/app/wallets/${accounts[0].id}/overview`)
   }
 
   const { isMounting } = useMount(async () => {
     const accountsByBlockchain = new Map<TBlockchainServiceKey, TAccountWithBlockchain[]>()
     const selectedAccounts: TAccountWithBlockchain[] = []
 
-    await UtilsHelper.promiseAll(Object.values(bsAggregator.blockchainServicesByName), async service => {
+    Object.values(bsAggregator.blockchainServicesByName).forEach(service => {
       const account = service.generateAccountFromKey(key)
-      if (doesAccountExist(account.address)) throw new Error()
       accountsByBlockchain.set(service.blockchainName, [{ ...account, blockchain: service.blockchainName }])
+
+      if (doesAccountExist({ address: account.address, blockchain: service.blockchainName })) return
+
       selectedAccounts.push({ ...account, blockchain: service.blockchainName })
     })
 
@@ -91,15 +93,17 @@ export const ImportKeyAccountsSelectionModal = () => {
       <div className="flex flex-col gap-y-2.5 mt-6 flex-grow">
         {isMounting ? (
           <Loader />
-        ) : actionData.selectedAccounts.length > 0 ? (
+        ) : Array.from(actionData.accountsByBlockchain.entries()).length > 0 ? (
           Array.from(actionData.accountsByBlockchain.entries()).map(([blockchain, accounts]) => (
             <Fragment key={blockchain}>
               {accounts.length > 0 && (
                 <AccountSelection.Root blockchain={blockchain}>
                   {accounts.map(it => (
                     <AccountSelection.Item
-                      key={it.address}
+                      key={`${it.address}-${it.blockchain}`}
                       address={it.address}
+                      checked={actionData.selectedAccounts.some(AccountHelper.predicate(it))}
+                      disabled={doesAccountExist(it)}
                       onCheckedChange={checked => handleChecked(checked, { ...it, blockchain })}
                     />
                   ))}

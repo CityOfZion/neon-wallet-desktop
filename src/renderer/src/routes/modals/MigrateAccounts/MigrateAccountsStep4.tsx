@@ -3,18 +3,16 @@ import { useTranslation } from 'react-i18next'
 import { MdLooks4 } from 'react-icons/md'
 import { TbPackageImport } from 'react-icons/tb'
 import { useDispatch } from 'react-redux'
-import { hasNameService } from '@cityofzion/blockchain-service'
 import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useActions } from '@renderer/hooks/useActions'
-import { TMigrateSchema, TMigrateWalletsSchema } from '@renderer/hooks/useBackupOrMigrate'
+import { TMigrateAccountsSchema, TMigrateSchema } from '@renderer/hooks/useBackupOrMigrate'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useContactsSelector } from '@renderer/hooks/useContactSelector'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { MigrateAccountsModalLayout } from '@renderer/layouts/MigrateAccountsModalLayout'
-import { bsAggregator } from '@renderer/libs/blockchainService'
 import { contactReducerActions } from '@renderer/store/reducers/ContactReducer'
 import { TAccountsToImport, TWalletToCreate } from '@shared/@types/blockchain'
 import { IContactState, TContactAddress } from '@shared/@types/store'
@@ -23,7 +21,7 @@ import { DecryptAccountPasswordContainer, TMigrateDecryptedAccountSchema } from 
 import { SuccessContent } from './SuccessContent'
 
 type TState = {
-  selectedAccountsToMigrate: TMigrateWalletsSchema[]
+  selectedAccountsToMigrate: TMigrateAccountsSchema[]
   content: TMigrateSchema
   onDecrypt?: (wallet: TWalletToCreate, accounts: TAccountsToImport, contacts: IContactState[]) => void
 }
@@ -68,23 +66,14 @@ export const MigrateAccountsStep4Modal = () => {
       const contactAddresses: TContactAddress[] = []
       const foundContact = contactsRef.current.find(contact => contactToMigrate.name === contact.name)
 
-      contactToMigrate.addresses.forEach(address => {
-        if (foundContact && foundContact.addresses.some(contactAddress => contactAddress.address === address)) return
+      contactToMigrate.addresses.forEach(contactMigrateAddress => {
+        if (
+          foundContact &&
+          foundContact.addresses.some(contactAddress => contactAddress.address === contactMigrateAddress.address)
+        )
+          return
 
-        const nnsService = bsAggregator.blockchainServicesByName.neo3 // NNS service is only available for NEO3
-        if (hasNameService(nnsService)) {
-          const isNNS = nnsService.validateNameServiceDomainFormat(address)
-
-          if (isNNS) {
-            contactAddresses.push({ address, blockchain: 'neo3' })
-            return
-          }
-        }
-
-        const blockchain = bsAggregator.getBlockchainNameByAddress(address)
-        if (!blockchain) return
-
-        contactAddresses.push({ address, blockchain })
+        contactAddresses.push(contactMigrateAddress)
       })
 
       if (!contactAddresses.length) return
@@ -102,7 +91,7 @@ export const MigrateAccountsStep4Modal = () => {
     }
 
     try {
-      const wallet = await createWallet(walletToCreate)
+      const wallet = createWallet(walletToCreate)
 
       const accounts = await importAccounts({
         wallet,

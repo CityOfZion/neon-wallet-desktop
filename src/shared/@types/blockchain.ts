@@ -1,8 +1,11 @@
-import { NetworkType } from '@cityofzion/blockchain-service'
+import { Network } from '@cityofzion/blockchain-service'
+import { BSEthereumNetworkId } from '@cityofzion/bs-ethereum'
+import { BSNeoLegacyNetworkId } from '@cityofzion/bs-neo-legacy'
+import { BSNeo3NetworkId } from '@cityofzion/bs-neo3'
 
 import { IAccountState, IContactState, IWalletState, TAccountType, TSkin, TWalletType } from './store'
 
-export type TBlockchainServiceKey = 'neo3' | 'neoLegacy' | 'ethereum'
+export type TBlockchainServiceKey = 'neo3' | 'neoLegacy' | 'ethereum' | 'neox'
 export type TBlockchainImageColor = 'white' | 'gray' | 'blue' | 'green'
 
 export type TAccountToImport = {
@@ -24,6 +27,7 @@ export type TImportAccountsParam = {
 }
 
 export type TAccountToCreate = {
+  id?: string
   wallet: IWalletState
   name: string
   blockchain: TBlockchainServiceKey
@@ -37,29 +41,24 @@ export type TWalletToCreate = {
   type?: TWalletType
 }
 
-export type TNetworkType = NetworkType
-export type TNetwork = {
-  id: string
-  name: string
-  type: TNetworkType
-  url: string
+type TNetworkIdsByBlockchain = {
+  neo3: BSNeo3NetworkId
+  neoLegacy: BSNeoLegacyNetworkId
+  ethereum: BSEthereumNetworkId
+  neox: BSEthereumNetworkId
 }
 
-export type TAccountBackupFormat = {
-  address: string
-  type: TAccountType
-  idWallet: string
-  name: string
-  skin: TSkin
-  lastNftSkin?: TSkin
-  blockchain: TBlockchainServiceKey
+export type TNetworkIds<K extends TBlockchainServiceKey> = TNetworkIdsByBlockchain[K]
+
+export type TNetwork<K extends TBlockchainServiceKey> = {
+  isAutomatic?: boolean
+} & Network<TNetworkIds<K>>
+
+export type TAccountBackupFormat = Omit<IAccountState, 'encryptedKey'> & {
   key?: string
-  order: number
 }
 
-export type TWalletBackupFormat = {
-  id: string
-  name: string
+export type TWalletBackupFormat = Omit<IWalletState, 'encryptedMnemonic'> & {
   mnemonic?: string
   accounts: TAccountBackupFormat[]
 }
@@ -71,5 +70,5 @@ export type TBackupFormat = {
 
 export type TAccountToEdit = {
   account: IAccountState
-  data: Partial<Omit<IAccountState, 'address' | 'encryptedKey'>> & { key?: string }
+  data: Partial<Omit<IAccountState, 'address' | 'encryptedKey' | 'id'>> & { key?: string }
 }

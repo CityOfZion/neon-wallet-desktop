@@ -16,14 +16,14 @@ export const SuccessContent = ({ accounts }: TProps) => {
 
   const handleView = () => {
     modalNavigate(-1)
-    navigate(`/app/wallets/${accounts[0].address}/overview`)
+    navigate(`/app/wallets/${accounts[0].id}/overview`)
   }
 
   return (
     <div className="flex flex-col flex-grow justify-between w-full mt-7 min-h-0">
       <div className="flex flex-col gap-1.5 w-full overflow-auto min-h-0">
         {accounts.map(account => (
-          <div key={account.address} className="px-5 py-2 bg-gray-300/15 flex items-center rounded">
+          <div key={account.id} className="px-5 py-2 bg-gray-300/15 flex items-center rounded">
             <div className="flex flex-grow flex-col gap-1 min-w-0">
               <span className="text-sm text-white">{account.name}</span>
               <span className="text-xs text-gray-300 truncate">{account.address}</span>

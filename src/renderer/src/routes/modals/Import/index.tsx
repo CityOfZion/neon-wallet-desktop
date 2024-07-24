@@ -46,7 +46,7 @@ export const ImportModal = () => {
               encryptedKey,
               blockchain,
               onDecrypt: (key: string, address: string) => {
-                if (doesAccountExist(address)) {
+                if (doesAccountExist({ address, blockchain })) {
                   throw new Error(t('addressAlreadyExist'))
                 }
 
@@ -67,10 +67,6 @@ export const ImportModal = () => {
   }
 
   const submitAddress = async (address: string) => {
-    if (doesAccountExist(address)) {
-      throw new Error(t('addressAlreadyExist'))
-    }
-
     modalNavigate('add-watch', { state: { address } })
   }
 

@@ -1,69 +1,46 @@
-import { DEFAULT_URL_BY_NETWORK_TYPE as BSETHEREUM_DEFAULT_URL_BY_NETWORK_TYPE } from '@cityofzion/bs-ethereum'
-import { DEFAULT_URL_BY_NETWORK_TYPE as BSNEOLEGACY_DEFAULT_URL_BY_NETWORK_TYPE } from '@cityofzion/bs-neo-legacy'
-import { DEFAULT_URL_BY_NETWORK_TYPE as BSNEO3_DEFAULT_URL_BY_NETWORK_TYPE } from '@cityofzion/bs-neo3'
+import { BSEthereumHelper } from '@cityofzion/bs-ethereum'
+import { BSNeoLegacyHelper } from '@cityofzion/bs-neo-legacy'
+import { BSNeo3Helper } from '@cityofzion/bs-neo3'
 import { getI18next } from '@renderer/libs/i18next'
-import { TBlockchainServiceKey, TNetwork, TNetworkType } from '@shared/@types/blockchain'
+import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
 
 const { t } = getI18next()
 
-export const DEFAULT_NETWORK_URL_BY_BLOCKCHAIN: Record<TBlockchainServiceKey, Record<TNetworkType, string>> = {
-  neo3: BSNEO3_DEFAULT_URL_BY_NETWORK_TYPE,
-  neoLegacy: {
-    ...BSNEOLEGACY_DEFAULT_URL_BY_NETWORK_TYPE,
-    custom: '',
+export const NETWORK_OPTIONS_BY_BLOCKCHAIN: Record<
+  TBlockchainServiceKey,
+  {
+    mainnet: TNetwork<TBlockchainServiceKey>[]
+    testnet: TNetwork<TBlockchainServiceKey>[]
+    all: TNetwork<TBlockchainServiceKey>[]
+  }
+> = {
+  neo3: {
+    all: BSNeo3Helper.ALL_NETWORKS,
+    mainnet: BSNeo3Helper.MAINNET_NETWORKS,
+    testnet: BSNeo3Helper.TESTNET_NETWORKS,
   },
-  ethereum: BSETHEREUM_DEFAULT_URL_BY_NETWORK_TYPE,
+  neoLegacy: {
+    all: BSNeoLegacyHelper.ALL_NETWORKS,
+    mainnet: BSNeoLegacyHelper.MAINNET_NETWORKS,
+    testnet: BSNeoLegacyHelper.TESTNET_NETWORKS,
+  },
+  ethereum: {
+    all: BSEthereumHelper.ALL_NETWORKS.filter(({ id }) => !BSEthereumHelper.NEOX_NETWORK_IDS.includes(id)),
+    mainnet: BSEthereumHelper.MAINNET_NETWORKS.filter(({ id }) => !BSEthereumHelper.NEOX_NETWORK_IDS.includes(id)),
+    testnet: BSEthereumHelper.TESTNET_NETWORKS.filter(({ id }) => !BSEthereumHelper.NEOX_NETWORK_IDS.includes(id)),
+  },
+  neox: {
+    all: BSEthereumHelper.NEOX_NETWORKS,
+    mainnet: [],
+    testnet: [BSEthereumHelper.NEOX_TESTNET_NETWORK],
+  },
 }
 
-export const NETWORK_OPTIONS_BY_BLOCKCHAIN: Record<TBlockchainServiceKey, TNetwork[]> = {
-  neo3: [
-    {
-      id: 'neo3-mainnet',
-      type: 'mainnet',
-      name: t('common:networkTypeLabel.mainnet'),
-      url: DEFAULT_NETWORK_URL_BY_BLOCKCHAIN.neo3.mainnet,
-    },
-    {
-      id: 'neo3-testnet',
-      type: 'testnet',
-      name: t('common:networkTypeLabel.testnet'),
-      url: DEFAULT_NETWORK_URL_BY_BLOCKCHAIN.neo3.testnet,
-    },
-  ],
-  neoLegacy: [
-    {
-      id: 'neo-legacy-mainnet',
-      type: 'mainnet',
-      name: t('common:networkTypeLabel.mainnet'),
-      url: DEFAULT_NETWORK_URL_BY_BLOCKCHAIN.neoLegacy.mainnet,
-    },
-    {
-      id: 'neo-legacy-testnet',
-      type: 'testnet',
-      name: t('common:networkTypeLabel.testnet'),
-      url: DEFAULT_NETWORK_URL_BY_BLOCKCHAIN.neoLegacy.testnet,
-    },
-  ],
-  ethereum: [
-    {
-      id: 'ethereum-mainnet',
-      type: 'mainnet',
-      name: t('common:networkTypeLabel.mainnet'),
-      url: DEFAULT_NETWORK_URL_BY_BLOCKCHAIN.ethereum.mainnet,
-    },
-    {
-      id: 'ethereum-testnet',
-      type: 'testnet',
-      name: t('common:networkTypeLabel.testnet'),
-      url: DEFAULT_NETWORK_URL_BY_BLOCKCHAIN.ethereum.testnet,
-    },
-  ],
-}
-
-export const DEFAULT_NETWORK_BY__BLOCKCHAIN: Record<TBlockchainServiceKey, TNetwork> = {
-  ethereum: NETWORK_OPTIONS_BY_BLOCKCHAIN.ethereum[0],
-  neo3: NETWORK_OPTIONS_BY_BLOCKCHAIN.neo3[0],
-  neoLegacy: NETWORK_OPTIONS_BY_BLOCKCHAIN.neoLegacy[0],
+export const DEFAULT_NETWORK_BY__BLOCKCHAIN: Record<TBlockchainServiceKey, TNetwork<TBlockchainServiceKey>> = {
+  neo3: NETWORK_OPTIONS_BY_BLOCKCHAIN.neo3.mainnet[0],
+  neoLegacy: NETWORK_OPTIONS_BY_BLOCKCHAIN.neoLegacy.mainnet[0],
+  ethereum: NETWORK_OPTIONS_BY_BLOCKCHAIN.ethereum.mainnet[0],
+  neox: NETWORK_OPTIONS_BY_BLOCKCHAIN.neox.testnet[0],
 }
 
 export const DEFAULT_NETWORK_PROFILE = {
@@ -72,10 +49,6 @@ export const DEFAULT_NETWORK_PROFILE = {
   networkByBlockchain: DEFAULT_NETWORK_BY__BLOCKCHAIN,
 }
 
-export const COLOR_BY_NETWORK_TYPE: Record<TNetworkType, string> = {
-  mainnet: 'bg-neon',
-  testnet: 'bg-magenta',
-  custom: 'bg-pink',
-}
+export const BLOCKCHAIN_WITH_CUSTOM_NETWORK: TBlockchainServiceKey[] = ['neo3']
 
-export const BLOCKCHAIN_WITH_CUSTOM_NETWORK: TBlockchainServiceKey[] = ['neo3', 'ethereum']
+export const CUSTOM_NETWORK_ID = 'custom'

@@ -34,6 +34,7 @@ interface Resources {
       neo3: 'Neo N3'
       neoLegacy: 'Neo Legacy'
       ethereum: 'Ethereum'
+      neox: 'NeoX'
     }
     networkTypeLabel: {
       mainnet: 'MainNet'
@@ -194,8 +195,8 @@ interface Resources {
       error: 'File not recognised'
     }
     useLedgerFlow: {
-      ledgerConnected: 'New Ledger detected \n{{address}}'
-      ledgerDisconnected: 'Ledger disconnected \n{{address}}'
+      ledgerConnected: '{{blockchain}} ledger connected.\n{{address}}'
+      ledgerDisconnected: '{{blockchain}} Ledger disconnected.\n{{address}}'
     }
     DappConnection: {
       pleaseLogin: 'Please login to continue.'
@@ -395,6 +396,7 @@ interface Resources {
         buttonReturnLabel: 'Return to your dashboard'
         accountProposalError: 'Account blockchain cannot be different from proposal blockchain'
         genericError: 'Oops! we’ve encountered an error. Try to generate a new uri and try again.'
+        differentNetworkError: 'The dApp is trying to connect to a different network than the one you are currently connected to. Please change your network to connect to this dApp.'
       }
     }
     dappConnectionAccountSelection: {
@@ -855,6 +857,7 @@ interface Resources {
         decryptKey: 'Error to decrypt key'
         invalidAddress: 'Invalid address'
         insufficientFunds: 'Insufficient funds'
+        feeError: 'Error to calculate fee'
       }
       transactionCompleted: 'Transaction completed'
       transactionFailed: 'Transaction failed'

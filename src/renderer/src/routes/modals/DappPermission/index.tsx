@@ -2,6 +2,7 @@ import { Fragment } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbPlug } from 'react-icons/tb'
 import { TSession, TSessionRequest, useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
+import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
@@ -70,7 +71,8 @@ export const DappPermissionModal = () => {
 
   const sessionInfo = WalletConnectHelper.getAccountInformationFromSession(session)
   const method = request.params.request.method
-  const account = accounts.find(account => account.address === sessionInfo.address)
+
+  const account = accounts.find(AccountHelper.predicate(sessionInfo))
   const Component = componentsByBlockchain[sessionInfo.blockchain]?.[method]
 
   const handleCancel = () => {

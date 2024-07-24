@@ -1,9 +1,8 @@
 import { useTranslation } from 'react-i18next'
 import { TbChevronRight } from 'react-icons/tb'
-import { NftResponse } from '@cityofzion/blockchain-service'
+import { hasExplorerService, NftResponse } from '@cityofzion/blockchain-service'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
-import { ExplorerHelper } from '@renderer/helpers/ExplorerHelper'
-import { useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
+import { bsAggregator } from '@renderer/libs/blockchainService'
 import { IAccountState } from '@shared/@types/store'
 
 type TProps = {
@@ -13,14 +12,27 @@ type TProps = {
 
 export const NftList = ({ account, nfts }: TProps) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'blockchain' })
-  const { network } = useSelectedNetworkSelector(account.blockchain)
+
+  let url: string
+
+  try {
+    const service = bsAggregator.blockchainServicesByName[account.blockchain]
+    if (hasExplorerService(service)) {
+      url = service.explorerService.buildNftUrl({
+        contractHash: nfts[0].contractHash,
+        tokenId: nfts[0].id,
+      })
+    }
+  } catch {
+    /* empty */
+  }
 
   return (
     <ul className="flex flex-col gap-1 min-w-0">
       {nfts.map(nft => (
         <li key={`${nft.contractHash}-${nft.id}`} className="w-full">
           <a
-            href={ExplorerHelper.buildNftUrl(nft.contractHash, nft.id, network.type, account.blockchain)}
+            href={url}
             target="_blank"
             className="flex p-2.5 gap-5 bg-gray-700/60 rounded-md text-sm items-center cursor-pointer hover:bg-gray-300/30 w-full transition-colors min-w-0"
             rel="noreferrer"

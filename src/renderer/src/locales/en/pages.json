@@ -138,7 +138,8 @@
     "error": {
       "decryptKey": "Error to decrypt key",
       "invalidAddress": "Invalid address",
-      "insufficientFunds": "Insufficient funds"
+      "insufficientFunds": "Insufficient funds",
+      "feeError": "Error to calculate fee"
     },
     "transactionCompleted": "Transaction completed",
     "transactionFailed": "Transaction failed"

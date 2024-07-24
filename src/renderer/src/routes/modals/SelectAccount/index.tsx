@@ -95,9 +95,9 @@ export const SelectAccount = () => {
               <p className="mt-5 text-gray-300">{t('noAccounts')}</p>
             ) : (
               walletAccounts.map((account, index) => (
-                <li key={account.address}>
+                <li key={account.id}>
                   <button
-                    aria-selected={selectedAccount?.address === account.address}
+                    aria-selected={selectedAccount?.id === account.id}
                     className="flex items-center justify-between gap-x-4 p-2.5 pl-4 border-l-2 border-transparent cursor-pointer hover:border-l-neon hover:bg-asphalt aria-selected:bg-asphalt aria-selected:border-l-neon transition-colors w-full"
                     onClick={handleSelectAccount.bind(null, account)}
                   >
@@ -115,7 +115,7 @@ export const SelectAccount = () => {
                       </div>
                     </div>
 
-                    {selectedAccount?.address === account.address && (
+                    {selectedAccount?.id === account.id && (
                       <MdCheck className="text-neon w-5 h-5 min-h-[1.25rem] min-w-[1.25rem]" />
                     )}
                   </button>

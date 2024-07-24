@@ -1,9 +1,8 @@
 import { useMemo } from 'react'
 import PhotoAlbum from 'react-photo-album'
-import { NftResponse } from '@cityofzion/blockchain-service'
-import { ExplorerHelper } from '@renderer/helpers/ExplorerHelper'
+import { hasExplorerService, NftResponse } from '@cityofzion/blockchain-service'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
-import { useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
+import { bsAggregator } from '@renderer/libs/blockchainService'
 import { IAccountState } from '@shared/@types/store'
 
 import { BlockchainIcon } from './BlockchainIcon'
@@ -14,8 +13,6 @@ type TProps = {
 }
 
 export const NftGallery = ({ account, nfts }: TProps) => {
-  const { network } = useSelectedNetworkSelector(account.blockchain)
-
   const photos = useMemo(
     () =>
       nfts.map(nft => ({
@@ -30,7 +27,16 @@ export const NftGallery = ({ account, nfts }: TProps) => {
   )
 
   const handleClick = (nft: NftResponse) => {
-    window.open(ExplorerHelper.buildNftUrl(nft.contractHash, nft.id, network.type, account.blockchain), '_blank')
+    const service = bsAggregator.blockchainServicesByName[account.blockchain]
+    if (!hasExplorerService(service)) return
+
+    window.open(
+      service.explorerService.buildNftUrl({
+        contractHash: nft.contractHash,
+        tokenId: nft.id,
+      }),
+      '_blank'
+    )
   }
 
   return (

@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { Accordion } from '@renderer/components/Accordion'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { DEFAULT_NETWORK_PROFILE } from '@renderer/constants/networks'
+import { NetworkHelper } from '@renderer/helpers/NetworkHelper'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useSelectedNetworkProfileSelector, useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
@@ -53,7 +54,7 @@ export const BlockchainNetworkAccordion = ({ blockchain }: TProps) => {
               blockchain,
             },
           })}
-          disabled={network.type === 'custom'}
+          disabled={!!NetworkHelper.isCustom(blockchain, network)}
         />
       </Accordion.Content>
     </Accordion.Item>

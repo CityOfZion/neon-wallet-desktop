@@ -53,7 +53,7 @@ export function useBlockchainActions() {
   )
 
   const createAccount = useCallback(
-    ({ blockchain, name, wallet, skin }: TAccountToCreate) => {
+    ({ blockchain, name, wallet, skin, id }: TAccountToCreate) => {
       if (!wallet.encryptedMnemonic) throw new Error('Problem to create account')
 
       const mnemonic = window.api.sendSync('decryptBasedEncryptedSecretSync', {
@@ -61,9 +61,7 @@ export function useBlockchainActions() {
         encryptedSecret: encryptedPasswordRef.current,
       })
 
-      const generateIndex = accountsRef.current.filter(
-        account => account.idWallet === wallet.id && account.blockchain === blockchain
-      ).length
+      const generateIndex = accountsRef.current.filter(account => account.idWallet === wallet.id).length
 
       const service = bsAggregator.blockchainServicesByName[blockchain]
       const generatedAccount = service.generateAccountFromMnemonic(mnemonic, generateIndex)
@@ -76,6 +74,7 @@ export function useBlockchainActions() {
       const order = accountsRef.current.filter(account => account.idWallet === wallet.id).length
 
       const newAccount: IAccountState = {
+        id: id ?? UtilsHelper.uuid(),
         idWallet: wallet.id,
         name,
         blockchain,
@@ -109,6 +108,7 @@ export function useBlockchainActions() {
       const accountOrder = order ?? accountsRef.current.filter(account => account.idWallet === wallet.id).length
 
       const newAccount: IAccountState = {
+        id: UtilsHelper.uuid(),
         idWallet: wallet.id,
         name: name ?? t('defaultName', { accountNumber: accountOrder + 1 }),
         blockchain,
@@ -140,12 +140,12 @@ export function useBlockchainActions() {
   )
 
   const deleteAccount = useCallback(
-    async (address: string) => {
-      dispatch(accountReducerActions.deleteAccount(address))
+    async (account: IAccountState) => {
+      dispatch(accountReducerActions.deleteAccount(account.id))
       await Promise.allSettled(
         sessions.map(async session => {
           const info = WalletConnectHelper.getAccountInformationFromSession(session)
-          if (info.address !== address) return
+          if (info.address !== account.address || info.blockchain !== account.blockchain) return
 
           await disconnect(session)
         })
@@ -158,7 +158,7 @@ export function useBlockchainActions() {
     async (id: string) => {
       dispatch(walletReducerActions.deleteWallet(id))
       const accounts = accountsRef.current.filter(account => account.idWallet === id)
-      await Promise.allSettled(accounts.map(account => deleteAccount(account.address)))
+      await Promise.allSettled(accounts.map(account => deleteAccount(account)))
     },
     [accountsRef, deleteAccount, dispatch]
   )
