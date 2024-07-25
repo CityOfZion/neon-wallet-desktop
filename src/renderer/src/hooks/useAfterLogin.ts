@@ -134,6 +134,9 @@ const useRegisterDeeplinkListeners = () => {
     const handleDeeplink = async (uri?: string) => {
       if (!uri) return
 
+      // Remove trailing slash
+      uri = uri.endsWith('/') ? uri.slice(0, -1) : uri
+
       window.api.sendAsync('resetInitialDeeplink')
 
       if (uri === 'neon3://migration') {
