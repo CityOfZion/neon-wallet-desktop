@@ -1,4 +1,3 @@
-import { SkinLocalTest } from '@renderer/components/SkinLocalTest'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 
 type TAccountColorSkin = {
@@ -23,13 +22,6 @@ export const ACCOUNT_COLOR_SKINS: TAccountColorSkin[] = [
   { id: 'orange', color: 'bg-[#FE872F]' },
 ]
 
-export const ACCOUNT_LOCAL_SKINS: TLocalSkin[] = [
-  {
-    id: 'account-test',
-    component: <SkinLocalTest />,
-    blockchain: 'neo3',
-    unlockedContractHash: '0xd2a4cff31913016155e38e474a2c06d08be276cf',
-  },
-]
+export const ACCOUNT_LOCAL_SKINS: TLocalSkin[] = []
 
 export const LOCAL_SKINS: TLocalSkin[] = [...ACCOUNT_LOCAL_SKINS]
