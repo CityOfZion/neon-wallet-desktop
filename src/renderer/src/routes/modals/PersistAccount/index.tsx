@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next'
-import { MdChevronRight, MdDeleteForever } from 'react-icons/md'
+import { MdDeleteForever } from 'react-icons/md'
 import { TbPencil, TbPlus } from 'react-icons/tb'
-import { NftResponse } from '@cityofzion/blockchain-service'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
@@ -30,7 +29,7 @@ type TLocationState = {
 
 export const PersistAccountModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'persistAccount' })
-  const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
+  const { modalNavigate } = useModalNavigate()
   const { account, wallet } = useModalState<TLocationState>()
   const { createAccount } = useBlockchainActions()
 
@@ -44,13 +43,6 @@ export const PersistAccountModal = () => {
 
   const handleSelectColorSkin = (skin: TSkin) => {
     setData({ skin })
-  }
-
-  const handleSelectNftSkin = (nft: NftResponse) => {
-    if (!account || !nft.image) return
-
-    const skin: TSkin = { id: nft.id, imgUrl: nft.image, type: 'nft' }
-    setData({ skin, lastNftSkin: skin })
   }
 
   const handleSubmit = async ({ name, skin, lastNftSkin }: TFormData) => {
@@ -115,26 +107,7 @@ export const PersistAccountModal = () => {
             label={t('colorSelectorLabel')}
             onSelectSkin={handleSelectColorSkin}
             selectedSkin={actionData.skin}
-            lastNftSkin={actionData.lastNftSkin}
           />
-
-          {account && (
-            <Button
-              label={t('useNftButtonLabel')}
-              className="w-full mt-4"
-              variant="card"
-              type="button"
-              clickableProps={{
-                className: 'px-4',
-              }}
-              colorSchema="white"
-              textClassName="text-left"
-              flat
-              wide
-              onClick={modalNavigateWrapper('nft-selection', { state: { account, onSelect: handleSelectNftSkin } })}
-              rightIcon={<MdChevronRight />}
-            />
-          )}
         </div>
 
         <Button
