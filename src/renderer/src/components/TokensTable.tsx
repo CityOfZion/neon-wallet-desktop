@@ -93,7 +93,7 @@ export const TokensTable = forwardRef<HTMLDivElement, TProps>(
                 id: 'holdings',
                 header: t('components:tokensTable.holdings'),
               }),
-              columnHelper.accessor('exchangeRatio', {
+              columnHelper.accessor('exchangeConvertedPrice', {
                 cell: info => NumberHelper.currency(info.getValue(), currency.label),
                 header: t('components:tokensTable.price'),
               }),
@@ -141,7 +141,7 @@ export const TokensTable = forwardRef<HTMLDivElement, TProps>(
                 id: 'holdings',
                 header: t('components:tokensTable.holdings'),
               }),
-              columnHelper.accessor('exchangeRatio', {
+              columnHelper.accessor('exchangeConvertedPrice', {
                 cell: info => {
                   return (
                     <Tooltip title={NumberHelper.currency(info.getValue(), currency.label)}>

@@ -10,15 +10,15 @@ type TProps = {
   value: string
   onChange(event: ChangeEvent<HTMLInputElement>): void
   onMaxClick(): void
-  exchangeRatio: number
+  exchangeConvertedPrice: number
   error?: boolean
 }
 
-export const TokenAmountInput = ({ onChange, onMaxClick, value, exchangeRatio, error }: TProps) => {
+export const TokenAmountInput = ({ onChange, onMaxClick, value, exchangeConvertedPrice, error }: TProps) => {
   const { t } = useTranslation('modals', { keyPrefix: 'inputAmount' })
   const { currency } = useCurrencySelector()
 
-  const estimatedFiat = NumberHelper.number(value) * exchangeRatio
+  const estimatedFiat = NumberHelper.number(value) * exchangeConvertedPrice
 
   return (
     <div className="mt-6 w-full">
@@ -52,7 +52,7 @@ export const TokenAmountInput = ({ onChange, onMaxClick, value, exchangeRatio, e
 
       <div
         className={StyleHelper.mergeStyles('w-full flex justify-between gap-4 mt-4.5 italic text-xs', {
-          'opacity-50': exchangeRatio === 0,
+          'opacity-50': exchangeConvertedPrice === 0,
         })}
       >
         <span className="text-gray-300 whitespace-nowrap">{t('fiatValue', { currencyType: currency.label })}</span>

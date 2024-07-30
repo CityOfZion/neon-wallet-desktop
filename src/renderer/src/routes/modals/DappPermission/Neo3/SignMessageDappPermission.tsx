@@ -45,7 +45,7 @@ export const Neo3SignMessageDappPermission = ({
       )}
 
       <div className="flex gap-2.5 px-10 mt-8 pb-10 z-50 ">
-        <Button label={t('cancelButtonLabel')} colorSchema="gray" onClick={onReject} />
+        <Button label={t('cancelButtonLabel')} colorSchema="gray" onClick={() => onReject()} />
 
         <Button
           label={t('acceptButtonLabel')}

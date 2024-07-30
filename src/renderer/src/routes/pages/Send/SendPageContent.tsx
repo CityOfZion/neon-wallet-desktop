@@ -314,7 +314,12 @@ export const SendPageContent = ({ account, recipient }: TProps) => {
         />
 
         {(!service || (service && isCalculableFee(service))) && (
-          <TotalFee getSendFields={getSendFields} onFeeChange={handleSelectFee} fee={actionData.fee} />
+          <TotalFee
+            getSendFields={getSendFields}
+            onFeeChange={handleSelectFee}
+            fee={actionData.fee}
+            selectedToken={actionData.selectedToken}
+          />
         )}
 
         {isValidAddressOrDomainAddress === false ? (

@@ -1,7 +1,12 @@
-import { Fragment } from 'react'
+import { Fragment, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbPlug } from 'react-icons/tb'
-import { TSession, TSessionRequest, useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
+import {
+  ResponseErrorCode,
+  TSession,
+  TSessionRequest,
+  useWalletConnectWallet,
+} from '@cityofzion/wallet-connect-sdk-wallet-react'
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
@@ -35,7 +40,7 @@ export type TDappPermissionComponentProps = {
   session: TSession
   account: IAccountState
   sessionInfo: TWalletConnectHelperSessionInformation
-  onReject: () => void
+  onReject: (errorToast?: string, errorDapp?: string) => void
   onAccept: (heading: string, subtitle: string, content?: (props: any) => JSX.Element) => Promise<void>
 }
 
@@ -75,11 +80,19 @@ export const DappPermissionModal = () => {
   const account = accounts.find(AccountHelper.predicate(sessionInfo))
   const Component = componentsByBlockchain[sessionInfo.blockchain]?.[method]
 
-  const handleCancel = () => {
-    rejectRequest(request)
-    modalNavigate(-1)
-    ToastHelper.error({ message: t('cancelled') })
-  }
+  const handleCancel = useCallback(
+    (errorToast?: string, dappError?: string) => {
+      modalNavigate(-1)
+      rejectRequest(
+        request,
+        !!errorToast || !!dappError
+          ? { message: dappError ?? errorToast ?? '', code: ResponseErrorCode.REJECT }
+          : undefined
+      )
+      ToastHelper.error({ message: errorToast ?? t('cancelled'), id: 'dapp-permission-cancel' })
+    },
+    [modalNavigate, rejectRequest, request, t]
+  )
 
   const handleAccept = async (heading: string, subtitle: string, Content?: (result: any) => JSX.Element) => {
     try {

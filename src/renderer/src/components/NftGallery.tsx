@@ -64,9 +64,11 @@ export const NftGallery = ({ account, nfts }: TProps) => {
           </div>
 
           <div className="flex gap-2 items-center">
-            <div className="min-w-[1rem] w-[1rem] min-h-[1rem] h-[1rem] bg-gray-300/30 rounded-full overflow-hidden">
-              <img className="w-full h-full object-cover" src={photo.nft.collectionImage} />
-            </div>
+            {photo.nft.collectionImage && (
+              <div className="min-w-[1rem] w-[1rem] min-h-[1rem] h-[1rem] bg-gray-300/30 rounded-full overflow-hidden">
+                <img className="w-full h-full object-cover" src={photo.nft.collectionImage} />
+              </div>
+            )}
 
             <span className="text-xs capitalize text-blue truncate w-20 2xl:w-32">{photo.nft.id}</span>
           </div>

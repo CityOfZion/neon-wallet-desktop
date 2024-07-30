@@ -63,7 +63,7 @@ export const InputAmount = () => {
 
     const valueNumber = NumberHelper.number(value)
 
-    const tokenAmount = (valueNumber / tokenBalance.exchangeRatio).toFixed(tokenBalance.token.decimals)
+    const tokenAmount = (valueNumber / tokenBalance.exchangeConvertedPrice).toFixed(tokenBalance.token.decimals)
     const tokenAmountNumber = NumberHelper.number(tokenAmount)
 
     setData({
@@ -114,13 +114,13 @@ export const InputAmount = () => {
           onChange={handleTokenAmountChange}
           value={actionData.tokenAmount}
           onMaxClick={handleMaxClick}
-          exchangeRatio={tokenBalance.exchangeRatio}
+          exchangeConvertedPrice={tokenBalance.exchangeConvertedPrice}
           error={!!actionState.errors.tokenAmount}
         />
 
         <div
           className={StyleHelper.mergeStyles('w-full relative my-6 flex justify-center', {
-            'opacity-25': tokenBalance.exchangeRatio === 0 || tokenBalance.token.decimals === 0,
+            'opacity-25': tokenBalance.exchangeConvertedPrice === 0 || tokenBalance.token.decimals === 0,
           })}
         >
           <Separator className="absolute top-1/2" />
@@ -133,7 +133,7 @@ export const InputAmount = () => {
         <FiatAmountInput
           onChange={handleFiatAmountChange}
           value={actionData.fiatAmount}
-          exchangeRatio={tokenBalance.exchangeRatio}
+          exchangeConvertedPrice={tokenBalance.exchangeConvertedPrice}
           tokenBalance={tokenBalance}
           error={!!actionState.errors.fiatAmount}
         />

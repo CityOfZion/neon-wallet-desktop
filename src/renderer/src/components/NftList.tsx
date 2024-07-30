@@ -45,9 +45,11 @@ export const NftList = ({ account, nfts }: TProps) => {
               <span className="truncate capitalize">{nft.name}</span>
 
               <div className="flex gap-1.5 items-center">
-                <div className="min-w-[1rem] w-[1rem] min-h-[1rem] h-[1rem] bg-gray-300/30 rounded-full overflow-hidden">
-                  <img className="w-full h-full object-cover" src={nft.collectionImage} />
-                </div>
+                {nft.collectionImage && (
+                  <div className="min-w-[1rem] w-[1rem] min-h-[1rem] h-[1rem] bg-gray-300/30 rounded-full overflow-hidden">
+                    <img className="w-full h-full object-cover" src={nft.collectionImage} />
+                  </div>
+                )}
 
                 <span className="text-gray-300 truncate capitalize -mt-0.5 text-xs">
                   {nft.creator.name ?? nft.creator.address}
