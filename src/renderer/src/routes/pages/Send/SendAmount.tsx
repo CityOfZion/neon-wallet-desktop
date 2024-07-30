@@ -71,7 +71,9 @@ export const SendAmount = ({
         <span className="text-gray-100 ml-5 italic">{t('fiatValue', { currencyType: currency.label })}</span>
         <span className="text-gray-100 mr-5">
           {NumberHelper.currency(
-            selectedAmount && selectedToken ? NumberHelper.number(selectedAmount) * selectedToken.exchangeRatio : 0,
+            selectedAmount && selectedToken
+              ? NumberHelper.number(selectedAmount) * selectedToken.exchangeConvertedPrice
+              : 0,
             currency.label
           )}
         </span>

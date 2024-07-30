@@ -6,7 +6,6 @@ import { DappPermissionContextualMessage } from '@renderer/components/DappPermis
 import { DappPermissionHeader } from '@renderer/components/DappPermissionHeader'
 import { Separator } from '@renderer/components/Separator'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
-import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { walletConnectNeonAdapter } from '@renderer/libs/walletConnectSDK'
 import { useQuery } from '@tanstack/react-query'
 
@@ -36,7 +35,6 @@ export const Neo3ContractInvocationDappPermission = ({
 }: TProps) => {
   const { t } = useTranslation('modals', { keyPrefix: 'dappPermission.requests.neo3.contractInvocation' })
   const params = useMemo(() => request.params.request.params as ContractInvocationMulti, [request])
-  const { modalNavigate } = useModalNavigate()
 
   const contextualMessage = request.params.request.params.contextualMessage
 
@@ -64,10 +62,9 @@ export const Neo3ContractInvocationDappPermission = ({
 
   useEffect(() => {
     if (!feeError) return
-
-    ToastHelper.error({ message: t('feeError') })
-    modalNavigate(-1)
-  }, [feeError, modalNavigate, t])
+    console.error(feeError)
+    onReject(t('feeError'), feeError.message)
+  }, [feeError, onReject, t])
 
   useEffect(() => {
     if (params.extraNetworkFee || params.extraSystemFee || params.systemFeeOverride || params.networkFeeOverride) {
@@ -115,7 +112,7 @@ export const Neo3ContractInvocationDappPermission = ({
       )}
 
       <div className="flex gap-2.5 px-10 mt-8 pb-10 z-50 ">
-        <Button label={t('cancelButtonLabel')} colorSchema="gray" onClick={onReject} />
+        <Button label={t('cancelButtonLabel')} colorSchema="gray" onClick={() => onReject()} />
         <Button
           label={t('acceptButtonLabel')}
           className="flex-grow"

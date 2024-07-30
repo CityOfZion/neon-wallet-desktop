@@ -10,18 +10,18 @@ import { TTokenBalance } from '@shared/@types/query'
 type TProps = {
   value: string
   onChange(event: ChangeEvent<HTMLInputElement>): void
-  exchangeRatio: number
+  exchangeConvertedPrice: number
   tokenBalance: TTokenBalance
   error?: boolean
 }
 
-export const FiatAmountInput = ({ onChange, value, exchangeRatio, tokenBalance, error }: TProps) => {
+export const FiatAmountInput = ({ onChange, value, exchangeConvertedPrice, tokenBalance, error }: TProps) => {
   const { t } = useTranslation('modals', { keyPrefix: 'inputAmount' })
   const { currency } = useCurrencySelector()
 
   const valueNumber = NumberHelper.number(value)
-  const estimatedToken = valueNumber > 0 && exchangeRatio > 0 ? valueNumber / exchangeRatio : 0
-  const disabled = exchangeRatio === 0 || tokenBalance.token.decimals === 0
+  const estimatedToken = valueNumber > 0 && exchangeConvertedPrice > 0 ? valueNumber / exchangeConvertedPrice : 0
+  const disabled = exchangeConvertedPrice === 0 || tokenBalance.token.decimals === 0
 
   return (
     <div

@@ -29,6 +29,5 @@ export type TUseTransactionsTransfer = {
 
 export type TFetchTransactionsResponse = {
   transfers: TUseTransactionsTransfer[]
-  hasMore: boolean
-  page: number
+  nextPageParams?: any
 }

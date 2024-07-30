@@ -3,23 +3,23 @@ import { useTranslation } from 'react-i18next'
 import { TbReceipt } from 'react-icons/tb'
 import { isCalculableFee } from '@cityofzion/blockchain-service'
 import { Loader } from '@renderer/components/Loader'
-import { ExchangeHelper } from '@renderer/helpers/ExchangeHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
-import { useExchange } from '@renderer/hooks/useExchange'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
+import { TTokenBalance } from '@shared/@types/query'
 
 import { TSendServiceResponse } from './SendPageContent'
 
-type TTotalFeeParams = {
+type TProps = {
+  selectedToken?: TTokenBalance
   getSendFields(): Promise<TSendServiceResponse>
   onFeeChange(fee?: string): void
   fee?: string
 }
 
-export const TotalFee = ({ getSendFields, onFeeChange, fee }: TTotalFeeParams) => {
+export const TotalFee = ({ getSendFields, onFeeChange, fee, selectedToken }: TProps) => {
   const { t } = useTranslation('pages', { keyPrefix: 'send' })
-  const exchange = useExchange()
+
   const { currency } = useCurrencySelector()
 
   const [fiatFee, setFiatFee] = useState<number>()
@@ -30,6 +30,7 @@ export const TotalFee = ({ getSendFields, onFeeChange, fee }: TTotalFeeParams) =
       try {
         onFeeChange(undefined)
         setFiatFee(undefined)
+
         const fields = await getSendFields()
 
         if (!fields || !isCalculableFee(fields.service)) return
@@ -46,12 +47,7 @@ export const TotalFee = ({ getSendFields, onFeeChange, fee }: TTotalFeeParams) =
         })
         onFeeChange(`${fee} ${fields.service.feeToken.symbol}`)
 
-        const exchangeRatio = ExchangeHelper.getExchangeRatio(
-          fields.service.feeToken.hash,
-          fields.service.blockchainName,
-          exchange.data
-        )
-        setFiatFee(NumberHelper.number(fee) * exchangeRatio)
+        setFiatFee(NumberHelper.number(fee) * (selectedToken?.exchangeConvertedPrice ?? 0))
       } catch {
         ToastHelper.error({ message: t('error.feeError') })
       } finally {
@@ -60,7 +56,7 @@ export const TotalFee = ({ getSendFields, onFeeChange, fee }: TTotalFeeParams) =
     }
 
     handle()
-  }, [onFeeChange, getSendFields, exchange.data, t])
+  }, [onFeeChange, getSendFields, selectedToken, t])
 
   return (
     <div className="flex justify-between bg-gray-700/60 py-2.5 rounded px-3 w-full mt-2">
