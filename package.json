@@ -31,6 +31,7 @@
     "@cityofzion/bs-neo-legacy": "1.1.1",
     "@cityofzion/bs-neo3": "1.1.2",
     "@cityofzion/neon-core": "5.5.1",
+    "@cityofzion/wallet-connect-sdk-wallet-core": "4.2.2",
     "@cityofzion/wallet-connect-sdk-wallet-react": "4.0.11",
     "@electron-toolkit/preload": "^2.0.0",
     "@electron-toolkit/utils": "^2.0.0",

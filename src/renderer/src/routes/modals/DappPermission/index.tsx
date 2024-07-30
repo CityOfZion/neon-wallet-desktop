@@ -1,12 +1,8 @@
 import { Fragment, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbPlug } from 'react-icons/tb'
-import {
-  ResponseErrorCode,
-  TSession,
-  TSessionRequest,
-  useWalletConnectWallet,
-} from '@cityofzion/wallet-connect-sdk-wallet-react'
+import { ResponseErrorCode } from '@cityofzion/wallet-connect-sdk-core'
+import { TSession, TSessionRequest, useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
