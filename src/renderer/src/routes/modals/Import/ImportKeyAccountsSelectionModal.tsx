@@ -7,6 +7,7 @@ import { AccountSelection } from '@renderer/components/AccountSelection'
 import { Button } from '@renderer/components/Button'
 import { Loader } from '@renderer/components/Loader'
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
+import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useAccountUtils } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
@@ -71,7 +72,7 @@ export const ImportKeyAccountsSelectionModal = () => {
     const accountsByBlockchain = new Map<TBlockchainServiceKey, TAccountWithBlockchain[]>()
     const selectedAccounts: TAccountWithBlockchain[] = []
 
-    Object.values(bsAggregator.blockchainServicesByName).forEach(service => {
+    await UtilsHelper.promiseAll(Object.values(bsAggregator.blockchainServicesByName), async service => {
       const account = service.generateAccountFromKey(key)
       accountsByBlockchain.set(service.blockchainName, [{ ...account, blockchain: service.blockchainName }])
 
