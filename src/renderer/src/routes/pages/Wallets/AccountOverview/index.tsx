@@ -25,7 +25,7 @@ export const AccountOverview = () => {
     <AccountDetailsLayout title={t('title')} actions={account ? <CommonAccountActions account={account} /> : undefined}>
       <div className="flex flex-col h-full items-center w-full justify-center">
         <OverviewCharts balances={balances} account={account} balanceChartClassName="h-2/6">
-          {balances.exchangeTotal > 0 && isClaimable(blockchainService) && (
+          {balances.exchangeTotal > 0 && isClaimable(blockchainService) && account.type !== 'watch' && (
             <ClaimGasBanner blockchainService={blockchainService} account={account} />
           )}
         </OverviewCharts>
