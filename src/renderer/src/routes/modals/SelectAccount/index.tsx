@@ -20,7 +20,7 @@ type TLocationState = {
   leftIcon?: JSX.Element
 }
 
-export const SelectAccount = () => {
+export const SelectAccountModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'selectAccount' })
   const { onSelectAccount, leftIcon, title, buttonLabel } = useModalState<TLocationState>()
   const { modalNavigate } = useModalNavigate()
@@ -30,16 +30,29 @@ export const SelectAccount = () => {
   const [selectedWallet, setSelectedWallet] = useState<IWalletState | undefined>(undefined)
   const [selectedAccount, setSelectedAccount] = useState<IAccountState | undefined>(undefined)
 
-  const walletAccounts = useMemo(() => {
+  const filteredAccounts = useMemo(() => accounts.filter(account => account.type !== 'watch'), [accounts])
+
+  const filteredWallets = useMemo(() => {
+    const walletsArray: IWalletState[] = []
+
+    wallets.forEach(wallet => {
+      if (filteredAccounts.some(account => account.idWallet === wallet.id)) {
+        walletsArray.push(wallet)
+      }
+    })
+
+    return walletsArray
+  }, [wallets, filteredAccounts])
+
+  const selectedWalletAccounts = useMemo(() => {
     if (!selectedWallet) {
       return []
     }
-    return accounts.filter(account => account.idWallet === selectedWallet.id)
-  }, [selectedWallet, accounts])
+    return filteredAccounts.filter(account => account.idWallet === selectedWallet.id)
+  }, [selectedWallet, filteredAccounts])
 
   const handleSelectWallet = (id: string) => {
-    const wallet = wallets.find(wallet => wallet.id === id)
-    if (!wallet) return
+    const wallet = filteredWallets.find(wallet => wallet.id === id)!
 
     setSelectedWallet(wallet)
     setSelectedAccount(undefined)
@@ -71,7 +84,7 @@ export const SelectAccount = () => {
         </Select.Trigger>
 
         <Select.Content>
-          {wallets.map((wallet, index) => (
+          {filteredWallets.map((wallet, index) => (
             <Fragment key={wallet.id}>
               <Select.Item
                 value={wallet.id}
@@ -80,7 +93,7 @@ export const SelectAccount = () => {
                 <Select.ItemText>{wallet.name}</Select.ItemText>
               </Select.Item>
 
-              {index + 1 !== wallets.length && <Select.Separator />}
+              {index + 1 !== filteredWallets.length && <Select.Separator />}
             </Fragment>
           ))}
         </Select.Content>
@@ -91,10 +104,10 @@ export const SelectAccount = () => {
           <p className="text-left w-full pl-[0.2em]">{t('yourAccounts')}</p>
 
           <ul className="w-full mt-2 mb-5 h-full overflow-y-auto flex flex-col min-h-0">
-            {walletAccounts.length <= 0 ? (
+            {selectedWalletAccounts.length <= 0 ? (
               <p className="mt-5 text-gray-300">{t('noAccounts')}</p>
             ) : (
-              walletAccounts.map((account, index) => (
+              selectedWalletAccounts.map((account, index) => (
                 <li key={account.id}>
                   <button
                     aria-selected={selectedAccount?.id === account.id}
@@ -120,7 +133,7 @@ export const SelectAccount = () => {
                     )}
                   </button>
 
-                  {index + 1 !== walletAccounts.length && <Separator />}
+                  {index + 1 !== selectedWalletAccounts.length && <Separator />}
                 </li>
               ))
             )}
