@@ -1,6 +1,5 @@
-import { ChangeEvent, Fragment, useCallback, useState } from 'react'
+import { ChangeEvent, Fragment } from 'react'
 import { useTranslation } from 'react-i18next'
-import { hasNameService } from '@cityofzion/blockchain-service'
 import { Banner } from '@renderer/components/Banner'
 import { BlockchainSelect } from '@renderer/components/BlockchainSelect'
 import { Button } from '@renderer/components/Button'
@@ -9,11 +8,10 @@ import { Separator } from '@renderer/components/Separator'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
+import { useNameService } from '@renderer/hooks/useNameService'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
-import { bsAggregator } from '@renderer/libs/blockchainService'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TContactAddress } from '@shared/@types/store'
-import { debounce } from 'lodash'
 
 type TLocationState = {
   contactName: string
@@ -23,8 +21,6 @@ type TLocationState = {
 
 type TActionData = {
   address: string
-  nnsAddress?: string
-  isAddressValid?: boolean
   blockchain?: TBlockchainServiceKey
 }
 
@@ -32,7 +28,14 @@ export const AddAddressModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'addAddress' })
   const { contactName, address, handleAddAddress } = useModalState<TLocationState>()
   const { modalNavigate } = useModalNavigate()
-  const [validating, setValidating] = useState(false)
+
+  const {
+    isNameService,
+    isValidAddressOrDomainAddress,
+    isValidatingAddressOrDomainAddress,
+    validateAddressOrNS,
+    validatedAddress,
+  } = useNameService()
 
   const { actionData, setData, handleAct } = useActions<TActionData>({
     address: address?.address || '',
@@ -42,33 +45,8 @@ export const AddAddressModal = () => {
     setData({
       address: event.target.value,
     })
-    validateAddressOrNSS(event.target.value, actionData.blockchain)
+    validateAddressOrNS(event.target.value, actionData.blockchain)
   }
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const validateAddressOrNSS = useCallback(
-    debounce(async (address: string, blockchain?: TBlockchainServiceKey) => {
-      if (!blockchain || !address) return
-
-      setValidating(true)
-      let isValid = false
-      let nnsAddress: string | undefined
-      try {
-        const service = bsAggregator.blockchainServicesByName[blockchain]
-        isValid = service.validateAddress(address)
-        if (!isValid && hasNameService(service) && service.validateNameServiceDomainFormat(address)) {
-          nnsAddress = await service.resolveNameServiceDomain(address)
-          isValid = true
-        }
-      } catch {
-        /* empty */
-      } finally {
-        setValidating(false)
-        setData({ nnsAddress, isAddressValid: isValid })
-      }
-    }, 1000),
-    [setData]
-  )
 
   const handleSelectBlockchain = (blockchain: TBlockchainServiceKey) => {
     setData({ blockchain })
@@ -101,24 +79,30 @@ export const AddAddressModal = () => {
             onChange={handleChange}
             clearable
             compacted
-            loading={validating}
+            loading={isValidatingAddressOrDomainAddress}
             disabled={!actionData.blockchain}
-            error={actionData.isAddressValid === false}
+            error={isValidAddressOrDomainAddress === false}
           />
-          {actionData.nnsAddress && <p className="text-gray-300">{actionData.nnsAddress}</p>}
+          {isNameService && <p className="text-gray-300">{validatedAddress}</p>}
 
-          {actionData.isAddressValid !== undefined && (
+          {isValidAddressOrDomainAddress !== undefined && (
             <Fragment>
-              {!actionData.isAddressValid ? (
+              {!isValidAddressOrDomainAddress ? (
                 <Banner message={t('invalidAddress')} type="error" />
               ) : (
-                <Banner message={actionData.nnsAddress ? t('nnsComplete') : t('addressComplete')} type="success" />
+                <Banner message={isNameService ? t('nnsComplete') : t('addressComplete')} type="success" />
               )}
             </Fragment>
           )}
         </div>
 
-        <Button label={t('saveAddress')} className="w-full" type="submit" flat disabled={!actionData.isAddressValid} />
+        <Button
+          label={t('saveAddress')}
+          className="w-full"
+          type="submit"
+          flat
+          disabled={!isValidAddressOrDomainAddress}
+        />
       </form>
     </SideModalLayout>
   )

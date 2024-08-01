@@ -47,7 +47,13 @@ export const ContactAddressTable = ({ contactAddresses }: TProps) => {
         header: t('components:contactAddressTable.blockchain'),
       }),
       columnHelper.accessor('address', {
-        cell: info => <AddressCell address={info.row.original.address} blockchain={info.row.original.blockchain} />,
+        cell: info => (
+          <AddressCell
+            key={info.row.original.address}
+            address={info.row.original.address}
+            blockchain={info.row.original.blockchain}
+          />
+        ),
         enableSorting: false,
         header: t('components:contactAddressTable.address'),
       }),
