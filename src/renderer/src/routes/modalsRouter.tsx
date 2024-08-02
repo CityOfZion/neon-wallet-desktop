@@ -38,7 +38,7 @@ import { NFTSelectionModal } from './modals/NftSelection'
 import { PersistAccountModal } from './modals/PersistAccount'
 import { PersistContactModal } from './modals/PersistContact'
 import { DeleteModal } from './modals/PersistContact/DeleteModal'
-import { SelectAccount } from './modals/SelectAccount'
+import { SelectAccountModal } from './modals/SelectAccount'
 import { SelectContact } from './modals/SelectContact'
 import { SelectToken } from './modals/SelectToken'
 import { SuccessModal } from './modals/Success'
@@ -76,7 +76,7 @@ export const modalsRouter: TRoute[] = [
   { name: 'select-contact', type: 'side', element: <SelectContact /> },
   { name: 'blockchain-selection', type: 'side', element: <BlockchainSelectionModal /> },
   { name: 'decrypt-key', type: 'side', element: <DecryptKeyModal /> },
-  { name: 'select-account', type: 'side', element: <SelectAccount /> },
+  { name: 'select-account', type: 'side', element: <SelectAccountModal /> },
   { name: 'select-token', type: 'side', size: 'md', element: <SelectToken /> },
   { name: 'input-amount', type: 'side', element: <InputAmount /> },
   { name: 'network-selection', type: 'side', element: <NetworkSelection /> },
