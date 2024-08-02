@@ -13,18 +13,20 @@ type TProps = {
 export const NftList = ({ account, nfts }: TProps) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'blockchain' })
 
-  let url: string
-
-  try {
-    const service = bsAggregator.blockchainServicesByName[account.blockchain]
-    if (hasExplorerService(service)) {
-      url = service.explorerService.buildNftUrl({
-        contractHash: nfts[0].contractHash,
-        tokenId: nfts[0].id,
-      })
+  const getHref = (nft: NftResponse) => {
+    try {
+      const service = bsAggregator.blockchainServicesByName[account.blockchain]
+      if (hasExplorerService(service)) {
+        return service.explorerService.buildNftUrl({
+          contractHash: nft.contractHash,
+          tokenId: nft.id,
+        })
+      }
+    } catch {
+      /* empty */
     }
-  } catch {
-    /* empty */
+
+    return ''
   }
 
   return (
@@ -32,7 +34,7 @@ export const NftList = ({ account, nfts }: TProps) => {
       {nfts.map(nft => (
         <li key={`${nft.contractHash}-${nft.id}`} className="w-full">
           <a
-            href={url}
+            href={getHref(nft)}
             target="_blank"
             className="flex p-2.5 gap-5 bg-gray-700/60 rounded-md text-sm items-center cursor-pointer hover:bg-gray-300/30 w-full transition-colors min-w-0"
             rel="noreferrer"
