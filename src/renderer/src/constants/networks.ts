@@ -31,7 +31,7 @@ export const NETWORK_OPTIONS_BY_BLOCKCHAIN: Record<
   },
   neox: {
     all: BSEthereumHelper.NEOX_NETWORKS,
-    mainnet: [],
+    mainnet: [BSEthereumHelper.NEOX_MAINNET_NETWORK],
     testnet: [BSEthereumHelper.NEOX_TESTNET_NETWORK],
   },
 }
@@ -40,7 +40,7 @@ export const DEFAULT_NETWORK_BY__BLOCKCHAIN: Record<TBlockchainServiceKey, TNetw
   neo3: NETWORK_OPTIONS_BY_BLOCKCHAIN.neo3.mainnet[0],
   neoLegacy: NETWORK_OPTIONS_BY_BLOCKCHAIN.neoLegacy.mainnet[0],
   ethereum: NETWORK_OPTIONS_BY_BLOCKCHAIN.ethereum.mainnet[0],
-  neox: NETWORK_OPTIONS_BY_BLOCKCHAIN.neox.testnet[0],
+  neox: NETWORK_OPTIONS_BY_BLOCKCHAIN.neox.mainnet[0],
 }
 
 export const DEFAULT_NETWORK_PROFILE = {
