@@ -33,11 +33,10 @@ async function fetchExchange(
 
   const tokensToFetch = tokens.filter(token => {
     const queryKey = buildQueryKey(blockchain, networkByBlockchain[blockchain], token)
-    const defaultedOptions = queryClient.defaultQueryOptions({ queryKey })
 
-    const query = queryCache.get(defaultedOptions.queryHash) as Query<TExchange> | undefined
+    const query = queryCache.find({ queryKey, exact: true, stale: false }) as Query<TExchange> | undefined
 
-    return !query || query.isStaleByTime(defaultedOptions.staleTime)
+    return !query
   })
 
   let tokenPrices: TokenPricesResponse[] = []

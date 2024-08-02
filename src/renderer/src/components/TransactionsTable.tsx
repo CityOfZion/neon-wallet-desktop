@@ -8,7 +8,7 @@ import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useInfiniteScroll } from '@renderer/hooks/useInfiniteScroll'
 import { useAppSelector } from '@renderer/hooks/useRedux'
-import { useTransactions } from '@renderer/hooks/useTransactions'
+import { useTokenTransfers } from '@renderer/hooks/useTokenTransfers'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { getI18next } from '@renderer/libs/i18next'
 import { TUseTransactionsTransfer } from '@shared/@types/hooks'
@@ -33,7 +33,8 @@ const columnHelper = createColumnHelper<TUseTransactionsTransfer>()
 
 export const TransactionsTable = forwardRef<HTMLDivElement, TTransactionListProps>(
   ({ accounts, showSimplified, tableHeaderClassName }, ref) => {
-    const { transfers, fetchNextPage, isLoading } = useTransactions({ accounts })
+    const { data, fetchNextPage, isLoading } = useTokenTransfers({ accounts })
+
     const { value: pendingTransactions } = useAppSelector(state => state.account.pendingTransactions)
 
     const { handleScroll, ref: scrollRef } = useInfiniteScroll<HTMLDivElement>(fetchNextPage)
@@ -97,8 +98,9 @@ export const TransactionsTable = forwardRef<HTMLDivElement, TTransactionListProp
       () =>
         pendingTransactions
           .filter(transaction => accounts.some(AccountHelper.predicate(transaction.account)))
-          .concat(transfers),
-      [accounts, pendingTransactions, transfers]
+          .concat(data),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [accounts, pendingTransactions, data.length]
     )
 
     const table = useReactTable({
