@@ -27,8 +27,8 @@ export function registerLedgerHandler() {
     started = true
 
     NodeHidTransportFixed.listen({
-      complete: () => { },
-      error: () => { },
+      complete: () => {},
+      error: () => {},
       next: async event => {
         if (event.type === 'add') {
           const transport = await NodeHidTransportFixed.open(event.descriptor)

@@ -29,7 +29,7 @@ export const useImportAction = (
   }
 
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    const value = event.target.value
+    const value = event.target.value.trim()
     setData({ text: value, inputType: undefined })
 
     try {

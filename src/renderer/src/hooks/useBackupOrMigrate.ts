@@ -1,7 +1,9 @@
 import { useTranslation } from 'react-i18next'
+import { hasNameService } from '@cityofzion/blockchain-service'
 import { BACKUP_FILE_EXTENSION } from '@renderer/constants/backup'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { bsAggregator } from '@renderer/libs/blockchainService'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import zod from 'zod'
 
 import { useActions } from './useActions'
@@ -26,7 +28,7 @@ const migrateAccountsSchema = zod
     extra: zod.any(),
   })
   .transform(data => {
-    const [blockchain] = bsAggregator.getBlockchainNameByAddress(data.address)
+    const blockchain = bsAggregator.getBlockchainNameByAddress(data.address)[0] as TBlockchainServiceKey | undefined
     return {
       ...data,
       blockchain,
@@ -35,7 +37,18 @@ const migrateAccountsSchema = zod
 
 const migrateContactsSchema = zod.object({ name: zod.string(), addresses: zod.array(zod.string()) }).transform(data => {
   const addressesWithBlockchain = data.addresses.map(address => {
-    const [blockchain] = bsAggregator.getBlockchainNameByAddress(address)
+    let blockchain: TBlockchainServiceKey | undefined
+
+    for (const service of Object.values(bsAggregator.blockchainServicesByName)) {
+      if (
+        (hasNameService(service) && service.validateNameServiceDomainFormat(address)) ||
+        service.validateAddress(address)
+      ) {
+        blockchain = service.blockchainName
+        break
+      }
+    }
+
     return { address, blockchain }
   })
 
@@ -72,19 +85,12 @@ export const useBackupOrMigrate = () => {
     try {
       const parsedContent = JSON.parse(fileContent)
       const validatedContent = await migrateSchema.parseAsync(parsedContent)
-      const accountWithBlockchain = validatedContent.accounts.map(account => {
-        const [blockchain] = bsAggregator.getBlockchainNameByAddress(account.address)
-        return {
-          ...account,
-          blockchain,
-        }
-      })
 
       ToastHelper.success({ message: t('neon2MigrateFileDetected') })
 
       setData({
         path: filePath,
-        content: { contacts: validatedContent.contacts, accounts: accountWithBlockchain },
+        content: validatedContent,
         type: 'migrate',
       })
       return
