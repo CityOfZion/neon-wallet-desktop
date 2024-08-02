@@ -3,6 +3,7 @@ version: 2.1
 orbs:
   win: circleci/windows@5.0.0
   node: circleci/node@5.1.0
+  gh: circleci/github-cli@2.3.0
 
 references:
   container_config: &container_config
@@ -58,7 +59,7 @@ jobs:
 
   build_macos:
     macos:
-      xcode: "15.2.0"
+      xcode: '15.2.0'
     resource_class: macos.m1.medium.gen1
     steps:
       - checkout
@@ -73,7 +74,7 @@ jobs:
   build_win:
     executor:
       name: win/default
-      size: "medium"
+      size: 'medium'
     steps:
       - checkout
       - run: npm ci --timeout 1500000
@@ -81,6 +82,17 @@ jobs:
       - store_artifacts:
           path: dist
           destination: build
+
+  generate_checksums:
+    docker:
+      - image: cimg/base:2024.08
+    steps:
+      - checkout
+      - gh/install
+      - node/install:
+        node-version: '18.14.2'
+      - run: npm ci --timeout 1500000
+      - run: npm run generate-checksums
 
 workflows:
   version: 2
@@ -98,6 +110,15 @@ workflows:
             tags:
               only: /v.*/
       - build_win:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /v.*/
+      - generate_checksums:
+          requires:
+            - build_macos
+            - build_win
           filters:
             branches:
               ignore: /.*/
