@@ -4,19 +4,20 @@ import { TbCheck, TbChevronUp } from 'react-icons/tb'
 import { SearchInput } from '@renderer/components/SearchInput'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
-import { useContactsSelector } from '@renderer/hooks/useContactSelector'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { IContactState, TContactAddress } from '@shared/@types/store'
 import { cloneDeep } from 'lodash'
 
-import { BlockchainIcon } from '../BlockchainIcon'
-import { Separator } from '../Separator'
+import { BlockchainIcon } from './BlockchainIcon'
+import { Separator } from './Separator'
 
 type TProps = {
   onContactSelected?: (contact: IContactState | null) => void
   onAddressSelected?: (address: TContactAddress | null) => void
-  selectFirst: boolean
-  showSelectedIcon: boolean
+  selectedContact?: IContactState | null
+  selectedAddress?: TContactAddress | null
+  contacts: IContactState[]
+  showSelectedAddress?: boolean
   blockchainFilter?: TBlockchainServiceKey
   children?: React.ReactNode
 }
@@ -24,73 +25,44 @@ type TProps = {
 export const ContactList = ({
   onContactSelected,
   onAddressSelected,
-  selectFirst,
-  showSelectedIcon,
+  selectedAddress,
+  selectedContact,
+  showSelectedAddress = false,
+  contacts,
   blockchainFilter,
   children,
 }: TProps) => {
   const { t: contactT } = useTranslation('components', { keyPrefix: 'contacts' })
-  const { contacts } = useContactsSelector()
   const [search, setSearch] = useState<string | null>(null)
-  const [selectedContact, setSelectedContact] = useState<IContactState | null>(selectFirst ? contacts[0] || null : null)
-  const [selectedAddress, setSelectedAddress] = useState<TContactAddress | null>(null)
 
   const handleAddressSelected = (address: TContactAddress | null) => {
-    setSelectedAddress(address)
     onAddressSelected && onAddressSelected(address)
   }
 
   const handleContactSelected = (contact: IContactState | null) => {
-    setSelectedContact(contact)
+    handleAddressSelected(null)
     onContactSelected && onContactSelected(contact)
   }
 
-  const isContactSelected = (id: string) => {
+  const getInitialsLetters = (contact: IContactState) => {
+    const splitName = contact.name.trim().split(' ')
+    const initials = splitName[0][0] + splitName[splitName.length - 1][0]
+    return initials.toUpperCase()
+  }
+
+  const filteredSelectedContactAddresses = useMemo(() => {
     if (!selectedContact) return
-    return selectedContact.id === id
-  }
 
-  const isAddressSelected = (address: string) => {
-    if (!selectedAddress) return
-    return selectedAddress.address === address
-  }
-
-  const getFirstLastNameInitials = (name: string) => {
-    return name
-      .split(' ')
-      .map(word => word[0])
-      .filter((_letter, index, array) => index === 0 || index === array.length - 1)
-      .join('')
-  }
-
-  const onContactSelect = (contact: IContactState) => {
-    handleAddressSelected(null)
-    if (isContactSelected(contact.id)) {
-      handleContactSelected(null)
-    } else {
-      handleContactSelected(contact)
-    }
-  }
-
-  const onAddressSelect = (address: TContactAddress) => {
-    if (isAddressSelected(address?.address)) {
-      handleAddressSelected(null)
-    } else {
-      handleAddressSelected(address)
-    }
-  }
-
-  const filteredSelectContactAddresses = useMemo(() => {
-    let filtered = cloneDeep(selectedContact?.addresses)
+    let filtered = cloneDeep(selectedContact.addresses)
 
     if (blockchainFilter) {
       filtered = filtered?.filter(address => address.blockchain === blockchainFilter)
     }
 
     return filtered
-  }, [selectedContact?.addresses, blockchainFilter])
+  }, [selectedContact, blockchainFilter])
 
-  const groupedContacts = useMemo(() => {
+  const groupContactsByFirstLetter = useMemo(() => {
     let filteredContacts = cloneDeep(contacts)
 
     if (blockchainFilter) {
@@ -105,31 +77,22 @@ export const ContactList = ({
       )
     }
 
-    let groupContactsByFirstLetter = new Map<string, IContactState[]>()
-    filteredContacts.forEach(contact => {
+    const sortedContacts = filteredContacts.sort((a, b) => a.name[0].localeCompare(b.name[0]))
+
+    const groupContactsByFirstLetterMap = new Map<string, IContactState[]>()
+
+    sortedContacts.forEach(contact => {
       if (!contact.name) return
 
       const key = contact.name[0].toUpperCase()
 
-      const lastContacts = groupContactsByFirstLetter.get(key) ?? []
-      groupContactsByFirstLetter.set(key, [...lastContacts, contact])
+      const lastContacts = groupContactsByFirstLetterMap.get(key) ?? []
+
+      groupContactsByFirstLetterMap.set(key, [...lastContacts, contact])
     })
-    const mapEntriesArray = Array.from(groupContactsByFirstLetter.entries())
-    mapEntriesArray.sort((a, b) => a[0].localeCompare(b[0]))
-    groupContactsByFirstLetter = new Map(mapEntriesArray)
 
-    const firstContact: IContactState = groupContactsByFirstLetter.values().next().value
-
-    if (firstContact && selectFirst) {
-      setSelectedContact(firstContact[0])
-      onContactSelected && onContactSelected(firstContact[0])
-    } else {
-      setSelectedContact(null)
-      onContactSelected && onContactSelected(null)
-    }
-
-    return groupContactsByFirstLetter
-  }, [contacts, onContactSelected, search, selectFirst, blockchainFilter])
+    return Array.from(groupContactsByFirstLetterMap.entries())
+  }, [contacts, search, blockchainFilter])
 
   return (
     <Fragment>
@@ -138,60 +101,67 @@ export const ContactList = ({
           <SearchInput placeholder={contactT('search')} onChange={event => setSearch(event.target.value)} compacted />
         </div>
 
-        {groupedContacts.size <= 0 && <div>{contactT('noContacts')}</div>}
+        {groupContactsByFirstLetter.length <= 0 && <div>{contactT('noContacts')}</div>}
 
         <section className="w-full overflow-y-auto flex-grow flex flex-col gap-y-5 basis-0 text-xs">
-          {groupedContacts &&
-            Array.from(groupedContacts.entries()).map(([key, arrValues]) => (
-              <div key={key}>
-                <div className="flex bg-asphalt/50 pl-4 text-blue font-bold h-6 items-center">{key}</div>
-                {arrValues.map((value, index) => (
-                  <Fragment key={index}>
+          {groupContactsByFirstLetter.map(([letter, letterContacts]) => (
+            <div key={letter}>
+              <div className="flex bg-asphalt/50 pl-4 text-blue font-bold h-6 items-center">{letter}</div>
+
+              {letterContacts.map((contact, index) => {
+                const isContactSelected = selectedContact?.id === contact.id
+
+                return (
+                  <Fragment key={`contact-list-${contact.id}`}>
                     <button
-                      onClick={() => onContactSelect(value)}
+                      onClick={handleContactSelected.bind(null, contact)}
                       className={StyleHelper.mergeStyles(
                         'w-full flex items-center justify-between h-10 py-4 pl-2 border-l-4 border-transparent hover:border-neon hover:bg-gray-900',
                         {
-                          'bg-gray-900 border-neon': isContactSelected(value.id),
+                          'bg-gray-900 border-neon': isContactSelected,
                         }
                       )}
                     >
                       <div className="flex w-full items-center">
                         <div
                           className={StyleHelper.mergeStyles(
-                            'w-6 h-6 bg-gray-300/30 rounded-full text-sm flex shrink-0 items-center justify-center',
+                            'w-6 h-6 bg-gray-300/30 rounded-full text-xs flex shrink-0 items-center justify-center text-gray-100',
                             {
-                              'bg-gray-200 text-gray-800': isContactSelected(value.id),
+                              'bg-gray-200 text-gray-800': isContactSelected,
                             }
                           )}
                         >
-                          {getFirstLastNameInitials(value.name)}
+                          {getInitialsLetters(contact)}
                         </div>
-                        <span className="pl-2 truncate" title={value.name}>
-                          {value.name}
+
+                        <span className="pl-2 truncate" title={contact.name}>
+                          {contact.name}
                         </span>
                       </div>
-                      {isContactSelected(value.id) && showSelectedIcon && (
+
+                      {showSelectedAddress && isContactSelected && (
                         <TbChevronUp className="text-gray-300 h-4 w-4 mr-3" />
                       )}
                     </button>
 
-                    {isContactSelected(value.id) &&
-                      showSelectedIcon &&
-                      filteredSelectContactAddresses &&
-                      filteredSelectContactAddresses.map((address, addressIndex) => {
+                    {showSelectedAddress &&
+                      isContactSelected &&
+                      filteredSelectedContactAddresses &&
+                      filteredSelectedContactAddresses.map((address, addressIndex) => {
+                        const isAddressSelected = selectedAddress?.address === address.address
+
                         return (
-                          <div key={addressIndex}>
+                          <div key={`contact-list-address-${address}`}>
                             <button
-                              onClick={() => onAddressSelect(address)}
+                              onClick={handleAddressSelected.bind(null, address)}
                               className="pl-[2.3rem] flex w-full items-center justify-between"
                             >
                               <div
                                 className={StyleHelper.mergeStyles(
                                   'flex w-full pl-[0.45rem] py-1 items-center hover:bg-gray-900/50',
                                   {
-                                    'bg-gray-900/50': isAddressSelected(address.address),
-                                    'mb-2': addressIndex === filteredSelectContactAddresses.length - 1,
+                                    'bg-gray-900/50': isAddressSelected,
+                                    'mb-2': addressIndex === filteredSelectedContactAddresses.length - 1,
                                   }
                                 )}
                               >
@@ -209,10 +179,12 @@ export const ContactList = ({
                                     {StringHelper.truncateString(address.address, 20)}
                                   </div>
                                 </div>
-                                {isAddressSelected(address.address) && <TbCheck className="text-neon h-5 w-5 mr-3" />}
+
+                                {isAddressSelected && <TbCheck className="text-neon h-5 w-5 mr-3" />}
                               </div>
                             </button>
-                            {addressIndex !== filteredSelectContactAddresses.length - 1 && (
+
+                            {addressIndex !== filteredSelectedContactAddresses.length - 1 && (
                               <div className="pl-[4.5rem]">
                                 <Separator />
                               </div>
@@ -220,16 +192,17 @@ export const ContactList = ({
                           </div>
                         )
                       })}
-                    {!(isContactSelected(value.id) && showSelectedIcon && selectedContact) &&
-                      index !== arrValues.length - 1 && (
-                        <div className="pl-11">
-                          <Separator />
-                        </div>
-                      )}
+
+                    {index !== letterContacts.length - 1 && (
+                      <div className="pl-11">
+                        <Separator />
+                      </div>
+                    )}
                   </Fragment>
-                ))}
-              </div>
-            ))}
+                )
+              })}
+            </div>
+          ))}
         </section>
         {children}
       </div>

@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbPencil, TbPlus } from 'react-icons/tb'
 import { Button } from '@renderer/components/Button'
-import { ContactAddressTable } from '@renderer/components/Contact/ContactAddressTable'
-import { ContactList } from '@renderer/components/Contact/ContactList'
+import { ContactAddressTable } from '@renderer/components/ContactAddressTable'
+import { ContactList } from '@renderer/components/ContactList'
 import { IconButton } from '@renderer/components/IconButton'
 import { Separator } from '@renderer/components/Separator'
 import { StringHelper } from '@renderer/helpers/StringHelper'
@@ -18,7 +18,8 @@ export const ContactsPage = () => {
 
   const { modalNavigateWrapper } = useModalNavigate()
   const { contacts } = useContactsSelector()
-  const [selectedContact, setSelectedContact] = useState<IContactState | null>(contacts[0] || null)
+
+  const [selectedContact, setSelectedContact] = useState<IContactState | null>(contacts[0] ?? null)
 
   return (
     <MainLayout
@@ -40,7 +41,7 @@ export const ContactsPage = () => {
             <Separator />
           </div>
 
-          <ContactList onContactSelected={setSelectedContact} selectFirst={true} showSelectedIcon={false} />
+          <ContactList onContactSelected={setSelectedContact} selectedContact={selectedContact} contacts={contacts} />
         </div>
 
         {selectedContact && (

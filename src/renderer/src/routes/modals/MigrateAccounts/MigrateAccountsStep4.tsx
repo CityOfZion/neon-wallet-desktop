@@ -52,13 +52,19 @@ export const MigrateAccountsStep4Modal = () => {
       name: commonT('migratedWalletName'),
     }
 
-    const accountsToCreate: TAccountsToImport = data.decryptedAccounts.map(decryptedWallet => ({
-      address: decryptedWallet.address,
-      blockchain: decryptedWallet.blockchain,
-      key: decryptedWallet.decryptedKey,
-      type: 'standard',
-      name: decryptedWallet.label,
-    }))
+    const accountsToCreate: TAccountsToImport = []
+
+    data.decryptedAccounts.map(decryptedWallet => {
+      if (!decryptedWallet.blockchain) return
+
+      accountsToCreate.push({
+        address: decryptedWallet.address,
+        blockchain: decryptedWallet.blockchain,
+        key: decryptedWallet.decryptedKey,
+        type: 'standard',
+        name: decryptedWallet.label,
+      })
+    })
 
     const contactsToCreate: IContactState[] = []
 
@@ -67,13 +73,15 @@ export const MigrateAccountsStep4Modal = () => {
       const foundContact = contactsRef.current.find(contact => contactToMigrate.name === contact.name)
 
       contactToMigrate.addresses.forEach(contactMigrateAddress => {
+        if (!contactMigrateAddress.blockchain) return
+
         if (
           foundContact &&
           foundContact.addresses.some(contactAddress => contactAddress.address === contactMigrateAddress.address)
         )
           return
 
-        contactAddresses.push(contactMigrateAddress)
+        contactAddresses.push({ address: contactMigrateAddress.address, blockchain: contactMigrateAddress.blockchain })
       })
 
       if (!contactAddresses.length) return
