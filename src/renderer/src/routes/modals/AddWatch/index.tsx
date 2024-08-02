@@ -10,7 +10,7 @@ import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 import { bsAggregator } from '@renderer/libs/blockchainService'
-import { TBlockchainServiceKey, TImportAccountsParam } from '@shared/@types/blockchain'
+import { TAccountsToImport, TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { IWalletState } from '@shared/@types/store'
 
 import { BlockchainIcon } from '../../../components/BlockchainIcon'
@@ -23,7 +23,7 @@ type TAddWatchState = {
 type TValidatedAddress = {
   address: string
   abbreviatedAddress: string
-  blockchain: TBlockchainServiceKey | undefined
+  blockchain: TBlockchainServiceKey
 }
 
 export const AddWatch = () => {
@@ -34,7 +34,7 @@ export const AddWatch = () => {
   const { onAddWallet, address: addressModalState } = useModalState<TAddWatchState>()
 
   const [address, setAddress] = useState<string>('')
-  const [validatedAddress, setValidatedAddress] = useState<TValidatedAddress>()
+  const [validatedAddresses, setValidatedAddresses] = useState<TValidatedAddress[]>([])
   const [error, setError] = useState<string>()
 
   const [isLoading, setIsLoading] = useState(false)
@@ -43,11 +43,8 @@ export const AddWatch = () => {
     try {
       event.preventDefault()
       setIsLoading(true)
-      if (!validatedAddress?.address.length) {
-        throw new Error(t('errors.empty'))
-      }
 
-      if (!validatedAddress.blockchain) {
+      if (!validatedAddresses.length) {
         throw new Error(t('errors.invalid'))
       }
 
@@ -55,13 +52,11 @@ export const AddWatch = () => {
         name: commomT('watchAccount'),
       })
 
-      const accountsToImport: TImportAccountsParam['accounts'] = [
-        {
-          address: validatedAddress.address,
-          blockchain: validatedAddress.blockchain,
-          type: 'watch',
-        },
-      ]
+      const accountsToImport: TAccountsToImport = validatedAddresses.map(validatedAddress => ({
+        address: validatedAddress.address,
+        blockchain: validatedAddress.blockchain,
+        type: 'watch',
+      }))
 
       blockchainActions.importAccounts({ wallet, accounts: accountsToImport })
 
@@ -91,25 +86,22 @@ export const AddWatch = () => {
       setError(t('errors.empty'))
       return
     }
+
+    const validatedAddressesCache: TValidatedAddress[] = []
+
     for (const blockchainService of Object.values(bsAggregator.blockchainServicesByName)) {
       const isValid = blockchainService.validateAddress(address)
-      if (isValid) {
-        setValidatedAddress({
-          blockchain: blockchainService.blockchainName,
-          abbreviatedAddress: abbreviateAddress(address),
-          address,
-        })
-        setError(undefined)
-        return
-      }
+      if (!isValid) continue
+
+      validatedAddressesCache.push({
+        blockchain: blockchainService.blockchainName,
+        abbreviatedAddress: abbreviateAddress(address),
+        address,
+      })
     }
 
-    setValidatedAddress({
-      blockchain: undefined,
-      abbreviatedAddress: '',
-      address: '',
-    })
-    setError(t('errors.invalid'))
+    setValidatedAddresses(validatedAddressesCache)
+    setError(validatedAddressesCache.length ? undefined : t('errors.invalid'))
   }
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -123,42 +115,48 @@ export const AddWatch = () => {
   }, [addressModalState])
 
   return (
-    <SideModalLayout heading={t('title')} headingIcon={<TbEyePlus />}>
+    <SideModalLayout heading={t('title')} headingIcon={<TbEyePlus />} contentClassName="flex flex-col">
       <p className="text-xs">{t('description')}</p>
 
-      <form className="mt-6" onSubmit={handleSubmit}>
+      <form className="mt-6 flex flex-col flex-grow min-h-0" onSubmit={handleSubmit}>
         <Input value={address} onChange={handleChange} placeholder={t('inputPlaceholder')} errorMessage={error} />
 
         <Banner className="mt-5" message={t('information')} type="info" />
 
-        {validatedAddress?.blockchain && (
-          <div>
-            <Separator className="mt-6" />
+        <div className="flex flex-col flex-grow min-h-0">
+          <Separator className="mt-6" />
 
-            <p className="mt-6 text-xs">{t('willBeAdded')}</p>
+          <p className="mt-6 text-xs">{t('willBeAdded')}</p>
 
-            <div className="bg-asphalt mt-5 rounded-md">
-              <div className="flex p-4 overflow-hidden">
-                <BlockchainIcon blockchain={validatedAddress.blockchain} type="white" className="w-5 h-5 opacity-50" />
+          <ul className="flex flex-col flex-grow gap-2 mt-5 overflow-auto min-h-0">
+            {validatedAddresses.map((validatedAddress, index) => (
+              <li className="bg-asphalt rounded-md" key={index}>
+                <div className="flex p-4 overflow-hidden">
+                  <BlockchainIcon
+                    blockchain={validatedAddress.blockchain}
+                    type="white"
+                    className="w-5 h-5 opacity-50"
+                  />
 
-                <p className="text-xs ml-4 capitalize">{validatedAddress.blockchain}</p>
-              </div>
-              <Separator className="mx-4 w-9/10" />
-              <p className="text-xs p-4 pt-3">{validatedAddress.abbreviatedAddress}</p>
-            </div>
+                  <p className="text-xs ml-4 capitalize">{validatedAddress.blockchain}</p>
+                </div>
+                <Separator className="mx-4 w-9/10" />
+                <p className="text-xs p-4 pt-3">{validatedAddress.abbreviatedAddress}</p>
+              </li>
+            ))}
+          </ul>
 
-            <div className="flex justify-center w-full">
-              <Button
-                className="mt-8 absolute bottom-10 w-full px-5"
-                type="submit"
-                label={t('buttonAdd')}
-                leftIcon={<MdAdd />}
-                loading={isLoading}
-                flat
-              />
-            </div>
+          <div className="flex justify-center w-full">
+            <Button
+              className="mt-8 w-full px-5"
+              type="submit"
+              label={t('buttonAdd')}
+              leftIcon={<MdAdd />}
+              loading={isLoading}
+              flat
+            />
           </div>
-        )}
+        </div>
       </form>
     </SideModalLayout>
   )
