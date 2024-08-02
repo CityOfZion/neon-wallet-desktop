@@ -22,13 +22,13 @@ export function registerLedgerHandler() {
     return transporters.map(({ address, publicKey, blockchain }) => ({ address, publicKey, blockchain }))
   })
 
-  mainApi.listenSync('startLedger', () => {
+  mainApi.listenAsync('startLedger', () => {
     if (started) return
     started = true
 
     NodeHidTransportFixed.listen({
-      complete: () => {},
-      error: () => {},
+      complete: () => { },
+      error: () => { },
       next: async event => {
         if (event.type === 'add') {
           const transport = await NodeHidTransportFixed.open(event.descriptor)

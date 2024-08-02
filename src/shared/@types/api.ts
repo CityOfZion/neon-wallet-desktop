@@ -6,7 +6,6 @@ import { TGetStoreFromWCSession, TIpcMainAsyncListener, TIpcMainSyncListener, TL
 export type TMainApiListenersSync = {
   restore: TIpcMainSyncListener<undefined, void>
   sendStoreFromWC: TIpcMainSyncListener<TGetStoreFromWCSession>
-  startLedger: TIpcMainSyncListener<undefined, void>
   encryptBasedEncryptedSecretSync: TIpcMainSyncListener<{ value: string; encryptedSecret?: string }, string>
   decryptBasedEncryptedSecretSync: TIpcMainSyncListener<{ value: string; encryptedSecret?: string }, string>
 }
@@ -17,6 +16,7 @@ export type TMainApiListenersAsync = {
   saveFile: TIpcMainAsyncListener<{ path: string; content: string }, void>
   setTitleBarOverlay: TIpcMainAsyncListener<Electron.TitleBarOverlay, void>
   setWindowButtonPosition: TIpcMainAsyncListener<Electron.Point, void>
+  startLedger: TIpcMainAsyncListener<undefined, void>
   checkForUpdates: TIpcMainAsyncListener<undefined, void>
   quitAndInstall: TIpcMainAsyncListener<undefined, void>
   getConnectedLedgers: TIpcMainAsyncListener<undefined, TLedgerInfo[]>

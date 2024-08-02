@@ -72,7 +72,7 @@ const useRegisterLedgerListeners = () => {
       ToastHelper.dismiss('ledger-request-permission')
     })
 
-    window.api.sendSync('startLedger')
+    window.api.sendAsync('startLedger')
 
     return () => {
       removeLedgerConnectedListener()
