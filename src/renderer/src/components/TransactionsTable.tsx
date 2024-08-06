@@ -51,7 +51,10 @@ export const TransactionsTable = forwardRef<HTMLDivElement, TTransactionListProp
             ]
           : []),
         columnHelper.accessor('time', {
-          cell: info => format(info.getValue() * 1000, 'MM/dd/yyyy HH:mm:ss'),
+          cell: info => {
+            const multi = info.row.original.account.blockchain === 'ethereum' ? 1 : 1000
+            return format(info.getValue() * multi, 'MM/dd/yyyy HH:mm:ss')
+          },
           header: t('components:transactionsTable.date'),
         }),
         columnHelper.accessor('token.name', {
