@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { regexGood, regexStrong } from '@renderer/constants/passwordStrenght'
+import { regexGood, regexStrong } from '@renderer/constants/password'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 type TProps = {

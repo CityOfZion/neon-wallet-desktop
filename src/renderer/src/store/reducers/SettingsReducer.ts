@@ -29,6 +29,10 @@ const setEncryptedPassword: CaseReducer<ISettingsState, PayloadAction<string | u
   state.encryptedPassword = action.payload
 }
 
+const setEncryptedLoginControl: CaseReducer<ISettingsState, PayloadAction<string | undefined>> = (state, action) => {
+  state.encryptedLoginControl = action.payload
+}
+
 const setIsFirstTime: CaseReducer<ISettingsState, PayloadAction<boolean>> = (state, action) => {
   state.isFirstTime = action.payload
 }
@@ -169,6 +173,7 @@ const SettingsReducer = createSlice({
     deleteNetworkProfile,
     setSelectNetworkProfile,
     unlockSkin,
+    setEncryptedLoginControl,
   },
 })
 

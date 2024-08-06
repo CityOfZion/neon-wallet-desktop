@@ -7,6 +7,7 @@ import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
+import { useEncryptedPasswordActions } from '@renderer/hooks/useSettingsSelector'
 import { contactReducerActions } from '@renderer/store/reducers/ContactReducer'
 import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
 import { TAccountsToImport, TWalletToCreate } from '@shared/@types/blockchain'
@@ -26,6 +27,7 @@ export const WelcomeImportWalletStep4Page = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const { createWallet, importAccounts } = useBlockchainActions()
+  const { setEncryptedPassword } = useEncryptedPasswordActions()
 
   const isImporting = useRef(false)
 
@@ -35,9 +37,7 @@ export const WelcomeImportWalletStep4Page = () => {
     try {
       const progressByStep = 100 / state.wallets.length + 3
 
-      const encryptedPassword = await window.api.sendAsync('encryptBasedOS', state.password)
-      dispatch(settingsReducerActions.setEncryptedPassword(encryptedPassword))
-      dispatch(settingsReducerActions.setSecurityType('password'))
+      await setEncryptedPassword(state.password)
 
       setProgress(progress => progress + progressByStep)
 
