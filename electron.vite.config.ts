@@ -6,6 +6,11 @@ import svgr from 'vite-plugin-svgr'
 
 export default defineConfig({
   main: {
+    build: {
+      rollupOptions: {
+        external: ['node-hid', 'usb'],
+      },
+    },
     resolve: {
       alias: {
         '@shared': resolve('src/shared'),
@@ -14,6 +19,11 @@ export default defineConfig({
     plugins: [externalizeDepsPlugin()],
   },
   preload: {
+    build: {
+      rollupOptions: {
+        external: ['node-hid', 'usb'],
+      },
+    },
     resolve: {
       alias: {
         '@shared': resolve('src/shared'),
@@ -22,6 +32,11 @@ export default defineConfig({
     plugins: [externalizeDepsPlugin()],
   },
   renderer: {
+    build: {
+      rollupOptions: {
+        external: ['node-hid', 'usb'],
+      },
+    },
     resolve: {
       alias: {
         '@renderer': resolve('src/renderer/src'),

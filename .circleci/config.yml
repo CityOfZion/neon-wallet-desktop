@@ -58,8 +58,7 @@ jobs:
 
   build_macos:
     macos:
-      xcode: "15.2.0"
-    resource_class: macos.m1.medium.gen1
+      xcode: '15.2.0'
     steps:
       - checkout
       - node/install:
@@ -73,7 +72,7 @@ jobs:
   build_win:
     executor:
       name: win/default
-      size: "medium"
+      size: 'medium'
     steps:
       - checkout
       - run: npm ci --timeout 1500000
