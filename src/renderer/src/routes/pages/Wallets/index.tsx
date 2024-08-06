@@ -140,7 +140,7 @@ export const WalletsPage = () => {
             )}
           </section>
 
-          <section className="bg-gray-800 w-full h-full flex rounded flex-grow flex-col">
+          <section className="bg-gray-800 w-full h-full flex rounded flex-grow flex-col min-w-0">
             <header className="w-full h-12 items-center flex justify-between px-5">
               <div className="flex items-center gap-2 text-sm">
                 <h1 className="text-white pr-3 ">{selectedAccount.name}</h1>

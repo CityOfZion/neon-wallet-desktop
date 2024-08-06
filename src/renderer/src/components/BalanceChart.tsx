@@ -6,6 +6,8 @@ import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 import { TTokenBalance, TUseBalancesResult } from '@shared/@types/query'
 
+import { Tooltip } from './Tooltip'
+
 type TProps = {
   balances: TUseBalancesResult
   sortedBalances: TTokenBalance[]
@@ -81,23 +83,26 @@ export const BalanceChart = ({ balances, sortedBalances, className }: TProps) =>
               }}
             >
               <div
-                className="h-2 w-full rounded-full drop-shadow-lg bg-white"
+                className="h-2 rounded-full drop-shadow-lg bg-white"
                 style={{
                   backgroundImage: `linear-gradient(0deg, ${bar.color} 0%, ${bar.color}80 100%)`,
                 }}
               ></div>
-              <div className="flex items-start mt-5">
+
+              <div className="flex items-start mt-5 gap-2 min-w-0">
                 <div
                   className="w-2 min-w-[0.5rem] h-2 rounded-full mt-1"
                   style={{
                     backgroundColor: bar.color,
                   }}
                 ></div>
-                <div className="flex flex-col pl-2 min-w-0">
-                  <span className="text-white text-xs font-normal truncate">{bar.name}</span>
-                  <span className="text-gray-300 text-sm">{bar.value}</span>
-                </div>
+
+                <span className="text-white text-xs font-normal truncate min-w-0">{bar.name}</span>
               </div>
+
+              <Tooltip title={bar.value}>
+                <span className="text-gray-300 text-sm truncate max-w-fit">{bar.value}</span>
+              </Tooltip>
             </li>
           ))}
         </ul>
