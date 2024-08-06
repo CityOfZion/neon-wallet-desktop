@@ -77,7 +77,7 @@ export const useImportAction = (
 
       const fixedText = data.text
         .trim()
-        .replace(/[^a-zA-Z ]/g, '') // Remove all non-alphabetic characters except spaces
+        .replace(/[^a-zA-Z0-9 ]/g, '') // Remove all special characters except spaces
         .toLowerCase()
 
       await submitByInputType[data.inputType](fixedText, data.inputType)
