@@ -227,7 +227,7 @@ interface Resources {
       addressAlreadyExist: 'Address already exists'
       successEncryptKey: 'Encrypted key successfully imported!'
     }
-    addWatch: {
+    importWatchAccounts: {
       title: 'Add a watch account'
       description: "Enter the address that you'd like to watch:"
       inputPlaceholder: 'Please ender an address'

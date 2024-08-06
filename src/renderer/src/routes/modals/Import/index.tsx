@@ -67,7 +67,7 @@ export const ImportModal = () => {
   }
 
   const submitAddress = async (address: string) => {
-    modalNavigate('add-watch', { state: { address } })
+    modalNavigate('import-watch-accounts', { state: { address } })
   }
 
   const { actionData, actionState, handleAct, handleChange, handleSubmit } = useImportAction({

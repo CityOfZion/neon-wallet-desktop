@@ -2,6 +2,7 @@ import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdAdd } from 'react-icons/md'
 import { TbEyePlus } from 'react-icons/tb'
+import { useNavigate } from 'react-router-dom'
 import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
@@ -15,7 +16,7 @@ import { IWalletState } from '@shared/@types/store'
 
 import { BlockchainIcon } from '../../../components/BlockchainIcon'
 
-type TAddWatchState = {
+type TState = {
   address?: string
   onAddWallet?: (wallet: IWalletState) => void
 }
@@ -26,12 +27,13 @@ type TValidatedAddress = {
   blockchain: TBlockchainServiceKey
 }
 
-export const AddWatch = () => {
+export const ImportWatchAccountsModal = () => {
   const { modalNavigate } = useModalNavigate()
   const blockchainActions = useBlockchainActions()
-  const { t } = useTranslation('modals', { keyPrefix: 'addWatch' })
+  const { t } = useTranslation('modals', { keyPrefix: 'importWatchAccounts' })
   const { t: commomT } = useTranslation('common', { keyPrefix: 'wallet' })
-  const { onAddWallet, address: addressModalState } = useModalState<TAddWatchState>()
+  const { onAddWallet, address: addressModalState } = useModalState<TState>()
+  const navigate = useNavigate()
 
   const [address, setAddress] = useState<string>('')
   const [validatedAddresses, setValidatedAddresses] = useState<TValidatedAddress[]>([])
@@ -58,11 +60,14 @@ export const AddWatch = () => {
         type: 'watch',
       }))
 
-      blockchainActions.importAccounts({ wallet, accounts: accountsToImport })
+      const accounts = await blockchainActions.importAccounts({ wallet, accounts: accountsToImport })
 
-      onAddWallet?.(wallet)
-
-      modalNavigate(-2)
+      if (onAddWallet) {
+        onAddWallet(wallet)
+      } else {
+        modalNavigate(-2)
+        navigate(`/app/wallets/${accounts[0].id}/overview`)
+      }
     } catch (error: any) {
       setError(error.message)
     } finally {
