@@ -4,6 +4,7 @@ import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { TTokenBalance, TUseBalancesResult } from '@shared/@types/query'
 import { IAccountState } from '@shared/@types/store'
+import { cloneDeep } from 'lodash'
 
 import { BalanceChart } from './BalanceChart'
 import { ChartCardList } from './ChartCardList'
@@ -42,7 +43,7 @@ export const OverviewCharts = ({
         return
       }
 
-      map.set(balance.token.hash, balance)
+      map.set(balance.token.hash, cloneDeep(balance))
     })
 
     const tokenBalancesSorted = Array.from(map.values()).sort(
