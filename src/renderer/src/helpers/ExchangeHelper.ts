@@ -1,5 +1,5 @@
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { TMultiExchange } from '@shared/@types/query'
+import { TExchange } from '@shared/@types/query'
 
 import { UtilsHelper } from './UtilsHelper'
 
@@ -7,7 +7,9 @@ export class ExchangeHelper {
   static getExchangeConvertedPrice(
     hash: string,
     blockchain: TBlockchainServiceKey,
-    multiExchange?: TMultiExchange
+    multiExchange?: {
+      [x: string]: Map<string, TExchange | undefined>
+    }
   ): number {
     if (!multiExchange) return 0
 

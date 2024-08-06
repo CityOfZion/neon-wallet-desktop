@@ -1,97 +1,90 @@
-import { useMemo } from 'react'
 import { ExchangeHelper } from '@renderer/helpers/ExchangeHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { bsAggregator } from '@renderer/libs/blockchainService'
-import { TFetchBalanceResponse, TTokenBalance, TUseBalancesParams, TUseBalancesResult } from '@shared/@types/query'
-import { useQueries } from '@tanstack/react-query'
+import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
+import { TBalance, TTokenBalance, TUseBalancesParams, TUseBalancesResult } from '@shared/@types/query'
+import { QueryClient, useQueries, useQueryClient } from '@tanstack/react-query'
 
-import { useExchange } from './useExchange'
+import { useCurrencyRatio } from './useCurrencyRatio'
+import { fetchExchange } from './useExchange'
 import { useSelectedNetworkByBlockchainSelector } from './useSettingsSelector'
 
-const fetchBalance = async (param: TUseBalancesParams): Promise<TFetchBalanceResponse> => {
+const fetchBalance = async (
+  param: TUseBalancesParams,
+  network: TNetwork<TBlockchainServiceKey>,
+  queryClient: QueryClient,
+  currencyRatio: number
+): Promise<TBalance> => {
   try {
     const service = bsAggregator.blockchainServicesByName[param.blockchain]
     const balance = await service.blockchainDataService.getBalance(param.address)
 
+    const tokens = balance.map(balance => balance.token)
+    const exchange = await fetchExchange(param.blockchain, tokens, network, queryClient, currencyRatio)
+
+    const tokensBalances: TTokenBalance[] = []
+    let exchangeTotal = 0
+
+    await Promise.allSettled(
+      balance.map(async balance => {
+        const exchangeConvertedPrice = ExchangeHelper.getExchangeConvertedPrice(
+          balance.token.hash,
+          param.blockchain,
+          exchange
+        )
+        const amountNumber = NumberHelper.number(balance.amount)
+        const exchangeAmount = amountNumber * exchangeConvertedPrice
+
+        exchangeTotal += exchangeAmount
+        tokensBalances.push({
+          ...balance,
+          blockchain: param.blockchain,
+          amount: balance.amount,
+          amountNumber,
+          exchangeAmount,
+          exchangeConvertedPrice,
+        })
+      })
+    )
+
     return {
       address: param.address,
-      balance,
-      blockchain: param.blockchain,
+      tokensBalances,
+      exchangeTotal,
     }
   } catch {
     return {
       address: param.address,
-      balance: [],
-      blockchain: param.blockchain,
+      tokensBalances: [],
+      exchangeTotal: 0,
     }
   }
 }
 
 export function useBalances(params: TUseBalancesParams[]): TUseBalancesResult {
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
+  const queryClient = useQueryClient()
+  const currencyRatioQuery = useCurrencyRatio()
 
   const balanceQueries = useQueries({
-    queries: params.map(param => ({
-      queryKey: ['balance', param.address, param.blockchain, networkByBlockchain[param.blockchain].id],
-      queryFn: fetchBalance.bind(null, param),
-    })),
-    combine: results => {
-      const data = results.map(result => result.data).filter(data => data !== undefined) as TFetchBalanceResponse[]
-
-      return {
-        data,
-        exchangeParam: data.map(item => ({
-          blockchain: item.blockchain,
-          tokens: item.balance.map(balance => balance.token),
-        })),
-        isLoading: results.some(result => result.isLoading),
-      }
-    },
+    queries: currencyRatioQuery
+      ? params.map(param => ({
+          queryKey: ['balance', param.address, param.blockchain, networkByBlockchain[param.blockchain].id],
+          queryFn: fetchBalance.bind(
+            null,
+            param,
+            networkByBlockchain[param.blockchain],
+            queryClient,
+            currencyRatioQuery.data ?? 1
+          ),
+        }))
+      : [],
+    combine: results => ({
+      data: results.map(result => result.data).filter((balance): balance is TBalance => !!balance),
+      isLoading: currencyRatioQuery.isLoading || results.some(result => result.isLoading),
+      exchangeTotal: results.reduce((acc, result) => acc + (result.data?.exchangeTotal ?? 0), 0),
+    }),
   })
 
-  const exchangeQuery = useExchange(balanceQueries.isLoading ? [] : balanceQueries.exchangeParam)
-
-  const data = useMemo(() => {
-    const result: TUseBalancesResult = {
-      data: [],
-      exchangeTotal: 0,
-      isLoading: balanceQueries.isLoading || exchangeQuery.isLoading,
-    }
-
-    if (result.isLoading) return result
-
-    balanceQueries.data.forEach(queryData => {
-      const tokensBalances: TTokenBalance[] = []
-      let exchangeTotal = 0
-
-      for (const balance of queryData.balance) {
-        const exchangeConvertedPrice = ExchangeHelper.getExchangeConvertedPrice(
-          balance.token.hash,
-          queryData.blockchain,
-          exchangeQuery.data
-        )
-
-        const amountNumber = NumberHelper.number(balance.amount)
-        const exchangeAmount = amountNumber * exchangeConvertedPrice
-
-        exchangeTotal += exchangeAmount
-
-        tokensBalances.push({
-          ...balance,
-          blockchain: queryData.blockchain,
-          amount: balance.amount,
-          amountNumber,
-          exchangeAmount,
-          exchangeConvertedPrice,
-        })
-      }
-
-      result.data.push({ address: queryData.address, tokensBalances, exchangeTotal })
-      result.exchangeTotal += exchangeTotal
-    })
-
-    return result
-  }, [balanceQueries.data, balanceQueries.isLoading, exchangeQuery.data, exchangeQuery.isLoading])
-
-  return data
+  return balanceQueries
 }

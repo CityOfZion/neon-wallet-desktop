@@ -19,11 +19,6 @@ export type TUseCurrencyRatioResult = {
   isLoading: boolean
 }
 
-export type TFetchBalanceResponse = {
-  blockchain: TBlockchainServiceKey
-  balance: BalanceResponse[]
-  address: string
-}
 export type TTokenBalance = BalanceResponse & {
   blockchain: TBlockchainServiceKey
   amountNumber: number
