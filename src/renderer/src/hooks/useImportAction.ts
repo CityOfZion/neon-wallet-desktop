@@ -29,7 +29,7 @@ export const useImportAction = (
   }
 
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    const value = event.target.value.trim()
+    const value = event.target.value
     setData({ text: value, inputType: undefined })
 
     try {
@@ -75,7 +75,12 @@ export const useImportAction = (
         throw new Error(t('errors.invalid'))
       }
 
-      await submitByInputType[data.inputType](data.text, data.inputType)
+      const fixedText = data.text
+        .trim()
+        .replace(/[^a-zA-Z ]/g, '') // Remove all non-alphabetic characters except spaces
+        .toLowerCase()
+
+      await submitByInputType[data.inputType](fixedText, data.inputType)
     } catch (error: any) {
       setError('text', error.message)
     } finally {
