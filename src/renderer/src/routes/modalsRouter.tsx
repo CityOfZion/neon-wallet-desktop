@@ -3,7 +3,6 @@ import { TRoute } from '@shared/@types/modal'
 import { AddAddressModal } from './modals/AddAddress'
 import { AddCustomNetwork } from './modals/AddCustomNetwork'
 import { AddNetworkProfileModal } from './modals/AddNetworkProfile'
-import { AddWatch } from './modals/AddWatch'
 import { AutoUpdateCompleted } from './modals/AutoUpdate/AutoUpdateCompleted'
 import { AutoUpdateMobile } from './modals/AutoUpdate/AutoUpdateMobile'
 import { AutoUpdateNotes } from './modals/AutoUpdate/AutoUpdateNotes'
@@ -28,6 +27,7 @@ import { ErrorModal } from './modals/Error'
 import { ImportModal } from './modals/Import'
 import { ImportKeyAccountsSelectionModal } from './modals/Import/ImportKeyAccountsSelectionModal'
 import { ImportMnemonicAccountsSelectionModal } from './modals/Import/ImportMnemonicAccountsSelectionModal'
+import { ImportWatchAccountsModal } from './modals/Import/ImportWatchAccountsModal'
 import { InputAmount } from './modals/InputAmount'
 import { MigrateAccountsStep2Modal } from './modals/MigrateAccounts/MigrateAccountsStep2'
 import { MigrateAccountsStep3Modal } from './modals/MigrateAccounts/MigrateAccountsStep3'
@@ -47,8 +47,8 @@ export const modalsRouter: TRoute[] = [
   { name: 'import', type: 'side', element: <ImportModal /> },
   { name: 'import-mnemonic-accounts-selection', type: 'side', element: <ImportMnemonicAccountsSelectionModal /> },
   { name: 'import-key-accounts-selection', type: 'side', element: <ImportKeyAccountsSelectionModal /> },
+  { name: 'import-watch-accounts', type: 'side', element: <ImportWatchAccountsModal /> },
   { name: 'confirm-password-backup', type: 'side', element: <ConfirmPasswordBackupModal /> },
-  { name: 'add-watch', type: 'side', element: <AddWatch /> },
   { name: 'edit-wallet', type: 'side', element: <EditWalletModal /> },
   { name: 'confirm-password-recover', type: 'side', element: <ConfirmPasswordRecoverModal /> },
   { name: 'persist-account', type: 'side', element: <PersistAccountModal /> },
