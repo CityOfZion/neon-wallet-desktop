@@ -29,21 +29,26 @@ export const OverviewCharts = ({
   const sortedBalances = useMemo(() => {
     const tokensBalances = balances.data.map(balance => balance.tokensBalances).flat()
 
-    return tokensBalances
-      .filter(balance => balance.exchangeAmount > 0)
-      .reduce((acc, balance) => {
-        const repeated = acc.find(item => item.token.hash === balance.token.hash)
-        if (repeated) {
-          repeated.amountNumber += balance.amountNumber
-          repeated.exchangeAmount += balance.exchangeAmount
-          repeated.amount = NumberHelper.removeLeadingZero(repeated.amountNumber.toFixed(repeated.token.decimals))
-          return acc
-        }
+    const map = new Map<string, TTokenBalance>()
 
-        acc.push(balance)
-        return acc
-      }, [] as TTokenBalance[])
-      .sort((token1, token2) => token2.exchangeAmount - token1.exchangeAmount)
+    tokensBalances.forEach(balance => {
+      if (balance.exchangeAmount <= 0) return
+
+      const repeated = map.get(balance.token.hash)
+      if (repeated) {
+        repeated.amountNumber += balance.amountNumber
+        repeated.exchangeAmount += balance.exchangeAmount
+        repeated.amount = NumberHelper.removeLeadingZero(repeated.amountNumber.toFixed(repeated.token.decimals))
+        return
+      }
+
+      map.set(balance.token.hash, balance)
+    })
+
+    const tokenBalancesSorted = Array.from(map.values()).sort(
+      (token1, token2) => token2.exchangeAmount - token1.exchangeAmount
+    )
+    return tokenBalancesSorted
   }, [balances])
 
   return (

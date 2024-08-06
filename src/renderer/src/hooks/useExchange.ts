@@ -4,7 +4,6 @@ import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
 import { TExchange, TMultiExchange, TUseExchangeParams, TUseExchangeResult } from '@shared/@types/query'
-import { TSelectedNetworks } from '@shared/@types/store'
 import { Query, QueryClient, useQueries, useQueryClient } from '@tanstack/react-query'
 import lodash from 'lodash'
 
@@ -22,17 +21,17 @@ function buildExchangeByBlockchainQueryKey(
   return ['exchange-by-blockchain', blockchain, network.id]
 }
 
-async function fetchExchange(
+export async function fetchExchange(
   blockchain: TBlockchainServiceKey,
   tokens: Token[],
-  networkByBlockchain: TSelectedNetworks,
+  network: TNetwork<TBlockchainServiceKey>,
   queryClient: QueryClient,
   currencyRatio: number
 ) {
   const queryCache = queryClient.getQueryCache()
 
   const tokensToFetch = tokens.filter(token => {
-    const queryKey = buildQueryKey(blockchain, networkByBlockchain[blockchain], token)
+    const queryKey = buildQueryKey(blockchain, network, token)
 
     const query = queryCache.find({ queryKey, exact: true, stale: false }) as Query<TExchange> | undefined
 
@@ -61,14 +60,14 @@ async function fetchExchange(
       convertedPrice: (tokenPrice?.usdPrice ?? 0) * currencyRatio,
     }
 
-    const queryKey = buildQueryKey(blockchain, networkByBlockchain[blockchain], token)
+    const queryKey = buildQueryKey(blockchain, network, token)
     const defaultedOptions = queryClient.defaultQueryOptions({ queryKey })
 
     queryCache.build(queryClient, defaultedOptions).setData(queryData, { manual: true })
   })
 
   const allQueries = queryCache.findAll({
-    queryKey: ['exchange', blockchain, networkByBlockchain[blockchain].id],
+    queryKey: ['exchange', blockchain, network.id],
   }) as Query<TExchange>[]
 
   const result = {
@@ -116,7 +115,7 @@ export function useExchange(params: TUseExchangeParams[]): TUseExchangeResult {
               null,
               blockchain as TBlockchainServiceKey,
               tokens,
-              networkByBlockchain,
+              networkByBlockchain[blockchain],
               queryClient,
               currencyRatioQuery.data ?? 1
             ),
