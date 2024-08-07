@@ -25,7 +25,7 @@ nsis:
   allowToChangeInstallationDirectory: true
 afterSign: electron-builder-notarize
 mac:
-  artifactName: NeonWallet-${version}.${ext}
+  artifactName: NeonWallet-${version}-${arch}.${ext}
   hardenedRuntime: true
   entitlements: build/entitlements.mac.plist
   entitlementsInherit: build/entitlements.mac.plist
