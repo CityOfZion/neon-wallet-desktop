@@ -205,6 +205,10 @@ interface Resources {
         selectSourceAccount: 'Select account'
       }
     }
+    useLogin: {
+      controlIsNotSet: 'Unexpected error. Login control is not set.'
+      controlIsNotValid: 'Unexpected error. Login control is not valid.'
+    }
   }
   modals: {
     import: {

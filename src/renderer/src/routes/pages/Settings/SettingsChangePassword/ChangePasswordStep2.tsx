@@ -4,10 +4,9 @@ import { Location, useLocation, useNavigate } from 'react-router-dom'
 import { ButtonDownloadPasswordQRCode } from '@renderer/components/ButtonDownloadPasswordQRCode'
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
-import { useEncryptedPasswordSelector } from '@renderer/hooks/useSettingsSelector'
+import { useEncryptedPasswordActions, useEncryptedPasswordSelector } from '@renderer/hooks/useSettingsSelector'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
 import { accountReducerActions } from '@renderer/store/reducers/AccountReducer'
-import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
 import { walletReducerActions } from '@renderer/store/reducers/WalletReducer'
 
 type TLocationState = {
@@ -22,6 +21,7 @@ export const ChangePasswordStep2 = (): JSX.Element => {
   const dispatch = useAppDispatch()
   const { state } = useLocation() as Location<TLocationState>
   const navigate = useNavigate()
+  const { setEncryptedPassword } = useEncryptedPasswordActions()
 
   const onDownload = async () => {
     const walletPromises = wallets.map(async wallet => {
@@ -55,7 +55,8 @@ export const ChangePasswordStep2 = (): JSX.Element => {
 
     dispatch(accountReducerActions.replaceAllAccounts(newAccounts))
     dispatch(walletReducerActions.replaceAllWallets(newWallets))
-    dispatch(settingsReducerActions.setEncryptedPassword(state.encryptedNewPassword))
+
+    await setEncryptedPassword(state.encryptedNewPassword, true)
 
     navigate('/app/settings/security/change-password/step-3')
   }

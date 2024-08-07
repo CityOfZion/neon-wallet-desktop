@@ -64,6 +64,7 @@ export interface ISettingsState {
   networkProfiles: TNetworkProfile[]
   selectedNetworkProfile: TNetworkProfile
   unlockedSkinIds: string[]
+  encryptedLoginControl?: string
 }
 
 export type TContactAddress = { address: string; blockchain: TBlockchainServiceKey }

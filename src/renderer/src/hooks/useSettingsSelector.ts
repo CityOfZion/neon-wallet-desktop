@@ -1,5 +1,6 @@
 import { useCallback } from 'react'
 import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
+import { LOGIN_CONTROL_VALUE } from '@renderer/constants/password'
 import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
 import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
 import { TSelectedNetworks } from '@shared/@types/store'
@@ -94,5 +95,37 @@ export const useUnlockedSkinIdsSelector = () => {
   return {
     unlockedSkinIds: value,
     unlockedSkinIdsRef: ref,
+  }
+}
+
+export const useLoginControlSelector = () => {
+  const { ref, value } = useAppSelector(state => state.settings.encryptedLoginControl)
+  return {
+    encryptedLoginControl: value,
+    encryptedLoginControlRef: ref,
+  }
+}
+
+export const useEncryptedPasswordActions = () => {
+  const dispatch = useAppDispatch()
+
+  const setEncryptedPassword = useCallback(
+    async (password: string, isAlreadyEncrypted?: boolean) => {
+      const encryptedPassword = isAlreadyEncrypted ? password : await window.api.sendAsync('encryptBasedOS', password)
+
+      const encryptedLoginControl = await window.api.sendAsync('encryptBasedEncryptedSecret', {
+        value: LOGIN_CONTROL_VALUE,
+        encryptedSecret: encryptedPassword,
+      })
+
+      dispatch(settingsReducerActions.setEncryptedPassword(encryptedPassword))
+      dispatch(settingsReducerActions.setEncryptedLoginControl(encryptedLoginControl))
+      dispatch(settingsReducerActions.setSecurityType('password'))
+    },
+    [dispatch]
+  )
+
+  return {
+    setEncryptedPassword,
   }
 }

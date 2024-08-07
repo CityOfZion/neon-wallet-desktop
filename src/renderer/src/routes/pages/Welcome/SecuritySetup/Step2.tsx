@@ -7,6 +7,7 @@ import { Input } from '@renderer/components/Input'
 import { useActions } from '@renderer/hooks/useActions'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
+import { useEncryptedPasswordActions } from '@renderer/hooks/useSettingsSelector'
 import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
 
 type TFormData = {
@@ -28,6 +29,7 @@ export const WelcomeSecuritySetupStep2Page = ({ onSubmit }: TProps) => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const { createWallet, createAccount } = useBlockchainActions()
+  const { setEncryptedPassword } = useEncryptedPasswordActions()
 
   const { actionData, actionState, handleAct, setData, setError } = useActions<TFormData>({
     confirmPassword: '',
@@ -48,9 +50,7 @@ export const WelcomeSecuritySetupStep2Page = ({ onSubmit }: TProps) => {
       return
     }
 
-    const encryptedPassword = await window.api.sendAsync('encryptBasedOS', data.confirmPassword)
-    dispatch(settingsReducerActions.setEncryptedPassword(encryptedPassword))
-    dispatch(settingsReducerActions.setSecurityType('password'))
+    await setEncryptedPassword(data.confirmPassword)
 
     const words = generateMnemonic()
 
