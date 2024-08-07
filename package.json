@@ -1,5 +1,5 @@
 {
-  "name": "Neon3",
+  "name": "neon",
   "version": "3.0.39",
   "description": "Light wallet for NEO blockchain",
   "homepage": "https://github.com/CityOfZion/neon-wallet-desktop",
@@ -20,6 +20,7 @@
     "create-release:patch": "node scripts/create-release.js patch",
     "create-release:minor": "node scripts/create-release.js minor",
     "create-release:major": "node scripts/create-release.js major",
+    "generate-checksums": "node scripts/generate-checksums.js",
     "prepare": "husky install",
     "i18next:interfaces": "i18next-resources-for-ts interface -i src/renderer/src/locales/en -o src/shared/@types/i18next-resources.d.ts"
   },
