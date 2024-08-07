@@ -36,6 +36,34 @@ function downloadBuilds() {
   }
 }
 
+function getCurrentReleaseNotes() {
+  try {
+    console.log('Getting current release notes...')
+
+    let notes = ''
+
+    const actualRelease = execSync(`gh release view v${version} --repo cityofzion/neon-wallet-desktop --json body`)
+    if (actualRelease) {
+      const actualReleaseJson = JSON.parse(actualRelease.toString('utf-8'))
+      if (actualReleaseJson.body) {
+        notes = actualReleaseJson.body
+      }
+    }
+
+    return notes
+  } catch (error) {
+    console.error(`Error to get current release notes: \nError: ${error}\n`)
+    process.exit(1)
+  }
+}
+
+function verifyIfChecksumsAlreadyExists(currentReleaseNotes = '') {
+  if (currentReleaseNotes.includes('## **Build checksums:**')) {
+    console.log('Checksums already exists in release notes!')
+    process.exit(0)
+  }
+}
+
 function generateChecksums() {
   try {
     console.log('Generating checksums...')
@@ -70,19 +98,11 @@ function generateChecksums() {
   }
 }
 
-function uploadChecksums(checksums) {
+function uploadChecksums(checksums = '', currentReleaseNotes = '') {
   try {
     console.log('Uploading checksums to GitHub...')
 
-    const actualRelease = execSync(
-      `gh release view v${packageJson.version} --repo cityofzion/neon-wallet-desktop --json body`
-    )
-    if (actualRelease) {
-      const actualReleaseJson = JSON.parse(actualRelease.toString('utf-8'))
-      if (actualReleaseJson.body) {
-        checksums = actualReleaseJson.body + '\n\n\n' + checksums
-      }
-    }
+    checksums = currentReleaseNotes + '\n\n\n' + checksums
 
     execSync(`gh release edit v${version} --notes '${checksums}' --repo cityofzion/neon-wallet-desktop`)
     console.log('Checksums uploaded successfully!')
@@ -93,5 +113,7 @@ function uploadChecksums(checksums) {
 }
 
 downloadBuilds()
+const currentReleaseNotes = getCurrentReleaseNotes()
+verifyIfChecksumsAlreadyExists(currentReleaseNotes)
 const checksums = generateChecksums()
-uploadChecksums(checksums)
+uploadChecksums(checksums, currentReleaseNotes)
