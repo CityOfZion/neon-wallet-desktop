@@ -194,7 +194,7 @@ export const WalletsPage = () => {
                   )}
               </ul>
 
-              <Outlet context={{ account: selectedAccount }} />
+              <Outlet context={{ account: selectedAccount }} key={selectedAccount.id} />
             </div>
           </section>
         </Fragment>
