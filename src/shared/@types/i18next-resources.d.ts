@@ -193,6 +193,7 @@ interface Resources {
       neon3BackupFileDetected: 'NEON3 backup file detected'
       neon2MigrateFileDetected: 'NEON2 migrate file detected'
       error: 'File not recognised'
+      defaultLabel: 'Migrated account'
     }
     useLedgerFlow: {
       ledgerConnected: '{{blockchain}} ledger connected.\n{{address}}'

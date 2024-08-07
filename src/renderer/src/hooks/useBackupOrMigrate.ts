@@ -3,6 +3,7 @@ import { hasNameService } from '@cityofzion/blockchain-service'
 import { BACKUP_FILE_EXTENSION } from '@renderer/constants/backup'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { bsAggregator } from '@renderer/libs/blockchainService'
+import { getI18next } from '@renderer/libs/i18next'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import zod from 'zod'
 
@@ -17,10 +18,12 @@ export type TUseBackupOrMigrateActionsData = {
   type?: 'backup' | 'migrate'
 }
 
+const { t } = getI18next()
+
 const migrateAccountsSchema = zod
   .object({
     address: zod.string(),
-    label: zod.string(),
+    label: zod.string().nullish(),
     isDefault: zod.boolean(),
     lock: zod.boolean(),
     key: zod.string(),
@@ -29,6 +32,8 @@ const migrateAccountsSchema = zod
   })
   .transform(data => {
     const blockchain = bsAggregator.getBlockchainNameByAddress(data.address)[0] as TBlockchainServiceKey | undefined
+    data.label = data.label || t('hooks:useBackupOrMigrate.defaultLabel')
+
     return {
       ...data,
       blockchain,
@@ -99,6 +104,7 @@ export const useBackupOrMigrate = () => {
     }
 
     setError('path', t('error'))
+    ToastHelper.error({ message: t('error'), id: 'file-backup-or-migrate-error' })
   }
 
   return {
