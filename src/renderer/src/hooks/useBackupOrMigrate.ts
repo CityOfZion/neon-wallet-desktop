@@ -9,7 +9,16 @@ import zod from 'zod'
 
 import { useActions } from './useActions'
 
-export type TMigrateAccountsSchema = zod.infer<typeof migrateAccountsSchema>
+export type TMigrateAccountsSchema = {
+  address: string
+  label: string
+  key: string
+  blockchain: TBlockchainServiceKey
+}
+export type TMigrateContactsSchema = {
+  addresses: { address: string; blockchain: TBlockchainServiceKey }[]
+  name: string
+}
 export type TMigrateSchema = zod.infer<typeof migrateSchema>
 
 export type TUseBackupOrMigrateActionsData = {
@@ -20,50 +29,64 @@ export type TUseBackupOrMigrateActionsData = {
 
 const { t } = getI18next()
 
-const migrateAccountsSchema = zod
+const migrateAccountsSchema = zod.object({
+  address: zod.string().nullish(),
+  label: zod.string().nullish(),
+  key: zod.string().nullish(),
+})
+
+const migrateContactsSchema = zod.object({ name: zod.string().nullish(), addresses: zod.array(zod.string()).nullish() })
+
+const migrateSchema = zod
   .object({
-    address: zod.string(),
-    label: zod.string().nullish(),
-    isDefault: zod.boolean(),
-    lock: zod.boolean(),
-    key: zod.string(),
-    contract: zod.any(),
-    extra: zod.any(),
+    accounts: zod.array(migrateAccountsSchema),
+    contacts: zod.array(migrateContactsSchema),
   })
   .transform(data => {
-    const blockchain = bsAggregator.getBlockchainNameByAddress(data.address)[0] as TBlockchainServiceKey | undefined
-    data.label = data.label || t('hooks:useBackupOrMigrate.defaultLabel')
+    const transformedAccounts: TMigrateAccountsSchema[] = []
+    data.accounts.forEach(account => {
+      if (!account.address || !account.key) return
+      if (
+        transformedAccounts.some(
+          transformedAccount => transformedAccount.address === account.address || transformedAccount.key === account.key
+        )
+      )
+        return
+
+      const [blockchain] = bsAggregator.getBlockchainNameByAddress(account.address)
+      if (!blockchain) return
+
+      transformedAccounts.push({
+        address: account.address,
+        key: account.key,
+        label: account?.label || t('hooks:useBackupOrMigrate.defaultAccountLabel'),
+        blockchain: blockchain,
+      })
+    })
+
+    const transformedContacts = data.contacts.map<TMigrateContactsSchema>(contact => {
+      const transformedAddresses: TMigrateContactsSchema['addresses'] = []
+
+      contact.addresses?.forEach(address => {
+        for (const service of Object.values(bsAggregator.blockchainServicesByName)) {
+          if (
+            (hasNameService(service) && service.validateNameServiceDomainFormat(address)) ||
+            service.validateAddress(address)
+          ) {
+            transformedAddresses.push({ address, blockchain: service.blockchainName })
+            return
+          }
+        }
+      })
+
+      return { name: contact.name ?? t('hooks:useBackupOrMigrate.defaultContactName'), addresses: transformedAddresses }
+    })
 
     return {
-      ...data,
-      blockchain,
+      accounts: transformedAccounts,
+      contacts: transformedContacts,
     }
   })
-
-const migrateContactsSchema = zod.object({ name: zod.string(), addresses: zod.array(zod.string()) }).transform(data => {
-  const addressesWithBlockchain = data.addresses.map(address => {
-    let blockchain: TBlockchainServiceKey | undefined
-
-    for (const service of Object.values(bsAggregator.blockchainServicesByName)) {
-      if (
-        (hasNameService(service) && service.validateNameServiceDomainFormat(address)) ||
-        service.validateAddress(address)
-      ) {
-        blockchain = service.blockchainName
-        break
-      }
-    }
-
-    return { address, blockchain }
-  })
-
-  return { ...data, addresses: addressesWithBlockchain }
-})
-
-const migrateSchema = zod.object({
-  accounts: zod.array(migrateAccountsSchema),
-  contacts: zod.array(migrateContactsSchema),
-})
 
 export const useBackupOrMigrate = () => {
   const { t } = useTranslation('hooks', { keyPrefix: 'useBackupOrMigrate' })
