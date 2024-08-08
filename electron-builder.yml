@@ -49,7 +49,8 @@ linux:
   maintainer: electronjs.org
   category: Utility
 
-npmRebuild: false
+npmRebuild: true
+buildDependenciesFromSource: true
 publish:
   provider: github
   owner: CityOfZion

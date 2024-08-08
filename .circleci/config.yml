@@ -30,6 +30,7 @@ jobs:
           key: neon3-wallet-dependencies-cache-{{ checksum "package-lock.json" }}
       - run: apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4EB27DB2A3B88B8B
       - run: apt-get -y update
+      - run: apt install build-essential git pkg-config
       - run: npm config delete proxy
       - run: npm ci --timeout 1500000
       - run: npm run lint
