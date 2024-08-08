@@ -1,8 +1,12 @@
 import { BlockchainService, waitForTransaction } from '@cityofzion/blockchain-service'
 import { CaseReducer, createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
+import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+import { buildQueryKeyBalance } from '@renderer/hooks/useBalances'
+import { buildQueryKeyTokenTransfer, buildQueryKeyTokenTransferAggregate } from '@renderer/hooks/useTokenTransfers'
 import { getI18next } from '@renderer/libs/i18next'
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
+import { queryClient } from '@renderer/libs/query'
+import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
 import { TUseTransactionsTransfer } from '@shared/@types/hooks'
 import { IAccountState } from '@shared/@types/store'
 
@@ -12,8 +16,9 @@ export interface IAccountReducer {
 }
 
 type TWatchPendingTransactionParams = {
-  transactionHash: string
+  transaction: TUseTransactionsTransfer
   blockchainService: BlockchainService<TBlockchainServiceKey>
+  network: TNetwork<TBlockchainServiceKey>
 }
 
 export const accountReducerName = 'accountReducer'
@@ -76,16 +81,39 @@ const removeAllPendingTransactions: CaseReducer<IAccountReducer> = state => {
 
 const watchPendingTransaction = createAsyncThunk(
   'accounts/watchPendingTransaction',
-  async ({ transactionHash, blockchainService }: TWatchPendingTransactionParams) => {
-    const success = await waitForTransaction(blockchainService, transactionHash)
+  async ({ transaction, blockchainService, network }: TWatchPendingTransactionParams) => {
+    const success = await waitForTransaction(blockchainService, transaction.hash)
 
     if (success) {
+      // Temporary solution to wait for the transaction to be indexed, we need to improve waitForTransaction method
+      await UtilsHelper.sleep(60000)
       ToastHelper.success({ message: t('pages:send.transactionCompleted') })
+
+      queryClient.removeQueries({
+        queryKey: buildQueryKeyTokenTransfer(transaction.account, network),
+      })
+      queryClient.removeQueries({
+        queryKey: buildQueryKeyTokenTransferAggregate(),
+      })
+      queryClient.removeQueries({
+        queryKey: buildQueryKeyBalance(transaction.account.address, transaction.account.blockchain, network),
+        exact: true,
+      })
+
+      if (transaction.toAccount) {
+        queryClient.removeQueries({
+          queryKey: buildQueryKeyBalance(transaction.toAccount.address, transaction.toAccount.blockchain, network),
+          exact: true,
+        })
+        queryClient.removeQueries({
+          queryKey: buildQueryKeyTokenTransfer(transaction.toAccount, network),
+        })
+      }
     } else {
       ToastHelper.error({ message: t('pages:send.transactionFailed') })
     }
 
-    return transactionHash
+    return transaction.hash
   }
 )
 

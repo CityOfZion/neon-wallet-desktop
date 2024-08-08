@@ -33,7 +33,7 @@ const columnHelper = createColumnHelper<TUseTransactionsTransfer>()
 
 export const TransactionsTable = forwardRef<HTMLDivElement, TTransactionListProps>(
   ({ accounts, showSimplified, tableHeaderClassName }, ref) => {
-    const { data, fetchNextPage, isLoading } = useTokenTransfers({ accounts })
+    const { aggregatedData, fetchNextPage, isLoading } = useTokenTransfers({ accounts })
 
     const { value: pendingTransactions } = useAppSelector(state => state.account.pendingTransactions)
 
@@ -98,9 +98,9 @@ export const TransactionsTable = forwardRef<HTMLDivElement, TTransactionListProp
       () =>
         pendingTransactions
           .filter(transaction => accounts.some(AccountHelper.predicate(transaction.account)))
-          .concat(data),
+          .concat(aggregatedData),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [accounts, pendingTransactions, data.length]
+      [accounts, pendingTransactions, aggregatedData.length]
     )
 
     const table = useReactTable({

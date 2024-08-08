@@ -3,11 +3,35 @@ import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
 import { TBalance, TTokenBalance, TUseBalancesParams, TUseBalancesResult } from '@shared/@types/query'
-import { QueryClient, useQueries, useQueryClient } from '@tanstack/react-query'
+import { Query, QueryClient, useQueries, useQueryClient } from '@tanstack/react-query'
 
 import { useCurrencyRatio } from './useCurrencyRatio'
 import { fetchExchange } from './useExchange'
 import { useSelectedNetworkByBlockchainSelector } from './useSettingsSelector'
+
+export function verifyIfQueryIsBalance(
+  query: Query,
+  addressCompare: string[],
+  blockchainCompare: TBlockchainServiceKey[],
+  networkIdCompare: string[]
+): boolean {
+  const queryKey = query.queryKey as [string, string, TBlockchainServiceKey, string]
+
+  return (
+    queryKey[0] === 'balance' &&
+    addressCompare.includes(queryKey[1]) &&
+    blockchainCompare.includes(queryKey[2]) &&
+    networkIdCompare.includes(queryKey[3])
+  )
+}
+
+export function buildQueryKeyBalance(
+  address: string,
+  blockchain: TBlockchainServiceKey,
+  network: TNetwork<TBlockchainServiceKey>
+): string[] {
+  return ['balance', address, blockchain, network.id]
+}
 
 const fetchBalance = async (
   param: TUseBalancesParams,
@@ -69,7 +93,7 @@ export function useBalances(params: TUseBalancesParams[]): TUseBalancesResult {
   const balanceQueries = useQueries({
     queries: currencyRatioQuery
       ? params.map(param => ({
-          queryKey: ['balance', param.address, param.blockchain, networkByBlockchain[param.blockchain].id],
+          queryKey: buildQueryKeyBalance(param.address, param.blockchain, networkByBlockchain[param.blockchain]),
           queryFn: fetchBalance.bind(
             null,
             param,

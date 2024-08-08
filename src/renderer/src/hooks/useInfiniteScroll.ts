@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 
-export const useInfiniteScroll = <T extends HTMLElement>(fetchCallback: () => Promise<void> | void) => {
+export const useInfiniteScroll = <T extends HTMLElement>(fetchCallback: (...params: any[]) => Promise<any> | any) => {
   const ref = useRef<T>(null)
   const shouldFetch = useRef(true)
 
