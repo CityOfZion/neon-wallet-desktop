@@ -217,7 +217,7 @@ interface Resources {
       title: 'Import'
       subtitle: 'IMPORT'
       description: 'To import your wallet, enter an address, encrypted key, private key or mnemonic words:'
-      inputPlaceholder: 'Please ender an address or key...'
+      inputPlaceholder: 'Please enter an address or key...'
       buttonContinueLabel: 'Next'
       errors: {
         allAddressesAlreadyImported: 'All addresses are already imported'
@@ -236,7 +236,7 @@ interface Resources {
     importWatchAccounts: {
       title: 'Add a watch account'
       description: "Enter the address that you'd like to watch:"
-      inputPlaceholder: 'Please ender an address'
+      inputPlaceholder: 'Please enter an address'
       information: "You won't be able to use the assets in this account!"
       willBeAdded: 'This account will be added:'
       buttonAdd: 'Add Watch Account'
