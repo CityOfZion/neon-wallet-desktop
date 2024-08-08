@@ -9,8 +9,13 @@ const version = packageJson.version
 
 const BUILDS = [
   {
-    platformName: 'MacOS universal',
-    fileName: `NeonWallet-${packageJson.version}.dmg`,
+    platformName: 'MacOS 64-bit',
+    fileName: `NeonWallet-${packageJson.version}-x64.dmg`,
+    platform: 'mac',
+  },
+  {
+    platformName: 'MacOS arm64',
+    fileName: `NeonWallet-${packageJson.version}-arm64.dmg`,
     platform: 'mac',
   },
   {
