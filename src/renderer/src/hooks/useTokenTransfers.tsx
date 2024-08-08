@@ -1,123 +1,164 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useMemo } from 'react'
 import { bsAggregator } from '@renderer/libs/blockchainService'
-import { RootStore } from '@renderer/store/RootStore'
 import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
 import { TFetchTransactionsResponse, TUseTransactionsTransfer } from '@shared/@types/hooks'
-import { IAccountState } from '@shared/@types/store'
-import { Query, useQueryClient } from '@tanstack/react-query'
+import { IAccountState, TSelectedNetworks } from '@shared/@types/store'
+import { Query, QueryClient, useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
 
+import { useAccountsSelector } from './useAccountSelector'
 import { useSelectedNetworkByBlockchainSelector } from './useSettingsSelector'
 
 type TProps = {
   accounts: IAccountState[]
 }
 
-function buildQueryKey(account: IAccountState, network: TNetwork<TBlockchainServiceKey>, page: number) {
-  return ['token-transfers', account.id, network.id, page]
+export function buildQueryKeyTokenTransfer(
+  account: IAccountState,
+  network: TNetwork<TBlockchainServiceKey>,
+  page?: number
+) {
+  const key: any[] = ['token-transfers', account.address, account.blockchain, network.id]
+  if (page) {
+    key.push(page)
+  }
+  return key
+}
+
+export function buildQueryKeyTokenTransferAggregate(
+  accounts?: IAccountState[],
+  networkByBlockchain?: TSelectedNetworks
+) {
+  if (!accounts || !networkByBlockchain) {
+    return ['token-transfers-aggregate']
+  }
+
+  return [
+    'token-transfers-aggregate',
+    accounts.map(account => ({ ...account, network: networkByBlockchain[account.blockchain] })),
+  ]
+}
+
+async function fetchTransactions(
+  accounts: IAccountState[],
+  allAccounts: IAccountState[],
+  queryClient: QueryClient,
+  networkByBlockchain: TSelectedNetworks,
+  page: number
+) {
+  const data: TUseTransactionsTransfer[] = []
+  let hasMorePage = false
+
+  const promises = accounts.map(async account => {
+    const network = networkByBlockchain[account.blockchain]
+
+    const queryCache = queryClient.getQueryCache()
+
+    const queryKey = buildQueryKeyTokenTransfer(account, network, page)
+    const defaultedOptions = queryClient.defaultQueryOptions({ queryKey })
+
+    const query = queryCache.find({
+      queryKey,
+    }) as Query<TFetchTransactionsResponse> | undefined
+
+    // It means that the query is not stale and we can return the data
+    if (query && !query.isStaleByTime(defaultedOptions.staleTime)) {
+      data.push(...query.state.data!.transfers)
+      hasMorePage ||= !!query.state.data!.nextPageParams
+      return
+    }
+
+    const previousQuery = queryCache.find({
+      queryKey: buildQueryKeyTokenTransfer(account, network, page - 1),
+    }) as Query<TFetchTransactionsResponse> | undefined
+
+    // It means that there are no more pages to fetch
+    if (previousQuery && !previousQuery.state.data?.nextPageParams) {
+      return
+    }
+
+    const service = bsAggregator.blockchainServicesByName[account.blockchain]
+    const queryData: TFetchTransactionsResponse = {
+      transfers: [],
+      nextPageParams: undefined,
+    }
+
+    try {
+      const data = await service.blockchainDataService.getTransactionsByAddress({
+        address: account.address,
+        nextPageParams: previousQuery?.state.data?.nextPageParams,
+      })
+
+      queryData.nextPageParams = data.nextPageParams
+      data.transactions.forEach(transaction => {
+        transaction.transfers.forEach(transfer => {
+          if (transfer.type === 'nft') return
+
+          queryData.transfers.push({
+            ...transfer,
+            time: transaction.time,
+            hash: transaction.hash,
+            account,
+            toAccount: allAccounts.find(a => a.address === transfer.to),
+            fromAccount: allAccounts.find(a => a.address === transfer.from),
+          })
+        })
+      })
+    } catch (error) {
+      /* empty */
+    }
+
+    const newQuery = queryCache.build(queryClient, defaultedOptions) as Query<
+      TFetchTransactionsResponse,
+      Error,
+      TFetchTransactionsResponse,
+      string[]
+    >
+    newQuery.setData(queryData, { manual: true })
+
+    data.push(...queryData.transfers)
+    hasMorePage ||= !!queryData.nextPageParams
+  })
+
+  await Promise.allSettled(promises)
+  return {
+    data,
+    page: hasMorePage ? page + 1 : undefined,
+  }
 }
 
 export function useTokenTransfers({ accounts }: TProps) {
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
   const queryClient = useQueryClient()
+  const { accountsRef } = useAccountsSelector()
 
-  const page = useRef(1)
+  const query = useInfiniteQuery({
+    queryKey: buildQueryKeyTokenTransferAggregate(accounts, networkByBlockchain),
+    queryFn: ({ pageParam }) =>
+      fetchTransactions(accounts, accountsRef.current, queryClient, networkByBlockchain, pageParam),
+    initialPageParam: 1,
+    getNextPageParam: ({ page }) => page,
+  })
 
-  const [isLoading, setIsLoading] = useState(false)
+  const aggregatedData = useMemo(() => {
+    return (
+      query.data?.pages
+        .flatMap(page => page.data)
+        .sort((itemA, itemB) => {
+          if (itemA.time < itemB.time) {
+            return 1
+          }
 
-  const [data, setData] = useState<TUseTransactionsTransfer[]>([])
+          if (itemA.time > itemB.time) {
+            return -1
+          }
 
-  const fetch = useCallback(async () => {
-    const promises = accounts.map(async account => {
-      const network = networkByBlockchain[account.blockchain]
-
-      const pageIndex = page.current - 1
-      const queryCache = queryClient.getQueryCache()
-
-      const queryKey = buildQueryKey(account, network, page.current)
-
-      const previousQueryKey = queryKey.slice(0, -1)
-      const previousQueries = queryCache.findAll({
-        queryKey: previousQueryKey,
-      }) as Query<TFetchTransactionsResponse>[]
-
-      const query = previousQueries[pageIndex]
-
-      if (query && !query.isStale()) {
-        const queriesToReturn = previousQueries.slice(0, page.current + 1)
-        return queriesToReturn.flatMap(q => q.state.data!.transfers)
-      }
-
-      if (page.current === 1) {
-        setIsLoading(true)
-      }
-
-      const service = bsAggregator.blockchainServicesByName[account.blockchain]
-      const queryData: TFetchTransactionsResponse = {
-        transfers: [],
-        nextPageParams: undefined,
-      }
-
-      try {
-        const store = RootStore.store.getState()
-        const previousQuery = previousQueries[pageIndex - 1]
-
-        const data = await service.blockchainDataService.getTransactionsByAddress({
-          address: account.address,
-          nextPageParams: previousQuery?.state.data?.nextPageParams,
-        })
-
-        queryData.nextPageParams = data.nextPageParams
-        data.transactions.forEach(transaction => {
-          transaction.transfers.forEach(transfer => {
-            if (transfer.type === 'nft') return
-
-            queryData.transfers.push({
-              ...transfer,
-              time: transaction.time,
-              hash: transaction.hash,
-              account,
-              toAccount: store.account.data.find(a => a.address === transfer.to),
-              fromAccount: store.account.data.find(a => a.address === transfer.from),
-            })
-          })
-        })
-      } catch (error) {
-        /* empty */
-      }
-
-      const defaultedOptions = queryClient.defaultQueryOptions({ queryKey })
-      const newQuery = queryCache.build(queryClient, defaultedOptions) as Query<
-        TFetchTransactionsResponse,
-        Error,
-        TFetchTransactionsResponse,
-        string[]
-      >
-      newQuery.setData(queryData, { manual: true })
-
-      const response = [...previousQueries.slice(0, pageIndex), newQuery].flatMap(q => q.state.data!.transfers)
-
-      return response
-    })
-
-    const data = await Promise.all(promises)
-
-    setIsLoading(false)
-
-    setData(data.flat())
-  }, [accounts, networkByBlockchain, queryClient])
-
-  const fetchNextPage = useCallback(() => {
-    page.current += 1
-    fetch()
-  }, [fetch])
-
-  useEffect(() => {
-    fetch()
-  }, [accounts, networkByBlockchain, fetch])
+          return 0
+        }) ?? []
+    )
+  }, [query.data])
 
   return {
-    data,
-    isLoading,
-    fetchNextPage,
+    aggregatedData,
+    ...query,
   }
 }

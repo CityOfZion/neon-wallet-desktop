@@ -8,9 +8,13 @@ import { Loader } from '@renderer/components/Loader'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { useBalances } from '@renderer/hooks/useBalances'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
-import { useEncryptedPasswordSelector } from '@renderer/hooks/useSettingsSelector'
+import {
+  useEncryptedPasswordSelector,
+  useSelectedNetworkByBlockchainSelector,
+} from '@renderer/hooks/useSettingsSelector'
 import { accountReducerActions } from '@renderer/store/reducers/AccountReducer'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
+import { TUseTransactionsTransfer } from '@shared/@types/hooks'
 import { IAccountState } from '@shared/@types/store'
 import { useQuery } from '@tanstack/react-query'
 
@@ -55,6 +59,7 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
   const { encryptedPassword } = useEncryptedPasswordSelector()
   const dispatch = useAppDispatch()
   const balances = useBalances([account])
+  const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
 
   const unclaimed = useQuery({
     queryKey: ['claim', account.address],
@@ -95,22 +100,29 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
 
       const transactionHash = await blockchainService.claim(serviceAccount, isLedger)
 
+      const transaction: TUseTransactionsTransfer = {
+        hash: transactionHash,
+        time: Date.now() / 1000,
+        account: account,
+        toAccount: account,
+        isPending: true,
+        amount: unclaimed.data?.unclaimed,
+        to: account.address,
+        from: 'claim',
+        type: 'token',
+        contractHash: blockchainService.claimToken.hash,
+        token: blockchainService.claimToken,
+        fromAccount: account,
+      }
+
+      dispatch(accountReducerActions.addPendingTransaction(transaction))
       dispatch(
-        accountReducerActions.addPendingTransaction({
-          hash: transactionHash,
-          time: Date.now() / 1000,
-          account: account,
-          toAccount: account,
-          isPending: true,
-          amount: unclaimed.data?.unclaimed,
-          to: account.address,
-          from: 'claim',
-          type: 'token',
-          contractHash: blockchainService.claimToken.hash,
-          token: blockchainService.claimToken,
+        accountReducerActions.watchPendingTransaction({
+          transaction,
+          blockchainService,
+          network: networkByBlockchain[account.blockchain],
         })
       )
-      dispatch(accountReducerActions.watchPendingTransaction({ transactionHash, blockchainService }))
     } catch {
       ToastHelper.error({ message: t('errorDecryptKey') })
     } finally {

@@ -6,14 +6,19 @@ import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
+import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useNameService } from '@renderer/hooks/useNameService'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
-import { useEncryptedPasswordSelector } from '@renderer/hooks/useSettingsSelector'
+import {
+  useEncryptedPasswordSelector,
+  useSelectedNetworkByBlockchainSelector,
+} from '@renderer/hooks/useSettingsSelector'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { accountReducerActions } from '@renderer/store/reducers/AccountReducer'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
+import { TUseTransactionsTransfer } from '@shared/@types/hooks'
 import { TTokenBalance } from '@shared/@types/query'
 import { IAccountState } from '@shared/@types/store'
 
@@ -62,6 +67,8 @@ export const SendPageContent = ({ account, recipient }: TProps) => {
   const { modalNavigate } = useModalNavigate()
   const dispatch = useAppDispatch()
   const [originalRecipient, setoOriginalRecipient] = useState(recipient)
+  const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
+  const { accountsRef } = useAccountsSelector()
 
   const {
     isNameService,
@@ -186,22 +193,29 @@ export const SendPageContent = ({ account, recipient }: TProps) => {
         isLedger,
       })
 
+      const transaction: TUseTransactionsTransfer = {
+        account: fields.selectedAccount,
+        amount: fields.selectedAmount,
+        token: fields.selectedToken.token,
+        to: fields.selectedRecipientAddress,
+        from: fields.selectedAccount.address,
+        hash: transactionHash,
+        time: Date.now() / 1000,
+        contractHash: fields.selectedToken.token.hash,
+        type: 'token',
+        fromAccount: fields.selectedAccount,
+        toAccount: accountsRef.current.find(a => a.address === fields.selectedRecipientAddress),
+        isPending: true,
+      }
+
+      dispatch(accountReducerActions.addPendingTransaction(transaction))
       dispatch(
-        accountReducerActions.addPendingTransaction({
-          account: fields.selectedAccount,
-          amount: fields.selectedAmount,
-          token: fields.selectedToken.token,
-          to: fields.selectedRecipientAddress,
-          from: fields.selectedAccount.address,
-          hash: transactionHash,
-          time: Date.now() / 1000,
-          contractHash: fields.selectedToken.token.hash,
-          type: 'token',
-          fromAccount: fields.selectedAccount,
-          isPending: true,
+        accountReducerActions.watchPendingTransaction({
+          transaction,
+          blockchainService: fields.service,
+          network: networkByBlockchain[fields.selectedAccount.blockchain],
         })
       )
-      dispatch(accountReducerActions.watchPendingTransaction({ transactionHash, blockchainService: fields.service }))
 
       modalNavigate('success', {
         state: {
