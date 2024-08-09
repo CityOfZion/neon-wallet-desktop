@@ -12,7 +12,7 @@ files:
 asarUnpack:
   - resources/**
 win:
-  artifactName: NeonWallet-${version}.${ext}
+  artifactName: NeonWallet-${version}-win.${ext}
   target:
     - target: nsis
       arch:
@@ -25,7 +25,7 @@ nsis:
   allowToChangeInstallationDirectory: true
 afterSign: electron-builder-notarize
 mac:
-  artifactName: NeonWallet-${version}.${ext}
+  artifactName: NeonWallet-${version}-mac.${ext}
   hardenedRuntime: true
   entitlements: build/entitlements.mac.plist
   entitlementsInherit: build/entitlements.mac.plist
@@ -40,7 +40,7 @@ mac:
     - NSDownloadsFolderUsageDescription: Application requests access to the user's Downloads folder.
   notarize: false
 linux:
-  artifactName: NeonWallet-${version}.${ext}
+  artifactName: NeonWallet-${version}-linux.${ext}
   target:
     - AppImage
     - deb
