@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { Fragment, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbTransform } from 'react-icons/tb'
 import { BlockchainService, BSClaimable, hasLedger, isCalculableFee } from '@cityofzion/blockchain-service'
@@ -65,6 +65,7 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
     queryKey: ['claim', account.address],
     queryFn: getUnclaimedInfos.bind(null, account, blockchainService, encryptedPassword),
     staleTime: 0,
+    gcTime: 0,
     retry: false,
   })
 
@@ -80,6 +81,11 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
 
     return tokenBalance.amountNumber > unclaimed.data.feeNumber
   }, [balances, unclaimed, blockchainService])
+
+  const feeIsLessThanUnclaimed = useMemo(() => {
+    if (!unclaimed.data || unclaimed.data.unclaimedNumber <= 0) return undefined
+    return unclaimed.data.feeNumber < unclaimed.data.unclaimedNumber
+  }, [unclaimed])
 
   const handleClaimGas = async () => {
     try {
@@ -135,53 +141,57 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
       {unclaimed.isLoading || balances.isLoading ? (
         <Loader />
       ) : (
-        <div className="w-full flex justify-between items-center h-full px-4">
-          <div className="flex items-center gap-x-2">
-            <div className="flex items-center gap-x-1.5">
-              <BlockchainIcon blockchain={account.blockchain} type="green" />
-              {blockchainService.claimToken.symbol}
+        !!unclaimed.data && (
+          <div className="w-full flex justify-between items-center h-full px-4">
+            <div className="flex items-center gap-x-2">
+              <div className="flex items-center gap-x-1.5">
+                <BlockchainIcon blockchain={account.blockchain} type="green" />
+                {blockchainService.claimToken.symbol}
+              </div>
+
+              {feeIsLessThanUnclaimed === false ? (
+                <span className="text-gray-300">{t('unclaimedLessFee')}</span>
+              ) : feeIsLessThanBalance === false ? (
+                <span className="text-gray-300">{t('balanceLessFee')}</span>
+              ) : feeIsLessThanBalance === true ? (
+                <div className="flex gap-x-1">
+                  <span className="text-gray-100">
+                    {t('youHaveUnclaimed', {
+                      symbol: blockchainService.claimToken.symbol,
+                    })}
+                  </span>
+
+                  <span className="text-gray-300">
+                    {t('feeToClaim', {
+                      fee: unclaimed.data?.fee,
+                      symbol: blockchainService.claimToken.symbol,
+                    })}
+                  </span>
+                </div>
+              ) : (
+                <Fragment />
+              )}
             </div>
 
-            {feeIsLessThanBalance === true ? (
-              <div className="flex gap-x-1">
-                <span className="text-gray-100">
-                  {t('youHaveUnclaimed', {
-                    symbol: blockchainService.claimToken.symbol,
-                  })}
-                </span>
-
-                <span className="text-gray-300">
-                  {t('feeToClaim', {
-                    fee: unclaimed.data?.fee,
-                    symbol: blockchainService.claimToken.symbol,
-                  })}
-                </span>
-              </div>
-            ) : (
-              feeIsLessThanBalance === false && <span className="text-gray-300">{t('cantClaim')}</span>
-            )}
-          </div>
-
-          <div className="flex items-center gap-x-5">
-            {unclaimed.data?.unclaimed && (
+            <div className="flex items-center gap-x-5">
               <span>
                 {t('claimAmount', {
                   amount: unclaimed.data.unclaimed,
                   symbol: blockchainService.claimToken.symbol,
                 })}
               </span>
-            )}
 
-            <Button
-              label={t('buttonLabel')}
-              leftIcon={<TbTransform />}
-              disabled={!!feeIsLessThanBalance}
-              flat
-              loading={claiming}
-              onClick={handleClaimGas}
-            />
+              <Button
+                label={t('buttonLabel')}
+                leftIcon={<TbTransform />}
+                disabled={!feeIsLessThanBalance || !feeIsLessThanUnclaimed || unclaimed.data.unclaimedNumber <= 0}
+                flat
+                loading={claiming}
+                onClick={handleClaimGas}
+              />
+            </div>
           </div>
-        </div>
+        )
       )}
     </div>
   )
