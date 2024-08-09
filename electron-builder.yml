@@ -23,6 +23,7 @@ nsis:
   createDesktopShortcut: always
   oneClick: false
   allowToChangeInstallationDirectory: true
+  deleteAppDataOnUninstall: true
 afterSign: electron-builder-notarize
 mac:
   artifactName: NeonWallet-${version}-${arch}.${ext}
