@@ -1,5 +1,3 @@
-import { TransactionTransferAsset } from '@cityofzion/blockchain-service'
-
 import { IAccountState } from './store'
 
 export type TUseActionsData = Record<string, any>
@@ -25,8 +23,11 @@ export type TUseTransactionsTransfer = {
   toAccount?: IAccountState
   fromAccount?: IAccountState
   isPending?: boolean
-} & TransactionTransferAsset
-
+  amount: string
+  to: string
+  from: string
+  asset: string
+}
 export type TFetchTransactionsResponse = {
   transfers: TUseTransactionsTransfer[]
   nextPageParams?: any

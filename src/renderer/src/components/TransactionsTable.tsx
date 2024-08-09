@@ -54,12 +54,12 @@ export const TransactionsTable = forwardRef<HTMLDivElement, TTransactionListProp
           cell: info => format(info.getValue() * 1000, 'MM/dd/yyyy HH:mm:ss'),
           header: t('components:transactionsTable.date'),
         }),
-        columnHelper.accessor('token.name', {
+        columnHelper.accessor('asset', {
           cell: info => info.getValue(),
           header: t('components:transactionsTable.asset'),
         }),
         columnHelper.accessor('amount', {
-          cell: info => Number(info.getValue()).toFixed(info.row.original.token?.decimals ?? 8),
+          cell: info => info.getValue(),
           header: t('components:transactionsTable.amount'),
         }),
         ...(!showSimplified
