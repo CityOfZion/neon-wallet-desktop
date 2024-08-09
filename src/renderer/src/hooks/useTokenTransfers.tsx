@@ -91,10 +91,11 @@ async function fetchTransactions(
       queryData.nextPageParams = data.nextPageParams
       data.transactions.forEach(transaction => {
         transaction.transfers.forEach(transfer => {
-          if (transfer.type === 'nft') return
-
           queryData.transfers.push({
-            ...transfer,
+            amount: transfer.type === 'nft' ? '1' : Number(transfer.amount).toFixed(transfer.token?.decimals ?? 8),
+            asset: transfer.type === 'nft' ? transfer.tokenId : (transfer.token?.symbol ?? ''),
+            from: transfer.from,
+            to: transfer.to,
             time: transaction.time,
             hash: transaction.hash,
             account,
