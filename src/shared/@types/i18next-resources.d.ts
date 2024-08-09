@@ -164,7 +164,8 @@ interface Resources {
       claimAmount: '{{amount}} {{symbol}}'
       youHaveUnclaimed: 'You have unclaimed {{symbol}}!'
       feeToClaim: 'Fee to claim: {{fee}} {{symbol}}'
-      cantClaim: "Can't claim because balance will not cover network fees!"
+      balanceLessFee: "Can't claim because balance will not cover network fees!"
+      unclaimedLessFee: "Claim is unavailable as claimable amount doesn't cover network fee!"
       errorDecryptKey: 'Error decrypting key'
     }
     dappPermissionContextualMessage: {
