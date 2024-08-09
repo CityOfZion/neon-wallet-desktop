@@ -19,20 +19,24 @@ references:
     attach_workspace:
       at: *workspace_root
 
-jobs:
-  test:
-    <<: *container_config
+commands:
+  prepare_linux:
     steps:
       - checkout
       - node/install:
           node-version: '18.14.2'
-      - restore_cache:
-          key: neon3-wallet-dependencies-cache-{{ checksum "package-lock.json" }}
       - run: apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4EB27DB2A3B88B8B
       - run: apt-get -y update
-      - run: apt install build-essential git pkg-config
+      - run: apt-get -y install libusb-1.0-0-dev icnsutils graphicsmagick libudev-dev
+      - run: apt-get -y install libxtst6 libxss1 libgtk2.0-0 libnss3 libasound2 libgconf-2-4
       - run: npm config delete proxy
       - run: npm ci --timeout 1500000
+
+jobs:
+  test:
+    <<: *container_config
+    steps:
+      - prepare_linux
       - run: npm run lint
       - save_cache:
           key: neon3-wallet-dependencies-cache-{{ checksum "package-lock.json" }}
@@ -44,15 +48,7 @@ jobs:
     <<: *container_config
     resource_class: large
     steps:
-      - checkout
-      - node/install:
-          node-version: '18.14.2'
-      - run: apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4EB27DB2A3B88B8B
-      - run: apt-get -y update
-      - run: apt-get -y install libusb-1.0-0-dev icnsutils graphicsmagick libudev-dev
-      - run: apt-get -y install libxtst6 libxss1 libgtk2.0-0 libnss3 libasound2 libgconf-2-4
-      - run: npm config delete proxy
-      - run: npm ci --timeout 1500000
+      - prepare_linux
       - run: npm run build:linux
       - store_artifacts:
           path: dist
@@ -85,14 +81,10 @@ jobs:
           destination: build
 
   generate_checksums:
-    docker:
-      - image: cimg/base:2024.08
+    <<: *container_config
     steps:
-      - checkout
+      - prepare_linux
       - gh/install
-      - node/install:
-        node-version: '18.14.2'
-      - run: npm ci --timeout 1500000
       - run: npm run generate-checksums
 
 workflows:
