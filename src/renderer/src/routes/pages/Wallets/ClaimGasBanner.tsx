@@ -115,9 +115,7 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
         amount: unclaimed.data?.unclaimed,
         to: account.address,
         from: 'claim',
-        type: 'token',
-        contractHash: blockchainService.claimToken.hash,
-        token: blockchainService.claimToken,
+        asset: blockchainService.claimToken.symbol,
         fromAccount: account,
       }
 
