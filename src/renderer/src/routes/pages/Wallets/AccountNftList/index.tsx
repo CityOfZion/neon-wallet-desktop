@@ -6,6 +6,7 @@ import { IconButton } from '@renderer/components/IconButton'
 import { Loader } from '@renderer/components/Loader'
 import { NftGallery } from '@renderer/components/NftGallery'
 import { NftList } from '@renderer/components/NftList'
+import { useInfiniteScroll } from '@renderer/hooks/useInfiniteScroll'
 import { useNfts } from '@renderer/hooks/useNfts'
 import { AccountDetailsLayout } from '@renderer/layouts/AccountDetailsLayout'
 import { IAccountState } from '@shared/@types/store'
@@ -24,7 +25,11 @@ export const AccountNftList = () => {
 
   const { account } = useOutletContext<TOutletContext>()
 
-  const { aggregatedData, isLoading } = useNfts(account)
+  const { aggregatedData, isLoading, fetchNextPage } = useNfts(account)
+
+  const { handleScroll, ref } = useInfiniteScroll<HTMLDivElement>(() => {
+    fetchNextPage()
+  })
 
   const [selectedViewOption, setSelectedViewOption] = useState(ENftViewOption.LIST)
 
@@ -57,7 +62,7 @@ export const AccountNftList = () => {
               <p className="text-gray-300 text-sm ml-2">{t('total', { length: aggregatedData.length })}</p>
             </div>
 
-            <div className="overflow-y-auto w-full flex flex-col flex-grow min-h-0">
+            <div className="overflow-y-auto w-full flex flex-col flex-grow min-h-0" onScroll={handleScroll} ref={ref}>
               {aggregatedData.length === 0 ? (
                 <div className="flex justify-center mt-4">
                   <p className="text-gray-300">{t('empty')}</p>
