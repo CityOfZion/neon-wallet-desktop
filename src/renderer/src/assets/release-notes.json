@@ -1,13 +1,8 @@
 [
   {
-    "tag_name": "Patch v1.0.0",
-    "published_at": "31 Jan 2024",
-    "body": "*Lorem ipsum dolor sit amet, consectetur adipiscing elit.* Fusce congue massa mi, et egestas metus laoreet quis. Vestibulum volutpat tincidunt elit in dignissim. Nulla a justo vitae metus tincidunt placerat pulvinar eu augue. Donec quis quam sit amet ex pulvinar sagittis vel at mi. Suspendisse placerat odio ac ligula finibus, in sagittis sem varius. Nullam urna erat, eleifend in tempus non, eleifend vel ipsum. In varius laoreet lorem, nec iaculis velit bibendum at. Morbi consectetur mollis lacinia. <a href=\"https://github.com/CityOfZion/neon-wallet\" target=\"_blank\">Quisque</a> at leo sed purus interdum semper. Mauris justo neque, congue quis dui ut, mollis blandit ex. Vivamus quis euismod tortor. Nulla pretium semper bibendum. Aliquam erat volutpat.",
-    "html_url": "https://github.com/CityOfZion/neon-wallet"
-  },
-  {
-    "tag_name": "Patch v1.0.1",
-    "published_at": "01 Dec 2023",
-    "body": "**Lorem ipsum dolor sit amet, consectetur adipiscing elit.**</br>\r\n <li>Fusce congue massa mi, et egestas metus laoreet quis.\r\n <li>Vestibulum volutpat tincidunt elit in dignissim.\r\n <li>Nulla a justo vitae metus tincidunt placerat pulvinar eu augue.\r\n\r\n\r\n Donec quis quam sit amet ex pulvinar sagittis vel at mi. Suspendisse placerat odio ac ligula finibus, in sagittis sem varius. Nullam urna erat, eleifend in tempus non, eleifend vel ipsum. In varius laoreet lorem, nec iaculis velit bibendum at. Morbi consectetur mollis lacinia. Quisque at leo sed purus interdum semper. Mauris justo neque, congue quis dui ut, mollis blandit ex. Vivamus quis euismod tortor. Nulla pretium semper bibendum. Aliquam erat volutpat."
+    "tag_name": "Version v3.0.0",
+    "published_at": "13 Aug 2024",
+    "body": "The new generation of Neon Wallet 3 has arrived, and our self-custodial wallet is better than ever! Since 2017, our mission is to deliver a smooth and enjoyable experience by combining the most modern technologies with an elegant and functional design. Our philosophy remains the same, but Neon certainly does not. Since its launch, it has undergone numerous improvements, and its third generation is here to show that it is ready for the new era of Web3. Here’s what’s new in this version:</br><li>• Ethereum & Neo X support</li><li>• New product design</li><li>• Common Platform Code</li><li>• Multi-Wallet Architecture</li><li>• Enhanced Interface Customization</li><li>• Global Login</li><li>• Account Import Scanning</li><li>• Improved WalletConnect Experience</li>",
+    "html_url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.0.0"
   }
 ]
