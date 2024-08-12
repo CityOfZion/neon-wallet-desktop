@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
+import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { bsAggregator } from '@renderer/libs/blockchainService'
@@ -87,14 +88,25 @@ const useOverTheAirUpdate = () => {
   const { ref: hasOverTheAirUpdatesRef } = useAppSelector(state => state.settings.hasOverTheAirUpdates)
   const { modalNavigate } = useModalNavigate()
   const dispatch = useAppDispatch()
+  const { t } = useTranslation('hooks', { keyPrefix: 'useOverTheAirUpdate' })
 
   useEffect(() => {
-    const removeUpdateCompletedListener = window.api.listen('updateCompleted', () => {
+    const removeUpdateCompletedListener = window.api.listen('updateCompleted', async () => {
+      ToastHelper.dismiss('auto-update-downloading')
+
       dispatch(settingsReducerActions.setHasOverTheAirUpdates(true))
+
+      ToastHelper.success({ message: t('downloaded'), duration: 5000 })
+
+      await UtilsHelper.sleep(1000)
+
       window.api.sendAsync('quitAndInstall')
     })
 
-    window.api.sendAsync('checkForUpdates')
+    window.api.sendAsync('checkForUpdates').then(hasUpdates => {
+      if (!hasUpdates) return
+      ToastHelper.loading({ message: t('downloading'), id: 'auto-update-downloading' })
+    })
 
     return () => {
       removeUpdateCompletedListener()

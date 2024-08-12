@@ -5,6 +5,7 @@ import { toast } from 'sonner'
 type TToastProp = {
   message: string
   id?: string | number
+  duration?: number
 }
 
 export class ToastHelper {
@@ -17,6 +18,7 @@ export class ToastHelper {
     toast.custom(sonnerId => <SuccessToast sonnerId={sonnerId} message={props.message} />, {
       id: customId,
       unstyled: true,
+      duration: props.duration,
     })
   }
 
@@ -25,6 +27,7 @@ export class ToastHelper {
     toast.custom(sonnerId => <ErrorToast sonnerId={sonnerId} message={props.message} />, {
       id: customId,
       unstyled: true,
+      duration: props.duration,
     })
   }
 
@@ -33,6 +36,7 @@ export class ToastHelper {
     toast.custom(sonnerId => <InfoToast sonnerId={sonnerId} message={props.message} />, {
       id: customId,
       unstyled: true,
+      duration: props.duration,
     })
   }
 
