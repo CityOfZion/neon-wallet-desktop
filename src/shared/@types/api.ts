@@ -17,7 +17,7 @@ export type TMainApiListenersAsync = {
   setTitleBarOverlay: TIpcMainAsyncListener<Electron.TitleBarOverlay, void>
   setWindowButtonPosition: TIpcMainAsyncListener<Electron.Point, void>
   startLedger: TIpcMainAsyncListener<undefined, void>
-  checkForUpdates: TIpcMainAsyncListener<undefined, void>
+  checkForUpdates: TIpcMainAsyncListener<undefined, boolean>
   quitAndInstall: TIpcMainAsyncListener<undefined, void>
   getConnectedLedgers: TIpcMainAsyncListener<undefined, TLedgerInfo[]>
   encryptBasedOS: TIpcMainAsyncListener<string, string>

@@ -11,7 +11,7 @@ import { CenterModalLayout } from '@renderer/layouts/CenterModal'
 
 export const AutoUpdateMobile = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'autoUpdate.mobile' })
-  const { modalNavigate } = useModalNavigate()
+  const { modalEraseWrapper } = useModalNavigate()
 
   const appstoreClick = () => {
     window.open(MOBILE_APP_APPSTORE_LINK)
@@ -54,7 +54,7 @@ export const AutoUpdateMobile = () => {
           iconsOnEdge={false}
           rightIcon={<TbArrowRight />}
           className="w-full max-w-56"
-          onClick={() => modalNavigate(-2)}
+          onClick={modalEraseWrapper('center')}
         />
       </div>
     </CenterModalLayout>

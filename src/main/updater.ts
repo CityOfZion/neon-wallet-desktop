@@ -10,7 +10,8 @@ export function registerUpdaterHandler() {
   })
 
   mainApi.listenAsync('checkForUpdates', async () => {
-    await autoUpdater.checkForUpdates()
+    const info = await autoUpdater.checkForUpdates()
+    return !!info?.cancellationToken
   })
 
   mainApi.listenAsync('quitAndInstall', async () => {

@@ -212,6 +212,10 @@ interface Resources {
       controlIsNotSet: 'Unexpected error. Login control is not set.'
       controlIsNotValid: 'Unexpected error. Login control is not valid.'
     }
+    useOverTheAirUpdate: {
+      downloading: 'New version found. Downloading...'
+      downloaded: 'New version downloaded. The app will restart to apply update.'
+    }
   }
   modals: {
     import: {
