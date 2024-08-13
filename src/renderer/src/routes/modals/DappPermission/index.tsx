@@ -1,4 +1,4 @@
-import { Fragment, useCallback } from 'react'
+import { Fragment, useCallback, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbPlug } from 'react-icons/tb'
 import { ResponseErrorCode } from '@cityofzion/wallet-connect-sdk-wallet-core'
@@ -60,6 +60,8 @@ const componentsByBlockchain: Partial<
     eth_signTypedData_v3: EthereumSignTypedDataDappPermission,
     eth_signTypedData_v4: EthereumSignTypedDataDappPermission,
     eth_sendTransaction: EthereumSendTransactionDappPermission,
+    eth_call: EthereumSendTransactionDappPermission,
+    eth_sendRawTransaction: EthereumSendTransactionDappPermission,
   },
 }
 
@@ -115,11 +117,16 @@ export const DappPermissionModal = () => {
     }
   }
 
-  if (!account || !Component) {
-    ToastHelper.error({ message: t('unsupportedMethodError', { method }), id: 'dapp-permission-method-error' })
-    rejectRequest(request)
-    modalNavigate(-1)
+  useLayoutEffect(() => {
+    if (!account || !Component) {
+      ToastHelper.error({ message: t('unsupportedMethodError', { method }), id: 'dapp-permission-method-error' })
+      rejectRequest(request)
+      modalNavigate(-1)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
+  if (!account || !Component) {
     return <Fragment />
   }
 

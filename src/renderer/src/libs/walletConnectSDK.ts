@@ -13,9 +13,11 @@ export const walletConnectEIP155Adapter =
 
 export const walletConnectOptions: TInitOptions = {
   clientOptions: {
-    projectId: '56de852a69580b46d61b53f7b3922ce1',
-    logger: import.meta.env.DEV ? 'silent' : 'silent',
-    relayUrl: 'wss://relay.walletconnect.com',
+    core: {
+      projectId: '56de852a69580b46d61b53f7b3922ce1',
+      relayUrl: 'wss://relay.walletconnect.com',
+      logger: import.meta.env.DEV ? 'silent' : 'silent',
+    },
     metadata: {
       name: i18n.t('common:walletConnect.name'),
       description: i18n.t('common:walletConnect.description'),
@@ -23,6 +25,9 @@ export const walletConnectOptions: TInitOptions = {
       icons: [
         'https://raw.githubusercontent.com/CityOfZion/visual-identity/develop/_CoZ%20Branding/_Logo/_Logo%20icon/_PNG%20200x178px/CoZ_Icon_DARKBLUE_200x178px.png',
       ],
+    },
+    signConfig: {
+      disableRequestQueue: true,
     },
   },
   blockchains: {
@@ -61,8 +66,15 @@ export const walletConnectOptions: TInitOptions = {
         'eth_signTypedData_v3',
         'eth_signTypedData_v4',
         'eth_sendTransaction',
+        'eth_call',
+        'eth_requestAccounts',
+        'eth_sendRawTransaction',
+        'wallet_switchEthereumChain',
+        'wallet_getPermissions',
+        'wallet_requestPermissions',
       ],
-      events: ['chainChanged', 'accountsChanged'],
+      autoAcceptMethods: ['eth_requestAccounts'],
+      events: ['chainChanged', 'accountsChanged', 'disconnect', 'connect'],
       adapter: walletConnectEIP155Adapter,
     },
   },
