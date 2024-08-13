@@ -19,22 +19,27 @@ export const CreateWalletStep2Modal = () => {
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
 
   const shuffledWords = useMemo(() => _.shuffle(words), [words])
-  const [pressedWords, setPressedWords] = useState<string[]>([])
+  const [pressedWordsIndex, setPressedWordsIndex] = useState<number[]>([])
 
-  const isActive = (word: string) => pressedWords.some(pressedWord => pressedWord === word)
+  const isActive = (wordIndex: number) => pressedWordsIndex.some(pressedWord => pressedWord === wordIndex)
 
-  const isDisabled = () => pressedWords.length !== shuffledWords.length
+  const isDisabled = () => pressedWordsIndex.length !== shuffledWords.length
 
-  const handlePress = (word: string) => {
-    const isWordActive = isActive(word)
+  const handlePress = (wordIndex: number) => {
+    const isWordActive = isActive(wordIndex)
 
-    setPressedWords(prevState => (isWordActive ? prevState.filter(state => state !== word) : [...prevState, word]))
+    setPressedWordsIndex(prevState =>
+      isWordActive ? prevState.filter(state => state !== wordIndex) : [...prevState, wordIndex]
+    )
   }
 
   const validateAndNext = async () => {
-    if (pressedWords.join() !== words.join()) {
+    const mountedPressedWords = pressedWordsIndex.map(wordIndex => shuffledWords[wordIndex]).join(' ')
+    const mountedWords = words.join(' ')
+
+    if (mountedPressedWords !== mountedWords) {
       ToastHelper.error({ message: t('tryAgain') })
-      setPressedWords([])
+      setPressedWordsIndex([])
       return
     }
 
@@ -50,19 +55,21 @@ export const CreateWalletStep2Modal = () => {
         </div>
         <div className="text-blue text-sm">{t('step2of3')}</div>
       </header>
+
       <Separator className="min-h-[0.0625rem] mb-9" />
+
       <div className="flex flex-col items-center w-full h-[84%] justify-between">
         <div className="flex flex-col w-full gap-6">
           <div className="text-gray-100 text-xs">{t('description')}</div>
           <div className="min-h-[6rem] rounded mx-5 gap-x-8 gap-y-4 grid grid-cols-4 py-5 px-5 justify-center">
-            {shuffledWords.map(word => (
+            {shuffledWords.map((word, index) => (
               <Button
                 clickableProps={{
-                  className: isActive(word) ? 'bg-gray-100 text-asphalt border-none hover:bg-gray-100' : '',
+                  className: isActive(index) ? 'bg-gray-100 text-asphalt border-none hover:bg-gray-100' : '',
                 }}
-                key={word}
+                key={`${word}-${index}`}
                 label={word}
-                onClick={() => handlePress(word)}
+                onClick={() => handlePress(index)}
                 variant="outlined"
                 flat
               />
