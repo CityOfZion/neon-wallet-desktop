@@ -61,7 +61,9 @@ export function useBlockchainActions() {
         encryptedSecret: encryptedPasswordRef.current,
       })
 
-      const generateIndex = accountsRef.current.filter(account => account.idWallet === wallet.id).length
+      const generateIndex = accountsRef.current.filter(
+        account => account.idWallet === wallet.id && account.blockchain === blockchain
+      ).length
 
       const service = bsAggregator.blockchainServicesByName[blockchain]
       const generatedAccount = service.generateAccountFromMnemonic(mnemonic, generateIndex)
