@@ -1,5 +1,11 @@
 [
   {
+    "tag_name": "Version v3.0.1",
+    "published_at": "13 Aug 2024",
+    "body": "<li>• Wallet Connect Enhancement - New Ethereum methods being supported (eth_call, eth_sendRawTransaction, eth_requestAccounts)</li><li>• Fix issue where if mnemonic has repeated words it was not being properly handled during confirmation</li><li>• Fix issue with derivation index during import scan</li>",
+    "html_url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.0.1"
+  },
+  {
     "tag_name": "Version v3.0.0",
     "published_at": "13 Aug 2024",
     "body": "The new generation of Neon Wallet 3 has arrived, and our self-custodial wallet is better than ever! Since 2017, our mission is to deliver a smooth and enjoyable experience by combining the most modern technologies with an elegant and functional design. Our philosophy remains the same, but Neon certainly does not. Since its launch, it has undergone numerous improvements, and its third generation is here to show that it is ready for the new era of Web3. Here’s what’s new in this version:</br><li>• Ethereum & Neo X support</li><li>• New product design</li><li>• Common Platform Code</li><li>• Multi-Wallet Architecture</li><li>• Enhanced Interface Customization</li><li>• Global Login</li><li>• Account Import Scanning</li><li>• Improved WalletConnect Experience</li>",
