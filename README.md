@@ -26,7 +26,8 @@
 ## Roadmap
 We are continuously working to improve NEON 3 Wallet. Check out our [Roadmap](https://medium.com/proof-of-working/coz-presents-the-neon-wallet-roadmap-0a092742709e) for upcoming features and enhancements.
 
-##Community and Support
+
+## Community and Support
 Join our community to stay updated with the latest news and developments:
 
 [Discord](https://discord.gg/yRU8har6vZ) - For support and community engagement.
