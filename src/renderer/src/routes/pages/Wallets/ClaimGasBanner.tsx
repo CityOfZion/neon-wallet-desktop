@@ -40,14 +40,22 @@ const getUnclaimedInfos = async (
   let fee = '0'
 
   if (isCalculableFee(blockchainService)) {
+    const isLedger = account.type === 'ledger'
+
+    const serviceAccount =
+      isLedger && hasLedger(blockchainService)
+        ? blockchainService.generateAccountFromPublicKey(key)
+        : blockchainService.generateAccountFromKey(key)
+
     fee = await blockchainService.calculateTransferFee({
-      senderAccount: blockchainService.generateAccountFromKey(key),
+      senderAccount: serviceAccount,
       intent: {
         amount: '0',
         receiverAddress: account.address,
         tokenHash: blockchainService.burnToken.hash,
         tokenDecimals: blockchainService.burnToken.decimals,
       },
+      isLedger,
     })
   }
 
@@ -138,58 +146,58 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
     <div className="w-full bg-asphalt flex items-center justify-center rounded h-[55px] mb-5 text-sm">
       {unclaimed.isLoading || balances.isLoading ? (
         <Loader />
+      ) : !unclaimed.data ? (
+        <Fragment />
       ) : (
-        !!unclaimed.data && (
-          <div className="w-full flex justify-between items-center h-full px-4">
-            <div className="flex items-center gap-x-2">
-              <div className="flex items-center gap-x-1.5">
-                <BlockchainIcon blockchain={account.blockchain} type="green" />
-                {blockchainService.claimToken.symbol}
+        <div className="w-full flex justify-between items-center h-full px-4">
+          <div className="flex items-center gap-x-2">
+            <div className="flex items-center gap-x-1.5">
+              <BlockchainIcon blockchain={account.blockchain} type="green" />
+              {blockchainService.claimToken.symbol}
+            </div>
+
+            {feeIsLessThanUnclaimed === false ? (
+              <span className="text-gray-300">{t('unclaimedLessFee')}</span>
+            ) : feeIsLessThanBalance === false ? (
+              <span className="text-gray-300">{t('balanceLessFee')}</span>
+            ) : feeIsLessThanBalance === true ? (
+              <div className="flex gap-x-1">
+                <span className="text-gray-100">
+                  {t('youHaveUnclaimed', {
+                    symbol: blockchainService.claimToken.symbol,
+                  })}
+                </span>
+
+                <span className="text-gray-300">
+                  {t('feeToClaim', {
+                    fee: unclaimed.data?.fee,
+                    symbol: blockchainService.claimToken.symbol,
+                  })}
+                </span>
               </div>
-
-              {feeIsLessThanUnclaimed === false ? (
-                <span className="text-gray-300">{t('unclaimedLessFee')}</span>
-              ) : feeIsLessThanBalance === false ? (
-                <span className="text-gray-300">{t('balanceLessFee')}</span>
-              ) : feeIsLessThanBalance === true ? (
-                <div className="flex gap-x-1">
-                  <span className="text-gray-100">
-                    {t('youHaveUnclaimed', {
-                      symbol: blockchainService.claimToken.symbol,
-                    })}
-                  </span>
-
-                  <span className="text-gray-300">
-                    {t('feeToClaim', {
-                      fee: unclaimed.data?.fee,
-                      symbol: blockchainService.claimToken.symbol,
-                    })}
-                  </span>
-                </div>
-              ) : (
-                <Fragment />
-              )}
-            </div>
-
-            <div className="flex items-center gap-x-5">
-              <span>
-                {t('claimAmount', {
-                  amount: unclaimed.data.unclaimed,
-                  symbol: blockchainService.claimToken.symbol,
-                })}
-              </span>
-
-              <Button
-                label={t('buttonLabel')}
-                leftIcon={<TbTransform />}
-                disabled={!feeIsLessThanBalance || !feeIsLessThanUnclaimed || unclaimed.data.unclaimedNumber <= 0}
-                flat
-                loading={claiming}
-                onClick={handleClaimGas}
-              />
-            </div>
+            ) : (
+              <Fragment />
+            )}
           </div>
-        )
+
+          <div className="flex items-center gap-x-5">
+            <span>
+              {t('claimAmount', {
+                amount: unclaimed.data.unclaimed,
+                symbol: blockchainService.claimToken.symbol,
+              })}
+            </span>
+
+            <Button
+              label={t('buttonLabel')}
+              leftIcon={<TbTransform />}
+              disabled={!feeIsLessThanBalance || !feeIsLessThanUnclaimed || unclaimed.data.unclaimedNumber <= 0}
+              flat
+              loading={claiming}
+              onClick={handleClaimGas}
+            />
+          </div>
+        </div>
       )}
     </div>
   )
