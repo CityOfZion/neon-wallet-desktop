@@ -63,6 +63,17 @@ const componentsByBlockchain: Partial<
     eth_call: EthereumSendTransactionDappPermission,
     eth_sendRawTransaction: EthereumSendTransactionDappPermission,
   },
+  neox: {
+    personal_sign: EthereumSignMessageDappPermission,
+    eth_sign: EthereumSignMessageDappPermission,
+    eth_signTransaction: EthereumSignTransactionDappPermission,
+    eth_signTypedData: EthereumSignTypedDataDappPermission,
+    eth_signTypedData_v3: EthereumSignTypedDataDappPermission,
+    eth_signTypedData_v4: EthereumSignTypedDataDappPermission,
+    eth_sendTransaction: EthereumSendTransactionDappPermission,
+    eth_call: EthereumSendTransactionDappPermission,
+    eth_sendRawTransaction: EthereumSendTransactionDappPermission,
+  },
 }
 
 export const DappPermissionModal = () => {

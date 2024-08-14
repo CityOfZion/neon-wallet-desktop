@@ -82,8 +82,10 @@ export class WalletConnectEIP155Adapter extends AbstractWalletConnectEIP155Adapt
   }
 
   async getRPCUrl(params: TAdapterMethodParam): Promise<string> {
-    const { networkByBlockchain } = await getStoreAccountFromWCSession(params)
-    return networkByBlockchain.ethereum.url
+    const { networkByBlockchain, account } = await getStoreAccountFromWCSession(params)
+    if (!account) throw new Error('Account not found')
+
+    return networkByBlockchain[account.blockchain].url
   }
 
   async getCustomSigner(params: TAdapterMethodParam): Promise<TCustomSigner | undefined> {
