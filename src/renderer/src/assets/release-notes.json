@@ -2,7 +2,7 @@
   {
     "tag_name": "Version v3.0.1",
     "published_at": "13 Aug 2024",
-    "body": "<li>• Wallet Connect Enhancement - New Ethereum methods being supported (eth_call, eth_sendRawTransaction, eth_requestAccounts)</li><li>• Fix issue where if mnemonic has repeated words it was not being properly handled during confirmation</li><li>• Fix issue with derivation index during import scan</li>",
+    "body": "<li>• Wallet Connect Enhancement - New Ethereum methods being supported (eth_call, eth_sendRawTransaction, eth_requestAccounts)</li><li>• Fix issue where if mnemonic has repeated words it was not being properly handled during confirmation</li><li>• Fix issue with derivation index during import scan</li><li>• Fix to Claim GAS visual bug when using Ledger</li><li>• Fix to issue that was preventing users from sending assets with Ledger</li>",
     "html_url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.0.1"
   },
   {
