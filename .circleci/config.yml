@@ -62,7 +62,7 @@ jobs:
       - checkout
       - node/install:
           node-version: '18.14.2'
-      - run: npm ci --timeout 1500000
+      - run: npm i
       - run: npm run build:mac
       - store_artifacts:
           path: dist
