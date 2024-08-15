@@ -3,7 +3,7 @@ name: Build and Release macOS
 on:
   push:
     tags:
-      - 'build_ios'
+      - 'build_mac'
 
 jobs:
   build_macos:
