@@ -23,6 +23,15 @@ jobs:
       - name: Install python
         run: brew install python@3.11
 
+      - name: Distutils
+        run: python3 -m distutils
+
+      - name: Ensurepip
+        run: python3 -m ensurepip --upgrade
+
+      - name: Setuptools
+        run: python3 -m pip install --upgrade pip setuptools
+
       - name: Install dependencies
         run: npm ci
 
