@@ -62,6 +62,13 @@ jobs:
       - checkout
       - node/install:
           node-version: '18.14.2'
+      - run:
+          command: |
+            node -v
+            npm -v
+            sw_vers
+            uname -a
+            npm ls --depth=0
       - run: npm i
       - run: npm run build:mac
       - store_artifacts:

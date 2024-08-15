@@ -17,6 +17,14 @@ jobs:
         with:
           node-version: '18.14.2'
 
+      - name: Check 
+        run: |
+          node -v
+          npm -v
+          sw_vers
+          uname -a
+          npm ls --depth=0
+
       - name: Check node
         run: node --version
 
