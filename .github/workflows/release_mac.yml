@@ -16,30 +16,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18.14.2'
-
-      - name: Check 
-        run: |
-          node -v
-          npm -v
-          sw_vers
-          uname -a
-          npm ls --depth=0
-
-      - name: Check node
-        run: node --version
-
-      - name: Install python
-        run: brew install python@3.11
-
-      - name: Ensurepip
-        run: python3 -m ensurepip --upgrade
-
-      - name: Setuptools
-        run: python3 -m pip install --upgrade pip setuptools
-
-      - name: Distutils
-        run: python3 -m distutils
-
+          
       - name: Install dependencies
         run: npm ci
 

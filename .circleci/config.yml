@@ -3,6 +3,7 @@ version: 2.1
 orbs:
   win: circleci/windows@5.0.0
   node: circleci/node@5.1.0
+  macos: circleci/macos@2.5.2
   gh: circleci/github-cli@2.3.0
 
 references:
@@ -62,13 +63,6 @@ jobs:
       - checkout
       - node/install:
           node-version: '18.14.2'
-      - run:
-          command: |
-            node -v
-            npm -v
-            sw_vers
-            uname -a
-            npm ls --depth=0
       - run: npm i
       - run: npm run build:mac
       - store_artifacts:
