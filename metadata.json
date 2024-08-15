@@ -1,0 +1,6 @@
+{
+  "Endpoint": "https://eus.codesigning.azure.net",
+  "CodeSigningAccountName": "Neon",
+  "CertificateProfileName": "Neon-Wallet-Desktop",
+  "CorrelationId": "NeonW"
+}

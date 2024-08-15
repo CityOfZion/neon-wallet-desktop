@@ -17,6 +17,7 @@ win:
     - target: nsis
       arch:
         - x64
+  sign: "./customSign.js"
 nsis:
   shortcutName: ${productName}
   uninstallDisplayName: ${productName}

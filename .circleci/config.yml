@@ -74,6 +74,25 @@ jobs:
       size: 'medium'
     steps:
       - checkout
+      - run:
+          name: Install NuGet
+          command: Invoke-WebRequest -Uri https://dist.nuget.org/win-x86-commandline/latest/nuget.exe -OutFile .\nuget.exe
+      - run:
+          name: Install BuildTools
+          command: .\nuget.exe install Microsoft.Windows.SDK.BuildTools -Version 10.0.22621.3233 -x
+      - run:
+          name: Install Trusted Signing dlib
+          command: .\nuget.exe install Microsoft.Trusted.Signing.Client -Version 1.0.53 -x
+      - run:
+          name: Set ENVs
+          command: |
+            $currentDir = (Get-Location).Path
+            $signtoolPath = Join-Path -Path $currentDir -ChildPath "Microsoft.Windows.SDK.BuildTools\bin\10.0.22621.0\x64\signtool.exe"
+            $codesigningDlibPath = Join-Path -Path $currentDir -ChildPath "Microsoft.Trusted.Signing.Client\bin\x64\Azure.CodeSigning.Dlib.dll"
+            $metadataPath = Join-Path -Path $currentDir -ChildPath "metadata.json"
+            setx SIGNTOOL_PATH $signtoolPath
+            setx CODESIGNING_DLIB_PATH $codesigningDlibPath
+            setx METADATA_PATH $metadataPath
       - run: npm ci --timeout 1500000
       - run: npm run build:win
       - store_artifacts:
