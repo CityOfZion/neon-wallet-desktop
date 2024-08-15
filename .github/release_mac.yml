@@ -2,8 +2,8 @@ name: Build and Release macOS
 
 on:
   push:
-    branches:
-      - '*'  
+    tags:
+      - 'build_ios'
 
 jobs:
   build_macos:
