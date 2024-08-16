@@ -63,8 +63,8 @@ jobs:
       - node/install:
           node-version: '18.14.2'
       - run: |
-          brew uninstall python --ignore-dependencies
           brew install python@3.11
+          pyenv global 3.11
       - run: npm ci
       - run: npm run build:mac
       - store_artifacts:
