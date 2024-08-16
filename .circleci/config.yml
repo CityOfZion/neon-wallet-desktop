@@ -62,11 +62,12 @@ jobs:
       - checkout
       - node/install:
           node-version: '18.14.2'
-      - run: |
-          brew uninstall --ignore-dependencies python3
-          brew install python@3.11
+      - run: brew install python@3.11
       - run: npm ci
-      - run: npm run build:mac
+      - run:
+          environment: 
+              PYTHON: '3.11'
+          command: npm run build:mac
       - store_artifacts:
           path: dist
           destination: build
