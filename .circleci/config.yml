@@ -63,29 +63,9 @@ jobs:
       - checkout
       - node/install:
           node-version: '18.14.2'
-      - run:
-          name: Install Rosetta 2
-          command: softwareupdate --install-rosetta --agree-to-license
-      - run:
-          name: Install Node.js x64
-          command: |
-            arch -x86_64 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh)"
-            export NVM_DIR="$HOME/.nvm"
-            source "$NVM_DIR/nvm.sh"
-            nvm install --arch=x64 16 # ou a versão desejada
-            nvm use --arch=x64 16
-      - run:
-          name: Install Dependencies
-          command: |
-            export NVM_DIR="$HOME/.nvm"
-            source "$NVM_DIR/nvm.sh"
-            nvm exec --arch=x64 npm install
-      - run:
-          name: Build Project
-          command: |
-            export NVM_DIR="$HOME/.nvm"
-            source "$NVM_DIR/nvm.sh"
-            nvm exec --arch=x64 npm run build:mac
+      - run: brew install python-setuptools
+      - run: npm ci
+      - run: npm run build:mac
       - store_artifacts:
           path: dist
           destination: build

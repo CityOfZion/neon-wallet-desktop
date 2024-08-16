@@ -17,22 +17,14 @@ jobs:
         with:
           node-version: '18.14.2'
 
-      - name: Install Rosetta 2
-        run: softwareupdate --install-rosetta --agree-to-license
-        
-      - name: Install Node.js x64
-        run: |
-          arch -x86_64 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh)"
-          export NVM_DIR="$HOME/.nvm"
-          source "$NVM_DIR/nvm.sh"
-          nvm install --arch=x64 16 # ou a versão desejada
-          nvm use --arch=x64 16
+      - name: Install dependencies
+        run: brew install python-setuptools
 
-      - name: Install Dependencies
-        run: nvm exec --arch=x64 npm install
-        
-      - name: Build Project
-        run: nvm exec --arch=x64 npm run build:mac
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build macOS app
+        run: npm run build:mac
 
       - name: Upload .dmg to GitHub Actions artifacts
         uses: actions/upload-artifact@v3
