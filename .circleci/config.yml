@@ -63,6 +63,7 @@ jobs:
       - checkout
       - node/install:
           node-version: '18.14.2'
+      - run: npm install node-pre-gyp --force
       - run: npm i
       - run: npm run build:mac
       - store_artifacts:
