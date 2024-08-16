@@ -63,10 +63,9 @@ jobs:
       - checkout
       - node/install:
           node-version: '18.14.2'
-      - run: npm install node-pre-gyp --force
-      - run: npm install -g node-gyp
-      - run: xcode-select --install
-      - run: npm i
+      - run: npm install node-pre-gyp
+      - run: npm install node-gyp
+      - run: npm ci
       - run: npm run build:mac
       - store_artifacts:
           path: dist
