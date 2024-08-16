@@ -17,8 +17,11 @@ jobs:
         with:
           node-version: '18.14.2'
 
-      - name: Install dependencies
-        run: brew install python-setuptools
+      - name: Set python
+        run: |
+          brew install python@3.11
+          export PYTHON=3.11
+          export npm_config_python=/opt/homebrew/bin/python3.1
 
       - name: Install dependencies
         run: npm ci
