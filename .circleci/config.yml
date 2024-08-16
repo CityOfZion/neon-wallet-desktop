@@ -64,7 +64,10 @@ jobs:
       - node/install:
           node-version: '18.14.2'
       - run: brew install python-setuptools
-      - run: export NODE_OPTIONS=--max_old_space_size=4096
+      - run: |
+          brew install python@3.11
+          export PYTHON=3.11
+          export npm_config_python=/opt/homebrew/bin/python3.1
       - run: npm ci
       - run: npm run build:mac
       - store_artifacts:
