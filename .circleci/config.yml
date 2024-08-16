@@ -3,7 +3,6 @@ version: 2.1
 orbs:
   win: circleci/windows@5.0.0
   node: circleci/node@5.1.0
-  macos: circleci/macos@2.5.2
   gh: circleci/github-cli@2.3.0
 
 references:
@@ -63,11 +62,9 @@ jobs:
       - checkout
       - node/install:
           node-version: '18.14.2'
-      - run: brew install python-setuptools
       - run: |
+          brew uninstall --ignore-dependencies python3
           brew install python@3.11
-          export PYTHON=3.11
-          export npm_config_python=/opt/homebrew/bin/python3.1
       - run: npm ci
       - run: npm run build:mac
       - store_artifacts:
