@@ -58,10 +58,14 @@ jobs:
   build_macos:
     macos:
       xcode: '16.0.0'
-    shell: /usr/bin/arch -x86_64 /bin/bash
     resource_class: macos.m1.medium.gen1
     steps:
-      - run: softwareupdate --install-rosetta --agree-to-license
+      - checkout
+      - node/install:
+          node-version: '18.14.2'
+      - run:
+          name: Install Rosetta 2
+          command: softwareupdate --install-rosetta --agree-to-license
       - run:
           name: Install Node.js x64
           command: |
@@ -70,13 +74,18 @@ jobs:
             source "$NVM_DIR/nvm.sh"
             nvm install --arch=x64 16 # ou a versão desejada
             nvm use --arch=x64 16
-      - run: nvm exec --arch=x64 npm install
-      - run: nvm exec --arch=x64 npm run build
-      - checkout
-      - node/install:
-          node-version: '18.14.2'
-      - run: npm ci
-      - run: npm run build:mac
+      - run:
+          name: Install Dependencies
+          command: |
+            export NVM_DIR="$HOME/.nvm"
+            source "$NVM_DIR/nvm.sh"
+            nvm exec --arch=x64 npm install
+      - run:
+          name: Build Project
+          command: |
+            export NVM_DIR="$HOME/.nvm"
+            source "$NVM_DIR/nvm.sh"
+            nvm exec --arch=x64 npm run build:mac
       - store_artifacts:
           path: dist
           destination: build
