@@ -10,13 +10,9 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Check out repository
-        run: echo $APPLE_TEAM_ID
-
-      - name: Check out repository
         env:
-          APPLE_TEAM_ID: ${{ vars.APPLE_TEAM_ID }}
-        run: printenv
-
+          ABCBA: ${{ secrets.APPLE_TEAM_ID }}
+        run: echo $ABCBA
 
       - name: Check out repository
         uses: actions/checkout@v3
