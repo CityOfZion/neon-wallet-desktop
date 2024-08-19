@@ -17,9 +17,6 @@ jobs:
         with:
           node-version: '18.14.2'
 
-      - name: Set node_options      
-        run: export NODE_OPTIONS=--max_old_space_size=4096
-
       - name: Install dependencies
         run: brew install python-setuptools
 
@@ -27,7 +24,7 @@ jobs:
         run: npm ci
 
       - name: Build macOS app
-        run: npm run build:mac
+        run: NODE_OPTIONS=--max_old_space_size=8192 npm run build:mac
 
       - name: Upload .dmg to GitHub Actions artifacts
         uses: actions/upload-artifact@v3
