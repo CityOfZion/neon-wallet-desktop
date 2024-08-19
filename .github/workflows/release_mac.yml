@@ -10,7 +10,6 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Check out repository
-        env:
         run: echo $APPLE_TEAM_ID
 
       - name: Check out repository
