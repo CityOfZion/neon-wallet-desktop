@@ -9,16 +9,6 @@ jobs:
   build_macos:
     runs-on: macos-latest
     steps:
-      env:
-        APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
-        APPLE_ID: ${{ secrets.APPLE_ID }}
-        APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
-        APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
-        CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
-        CSC_LINK: ${{ secrets.CSC_LINK }}
-        DEBUG: ${{ secrets.DEBUG }}
-        VITE_SENTRY_DNS: ${{ secrets.VITE_SENTRY_DNS }}
-
       - name: Check out repository
         uses: actions/checkout@v3
 
@@ -34,6 +24,15 @@ jobs:
         run: npm ci
 
       - name: Build macOS app
+        env:
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
+          CSC_LINK: ${{ secrets.CSC_LINK }}
+          DEBUG: ${{ secrets.DEBUG }}
+          VITE_SENTRY_DNS: ${{ secrets.VITE_SENTRY_DNS }}
         run: NODE_OPTIONS=--max_old_space_size=8192 npm run build:mac
 
       - name: Upload .dmg to GitHub Actions artifacts
