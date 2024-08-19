@@ -17,7 +17,7 @@ jobs:
       CSC_LINK: ${{ secrets.CSC_LINK }}
       DEBUG: ${{ secrets.DEBUG }}
       VITE_SENTRY_DNS: ${{ secrets.VITE_SENTRY_DNS }}
-      NODE_OPTIONS: --max_old_space_size=8192
+      NODE_OPTIONS: ${{ secrets.NODE_OPTIONS }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
