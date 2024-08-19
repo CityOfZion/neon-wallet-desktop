@@ -24,6 +24,13 @@ jobs:
         run: brew install python@3.11
 
       - name: Install dependencies
+        run: export PYTHON=3.11
+
+      - name: Install dependencies
+        run: export npm_config_python=/opt/homebrew/bin/python3.1
+
+
+      - name: Install dependencies
         run: npm ci
 
       - name: Build macOS app
