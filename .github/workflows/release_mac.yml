@@ -18,10 +18,13 @@ jobs:
           node-version: '18.14.2'
 
       - name: Install dependencies
-        run: |
-          brew install pyenv
-          pyenv install 3.11.6
-          pyenv global 3.11.6
+        run: brew install pyenv
+
+      - name: Install dependencies
+        run: pyenv install 3.11.6
+
+      - name: Install dependencies
+        run: pyenv global 3.11.6
 
       - name: Set node_options      
         run: export NODE_OPTIONS=--max_old_space_size=4096
