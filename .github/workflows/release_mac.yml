@@ -10,6 +10,15 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Check out repository
+        run: echo ${{ secrets.APPLE_TEAM_ID }}
+
+      - name: Check out repository
+        run: echo ${{ vars.APPLE_TEAM_ID }}
+
+      - name: Check out repository
+        run: echo ${{ env.APPLE_TEAM_ID }}
+
+      - name: Check out repository
         uses: actions/checkout@v3
 
       - name: Set up Node.js
