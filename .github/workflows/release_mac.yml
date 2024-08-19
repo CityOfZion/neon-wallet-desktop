@@ -18,7 +18,7 @@ jobs:
       DEBUG: ${{ secrets.DEBUG }}
       VITE_SENTRY_DNS: ${{ secrets.VITE_SENTRY_DNS }}
       NODE_OPTIONS: ${{ secrets.NODE_OPTIONS }}
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
