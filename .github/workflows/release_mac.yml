@@ -11,18 +11,13 @@ jobs:
     steps:
       - name: Check out repository
         env:
-          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
-        run: printenv
+        run: echo $APPLE_TEAM_ID
 
       - name: Check out repository
         env:
           APPLE_TEAM_ID: ${{ vars.APPLE_TEAM_ID }}
         run: printenv
 
-      - name: Check out repository
-        env:
-          APPLE_TEAM_ID: ${{ env.APPLE_TEAM_ID }}
-        run: printenv
 
       - name: Check out repository
         uses: actions/checkout@v3
