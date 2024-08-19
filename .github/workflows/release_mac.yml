@@ -9,10 +9,7 @@ jobs:
   build_macos:
     runs-on: macos-latest
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v3
-
-      - name: Project Env
+      env:
         APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
         APPLE_ID: ${{ secrets.APPLE_ID }}
         APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
@@ -21,6 +18,9 @@ jobs:
         CSC_LINK: ${{ secrets.CSC_LINK }}
         DEBUG: ${{ secrets.DEBUG }}
         VITE_SENTRY_DNS: ${{ secrets.VITE_SENTRY_DNS }}
+
+      - name: Check out repository
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
