@@ -62,7 +62,11 @@ jobs:
       - checkout
       - node/install:
           node-version: '18.14.2'
-      - run: npm ci --timeout 1500000
+      - run: |
+          brew install pyenv
+          pyenv install 3.11.6
+          pyenv global 3.11.6
+      - run: npm ci
       - run: npm run build:mac
       - store_artifacts:
           path: dist
@@ -115,22 +119,7 @@ workflows:
   deploy:
     jobs:
       # build artifacts only on tags with name v.*
-      - build_macos:
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /v.*/
       - build_win:
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /v.*/
-      - generate_checksums:
-          requires:
-            - build_macos
-            - build_win
           filters:
             branches:
               ignore: /.*/
