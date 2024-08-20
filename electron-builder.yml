@@ -50,3 +50,9 @@ linux:
 
 npmRebuild: true
 buildDependenciesFromSource: true
+publish:
+  provider: github
+  owner: CityOfZion
+  repo: neon-wallet-desktop
+  private: true
+  token: GH_TOKEN

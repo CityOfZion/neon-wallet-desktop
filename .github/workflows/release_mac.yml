@@ -36,9 +36,3 @@ jobs:
 
       - name: Build macOS app
         run: npm run build:mac
-
-      - name: Upload .dmg to GitHub Actions artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: build
-          path: dist/*.dmg
