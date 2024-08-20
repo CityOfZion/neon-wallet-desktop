@@ -55,4 +55,4 @@ publish:
   owner: CityOfZion
   repo: neon-wallet-desktop
   private: true
-  token: ${env.TOKEN_GH}
+  token: ${env.GH_TOKEN}
