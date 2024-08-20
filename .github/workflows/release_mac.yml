@@ -19,6 +19,7 @@ jobs:
       VITE_SENTRY_DNS: ${{ secrets.VITE_SENTRY_DNS }}
       NODE_OPTIONS: ${{ secrets.NODE_OPTIONS }}
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      TOKEN_GH: ${{ secrets.TOKEN_GH }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
