@@ -1,0 +1,38 @@
+name: Build and Release macOS
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build_macos:
+    runs-on: macos-latest
+    env:
+      APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+      APPLE_ID: ${{ secrets.APPLE_ID }}
+      APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
+      APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+      CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
+      CSC_LINK: ${{ secrets.CSC_LINK }}
+      DEBUG: ${{ secrets.DEBUG }}
+      VITE_SENTRY_DNS: ${{ secrets.VITE_SENTRY_DNS }}
+      NODE_OPTIONS: ${{ secrets.NODE_OPTIONS }}
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.14.2'
+
+      - name: Install dependencies
+        run: brew install python-setuptools
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build macOS app
+        run: npm run build:mac
