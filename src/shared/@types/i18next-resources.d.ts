@@ -790,6 +790,9 @@ interface Resources {
           invalidAddress: 'Invalid address'
           unexpectedError: 'Unexpected error'
           locateFileButtonLabel: 'Locate file...'
+          neon2Warning: 'This file is created during the migration process in your Neon 2 wallet. Start the process in Neon 2 to create the file.'
+          importSuccess: 'Compatible file identified!'
+          importError: 'Compatible file not recognised'
         }
         step4: {
           title: 'Please be patient, we are now setting up your wallet'
