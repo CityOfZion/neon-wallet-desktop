@@ -2,6 +2,7 @@ import { Fragment, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbFileImport } from 'react-icons/tb'
 import { Location, useLocation, useNavigate } from 'react-router-dom'
+import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
 import { Textarea } from '@renderer/components/Textarea'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
@@ -205,6 +206,16 @@ export const WelcomeImportWalletStep3Page = () => {
           }}
           onClick={fileActions.handleBrowse}
         />
+
+        {!fileActions.actionData.path && !fileActions.actionState.errors.path && (
+          <Banner type="warning" message={t('neon2Warning')} className="my-3" />
+        )}
+
+        {fileActions.actionState.errors.path && <Banner type="warning" message={t('importError')} className="my-3" />}
+
+        {fileActions.actionData.path && !fileActions.actionState.errors.path && (
+          <Banner type="success" message={t('importSuccess')} className="my-3" />
+        )}
 
         <Button
           label={commonT('general.next')}
