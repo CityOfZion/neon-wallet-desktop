@@ -1,7 +1,7 @@
 import { Fragment, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdAdd, MdOutlineContentCopy } from 'react-icons/md'
-import { TbDotsVertical, TbFileImport, TbPencil, TbUpload } from 'react-icons/tb'
+import { TbDotsVertical, TbFileImport, TbPencil, TbRefresh, TbUpload } from 'react-icons/tb'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import { hasNft } from '@cityofzion/blockchain-service'
 import { ActionPopover } from '@renderer/components/ActionPopover'
@@ -10,10 +10,12 @@ import { IconButton } from '@renderer/components/IconButton'
 import { Separator } from '@renderer/components/Separator'
 import { SidebarMenuButton } from '@renderer/components/SidebarMenuButton'
 import { StringHelper } from '@renderer/helpers/StringHelper'
+import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+import { useLastUpdated, useRefetch } from '@renderer/hooks/useQuery'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
 import { MainLayout } from '@renderer/layouts/Main'
 import { bsAggregator } from '@renderer/libs/blockchainService'
@@ -33,6 +35,9 @@ export const WalletsPage = () => {
   const { modalNavigateWrapper } = useModalNavigate()
   const navigate = useNavigate()
   const { id } = useParams<TParams>()
+
+  const { refetch, isRefetching } = useRefetch()
+  const lastUpdated = useLastUpdated()
 
   const [selectedWallet, setSelectedWallet] = useState<IWalletState | undefined>(wallets[0])
   const [selectedAccount, setSelectedAccount] = useState<IAccountState | undefined>(
@@ -149,35 +154,51 @@ export const WalletsPage = () => {
                 <p className="text-gray-100">{StringHelper.truncateStringMiddle(selectedAccount.address, 8)}</p>
                 <IconButton
                   icon={<MdOutlineContentCopy />}
-                  size="sm"
                   colorSchema="neon"
                   compacted
                   onClick={() => UtilsHelper.copyToClipboard(selectedAccount.address)}
                 />
               </div>
 
-              <ActionPopover.Root>
-                <ActionPopover.Trigger asChild>
-                  <IconButton icon={<TbDotsVertical />} size="md" compacted />
-                </ActionPopover.Trigger>
+              <div className="flex gap-2">
+                <div className="flex items-center gap-2">
+                  {lastUpdated && (
+                    <span className="text-xs text-gray-300 italic">
+                      {t('lastUpdated', { date: new Date(lastUpdated).toLocaleTimeString() })}
+                    </span>
+                  )}
+                  <IconButton
+                    icon={<TbRefresh className={StyleHelper.mergeStyles({ 'animate-spin': isRefetching })} />}
+                    compacted
+                    size="sm"
+                    colorSchema="neon"
+                    onClick={refetch}
+                  />
+                </div>
 
-                <ActionPopover.Content>
-                  <ActionPopover.Item
-                    leftIcon={<TbPencil />}
-                    onClick={modalNavigateWrapper('persist-account', { state: { account: selectedAccount } })}
-                    label={t('editAccountButton')}
-                    textClassName={'text-start text-white'}
-                  />
-                  <ActionPopover.Item
-                    leftIcon={<TbUpload />}
-                    onClick={modalNavigateWrapper('confirm-password-export-key', {
-                      state: { account: selectedAccount },
-                    })}
-                    label={t('exportKeyButton')}
-                    textClassName={'text-start text-white'}
-                  />
-                </ActionPopover.Content>
-              </ActionPopover.Root>
+                <ActionPopover.Root>
+                  <ActionPopover.Trigger asChild>
+                    <IconButton icon={<TbDotsVertical />} size="md" compacted />
+                  </ActionPopover.Trigger>
+
+                  <ActionPopover.Content>
+                    <ActionPopover.Item
+                      leftIcon={<TbPencil />}
+                      onClick={modalNavigateWrapper('persist-account', { state: { account: selectedAccount } })}
+                      label={t('editAccountButton')}
+                      textClassName={'text-start text-white'}
+                    />
+                    <ActionPopover.Item
+                      leftIcon={<TbUpload />}
+                      onClick={modalNavigateWrapper('confirm-password-export-key', {
+                        state: { account: selectedAccount },
+                      })}
+                      label={t('exportKeyButton')}
+                      textClassName={'text-start text-white'}
+                    />
+                  </ActionPopover.Content>
+                </ActionPopover.Root>
+              </div>
             </header>
 
             <div className="flex h-full bg-gray-900/30 min-h-0">

@@ -25,7 +25,6 @@ export const AddressCell = ({ address, blockchain }: TContactAddress) => {
 
         <IconButton
           icon={<MdOutlineContentCopy className="text-neon" />}
-          size="sm"
           onClick={() => UtilsHelper.copyToClipboard(address)}
         />
       </div>
