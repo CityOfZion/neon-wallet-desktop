@@ -580,6 +580,11 @@ interface Resources {
               subtitle: 'Message successfully signed!'
             }
           }
+          fee: {
+            label: 'FEE'
+            fee: '{value} ETH'
+            feeError: 'Error to calculate fee. The request was cancelled.'
+          }
         }
       }
     }

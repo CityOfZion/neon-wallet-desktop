@@ -360,6 +360,11 @@
             "heading": "Dapp Request",
             "subtitle": "Message successfully signed!"
           }
+        },
+        "fee": {
+          "label": "FEE",
+          "fee": "{{fee}} ETH",
+          "feeError": "Error to calculate fee. The request was cancelled."
         }
       }
     }

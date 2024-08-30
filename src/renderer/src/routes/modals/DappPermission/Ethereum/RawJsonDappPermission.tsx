@@ -13,6 +13,7 @@ type TProps = TDappPermissionComponentProps & {
   successSubtitle: string
   successContent?: (props: any) => JSX.Element
   title: string
+  fee?: (props: any) => JSX.Element
 }
 
 export const EthereumRawJsonDappPermission = ({
@@ -24,6 +25,7 @@ export const EthereumRawJsonDappPermission = ({
   title,
   successSubtitle,
   successContent,
+  fee,
 }: TProps) => {
   const { t } = useTranslation('modals', { keyPrefix: 'dappPermission.requests.ethereum.rawJson' })
 
@@ -53,7 +55,7 @@ export const EthereumRawJsonDappPermission = ({
         <p className="text-white text-2xl mt-9 text-center">{title}</p>
       </div>
 
-      <div className="mt-8 flex flex-col gap-1 text-xs w-full text-gray-100 flex-grow">
+      <div className="mt-8 flex flex-col gap-2 text-xs w-full text-gray-100 flex-grow">
         <span className="font-bold">{t('dataLabel')}</span>
         <div className=" bg-asphalt w-full p-2 rounded break-words whitespace-pre-wrap max-h-48 overflow-y-auto relative">
           {json}
@@ -65,6 +67,8 @@ export const EthereumRawJsonDappPermission = ({
             onClick={UtilsHelper.copyToClipboard.bind(null, json)}
           />
         </div>
+
+        {fee && fee({ request: request, session: session, onReject: onReject })}
       </div>
 
       <div className="flex gap-2.5 px-10 mt-8 pb-10 z-50 ">
