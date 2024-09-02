@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { SuccessModalContent } from '../SuccessModalContent'
 import { TDappPermissionComponentProps } from '..'
 
+import { Fee } from './Fee'
 import { EthereumRawJsonDappPermission } from './RawJsonDappPermission'
 
 export const EthereumSendTransactionDappPermission = (props: TDappPermissionComponentProps) => {
@@ -13,6 +14,7 @@ export const EthereumSendTransactionDappPermission = (props: TDappPermissionComp
       successSubtitle={t('successModal.subtitle')}
       successContent={SuccessModalContent}
       title={t('title')}
+      fee={Fee}
       {...props}
     />
   )
