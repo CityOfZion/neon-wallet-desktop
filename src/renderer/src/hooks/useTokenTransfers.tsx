@@ -93,7 +93,7 @@ async function fetchTransactions(
         transaction.transfers.forEach(transfer => {
           queryData.transfers.push({
             amount: transfer.type === 'nft' ? '1' : Number(transfer.amount).toFixed(transfer.token?.decimals ?? 8),
-            asset: transfer.type === 'nft' ? transfer.tokenId : (transfer.token?.symbol ?? ''),
+            asset: transfer.type === 'nft' ? transfer.tokenId : transfer.token?.symbol ?? '',
             from: transfer.from,
             to: transfer.to,
             time: transaction.time,
