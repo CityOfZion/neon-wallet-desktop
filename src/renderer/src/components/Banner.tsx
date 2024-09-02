@@ -8,6 +8,7 @@ export type TBannerType = 'info' | 'error' | 'success' | 'warning' | 'warningOra
 export type TBanner = {
   type: TBannerType
   message: ReactNode
+  textClassName?: string
 }
 
 type TProps = TBanner & ComponentProps<'div'>
@@ -25,7 +26,7 @@ const iconByType: Record<TBannerType, JSX.Element> = {
   ),
 }
 
-export const Banner = ({ message, type, className, ...props }: TProps) => {
+export const Banner = ({ message, type, className, textClassName, ...props }: TProps) => {
   return (
     <div
       className={StyleHelper.mergeStyles('flex bg-gray-300/15 rounded overflow-hidden items-center', className)}
@@ -33,7 +34,7 @@ export const Banner = ({ message, type, className, ...props }: TProps) => {
     >
       <div className="flex py-3 px-4 h-full items-center justify-center bg-gray-300/30">{iconByType[type]}</div>
 
-      <p className="px-5 text-xs text-white py-2">{message}</p>
+      <p className={StyleHelper.mergeStyles('px-5 text-xs text-white py-2', textClassName)}>{message}</p>
     </div>
   )
 }

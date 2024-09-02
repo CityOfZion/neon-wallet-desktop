@@ -1,9 +1,10 @@
 import { Fragment, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdAdd, MdOutlineContentCopy } from 'react-icons/md'
-import { TbFileImport, TbPencil } from 'react-icons/tb'
+import { TbDotsVertical, TbFileImport, TbPencil, TbUpload } from 'react-icons/tb'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import { hasNft } from '@cityofzion/blockchain-service'
+import { ActionPopover } from '@renderer/components/ActionPopover'
 import { Button } from '@renderer/components/Button'
 import { IconButton } from '@renderer/components/IconButton'
 import { Separator } from '@renderer/components/Separator'
@@ -155,16 +156,28 @@ export const WalletsPage = () => {
                 />
               </div>
 
-              <Button
-                leftIcon={<TbPencil />}
-                label={t('editAccountButton')}
-                className="w-fit"
-                variant="text"
-                flat
-                colorSchema="gray"
-                clickableProps={{ className: 'text-xs' }}
-                onClick={modalNavigateWrapper('persist-account', { state: { account: selectedAccount } })}
-              />
+              <ActionPopover.Root>
+                <ActionPopover.Trigger asChild>
+                  <IconButton icon={<TbDotsVertical />} size="md" compacted />
+                </ActionPopover.Trigger>
+
+                <ActionPopover.Content>
+                  <ActionPopover.Item
+                    leftIcon={<TbPencil />}
+                    onClick={modalNavigateWrapper('persist-account', { state: { account: selectedAccount } })}
+                    label={t('editAccountButton')}
+                    textClassName={'text-start text-white'}
+                  />
+                  <ActionPopover.Item
+                    leftIcon={<TbUpload />}
+                    onClick={modalNavigateWrapper('confirm-password-export-key', {
+                      state: { account: selectedAccount },
+                    })}
+                    label={t('exportKeyButton')}
+                    textClassName={'text-start text-white'}
+                  />
+                </ActionPopover.Content>
+              </ActionPopover.Root>
             </header>
 
             <div className="flex h-full bg-gray-900/30 min-h-0">

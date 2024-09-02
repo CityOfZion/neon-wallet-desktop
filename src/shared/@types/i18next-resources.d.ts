@@ -615,6 +615,21 @@ interface Resources {
       cancel: 'Cancel'
       deleteLastAccountError: 'To remove the last account from a wallet, you need to delete the entire wallet'
     }
+    exportKey: {
+      title: 'Export key'
+      subtitle: 'Use your key to backup your account or move your assets between wallets'
+      keyDetailsTitle: 'Key details'
+      copyButtonLabel: 'Copy'
+      printButtonLabel: 'Print'
+      warningDescription: 'Keep your keys safe! They grant complete control over your wallet and assets'
+    }
+    confirmPasswordExportKey: {
+      title: 'Export key'
+      description: 'To protect acess to your assets, please confirm your password'
+      inputPlaceholder: 'Enter password...'
+      error: 'Password not recognised!'
+      buttonContinueLabel: 'Continue'
+    }
     deleteWallet: {
       title: 'Edit wallet'
       deleteWallet: 'Delete wallet?'
@@ -888,7 +903,8 @@ interface Resources {
       title: 'Wallets'
       addAccountButtonLabel: 'Add Account'
       editWalletButtonLabel: 'Edit'
-      editAccountButton: 'Edit'
+      editAccountButton: 'Edit account'
+      exportKeyButton: 'Export key'
       importButtonLabel: 'Import'
       newWalletButtonLabel: 'New Wallet'
       address: 'Address'
