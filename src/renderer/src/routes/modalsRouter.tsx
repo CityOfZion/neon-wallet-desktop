@@ -1,3 +1,5 @@
+import { ConfirmPasswordExportKeyModal } from '@renderer/routes/modals/ConfirmPasswordExportKey'
+import { ExportKeyModal } from '@renderer/routes/modals/ExportKey'
 import { TRoute } from '@shared/@types/modal'
 
 import { AddAddressModal } from './modals/AddAddress'
@@ -53,6 +55,8 @@ export const modalsRouter: TRoute[] = [
   { name: 'confirm-password-recover', type: 'side', element: <ConfirmPasswordRecoverModal /> },
   { name: 'persist-account', type: 'side', element: <PersistAccountModal /> },
   { name: 'delete-account', type: 'side', size: 'md', element: <DeleteAccountModal /> },
+  { name: 'export-key', type: 'side', size: 'md', element: <ExportKeyModal /> },
+  { name: 'confirm-password-export-key', type: 'side', element: <ConfirmPasswordExportKeyModal /> },
   { name: 'delete-wallet', type: 'side', size: 'md', element: <DeleteWalletModal /> },
   { name: 'create-wallet-step-1', type: 'side', size: 'xl', element: <CreateWalletStep1Modal /> },
   { name: 'create-wallet-step-2', type: 'side', size: 'xl', element: <CreateWalletStep2Modal /> },
