@@ -20,6 +20,7 @@ import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
 import { MainLayout } from '@renderer/layouts/Main'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { IAccountState, IWalletState } from '@shared/@types/store'
+import { format } from 'date-fns'
 
 import { AccountList } from './AccountList'
 import { WalletsSelect } from './WalletsSelect'
@@ -164,11 +165,14 @@ export const WalletsPage = () => {
                 <div className="flex items-center gap-2">
                   {lastUpdated && (
                     <span className="text-xs text-gray-300 italic">
-                      {t('lastUpdated', { date: new Date(lastUpdated).toLocaleTimeString() })}
+                      {t('lastUpdated', {
+                        date: isRefetching ? t('emptyDate') : format(new Date(lastUpdated), t('dateFormat')),
+                      })}
                     </span>
                   )}
                   <IconButton
                     icon={<TbRefresh className={StyleHelper.mergeStyles({ 'animate-spin': isRefetching })} />}
+                    disabled={!!isRefetching}
                     compacted
                     size="sm"
                     colorSchema="neon"
