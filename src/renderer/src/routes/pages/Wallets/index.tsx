@@ -188,14 +188,16 @@ export const WalletsPage = () => {
                       label={t('editAccountButton')}
                       textClassName={'text-start text-white'}
                     />
-                    <ActionPopover.Item
-                      leftIcon={<TbUpload />}
-                      onClick={modalNavigateWrapper('confirm-password-export-key', {
-                        state: { account: selectedAccount },
-                      })}
-                      label={t('exportKeyButton')}
-                      textClassName={'text-start text-white'}
-                    />
+                    {selectedAccount?.type !== 'watch' && selectedAccount?.type !== 'ledger' && (
+                      <ActionPopover.Item
+                        leftIcon={<TbUpload />}
+                        onClick={modalNavigateWrapper('confirm-password-export-key', {
+                          state: { account: selectedAccount },
+                        })}
+                        label={t('exportKeyButton')}
+                        textClassName={'text-start text-white'}
+                      />
+                    )}
                   </ActionPopover.Content>
                 </ActionPopover.Root>
               </div>
