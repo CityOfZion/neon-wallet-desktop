@@ -909,6 +909,7 @@ interface Resources {
       newWalletButtonLabel: 'New Wallet'
       address: 'Address'
       accounts: 'Accounts'
+      lastUpdated: 'Last updated: {{date}}'
       accountNftList: {
         title: 'NFTs'
         empty: 'No NFTS to display'
