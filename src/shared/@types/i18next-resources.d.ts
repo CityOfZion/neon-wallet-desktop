@@ -582,7 +582,7 @@ interface Resources {
           }
           fee: {
             label: 'FEE'
-            fee: '{value} ETH'
+            fee: '{{fee}} ETH'
             feeError: 'Error to calculate fee. The request was cancelled.'
           }
         }
@@ -910,6 +910,8 @@ interface Resources {
       address: 'Address'
       accounts: 'Accounts'
       lastUpdated: 'Last updated: {{date}}'
+      emptyDate: '--:--'
+      dateFormat: 'HH:mm'
       accountNftList: {
         title: 'NFTs'
         empty: 'No NFTS to display'

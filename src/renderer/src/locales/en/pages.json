@@ -161,6 +161,8 @@
     "address": "Address",
     "accounts": "Accounts",
     "lastUpdated": "Last updated: {{date}}",
+    "emptyDate": "--:--",
+    "dateFormat": "HH:mm",
     "accountNftList": {
       "title": "NFTs",
       "empty": "No NFTS to display",
