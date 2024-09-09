@@ -1,4 +1,4 @@
-import { ConfirmPasswordExportKeyModal } from '@renderer/routes/modals/ConfirmPasswordExportKey'
+import { ConfirmPasswordExportModal } from '@renderer/routes/modals/ConfirmPasswordExport'
 import { ExportKeyModal } from '@renderer/routes/modals/ExportKey'
 import { TRoute } from '@shared/@types/modal'
 
@@ -26,6 +26,7 @@ import { DeleteAccountModal } from './modals/DeleteAccount'
 import { DeleteWalletModal } from './modals/DeleteWallet'
 import { EditWalletModal } from './modals/EditWallet'
 import { ErrorModal } from './modals/Error'
+import { ExportMnemonic } from './modals/ExportMnemonic'
 import { ImportModal } from './modals/Import'
 import { ImportKeyAccountsSelectionModal } from './modals/Import/ImportKeyAccountsSelectionModal'
 import { ImportMnemonicAccountsSelectionModal } from './modals/Import/ImportMnemonicAccountsSelectionModal'
@@ -56,7 +57,8 @@ export const modalsRouter: TRoute[] = [
   { name: 'persist-account', type: 'side', element: <PersistAccountModal /> },
   { name: 'delete-account', type: 'side', size: 'md', element: <DeleteAccountModal /> },
   { name: 'export-key', type: 'side', size: 'md', element: <ExportKeyModal /> },
-  { name: 'confirm-password-export-key', type: 'side', element: <ConfirmPasswordExportKeyModal /> },
+  { name: 'export-mnemonic', type: 'side', size: 'md', element: <ExportMnemonic /> },
+  { name: 'confirm-password-export', type: 'side', element: <ConfirmPasswordExportModal /> },
   { name: 'delete-wallet', type: 'side', size: 'md', element: <DeleteWalletModal /> },
   { name: 'create-wallet-step-1', type: 'side', size: 'xl', element: <CreateWalletStep1Modal /> },
   { name: 'create-wallet-step-2', type: 'side', size: 'xl', element: <CreateWalletStep2Modal /> },

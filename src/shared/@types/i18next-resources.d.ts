@@ -623,12 +623,19 @@ interface Resources {
       printButtonLabel: 'Print'
       warningDescription: 'Keep your keys safe! They grant complete control over your wallet and assets'
     }
-    confirmPasswordExportKey: {
-      title: 'Export key'
+    confirmPasswordExport: {
       description: 'To protect acess to your assets, please confirm your password'
       inputPlaceholder: 'Enter password...'
       error: 'Password not recognised!'
       buttonContinueLabel: 'Continue'
+    }
+    exportMnemonic: {
+      title: 'Export wallet'
+      description: 'Write this phrase down on a piece of paper or record it in a secure digital note. You can also download it below but be sure to keep it safe.'
+      yourMnemonic: 'Your mnemonic'
+      copyButtonLabel: 'Copy'
+      printButtonLabel: 'Print'
+      warning: "Anyone with this phrase will be able to access your hard-earned assets and you won't be able to get them back!"
     }
     deleteWallet: {
       title: 'Edit wallet'
@@ -904,6 +911,7 @@ interface Resources {
       addAccountButtonLabel: 'Add Account'
       editWalletButtonLabel: 'Edit'
       editAccountButton: 'Edit account'
+      exportButtonLabel: 'Export'
       exportKeyButton: 'Export key'
       importButtonLabel: 'Import'
       newWalletButtonLabel: 'New Wallet'
@@ -933,6 +941,8 @@ interface Resources {
         newConnection: 'New connection'
         disconnectAll: 'Disconnect all'
       }
+      exportKeyTitle: 'Export Key'
+      exportWalletTitle: 'Export Wallet'
     }
     contacts: {
       title: 'Contacts'

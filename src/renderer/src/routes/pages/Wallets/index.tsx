@@ -1,7 +1,7 @@
 import { Fragment, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdAdd, MdOutlineContentCopy } from 'react-icons/md'
-import { TbDotsVertical, TbFileImport, TbPencil, TbRefresh, TbUpload } from 'react-icons/tb'
+import { TbDotsVertical, TbFileExport, TbFileImport, TbPencil, TbRefresh, TbUpload } from 'react-icons/tb'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import { hasNft } from '@cityofzion/blockchain-service'
 import { ActionPopover } from '@renderer/components/ActionPopover'
@@ -33,7 +33,7 @@ export const WalletsPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'wallets' })
   const { wallets } = useWalletsSelector()
   const { accounts } = useAccountsSelector()
-  const { modalNavigateWrapper } = useModalNavigate()
+  const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
   const navigate = useNavigate()
   const { id } = useParams<TParams>()
 
@@ -55,6 +55,38 @@ export const WalletsPage = () => {
     const firstAccount = accounts.find(account => account.idWallet === selected.id)
     if (!firstAccount) return
     navigate(`/app/wallets/${firstAccount.id}/overview`)
+  }
+
+  const handleExportKey = () => {
+    modalNavigate('confirm-password-export', {
+      state: {
+        title: t('exportKeyTitle'),
+        icon: <TbUpload />,
+        onSubmitPassword: () =>
+          modalNavigate('export-key', {
+            state: {
+              account: selectedAccount,
+            },
+            replace: true,
+          }),
+      },
+    })
+  }
+
+  const handleExportMnemonic = () => {
+    modalNavigate('confirm-password-export', {
+      state: {
+        title: t('exportWalletTitle'),
+        icon: <TbFileExport />,
+        onSubmitPassword: () =>
+          modalNavigate('export-mnemonic', {
+            state: {
+              wallet: selectedWallet,
+            },
+            replace: true,
+          }),
+      },
+    })
   }
 
   useLayoutEffect(() => {
@@ -110,6 +142,7 @@ export const WalletsPage = () => {
             text={t('importButtonLabel')}
             onClick={modalNavigateWrapper('import')}
           />
+          <IconButton icon={<TbFileExport />} size="md" text={t('exportButtonLabel')} onClick={handleExportMnemonic} />
         </div>
       }
       contentClassName="flex-row gap-x-3"
@@ -195,9 +228,7 @@ export const WalletsPage = () => {
                     {selectedAccount?.type !== 'watch' && selectedAccount?.type !== 'ledger' && (
                       <ActionPopover.Item
                         leftIcon={<TbUpload />}
-                        onClick={modalNavigateWrapper('confirm-password-export-key', {
-                          state: { account: selectedAccount },
-                        })}
+                        onClick={handleExportKey}
                         label={t('exportKeyButton')}
                         textClassName={'text-start text-white'}
                       />
