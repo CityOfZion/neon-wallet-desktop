@@ -142,7 +142,15 @@ export const WalletsPage = () => {
             text={t('importButtonLabel')}
             onClick={modalNavigateWrapper('import')}
           />
-          <IconButton icon={<TbFileExport />} size="md" text={t('exportButtonLabel')} onClick={handleExportMnemonic} />
+
+          {selectedWallet?.type === 'standard' && selectedWallet?.encryptedMnemonic && (
+            <IconButton
+              icon={<TbFileExport />}
+              size="md"
+              text={t('exportButtonLabel')}
+              onClick={handleExportMnemonic}
+            />
+          )}
         </div>
       }
       contentClassName="flex-row gap-x-3"
