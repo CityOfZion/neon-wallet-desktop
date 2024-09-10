@@ -155,6 +155,7 @@
     "addAccountButtonLabel": "Add Account",
     "editWalletButtonLabel": "Edit",
     "editAccountButton": "Edit account",
+    "exportButtonLabel": "Export",
     "exportKeyButton": "Export key",
     "importButtonLabel": "Import",
     "newWalletButtonLabel": "New Wallet",
@@ -183,7 +184,9 @@
       "totalConnections": "{{connections}} Connections",
       "newConnection": "New connection",
       "disconnectAll": "Disconnect all"
-    }
+    },
+    "exportKeyTitle": "Export Key",
+    "exportWalletTitle": "Export Wallet"
   },
   "contacts": {
     "title": "Contacts",
