@@ -36,3 +36,6 @@ jobs:
 
       - name: Build macOS app
         run: npm run build:mac
+
+      - name: Generate Mac checksums
+        run: npm run generate-checksums-mac

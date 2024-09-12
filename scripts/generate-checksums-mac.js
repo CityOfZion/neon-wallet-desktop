@@ -13,25 +13,20 @@ const BUILDS = [
     fileName: `NeonWallet-${packageJson.version}-mac.dmg`,
     platform: 'mac',
   },
-  {
-    platform: 'win',
-    platformName: 'Windows 64-bit',
-    fileName: `NeonWallet-${packageJson.version}-win.exe`,
-  },
 ]
 
 function downloadBuilds() {
   try {
-    console.log('Downloading builds from GitHub...')
+    console.log('Downloading Mac builds from GitHub...')
 
     const patternBuilds = BUILDS.map(build => `--pattern '${build.fileName}'`).join(' ')
 
     execSync(
       `gh release download v${version} --repo cityofzion/neon-wallet-desktop --dir temp --clobber ${patternBuilds}`
     )
-    console.log('Builds downloaded successfully!')
+    console.log('Mac Builds downloaded successfully!')
   } catch (error) {
-    console.error(`Error to download builds from GitHub: \nError: ${error}\n`)
+    console.error(`Error to download Mac builds from GitHub: \nError: ${error}\n`)
     process.exit(1)
   }
 }
@@ -58,20 +53,20 @@ function getCurrentReleaseNotes() {
 }
 
 function verifyIfChecksumsAlreadyExists(currentReleaseNotes = '') {
-  if (currentReleaseNotes.includes('## **Build checksums:**')) {
-    console.log('Checksums already exists in release notes!')
+  if (currentReleaseNotes.includes('## **Mac build checksums:**')) {
+    console.log('Mac checksums already exists in release notes!')
     process.exit(0)
   }
 }
 
 function generateChecksums() {
   try {
-    console.log('Generating checksums...')
+    console.log('Generating Mac checksums...')
 
-    let output = '## **Build checksums:**'
+    let output = '## **Mac build checksums:**'
 
     for (let index = 0; index < BUILDS.length; index++) {
-      const { fileName, platformName, platform } = BUILDS[index]
+      const { fileName, platformName } = BUILDS[index]
 
       const hash = crypto.createHash('sha256')
       const fileBuffer = fs.readFileSync(path.resolve(__dirname, '..', 'temp', fileName))
@@ -82,32 +77,28 @@ function generateChecksums() {
 
       output += `\n\n### **${platformName}**:\n&emsp;Checksum: \`${checksum}\``
 
-      if (platform === 'win') {
-        output += `\n&emsp;Command: \`certutil -hashfile ${fileName} SHA256\``
-      } else {
-        output += `\n&emsp;Command: \`sha256sum ${fileName}\``
-      }
+      output += `\n&emsp;Command: \`sha256sum ${fileName}\``
     }
 
-    console.log('Checksums generated successfully!')
+    console.log('Mac checksums generated successfully!')
 
     return output
   } catch (error) {
-    console.error(`Error to generate checksum: \nError: ${error}\n`)
+    console.error(`Error to generate Mac checksum: \nError: ${error}\n`)
     process.exit(1)
   }
 }
 
 function uploadChecksums(checksums = '', currentReleaseNotes = '') {
   try {
-    console.log('Uploading checksums to GitHub...')
+    console.log('Uploading Mac checksums to GitHub...')
 
     checksums = currentReleaseNotes + '\n\n\n' + checksums
 
     execSync(`gh release edit v${version} --notes '${checksums}' --repo cityofzion/neon-wallet-desktop`)
-    console.log('Checksums uploaded successfully!')
+    console.log('Mac checksums uploaded successfully!')
   } catch (error) {
-    console.error(`Error to upload checksums to GitHub: \nError: ${error}\n`)
+    console.error(`Error to upload Mac checksums to GitHub: \nError: ${error}\n`)
     process.exit(1)
   }
 }

@@ -108,7 +108,7 @@ jobs:
     steps:
       - prepare_linux
       - gh/install
-      - run: npm run generate-checksums
+      - run: npm run generate-checksums-win
 
 workflows:
   version: 2
