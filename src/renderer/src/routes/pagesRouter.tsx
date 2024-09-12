@@ -1,4 +1,6 @@
 import { createRouteHandler } from '@renderer/libs/sentryReact'
+import { ForgottenPasswordPage } from '@renderer/routes/pages/ForgottenPassword'
+import { ForgottenPasswordConfirmPage } from '@renderer/routes/pages/ForgottenPassword/Confirm'
 
 import { AppPage } from './pages/AppPage'
 import { ContactsPage } from './pages/Contacts'
@@ -232,6 +234,14 @@ export const pagesRouter = routeHandler([
       {
         path: 'login',
         element: <LoginPage />,
+      },
+      {
+        path: 'forgotten-password',
+        element: <ForgottenPasswordPage />,
+      },
+      {
+        path: 'forgotten-password-confirm',
+        element: <ForgottenPasswordConfirmPage />,
       },
     ],
   },

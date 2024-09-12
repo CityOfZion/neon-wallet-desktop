@@ -1,5 +1,6 @@
 import { CaseReducer, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { IContactState } from '@shared/@types/store'
+import { PURGE } from 'redux-persist'
 
 export interface IContactReducer {
   data: IContactState[]
@@ -34,6 +35,9 @@ const ContactReducer = createSlice({
   reducers: {
     saveContact,
     deleteContact,
+  },
+  extraReducers: builder => {
+    builder.addCase(PURGE, () => initialState)
   },
 })
 

@@ -105,7 +105,31 @@
     "loginPassword": "Login Password",
     "passwordPlaceholder": "Please enter your password",
     "buttonLoginLabel": "Login",
-    "invalidPassword": "Invalid password"
+    "invalidPassword": "Invalid password",
+    "forgotPassword": "Forgot password?"
+  },
+  "forgottenPassword": {
+    "title": "Forgotten password",
+    "text": "If you’ve forgotten your password, you’ll need to reset Neon.",
+    "alertCard": {
+      "text": "This process will delete your stored data and you will have to reimport your wallets"
+    },
+    "links": {
+      "continue": "Continue"
+    }
+  },
+  "forgottenPasswordConfirm": {
+    "title": "Forgotten password",
+    "text": "Are you sure?",
+    "alertCard": {
+      "text": "Before proceeding, it is vital that you have access to your private keys or mnemonic to reinstate your wallet"
+    },
+    "auxiliarText": "Swipe to confirm...",
+    "swipe": {
+      "text": "Reset Neon and delete my data",
+      "buttonAriaLabel": "Reset and delete data"
+    },
+    "success": "Data successfully wiped"
   },
   "send": {
     "title": "Send Tokens",

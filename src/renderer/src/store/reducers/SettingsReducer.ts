@@ -4,6 +4,7 @@ import { DEFAULT_NETWORK_BY__BLOCKCHAIN, DEFAULT_NETWORK_PROFILE } from '@render
 import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
 import { ISettingsState, TCurrency, TNetworkProfile, TSecurityType } from '@shared/@types/store'
 import { cloneDeep } from 'lodash'
+import { PURGE } from 'redux-persist'
 
 export const settingsReducerName = 'settingsReducer'
 
@@ -174,6 +175,9 @@ const SettingsReducer = createSlice({
     setSelectNetworkProfile,
     unlockSkin,
     setEncryptedLoginControl,
+  },
+  extraReducers: builder => {
+    builder.addCase(PURGE, () => initialState)
   },
 })
 

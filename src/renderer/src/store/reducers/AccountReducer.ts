@@ -9,6 +9,7 @@ import { queryClient } from '@renderer/libs/query'
 import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
 import { TUseTransactionsTransfer } from '@shared/@types/hooks'
 import { IAccountState } from '@shared/@types/store'
+import { PURGE } from 'redux-persist'
 
 export interface IAccountReducer {
   data: IAccountState[]
@@ -130,6 +131,7 @@ const AccountReducer = createSlice({
     removeAllPendingTransactions,
   },
   extraReducers(builder) {
+    builder.addCase(PURGE, () => initialState)
     builder.addCase(watchPendingTransaction.fulfilled, (state, action) => {
       const transactionHash = action.payload
       state.pendingTransactions = state.pendingTransactions.filter(transaction => transaction.hash !== transactionHash)

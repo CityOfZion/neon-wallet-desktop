@@ -69,8 +69,8 @@ const TextSlim = ({ className, ...props }: TClickableProps) => {
   return (
     <Base
       className={StyleHelper.mergeStyles(
-        className,
-        'flex min-w-0 justify-center items-center text-center gap-x-1.5 aria-[disabled=false]:hover:opacity-75 h-fit px-0'
+        'flex min-w-0 justify-center items-center text-center gap-x-1.5 aria-[disabled=false]:hover:opacity-75 aria-[disabled=false]:focus:opacity-75 aria-[disabled=false]:active:opacity-50 h-fit px-0 transition-opacity',
+        className
       )}
       {...props}
     />

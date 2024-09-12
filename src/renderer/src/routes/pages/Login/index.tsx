@@ -1,9 +1,10 @@
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { ReactComponent as LoginIcon } from '@renderer/assets/images/login-icon.svg'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
+import { Link } from '@renderer/components/Link'
 import { useActions } from '@renderer/hooks/useActions'
 import { useLogin } from '@renderer/hooks/useLogin'
 import { useAppSelector } from '@renderer/hooks/useRedux'
@@ -55,15 +56,25 @@ export const LoginPage = () => {
         className="w-full flex-grow flex flex-col justify-between mt-12 items-center"
         onSubmit={handleAct(handleSubmit)}
       >
-        <div className="flex flex-col w-full gap-y-12">
-          <div className="text-white border-white border-b py-2">{t('loginPassword')}</div>
-          <Input
-            type="password"
-            value={actionData.password}
-            onChange={handleChangePassword}
-            placeholder={t('passwordPlaceholder')}
-            errorMessage={actionState.errors.password}
-            autoFocus
+        <div className={'flex flex-col w-full'}>
+          <div className="flex flex-col w-full gap-y-12">
+            <div className="text-white border-white border-b py-2">{t('loginPassword')}</div>
+            <Input
+              type="password"
+              value={actionData.password}
+              onChange={handleChangePassword}
+              placeholder={t('passwordPlaceholder')}
+              errorMessage={actionState.errors.password}
+              autoFocus
+            />
+          </div>
+
+          <Link
+            to={'/forgotten-password'}
+            label={t('forgotPassword')}
+            colorSchema={'neon'}
+            variant={'text-slim'}
+            className={'mt-2 w-fit mx-auto p-4'}
           />
         </div>
 
