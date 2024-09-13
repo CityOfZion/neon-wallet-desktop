@@ -1,5 +1,6 @@
 import { CaseReducer, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { IWalletState } from '@shared/@types/store'
+import { PURGE } from 'redux-persist'
 
 export const walletReducerName = 'walletReducer'
 
@@ -39,6 +40,9 @@ const WalletReducer = createSlice({
     deleteWallet,
     saveWallet,
     replaceAllWallets,
+  },
+  extraReducers: builder => {
+    builder.addCase(PURGE, () => initialState)
   },
 })
 

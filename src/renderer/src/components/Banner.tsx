@@ -1,4 +1,4 @@
-import { ComponentProps, ReactNode } from 'react'
+import { cloneElement, ComponentProps, ReactNode } from 'react'
 import { MdInfoOutline, MdVerified } from 'react-icons/md'
 import { TbAlertHexagonFilled, TbAlertSmall, TbAlertTriangle } from 'react-icons/tb'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
@@ -9,6 +9,7 @@ export type TBanner = {
   type: TBannerType
   message: ReactNode
   textClassName?: string
+  iconClassName?: string
 }
 
 type TProps = TBanner & ComponentProps<'div'>
@@ -26,13 +27,17 @@ const iconByType: Record<TBannerType, JSX.Element> = {
   ),
 }
 
-export const Banner = ({ message, type, className, textClassName, ...props }: TProps) => {
+export const Banner = ({ message, type, className, textClassName, iconClassName, ...props }: TProps) => {
+  const icon = iconByType[type]
+
   return (
     <div
       className={StyleHelper.mergeStyles('flex bg-gray-300/15 rounded overflow-hidden items-center', className)}
       {...props}
     >
-      <div className="flex py-3 px-4 h-full items-center justify-center bg-gray-300/30">{iconByType[type]}</div>
+      <div className="flex py-3 px-4 h-full items-center justify-center bg-gray-300/30">
+        {cloneElement(icon, { className: StyleHelper.mergeStyles(icon.props.className, iconClassName) })}
+      </div>
 
       <p className={StyleHelper.mergeStyles('px-5 text-xs text-white py-2', textClassName)}>{message}</p>
     </div>
