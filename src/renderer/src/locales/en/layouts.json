@@ -1,0 +1,11 @@
+{
+  "welcomeWithTabs": {
+    "welcomeTo": "Welcome to Neon Wallet",
+    "logoAlt": "Neon Wallet logo",
+    "tabs": {
+      "neonAccount": "Neon Account",
+      "hardwareWallet": "Hardware Wallet",
+      "addressOrKey": "Address or key"
+    }
+  }
+}
