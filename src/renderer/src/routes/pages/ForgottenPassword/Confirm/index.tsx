@@ -1,4 +1,3 @@
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { Banner } from '@renderer/components/Banner'
@@ -7,7 +6,7 @@ import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { WelcomeLayout } from '@renderer/layouts/Welcome'
 import { RootStore } from '@renderer/store/RootStore'
 
-export const ForgottenPasswordConfirmPage: React.FC = () => {
+export const ForgottenPasswordConfirmPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'forgottenPasswordConfirm' })
   const navigate = useNavigate()
 
