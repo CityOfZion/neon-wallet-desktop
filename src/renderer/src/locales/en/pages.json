@@ -1,8 +1,7 @@
 {
   "welcome": {
     "title": "Welcome to Neon Wallet",
-    "setupSecurityButtonLabel": "Create your first wallet",
-    "migrationButtonLabel": "Migrate your old NEON wallet",
+    "continue": "Continue",
     "card1": {
       "title": "Intuitive",
       "description": "Easily store, send and receive your digital assets across multiple wallets"
@@ -101,9 +100,8 @@
     }
   },
   "login": {
-    "title": "Welcome to Neon Wallet",
-    "loginPassword": "Login Password",
-    "passwordPlaceholder": "Please enter your password",
+    "text": "Login to your wallet",
+    "passwordPlaceholder": "Enter your password...",
     "buttonLoginLabel": "Login",
     "invalidPassword": "Invalid password",
     "forgotPassword": "Forgot password?"
@@ -130,6 +128,23 @@
       "buttonAriaLabel": "Reset and delete data"
     },
     "success": "Data successfully wiped"
+  },
+  "neonAccount": {
+    "text": "What would you like to do with Neon?",
+    "cardLinks": {
+      "createNewWallet": {
+        "title": "Create a new wallet",
+        "text": "I want to <1>create a new</1> password-protected account so my data is persistent"
+      },
+      "importExternalWallet": {
+        "title": "Import an external wallet",
+        "text": "I want to <1>import</1> a wallet and password-protect my data to ensure it’s persistent"
+      },
+      "migrateFromNeon2": {
+        "title": "Migrate from Neon 2",
+        "text": "I want to <1>migrate</1> my Neon 2 wallet"
+      }
+    }
   },
   "send": {
     "title": "Send Tokens",

@@ -69,7 +69,7 @@ export const WelcomeImportWalletStep4Page = () => {
 
       await UtilsHelper.sleep(1000)
 
-      dispatch(settingsReducerActions.setIsFirstTime(false))
+      dispatch(settingsReducerActions.setHasLogin(true))
       navigate('/welcome-import-wallet/5')
     } catch (error: any) {
       ToastHelper.error({ message: error.message })

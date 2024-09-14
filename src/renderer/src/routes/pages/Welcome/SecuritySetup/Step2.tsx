@@ -65,7 +65,7 @@ export const WelcomeSecuritySetupStep2Page = ({ onSubmit }: TProps) => {
       name: commonT('account.defaultName', { accountNumber: 1 }),
     })
 
-    dispatch(settingsReducerActions.setIsFirstTime(false))
+    dispatch(settingsReducerActions.setHasLogin(true))
     navigate('/welcome-security-setup/3')
   }
 
