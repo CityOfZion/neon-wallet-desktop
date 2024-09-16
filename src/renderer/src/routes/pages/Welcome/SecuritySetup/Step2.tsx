@@ -6,9 +6,7 @@ import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { useActions } from '@renderer/hooks/useActions'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
-import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useEncryptedPasswordActions } from '@renderer/hooks/useSettingsSelector'
-import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
 
 type TFormData = {
   confirmPassword: string
@@ -27,7 +25,6 @@ export const WelcomeSecuritySetupStep2Page = ({ onSubmit }: TProps) => {
   const { t } = useTranslation('pages', { keyPrefix: 'welcome.securitySetup.step2' })
   const { t: commonT } = useTranslation('common')
   const navigate = useNavigate()
-  const dispatch = useAppDispatch()
   const { createWallet, createAccount } = useBlockchainActions()
   const { setEncryptedPassword } = useEncryptedPasswordActions()
 
@@ -65,7 +62,6 @@ export const WelcomeSecuritySetupStep2Page = ({ onSubmit }: TProps) => {
       name: commonT('account.defaultName', { accountNumber: 1 }),
     })
 
-    dispatch(settingsReducerActions.setHasLogin(true))
     navigate('/welcome-security-setup/3')
   }
 

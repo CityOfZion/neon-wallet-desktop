@@ -12,7 +12,6 @@ const initialState: ISettingsState = {
   encryptedPassword: undefined,
   securityType: 'none',
   isFirstTime: true,
-  hasLogin: false,
   currency: availableCurrencies[0],
   hasOverTheAirUpdates: false,
   customNetworks: {
@@ -37,10 +36,6 @@ const setEncryptedLoginControl: CaseReducer<ISettingsState, PayloadAction<string
 
 const setIsFirstTime: CaseReducer<ISettingsState, PayloadAction<boolean>> = (state, action) => {
   state.isFirstTime = action.payload
-}
-
-const setHasLogin: CaseReducer<ISettingsState, PayloadAction<boolean>> = (state, action) => {
-  state.hasLogin = action.payload
 }
 
 const setSecurityType: CaseReducer<ISettingsState, PayloadAction<TSecurityType>> = (state, action) => {
@@ -167,7 +162,6 @@ const SettingsReducer = createSlice({
   initialState,
   reducers: {
     setIsFirstTime,
-    setHasLogin,
     setSecurityType,
     setEncryptedPassword,
     setCurrency,

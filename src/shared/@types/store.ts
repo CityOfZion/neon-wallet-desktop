@@ -56,7 +56,6 @@ export type TNetworkProfile = {
 export interface ISettingsState {
   encryptedPassword?: string
   isFirstTime: boolean
-  hasLogin: boolean
   securityType: TSecurityType
   currency: TCurrency
   hasOverTheAirUpdates: boolean

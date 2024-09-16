@@ -17,7 +17,7 @@ type TFormData = {
 export const LoginPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'login' })
   const { ref: isFirstTimeRef } = useAppSelector(state => state.settings.isFirstTime)
-  const { ref: hasLoginRef } = useAppSelector(state => state.settings.hasLogin)
+  const { ref: securityTypeRef } = useAppSelector(state => state.settings.securityType)
   const navigate = useNavigate()
   const { login } = useLogin()
 
@@ -51,8 +51,8 @@ export const LoginPage = () => {
       return
     }
 
-    if (!hasLoginRef.current) navigate('/neon-account')
-  }, [navigate, isFirstTimeRef, hasLoginRef])
+    if (securityTypeRef.current === 'none') navigate('/neon-account')
+  }, [navigate, isFirstTimeRef, securityTypeRef])
 
   return (
     <WelcomeWithTabsLayout tabItemType={WelcomeTabItemType.NEON_ACCOUNT}>
