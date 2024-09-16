@@ -5,6 +5,7 @@ import { NeonAccountPage } from '@renderer/routes/pages/NeonAccountPage'
 
 import { AppPage } from './pages/AppPage'
 import { ContactsPage } from './pages/Contacts'
+import { ForgottenPasswordSuccessPage } from './pages/ForgottenPassword/Success'
 import { LoginPage } from './pages/Login'
 import { PortfolioPage } from './pages/Portfolio'
 import { PortfolioActivityPage } from './pages/Portfolio/Activity'
@@ -255,6 +256,10 @@ export const pagesRouter = routeHandler([
       {
         path: 'forgotten-password-confirm',
         element: <ForgottenPasswordConfirmPage />,
+      },
+      {
+        path: 'forgotten-password-success',
+        element: <ForgottenPasswordSuccessPage />,
       },
     ],
   },
