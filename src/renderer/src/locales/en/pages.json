@@ -146,6 +146,12 @@
       }
     }
   },
+  "forgottenPasswordSuccess": {
+    "title": "Success!",
+    "text": "You’ve reset Neon",
+    "description": "All local app data has been removed and you’re now ready to start over",
+    "goToWelcome": "Go to welcome screen"
+  },
   "send": {
     "title": "Send Tokens",
     "leftSideTitle": "Token balances",
