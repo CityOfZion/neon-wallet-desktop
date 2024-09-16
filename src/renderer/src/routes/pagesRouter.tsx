@@ -1,6 +1,7 @@
 import { createRouteHandler } from '@renderer/libs/sentryReact'
 import { ForgottenPasswordPage } from '@renderer/routes/pages/ForgottenPassword'
 import { ForgottenPasswordConfirmPage } from '@renderer/routes/pages/ForgottenPassword/Confirm'
+import { NeonAccountPage } from '@renderer/routes/pages/NeonAccountPage'
 
 import { AppPage } from './pages/AppPage'
 import { ContactsPage } from './pages/Contacts'
@@ -186,6 +187,18 @@ export const pagesRouter = routeHandler([
       {
         path: 'welcome',
         element: <WelcomePage />,
+      },
+      {
+        path: 'neon-account',
+        element: <NeonAccountPage />,
+      },
+      {
+        path: 'hardware-wallet',
+        element: <></>, // TODO: create page
+      },
+      {
+        path: 'address-or-key',
+        element: <></>, // TODO: create page
       },
       {
         path: 'welcome-security-setup',

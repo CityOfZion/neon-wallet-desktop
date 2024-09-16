@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { ReactComponent as LoginIcon } from '@renderer/assets/images/login-icon.svg'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { Link } from '@renderer/components/Link'
 import { useActions } from '@renderer/hooks/useActions'
 import { useLogin } from '@renderer/hooks/useLogin'
 import { useAppSelector } from '@renderer/hooks/useRedux'
-import { WelcomeLayout } from '@renderer/layouts/Welcome'
+import { WelcomeWithTabsLayout } from '@renderer/layouts/WelcomeWithTabs'
+import { WelcomeTabItemType } from '@renderer/layouts/WelcomeWithTabs/WelcomeTabs'
 
 type TFormData = {
   password: string
@@ -16,8 +16,8 @@ type TFormData = {
 
 export const LoginPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'login' })
-
   const { ref: isFirstTimeRef } = useAppSelector(state => state.settings.isFirstTime)
+  const { ref: securityTypeRef } = useAppSelector(state => state.settings.securityType)
   const navigate = useNavigate()
   const { login } = useLogin()
 
@@ -47,18 +47,20 @@ export const LoginPage = () => {
   useEffect(() => {
     if (isFirstTimeRef.current) {
       navigate('/welcome')
+
+      return
     }
-  }, [navigate, isFirstTimeRef])
+
+    if (securityTypeRef.current === 'none') navigate('/neon-account')
+  }, [navigate, isFirstTimeRef, securityTypeRef])
 
   return (
-    <WelcomeLayout heading={t('title')}>
-      <form
-        className="w-full flex-grow flex flex-col justify-between mt-12 items-center"
-        onSubmit={handleAct(handleSubmit)}
-      >
+    <WelcomeWithTabsLayout tabItemType={WelcomeTabItemType.NEON_ACCOUNT}>
+      <form className="w-full flex-grow flex flex-col justify-between items-center" onSubmit={handleAct(handleSubmit)}>
         <div className={'flex flex-col w-full'}>
-          <div className="flex flex-col w-full gap-y-12">
-            <div className="text-white border-white border-b py-2">{t('loginPassword')}</div>
+          <div className="flex flex-col w-full gap-y-6">
+            <p className="text-white text-sm text-center">{t('text')}</p>
+
             <Input
               type="password"
               value={actionData.password}
@@ -66,6 +68,7 @@ export const LoginPage = () => {
               placeholder={t('passwordPlaceholder')}
               errorMessage={actionState.errors.password}
               autoFocus
+              className={'placeholder:text-white'}
             />
           </div>
 
@@ -80,13 +83,13 @@ export const LoginPage = () => {
 
         <Button
           label={t('buttonLoginLabel')}
-          className="w-full"
+          className={'w-[250px]'}
+          variant={'contained'}
           type="submit"
           disabled={!actionState.isValid || actionState.isActing}
-          leftIcon={<LoginIcon />}
           loading={actionState.isActing}
         />
       </form>
-    </WelcomeLayout>
+    </WelcomeWithTabsLayout>
   )
 }

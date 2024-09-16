@@ -9,7 +9,6 @@ import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useEncryptedPasswordActions } from '@renderer/hooks/useSettingsSelector'
 import { contactReducerActions } from '@renderer/store/reducers/ContactReducer'
-import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
 import { TAccountsToImport, TWalletToCreate } from '@shared/@types/blockchain'
 import { IContactState } from '@shared/@types/store'
 
@@ -69,7 +68,6 @@ export const WelcomeImportWalletStep4Page = () => {
 
       await UtilsHelper.sleep(1000)
 
-      dispatch(settingsReducerActions.setIsFirstTime(false))
       navigate('/welcome-import-wallet/5')
     } catch (error: any) {
       ToastHelper.error({ message: error.message })

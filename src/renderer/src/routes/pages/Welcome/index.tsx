@@ -1,21 +1,27 @@
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TbArrowRight, TbFileImport } from 'react-icons/tb'
+import { TbArrowRight } from 'react-icons/tb'
 import { ReactComponent as GetAppImage } from '@renderer/assets/images/get-app-image.svg'
 import { ReactComponent as LedgerLogo } from '@renderer/assets/images/ledger-logo.svg'
 import { ReactComponent as NeonPageImage } from '@renderer/assets/images/neon-page-image.svg'
 import { ReactComponent as WalletConnectLogo } from '@renderer/assets/images/wallet-connect-logo.svg'
 import { Link } from '@renderer/components/Link'
+import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { WelcomeLayout } from '@renderer/layouts/Welcome'
+import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
 
 import { WelcomeCard } from './WelcomeCard'
 
 export const WelcomePage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'welcome' })
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    dispatch(settingsReducerActions.setIsFirstTime(false))
+  }, [dispatch])
 
   return (
     <WelcomeLayout heading={t('title')} bigger className="relative">
-      <Link to="/welcome-import-wallet/1" className="absolute right-16" label="Import wallet" variant="text" />
-
       <ul className="flex gap-x-12 mt-14 flex-grow ">
         <li>
           <WelcomeCard image={<NeonPageImage />} title={t('card1.title')} description={t('card1.description')} />
@@ -36,21 +42,12 @@ export const WelcomePage = () => {
 
       <div className="flex gap-x-2.5 ">
         <Link
-          to="/welcome-import-wallet/1"
-          label={t('migrationButtonLabel')}
-          rightIcon={<TbFileImport />}
-          variant="outlined"
+          to={'/neon-account'}
+          label={t('continue')}
+          variant={'contained'}
+          className={'mt-10 w-[230px]'}
           iconsOnEdge={false}
-          state={{ isMigration: true }}
-        />
-
-        <Link
-          to="/welcome-security-setup"
-          label={t('setupSecurityButtonLabel')}
-          rightIcon={<TbArrowRight />}
-          variant="contained"
-          clickableProps={{ className: 'px-8' }}
-          iconsOnEdge={false}
+          rightIcon={<TbArrowRight aria-hidden={true} />}
         />
       </div>
     </WelcomeLayout>

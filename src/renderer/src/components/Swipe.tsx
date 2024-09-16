@@ -1,8 +1,7 @@
-import React from 'react'
 import { ReactComponent as ArrowRightBoldOutlineIcon } from '@renderer/assets/images/arrow-right-bold-outline-icon.svg'
 import { animate, motion, useMotionValue } from 'framer-motion'
 
-type IProps = {
+type TProps = {
   text: string
   buttonAriaLabel: string
   onComplete: () => void
@@ -16,7 +15,7 @@ const MAX = WIDTH - DRAG_WIDTH
 const REST_SIZE = -MAX
 const DURATION = 0.4
 
-export const Swipe: React.FC = ({ text, buttonAriaLabel, onComplete }: IProps) => {
+export const Swipe = ({ text, buttonAriaLabel, onComplete }: TProps) => {
   const motionValue = useMotionValue(REST_SIZE)
 
   const handleDragEnd = () => {

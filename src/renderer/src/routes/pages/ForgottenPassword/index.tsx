@@ -1,11 +1,10 @@
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbArrowRight } from 'react-icons/tb'
 import { Banner } from '@renderer/components/Banner'
 import { Link } from '@renderer/components/Link'
 import { WelcomeLayout } from '@renderer/layouts/Welcome'
 
-export const ForgottenPasswordPage: React.FC = () => {
+export const ForgottenPasswordPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'forgottenPassword' })
 
   return (
