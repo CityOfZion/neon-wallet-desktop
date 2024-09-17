@@ -207,14 +207,16 @@ export const WelcomeImportWalletStep3Page = () => {
           onClick={fileActions.handleBrowse}
         />
 
-        {!fileActions.actionData.path && !fileActions.actionState.errors.path && (
-          <Banner type="warning" message={t('neon2Warning')} className="my-3" />
+        {state.isMigration && !fileActions.actionData.path && !fileActions.actionState.errors.path && (
+          <Banner type="warning" message={t('neon2Warning')} className="mt-9" />
         )}
 
-        {fileActions.actionState.errors.path && <Banner type="warning" message={t('importError')} className="my-3" />}
+        {state.isMigration && fileActions.actionState.errors.path && (
+          <Banner type="warning" message={t('importError')} className="mt-10" />
+        )}
 
-        {fileActions.actionData.path && !fileActions.actionState.errors.path && (
-          <Banner type="success" message={t('importSuccess')} className="my-3" />
+        {state.isMigration && fileActions.actionData.path && !fileActions.actionState.errors.path && (
+          <Banner type="success" message={t('importSuccess')} className="mt-10" />
         )}
 
         <Button

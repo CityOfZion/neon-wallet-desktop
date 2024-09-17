@@ -46,6 +46,7 @@ export const NeonAccountPage = () => {
           <li>
             <CardLink
               to={'/welcome-import-wallet/1'}
+              state={{ isMigration: true }}
               title={t('cardLinks.migrateFromNeon2.title')}
               icon={<TbPackageExport aria-hidden={true} />}
               text={
