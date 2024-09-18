@@ -1,6 +1,7 @@
 import { useLayoutEffect } from 'react'
+import { IS_LINUX, IS_MAC } from '@renderer/constants/platform'
 
-const DRAG_REGION_HEIGHT = 32
+const DRAG_REGION_HEIGHT = IS_LINUX ? 0 : 32
 
 export const DragRegion = () => {
   useLayoutEffect(() => {
@@ -8,13 +9,17 @@ export const DragRegion = () => {
     rootElement.style.setProperty('--drag-region-height', `${DRAG_REGION_HEIGHT}px`)
     rootElement.style.setProperty('--height-screen-minus-drag-region', `calc(100vh - ${DRAG_REGION_HEIGHT}px)`)
 
-    if (window.electron.process.platform === 'darwin') {
+    if (IS_LINUX) return
+
+    if (IS_MAC) {
       window.api.sendAsync('setWindowButtonPosition', { x: 12, y: 8 })
       return
     }
 
     window.api.sendAsync('setTitleBarOverlay', { height: DRAG_REGION_HEIGHT, symbolColor: '#FFFFFF', color: '#293139' })
   }, [])
+
+  if (IS_LINUX) return null
 
   return (
     <div
