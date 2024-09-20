@@ -1,7 +1,7 @@
 import { Fragment, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdAdd, MdOutlineContentCopy } from 'react-icons/md'
-import { TbDotsVertical, TbFileExport, TbFileImport, TbPencil, TbRefresh, TbUpload } from 'react-icons/tb'
+import { TbDeviceUsb, TbDotsVertical, TbFileExport, TbFileImport, TbPencil, TbRefresh, TbUpload } from 'react-icons/tb'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import { hasNft } from '@cityofzion/blockchain-service'
 import { ActionPopover } from '@renderer/components/ActionPopover'
@@ -16,6 +16,7 @@ import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useLastUpdated, useRefetch } from '@renderer/hooks/useQuery'
+import { useSecurityTypeSelector } from '@renderer/hooks/useSettingsSelector'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
 import { MainLayout } from '@renderer/layouts/Main'
 import { bsAggregator } from '@renderer/libs/blockchainService'
@@ -33,6 +34,7 @@ export const WalletsPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'wallets' })
   const { wallets } = useWalletsSelector()
   const { accounts } = useAccountsSelector()
+  const { securityType } = useSecurityTypeSelector()
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
   const navigate = useNavigate()
   const { id } = useParams<TParams>()
@@ -135,6 +137,7 @@ export const WalletsPage = () => {
             size="md"
             text={t('newWalletButtonLabel')}
             onClick={modalNavigateWrapper('create-wallet-step-1')}
+            disabled={securityType !== 'password'}
           />
           <IconButton
             icon={<TbFileImport />}
@@ -149,8 +152,16 @@ export const WalletsPage = () => {
               size="md"
               text={t('exportButtonLabel')}
               onClick={handleExportMnemonic}
+              disabled={securityType !== 'password'}
             />
           )}
+
+          <IconButton
+            icon={<TbDeviceUsb className="rotate-45" />}
+            size="md"
+            text={t('connectHardwareWalletButtonLabel')}
+            onClick={modalNavigateWrapper('connect-hardware-wallet')}
+          />
         </div>
       }
       contentClassName="flex-row gap-x-3"
@@ -231,14 +242,14 @@ export const WalletsPage = () => {
                       leftIcon={<TbPencil />}
                       onClick={modalNavigateWrapper('persist-account', { state: { account: selectedAccount } })}
                       label={t('editAccountButton')}
-                      textClassName={'text-start text-white'}
+                      textClassName="text-start text-white"
                     />
-                    {selectedAccount?.type !== 'watch' && selectedAccount?.type !== 'ledger' && (
+                    {selectedAccount?.type !== 'watch' && selectedAccount?.type !== 'hardware' && (
                       <ActionPopover.Item
                         leftIcon={<TbUpload />}
                         onClick={handleExportKey}
                         label={t('exportKeyButton')}
-                        textClassName={'text-start text-white'}
+                        textClassName="text-start text-white"
                       />
                     )}
                   </ActionPopover.Content>

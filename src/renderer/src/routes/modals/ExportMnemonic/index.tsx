@@ -9,7 +9,7 @@ import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useModalState } from '@renderer/hooks/useModalRouter'
-import { useEncryptedPasswordSelector } from '@renderer/hooks/useSettingsSelector'
+import { useLoginSessionSelector } from '@renderer/hooks/useSettingsSelector'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 import { IWalletState } from '@shared/@types/store'
 
@@ -21,11 +21,15 @@ export const ExportMnemonic = () => {
   const { wallet } = useModalState<TLocationState>()
   const { t } = useTranslation('modals', { keyPrefix: 'exportMnemonic' })
   const ref = useRef<HTMLDivElement>(null)
-  const { encryptedPassword } = useEncryptedPasswordSelector()
+  const { loginSession } = useLoginSessionSelector()
+
+  if (!loginSession) {
+    throw new Error('Login session not defined')
+  }
 
   const words = window.api.sendSync('decryptBasedEncryptedSecretSync', {
     value: wallet.encryptedMnemonic ?? '',
-    encryptedSecret: encryptedPassword,
+    encryptedSecret: loginSession.encryptedPassword,
   })
 
   return (

@@ -6,6 +6,7 @@ import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-re
 import { LOCAL_SKINS } from '@renderer/constants/skins'
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { NetworkHelper } from '@renderer/helpers/NetworkHelper'
+import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { bsAggregator } from '@renderer/libs/blockchainService'
@@ -15,10 +16,15 @@ import { IAccountState } from '@shared/@types/store'
 
 import { useAccountsSelector } from './useAccountSelector'
 import { useBlockchainActions } from './useBlockchainActions'
+import { useLogin } from './useLogin'
 import { useModalHistories, useModalNavigate } from './useModalRouter'
 import { useMountUnsafe } from './useMount'
 import { useAppDispatch } from './useRedux'
-import { useSelectedNetworkByBlockchainSelector, useUnlockedSkinIdsSelector } from './useSettingsSelector'
+import {
+  useLoginSessionSelector,
+  useSelectedNetworkByBlockchainSelector,
+  useUnlockedSkinIdsSelector,
+} from './useSettingsSelector'
 
 const useRegisterWalletConnectListeners = () => {
   const { sessions, requests } = useWalletConnectWallet()
@@ -52,33 +58,14 @@ const useRegisterWalletConnectListeners = () => {
   }, [watchRequests])
 }
 
-const useRegisterLedgerListeners = () => {
+const useRegisterHardwareWalletListeners = () => {
   const { accountsRef } = useAccountsSelector()
-  const { createWallet, importAccount, editAccount } = useBlockchainActions()
+  const { loginSessionRef } = useLoginSessionSelector()
+  const { editAccount } = useBlockchainActions()
+  const { logout } = useLogin()
   const { t: commonT } = useTranslation('common')
 
-  const createLedgerWallet = useCallback(
-    (address: string, publicKey: string, blockchain: TBlockchainServiceKey) => {
-      const account = accountsRef.current.find(AccountHelper.predicate({ address, blockchain }))
-
-      if (!account) {
-        const wallet = createWallet({ name: commonT('wallet.ledgerName'), type: 'ledger' })
-        importAccount({ wallet, address, blockchain, type: 'ledger', key: publicKey })
-        return
-      }
-
-      editAccount({
-        account,
-        data: {
-          type: 'ledger',
-          key: publicKey,
-        },
-      })
-    },
-    [accountsRef, editAccount, createWallet, commonT, importAccount]
-  )
-
-  const convertLedgerToWatch = useCallback(
+  const convertToWatch = useCallback(
     (address: string, blockchain: TBlockchainServiceKey) => {
       const account = accountsRef.current.find(AccountHelper.predicate({ address, blockchain }))
       if (!account) return
@@ -94,35 +81,38 @@ const useRegisterLedgerListeners = () => {
   )
 
   useMountUnsafe(() => {
-    window.api.sendAsync('getConnectedLedgers').then(ledgers => {
-      accountsRef.current.forEach(async account => {
-        if (account.type !== 'ledger') return
-
-        const connectedLedger = ledgers.find(AccountHelper.predicate(account))
-
-        if (!connectedLedger) {
-          convertLedgerToWatch(account.address, account.blockchain)
-        }
-      })
-
-      ledgers.forEach(({ address, publicKey, blockchain }) => createLedgerWallet(address, publicKey, blockchain))
-    })
+    accountsRef.current.forEach(account => convertToWatch(account.address, account.blockchain))
   })
 
   useEffect(() => {
-    const removeLedgerConnectedListener = window.api.listen('ledgerConnected', ({ args }) => {
-      createLedgerWallet(args.address, args.publicKey, args.blockchain)
-    })
+    const removeHardwareWalletDisconnectedListener = window.api.listen('hardwareWalletDisconnected', ({ args }) => {
+      if (loginSessionRef.current?.type === 'password') {
+        convertToWatch(args.address, args.blockchain)
+        return
+      }
 
-    const removeLedgerDisconnectedListener = window.api.listen('ledgerDisconnected', ({ args }) => {
-      convertLedgerToWatch(args.address, args.blockchain)
+      logout()
     })
 
     return () => {
-      removeLedgerConnectedListener()
-      removeLedgerDisconnectedListener()
+      removeHardwareWalletDisconnectedListener()
     }
-  }, [accountsRef, commonT, createLedgerWallet, convertLedgerToWatch])
+  }, [accountsRef, commonT, convertToWatch, loginSessionRef, logout])
+
+  useEffect(() => {
+    const removeGetHardwareWalletSignatureStartListener = window.api.listen('getHardwareWalletSignatureStart', () => {
+      ToastHelper.loading({ message: commonT('ledger.requestingPermission'), id: 'hardware-wallet-request-permission' })
+    })
+
+    const removeGetHardwareWalletSignatureEndListener = window.api.listen('getHardwareWalletSignatureEnd', () => {
+      ToastHelper.dismiss('hardware-wallet-request-permission')
+    })
+
+    return () => {
+      removeGetHardwareWalletSignatureStartListener()
+      removeGetHardwareWalletSignatureEndListener()
+    }
+  }, [commonT])
 }
 
 const useRegisterDeeplinkListeners = () => {
@@ -228,7 +218,7 @@ const useUnlockedSkins = () => {
 
 export const useAfterLogin = () => {
   useRegisterWalletConnectListeners()
-  useRegisterLedgerListeners()
+  useRegisterHardwareWalletListeners()
   useRegisterDeeplinkListeners()
   useUnlockedSkins()
 }

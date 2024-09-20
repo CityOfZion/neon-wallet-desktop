@@ -1,7 +1,6 @@
 import { useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
-import { StringHelper } from '@renderer/helpers/StringHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
@@ -12,16 +11,17 @@ import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 
 import { useAccountsSelector } from './useAccountSelector'
+import { usePersistStore } from './usePersistStore'
 import { useAppDispatch, useAppSelector } from './useRedux'
 import {
-  useEncryptedPasswordSelector,
+  useLoginSessionSelector,
   useSelectedNetworkByBlockchainSelector,
   useSelectedNetworkProfileSelector,
 } from './useSettingsSelector'
 
 const useWalletConnectListeners = () => {
   const { accountsRef } = useAccountsSelector()
-  const { encryptedPasswordRef } = useEncryptedPasswordSelector()
+  const { loginSessionRef } = useLoginSessionSelector()
   const { networkByBlockchainRef } = useSelectedNetworkByBlockchainSelector()
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const useWalletConnectListeners = () => {
 
       window.api.sendSync('sendStoreFromWC', {
         account,
-        encryptedPassword: encryptedPasswordRef.current,
+        encryptedPassword: loginSessionRef.current?.encryptedPassword,
         networkByBlockchain: networkByBlockchainRef.current,
       })
     })
@@ -39,49 +39,7 @@ const useWalletConnectListeners = () => {
     return () => {
       removeGetStoreFromWCListener()
     }
-  }, [accountsRef, encryptedPasswordRef, networkByBlockchainRef])
-}
-
-const useRegisterLedgerListeners = () => {
-  const { t } = useTranslation('hooks', { keyPrefix: 'useLedgerFlow' })
-  const { t: commonT } = useTranslation('common')
-
-  useEffect(() => {
-    const removeLedgerConnectedListener = window.api.listen('ledgerConnected', ({ args }) => {
-      ToastHelper.success({
-        message: t('ledgerConnected', {
-          address: StringHelper.truncateStringMiddle(args.address, 25),
-          blockchain: commonT(`blockchain.${args.blockchain}`),
-        }),
-      })
-    })
-
-    const removeLedgerDisconnectedListener = window.api.listen('ledgerDisconnected', ({ args }) => {
-      ToastHelper.error({
-        message: t('ledgerDisconnected', {
-          address: StringHelper.truncateStringMiddle(args.address, 25),
-          blockchain: commonT(`blockchain.${args.blockchain}`),
-        }),
-      })
-    })
-
-    const removeGetLedgerSignatureStartListener = window.api.listen('getLedgerSignatureStart', () => {
-      ToastHelper.loading({ message: commonT('ledger.requestingPermission'), id: 'ledger-request-permission' })
-    })
-
-    const removeGetLedgerSignatureEndListener = window.api.listen('getLedgerSignatureEnd', () => {
-      ToastHelper.dismiss('ledger-request-permission')
-    })
-
-    window.api.sendAsync('startLedger')
-
-    return () => {
-      removeLedgerConnectedListener()
-      removeLedgerDisconnectedListener()
-      removeGetLedgerSignatureStartListener()
-      removeGetLedgerSignatureEndListener()
-    }
-  }, [t, commonT])
+  }, [accountsRef, loginSessionRef, networkByBlockchainRef])
 }
 
 const useOverTheAirUpdate = () => {
@@ -111,7 +69,7 @@ const useOverTheAirUpdate = () => {
     return () => {
       removeUpdateCompletedListener()
     }
-  }, [dispatch])
+  }, [dispatch, t])
 
   useEffect(() => {
     if (hasOverTheAirUpdatesRef.current) {
@@ -121,7 +79,7 @@ const useOverTheAirUpdate = () => {
 }
 
 const useDeeplinkListeners = () => {
-  const { encryptedPasswordRef } = useEncryptedPasswordSelector()
+  const { loginSessionRef } = useLoginSessionSelector()
   const { t } = useTranslation('hooks', { keyPrefix: 'DappConnection' })
 
   useEffect(() => {
@@ -130,7 +88,7 @@ const useDeeplinkListeners = () => {
 
       window.api.sendSync('restore')
 
-      if (!encryptedPasswordRef.current)
+      if (!loginSessionRef.current)
         ToastHelper.info({
           message: t('pleaseLogin'),
         })
@@ -142,11 +100,13 @@ const useDeeplinkListeners = () => {
     return () => {
       removeListener()
     }
-  }, [encryptedPasswordRef, t])
+  }, [loginSessionRef, t])
 }
 
 const useNetworkChange = () => {
+  const { selectedNetworkProfile } = useSelectedNetworkProfileSelector()
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
+  const dispatch = useAppDispatch()
 
   useLayoutEffect(() => {
     Object.values(bsAggregator.blockchainServicesByName).forEach(service => {
@@ -154,41 +114,45 @@ const useNetworkChange = () => {
       service.setNetwork(network)
     })
   }, [networkByBlockchain])
-}
 
-const useStoreStartup = () => {
-  const { accountsRef } = useAccountsSelector()
-  const { selectedNetworkProfile } = useSelectedNetworkProfileSelector()
-  const dispatch = useAppDispatch()
-
-  useEffect(() => {
-    dispatch(accountReducerActions.removeAllPendingTransactions())
-
-    // Migrate backgroundColor to skin
-    accountsRef.current.forEach(account => {
-      const backgroundColor = (account as any).backgroundColor
-      if (!backgroundColor) return
-
-      dispatch(
-        accountReducerActions.saveAccount({
-          ...account,
-          skin: { id: backgroundColor, type: 'color' },
-          backgroundColor: undefined,
-        } as any)
-      )
-    })
-
+  useLayoutEffect(() => {
     Object.entries(selectedNetworkProfile.networkByBlockchain).forEach(([blockchain, network]) => {
       dispatch(settingsReducerActions.setSelectNetwork({ blockchain: blockchain as TBlockchainServiceKey, network }))
     })
-  }, [dispatch, selectedNetworkProfile.networkByBlockchain, accountsRef])
+  }, [dispatch, selectedNetworkProfile.networkByBlockchain])
+}
+
+const useWindowListeners = () => {
+  const { resume } = usePersistStore()
+  const dispatch = useAppDispatch()
+  const { loginSessionRef } = useLoginSessionSelector()
+  const { t } = useTranslation('hooks', { keyPrefix: 'useBeforeLogin' })
+
+  useEffect(() => {
+    const removeWillQuitListener = window.api.listen('willCloseWindow', async () => {
+      dispatch(accountReducerActions.removeAllPendingTransactions())
+
+      if (loginSessionRef.current?.type === 'hardware') {
+        await resume()
+
+        // Await for the store to be hydrated and saved to the local storage
+        ToastHelper.loading({ message: t('waitSave'), position: 'top-center' })
+        await UtilsHelper.sleep(6000)
+      }
+
+      window.api.sendSync('closeWindow')
+    })
+
+    return () => {
+      removeWillQuitListener()
+    }
+  }, [dispatch, loginSessionRef, resume, t])
 }
 
 export const useBeforeLogin = () => {
-  useRegisterLedgerListeners()
   useOverTheAirUpdate()
   useNetworkChange()
-  useStoreStartup()
+  useWindowListeners()
   useDeeplinkListeners()
   useWalletConnectListeners()
 }

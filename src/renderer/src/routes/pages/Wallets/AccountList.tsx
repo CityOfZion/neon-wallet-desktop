@@ -31,9 +31,7 @@ const AccountItem = ({ account, onClick, active }: TAccountItemProps) => {
       <button
         onClick={onClick}
         aria-selected={active}
-        className={
-          'flex w-full min-w-0 items-center gap-x-2.5 py-2.5 px-3 border-l-4 border-l-transparent cursor-pointer transition-colors hover:border-l-neon hover:bg-gray-900/50 aria-selected:border-l-neon aria-selected:bg-gray-900/50'
-        }
+        className="flex w-full min-w-0 items-center gap-x-2.5 py-2.5 px-3 border-l-4 border-l-transparent cursor-pointer transition-colors hover:border-l-neon hover:bg-gray-900/50 aria-selected:border-l-neon aria-selected:bg-gray-900/50"
       >
         <AccountIcon account={account} />
 

@@ -1,11 +1,10 @@
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { ErrorToast, InfoToast, PromiseToast, SuccessToast } from '@renderer/libs/sonner'
-import { toast } from 'sonner'
+import { toast, ToastT } from 'sonner'
 
-type TToastProp = {
+type TToastProp = Omit<ToastT, 'id'> & {
   message: string
   id?: string | number
-  duration?: number
 }
 
 export class ToastHelper {
@@ -13,37 +12,38 @@ export class ToastHelper {
     toast.dismiss(id)
   }
 
-  static success(props: TToastProp) {
-    const customId = props.id ?? UtilsHelper.uuid()
-    toast.custom(sonnerId => <SuccessToast sonnerId={sonnerId} message={props.message} />, {
+  static success({ id, message, ...props }: TToastProp) {
+    const customId = id ?? UtilsHelper.uuid()
+    toast.custom(sonnerId => <SuccessToast sonnerId={sonnerId} message={message} />, {
+      ...props,
       id: customId,
       unstyled: true,
-      duration: props.duration,
     })
   }
 
-  static error(props: TToastProp) {
-    const customId = props.id ?? UtilsHelper.uuid()
-    toast.custom(sonnerId => <ErrorToast sonnerId={sonnerId} message={props.message} />, {
+  static error({ id, message, ...props }: TToastProp) {
+    const customId = id ?? UtilsHelper.uuid()
+    toast.custom(sonnerId => <ErrorToast sonnerId={sonnerId} message={message} />, {
+      ...props,
       id: customId,
       unstyled: true,
-      duration: props.duration,
     })
   }
 
-  static info(props: TToastProp) {
-    const customId = props.id ?? UtilsHelper.uuid()
-    toast.custom(sonnerId => <InfoToast sonnerId={sonnerId} message={props.message} />, {
+  static info({ id, message, ...props }: TToastProp) {
+    const customId = id ?? UtilsHelper.uuid()
+    toast.custom(sonnerId => <InfoToast sonnerId={sonnerId} message={message} />, {
+      ...props,
       id: customId,
       unstyled: true,
-      duration: props.duration,
     })
   }
 
-  static async loading(props: TToastProp) {
-    const customId = props.id ?? UtilsHelper.uuid()
+  static async loading({ id, message, ...props }: TToastProp) {
+    const customId = id ?? UtilsHelper.uuid()
 
-    toast.custom(sonnerId => <PromiseToast sonnerId={sonnerId} message={props.message} />, {
+    toast.custom(sonnerId => <PromiseToast sonnerId={sonnerId} message={message} />, {
+      ...props,
       id: customId,
       unstyled: true,
       duration: Infinity,

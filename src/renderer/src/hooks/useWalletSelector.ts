@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 
 import { useAppSelector } from './useRedux'
-import { useEncryptedPasswordSelector } from './useSettingsSelector'
+import { useLoginSessionSelector } from './useSettingsSelector'
 
 export const useWalletsSelector = () => {
   const { ref, value } = useAppSelector(state => state.wallet.data)
@@ -23,16 +23,20 @@ export const useWalletSelectorByID = (id: string) => {
 
 export const useWalletsUtils = () => {
   const { walletsRef } = useWalletsSelector()
-  const { encryptedPasswordRef } = useEncryptedPasswordSelector()
+  const { loginSessionRef } = useLoginSessionSelector()
 
   const doesMnemonicExist = useCallback(
     async (mnemonic: string) => {
+      if (!loginSessionRef.current) {
+        throw new Error('Login session not defined')
+      }
+
       for (const wallet of walletsRef.current) {
         if (!wallet.encryptedMnemonic) continue
 
         const walletMnemonic = await window.api.sendAsync('decryptBasedEncryptedSecret', {
           value: wallet.encryptedMnemonic,
-          encryptedSecret: encryptedPasswordRef.current,
+          encryptedSecret: loginSessionRef.current.encryptedPassword,
         })
 
         if (walletMnemonic === mnemonic) return true
@@ -40,7 +44,7 @@ export const useWalletsUtils = () => {
 
       return false
     },
-    [walletsRef, encryptedPasswordRef]
+    [walletsRef, loginSessionRef]
   )
 
   return {

@@ -7,11 +7,11 @@ import { TSelectedNetworks } from '@shared/@types/store'
 
 import { useAppDispatch, useAppSelector } from './useRedux'
 
-export const useEncryptedPasswordSelector = () => {
-  const { ref, value } = useAppSelector(state => state.settings.encryptedPassword)
+export const useLoginSessionSelector = () => {
+  const { ref, value } = useAppSelector(state => state.settings.loginSession)
   return {
-    encryptedPassword: value,
-    encryptedPasswordRef: ref,
+    loginSession: value,
+    loginSessionRef: ref,
   }
 }
 
@@ -106,10 +106,18 @@ export const useLoginControlSelector = () => {
   }
 }
 
-export const useEncryptedPasswordActions = () => {
+export const useSecurityTypeSelector = () => {
+  const { ref, value } = useAppSelector(state => state.settings.securityType)
+  return {
+    securityType: value,
+    securityTypeRef: ref,
+  }
+}
+
+export const useSecurityTypeActions = () => {
   const dispatch = useAppDispatch()
 
-  const setEncryptedPassword = useCallback(
+  const setSecurityType = useCallback(
     async (password: string, isAlreadyEncrypted?: boolean) => {
       const encryptedPassword = isAlreadyEncrypted ? password : await window.api.sendAsync('encryptBasedOS', password)
 
@@ -118,14 +126,14 @@ export const useEncryptedPasswordActions = () => {
         encryptedSecret: encryptedPassword,
       })
 
-      dispatch(settingsReducerActions.setEncryptedPassword(encryptedPassword))
       dispatch(settingsReducerActions.setEncryptedLoginControl(encryptedLoginControl))
       dispatch(settingsReducerActions.setSecurityType('password'))
+      dispatch(settingsReducerActions.setLoginSession({ type: 'password', encryptedPassword }))
     },
     [dispatch]
   )
 
   return {
-    setEncryptedPassword,
+    setSecurityType,
   }
 }

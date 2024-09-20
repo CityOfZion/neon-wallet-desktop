@@ -1,12 +1,16 @@
 import { CaseReducer, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { IContactState } from '@shared/@types/store'
-import { PURGE } from 'redux-persist'
+import { PersistConfig, PURGE } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
 
 export interface IContactReducer {
   data: IContactState[]
 }
 
-export const contactReducerName = 'contactReducer'
+export const contactReducerConfig: PersistConfig<IContactReducer> = {
+  key: 'contactReducer',
+  storage: storage,
+}
 
 const initialState = {
   data: [],
@@ -30,7 +34,7 @@ const deleteContact: CaseReducer<IContactReducer, PayloadAction<string>> = (stat
 }
 
 const ContactReducer = createSlice({
-  name: contactReducerName,
+  name: contactReducerConfig.key,
   initialState,
   reducers: {
     saveContact,

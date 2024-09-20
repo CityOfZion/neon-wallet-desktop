@@ -11,10 +11,7 @@ import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useNameService } from '@renderer/hooks/useNameService'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
-import {
-  useEncryptedPasswordSelector,
-  useSelectedNetworkByBlockchainSelector,
-} from '@renderer/hooks/useSettingsSelector'
+import { useLoginSessionSelector, useSelectedNetworkByBlockchainSelector } from '@renderer/hooks/useSettingsSelector'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { accountReducerActions } from '@renderer/store/reducers/AccountReducer'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
@@ -63,7 +60,7 @@ export type TSendServiceResponse =
 
 export const SendPageContent = ({ account, recipient }: TProps) => {
   const { t } = useTranslation('pages', { keyPrefix: 'send' })
-  const { encryptedPasswordRef } = useEncryptedPasswordSelector()
+  const { loginSessionRef } = useLoginSessionSelector()
   const { modalNavigate } = useModalNavigate()
   const dispatch = useAppDispatch()
   const [originalRecipient, setoOriginalRecipient] = useState(recipient)
@@ -88,6 +85,10 @@ export const SendPageContent = ({ account, recipient }: TProps) => {
   }, [actionData.selectedAccount])
 
   const getSendFields = useCallback(async (): Promise<TSendServiceResponse> => {
+    if (!loginSessionRef.current) {
+      throw new Error('Login session not defined')
+    }
+
     if (
       !actionData.selectedAccount ||
       !actionData.selectedToken ||
@@ -100,11 +101,11 @@ export const SendPageContent = ({ account, recipient }: TProps) => {
 
     const key = await window.api.sendAsync('decryptBasedEncryptedSecret', {
       value: actionData.selectedAccount.encryptedKey,
-      encryptedSecret: encryptedPasswordRef.current,
+      encryptedSecret: loginSessionRef.current.encryptedPassword,
     })
 
     const serviceAccount =
-      actionData.selectedAccount.type === 'ledger' && hasLedger(service)
+      actionData.selectedAccount.type === 'hardware' && hasLedger(service)
         ? service.generateAccountFromPublicKey(key)
         : service.generateAccountFromKey(key)
 
@@ -117,10 +118,10 @@ export const SendPageContent = ({ account, recipient }: TProps) => {
       service: service,
     }
   }, [
+    loginSessionRef,
     actionData.selectedAccount,
     actionData.selectedToken,
     actionData.selectedAmount,
-    encryptedPasswordRef,
     validatedAddress,
     service,
   ])
@@ -180,7 +181,7 @@ export const SendPageContent = ({ account, recipient }: TProps) => {
     if (!fields) return
 
     try {
-      const isLedger = fields.selectedAccount.type === 'ledger'
+      const isHardware = fields.selectedAccount.type === 'hardware'
 
       const transactionHash = await fields.service.transfer({
         senderAccount: fields.serviceAccount,
@@ -190,7 +191,7 @@ export const SendPageContent = ({ account, recipient }: TProps) => {
           amount: fields.selectedAmount,
           tokenDecimals: fields.selectedToken.token.decimals,
         },
-        isLedger,
+        isLedger: isHardware,
       })
 
       const transaction: TUseTransactionsTransfer = {

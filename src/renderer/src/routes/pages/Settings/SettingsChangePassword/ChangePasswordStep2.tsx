@@ -4,7 +4,7 @@ import { Location, useLocation, useNavigate } from 'react-router-dom'
 import { ButtonDownloadPasswordQRCode } from '@renderer/components/ButtonDownloadPasswordQRCode'
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
-import { useEncryptedPasswordActions, useEncryptedPasswordSelector } from '@renderer/hooks/useSettingsSelector'
+import { useLoginSessionSelector, useSecurityTypeActions } from '@renderer/hooks/useSettingsSelector'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
 import { accountReducerActions } from '@renderer/store/reducers/AccountReducer'
 import { walletReducerActions } from '@renderer/store/reducers/WalletReducer'
@@ -14,16 +14,22 @@ type TLocationState = {
 }
 
 export const ChangePasswordStep2 = (): JSX.Element => {
-  const { encryptedPassword } = useEncryptedPasswordSelector()
   const { t } = useTranslation('pages', { keyPrefix: 'settings.changePassword.step2' })
   const { wallets } = useWalletsSelector()
+  const { loginSessionRef } = useLoginSessionSelector()
   const { accounts } = useAccountsSelector()
   const dispatch = useAppDispatch()
   const { state } = useLocation() as Location<TLocationState>
   const navigate = useNavigate()
-  const { setEncryptedPassword } = useEncryptedPasswordActions()
+  const { setSecurityType } = useSecurityTypeActions()
 
   const onDownload = async () => {
+    if (!loginSessionRef.current) {
+      throw new Error('Login session not defined')
+    }
+
+    const encryptedPassword = loginSessionRef.current?.encryptedPassword
+
     const walletPromises = wallets.map(async wallet => {
       if (!wallet.encryptedMnemonic) return wallet
       const mnemonic = await window.api.sendAsync('decryptBasedEncryptedSecret', {
@@ -56,7 +62,7 @@ export const ChangePasswordStep2 = (): JSX.Element => {
     dispatch(accountReducerActions.replaceAllAccounts(newAccounts))
     dispatch(walletReducerActions.replaceAllWallets(newWallets))
 
-    await setEncryptedPassword(state.encryptedNewPassword, true)
+    await setSecurityType(state.encryptedNewPassword, true)
 
     navigate('/app/settings/security/change-password/step-3')
   }

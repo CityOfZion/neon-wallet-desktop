@@ -6,7 +6,7 @@ import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { useActions } from '@renderer/hooks/useActions'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
-import { useEncryptedPasswordActions } from '@renderer/hooks/useSettingsSelector'
+import { useSecurityTypeActions } from '@renderer/hooks/useSettingsSelector'
 
 type TFormData = {
   confirmPassword: string
@@ -26,7 +26,7 @@ export const WelcomeSecuritySetupStep2Page = ({ onSubmit }: TProps) => {
   const { t: commonT } = useTranslation('common')
   const navigate = useNavigate()
   const { createWallet, createAccount } = useBlockchainActions()
-  const { setEncryptedPassword } = useEncryptedPasswordActions()
+  const { setSecurityType } = useSecurityTypeActions()
 
   const { actionData, actionState, handleAct, setData, setError } = useActions<TFormData>({
     confirmPassword: '',
@@ -47,7 +47,7 @@ export const WelcomeSecuritySetupStep2Page = ({ onSubmit }: TProps) => {
       return
     }
 
-    await setEncryptedPassword(data.confirmPassword)
+    await setSecurityType(data.confirmPassword)
 
     const words = generateMnemonic()
 

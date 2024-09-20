@@ -11,6 +11,7 @@ import { AutoUpdateNotes } from './modals/AutoUpdate/AutoUpdateNotes'
 import { BlockchainSelectionModal } from './modals/BlockchainSelection'
 import { ConfirmPasswordBackupModal } from './modals/ConfirmPasswordBackup'
 import { ConfirmPasswordRecoverModal } from './modals/ConfirmPasswordRecover'
+import { ConnectHardwareWalletModal } from './modals/ConnectHardwareWallet'
 import { CreateWalletStep1Modal } from './modals/CreateWallet/CreateWalletStep1Modal'
 import { CreateWalletStep2Modal } from './modals/CreateWallet/CreateWalletStep2Modal'
 import { CreateWalletStep3Modal } from './modals/CreateWallet/CreateWalletStep3Modal'
@@ -96,4 +97,5 @@ export const modalsRouter: TRoute[] = [
   { name: 'add-custom-network', type: 'side', element: <AddCustomNetwork /> },
   { name: 'add-network-profile', type: 'side', element: <AddNetworkProfileModal /> },
   { name: 'nft-selection', type: 'side', element: <NFTSelectionModal /> },
+  { name: 'connect-hardware-wallet', type: 'center', size: 'lg', element: <ConnectHardwareWalletModal /> },
 ]

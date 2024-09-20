@@ -36,7 +36,7 @@ export const Swipe = ({ text, buttonAriaLabel, onComplete }: TProps) => {
   return (
     <div
       style={{ width: `${WIDTH}px` }}
-      className={'bg-gray-300/30 text-white text-sm relative rounded h-[48px] overflow-hidden'}
+      className="bg-gray-300/30 text-white text-sm relative rounded h-[48px] overflow-hidden"
     >
       <motion.div
         style={{
@@ -44,28 +44,28 @@ export const Swipe = ({ text, buttonAriaLabel, onComplete }: TProps) => {
           touchAction: 'none',
           boxShadow: '4px 8px 20px 0px #12151766, 1px 1px 0px 0px #D6D2D223 inset, -1px -1px 0px 0px #00000051 inset',
         }}
-        className={'flex justify-end bg-pink rounded h-[inherit] relative z-[1] w-full'}
+        className="flex justify-end bg-pink rounded h-[inherit] relative z-[1] w-full"
         tabIndex={0}
-        role={'button'}
+        role="button"
         aria-label={buttonAriaLabel}
         dragMomentum={false}
         dragTransition={{ max: 0, min: REST_SIZE }}
         dragConstraints={{ left: REST_SIZE, right: 0 }}
         dragElastic={0}
-        drag={'x'}
+        drag="x"
         onDragEnd={handleDragEnd}
         onKeyDown={handleKeyDown}
       >
         <div
           style={{ width: `${DRAG_WIDTH}px` }}
-          className={'flex items-center h-[inherit] cursor-pointer flex items-center justify-center'}
+          className="flex items-center h-[inherit] cursor-pointer flex items-center justify-center"
         >
-          <ArrowRightBoldOutlineIcon aria-hidden={true} className={'w-6 h-6 pointer-events-none'} />
+          <ArrowRightBoldOutlineIcon aria-hidden={true} className="w-6 h-6 pointer-events-none" />
         </div>
       </motion.div>
       <p
         style={{ left: `calc(${HALF} + ${HALF_DRAG_WIDTH}px)`, transform: `translate(-${HALF}, -${HALF})`, width: MAX }}
-        className={'absolute text-center top-1/2'}
+        className="absolute text-center top-1/2"
       >
         {text}
       </p>

@@ -7,7 +7,7 @@ import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
-import { useEncryptedPasswordActions } from '@renderer/hooks/useSettingsSelector'
+import { useSecurityTypeActions } from '@renderer/hooks/useSettingsSelector'
 import { contactReducerActions } from '@renderer/store/reducers/ContactReducer'
 import { TAccountsToImport, TWalletToCreate } from '@shared/@types/blockchain'
 import { IContactState } from '@shared/@types/store'
@@ -26,7 +26,7 @@ export const WelcomeImportWalletStep4Page = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const { createWallet, importAccounts } = useBlockchainActions()
-  const { setEncryptedPassword } = useEncryptedPasswordActions()
+  const { setSecurityType } = useSecurityTypeActions()
 
   const isImporting = useRef(false)
 
@@ -36,7 +36,7 @@ export const WelcomeImportWalletStep4Page = () => {
     try {
       const progressByStep = 100 / state.wallets.length + 3
 
-      await setEncryptedPassword(state.password)
+      await setSecurityType(state.password)
 
       setProgress(progress => progress + progressByStep)
 

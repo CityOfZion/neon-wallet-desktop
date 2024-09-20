@@ -1,11 +1,32 @@
-import { CaseReducer, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { CaseReducer, createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { IWalletState } from '@shared/@types/store'
-import { PURGE } from 'redux-persist'
-
-export const walletReducerName = 'walletReducer'
+import { createMigrate, PersistConfig, PURGE } from 'redux-persist'
+import getStoredState from 'redux-persist/es/getStoredState'
+import storage from 'redux-persist/lib/storage'
 
 export interface IWalletReducer {
   data: IWalletState[]
+}
+
+export const walletReducerMigrations = {
+  0: (state: any) => {
+    return {
+      ...state,
+      data: state.data.map((it: any) => {
+        return {
+          ...it,
+          type: it.type === 'ledger' ? 'hardware' : it.type,
+        }
+      }),
+    }
+  },
+}
+
+export const walletReducerConfig: PersistConfig<IWalletReducer> = {
+  key: 'walletReducer',
+  storage: storage,
+  migrate: createMigrate(walletReducerMigrations),
+  version: 0,
 }
 
 const initialState = {
@@ -33,16 +54,31 @@ const deleteWallet: CaseReducer<IWalletReducer, PayloadAction<string>> = (state,
   state.data = state.data.filter(it => it.id !== idWallet)
 }
 
+const clean: CaseReducer<IWalletReducer> = () => {
+  return initialState
+}
+
+const restoreToPersistedData = createAsyncThunk('wallets/restoreToPersistedData', async () => {
+  const persistedState = await getStoredState(walletReducerConfig)
+  if (!persistedState) throw new Error('No persisted state found')
+
+  return persistedState as any
+})
+
 const WalletReducer = createSlice({
   initialState,
-  name: walletReducerName,
+  name: walletReducerConfig.key,
   reducers: {
     deleteWallet,
     saveWallet,
     replaceAllWallets,
+    clean,
   },
   extraReducers: builder => {
     builder.addCase(PURGE, () => initialState)
+    builder.addCase(restoreToPersistedData.fulfilled, (state, action) => {
+      state.data = action.payload.data
+    })
   },
 })
 
@@ -50,5 +86,7 @@ export const WalletReducerSlice = WalletReducer
 
 export const walletReducerActions = {
   ...WalletReducer.actions,
+  restoreToPersistedData,
 }
+
 export default WalletReducer.reducer

@@ -8,10 +8,7 @@ import { Loader } from '@renderer/components/Loader'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { useBalances } from '@renderer/hooks/useBalances'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
-import {
-  useEncryptedPasswordSelector,
-  useSelectedNetworkByBlockchainSelector,
-} from '@renderer/hooks/useSettingsSelector'
+import { useLoginSessionSelector, useSelectedNetworkByBlockchainSelector } from '@renderer/hooks/useSettingsSelector'
 import { accountReducerActions } from '@renderer/store/reducers/AccountReducer'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TUseTransactionsTransfer } from '@shared/@types/hooks'
@@ -40,10 +37,10 @@ const getUnclaimedInfos = async (
   let fee = '0'
 
   if (isCalculableFee(blockchainService)) {
-    const isLedger = account.type === 'ledger'
+    const isHardware = account.type === 'hardware'
 
     const serviceAccount =
-      isLedger && hasLedger(blockchainService)
+      isHardware && hasLedger(blockchainService)
         ? blockchainService.generateAccountFromPublicKey(key)
         : blockchainService.generateAccountFromKey(key)
 
@@ -55,7 +52,7 @@ const getUnclaimedInfos = async (
         tokenHash: blockchainService.burnToken.hash,
         tokenDecimals: blockchainService.burnToken.decimals,
       },
-      isLedger,
+      isLedger: isHardware,
     })
   }
 
@@ -64,14 +61,14 @@ const getUnclaimedInfos = async (
 
 export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
   const { t } = useTranslation('components', { keyPrefix: 'claimGasButton' })
-  const { encryptedPassword } = useEncryptedPasswordSelector()
+  const { loginSessionRef } = useLoginSessionSelector()
   const dispatch = useAppDispatch()
   const balances = useBalances([account])
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
 
   const unclaimed = useQuery({
     queryKey: ['claim', account.address],
-    queryFn: getUnclaimedInfos.bind(null, account, blockchainService, encryptedPassword),
+    queryFn: getUnclaimedInfos.bind(null, account, blockchainService, loginSessionRef.current?.encryptedPassword),
     staleTime: 0,
     gcTime: 0,
     retry: false,
@@ -98,21 +95,25 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
   const handleClaimGas = async () => {
     try {
       setClaiming(true)
+      if (!loginSessionRef.current) {
+        throw new Error('Login session not defined')
+      }
+
       if (!unclaimed.data?.unclaimed || !account.encryptedKey) return
 
       const key = await window.api.sendAsync('decryptBasedEncryptedSecret', {
         value: account.encryptedKey,
-        encryptedSecret: encryptedPassword,
+        encryptedSecret: loginSessionRef.current.encryptedPassword,
       })
 
-      const isLedger = account.type === 'ledger'
+      const isHardware = account.type === 'hardware'
 
       const serviceAccount =
-        isLedger && hasLedger(blockchainService)
+        isHardware && hasLedger(blockchainService)
           ? blockchainService.generateAccountFromPublicKey(key)
           : blockchainService.generateAccountFromKey(key)
 
-      const transactionHash = await blockchainService.claim(serviceAccount, isLedger)
+      const transactionHash = await blockchainService.claim(serviceAccount, isHardware)
 
       const transaction: TUseTransactionsTransfer = {
         hash: transactionHash,

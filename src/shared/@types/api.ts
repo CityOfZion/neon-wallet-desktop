@@ -1,11 +1,12 @@
 import { TSession } from '@cityofzion/wallet-connect-sdk-wallet-react'
 import { OpenDialogOptions } from 'electron'
 
-import { TGetStoreFromWCSession, TIpcMainAsyncListener, TIpcMainSyncListener, TLedgerInfo } from './ipc'
+import { TGetStoreFromWCSession, THardwareWalletInfo, TIpcMainAsyncListener, TIpcMainSyncListener } from './ipc'
 
 export type TMainApiListenersSync = {
   restore: TIpcMainSyncListener<undefined, void>
   sendStoreFromWC: TIpcMainSyncListener<TGetStoreFromWCSession>
+  closeWindow: TIpcMainSyncListener<undefined, void>
   encryptBasedEncryptedSecretSync: TIpcMainSyncListener<{ value: string; encryptedSecret?: string }, string>
   decryptBasedEncryptedSecretSync: TIpcMainSyncListener<{ value: string; encryptedSecret?: string }, string>
 }
@@ -16,10 +17,10 @@ export type TMainApiListenersAsync = {
   saveFile: TIpcMainAsyncListener<{ path: string; content: string }, void>
   setTitleBarOverlay: TIpcMainAsyncListener<Electron.TitleBarOverlay, void>
   setWindowButtonPosition: TIpcMainAsyncListener<Electron.Point, void>
-  startLedger: TIpcMainAsyncListener<undefined, void>
+  connectHardwareWallet: TIpcMainAsyncListener<undefined, THardwareWalletInfo>
+  disconnectHardwareWallet: TIpcMainAsyncListener<undefined, void>
   checkForUpdates: TIpcMainAsyncListener<undefined, boolean>
   quitAndInstall: TIpcMainAsyncListener<undefined, void>
-  getConnectedLedgers: TIpcMainAsyncListener<undefined, TLedgerInfo[]>
   encryptBasedOS: TIpcMainAsyncListener<string, string>
   decryptBasedOS: TIpcMainAsyncListener<string, string>
   encryptBasedSecret: TIpcMainAsyncListener<{ value: string; secret: string }, string>
@@ -32,10 +33,10 @@ export type TMainApiListenersAsync = {
 
 export type TMainApiSend = {
   getStoreFromWC: TSession
-  ledgerConnected: TLedgerInfo
-  ledgerDisconnected: TLedgerInfo
+  hardwareWalletDisconnected: THardwareWalletInfo
   updateCompleted: undefined
+  willCloseWindow: undefined
   deeplink: string
-  getLedgerSignatureStart: undefined
-  getLedgerSignatureEnd: undefined
+  getHardwareWalletSignatureStart: undefined
+  getHardwareWalletSignatureEnd: undefined
 }

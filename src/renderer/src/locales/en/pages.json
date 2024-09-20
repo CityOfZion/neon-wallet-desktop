@@ -201,6 +201,7 @@
     "editWalletButtonLabel": "Edit",
     "editAccountButton": "Edit account",
     "exportButtonLabel": "Export",
+    "connectHardwareWalletButtonLabel": "Connect",
     "exportKeyButton": "Export key",
     "importButtonLabel": "Import",
     "newWalletButtonLabel": "New Wallet",
@@ -373,5 +374,20 @@
       "title": "Select a receiving account",
       "selectReceivingAccount": "Select receiving account"
     }
+  },
+  "loginHardwareWallet": {
+    "title": "Connect your hardware wallet",
+    "description": "Using a hardware wallet limits access to some key features:",
+    "searchingLabel": "Searching",
+    "notConnectedMessage": "No hardware wallet found! Check your connection",
+    "connectedMessage": "Device detected! Opening your wallet...",
+    "searchAgainButtonLabel": "Search again",
+    "limits": [
+      "Backup and restore",
+      "Wallet customizations",
+      "Import/Export features",
+      "Create New Wallet",
+      "Among other features..."
+    ]
   }
 }

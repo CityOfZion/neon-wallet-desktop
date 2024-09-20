@@ -2,7 +2,7 @@ import { cloneElement } from 'react'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { IWalletState, TWalletType } from '@shared/@types/store'
 
-import { ReactComponent as WalletIconLedger } from '../assets/images/wallet-icon-ledger.svg'
+import { ReactComponent as WalletIconHardware } from '../assets/images/wallet-icon-hardware.svg'
 import { ReactComponent as WalletIconStandard } from '../assets/images/wallet-icon-standard.svg'
 
 type TProps = {
@@ -10,7 +10,7 @@ type TProps = {
 }
 
 const IMAGES_BY_TYPE: Record<TWalletType, JSX.Element> = {
-  ledger: <WalletIconLedger className="-mb-1" />,
+  hardware: <WalletIconHardware className="-mb-1" />,
   standard: <WalletIconStandard className="-mb-1" />,
 }
 

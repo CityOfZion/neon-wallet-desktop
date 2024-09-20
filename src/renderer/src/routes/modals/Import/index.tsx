@@ -53,11 +53,11 @@ export const ImportModal = () => {
                 const wallet = createWallet({
                   name: tCommon('encryptedName'),
                 })
-                importAccount({ address, blockchain, wallet, key, type: 'standard' })
+                const account = importAccount({ address, blockchain, wallet, key, type: 'standard' })
 
                 ToastHelper.success({ message: t('successEncryptKey') })
                 modalNavigate(-3)
-                navigate(`/app/wallets/${address}/overview`)
+                navigate(`/app/wallets/${account.id}/overview`)
               },
             },
           })

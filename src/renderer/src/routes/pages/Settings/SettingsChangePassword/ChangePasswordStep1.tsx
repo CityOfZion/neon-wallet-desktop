@@ -10,7 +10,7 @@ import { Separator } from '@renderer/components/Separator'
 import { regexGood, regexStrong } from '@renderer/constants/password'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useActions } from '@renderer/hooks/useActions'
-import { useEncryptedPasswordSelector } from '@renderer/hooks/useSettingsSelector'
+import { useLoginSessionSelector } from '@renderer/hooks/useSettingsSelector'
 
 type TFormData = {
   newPassword: string
@@ -18,7 +18,7 @@ type TFormData = {
 }
 
 export const ChangePasswordStep1 = (): JSX.Element => {
-  const { encryptedPassword } = useEncryptedPasswordSelector()
+  const { loginSessionRef } = useLoginSessionSelector()
   const { t } = useTranslation('pages', { keyPrefix: 'settings.changePassword.step1' })
   const navigate = useNavigate()
 
@@ -31,7 +31,11 @@ export const ChangePasswordStep1 = (): JSX.Element => {
     })
 
   const handleSubmit = async (data: TFormData) => {
-    const decryptedPassword = await window.api.sendAsync('decryptBasedOS', encryptedPassword ?? '')
+    if (!loginSessionRef.current) {
+      throw new Error('Login session not defined')
+    }
+
+    const decryptedPassword = await window.api.sendAsync('decryptBasedOS', loginSessionRef.current.encryptedPassword)
     const encryptedNewPassword = await window.api.sendAsync('encryptBasedOS', data.newPassword)
     if (data.currentPassword.length === 0 || data.currentPassword !== decryptedPassword) {
       setError('currentPassword', t('error'))

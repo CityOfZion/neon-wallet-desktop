@@ -7,6 +7,7 @@ import { AppPage } from './pages/AppPage'
 import { ContactsPage } from './pages/Contacts'
 import { ForgottenPasswordSuccessPage } from './pages/ForgottenPassword/Success'
 import { LoginPage } from './pages/Login'
+import { LoginHardwareWalletPage } from './pages/LoginHardwareWallet'
 import { PortfolioPage } from './pages/Portfolio'
 import { PortfolioActivityPage } from './pages/Portfolio/Activity'
 import { PortfolioConnectionsPage } from './pages/Portfolio/Connections'
@@ -190,18 +191,6 @@ export const pagesRouter = routeHandler([
         element: <WelcomePage />,
       },
       {
-        path: 'neon-account',
-        element: <NeonAccountPage />,
-      },
-      {
-        path: 'hardware-wallet',
-        element: <></>, // TODO: create page
-      },
-      {
-        path: 'address-or-key',
-        element: <></>, // TODO: create page
-      },
-      {
         path: 'welcome-security-setup',
         element: <WelcomeSecuritySetupPage />,
         children: [
@@ -248,6 +237,18 @@ export const pagesRouter = routeHandler([
       {
         path: 'login',
         element: <LoginPage />,
+      },
+      {
+        path: 'neon-account',
+        element: <NeonAccountPage />,
+      },
+      {
+        path: 'login-hardware-wallet',
+        element: <LoginHardwareWalletPage />,
+      },
+      {
+        path: 'address-or-key',
+        element: <></>, // TODO: create page
       },
       {
         path: 'forgotten-password',

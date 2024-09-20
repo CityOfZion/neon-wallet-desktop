@@ -1,19 +1,16 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
 
-import AccountReducer, { accountReducerName } from './reducers/AccountReducer'
-import ContactReducer, { contactReducerName } from './reducers/ContactReducer'
-import SettingsReducer, { settingsReducerName } from './reducers/SettingsReducer'
-import WalletReducer, { walletReducerName } from './reducers/WalletReducer'
+import AccountReducer, { accountReducerConfig } from './reducers/AccountReducer'
+import ContactReducer, { contactReducerConfig } from './reducers/ContactReducer'
+import SettingsReducer, { settingsReducerConfig } from './reducers/SettingsReducer'
+import WalletReducer, { walletReducerConfig } from './reducers/WalletReducer'
 
-const persistedWalletReducer = persistReducer({ key: walletReducerName, storage }, WalletReducer)
-const persistedAccountReducer = persistReducer({ key: accountReducerName, storage }, AccountReducer)
-const persistedSettingsReducer = persistReducer(
-  { key: settingsReducerName, storage, blacklist: ['encryptedPassword'] },
-  SettingsReducer
-)
-const persistedContactReducer = persistReducer({ key: contactReducerName, storage }, ContactReducer)
+const persistedWalletReducer = persistReducer(walletReducerConfig, WalletReducer)
+const persistedAccountReducer = persistReducer(accountReducerConfig, AccountReducer)
+const persistedSettingsReducer = persistReducer(settingsReducerConfig, SettingsReducer)
+const persistedContactReducer = persistReducer(contactReducerConfig, ContactReducer)
+
 export class RootStore {
   static reducers = combineReducers({
     wallet: persistedWalletReducer,

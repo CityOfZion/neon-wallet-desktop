@@ -197,10 +197,6 @@ interface Resources {
       defaultAccountLabel: 'Migrated account'
       defaultContactName: 'Migrated contact'
     }
-    useLedgerFlow: {
-      ledgerConnected: '{{blockchain}} ledger connected.\n{{address}}'
-      ledgerDisconnected: '{{blockchain}} Ledger disconnected.\n{{address}}'
-    }
     DappConnection: {
       pleaseLogin: 'Please login to continue.'
       selectAccountModal: {
@@ -215,6 +211,19 @@ interface Resources {
     useOverTheAirUpdate: {
       downloading: 'New version found. Downloading...'
       downloaded: 'New version downloaded. The app will restart to apply update.'
+    }
+    useBeforeLogin: {
+      waitSave: 'Updating stored data...'
+    }
+  }
+  layouts: {
+    welcomeWithTabs: {
+      welcomeTo: 'Welcome to Neon Wallet'
+      tabs: {
+        neonAccount: 'Neon Account'
+        hardwareWallet: 'Hardware Wallet'
+        addressOrKey: 'Address or key'
+      }
     }
   }
   modals: {
@@ -763,12 +772,19 @@ interface Resources {
       selectTitle: 'SELECT AN NFT'
       emptyList: 'No NFTs found'
     }
+    connectHardwareWallet: {
+      title: 'Connect your hardware wallet'
+      description: 'Once connected, your Ledger Wallet will be added to the Wallets list'
+      searchingLabel: 'Searching'
+      notConnectedMessage: 'No hardware wallet found! Please check your connection and search again'
+      connectedMessage: 'Detected your hardware wallet! Opening your wallet...'
+      searchAgainButtonLabel: 'Search again'
+    }
   }
   pages: {
     welcome: {
       title: 'Welcome to Neon Wallet'
-      setupSecurityButtonLabel: 'Create your first wallet'
-      migrationButtonLabel: 'Migrate your old NEON wallet'
+      continue: 'Continue'
       card1: {
         title: 'Intuitive'
         description: 'Easily store, send and receive your digital assets across multiple wallets'
@@ -857,9 +873,8 @@ interface Resources {
       }
     }
     login: {
-      title: 'Welcome to Neon Wallet'
-      loginPassword: 'Login Password'
-      passwordPlaceholder: 'Please enter your password'
+      text: 'Login to your wallet'
+      passwordPlaceholder: 'Enter your password...'
       buttonLoginLabel: 'Login'
       invalidPassword: 'Invalid password'
       forgotPassword: 'Forgot password?'
@@ -886,6 +901,29 @@ interface Resources {
         buttonAriaLabel: 'Reset and delete data'
       }
       success: 'Data successfully wiped'
+    }
+    neonAccount: {
+      text: 'What would you like to do with Neon?'
+      cardLinks: {
+        createNewWallet: {
+          title: 'Create a new wallet'
+          text: 'I want to <1>create a new</1> password-protected account so my data is persistent'
+        }
+        importExternalWallet: {
+          title: 'Import an external wallet'
+          text: 'I want to <1>import</1> a wallet and password-protect my data to ensure it’s persistent'
+        }
+        migrateFromNeon2: {
+          title: 'Migrate from Neon 2'
+          text: 'I want to <1>migrate</1> my Neon 2 wallet'
+        }
+      }
+    }
+    forgottenPasswordSuccess: {
+      title: 'Success!'
+      text: 'You’ve reset Neon'
+      description: 'All local app data has been removed and you’re now ready to start over'
+      goToWelcome: 'Go to welcome screen'
     }
     send: {
       title: 'Send Tokens'
@@ -936,6 +974,7 @@ interface Resources {
       editWalletButtonLabel: 'Edit'
       editAccountButton: 'Edit account'
       exportButtonLabel: 'Export'
+      connectHardwareWalletButtonLabel: 'Connect'
       exportKeyButton: 'Export key'
       importButtonLabel: 'Import'
       newWalletButtonLabel: 'New Wallet'
@@ -1108,6 +1147,21 @@ interface Resources {
         title: 'Select a receiving account'
         selectReceivingAccount: 'Select receiving account'
       }
+    }
+    loginHardwareWallet: {
+      title: 'Connect your hardware wallet'
+      description: 'Using a hardware wallet limits access to some key features:'
+      searchingLabel: 'Searching'
+      notConnectedMessage: 'No hardware wallet found! Check your connection'
+      connectedMessage: 'Device detected! Opening your wallet...'
+      searchAgainButtonLabel: 'Search again'
+      limits: [
+        'Backup and restore',
+        'Wallet customizations',
+        'Import/Export features',
+        'Create New Wallet',
+        'Among other features...',
+      ]
     }
   }
 }
