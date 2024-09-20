@@ -981,6 +981,7 @@ interface Resources {
       address: 'Address'
       accounts: 'Accounts'
       lastUpdated: 'Last updated: {{date}}'
+      hardwareWalletConnectBadge: 'Hardware wallet connected'
       emptyDate: '--:--'
       dateFormat: 'HH:mm'
       accountNftList: {

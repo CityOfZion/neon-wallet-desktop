@@ -81,7 +81,13 @@ const useRegisterHardwareWalletListeners = () => {
   )
 
   useMountUnsafe(() => {
-    accountsRef.current.forEach(account => convertToWatch(account.address, account.blockchain))
+    if (loginSessionRef.current?.type === 'password') {
+      accountsRef.current.forEach(account => {
+        if (account.type === 'hardware') {
+          convertToWatch(account.address, account.blockchain)
+        }
+      })
+    }
   })
 
   useEffect(() => {

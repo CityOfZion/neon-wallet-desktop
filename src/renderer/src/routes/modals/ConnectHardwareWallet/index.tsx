@@ -26,7 +26,6 @@ export const ConnectHardwareWalletModal = () => {
 
     if (!account) {
       const wallet = createWallet({ name: commonT('wallet.ledgerName'), type: 'hardware' })
-
       account = importAccount({
         wallet,
         address: info.address,
