@@ -16,7 +16,7 @@ import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useLastUpdated, useRefetch } from '@renderer/hooks/useQuery'
-import { useSecurityTypeSelector } from '@renderer/hooks/useSettingsSelector'
+import { useLoginSessionSelector } from '@renderer/hooks/useSettingsSelector'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
 import { MainLayout } from '@renderer/layouts/Main'
 import { bsAggregator } from '@renderer/libs/blockchainService'
@@ -24,6 +24,7 @@ import { IAccountState, IWalletState } from '@shared/@types/store'
 import { format } from 'date-fns'
 
 import { AccountList } from './AccountList'
+import { HardwareWalletConnectedBadge } from './HardwareWalletConnectedBadge'
 import { WalletsSelect } from './WalletsSelect'
 
 type TParams = {
@@ -34,7 +35,7 @@ export const WalletsPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'wallets' })
   const { wallets } = useWalletsSelector()
   const { accounts } = useAccountsSelector()
-  const { securityType } = useSecurityTypeSelector()
+  const { loginSession } = useLoginSessionSelector()
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
   const navigate = useNavigate()
   const { id } = useParams<TParams>()
@@ -47,6 +48,7 @@ export const WalletsPage = () => {
     accounts.find(account => account.idWallet === selectedWallet?.id)
   )
 
+  const isPasswordLogin = loginSession?.type === 'password'
   const service = selectedAccount ? bsAggregator.blockchainServicesByName[selectedAccount.blockchain] : undefined
 
   const handleSelectAccount = (selected: IAccountState) => {
@@ -123,7 +125,12 @@ export const WalletsPage = () => {
 
   return (
     <MainLayout
-      heading={<WalletsSelect wallets={wallets} value={selectedWallet} onSelect={handleSelectWallet} />}
+      heading={
+        <div className="flex gap-2 items-center">
+          <WalletsSelect wallets={wallets} value={selectedWallet} onSelect={handleSelectWallet} />
+          <HardwareWalletConnectedBadge />
+        </div>
+      }
       rightComponent={
         <div className="flex gap-x-2">
           <IconButton
@@ -137,7 +144,7 @@ export const WalletsPage = () => {
             size="md"
             text={t('newWalletButtonLabel')}
             onClick={modalNavigateWrapper('create-wallet-step-1')}
-            disabled={securityType !== 'password'}
+            disabled={!isPasswordLogin}
           />
           <IconButton
             icon={<TbFileImport />}
@@ -152,7 +159,7 @@ export const WalletsPage = () => {
               size="md"
               text={t('exportButtonLabel')}
               onClick={handleExportMnemonic}
-              disabled={securityType !== 'password'}
+              disabled={!isPasswordLogin}
             />
           )}
 
@@ -161,6 +168,7 @@ export const WalletsPage = () => {
             size="md"
             text={t('connectHardwareWalletButtonLabel')}
             onClick={modalNavigateWrapper('connect-hardware-wallet')}
+            disabled={!isPasswordLogin}
           />
         </div>
       }

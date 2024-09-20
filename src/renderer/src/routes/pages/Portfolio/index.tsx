@@ -6,12 +6,12 @@ import { IconButton } from '@renderer/components/IconButton'
 import { Separator } from '@renderer/components/Separator'
 import { SidebarMenuButton } from '@renderer/components/SidebarMenuButton'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
-import { useSecurityTypeSelector } from '@renderer/hooks/useSettingsSelector'
+import { useLoginSessionSelector } from '@renderer/hooks/useSettingsSelector'
 import { MainLayout } from '@renderer/layouts/Main'
 
 export const PortfolioPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'portfolio' })
-  const { securityType } = useSecurityTypeSelector()
+  const { loginSession } = useLoginSessionSelector()
   const { modalNavigateWrapper } = useModalNavigate()
 
   const matchRoot = useMatch('app/portfolio')
@@ -26,7 +26,7 @@ export const PortfolioPage = () => {
             size="md"
             text={t('newWalletButtonLabel')}
             onClick={modalNavigateWrapper('create-wallet-step-1')}
-            disabled={securityType !== 'password'}
+            disabled={loginSession?.type !== 'password'}
           />
           <IconButton
             icon={<TbFileImport />}
