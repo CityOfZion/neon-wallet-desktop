@@ -1,6 +1,7 @@
 import { cloneElement, forwardRef, MouseEvent, useImperativeHandle, useRef, useState } from 'react'
 import { MdCancel, MdContentCopy, MdContentPasteGo, MdVisibility, MdVisibilityOff } from 'react-icons/md'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+import { TestHelper } from '@renderer/helpers/TestHelper'
 
 import { IconButton } from './IconButton'
 import { Loader } from './Loader'
@@ -17,6 +18,7 @@ export type TInputProps = Omit<React.ComponentProps<'input'>, 'type' | 'ref'> & 
   leftIcon?: JSX.Element
   loading?: boolean
   label?: string
+  testId?: string
 }
 
 export const Input = forwardRef<HTMLInputElement, TInputProps>(
@@ -35,6 +37,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
       copyable,
       loading,
       label,
+      testId,
       ...props
     },
     ref
@@ -140,6 +143,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
             autoComplete="off"
             readOnly={readOnly}
             {...props}
+            {...TestHelper.buildTestObject(testId)}
           />
 
           <div className="flex items-center gap-x-2">
@@ -181,7 +185,11 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
           </div>
         </div>
 
-        {errorMessage && <span className="block mt-1 text-xs text-pink">{errorMessage}</span>}
+        {errorMessage && (
+          <span className="block mt-1 text-xs text-pink" {...TestHelper.buildTestObject(testId, 'error')}>
+            {errorMessage}
+          </span>
+        )}
       </div>
     )
   }

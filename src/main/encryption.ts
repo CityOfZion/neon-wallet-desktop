@@ -5,6 +5,9 @@ import crypto from 'node:crypto'
 const ALGORITHM = 'aes-192-cbc'
 
 export const encryptBasedOS = (value: string) => {
+  // When running Playwright on Linux, encryption is not available, which ensures that there will be a key to encrypt
+  if (process.platform === 'linux' && !safeStorage.isEncryptionAvailable()) safeStorage.setUsePlainTextEncryption(true)
+
   const buffer = safeStorage.encryptString(value)
   return buffer.toString('base64')
 }

@@ -30,7 +30,12 @@ export const ForgottenPasswordConfirmPage = () => {
       <div className="flex flex-col gap-y-4 justify-center items-center">
         <p className="text-gray-300 text-xs">{t('auxiliarText')}</p>
 
-        <Swipe text={t('swipe.text')} buttonAriaLabel={t('swipe.buttonAriaLabel')} onComplete={clearData} />
+        <Swipe
+          testId="forgotten-password-confirm"
+          text={t('swipe.text')}
+          buttonAriaLabel={t('swipe.buttonAriaLabel')}
+          onComplete={clearData}
+        />
       </div>
     </WelcomeLayout>
   )

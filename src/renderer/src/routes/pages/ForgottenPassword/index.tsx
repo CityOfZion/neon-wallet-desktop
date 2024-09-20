@@ -16,6 +16,7 @@ export const ForgottenPasswordPage = () => {
       </div>
 
       <Link
+        testId="forgotten-password-continue"
         to="/forgotten-password-confirm"
         label={t('links.continue')}
         colorSchema="error"

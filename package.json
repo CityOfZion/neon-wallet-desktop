@@ -22,7 +22,11 @@
     "create-release:major": "node scripts/create-release.js major",
     "generate-checksums": "node scripts/generate-checksums.js",
     "prepare": "husky install",
-    "i18next:interfaces": "i18next-resources-for-ts interface -i src/renderer/src/locales/en -o src/shared/@types/i18next-resources.d.ts"
+    "i18next:interfaces": "i18next-resources-for-ts interface -i src/renderer/src/locales/en -o src/shared/@types/i18next-resources.d.ts",
+    "playwright": "npm run build && npx playwright test",
+    "playwright:headless": "npx playwright test",
+    "playwright:ui": "npm run playwright -- --ui",
+    "playwright:report": "npx playwright show-report"
   },
   "dependencies": {
     "@cityofzion/blockchain-service": "1.2.0",
@@ -84,6 +88,7 @@
     "@electron-toolkit/eslint-config-prettier": "^1.0.1",
     "@electron-toolkit/eslint-config-ts": "^1.0.0",
     "@electron-toolkit/tsconfig": "^1.0.1",
+    "@playwright/test": "^1.47.1",
     "@tanstack/eslint-plugin-query": "^4.34.1",
     "@types/node": "^20.6.0",
     "@types/react": "^18.2.33",

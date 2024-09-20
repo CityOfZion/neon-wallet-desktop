@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { TbDoorExit, TbHome2, TbSettings, TbStepInto, TbStepOut, TbUsers } from 'react-icons/tb'
+import { TestHelper } from '@renderer/helpers/TestHelper'
 import { useLogin } from '@renderer/hooks/useLogin'
 
 import { ReactComponent as NeonLogoIcon } from '../../assets/images/neon-wallet-compact.svg'
@@ -13,7 +14,7 @@ export const Sidebar = (): JSX.Element => {
   const { logout } = useLogin()
   return (
     <aside className="bg-gray-800 w-[4rem] min-w-[4rem] h-screen-minus-drag-region flex flex-col">
-      <div className="flex justify-center pt-4 pb-2">
+      <div className="flex justify-center pt-4 pb-2" {...TestHelper.buildTestObject('neon-wallet-logo')}>
         <NeonLogoIcon className="border border-green rounded p-1" />
       </div>
 
@@ -28,7 +29,7 @@ export const Sidebar = (): JSX.Element => {
             <SidebarLink to="/app/settings" title={t('settings')} icon={<TbSettings />} />
           </div>
 
-          <SidebarButton onClick={logout} title={t('logout')} icon={<TbDoorExit />} />
+          <SidebarButton testId="logout-button" onClick={logout} title={t('logout')} icon={<TbDoorExit />} />
         </ul>
       </nav>
     </aside>

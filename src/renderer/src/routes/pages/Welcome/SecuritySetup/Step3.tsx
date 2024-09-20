@@ -15,6 +15,7 @@ export const WelcomeSecuritySetupStep3Page = () => {
       </div>
 
       <Link
+        testId="security-setup-open-your-wallet"
         label={t('buttonContinueLabel')}
         to="/app/portfolio"
         className="w-64"
