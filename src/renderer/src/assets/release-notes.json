@@ -1,5 +1,11 @@
 [
   {
+    "tag_name": "Version v3.1.0",
+    "published_at": "20 Set 2024",
+    "body": "<li>• Anonymous Login with Ledger</li><li>• Revamped Ledger UX</li><li>• Export Options (Private Keys and Mnemonics)</li><li>• Reset App Feature</li><li>• BETA Access to Linux Build</li><li>• Refresh Blockchain Data Button</li><li>• Enhancement to Neo X Transaction list - Link to XExplorer</li><li>• Performance Enhancement when waking up NEON</li>",
+    "html_url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.1.0"
+  },
+  {
     "tag_name": "Version v3.0.2",
     "published_at": "16 Aug 2024",
     "body": "<li>• Ledger UX Enhancement</li><li>• Wallet Connect Enhancement - Support to EIP-1559</li>",
