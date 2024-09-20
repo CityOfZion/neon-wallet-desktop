@@ -10,6 +10,7 @@ module.exports = {
   ],
   plugins: ['@tanstack/query', 'simple-import-sort'],
   rules: {
+    'react/jsx-curly-brace-presence': ['error', { props: 'never', children: 'never' }],
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': [
       'error',

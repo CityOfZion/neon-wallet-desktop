@@ -13,7 +13,7 @@ import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
 import { useContactsSelector } from '@renderer/hooks/useContactSelector'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
-import { useEncryptedPasswordSelector } from '@renderer/hooks/useSettingsSelector'
+import { useLoginSessionSelector } from '@renderer/hooks/useSettingsSelector'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 import { TAccountBackupFormat, TBackupFormat } from '@shared/@types/blockchain'
@@ -40,7 +40,7 @@ const SuccessFooter = () => {
 }
 
 export const ConfirmPasswordBackupModal = () => {
-  const { encryptedPassword } = useEncryptedPasswordSelector()
+  const { loginSessionRef } = useLoginSessionSelector()
   const { t } = useTranslation('modals', { keyPrefix: 'confirmPasswordBackup' })
   const { contacts } = useContactsSelector()
   const { wallets } = useWalletsSelector()
@@ -53,7 +53,13 @@ export const ConfirmPasswordBackupModal = () => {
   })
 
   const handleSubmit = async ({ password }: TFormData) => {
-    const decryptedPassword = await window.api.sendAsync('decryptBasedOS', encryptedPassword ?? '')
+    if (!loginSessionRef.current) {
+      throw new Error('Login session not defined')
+    }
+
+    const encryptedPassword = loginSessionRef.current.encryptedPassword
+
+    const decryptedPassword = await window.api.sendAsync('decryptBasedOS', encryptedPassword)
     if (password.length === 0 || password !== decryptedPassword) {
       setError('password', t('error'))
       return

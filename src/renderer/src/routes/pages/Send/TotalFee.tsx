@@ -43,7 +43,7 @@ export const TotalFee = ({ getSendFields, onFeeChange, fee, selectedToken }: TPr
             tokenDecimals: fields.selectedToken.token.decimals,
           },
           senderAccount: fields.serviceAccount,
-          isLedger: fields.selectedAccount.type === 'ledger',
+          isLedger: fields.selectedAccount.type === 'hardware',
         })
         onFeeChange(`${fee} ${fields.service.feeToken.symbol}`)
 

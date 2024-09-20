@@ -1,8 +1,13 @@
 import { mainApi } from '@shared/api/main'
-import { dialog } from 'electron'
+import { BrowserWindow, dialog } from 'electron'
 import { readFile, writeFile } from 'fs/promises'
 
 export function registerWindowHandlers() {
+  mainApi.listenSync('closeWindow', () => {
+    const mainWindow = BrowserWindow.getAllWindows()[0]
+    if (mainWindow) mainWindow.destroy()
+  })
+
   mainApi.listenSync('restore', ({ window }) => {
     if (window.isMinimized()) {
       window.restore()

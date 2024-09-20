@@ -9,7 +9,7 @@ import { Separator } from '@renderer/components/Separator'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useModalState } from '@renderer/hooks/useModalRouter'
-import { useEncryptedPasswordSelector } from '@renderer/hooks/useSettingsSelector'
+import { useLoginSessionSelector } from '@renderer/hooks/useSettingsSelector'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 import { IAccountState } from '@shared/@types/store'
 import { QRCodeSVG } from 'qrcode.react'
@@ -20,13 +20,17 @@ type TLocationState = {
 
 export const ExportKeyModal = () => {
   const { account } = useModalState<TLocationState>()
-  const { encryptedPassword } = useEncryptedPasswordSelector()
+  const { loginSession } = useLoginSessionSelector()
   const { t } = useTranslation('modals', { keyPrefix: 'exportKey' })
   const ref = useRef<HTMLDivElement>(null)
 
+  if (!loginSession) {
+    throw new Error('Login session not defined')
+  }
+
   const decryptedKey = window.api.sendSync('decryptBasedEncryptedSecretSync', {
     value: account.encryptedKey ?? '',
-    encryptedSecret: encryptedPassword,
+    encryptedSecret: loginSession.encryptedPassword,
   })
 
   const handleCopy = () => {

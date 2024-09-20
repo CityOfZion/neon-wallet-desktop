@@ -408,7 +408,7 @@
     "description": "To protect acess to your assets, please confirm your password",
     "inputPlaceholder": "Enter password...",
     "error": "Password not recognised!",
-    "buttonContinueLabel":  "Continue"
+    "buttonContinueLabel": "Continue"
   },
   "exportMnemonic": {
     "title": "Export wallet",
@@ -543,5 +543,13 @@
     "description": "Please select which image you would like to use for this account card.",
     "selectTitle": "SELECT AN NFT",
     "emptyList": "No NFTs found"
+  },
+  "connectHardwareWallet": {
+    "title": "Connect your hardware wallet",
+    "description": "Once connected, your Ledger Wallet will be added to the Wallets list",
+    "searchingLabel": "Searching",
+    "notConnectedMessage": "No hardware wallet found! Please check your connection and search again",
+    "connectedMessage": "Detected your hardware wallet! Opening your wallet...",
+    "searchAgainButtonLabel": "Search again"
   }
 }

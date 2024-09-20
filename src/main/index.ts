@@ -14,7 +14,7 @@ import {
   setInitialDeeplink,
 } from './deeplink'
 import { registerEncryptionHandlers } from './encryption'
-import { registerLedgerHandler } from './ledger'
+import { registerHardwareWalletHandler } from './hardwareWallet'
 import { setupSentry } from './sentry'
 import { registerUpdaterHandler } from './updater'
 import { exposeWalletConnectAdaptersToRenderer } from './walletConnect'
@@ -41,6 +41,11 @@ function createWindow(): void {
       sandbox: false,
     },
     autoHideMenuBar: true,
+  })
+
+  mainWindow.on('close', event => {
+    event.preventDefault()
+    mainApi.send('willCloseWindow')
   })
 
   mainWindow.on('ready-to-show', () => {
@@ -104,18 +109,11 @@ if (!gotTheLock) {
   })
 
   registerOpenUrlListener()
-
-  app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') {
-      app.quit()
-    }
-  })
-
   exposeBsAggregatorToRenderer()
   exposeWalletConnectAdaptersToRenderer()
   registerUpdaterHandler()
   registerWindowHandlers()
   registerEncryptionHandlers()
-  registerLedgerHandler()
+  registerHardwareWalletHandler()
   registerDeeplinkHandler()
 }

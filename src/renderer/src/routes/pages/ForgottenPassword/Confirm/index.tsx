@@ -20,15 +20,15 @@ export const ForgottenPasswordConfirmPage = () => {
   }
 
   return (
-    <WelcomeLayout heading={t('title')} withBackButton className={'flex-col justify-between'}>
-      <div className={'flex flex-col flex-grow gap-y-8 justify-center max-w-[370px]'}>
-        <p className={'text-white text-xl text-center'}>{t('text')}</p>
+    <WelcomeLayout heading={t('title')} withBackButton className="flex-col justify-between">
+      <div className="flex flex-col flex-grow gap-y-8 justify-center max-w-[370px]">
+        <p className="text-white text-xl text-center">{t('text')}</p>
 
-        <Banner type={'warning'} message={t('alertCard.text')} textClassName={'py-4'} iconClassName={'text-pink'} />
+        <Banner type="warning" message={t('alertCard.text')} textClassName="py-4" iconClassName="text-pink" />
       </div>
 
-      <div className={'flex flex-col gap-y-4 justify-center items-center'}>
-        <p className={'text-gray-300 text-xs'}>{t('auxiliarText')}</p>
+      <div className="flex flex-col gap-y-4 justify-center items-center">
+        <p className="text-gray-300 text-xs">{t('auxiliarText')}</p>
 
         <Swipe text={t('swipe.text')} buttonAriaLabel={t('swipe.buttonAriaLabel')} onComplete={clearData} />
       </div>

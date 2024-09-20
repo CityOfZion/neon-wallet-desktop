@@ -14,10 +14,6 @@
     "defaultAccountLabel": "Migrated account",
     "defaultContactName": "Migrated contact"
   },
-  "useLedgerFlow": {
-    "ledgerConnected": "{{blockchain}} ledger connected.\n{{address}}",
-    "ledgerDisconnected": "{{blockchain}} Ledger disconnected.\n{{address}}"
-  },
   "DappConnection": {
     "pleaseLogin": "Please login to continue.",
     "selectAccountModal": {
@@ -32,5 +28,8 @@
   "useOverTheAirUpdate": {
     "downloading": "New version found. Downloading...",
     "downloaded": "New version downloaded. The app will restart to apply update."
+  },
+  "useBeforeLogin": {
+    "waitSave": "Updating stored data..."
   }
 }

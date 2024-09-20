@@ -42,10 +42,10 @@ export const WelcomePage = () => {
 
       <div className="flex gap-x-2.5 ">
         <Link
-          to={'/neon-account'}
+          to="/neon-account"
           label={t('continue')}
-          variant={'contained'}
-          className={'mt-10 w-[230px]'}
+          variant="contained"
+          className="mt-10 w-[230px]"
           iconsOnEdge={false}
           rightIcon={<TbArrowRight aria-hidden={true} />}
         />

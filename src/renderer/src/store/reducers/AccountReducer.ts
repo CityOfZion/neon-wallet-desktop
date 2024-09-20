@@ -9,7 +9,8 @@ import { queryClient } from '@renderer/libs/query'
 import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
 import { TUseTransactionsTransfer } from '@shared/@types/hooks'
 import { IAccountState } from '@shared/@types/store'
-import { PURGE } from 'redux-persist'
+import { createMigrate, getStoredState, PersistConfig, PURGE } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
 
 export interface IAccountReducer {
   data: IAccountState[]
@@ -22,7 +23,28 @@ type TWatchPendingTransactionParams = {
   network: TNetwork<TBlockchainServiceKey>
 }
 
-export const accountReducerName = 'accountReducer'
+export const accountReducerMigrations = {
+  0: (state: any) => {
+    return {
+      ...state,
+      data: state.data.map((it: any) => {
+        return {
+          ...it,
+          backgroundColor: undefined,
+          skin: it.backgroundColor ? { id: it.backgroundColor, type: 'color' } : it.skin,
+          type: it.type === 'ledger' ? 'hardware' : it.type,
+        }
+      }),
+    }
+  },
+}
+
+export const accountReducerConfig: PersistConfig<IAccountReducer> = {
+  key: 'accountReducer',
+  storage: storage,
+  migrate: createMigrate(accountReducerMigrations),
+  version: 0,
+}
 
 const initialState = {
   data: [],
@@ -118,8 +140,19 @@ const watchPendingTransaction = createAsyncThunk(
   }
 )
 
+const clean: CaseReducer<IAccountReducer> = () => {
+  return initialState
+}
+
+const restoreToPersistedData = createAsyncThunk('accounts/restoreToPersistedData', async () => {
+  const persistedState = await getStoredState(accountReducerConfig)
+  if (!persistedState) throw new Error('No persisted state found')
+
+  return persistedState as any
+})
+
 const AccountReducer = createSlice({
-  name: accountReducerName,
+  name: accountReducerConfig.key,
   initialState,
   reducers: {
     deleteAccount,
@@ -129,6 +162,7 @@ const AccountReducer = createSlice({
     reorderAccounts,
     addPendingTransaction,
     removeAllPendingTransactions,
+    clean,
   },
   extraReducers(builder) {
     builder.addCase(PURGE, () => initialState)
@@ -136,11 +170,17 @@ const AccountReducer = createSlice({
       const transactionHash = action.payload
       state.pendingTransactions = state.pendingTransactions.filter(transaction => transaction.hash !== transactionHash)
     })
+    builder.addCase(restoreToPersistedData.fulfilled, (state, action) => {
+      state.data = action.payload.data
+      state.pendingTransactions = action.payload.pendingTransactions
+    })
   },
 })
 
 export const accountReducerActions = {
   ...AccountReducer.actions,
   watchPendingTransaction,
+  restoreToPersistedData,
 }
+
 export default AccountReducer.reducer

@@ -2,15 +2,22 @@ import { CaseReducer, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { availableCurrencies } from '@renderer/constants/currency'
 import { DEFAULT_NETWORK_BY__BLOCKCHAIN, DEFAULT_NETWORK_PROFILE } from '@renderer/constants/networks'
 import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
-import { ISettingsState, TCurrency, TNetworkProfile, TSecurityType } from '@shared/@types/store'
+import { ISettingsState, TCurrency, TLoginSession, TNetworkProfile, TSecurityType } from '@shared/@types/store'
 import { cloneDeep } from 'lodash'
-import { PURGE } from 'redux-persist'
+import { PersistConfig, PURGE } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
 
-export const settingsReducerName = 'settingsReducer'
+export const settingsReducerConfig: PersistConfig<ISettingsState> = {
+  key: 'settingsReducer',
+  storage: storage,
+  blacklist: ['loginInfo'],
+}
 
 const initialState: ISettingsState = {
-  encryptedPassword: undefined,
+  // It means that the user has not set a password yet
   securityType: 'none',
+
+  loginSession: undefined,
   isFirstTime: true,
   currency: availableCurrencies[0],
   hasOverTheAirUpdates: false,
@@ -26,8 +33,8 @@ const initialState: ISettingsState = {
   unlockedSkinIds: [],
 }
 
-const setEncryptedPassword: CaseReducer<ISettingsState, PayloadAction<string | undefined>> = (state, action) => {
-  state.encryptedPassword = action.payload
+const setLoginSession: CaseReducer<ISettingsState, PayloadAction<TLoginSession | undefined>> = (state, action) => {
+  state.loginSession = action.payload
 }
 
 const setEncryptedLoginControl: CaseReducer<ISettingsState, PayloadAction<string | undefined>> = (state, action) => {
@@ -158,12 +165,12 @@ const unlockSkin: CaseReducer<ISettingsState, PayloadAction<string>> = (state, a
 }
 
 const SettingsReducer = createSlice({
-  name: settingsReducerName,
+  name: settingsReducerConfig.key,
   initialState,
   reducers: {
     setIsFirstTime,
     setSecurityType,
-    setEncryptedPassword,
+    setLoginSession,
     setCurrency,
     setHasOverTheAirUpdates,
     setSelectNetwork,

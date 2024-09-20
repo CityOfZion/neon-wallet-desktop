@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { Tabs } from '@renderer/components/Tabs'
+import { useLoginSessionSelector } from '@renderer/hooks/useSettingsSelector'
 import { MainLayout } from '@renderer/layouts/Main'
 
 import { SettingsPersonalizationTabContent } from './SettingsPersonalizationTabContent'
@@ -13,6 +14,7 @@ enum ESettingsOptions {
 
 export const SettingsPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'settings' })
+  const { loginSession } = useLoginSessionSelector()
   const navigate = useNavigate()
 
   const handlePersonalisationClick = () => {
@@ -20,6 +22,11 @@ export const SettingsPage = () => {
   }
 
   const handleSecurityClick = () => {
+    if (loginSession?.type === 'hardware') {
+      navigate('/app/settings/security/encrypt-key')
+      return
+    }
+
     navigate('/app/settings/security')
   }
 

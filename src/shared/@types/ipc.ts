@@ -1,4 +1,4 @@
-import type NodeHidTransport from '@ledgerhq/hw-transport-node-hid'
+import type NodeHidTransport from '@ledgerhq/hw-transport-node-hid-noevents'
 import type { BrowserWindow, IpcMainEvent, IpcMainInvokeEvent, IpcRendererEvent } from 'electron'
 
 import { TBlockchainServiceKey } from './blockchain'
@@ -32,13 +32,13 @@ export type TGetStoreFromWCSession = {
   networkByBlockchain: TSelectedNetworks
 }
 
-export type TLedgerInfo = {
+export type THardwareWalletInfo = {
   address: string
   publicKey: string
   blockchain: TBlockchainServiceKey
 }
 
-export type TLedgerInfoWithTransport = TLedgerInfo & {
+export type THardwareWalletInfoWithTransport = THardwareWalletInfo & {
   transport: NodeHidTransport
   descriptor: string
 }

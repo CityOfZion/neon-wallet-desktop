@@ -18,23 +18,27 @@ import { IAccountState, IWalletState } from '@shared/@types/store'
 
 import { useAccountsSelector } from './useAccountSelector'
 import { useAppDispatch } from './useRedux'
-import { useEncryptedPasswordSelector } from './useSettingsSelector'
+import { useLoginSessionSelector } from './useSettingsSelector'
 
 export function useBlockchainActions() {
   const dispatch = useAppDispatch()
   const { accountsRef } = useAccountsSelector()
-  const { encryptedPasswordRef } = useEncryptedPasswordSelector()
+  const { loginSessionRef } = useLoginSessionSelector()
   const { t } = useTranslation('common', { keyPrefix: 'account' })
   const { disconnect, sessions } = useWalletConnectWallet()
 
   const createWallet = useCallback(
     ({ name, mnemonic, id, type = 'standard' }: TWalletToCreate) => {
+      if (!loginSessionRef.current) {
+        throw new Error('Login session not defined')
+      }
+
       let encryptedMnemonic: string | undefined
 
       if (mnemonic) {
         encryptedMnemonic = window.api.sendSync('encryptBasedEncryptedSecretSync', {
           value: mnemonic,
-          encryptedSecret: encryptedPasswordRef.current,
+          encryptedSecret: loginSessionRef.current.encryptedPassword,
         })
       }
 
@@ -49,16 +53,20 @@ export function useBlockchainActions() {
 
       return newWallet
     },
-    [dispatch, encryptedPasswordRef]
+    [dispatch, loginSessionRef]
   )
 
   const createAccount = useCallback(
     ({ blockchain, name, wallet, skin, id }: TAccountToCreate) => {
+      if (!loginSessionRef.current) {
+        throw new Error('Login session not defined')
+      }
+
       if (!wallet.encryptedMnemonic) throw new Error('Problem to create account')
 
       const mnemonic = window.api.sendSync('decryptBasedEncryptedSecretSync', {
         value: wallet.encryptedMnemonic,
-        encryptedSecret: encryptedPasswordRef.current,
+        encryptedSecret: loginSessionRef.current.encryptedPassword,
       })
 
       const generateIndex = accountsRef.current.filter(
@@ -70,7 +78,7 @@ export function useBlockchainActions() {
 
       const encryptedKey = window.api.sendSync('encryptBasedEncryptedSecretSync', {
         value: generatedAccount.key,
-        encryptedSecret: encryptedPasswordRef.current,
+        encryptedSecret: loginSessionRef.current.encryptedPassword,
       })
 
       const order = accountsRef.current.filter(account => account.idWallet === wallet.id).length
@@ -92,18 +100,22 @@ export function useBlockchainActions() {
 
       return newAccount
     },
-    [dispatch, accountsRef, encryptedPasswordRef]
+    [loginSessionRef, accountsRef, dispatch]
   )
 
   const importAccount = useCallback(
     ({ address, blockchain, type, wallet, key, name, order, skin }: TAccountToImport) => {
       let encryptedKey: string | undefined
 
-      if (type === 'standard' || type === 'ledger') {
+      if (!loginSessionRef.current) {
+        throw new Error('Login session not defined')
+      }
+
+      if (type === 'standard' || type === 'hardware') {
         if (!key) throw new Error('Key not defined')
         encryptedKey = window.api.sendSync('encryptBasedEncryptedSecretSync', {
           value: key,
-          encryptedSecret: encryptedPasswordRef.current,
+          encryptedSecret: loginSessionRef.current.encryptedPassword,
         })
       }
 
@@ -125,7 +137,7 @@ export function useBlockchainActions() {
       dispatch(accountReducerActions.saveAccount(newAccount))
       return newAccount
     },
-    [dispatch, encryptedPasswordRef, accountsRef, t]
+    [loginSessionRef, accountsRef, t, dispatch]
   )
 
   const importAccounts = useCallback(
@@ -167,6 +179,10 @@ export function useBlockchainActions() {
 
   const editAccount = useCallback(
     ({ account, data }: TAccountToEdit) => {
+      if (!loginSessionRef.current) {
+        throw new Error('Login session not defined')
+      }
+
       let encryptedKey = account.encryptedKey
 
       if (data.type) {
@@ -176,7 +192,7 @@ export function useBlockchainActions() {
           if (!data.key) throw new Error('Key not defined')
           encryptedKey = window.api.sendSync('encryptBasedEncryptedSecretSync', {
             value: data.key,
-            encryptedSecret: encryptedPasswordRef.current,
+            encryptedSecret: loginSessionRef.current.encryptedPassword,
           })
         }
       }
@@ -187,7 +203,7 @@ export function useBlockchainActions() {
 
       dispatch(accountReducerActions.saveAccount(editedAccount))
     },
-    [dispatch, encryptedPasswordRef]
+    [dispatch, loginSessionRef]
   )
 
   return {

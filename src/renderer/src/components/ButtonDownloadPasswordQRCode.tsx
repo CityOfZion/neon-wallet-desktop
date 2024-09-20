@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdDownload } from 'react-icons/md'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
-import { useEncryptedPasswordSelector } from '@renderer/hooks/useSettingsSelector'
+import { useLoginSessionSelector } from '@renderer/hooks/useSettingsSelector'
 import { QRCodeSVG } from 'qrcode.react'
 
 import { Button } from './Button'
@@ -15,7 +15,7 @@ type TProps = {
 } & React.ComponentProps<'button'>
 
 export const ButtonDownloadPasswordQRCode = ({ label, variant, leftIcon, onDownload, ...props }: TProps) => {
-  const { encryptedPassword } = useEncryptedPasswordSelector()
+  const { loginSessionRef } = useLoginSessionSelector()
   const { t } = useTranslation('common', { keyPrefix: 'general' })
   const [decryptedPassword, setDecryptedPassword] = useState<string>('')
 
@@ -25,9 +25,9 @@ export const ButtonDownloadPasswordQRCode = ({ label, variant, leftIcon, onDownl
   }
 
   const decryptPassword = useCallback(async () => {
-    const result = await window.api.sendAsync('decryptBasedOS', encryptedPassword ?? '')
+    const result = await window.api.sendAsync('decryptBasedOS', loginSessionRef.current?.encryptedPassword ?? '')
     setDecryptedPassword(result)
-  }, [encryptedPassword])
+  }, [loginSessionRef])
 
   useEffect(() => {
     decryptPassword()

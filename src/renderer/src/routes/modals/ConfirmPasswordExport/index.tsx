@@ -4,7 +4,7 @@ import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalState } from '@renderer/hooks/useModalRouter'
-import { useEncryptedPasswordSelector } from '@renderer/hooks/useSettingsSelector'
+import { useLoginSessionSelector } from '@renderer/hooks/useSettingsSelector'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 type TFormData = {
@@ -19,7 +19,7 @@ type TLocationState = {
 
 export const ConfirmPasswordExportModal = () => {
   const { onSubmitPassword, title, icon } = useModalState<TLocationState>()
-  const { encryptedPassword } = useEncryptedPasswordSelector()
+  const { loginSessionRef } = useLoginSessionSelector()
   const { t } = useTranslation('modals', { keyPrefix: 'confirmPasswordExport' })
 
   const { actionData, actionState, handleAct, setDataFromEventWrapper, setError } = useActions<TFormData>({
@@ -27,7 +27,11 @@ export const ConfirmPasswordExportModal = () => {
   })
 
   const handleSubmit = async ({ password }: TFormData) => {
-    const decryptedPassword = await window.api.sendAsync('decryptBasedOS', encryptedPassword ?? '')
+    if (!loginSessionRef.current) {
+      throw new Error('Login session not defined')
+    }
+
+    const decryptedPassword = await window.api.sendAsync('decryptBasedOS', loginSessionRef.current?.encryptedPassword)
     if (password.length === 0 || password !== decryptedPassword) {
       setError('password', t('error'))
       return

@@ -12,7 +12,7 @@ import { mainApi } from '@shared/api/main'
 
 import { bsAggregator } from './bsAggregator'
 import { decryptBasedEncryptedSecret } from './encryption'
-import { getLedgerTransport } from './ledger'
+import { getHardwareWalletTransport } from './hardwareWallet'
 
 const getStoreAccountFromWCSession = async ({ session }: TAdapterMethodParam): Promise<TGetStoreFromWCSession> => {
   return new Promise(resolve => {
@@ -42,7 +42,7 @@ class WalletConnectNeonAdapter extends AbstractWalletConnectNeonAdapter {
     if (!account) throw new Error('Account not found')
 
     return {
-      isLedger: account.type === 'ledger',
+      isLedger: account.type === 'hardware',
     }
   }
 
@@ -55,7 +55,7 @@ class WalletConnectNeonAdapter extends AbstractWalletConnectNeonAdapter {
     const { account, encryptedPassword } = await getStoreAccountFromWCSession(param)
     if (!account) throw new Error('Account not found')
 
-    if (account.type !== 'ledger') return undefined
+    if (account.type !== 'hardware') return undefined
     if (!account.encryptedKey) throw new Error('Key not found')
 
     const key = decryptBasedEncryptedSecret(account.encryptedKey, encryptedPassword)
@@ -63,7 +63,7 @@ class WalletConnectNeonAdapter extends AbstractWalletConnectNeonAdapter {
 
     const service = bsAggregator.blockchainServicesByName.neo3 as BSNeo3
     const serviceAccount = service.generateAccountFromPublicKey(key)
-    const transport = await getLedgerTransport(serviceAccount)
+    const transport = await getHardwareWalletTransport(serviceAccount)
 
     return service.ledgerService.getSigningCallback(transport)
   }
@@ -92,7 +92,7 @@ export class WalletConnectEIP155Adapter extends AbstractWalletConnectEIP155Adapt
     const { account, encryptedPassword } = await getStoreAccountFromWCSession(params)
     if (!account) throw new Error('Account not found')
 
-    if (account.type !== 'ledger') return undefined
+    if (account.type !== 'hardware') return undefined
     if (!account.encryptedKey) throw new Error('Key not found')
 
     const key = decryptBasedEncryptedSecret(account.encryptedKey, encryptedPassword)
@@ -100,7 +100,7 @@ export class WalletConnectEIP155Adapter extends AbstractWalletConnectEIP155Adapt
 
     const service = bsAggregator.blockchainServicesByName.ethereum as BSEthereum
     const serviceAccount = service.generateAccountFromPublicKey(key)
-    const transport = await getLedgerTransport(serviceAccount)
+    const transport = await getHardwareWalletTransport(serviceAccount)
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore

@@ -1,7 +1,7 @@
 import { TBlockchainServiceKey, TNetwork } from './blockchain'
 
-export type TAccountType = 'standard' | 'watch' | 'ledger'
-export type TWalletType = 'standard' | 'ledger'
+export type TAccountType = 'standard' | 'watch' | 'hardware'
+export type TWalletType = 'standard' | 'hardware'
 
 export type TNftSkin = {
   id: string
@@ -35,6 +35,12 @@ export interface IWalletState {
 
 export type TSecurityType = 'none' | 'password'
 
+export type TLoginSessionType = 'password' | 'hardware'
+export type TLoginSession = {
+  type: TLoginSessionType
+  encryptedPassword: string
+}
+
 export type TAvailableCurrency = 'USD' | 'BRL' | 'EUR' | 'GBP' | 'CNY'
 export type TCurrency = {
   symbol: string
@@ -54,7 +60,7 @@ export type TNetworkProfile = {
   networkByBlockchain: TSelectedNetworks
 }
 export interface ISettingsState {
-  encryptedPassword?: string
+  loginSession?: TLoginSession
   isFirstTime: boolean
   securityType: TSecurityType
   currency: TCurrency

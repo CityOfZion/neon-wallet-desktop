@@ -8,7 +8,7 @@ import { useActions } from '@renderer/hooks/useActions'
 import { useLogin } from '@renderer/hooks/useLogin'
 import { useAppSelector } from '@renderer/hooks/useRedux'
 import { WelcomeWithTabsLayout } from '@renderer/layouts/WelcomeWithTabs'
-import { WelcomeTabItemType } from '@renderer/layouts/WelcomeWithTabs/WelcomeTabs'
+import { EWelcomeTabItemType } from '@renderer/layouts/WelcomeWithTabs/WelcomeTabs'
 
 type TFormData = {
   password: string
@@ -19,7 +19,7 @@ export const LoginPage = () => {
   const { ref: isFirstTimeRef } = useAppSelector(state => state.settings.isFirstTime)
   const { ref: securityTypeRef } = useAppSelector(state => state.settings.securityType)
   const navigate = useNavigate()
-  const { login } = useLogin()
+  const { loginWithPassword } = useLogin()
 
   const { actionData, actionState, setData, setError, handleAct } = useActions<TFormData>({
     password: '',
@@ -37,7 +37,7 @@ export const LoginPage = () => {
 
   const handleSubmit = async (data: TFormData) => {
     try {
-      await login(data.password)
+      await loginWithPassword(data.password)
       navigate('/app/portfolio/overview')
     } catch (error: any) {
       setError('password', t('invalidPassword'))
@@ -47,7 +47,6 @@ export const LoginPage = () => {
   useEffect(() => {
     if (isFirstTimeRef.current) {
       navigate('/welcome')
-
       return
     }
 
@@ -55,9 +54,9 @@ export const LoginPage = () => {
   }, [navigate, isFirstTimeRef, securityTypeRef])
 
   return (
-    <WelcomeWithTabsLayout tabItemType={WelcomeTabItemType.NEON_ACCOUNT}>
+    <WelcomeWithTabsLayout tabItemType={EWelcomeTabItemType.NEON_ACCOUNT}>
       <form className="w-full flex-grow flex flex-col justify-between items-center" onSubmit={handleAct(handleSubmit)}>
-        <div className={'flex flex-col w-full'}>
+        <div className="flex flex-col w-full">
           <div className="flex flex-col w-full gap-y-6">
             <p className="text-white text-sm text-center">{t('text')}</p>
 
@@ -68,23 +67,23 @@ export const LoginPage = () => {
               placeholder={t('passwordPlaceholder')}
               errorMessage={actionState.errors.password}
               autoFocus
-              className={'placeholder:text-white'}
+              className="placeholder:text-white"
             />
           </div>
 
           <Link
-            to={'/forgotten-password'}
+            to="/forgotten-password"
             label={t('forgotPassword')}
-            colorSchema={'neon'}
-            variant={'text-slim'}
-            className={'mt-2 w-fit mx-auto p-4'}
+            colorSchema="neon"
+            variant="text-slim"
+            className="mt-2 w-fit mx-auto p-4"
           />
         </div>
 
         <Button
           label={t('buttonLoginLabel')}
-          className={'w-[250px]'}
-          variant={'contained'}
+          className="w-[250px]"
+          variant="contained"
           type="submit"
           disabled={!actionState.isValid || actionState.isActing}
           loading={actionState.isActing}
