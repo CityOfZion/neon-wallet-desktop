@@ -144,7 +144,7 @@ export const WalletsPage = () => {
             size="md"
             text={t('newWalletButtonLabel')}
             onClick={modalNavigateWrapper('create-wallet-step-1')}
-            disabled={isPasswordLogin}
+            disabled={!isPasswordLogin}
           />
           <IconButton
             icon={<TbFileImport />}
@@ -159,7 +159,7 @@ export const WalletsPage = () => {
               size="md"
               text={t('exportButtonLabel')}
               onClick={handleExportMnemonic}
-              disabled={isPasswordLogin}
+              disabled={!isPasswordLogin}
             />
           )}
 
@@ -168,7 +168,7 @@ export const WalletsPage = () => {
             size="md"
             text={t('connectHardwareWalletButtonLabel')}
             onClick={modalNavigateWrapper('connect-hardware-wallet')}
-            disabled={isPasswordLogin}
+            disabled={!isPasswordLogin}
           />
         </div>
       }
