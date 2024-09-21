@@ -8,7 +8,7 @@ export const HardwareWalletConnectedBadge = () => {
   if (!value) return null
 
   return (
-    <p className="text-1xs text-blue py-1.5 h-min px-4 border border-blue/30 rounded-full">
+    <p className="text-xs text-blue py-1.5 h-min px-4 border border-blue/30 rounded-full">
       {t('hardwareWalletConnectBadge')}
     </p>
   )
