@@ -72,7 +72,7 @@ export const ImportMnemonicAccountsSelectionModal = () => {
   }
 
   const { isMounting } = useMount(async () => {
-    const mnemonicAccounts = await bsAggregator.generateAccountFromMnemonicAllBlockchains(mnemonic)
+    const mnemonicAccounts = await bsAggregator.generateAccountsFromMnemonic(mnemonic)
 
     const selectedAccounts: TAccountWithBlockchain[] = []
 

@@ -17,6 +17,8 @@ export type TInputProps = Omit<React.ComponentProps<'input'>, 'type' | 'ref'> & 
   leftIcon?: JSX.Element
   loading?: boolean
   label?: string
+  rightIcon?: JSX.Element
+  rightIconClickAction?: () => void
 }
 
 export const Input = forwardRef<HTMLInputElement, TInputProps>(
@@ -35,6 +37,8 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
       copyable,
       loading,
       label,
+      rightIcon,
+      rightIconClickAction,
       ...props
     },
     ref
@@ -177,6 +181,16 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
 
             {clearable && (
               <IconButton icon={<MdCancel />} type="button" onClick={clear} compacted disabled={props.disabled} />
+            )}
+
+            {rightIcon && (
+              <IconButton
+                icon={cloneElement(rightIcon, { ...rightIcon.props })}
+                type="button"
+                onClick={rightIconClickAction}
+                compacted
+                disabled={props.disabled}
+              />
             )}
           </div>
         </div>

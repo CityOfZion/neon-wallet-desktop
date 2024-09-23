@@ -935,7 +935,7 @@ interface Resources {
       inputAmount: 'Input amount...'
       amount: 'Amount'
       fiatValue: 'Fiat value ({{currencyType}} estimated)'
-      recipientAddress: 'Recipient address'
+      recipient: 'Recipient {{index}}'
       contacts: 'Contacts'
       addressInputHint: 'Enter recipient address...'
       totalFee: 'Total fee'
@@ -964,6 +964,10 @@ interface Resources {
       }
       transactionCompleted: 'Transaction completed'
       transactionFailed: 'Transaction failed'
+      addRecipient: 'Add Recipient'
+      myAccounts: 'My Accounts'
+      remove: 'Remove'
+      blockchainWarning: '{{blockchain}} does not support more than one send per transaction, so we will send each transfer separately which will drastically increase the fee.'
     }
     selectAccount: {
       selectAccount: 'Select account...'

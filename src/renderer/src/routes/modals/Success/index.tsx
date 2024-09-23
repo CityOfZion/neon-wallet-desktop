@@ -15,7 +15,7 @@ export const SuccessModal = () => {
 
   return (
     <SideModalLayout heading={heading} headingIcon={headingIcon} contentClassName="flex flex-col">
-      <div className="flex flex-col items-center min-h-0 flex-grow">
+      <div className="flex flex-col items-center min-h-0 flex-grow overflow-y-scroll">
         <div className="w-28 h-28 p-2 bg-asphalt rounded-full flex items-center">
           <PiSealCheck className="w-24 h-24 text-blue" />
         </div>
