@@ -42,6 +42,7 @@ export const WelcomePage = () => {
 
       <div className="flex gap-x-2.5 ">
         <Link
+          testId="welcome-continue"
           to="/neon-account"
           label={t('continue')}
           variant="contained"

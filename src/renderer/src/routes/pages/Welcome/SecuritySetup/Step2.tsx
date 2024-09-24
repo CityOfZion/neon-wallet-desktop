@@ -73,6 +73,7 @@ export const WelcomeSecuritySetupStep2Page = ({ onSubmit }: TProps) => {
         onSubmit={handleAct(handleSubmit)}
       >
         <Input
+          testId="security-setup-second-password"
           type="password"
           value={actionData.confirmPassword}
           onChange={handleChange}
@@ -82,6 +83,7 @@ export const WelcomeSecuritySetupStep2Page = ({ onSubmit }: TProps) => {
         />
 
         <Button
+          testId="security-setup-second-submit"
           label={commonT('general.continue')}
           className="w-64"
           type="submit"

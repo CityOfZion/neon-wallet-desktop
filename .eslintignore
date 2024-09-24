@@ -3,3 +3,7 @@ dist
 out
 .gitignore
 .env
+test-results
+playwright-report
+blob-report
+playwright

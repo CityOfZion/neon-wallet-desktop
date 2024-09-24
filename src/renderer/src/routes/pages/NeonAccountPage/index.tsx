@@ -1,5 +1,6 @@
 import { Trans, useTranslation } from 'react-i18next'
 import { TbFileImport, TbPackageExport, TbWallet } from 'react-icons/tb'
+import { TestHelper } from '@renderer/helpers/TestHelper'
 import { WelcomeWithTabsLayout } from '@renderer/layouts/WelcomeWithTabs'
 import { EWelcomeTabItemType } from '@renderer/layouts/WelcomeWithTabs/WelcomeTabs'
 import { CardLink } from '@renderer/routes/pages/NeonAccountPage/CardLink'
@@ -9,12 +10,13 @@ export const NeonAccountPage = () => {
 
   return (
     <WelcomeWithTabsLayout tabItemType={EWelcomeTabItemType.NEON_ACCOUNT}>
-      <div className="flex flex-col gap-y-6">
+      <div className="flex flex-col gap-y-6" {...TestHelper.buildTestObject('neon-account-container')}>
         <p className="text-white text-center text-sm">{t('text')}</p>
 
         <ul className="flex flex-col gap-y-2">
           <li>
             <CardLink
+              testId="create-new-wallet"
               to="/welcome-security-setup"
               title={t('cardLinks.createNewWallet.title')}
               icon={<TbWallet aria-hidden={true} />}

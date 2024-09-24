@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { Link } from '@renderer/components/Link'
+import { TestHelper } from '@renderer/helpers/TestHelper'
 import { useActions } from '@renderer/hooks/useActions'
 import { useLogin } from '@renderer/hooks/useLogin'
 import { useAppSelector } from '@renderer/hooks/useRedux'
@@ -55,12 +56,17 @@ export const LoginPage = () => {
 
   return (
     <WelcomeWithTabsLayout tabItemType={EWelcomeTabItemType.NEON_ACCOUNT}>
-      <form className="w-full flex-grow flex flex-col justify-between items-center" onSubmit={handleAct(handleSubmit)}>
+      <form
+        className="w-full flex-grow flex flex-col justify-between items-center"
+        onSubmit={handleAct(handleSubmit)}
+        {...TestHelper.buildTestObject('login-container')}
+      >
         <div className="flex flex-col w-full">
           <div className="flex flex-col w-full gap-y-6">
             <p className="text-white text-sm text-center">{t('text')}</p>
 
             <Input
+              testId="login-password-input"
               type="password"
               value={actionData.password}
               onChange={handleChangePassword}
@@ -72,6 +78,7 @@ export const LoginPage = () => {
           </div>
 
           <Link
+            testId="login-forgot-password"
             to="/forgotten-password"
             label={t('forgotPassword')}
             colorSchema="neon"
@@ -81,6 +88,7 @@ export const LoginPage = () => {
         </div>
 
         <Button
+          testId="login-submit"
           label={t('buttonLoginLabel')}
           className="w-[250px]"
           variant="contained"

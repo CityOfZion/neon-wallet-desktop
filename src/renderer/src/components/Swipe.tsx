@@ -1,10 +1,12 @@
 import { ReactComponent as ArrowRightBoldOutlineIcon } from '@renderer/assets/images/arrow-right-bold-outline-icon.svg'
+import { TestHelper } from '@renderer/helpers/TestHelper'
 import { animate, motion, useMotionValue } from 'framer-motion'
 
 type TProps = {
   text: string
   buttonAriaLabel: string
   onComplete: () => void
+  testId?: string
 }
 
 const WIDTH = 300
@@ -15,7 +17,7 @@ const MAX = WIDTH - DRAG_WIDTH
 const REST_SIZE = -MAX
 const DURATION = 0.4
 
-export const Swipe = ({ text, buttonAriaLabel, onComplete }: TProps) => {
+export const Swipe = ({ text, buttonAriaLabel, onComplete, testId }: TProps) => {
   const motionValue = useMotionValue(REST_SIZE)
 
   const handleDragEnd = () => {
@@ -55,6 +57,7 @@ export const Swipe = ({ text, buttonAriaLabel, onComplete }: TProps) => {
         drag="x"
         onDragEnd={handleDragEnd}
         onKeyDown={handleKeyDown}
+        {...TestHelper.buildTestObject(testId)}
       >
         <div
           style={{ width: `${DRAG_WIDTH}px` }}
