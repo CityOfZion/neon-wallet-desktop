@@ -151,8 +151,8 @@ interface Resources {
         step4: 'Enter your account passwords'
       }
     }
-    passwordStrenght: {
-      label: 'Password strenght'
+    passwordStrength: {
+      label: 'Password strength'
       none: '-'
       tooShort: 'Too short'
       weak: 'Weak'

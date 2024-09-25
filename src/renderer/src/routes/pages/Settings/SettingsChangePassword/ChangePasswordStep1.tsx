@@ -5,9 +5,9 @@ import { useNavigate } from 'react-router-dom'
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
-import { PasswordStrenght } from '@renderer/components/PasswordStrenght'
+import { PasswordStrength } from '@renderer/components/PasswordStrength'
 import { Separator } from '@renderer/components/Separator'
-import { regexGood, regexStrong } from '@renderer/constants/password'
+import { PasswordHelper } from '@renderer/helpers/PasswordHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useActions } from '@renderer/hooks/useActions'
 import { useLoginSessionSelector } from '@renderer/hooks/useSettingsSelector'
@@ -21,8 +21,7 @@ export const ChangePasswordStep1 = (): JSX.Element => {
   const { loginSessionRef } = useLoginSessionSelector()
   const { t } = useTranslation('pages', { keyPrefix: 'settings.changePassword.step1' })
   const navigate = useNavigate()
-
-  const [passwordStrenghtValid, setPasswordStrenghtValid] = useState<boolean>(false)
+  const [isPasswordValid, setIsPasswordValid] = useState(false)
 
   const { handleAct, setError, actionState, actionData, reset, setData, setDataFromEventWrapper } =
     useActions<TFormData>({
@@ -47,31 +46,16 @@ export const ChangePasswordStep1 = (): JSX.Element => {
     reset()
   }
 
-  const handlePasswordStrenght = (event: ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value
+  const handlePassword = ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
     setData({ newPassword: value })
 
-    if (value.length <= 4) {
-      setPasswordStrenghtValid(false)
-      return
-    }
-
-    if (regexStrong.test(value)) {
-      setPasswordStrenghtValid(true)
-    }
-
-    if (regexGood.test(value)) {
-      setPasswordStrenghtValid(true)
-      return
-    }
-
-    setPasswordStrenghtValid(false)
-    return
+    setIsPasswordValid(PasswordHelper.isWeakPassword(value))
   }
 
   const handleGeneratePassword = () => {
     setData({ newPassword: UtilsHelper.generateStrongPassword() })
-    setPasswordStrenghtValid(true)
+
+    setIsPasswordValid(true)
   }
 
   return (
@@ -97,11 +81,11 @@ export const ChangePasswordStep1 = (): JSX.Element => {
               <Input
                 type="password"
                 placeholder={t('inputNewPasswordPlaceholder')}
-                onChange={handlePasswordStrenght}
+                onChange={handlePassword}
                 value={actionData.newPassword}
                 compacted
               />
-              <PasswordStrenght password={actionData.newPassword} />
+              <PasswordStrength password={actionData.newPassword} />
             </div>
             <Separator />
             <div className="w-full flex mt-5 mb-2">
@@ -128,7 +112,7 @@ export const ChangePasswordStep1 = (): JSX.Element => {
               type="submit"
               label={t('buttonContinue')}
               loading={actionState.isActing}
-              disabled={!passwordStrenghtValid || !actionData.currentPassword}
+              disabled={!isPasswordValid || !actionData.currentPassword}
               rightIcon={<TbArrowRight />}
               iconsOnEdge={false}
             />

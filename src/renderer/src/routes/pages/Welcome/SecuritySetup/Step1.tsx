@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
+import { PasswordHelper } from '@renderer/helpers/PasswordHelper'
 import { useActions } from '@renderer/hooks/useActions'
 
 type TFormData = {
@@ -12,8 +13,6 @@ type TFormData = {
 type TProps = {
   onSubmit?: (password: string) => void
 }
-
-const MIN_PASSWORD_LENGTH = 4
 
 export const WelcomeSecuritySetupStep1Page = ({ onSubmit }: TProps) => {
   const { t } = useTranslation('pages', { keyPrefix: 'welcome.securitySetup.step1' })
@@ -26,8 +25,8 @@ export const WelcomeSecuritySetupStep1Page = ({ onSubmit }: TProps) => {
     const password = event.target.value
     setData({ password })
 
-    if (password.length < MIN_PASSWORD_LENGTH) {
-      setError('password', t('passwordError', { length: MIN_PASSWORD_LENGTH }))
+    if (!PasswordHelper.isWeakPassword(password)) {
+      setError('password', t('passwordError', { length: PasswordHelper.MINIMUM_PASSWORD_LENGTH }))
       return
     }
   }
