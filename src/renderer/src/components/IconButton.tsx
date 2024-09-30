@@ -1,5 +1,6 @@
 import { cloneElement, ComponentProps, forwardRef } from 'react'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+import { TestHelper } from '@renderer/helpers/TestHelper'
 
 type TProps = {
   icon: JSX.Element
@@ -7,10 +8,11 @@ type TProps = {
   size?: 'xs' | 'sm' | 'md'
   compacted?: boolean
   colorSchema?: 'neon' | 'gray'
+  testId?: string
 } & ComponentProps<'button'>
 
 export const IconButton = forwardRef<HTMLButtonElement, TProps>(
-  ({ text, icon, size = 'xs', compacted, colorSchema = 'gray', ...props }, ref) => {
+  ({ text, icon, size = 'xs', compacted, colorSchema = 'gray', testId, ...props }, ref) => {
     const { className: iconClassName, ...iconProps } = icon.props
 
     return (
@@ -29,6 +31,7 @@ export const IconButton = forwardRef<HTMLButtonElement, TProps>(
           },
           props.className
         )}
+        {...TestHelper.buildTestObject(testId)}
       >
         {cloneElement(icon, {
           className: StyleHelper.mergeStyles(

@@ -22,7 +22,7 @@ export const Sidebar = (): JSX.Element => {
         <ul className="flex flex-col justify-between h-full">
           <div>
             <SidebarLink to="/app/portfolio" title={t('portfolio')} icon={<TbHome2 />} />
-            <SidebarLink to="/app/wallets" title={t('wallets')} icon={<WalletIcon />} />
+            <SidebarLink testId="sidebar-link-wallets" to="/app/wallets" title={t('wallets')} icon={<WalletIcon />} />
             <SidebarLink to="/app/send" title={t('send')} icon={<TbStepOut />} />
             <SidebarLink to="/app/receive" title={t('receive')} icon={<TbStepInto />} />
             <SidebarLink to="/app/contacts" title={t('contacts')} icon={<TbUsers />} />
