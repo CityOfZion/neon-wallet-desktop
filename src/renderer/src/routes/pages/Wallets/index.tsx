@@ -169,6 +169,7 @@ export const WalletsPage = () => {
             text={t('connectHardwareWalletButtonLabel')}
             onClick={modalNavigateWrapper('connect-hardware-wallet')}
             disabled={!isPasswordLogin}
+            testId="connect-hardware-wallet"
           />
         </div>
       }

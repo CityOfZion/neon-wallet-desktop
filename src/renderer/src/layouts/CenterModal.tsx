@@ -45,7 +45,13 @@ export const CenterModalLayout = ({ children, onClose, onBack, contentClassName 
           />
         )}
 
-        <IconButton icon={<MdClose className="fill-white" />} size="md" compacted onClick={handleClose} />
+        <IconButton
+          testId="center-modal-close"
+          icon={<MdClose className="fill-white" />}
+          size="md"
+          compacted
+          onClick={handleClose}
+        />
       </header>
 
       <main className={StyleHelper.mergeStyles('flex-grow px-9 pb-10 pt-2.5 min-h-0', contentClassName)}>

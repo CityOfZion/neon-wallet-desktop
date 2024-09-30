@@ -2,6 +2,7 @@ import { cloneElement } from 'react'
 import { useTranslation } from 'react-i18next'
 import { NavLink } from 'react-router-dom'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+import { TestHelper } from '@renderer/helpers/TestHelper'
 
 type Props = {
   icon: JSX.Element
@@ -9,9 +10,10 @@ type Props = {
   to: string
   disabled?: boolean
   isNew?: boolean
+  testId?: string
 }
 
-export const SidebarLink = ({ icon, title, to, disabled, isNew }: Props): JSX.Element => {
+export const SidebarLink = ({ icon, title, to, disabled, isNew, testId }: Props): JSX.Element => {
   const { t } = useTranslation('components', { keyPrefix: 'sidebar.link' })
 
   const handleClick: React.MouseEventHandler<HTMLAnchorElement> = event => {
@@ -35,6 +37,7 @@ export const SidebarLink = ({ icon, title, to, disabled, isNew }: Props): JSX.El
             }
           )
         }}
+        {...TestHelper.buildTestObject(testId)}
       >
         {cloneElement(icon, {
           className: 'group-aria-[current=page]:stroke-white stroke-gray-300 object-contain w-6 h-6',
