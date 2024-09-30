@@ -44,15 +44,14 @@ export const ImportWatchAccountsModal = () => {
   const handleSubmit = async (event: FormEvent) => {
     try {
       event.preventDefault()
+
       setIsLoading(true)
 
       if (!validatedAddresses.length) {
         throw new Error(t('errors.invalid'))
       }
 
-      const wallet = blockchainActions.createWallet({
-        name: commomT('watchAccount'),
-      })
+      const wallet = blockchainActions.createWallet({ name: commomT('watchAccount') })
 
       const accountsToImport: TAccountsToImport = validatedAddresses.map(validatedAddress => ({
         address: validatedAddress.address,
@@ -62,9 +61,8 @@ export const ImportWatchAccountsModal = () => {
 
       const accounts = await blockchainActions.importAccounts({ wallet, accounts: accountsToImport })
 
-      if (onAddWallet) {
-        onAddWallet(wallet)
-      } else {
+      if (onAddWallet) onAddWallet(wallet)
+      else {
         modalNavigate(-2)
         navigate(`/app/wallets/${accounts[0].id}/overview`)
       }
@@ -76,9 +74,8 @@ export const ImportWatchAccountsModal = () => {
   }
 
   const abbreviateAddress = (address: string): string => {
-    if (address.length <= 34) {
-      return address
-    }
+    if (address.length <= 34) return address
+
     return (
       address.substring(0, address.length / 2 - 4) + '.....' + address.substring(address.length / 2 + 4, address.length)
     )
@@ -96,6 +93,7 @@ export const ImportWatchAccountsModal = () => {
 
     for (const blockchainService of Object.values(bsAggregator.blockchainServicesByName)) {
       const isValid = blockchainService.validateAddress(address)
+
       if (!isValid) continue
 
       validatedAddressesCache.push({
@@ -111,6 +109,7 @@ export const ImportWatchAccountsModal = () => {
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value
+
     handleChangeAndValidateAddress(value)
   }
 

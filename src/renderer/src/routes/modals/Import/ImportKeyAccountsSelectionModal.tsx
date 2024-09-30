@@ -51,10 +51,7 @@ export const ImportKeyAccountsSelectionModal = () => {
   }
 
   const handleImport = async (data: TActionsData) => {
-    const wallet = blockchainActions.createWallet({
-      name: commomT('importedName'),
-    })
-
+    const wallet = blockchainActions.createWallet({ name: commomT('importedName') })
     const accountsToImport: TImportAccountsParam['accounts'] = data.selectedAccounts.map(({ address, blockchain }) => ({
       address,
       blockchain,
@@ -74,17 +71,16 @@ export const ImportKeyAccountsSelectionModal = () => {
 
     await UtilsHelper.promiseAll(Object.values(bsAggregator.blockchainServicesByName), async service => {
       const account = service.generateAccountFromKey(key)
-      accountsByBlockchain.set(service.blockchainName, [{ ...account, blockchain: service.blockchainName }])
+      const { blockchainName: blockchain } = service
 
-      if (doesAccountExist({ address: account.address, blockchain: service.blockchainName })) return
+      accountsByBlockchain.set(blockchain, [{ ...account, blockchain }])
 
-      selectedAccounts.push({ ...account, blockchain: service.blockchainName })
+      if (doesAccountExist({ address: account.address, blockchain })) return
+
+      selectedAccounts.push({ ...account, blockchain })
     })
 
-    setData({
-      accountsByBlockchain,
-      selectedAccounts,
-    })
+    setData({ accountsByBlockchain, selectedAccounts })
   }, [key, doesAccountExist])
 
   return (

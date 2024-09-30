@@ -44,31 +44,29 @@ const migrateSchema = zod
   })
   .transform(data => {
     const transformedAccounts: TMigrateAccountsSchema[] = []
-    data.accounts.forEach(account => {
-      if (!account.address || !account.key) return
-      if (
-        transformedAccounts.some(
-          transformedAccount => transformedAccount.address === account.address || transformedAccount.key === account.key
-        )
-      )
+
+    data.accounts.forEach(({ label, address, key }) => {
+      if (!address || !key || transformedAccounts.some(account => account.address === address || account.key === key))
         return
 
-      const [blockchain] = bsAggregator.getBlockchainNameByAddress(account.address)
+      const [blockchain] = bsAggregator.getBlockchainNameByAddress(address)
+
       if (!blockchain) return
 
       transformedAccounts.push({
-        address: account.address,
-        key: account.key,
-        label: account?.label || t('hooks:useBackupOrMigrate.defaultAccountLabel'),
-        blockchain: blockchain,
+        address,
+        key,
+        label: label || t('hooks:useBackupOrMigrate.defaultAccountLabel'),
+        blockchain,
       })
     })
 
     const transformedContacts = data.contacts.map<TMigrateContactsSchema>(contact => {
       const transformedAddresses: TMigrateContactsSchema['addresses'] = []
+      const blockchainServices = Object.values(bsAggregator.blockchainServicesByName)
 
       contact.addresses?.forEach(address => {
-        for (const service of Object.values(bsAggregator.blockchainServicesByName)) {
+        for (const service of blockchainServices) {
           if (
             (hasNameService(service) && service.validateNameServiceDomainFormat(address)) ||
             service.validateAddress(address)
@@ -98,7 +96,7 @@ export const useBackupOrMigrate = () => {
   const handleBrowse = async () => {
     const [filePath] = await window.api.sendAsync('openDialog', {
       properties: ['openFile'],
-      filters: [{ name: '', extensions: [BACKUP_FILE_EXTENSION, 'json'] }],
+      filters: [{ name: `${BACKUP_FILE_EXTENSION}, json`, extensions: [BACKUP_FILE_EXTENSION, 'json'] }],
     })
 
     const fileContent = await window.api.sendAsync('readFile', filePath)

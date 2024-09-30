@@ -6,6 +6,7 @@ import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { accountReducerActions } from '@renderer/store/reducers/AccountReducer'
+import { contactReducerActions } from '@renderer/store/reducers/ContactReducer'
 import { walletReducerActions } from '@renderer/store/reducers/WalletReducer'
 import {
   TAccountToCreate,
@@ -14,7 +15,7 @@ import {
   TImportAccountsParam,
   TWalletToCreate,
 } from '@shared/@types/blockchain'
-import { IAccountState, IWalletState } from '@shared/@types/store'
+import { IAccountState, IContactState, IWalletState } from '@shared/@types/store'
 
 import { useAccountsSelector } from './useAccountSelector'
 import { useAppDispatch } from './useRedux'
@@ -26,6 +27,9 @@ export function useBlockchainActions() {
   const { loginSessionRef } = useLoginSessionSelector()
   const { t } = useTranslation('common', { keyPrefix: 'account' })
   const { disconnect, sessions } = useWalletConnectWallet()
+
+  const createContacts = (contacts: IContactState[]) =>
+    contacts.forEach(contact => dispatch(contactReducerActions.saveContact(contact)))
 
   const createWallet = useCallback(
     ({ name, mnemonic, id, type = 'standard' }: TWalletToCreate) => {
@@ -209,6 +213,7 @@ export function useBlockchainActions() {
   return {
     createWallet,
     createAccount,
+    createContacts,
     importAccount,
     importAccounts,
     deleteWallet,

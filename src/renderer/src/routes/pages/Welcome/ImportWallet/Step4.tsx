@@ -6,9 +6,7 @@ import { Progress } from '@renderer/components/Progress'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
-import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useSecurityTypeActions } from '@renderer/hooks/useSettingsSelector'
-import { contactReducerActions } from '@renderer/store/reducers/ContactReducer'
 import { TAccountsToImport, TWalletToCreate } from '@shared/@types/blockchain'
 import { IContactState } from '@shared/@types/store'
 
@@ -24,8 +22,7 @@ export const WelcomeImportWalletStep4Page = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'welcome.importWallet.step4' })
   const { state } = useLocation() as Location<TLocationState>
   const navigate = useNavigate()
-  const dispatch = useAppDispatch()
-  const { createWallet, importAccounts } = useBlockchainActions()
+  const { createContacts, createWallet, importAccounts } = useBlockchainActions()
   const { setSecurityType } = useSecurityTypeActions()
 
   const isImporting = useRef(false)
@@ -34,36 +31,31 @@ export const WelcomeImportWalletStep4Page = () => {
 
   const handleImport = async () => {
     try {
-      const progressByStep = 100 / state.wallets.length + 3
+      const { wallets, contacts, password } = state
+      const progressByStep = 100 / wallets.length + 3
 
-      await setSecurityType(state.password)
+      await setSecurityType(password)
 
       setProgress(progress => progress + progressByStep)
 
-      if (state.contacts) {
-        state.contacts.forEach(contact => {
-          dispatch(contactReducerActions.saveContact(contact))
-        })
-      }
+      if (contacts) createContacts(contacts)
 
       await UtilsHelper.sleep(1000)
+
       setProgress(progress => progress + progressByStep)
 
-      for (const walletToCreate of state.wallets) {
-        const wallet = await createWallet({
-          name: walletToCreate.name,
-          mnemonic: walletToCreate.mnemonic,
-        })
-        await importAccounts({
-          accounts: walletToCreate.accounts,
-          wallet,
-        })
+      for (const { name, mnemonic, accounts } of wallets) {
+        const wallet = await createWallet({ name, mnemonic })
+
+        await importAccounts({ accounts, wallet })
 
         await UtilsHelper.sleep(1000)
+
         setProgress(progress => progress + progressByStep)
       }
 
       await UtilsHelper.sleep(1000)
+
       setProgress(progress => progress + progressByStep)
 
       await UtilsHelper.sleep(1000)
