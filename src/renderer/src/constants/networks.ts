@@ -1,6 +1,6 @@
-import { BSEthereumHelper } from '@cityofzion/bs-ethereum'
-import { BSNeoLegacyHelper } from '@cityofzion/bs-neo-legacy'
-import { BSNeo3Helper } from '@cityofzion/bs-neo3'
+import { BSEthereumConstants } from '@cityofzion/bs-ethereum'
+import { BSNeoLegacyConstants } from '@cityofzion/bs-neo-legacy'
+import { BSNeo3Constants } from '@cityofzion/bs-neo3'
 import { getI18next } from '@renderer/libs/i18next'
 import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
 
@@ -15,24 +15,28 @@ export const NETWORK_OPTIONS_BY_BLOCKCHAIN: Record<
   }
 > = {
   neo3: {
-    all: BSNeo3Helper.ALL_NETWORKS,
-    mainnet: BSNeo3Helper.MAINNET_NETWORKS,
-    testnet: BSNeo3Helper.TESTNET_NETWORKS,
+    all: BSNeo3Constants.ALL_NETWORKS,
+    mainnet: BSNeo3Constants.MAINNET_NETWORKS,
+    testnet: BSNeo3Constants.TESTNET_NETWORKS,
   },
   neoLegacy: {
-    all: BSNeoLegacyHelper.ALL_NETWORKS,
-    mainnet: BSNeoLegacyHelper.MAINNET_NETWORKS,
-    testnet: BSNeoLegacyHelper.TESTNET_NETWORKS,
+    all: BSNeoLegacyConstants.ALL_NETWORKS,
+    mainnet: BSNeoLegacyConstants.MAINNET_NETWORKS,
+    testnet: BSNeoLegacyConstants.TESTNET_NETWORKS,
   },
   ethereum: {
-    all: BSEthereumHelper.ALL_NETWORKS.filter(({ id }) => !BSEthereumHelper.NEOX_NETWORK_IDS.includes(id)),
-    mainnet: BSEthereumHelper.MAINNET_NETWORKS.filter(({ id }) => !BSEthereumHelper.NEOX_NETWORK_IDS.includes(id)),
-    testnet: BSEthereumHelper.TESTNET_NETWORKS.filter(({ id }) => !BSEthereumHelper.NEOX_NETWORK_IDS.includes(id)),
+    all: BSEthereumConstants.ALL_NETWORKS.filter(({ id }) => !BSEthereumConstants.NEOX_NETWORK_IDS.includes(id)),
+    mainnet: BSEthereumConstants.MAINNET_NETWORKS.filter(
+      ({ id }) => !BSEthereumConstants.NEOX_NETWORK_IDS.includes(id)
+    ),
+    testnet: BSEthereumConstants.TESTNET_NETWORKS.filter(
+      ({ id }) => !BSEthereumConstants.NEOX_NETWORK_IDS.includes(id)
+    ),
   },
   neox: {
-    all: BSEthereumHelper.NEOX_NETWORKS,
-    mainnet: [BSEthereumHelper.NEOX_MAINNET_NETWORK],
-    testnet: [BSEthereumHelper.NEOX_TESTNET_NETWORK],
+    all: BSEthereumConstants.NEOX_NETWORKS,
+    mainnet: [BSEthereumConstants.NEOX_MAINNET_NETWORK],
+    testnet: [BSEthereumConstants.NEOX_TESTNET_NETWORK],
   },
 }
 
