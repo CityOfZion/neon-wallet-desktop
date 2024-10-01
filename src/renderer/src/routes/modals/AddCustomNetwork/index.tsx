@@ -13,7 +13,6 @@ import { SideModalLayout } from '@renderer/layouts/SideModal'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
 import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
-import { cloneDeep } from 'lodash'
 
 type TState = {
   blockchain: TBlockchainServiceKey
@@ -54,10 +53,9 @@ export const AddCustomNetwork = () => {
 
     try {
       const service = bsAggregator.blockchainServicesByName[blockchain]
-      const clonedService = cloneDeep(service)
 
-      clonedService.setNetwork({ id: CUSTOM_NETWORK_ID, name: actionData.name, url: actionData.url })
-      await service.blockchainDataService.getBlockHeight()
+      await service.testNetwork({ id: CUSTOM_NETWORK_ID, name: actionData.name, url: actionData.url })
+
       clearErrors('url')
       setData({ isValid: true })
     } catch {
