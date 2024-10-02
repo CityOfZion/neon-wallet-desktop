@@ -53,8 +53,9 @@ const connectHardwareWallet = async () => {
   for (const service of Object.values(bsAggregator.blockchainServicesByName)) {
     try {
       if (!hasLedger(service)) continue
-      const address = await service.ledgerService.getAddress(transport)
-      const publicKey = await service.ledgerService.getPublicKey(transport)
+      const acc = await service.ledgerService.getAccount(transport, 0)
+      const address = acc.address
+      const publicKey = acc.key
       transporter = {
         address,
         publicKey,
