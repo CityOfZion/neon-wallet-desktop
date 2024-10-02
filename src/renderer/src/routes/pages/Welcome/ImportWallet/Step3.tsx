@@ -80,10 +80,7 @@ export const WelcomeImportWalletStep3Page = () => {
     const handleDecrypt = async (key: string, address: string, blockchain: TBlockchainServiceKey) => {
       modalNavigate(-2)
 
-      const wallet: TWalletToCreate = {
-        name: commonT('wallet.encryptedName'),
-      }
-
+      const wallet: TWalletToCreate = { name: commonT('wallet.encryptedName') }
       const accounts: TAccountsToImport = [{ address, blockchain, key, type: 'standard' }]
 
       navigate('/welcome-import-wallet/4', { state: { wallets: [{ ...wallet, accounts }], password: state.password } })

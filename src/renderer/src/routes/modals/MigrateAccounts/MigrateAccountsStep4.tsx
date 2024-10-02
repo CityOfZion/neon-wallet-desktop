@@ -2,7 +2,6 @@ import { Fragment } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdLooks4 } from 'react-icons/md'
 import { TbPackageImport } from 'react-icons/tb'
-import { useDispatch } from 'react-redux'
 import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
@@ -13,7 +12,6 @@ import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useContactsSelector } from '@renderer/hooks/useContactSelector'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { MigrateAccountsModalLayout } from '@renderer/layouts/MigrateAccountsModalLayout'
-import { contactReducerActions } from '@renderer/store/reducers/ContactReducer'
 import { TAccountsToImport, TWalletToCreate } from '@shared/@types/blockchain'
 import { IContactState, TContactAddress } from '@shared/@types/store'
 
@@ -34,10 +32,9 @@ export const MigrateAccountsStep4Modal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'migrateWallets' })
   const { t: commonT } = useTranslation('common', { keyPrefix: 'wallet' })
   const { selectedAccountsToMigrate, content, onDecrypt } = useModalState<TState>()
-  const { createWallet, importAccounts } = useBlockchainActions()
+  const { createContacts, createWallet, importAccounts } = useBlockchainActions()
   const { contactsRef } = useContactsSelector()
   const { modalNavigate } = useModalNavigate()
-  const dispatch = useDispatch()
 
   const { actionData, actionState, setData, handleAct } = useActions<TActionData>({
     decryptedAccounts: [],
@@ -48,49 +45,29 @@ export const MigrateAccountsStep4Modal = () => {
   }
 
   const handleMigrate = async (data: TActionData) => {
-    const walletToCreate: TWalletToCreate = {
-      name: commonT('migratedWalletName'),
-    }
-
+    const contactsToCreate: IContactState[] = []
+    const walletToCreate: TWalletToCreate = { name: commonT('migratedWalletName') }
     const accountsToCreate: TAccountsToImport = []
 
-    data.decryptedAccounts.map(decryptedWallet => {
-      if (!decryptedWallet.blockchain) return
+    data.decryptedAccounts.map(({ address, blockchain, decryptedKey, label }) => {
+      if (!blockchain) return
 
-      accountsToCreate.push({
-        address: decryptedWallet.address,
-        blockchain: decryptedWallet.blockchain,
-        key: decryptedWallet.decryptedKey,
-        type: 'standard',
-        name: decryptedWallet.label,
-      })
+      accountsToCreate.push({ address, blockchain, key: decryptedKey, type: 'standard', name: label })
     })
 
-    const contactsToCreate: IContactState[] = []
-
-    content.contacts.forEach(contactToMigrate => {
+    content.contacts.forEach(({ name, addresses }) => {
       const contactAddresses: TContactAddress[] = []
-      const foundContact = contactsRef.current.find(contact => contactToMigrate.name === contact.name)
+      const foundContact = contactsRef.current.find(contact => name === contact.name)
 
-      contactToMigrate.addresses.forEach(contactMigrateAddress => {
-        if (!contactMigrateAddress.blockchain) return
+      addresses.forEach(({ address, blockchain }) => {
+        if (!blockchain || foundContact?.addresses?.some(contact => contact.address === address)) return
 
-        if (
-          foundContact &&
-          foundContact.addresses.some(contactAddress => contactAddress.address === contactMigrateAddress.address)
-        )
-          return
-
-        contactAddresses.push({ address: contactMigrateAddress.address, blockchain: contactMigrateAddress.blockchain })
+        contactAddresses.push({ address, blockchain })
       })
 
       if (!contactAddresses.length) return
 
-      contactsToCreate.push({
-        name: contactToMigrate.name,
-        id: UtilsHelper.uuid(),
-        addresses: contactAddresses,
-      })
+      contactsToCreate.push({ name, id: UtilsHelper.uuid(), addresses: contactAddresses })
     })
 
     if (onDecrypt) {
@@ -99,16 +76,10 @@ export const MigrateAccountsStep4Modal = () => {
     }
 
     try {
+      createContacts(contactsToCreate)
+
       const wallet = createWallet(walletToCreate)
-
-      const accounts = await importAccounts({
-        wallet,
-        accounts: accountsToCreate,
-      })
-
-      contactsToCreate.forEach(contact => {
-        dispatch(contactReducerActions.saveContact(contact))
-      })
+      const accounts = await importAccounts({ wallet, accounts: accountsToCreate })
 
       modalNavigate(-3)
       modalNavigate('success', {

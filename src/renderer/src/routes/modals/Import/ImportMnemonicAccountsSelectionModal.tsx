@@ -50,11 +50,7 @@ export const ImportMnemonicAccountsSelectionModal = () => {
   }
 
   const handleImport = async (data: TActionsData) => {
-    const wallet = blockchainActions.createWallet({
-      name: commonT('mnemonicWalletName'),
-      mnemonic,
-    })
-
+    const wallet = blockchainActions.createWallet({ name: commonT('mnemonicWalletName'), mnemonic })
     const accountsToImport: TAccountsToImport = data.selectedAccounts.map(({ address, blockchain, key }) => ({
       address,
       blockchain,
@@ -62,10 +58,7 @@ export const ImportMnemonicAccountsSelectionModal = () => {
       type: 'standard',
     }))
 
-    const accounts = await blockchainActions.importAccounts({
-      accounts: accountsToImport,
-      wallet,
-    })
+    const accounts = await blockchainActions.importAccounts({ wallet, accounts: accountsToImport })
 
     modalNavigate(-2)
     navigate(`/app/wallets/${accounts[0].id}/overview`)
@@ -73,7 +66,6 @@ export const ImportMnemonicAccountsSelectionModal = () => {
 
   const { isMounting } = useMount(async () => {
     const mnemonicAccounts = await bsAggregator.generateAccountFromMnemonicAllBlockchains(mnemonic)
-
     const selectedAccounts: TAccountWithBlockchain[] = []
 
     Array.from(mnemonicAccounts.entries()).forEach(([blockchain, accounts]) => {
@@ -84,10 +76,7 @@ export const ImportMnemonicAccountsSelectionModal = () => {
       })
     })
 
-    setData({
-      mnemonicAccounts,
-      selectedAccounts,
-    })
+    setData({ selectedAccounts, mnemonicAccounts })
   }, [mnemonic])
 
   return (

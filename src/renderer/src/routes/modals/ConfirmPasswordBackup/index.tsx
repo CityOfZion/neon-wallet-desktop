@@ -7,6 +7,7 @@ import { ButtonDownloadPasswordQRCode } from '@renderer/components/ButtonDownloa
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
 import { BACKUP_FILE_EXTENSION } from '@renderer/constants/backup'
+import { BackupFileHelper } from '@renderer/helpers/BackupFileHelper'
 import { DateHelper } from '@renderer/helpers/DateHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
@@ -60,47 +61,45 @@ export const ConfirmPasswordBackupModal = () => {
     const encryptedPassword = loginSessionRef.current.encryptedPassword
 
     const decryptedPassword = await window.api.sendAsync('decryptBasedOS', encryptedPassword)
+
     if (password.length === 0 || password !== decryptedPassword) {
       setError('password', t('error'))
+
       return
     }
 
     try {
-      const backupFile: TBackupFormat = { wallets: [], contacts: [] }
-      backupFile.contacts = contacts
+      const backupFile: TBackupFormat = { wallets: [], contacts }
+
       backupFile.wallets = wallets.map(({ encryptedMnemonic, ...wallet }) => {
         let mnemonic: string | undefined
-        if (encryptedMnemonic) {
+
+        if (encryptedMnemonic)
           mnemonic = window.api.sendSync('decryptBasedEncryptedSecretSync', {
             value: encryptedMnemonic,
             encryptedSecret: encryptedPassword,
           })
-        }
 
         const walletAccounts: TAccountBackupFormat[] = []
+
         accounts.forEach(({ encryptedKey, ...account }) => {
           if (account.idWallet !== wallet.id) return
 
           let key: string | undefined
-          if (encryptedKey) {
+
+          if (encryptedKey)
             key = window.api.sendSync('decryptBasedEncryptedSecretSync', {
               value: encryptedKey,
               encryptedSecret: encryptedPassword,
             })
-          }
 
-          walletAccounts.push({
-            ...account,
-            key,
-          })
+          walletAccounts.push({ ...account, key })
         })
 
-        return {
-          ...wallet,
-          mnemonic,
-          accounts: walletAccounts,
-        }
+        return { ...wallet, mnemonic, accounts: walletAccounts }
       })
+
+      BackupFileHelper.convertTypes(backupFile)
 
       const content = await window.api.sendAsync('encryptBasedSecret', {
         value: JSON.stringify(backupFile),

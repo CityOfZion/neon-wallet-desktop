@@ -121,6 +121,7 @@ async function fetchTransactions(
   })
 
   await Promise.allSettled(promises)
+
   return {
     data,
     page: hasMorePage ? page + 1 : undefined,

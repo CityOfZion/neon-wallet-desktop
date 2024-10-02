@@ -4,13 +4,13 @@ import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
+import { BackupFileHelper } from '@renderer/helpers/BackupFileHelper'
+import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useAccountUtils } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
-import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
-import { contactReducerActions } from '@renderer/store/reducers/ContactReducer'
 import { TAccountsToImport, TBackupFormat } from '@shared/@types/blockchain'
 
 type TFormData = {
@@ -37,10 +37,9 @@ const SuccessFooter = () => {
 export const ConfirmPasswordRecoverModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'confirmPasswordRecover' })
   const { content, onDecrypt } = useModalState<TLocationState>()
-  const dispatch = useAppDispatch()
   const { doesAccountExist } = useAccountUtils()
   const { modalNavigate } = useModalNavigate()
-  const { createWallet, importAccounts } = useBlockchainActions()
+  const { createContacts, createWallet, importAccounts } = useBlockchainActions()
 
   const { actionData, actionState, handleAct, setDataFromEventWrapper, setError, reset } = useActions<TFormData>({
     password: '',
@@ -56,19 +55,22 @@ export const ConfirmPasswordRecoverModal = () => {
       const contentDecrypted = await window.api.sendAsync('decryptBasedSecret', { value: content, secret: password })
       const backupFile = JSON.parse(contentDecrypted) as TBackupFormat
 
+      BackupFileHelper.convertTypes(backupFile)
+
       if (onDecrypt) {
         onDecrypt(backupFile)
         return
       }
 
-      backupFile.contacts.forEach(contact => dispatch(contactReducerActions.saveContact(contact)))
+      createContacts(backupFile.contacts)
 
       const importPromises = backupFile.wallets.map(async wallet => {
         const accountsToImport: TAccountsToImport = []
 
         wallet.accounts.forEach(account => {
           if (doesAccountExist(account)) return
-          accountsToImport.push({ ...account, type: account.type })
+
+          accountsToImport.push(account)
         })
 
         if (accountsToImport.length === 0) return
@@ -79,6 +81,8 @@ export const ConfirmPasswordRecoverModal = () => {
       })
 
       await Promise.allSettled(importPromises)
+
+      await UtilsHelper.sleep(2000)
 
       modalNavigate('success', {
         state: {

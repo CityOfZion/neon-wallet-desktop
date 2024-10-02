@@ -50,9 +50,7 @@ export const ImportModal = () => {
                   throw new Error(t('addressAlreadyExist'))
                 }
 
-                const wallet = createWallet({
-                  name: tCommon('encryptedName'),
-                })
+                const wallet = createWallet({ name: tCommon('encryptedName') })
                 const account = importAccount({ address, blockchain, wallet, key, type: 'standard' })
 
                 ToastHelper.success({ message: t('successEncryptKey') })

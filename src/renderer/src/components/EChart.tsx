@@ -29,6 +29,8 @@ export function EChart({ option, style, settings }: ReactEChartsProps): JSX.Elem
       chartRef.current?.dispose()
       window.removeEventListener('resize', resizeChart)
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
