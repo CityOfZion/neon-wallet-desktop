@@ -65,7 +65,7 @@ class WalletConnectNeonAdapter extends AbstractWalletConnectNeonAdapter {
     const serviceAccount = service.generateAccountFromPublicKey(key)
     const transport = await getHardwareWalletTransport(serviceAccount)
 
-    return service.ledgerService.getSigningCallback(transport)
+    return service.ledgerService.getSigningCallback(transport, serviceAccount)
   }
 }
 
