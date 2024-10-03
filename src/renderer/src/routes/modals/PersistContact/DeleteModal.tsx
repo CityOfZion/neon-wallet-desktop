@@ -2,6 +2,7 @@ import { MdDeleteForever } from 'react-icons/md'
 import { PiWarningLight } from 'react-icons/pi'
 import { Button } from '@renderer/components/Button'
 import { StringHelper } from '@renderer/helpers/StringHelper'
+import { TestHelper } from '@renderer/helpers/TestHelper'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 
@@ -67,6 +68,7 @@ export const DeleteModal = () => {
           flat
           className="w-full"
           onClick={handleButtonClick}
+          {...TestHelper.buildTestObject('delete-button')}
         />
       </div>
     </SideModalLayout>

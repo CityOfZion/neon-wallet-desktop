@@ -2,6 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from '@renderer/components/Link'
 import { SuccessIcon } from '@renderer/components/SuccessIcon'
+import { TestHelper } from '@renderer/helpers/TestHelper'
 import { WelcomeLayout } from '@renderer/layouts/Welcome'
 
 export const ForgottenPasswordSuccessPage: React.FC = () => {
@@ -16,12 +17,12 @@ export const ForgottenPasswordSuccessPage: React.FC = () => {
         <p className="text-gray-300 text-sm flex-grow">{t('description')}</p>
 
         <Link
-          testId="forgotten-password-success-go-to-welcome"
           to="/neon-account"
           label={t('goToWelcome')}
           colorSchema="neon"
           variant="contained"
           className="w-full max-w-[250px] mx-auto"
+          {...TestHelper.buildTestObject('forgotten-password-success-go-to-welcome')}
         />
       </div>
     </WelcomeLayout>

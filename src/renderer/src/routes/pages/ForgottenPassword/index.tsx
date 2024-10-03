@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { TbArrowRight } from 'react-icons/tb'
 import { Banner } from '@renderer/components/Banner'
 import { Link } from '@renderer/components/Link'
+import { TestHelper } from '@renderer/helpers/TestHelper'
 import { WelcomeLayout } from '@renderer/layouts/Welcome'
 
 export const ForgottenPasswordPage = () => {
@@ -16,7 +17,6 @@ export const ForgottenPasswordPage = () => {
       </div>
 
       <Link
-        testId="forgotten-password-continue"
         to="/forgotten-password-confirm"
         label={t('links.continue')}
         colorSchema="error"
@@ -24,6 +24,7 @@ export const ForgottenPasswordPage = () => {
         className="w-full max-w-[250px]"
         iconsOnEdge={false}
         rightIcon={<TbArrowRight aria-hidden={true} />}
+        {...TestHelper.buildTestObject('forgotten-password-continue')}
       />
     </WelcomeLayout>
   )

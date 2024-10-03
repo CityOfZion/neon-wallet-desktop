@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { Banner } from '@renderer/components/Banner'
 import { Swipe } from '@renderer/components/Swipe'
+import { TestHelper } from '@renderer/helpers/TestHelper'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { WelcomeLayout } from '@renderer/layouts/Welcome'
 import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
@@ -31,10 +32,10 @@ export const ForgottenPasswordConfirmPage = () => {
         <p className="text-gray-300 text-xs">{t('auxiliarText')}</p>
 
         <Swipe
-          testId="forgotten-password-confirm"
           text={t('swipe.text')}
           buttonAriaLabel={t('swipe.buttonAriaLabel')}
           onComplete={clearData}
+          {...TestHelper.buildTestObject('forgotten-password-confirm')}
         />
       </div>
     </WelcomeLayout>

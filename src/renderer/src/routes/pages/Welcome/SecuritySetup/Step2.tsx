@@ -4,6 +4,7 @@ import { Location, useLocation, useNavigate } from 'react-router-dom'
 import { generateMnemonic } from '@cityofzion/bs-asteroid-sdk'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
+import { TestHelper } from '@renderer/helpers/TestHelper'
 import { useActions } from '@renderer/hooks/useActions'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useSecurityTypeActions } from '@renderer/hooks/useSettingsSelector'
@@ -83,11 +84,11 @@ export const WelcomeSecuritySetupStep2Page = ({ onSubmit }: TProps) => {
         />
 
         <Button
-          testId="security-setup-second-submit"
           label={commonT('general.continue')}
           className="w-64"
           type="submit"
           disabled={!actionState.isValid || actionState.isActing}
+          {...TestHelper.buildTestObject('security-setup-second-submit')}
         />
       </form>
     </Fragment>

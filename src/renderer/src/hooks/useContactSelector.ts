@@ -1,12 +1,17 @@
 import { useMemo } from 'react'
+import { ContactsHelper } from '@renderer/helpers/ContactsHelper'
+import { IContactState, TContactEncryptedAddress } from '@shared/@types/store'
 
 import { useAppSelector } from './useRedux'
 
 export const useContactsSelector = () => {
-  const { ref, value } = useAppSelector(state => state.contact.data)
+  const { value, ref } = useAppSelector<IContactState<TContactEncryptedAddress>[]>(state => state.contact.data)
+  const contacts = useMemo(() => ContactsHelper.decryptContacts(value), [value])
+  const contactsRef = useMemo(() => ({ ...ref, current: ContactsHelper.decryptContacts(ref.current) }), [ref])
+
   return {
-    contacts: value,
-    contactsRef: ref,
+    contacts,
+    contactsRef,
   }
 }
 

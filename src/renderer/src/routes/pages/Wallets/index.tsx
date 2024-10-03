@@ -11,6 +11,7 @@ import { Separator } from '@renderer/components/Separator'
 import { SidebarMenuButton } from '@renderer/components/SidebarMenuButton'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+import { TestHelper } from '@renderer/helpers/TestHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
@@ -169,7 +170,7 @@ export const WalletsPage = () => {
             text={t('connectHardwareWalletButtonLabel')}
             onClick={modalNavigateWrapper('connect-hardware-wallet')}
             disabled={!isPasswordLogin}
-            testId="connect-hardware-wallet"
+            {...TestHelper.buildTestObject('connect-hardware-wallet')}
           />
         </div>
       }

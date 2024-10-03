@@ -6,6 +6,7 @@ import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
 import { StringHelper } from '@renderer/helpers/StringHelper'
+import { TestHelper } from '@renderer/helpers/TestHelper'
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useNameService } from '@renderer/hooks/useNameService'
@@ -16,7 +17,8 @@ import { TContactAddress } from '@shared/@types/store'
 type TLocationState = {
   contactName: string
   address?: TContactAddress
-  handleAddAddress: (address: TContactAddress) => void
+  index?: number
+  handleAddAddress: (contactAddress: TContactAddress, index?: number) => void
 }
 
 type TActionData = {
@@ -26,7 +28,7 @@ type TActionData = {
 
 export const AddAddressModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'addAddress' })
-  const { contactName, address, handleAddAddress } = useModalState<TLocationState>()
+  const { contactName, address, index, handleAddAddress } = useModalState<TLocationState>()
   const { modalNavigate } = useModalNavigate()
 
   const {
@@ -39,23 +41,27 @@ export const AddAddressModal = () => {
 
   const { actionData, setData, handleAct } = useActions<TActionData>({
     address: address?.address || '',
+    blockchain: address?.blockchain,
   })
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setData({
-      address: event.target.value,
-    })
-    validateAddressOrNS(event.target.value, actionData.blockchain)
+  const handleChange = ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
+    setData({ address: value })
+    validateAddressOrNS(value, actionData.blockchain)
   }
 
   const handleSelectBlockchain = (blockchain: TBlockchainServiceKey) => {
     setData({ blockchain })
+
+    const { address } = actionData
+
+    if (address) validateAddressOrNS(address, blockchain)
   }
 
-  const handleSubmit = (data: TActionData) => {
-    if (!data.blockchain || !data.address) return
-    const newAddress = { blockchain: data.blockchain, address: data.address }
-    handleAddAddress(newAddress)
+  const handleSubmit = async ({ blockchain, address }: TActionData) => {
+    if (!blockchain || !address) return
+
+    await handleAddAddress({ blockchain, address }, index)
+
     modalNavigate(-1)
   }
 
@@ -70,11 +76,23 @@ export const AddAddressModal = () => {
 
           <Separator />
 
-          <div className="text-gray-100 font-bold">{t('blockchain')}</div>
-          <BlockchainSelect value={actionData.blockchain} onSelect={handleSelectBlockchain} />
+          <p aria-labelledby="blockchainSelect" className="text-gray-100 font-bold uppercase">
+            {t('blockchain')}
+          </p>
 
-          <div className="text-gray-100 font-bold">{t('addressOrDomain')}</div>
+          <BlockchainSelect
+            value={actionData.blockchain}
+            onSelect={handleSelectBlockchain}
+            testId="contact-blockchain-select"
+          />
+
+          <p aria-labelledby="addressOrDomain" className="text-gray-100 font-bold uppercase">
+            {t('addressOrDomain')}
+          </p>
+
           <Input
+            id="addressOrDomain"
+            testId="contact-address-or-domain-input"
             value={actionData.address}
             onChange={handleChange}
             clearable
@@ -88,9 +106,17 @@ export const AddAddressModal = () => {
           {isValidAddressOrDomainAddress !== undefined && (
             <Fragment>
               {!isValidAddressOrDomainAddress ? (
-                <Banner message={t('invalidAddress')} type="error" />
+                <Banner
+                  message={t('invalidAddress')}
+                  type="error"
+                  {...TestHelper.buildTestObject('address-or-domain-error-message')}
+                />
               ) : (
-                <Banner message={isNameService ? t('nnsComplete') : t('addressComplete')} type="success" />
+                <Banner
+                  message={isNameService ? t('nnsComplete') : t('addressComplete')}
+                  type="success"
+                  {...TestHelper.buildTestObject('address-or-domain-success-message')}
+                />
               )}
             </Fragment>
           )}
@@ -101,7 +127,8 @@ export const AddAddressModal = () => {
           className="w-full"
           type="submit"
           flat
-          disabled={!isValidAddressOrDomainAddress}
+          disabled={!isValidAddressOrDomainAddress || isValidatingAddressOrDomainAddress}
+          {...TestHelper.buildTestObject('save-contact-address-button')}
         />
       </form>
     </SideModalLayout>

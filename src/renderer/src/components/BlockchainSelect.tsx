@@ -1,6 +1,7 @@
 import { Fragment } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+import { TestHelper } from '@renderer/helpers/TestHelper'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 
@@ -10,9 +11,10 @@ import { Select } from './Select'
 type TProps = {
   value?: TBlockchainServiceKey | undefined
   onSelect?: (blockchain: TBlockchainServiceKey) => void
+  testId?: string
 }
 
-export const BlockchainSelect = ({ value, onSelect }: TProps) => {
+export const BlockchainSelect = ({ value, onSelect, testId }: TProps) => {
   const { t } = useTranslation('components', { keyPrefix: 'blockchainSelect' })
   const { t: commonT } = useTranslation('common', { keyPrefix: 'blockchain' })
 
@@ -21,9 +23,11 @@ export const BlockchainSelect = ({ value, onSelect }: TProps) => {
   return (
     <Select.Root value={value} onValueChange={onSelect}>
       <Select.Trigger
+        id="blockchainSelect"
         className={StyleHelper.mergeStyles('bg-asphalt', {
           'text-gray-300': !value,
         })}
+        {...TestHelper.buildTestObject(testId)}
       >
         <Select.Value placeholder={t('placeholder')}>
           {value && (
@@ -41,6 +45,7 @@ export const BlockchainSelect = ({ value, onSelect }: TProps) => {
         {options.map((blockchain, index) => (
           <Fragment key={blockchain}>
             <Select.Item
+              {...TestHelper.buildTestObject(testId, 'item')}
               value={blockchain}
               className="hover:bg-gray-300/15 flex gap-x-2 items-center cursor-pointer justify-start text-gray-100 text-sm"
             >

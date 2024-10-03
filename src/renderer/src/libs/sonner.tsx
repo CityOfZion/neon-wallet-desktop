@@ -2,6 +2,7 @@ import { cloneElement } from 'react'
 import { MdCheckCircleOutline, MdClose, MdErrorOutline } from 'react-icons/md'
 import { Loader } from '@renderer/components/Loader'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+import { TestHelper } from '@renderer/helpers/TestHelper'
 import { toast, Toaster } from 'sonner'
 
 export type TBaseToastProps = {
@@ -19,6 +20,7 @@ const BaseToast = ({ message, className, sonnerId, icon, closeable = true }: TBa
         'flex p-5 rounded items-center w-[var(--width)] text-sm font-medium gap-5 shadow-lg',
         className
       )}
+      {...TestHelper.buildTestObject('toast')}
     >
       {icon &&
         cloneElement(icon, {

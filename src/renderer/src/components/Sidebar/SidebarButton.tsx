@@ -1,16 +1,14 @@
-import React, { cloneElement } from 'react'
+import React, { cloneElement, ComponentProps } from 'react'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
-import { TestHelper } from '@renderer/helpers/TestHelper'
 
 type Props = {
   icon: JSX.Element
   title: string
   disabled?: boolean
   onClick?: React.MouseEventHandler<HTMLButtonElement>
-  testId?: string
-}
+} & ComponentProps<'button'>
 
-export const SidebarButton = ({ icon, title, onClick, disabled, testId }: Props): JSX.Element => {
+export const SidebarButton = ({ icon, title, onClick, disabled, ...props }: Props): JSX.Element => {
   return (
     <li>
       <button
@@ -23,7 +21,7 @@ export const SidebarButton = ({ icon, title, onClick, disabled, testId }: Props)
               !disabled,
           }
         )}
-        {...TestHelper.buildTestObject(testId)}
+        {...props}
       >
         {cloneElement(icon, {
           className: 'stroke-gray-300 object-contain w-6 h-6',

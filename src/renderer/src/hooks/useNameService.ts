@@ -29,11 +29,9 @@ export const useNameService = (debounceTime = 1000) => {
       const queryKey = buildQueryKey(blockchain, domainOrAddress)
       const defaultedOptions = queryClient.defaultQueryOptions({ queryKey, staleTime: STALE_TIME })
       const query = queryCache.get(defaultedOptions.queryHash) as Query<string> | undefined
-
       const shouldFetch = !query || query.isStaleByTime(defaultedOptions.staleTime)
-      if (shouldFetch) {
-        setIsValidatingAddressOrDomainAddress(true)
-      } else {
+
+      if (!shouldFetch) {
         address = query?.state.data
         isValid = true
         isNS = true
@@ -57,16 +55,18 @@ export const useNameService = (debounceTime = 1000) => {
         address = undefined
       }
 
-      setIsValidatingAddressOrDomainAddress(false)
       setValidatedAddress(address)
       setIsValidAddressOrDomainAddress(isValid)
       setIsNameService(isNS)
+      setIsValidatingAddressOrDomainAddress(false)
     }, debounceTime),
     []
   )
 
   const validateAddressOrNS = useCallback(
     (domainOrAddress?: string, blockchain?: TBlockchainServiceKey) => {
+      setIsValidatingAddressOrDomainAddress(true)
+
       if (domainOrAddress === undefined || !blockchain) {
         setIsValidatingAddressOrDomainAddress(false)
         setValidatedAddress(undefined)
