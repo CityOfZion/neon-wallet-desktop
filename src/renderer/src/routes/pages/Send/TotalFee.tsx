@@ -34,21 +34,28 @@ export const TotalFee = ({ getSendFields, onFeeChange, fee, selectedToken }: TPr
         const fields = await getSendFields()
 
         if (!fields || !isCalculableFee(fields.service)) return
+
         setLoading(true)
+
         const fee = await fields.service.calculateTransferFee({
-          intent: {
-            amount: fields.selectedAmount,
-            receiverAddress: fields.serviceAccount.address,
-            tokenHash: fields.selectedToken.token.hash,
-            tokenDecimals: fields.selectedToken.token.decimals,
-          },
+          intents: [
+            {
+              amount: fields.selectedAmount,
+              receiverAddress: fields.serviceAccount.address,
+              tokenHash: fields.selectedToken.token.hash,
+              tokenDecimals: fields.selectedToken.token.decimals,
+            },
+          ],
           senderAccount: fields.serviceAccount,
           isLedger: fields.selectedAccount.type === 'hardware',
         })
+
         onFeeChange(`${fee} ${fields.service.feeToken.symbol}`)
 
         setFiatFee(NumberHelper.number(fee) * (selectedToken?.exchangeConvertedPrice ?? 0))
-      } catch {
+      } catch (error) {
+        console.error(error)
+
         ToastHelper.error({ message: t('error.feeError') })
       } finally {
         setLoading(false)
