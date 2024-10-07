@@ -9,6 +9,8 @@ export type TMainApiListenersSync = {
   closeWindow: TIpcMainSyncListener<undefined, void>
   encryptBasedEncryptedSecretSync: TIpcMainSyncListener<{ value: string; encryptedSecret?: string }, string>
   decryptBasedEncryptedSecretSync: TIpcMainSyncListener<{ value: string; encryptedSecret?: string }, string>
+  encryptBasedOSSync: TIpcMainSyncListener<string, string>
+  decryptBasedOSSync: TIpcMainSyncListener<string, string>
 }
 
 export type TMainApiListenersAsync = {

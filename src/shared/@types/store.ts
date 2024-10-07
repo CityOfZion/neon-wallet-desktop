@@ -73,9 +73,18 @@ export interface ISettingsState {
   encryptedLoginControl?: string
 }
 
-export type TContactAddress = { address: string; blockchain: TBlockchainServiceKey }
-export interface IContactState {
+export type TContactAddress = {
+  address: string
+  blockchain: TBlockchainServiceKey
+}
+
+export type TContactEncryptedAddress = {
+  encryptedAddress: string
+  blockchain: TBlockchainServiceKey
+}
+
+export interface IContactState<A = TContactAddress> {
   id: string
   name: string
-  addresses: TContactAddress[]
+  addresses: A[]
 }

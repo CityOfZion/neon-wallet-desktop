@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { PasswordHelper } from '@renderer/helpers/PasswordHelper'
+import { TestHelper } from '@renderer/helpers/TestHelper'
 import { useActions } from '@renderer/hooks/useActions'
 
 type TFormData = {
@@ -58,11 +59,11 @@ export const WelcomeSecuritySetupStep1Page = ({ onSubmit }: TProps) => {
         />
 
         <Button
-          testId="security-setup-first-submit"
           label={commonT('general.continue')}
           className="w-64"
           type="submit"
           disabled={!actionState.isValid || actionState.isActing}
+          {...TestHelper.buildTestObject('security-setup-first-submit')}
         />
       </form>
     </Fragment>

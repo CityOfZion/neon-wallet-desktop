@@ -2,6 +2,7 @@ import { ComponentProps, useMemo } from 'react'
 import { MdClose, MdKeyboardBackspace } from 'react-icons/md'
 import { IconButton } from '@renderer/components/IconButton'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+import { TestHelper } from '@renderer/helpers/TestHelper'
 import { useModalHistories, useModalNavigate } from '@renderer/hooks/useModalRouter'
 
 type TProps = {
@@ -46,11 +47,11 @@ export const CenterModalLayout = ({ children, onClose, onBack, contentClassName 
         )}
 
         <IconButton
-          testId="center-modal-close"
           icon={<MdClose className="fill-white" />}
           size="md"
           compacted
           onClick={handleClose}
+          {...TestHelper.buildTestObject('center-modal-close')}
         />
       </header>
 

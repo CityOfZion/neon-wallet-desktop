@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { MdOutlineContentCopy } from 'react-icons/md'
+import { TestHelper } from '@renderer/helpers/TestHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useNameService } from '@renderer/hooks/useNameService'
 import { TContactAddress } from '@shared/@types/store'
@@ -15,7 +16,7 @@ export const AddressCell = ({ address, blockchain }: TContactAddress) => {
   }, [blockchain, address, validateAddressOrNS])
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col" {...TestHelper.buildTestObject('address-column-cell')}>
       <div className="flex items-center gap-x-1">
         {address}
 
@@ -26,6 +27,7 @@ export const AddressCell = ({ address, blockchain }: TContactAddress) => {
         <IconButton
           icon={<MdOutlineContentCopy className="text-neon" />}
           onClick={() => UtilsHelper.copyToClipboard(address)}
+          {...TestHelper.buildTestObject('copy-address-button')}
         />
       </div>
       {isNameService && <span className="text-gray-300">{validatedAddress}</span>}

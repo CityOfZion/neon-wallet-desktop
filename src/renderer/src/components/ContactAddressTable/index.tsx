@@ -2,6 +2,7 @@ import { useMemo, useRef, useState } from 'react'
 import { FiSend } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
+import { TestHelper } from '@renderer/helpers/TestHelper'
 import { getI18next } from '@renderer/libs/i18next'
 import { TContactAddress } from '@shared/@types/store'
 import {
@@ -36,7 +37,7 @@ export const ContactAddressTable = ({ contactAddresses }: TProps) => {
       columnHelper.accessor('blockchain', {
         cell: info => {
           return (
-            <div className="flex flex-row items-center">
+            <div className="flex flex-row items-center" {...TestHelper.buildTestObject('blockchain-column-cell')}>
               <div className="mr-2 bg-gray-700 p-2 rounded-full">
                 <BlockchainIcon blockchain={info.row.original.blockchain} type="white" />
               </div>
@@ -68,6 +69,7 @@ export const ContactAddressTable = ({ contactAddresses }: TProps) => {
                 leftIcon={<FiSend />}
                 onClick={() => navigate('/app/send', { state: { recipient: info.row.original.address } })}
                 flat
+                {...TestHelper.buildTestObject('send-assets-button')}
               />
             </div>
           )

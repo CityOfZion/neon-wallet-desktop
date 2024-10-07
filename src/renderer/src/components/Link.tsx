@@ -1,6 +1,5 @@
 import { Link as RRDLink, LinkProps as RRDLinkProps } from 'react-router-dom'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
-import { TestHelper } from '@renderer/helpers/TestHelper'
 
 import { Clickable, TCustomClickableProps } from './Clickable'
 
@@ -20,7 +19,6 @@ export const Link = ({
   onClick,
   wide,
   textClassName,
-  testId,
   ...props
 }: TProps) => {
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
@@ -32,12 +30,7 @@ export const Link = ({
   }
 
   return (
-    <RRDLink
-      className={StyleHelper.mergeStyles('cursor-default', className)}
-      onClick={handleClick}
-      {...props}
-      {...TestHelper.buildTestObject(testId)}
-    >
+    <RRDLink className={StyleHelper.mergeStyles('cursor-default', className)} onClick={handleClick} {...props}>
       <Clickable
         {...clickableProps}
         label={label}

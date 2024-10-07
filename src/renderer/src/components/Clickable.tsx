@@ -15,7 +15,6 @@ export type TCustomClickableProps = {
   colorSchema?: 'neon' | 'gray' | 'white' | 'error'
   iconsOnEdge?: boolean
   textClassName?: string
-  testId?: string
 }
 
 export type TClickableProps = TCustomClickableProps & React.ComponentProps<'div'>

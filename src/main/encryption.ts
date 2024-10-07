@@ -61,6 +61,10 @@ export function registerEncryptionHandlers() {
     return decryptBasedOS(args)
   })
 
+  mainApi.listenSync('encryptBasedOSSync', ({ args }) => encryptBasedOS(args))
+
+  mainApi.listenSync('decryptBasedOSSync', ({ args }) => decryptBasedOS(args))
+
   mainApi.listenAsync('encryptBasedSecret', ({ args }) => {
     return encryptBasedSecret(args.value, args.secret)
   })

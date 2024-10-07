@@ -78,23 +78,23 @@ export const LoginPage = () => {
           </div>
 
           <Link
-            testId="login-forgot-password"
             to="/forgotten-password"
             label={t('forgotPassword')}
             colorSchema="neon"
             variant="text-slim"
             className="mt-2 w-fit mx-auto p-4"
+            {...TestHelper.buildTestObject('login-forgot-password')}
           />
         </div>
 
         <Button
-          testId="login-submit"
           label={t('buttonLoginLabel')}
           className="w-[250px]"
           variant="contained"
           type="submit"
           disabled={!actionState.isValid || actionState.isActing}
           loading={actionState.isActing}
+          {...TestHelper.buildTestObject('login-submit')}
         />
       </form>
     </WelcomeWithTabsLayout>

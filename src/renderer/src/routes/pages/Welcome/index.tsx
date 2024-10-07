@@ -6,6 +6,7 @@ import { ReactComponent as LedgerLogo } from '@renderer/assets/images/ledger-log
 import { ReactComponent as NeonPageImage } from '@renderer/assets/images/neon-page-image.svg'
 import { ReactComponent as WalletConnectLogo } from '@renderer/assets/images/wallet-connect-logo.svg'
 import { Link } from '@renderer/components/Link'
+import { TestHelper } from '@renderer/helpers/TestHelper'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { WelcomeLayout } from '@renderer/layouts/Welcome'
 import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
@@ -42,13 +43,13 @@ export const WelcomePage = () => {
 
       <div className="flex gap-x-2.5 ">
         <Link
-          testId="welcome-continue"
           to="/neon-account"
           label={t('continue')}
           variant="contained"
           className="mt-10 w-[230px]"
           iconsOnEdge={false}
           rightIcon={<TbArrowRight aria-hidden={true} />}
+          {...TestHelper.buildTestObject('welcome-continue')}
         />
       </div>
     </WelcomeLayout>

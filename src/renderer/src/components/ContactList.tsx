@@ -1,9 +1,10 @@
-import { Fragment, useMemo, useState } from 'react'
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbCheck, TbChevronUp } from 'react-icons/tb'
 import { SearchInput } from '@renderer/components/SearchInput'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+import { TestHelper } from '@renderer/helpers/TestHelper'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { IContactState, TContactAddress } from '@shared/@types/store'
 import { cloneDeep } from 'lodash'
@@ -34,6 +35,7 @@ export const ContactList = ({
 }: TProps) => {
   const { t: contactT } = useTranslation('components', { keyPrefix: 'contacts' })
   const [search, setSearch] = useState<string | null>(null)
+  const hasAlreadySelectedContact = useRef(false)
 
   const handleAddressSelected = (address: TContactAddress | null) => {
     onAddressSelected && onAddressSelected(address)
@@ -94,16 +96,38 @@ export const ContactList = ({
     return Array.from(groupContactsByFirstLetterMap.entries())
   }, [contacts, search, blockchainFilter])
 
+  useEffect(() => {
+    if (hasAlreadySelectedContact.current) return
+
+    hasAlreadySelectedContact.current = true
+
+    const firstContactInFirstLetter = groupContactsByFirstLetter?.[0]?.[1]?.[0]
+
+    if (firstContactInFirstLetter) handleContactSelected(firstContactInFirstLetter)
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasAlreadySelectedContact, groupContactsByFirstLetter])
+
   return (
     <Fragment>
       <div className="flex flex-col w-full h-full items-center">
         <div className="mb-8 w-full">
-          <SearchInput placeholder={contactT('search')} onChange={event => setSearch(event.target.value)} compacted />
+          <SearchInput
+            placeholder={contactT('search')}
+            onChange={event => setSearch(event.target.value)}
+            compacted
+            {...TestHelper.buildTestObject('search-contact-input')}
+          />
         </div>
 
-        {groupContactsByFirstLetter.length <= 0 && <div>{contactT('noContacts')}</div>}
+        {groupContactsByFirstLetter.length <= 0 && (
+          <div {...TestHelper.buildTestObject('contacts-not-found')}>{contactT('noContacts')}</div>
+        )}
 
-        <section className="w-full overflow-y-auto flex-grow flex flex-col gap-y-5 basis-0 text-xs">
+        <section
+          {...TestHelper.buildTestObject('contacts-list')}
+          className="w-full overflow-y-auto flex-grow flex flex-col gap-y-5 basis-0 text-xs"
+        >
           {groupContactsByFirstLetter.map(([letter, letterContacts]) => (
             <div key={letter}>
               <div className="flex bg-asphalt/50 pl-4 text-blue font-bold h-6 items-center">{letter}</div>
@@ -121,6 +145,7 @@ export const ContactList = ({
                           'bg-gray-900 border-neon': isContactSelected,
                         }
                       )}
+                      {...TestHelper.buildTestObject('contact-list-item')}
                     >
                       <div className="flex w-full items-center">
                         <div

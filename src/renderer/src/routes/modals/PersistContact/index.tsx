@@ -8,6 +8,7 @@ import { Button } from '@renderer/components/Button'
 import { IconButton } from '@renderer/components/IconButton'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
+import { TestHelper } from '@renderer/helpers/TestHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
@@ -39,9 +40,13 @@ export const PersistContactModal = () => {
     addresses: contact?.addresses ?? addresses ?? [],
   })
 
-  const handleAddAddress = (address: TContactAddress) => {
-    setData(prev => ({ addresses: [...prev.addresses, address] }))
-  }
+  const handleAddAddress = (address: TContactAddress, index?: number) =>
+    setData(({ addresses }) => ({
+      addresses:
+        typeof index === 'number'
+          ? addresses.map((currentAddress, currentIndex) => (currentIndex === index ? address : currentAddress))
+          : [...addresses, address],
+    }))
 
   const handleDeleteAddress = (addressToDeleteIndex: number) => {
     setData(prev => ({ addresses: prev.addresses.filter((_, index) => index !== addressToDeleteIndex) }))
@@ -51,15 +56,15 @@ export const PersistContactModal = () => {
     }
   }
 
-  const openAddAddressModal = (selectedAddress?: TContactAddress) => {
+  const openAddAddressModal = (address?: TContactAddress, index?: number) =>
     modalNavigate('add-address', {
       state: {
         contactName: actionData.name,
-        address: selectedAddress,
-        handleAddAddress: handleAddAddress,
+        address,
+        index,
+        handleAddAddress,
       },
     })
-  }
 
   const handleDeleteContact = (contact: IContactState) => {
     dispatch(contactReducerActions.deleteContact(contact.id))
@@ -99,6 +104,7 @@ export const PersistContactModal = () => {
           <div>
             <div className="text-gray-100 font-bold pb-2">{t('name')}</div>
             <Input
+              testId="input-contact-name"
               placeholder={t('enterAName')}
               value={actionData.name}
               onChange={handleChangeName}
@@ -118,15 +124,18 @@ export const PersistContactModal = () => {
                   className="flex items-center pl-3 pr-2 justify-between h-8.5 rounded bg-asphalt w-full mb-5"
                 >
                   <div className="flex items-center gap-x-3 flex-grow min-w-0">
-                    <BlockchainIcon blockchain={address.blockchain} type="white" className="h-3 w-3" />
-                    <span className="truncate">{address.address}</span>
+                    <BlockchainIcon blockchain={address.blockchain} type="white" className="h-3 min-h-3 w-3 min-w-3" />
+                    <span {...TestHelper.buildTestObject('contact-address-text')} className="truncate">
+                      {address.address}
+                    </span>
                   </div>
                   <IconButton
                     icon={<TbPencil className="text-blue h-5 w-5" />}
                     compacted
                     type="button"
-                    onClick={() => openAddAddressModal(address)}
+                    onClick={() => openAddAddressModal(address, index)}
                     className="items-center"
+                    {...TestHelper.buildTestObject('edit-contact-address-button')}
                   />
                   <IconButton
                     icon={<MdDeleteForever className="text-pink h-5 w-5" />}
@@ -145,6 +154,7 @@ export const PersistContactModal = () => {
                       },
                     })}
                     className="items-center"
+                    {...TestHelper.buildTestObject('delete-contact-address-button')}
                   />
                 </div>
               ))}
@@ -152,10 +162,19 @@ export const PersistContactModal = () => {
 
             <div className="flex flex-col gap-y-8">
               {actionData.addresses.length <= 0 && (
-                <Banner type="error" message={t('noAddressesFound')} className="mt-4" />
+                <Banner
+                  type="error"
+                  message={t('noAddressesFound')}
+                  className="mt-4"
+                  {...TestHelper.buildTestObject('not-found-contact-address')}
+                />
               )}
 
-              {actionState.errors.addresses && <div className="text-pink py-1">{actionState.errors.addresses}</div>}
+              {actionState.errors.addresses && (
+                <div {...TestHelper.buildTestObject('error-message-contact-address')} className="text-pink py-1">
+                  {actionState.errors.addresses}
+                </div>
+              )}
 
               <Separator />
 
@@ -170,6 +189,7 @@ export const PersistContactModal = () => {
                   className="w-[17.125rem]"
                   flat
                   iconsOnEdge={false}
+                  {...TestHelper.buildTestObject('add-more-contact-button')}
                 />
               </div>
             </div>
@@ -198,6 +218,7 @@ export const PersistContactModal = () => {
                 colorSchema="error"
                 flat
                 iconsOnEdge={false}
+                {...TestHelper.buildTestObject('delete-contact-button')}
               />
             </div>
           )}
@@ -208,6 +229,7 @@ export const PersistContactModal = () => {
             disabled={actionData.addresses.length <= 0 || !actionState.isValid || actionState.isActing}
             type="submit"
             iconsOnEdge={false}
+            {...TestHelper.buildTestObject('save-contact-button')}
           />
         </div>
       </form>

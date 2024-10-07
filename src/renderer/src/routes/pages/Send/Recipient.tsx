@@ -73,6 +73,7 @@ export const Recipient = ({
         )}
 
         <Input
+          testId="send-address-input"
           value={selectedRecipient ?? ''}
           onChange={handleChangeRecipient}
           compacted

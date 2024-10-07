@@ -16,7 +16,6 @@ export const NeonAccountPage = () => {
         <ul className="flex flex-col gap-y-2">
           <li>
             <CardLink
-              testId="create-new-wallet"
               to="/welcome-security-setup"
               title={t('cardLinks.createNewWallet.title')}
               icon={<TbWallet aria-hidden={true} />}
@@ -27,6 +26,7 @@ export const NeonAccountPage = () => {
                   end
                 </Trans>
               }
+              {...TestHelper.buildTestObject('create-new-wallet')}
             />
           </li>
 

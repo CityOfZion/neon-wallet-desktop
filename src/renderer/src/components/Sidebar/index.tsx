@@ -22,14 +22,33 @@ export const Sidebar = (): JSX.Element => {
         <ul className="flex flex-col justify-between h-full">
           <div>
             <SidebarLink to="/app/portfolio" title={t('portfolio')} icon={<TbHome2 />} />
-            <SidebarLink testId="sidebar-link-wallets" to="/app/wallets" title={t('wallets')} icon={<WalletIcon />} />
+
+            <SidebarLink
+              to="/app/wallets"
+              title={t('wallets')}
+              icon={<WalletIcon />}
+              {...TestHelper.buildTestObject('sidebar-link-wallets')}
+            />
+
             <SidebarLink to="/app/send" title={t('send')} icon={<TbStepOut />} />
             <SidebarLink to="/app/receive" title={t('receive')} icon={<TbStepInto />} />
-            <SidebarLink to="/app/contacts" title={t('contacts')} icon={<TbUsers />} />
+
+            <SidebarLink
+              to="/app/contacts"
+              title={t('contacts')}
+              icon={<TbUsers />}
+              {...TestHelper.buildTestObject('sidebar-link-contacts')}
+            />
+
             <SidebarLink to="/app/settings" title={t('settings')} icon={<TbSettings />} />
           </div>
 
-          <SidebarButton testId="logout-button" onClick={logout} title={t('logout')} icon={<TbDoorExit />} />
+          <SidebarButton
+            onClick={logout}
+            title={t('logout')}
+            icon={<TbDoorExit />}
+            {...TestHelper.buildTestObject('logout-button')}
+          />
         </ul>
       </nav>
     </aside>
