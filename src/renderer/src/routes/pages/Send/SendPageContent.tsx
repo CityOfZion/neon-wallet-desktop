@@ -183,14 +183,16 @@ export const SendPageContent = ({ account, recipient }: TProps) => {
     try {
       const isHardware = fields.selectedAccount.type === 'hardware'
 
-      const transactionHash = await fields.service.transfer({
+      const [transactionHash] = await fields.service.transfer({
+        intents: [
+          {
+            receiverAddress: fields.selectedRecipientAddress,
+            tokenHash: fields.selectedToken.token.hash,
+            amount: fields.selectedAmount,
+            tokenDecimals: fields.selectedToken.token.decimals,
+          },
+        ],
         senderAccount: fields.serviceAccount,
-        intent: {
-          receiverAddress: fields.selectedRecipientAddress,
-          tokenHash: fields.selectedToken.token.hash,
-          amount: fields.selectedAmount,
-          tokenDecimals: fields.selectedToken.token.decimals,
-        },
         isLedger: isHardware,
       })
 

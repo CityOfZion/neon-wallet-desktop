@@ -45,13 +45,15 @@ const getUnclaimedInfos = async (
         : blockchainService.generateAccountFromKey(key)
 
     fee = await blockchainService.calculateTransferFee({
+      intents: [
+        {
+          amount: '0',
+          receiverAddress: account.address,
+          tokenHash: blockchainService.burnToken.hash,
+          tokenDecimals: blockchainService.burnToken.decimals,
+        },
+      ],
       senderAccount: serviceAccount,
-      intent: {
-        amount: '0',
-        receiverAddress: account.address,
-        tokenHash: blockchainService.burnToken.hash,
-        tokenDecimals: blockchainService.burnToken.decimals,
-      },
       isLedger: isHardware,
     })
   }
