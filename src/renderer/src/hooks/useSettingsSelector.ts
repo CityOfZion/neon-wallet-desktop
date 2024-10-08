@@ -1,22 +1,16 @@
 import { useCallback } from 'react'
+import { useDispatch } from 'react-redux'
 import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
 import { LOGIN_CONTROL_VALUE } from '@renderer/constants/password'
+import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
 import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
 import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
 import { TSelectedNetworks } from '@shared/@types/store'
 
 import { useAppDispatch, useAppSelector } from './useRedux'
 
-export const useLoginSessionSelector = () => {
-  const { ref, value } = useAppSelector(state => state.settings.loginSession)
-  return {
-    loginSession: value,
-    loginSessionRef: ref,
-  }
-}
-
 export const useSelectedNetworkByBlockchainSelector = () => {
-  const { ref, value } = useAppSelector(state => state.settings.selectedNetworkByBlockchain)
+  const { ref, value } = useAppSelector(state => state.settings.data.selectedNetworkByBlockchain)
   return {
     networkByBlockchain: value,
     networkByBlockchainRef: ref,
@@ -25,7 +19,7 @@ export const useSelectedNetworkByBlockchainSelector = () => {
 
 export const useSelectedNetworkSelector = <T extends TBlockchainServiceKey>(blockchain: T) => {
   const { ref, value } = useAppSelector(
-    state => state.settings.selectedNetworkByBlockchain[blockchain] as TSelectedNetworks[T]
+    state => state.settings.data.selectedNetworkByBlockchain[blockchain] as TSelectedNetworks[T]
   )
   return {
     network: value,
@@ -34,7 +28,7 @@ export const useSelectedNetworkSelector = <T extends TBlockchainServiceKey>(bloc
 }
 
 export const useNetworkProfilesSelector = () => {
-  const { ref, value } = useAppSelector(state => state.settings.networkProfiles)
+  const { ref, value } = useAppSelector(state => state.settings.data.networkProfiles)
   return {
     networkProfiles: value,
     networkProfilesRef: ref,
@@ -42,7 +36,7 @@ export const useNetworkProfilesSelector = () => {
 }
 
 export const useSelectedNetworkProfileSelector = () => {
-  const { ref, value } = useAppSelector(state => state.settings.selectedNetworkProfile)
+  const { ref, value } = useAppSelector(state => state.settings.data.selectedNetworkProfile)
   return {
     selectedNetworkProfile: value,
     selectedNetworkProfileRef: ref,
@@ -50,7 +44,7 @@ export const useSelectedNetworkProfileSelector = () => {
 }
 
 export const useCustomNetworksSelector = () => {
-  const { ref, value } = useAppSelector(state => state.settings.customNetworks)
+  const { ref, value } = useAppSelector(state => state.settings.data.customNetworks)
   return {
     customNetworks: value,
     customNetworksRef: ref,
@@ -58,10 +52,50 @@ export const useCustomNetworksSelector = () => {
 }
 
 export const useCurrencySelector = () => {
-  const { ref, value } = useAppSelector(state => state.settings.currency)
+  const { ref, value } = useAppSelector(state => state.settings.data.currency)
   return {
     currency: value,
     currencyRef: ref,
+  }
+}
+
+export const useUnlockedSkinIdsSelector = () => {
+  const { ref, value } = useAppSelector(state => state.settings.data.unlockedSkinIds)
+  return {
+    unlockedSkinIds: value,
+    unlockedSkinIdsRef: ref,
+  }
+}
+
+export const useLoginControlSelector = () => {
+  const { ref, value } = useAppSelector(state => state.settings.data.encryptedLoginControl)
+  return {
+    encryptedLoginControl: value,
+    encryptedLoginControlRef: ref,
+  }
+}
+
+export const useHasPasswordSelector = () => {
+  const { ref, value } = useAppSelector(state => state.settings.data.hasPassword)
+  return {
+    hasPassword: value,
+    hasPasswordRef: ref,
+  }
+}
+
+export const useIsFirstTimeSelector = () => {
+  const { ref, value } = useAppSelector(state => state.settings.data.isFirstTime)
+  return {
+    isFirstTime: value,
+    isFirstTimeRef: ref,
+  }
+}
+
+export const useHasOverTheAirUpdatesSelector = () => {
+  const { ref, value } = useAppSelector(state => state.settings.data.hasOverTheAirUpdates)
+  return {
+    hasOverTheAirUpdates: value,
+    hasOverTheAirUpdatesRef: ref,
   }
 }
 
@@ -90,50 +124,26 @@ export const useNetworkActions = () => {
   }
 }
 
-export const useUnlockedSkinIdsSelector = () => {
-  const { ref, value } = useAppSelector(state => state.settings.unlockedSkinIds)
-  return {
-    unlockedSkinIds: value,
-    unlockedSkinIdsRef: ref,
-  }
-}
+export const useSettingsActions = () => {
+  const dispatch = useDispatch()
 
-export const useLoginControlSelector = () => {
-  const { ref, value } = useAppSelector(state => state.settings.encryptedLoginControl)
-  return {
-    encryptedLoginControl: value,
-    encryptedLoginControlRef: ref,
-  }
-}
-
-export const useSecurityTypeSelector = () => {
-  const { ref, value } = useAppSelector(state => state.settings.securityType)
-  return {
-    securityType: value,
-    securityTypeRef: ref,
-  }
-}
-
-export const useSecurityTypeActions = () => {
-  const dispatch = useAppDispatch()
-
-  const setSecurityType = useCallback(
+  const setHasPassword = useCallback(
     async (password: string, isAlreadyEncrypted?: boolean) => {
-      const encryptedPassword = isAlreadyEncrypted ? password : await window.api.sendAsync('encryptBasedOS', password)
+      const encryptedPassword = !isAlreadyEncrypted ? await window.api.sendAsync('encryptBasedOS', password) : password
 
       const encryptedLoginControl = await window.api.sendAsync('encryptBasedEncryptedSecret', {
         value: LOGIN_CONTROL_VALUE,
         encryptedSecret: encryptedPassword,
       })
 
+      dispatch(settingsReducerActions.setHasPassword(true))
       dispatch(settingsReducerActions.setEncryptedLoginControl(encryptedLoginControl))
-      dispatch(settingsReducerActions.setSecurityType('password'))
-      dispatch(settingsReducerActions.setLoginSession({ type: 'password', encryptedPassword }))
+      dispatch(authReducerActions.setCurrentLoginSession({ type: 'password', encryptedPassword }))
     },
     [dispatch]
   )
 
   return {
-    setSecurityType,
+    setHasPassword,
   }
 }

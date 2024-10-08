@@ -13,7 +13,7 @@ test.describe('Wipe data', () => {
     await window.getByTestId('forgotten-password-confirm').press('Enter')
     await window.getByTestId('forgotten-password-success-go-to-welcome').click()
 
-    await expect(window.getByTestId('neon-account-container')).toBeVisible()
+    await expect(window.getByTestId('login-password-welcome-container')).toBeVisible()
 
     await window.close()
   })

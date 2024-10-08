@@ -31,11 +31,10 @@ export interface IWalletState {
   name: string
   type: TWalletType
   encryptedMnemonic?: string
+  accounts: IAccountState[]
 }
 
-export type TSecurityType = 'none' | 'password'
-
-export type TLoginSessionType = 'password' | 'hardware'
+export type TLoginSessionType = 'password' | 'hardware' | 'key'
 export type TLoginSession = {
   type: TLoginSessionType
   encryptedPassword: string
@@ -60,9 +59,8 @@ export type TNetworkProfile = {
   networkByBlockchain: TSelectedNetworks
 }
 export interface ISettingsState {
-  loginSession?: TLoginSession
   isFirstTime: boolean
-  securityType: TSecurityType
+  hasPassword: boolean
   currency: TCurrency
   hasOverTheAirUpdates: boolean
   customNetworks: TCustomNetwork

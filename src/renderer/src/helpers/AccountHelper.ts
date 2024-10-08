@@ -6,6 +6,6 @@ export class AccountHelper {
   }
 
   static predicateNot({ address, blockchain }: TAccountHelperPredicateParams) {
-    return (account: TAccountHelperPredicateParams) => address !== account.address && blockchain !== account.blockchain
+    return (account: TAccountHelperPredicateParams) => address !== account.address || blockchain !== account.blockchain
   }
 }

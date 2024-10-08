@@ -8,12 +8,11 @@ import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
-import { walletReducerActions } from '@renderer/store/reducers/WalletReducer'
-import { IWalletState, TSelectedSkin } from '@shared/@types/store'
+import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
+import { IWalletState } from '@shared/@types/store'
 
 type TFormData = {
   name: string
-  selectedSkin?: TSelectedSkin
 }
 
 type TLocationState = {
@@ -41,7 +40,7 @@ export const EditWalletModal = () => {
       form.setError('name', t('nameLengthError'))
       return
     }
-    dispatch(walletReducerActions.saveWallet({ ...wallet, name: nameTrimmed }))
+    dispatch(authReducerActions.saveWallet({ ...wallet, name: nameTrimmed }))
     modalNavigate(-1)
   }
 

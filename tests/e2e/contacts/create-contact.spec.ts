@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-import { createNewWallet, launch, PUBLIC_KEYS } from '../index'
+import { ADDRESSES, createNewWallet, launch } from '../index'
 
 test.describe('Create contact', () => {
   test('Should create a contact', async () => {
@@ -20,28 +20,28 @@ test.describe('Create contact', () => {
     await window.getByTestId('contact-blockchain-select').click()
     await window.getByTestId('contact-blockchain-select-item').filter({ hasText: blockchainName }).click()
 
-    await window.getByTestId('contact-address-or-domain-input').fill(PUBLIC_KEYS.at(0))
+    await window.getByTestId('contact-address-or-domain-input').fill(ADDRESSES[0])
 
     await expect(window.getByTestId('address-or-domain-success-message')).toBeVisible()
     await expect(window.getByTestId('save-contact-address-button')).not.toBeDisabled()
 
     await window.getByTestId('save-contact-address-button').click()
 
-    await expect(window.getByTestId('contact-address-text').first()).toContainText(PUBLIC_KEYS.at(0))
+    await expect(window.getByTestId('contact-address-text').first()).toContainText(ADDRESSES[0])
 
     await window.getByTestId('add-more-contact-button').click()
 
     await window.getByTestId('contact-blockchain-select').click()
     await window.getByTestId('contact-blockchain-select-item').filter({ hasText: blockchainName }).click()
 
-    await window.getByTestId('contact-address-or-domain-input').fill(PUBLIC_KEYS.at(1))
+    await window.getByTestId('contact-address-or-domain-input').fill(ADDRESSES[1])
 
     await expect(window.getByTestId('address-or-domain-success-message')).toBeVisible()
     await expect(window.getByTestId('save-contact-address-button')).not.toBeDisabled()
 
     await window.getByTestId('save-contact-address-button').click()
 
-    await expect(window.getByTestId('contact-address-text').nth(1)).toContainText(PUBLIC_KEYS.at(1))
+    await expect(window.getByTestId('contact-address-text').nth(1)).toContainText(ADDRESSES[1])
 
     await window.getByTestId('save-contact-button').click()
 

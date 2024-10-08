@@ -1,16 +1,17 @@
 import { useTranslation } from 'react-i18next'
 import { ReactComponent as NeonWalletFullImage } from '@renderer/assets/images/neon-wallet-full.svg'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+import { TLoginSessionType } from '@shared/@types/store'
 
-import { EWelcomeTabItemType, WelcomeTabs } from './WelcomeTabs'
+import { WelcomeTabs } from './WelcomeTabs'
 
 type TProps = {
-  tabItemType: EWelcomeTabItemType
+  tabItemSelected: TLoginSessionType
   children: React.ReactNode
   contentClassName?: string
 }
 
-export const WelcomeWithTabsLayout = ({ tabItemType, children, contentClassName }: TProps) => {
+export const WelcomeWithTabsLayout = ({ tabItemSelected, children, contentClassName }: TProps) => {
   const { t } = useTranslation('layouts', { keyPrefix: 'welcomeWithTabs' })
 
   return (
@@ -25,7 +26,7 @@ export const WelcomeWithTabsLayout = ({ tabItemType, children, contentClassName 
 
         <h1 className="text-2xl text-white mt-6">{t('welcomeTo')}</h1>
 
-        <WelcomeTabs defaultValue={tabItemType} />
+        <WelcomeTabs defaultValue={tabItemSelected} />
 
         {children}
       </div>

@@ -29,8 +29,7 @@ import { EditWalletModal } from './modals/EditWallet'
 import { ErrorModal } from './modals/Error'
 import { ExportMnemonic } from './modals/ExportMnemonic'
 import { ImportModal } from './modals/Import'
-import { ImportKeyAccountsSelectionModal } from './modals/Import/ImportKeyAccountsSelectionModal'
-import { ImportMnemonicAccountsSelectionModal } from './modals/Import/ImportMnemonicAccountsSelectionModal'
+import { ImportAccountsSelectionModal } from './modals/Import/ImportAccountsSelectionModal'
 import { ImportWatchAccountsModal } from './modals/Import/ImportWatchAccountsModal'
 import { InputAmount } from './modals/InputAmount'
 import { MigrateAccountsStep2Modal } from './modals/MigrateAccounts/MigrateAccountsStep2'
@@ -49,8 +48,7 @@ import { SuccessModal } from './modals/Success'
 
 export const modalsRouter: TRoute[] = [
   { name: 'import', type: 'side', element: <ImportModal /> },
-  { name: 'import-mnemonic-accounts-selection', type: 'side', element: <ImportMnemonicAccountsSelectionModal /> },
-  { name: 'import-key-accounts-selection', type: 'side', element: <ImportKeyAccountsSelectionModal /> },
+  { name: 'import-accounts-selection', type: 'side', element: <ImportAccountsSelectionModal /> },
   { name: 'import-watch-accounts', type: 'side', element: <ImportWatchAccountsModal /> },
   { name: 'confirm-password-backup', type: 'side', element: <ConfirmPasswordBackupModal /> },
   { name: 'edit-wallet', type: 'side', element: <EditWalletModal /> },

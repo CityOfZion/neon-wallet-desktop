@@ -5,26 +5,26 @@ import { ACCOUNT_COLOR_SKINS } from '@renderer/constants/skins'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { bsAggregator } from '@renderer/libs/blockchainService'
-import { accountReducerActions } from '@renderer/store/reducers/AccountReducer'
+import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
 import { contactReducerActions } from '@renderer/store/reducers/ContactReducer'
-import { walletReducerActions } from '@renderer/store/reducers/WalletReducer'
 import {
   TAccountToCreate,
   TAccountToEdit,
   TAccountToImport,
   TImportAccountsParam,
   TWalletToCreate,
+  TWalletToEdit,
 } from '@shared/@types/blockchain'
 import { IAccountState, IContactState, IWalletState } from '@shared/@types/store'
 
-import { useAccountsSelector } from './useAccountSelector'
+import { useAccountsSelectorLazy } from './useAccountSelector'
+import { useCurrentLoginSessionSelector } from './useAuthSelector'
 import { useAppDispatch } from './useRedux'
-import { useLoginSessionSelector } from './useSettingsSelector'
 
 export function useBlockchainActions() {
   const dispatch = useAppDispatch()
-  const { accountsRef } = useAccountsSelector()
-  const { loginSessionRef } = useLoginSessionSelector()
+  const { getAccounts } = useAccountsSelectorLazy()
+  const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const { t } = useTranslation('common', { keyPrefix: 'account' })
   const { disconnect, sessions } = useWalletConnectWallet()
 
@@ -33,7 +33,7 @@ export function useBlockchainActions() {
 
   const createWallet = useCallback(
     ({ name, mnemonic, id, type = 'standard' }: TWalletToCreate) => {
-      if (!loginSessionRef.current) {
+      if (!currentLoginSessionRef.current) {
         throw new Error('Login session not defined')
       }
 
@@ -42,7 +42,7 @@ export function useBlockchainActions() {
       if (mnemonic) {
         encryptedMnemonic = window.api.sendSync('encryptBasedEncryptedSecretSync', {
           value: mnemonic,
-          encryptedSecret: loginSessionRef.current.encryptedPassword,
+          encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
         })
       }
 
@@ -51,29 +51,32 @@ export function useBlockchainActions() {
         id: id ?? UtilsHelper.uuid(),
         encryptedMnemonic,
         type,
+        accounts: [],
       }
 
-      dispatch(walletReducerActions.saveWallet(newWallet))
+      dispatch(authReducerActions.saveWallet(newWallet))
 
       return newWallet
     },
-    [dispatch, loginSessionRef]
+    [dispatch, currentLoginSessionRef]
   )
 
   const createAccount = useCallback(
-    ({ blockchain, name, wallet, skin, id }: TAccountToCreate) => {
-      if (!loginSessionRef.current) {
+    async ({ blockchain, name, wallet, skin, id }: TAccountToCreate) => {
+      if (!currentLoginSessionRef.current) {
         throw new Error('Login session not defined')
       }
 
       if (!wallet.encryptedMnemonic) throw new Error('Problem to create account')
 
-      const mnemonic = window.api.sendSync('decryptBasedEncryptedSecretSync', {
+      const mnemonic = await window.api.sendAsync('decryptBasedEncryptedSecret', {
         value: wallet.encryptedMnemonic,
-        encryptedSecret: loginSessionRef.current.encryptedPassword,
+        encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
       })
 
-      const generateIndex = accountsRef.current.filter(
+      const accounts = getAccounts(currentLoginSessionRef.current.type)
+
+      const generateIndex = accounts.filter(
         account => account.idWallet === wallet.id && account.blockchain === blockchain
       ).length
 
@@ -82,10 +85,10 @@ export function useBlockchainActions() {
 
       const encryptedKey = window.api.sendSync('encryptBasedEncryptedSecretSync', {
         value: generatedAccount.key,
-        encryptedSecret: loginSessionRef.current.encryptedPassword,
+        encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
       })
 
-      const order = accountsRef.current.filter(account => account.idWallet === wallet.id).length
+      const order = accounts.filter(account => account.idWallet === wallet.id).length
 
       const newAccount: IAccountState = {
         id: id ?? UtilsHelper.uuid(),
@@ -100,30 +103,32 @@ export function useBlockchainActions() {
         order,
       }
 
-      dispatch(accountReducerActions.saveAccount(newAccount))
+      dispatch(authReducerActions.saveAccount(newAccount))
 
       return newAccount
     },
-    [loginSessionRef, accountsRef, dispatch]
+    [currentLoginSessionRef, getAccounts, dispatch]
   )
 
   const importAccount = useCallback(
-    ({ address, blockchain, type, wallet, key, name, order, skin }: TAccountToImport) => {
+    async ({ address, blockchain, type, wallet, key, name, order, skin }: TAccountToImport) => {
       let encryptedKey: string | undefined
 
-      if (!loginSessionRef.current) {
+      if (!currentLoginSessionRef.current) {
         throw new Error('Login session not defined')
       }
 
       if (type === 'standard' || type === 'hardware') {
         if (!key) throw new Error('Key not defined')
-        encryptedKey = window.api.sendSync('encryptBasedEncryptedSecretSync', {
+        encryptedKey = await window.api.sendAsync('encryptBasedEncryptedSecret', {
           value: key,
-          encryptedSecret: loginSessionRef.current.encryptedPassword,
+          encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
         })
       }
 
-      const accountOrder = order ?? accountsRef.current.filter(account => account.idWallet === wallet.id).length
+      const accounts = getAccounts(currentLoginSessionRef.current.type)
+
+      const accountOrder = order ?? accounts.filter(account => account.idWallet === wallet.id).length
 
       const newAccount: IAccountState = {
         id: UtilsHelper.uuid(),
@@ -138,15 +143,21 @@ export function useBlockchainActions() {
         order: accountOrder,
       }
 
-      dispatch(accountReducerActions.saveAccount(newAccount))
+      dispatch(authReducerActions.saveAccount(newAccount))
+
       return newAccount
     },
-    [loginSessionRef, accountsRef, t, dispatch]
+    [currentLoginSessionRef, getAccounts, t, dispatch]
   )
 
   const importAccounts = useCallback(
     async ({ accounts: accountsToImport, wallet }: TImportAccountsParam) => {
-      const lastOrder = accountsRef.current.filter(account => account.idWallet === wallet.id).length
+      if (!currentLoginSessionRef.current) {
+        throw new Error('Login session not defined')
+      }
+
+      const accounts = getAccounts(currentLoginSessionRef.current.type)
+      const lastOrder = accounts.filter(account => account.idWallet === wallet.id).length
 
       const promises = accountsToImport.map(async (account, index) =>
         importAccount({ ...account, wallet, order: account.order ?? lastOrder + index })
@@ -154,12 +165,17 @@ export function useBlockchainActions() {
 
       return await Promise.all(promises)
     },
-    [importAccount, accountsRef]
+    [currentLoginSessionRef, getAccounts, importAccount]
   )
 
   const deleteAccount = useCallback(
     async (account: IAccountState) => {
-      dispatch(accountReducerActions.deleteAccount(account.id))
+      if (!currentLoginSessionRef.current) {
+        throw new Error('Login session not defined')
+      }
+
+      dispatch(authReducerActions.deleteAccount(account))
+
       await Promise.allSettled(
         sessions.map(async session => {
           const info = WalletConnectHelper.getAccountInformationFromSession(session)
@@ -169,21 +185,19 @@ export function useBlockchainActions() {
         })
       )
     },
-    [disconnect, dispatch, sessions]
+    [currentLoginSessionRef, disconnect, dispatch, sessions]
   )
 
   const deleteWallet = useCallback(
-    async (id: string) => {
-      dispatch(walletReducerActions.deleteWallet(id))
-      const accounts = accountsRef.current.filter(account => account.idWallet === id)
-      await Promise.allSettled(accounts.map(account => deleteAccount(account)))
+    (walletId: string) => {
+      dispatch(authReducerActions.deleteWallet(walletId))
     },
-    [accountsRef, deleteAccount, dispatch]
+    [dispatch]
   )
 
   const editAccount = useCallback(
     ({ account, data }: TAccountToEdit) => {
-      if (!loginSessionRef.current) {
+      if (!currentLoginSessionRef.current) {
         throw new Error('Login session not defined')
       }
 
@@ -196,7 +210,7 @@ export function useBlockchainActions() {
           if (!data.key) throw new Error('Key not defined')
           encryptedKey = window.api.sendSync('encryptBasedEncryptedSecretSync', {
             value: data.key,
-            encryptedSecret: loginSessionRef.current.encryptedPassword,
+            encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
           })
         }
       }
@@ -205,9 +219,38 @@ export function useBlockchainActions() {
 
       const editedAccount: IAccountState = Object.assign({}, account, { ...data, encryptedKey })
 
-      dispatch(accountReducerActions.saveAccount(editedAccount))
+      dispatch(authReducerActions.saveAccount(editedAccount))
     },
-    [dispatch, loginSessionRef]
+    [dispatch, currentLoginSessionRef]
+  )
+
+  const editWallet = useCallback(
+    ({ data, wallet }: TWalletToEdit) => {
+      if (!currentLoginSessionRef.current) {
+        throw new Error('Login session not defined')
+      }
+
+      let encryptedMnemonic = wallet.encryptedMnemonic
+
+      if (data.type) {
+        if (data.type !== 'standard') {
+          encryptedMnemonic = undefined
+        } else {
+          if (!data.mnemonic) throw new Error('Mnemonic not defined')
+          encryptedMnemonic = window.api.sendSync('encryptBasedEncryptedSecretSync', {
+            value: data.mnemonic,
+            encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
+          })
+        }
+      }
+
+      delete data.mnemonic
+
+      const editedWallet: IWalletState = Object.assign({}, wallet, { ...data, encryptedMnemonic })
+
+      dispatch(authReducerActions.saveWallet(editedWallet))
+    },
+    [dispatch, currentLoginSessionRef]
   )
 
   return {
@@ -219,5 +262,6 @@ export function useBlockchainActions() {
     deleteWallet,
     deleteAccount,
     editAccount,
+    editWallet,
   }
 }

@@ -139,17 +139,10 @@
     "invalidAddress": "Invalid address or NS domain",
     "saveAddress": "Save address"
   },
-  "importMnemonicAccountsSelection": {
+  "importAccountsSelection": {
     "title": "Import",
     "description": "Select the addresses you’d like to import:",
-    "importButtonLabel": "Import",
-    "noAccountsToImport": "No accounts to import"
-  },
-  "importKeyAccountsSelection": {
-    "title": "Import",
-    "description": "Select the addresses you’d like to import:",
-    "importButtonLabel": "Import",
-    "noAccountsToImport": "No accounts to import"
+    "importButtonLabel": "Import"
   },
   "dappDisconnection": {
     "title": "Connection details",

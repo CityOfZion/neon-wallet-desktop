@@ -1,50 +1,36 @@
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { Tabs } from '@renderer/components/Tabs'
-import { useAppSelector } from '@renderer/hooks/useRedux'
-
-export enum EWelcomeTabItemType {
-  NEON_ACCOUNT = 'neon-account',
-  HARDWARE_WALLET = 'hardware-wallet',
-  ADDRESS_OR_KEY = 'address-or-key',
-}
+import { TestHelper } from '@renderer/helpers/TestHelper'
+import { TLoginSessionType } from '@shared/@types/store'
 
 type TProps = {
-  defaultValue: EWelcomeTabItemType
+  defaultValue: TLoginSessionType
 }
 
 export const WelcomeTabs = ({ defaultValue }: TProps) => {
   const navigate = useNavigate()
   const { t } = useTranslation('layouts', { keyPrefix: 'welcomeWithTabs.tabs' })
-  const { value: securityType } = useAppSelector(state => state.settings.securityType)
 
   return (
     <Tabs.Root defaultValue={defaultValue} className="w-full">
       <Tabs.List className="w-full mt-6 mb-9">
-        <Tabs.Trigger
-          value={EWelcomeTabItemType.NEON_ACCOUNT}
-          className="uppercase"
-          onClick={() => navigate(securityType === 'none' ? '/neon-account' : '/login')}
-        >
-          {t('neonAccount')}
+        <Tabs.Trigger value="password" className="uppercase" onClick={() => navigate('/login-password')}>
+          {t('password')}
+        </Tabs.Trigger>
+
+        <Tabs.Trigger value="hardware" className="uppercase" onClick={() => navigate('/login-hardware')}>
+          {t('hardware')}
         </Tabs.Trigger>
 
         <Tabs.Trigger
-          value={EWelcomeTabItemType.HARDWARE_WALLET}
+          value="key"
           className="uppercase"
-          onClick={() => navigate('/login-hardware-wallet')}
+          onClick={() => navigate('/login-key')}
+          {...TestHelper.buildTestObject('welcome-tab-key')}
         >
-          {t('hardwareWallet')}
+          {t('key')}
         </Tabs.Trigger>
-
-        {/*TODO: remove this menu item comment when it was implemented*/}
-        {/*<Tabs.Trigger*/}
-        {/*  value={EWelcomeTabItemType.ADDRESS_OR_KEY}*/}
-        {/*  className={'uppercase'}*/}
-        {/*  onClick={() => navigate('/address-or-key')}*/}
-        {/*>*/}
-        {/*  {t('addressOrKey')}*/}
-        {/*</Tabs.Trigger>*/}
       </Tabs.List>
     </Tabs.Root>
   )

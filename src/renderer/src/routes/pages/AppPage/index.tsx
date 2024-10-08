@@ -1,23 +1,15 @@
-import { Fragment } from 'react'
-import { Navigate, Outlet, useLocation } from 'react-router-dom'
-import { CustomProfileBanner } from '@renderer/components/CustomProfileBanner'
-import { useAfterLogin } from '@renderer/hooks/useAfterLogin'
-import { useLoginSessionSelector } from '@renderer/hooks/useSettingsSelector'
+import { Navigate, useLocation } from 'react-router-dom'
+import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
+
+import { Child } from './Child'
 
 export const AppPage = () => {
-  useAfterLogin()
-
-  const { loginSession } = useLoginSessionSelector()
+  const { currentLoginSession } = useCurrentLoginSessionSelector()
   const location = useLocation()
 
-  if (!loginSession) {
-    return <Navigate to="/login" state={{ from: location.pathname }} />
+  if (!currentLoginSession) {
+    return <Navigate to="/login-password" state={{ from: location.pathname }} />
   }
 
-  return (
-    <Fragment>
-      <CustomProfileBanner />
-      <Outlet />
-    </Fragment>
-  )
+  return <Child />
 }

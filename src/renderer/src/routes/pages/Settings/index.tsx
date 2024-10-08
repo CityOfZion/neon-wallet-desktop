@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { Tabs } from '@renderer/components/Tabs'
-import { useLoginSessionSelector } from '@renderer/hooks/useSettingsSelector'
+import { TestHelper } from '@renderer/helpers/TestHelper'
+import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { MainLayout } from '@renderer/layouts/Main'
 
 import { SettingsPersonalizationTabContent } from './SettingsPersonalizationTabContent'
@@ -15,21 +16,20 @@ enum ESettingsOptions {
 
 export const SettingsPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'settings' })
-  const { loginSession } = useLoginSessionSelector()
+  const { currentLoginSession } = useCurrentLoginSessionSelector()
   const navigate = useNavigate()
   const { pathname } = useLocation()
   const [tabValue, setTabValue] = useState(ESettingsOptions.PERSONALISATION)
 
   const handlePersonalisationClick = () => {
     setTabValue(ESettingsOptions.PERSONALISATION)
-
     navigate('/app/settings/personalisation')
   }
 
   const handleSecurityClick = () => {
     setTabValue(ESettingsOptions.SECURITY)
 
-    if (loginSession?.type === 'hardware') {
+    if (currentLoginSession?.type !== 'password') {
       navigate('/app/settings/security/encrypt-key')
       return
     }
@@ -39,7 +39,6 @@ export const SettingsPage = () => {
 
   useEffect(() => {
     if (pathname === '/app/settings') handlePersonalisationClick()
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname])
 
@@ -56,7 +55,13 @@ export const SettingsPage = () => {
               >
                 {t('sidebarOption.personalisation')}
               </Tabs.Trigger>
-              <Tabs.Trigger value={ESettingsOptions.SECURITY} className="px-6" onClick={handleSecurityClick}>
+
+              <Tabs.Trigger
+                value={ESettingsOptions.SECURITY}
+                className="px-6"
+                onClick={handleSecurityClick}
+                {...TestHelper.buildTestObject('settings-tab-security')}
+              >
                 {t('sidebarOption.security')}
               </Tabs.Trigger>
             </Tabs.List>

@@ -23,7 +23,7 @@ export const ImportModal = () => {
   const { doesMnemonicExist } = useWalletsUtils()
 
   const submitKey = async (key: string) => {
-    modalNavigate('import-key-accounts-selection', { state: { key } })
+    modalNavigate('import-accounts-selection', { state: { mnemonicOrKey: key } })
   }
 
   const submitMnemonic = async (mnemonic: string) => {
@@ -31,7 +31,7 @@ export const ImportModal = () => {
       throw new Error(t('errors.mnemonicAlreadyExist'))
     }
 
-    modalNavigate('import-mnemonic-accounts-selection', { state: { mnemonic } })
+    modalNavigate('import-accounts-selection', { state: { mnemonicOrKey: mnemonic } })
   }
 
   const submitEncrypted = async (encryptedKey: string) => {
@@ -45,13 +45,13 @@ export const ImportModal = () => {
             state: {
               encryptedKey,
               blockchain,
-              onDecrypt: (key: string, address: string) => {
+              onDecrypt: async (key: string, address: string) => {
                 if (doesAccountExist({ address, blockchain })) {
                   throw new Error(t('addressAlreadyExist'))
                 }
 
                 const wallet = createWallet({ name: tCommon('encryptedName') })
-                const account = importAccount({ address, blockchain, wallet, key, type: 'standard' })
+                const account = await importAccount({ address, blockchain, wallet, key, type: 'standard' })
 
                 ToastHelper.success({ message: t('successEncryptKey') })
                 modalNavigate(-3)

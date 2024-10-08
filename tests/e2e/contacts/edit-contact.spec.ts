@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-import { createContact, createNewWallet, launch, PUBLIC_KEYS } from '../index'
+import { ADDRESSES, createContact, createNewWallet, launch } from '../index'
 
 test.describe('Edit contact', () => {
   test('Should edit contact name', async () => {
@@ -26,7 +26,7 @@ test.describe('Edit contact', () => {
   test('Should edit contact address', async () => {
     const window = await launch()
     const contactName = 'My contact'
-    const [address, updatedAddress] = PUBLIC_KEYS
+    const [address, updatedAddress] = ADDRESSES
     const blockchainName = 'Neo N3'
 
     await createNewWallet(window)

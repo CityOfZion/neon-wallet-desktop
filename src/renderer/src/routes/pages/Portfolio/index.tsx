@@ -5,13 +5,14 @@ import { Outlet, useMatch } from 'react-router-dom'
 import { IconButton } from '@renderer/components/IconButton'
 import { Separator } from '@renderer/components/Separator'
 import { SidebarMenuButton } from '@renderer/components/SidebarMenuButton'
+import { TestHelper } from '@renderer/helpers/TestHelper'
+import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
-import { useLoginSessionSelector } from '@renderer/hooks/useSettingsSelector'
 import { MainLayout } from '@renderer/layouts/Main'
 
 export const PortfolioPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'portfolio' })
-  const { loginSession } = useLoginSessionSelector()
+  const { currentLoginSession } = useCurrentLoginSessionSelector()
   const { modalNavigateWrapper } = useModalNavigate()
 
   const matchRoot = useMatch('app/portfolio')
@@ -26,7 +27,8 @@ export const PortfolioPage = () => {
             size="md"
             text={t('newWalletButtonLabel')}
             onClick={modalNavigateWrapper('create-wallet-step-1')}
-            disabled={loginSession?.type !== 'password'}
+            disabled={currentLoginSession?.type !== 'password'}
+            {...TestHelper.buildTestObject('portfolio-new-wallet-button')}
           />
           <IconButton
             icon={<TbFileImport />}

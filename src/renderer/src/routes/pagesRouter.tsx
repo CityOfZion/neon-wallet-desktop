@@ -1,13 +1,14 @@
 import { createRouteHandler } from '@renderer/libs/sentryReact'
 import { ForgottenPasswordPage } from '@renderer/routes/pages/ForgottenPassword'
 import { ForgottenPasswordConfirmPage } from '@renderer/routes/pages/ForgottenPassword/Confirm'
-import { NeonAccountPage } from '@renderer/routes/pages/NeonAccountPage'
 
 import { AppPage } from './pages/AppPage'
 import { ContactsPage } from './pages/Contacts'
 import { ForgottenPasswordSuccessPage } from './pages/ForgottenPassword/Success'
-import { LoginPage } from './pages/Login'
-import { LoginHardwareWalletPage } from './pages/LoginHardwareWallet'
+import { LoginHardwarePage } from './pages/LoginHardware'
+import { LoginKeyPage } from './pages/LoginKey'
+import { LoginKeySelectAccountPage } from './pages/LoginKeySelectAccountPage'
+import { LoginPasswordPage } from './pages/LoginPassword'
 import { PortfolioPage } from './pages/Portfolio'
 import { PortfolioActivityPage } from './pages/Portfolio/Activity'
 import { PortfolioConnectionsPage } from './pages/Portfolio/Connections'
@@ -235,20 +236,20 @@ export const pagesRouter = routeHandler([
         ],
       },
       {
-        path: 'login',
-        element: <LoginPage />,
+        path: 'login-password',
+        element: <LoginPasswordPage />,
       },
       {
-        path: 'neon-account',
-        element: <NeonAccountPage />,
+        path: 'login-hardware',
+        element: <LoginHardwarePage />,
       },
       {
-        path: 'login-hardware-wallet',
-        element: <LoginHardwareWalletPage />,
+        path: 'login-key',
+        element: <LoginKeyPage />,
       },
       {
-        path: 'address-or-key',
-        element: <></>, // TODO: create page
+        path: 'login-key-select-account',
+        element: <LoginKeySelectAccountPage />,
       },
       {
         path: 'forgotten-password',

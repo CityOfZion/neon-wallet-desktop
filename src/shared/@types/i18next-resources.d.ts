@@ -180,6 +180,20 @@ interface Resources {
       variation: '{{variationType}}{{variation}}%'
       '24h': '(24h)'
     }
+    temporaryLimitsBox: {
+      description: 'Using this method of login limits access to some key features:'
+      limits: [
+        'Backup and restore',
+        'Wallet customizations',
+        'Import/Export features',
+        'Create New Wallet',
+        'Among other features...',
+      ]
+    }
+    mnemonicOrKeyAccountSelection: {
+      noAccountsToImport: 'No accounts to import'
+      accountsLength: '{{length}} ADDRESSES'
+    }
   }
   hooks: {
     useImportAction: {
@@ -212,17 +226,14 @@ interface Resources {
       downloading: 'New version found. Downloading...'
       downloaded: 'New version downloaded. The app will restart to apply update.'
     }
-    useBeforeLogin: {
-      waitSave: 'Updating stored data...'
-    }
   }
   layouts: {
     welcomeWithTabs: {
       welcomeTo: 'Welcome to Neon Wallet'
       tabs: {
-        neonAccount: 'Neon Account'
-        hardwareWallet: 'Hardware Wallet'
-        addressOrKey: 'Address or key'
+        password: 'Neon Account'
+        hardware: 'Hardware Wallet'
+        key: 'Address or key'
       }
     }
   }
@@ -367,17 +378,10 @@ interface Resources {
       invalidAddress: 'Invalid address or NS domain'
       saveAddress: 'Save address'
     }
-    importMnemonicAccountsSelection: {
+    importAccountsSelection: {
       title: 'Import'
       description: 'Select the addresses you’d like to import:'
       importButtonLabel: 'Import'
-      noAccountsToImport: 'No accounts to import'
-    }
-    importKeyAccountsSelection: {
-      title: 'Import'
-      description: 'Select the addresses you’d like to import:'
-      importButtonLabel: 'Import'
-      noAccountsToImport: 'No accounts to import'
     }
     dappDisconnection: {
       title: 'Connection details'
@@ -872,13 +876,6 @@ interface Resources {
         totalConnections: '{{connections}} Connections'
       }
     }
-    login: {
-      text: 'Login to your wallet'
-      passwordPlaceholder: 'Enter your password...'
-      buttonLoginLabel: 'Login'
-      invalidPassword: 'Invalid password'
-      forgotPassword: 'Forgot password?'
-    }
     forgottenPassword: {
       title: 'Forgotten password'
       text: 'If you’ve forgotten your password, you’ll need to reset Neon.'
@@ -901,23 +898,6 @@ interface Resources {
         buttonAriaLabel: 'Reset and delete data'
       }
       success: 'Data successfully wiped'
-    }
-    neonAccount: {
-      text: 'What would you like to do with Neon?'
-      cardLinks: {
-        createNewWallet: {
-          title: 'Create a new wallet'
-          text: 'I want to <1>create a new</1> password-protected account so my data is persistent'
-        }
-        importExternalWallet: {
-          title: 'Import an external wallet'
-          text: 'I want to <1>import</1> a wallet and password-protect my data to ensure it’s persistent'
-        }
-        migrateFromNeon2: {
-          title: 'Migrate from Neon 2'
-          text: 'I want to <1>migrate</1> my Neon 2 wallet'
-        }
-      }
     }
     forgottenPasswordSuccess: {
       title: 'Success!'
@@ -1149,20 +1129,48 @@ interface Resources {
         selectReceivingAccount: 'Select receiving account'
       }
     }
-    loginHardwareWallet: {
+    loginPassword: {
+      formContent: {
+        text: 'Login to your wallet'
+        passwordPlaceholder: 'Enter your password...'
+        buttonLoginLabel: 'Login'
+        invalidPassword: 'Invalid password'
+        forgotPassword: 'Forgot password?'
+      }
+      welcomeContent: {
+        text: 'What would you like to do with Neon?'
+        cardLinks: {
+          createNewWallet: {
+            title: 'Create a new wallet'
+            text: 'I want to <1>create a new</1> password-protected account so my data is persistent'
+          }
+          importExternalWallet: {
+            title: 'Import an external wallet'
+            text: 'I want to <1>import</1> a wallet and password-protect my data to ensure it’s persistent'
+          }
+          migrateFromNeon2: {
+            title: 'Migrate from Neon 2'
+            text: 'I want to <1>migrate</1> my Neon 2 wallet'
+          }
+        }
+      }
+    }
+    loginHardware: {
       title: 'Connect your hardware wallet'
-      description: 'Using a hardware wallet limits access to some key features:'
       searchingLabel: 'Searching'
       notConnectedMessage: 'No hardware wallet found! Check your connection'
       connectedMessage: 'Device detected! Opening your wallet...'
       searchAgainButtonLabel: 'Search again'
-      limits: [
-        'Backup and restore',
-        'Wallet customizations',
-        'Import/Export features',
-        'Create New Wallet',
-        'Among other features...',
-      ]
+    }
+    loginKey: {
+      description: 'Enter an address, key or mnemonic words:'
+      inputPlaceholder: 'Enter an address, key or mnemonic...'
+    }
+    loginKeySelectAccountPage: {
+      title: 'Import addresses'
+      description: 'Which addresses would you like to import?'
+      importAllButtonLabel: 'Import all'
+      importSelectedButtonLabel: 'Import selected'
     }
   }
 }

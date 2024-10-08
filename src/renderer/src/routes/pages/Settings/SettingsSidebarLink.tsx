@@ -1,4 +1,4 @@
-import { cloneElement } from 'react'
+import { cloneElement, ComponentProps } from 'react'
 import { NavLink } from 'react-router-dom'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
@@ -9,7 +9,7 @@ type TProps = {
   match?: boolean
   colorSchema?: 'neon' | 'gray'
   disabled?: boolean
-}
+} & ComponentProps<'a'>
 
 export const SettingsSidebarLink = ({
   icon,
@@ -18,6 +18,7 @@ export const SettingsSidebarLink = ({
   match,
   colorSchema = 'gray',
   disabled = false,
+  ...props
 }: TProps): JSX.Element => {
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     if (disabled) {
@@ -32,6 +33,7 @@ export const SettingsSidebarLink = ({
         className={({ isActive }) => `group ${isActive || match ? 'active' : ''}`}
         aria-disabled={disabled}
         onClick={handleClick}
+        {...props}
       >
         <div
           className={StyleHelper.mergeStyles(

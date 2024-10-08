@@ -1,20 +1,17 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from 'redux-persist'
 
-import AccountReducer, { accountReducerConfig } from './reducers/AccountReducer'
+import AuthReducer, { authReducerConfig } from './reducers/AuthReducer'
 import ContactReducer, { contactReducerConfig } from './reducers/ContactReducer'
 import SettingsReducer, { settingsReducerConfig } from './reducers/SettingsReducer'
-import WalletReducer, { walletReducerConfig } from './reducers/WalletReducer'
 
-const persistedWalletReducer = persistReducer(walletReducerConfig, WalletReducer)
-const persistedAccountReducer = persistReducer(accountReducerConfig, AccountReducer)
+const persistedAccountReducer = persistReducer(authReducerConfig, AuthReducer)
 const persistedSettingsReducer = persistReducer(settingsReducerConfig, SettingsReducer)
 const persistedContactReducer = persistReducer(contactReducerConfig, ContactReducer)
 
 export class RootStore {
   static reducers = combineReducers({
-    wallet: persistedWalletReducer,
-    account: persistedAccountReducer,
+    auth: persistedAccountReducer,
     settings: persistedSettingsReducer,
     contact: persistedContactReducer,
   })

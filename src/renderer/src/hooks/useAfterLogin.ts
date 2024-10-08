@@ -15,21 +15,21 @@ import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { IAccountState } from '@shared/@types/store'
 
 import { useAccountsSelector } from './useAccountSelector'
+import { useCurrentLoginSessionSelector } from './useAuthSelector'
 import { useBlockchainActions } from './useBlockchainActions'
 import { useLogin } from './useLogin'
 import { useModalHistories, useModalNavigate } from './useModalRouter'
 import { useMountUnsafe } from './useMount'
 import { useAppDispatch } from './useRedux'
-import {
-  useLoginSessionSelector,
-  useSelectedNetworkByBlockchainSelector,
-  useUnlockedSkinIdsSelector,
-} from './useSettingsSelector'
+import { useSelectedNetworkByBlockchainSelector, useUnlockedSkinIdsSelector } from './useSettingsSelector'
 
 const useRegisterWalletConnectListeners = () => {
   const { sessions, requests } = useWalletConnectWallet()
   const { modalNavigate } = useModalNavigate()
   const { historiesRef } = useModalHistories()
+  const { accountsRef } = useAccountsSelector()
+  const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
+  const { networkByBlockchainRef } = useSelectedNetworkByBlockchainSelector()
 
   const watchRequests = useCallback(async () => {
     await UtilsHelper.sleep(1500)
@@ -56,11 +56,28 @@ const useRegisterWalletConnectListeners = () => {
   useEffect(() => {
     watchRequests()
   }, [watchRequests])
+
+  useEffect(() => {
+    const removeGetStoreFromWCListener = window.api.listen('getStoreFromWC', ({ args }) => {
+      const info = WalletConnectHelper.getAccountInformationFromSession(args)
+      const account = accountsRef.current.find(AccountHelper.predicate(info))
+
+      window.api.sendSync('sendStoreFromWC', {
+        account,
+        encryptedPassword: currentLoginSessionRef.current?.encryptedPassword,
+        networkByBlockchain: networkByBlockchainRef.current,
+      })
+    })
+
+    return () => {
+      removeGetStoreFromWCListener()
+    }
+  }, [accountsRef, currentLoginSessionRef, networkByBlockchainRef])
 }
 
 const useRegisterHardwareWalletListeners = () => {
   const { accountsRef } = useAccountsSelector()
-  const { loginSessionRef } = useLoginSessionSelector()
+  const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const { editAccount } = useBlockchainActions()
   const { logout } = useLogin()
   const { t: commonT } = useTranslation('common')
@@ -81,18 +98,17 @@ const useRegisterHardwareWalletListeners = () => {
   )
 
   useMountUnsafe(() => {
-    if (loginSessionRef.current?.type === 'password') {
+    if (currentLoginSessionRef.current?.type === 'password') {
       accountsRef.current.forEach(account => {
-        if (account.type === 'hardware') {
-          convertToWatch(account.address, account.blockchain)
-        }
+        if (account.type !== 'hardware') return
+        convertToWatch(account.address, account.blockchain)
       })
     }
   })
 
   useEffect(() => {
     const removeHardwareWalletDisconnectedListener = window.api.listen('hardwareWalletDisconnected', ({ args }) => {
-      if (loginSessionRef.current?.type === 'password') {
+      if (currentLoginSessionRef.current?.type === 'password') {
         convertToWatch(args.address, args.blockchain)
         return
       }
@@ -103,7 +119,7 @@ const useRegisterHardwareWalletListeners = () => {
     return () => {
       removeHardwareWalletDisconnectedListener()
     }
-  }, [accountsRef, commonT, convertToWatch, loginSessionRef, logout])
+  }, [accountsRef, commonT, convertToWatch, currentLoginSessionRef, logout])
 
   useEffect(() => {
     const removeGetHardwareWalletSignatureStartListener = window.api.listen('getHardwareWalletSignatureStart', () => {

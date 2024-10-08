@@ -17,7 +17,7 @@ export const ForgottenPasswordSuccessPage: React.FC = () => {
         <p className="text-gray-300 text-sm flex-grow">{t('description')}</p>
 
         <Link
-          to="/neon-account"
+          to="/login-password"
           label={t('goToWelcome')}
           colorSchema="neon"
           variant="contained"

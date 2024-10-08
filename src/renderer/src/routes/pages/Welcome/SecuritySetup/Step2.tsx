@@ -7,7 +7,7 @@ import { Input } from '@renderer/components/Input'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 import { useActions } from '@renderer/hooks/useActions'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
-import { useSecurityTypeActions } from '@renderer/hooks/useSettingsSelector'
+import { useSettingsActions } from '@renderer/hooks/useSettingsSelector'
 
 type TFormData = {
   confirmPassword: string
@@ -27,7 +27,7 @@ export const WelcomeSecuritySetupStep2Page = ({ onSubmit }: TProps) => {
   const { t: commonT } = useTranslation('common')
   const navigate = useNavigate()
   const { createWallet, createAccount } = useBlockchainActions()
-  const { setSecurityType } = useSecurityTypeActions()
+  const { setHasPassword } = useSettingsActions()
 
   const { actionData, actionState, handleAct, setData, setError } = useActions<TFormData>({
     confirmPassword: '',
@@ -48,7 +48,7 @@ export const WelcomeSecuritySetupStep2Page = ({ onSubmit }: TProps) => {
       return
     }
 
-    await setSecurityType(data.confirmPassword)
+    await setHasPassword(data.confirmPassword)
 
     const words = generateMnemonic()
 
@@ -57,7 +57,7 @@ export const WelcomeSecuritySetupStep2Page = ({ onSubmit }: TProps) => {
       mnemonic: words.join(' '),
     })
 
-    createAccount({
+    await createAccount({
       wallet,
       blockchain: 'neo3',
       name: commonT('account.defaultName', { accountNumber: 1 }),

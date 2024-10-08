@@ -8,12 +8,13 @@ import { Separator } from '@renderer/components/Separator'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
+import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useNameService } from '@renderer/hooks/useNameService'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
-import { useLoginSessionSelector, useSelectedNetworkByBlockchainSelector } from '@renderer/hooks/useSettingsSelector'
+import { useSelectedNetworkByBlockchainSelector } from '@renderer/hooks/useSettingsSelector'
 import { bsAggregator } from '@renderer/libs/blockchainService'
-import { accountReducerActions } from '@renderer/store/reducers/AccountReducer'
+import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TUseTransactionsTransfer } from '@shared/@types/hooks'
 import { TTokenBalance } from '@shared/@types/query'
@@ -60,7 +61,7 @@ export type TSendServiceResponse =
 
 export const SendPageContent = ({ account, recipient }: TProps) => {
   const { t } = useTranslation('pages', { keyPrefix: 'send' })
-  const { loginSessionRef } = useLoginSessionSelector()
+  const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const { modalNavigate } = useModalNavigate()
   const dispatch = useAppDispatch()
   const [originalRecipient, setoOriginalRecipient] = useState(recipient)
@@ -85,7 +86,7 @@ export const SendPageContent = ({ account, recipient }: TProps) => {
   }, [actionData.selectedAccount])
 
   const getSendFields = useCallback(async (): Promise<TSendServiceResponse> => {
-    if (!loginSessionRef.current) {
+    if (!currentLoginSessionRef.current) {
       throw new Error('Login session not defined')
     }
 
@@ -101,7 +102,7 @@ export const SendPageContent = ({ account, recipient }: TProps) => {
 
     const key = await window.api.sendAsync('decryptBasedEncryptedSecret', {
       value: actionData.selectedAccount.encryptedKey,
-      encryptedSecret: loginSessionRef.current.encryptedPassword,
+      encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
     })
 
     const serviceAccount =
@@ -118,7 +119,7 @@ export const SendPageContent = ({ account, recipient }: TProps) => {
       service: service,
     }
   }, [
-    loginSessionRef,
+    currentLoginSessionRef,
     actionData.selectedAccount,
     actionData.selectedToken,
     actionData.selectedAmount,
@@ -209,9 +210,8 @@ export const SendPageContent = ({ account, recipient }: TProps) => {
         isPending: true,
       }
 
-      dispatch(accountReducerActions.addPendingTransaction(transaction))
       dispatch(
-        accountReducerActions.watchPendingTransaction({
+        authReducerActions.addPendingTransaction({
           transaction,
           blockchainService: fields.service,
           network: networkByBlockchain[fields.selectedAccount.blockchain],

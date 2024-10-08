@@ -99,13 +99,6 @@
       "totalConnections": "{{connections}} Connections"
     }
   },
-  "login": {
-    "text": "Login to your wallet",
-    "passwordPlaceholder": "Enter your password...",
-    "buttonLoginLabel": "Login",
-    "invalidPassword": "Invalid password",
-    "forgotPassword": "Forgot password?"
-  },
   "forgottenPassword": {
     "title": "Forgotten password",
     "text": "If you’ve forgotten your password, you’ll need to reset Neon.",
@@ -128,23 +121,6 @@
       "buttonAriaLabel": "Reset and delete data"
     },
     "success": "Data successfully wiped"
-  },
-  "neonAccount": {
-    "text": "What would you like to do with Neon?",
-    "cardLinks": {
-      "createNewWallet": {
-        "title": "Create a new wallet",
-        "text": "I want to <1>create a new</1> password-protected account so my data is persistent"
-      },
-      "importExternalWallet": {
-        "title": "Import an external wallet",
-        "text": "I want to <1>import</1> a wallet and password-protect my data to ensure it’s persistent"
-      },
-      "migrateFromNeon2": {
-        "title": "Migrate from Neon 2",
-        "text": "I want to <1>migrate</1> my Neon 2 wallet"
-      }
-    }
   },
   "forgottenPasswordSuccess": {
     "title": "Success!",
@@ -376,19 +352,47 @@
       "selectReceivingAccount": "Select receiving account"
     }
   },
-  "loginHardwareWallet": {
+  "loginPassword": {
+    "formContent": {
+      "text": "Login to your wallet",
+      "passwordPlaceholder": "Enter your password...",
+      "buttonLoginLabel": "Login",
+      "invalidPassword": "Invalid password",
+      "forgotPassword": "Forgot password?"
+    },
+    "welcomeContent": {
+      "text": "What would you like to do with Neon?",
+      "cardLinks": {
+        "createNewWallet": {
+          "title": "Create a new wallet",
+          "text": "I want to <1>create a new</1> password-protected account so my data is persistent"
+        },
+        "importExternalWallet": {
+          "title": "Import an external wallet",
+          "text": "I want to <1>import</1> a wallet and password-protect my data to ensure it’s persistent"
+        },
+        "migrateFromNeon2": {
+          "title": "Migrate from Neon 2",
+          "text": "I want to <1>migrate</1> my Neon 2 wallet"
+        }
+      }
+    }
+  },
+  "loginHardware": {
     "title": "Connect your hardware wallet",
-    "description": "Using a hardware wallet limits access to some key features:",
     "searchingLabel": "Searching",
     "notConnectedMessage": "No hardware wallet found! Check your connection",
     "connectedMessage": "Device detected! Opening your wallet...",
-    "searchAgainButtonLabel": "Search again",
-    "limits": [
-      "Backup and restore",
-      "Wallet customizations",
-      "Import/Export features",
-      "Create New Wallet",
-      "Among other features..."
-    ]
+    "searchAgainButtonLabel": "Search again"
+  },
+  "loginKey": {
+    "description": "Enter an address, key or mnemonic words:",
+    "inputPlaceholder": "Enter an address, key or mnemonic..."
+  },
+  "loginKeySelectAccountPage": {
+    "title": "Import addresses",
+    "description": "Which addresses would you like to import?",
+    "importAllButtonLabel": "Import all",
+    "importSelectedButtonLabel": "Import selected"
   }
 }

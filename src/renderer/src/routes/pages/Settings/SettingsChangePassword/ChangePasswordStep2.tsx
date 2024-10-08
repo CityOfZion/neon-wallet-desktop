@@ -3,11 +3,11 @@ import { TbDownload } from 'react-icons/tb'
 import { Location, useLocation, useNavigate } from 'react-router-dom'
 import { ButtonDownloadPasswordQRCode } from '@renderer/components/ButtonDownloadPasswordQRCode'
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
+import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
-import { useLoginSessionSelector, useSecurityTypeActions } from '@renderer/hooks/useSettingsSelector'
+import { useSettingsActions } from '@renderer/hooks/useSettingsSelector'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
-import { accountReducerActions } from '@renderer/store/reducers/AccountReducer'
-import { walletReducerActions } from '@renderer/store/reducers/WalletReducer'
+import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
 
 type TLocationState = {
   encryptedNewPassword: string
@@ -16,53 +16,59 @@ type TLocationState = {
 export const ChangePasswordStep2 = (): JSX.Element => {
   const { t } = useTranslation('pages', { keyPrefix: 'settings.changePassword.step2' })
   const { wallets } = useWalletsSelector()
-  const { loginSessionRef } = useLoginSessionSelector()
+  const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const { accounts } = useAccountsSelector()
   const dispatch = useAppDispatch()
   const { state } = useLocation() as Location<TLocationState>
   const navigate = useNavigate()
-  const { setSecurityType } = useSecurityTypeActions()
+  const { setHasPassword } = useSettingsActions()
 
-  const onDownload = async () => {
-    if (!loginSessionRef.current) {
+  const handleDownload = async () => {
+    if (!currentLoginSessionRef.current) {
       throw new Error('Login session not defined')
     }
 
-    const encryptedPassword = loginSessionRef.current?.encryptedPassword
+    const encryptedPassword = currentLoginSessionRef.current.encryptedPassword
 
     const walletPromises = wallets.map(async wallet => {
-      if (!wallet.encryptedMnemonic) return wallet
-      const mnemonic = await window.api.sendAsync('decryptBasedEncryptedSecret', {
-        value: wallet.encryptedMnemonic,
-        encryptedSecret: encryptedPassword,
+      const accountPromises = accounts.map(async account => {
+        if (!account.encryptedKey) return account
+
+        const key = await window.api.sendAsync('decryptBasedEncryptedSecret', {
+          value: account.encryptedKey,
+          encryptedSecret: encryptedPassword,
+        })
+
+        const newEncryptedKey = await window.api.sendAsync('encryptBasedEncryptedSecret', {
+          value: key,
+          encryptedSecret: state.encryptedNewPassword,
+        })
+
+        return { ...account, encryptedKey: newEncryptedKey }
       })
-      const newEncryptedMnemonic = await window.api.sendAsync('encryptBasedEncryptedSecret', {
-        value: mnemonic,
-        encryptedSecret: state.encryptedNewPassword,
-      })
-      return { ...wallet, encryptedMnemonic: newEncryptedMnemonic }
+
+      const newAccounts = await Promise.all([...accountPromises])
+
+      if (wallet.encryptedMnemonic) {
+        const mnemonic = await window.api.sendAsync('decryptBasedEncryptedSecret', {
+          value: wallet.encryptedMnemonic,
+          encryptedSecret: encryptedPassword,
+        })
+
+        const newEncryptedMnemonic = await window.api.sendAsync('encryptBasedEncryptedSecret', {
+          value: mnemonic,
+          encryptedSecret: state.encryptedNewPassword,
+        })
+
+        wallet.encryptedMnemonic = newEncryptedMnemonic
+      }
+
+      dispatch(authReducerActions.saveWallet({ ...wallet, accounts: newAccounts }))
     })
 
-    const accountPromises = accounts.map(async account => {
-      if (!account.encryptedKey) return account
-      const key = await window.api.sendAsync('decryptBasedEncryptedSecret', {
-        value: account.encryptedKey,
-        encryptedSecret: encryptedPassword,
-      })
-      const newEncryptedKey = await window.api.sendAsync('encryptBasedEncryptedSecret', {
-        value: key,
-        encryptedSecret: state.encryptedNewPassword,
-      })
-      return { ...account, encryptedKey: newEncryptedKey }
-    })
+    await Promise.all(walletPromises)
 
-    const newAccounts = await Promise.all([...accountPromises])
-    const newWallets = await Promise.all([...walletPromises])
-
-    dispatch(accountReducerActions.replaceAllAccounts(newAccounts))
-    dispatch(walletReducerActions.replaceAllWallets(newWallets))
-
-    await setSecurityType(state.encryptedNewPassword, true)
+    await setHasPassword(state.encryptedNewPassword, true)
 
     navigate('/app/settings/security/change-password/step-3')
   }
@@ -80,7 +86,7 @@ export const ChangePasswordStep2 = (): JSX.Element => {
         variant="contained"
         type="submit"
         leftIcon={<TbDownload />}
-        onDownload={onDownload}
+        onDownload={handleDownload}
         label={t('buttonDownload')}
       />
     </div>

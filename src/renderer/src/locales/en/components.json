@@ -133,5 +133,19 @@
     "holdings": "Holdings:",
     "variation": "{{variationType}}{{variation}}%",
     "24h": "(24h)"
+  },
+  "temporaryLimitsBox": {
+    "description": "Using this method of login limits access to some key features:",
+    "limits": [
+      "Backup and restore",
+      "Wallet customizations",
+      "Import/Export features",
+      "Create New Wallet",
+      "Among other features..."
+    ]
+  },
+  "mnemonicOrKeyAccountSelection": {
+    "noAccountsToImport": "No accounts to import",
+    "accountsLength": "{{length}} address"
   }
 }

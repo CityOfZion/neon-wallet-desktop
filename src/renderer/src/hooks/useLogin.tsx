@@ -2,25 +2,22 @@ import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { LOGIN_CONTROL_VALUE } from '@renderer/constants/password'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
-import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
+import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
+import { TAccountsToImport, TWalletToCreate } from '@shared/@types/blockchain'
 import { THardwareWalletInfo } from '@shared/@types/ipc'
 
-import { useAccountsSelector } from './useAccountSelector'
 import { useBlockchainActions } from './useBlockchainActions'
-import { usePersistStore } from './usePersistStore'
 import { useAppDispatch } from './useRedux'
 import { useLoginControlSelector } from './useSettingsSelector'
-import { useWalletsSelector } from './useWalletSelector'
+import { useWalletsSelectorLazy } from './useWalletSelector'
 
 export const useLogin = () => {
-  const { walletsRef } = useWalletsSelector()
-  const { accountsRef } = useAccountsSelector()
+  const { getWallets } = useWalletsSelectorLazy()
   const { encryptedLoginControlRef } = useLoginControlSelector()
   const dispatch = useAppDispatch()
   const { t } = useTranslation('hooks', { keyPrefix: 'useLogin' })
   const { t: commonT } = useTranslation('common')
-  const { createWallet, importAccount } = useBlockchainActions()
-  const { pause, resume } = usePersistStore()
+  const { createWallet, importAccount, importAccounts } = useBlockchainActions()
 
   const loginWithPassword = useCallback(
     async (password: string) => {
@@ -39,17 +36,10 @@ export const useLogin = () => {
         throw new Error(t('controlIsNotValid'))
       }
 
-      const walletPromises = walletsRef.current.map(async wallet => {
-        if (!wallet.encryptedMnemonic) return
-        await window.api.sendAsync('decryptBasedEncryptedSecret', {
-          value: wallet.encryptedMnemonic,
-          encryptedSecret: encryptedPassword,
-        })
-      })
+      const wallets = getWallets('password')
 
-      const accountPromises = accountsRef.current
-        .filter(account => account.type !== 'hardware')
-        .map(async account => {
+      const walletPromises = wallets.map(async wallet => {
+        const accountPromises = wallet.accounts.map(async account => {
           if (!account.encryptedKey) return
           await window.api.sendAsync('decryptBasedEncryptedSecret', {
             value: account.encryptedKey,
@@ -57,29 +47,37 @@ export const useLogin = () => {
           })
         })
 
-      await Promise.all([...walletPromises, ...accountPromises])
+        await Promise.all(accountPromises)
+
+        if (!wallet.encryptedMnemonic) return
+        await window.api.sendAsync('decryptBasedEncryptedSecret', {
+          value: wallet.encryptedMnemonic,
+          encryptedSecret: encryptedPassword,
+        })
+      })
+
+      await Promise.all(walletPromises)
 
       dispatch(
-        settingsReducerActions.setLoginSession({
+        authReducerActions.setCurrentLoginSession({
           type: 'password',
           encryptedPassword,
         })
       )
     },
-    [encryptedLoginControlRef, walletsRef, accountsRef, dispatch, t]
+    [encryptedLoginControlRef, getWallets, dispatch, t]
   )
 
   const loginWithHardwareWallet = useCallback(
     async (hardwareWalletInfo: THardwareWalletInfo) => {
-      pause()
-
       const randomPassword = UtilsHelper.uuid()
       const encryptedPassword = await window.api.sendAsync('encryptBasedOS', randomPassword)
 
-      dispatch(settingsReducerActions.setLoginSession({ type: 'hardware', encryptedPassword }))
+      dispatch(authReducerActions.setCurrentLoginSession({ type: 'hardware', encryptedPassword }))
 
       const wallet = createWallet({ name: commonT('wallet.ledgerName'), type: 'hardware' })
-      importAccount({
+
+      await importAccount({
         wallet,
         address: hardwareWalletInfo.address,
         blockchain: hardwareWalletInfo.blockchain,
@@ -87,17 +85,34 @@ export const useLogin = () => {
         key: hardwareWalletInfo.publicKey,
       })
     },
-    [commonT, createWallet, dispatch, importAccount, pause]
+    [commonT, createWallet, dispatch, importAccount]
+  )
+
+  const loginWithKey = useCallback(
+    async (accountsToCreate: TAccountsToImport, walletToCreate: TWalletToCreate) => {
+      const randomPassword = UtilsHelper.uuid()
+      const encryptedPassword = await window.api.sendAsync('encryptBasedOS', randomPassword)
+
+      dispatch(authReducerActions.setCurrentLoginSession({ type: 'key', encryptedPassword }))
+
+      const wallet = createWallet(walletToCreate)
+
+      await importAccounts({
+        accounts: accountsToCreate,
+        wallet,
+      })
+    },
+    [createWallet, dispatch, importAccounts]
   )
 
   const logout = useCallback(async () => {
-    resume()
-    dispatch(settingsReducerActions.setLoginSession(undefined))
-  }, [dispatch, resume])
+    dispatch(authReducerActions.setCurrentLoginSession(undefined))
+  }, [dispatch])
 
   return {
     loginWithPassword,
     loginWithHardwareWallet,
+    loginWithKey,
     logout,
   }
 }

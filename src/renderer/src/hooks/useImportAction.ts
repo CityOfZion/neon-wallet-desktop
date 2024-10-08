@@ -12,9 +12,8 @@ type TFormData = {
 }
 
 export const useImportAction = (
-  submitByInputType: Record<
-    TUseImportActionInputType,
-    (value: string, inputType: TUseImportActionInputType) => Promise<void>
+  submitByInputType: Partial<
+    Record<TUseImportActionInputType, (value: string, inputType: TUseImportActionInputType) => Promise<void>>
   >
 ) => {
   const { t } = useTranslation('hooks', { keyPrefix: 'useImportAction' })
@@ -77,7 +76,10 @@ export const useImportAction = (
 
       const fixedText = data.text.trim().replace(/[^a-zA-Z0-9 ]/g, '') // Remove all special characters except spaces
 
-      await submitByInputType[data.inputType](fixedText, data.inputType)
+      const submit = submitByInputType[data.inputType]
+      if (!submit) throw new Error(t('errors.invalid'))
+
+      await submit(fixedText, data.inputType)
     } catch (error: any) {
       setError('text', error.message)
     } finally {

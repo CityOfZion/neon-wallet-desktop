@@ -3,8 +3,8 @@ import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { useActions } from '@renderer/hooks/useActions'
+import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useModalState } from '@renderer/hooks/useModalRouter'
-import { useLoginSessionSelector } from '@renderer/hooks/useSettingsSelector'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 type TFormData = {
@@ -19,7 +19,7 @@ type TLocationState = {
 
 export const ConfirmPasswordExportModal = () => {
   const { onSubmitPassword, title, icon } = useModalState<TLocationState>()
-  const { loginSessionRef } = useLoginSessionSelector()
+  const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const { t } = useTranslation('modals', { keyPrefix: 'confirmPasswordExport' })
 
   const { actionData, actionState, handleAct, setDataFromEventWrapper, setError } = useActions<TFormData>({
@@ -27,11 +27,14 @@ export const ConfirmPasswordExportModal = () => {
   })
 
   const handleSubmit = async ({ password }: TFormData) => {
-    if (!loginSessionRef.current) {
+    if (!currentLoginSessionRef.current) {
       throw new Error('Login session not defined')
     }
 
-    const decryptedPassword = await window.api.sendAsync('decryptBasedOS', loginSessionRef.current?.encryptedPassword)
+    const decryptedPassword = await window.api.sendAsync(
+      'decryptBasedOS',
+      currentLoginSessionRef.current?.encryptedPassword
+    )
     if (password.length === 0 || password !== decryptedPassword) {
       setError('password', t('error'))
       return

@@ -1,7 +1,9 @@
 import { defineConfig, devices } from '@playwright/test'
 
+require('dotenv').config({ path: '.env.test' })
+
 export default defineConfig({
-  timeout: 20000,
+  timeout: 40000,
   testDir: './tests',
   fullyParallel: true,
   forbidOnly: true,

@@ -40,7 +40,12 @@ export const Sidebar = (): JSX.Element => {
               {...TestHelper.buildTestObject('sidebar-link-contacts')}
             />
 
-            <SidebarLink to="/app/settings" title={t('settings')} icon={<TbSettings />} />
+            <SidebarLink
+              to="/app/settings"
+              title={t('settings')}
+              icon={<TbSettings />}
+              {...TestHelper.buildTestObject('sidebar-settings')}
+            />
           </div>
 
           <SidebarButton

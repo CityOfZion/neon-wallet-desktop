@@ -12,9 +12,9 @@ import { DateHelper } from '@renderer/helpers/DateHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
+import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useContactsSelector } from '@renderer/hooks/useContactSelector'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
-import { useLoginSessionSelector } from '@renderer/hooks/useSettingsSelector'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 import { TAccountBackupFormat, TBackupFormat } from '@shared/@types/blockchain'
@@ -41,7 +41,7 @@ const SuccessFooter = () => {
 }
 
 export const ConfirmPasswordBackupModal = () => {
-  const { loginSessionRef } = useLoginSessionSelector()
+  const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const { t } = useTranslation('modals', { keyPrefix: 'confirmPasswordBackup' })
   const { contacts } = useContactsSelector()
   const { wallets } = useWalletsSelector()
@@ -54,11 +54,11 @@ export const ConfirmPasswordBackupModal = () => {
   })
 
   const handleSubmit = async ({ password }: TFormData) => {
-    if (!loginSessionRef.current) {
+    if (!currentLoginSessionRef.current) {
       throw new Error('Login session not defined')
     }
 
-    const encryptedPassword = loginSessionRef.current.encryptedPassword
+    const encryptedPassword = currentLoginSessionRef.current.encryptedPassword
 
     const decryptedPassword = await window.api.sendAsync('decryptBasedOS', encryptedPassword)
 
