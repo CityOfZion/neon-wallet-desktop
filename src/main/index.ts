@@ -43,11 +43,6 @@ function createWindow(): void {
     autoHideMenuBar: true,
   })
 
-  mainWindow.on('close', event => {
-    event.preventDefault()
-    mainApi.send('willCloseWindow')
-  })
-
   mainWindow.on('ready-to-show', () => {
     mainWindow?.show()
   })
@@ -106,6 +101,12 @@ if (!gotTheLock) {
       // dock icon is clicked and there are no other windows open.
       if (BrowserWindow.getAllWindows().length === 0) createWindow()
     })
+  })
+
+  app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') {
+      app.quit()
+    }
   })
 
   registerOpenUrlListener()

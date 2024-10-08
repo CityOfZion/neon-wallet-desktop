@@ -1,5 +1,3 @@
-'use client'
-
 import { ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react'
 import { MdExpandMore } from 'react-icons/md'
 import * as AccordionPrimitive from '@radix-ui/react-accordion'

@@ -10,7 +10,7 @@ import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
-import { accountReducerActions } from '@renderer/store/reducers/AccountReducer'
+import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { IAccountState, IWalletState, TNftSkin, TSkin } from '@shared/@types/store'
 
@@ -53,7 +53,7 @@ export const PersistAccountModal = () => {
     }
 
     if (account) {
-      dispatch(accountReducerActions.saveAccount({ ...account, name: nameTrimmed, skin, lastNftSkin }))
+      dispatch(authReducerActions.saveAccount({ ...account, name: nameTrimmed, skin, lastNftSkin }))
       modalNavigate(-1)
     }
     if (wallet) {
@@ -63,7 +63,7 @@ export const PersistAccountModal = () => {
           headingIcon: <TbPlus className="text-neon" />,
           description: t('selectBlockchainDescription'),
           onSelect: async (blockchain: TBlockchainServiceKey) => {
-            createAccount({
+            await createAccount({
               wallet,
               blockchain: blockchain,
               name: nameTrimmed,

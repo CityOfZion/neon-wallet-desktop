@@ -55,7 +55,7 @@ export const WelcomeImportWalletStep3Page = () => {
   }
 
   const submitMnemonic = async (mnemonic: string) => {
-    const mnemonicAccounts = await bsAggregator.generateAccountFromMnemonicAllBlockchains(mnemonic)
+    const mnemonicAccounts = await bsAggregator.generateAccountsFromMnemonic(mnemonic)
 
     const accounts = Array.from(mnemonicAccounts.entries())
       .map<TAccountsToImport>(([blockchain, accounts]) => {

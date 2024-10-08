@@ -4,14 +4,17 @@ import { _electron as electron } from 'playwright-core'
 import { TCreateContact } from './types'
 
 export const PASSWORD = '.7g/7i*Vcf%V3:9Ls3AAt3;i'
-export const PUBLIC_KEYS = ['NRwXs5yZRMuuXUo7AqvetHQ4GDHe3pV7Mb', 'NcuusM86eJ1u1FKxh2qUUpfsQ1kgjZqNrf']
+export const ADDRESSES = ['NRwXs5yZRMuuXUo7AqvetHQ4GDHe3pV7Mb', 'NcuusM86eJ1u1FKxh2qUUpfsQ1kgjZqNrf']
 
-export const launch = async () => {
+export const launch = async (shouldResetStorage = true) => {
   const electronApp = await electron.launch({ args: ['.', '--no-sandbox'] })
   const window = await electronApp.firstWindow()
 
-  await window.evaluate(() => localStorage.clear())
-  await window.waitForLoadState()
+  if (shouldResetStorage) {
+    await window.evaluate('window.localStorage.clear()')
+  }
+
+  await window.reload({ waitUntil: 'load' })
 
   return window
 }
@@ -28,6 +31,14 @@ export const createNewWallet = async (window: Page) => {
   await window.getByTestId('security-setup-open-your-wallet').click()
 }
 
+export const loginWithKey = async (window: Page, address: string) => {
+  await window.getByTestId('welcome-continue').click()
+  await window.getByTestId('welcome-tab-key').click()
+
+  await window.getByTestId('login-key-textarea').fill(address)
+  await window.getByTestId('login-key-submit').click()
+}
+
 export const logout = async (window: Page) => {
   await window.getByTestId('logout-button').click()
 }
@@ -39,7 +50,7 @@ export const startFromScratchAndLogout = async (window: Page) => {
 
 export const createContact = async (
   window: Page,
-  { contactName = 'My contact', address = PUBLIC_KEYS.at(0), blockchainName = 'Neo N3' }: TCreateContact = {}
+  { contactName = 'My contact', address = ADDRESSES[0], blockchainName = 'Neo N3' }: TCreateContact = {}
 ) => {
   await window.getByTestId('sidebar-link-contacts').click()
   await window.getByTestId('add-contact-action').click()

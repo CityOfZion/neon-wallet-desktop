@@ -14,10 +14,10 @@ import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
-import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
+import { useAccountsSelector, useHasHardwareAccountSelector } from '@renderer/hooks/useAccountSelector'
+import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useLastUpdated, useRefetch } from '@renderer/hooks/useQuery'
-import { useLoginSessionSelector } from '@renderer/hooks/useSettingsSelector'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
 import { MainLayout } from '@renderer/layouts/Main'
 import { bsAggregator } from '@renderer/libs/blockchainService'
@@ -36,7 +36,8 @@ export const WalletsPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'wallets' })
   const { wallets } = useWalletsSelector()
   const { accounts } = useAccountsSelector()
-  const { loginSession } = useLoginSessionSelector()
+  const { hasHardwareAccount } = useHasHardwareAccountSelector()
+  const { currentLoginSession } = useCurrentLoginSessionSelector()
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
   const navigate = useNavigate()
   const { id } = useParams<TParams>()
@@ -49,7 +50,7 @@ export const WalletsPage = () => {
     accounts.find(account => account.idWallet === selectedWallet?.id)
   )
 
-  const isPasswordLogin = loginSession?.type === 'password'
+  const isPasswordLogin = currentLoginSession?.type === 'password'
   const service = selectedAccount ? bsAggregator.blockchainServicesByName[selectedAccount.blockchain] : undefined
 
   const handleSelectAccount = (selected: IAccountState) => {
@@ -169,7 +170,7 @@ export const WalletsPage = () => {
             size="md"
             text={t('connectHardwareWalletButtonLabel')}
             onClick={modalNavigateWrapper('connect-hardware-wallet')}
-            disabled={!isPasswordLogin}
+            disabled={!isPasswordLogin || hasHardwareAccount}
             {...TestHelper.buildTestObject('connect-hardware-wallet')}
           />
         </div>

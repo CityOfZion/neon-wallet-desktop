@@ -19,7 +19,7 @@ export const RootPage = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    navigate('/login')
+    navigate('/login-password')
   }, [navigate])
 
   return (

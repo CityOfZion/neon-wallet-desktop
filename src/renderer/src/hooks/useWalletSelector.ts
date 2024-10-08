@@ -1,34 +1,37 @@
 import { useCallback } from 'react'
+import { TLoginSessionType } from '@shared/@types/store'
 
-import { useAppSelector } from './useRedux'
-import { useLoginSessionSelector } from './useSettingsSelector'
+import { useCurrentLoginSessionSelector } from './useAuthSelector'
+import { createAppSelector, useAppSelector } from './useRedux'
+
+const selectWallets = createAppSelector(
+  [state => state.auth.data.applicationDataByLoginType, state => state.auth.currentLoginSession],
+  (applicationDataByLoginType, currentLoginSession) => {
+    if (!currentLoginSession) {
+      throw new Error('You need to be logged in to access accounts')
+    }
+
+    return applicationDataByLoginType[currentLoginSession.type].wallets
+  }
+)
 
 export const useWalletsSelector = () => {
-  const { ref, value } = useAppSelector(state => state.wallet.data)
+  const { ref, value } = useAppSelector(selectWallets)
+
   return {
     wallets: value,
     walletsRef: ref,
   }
 }
 
-export const useWalletSelectorByID = (id: string) => {
-  const { value, ref } = useAppSelector(state => {
-    const foundWallet = state.wallet.data.find(wallet => wallet.id === id)
-    if (!foundWallet) throw new Error(`Wallet with id ${id} not found`)
-    return foundWallet
-  })
-
-  return { wallet: value, walletRef: ref }
-}
-
 export const useWalletsUtils = () => {
   const { walletsRef } = useWalletsSelector()
-  const { loginSessionRef } = useLoginSessionSelector()
+  const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
 
   const doesMnemonicExist = useCallback(
     async (mnemonic: string) => {
-      if (!loginSessionRef.current) {
-        throw new Error('Login session not defined')
+      if (!currentLoginSessionRef.current) {
+        throw new Error('You need to be logged in to access wallets')
       }
 
       for (const wallet of walletsRef.current) {
@@ -36,7 +39,7 @@ export const useWalletsUtils = () => {
 
         const walletMnemonic = await window.api.sendAsync('decryptBasedEncryptedSecret', {
           value: wallet.encryptedMnemonic,
-          encryptedSecret: loginSessionRef.current.encryptedPassword,
+          encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
         })
 
         if (walletMnemonic === mnemonic) return true
@@ -44,10 +47,23 @@ export const useWalletsUtils = () => {
 
       return false
     },
-    [walletsRef, loginSessionRef]
+    [walletsRef, currentLoginSessionRef]
   )
 
   return {
     doesMnemonicExist,
+  }
+}
+
+export const useWalletsSelectorLazy = () => {
+  const { ref: applicationDataByLoginTypeRef } = useAppSelector(state => state.auth.data.applicationDataByLoginType)
+
+  const getWallets = useCallback(
+    (loginSessionType: TLoginSessionType) => applicationDataByLoginTypeRef.current[loginSessionType].wallets,
+    [applicationDataByLoginTypeRef]
+  )
+
+  return {
+    getWallets,
   }
 }

@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test'
 
 import { launch, PASSWORD, startFromScratchAndLogout } from '../index'
 
-test.describe('Login', () => {
+test.describe('Login with password', () => {
   test('Should be logged when has a correct password', async () => {
     const window = await launch()
 

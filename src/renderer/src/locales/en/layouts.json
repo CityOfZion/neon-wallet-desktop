@@ -2,9 +2,9 @@
   "welcomeWithTabs": {
     "welcomeTo": "Welcome to Neon Wallet",
     "tabs": {
-      "neonAccount": "Neon Account",
-      "hardwareWallet": "Hardware Wallet",
-      "addressOrKey": "Address or key"
+      "password": "Neon Account",
+      "hardware": "Hardware Wallet",
+      "key": "Address or key"
     }
   }
 }

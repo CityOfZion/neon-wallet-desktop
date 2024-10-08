@@ -1,49 +1,23 @@
 import { useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
-import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { bsAggregator } from '@renderer/libs/blockchainService'
-import { accountReducerActions } from '@renderer/store/reducers/AccountReducer'
+import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
 import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 
-import { useAccountsSelector } from './useAccountSelector'
-import { usePersistStore } from './usePersistStore'
-import { useAppDispatch, useAppSelector } from './useRedux'
+import { useCurrentLoginSessionSelector } from './useAuthSelector'
+import { useAppDispatch } from './useRedux'
 import {
-  useLoginSessionSelector,
+  useHasOverTheAirUpdatesSelector,
   useSelectedNetworkByBlockchainSelector,
   useSelectedNetworkProfileSelector,
 } from './useSettingsSelector'
 
-const useWalletConnectListeners = () => {
-  const { accountsRef } = useAccountsSelector()
-  const { loginSessionRef } = useLoginSessionSelector()
-  const { networkByBlockchainRef } = useSelectedNetworkByBlockchainSelector()
-
-  useEffect(() => {
-    const removeGetStoreFromWCListener = window.api.listen('getStoreFromWC', ({ args }) => {
-      const info = WalletConnectHelper.getAccountInformationFromSession(args)
-      const account = accountsRef.current.find(AccountHelper.predicate(info))
-
-      window.api.sendSync('sendStoreFromWC', {
-        account,
-        encryptedPassword: loginSessionRef.current?.encryptedPassword,
-        networkByBlockchain: networkByBlockchainRef.current,
-      })
-    })
-
-    return () => {
-      removeGetStoreFromWCListener()
-    }
-  }, [accountsRef, loginSessionRef, networkByBlockchainRef])
-}
-
 const useOverTheAirUpdate = () => {
-  const { ref: hasOverTheAirUpdatesRef } = useAppSelector(state => state.settings.hasOverTheAirUpdates)
+  const { hasOverTheAirUpdatesRef } = useHasOverTheAirUpdatesSelector()
   const { modalNavigate } = useModalNavigate()
   const dispatch = useAppDispatch()
   const { t } = useTranslation('hooks', { keyPrefix: 'useOverTheAirUpdate' })
@@ -79,7 +53,7 @@ const useOverTheAirUpdate = () => {
 }
 
 const useDeeplinkListeners = () => {
-  const { loginSessionRef } = useLoginSessionSelector()
+  const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const { t } = useTranslation('hooks', { keyPrefix: 'DappConnection' })
 
   useEffect(() => {
@@ -88,7 +62,7 @@ const useDeeplinkListeners = () => {
 
       window.api.sendSync('restore')
 
-      if (!loginSessionRef.current)
+      if (!currentLoginSessionRef.current)
         ToastHelper.info({
           message: t('pleaseLogin'),
         })
@@ -100,7 +74,7 @@ const useDeeplinkListeners = () => {
     return () => {
       removeListener()
     }
-  }, [loginSessionRef, t])
+  }, [currentLoginSessionRef, t])
 }
 
 const useNetworkChange = () => {
@@ -122,37 +96,21 @@ const useNetworkChange = () => {
   }, [dispatch, selectedNetworkProfile.networkByBlockchain])
 }
 
-const useWindowListeners = () => {
-  const { resume } = usePersistStore()
+const useRemoveTemporaryApplicationData = () => {
   const dispatch = useAppDispatch()
-  const { loginSessionRef } = useLoginSessionSelector()
-  const { t } = useTranslation('hooks', { keyPrefix: 'useBeforeLogin' })
+  const { currentLoginSession } = useCurrentLoginSessionSelector()
 
-  useEffect(() => {
-    const removeWillQuitListener = window.api.listen('willCloseWindow', async () => {
-      dispatch(accountReducerActions.removeAllPendingTransactions())
+  useLayoutEffect(() => {
+    // If the user is logged in, we don't want to reset the temporary application data
+    if (currentLoginSession) return
 
-      if (loginSessionRef.current?.type === 'hardware') {
-        await resume()
-
-        // Await for the store to be hydrated and saved to the local storage
-        ToastHelper.loading({ message: t('waitSave'), position: 'top-center' })
-        await UtilsHelper.sleep(6000)
-      }
-
-      window.api.sendSync('closeWindow')
-    })
-
-    return () => {
-      removeWillQuitListener()
-    }
-  }, [dispatch, loginSessionRef, resume, t])
+    dispatch(authReducerActions.resetTemporaryApplicationData())
+  }, [currentLoginSession, dispatch])
 }
 
 export const useBeforeLogin = () => {
   useOverTheAirUpdate()
   useNetworkChange()
-  useWindowListeners()
   useDeeplinkListeners()
-  useWalletConnectListeners()
+  useRemoveTemporaryApplicationData()
 }

@@ -6,7 +6,7 @@ import { Progress } from '@renderer/components/Progress'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
-import { useSecurityTypeActions } from '@renderer/hooks/useSettingsSelector'
+import { useSettingsActions } from '@renderer/hooks/useSettingsSelector'
 import { TAccountsToImport, TWalletToCreate } from '@shared/@types/blockchain'
 import { IContactState } from '@shared/@types/store'
 
@@ -22,8 +22,8 @@ export const WelcomeImportWalletStep4Page = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'welcome.importWallet.step4' })
   const { state } = useLocation() as Location<TLocationState>
   const navigate = useNavigate()
-  const { createContacts, createWallet, importAccounts } = useBlockchainActions()
-  const { setSecurityType } = useSecurityTypeActions()
+  const { createWallet, importAccounts, createContacts } = useBlockchainActions()
+  const { setHasPassword } = useSettingsActions()
 
   const isImporting = useRef(false)
 
@@ -34,7 +34,7 @@ export const WelcomeImportWalletStep4Page = () => {
       const { wallets, contacts, password } = state
       const progressByStep = 100 / wallets.length + 3
 
-      await setSecurityType(password)
+      await setHasPassword(password)
 
       setProgress(progress => progress + progressByStep)
 

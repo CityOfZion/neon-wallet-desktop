@@ -6,8 +6,8 @@ import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+import { usePendingTransactionsSelector } from '@renderer/hooks/useAuthSelector'
 import { useInfiniteScroll } from '@renderer/hooks/useInfiniteScroll'
-import { useAppSelector } from '@renderer/hooks/useRedux'
 import { useTokenTransfers } from '@renderer/hooks/useTokenTransfers'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { getI18next } from '@renderer/libs/i18next'
@@ -35,7 +35,7 @@ export const TransactionsTable = forwardRef<HTMLDivElement, TTransactionListProp
   ({ accounts, showSimplified, tableHeaderClassName }, ref) => {
     const { aggregatedData, fetchNextPage, isLoading } = useTokenTransfers({ accounts })
 
-    const { value: pendingTransactions } = useAppSelector(state => state.account.pendingTransactions)
+    const { pendingTransactions } = usePendingTransactionsSelector()
 
     const { handleScroll, ref: scrollRef } = useInfiniteScroll<HTMLDivElement>(fetchNextPage)
 

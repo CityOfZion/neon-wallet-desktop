@@ -28,8 +28,5 @@
   "useOverTheAirUpdate": {
     "downloading": "New version found. Downloading...",
     "downloaded": "New version downloaded. The app will restart to apply update."
-  },
-  "useBeforeLogin": {
-    "waitSave": "Updating stored data..."
   }
 }

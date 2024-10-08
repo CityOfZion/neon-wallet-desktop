@@ -31,7 +31,7 @@ export const CreateWalletStep3Modal = () => {
     form.setData({ name: event.target.value })
   }
 
-  const handleSubmit = ({ name }: TFormData) => {
+  const handleSubmit = async ({ name }: TFormData) => {
     const nameTrimmed = name.trim()
 
     if (nameTrimmed.length <= 0) {
@@ -44,7 +44,7 @@ export const CreateWalletStep3Modal = () => {
       mnemonic: words.join(' '),
     })
 
-    const account = createAccount({
+    const account = await createAccount({
       wallet,
       blockchain: 'neo3',
       name: commonT('account.defaultName', { accountNumber: 1 }),

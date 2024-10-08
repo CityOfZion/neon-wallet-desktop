@@ -96,8 +96,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TProps>(
               'ring-pink': !!errorMessage || error === true,
               'focus:ring-neon': !errorMessage || error === false,
               'pr-3': clearable,
-            },
-            className
+            }
           )}
         >
           <textarea

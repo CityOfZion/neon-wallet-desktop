@@ -4,6 +4,14 @@ End-to-end (E2E) tests simulate real user interactions with the application, cov
 ## Directories
 In each directory, there are different parts of the system, each with its own behavior. For example, if you want to see how a contact is created, then go to the file `contacts/create-contact.spec.ts`.
 
+## Test environment
+You need to create a `.env.test` file in the root directory with these keys to run some tests correctly:
+```
+TEST_NEO3_ADDRESS=NEO3_ADDRESS_HERE
+TEST_NEO3_KEY=NEO3_KEY_HERE
+TEST_MNEMONIC=MNEMONIC_HERE
+```
+
 ## E2E Tests
 We are using [Playwright](https://playwright.dev) for E2E tests. The directory is `tests/`. Read the `tests/README.md` to learn more. If you want to run the tests, use:
 

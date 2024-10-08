@@ -6,10 +6,11 @@ import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { Button } from '@renderer/components/Button'
 import { Loader } from '@renderer/components/Loader'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
+import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useBalances } from '@renderer/hooks/useBalances'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
-import { useLoginSessionSelector, useSelectedNetworkByBlockchainSelector } from '@renderer/hooks/useSettingsSelector'
-import { accountReducerActions } from '@renderer/store/reducers/AccountReducer'
+import { useSelectedNetworkByBlockchainSelector } from '@renderer/hooks/useSettingsSelector'
+import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TUseTransactionsTransfer } from '@shared/@types/hooks'
 import { IAccountState } from '@shared/@types/store'
@@ -63,14 +64,19 @@ const getUnclaimedInfos = async (
 
 export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
   const { t } = useTranslation('components', { keyPrefix: 'claimGasButton' })
-  const { loginSessionRef } = useLoginSessionSelector()
+  const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const dispatch = useAppDispatch()
   const balances = useBalances([account])
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
 
   const unclaimed = useQuery({
     queryKey: ['claim', account.address],
-    queryFn: getUnclaimedInfos.bind(null, account, blockchainService, loginSessionRef.current?.encryptedPassword),
+    queryFn: getUnclaimedInfos.bind(
+      null,
+      account,
+      blockchainService,
+      currentLoginSessionRef.current?.encryptedPassword
+    ),
     staleTime: 0,
     gcTime: 0,
     retry: false,
@@ -97,7 +103,7 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
   const handleClaimGas = async () => {
     try {
       setClaiming(true)
-      if (!loginSessionRef.current) {
+      if (!currentLoginSessionRef.current) {
         throw new Error('Login session not defined')
       }
 
@@ -105,7 +111,7 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
 
       const key = await window.api.sendAsync('decryptBasedEncryptedSecret', {
         value: account.encryptedKey,
-        encryptedSecret: loginSessionRef.current.encryptedPassword,
+        encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
       })
 
       const isHardware = account.type === 'hardware'
@@ -130,9 +136,8 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
         fromAccount: account,
       }
 
-      dispatch(accountReducerActions.addPendingTransaction(transaction))
       dispatch(
-        accountReducerActions.watchPendingTransaction({
+        authReducerActions.addPendingTransaction({
           transaction,
           blockchainService,
           network: networkByBlockchain[account.blockchain],

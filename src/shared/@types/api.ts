@@ -6,7 +6,6 @@ import { TGetStoreFromWCSession, THardwareWalletInfo, TIpcMainAsyncListener, TIp
 export type TMainApiListenersSync = {
   restore: TIpcMainSyncListener<undefined, void>
   sendStoreFromWC: TIpcMainSyncListener<TGetStoreFromWCSession>
-  closeWindow: TIpcMainSyncListener<undefined, void>
   encryptBasedEncryptedSecretSync: TIpcMainSyncListener<{ value: string; encryptedSecret?: string }, string>
   decryptBasedEncryptedSecretSync: TIpcMainSyncListener<{ value: string; encryptedSecret?: string }, string>
   encryptBasedOSSync: TIpcMainSyncListener<string, string>
@@ -37,7 +36,6 @@ export type TMainApiSend = {
   getStoreFromWC: TSession
   hardwareWalletDisconnected: THardwareWalletInfo
   updateCompleted: undefined
-  willCloseWindow: undefined
   deeplink: string
   getHardwareWalletSignatureStart: undefined
   getHardwareWalletSignatureEnd: undefined

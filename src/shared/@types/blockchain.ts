@@ -72,3 +72,8 @@ export type TAccountToEdit = {
   account: IAccountState
   data: Partial<Omit<IAccountState, 'address' | 'encryptedKey' | 'id'>> & { key?: string }
 }
+
+export type TWalletToEdit = {
+  wallet: IWalletState
+  data: Partial<Omit<IWalletState, 'id' | 'encryptedMnemonic'>> & { mnemonic?: string }
+}
