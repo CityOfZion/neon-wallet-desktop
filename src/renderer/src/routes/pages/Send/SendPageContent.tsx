@@ -6,9 +6,11 @@ import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
+import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
+import { useBalance } from '@renderer/hooks/useBalances'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useNameService } from '@renderer/hooks/useNameService'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
@@ -64,7 +66,7 @@ export const SendPageContent = ({ account, recipient }: TProps) => {
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const { modalNavigate } = useModalNavigate()
   const dispatch = useAppDispatch()
-  const [originalRecipient, setoOriginalRecipient] = useState(recipient)
+  const [originalRecipient, setOriginalRecipient] = useState(recipient)
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
   const { accountsRef } = useAccountsSelector()
 
@@ -79,6 +81,8 @@ export const SendPageContent = ({ account, recipient }: TProps) => {
   const { actionData, actionState, setData, setError, handleAct, reset } = useActions<TActionsData>({
     currentStep: SendPageStep.SelectAccount,
   })
+
+  const balance = useBalance(actionData.selectedAccount)
 
   const service = useMemo(() => {
     if (!actionData.selectedAccount) return
@@ -139,43 +143,23 @@ export const SendPageContent = ({ account, recipient }: TProps) => {
   }
 
   const handleSelectToken = (token: TTokenBalance) => {
-    setData({
-      selectedToken: token,
-      selectedAmount: undefined,
-      currentStep: SendPageStep.SelectAmount,
-    })
+    setData({ selectedToken: token, selectedAmount: undefined, currentStep: SendPageStep.SelectAmount })
   }
 
   const handleSelectAmount = (amount: string) => {
-    setData({
-      selectedAmount: amount,
-      currentStep: SendPageStep.SelectContact,
-    })
+    setData({ selectedAmount: amount, currentStep: SendPageStep.SelectContact })
 
-    if (originalRecipient) {
-      validateAddressOrNS(originalRecipient, actionData.selectedAccount?.blockchain)
-    }
+    if (originalRecipient) validateAddressOrNS(originalRecipient, actionData.selectedAccount?.blockchain)
   }
 
   const handleSelectRecipientAddress = async (recipientAddress?: string) => {
-    if (recipientAddress != recipient) {
-      setoOriginalRecipient(undefined)
-    }
-    setData({
-      selectedRecipient: recipientAddress,
-    })
+    if (recipientAddress != recipient) setOriginalRecipient(undefined)
 
+    setData({ selectedRecipient: recipientAddress })
     validateAddressOrNS(recipientAddress, actionData.selectedAccount?.blockchain)
   }
 
-  const handleSelectFee = useCallback(
-    (fee: string) => {
-      setData({
-        fee,
-      })
-    },
-    [setData]
-  )
+  const handleSelectFee = useCallback((fee: string) => setData({ fee }), [setData])
 
   const handleSubmit = async () => {
     const fields = await getSendFields()
@@ -250,16 +234,29 @@ export const SendPageContent = ({ account, recipient }: TProps) => {
   }
 
   useLayoutEffect(() => {
-    if (!actionData.selectedToken || !actionData.selectedAmount || !actionData.fee) return
+    const { selectedToken, selectedAmount, fee } = actionData
+    const feeTokenHash = service?.feeToken?.hash
+    const tokenBalances = balance.data?.tokensBalances ?? []
 
-    const amountNumber = NumberHelper.number(actionData.selectedAmount)
-    const balanceNumber = actionData.selectedToken.amountNumber
-    const feeNumber = NumberHelper.number(actionData.fee)
+    if (!selectedToken || !selectedAmount || !fee || !feeTokenHash || tokenBalances.length === 0) return
 
-    if (amountNumber + feeNumber > balanceNumber) {
+    const normalizedSelectedTokenHash = UtilsHelper.normalizeHash(selectedToken.token.hash)
+    const normalizedFeeTokenHash = UtilsHelper.normalizeHash(feeTokenHash)
+    const isSameFeeToken = normalizedFeeTokenHash === normalizedSelectedTokenHash
+    const amountNumber = NumberHelper.number(selectedAmount)
+    const amountBalanceNumber = selectedToken.amountNumber
+    const feeNumber = NumberHelper.number(fee)
+    const feeBalanceNumber =
+      tokenBalances.find(({ token }) => UtilsHelper.normalizeHash(token.hash) === normalizedFeeTokenHash)
+        ?.amountNumber ?? 0
+
+    const totalAmountNumber = amountNumber + (isSameFeeToken ? feeNumber : 0)
+
+    if (totalAmountNumber > amountBalanceNumber || feeNumber > feeBalanceNumber)
       setError('fee', t('error.insufficientFunds'))
-    }
-  }, [actionData.fee, actionData.selectedAmount, actionData.selectedToken, setError, t])
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [actionData.fee, actionData.selectedAmount, actionData.selectedToken, service, balance.data, setError, t])
 
   useLayoutEffect(() => {
     if (account) {
