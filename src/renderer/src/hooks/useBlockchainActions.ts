@@ -17,16 +17,16 @@ import {
 } from '@shared/@types/blockchain'
 import { IAccountState, IContactState, IWalletState } from '@shared/@types/store'
 
-import { useAccountsSelectorLazy } from './useAccountSelector'
+import { useAccountsSelector } from './useAccountSelector'
 import { useCurrentLoginSessionSelector } from './useAuthSelector'
 import { useAppDispatch } from './useRedux'
 
 export function useBlockchainActions() {
   const dispatch = useAppDispatch()
-  const { getAccounts } = useAccountsSelectorLazy()
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const { t } = useTranslation('common', { keyPrefix: 'account' })
   const { disconnect, sessions } = useWalletConnectWallet()
+  const { accountsRef } = useAccountsSelector()
 
   const createContacts = (contacts: IContactState[]) =>
     contacts.forEach(contact => dispatch(contactReducerActions.saveContact(contact)))
@@ -73,10 +73,7 @@ export function useBlockchainActions() {
         value: wallet.encryptedMnemonic,
         encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
       })
-
-      const accounts = getAccounts(currentLoginSessionRef.current.type)
-
-      const generateIndex = accounts.filter(
+      const generateIndex = accountsRef.current.filter(
         account => account.idWallet === wallet.id && account.blockchain === blockchain
       ).length
 
@@ -88,7 +85,7 @@ export function useBlockchainActions() {
         encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
       })
 
-      const order = accounts.filter(account => account.idWallet === wallet.id).length
+      const order = accountsRef.current.filter(account => account.idWallet === wallet.id).length
 
       const newAccount: IAccountState = {
         id: id ?? UtilsHelper.uuid(),
@@ -107,7 +104,7 @@ export function useBlockchainActions() {
 
       return newAccount
     },
-    [currentLoginSessionRef, getAccounts, dispatch]
+    [currentLoginSessionRef, accountsRef, dispatch]
   )
 
   const importAccount = useCallback(
@@ -126,9 +123,7 @@ export function useBlockchainActions() {
         })
       }
 
-      const accounts = getAccounts(currentLoginSessionRef.current.type)
-
-      const accountOrder = order ?? accounts.filter(account => account.idWallet === wallet.id).length
+      const accountOrder = order ?? accountsRef.current.filter(account => account.idWallet === wallet.id).length
 
       const newAccount: IAccountState = {
         id: UtilsHelper.uuid(),
@@ -147,7 +142,7 @@ export function useBlockchainActions() {
 
       return newAccount
     },
-    [currentLoginSessionRef, getAccounts, t, dispatch]
+    [currentLoginSessionRef, accountsRef, t, dispatch]
   )
 
   const importAccounts = useCallback(
@@ -156,8 +151,7 @@ export function useBlockchainActions() {
         throw new Error('Login session not defined')
       }
 
-      const accounts = getAccounts(currentLoginSessionRef.current.type)
-      const lastOrder = accounts.filter(account => account.idWallet === wallet.id).length
+      const lastOrder = accountsRef.current.filter(account => account.idWallet === wallet.id).length
 
       const promises = accountsToImport.map(async (account, index) =>
         importAccount({ ...account, wallet, order: account.order ?? lastOrder + index })
@@ -165,7 +159,7 @@ export function useBlockchainActions() {
 
       return await Promise.all(promises)
     },
-    [currentLoginSessionRef, getAccounts, importAccount]
+    [currentLoginSessionRef, accountsRef, importAccount]
   )
 
   const deleteAccount = useCallback(

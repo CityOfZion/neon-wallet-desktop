@@ -7,11 +7,7 @@ import { createAppSelector, useAppSelector } from './useRedux'
 const selectWallets = createAppSelector(
   [state => state.auth.data.applicationDataByLoginType, state => state.auth.currentLoginSession],
   (applicationDataByLoginType, currentLoginSession) => {
-    if (!currentLoginSession) {
-      throw new Error('You need to be logged in to access accounts')
-    }
-
-    return applicationDataByLoginType[currentLoginSession.type].wallets
+    return applicationDataByLoginType[currentLoginSession?.type ?? 'password'].wallets
   }
 )
 
