@@ -9,22 +9,16 @@ import { createAppSelector, useAppSelector } from './useRedux'
 const selectAccounts = createAppSelector(
   [state => state.auth.data.applicationDataByLoginType, state => state.auth.currentLoginSession],
   (applicationDataByLoginType, currentLoginSession) => {
-    if (!currentLoginSession) {
-      throw new Error('You need to be logged in to access accounts')
-    }
-
-    return applicationDataByLoginType[currentLoginSession.type].wallets.flatMap(wallet => wallet.accounts)
+    return applicationDataByLoginType[currentLoginSession?.type ?? 'password'].wallets.flatMap(
+      wallet => wallet.accounts
+    )
   }
 )
 
 const selectHasHardwareAccount = createAppSelector(
   [state => state.auth.data.applicationDataByLoginType, state => state.auth.currentLoginSession],
   (applicationDataByLoginType, currentLoginSession) => {
-    if (!currentLoginSession) {
-      throw new Error('You need to be logged in to access accounts')
-    }
-
-    return applicationDataByLoginType[currentLoginSession.type].wallets.some(wallet =>
+    return applicationDataByLoginType[currentLoginSession?.type ?? 'password'].wallets.some(wallet =>
       wallet.accounts.some(account => account.type === 'hardware')
     )
   }
@@ -34,11 +28,9 @@ const selectAccountsByWalletId = (walletId: string) =>
   createAppSelector(
     [state => state.auth.data.applicationDataByLoginType, state => state.auth.currentLoginSession],
     (applicationDataByLoginType, currentLoginSession) => {
-      if (!currentLoginSession) {
-        throw new Error('You need to be logged in to access accounts')
-      }
-
-      const wallet = applicationDataByLoginType[currentLoginSession.type].wallets.find(wallet => wallet.id === walletId)
+      const wallet = applicationDataByLoginType[currentLoginSession?.type ?? 'password'].wallets.find(
+        wallet => wallet.id === walletId
+      )
 
       return SelectorHelper.fallbackToEmptyArray(wallet?.accounts)
     }

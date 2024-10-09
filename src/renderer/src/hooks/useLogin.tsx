@@ -2,6 +2,7 @@ import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { LOGIN_CONTROL_VALUE } from '@renderer/constants/password'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
 import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
 import { TAccountsToImport, TWalletToCreate } from '@shared/@types/blockchain'
 import { THardwareWalletInfo } from '@shared/@types/ipc'
@@ -9,14 +10,13 @@ import { THardwareWalletInfo } from '@shared/@types/ipc'
 import { useBlockchainActions } from './useBlockchainActions'
 import { useAppDispatch } from './useRedux'
 import { useLoginControlSelector } from './useSettingsSelector'
-import { useWalletsSelectorLazy } from './useWalletSelector'
 
 export const useLogin = () => {
-  const { getWallets } = useWalletsSelectorLazy()
   const { encryptedLoginControlRef } = useLoginControlSelector()
   const dispatch = useAppDispatch()
   const { t } = useTranslation('hooks', { keyPrefix: 'useLogin' })
   const { t: commonT } = useTranslation('common')
+  const { walletsRef } = useWalletsSelector()
   const { createWallet, importAccount, importAccounts } = useBlockchainActions()
 
   const loginWithPassword = useCallback(
@@ -36,9 +36,7 @@ export const useLogin = () => {
         throw new Error(t('controlIsNotValid'))
       }
 
-      const wallets = getWallets('password')
-
-      const walletPromises = wallets.map(async wallet => {
+      const walletPromises = walletsRef.current.map(async wallet => {
         const accountPromises = wallet.accounts.map(async account => {
           if (!account.encryptedKey) return
           await window.api.sendAsync('decryptBasedEncryptedSecret', {
@@ -65,7 +63,7 @@ export const useLogin = () => {
         })
       )
     },
-    [encryptedLoginControlRef, getWallets, dispatch, t]
+    [encryptedLoginControlRef, walletsRef, dispatch, t]
   )
 
   const loginWithHardwareWallet = useCallback(
