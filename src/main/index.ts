@@ -26,6 +26,8 @@ let mainWindow: BrowserWindow | null = null
 registerDeeplinkProtocol()
 
 function createWindow(): void {
+  const isLinux = process.platform === 'linux'
+
   mainWindow = new BrowserWindow({
     title: `Neon Wallet ${packageJson.version}`,
     width: 1350,
@@ -35,7 +37,7 @@ function createWindow(): void {
     titleBarStyle: 'hidden',
     titleBarOverlay: true,
     show: false,
-    ...(process.platform === 'linux' ? { icon } : {}),
+    ...(isLinux ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false,
@@ -54,6 +56,10 @@ function createWindow(): void {
   mainWindow.webContents.setWindowOpenHandler(details => {
     shell.openExternal(details.url)
     return { action: 'deny' }
+  })
+
+  mainWindow.webContents.on('before-input-event', (event, input) => {
+    if (isLinux && input.key === 'Alt') event.preventDefault()
   })
 
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
