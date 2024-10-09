@@ -37,6 +37,12 @@ export type TUseBalancesResult = {
   exchangeTotal: number
 }
 
+export type TUseBalanceResult = {
+  data: TBalance
+  isLoading: boolean
+  exchangeTotal: number
+}
+
 export type TUseBalancesParams = {
   address: string
   blockchain: TBlockchainServiceKey

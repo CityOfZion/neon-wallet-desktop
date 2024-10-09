@@ -2,8 +2,14 @@ import { ExchangeHelper } from '@renderer/helpers/ExchangeHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
-import { TBalance, TTokenBalance, TUseBalancesParams, TUseBalancesResult } from '@shared/@types/query'
-import { Query, QueryClient, useQueries, useQueryClient } from '@tanstack/react-query'
+import {
+  TBalance,
+  TTokenBalance,
+  TUseBalanceResult,
+  TUseBalancesParams,
+  TUseBalancesResult,
+} from '@shared/@types/query'
+import { Query, QueryClient, useQueries, useQuery, useQueryClient } from '@tanstack/react-query'
 
 import { useCurrencyRatio } from './useCurrencyRatio'
 import { fetchExchange } from './useExchange'
@@ -111,4 +117,23 @@ export function useBalances(params: TUseBalancesParams[]): TUseBalancesResult {
   })
 
   return balanceQueries
+}
+
+export function useBalance(balanceParams: TUseBalancesParams | undefined): TUseBalanceResult {
+  const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
+  const queryClient = useQueryClient()
+  const currencyRatioQuery = useCurrencyRatio()
+  const params = balanceParams ?? { address: '', blockchain: 'neo3' }
+
+  return useQuery({
+    queryKey: buildQueryKeyBalance(params.address, params.blockchain, networkByBlockchain[params.blockchain]),
+    queryFn: fetchBalance.bind(
+      null,
+      params,
+      networkByBlockchain[params.blockchain],
+      queryClient,
+      currencyRatioQuery.data ?? 1
+    ),
+    enabled: !!balanceParams && !!currencyRatioQuery?.data,
+  })
 }

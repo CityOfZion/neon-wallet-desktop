@@ -19,7 +19,7 @@ module.exports = {
         argsIgnorePattern: '^_',
       },
     ],
-    '@tanstack/query/prefer-query-object-syntax': 'error',
+    '@tanstack/query/prefer-query-object-syntax': 'off',
     'simple-import-sort/exports': 'error',
     'simple-import-sort/imports': [
       'error',
