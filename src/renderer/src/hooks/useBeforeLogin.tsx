@@ -100,7 +100,7 @@ const useRemoveTemporaryApplicationData = () => {
   const dispatch = useAppDispatch()
   const { currentLoginSession } = useCurrentLoginSessionSelector()
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     // If the user is logged in, we don't want to reset the temporary application data
     if (currentLoginSession) return
 

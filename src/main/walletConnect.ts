@@ -1,3 +1,4 @@
+import { Account } from '@cityofzion/blockchain-service'
 import { exposeApiToRenderer } from '@cityofzion/bs-electron/dist/main'
 import { BSEthereum } from '@cityofzion/bs-ethereum'
 import { BSNeo3 } from '@cityofzion/bs-neo3'
@@ -62,7 +63,14 @@ class WalletConnectNeonAdapter extends AbstractWalletConnectNeonAdapter {
     if (!key) throw new Error('Error to decrypt key')
 
     const service = bsAggregator.blockchainServicesByName.neo3 as BSNeo3
-    const serviceAccount = service.generateAccountFromPublicKey(key)
+
+    const serviceAccount: Account = {
+      address: account.address,
+      key,
+      type: 'publicKey',
+      bip44Path: service.bip44DerivationPath.replace('?', account.order.toString()),
+    }
+
     const transport = await getHardwareWalletTransport(serviceAccount)
 
     return service.ledgerService.getSigningCallback(transport, serviceAccount)
@@ -99,7 +107,14 @@ export class WalletConnectEIP155Adapter extends AbstractWalletConnectEIP155Adapt
     if (!key) throw new Error('Error to decrypt key')
 
     const service = bsAggregator.blockchainServicesByName.ethereum as BSEthereum
-    const serviceAccount = service.generateAccountFromPublicKey(key)
+
+    const serviceAccount: Account = {
+      address: account.address,
+      key,
+      type: 'publicKey',
+      bip44Path: service.bip44DerivationPath.replace('?', account.order.toString()),
+    }
+
     const transport = await getHardwareWalletTransport(serviceAccount)
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment

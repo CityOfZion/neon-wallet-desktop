@@ -26,6 +26,11 @@ export const DeleteWalletModal = () => {
     if (wallets.length === 1 && wallets[0].id === wallet.id) {
       ToastHelper.error({ message: t('deleteLastWalletError') })
     } else {
+      const isHardwareWalletConnected =
+        wallet.type === 'hardware' && wallet.accounts.some(account => account.type === 'hardware')
+
+      if (isHardwareWalletConnected) window.api.sendAsync('disconnectHardwareWallet')
+
       deleteWallet(wallet.id)
     }
 

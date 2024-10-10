@@ -114,16 +114,6 @@ export class UtilsHelper {
     return uuid.v4()
   }
 
-  static isValidMnemonic(word: string | string[]) {
-    const wordArray = Array.isArray(word) ? word : word.trim().split(' ')
-    return wordArray.length === 12
-  }
-
-  static isMnemonic(word: string | string[]) {
-    const wordArray = Array.isArray(word) ? word : word.trim().split(' ')
-    return wordArray.length > 1
-  }
-
   static donwloadSVGToPng(elementId: string, suggestedFileName?: string) {
     const svg = document.getElementById(elementId)
     if (!svg) return
@@ -205,5 +195,20 @@ export class UtilsHelper {
     }
 
     return false
+  }
+
+  static getNextNumberOrMissing(numbers: number[]) {
+    if (numbers.length === 0) return 0
+
+    const length = numbers.length
+    const expectedSum = (length * (length + 1)) / 2
+    const actualSum = numbers.reduce((acc, num) => acc + num, 0)
+    const missingNumber = expectedSum - actualSum
+
+    if (missingNumber === 0) {
+      return Math.max(...numbers) + 1
+    }
+
+    return missingNumber
   }
 }

@@ -1,7 +1,7 @@
 import { Fragment, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbTransform } from 'react-icons/tb'
-import { BlockchainService, BSClaimable, hasLedger, isCalculableFee } from '@cityofzion/blockchain-service'
+import { Account, BlockchainService, BSClaimable, hasLedger, isCalculableFee } from '@cityofzion/blockchain-service'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { Button } from '@renderer/components/Button'
 import { Loader } from '@renderer/components/Loader'
@@ -40,9 +40,14 @@ const getUnclaimedInfos = async (
   if (isCalculableFee(blockchainService)) {
     const isHardware = account.type === 'hardware'
 
-    const serviceAccount =
+    const serviceAccount: Account =
       isHardware && hasLedger(blockchainService)
-        ? blockchainService.generateAccountFromPublicKey(key)
+        ? {
+            address: account.address,
+            key,
+            type: 'publicKey',
+            bip44Path: blockchainService.bip44DerivationPath.replace('?', account.order.toString()),
+          }
         : blockchainService.generateAccountFromKey(key)
 
     fee = await blockchainService.calculateTransferFee({
@@ -78,7 +83,6 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
       currentLoginSessionRef.current?.encryptedPassword
     ),
     staleTime: 0,
-    gcTime: 0,
     retry: false,
   })
 
@@ -116,9 +120,14 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
 
       const isHardware = account.type === 'hardware'
 
-      const serviceAccount =
+      const serviceAccount: Account =
         isHardware && hasLedger(blockchainService)
-          ? blockchainService.generateAccountFromPublicKey(key)
+          ? {
+              address: account.address,
+              key,
+              type: 'publicKey',
+              bip44Path: blockchainService.bip44DerivationPath.replace('?', account.order.toString()),
+            }
           : blockchainService.generateAccountFromKey(key)
 
       const transactionHash = await blockchainService.claim(serviceAccount, isHardware)
@@ -154,8 +163,6 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
     <div className="w-full bg-asphalt flex items-center justify-center rounded h-[55px] mb-5 text-sm">
       {unclaimed.isLoading || balances.isLoading ? (
         <Loader />
-      ) : !unclaimed.data ? (
-        <Fragment />
       ) : (
         <div className="w-full flex justify-between items-center h-full px-4">
           <div className="flex items-center gap-x-2">
@@ -191,7 +198,7 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
           <div className="flex items-center gap-x-5">
             <span>
               {t('claimAmount', {
-                amount: unclaimed.data.unclaimed,
+                amount: unclaimed.data?.unclaimed ?? 0,
                 symbol: blockchainService.claimToken.symbol,
               })}
             </span>
@@ -199,7 +206,12 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
             <Button
               label={t('buttonLabel')}
               leftIcon={<TbTransform />}
-              disabled={!feeIsLessThanBalance || !feeIsLessThanUnclaimed || unclaimed.data.unclaimedNumber <= 0}
+              disabled={
+                !feeIsLessThanBalance ||
+                !feeIsLessThanUnclaimed ||
+                !unclaimed.data ||
+                unclaimed.data.unclaimedNumber <= 0
+              }
               flat
               loading={claiming}
               onClick={handleClaimGas}

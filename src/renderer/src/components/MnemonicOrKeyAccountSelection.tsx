@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
+import { MnemonicHelper } from '@renderer/helpers/MnemonicHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useMount } from '@renderer/hooks/useMount'
@@ -119,8 +120,9 @@ export const MnemonicOrKeyAccountSelection = ({
     const selectedAccounts: TMnemonicOrKeyAccountWithBlockchain[] = []
     let mnemonicAccountsArray: TMnemonicAccounts = []
 
-    if (UtilsHelper.isValidMnemonic(mnemonicOrKey)) {
+    if (MnemonicHelper.isValidMnemonic(mnemonicOrKey)) {
       const accountFromMnemonicMap = await bsAggregator.generateAccountsFromMnemonic(mnemonicOrKey)
+
       mnemonicAccountsArray = Array.from(accountFromMnemonicMap.entries())
     } else {
       await UtilsHelper.promiseAll(Object.values(bsAggregator.blockchainServicesByName), async service => {

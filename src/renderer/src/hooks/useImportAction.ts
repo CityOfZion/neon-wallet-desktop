@@ -1,6 +1,6 @@
 import { ChangeEvent } from 'react'
 import { useTranslation } from 'react-i18next'
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+import { MnemonicHelper } from '@renderer/helpers/MnemonicHelper'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { TUseImportActionInputType } from '@shared/@types/hooks'
 
@@ -23,7 +23,8 @@ export const useImportAction = (
   })
 
   const validateMnemonic = (value: string) => {
-    const isValid = UtilsHelper.isValidMnemonic(value)
+    const isValid = MnemonicHelper.isValidMnemonic(value)
+
     if (!isValid) throw new Error(t('errors.mnemonicIncomplete'))
   }
 
@@ -34,7 +35,7 @@ export const useImportAction = (
     try {
       const checkFunctionsByInputType: Record<TUseImportActionInputType, (value: string) => boolean> = {
         key: bsAggregator.validateKeyAllBlockchains.bind(bsAggregator),
-        mnemonic: UtilsHelper.isMnemonic,
+        mnemonic: MnemonicHelper.isMnemonic,
         encrypted: bsAggregator.validateEncryptedAllBlockchains.bind(bsAggregator),
         address: bsAggregator.validateAddressAllBlockchains.bind(bsAggregator),
       }

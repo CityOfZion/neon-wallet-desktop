@@ -12,33 +12,17 @@ const NodeHidTransportFixed = (NodeHidTransport as any).default as typeof NodeHi
 let transporter: THardwareWalletInfoWithTransport | undefined
 
 export const getHardwareWalletTransport = async (account: Account) => {
-  if (!transporter || transporter.address !== account.address)
+  if (!transporter || !transporter.accounts.some(item => item.address === account.address)) {
     throw new Error(`No hardware wallet found for account ${account.address}`)
+  }
 
   return transporter.transport
-}
-
-const disconnectHardwareWallet = () => {
-  if (!transporter) return
-
-  const connectedDevices = getDevices()
-  if (connectedDevices.some(d => d.path === transporter!.descriptor)) return
-  transporter.transport.close()
-
-  mainApi.send('hardwareWalletDisconnected', {
-    address: transporter.address,
-    blockchain: transporter.blockchain,
-    publicKey: transporter.publicKey,
-  })
-
-  transporter = undefined
 }
 
 const connectHardwareWallet = async () => {
   if (transporter) {
     return {
-      address: transporter.address,
-      publicKey: transporter.publicKey,
+      accounts: transporter.accounts,
       blockchain: transporter.blockchain,
     }
   }
@@ -53,12 +37,10 @@ const connectHardwareWallet = async () => {
   for (const service of Object.values(bsAggregator.blockchainServicesByName)) {
     try {
       if (!hasLedger(service)) continue
-      const acc = await service.ledgerService.getAccount(transport, 0)
-      const address = acc.address
-      const publicKey = acc.key
+      const accounts = await service.ledgerService.getAccounts(transport)
+
       transporter = {
-        address,
-        publicKey,
+        accounts,
         blockchain: service.blockchainName,
         transport,
         descriptor: device.path,
@@ -75,15 +57,39 @@ const connectHardwareWallet = async () => {
   }
 
   return {
-    address: transporter.address,
-    publicKey: transporter.publicKey,
+    accounts: transporter.accounts,
+    blockchain: transporter.blockchain,
+    descriptor: transporter.descriptor,
+  }
+}
+
+const addNewHardwareAccount = async (index: number) => {
+  if (!transporter) throw new Error('Hardware wallet is not connected')
+
+  const service = bsAggregator.blockchainServicesByName[transporter.blockchain]
+
+  if (!hasLedger(service)) throw new Error('Blockchain does not support hardware wallet')
+
+  const account = await service.ledgerService.getAccount(transporter.transport, index)
+
+  transporter.accounts.push(account)
+
+  return {
+    account,
     blockchain: transporter.blockchain,
   }
 }
 
 export function registerHardwareWalletHandler() {
   mainApi.listenAsync('connectHardwareWallet', connectHardwareWallet)
-  mainApi.listenAsync('disconnectHardwareWallet', disconnectHardwareWallet)
+  mainApi.listenAsync('disconnectHardwareWallet', () => {
+    if (!transporter) return
+
+    transporter.transport.close()
+
+    transporter = undefined
+  })
+  mainApi.listenAsync('addNewHardwareAccount', ({ args }) => addNewHardwareAccount(args))
 
   Object.values(bsAggregator.blockchainServicesByName).forEach(service => {
     if (!hasLedger(service)) return
@@ -99,7 +105,21 @@ export function registerHardwareWalletHandler() {
 
   usb.on('detach', device => {
     if (device.deviceDescriptor.idVendor !== ledgerUSBVendorId) return
-    disconnectHardwareWallet()
+    if (!transporter) return
+
+    const connectedDevices = getDevices()
+
+    if (connectedDevices.some(device => device.path === transporter!.descriptor)) return
+
+    transporter.transport.close()
+
+    mainApi.send('hardwareWalletDisconnected', {
+      accounts: transporter.accounts,
+      blockchain: transporter.blockchain,
+      descriptor: transporter.descriptor,
+    })
+
+    transporter = undefined
   })
 
   process.on('exit', () => {

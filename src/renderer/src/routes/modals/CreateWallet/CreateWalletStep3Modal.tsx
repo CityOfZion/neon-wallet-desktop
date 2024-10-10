@@ -21,7 +21,7 @@ export const CreateWalletStep3Modal = () => {
   const { t: commonT } = useTranslation('common')
   const { words } = useModalState<TLocationState>()
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
-  const { createWallet, createAccount } = useBlockchainActions()
+  const { createWallet, createStandardAccount } = useBlockchainActions()
 
   const form = useActions<TFormData>({
     name: '',
@@ -44,7 +44,7 @@ export const CreateWalletStep3Modal = () => {
       mnemonic: words.join(' '),
     })
 
-    const account = await createAccount({
+    const account = await createStandardAccount({
       wallet,
       blockchain: 'neo3',
       name: commonT('account.defaultName', { accountNumber: 1 }),

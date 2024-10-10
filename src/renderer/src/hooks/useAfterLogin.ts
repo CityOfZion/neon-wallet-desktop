@@ -11,7 +11,6 @@ import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { IAccountState } from '@shared/@types/store'
 
 import { useAccountsSelector } from './useAccountSelector'
@@ -22,6 +21,7 @@ import { useModalHistories, useModalNavigate } from './useModalRouter'
 import { useMountUnsafe } from './useMount'
 import { useAppDispatch } from './useRedux'
 import { useSelectedNetworkByBlockchainSelector, useUnlockedSkinIdsSelector } from './useSettingsSelector'
+import { useWalletsSelector } from './useWalletSelector'
 
 const useRegisterWalletConnectListeners = () => {
   const { sessions, requests } = useWalletConnectWallet()
@@ -76,50 +76,38 @@ const useRegisterWalletConnectListeners = () => {
 }
 
 const useRegisterHardwareWalletListeners = () => {
-  const { accountsRef } = useAccountsSelector()
+  const { walletsRef } = useWalletsSelector()
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const { editAccount } = useBlockchainActions()
   const { logout } = useLogin()
   const { t: commonT } = useTranslation('common')
 
-  const convertToWatch = useCallback(
-    (address: string, blockchain: TBlockchainServiceKey) => {
-      const account = accountsRef.current.find(AccountHelper.predicate({ address, blockchain }))
-      if (!account) return
-
-      editAccount({
-        account,
-        data: {
-          type: 'watch',
-        },
-      })
-    },
-    [accountsRef, editAccount]
-  )
-
   useMountUnsafe(() => {
     if (currentLoginSessionRef.current?.type === 'password') {
-      accountsRef.current.forEach(account => {
-        if (account.type !== 'hardware') return
-        convertToWatch(account.address, account.blockchain)
-      })
+      walletsRef.current
+        .filter(wallet => wallet.type === 'hardware')
+        .forEach(wallet => {
+          wallet.accounts.forEach(account => {
+            editAccount({
+              account,
+              data: {
+                type: 'watch',
+              },
+            })
+          })
+        })
     }
   })
 
   useEffect(() => {
-    const removeHardwareWalletDisconnectedListener = window.api.listen('hardwareWalletDisconnected', ({ args }) => {
-      if (currentLoginSessionRef.current?.type === 'password') {
-        convertToWatch(args.address, args.blockchain)
-        return
-      }
-
+    const removeHardwareWalletDisconnectedListener = window.api.listen('hardwareWalletDisconnected', () => {
       logout()
     })
 
     return () => {
       removeHardwareWalletDisconnectedListener()
     }
-  }, [accountsRef, commonT, convertToWatch, currentLoginSessionRef, logout])
+  }, [logout])
 
   useEffect(() => {
     const removeGetHardwareWalletSignatureStartListener = window.api.listen('getHardwareWalletSignatureStart', () => {

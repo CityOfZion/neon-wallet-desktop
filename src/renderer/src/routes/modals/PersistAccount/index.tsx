@@ -7,6 +7,7 @@ import { Separator } from '@renderer/components/Separator'
 import { ACCOUNT_COLOR_SKINS } from '@renderer/constants/skins'
 import { useActions } from '@renderer/hooks/useActions'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
+import { useHardwareWalletActions } from '@renderer/hooks/useHardwareWallet'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
@@ -31,7 +32,8 @@ export const PersistAccountModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'persistAccount' })
   const { modalNavigate } = useModalNavigate()
   const { account, wallet } = useModalState<TLocationState>()
-  const { createAccount } = useBlockchainActions()
+  const { createStandardAccount } = useBlockchainActions()
+  const { addNewHardwareAccount } = useHardwareWalletActions()
 
   const dispatch = useAppDispatch()
 
@@ -55,15 +57,20 @@ export const PersistAccountModal = () => {
     if (account) {
       dispatch(authReducerActions.saveAccount({ ...account, name: nameTrimmed, skin, lastNftSkin }))
       modalNavigate(-1)
+
+      return
     }
-    if (wallet) {
+
+    if (!wallet) return
+
+    if (wallet.type === 'standard') {
       modalNavigate('blockchain-selection', {
         state: {
           heading: t('titleCreate'),
           headingIcon: <TbPlus className="text-neon" />,
           description: t('selectBlockchainDescription'),
           onSelect: async (blockchain: TBlockchainServiceKey) => {
-            await createAccount({
+            await createStandardAccount({
               wallet,
               blockchain: blockchain,
               name: nameTrimmed,
@@ -73,7 +80,12 @@ export const PersistAccountModal = () => {
           },
         },
       })
+
+      return
     }
+
+    addNewHardwareAccount(wallet, nameTrimmed)
+    modalNavigate(-1)
   }
 
   return (
@@ -115,7 +127,7 @@ export const PersistAccountModal = () => {
           type="submit"
           label={account ? t('saveButtonLabel') : t('nextButtonLabel')}
           flat
-          disabled={!actionState.isValid}
+          disabled={!actionState.isValid || actionState.isActing}
         />
       </form>
 

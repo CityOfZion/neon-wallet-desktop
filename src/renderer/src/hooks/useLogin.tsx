@@ -2,22 +2,23 @@ import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { LOGIN_CONTROL_VALUE } from '@renderer/constants/password'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
-import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
 import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
 import { TAccountsToImport, TWalletToCreate } from '@shared/@types/blockchain'
 import { THardwareWalletInfo } from '@shared/@types/ipc'
 
 import { useBlockchainActions } from './useBlockchainActions'
+import { useHardwareWalletActions } from './useHardwareWallet'
 import { useAppDispatch } from './useRedux'
 import { useLoginControlSelector } from './useSettingsSelector'
+import { useWalletsSelector } from './useWalletSelector'
 
 export const useLogin = () => {
   const { encryptedLoginControlRef } = useLoginControlSelector()
   const dispatch = useAppDispatch()
   const { t } = useTranslation('hooks', { keyPrefix: 'useLogin' })
-  const { t: commonT } = useTranslation('common')
+  const { createWallet, importAccounts } = useBlockchainActions()
+  const { createHardwareWallet } = useHardwareWalletActions()
   const { walletsRef } = useWalletsSelector()
-  const { createWallet, importAccount, importAccounts } = useBlockchainActions()
 
   const loginWithPassword = useCallback(
     async (password: string) => {
@@ -73,17 +74,9 @@ export const useLogin = () => {
 
       dispatch(authReducerActions.setCurrentLoginSession({ type: 'hardware', encryptedPassword }))
 
-      const wallet = createWallet({ name: commonT('wallet.ledgerName'), type: 'hardware' })
-
-      await importAccount({
-        wallet,
-        address: hardwareWalletInfo.address,
-        blockchain: hardwareWalletInfo.blockchain,
-        type: 'hardware',
-        key: hardwareWalletInfo.publicKey,
-      })
+      await createHardwareWallet(hardwareWalletInfo)
     },
-    [commonT, createWallet, dispatch, importAccount]
+    [createHardwareWallet, dispatch]
   )
 
   const loginWithKey = useCallback(
@@ -104,6 +97,8 @@ export const useLogin = () => {
   )
 
   const logout = useCallback(async () => {
+    window.api.sendAsync('disconnectHardwareWallet')
+
     dispatch(authReducerActions.setCurrentLoginSession(undefined))
   }, [dispatch])
 

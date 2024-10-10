@@ -1,7 +1,13 @@
 import { TSession } from '@cityofzion/wallet-connect-sdk-wallet-react'
 import { OpenDialogOptions } from 'electron'
 
-import { TGetStoreFromWCSession, THardwareWalletInfo, TIpcMainAsyncListener, TIpcMainSyncListener } from './ipc'
+import {
+  TAddHardwareWalletAccountInfo,
+  TGetStoreFromWCSession,
+  THardwareWalletInfo,
+  TIpcMainAsyncListener,
+  TIpcMainSyncListener,
+} from './ipc'
 
 export type TMainApiListenersSync = {
   restore: TIpcMainSyncListener<undefined, void>
@@ -20,6 +26,7 @@ export type TMainApiListenersAsync = {
   setWindowButtonPosition: TIpcMainAsyncListener<Electron.Point, void>
   connectHardwareWallet: TIpcMainAsyncListener<undefined, THardwareWalletInfo>
   disconnectHardwareWallet: TIpcMainAsyncListener<undefined, void>
+  addNewHardwareAccount: TIpcMainAsyncListener<number, TAddHardwareWalletAccountInfo>
   checkForUpdates: TIpcMainAsyncListener<undefined, boolean>
   quitAndInstall: TIpcMainAsyncListener<undefined, void>
   encryptBasedOS: TIpcMainAsyncListener<string, string>

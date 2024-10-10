@@ -1,3 +1,4 @@
+import { Account } from '@cityofzion/blockchain-service'
 import type NodeHidTransport from '@ledgerhq/hw-transport-node-hid-noevents'
 import type { BrowserWindow, IpcMainEvent, IpcMainInvokeEvent, IpcRendererEvent } from 'electron'
 
@@ -32,9 +33,13 @@ export type TGetStoreFromWCSession = {
   networkByBlockchain: TSelectedNetworks
 }
 
+export type TAddHardwareWalletAccountInfo = {
+  account: Account
+  blockchain: TBlockchainServiceKey
+}
+
 export type THardwareWalletInfo = {
-  address: string
-  publicKey: string
+  accounts: Account[]
   blockchain: TBlockchainServiceKey
 }
 
