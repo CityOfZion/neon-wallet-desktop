@@ -6,44 +6,20 @@ import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { AlertSuccessBanner } from '@renderer/components/AlertSuccessBanner'
 import { Button } from '@renderer/components/Button'
 import { SearchingLoader } from '@renderer/components/SearchingLoader'
-import { AccountHelper } from '@renderer/helpers/AccountHelper'
-import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
-import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
-import { useConnectHardwareWallet } from '@renderer/hooks/useConnectHardwareWallet'
+import { useConnectHardwareWallet, useHardwareWalletActions } from '@renderer/hooks/useHardwareWallet'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
 
 export const ConnectHardwareWalletModal = () => {
-  const { t: commonT } = useTranslation('common')
   const { t } = useTranslation('modals', { keyPrefix: 'connectHardwareWallet' })
-  const { accountsRef } = useAccountsSelector()
-  const { createWallet, importAccount, editAccount } = useBlockchainActions()
   const navigate = useNavigate()
   const { modalErase } = useModalNavigate()
+  const { createHardwareWallet } = useHardwareWalletActions()
 
   const { status, handleTryConnect } = useConnectHardwareWallet(async info => {
-    let account = accountsRef.current.find(AccountHelper.predicate(info))
+    const [firstAccount] = await createHardwareWallet(info)
 
-    if (!account) {
-      const wallet = createWallet({ name: commonT('wallet.ledgerName'), type: 'hardware' })
-      account = await importAccount({
-        wallet,
-        address: info.address,
-        blockchain: info.blockchain,
-        type: 'hardware',
-        key: info.publicKey,
-      })
-    } else {
-      editAccount({
-        account,
-        data: {
-          type: 'hardware',
-          key: info.publicKey,
-        },
-      })
-    }
-
-    navigate(`/app/wallets/${account.id}/overview`)
+    navigate(`/app/wallets/${firstAccount.id}/overview`)
     modalErase('center')
   })
 

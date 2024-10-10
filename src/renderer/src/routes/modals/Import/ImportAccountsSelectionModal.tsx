@@ -7,7 +7,7 @@ import {
   MnemonicOrKeyAccountSelection,
   TMnemonicOrKeyAccountWithBlockchain,
 } from '@renderer/components/MnemonicOrKeyAccountSelection'
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+import { MnemonicHelper } from '@renderer/helpers/MnemonicHelper'
 import { useAccountUtils } from '@renderer/hooks/useAccountSelector'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useLoadingActions } from '@renderer/hooks/useLoadingActions'
@@ -33,7 +33,7 @@ export const ImportAccountsSelectionModal = () => {
   const [selectedAccounts, setSelectedAccounts] = useState<TMnemonicOrKeyAccountWithBlockchain[]>([])
 
   const handleImport = async () => {
-    const isMnemonic = UtilsHelper.isValidMnemonic(mnemonicOrKey)
+    const isMnemonic = MnemonicHelper.isValidMnemonic(mnemonicOrKey)
 
     const wallet = blockchainActions.createWallet({
       name: isMnemonic ? commonT('wallet.mnemonicWalletName') : commonT('wallet.importedName'),

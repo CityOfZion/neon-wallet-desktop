@@ -26,7 +26,7 @@ export const WelcomeSecuritySetupStep2Page = ({ onSubmit }: TProps) => {
   const { t } = useTranslation('pages', { keyPrefix: 'welcome.securitySetup.step2' })
   const { t: commonT } = useTranslation('common')
   const navigate = useNavigate()
-  const { createWallet, createAccount } = useBlockchainActions()
+  const { createWallet, createStandardAccount } = useBlockchainActions()
   const { setHasPassword } = useSettingsActions()
 
   const { actionData, actionState, handleAct, setData, setError } = useActions<TFormData>({
@@ -57,7 +57,7 @@ export const WelcomeSecuritySetupStep2Page = ({ onSubmit }: TProps) => {
       mnemonic: words.join(' '),
     })
 
-    await createAccount({
+    await createStandardAccount({
       wallet,
       blockchain: 'neo3',
       name: commonT('account.defaultName', { accountNumber: 1 }),

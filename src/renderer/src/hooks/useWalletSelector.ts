@@ -1,5 +1,4 @@
 import { useCallback } from 'react'
-import { TLoginSessionType } from '@shared/@types/store'
 
 import { useCurrentLoginSessionSelector } from './useAuthSelector'
 import { createAppSelector, useAppSelector } from './useRedux'
@@ -48,18 +47,5 @@ export const useWalletsUtils = () => {
 
   return {
     doesMnemonicExist,
-  }
-}
-
-export const useWalletsSelectorLazy = () => {
-  const { ref: applicationDataByLoginTypeRef } = useAppSelector(state => state.auth.data.applicationDataByLoginType)
-
-  const getWallets = useCallback(
-    (loginSessionType: TLoginSessionType) => applicationDataByLoginTypeRef.current[loginSessionType].wallets,
-    [applicationDataByLoginTypeRef]
-  )
-
-  return {
-    getWallets,
   }
 }

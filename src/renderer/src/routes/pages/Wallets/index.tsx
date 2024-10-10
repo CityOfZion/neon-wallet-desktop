@@ -123,8 +123,6 @@ export const WalletsPage = () => {
     setSelectedAccount(account)
   }, [id, wallets, accounts, navigate])
 
-  useLayoutEffect(() => {}, [selectedWallet, selectedAccount])
-
   return (
     <MainLayout
       heading={
@@ -196,8 +194,8 @@ export const WalletsPage = () => {
               />
             </main>
 
-            {selectedWallet.encryptedMnemonic && (
-              <footer className="px-4 pb-6">
+            {(selectedWallet.encryptedMnemonic || selectedWallet.type === 'hardware') && (
+              <footer className="px-4 pb-6 pt-3">
                 <Button
                   label={t('addAccountButtonLabel')}
                   variant="outlined"

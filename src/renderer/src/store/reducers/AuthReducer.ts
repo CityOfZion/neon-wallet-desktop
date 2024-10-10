@@ -145,7 +145,7 @@ const saveAccount: CaseReducer<IAuthReducer, PayloadAction<IAccountState>> = (st
     throw new Error('Error to save account: Wallet not found')
   }
 
-  const accountIndex = applicationData.wallets.findIndex(it => it.id === account.id)
+  const accountIndex = wallet.accounts.findIndex(it => it.id === account.id)
   if (accountIndex < 0) {
     wallet.accounts = [...wallet.accounts, account]
     return

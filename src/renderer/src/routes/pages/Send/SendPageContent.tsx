@@ -109,9 +109,14 @@ export const SendPageContent = ({ account, recipient }: TProps) => {
       encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
     })
 
-    const serviceAccount =
+    const serviceAccount: Account =
       actionData.selectedAccount.type === 'hardware' && hasLedger(service)
-        ? service.generateAccountFromPublicKey(key)
+        ? {
+            address: actionData.selectedAccount.address,
+            key,
+            type: 'publicKey',
+            bip44Path: service.bip44DerivationPath.replace('?', actionData.selectedAccount.order.toString()),
+          }
         : service.generateAccountFromKey(key)
 
     return {

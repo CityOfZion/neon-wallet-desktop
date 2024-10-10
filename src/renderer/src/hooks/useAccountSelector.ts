@@ -2,7 +2,6 @@ import { useCallback } from 'react'
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { SelectorHelper } from '@renderer/helpers/SelectorHelper'
 import { TAccountHelperPredicateParams } from '@shared/@types/helpers'
-import { TLoginSessionType } from '@shared/@types/store'
 
 import { createAppSelector, useAppSelector } from './useRedux'
 
@@ -73,20 +72,5 @@ export const useAccountUtils = () => {
 
   return {
     doesAccountExist,
-  }
-}
-
-export const useAccountsSelectorLazy = () => {
-  const { ref: applicationDataByLoginTypeRef } = useAppSelector(state => state.auth.data.applicationDataByLoginType)
-
-  const getAccounts = useCallback(
-    (loginSessionType: TLoginSessionType) => {
-      return applicationDataByLoginTypeRef.current[loginSessionType].wallets.flatMap(wallet => wallet.accounts)
-    },
-    [applicationDataByLoginTypeRef]
-  )
-
-  return {
-    getAccounts,
   }
 }

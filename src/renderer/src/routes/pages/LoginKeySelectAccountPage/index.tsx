@@ -6,6 +6,7 @@ import {
   MnemonicOrKeyAccountSelection,
   TMnemonicOrKeyAccountWithBlockchain,
 } from '@renderer/components/MnemonicOrKeyAccountSelection'
+import { MnemonicHelper } from '@renderer/helpers/MnemonicHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useLoadingActions } from '@renderer/hooks/useLoadingActions'
@@ -33,7 +34,7 @@ export const LoginKeySelectAccountPage = () => {
   const [allAccounts, setAllAccounts] = useState<TMnemonicOrKeyAccountWithBlockchain[]>([])
 
   const handleImport = async (accountsToImport: TMnemonicOrKeyAccountWithBlockchain[]) => {
-    const isMnemonic = UtilsHelper.isValidMnemonic(mnemonicOrKey)
+    const isMnemonic = MnemonicHelper.isValidMnemonic(mnemonicOrKey)
     const accounts: TAccountsToImport = accountsToImport.map(account => ({ ...account, type: 'standard' }))
     await loginWithKey(accounts, {
       name: isMnemonic ? commonT('wallet.mnemonicWalletName') : commonT('wallet.importedName'),

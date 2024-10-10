@@ -6,7 +6,7 @@ import { AlertSuccessBanner } from '@renderer/components/AlertSuccessBanner'
 import { Button } from '@renderer/components/Button'
 import { SearchingLoader } from '@renderer/components/SearchingLoader'
 import { TemporaryLimitsBox } from '@renderer/components/TemporaryLimitsBox'
-import { useConnectHardwareWallet } from '@renderer/hooks/useConnectHardwareWallet'
+import { useConnectHardwareWallet } from '@renderer/hooks/useHardwareWallet'
 import { useLogin } from '@renderer/hooks/useLogin'
 import { WelcomeWithTabsLayout } from '@renderer/layouts/WelcomeWithTabs'
 
