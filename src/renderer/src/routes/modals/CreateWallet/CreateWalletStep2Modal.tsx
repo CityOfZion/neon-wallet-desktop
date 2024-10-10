@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdLooksTwo } from 'react-icons/md'
 import { Banner } from '@renderer/components/Banner'
@@ -17,6 +17,7 @@ export const CreateWalletStep2Modal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'createWallet.step2' })
   const { words } = useModalState<TLocationState>()
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
+  const ref = useRef<HTMLButtonElement>(null)
 
   const shuffledWords = useMemo(() => _.shuffle(words), [words])
   const [pressedWordsIndex, setPressedWordsIndex] = useState<number[]>([])
@@ -32,6 +33,13 @@ export const CreateWalletStep2Modal = () => {
       isWordActive ? prevState.filter(state => state !== wordIndex) : [...prevState, wordIndex]
     )
   }
+
+  useEffect(() => {
+    if (pressedWordsIndex.length === shuffledWords.length) {
+      console.log(ref.current)
+      ref.current?.focus()
+    }
+  }, [pressedWordsIndex.length, shuffledWords.length])
 
   const validateAndNext = async () => {
     const mountedPressedWords = pressedWordsIndex.map(wordIndex => shuffledWords[wordIndex]).join(' ')
@@ -72,6 +80,7 @@ export const CreateWalletStep2Modal = () => {
                 onClick={() => handlePress(index)}
                 variant="outlined"
                 flat
+                type="button"
               />
             ))}
           </div>
@@ -85,8 +94,9 @@ export const CreateWalletStep2Modal = () => {
             className="w-48"
             label={t('nextButtonLabel')}
             flat
-            onClick={() => validateAndNext()}
             disabled={isDisabled()}
+            onClick={() => validateAndNext()}
+            ref={ref}
           />
         </div>
       </div>

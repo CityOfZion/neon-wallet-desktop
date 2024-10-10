@@ -75,6 +75,7 @@ export const CreateWalletStep1Modal = () => {
             label={t('nextButtonLabel')}
             flat
             onClick={() => modalNavigate('create-wallet-step-2', { state: { words } })}
+            autoFocus
           />
         </div>
       </div>
