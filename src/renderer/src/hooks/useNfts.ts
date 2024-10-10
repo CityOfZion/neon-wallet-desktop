@@ -13,6 +13,7 @@ export const useNfts = (account: IAccountState) => {
     queryKey: ['nfts', account.id, network.id],
     queryFn: async ({ pageParam }) => {
       const blockchainService = bsAggregator.blockchainServicesByName[account.blockchain]
+
       if (!hasNft(blockchainService)) return { items: [] }
 
       const response = await blockchainService.nftDataService.getNftsByAddress({
