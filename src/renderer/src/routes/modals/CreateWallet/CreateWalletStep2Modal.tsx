@@ -17,7 +17,7 @@ export const CreateWalletStep2Modal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'createWallet.step2' })
   const { words } = useModalState<TLocationState>()
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
-  const ref = useRef<HTMLButtonElement>(null)
+  const nextButtonRef = useRef<HTMLButtonElement>(null)
 
   const shuffledWords = useMemo(() => _.shuffle(words), [words])
   const [pressedWordsIndex, setPressedWordsIndex] = useState<number[]>([])
@@ -34,13 +34,6 @@ export const CreateWalletStep2Modal = () => {
     )
   }
 
-  useEffect(() => {
-    if (pressedWordsIndex.length === shuffledWords.length) {
-      console.log(ref.current)
-      ref.current?.focus()
-    }
-  }, [pressedWordsIndex.length, shuffledWords.length])
-
   const validateAndNext = async () => {
     const mountedPressedWords = pressedWordsIndex.map(wordIndex => shuffledWords[wordIndex]).join(' ')
     const mountedWords = words.join(' ')
@@ -53,6 +46,12 @@ export const CreateWalletStep2Modal = () => {
 
     modalNavigate('create-wallet-step-3', { state: { words } })
   }
+
+  useEffect(() => {
+    if (pressedWordsIndex.length === shuffledWords.length) {
+      nextButtonRef.current?.focus()
+    }
+  }, [pressedWordsIndex.length, shuffledWords.length])
 
   return (
     <CreateWalletModalLayout>
@@ -96,7 +95,7 @@ export const CreateWalletStep2Modal = () => {
             flat
             disabled={isDisabled()}
             onClick={() => validateAndNext()}
-            ref={ref}
+            ref={nextButtonRef}
           />
         </div>
       </div>
