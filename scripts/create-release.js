@@ -62,7 +62,4 @@ try {
   console.error('Error occurred during tag creation and push:', error)
 }
 
-// eslint-disable-next-line
-console.log(
-    `Version bumped to ${newVersion}, and a draft release will be created automatically 🚀...`
-)
+console.log(`Version bumped to ${newVersion}, and a draft release will be created automatically 🚀...`)

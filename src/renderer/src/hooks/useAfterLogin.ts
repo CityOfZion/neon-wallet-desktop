@@ -49,7 +49,6 @@ const useRegisterWalletConnectListeners = () => {
     const session = sessions.find(session => session.topic === request.topic)
     if (!session) return
 
-    window.api.sendSync('restore')
     modalNavigate('dapp-permission', { state: { session, request } })
   }, [requests, sessions, modalNavigate, historiesRef])
 

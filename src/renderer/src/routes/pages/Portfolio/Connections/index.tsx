@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbPlugX } from 'react-icons/tb'
 import { useParams } from 'react-router-dom'
@@ -5,7 +6,9 @@ import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-re
 import { Button } from '@renderer/components/Button'
 import { ConnectionsTable } from '@renderer/components/ConnectionsTable'
 import { Separator } from '@renderer/components/Separator'
+import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
@@ -17,6 +20,16 @@ export const PortfolioConnectionsPage = () => {
   const { wallets } = useWalletsSelector()
   const { t } = useTranslation('pages', { keyPrefix: 'portfolio.portfolioConnections' })
   const { address } = useParams()
+
+  const filteredSessions = useMemo(
+    () =>
+      sessions.filter(session => {
+        const info = WalletConnectHelper.getAccountInformationFromSession(session)
+
+        return accounts.some(account => account.type !== 'watch' && AccountHelper.predicate(info)(account))
+      }),
+    [sessions, accounts]
+  )
 
   return (
     <div
@@ -37,24 +50,29 @@ export const PortfolioConnectionsPage = () => {
       <div className="mt-7 flex-grow flex flex-col min-h-0">
         <div
           className={StyleHelper.mergeStyles('flex flex-row justify-between', {
-            'justify-end': sessions.length === 0,
+            'justify-end': filteredSessions.length === 0,
           })}
         >
-          {sessions.length > 0 && (
+          {filteredSessions.length > 0 && (
             <Button
               variant="text"
               label={t('disconnectAllButtonLabel')}
               leftIcon={<TbPlugX />}
               flat
               colorSchema="error"
-              onClick={modalNavigateWrapper('dapp-disconnection', { state: { sessions } })}
+              onClick={modalNavigateWrapper('dapp-disconnection', { state: { filteredSessions } })}
             />
           )}
 
-          <p className="text-gray-300 text-lg">{t('totalConnections', { connections: sessions.length })}</p>
+          <p className="text-gray-300 text-lg">{t('totalConnections', { connections: filteredSessions.length })}</p>
         </div>
 
-        <ConnectionsTable hasAddress={true} sessions={sessions} tableHeaderClassName="bg-gray-800" className="mt-4" />
+        <ConnectionsTable
+          hasAddress={true}
+          sessions={filteredSessions}
+          tableHeaderClassName="bg-gray-800"
+          className="mt-4"
+        />
       </div>
     </div>
   )

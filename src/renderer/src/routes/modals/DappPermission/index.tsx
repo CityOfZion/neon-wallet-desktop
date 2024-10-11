@@ -86,7 +86,7 @@ export const DappPermissionModal = () => {
   const sessionInfo = WalletConnectHelper.getAccountInformationFromSession(session)
   const method = request.params.request.method
 
-  const account = accounts.find(AccountHelper.predicate(sessionInfo))
+  const account = accounts.find(account => account.type !== 'watch' && AccountHelper.predicate(sessionInfo)(account))
   const Component = componentsByBlockchain[sessionInfo.blockchain]?.[method]
 
   const handleCancel = useCallback(
@@ -129,11 +129,17 @@ export const DappPermissionModal = () => {
   }
 
   useLayoutEffect(() => {
-    if (!account || !Component) {
+    if (!Component) {
       ToastHelper.error({ message: t('unsupportedMethodError', { method }), id: 'dapp-permission-method-error' })
+    }
+
+    if (!account || !Component) {
       rejectRequest(request)
       modalNavigate(-1)
+      return
     }
+
+    window.api.sendSync('restore')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

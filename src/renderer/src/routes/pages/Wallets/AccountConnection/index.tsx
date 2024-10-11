@@ -4,6 +4,7 @@ import { useOutletContext } from 'react-router-dom'
 import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
 import { Button } from '@renderer/components/Button'
 import { ConnectionsTable } from '@renderer/components/ConnectionsTable'
+import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { AccountDetailsLayout } from '@renderer/layouts/AccountDetailsLayout'
@@ -23,7 +24,8 @@ export const AccountConnections = () => {
 
   const filteredSessions = sessions.filter(session => {
     const { address, blockchain } = WalletConnectHelper.getAccountInformationFromSession(session)
-    return address === account.address && blockchain === account.blockchain
+
+    return AccountHelper.predicate(account)({ address, blockchain }) && account.type !== 'watch'
   })
 
   return (
