@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdLooksTwo } from 'react-icons/md'
 import { Banner } from '@renderer/components/Banner'
@@ -17,6 +17,7 @@ export const CreateWalletStep2Modal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'createWallet.step2' })
   const { words } = useModalState<TLocationState>()
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
+  const nextButtonRef = useRef<HTMLButtonElement>(null)
 
   const shuffledWords = useMemo(() => _.shuffle(words), [words])
   const [pressedWordsIndex, setPressedWordsIndex] = useState<number[]>([])
@@ -46,6 +47,12 @@ export const CreateWalletStep2Modal = () => {
     modalNavigate('create-wallet-step-3', { state: { words } })
   }
 
+  useEffect(() => {
+    if (pressedWordsIndex.length === shuffledWords.length) {
+      nextButtonRef.current?.focus()
+    }
+  }, [pressedWordsIndex.length, shuffledWords.length])
+
   return (
     <CreateWalletModalLayout>
       <header className="flex justify-between items-center py-2.5">
@@ -72,6 +79,7 @@ export const CreateWalletStep2Modal = () => {
                 onClick={() => handlePress(index)}
                 variant="outlined"
                 flat
+                type="button"
               />
             ))}
           </div>
@@ -85,8 +93,9 @@ export const CreateWalletStep2Modal = () => {
             className="w-48"
             label={t('nextButtonLabel')}
             flat
-            onClick={() => validateAndNext()}
             disabled={isDisabled()}
+            onClick={() => validateAndNext()}
+            ref={nextButtonRef}
           />
         </div>
       </div>
