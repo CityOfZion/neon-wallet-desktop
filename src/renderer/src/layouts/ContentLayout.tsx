@@ -37,9 +37,12 @@ export const ContentLayout = ({
   return (
     <div className={StyleHelper.mergeStyles('flex h-screen-minus-drag-region', className)} {...props}>
       <div
-        className={StyleHelper.mergeStyles('flex-grow flex flex-col bg-asphalt text-white px-7 py-4', {
-          'pt-10': hasCustomProfile,
-        })}
+        className={StyleHelper.mergeStyles(
+          'h-full w-full flex flex-col bg-asphalt text-white px-7 py-4 min-w-0 min-h-0',
+          {
+            'pt-10': hasCustomProfile,
+          }
+        )}
       >
         <header
           className={StyleHelper.mergeStyles('border-b border-b-gray-300/30 min-h-12 flex pb-4', headerClassName)}
@@ -57,7 +60,9 @@ export const ContentLayout = ({
           </div>
         </header>
 
-        <main className={StyleHelper.mergeStyles('flex flex-col flex-grow pt-5', contentClassName)}>{children}</main>
+        <main className={StyleHelper.mergeStyles('flex w-full flex-col flex-grow min-h-0 pt-5', contentClassName)}>
+          {children}
+        </main>
       </div>
     </div>
   )

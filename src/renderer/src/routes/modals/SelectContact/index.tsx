@@ -6,18 +6,18 @@ import { ContactList } from '@renderer/components/ContactList'
 import { useContactsSelector } from '@renderer/hooks/useContactSelector'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
-import { TTokenBalance } from '@shared/@types/query'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { IContactState, TContactAddress } from '@shared/@types/store'
 
 type TLocationState = {
-  selectedToken?: TTokenBalance
-  handleSelectContact: (address: TContactAddress) => void
+  blockchain?: TBlockchainServiceKey
+  onSelectContact: (address: TContactAddress) => void
 }
 
 export const SelectContact = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'selectContact' })
   const { modalNavigate } = useModalNavigate()
-  const { selectedToken, handleSelectContact } = useModalState<TLocationState>()
+  const { blockchain, onSelectContact } = useModalState<TLocationState>()
   const { contacts } = useContactsSelector()
 
   const [selectedContact, setSelectedContact] = useState<IContactState | null>(null)
@@ -27,7 +27,7 @@ export const SelectContact = () => {
     if (!selectedAddress) {
       return
     }
-    handleSelectContact(selectedAddress)
+    onSelectContact(selectedAddress)
     modalNavigate(-1)
   }
 
@@ -40,7 +40,7 @@ export const SelectContact = () => {
         selectedAddress={selectedAddress}
         selectedContact={selectedContact}
         showSelectedAddress={true}
-        blockchainFilter={selectedToken?.blockchain}
+        blockchainFilter={blockchain}
       >
         <Button
           className="mt-10 w-[16rem]"

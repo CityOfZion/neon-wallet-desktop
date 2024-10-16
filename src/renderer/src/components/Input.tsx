@@ -19,6 +19,7 @@ export type TInputProps = Omit<React.ComponentProps<'input'>, 'type' | 'ref'> & 
   loading?: boolean
   label?: string
   testId?: string
+  buttons?: JSX.Element
 }
 
 export const Input = forwardRef<HTMLInputElement, TInputProps>(
@@ -38,6 +39,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
       loading,
       label,
       testId,
+      buttons,
       ...props
     },
     ref
@@ -161,8 +163,9 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
 
             {pastable && (
               <IconButton
-                icon={<MdContentPasteGo className="text-neon" />}
+                icon={<MdContentPasteGo />}
                 onClick={handlePaste}
+                colorSchema="neon"
                 type="button"
                 disabled={props.disabled}
                 compacted
@@ -171,8 +174,9 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
 
             {copyable && (
               <IconButton
-                icon={<MdContentCopy className="fill-neon" />}
+                icon={<MdContentCopy />}
                 onClick={handleCopyInput}
+                colorSchema="neon"
                 type="button"
                 compacted
                 disabled={props.disabled}
@@ -182,6 +186,8 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
             {clearable && (
               <IconButton icon={<MdCancel />} type="button" onClick={clear} compacted disabled={props.disabled} />
             )}
+
+            {buttons}
           </div>
         </div>
 

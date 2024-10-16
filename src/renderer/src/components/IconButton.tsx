@@ -6,7 +6,7 @@ type TProps = {
   text?: string
   size?: 'xs' | 'sm' | 'md'
   compacted?: boolean
-  colorSchema?: 'neon' | 'gray'
+  colorSchema?: 'neon' | 'gray' | 'white'
 } & ComponentProps<'button'>
 
 export const IconButton = forwardRef<HTMLButtonElement, TProps>(
@@ -26,6 +26,7 @@ export const IconButton = forwardRef<HTMLButtonElement, TProps>(
             'p-1 gap-y-1': size === 'md' && compacted,
             'text-neon ': colorSchema === 'neon',
             'text-gray-100 ': colorSchema === 'gray',
+            'text-white': colorSchema === 'white',
           },
           props.className
         )}

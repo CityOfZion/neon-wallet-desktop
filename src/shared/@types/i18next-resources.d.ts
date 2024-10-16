@@ -13,6 +13,7 @@ interface Resources {
       passwordNEONQRCode: 'QRCode'
       downloadQRCodePassword: 'Download password QR code'
       default: 'Default'
+      remove: 'Remove'
     }
     walletConnect: {
       name: 'Neon Wallet'
@@ -192,7 +193,7 @@ interface Resources {
     }
     mnemonicOrKeyAccountSelection: {
       noAccountsToImport: 'No accounts to import'
-      accountsLength: '{{length}} ADDRESSES'
+      accountsLength: '{{length}} address'
     }
   }
   hooks: {
@@ -370,8 +371,8 @@ interface Resources {
       title: 'Add address'
       editTitle: 'Edit address'
       name: 'NAME'
-      blockchain: 'BLOCKCHAIN'
-      addressOrDomain: 'ADDRESS OR NS DOMAIN'
+      blockchain: 'Blockchain'
+      addressOrDomain: 'Address or NS domain'
       errorNoBlockchainSelected: 'No blockchain selected'
       addressComplete: 'Address complete!'
       nnsComplete: 'NS domain found!'
@@ -907,43 +908,50 @@ interface Resources {
     }
     send: {
       title: 'Send Tokens'
-      leftSideTitle: 'Token balances'
-      rightSideTitle: 'What tokens do you want to send?'
-      tokenToSend: 'Token to send'
-      selectToken: 'Select token...'
-      sourceAccount: 'Source account'
-      inputAmount: 'Input amount...'
-      amount: 'Amount'
-      fiatValue: 'Fiat value ({{currencyType}} estimated)'
-      recipientAddress: 'Recipient address'
-      contacts: 'Contacts'
-      addressInputHint: 'Enter recipient address...'
-      totalFee: 'Total fee'
-      sendNow: 'Send Now'
-      selectAccountModal: {
-        title: 'Select a source account'
-        selectSourceAccount: 'Select source account'
+      subtitle: 'What tokens do you want to send?'
+      sourceAccount: {
+        label: 'Source account'
+        modalTitle: 'Select a source account'
+        modalButtonLabel: 'Select source account'
       }
-      sendSuccess: {
-        title: 'Your tokens have been sent successfully!'
-        saveContactButtonLabel: 'Save contact'
-        viewStatusButtonLabel: 'View status'
-        detailsTitle: 'Transaction details'
-        addressLabel: 'ADDRESS'
-        transactionHashLabel: 'TRANSACTION HASH'
+      recipient: {
+        title: 'Recipient {{order}}'
+        addressPlaceholder: 'Enter recipient name or address...'
+        myAccountButtonLabel: 'My account'
+        tokenToSendLabel: 'Token to send'
+        tokenToSendLabelButtonLabel: 'Select token...'
+        amountLabel: 'Amount'
+        amountPlaceholder: '0.00'
+        fiatLabel: 'Fiat value ({{currency}} estimated)'
+        errors: {
+          invalidAddress: 'Invalid address'
+        }
       }
+      addRecipientButtonLabel: 'Add recipient'
+      separatelyTransferWarning: '{{blockchain}} does not support more than one send per transaction, so we will send each transfer separately which will drastically increase the fee.'
+      fee: {
+        title: 'Total fee'
+      }
+      transactionCompleted: 'Transaction completed'
+      transactionFailed: 'Transaction failed'
       sendFail: {
         title: "Oops! We've encountered an error."
         subtitle: 'Please try again later'
       }
-      error: {
-        decryptKey: 'Error to decrypt key'
-        invalidAddress: 'Invalid address'
-        insufficientFunds: 'Insufficient funds'
-        feeError: 'Error to calculate fee'
+      sendSuccess: {
+        title: 'Your tokens have been sent successfully!'
+        detailsTitle: 'Transaction details'
+        transactionNumber: 'Transaction {{order}}'
+        recipientLabel: 'Recipient'
+        saveContactButtonLabel: 'Save contact'
+        amountLabel: 'Amount'
+        transactionHashLabel: 'Transaction hash'
+        viewStatusButtonLabel: 'View status'
       }
-      transactionCompleted: 'Transaction completed'
-      transactionFailed: 'Transaction failed'
+      errors: {
+        feeError: 'Error to calculate fee'
+        insufficientFunds: 'Insufficient funds'
+      }
     }
     selectAccount: {
       selectAccount: 'Select account...'

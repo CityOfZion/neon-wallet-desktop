@@ -50,7 +50,7 @@ test.describe('Read contact', () => {
     await window.getByTestId('contact-list-item').click()
     await window.getByTestId('send-assets-button').click()
 
-    expect(await window.getByTestId('send-address-input').inputValue()).toBe(address)
+    expect(await window.getByTestId('send-recipient-address-input-1').inputValue()).toBe(address)
 
     await window.close()
   })

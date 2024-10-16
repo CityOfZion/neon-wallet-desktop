@@ -18,7 +18,7 @@ export const SendPage = () => {
 
   return state?.account || state?.recipient ? (
     <ContentLayout title={t('title')} titleIcon={<TbStepOut />}>
-      <SendPageContent account={state?.account} recipient={state?.recipient} />
+      <SendPageContent account={state?.account} recipientAddress={state?.recipient} />
     </ContentLayout>
   ) : (
     <MainLayout heading={t('title')}>

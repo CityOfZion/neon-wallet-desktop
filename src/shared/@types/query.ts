@@ -38,9 +38,8 @@ export type TUseBalancesResult = {
 }
 
 export type TUseBalanceResult = {
-  data: TBalance
+  data: TBalance | undefined
   isLoading: boolean
-  exchangeTotal: number
 }
 
 export type TUseBalancesParams = {
