@@ -5,13 +5,13 @@ import AuthReducer, { authReducerConfig } from './reducers/AuthReducer'
 import ContactReducer, { contactReducerConfig } from './reducers/ContactReducer'
 import SettingsReducer, { settingsReducerConfig } from './reducers/SettingsReducer'
 
-const persistedAccountReducer = persistReducer(authReducerConfig, AuthReducer)
+const persistedAuthReducer = persistReducer(authReducerConfig, AuthReducer)
 const persistedSettingsReducer = persistReducer(settingsReducerConfig, SettingsReducer)
 const persistedContactReducer = persistReducer(contactReducerConfig, ContactReducer)
 
 export class RootStore {
   static reducers = combineReducers({
-    auth: persistedAccountReducer,
+    auth: persistedAuthReducer,
     settings: persistedSettingsReducer,
     contact: persistedContactReducer,
   })

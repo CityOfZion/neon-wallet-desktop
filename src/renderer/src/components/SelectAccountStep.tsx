@@ -1,11 +1,11 @@
-import { cloneElement } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbChevronRight } from 'react-icons/tb'
 import { Button } from '@renderer/components/Button'
 import { StringHelper } from '@renderer/helpers/StringHelper'
-import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { IAccountState } from '@shared/@types/store'
+
+import { ActionStep } from './ActionStep'
 
 type TAccountParams = {
   selectedAccount?: IAccountState
@@ -13,47 +13,31 @@ type TAccountParams = {
   active: boolean
   title: string
   modalTitle: string
-  buttonLabel: string
+  modalButtonLabel: string
   leftIcon?: JSX.Element
 }
 
-export const SelectAccount = ({
+export const SelectAccountStep = ({
   selectedAccount,
   onSelectAccount,
   active,
   title,
   modalTitle,
-  buttonLabel,
+  modalButtonLabel,
   leftIcon,
 }: TAccountParams) => {
   const { t } = useTranslation('pages', { keyPrefix: 'selectAccount' })
   const { modalNavigateWrapper } = useModalNavigate()
 
   return (
-    <div className="flex justify-between my-1">
-      <div className="flex items-center gap-3">
-        {leftIcon &&
-          cloneElement(leftIcon, {
-            ...leftIcon.props,
-            className: StyleHelper.mergeStyles('text-blue w-5 h-5', leftIcon.props.className),
-          })}
-
-        <span
-          className={StyleHelper.mergeStyles({
-            'font-bold': active,
-          })}
-        >
-          {title}
-        </span>
-      </div>
-
+    <ActionStep title={title} leftIcon={leftIcon} className="bg-gray-700/60 rounded">
       <Button
         className="flex items-center"
         onClick={modalNavigateWrapper('select-account', {
           state: {
-            onSelectAccount: onSelectAccount,
+            onSelectAccount,
             title: modalTitle,
-            buttonLabel: buttonLabel,
+            buttonLabel: modalButtonLabel,
             leftIcon,
           },
         })}
@@ -66,6 +50,6 @@ export const SelectAccount = ({
         rightIcon={<TbChevronRight />}
         flat
       />
-    </div>
+    </ActionStep>
   )
 }

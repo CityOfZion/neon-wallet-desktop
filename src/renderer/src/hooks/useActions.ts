@@ -5,14 +5,13 @@ import { cloneDeep } from 'lodash'
 export const useActions = <T extends TUseActionsData>(initialData: T) => {
   const initialState = useMemo(() => {
     const initialDataKeys = Object.keys(initialData) as (keyof T)[]
-
     return {
       isValid: false,
       isActing: false,
       hasActed: false,
       errors: {} as TUseActionsErrors<T>,
       changed: initialDataKeys.reduce(
-        (acc, key) => ({ ...acc, [key]: initialData[key] === undefined ? true : !!initialData[key] }),
+        (acc, key) => ({ ...acc, [key]: initialData[key] !== undefined && initialData[key] !== null }),
         {} as TUseActionsChanged<T>
       ),
     }
@@ -138,7 +137,10 @@ export const useActions = <T extends TUseActionsData>(initialData: T) => {
 
   const reset = useCallback(() => {
     setPrivateActionData(initialData)
+    actionDataRef.current = initialData
+
     setPrivateActionState(initialState)
+    actionStateRef.current = initialState
   }, [initialData, initialState])
 
   return { actionData, setData, setError, setDataFromEventWrapper, clearErrors, actionState, handleAct, reset }

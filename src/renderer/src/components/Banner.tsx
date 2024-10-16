@@ -31,11 +31,8 @@ export const Banner = ({ message, type, className, textClassName, iconClassName,
   const icon = iconByType[type]
 
   return (
-    <div
-      className={StyleHelper.mergeStyles('flex bg-gray-300/15 rounded overflow-hidden items-center', className)}
-      {...props}
-    >
-      <div className="flex py-3 px-4 h-full items-center justify-center bg-gray-300/30">
+    <div className={StyleHelper.mergeStyles('flex bg-gray-300/15 rounded items-center', className)} {...props}>
+      <div className="flex py-3 px-4 h-full rounded-l items-center justify-center bg-gray-300/30">
         {cloneElement(icon, { className: StyleHelper.mergeStyles(icon.props.className, iconClassName) })}
       </div>
 

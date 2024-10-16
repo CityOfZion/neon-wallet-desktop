@@ -3,13 +3,12 @@ import { useTranslation } from 'react-i18next'
 import { TbCopy, TbQrcode, TbSend, TbStepInto } from 'react-icons/tb'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
+import { SelectAccountStep } from '@renderer/components/SelectAccountStep'
 import { Separator } from '@renderer/components/Separator'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { IAccountState } from '@shared/@types/store'
 import { QRCodeSVG } from 'qrcode.react'
-
-import { SelectAccount } from '../Send/SelectAccount'
 
 type TProps = {
   account?: IAccountState
@@ -27,17 +26,15 @@ export const ReceiveYourAddressContent = ({ account }: TProps) => {
   return (
     <section className="bg-gray-800 w-full flex-grow flex flex-col rounded text-xs items-center py-10">
       <div className="max-w-[32rem] w-full flex flex-col items-center flex-grow">
-        <div className="bg-gray-700/60 flex flex-col rounded px-3 w-full">
-          <SelectAccount
-            selectedAccount={selectedAccount}
-            onSelectAccount={setSelectedAccount}
-            active
-            title={t('receivingAccountTitle')}
-            modalTitle={t('selectAccountModal.title')}
-            buttonLabel={t('selectAccountModal.selectReceivingAccount')}
-            leftIcon={<TbStepInto className="text-neon" />}
-          />
-        </div>
+        <SelectAccountStep
+          selectedAccount={selectedAccount}
+          onSelectAccount={setSelectedAccount}
+          active
+          title={t('receivingAccountTitle')}
+          modalTitle={t('selectAccountModal.title')}
+          modalButtonLabel={t('selectAccountModal.selectReceivingAccount')}
+          leftIcon={<TbStepInto className="text-neon" />}
+        />
 
         <div className="bg-gray-700/60 flex flex-col rounded px-3 mt-2 w-full items-center">
           <div className="flex justify-between my-2.5 w-full">

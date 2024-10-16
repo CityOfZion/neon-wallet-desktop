@@ -185,7 +185,7 @@ const addPendingTransaction = createAsyncThunk<
     blockchainService: BlockchainService<TBlockchainServiceKey>
     network: TNetwork<TBlockchainServiceKey>
   }
->('auth/watchPendingTransaction', async ({ transaction, blockchainService, network }) => {
+>('auth/addPendingTransaction', async ({ transaction, blockchainService, network }) => {
   const success = await waitForTransaction(blockchainService, transaction.hash)
 
   if (success) {

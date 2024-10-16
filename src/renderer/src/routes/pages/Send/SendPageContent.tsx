@@ -1,108 +1,89 @@
-import { useCallback, useLayoutEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TbArrowDown, TbStepOut } from 'react-icons/tb'
-import { Account, BlockchainService, hasLedger, isCalculableFee } from '@cityofzion/blockchain-service'
+import { MdArrowForward } from 'react-icons/md'
+import { TbArrowDown, TbPlus, TbStepOut } from 'react-icons/tb'
+import { Account, IntentTransferParam, isCalculableFee } from '@cityofzion/blockchain-service'
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
+import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
+import { SelectAccountStep } from '@renderer/components/SelectAccountStep'
 import { Separator } from '@renderer/components/Separator'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
+import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useBalance } from '@renderer/hooks/useBalances'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
-import { useNameService } from '@renderer/hooks/useNameService'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useSelectedNetworkByBlockchainSelector } from '@renderer/hooks/useSettingsSelector'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TUseTransactionsTransfer } from '@shared/@types/hooks'
-import { TTokenBalance } from '@shared/@types/query'
 import { IAccountState } from '@shared/@types/store'
+import { AnimatePresence } from 'framer-motion'
 
-import { Recipient } from './Recipient'
-import { SelectAccount } from './SelectAccount'
-import { SelectToken } from './SelectToken'
-import { SendAmount } from './SendAmount'
-import { SuccessModalContent } from './SuccessModalContent'
-import { TotalFee } from './TotalFee'
-
-enum SendPageStep {
-  SelectAccount = 1,
-  SelectToken = 2,
-  SelectAmount = 3,
-  SelectContact = 4,
-}
+import { SendErrorModalContent } from './SendErrorModalContent'
+import { SendFee } from './SendFee'
+import { SendRecipient, TSendRecipient } from './SendRecipient'
+import { SendSuccessModalContent } from './SendSuccessModalContent'
 
 type TActionsData = {
   selectedAccount?: IAccountState
-  selectedToken?: TTokenBalance
-  selectedAmount?: string
-  selectedRecipient?: string
+  recipients: TSendRecipient[]
   fee?: string
-  currentStep: SendPageStep
+  isCalculatingFee: boolean
 }
 
 type TProps = {
   account?: IAccountState
-  recipient?: string
+  recipientAddress?: string
 }
 
-export type TSendServiceResponse =
-  | {
-      serviceAccount: Account
-      selectedAccount: IAccountState
-      selectedToken: TTokenBalance
-      selectedAmount: string
-      selectedRecipientAddress: string
-      service: BlockchainService<TBlockchainServiceKey>
-    }
-  | undefined
-
-export const SendPageContent = ({ account, recipient }: TProps) => {
+export const SendPageContent = ({ account, recipientAddress }: TProps) => {
   const { t } = useTranslation('pages', { keyPrefix: 'send' })
+  const { t: commonT } = useTranslation('common')
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
-  const { modalNavigate } = useModalNavigate()
-  const dispatch = useAppDispatch()
-  const [originalRecipient, setOriginalRecipient] = useState(recipient)
-  const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
   const { accountsRef } = useAccountsSelector()
+  const dispatch = useAppDispatch()
+  const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
+  const { modalNavigate } = useModalNavigate()
 
-  const {
-    isNameService,
-    validatedAddress,
-    isValidAddressOrDomainAddress,
-    isValidatingAddressOrDomainAddress,
-    validateAddressOrNS,
-  } = useNameService()
-
-  const { actionData, actionState, setData, setError, handleAct, reset } = useActions<TActionsData>({
-    currentStep: SendPageStep.SelectAccount,
+  const { actionData, actionState, setData, setError, clearErrors, handleAct, reset } = useActions<TActionsData>({
+    selectedAccount: account,
+    recipients: [{ id: UtilsHelper.uuid(), addressInput: recipientAddress }],
+    isCalculatingFee: false,
+    fee: undefined,
   })
 
   const balance = useBalance(actionData.selectedAccount)
 
-  const service = useMemo(() => {
-    if (!actionData.selectedAccount) return
-    return bsAggregator.blockchainServicesByName[actionData.selectedAccount.blockchain]
-  }, [actionData.selectedAccount])
+  const service = useMemo(
+    () =>
+      actionData.selectedAccount
+        ? bsAggregator.blockchainServicesByName[actionData.selectedAccount.blockchain]
+        : undefined,
+    [actionData.selectedAccount]
+  )
 
-  const getSendFields = useCallback(async (): Promise<TSendServiceResponse> => {
-    if (!currentLoginSessionRef.current) {
-      throw new Error('Login session not defined')
-    }
-
+  const getSendFields = async () => {
     if (
+      !currentLoginSessionRef.current ||
       !actionData.selectedAccount ||
-      !actionData.selectedToken ||
-      !actionData.selectedAmount ||
-      !validatedAddress ||
       !actionData.selectedAccount.encryptedKey ||
-      !service
+      !service ||
+      !actionState.isValid ||
+      actionState.errors.recipients
     )
       return
+
+    const intents: IntentTransferParam[] = actionData.recipients.map(recipient => ({
+      amount: recipient.amount!,
+      receiverAddress: recipient.address!,
+      tokenHash: recipient.token!.token.hash,
+      tokenDecimals: recipient.token!.token.decimals,
+    }))
 
     const key = await window.api.sendAsync('decryptBasedEncryptedSecret', {
       value: actionData.selectedAccount.encryptedKey,
@@ -110,7 +91,7 @@ export const SendPageContent = ({ account, recipient }: TProps) => {
     })
 
     const serviceAccount: Account =
-      actionData.selectedAccount.type === 'hardware' && hasLedger(service)
+      actionData.selectedAccount.type === 'hardware'
         ? {
             address: actionData.selectedAccount.address,
             key,
@@ -120,110 +101,96 @@ export const SendPageContent = ({ account, recipient }: TProps) => {
         : service.generateAccountFromKey(key)
 
     return {
+      service,
       serviceAccount,
       selectedAccount: actionData.selectedAccount,
-      selectedToken: actionData.selectedToken,
-      selectedAmount: actionData.selectedAmount,
-      selectedRecipientAddress: validatedAddress,
-      service: service,
+      intents,
     }
-  }, [
-    currentLoginSessionRef,
-    actionData.selectedAccount,
-    actionData.selectedToken,
-    actionData.selectedAmount,
-    validatedAddress,
-    service,
-  ])
+  }
 
-  const handleSelectAccount = (account: IAccountState) => {
-    setData({
-      selectedAccount: account,
-      currentStep: SendPageStep.SelectToken,
-      selectedToken: undefined,
-      selectedAmount: undefined,
+  const handleSetRecipients = (setRecipients: (prevRecipients: TSendRecipient[]) => TSendRecipient[]) => {
+    let recipients: TSendRecipient[] = []
+
+    setData(state => {
+      recipients = setRecipients(state.recipients)
+      return { recipients }
     })
 
-    handleSelectRecipientAddress(originalRecipient)
+    for (const recipient of recipients) {
+      if (!recipient.token || !recipient.amount || !recipient.address) {
+        setError('recipients', '')
+        return
+      }
+    }
+
+    clearErrors('recipients')
   }
 
-  const handleSelectToken = (token: TTokenBalance) => {
-    setData({ selectedToken: token, selectedAmount: undefined, currentStep: SendPageStep.SelectAmount })
+  const handleSelectAccount = (account: IAccountState) => {
+    handleSetRecipients(() => [
+      { id: UtilsHelper.uuid(), addressInput: actionState.changed.selectedAccount ? undefined : recipientAddress },
+    ])
+    setData({ selectedAccount: account })
   }
 
-  const handleSelectAmount = (amount: string) => {
-    setData({ selectedAmount: amount, currentStep: SendPageStep.SelectContact })
-
-    if (originalRecipient) validateAddressOrNS(originalRecipient, actionData.selectedAccount?.blockchain)
+  const handleRemoveRecipient = (id: string) => {
+    handleSetRecipients(prev => prev.filter(recipient => recipient.id !== id))
   }
 
-  const handleSelectRecipientAddress = async (recipientAddress?: string) => {
-    if (recipientAddress != recipient) setOriginalRecipient(undefined)
-
-    setData({ selectedRecipient: recipientAddress })
-    validateAddressOrNS(recipientAddress, actionData.selectedAccount?.blockchain)
+  const handleUpdateRecipient = (id: string, newRecipients: Partial<TSendRecipient>) => {
+    handleSetRecipients(prev =>
+      prev.map(recipient => (recipient.id === id ? { ...recipient, ...newRecipients } : recipient))
+    )
   }
 
-  const handleSelectFee = useCallback((fee: string) => setData({ fee }), [setData])
+  const handleAddRecipient = () => {
+    handleSetRecipients(prev => [...prev, { id: UtilsHelper.uuid() }])
+  }
 
   const handleSubmit = async () => {
     const fields = await getSendFields()
     if (!fields) return
 
     try {
-      const isHardware = fields.selectedAccount.type === 'hardware'
-
-      const [transactionHash] = await fields.service.transfer({
-        intents: [
-          {
-            receiverAddress: fields.selectedRecipientAddress,
-            tokenHash: fields.selectedToken.token.hash,
-            amount: fields.selectedAmount,
-            tokenDecimals: fields.selectedToken.token.decimals,
-          },
-        ],
+      const transactionHashes = await fields.service.transfer({
         senderAccount: fields.serviceAccount,
-        isLedger: isHardware,
+        intents: fields.intents,
+        isLedger: fields.selectedAccount.type === 'hardware',
       })
 
-      const transaction: TUseTransactionsTransfer = {
-        account: fields.selectedAccount,
-        amount: fields.selectedAmount,
-        asset: fields.selectedToken.token.symbol,
-        to: fields.selectedRecipientAddress,
-        from: fields.selectedAccount.address,
-        hash: transactionHash,
-        time: Date.now() / 1000,
-        fromAccount: fields.selectedAccount,
-        toAccount: accountsRef.current.find(a => a.address === fields.selectedRecipientAddress),
-        isPending: true,
-      }
-
-      dispatch(
-        authReducerActions.addPendingTransaction({
-          transaction,
-          blockchainService: fields.service,
-          network: networkByBlockchain[fields.selectedAccount.blockchain],
-        })
-      )
-
+      const transactions = transactionHashes.map((hash, index) => {
+        if (!hash) return
+        const recipient = actionData.recipients[index]
+        const transaction: TUseTransactionsTransfer = {
+          account: fields.selectedAccount,
+          amount: recipient.amount!,
+          asset: recipient.token!.token.symbol,
+          to: recipient.address!,
+          from: fields.selectedAccount.address,
+          hash,
+          time: Date.now() / 1000,
+          fromAccount: fields.selectedAccount,
+          toAccount: accountsRef.current.find(account => account.address === recipient.address),
+          isPending: true,
+        }
+        dispatch(
+          authReducerActions.addPendingTransaction({
+            transaction,
+            blockchainService: fields.service,
+            network: networkByBlockchain[fields.selectedAccount.blockchain],
+          })
+        )
+        return transaction
+      })
       modalNavigate('success', {
         state: {
           heading: t('title'),
           headingIcon: <TbStepOut />,
           subtitle: t('sendSuccess.title'),
-          content: (
-            <SuccessModalContent
-              selectedAmount={fields.selectedAmount}
-              selectedToken={fields.selectedToken}
-              transactionHash={transactionHash}
-              selectedAccount={fields.selectedAccount}
-              selectedRecipientAddress={fields.selectedRecipientAddress}
-            />
-          ),
+          content: <SendSuccessModalContent transactions={transactions} selectedAccount={fields.selectedAccount} />,
         },
       })
-    } catch (error) {
+    } catch (error: any) {
       console.error(error)
       modalNavigate('error', {
         state: {
@@ -231,6 +198,7 @@ export const SendPageContent = ({ account, recipient }: TProps) => {
           headingIcon: <TbStepOut />,
           subtitle: t('sendFail.title'),
           description: t('sendFail.subtitle'),
+          content: <SendErrorModalContent error={error.message} />,
         },
       })
     } finally {
@@ -238,130 +206,140 @@ export const SendPageContent = ({ account, recipient }: TProps) => {
     }
   }
 
-  useLayoutEffect(() => {
-    const { selectedToken, selectedAmount, fee } = actionData
-    const feeTokenHash = service?.feeToken?.hash
-    const tokenBalances = balance.data?.tokensBalances ?? []
+  useEffect(() => {
+    const handleCalculateFee = async () => {
+      try {
+        const fields = await getSendFields()
+        if (!fields || !isCalculableFee(fields.service)) {
+          setData({ fee: undefined })
+          return
+        }
 
-    if (!selectedToken || !selectedAmount || !fee || !feeTokenHash || tokenBalances.length === 0) return
+        setData({ isCalculatingFee: true })
 
-    const normalizedSelectedTokenHash = UtilsHelper.normalizeHash(selectedToken.token.hash)
-    const normalizedFeeTokenHash = UtilsHelper.normalizeHash(feeTokenHash)
-    const isSameFeeToken = normalizedFeeTokenHash === normalizedSelectedTokenHash
-    const amountNumber = NumberHelper.number(selectedAmount)
-    const amountBalanceNumber = selectedToken.amountNumber
-    const feeNumber = NumberHelper.number(fee)
-    const feeBalanceNumber =
-      tokenBalances.find(({ token }) => UtilsHelper.normalizeHash(token.hash) === normalizedFeeTokenHash)
-        ?.amountNumber ?? 0
+        const fee = await fields.service.calculateTransferFee({
+          intents: fields.intents,
+          senderAccount: fields.serviceAccount,
+          isLedger: fields.selectedAccount.type === 'hardware',
+        })
 
-    const totalAmountNumber = amountNumber + (isSameFeeToken ? feeNumber : 0)
+        setData({
+          fee: `${fee} ${fields.service.feeToken.symbol}`,
+        })
 
-    if (totalAmountNumber > amountBalanceNumber || feeNumber > feeBalanceNumber)
-      setError('fee', t('error.insufficientFunds'))
+        let totalFeeAmount = NumberHelper.number(fee)
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [actionData.fee, actionData.selectedAmount, actionData.selectedToken, service, balance.data, setError, t])
+        fields.intents.forEach(intent => {
+          if (UtilsHelper.normalizeHash(intent.tokenHash) !== UtilsHelper.normalizeHash(fields.service.feeToken.hash))
+            return
 
-  useLayoutEffect(() => {
-    if (account) {
-      handleSelectAccount(account)
+          totalFeeAmount += NumberHelper.number(intent.amount)
+        })
+
+        const feeBalanceNumber =
+          balance.data?.tokensBalances.find(
+            ({ token }) =>
+              UtilsHelper.normalizeHash(token.hash) === UtilsHelper.normalizeHash(fields.service.feeToken.hash)
+          )?.amountNumber ?? 0
+
+        if (totalFeeAmount > feeBalanceNumber) {
+          setError('fee', t('errors.insufficientFunds'))
+        } else {
+          clearErrors('fee')
+        }
+      } catch (error) {
+        console.error(error)
+        ToastHelper.error({ message: t('errors.feeError') })
+        throw error
+      } finally {
+        setData({ isCalculatingFee: false })
+      }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account])
 
-  useLayoutEffect(() => {
-    if (recipient) {
-      handleSelectRecipientAddress(recipient)
-    }
+    handleCalculateFee()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [recipient])
+  }, [actionData.recipients, balance.data])
 
   return (
-    <section className="bg-gray-800 h-full w-full flex flex-col px-4 rounded text-sm items-center">
-      <h2 className="text-white text-left w-full  mt-4 mb-3">{t('rightSideTitle')}</h2>
+    <section className="bg-gray-800 min-h-0 flex-grow w-full flex flex-col px-4 rounded text-sm items-center">
+      <h2 className="text-white text-left w-full mt-4 mb-3">{t('subtitle')}</h2>
 
       <Separator />
 
-      <div className="max-w-[32rem] w-full flex-grow flex flex-col items-center py-10">
-        <div className="bg-gray-700/60 flex flex-col rounded px-3 w-full">
-          <SelectAccount
-            selectedAccount={actionData.selectedAccount}
-            onSelectAccount={handleSelectAccount}
-            active={actionData.currentStep === SendPageStep.SelectAccount}
-            title={t('sourceAccount')}
-            modalTitle={t('selectAccountModal.title')}
-            buttonLabel={t('selectAccountModal.selectSourceAccount')}
-            leftIcon={<TbStepOut className="text-neon" />}
-          />
+      <div className="max-w-[33.25rem] min-h-0 w-full flex-grow flex flex-col items-center py-8 my-2 px-5 overflow-auto">
+        <SelectAccountStep
+          selectedAccount={actionData.selectedAccount}
+          onSelectAccount={handleSelectAccount}
+          active={true}
+          title={t('sourceAccount.label')}
+          modalTitle={t('sourceAccount.modalTitle')}
+          modalButtonLabel={t('sourceAccount.modalButtonLabel')}
+          leftIcon={<TbStepOut />}
+        />
 
-          <Separator />
-
-          <SelectToken
-            selectedAccount={actionData.selectedAccount}
-            selectedToken={actionData.selectedToken}
-            onSelectToken={handleSelectToken}
-            active={actionData.currentStep === SendPageStep.SelectToken}
-          />
-
-          <Separator />
-
-          <SendAmount
-            selectedAccount={actionData.selectedAccount}
-            selectedToken={actionData.selectedToken}
-            selectedAmount={actionData.selectedAmount}
-            onSelectAmount={handleSelectAmount}
-            active={actionData.currentStep === SendPageStep.SelectAmount}
-          />
-        </div>
-
-        <div className="relative">
+        <div className="relative z-10">
           <TbArrowDown className="w-5 h-5 p-1 bg-gray-600 rounded-full border-8 border-gray-800 box-content absolute top-2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
         </div>
 
-        <Recipient
-          selectedToken={actionData.selectedToken}
-          selectedAmount={actionData.selectedAmount}
-          selectedRecipient={actionData.selectedRecipient}
-          active={actionData.currentStep === SendPageStep.SelectContact}
-          onSelectRecipient={handleSelectRecipientAddress}
-          loading={isValidatingAddressOrDomainAddress}
-          selectedRecipientDomainAddress={isNameService ? validatedAddress : undefined}
-          error={isValidAddressOrDomainAddress === false}
-        />
-
-        {(!service || (service && isCalculableFee(service))) && (
-          <TotalFee
-            getSendFields={getSendFields}
-            onFeeChange={handleSelectFee}
-            fee={actionData.fee}
-            selectedToken={actionData.selectedToken}
-          />
-        )}
-
-        {isValidAddressOrDomainAddress === false ? (
-          <AlertErrorBanner className="w-full mt-2" message={t('error.invalidAddress')} />
-        ) : (
-          actionState.errors.fee && <AlertErrorBanner className="w-full mt-2" message={actionState.errors.fee} />
-        )}
+        <div className="w-full flex flex-col gap-3 mt-2 relative">
+          <AnimatePresence>
+            {actionData.recipients.map((recipient, index) => (
+              <SendRecipient
+                key={recipient.id}
+                onRemoveRecipient={() => handleRemoveRecipient(recipient.id)}
+                onUpdateRecipient={updatedRecipient => handleUpdateRecipient(recipient.id, updatedRecipient)}
+                order={index + 1}
+                selectedAccount={actionData.selectedAccount}
+                recipient={recipient}
+                removable={actionData.recipients.length > 1}
+              />
+            ))}
+          </AnimatePresence>
+        </div>
 
         <Button
-          className="mt-auto max-w-[16rem] w-full"
+          leftIcon={<TbPlus />}
+          label={t('addRecipientButtonLabel')}
+          flat
+          variant="text"
+          iconsOnEdge={false}
+          disabled={!actionData.selectedAccount}
+          colorSchema={!actionData.selectedAccount ? 'white' : 'neon'}
+          className="mt-2 w-64"
+          onClick={handleAddRecipient}
+        />
+
+        {actionData.selectedAccount &&
+          (actionData.selectedAccount.blockchain === 'neox' || actionData.selectedAccount.blockchain === 'ethereum') &&
+          actionData.recipients.length > 1 && (
+            <Banner
+              type="warning"
+              className="w-full mt-2"
+              message={t('separatelyTransferWarning', {
+                blockchain: commonT(`blockchain.${actionData.selectedAccount.blockchain}`),
+              })}
+            />
+          )}
+        {(!service || (service && isCalculableFee(service))) && (
+          <SendFee fee={actionData.fee} isCalculatingFee={actionData.isCalculatingFee} service={service} />
+        )}
+
+        {actionState.errors.fee && <AlertErrorBanner className="w-full mt-2" message={actionState.errors.fee} />}
+
+        <Button
+          className="max-w-[16rem] w-full mt-8"
           iconsOnEdge={false}
           onClick={handleAct(handleSubmit)}
-          label={t('sendNow')}
+          label={commonT('general.continue')}
           loading={actionState.isActing}
-          leftIcon={<TbStepOut />}
+          rightIcon={<MdArrowForward />}
           disabled={
+            !actionState.isValid ||
             !actionData.selectedAccount ||
-            !actionData.selectedToken ||
-            !actionData.selectedAmount ||
-            !validatedAddress ||
-            !isValidAddressOrDomainAddress ||
-            isValidatingAddressOrDomainAddress ||
+            !!actionState.errors.fee ||
+            !!actionState.errors.recipients ||
             !service ||
-            (isCalculableFee(service) && !actionData.fee) ||
-            !actionState.isValid
+            (isCalculableFee(service) && !actionData.fee)
           }
         />
       </div>
