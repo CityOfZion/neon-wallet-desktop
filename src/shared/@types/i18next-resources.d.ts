@@ -923,6 +923,8 @@ interface Resources {
         amountLabel: 'Amount'
         amountPlaceholder: '0.00'
         fiatLabel: 'Fiat value ({{currency}} estimated)'
+        myAccountsModalTitle: 'Select a recipient account'
+        myAccountsModalButtonLabel: 'Select recipient account'
         errors: {
           invalidAddress: 'Invalid address'
         }

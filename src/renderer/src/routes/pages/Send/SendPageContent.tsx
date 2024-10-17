@@ -274,7 +274,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
         <SelectAccountStep
           selectedAccount={actionData.selectedAccount}
           onSelectAccount={handleSelectAccount}
-          active={true}
+          active={!actionData.selectedAccount}
           title={t('sourceAccount.label')}
           modalTitle={t('sourceAccount.modalTitle')}
           modalButtonLabel={t('sourceAccount.modalButtonLabel')}

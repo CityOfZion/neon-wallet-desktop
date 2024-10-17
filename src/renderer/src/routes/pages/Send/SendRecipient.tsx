@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TbChevronRight, TbStepInto, TbUsers, TbWallet } from 'react-icons/tb'
+import { TbChevronRight, TbStepInto, TbStepOut, TbUsers, TbWallet } from 'react-icons/tb'
 import { VscCircleFilled } from 'react-icons/vsc'
 import { ActionStep } from '@renderer/components/ActionStep'
 import { Button } from '@renderer/components/Button'
@@ -70,6 +70,10 @@ export const SendRecipient = ({
 
   const handleSelectAmount = (amount: string) => {
     onUpdateRecipient({ amount })
+  }
+
+  const handleSelectAccount = (account: IAccountState) => {
+    onUpdateRecipient({ addressInput: account.address })
   }
 
   useEffect(() => {
@@ -149,12 +153,21 @@ export const SendRecipient = ({
             />
 
             <Button
-              colorSchema={!selectedAccount || validatedAddress ? 'gray' : 'white'}
-              disabled={true}
+              colorSchema={!selectedAccount || validatedAddress ? 'white' : 'neon'}
+              disabled={!selectedAccount}
               variant="text"
               label={t('myAccountButtonLabel')}
               leftIcon={<TbWallet />}
               flat
+              onClick={modalNavigateWrapper('select-account', {
+                state: {
+                  onSelectAccount: handleSelectAccount,
+                  title: t('myAccountsModalTitle'),
+                  buttonLabel: t('myAccountsModalButtonLabel'),
+                  leftIcon: <TbStepOut />,
+                  blockchain: selectedAccount?.blockchain,
+                },
+              })}
             />
           </div>
 
