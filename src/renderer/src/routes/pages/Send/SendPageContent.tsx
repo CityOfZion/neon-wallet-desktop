@@ -51,8 +51,8 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
   const { modalNavigate } = useModalNavigate()
 
   const { actionData, actionState, setData, setError, clearErrors, handleAct, reset } = useActions<TActionsData>({
-    selectedAccount: account,
-    recipients: [{ id: UtilsHelper.uuid(), addressInput: recipientAddress }],
+    selectedAccount: undefined,
+    recipients: [],
     isCalculatingFee: false,
     fee: undefined,
   })
@@ -125,7 +125,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
     clearErrors('recipients')
   }
 
-  const handleSelectAccount = (account: IAccountState) => {
+  const handleSelectAccount = (account?: IAccountState) => {
     handleSetRecipients(() => [
       { id: UtilsHelper.uuid(), addressInput: actionState.changed.selectedAccount ? undefined : recipientAddress },
     ])
@@ -258,6 +258,11 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
     handleCalculateFee()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [actionData.recipients, balance.data])
+
+  useEffect(() => {
+    handleSelectAccount(account)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [account])
 
   return (
     <section className="bg-gray-800 min-h-0 flex-grow w-full flex flex-col px-4 rounded text-sm items-center">
