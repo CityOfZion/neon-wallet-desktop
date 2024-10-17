@@ -11,6 +11,7 @@ import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { IAccountState, IWalletState } from '@shared/@types/store'
 
 type TLocationState = {
@@ -18,11 +19,12 @@ type TLocationState = {
   title: string
   buttonLabel: string
   leftIcon?: JSX.Element
+  blockchain?: TBlockchainServiceKey
 }
 
 export const SelectAccountModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'selectAccount' })
-  const { onSelectAccount, leftIcon, title, buttonLabel } = useModalState<TLocationState>()
+  const { onSelectAccount, leftIcon, title, buttonLabel, blockchain } = useModalState<TLocationState>()
   const { modalNavigate } = useModalNavigate()
   const { accounts } = useAccountsSelector()
   const { wallets } = useWalletsSelector()
@@ -30,7 +32,10 @@ export const SelectAccountModal = () => {
   const [selectedWallet, setSelectedWallet] = useState<IWalletState | undefined>(undefined)
   const [selectedAccount, setSelectedAccount] = useState<IAccountState | undefined>(undefined)
 
-  const filteredAccounts = useMemo(() => accounts.filter(account => account.type !== 'watch'), [accounts])
+  const filteredAccounts = useMemo(
+    () => accounts.filter(account => account.type !== 'watch' && (!blockchain || account.blockchain === blockchain)),
+    [accounts, blockchain]
+  )
 
   const filteredWallets = useMemo(() => {
     const walletsArray: IWalletState[] = []
