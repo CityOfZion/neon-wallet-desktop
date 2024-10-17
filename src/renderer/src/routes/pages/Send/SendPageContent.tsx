@@ -73,8 +73,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
       !actionData.selectedAccount ||
       !actionData.selectedAccount.encryptedKey ||
       !service ||
-      !actionState.isValid ||
-      actionState.errors.recipients
+      actionState.errors.recipients !== undefined
     )
       return
 
