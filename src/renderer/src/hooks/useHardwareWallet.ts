@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { MnemonicHelper } from '@renderer/helpers/MnemonicHelper'
@@ -9,53 +9,54 @@ import { IWalletState } from '@shared/@types/store'
 
 import { useCurrentLoginSessionSelector } from './useAuthSelector'
 import { useBlockchainActions } from './useBlockchainActions'
+import { useMountUnsafe } from './useMount'
 import { useWalletsSelector } from './useWalletSelector'
 
 type TStatus = 'searching' | 'connected' | 'not-connected'
 
 const MAX_ATTEMPTS = 10
 
-export const useConnectHardwareWallet = (onConnect: (hardwareWalletInfo: THardwareWalletInfo) => Promise<void>) => {
+export const useConnectHardwareWallet = (onConnect: (hardwareWalletInfos: THardwareWalletInfo[]) => Promise<void>) => {
   const [status, setStatus] = useState<TStatus>('searching')
   const triesRef = useRef(0)
-  const intervalRef = useRef<NodeJS.Timeout>()
+  const timeoutRef = useRef<NodeJS.Timeout>()
 
-  const handleTryConnect = async () => {
-    triesRef.current = 0
+  const tryConnect = async () => {
+    try {
+      const connectedHardwareWallet = await window.api.sendAsync('connectHardwareWallet')
 
-    setStatus('searching')
+      setStatus('connected')
+      clearTimeout(timeoutRef.current)
 
-    intervalRef.current = setInterval(async () => {
-      try {
-        const connectedHardwareWallet = await window.api.sendAsync('connectHardwareWallet')
+      await UtilsHelper.sleep(2000)
 
-        setStatus('connected')
-        clearInterval(intervalRef.current)
+      onConnect(connectedHardwareWallet)
+    } catch {
+      triesRef.current += 1
 
-        await UtilsHelper.sleep(2000)
-
-        onConnect(connectedHardwareWallet)
-      } catch (error) {
-        triesRef.current += 1
-
-        if (triesRef.current > MAX_ATTEMPTS) {
-          setStatus('not-connected')
-          clearInterval(intervalRef.current)
-
-          return
-        }
+      if (triesRef.current > MAX_ATTEMPTS) {
+        setStatus('not-connected')
+        clearTimeout(timeoutRef.current)
+      } else {
+        timeoutRef.current = setTimeout(tryConnect, 2000)
       }
-    }, 2000)
+    }
   }
 
-  useEffect(() => {
+  const handleTryConnect = () => {
+    triesRef.current = 0
+    setStatus('searching')
+    tryConnect()
+  }
+
+  useMountUnsafe(() => {
     handleTryConnect()
 
     return () => {
-      clearInterval(intervalRef.current)
+      clearTimeout(timeoutRef.current)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  })
 
   return { status, handleTryConnect }
 }
@@ -67,73 +68,78 @@ export const useHardwareWalletActions = () => {
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
 
   const createHardwareWallet = useCallback(
-    async (info: THardwareWalletInfo) => {
+    async (infos: THardwareWalletInfo[]) => {
       if (!currentLoginSessionRef.current) {
         throw new Error('Login session not defined')
       }
 
-      let existentWallet: IWalletState | undefined
-      let wallet: IWalletState
+      const promises = infos.map(async info => {
+        let existentWallet: IWalletState | undefined
+        let wallet: IWalletState
 
-      info.accounts.some(hardwareAccount => {
-        existentWallet = walletsRef.current.find(wallet =>
-          wallet.accounts.some(
-            AccountHelper.predicate({ address: hardwareAccount.address, blockchain: info.blockchain })
+        info.accounts.some(hardwareAccount => {
+          existentWallet = walletsRef.current.find(wallet =>
+            wallet.accounts.some(
+              AccountHelper.predicate({ address: hardwareAccount.address, blockchain: info.blockchain })
+            )
           )
-        )
 
-        return !!existentWallet
-      })
-
-      if (!existentWallet) {
-        wallet = createWallet({ name: commonT('wallet.ledgerName'), type: 'hardware' })
-      } else {
-        wallet = editWallet({
-          wallet: existentWallet,
-          data: {
-            type: 'hardware',
-          },
+          return !!existentWallet
         })
-      }
 
-      wallet.accounts.map(account =>
-        editAccount({
-          account,
-          data: {
-            type: 'hardware',
-          },
-        })
-      )
-
-      const editedWallet = walletsRef.current.find(item => item.id === wallet.id)!
-
-      const promises = info.accounts.map(async hardwareAccount => {
-        const existentAccount = editedWallet.accounts.find(
-          AccountHelper.predicate({ address: hardwareAccount.address, blockchain: info.blockchain })
-        )
-
-        if (existentAccount) {
-          editAccount({
-            account: existentAccount,
+        if (!existentWallet) {
+          wallet = createWallet({ name: commonT('wallet.ledgerName'), type: 'hardware' })
+        } else {
+          wallet = editWallet({
+            wallet: existentWallet,
             data: {
-              key: hardwareAccount.key,
+              type: 'hardware',
             },
           })
-
-          return existentAccount
         }
 
-        return await importAccount({
-          address: hardwareAccount.address,
-          blockchain: info.blockchain,
-          type: 'hardware',
-          key: hardwareAccount.key,
-          wallet: editedWallet,
-          order: MnemonicHelper.extractIndexFromPath(hardwareAccount.bip44Path!),
+        wallet.accounts.map(account =>
+          editAccount({
+            account,
+            data: {
+              type: 'hardware',
+            },
+          })
+        )
+
+        const editedWallet = walletsRef.current.find(item => item.id === wallet.id)!
+
+        const accountsPromises = info.accounts.map(async hardwareAccount => {
+          const existentAccount = editedWallet.accounts.find(
+            AccountHelper.predicate({ address: hardwareAccount.address, blockchain: info.blockchain })
+          )
+
+          if (existentAccount) {
+            editAccount({
+              account: existentAccount,
+              data: {
+                key: hardwareAccount.key,
+              },
+            })
+
+            return existentAccount
+          }
+
+          return await importAccount({
+            address: hardwareAccount.address,
+            blockchain: info.blockchain,
+            type: 'hardware',
+            key: hardwareAccount.key,
+            wallet: editedWallet,
+            order: MnemonicHelper.extractIndexFromPath(hardwareAccount.bip44Path!),
+          })
         })
+
+        return await Promise.all(accountsPromises)
       })
 
-      return await Promise.all(promises)
+      const allAccounts = await Promise.all(promises)
+      return allAccounts.flat()
     },
     [commonT, createWallet, currentLoginSessionRef, editAccount, editWallet, walletsRef, importAccount]
   )
@@ -145,9 +151,15 @@ export const useHardwareWalletActions = () => {
           throw new Error('Login session not defined')
         }
 
-        const accountOrder = UtilsHelper.getNextNumberOrMissing(wallet.accounts.map(account => account.order))
+        if (wallet.type !== 'hardware') {
+          throw new Error('Wallet is not hardware')
+        }
 
-        const info = await window.api.sendAsync('addNewHardwareAccount', accountOrder)
+        const accountOrder = UtilsHelper.getNextNumberOrMissing(wallet.accounts.map(account => account.order))
+        // When a wallet is hardware, all accounts are from the same blockchain
+        const blockchain = wallet.accounts[0].blockchain
+
+        const info = await window.api.sendAsync('addNewHardwareAccount', { index: accountOrder, blockchain })
 
         await importAccount({
           address: info.account.address,

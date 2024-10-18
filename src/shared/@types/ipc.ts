@@ -33,6 +33,11 @@ export type TGetStoreFromWCSession = {
   networkByBlockchain: TSelectedNetworks
 }
 
+export type TAddHardwareWalletAccountParams = {
+  index: number
+  blockchain: TBlockchainServiceKey
+}
+
 export type TAddHardwareWalletAccountInfo = {
   account: Account
   blockchain: TBlockchainServiceKey

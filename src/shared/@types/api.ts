@@ -3,6 +3,7 @@ import { OpenDialogOptions } from 'electron'
 
 import {
   TAddHardwareWalletAccountInfo,
+  TAddHardwareWalletAccountParams,
   TGetStoreFromWCSession,
   THardwareWalletInfo,
   TIpcMainAsyncListener,
@@ -24,9 +25,9 @@ export type TMainApiListenersAsync = {
   saveFile: TIpcMainAsyncListener<{ path: string; content: string }, void>
   setTitleBarOverlay: TIpcMainAsyncListener<Electron.TitleBarOverlay, void>
   setWindowButtonPosition: TIpcMainAsyncListener<Electron.Point, void>
-  connectHardwareWallet: TIpcMainAsyncListener<undefined, THardwareWalletInfo>
+  connectHardwareWallet: TIpcMainAsyncListener<undefined, THardwareWalletInfo[]>
   disconnectHardwareWallet: TIpcMainAsyncListener<undefined, void>
-  addNewHardwareAccount: TIpcMainAsyncListener<number, TAddHardwareWalletAccountInfo>
+  addNewHardwareAccount: TIpcMainAsyncListener<TAddHardwareWalletAccountParams, TAddHardwareWalletAccountInfo>
   checkForUpdates: TIpcMainAsyncListener<undefined, boolean>
   quitAndInstall: TIpcMainAsyncListener<undefined, void>
   encryptBasedOS: TIpcMainAsyncListener<string, string>
