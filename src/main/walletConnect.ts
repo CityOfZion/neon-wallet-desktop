@@ -119,7 +119,7 @@ export class WalletConnectEIP155Adapter extends AbstractWalletConnectEIP155Adapt
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    return service.ledgerService.getSigner(transport)
+    return service.ledgerService.getSigner(transport, serviceAccount.bip44Path)
   }
 }
 
