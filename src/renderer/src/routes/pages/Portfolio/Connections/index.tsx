@@ -60,7 +60,7 @@ export const PortfolioConnectionsPage = () => {
               leftIcon={<TbPlugX />}
               flat
               colorSchema="error"
-              onClick={modalNavigateWrapper('dapp-disconnection', { state: { filteredSessions } })}
+              onClick={modalNavigateWrapper('dapp-disconnection', { state: { sessions: filteredSessions } })}
             />
           )}
 
