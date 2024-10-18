@@ -57,11 +57,11 @@ export const SendRecipient = ({
   } = useNameService()
 
   const handleChangeAddress = (event: ChangeEvent<HTMLInputElement>) => {
-    onUpdateRecipient({ addressInput: event.target.value })
+    onUpdateRecipient({ addressInput: event.target.value, address: undefined })
   }
 
   const handleSelectContact = (address: TContactAddress) => {
-    onUpdateRecipient({ addressInput: address.address })
+    onUpdateRecipient({ addressInput: address.address, address: undefined })
   }
 
   const handleSelectToken = (token: TTokenBalance) => {
@@ -73,7 +73,7 @@ export const SendRecipient = ({
   }
 
   const handleSelectAccount = (account: IAccountState) => {
-    onUpdateRecipient({ addressInput: account.address })
+    onUpdateRecipient({ addressInput: account.address, address: undefined })
   }
 
   useEffect(() => {

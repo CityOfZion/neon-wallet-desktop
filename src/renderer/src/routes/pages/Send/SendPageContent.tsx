@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdArrowForward } from 'react-icons/md'
 import { TbArrowDown, TbPlus, TbStepOut } from 'react-icons/tb'
@@ -49,6 +49,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
   const dispatch = useAppDispatch()
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
   const { modalNavigate } = useModalNavigate()
+  const currentRecipientAddress = useRef(recipientAddress)
 
   const { actionData, actionState, setData, setError, clearErrors, handleAct, reset } = useActions<TActionsData>({
     selectedAccount: undefined,
@@ -126,9 +127,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
   }
 
   const handleSelectAccount = (account?: IAccountState) => {
-    handleSetRecipients(() => [
-      { id: UtilsHelper.uuid(), addressInput: actionState.changed.selectedAccount ? undefined : recipientAddress },
-    ])
+    handleSetRecipients(() => [{ id: UtilsHelper.uuid(), addressInput: currentRecipientAddress.current }])
     setData({ selectedAccount: account })
   }
 
@@ -137,6 +136,8 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
   }
 
   const handleUpdateRecipient = (id: string, newRecipients: Partial<TSendRecipient>) => {
+    if (newRecipients.address) currentRecipientAddress.current = undefined
+
     handleSetRecipients(prev =>
       prev.map(recipient => (recipient.id === id ? { ...recipient, ...newRecipients } : recipient))
     )
@@ -202,10 +203,14 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
       })
     } finally {
       reset()
+      currentRecipientAddress.current = undefined
+      handleSelectAccount()
     }
   }
 
   useEffect(() => {
+    if (balance.isLoading) return
+
     const handleCalculateFee = async () => {
       try {
         const fields = await getSendFields()

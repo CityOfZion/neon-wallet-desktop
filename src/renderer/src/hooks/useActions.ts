@@ -5,15 +5,17 @@ import { cloneDeep } from 'lodash'
 export const useActions = <T extends TUseActionsData>(initialData: T) => {
   const initialState = useMemo(() => {
     const initialDataKeys = Object.keys(initialData) as (keyof T)[]
+
     return {
       isValid: false,
       isActing: false,
       hasActed: false,
       errors: {} as TUseActionsErrors<T>,
-      changed: initialDataKeys.reduce(
-        (acc, key) => ({ ...acc, [key]: initialData[key] !== undefined && initialData[key] !== null }),
-        {} as TUseActionsChanged<T>
-      ),
+      changed: initialDataKeys.reduce((acc, key) => {
+        const value = initialData?.[key] as any
+
+        return { ...acc, [key]: value?.trim?.() !== '' && value !== null }
+      }, {} as TUseActionsChanged<T>),
     }
   }, [initialData])
 
