@@ -68,13 +68,13 @@ export const useLogin = () => {
   )
 
   const loginWithHardwareWallet = useCallback(
-    async (hardwareWalletInfo: THardwareWalletInfo) => {
+    async (hardwareWalletInfos: THardwareWalletInfo[]) => {
       const randomPassword = UtilsHelper.uuid()
       const encryptedPassword = await window.api.sendAsync('encryptBasedOS', randomPassword)
 
       dispatch(authReducerActions.setCurrentLoginSession({ type: 'hardware', encryptedPassword }))
 
-      await createHardwareWallet(hardwareWalletInfo)
+      await createHardwareWallet(hardwareWalletInfos)
     },
     [createHardwareWallet, dispatch]
   )

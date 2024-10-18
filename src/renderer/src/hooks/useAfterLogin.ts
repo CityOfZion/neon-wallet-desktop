@@ -81,32 +81,41 @@ const useRegisterHardwareWalletListeners = () => {
   const { logout } = useLogin()
   const { t: commonT } = useTranslation('common')
 
-  useMountUnsafe(() => {
-    if (currentLoginSessionRef.current?.type === 'password') {
-      walletsRef.current
-        .filter(wallet => wallet.type === 'hardware')
-        .forEach(wallet => {
-          wallet.accounts.forEach(account => {
-            editAccount({
-              account,
-              data: {
-                type: 'watch',
-              },
-            })
+  const transformHardwareAccountsToWatch = useCallback(() => {
+    walletsRef.current
+      .filter(wallet => wallet.type === 'hardware')
+      .forEach(wallet => {
+        wallet.accounts.forEach(account => {
+          editAccount({
+            account,
+            data: {
+              type: 'watch',
+            },
           })
         })
+      })
+  }, [editAccount, walletsRef])
+
+  useMountUnsafe(() => {
+    if (currentLoginSessionRef.current?.type === 'password') {
+      transformHardwareAccountsToWatch()
     }
   })
 
   useEffect(() => {
     const removeHardwareWalletDisconnectedListener = window.api.listen('hardwareWalletDisconnected', () => {
+      if (currentLoginSessionRef.current?.type === 'password') {
+        transformHardwareAccountsToWatch()
+        return
+      }
+
       logout()
     })
 
     return () => {
       removeHardwareWalletDisconnectedListener()
     }
-  }, [logout])
+  }, [currentLoginSessionRef, logout, transformHardwareAccountsToWatch])
 
   useEffect(() => {
     const removeGetHardwareWalletSignatureStartListener = window.api.listen('getHardwareWalletSignatureStart', () => {

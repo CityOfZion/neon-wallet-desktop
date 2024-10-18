@@ -128,7 +128,7 @@ export const WalletsPage = () => {
       heading={
         <div className="flex gap-2 items-center">
           <WalletsSelect wallets={wallets} value={selectedWallet} onSelect={handleSelectWallet} />
-          <HardwareWalletConnectedBadge />
+          {hasHardwareAccount && <HardwareWalletConnectedBadge />}
         </div>
       }
       rightComponent={
@@ -194,7 +194,7 @@ export const WalletsPage = () => {
               />
             </main>
 
-            {(selectedWallet.encryptedMnemonic || selectedWallet.type === 'hardware') && (
+            {(selectedWallet.encryptedMnemonic || (selectedWallet.type === 'hardware' && hasHardwareAccount)) && (
               <footer className="px-4 pb-6 pt-3">
                 <Button
                   label={t('addAccountButtonLabel')}
