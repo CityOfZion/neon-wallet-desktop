@@ -75,7 +75,7 @@ export const SettingsPage = () => {
           </Tabs.Root>
         </div>
 
-        <div className="flex-grow">
+        <div className="flex-grow overflow-y-auto">
           <Outlet />
         </div>
       </section>
