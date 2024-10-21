@@ -1,13 +1,16 @@
+import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbDownload } from 'react-icons/tb'
 import { Location, useLocation, useNavigate } from 'react-router-dom'
 import { ButtonDownloadPasswordQRCode } from '@renderer/components/ButtonDownloadPasswordQRCode'
+import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useSettingsActions } from '@renderer/hooks/useSettingsSelector'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
 import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
+import { cloneDeep } from 'lodash'
 
 type TLocationState = {
   encryptedNewPassword: string
@@ -22,55 +25,75 @@ export const ChangePasswordStep2 = (): JSX.Element => {
   const { state } = useLocation() as Location<TLocationState>
   const navigate = useNavigate()
   const { setHasPassword } = useSettingsActions()
+  const isDownloading = useRef(false)
 
   const handleDownload = async () => {
-    if (!currentLoginSessionRef.current) {
-      throw new Error('Login session not defined')
-    }
+    try {
+      if (isDownloading.current) return
 
-    const encryptedPassword = currentLoginSessionRef.current.encryptedPassword
+      isDownloading.current = true
 
-    const walletPromises = wallets.map(async wallet => {
-      const accountPromises = accounts.map(async account => {
-        if (!account.encryptedKey) return account
+      const loginSession = currentLoginSessionRef.current
 
-        const key = await window.api.sendAsync('decryptBasedEncryptedSecret', {
-          value: account.encryptedKey,
-          encryptedSecret: encryptedPassword,
-        })
+      if (!loginSession) throw new Error('Login session not defined')
 
-        const newEncryptedKey = await window.api.sendAsync('encryptBasedEncryptedSecret', {
-          value: key,
-          encryptedSecret: state.encryptedNewPassword,
-        })
+      const { encryptedPassword } = loginSession
+      const { encryptedNewPassword } = state
 
-        return { ...account, encryptedKey: newEncryptedKey }
+      const walletPromises = wallets.map(async wallet => {
+        const clonedWallet = cloneDeep(wallet)
+
+        const accountPromises = accounts
+          .filter(({ idWallet }) => idWallet === clonedWallet.id)
+          .map(async account => {
+            const { encryptedKey } = account
+
+            if (!encryptedKey) return account
+
+            const key = await window.api.sendAsync('decryptBasedEncryptedSecret', {
+              value: encryptedKey,
+              encryptedSecret: encryptedPassword,
+            })
+
+            const newEncryptedKey = await window.api.sendAsync('encryptBasedEncryptedSecret', {
+              value: key,
+              encryptedSecret: encryptedNewPassword,
+            })
+
+            return { ...account, encryptedKey: newEncryptedKey }
+          })
+
+        const newAccounts = await Promise.all(accountPromises)
+        const encryptedMnemonic = clonedWallet.encryptedMnemonic
+
+        if (encryptedMnemonic) {
+          const mnemonic = await window.api.sendAsync('decryptBasedEncryptedSecret', {
+            value: encryptedMnemonic,
+            encryptedSecret: encryptedPassword,
+          })
+
+          const newEncryptedMnemonic = await window.api.sendAsync('encryptBasedEncryptedSecret', {
+            value: mnemonic,
+            encryptedSecret: encryptedNewPassword,
+          })
+
+          clonedWallet.encryptedMnemonic = newEncryptedMnemonic
+        }
+
+        dispatch(authReducerActions.saveWallet({ ...clonedWallet, accounts: newAccounts }))
       })
 
-      const newAccounts = await Promise.all([...accountPromises])
+      await Promise.all(walletPromises)
 
-      if (wallet.encryptedMnemonic) {
-        const mnemonic = await window.api.sendAsync('decryptBasedEncryptedSecret', {
-          value: wallet.encryptedMnemonic,
-          encryptedSecret: encryptedPassword,
-        })
+      await setHasPassword(encryptedNewPassword, true)
 
-        const newEncryptedMnemonic = await window.api.sendAsync('encryptBasedEncryptedSecret', {
-          value: mnemonic,
-          encryptedSecret: state.encryptedNewPassword,
-        })
-
-        wallet.encryptedMnemonic = newEncryptedMnemonic
-      }
-
-      dispatch(authReducerActions.saveWallet({ ...wallet, accounts: newAccounts }))
-    })
-
-    await Promise.all(walletPromises)
-
-    await setHasPassword(state.encryptedNewPassword, true)
-
-    navigate('/app/settings/security/change-password/step-3')
+      navigate('/app/settings/security/change-password/step-3')
+    } catch (error) {
+      console.error(error)
+      ToastHelper.error({ message: t('error') })
+    } finally {
+      isDownloading.current = false
+    }
   }
 
   return (
@@ -82,12 +105,16 @@ export const ChangePasswordStep2 = (): JSX.Element => {
         <span className="text-lg">{t('subtitle')}</span>
         <span className="text-xs text-gray-100 w-[30rem] text-center">{t('description')}</span>
       </div>
+
       <ButtonDownloadPasswordQRCode
+        label={t('buttonDownload')}
+        type="button"
         variant="contained"
-        type="submit"
+        className="w-[268px]"
+        disabled={isDownloading.current}
+        loading={isDownloading.current}
         leftIcon={<TbDownload />}
         onDownload={handleDownload}
-        label={t('buttonDownload')}
       />
     </div>
   )

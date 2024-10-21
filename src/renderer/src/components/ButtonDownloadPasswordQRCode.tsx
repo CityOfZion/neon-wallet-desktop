@@ -12,9 +12,10 @@ type TProps = {
   leftIcon?: JSX.Element
   variant?: 'outlined' | 'contained' | 'text' | 'text-slim'
   onDownload?: () => void
+  loading?: boolean
 } & React.ComponentProps<'button'>
 
-export const ButtonDownloadPasswordQRCode = ({ label, variant, leftIcon, onDownload, ...props }: TProps) => {
+export const ButtonDownloadPasswordQRCode = ({ label, variant, leftIcon, onDownload, loading, ...props }: TProps) => {
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const { t } = useTranslation('common', { keyPrefix: 'general' })
   const [decryptedPassword, setDecryptedPassword] = useState<string>('')
@@ -44,6 +45,7 @@ export const ButtonDownloadPasswordQRCode = ({ label, variant, leftIcon, onDownl
         variant={variant ? variant : 'outlined'}
         className={props.className}
         iconsOnEdge={false}
+        loading={loading}
         onClick={handleDownload}
       />
     </>

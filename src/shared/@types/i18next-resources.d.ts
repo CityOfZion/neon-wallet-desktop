@@ -1115,6 +1115,7 @@ interface Resources {
           subtitle: 'If you lose your password, it isn’t retrievable.'
           description: 'To complete your password change, you’ll need to make a backup of your new password. Tap the button below to get a QR code that you can download and keep safe.'
           buttonDownload: 'Download QR and save changes'
+          error: 'There was a problem on saving changes'
         }
         step3: {
           subtitle: 'Your NEON 3 password has been successfully changed!'
