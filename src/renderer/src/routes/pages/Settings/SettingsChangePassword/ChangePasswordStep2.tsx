@@ -62,11 +62,11 @@ export const ChangePasswordStep2 = (): JSX.Element => {
 
         wallet.encryptedMnemonic = newEncryptedMnemonic
       }
-
-      dispatch(authReducerActions.saveWallet({ ...wallet, accounts: newAccounts }))
     })
 
     await Promise.all(walletPromises)
+
+    // dispatch(authReducerActions.saveWallet({ ...wallet, accounts: newAccounts }))
 
     await setHasPassword(state.encryptedNewPassword, true)
 
