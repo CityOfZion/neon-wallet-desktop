@@ -1,5 +1,11 @@
 [
   {
+    "tag_name": "Version v3.2.0",
+    "published_at": "29 Out 2024",
+    "body": "<li>• New Login method: Login with Address or Key</li><li>• Integration with new Flamingo API for enhanced pricing data</li><li>• Ledger Multi-Account Support</li><li>• Support for Neo X NFTs</li><li>• Support for Multiple Transfers in the same Transaction</li><li>• Support to selection of owned accounts as target of a transfer</li><li>• Minor Bugfixes</li>",
+    "html_url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.2.0"
+  },
+  {
     "tag_name": "Version v3.1.0",
     "published_at": "20 Set 2024",
     "body": "<li>• Anonymous Login with Ledger</li><li>• Revamped Ledger UX</li><li>• Export Options (Private Keys and Mnemonics)</li><li>• Reset App Feature</li><li>• BETA Access to Linux Build</li><li>• Refresh Blockchain Data Button</li><li>• Enhancement to Neo X Transaction list - Link to XExplorer</li><li>• Performance Enhancement when waking up NEON</li>",
