@@ -21,7 +21,8 @@ export const ButtonDownloadPasswordQRCode = ({ label, variant, leftIcon, onDownl
   const [decryptedPassword, setDecryptedPassword] = useState<string>('')
 
   const handleDownload = () => {
-    UtilsHelper.donwloadSVGToPng('QRCode')
+    UtilsHelper.downloadSVGToPng('QRCode')
+
     if (onDownload) onDownload()
   }
 
