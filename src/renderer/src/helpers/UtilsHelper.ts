@@ -114,7 +114,7 @@ export class UtilsHelper {
     return uuid.v4()
   }
 
-  static donwloadSVGToPng(elementId: string, suggestedFileName?: string) {
+  static downloadSVGToPng(elementId: string, suggestedFileName?: string) {
     const svg = document.getElementById(elementId)
     if (!svg) return
 
@@ -132,13 +132,21 @@ export class UtilsHelper {
     img.onload = () => {
       canvas.width = img.width
       canvas.height = img.height
+
       ctx.drawImage(img, 0, 0)
+
       const pngFile = canvas.toDataURL('image/png')
       const downloadLink = document.createElement('a')
+
       downloadLink.download = fileName
-      downloadLink.href = `${pngFile}`
+      downloadLink.href = pngFile
       downloadLink.click()
+
+      canvas.remove()
+      downloadLink.remove()
+      img.remove()
     }
+
     img.src = `data:image/svg+xml;base64,${btoa(svgData)}`
   }
 

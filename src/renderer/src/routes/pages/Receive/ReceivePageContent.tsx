@@ -20,7 +20,7 @@ export const ReceiveYourAddressContent = ({ account }: TProps) => {
   const [selectedAccount, setSelectedAccount] = useState(account)
 
   const handleDownload = () => {
-    UtilsHelper.donwloadSVGToPng('QRCode', selectedAccount?.address)
+    UtilsHelper.downloadSVGToPng('QRCode', selectedAccount?.address)
   }
 
   return (

@@ -130,7 +130,6 @@ export function useExchange(params: TUseExchangeParams[]): TUseExchangeResult {
         currency,
         currencyRatio
       ),
-      staleTime: 0,
       enabled: !isCurrencyRatioLoading && typeof currencyRatio === 'number',
     })),
     combine: result => ({
