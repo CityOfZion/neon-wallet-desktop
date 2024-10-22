@@ -1,14 +1,13 @@
+import { useCurrencyRatio } from '@renderer/hooks/useCurrencyRatio'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { TPriceHistory, TTokenBalance, TUsePriceHistoryResult } from '@shared/@types/query'
 import { useQueries } from '@tanstack/react-query'
 
-import { useCurrencyRatio } from './useCurrencyRatio'
 import { useCurrencySelector } from './useSettingsSelector'
 
-const fetchTokenData = async (tokenBalance: TTokenBalance, currencyRatio = 1): Promise<TPriceHistory | null> => {
+const fetchTokenData = async (tokenBalance: TTokenBalance, currencyRatio: number): Promise<TPriceHistory | null> => {
   try {
     const service = bsAggregator.blockchainServicesByName[tokenBalance.blockchain]
-
     const prices = await service.exchangeDataService.getTokenPriceHistory({
       token: tokenBalance.token,
       limit: 24,
@@ -37,23 +36,19 @@ const fetchTokenData = async (tokenBalance: TTokenBalance, currencyRatio = 1): P
 
 export const usePriceHistory = (tokenBalances: TTokenBalance[]): TUsePriceHistoryResult => {
   const { currency } = useCurrencySelector()
+  const { isLoading: isCurrencyRatioLoading, data: currencyRatio } = useCurrencyRatio()
 
-  const currencyRatioQuery = useCurrencyRatio()
-
-  const queries = useQueries({
-    queries: !currencyRatioQuery.isLoading
-      ? tokenBalances.map(tokenBalance => ({
-          queryKey: ['prices', tokenBalance.token.symbol, currency],
-          queryFn: fetchTokenData.bind(null, tokenBalance, currencyRatioQuery.data),
-          staleTime: 0,
-          retry: false,
-        }))
-      : [],
+  return useQueries({
+    queries: tokenBalances.map(tokenBalance => ({
+      queryKey: ['prices', tokenBalance.token.symbol, currency],
+      queryFn: fetchTokenData.bind(null, tokenBalance, currencyRatio),
+      staleTime: 0,
+      retry: false,
+      enabled: !isCurrencyRatioLoading && typeof currencyRatio === 'number',
+    })),
     combine: results => ({
       data: results.map(result => result.data).filter((data): data is TPriceHistory => !!data),
-      isLoading: currencyRatioQuery.isLoading || results.some(result => result.isLoading),
+      isLoading: isCurrencyRatioLoading || results.some(result => result.isLoading),
     }),
   })
-
-  return queries
 }
