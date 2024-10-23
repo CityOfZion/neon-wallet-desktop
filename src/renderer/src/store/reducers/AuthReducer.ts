@@ -1,5 +1,6 @@
 import { BlockchainService, waitForTransaction } from '@cityofzion/blockchain-service'
 import { CaseReducer, createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { ApplicationDataHelper } from '@renderer/helpers/ApplicationDataHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { buildQueryKeyBalance } from '@renderer/hooks/useBalances'
@@ -35,11 +36,14 @@ const authReducerMigrations = {
 
     walletsJSON.forEach(wallet => {
       const accounts = accountsJSON.filter(account => account.idWallet === wallet.id)
+
       passwordWallets.push({
         ...wallet,
         accounts,
       })
     })
+
+    ApplicationDataHelper.convertTypes(passwordWallets)
 
     window.localStorage.removeItem('persist:walletReducer')
     window.localStorage.removeItem('persist:accountReducer')
@@ -119,7 +123,7 @@ const saveWallet: CaseReducer<IAuthReducer, PayloadAction<IWalletState>> = (stat
 
 const deleteWallet: CaseReducer<IAuthReducer, PayloadAction<string>> = (state, action) => {
   if (!state.currentLoginSession) {
-    throw new Error('Error to save wallet: Current login session is not defined')
+    throw new Error('Error to delete wallet: Current login session is not defined')
   }
 
   const loginSessionType = state.currentLoginSession.type
@@ -131,7 +135,7 @@ const deleteWallet: CaseReducer<IAuthReducer, PayloadAction<string>> = (state, a
 
 const saveAccount: CaseReducer<IAuthReducer, PayloadAction<IAccountState>> = (state, action) => {
   if (!state.currentLoginSession) {
-    throw new Error('Error to save wallet: Current login session is not defined')
+    throw new Error('Error to save account: Current login session is not defined')
   }
 
   const loginSessionType = state.currentLoginSession.type
@@ -156,7 +160,7 @@ const saveAccount: CaseReducer<IAuthReducer, PayloadAction<IAccountState>> = (st
 
 const deleteAccount: CaseReducer<IAuthReducer, PayloadAction<IAccountState>> = (state, action) => {
   if (!state.currentLoginSession) {
-    throw new Error('Error to save wallet: Current login session is not defined')
+    throw new Error('Error to delete account: Current login session is not defined')
   }
 
   const loginSessionType = state.currentLoginSession.type
@@ -167,7 +171,7 @@ const deleteAccount: CaseReducer<IAuthReducer, PayloadAction<IAccountState>> = (
 
   const wallet = applicationData.wallets.find(it => it.id === walletId)
   if (!wallet) {
-    throw new Error('Error to save account: Wallet not found')
+    throw new Error('Error to delete account: Wallet not found')
   }
 
   wallet.accounts = wallet.accounts.filter(account => account.id !== accountToRemove.id)

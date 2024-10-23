@@ -7,7 +7,7 @@ import { ButtonDownloadPasswordQRCode } from '@renderer/components/ButtonDownloa
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
 import { BACKUP_FILE_EXTENSION } from '@renderer/constants/backup'
-import { BackupFileHelper } from '@renderer/helpers/BackupFileHelper'
+import { ApplicationDataHelper } from '@renderer/helpers/ApplicationDataHelper'
 import { DateHelper } from '@renderer/helpers/DateHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
@@ -99,7 +99,7 @@ export const ConfirmPasswordBackupModal = () => {
         return { ...wallet, mnemonic, accounts: walletAccounts }
       })
 
-      BackupFileHelper.convertTypes(backupFile)
+      ApplicationDataHelper.convertTypes(backupFile.wallets)
 
       const content = await window.api.sendAsync('encryptBasedSecret', {
         value: JSON.stringify(backupFile),

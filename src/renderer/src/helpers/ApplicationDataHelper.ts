@@ -1,7 +1,7 @@
-import { TBackupFormat } from '@shared/@types/blockchain'
+import { IWalletState } from '@shared/@types/store'
 
-export class BackupFileHelper {
-  static convertTypes({ wallets }: TBackupFormat) {
+export class ApplicationDataHelper {
+  static convertTypes(wallets: IWalletState[]) {
     wallets.forEach(wallet => {
       if (wallet.type === 'ledger') wallet.type = 'hardware'
 
