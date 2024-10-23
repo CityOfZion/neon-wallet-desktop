@@ -12,6 +12,7 @@ export const SettingsMigrateWalletsPage = () => {
   const openNeon2Click = () => {
     window.open('neon2://open')
   }
+
   return (
     <SettingsLayout title={t('title')} contentClassName="items-center">
       <div className="max-w-[33rem] flex flex-col flex-grow">

@@ -4,7 +4,7 @@ import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
-import { BackupFileHelper } from '@renderer/helpers/BackupFileHelper'
+import { ApplicationDataHelper } from '@renderer/helpers/ApplicationDataHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useAccountUtils } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
@@ -55,7 +55,7 @@ export const ConfirmPasswordRecoverModal = () => {
       const contentDecrypted = await window.api.sendAsync('decryptBasedSecret', { value: content, secret: password })
       const backupFile = JSON.parse(contentDecrypted) as TBackupFormat
 
-      BackupFileHelper.convertTypes(backupFile)
+      ApplicationDataHelper.convertTypes(backupFile.wallets)
 
       if (onDecrypt) {
         onDecrypt(backupFile)
