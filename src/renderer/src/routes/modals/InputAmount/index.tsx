@@ -59,7 +59,7 @@ export const InputAmount = () => {
   }
 
   const handleFiatAmountChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value
+    const value = NumberHelper.formatString(event.target.value, 6)
 
     const valueNumber = NumberHelper.number(value)
 
