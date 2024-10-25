@@ -466,7 +466,7 @@ interface Resources {
       insufficientBalanceAvailable: 'Insufficient balance available'
       max: 'Max'
       or: 'OR'
-      inputPlaceholder: '0,000.00'
+      inputPlaceholder: '0000.00'
       enterAmount: 'Enter a {{currencyType}} amount:'
       roundDown: 'Round down'
       selectAmountSend: 'Select amount to send'
