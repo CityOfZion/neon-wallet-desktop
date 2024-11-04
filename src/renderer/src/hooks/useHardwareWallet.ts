@@ -154,10 +154,10 @@ export const useHardwareWalletActions = () => {
         if (wallet.type !== 'hardware') {
           throw new Error('Wallet is not hardware')
         }
-
-        const accountOrder = UtilsHelper.getNextNumberOrMissing(wallet.accounts.map(account => account.order))
         // When a wallet is hardware, all accounts are from the same blockchain
         const blockchain = wallet.accounts[0].blockchain
+
+        const accountOrder = AccountHelper.getNextOrderOrMissing(wallet.accounts, blockchain)
 
         const info = await window.api.sendAsync('addNewHardwareAccount', { index: accountOrder, blockchain })
 
