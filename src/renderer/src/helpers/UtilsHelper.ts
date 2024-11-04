@@ -204,19 +204,4 @@ export class UtilsHelper {
 
     return false
   }
-
-  static getNextNumberOrMissing(numbers: number[]) {
-    if (numbers.length === 0) return 0
-
-    const length = numbers.length
-    const expectedSum = (length * (length + 1)) / 2
-    const actualSum = numbers.reduce((acc, num) => acc + num, 0)
-    const missingNumber = expectedSum - actualSum
-
-    if (missingNumber === 0) {
-      return Math.max(...numbers) + 1
-    }
-
-    return missingNumber
-  }
 }

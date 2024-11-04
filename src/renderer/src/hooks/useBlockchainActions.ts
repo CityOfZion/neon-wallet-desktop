@@ -2,6 +2,7 @@ import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
 import { ACCOUNT_COLOR_SKINS } from '@renderer/constants/skins'
+import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { bsAggregator } from '@renderer/libs/blockchainService'
@@ -16,6 +17,7 @@ import {
   TWalletToEdit,
 } from '@shared/@types/blockchain'
 import { IAccountState, IContactState, IWalletState } from '@shared/@types/store'
+import { cloneDeep } from 'lodash'
 
 import { useCurrentLoginSessionSelector } from './useAuthSelector'
 import { useAppDispatch } from './useRedux'
@@ -72,7 +74,7 @@ export function useBlockchainActions() {
         encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
       })
 
-      const accountOrder = UtilsHelper.getNextNumberOrMissing(wallet.accounts.map(account => account.order))
+      const accountOrder = AccountHelper.getNextOrderOrMissing(wallet.accounts, blockchain)
       const service = bsAggregator.blockchainServicesByName[blockchain]
       const generatedAccount = service.generateAccountFromMnemonic(mnemonic, accountOrder)
 
@@ -117,7 +119,7 @@ export function useBlockchainActions() {
         })
       }
 
-      const accountOrder = order ?? UtilsHelper.getNextNumberOrMissing(wallet.accounts.map(account => account.order))
+      const accountOrder = order ?? AccountHelper.getNextOrderOrMissing(wallet.accounts, blockchain)
 
       const newAccount: IAccountState = {
         id: UtilsHelper.uuid(),
@@ -145,15 +147,15 @@ export function useBlockchainActions() {
         throw new Error('Login session not defined')
       }
 
-      const accounts: IAccountState[] = []
+      const clonedWallet = cloneDeep(wallet)
 
       for (const accountToImport of accountsToImport) {
-        const account = await importAccount({ ...accountToImport, wallet })
+        const account = await importAccount({ ...accountToImport, wallet: clonedWallet })
 
-        accounts.push(account)
+        clonedWallet.accounts = [...clonedWallet.accounts, account]
       }
 
-      return accounts
+      return clonedWallet.accounts
     },
     [currentLoginSessionRef, importAccount]
   )
