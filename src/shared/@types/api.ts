@@ -1,8 +1,9 @@
+import { Account } from '@cityofzion/blockchain-service'
 import { TSession } from '@cityofzion/wallet-connect-sdk-wallet-react'
 import { OpenDialogOptions } from 'electron'
 
+import { TBlockchainServiceKey } from './blockchain'
 import {
-  TAddHardwareWalletAccountInfo,
   TAddHardwareWalletAccountParams,
   TGetStoreFromWCSession,
   THardwareWalletInfo,
@@ -27,7 +28,7 @@ export type TMainApiListenersAsync = {
   setWindowButtonPosition: TIpcMainAsyncListener<Electron.Point, void>
   connectHardwareWallet: TIpcMainAsyncListener<undefined, THardwareWalletInfo[]>
   disconnectHardwareWallet: TIpcMainAsyncListener<undefined, void>
-  addNewHardwareAccount: TIpcMainAsyncListener<TAddHardwareWalletAccountParams, TAddHardwareWalletAccountInfo>
+  addNewHardwareAccount: TIpcMainAsyncListener<TAddHardwareWalletAccountParams, Account<TBlockchainServiceKey>>
   checkForUpdates: TIpcMainAsyncListener<undefined, boolean>
   quitAndInstall: TIpcMainAsyncListener<undefined, void>
   encryptBasedOS: TIpcMainAsyncListener<string, string>

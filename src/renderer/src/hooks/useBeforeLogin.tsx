@@ -84,7 +84,7 @@ const useNetworkChange = () => {
 
   useLayoutEffect(() => {
     Object.values(bsAggregator.blockchainServicesByName).forEach(service => {
-      const network = networkByBlockchain[service.blockchainName]
+      const network = networkByBlockchain[service.name]
       service.setNetwork(network)
     })
   }, [networkByBlockchain])

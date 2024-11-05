@@ -213,25 +213,6 @@
     "placeholder": "Select a wallet...",
     "noAccounts": "No accounts"
   },
-  "selectToken": {
-    "title": "Select token to send",
-    "yourBalances": "Your token balances:",
-    "selectToken": "Select token"
-  },
-  "inputAmount": {
-    "title": "Amount you want to send",
-    "enterTokenAmount": "Enter token amount:",
-    "fiatValue": "Fiat value ({{currencyType}} estimated)",
-    "balanceAfterTransaction": "Balance after transaction",
-    "insufficientBalanceAvailable": "Insufficient balance available",
-    "max": "Max",
-    "or": "OR",
-    "inputPlaceholder": "0000.00",
-    "enterAmount": "Enter a {{currencyType}} amount:",
-    "roundDown": "Round down",
-    "selectAmountSend": "Select amount to send",
-    "tokenValue": "Token value"
-  },
   "networkSelection": {
     "title": "Network",
     "selectNetwork": "Select a network",

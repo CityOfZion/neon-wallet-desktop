@@ -1,6 +1,8 @@
 import { Account, hasLedger } from '@cityofzion/blockchain-service'
 import { ledgerUSBVendorId } from '@ledgerhq/devices'
+import Transport from '@ledgerhq/hw-transport'
 import NodeHidTransport, { getDevices } from '@ledgerhq/hw-transport-node-hid-noevents'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TAddHardwareWalletAccountParams, THardwareWalletInfoWithTransport } from '@shared/@types/ipc'
 import { mainApi } from '@shared/api/main'
 import { usb } from 'usb'
@@ -11,13 +13,13 @@ const NodeHidTransportFixed = (NodeHidTransport as any).default as typeof NodeHi
 
 let transporters: THardwareWalletInfoWithTransport[] = []
 
-export const getHardwareWalletTransport = async (account: Account) => {
+export const getHardwareWalletTransport = async (account: Account<TBlockchainServiceKey>) => {
   const transporter = transporters.find(item => item.accounts.some(item => item.address === account.address))
   if (!transporter) {
     throw new Error(`No hardware wallet found for account ${account.address}`)
   }
 
-  return transporter.transport
+  return transporter.transport as Transport
 }
 
 const connectHardwareWallet = async () => {
@@ -38,7 +40,7 @@ const connectHardwareWallet = async () => {
 
       transporters.push({
         accounts,
-        blockchain: service.blockchainName,
+        blockchain: service.name,
         transport,
         descriptor: device.path,
       })
@@ -71,10 +73,7 @@ const addNewHardwareAccount = async ({ blockchain, index }: TAddHardwareWalletAc
 
   transporter.accounts.push(account)
 
-  return {
-    account,
-    blockchain: transporter.blockchain,
-  }
+  return account
 }
 
 export function registerHardwareWalletHandler() {

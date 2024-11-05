@@ -14,6 +14,7 @@ interface Resources {
       downloadQRCodePassword: 'Download password QR code'
       default: 'Default'
       remove: 'Remove'
+      swap: 'Swap'
     }
     walletConnect: {
       name: 'Neon Wallet'
@@ -53,13 +54,9 @@ interface Resources {
       logout: 'Logout'
       send: 'Send'
       receive: 'Receive'
+      swap: 'Swap'
       nfts: 'NFTs'
       contacts: 'Contacts'
-      news: 'News'
-      mobile: 'Mobile app'
-      link: {
-        isNew: 'New'
-      }
     }
     walletsSelect: {
       title: 'Wallets'
@@ -194,6 +191,20 @@ interface Resources {
     mnemonicOrKeyAccountSelection: {
       noAccountsToImport: 'No accounts to import'
       accountsLength: '{{length}} address'
+    }
+    greyAccountSelect: {
+      placeholder: 'Select account...'
+      empty: 'No accounts'
+    }
+    greyTokenSelect: {
+      placeholder: 'Select token...'
+      empty: 'No tokens'
+    }
+    greyAmountInput: {
+      placeholder: '0.00000000'
+    }
+    transactionFeeActionStep: {
+      title: 'Transaction Fee'
     }
   }
   hooks: {
@@ -452,25 +463,6 @@ interface Resources {
       yourAccounts: 'Your accounts:'
       placeholder: 'Select a wallet...'
       noAccounts: 'No accounts'
-    }
-    selectToken: {
-      title: 'Select token to send'
-      yourBalances: 'Your token balances:'
-      selectToken: 'Select token'
-    }
-    inputAmount: {
-      title: 'Amount you want to send'
-      enterTokenAmount: 'Enter token amount:'
-      fiatValue: 'Fiat value ({{currencyType}} estimated)'
-      balanceAfterTransaction: 'Balance after transaction'
-      insufficientBalanceAvailable: 'Insufficient balance available'
-      max: 'Max'
-      or: 'OR'
-      inputPlaceholder: '0000.00'
-      enterAmount: 'Enter a {{currencyType}} amount:'
-      roundDown: 'Round down'
-      selectAmountSend: 'Select amount to send'
-      tokenValue: 'Token value'
     }
     networkSelection: {
       title: 'Network'
@@ -909,31 +901,20 @@ interface Resources {
     send: {
       title: 'Send Tokens'
       subtitle: 'What tokens do you want to send?'
-      sourceAccount: {
-        label: 'Source account'
-        modalTitle: 'Select a source account'
-        modalButtonLabel: 'Select source account'
-      }
+      sourceAccountLabel: 'Source account'
       recipient: {
         title: 'Recipient {{order}}'
         addressPlaceholder: 'Enter recipient name or address...'
         myAccountButtonLabel: 'My account'
         tokenToSendLabel: 'Token to send'
-        tokenToSendLabelButtonLabel: 'Select token...'
         amountLabel: 'Amount'
-        amountPlaceholder: '0.00'
         fiatLabel: 'Fiat value ({{currency}} estimated)'
-        myAccountsModalTitle: 'Select a recipient account'
-        myAccountsModalButtonLabel: 'Select recipient account'
         errors: {
           invalidAddress: 'Invalid address'
         }
       }
       addRecipientButtonLabel: 'Add recipient'
       separatelyTransferWarning: '{{blockchain}} does not support more than one send per transaction, so we will send each transfer separately which will drastically increase the fee.'
-      fee: {
-        title: 'Total fee'
-      }
       transactionCompleted: 'Transaction completed'
       transactionFailed: 'Transaction failed'
       sendFail: {
@@ -954,9 +935,6 @@ interface Resources {
         feeError: 'Error to calculate fee'
         insufficientFunds: 'Insufficient funds'
       }
-    }
-    selectAccount: {
-      selectAccount: 'Select account...'
     }
     wallets: {
       title: 'Wallets'
@@ -1135,10 +1113,6 @@ interface Resources {
       selectAccountToGenerateCode: 'Select an account to generate a code!'
       addressInputHint: 'Your receiving address will be here...'
       downloadQRCode: 'Download QR Code'
-      selectAccountModal: {
-        title: 'Select a receiving account'
-        selectReceivingAccount: 'Select receiving account'
-      }
     }
     loginPassword: {
       formContent: {
@@ -1182,6 +1156,57 @@ interface Resources {
       description: 'Which addresses would you like to import?'
       importAllButtonLabel: 'Import all'
       importSelectedButtonLabel: 'Import selected'
+    }
+    swap: {
+      title: 'Swap'
+      explanation: {
+        title: 'How does it work?'
+        description1: 'Exchange tokens for other token, across chains, without using an exchange.'
+        description2: ' Directly and immediately exchanging tokens in NEON is convenient and allows you to save time and pay lower fees.'
+        useTitle: 'Neon wallet uses:'
+      }
+      form: {
+        title: 'What tokens do you want to swap?'
+        simpleSwapImgAlt: 'Simple swap'
+        swapFromTitle: 'Swap this...'
+        swapToTitle: 'For this...'
+        balanceLabel: 'Balance'
+        balancePlaceholder: '0.00'
+        tokenToUseTitle: 'Token to swap'
+        accountToUseTitle: 'From this account'
+        amountToUseTitle: 'Amount'
+        minimumAmountToUseLabel: 'Minimum {{amount}}'
+        minimumAmountToUsePlaceholder: '0.00000000'
+        tokenToReceiveTitle: 'Token to receive'
+        addressToReceivePlaceholder: 'Enter address...'
+        myAccountsButtonLabel: 'My accounts'
+        amountToReceiveTitle: "Amount you'll get"
+        amountToReceiveTitleComplement: '(after fees)'
+        submitLabel: 'Swap now'
+        sendError: {
+          subtitle: "Oops! We've encountered an error."
+          description: 'Please try again later'
+        }
+        sendSuccess: {
+          subtitle: 'Your swap has been initiated successfully!'
+          detailsTitle: 'Swap details'
+          statusLabel: 'Status'
+          transactionFromLabel: 'Transaction from'
+          transactionToLabel: 'Transaction to'
+          transactionAux: 'Transaction aux'
+          amountTo: 'Amount to'
+          amountFrom: 'Amount from'
+          recipientLabel: 'Recipient'
+          feeLabel: 'Transaction from fee'
+        }
+        errors: {
+          invalidAddress: 'Invalid address'
+          amountMin: 'Amount is too low. Minimum amount is {{amount}}'
+          amountMax: 'Amount is too high. Maximum amount is {{amount}}'
+          insufficientFunds: "You don't have enough balance"
+          insufficientFundsFee: "You don't have enough balance to pay the fee"
+        }
+      }
     }
   }
 }

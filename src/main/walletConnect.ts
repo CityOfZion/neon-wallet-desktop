@@ -1,4 +1,3 @@
-import { Account } from '@cityofzion/blockchain-service'
 import { exposeApiToRenderer } from '@cityofzion/bs-electron/dist/main'
 import { BSEthereum } from '@cityofzion/bs-ethereum'
 import { BSNeo3 } from '@cityofzion/bs-neo3'
@@ -8,6 +7,7 @@ import {
   AbstractWalletConnectNeonAdapter,
 } from '@cityofzion/wallet-connect-sdk-wallet-core'
 import type { TAdapterMethodParam, TCustomSigner, WalletInfo } from '@cityofzion/wallet-connect-sdk-wallet-react'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TGetStoreFromWCSession } from '@shared/@types/ipc'
 import { mainApi } from '@shared/api/main'
 
@@ -62,14 +62,11 @@ class WalletConnectNeonAdapter extends AbstractWalletConnectNeonAdapter {
     const key = decryptBasedEncryptedSecret(account.encryptedKey, encryptedPassword)
     if (!key) throw new Error('Error to decrypt key')
 
-    const service = bsAggregator.blockchainServicesByName.neo3 as BSNeo3
+    const service = bsAggregator.blockchainServicesByName.neo3 as BSNeo3<TBlockchainServiceKey>
 
-    const serviceAccount: Account = {
-      address: account.address,
-      key,
-      type: 'publicKey',
-      bip44Path: service.bip44DerivationPath.replace('?', account.order.toString()),
-    }
+    const serviceAccount = service.generateAccountFromPublicKey(key)
+    serviceAccount.isHardware = true
+    serviceAccount.bip44Path = service.bip44DerivationPath.replace('?', account.order.toString())
 
     const transport = await getHardwareWalletTransport(serviceAccount)
 
@@ -106,14 +103,11 @@ export class WalletConnectEIP155Adapter extends AbstractWalletConnectEIP155Adapt
     const key = decryptBasedEncryptedSecret(account.encryptedKey, encryptedPassword)
     if (!key) throw new Error('Error to decrypt key')
 
-    const service = bsAggregator.blockchainServicesByName.ethereum as BSEthereum
+    const service = bsAggregator.blockchainServicesByName.ethereum as BSEthereum<TBlockchainServiceKey>
 
-    const serviceAccount: Account = {
-      address: account.address,
-      key,
-      type: 'publicKey',
-      bip44Path: service.bip44DerivationPath.replace('?', account.order.toString()),
-    }
+    const serviceAccount = service.generateAccountFromPublicKey(key)
+    serviceAccount.isHardware = true
+    serviceAccount.bip44Path = service.bip44DerivationPath.replace('?', account.order.toString())
 
     const transport = await getHardwareWalletTransport(serviceAccount)
 

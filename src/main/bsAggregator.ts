@@ -10,12 +10,12 @@ import { getHardwareWalletTransport } from './hardwareWallet'
 export let bsAggregator: BSAggregator<TBlockchainServiceKey>
 
 export function exposeBsAggregatorToRenderer() {
-  bsAggregator = new BSAggregator<TBlockchainServiceKey>({
-    neo3: new BSNeo3('neo3', undefined, getHardwareWalletTransport),
-    neoLegacy: new BSNeoLegacy('neoLegacy'),
-    ethereum: new BSEthereum('ethereum', undefined, getHardwareWalletTransport),
-    neox: new BSEthereum('neox', undefined, getHardwareWalletTransport),
-  })
+  bsAggregator = new BSAggregator<TBlockchainServiceKey>([
+    new BSNeo3('neo3', undefined, getHardwareWalletTransport),
+    new BSNeoLegacy('neoLegacy'),
+    new BSEthereum('ethereum', undefined, getHardwareWalletTransport),
+    new BSEthereum('neox', undefined, getHardwareWalletTransport),
+  ])
 
   exposeApiToRenderer(bsAggregator)
 }
