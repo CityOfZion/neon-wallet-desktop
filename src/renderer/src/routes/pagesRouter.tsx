@@ -29,6 +29,7 @@ import { SettingsMobileApp } from './pages/Settings/SettingsMobileApp'
 import { SettingsNetwork } from './pages/Settings/SettingsNetwork'
 import { SettingsRecoverWallet } from './pages/Settings/SettingsRecoverWallet'
 import { SettingsReleaseNotesPage } from './pages/Settings/SettingsReleaseNotes'
+import { SwapPage } from './pages/Swap'
 import { WalletsPage } from './pages/Wallets'
 import { AccountConnections } from './pages/Wallets/AccountConnection'
 import { AccountNftList } from './pages/Wallets/AccountNftList'
@@ -114,6 +115,10 @@ export const pagesRouter = routeHandler([
           {
             path: 'receive',
             element: <ReceiveYourAddress />,
+          },
+          {
+            path: 'swap',
+            element: <SwapPage />,
           },
           {
             path: 'contacts',

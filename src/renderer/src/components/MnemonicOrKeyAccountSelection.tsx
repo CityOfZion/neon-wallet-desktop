@@ -127,7 +127,7 @@ export const MnemonicOrKeyAccountSelection = ({
     } else {
       await UtilsHelper.promiseAll(Object.values(bsAggregator.blockchainServicesByName), async service => {
         const account = service.generateAccountFromKey(mnemonicOrKey)
-        mnemonicAccountsArray.push([service.blockchainName, [account]])
+        mnemonicAccountsArray.push([service.name, [account]])
       })
     }
 

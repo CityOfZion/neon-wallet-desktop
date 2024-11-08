@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbCopy, TbQrcode, TbSend, TbStepInto } from 'react-icons/tb'
+import { ActionStep } from '@renderer/components/ActionStep'
 import { Button } from '@renderer/components/Button'
+import { GreyAccountSelect } from '@renderer/components/GreyAccountSelect'
 import { Input } from '@renderer/components/Input'
-import { SelectAccountStep } from '@renderer/components/SelectAccountStep'
 import { Separator } from '@renderer/components/Separator'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
@@ -14,7 +15,7 @@ type TProps = {
   account?: IAccountState
 }
 
-export const ReceiveYourAddressContent = ({ account }: TProps) => {
+export const ReceivePageContent = ({ account }: TProps) => {
   const { t } = useTranslation('pages', { keyPrefix: 'receive' })
 
   const [selectedAccount, setSelectedAccount] = useState(account)
@@ -26,15 +27,13 @@ export const ReceiveYourAddressContent = ({ account }: TProps) => {
   return (
     <section className="bg-gray-800 w-full flex-grow flex flex-col rounded text-xs items-center py-10">
       <div className="max-w-[32rem] w-full flex flex-col items-center flex-grow">
-        <SelectAccountStep
-          selectedAccount={selectedAccount}
-          onSelectAccount={setSelectedAccount}
-          active
+        <ActionStep
+          className="bg-gray-700/60 rounded  px-4"
           title={t('receivingAccountTitle')}
-          modalTitle={t('selectAccountModal.title')}
-          modalButtonLabel={t('selectAccountModal.selectReceivingAccount')}
-          leftIcon={<TbStepInto className="text-neon" />}
-        />
+          leftIcon={<TbStepInto />}
+        >
+          <GreyAccountSelect onSelect={setSelectedAccount} selectedAccount={selectedAccount} />
+        </ActionStep>
 
         <div className="bg-gray-700/60 flex flex-col rounded px-3 mt-2 w-full items-center">
           <div className="flex justify-between my-2.5 w-full">

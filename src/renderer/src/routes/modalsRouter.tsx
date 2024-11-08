@@ -31,7 +31,6 @@ import { ExportMnemonic } from './modals/ExportMnemonic'
 import { ImportModal } from './modals/Import'
 import { ImportAccountsSelectionModal } from './modals/Import/ImportAccountsSelectionModal'
 import { ImportWatchAccountsModal } from './modals/Import/ImportWatchAccountsModal'
-import { InputAmount } from './modals/InputAmount'
 import { MigrateAccountsStep2Modal } from './modals/MigrateAccounts/MigrateAccountsStep2'
 import { MigrateAccountsStep3Modal } from './modals/MigrateAccounts/MigrateAccountsStep3'
 import { MigrateAccountsStep4Modal } from './modals/MigrateAccounts/MigrateAccountsStep4'
@@ -43,7 +42,6 @@ import { PersistContactModal } from './modals/PersistContact'
 import { DeleteModal } from './modals/PersistContact/DeleteModal'
 import { SelectAccountModal } from './modals/SelectAccount'
 import { SelectContact } from './modals/SelectContact'
-import { SelectToken } from './modals/SelectToken'
 import { SuccessModal } from './modals/Success'
 
 export const modalsRouter: TRoute[] = [
@@ -82,8 +80,6 @@ export const modalsRouter: TRoute[] = [
   { name: 'blockchain-selection', type: 'side', element: <BlockchainSelectionModal /> },
   { name: 'decrypt-key', type: 'side', element: <DecryptKeyModal /> },
   { name: 'select-account', type: 'side', element: <SelectAccountModal /> },
-  { name: 'select-token', type: 'side', size: 'md', element: <SelectToken /> },
-  { name: 'input-amount', type: 'side', element: <InputAmount /> },
   { name: 'network-selection', type: 'side', element: <NetworkSelection /> },
   { name: 'migrate-accounts-step-2', type: 'side', size: 'lg', element: <MigrateAccountsStep2Modal /> },
   { name: 'migrate-accounts-step-3', type: 'side', size: 'lg', element: <MigrateAccountsStep3Modal /> },

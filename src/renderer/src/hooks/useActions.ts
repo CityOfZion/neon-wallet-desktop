@@ -1,8 +1,18 @@
 import { FormEvent, MouseEvent, useCallback, useMemo, useRef, useState } from 'react'
-import { TUseActionsActionState, TUseActionsChanged, TUseActionsData, TUseActionsErrors } from '@shared/@types/hooks'
+import {
+  TUseActionsActionState,
+  TUseActionsChanged,
+  TUseActionsData,
+  TUseActionsErrors,
+  TUseActionsOptions,
+} from '@shared/@types/hooks'
 import { cloneDeep } from 'lodash'
 
-export const useActions = <T extends TUseActionsData>(initialData: T) => {
+const resolveOptions = (options?: TUseActionsOptions) => {
+  return Object.assign({ clearErrorsOnChange: true }, options)
+}
+
+export const useActions = <T extends TUseActionsData>(initialData: T, options?: TUseActionsOptions) => {
   const initialState = useMemo(() => {
     const initialDataKeys = Object.keys(initialData) as (keyof T)[]
 
@@ -95,8 +105,13 @@ export const useActions = <T extends TUseActionsData>(initialData: T) => {
         },
       }))
 
-      clearErrors(Object.keys(newValues) as (keyof T)[])
+      const resolvedOptions = resolveOptions(options)
+
+      if (resolvedOptions.clearErrorsOnChange) {
+        clearErrors(Object.keys(newValues) as (keyof T)[])
+      }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [clearErrors, setState]
   )
 

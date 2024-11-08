@@ -40,15 +40,15 @@ const getUnclaimedInfos = async (
   if (isCalculableFee(blockchainService)) {
     const isHardware = account.type === 'hardware'
 
-    const serviceAccount: Account =
-      isHardware && hasLedger(blockchainService)
-        ? {
-            address: account.address,
-            key,
-            type: 'publicKey',
-            bip44Path: blockchainService.bip44DerivationPath.replace('?', account.order.toString()),
-          }
-        : blockchainService.generateAccountFromKey(key)
+    let serviceAccount: Account<TBlockchainServiceKey>
+
+    if (isHardware && hasLedger(blockchainService)) {
+      serviceAccount = blockchainService.generateAccountFromPublicKey(key)
+      serviceAccount.isHardware = true
+      serviceAccount.bip44Path = blockchainService.bip44DerivationPath.replace('?', account.order.toString())
+    } else {
+      serviceAccount = blockchainService.generateAccountFromKey(key)
+    }
 
     fee = await blockchainService.calculateTransferFee({
       intents: [
@@ -60,7 +60,6 @@ const getUnclaimedInfos = async (
         },
       ],
       senderAccount: serviceAccount,
-      isLedger: isHardware,
     })
   }
 
@@ -120,17 +119,17 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
 
       const isHardware = account.type === 'hardware'
 
-      const serviceAccount: Account =
-        isHardware && hasLedger(blockchainService)
-          ? {
-              address: account.address,
-              key,
-              type: 'publicKey',
-              bip44Path: blockchainService.bip44DerivationPath.replace('?', account.order.toString()),
-            }
-          : blockchainService.generateAccountFromKey(key)
+      let serviceAccount: Account<TBlockchainServiceKey>
 
-      const transactionHash = await blockchainService.claim(serviceAccount, isHardware)
+      if (isHardware && hasLedger(blockchainService)) {
+        serviceAccount = blockchainService.generateAccountFromPublicKey(key)
+        serviceAccount.isHardware = true
+        serviceAccount.bip44Path = blockchainService.bip44DerivationPath.replace('?', account.order.toString())
+      } else {
+        serviceAccount = blockchainService.generateAccountFromKey(key)
+      }
+
+      const transactionHash = await blockchainService.claim(serviceAccount)
 
       const transaction: TUseTransactionsTransfer = {
         hash: transactionHash,

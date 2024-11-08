@@ -2,7 +2,7 @@ import { Fragment } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbFileImport } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
-import { AccountWithDerivationPath } from '@cityofzion/blockchain-service'
+import { Account } from '@cityofzion/blockchain-service'
 import { AccountSelection } from '@renderer/components/AccountSelection'
 import { Button } from '@renderer/components/Button'
 import { Loader } from '@renderer/components/Loader'
@@ -21,11 +21,9 @@ type TLocation = {
 }
 
 type TActionsData = {
-  mnemonicAccounts: Map<TBlockchainServiceKey, AccountWithDerivationPath[]>
-  selectedAccounts: TAccountWithBlockchain[]
+  mnemonicAccounts: Map<TBlockchainServiceKey, Account<TBlockchainServiceKey>[]>
+  selectedAccounts: Account<TBlockchainServiceKey>[]
 }
-
-type TAccountWithBlockchain = AccountWithDerivationPath & { blockchain: TBlockchainServiceKey }
 
 export const ImportMnemonicAccountsSelectionModal = () => {
   const { mnemonic } = useModalState<TLocation>()
@@ -41,7 +39,7 @@ export const ImportMnemonicAccountsSelectionModal = () => {
     selectedAccounts: [],
   })
 
-  const handleChecked = (checked: boolean, account: TAccountWithBlockchain) => {
+  const handleChecked = (checked: boolean, account: Account<TBlockchainServiceKey>) => {
     setData(({ selectedAccounts }) => ({
       selectedAccounts: checked
         ? [...selectedAccounts, account]
@@ -65,16 +63,16 @@ export const ImportMnemonicAccountsSelectionModal = () => {
   }
 
   const { isMounting } = useMount(async () => {
-    const mnemonicAccounts = await bsAggregator.generateAccountFromMnemonicAllBlockchains(mnemonic)
-    const selectedAccounts: TAccountWithBlockchain[] = []
+    const mnemonicAccounts = await bsAggregator.generateAccountsFromMnemonic(mnemonic)
+    const selectedAccounts: Account<TBlockchainServiceKey>[] = []
 
-    Array.from(mnemonicAccounts.entries()).forEach(([blockchain, accounts]) => {
-      accounts.forEach(account => {
-        if (doesAccountExist({ address: account.address, blockchain })) return
+    Array.from(mnemonicAccounts.values())
+      .flat()
+      .forEach(account => {
+        if (doesAccountExist(account)) return
 
-        selectedAccounts.push({ ...account, blockchain })
+        selectedAccounts.push(account)
       })
-    })
 
     setData({ selectedAccounts, mnemonicAccounts })
   }, [mnemonic])
@@ -95,7 +93,7 @@ export const ImportMnemonicAccountsSelectionModal = () => {
                     <AccountSelection.Item
                       key={`${it.address}-${blockchain}`}
                       address={it.address}
-                      label={it.derivationPath}
+                      label={it.bip44Path}
                       checked={actionData.selectedAccounts.some(
                         AccountHelper.predicate({ address: it.address, blockchain })
                       )}

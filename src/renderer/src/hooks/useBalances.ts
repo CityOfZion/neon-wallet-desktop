@@ -20,9 +20,15 @@ export function buildQueryKeyBalance(
   address: string,
   blockchain: TBlockchainServiceKey,
   network: TNetwork<TBlockchainServiceKey>,
-  currency: TCurrency
+  currency?: TCurrency
 ) {
-  return ['balance', address, blockchain, network.id, currency]
+  const key: any[] = ['balance', address, blockchain, network.id]
+
+  if (currency) {
+    key.push(currency)
+  }
+
+  return key
 }
 
 const fetchBalance = async (
@@ -93,7 +99,7 @@ export function useBalances(params: TUseBalancesParams[]): TUseBalancesResult {
         networkByBlockchain[param.blockchain],
         queryClient,
         currency,
-        currencyRatio
+        currencyRatio ?? 0
       ),
       enabled: !isCurrencyRatioLoading && typeof currencyRatio === 'number',
     })),
@@ -120,7 +126,7 @@ export function useBalance(balanceParams: TUseBalancesParams | undefined): TUseB
       networkByBlockchain[params.blockchain],
       queryClient,
       currency,
-      currencyRatio
+      currencyRatio ?? 0
     ),
     enabled: !!balanceParams && !isCurrencyRatioLoading && typeof currencyRatio === 'number',
   })

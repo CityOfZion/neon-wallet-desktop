@@ -4,7 +4,7 @@ import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { Loader } from './Loader'
 
 export type TCustomClickableProps = {
-  label: string
+  label: string | JSX.Element
   leftIcon?: JSX.Element
   rightIcon?: JSX.Element
   variant?: 'outlined' | 'contained' | 'text' | 'text-slim' | 'card'
@@ -81,7 +81,7 @@ const Card = ({ className, ...props }: TClickableProps) => {
   return (
     <Base
       className={StyleHelper.mergeStyles(
-        'flex min-w-0 justify-center items-center text-center py-3 gap-x-2.5 transition-colors rounded',
+        'flex min-w-0 justify-center items-center text-center py-3 gap-x-2.5 transition-colors rounded text-white',
         'aria-[disabled=true]:bg-gray-300/30 aria-[disabled=true]:text-gray-100/50 aria-[disabled=true]:opacity-100',
         'aria-[disabled=false]:bg-gray-300/15 aria-[disabled=false]:hover:bg-gray-300/30',
         className
@@ -148,17 +148,21 @@ const Base = ({
               ...leftIconProps,
             })}
 
-          <span
-            className={StyleHelper.mergeStyles(
-              'font-medium truncate',
-              {
-                'flex-grow': iconsOnEdge,
-              },
-              textClassName
-            )}
-          >
-            {label}
-          </span>
+          {typeof label === 'string' ? (
+            <span
+              className={StyleHelper.mergeStyles(
+                'font-medium truncate',
+                {
+                  'flex-grow': iconsOnEdge,
+                },
+                textClassName
+              )}
+            >
+              {label}
+            </span>
+          ) : (
+            label
+          )}
 
           {rightIcon &&
             cloneElement(rightIcon, {

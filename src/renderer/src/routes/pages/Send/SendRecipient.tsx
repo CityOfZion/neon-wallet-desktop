@@ -1,19 +1,23 @@
 import { ChangeEvent, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TbChevronRight, TbStepInto, TbStepOut, TbUsers, TbWallet } from 'react-icons/tb'
+import { TbStepInto, TbUsers, TbWallet } from 'react-icons/tb'
 import { VscCircleFilled } from 'react-icons/vsc'
+import { Token } from '@cityofzion/blockchain-service'
 import { ActionStep } from '@renderer/components/ActionStep'
 import { Button } from '@renderer/components/Button'
+import { GreyAccountSelect } from '@renderer/components/GreyAccountSelect'
+import { GreyAmountInput } from '@renderer/components/GreyAmountInput'
+import { GreyTokenSelect } from '@renderer/components/GreyTokenSelect'
 import { IconButton } from '@renderer/components/IconButton'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
-import { StringHelper } from '@renderer/helpers/StringHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useNameService } from '@renderer/hooks/useNameService'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
-import { TTokenBalance } from '@shared/@types/query'
+import { TTokenBalance, TUseBalanceResult } from '@shared/@types/query'
 import { IAccountState, TContactAddress } from '@shared/@types/store'
 import { motion, useIsPresent } from 'framer-motion'
 
@@ -32,6 +36,7 @@ type TProps = {
   onUpdateRecipient: (recipient: Partial<TSendRecipient>) => void
   onRemoveRecipient: () => void
   removable?: boolean
+  balance?: TUseBalanceResult
 }
 
 export const SendRecipient = ({
@@ -41,6 +46,7 @@ export const SendRecipient = ({
   onUpdateRecipient,
   onRemoveRecipient,
   removable = false,
+  balance,
 }: TProps) => {
   const { t } = useTranslation('pages', { keyPrefix: 'send.recipient' })
   const { t: commonT } = useTranslation('common')
@@ -64,12 +70,18 @@ export const SendRecipient = ({
     onUpdateRecipient({ addressInput: address.address, address: undefined })
   }
 
-  const handleSelectToken = (token: TTokenBalance) => {
-    onUpdateRecipient({ token, amount: undefined })
+  const handleSelectToken = (token: Token) => {
+    const tokenHash = UtilsHelper.normalizeHash(token.hash)
+    const tokenBalance = balance?.data?.tokensBalances.find(
+      tokenBalance => UtilsHelper.normalizeHash(tokenBalance.token.hash) === tokenHash
+    )
+
+    onUpdateRecipient({ token: tokenBalance, amount: undefined })
   }
 
-  const handleSelectAmount = (amount: string) => {
-    onUpdateRecipient({ amount })
+  const handleChangeAmount = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = NumberHelper.formatString(event.target.value, recipient.token?.token.decimals)
+    onUpdateRecipient({ amount: value })
   }
 
   const handleSelectAccount = (account: IAccountState) => {
@@ -102,13 +114,8 @@ export const SendRecipient = ({
         absolute: !isPresent,
       })}
     >
-      <div className="flex flex-col items-center bg-gray-700/60  px-3.5 w-full">
-        <ActionStep
-          className="px-0"
-          title={t('title', { order })}
-          disabled={!selectedAccount}
-          leftIcon={<TbStepInto />}
-        >
+      <div className="flex flex-col items-center bg-gray-700/60  px-3.5 w-full rounded">
+        <ActionStep className="px-0" title={t('title', { order })} leftIcon={<TbStepInto />}>
           {removable && (
             <Button
               label={commonT('general.remove')}
@@ -135,7 +142,6 @@ export const SendRecipient = ({
               buttons={
                 <IconButton
                   icon={<TbUsers />}
-                  colorSchema={!selectedAccount || validatedAddress ? 'white' : 'neon'}
                   type="button"
                   onClick={modalNavigateWrapper('select-contact', {
                     state: {
@@ -152,23 +158,19 @@ export const SendRecipient = ({
               disabled={!selectedAccount}
             />
 
-            <Button
-              colorSchema={!selectedAccount || validatedAddress ? 'white' : 'neon'}
-              disabled={!selectedAccount}
-              variant="text"
-              label={t('myAccountButtonLabel')}
-              leftIcon={<TbWallet />}
-              flat
-              onClick={modalNavigateWrapper('select-account', {
-                state: {
-                  onSelectAccount: handleSelectAccount,
-                  title: t('myAccountsModalTitle'),
-                  buttonLabel: t('myAccountsModalButtonLabel'),
-                  leftIcon: <TbStepOut />,
-                  blockchain: selectedAccount?.blockchain,
-                },
-              })}
-            />
+            <GreyAccountSelect
+              onSelect={handleSelectAccount}
+              withoutIndicator
+              blockchains={selectedAccount ? [selectedAccount.blockchain] : undefined}
+            >
+              <Button
+                disabled={!selectedAccount}
+                variant="text"
+                label={t('myAccountButtonLabel')}
+                leftIcon={<TbWallet />}
+                flat
+              />
+            </GreyAccountSelect>
           </div>
 
           {isNameService && <span className="text-neon block mt-1 text-xs">{validatedAddress}</span>}
@@ -180,30 +182,14 @@ export const SendRecipient = ({
           className="px-0"
           title={t('tokenToSendLabel')}
           leftIcon={<VscCircleFilled className="text-gray-300 w-2 h-2" />}
-          disabled={!selectedAccount}
         >
-          <Button
-            flat
-            variant="text"
-            className="flex items-center"
-            textClassName="font-normal"
-            clickableProps={{
-              className: 'text-sm pl-3 pr-1',
-            }}
-            label={
-              recipient.token
-                ? StringHelper.truncateString(recipient.token.token.symbol, 8)
-                : t('tokenToSendLabelButtonLabel')
-            }
-            onClick={modalNavigateWrapper('select-token', {
-              state: {
-                selectedAccount: selectedAccount,
-                onSelectToken: handleSelectToken,
-              },
-            })}
-            colorSchema={!selectedAccount || recipient.token ? 'white' : 'neon'}
+          <GreyTokenSelect
+            tokens={balance?.data?.tokensBalances.map(tokenBalance => tokenBalance.token) ?? []}
+            balance={balance?.data}
+            onSelect={handleSelectToken}
+            selectedToken={recipient.token?.token}
+            loading={balance?.isLoading}
             disabled={!selectedAccount}
-            rightIcon={<TbChevronRight />}
           />
         </ActionStep>
 
@@ -213,34 +199,15 @@ export const SendRecipient = ({
           className="px-0"
           title={t('amountLabel')}
           leftIcon={<VscCircleFilled className="text-gray-300 w-2 h-2" />}
-          disabled={!selectedAccount || !recipient.token}
         >
-          <Button
-            flat
-            variant="text"
-            className="flex items-center"
-            textClassName="font-normal"
-            clickableProps={{
-              className: 'text-sm pl-3 pr-1',
-            }}
-            label={recipient.amount ?? t('amountPlaceholder')}
-            onClick={modalNavigateWrapper('input-amount', {
-              state: {
-                tokenBalance: recipient.token,
-                onSelectAmount: handleSelectAmount,
-              },
-            })}
-            colorSchema={!selectedAccount || !recipient.token || recipient.amount ? 'white' : 'neon'}
+          <GreyAmountInput
+            value={recipient.amount}
+            onChange={handleChangeAmount}
             disabled={!selectedAccount || !recipient.token}
-            rightIcon={<TbChevronRight />}
           />
         </ActionStep>
 
-        <div
-          className={StyleHelper.mergeStyles('flex justify-between w-full px-8 pb-3', {
-            'opacity-50': !recipient.amount || !recipient.token || !selectedAccount,
-          })}
-        >
+        <div className="flex justify-between w-full pl-8 pb-3">
           <span className="text-gray-200 italic text-xs">{t('fiatLabel', { currency: currency.label })}</span>
           <span className="text-gray-100 italic text-xs">
             {NumberHelper.currency(

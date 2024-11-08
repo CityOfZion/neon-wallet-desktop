@@ -2,6 +2,10 @@ import { IAccountState } from './store'
 
 export type TUseActionsData = Record<string, any>
 
+export type TUseActionsOptions = {
+  clearErrorsOnChange?: boolean
+}
+
 export type TUseActionsErrors<T> = Record<keyof T, string | undefined>
 
 export type TUseActionsChanged<T> = Record<keyof T, boolean>

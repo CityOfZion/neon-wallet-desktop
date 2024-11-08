@@ -8,6 +8,7 @@ import { Loader } from './Loader'
 
 export type TInputProps = Omit<React.ComponentProps<'input'>, 'type' | 'ref'> & {
   containerClassName?: string
+  contentClassName?: string
   errorMessage?: string
   error?: boolean
   clearable?: boolean
@@ -27,6 +28,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
     {
       className,
       containerClassName,
+      contentClassName,
       type,
       errorMessage,
       error,
@@ -116,7 +118,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
               'pl-3': !!leftIcon,
               'pr-3': type === 'password' || clearable,
             },
-            className
+            contentClassName
           )}
           onClick={handleContainerClick}
         >
@@ -124,9 +126,10 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
             cloneElement(leftIcon, {
               ...leftIcon.props,
               className: StyleHelper.mergeStyles(
+                'text-gray-300 pointer-events-none',
                 {
-                  'w-5 h-5': compacted,
-                  'w-6 h-6': !compacted,
+                  'min-w-[1.25rem] min-h-[1.25rem] max-w-[1.25rem] max-h-[1.25rem]': compacted,
+                  'min-w-[1.5rem] min-h-[1.5rem] max-w-[1.5rem] max-h-[1.5rem]': !compacted,
                 },
                 leftIcon.props.className
               ),
@@ -135,7 +138,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
           <input
             ref={internalRef}
             className={StyleHelper.mergeStyles(
-              'bg-transparent disabled:cursor-not-allowed flex-grow outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none',
+              'bg-transparent w-full disabled:cursor-not-allowed flex-grow outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none',
               className
             )}
             onMouseDown={handleMouseDown}
