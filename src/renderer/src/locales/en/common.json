@@ -12,7 +12,8 @@
     "passwordNEONQRCode": "QRCode",
     "downloadQRCodePassword": "Download password QR code",
     "default": "Default",
-    "remove": "Remove"
+    "remove": "Remove",
+    "swap": "Swap"
   },
   "walletConnect": {
     "name": "Neon Wallet",

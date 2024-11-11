@@ -2,12 +2,14 @@ import { useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdArrowForward } from 'react-icons/md'
 import { TbArrowDown, TbPlus, TbStepOut } from 'react-icons/tb'
-import { Account, IntentTransferParam, isCalculableFee } from '@cityofzion/blockchain-service'
+import { Account, hasLedger, IntentTransferParam, isCalculableFee } from '@cityofzion/blockchain-service'
+import { ActionStep } from '@renderer/components/ActionStep'
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
-import { SelectAccountStep } from '@renderer/components/SelectAccountStep'
+import { GreyAccountSelect } from '@renderer/components/GreyAccountSelect'
 import { Separator } from '@renderer/components/Separator'
+import { TransactionFeeActionStep } from '@renderer/components/TransactionFeeActionStep'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
@@ -20,12 +22,12 @@ import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useSelectedNetworkByBlockchainSelector } from '@renderer/hooks/useSettingsSelector'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TUseTransactionsTransfer } from '@shared/@types/hooks'
 import { IAccountState } from '@shared/@types/store'
 import { AnimatePresence } from 'framer-motion'
 
 import { SendErrorModalContent } from './SendErrorModalContent'
-import { SendFee } from './SendFee'
 import { SendRecipient, TSendRecipient } from './SendRecipient'
 import { SendSuccessModalContent } from './SendSuccessModalContent'
 
@@ -74,7 +76,8 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
       !actionData.selectedAccount ||
       !actionData.selectedAccount.encryptedKey ||
       !service ||
-      actionState.errors.recipients !== undefined
+      actionState.errors.recipients !== undefined ||
+      !actionState.changed.recipients
     )
       return
 
@@ -90,15 +93,15 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
       encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
     })
 
-    const serviceAccount: Account =
-      actionData.selectedAccount.type === 'hardware'
-        ? {
-            address: actionData.selectedAccount.address,
-            key,
-            type: 'publicKey',
-            bip44Path: service.bip44DerivationPath.replace('?', actionData.selectedAccount.order.toString()),
-          }
-        : service.generateAccountFromKey(key)
+    let serviceAccount: Account<TBlockchainServiceKey>
+
+    if (actionData.selectedAccount.type === 'hardware' && hasLedger(service)) {
+      serviceAccount = service.generateAccountFromPublicKey(key)
+      serviceAccount.isHardware = true
+      serviceAccount.bip44Path = service.bip44DerivationPath.replace('?', actionData.selectedAccount.order.toString())
+    } else {
+      serviceAccount = service.generateAccountFromKey(key)
+    }
 
     return {
       service,
@@ -155,7 +158,6 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
       const transactionHashes = await fields.service.transfer({
         senderAccount: fields.serviceAccount,
         intents: fields.intents,
-        isLedger: fields.selectedAccount.type === 'hardware',
       })
 
       const transactions = transactionHashes.map((hash, index) => {
@@ -224,7 +226,6 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
         const fee = await fields.service.calculateTransferFee({
           intents: fields.intents,
           senderAccount: fields.serviceAccount,
-          isLedger: fields.selectedAccount.type === 'hardware',
         })
 
         setData({
@@ -265,6 +266,29 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
   }, [actionData.recipients, balance.data])
 
   useEffect(() => {
+    const validateAmounts = () => {
+      for (const recipient of actionData.recipients) {
+        if (!recipient.amount || !recipient.token) {
+          continue
+        }
+
+        const amountNumber = NumberHelper.number(recipient.amount)
+        const tokenHash = UtilsHelper.normalizeHash(recipient.token!.token.hash)
+        const tokenBalance = balance.data?.tokensBalances.find(tokenBalance => tokenBalance.token.hash === tokenHash)
+
+        if (!tokenBalance || amountNumber > tokenBalance.amountNumber) {
+          setError('recipients', t('errors.insufficientFunds'))
+          return
+        }
+      }
+
+      clearErrors('recipients')
+    }
+
+    validateAmounts()
+  }, [actionData.recipients, balance.data?.tokensBalances, clearErrors, setError, t])
+
+  useEffect(() => {
     handleSelectAccount(account)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account])
@@ -276,15 +300,9 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
       <Separator />
 
       <div className="max-w-[33.25rem] min-h-0 w-full flex-grow flex flex-col items-center py-8 my-2 px-5 overflow-auto">
-        <SelectAccountStep
-          selectedAccount={actionData.selectedAccount}
-          onSelectAccount={handleSelectAccount}
-          active={!actionData.selectedAccount}
-          title={t('sourceAccount.label')}
-          modalTitle={t('sourceAccount.modalTitle')}
-          modalButtonLabel={t('sourceAccount.modalButtonLabel')}
-          leftIcon={<TbStepOut />}
-        />
+        <ActionStep className="bg-gray-700/60 rounded px-4" title={t('sourceAccountLabel')} leftIcon={<TbStepOut />}>
+          <GreyAccountSelect onSelect={handleSelectAccount} selectedAccount={actionData.selectedAccount} />
+        </ActionStep>
 
         <div className="relative z-10">
           <TbArrowDown className="w-5 h-5 p-1 bg-gray-600 rounded-full border-8 border-gray-800 box-content absolute top-2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
@@ -301,6 +319,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
                 selectedAccount={actionData.selectedAccount}
                 recipient={recipient}
                 removable={actionData.recipients.length > 1}
+                balance={balance}
               />
             ))}
           </AnimatePresence>
@@ -329,14 +348,19 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
               })}
             />
           )}
+
         {(!service || (service && isCalculableFee(service))) && (
-          <SendFee fee={actionData.fee} isCalculatingFee={actionData.isCalculatingFee} service={service} />
+          <TransactionFeeActionStep
+            fee={actionData.fee}
+            isCalculatingFee={actionData.isCalculatingFee}
+            service={service}
+          />
         )}
 
         {actionState.errors.fee && <AlertErrorBanner className="w-full mt-2" message={actionState.errors.fee} />}
 
         <Button
-          className="max-w-[16rem] w-full mt-8"
+          className="max-w-[16rem] w-full mt-4"
           iconsOnEdge={false}
           onClick={handleAct(handleSubmit)}
           label={commonT('general.continue')}

@@ -159,14 +159,14 @@ export const useHardwareWalletActions = () => {
 
         const accountOrder = AccountHelper.getNextOrderOrMissing(wallet.accounts, blockchain)
 
-        const info = await window.api.sendAsync('addNewHardwareAccount', { index: accountOrder, blockchain })
+        const account = await window.api.sendAsync('addNewHardwareAccount', { index: accountOrder, blockchain })
 
         await importAccount({
-          address: info.account.address,
-          blockchain: info.blockchain,
+          address: account.address,
+          blockchain: account.blockchain,
           type: 'hardware',
           wallet,
-          key: info.account.key,
+          key: account.key,
           order: accountOrder,
           name: accountName ?? `Account ${accountOrder + 1}`,
         })

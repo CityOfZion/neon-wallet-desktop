@@ -7,6 +7,8 @@ const Root = SelectPrimitive.Root
 
 const Value = SelectPrimitive.Value
 
+const RawTrigger = SelectPrimitive.Trigger
+
 const Trigger = forwardRef<
   ElementRef<typeof SelectPrimitive.Trigger>,
   ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
@@ -15,8 +17,8 @@ const Trigger = forwardRef<
     ref={ref}
     aria-disabled={disabled}
     className={StyleHelper.mergeStyles(
-      'flex items-center justify-between group w-full min-w-[11.625rem] text-sm min-h-8.5 px-2.5 transition-colors outline-none rounded [&>span]:truncate',
-      'aria-[disabled=false]:hover:bg-gray-300/15 aria-[disabled=false]:focus:bg-gray-300/15 aria-[disabled=true]:opacity-50 aria-[disabled=true]:cursor-not-allowed aria-expanded:bg-gray-300/15',
+      'flex items-center justify-between group w-full min-w-[11.625rem] text-sm min-h-8.5 px-2.5 transition-colors rounded [&>span]:truncate',
+      'aria-[disabled=false]:hover:bg-gray-300/15 aria-[disabled=true]:opacity-50 aria-[disabled=true]:cursor-not-allowed aria-expanded:bg-gray-300/15',
       className
     )}
     disabled={disabled}
@@ -45,34 +47,40 @@ const Icon = forwardRef<ElementRef<typeof SelectPrimitive.Icon>, ComponentPropsW
   )
 )
 
-const Content = forwardRef<
-  ElementRef<typeof SelectPrimitive.Content>,
-  ComponentPropsWithoutRef<typeof SelectPrimitive.Content>
->(({ className, children, position = 'popper', align = 'center', ...props }, ref) => (
-  <SelectPrimitive.Portal>
-    <SelectPrimitive.Content
-      ref={ref}
-      className={StyleHelper.mergeStyles(
-        'relative z-[1010] max-h-96 min-w-[11.625rem] overflow-hidden rounded bg-gray-900 text-white shadow-xl data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
-        position === 'popper' &&
-          'data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1',
-        className
-      )}
-      position={position}
-      align={align}
-      {...props}
-    >
-      <SelectPrimitive.Viewport
+type TContentProps = ComponentPropsWithoutRef<typeof SelectPrimitive.Content> & {
+  isTriggerWidth?: boolean
+}
+
+const Content = forwardRef<ElementRef<typeof SelectPrimitive.Content>, TContentProps>(
+  ({ className, children, position = 'popper', align = 'center', isTriggerWidth = true, ...props }, ref) => (
+    <SelectPrimitive.Portal>
+      <SelectPrimitive.Content
+        ref={ref}
         className={StyleHelper.mergeStyles(
-          position === 'popper' &&
-            'h-[var(--radix-select-trigger-height)] w-full max-w-[var(--radix-select-trigger-width)] min-w-[var(--radix-select-trigger-width)]'
+          'relative z-[1010] max-h-96 min-w-[11.625rem] overflow-hidden rounded bg-gray-900 text-white shadow-xl data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
+          {
+            'data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1':
+              position === 'popper',
+          },
+          className
         )}
+        position={position}
+        align={align}
+        {...props}
       >
-        {children}
-      </SelectPrimitive.Viewport>
-    </SelectPrimitive.Content>
-  </SelectPrimitive.Portal>
-))
+        <SelectPrimitive.Viewport
+          className={StyleHelper.mergeStyles({
+            'h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]':
+              position === 'popper',
+            'max-w-[var(--radix-select-trigger-width)]': position === 'popper' && isTriggerWidth,
+          })}
+        >
+          {children}
+        </SelectPrimitive.Viewport>
+      </SelectPrimitive.Content>
+    </SelectPrimitive.Portal>
+  )
+)
 
 const Item = forwardRef<ElementRef<typeof SelectPrimitive.Item>, ComponentPropsWithoutRef<typeof SelectPrimitive.Item>>(
   ({ className, children, ...props }, ref) => (
@@ -96,6 +104,22 @@ const ItemIndicator = forwardRef<
   <SelectPrimitive.ItemIndicator ref={ref} asChild {...props}>
     <MdCheck className="min-h-[1rem] min-w-[1rem] max-h-[1rem] max-w-[1rem]" />
   </SelectPrimitive.ItemIndicator>
+))
+
+const ItemRadialIndicator = forwardRef<
+  ElementRef<typeof SelectPrimitive.ItemIndicator>,
+  ComponentPropsWithoutRef<typeof SelectPrimitive.ItemIndicator>
+>((props, ref) => (
+  <div className="group-data-[state=unchecked]:border-gray-300 group-data-[state=checked]:border-neon border-2 bg-transparent min-w-[1rem] min-h-[1rem] w-[1rem] h-[1rem] rounded-full outline-none">
+    <SelectPrimitive.ItemIndicator
+      ref={ref}
+      {...props}
+      className={StyleHelper.mergeStyles(
+        "flex items-center justify-center w-full h-full relative after:content-[''] after:block after:w-2 after:h-2 after:rounded-[50%] after:bg-neon",
+        props.className
+      )}
+    />
+  </div>
 ))
 
 const ItemText = forwardRef<
@@ -124,4 +148,6 @@ export const Select = {
   Separator,
   Trigger,
   Value,
+  RawTrigger,
+  ItemRadialIndicator,
 }

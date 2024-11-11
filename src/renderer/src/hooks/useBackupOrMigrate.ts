@@ -71,7 +71,7 @@ const migrateSchema = zod
             (hasNameService(service) && service.validateNameServiceDomainFormat(address)) ||
             service.validateAddress(address)
           ) {
-            transformedAddresses.push({ address, blockchain: service.blockchainName })
+            transformedAddresses.push({ address, blockchain: service.name })
             return
           }
         }

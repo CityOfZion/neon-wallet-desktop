@@ -6,13 +6,9 @@
     "logout": "Logout",
     "send": "Send",
     "receive": "Receive",
+    "swap": "Swap",
     "nfts": "NFTs",
-    "contacts": "Contacts",
-    "news": "News",
-    "mobile": "Mobile app",
-    "link": {
-      "isNew": "New"
-    }
+    "contacts": "Contacts"
   },
   "walletsSelect": {
     "title": "Wallets",
@@ -147,5 +143,19 @@
   "mnemonicOrKeyAccountSelection": {
     "noAccountsToImport": "No accounts to import",
     "accountsLength": "{{length}} address"
+  },
+  "greyAccountSelect": {
+    "placeholder": "Select account...",
+    "empty": "No accounts"
+  },
+  "greyTokenSelect": {
+    "placeholder": "Select token...",
+    "empty": "No tokens"
+  },
+  "greyAmountInput": {
+    "placeholder": "0.00000000"
+  },
+  "transactionFeeActionStep": {
+    "title": "Transaction Fee"
   }
 }

@@ -83,7 +83,10 @@ export async function fetchExchange(
 
   return {
     [blockchain]: new Map(
-      allQueries.map(({ state, queryKey: [_key, _blockchain, _networkId, _currency, token] }) => [token, state.data])
+      allQueries.map(({ state, queryKey: [_key, _blockchain, _networkId, _currency, token] }) => [
+        token as string,
+        state.data,
+      ])
     ),
   }
 }
@@ -115,23 +118,23 @@ export function useExchange(params: TUseExchangeParams[]): TUseExchangeResult {
   }, [params])
 
   return useQueries({
-    queries: Object.entries(tokensToFetchByBlockchain ?? {}).map(([blockchain, tokens]) => ({
-      queryKey: buildExchangeByBlockchainQueryKey(
-        blockchain as TBlockchainServiceKey,
-        networkByBlockchain[blockchain],
-        currency
-      ),
-      queryFn: fetchExchange.bind(
-        null,
-        blockchain as TBlockchainServiceKey,
-        tokens,
-        networkByBlockchain[blockchain],
-        queryClient,
-        currency,
-        currencyRatio
-      ),
-      enabled: !isCurrencyRatioLoading && typeof currencyRatio === 'number',
-    })),
+    queries: Object.entries(tokensToFetchByBlockchain ?? {}).map(([key, tokens]) => {
+      const blockchain = key as TBlockchainServiceKey
+
+      return {
+        queryKey: buildExchangeByBlockchainQueryKey(blockchain, networkByBlockchain[blockchain], currency),
+        queryFn: fetchExchange.bind(
+          null,
+          blockchain,
+          tokens,
+          networkByBlockchain[blockchain],
+          queryClient,
+          currency,
+          currencyRatio ?? 0
+        ),
+        enabled: !isCurrencyRatioLoading && typeof currencyRatio === 'number',
+      }
+    }),
     combine: result => ({
       isLoading: isCurrencyRatioLoading || result.some(query => query.isLoading),
       data: lodash.assign(emptyObject, ...result.map(query => query.data ?? {})) as TMultiExchange,

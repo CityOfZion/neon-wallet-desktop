@@ -1,3 +1,5 @@
+import { SwapServiceStatusResponse, SwapServiceToken } from '@cityofzion/blockchain-service'
+
 import { TBlockchainServiceKey, TNetwork } from './blockchain'
 
 export type TAccountType = 'standard' | 'watch' | 'hardware'
@@ -85,4 +87,19 @@ export interface IContactState<A = TContactAddress> {
   id: string
   name: string
   addresses: A[]
+}
+
+export type TSwapRecord = {
+  account: IAccountState
+  transactionHashes: string[]
+  swapProvider: 'simpleswap'
+  swapId: string
+  swapStatus: SwapServiceStatusResponse['status']
+  tokenFrom: SwapServiceToken
+  tokenTo: SwapServiceToken
+  amountFrom: string
+  amountTo: string
+  addressTo: string
+  numberOfTransactions: number
+  fee?: string
 }

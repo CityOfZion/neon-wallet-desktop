@@ -97,7 +97,7 @@ export const ImportWatchAccountsModal = () => {
       if (!isValid) continue
 
       validatedAddressesCache.push({
-        blockchain: blockchainService.blockchainName,
+        blockchain: blockchainService.name,
         abbreviatedAddress: abbreviateAddress(address),
         address,
       })

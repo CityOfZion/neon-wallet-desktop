@@ -73,11 +73,15 @@ export const ContactList = ({
       )
     }
 
-    if (search) {
+    const newSearch = search?.toLocaleLowerCase()?.trim()
+
+    if (newSearch)
       filteredContacts = contacts.filter(contact =>
-        contact.name.toLocaleLowerCase().includes(search.toLocaleLowerCase() as string)
+        contact.name
+          .toLocaleLowerCase()
+          .trim()
+          .includes(newSearch as string)
       )
-    }
 
     const sortedContacts = filteredContacts.sort((a, b) => a.name[0].localeCompare(b.name[0]))
 

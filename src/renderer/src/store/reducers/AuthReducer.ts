@@ -9,7 +9,7 @@ import { getI18next } from '@renderer/libs/i18next'
 import { queryClient } from '@renderer/libs/query'
 import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
 import { TUseTransactionsTransfer } from '@shared/@types/hooks'
-import { IAccountState, IWalletState, TLoginSession, TLoginSessionType } from '@shared/@types/store'
+import { IAccountState, IWalletState, TLoginSession, TLoginSessionType, TSwapRecord } from '@shared/@types/store'
 import { createMigrate, getStoredState, PersistConfig, PersistedState, PURGE } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
@@ -17,6 +17,7 @@ export interface IAuthReducer {
   currentLoginSession?: TLoginSession
   pendingTransactions: TUseTransactionsTransfer[]
   data: {
+    swapRecords: TSwapRecord[]
     applicationDataByLoginType: {
       [K in TLoginSessionType]: {
         wallets: IWalletState[]
@@ -59,13 +60,22 @@ const authReducerMigrations = {
       },
     }
   },
+  1: (state: any) => {
+    return {
+      ...state,
+      data: {
+        ...state.data,
+        swapRecords: [],
+      },
+    }
+  },
 }
 
 export const authReducerConfig: PersistConfig<IAuthReducer> = {
   key: 'authReducer',
   storage: storage,
   blacklist: ['currentLoginSession', 'pendingTransactions'],
-  version: 0,
+  version: 1,
   migrate: createMigrate(authReducerMigrations),
   // It is necessary to check if the stored state is empty, because the redux-persist library does not call the migrate function when the state is empty
   getStoredState: async config => {
@@ -88,6 +98,7 @@ const initialState: IAuthReducer = {
   currentLoginSession: undefined,
   pendingTransactions: [],
   data: {
+    swapRecords: [],
     applicationDataByLoginType: {
       hardware: { wallets: [] },
       key: { wallets: [] },
@@ -205,13 +216,11 @@ const addPendingTransaction = createAsyncThunk<
     })
     queryClient.removeQueries({
       queryKey: buildQueryKeyBalance(transaction.account.address, transaction.account.blockchain, network),
-      exact: true,
     })
 
     if (transaction.toAccount) {
       queryClient.removeQueries({
         queryKey: buildQueryKeyBalance(transaction.toAccount.address, transaction.toAccount.blockchain, network),
-        exact: true,
       })
       queryClient.removeQueries({
         queryKey: buildQueryKeyTokenTransfer(transaction.toAccount, network),
@@ -221,6 +230,10 @@ const addPendingTransaction = createAsyncThunk<
     ToastHelper.error({ message: t('pages:send.transactionFailed') })
   }
 })
+
+const addSwapRecord: CaseReducer<IAuthReducer, PayloadAction<TSwapRecord>> = (state, action) => {
+  state.data.swapRecords = [...state.data.swapRecords, action.payload]
+}
 
 const AuthReducer = createSlice({
   name: authReducerConfig.key,
@@ -232,6 +245,7 @@ const AuthReducer = createSlice({
     deleteAccount,
     setCurrentLoginSession,
     resetTemporaryApplicationData,
+    addSwapRecord,
   },
   extraReducers: builder => {
     builder.addCase(PURGE, () => initialState)

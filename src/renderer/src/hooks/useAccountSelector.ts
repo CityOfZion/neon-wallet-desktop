@@ -2,18 +2,14 @@ import { useCallback } from 'react'
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { SelectorHelper } from '@renderer/helpers/SelectorHelper'
 import { TAccountHelperPredicateParams } from '@shared/@types/helpers'
-import { IAccountState } from '@shared/@types/store'
 
 import { createAppSelector, useAppSelector } from './useRedux'
-
-const filterAccountsByWalletId = (accounts: IAccountState[], walletId: string) =>
-  accounts.filter(({ idWallet }) => idWallet === walletId)
 
 const selectAccounts = createAppSelector(
   [state => state.auth.data.applicationDataByLoginType, state => state.auth.currentLoginSession],
   (applicationDataByLoginType, currentLoginSession) => {
-    return applicationDataByLoginType[currentLoginSession?.type ?? 'password'].wallets.flatMap(wallet =>
-      filterAccountsByWalletId(wallet.accounts, wallet.id)
+    return applicationDataByLoginType[currentLoginSession?.type ?? 'password'].wallets.flatMap(
+      wallet => wallet.accounts
     )
   }
 )
@@ -22,7 +18,16 @@ const selectHasHardwareAccount = createAppSelector(
   [state => state.auth.data.applicationDataByLoginType, state => state.auth.currentLoginSession],
   (applicationDataByLoginType, currentLoginSession) => {
     return applicationDataByLoginType[currentLoginSession?.type ?? 'password'].wallets.some(wallet =>
-      filterAccountsByWalletId(wallet.accounts, wallet.id).some(account => account.type === 'hardware')
+      wallet.accounts.some(account => account.type === 'hardware')
+    )
+  }
+)
+
+const selectAccountsWithWallet = createAppSelector(
+  [state => state.auth.data.applicationDataByLoginType, state => state.auth.currentLoginSession],
+  (applicationDataByLoginType, currentLoginSession) => {
+    return applicationDataByLoginType[currentLoginSession?.type ?? 'password'].wallets.flatMap(wallet =>
+      wallet.accounts.map(account => ({ ...account, wallet }))
     )
   }
 )
@@ -33,9 +38,9 @@ const selectAccountsByWalletId = (walletId: string) =>
     (applicationDataByLoginType, currentLoginSession) => {
       const wallet = applicationDataByLoginType[currentLoginSession?.type ?? 'password'].wallets.find(
         wallet => wallet.id === walletId
-      )
+      )!
 
-      return filterAccountsByWalletId(SelectorHelper.fallbackToEmptyArray(wallet?.accounts), wallet?.id)
+      return SelectorHelper.fallbackToEmptyArray(wallet?.accounts)
     }
   )
 
@@ -54,6 +59,15 @@ export const useAccountsByWalletIdSelector = (walletId: string) => {
   return {
     accountsByWalletId: value,
     accountsByWalletIdRef: ref,
+  }
+}
+
+export const useAccountsWithWalletSelector = () => {
+  const { ref, value } = useAppSelector(selectAccountsWithWallet)
+
+  return {
+    accountsWithWallet: value,
+    accountsWithWalletRef: ref,
   }
 }
 

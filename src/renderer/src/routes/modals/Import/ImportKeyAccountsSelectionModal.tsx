@@ -21,11 +21,9 @@ type TLocation = {
   key: string
 }
 
-type TAccountWithBlockchain = Account & { blockchain: TBlockchainServiceKey }
-
 type TActionsData = {
-  accountsByBlockchain: Map<TBlockchainServiceKey, TAccountWithBlockchain[]>
-  selectedAccounts: TAccountWithBlockchain[]
+  accountsByBlockchain: Map<TBlockchainServiceKey, Account<TBlockchainServiceKey>[]>
+  selectedAccounts: Account<TBlockchainServiceKey>[]
 }
 
 export const ImportKeyAccountsSelectionModal = () => {
@@ -42,7 +40,7 @@ export const ImportKeyAccountsSelectionModal = () => {
     selectedAccounts: [],
   })
 
-  const handleChecked = (checked: boolean, account: TAccountWithBlockchain) => {
+  const handleChecked = (checked: boolean, account: Account<TBlockchainServiceKey>) => {
     setData(({ selectedAccounts }) => ({
       selectedAccounts: checked
         ? [...selectedAccounts, account]
@@ -66,18 +64,17 @@ export const ImportKeyAccountsSelectionModal = () => {
   }
 
   const { isMounting } = useMount(async () => {
-    const accountsByBlockchain = new Map<TBlockchainServiceKey, TAccountWithBlockchain[]>()
-    const selectedAccounts: TAccountWithBlockchain[] = []
+    const accountsByBlockchain = new Map<TBlockchainServiceKey, Account<TBlockchainServiceKey>[]>()
+    const selectedAccounts: Account<TBlockchainServiceKey>[] = []
 
     await UtilsHelper.promiseAll(Object.values(bsAggregator.blockchainServicesByName), async service => {
       const account = service.generateAccountFromKey(key)
-      const { blockchainName: blockchain } = service
 
-      accountsByBlockchain.set(blockchain, [{ ...account, blockchain }])
+      accountsByBlockchain.set(blockchain, [account])
 
-      if (doesAccountExist({ address: account.address, blockchain })) return
+      if (doesAccountExist(account)) return
 
-      selectedAccounts.push({ ...account, blockchain })
+      selectedAccounts.push(account)
     })
 
     setData({ accountsByBlockchain, selectedAccounts })

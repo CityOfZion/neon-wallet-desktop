@@ -38,13 +38,8 @@ export type TAddHardwareWalletAccountParams = {
   blockchain: TBlockchainServiceKey
 }
 
-export type TAddHardwareWalletAccountInfo = {
-  account: Account
-  blockchain: TBlockchainServiceKey
-}
-
 export type THardwareWalletInfo = {
-  accounts: Account[]
+  accounts: Account<TBlockchainServiceKey>[]
   blockchain: TBlockchainServiceKey
 }
 

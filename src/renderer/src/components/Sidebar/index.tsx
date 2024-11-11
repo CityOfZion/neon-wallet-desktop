@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { TbDoorExit, TbHome2, TbSettings, TbStepInto, TbStepOut, TbUsers } from 'react-icons/tb'
+import { TbDoorExit, TbHome2, TbReplace, TbSettings, TbStepInto, TbStepOut, TbUsers } from 'react-icons/tb'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 import { useLogin } from '@renderer/hooks/useLogin'
 
@@ -32,6 +32,8 @@ export const Sidebar = (): JSX.Element => {
 
             <SidebarLink to="/app/send" title={t('send')} icon={<TbStepOut />} />
             <SidebarLink to="/app/receive" title={t('receive')} icon={<TbStepInto />} />
+
+            <SidebarLink to="/app/swap" title={t('swap')} icon={<TbReplace />} />
 
             <SidebarLink
               to="/app/contacts"
