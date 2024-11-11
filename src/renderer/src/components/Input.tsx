@@ -2,6 +2,7 @@ import { cloneElement, forwardRef, MouseEvent, useImperativeHandle, useRef, useS
 import { MdCancel, MdContentCopy, MdContentPasteGo, MdVisibility, MdVisibilityOff } from 'react-icons/md'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
+import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
 import { IconButton } from './IconButton'
 import { Loader } from './Loader'
@@ -54,7 +55,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
     }
 
     const handleCopyInput = () => {
-      navigator.clipboard.writeText(internalRef.current?.value ?? '')
+      UtilsHelper.copyToClipboard(internalRef.current?.value ?? '')
     }
 
     const handlePaste = async () => {
