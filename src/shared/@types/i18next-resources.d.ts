@@ -777,6 +777,29 @@ interface Resources {
       connectedMessage: 'Detected your hardware wallet! Opening your wallet...'
       searchAgainButtonLabel: 'Search again'
     }
+    swapDetails: {
+      title: 'Your swap'
+      swapErrorMessage: ' Oops! We’ve encountered an error - swap failed'
+      transferErrorMessage: ' Oops! We’ve encountered an error - transfer failed'
+      subtitle: 'Your swap details'
+      refundedSubtitle: 'You’ve been refunded'
+      detailsHeaderLabel: 'Details'
+      detailsHeaderDescription: ' We aim to complete swaps in under 7 minutes'
+      statusPanelLabel: 'Status'
+      statusPanelSteps: ['Confirm', 'Exchange', 'Complete']
+      routingPanelLabel: 'Routing'
+      routingPanelTransactionFromLabel: 'Transaction from'
+      routingPanelTransactionToLabel: 'Transaction to'
+      routingPanelTransactionToLabelPending: 'Pending...'
+      routingPanelTransactionFeeLabel: 'Transaction fee'
+      sentPanelLabel: 'You sent'
+      sentPanelTokenLabel: 'Token'
+      sentPanelAddressLabel: 'Sending address'
+      receivePanelLabel: 'You’ll receive'
+      receivePanelTokenLabel: 'Token'
+      receivePanelAddressLabel: 'Receiving address'
+      helpButtonLabel: 'Need help? Chat with us'
+    }
   }
   pages: {
     welcome: {
@@ -1167,7 +1190,6 @@ interface Resources {
       }
       form: {
         title: 'What tokens do you want to swap?'
-        simpleSwapImgAlt: 'Simple swap'
         swapFromTitle: 'Swap this...'
         swapToTitle: 'For this...'
         balanceLabel: 'Balance'

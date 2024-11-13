@@ -10,8 +10,9 @@ import { ModalContainer } from './ModalContainer'
 const widthBySizes: Partial<Record<TRouterSize, string>> = {
   md: '25.875rem',
   sm: '20.625rem',
-  xl: '62.5rem',
-  lg: '45rem',
+  lg: '32rem',
+  xl: '45rem',
+  '1xl': '62.5rem',
 }
 
 export const SideModal = () => {

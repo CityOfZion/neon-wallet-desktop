@@ -43,6 +43,7 @@ import { DeleteModal } from './modals/PersistContact/DeleteModal'
 import { SelectAccountModal } from './modals/SelectAccount'
 import { SelectContact } from './modals/SelectContact'
 import { SuccessModal } from './modals/Success'
+import { SwapDetailsModal } from './modals/SwapDetails'
 
 export const modalsRouter: TRoute[] = [
   { name: 'import', type: 'side', element: <ImportModal /> },
@@ -57,10 +58,10 @@ export const modalsRouter: TRoute[] = [
   { name: 'export-mnemonic', type: 'side', size: 'md', element: <ExportMnemonic /> },
   { name: 'confirm-password-export', type: 'side', element: <ConfirmPasswordExportModal /> },
   { name: 'delete-wallet', type: 'side', size: 'md', element: <DeleteWalletModal /> },
-  { name: 'create-wallet-step-1', type: 'side', size: 'xl', element: <CreateWalletStep1Modal /> },
-  { name: 'create-wallet-step-2', type: 'side', size: 'xl', element: <CreateWalletStep2Modal /> },
-  { name: 'create-wallet-step-3', type: 'side', size: 'xl', element: <CreateWalletStep3Modal /> },
-  { name: 'create-wallet-step-4', type: 'side', size: 'xl', element: <CreateWalletStep4Modal /> },
+  { name: 'create-wallet-step-1', type: 'side', size: '1xl', element: <CreateWalletStep1Modal /> },
+  { name: 'create-wallet-step-2', type: 'side', size: '1xl', element: <CreateWalletStep2Modal /> },
+  { name: 'create-wallet-step-3', type: 'side', size: '1xl', element: <CreateWalletStep3Modal /> },
+  { name: 'create-wallet-step-4', type: 'side', size: '1xl', element: <CreateWalletStep4Modal /> },
   { name: 'persist-contact', type: 'side', element: <PersistContactModal /> },
   { name: 'delete-contact', type: 'side', element: <DeleteModal /> },
   { name: 'add-address', type: 'side', element: <AddAddressModal /> },
@@ -81,9 +82,9 @@ export const modalsRouter: TRoute[] = [
   { name: 'decrypt-key', type: 'side', element: <DecryptKeyModal /> },
   { name: 'select-account', type: 'side', element: <SelectAccountModal /> },
   { name: 'network-selection', type: 'side', element: <NetworkSelection /> },
-  { name: 'migrate-accounts-step-2', type: 'side', size: 'lg', element: <MigrateAccountsStep2Modal /> },
-  { name: 'migrate-accounts-step-3', type: 'side', size: 'lg', element: <MigrateAccountsStep3Modal /> },
-  { name: 'migrate-accounts-step-4', type: 'side', size: 'lg', element: <MigrateAccountsStep4Modal /> },
+  { name: 'migrate-accounts-step-2', type: 'side', size: 'xl', element: <MigrateAccountsStep2Modal /> },
+  { name: 'migrate-accounts-step-3', type: 'side', size: 'xl', element: <MigrateAccountsStep3Modal /> },
+  { name: 'migrate-accounts-step-4', type: 'side', size: 'xl', element: <MigrateAccountsStep4Modal /> },
   { name: 'auto-update-completed', type: 'center', size: 'lg', element: <AutoUpdateCompleted /> },
   { name: 'auto-update-mobile', type: 'center', size: 'lg', element: <AutoUpdateMobile /> },
   { name: 'auto-update-notes', type: 'center', size: 'lg', element: <AutoUpdateNotes /> },
@@ -92,4 +93,5 @@ export const modalsRouter: TRoute[] = [
   { name: 'add-network-profile', type: 'side', element: <AddNetworkProfileModal /> },
   { name: 'nft-selection', type: 'side', element: <NFTSelectionModal /> },
   { name: 'connect-hardware-wallet', type: 'center', size: 'lg', element: <ConnectHardwareWalletModal /> },
+  { name: 'swap-details', type: 'side', size: 'lg', element: <SwapDetailsModal /> },
 ]

@@ -1,5 +1,5 @@
 export type TRouteType = 'side' | 'center'
-export type TRouterSize = 'sm' | 'md' | 'lg' | 'xl'
+export type TRouterSize = 'sm' | 'md' | 'lg' | 'xl' | '1xl'
 
 export type TRoute = {
   element: JSX.Element

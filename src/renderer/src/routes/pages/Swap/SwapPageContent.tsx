@@ -1,7 +1,7 @@
 import { ChangeEvent, Fragment, useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdArrowForward, MdInfoOutline } from 'react-icons/md'
-import { TbArrowDown, TbReplace, TbStepInto, TbStepOut, TbUsers, TbWallet } from 'react-icons/tb'
+import { TbArrowDown, TbStepInto, TbStepOut, TbUsers, TbWallet } from 'react-icons/tb'
 import { VscCircleFilled } from 'react-icons/vsc'
 import {
   Account,
@@ -13,7 +13,6 @@ import {
   SwapServiceValidateValue,
 } from '@cityofzion/blockchain-service'
 import { SimpleSwapService } from '@cityofzion/bs-swap'
-import simpleSwapLogo from '@renderer/assets/images/simple-swap-logo.png'
 import { ActionStep } from '@renderer/components/ActionStep'
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Button } from '@renderer/components/Button'
@@ -39,9 +38,6 @@ import { bsAggregator } from '@renderer/libs/blockchainService'
 import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { IAccountState, TContactAddress, TSwapRecord } from '@shared/@types/store'
-
-import { SwapErrorModalContent } from './SwapErrorModalContent'
-import { SwapSuccessModalContent } from './SwapSuccessModalContent'
 
 type TActionsData = {
   availableTokensToUse: SwapServiceLoadableValue<SwapServiceToken<TBlockchainServiceKey>[]>
@@ -200,46 +196,34 @@ export const SwapPageContent = ({ account }: TProps) => {
       return
     }
 
+    const swapRecord: TSwapRecord = {
+      account: actionData.selectedAccountToUse.value,
+      addressTo: actionData.selectedAddressToReceive.value,
+      amountTo: actionData.selectedAmountToUse.value,
+      amountFrom: actionData.selectedAmountToReceive.value,
+      tokenTo: actionData.selectedTokenToUse.value,
+      tokenFrom: actionData.selectedTokenToReceive.value,
+      swapStatus: 'confirming',
+      swapProvider: 'simpleswap',
+      fee: actionData.fee,
+    }
+
     try {
       const swapResponse = await swapServiceRef.current.swap()
-
-      const swapRecord: TSwapRecord = {
-        account: actionData.selectedAccountToUse.value,
-        addressTo: actionData.selectedAddressToReceive.value,
-        amountTo: actionData.selectedAmountToUse.value,
-        amountFrom: actionData.selectedAmountToReceive.value,
-        tokenTo: actionData.selectedTokenToUse.value,
-        tokenFrom: actionData.selectedTokenToReceive.value,
-        swapStatus: 'confirming',
-        swapProvider: 'simpleswap',
-        swapId: swapResponse.id,
-        transactionHashes: [swapResponse.transactionHash],
-        numberOfTransactions: swapResponse.numberOfTransactions,
-        fee: actionData.fee,
-      }
-
-      dispatch(authReducerActions.addSwapRecord(swapRecord))
-
-      modalNavigate('success', {
-        state: {
-          heading: t('title'),
-          headingIcon: <TbReplace />,
-          subtitle: t('form.sendSuccess.subtitle'),
-          content: <SwapSuccessModalContent swapService={swapServiceRef.current} swapRecord={swapRecord} />,
-        },
-      })
+      swapRecord.txFrom = swapResponse.transactionHash
+      swapRecord.swapId = swapResponse.id
     } catch (error: any) {
       console.error(error)
-      modalNavigate('error', {
+      swapRecord.swapStatus = 'refunded'
+    } finally {
+      dispatch(authReducerActions.persistSwapRecord(swapRecord))
+
+      modalNavigate('swap-details', {
         state: {
-          heading: t('title'),
-          headingIcon: <TbReplace />,
-          subtitle: t('form.sendError.subtitle'),
-          description: t('form.sendError.description'),
-          content: <SwapErrorModalContent error={error.message} />,
+          swapRecord,
         },
       })
-    } finally {
+
       reset()
     }
   }
@@ -446,11 +430,6 @@ export const SwapPageContent = ({ account }: TProps) => {
             <p className="font-bold">{t('explanation.description1')}</p>
 
             <p>{t('explanation.description2')}</p>
-          </div>
-
-          <div className="flex flex-col items-center gap-1.5">
-            <span className="text-gray-300 text-sm italic">{t('explanation.useTitle')}</span>
-            <img src={simpleSwapLogo} alt={t('form.simpleSwapImgAlt')} />
           </div>
         </div>
       </div>
