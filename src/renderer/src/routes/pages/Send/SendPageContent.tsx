@@ -274,7 +274,9 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
 
         const amountNumber = NumberHelper.number(recipient.amount)
         const tokenHash = UtilsHelper.normalizeHash(recipient.token!.token.hash)
-        const tokenBalance = balance.data?.tokensBalances.find(tokenBalance => tokenBalance.token.hash === tokenHash)
+        const tokenBalance = balance.data?.tokensBalances.find(
+          tokenBalance => UtilsHelper.normalizeHash(tokenBalance.token.hash) === tokenHash
+        )
 
         if (!tokenBalance || amountNumber > tokenBalance.amountNumber) {
           setError('recipients', t('errors.insufficientFunds'))
