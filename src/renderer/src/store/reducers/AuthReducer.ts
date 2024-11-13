@@ -231,8 +231,19 @@ const addPendingTransaction = createAsyncThunk<
   }
 })
 
-const addSwapRecord: CaseReducer<IAuthReducer, PayloadAction<TSwapRecord>> = (state, action) => {
-  state.data.swapRecords = [...state.data.swapRecords, action.payload]
+const persistSwapRecord: CaseReducer<IAuthReducer, PayloadAction<TSwapRecord>> = (state, action) => {
+  const swapRecord = action.payload
+
+  const index = state.data.swapRecords.findIndex(
+    it => it.swapId === swapRecord.swapId && it.swapProvider === swapRecord.swapProvider
+  )
+
+  if (index === -1) {
+    state.data.swapRecords = [...state.data.swapRecords, swapRecord]
+    return
+  }
+
+  state.data.swapRecords[index] = swapRecord
 }
 
 const AuthReducer = createSlice({
@@ -245,7 +256,7 @@ const AuthReducer = createSlice({
     deleteAccount,
     setCurrentLoginSession,
     resetTemporaryApplicationData,
-    addSwapRecord,
+    persistSwapRecord,
   },
   extraReducers: builder => {
     builder.addCase(PURGE, () => initialState)

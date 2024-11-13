@@ -397,7 +397,6 @@
     },
     "form": {
       "title": "What tokens do you want to swap?",
-      "simpleSwapImgAlt": "Simple swap",
       "swapFromTitle": "Swap this...",
       "swapToTitle": "For this...",
       "balanceLabel": "Balance",

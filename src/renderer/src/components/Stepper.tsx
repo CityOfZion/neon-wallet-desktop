@@ -1,16 +1,35 @@
 import { Fragment } from 'react'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
+export type TStepperCurrentState = 'success' | 'error'
+
 type TProps = {
   steps: string[]
   currentStep?: number
+  currentState?: TStepperCurrentState
+  theme?: 'neon' | 'default'
 } & React.ComponentProps<'div'>
 
-export const Stepper = ({ steps, currentStep = 1, className, ...props }: TProps) => {
+export const Stepper = ({
+  steps,
+  currentStep = 1,
+  className,
+  theme = 'default',
+  currentState = 'success',
+  ...props
+}: TProps) => {
   return (
     <div className={StyleHelper.mergeStyles('flex w-full items-center gap-x-1 px-6', className)} {...props}>
       {steps.map((step, index) => {
         const fixedIndex = index + 1
+        const isCurrentStep = fixedIndex === currentStep
+        const isCurrentOrFutureStep = fixedIndex >= currentStep
+        const isPastStep = fixedIndex < currentStep
+        const isFutureStep = fixedIndex > currentStep
+        const isNeonTheme = theme === 'neon'
+        const isDefaultTheme = theme === 'default'
+        const isSuccessState = currentState === 'success'
+        const isErrorState = currentState === 'error'
 
         return (
           <Fragment key={index}>
@@ -19,9 +38,12 @@ export const Stepper = ({ steps, currentStep = 1, className, ...props }: TProps)
                 className={StyleHelper.mergeStyles(
                   'w-6 h-6  rounded-full flex items-center justify-center text-sm font-bold transition-colors',
                   {
-                    'bg-blue text-asphalt': fixedIndex < currentStep,
-                    'bg-white text-asphalt': fixedIndex === currentStep,
-                    'bg-gray-900 text-gray-300': fixedIndex > currentStep,
+                    'bg-blue text-asphalt': isPastStep && isDefaultTheme,
+                    'bg-gray-900 text-gray-300': isFutureStep && isDefaultTheme,
+                    'bg-neon text-asphalt': isPastStep && isNeonTheme,
+                    'bg-gray-300 text-asphalt': isFutureStep && isNeonTheme,
+                    'bg-white text-asphalt': isCurrentStep && isSuccessState,
+                    'bg-pink text-asphalt': isCurrentStep && isErrorState,
                   }
                 )}
               >
@@ -32,9 +54,11 @@ export const Stepper = ({ steps, currentStep = 1, className, ...props }: TProps)
                 className={StyleHelper.mergeStyles(
                   'text-center w-20 top-8 left-1/2 -translate-x-1/2 text-xs transition-colors absolute',
                   {
-                    'text-blue': fixedIndex < currentStep,
-                    'text-white': fixedIndex === currentStep,
-                    'text-gray-300': fixedIndex > currentStep,
+                    'text-blue': isPastStep && isDefaultTheme,
+                    'text-neon': isPastStep && isNeonTheme,
+                    'text-white': isCurrentStep && isSuccessState,
+                    'text-pink': isCurrentStep && isErrorState,
+                    'text-gray-300': isFutureStep,
                   }
                 )}
               >
@@ -45,8 +69,10 @@ export const Stepper = ({ steps, currentStep = 1, className, ...props }: TProps)
             {fixedIndex < steps.length && (
               <div
                 className={StyleHelper.mergeStyles('w-full h-0 border-t-2 border-dashed transition-colors', {
-                  'border-blue': fixedIndex < currentStep,
-                  'border-gray-900': fixedIndex >= currentStep,
+                  'border-blue': isPastStep && isDefaultTheme,
+                  'border-gray-900': isCurrentOrFutureStep && isDefaultTheme,
+                  'border-neon': isPastStep && isNeonTheme,
+                  'border-gray-300': isCurrentOrFutureStep && isNeonTheme,
                 })}
               />
             )}

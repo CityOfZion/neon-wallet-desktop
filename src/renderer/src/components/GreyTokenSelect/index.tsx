@@ -61,7 +61,9 @@ export const GreyTokenSelect = <T extends TGreyTokenSelectToken>({
     if (balance) {
       filtered = filtered.map(token => {
         const tokenHash = UtilsHelper.normalizeHash(token.hash!)
-        const tokenBalance = balance.tokensBalances.find(tokenBalance => tokenBalance.token.hash === tokenHash)
+        const tokenBalance = balance.tokensBalances.find(
+          tokenBalance => UtilsHelper.normalizeHash(tokenBalance.token.hash) === tokenHash
+        )
 
         return {
           ...token,
@@ -144,7 +146,7 @@ export const GreyTokenSelect = <T extends TGreyTokenSelectToken>({
                 position: 'relative',
               }}
             >
-              {rowVirtualizer.getVirtualItems().map(virtualItem => {
+              {rowVirtualizer.getVirtualItems().map((virtualItem, _, array) => {
                 const row = filteredTokensByText[virtualItem.index]
 
                 return (
@@ -162,7 +164,7 @@ export const GreyTokenSelect = <T extends TGreyTokenSelectToken>({
                       <GreyTokenSelectItem token={row} />
                     </div>
 
-                    <Separator />
+                    {virtualItem.index + 1 !== array.length && <Separator />}
                   </Command.Item>
                 )
               })}

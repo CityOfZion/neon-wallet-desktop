@@ -91,15 +91,15 @@ export interface IContactState<A = TContactAddress> {
 
 export type TSwapRecord = {
   account: IAccountState
-  transactionHashes: string[]
+  txFrom?: string
+  txTo?: string
   swapProvider: 'simpleswap'
-  swapId: string
+  swapId?: string
   swapStatus: SwapServiceStatusResponse['status']
-  tokenFrom: SwapServiceToken
-  tokenTo: SwapServiceToken
+  tokenFrom: SwapServiceToken<TBlockchainServiceKey>
+  tokenTo: SwapServiceToken<TBlockchainServiceKey>
   amountFrom: string
   amountTo: string
   addressTo: string
-  numberOfTransactions: number
   fee?: string
 }
