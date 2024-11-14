@@ -15,3 +15,11 @@ export const usePendingTransactionsSelector = () => {
     pendingTransactionsRef: ref,
   }
 }
+
+export const useSwapRecordsSelector = () => {
+  const { ref, value } = useAppSelector(state => state.auth.data.swapRecords)
+  return {
+    swapRecords: value,
+    swapRecordsRef: ref,
+  }
+}

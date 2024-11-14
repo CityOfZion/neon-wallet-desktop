@@ -1,13 +1,14 @@
 import { forwardRef, useImperativeHandle, useMemo } from 'react'
 import { MdContentCopy } from 'react-icons/md'
-import { TbChevronRight } from 'react-icons/tb'
+import { TbChevronRight, TbTransform } from 'react-icons/tb'
 import { hasExplorerService } from '@cityofzion/blockchain-service'
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
-import { usePendingTransactionsSelector } from '@renderer/hooks/useAuthSelector'
+import { usePendingTransactionsSelector, useSwapRecordsSelector } from '@renderer/hooks/useAuthSelector'
 import { useInfiniteScroll } from '@renderer/hooks/useInfiniteScroll'
+import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useTokenTransfers } from '@renderer/hooks/useTokenTransfers'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { getI18next } from '@renderer/libs/i18next'
@@ -36,6 +37,8 @@ export const TransactionsTable = forwardRef<HTMLDivElement, TTransactionListProp
     const { aggregatedData, fetchNextPage, isLoading } = useTokenTransfers({ accounts })
 
     const { pendingTransactions } = usePendingTransactionsSelector()
+    const { swapRecords } = useSwapRecordsSelector()
+    const { modalNavigate } = useModalNavigate()
 
     const { handleScroll, ref: scrollRef } = useInfiniteScroll<HTMLDivElement>(fetchNextPage)
 
@@ -80,7 +83,10 @@ export const TransactionsTable = forwardRef<HTMLDivElement, TTransactionListProp
               variant="text-slim"
               colorSchema="white"
               clickableProps={{ className: 'text-xs' }}
-              onClick={() => UtilsHelper.copyToClipboard(info.row.original.to ?? '')}
+              onClick={event => {
+                event.stopPropagation()
+                UtilsHelper.copyToClipboard(info.row.original.to ?? '')
+              }}
             />
           ),
           id: 'to',
@@ -88,10 +94,34 @@ export const TransactionsTable = forwardRef<HTMLDivElement, TTransactionListProp
         }),
         columnHelper.display({
           id: 'actions',
-          cell: () => <TbChevronRight className="w-4 h-4 my-2 text-gray-300" />,
+          cell: info => {
+            const swapRecord = swapRecords.find(
+              swapRecord =>
+                swapRecord.txFrom &&
+                UtilsHelper.normalizeHash(swapRecord.txFrom) === UtilsHelper.normalizeHash(info.row.original.hash)
+            )
+
+            return (
+              <div className="flex gap-5 justify-end">
+                {swapRecord && (
+                  <Button
+                    variant="text-slim"
+                    label="Swap"
+                    colorSchema="blue"
+                    leftIcon={<TbTransform />}
+                    onClick={event => {
+                      event.stopPropagation()
+                      modalNavigate('swap-details', { state: { swapRecord } })
+                    }}
+                  />
+                )}
+                <TbChevronRight className="w-4 h-4 my-2 text-gray-300" />
+              </div>
+            )
+          },
         }),
       ],
-      [showSimplified]
+      [modalNavigate, showSimplified, swapRecords]
     )
 
     const allTransfers = useMemo(
@@ -154,12 +184,11 @@ export const TransactionsTable = forwardRef<HTMLDivElement, TTransactionListProp
                 >
                   {row.getVisibleCells().map(cell => (
                     <Table.Cell
-                      className={StyleHelper.mergeStyles('truncate', {
-                        'cursor-pointer': cell.column.id !== 'to',
+                      className={StyleHelper.mergeStyles('truncate cursor-pointer', {
                         'cursor-not-allowed': row.original.isPending,
                       })}
                       key={cell.id}
-                      onClick={cell.column.id !== 'to' ? handleClick.bind(null, row.original) : undefined}
+                      onClick={handleClick.bind(null, row.original)}
                     >
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </Table.Cell>
