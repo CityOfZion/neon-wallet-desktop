@@ -53,6 +53,7 @@ export const SwapDetailsModal = () => {
         const response = await swapServiceHelper.getStatus(swapRecord.swapId)
 
         const updatedSwapRecord: TSwapRecord = { ...swapRecord, swapStatus: response.status, txTo: response.txTo }
+
         setSwapRecord(updatedSwapRecord)
         dispatch(authReducerActions.persistSwapRecord(updatedSwapRecord))
 

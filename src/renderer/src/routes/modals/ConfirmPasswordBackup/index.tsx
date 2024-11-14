@@ -12,7 +12,7 @@ import { DateHelper } from '@renderer/helpers/DateHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
-import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
+import { useCurrentLoginSessionSelector, useSwapRecordsSelector } from '@renderer/hooks/useAuthSelector'
 import { useContactsSelector } from '@renderer/hooks/useContactSelector'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
@@ -46,6 +46,7 @@ export const ConfirmPasswordBackupModal = () => {
   const { contacts } = useContactsSelector()
   const { wallets } = useWalletsSelector()
   const { accounts } = useAccountsSelector()
+  const { swapRecords } = useSwapRecordsSelector()
   const { selectedFilePath } = useModalState<TLocationState>()
   const { modalNavigate } = useModalNavigate()
 
@@ -69,7 +70,7 @@ export const ConfirmPasswordBackupModal = () => {
     }
 
     try {
-      const backupFile: TBackupFormat = { wallets: [], contacts }
+      const backupFile: TBackupFormat = { wallets: [], contacts, swapRecords }
 
       backupFile.wallets = wallets.map(({ encryptedMnemonic, ...wallet }) => {
         let mnemonic: string | undefined
