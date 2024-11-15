@@ -36,8 +36,9 @@ export const TransactionFeeActionStep = ({ fee, isCalculatingFee, service }: TPr
       ) : (
         <div className="flex items-center gap-4.5">
           <span className="text-gray-100">
-            {fee} {service?.feeToken.symbol}
+            {fee ?? '0.00'} {service?.feeToken.symbol}
           </span>
+
           <span className="text-gray-300">{NumberHelper.currency(fiatFee, currency.label)}</span>
         </div>
       )}

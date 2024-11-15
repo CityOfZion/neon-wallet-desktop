@@ -201,7 +201,7 @@ export const SendRecipient = ({
           leftIcon={<VscCircleFilled className="text-gray-300 w-2 h-2" />}
         >
           <GreyAmountInput
-            value={recipient.amount}
+            value={recipient.amount ?? ''}
             onChange={handleChangeAmount}
             disabled={!selectedAccount || !recipient.token}
           />
