@@ -3,7 +3,7 @@ import { BSEthereumNetworkId } from '@cityofzion/bs-ethereum'
 import { BSNeoLegacyNetworkId } from '@cityofzion/bs-neo-legacy'
 import { BSNeo3NetworkId } from '@cityofzion/bs-neo3'
 
-import { IAccountState, IContactState, IWalletState, TAccountType, TSkin, TWalletType } from './store'
+import { IAccountState, IContactState, IWalletState, TAccountType, TSkin, TSwapRecord, TWalletType } from './store'
 
 export type TBlockchainServiceKey = 'neo3' | 'neoLegacy' | 'ethereum' | 'neox'
 export type TBlockchainImageColor = 'white' | 'gray' | 'blue' | 'green'
@@ -66,6 +66,7 @@ export type TWalletBackupFormat = Omit<IWalletState, 'encryptedMnemonic'> & {
 export type TBackupFormat = {
   wallets: TWalletBackupFormat[]
   contacts: IContactState[]
+  swapRecords: TSwapRecord[]
 }
 
 export type TAccountToEdit = {

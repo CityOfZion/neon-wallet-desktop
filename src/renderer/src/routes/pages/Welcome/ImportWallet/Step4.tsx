@@ -6,14 +6,17 @@ import { Progress } from '@renderer/components/Progress'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
+import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useSettingsActions } from '@renderer/hooks/useSettingsSelector'
+import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
 import { TAccountsToImport, TWalletToCreate } from '@shared/@types/blockchain'
-import { IContactState } from '@shared/@types/store'
+import { IContactState, TSwapRecord } from '@shared/@types/store'
 
 type TLocationState = {
   wallets: (TWalletToCreate & {
     accounts: TAccountsToImport
   })[]
+  swapRecords?: TSwapRecord[]
   contacts?: IContactState[]
   password: string
 }
@@ -24,6 +27,7 @@ export const WelcomeImportWalletStep4Page = () => {
   const navigate = useNavigate()
   const { createWallet, importAccounts, createContacts } = useBlockchainActions()
   const { setHasPassword } = useSettingsActions()
+  const dispatch = useAppDispatch()
 
   const isImporting = useRef(false)
 
@@ -31,13 +35,14 @@ export const WelcomeImportWalletStep4Page = () => {
 
   const handleImport = async () => {
     try {
-      const { wallets, contacts, password } = state
+      const { wallets, contacts, password, swapRecords } = state
       const progressByStep = 100 / wallets.length + 3
 
       await setHasPassword(password)
 
       setProgress(progress => progress + progressByStep)
 
+      if (swapRecords) swapRecords.forEach(swapRecord => dispatch(authReducerActions.persistSwapRecord(swapRecord)))
       if (contacts) createContacts(contacts)
 
       await UtilsHelper.sleep(1000)

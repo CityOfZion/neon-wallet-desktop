@@ -10,7 +10,9 @@ import { useAccountUtils } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
+import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
+import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
 import { TAccountsToImport, TBackupFormat } from '@shared/@types/blockchain'
 
 type TFormData = {
@@ -40,6 +42,7 @@ export const ConfirmPasswordRecoverModal = () => {
   const { doesAccountExist } = useAccountUtils()
   const { modalNavigate } = useModalNavigate()
   const { createContacts, createWallet, importAccounts } = useBlockchainActions()
+  const dispatch = useAppDispatch()
 
   const { actionData, actionState, handleAct, setDataFromEventWrapper, setError, reset } = useActions<TFormData>({
     password: '',
@@ -53,15 +56,18 @@ export const ConfirmPasswordRecoverModal = () => {
 
     try {
       const contentDecrypted = await window.api.sendAsync('decryptBasedSecret', { value: content, secret: password })
-      const backupFile = JSON.parse(contentDecrypted) as TBackupFormat
+      const backupFile = JSON.parse(contentDecrypted as string) as TBackupFormat
 
       ApplicationDataHelper.convertTypes(backupFile.wallets)
+
+      if (!backupFile.swapRecords) backupFile.swapRecords = []
 
       if (onDecrypt) {
         onDecrypt(backupFile)
         return
       }
 
+      backupFile.swapRecords.forEach(swapRecord => dispatch(authReducerActions.persistSwapRecord(swapRecord)))
       createContacts(backupFile.contacts)
 
       const importPromises = backupFile.wallets.map(async wallet => {
