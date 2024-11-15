@@ -121,12 +121,27 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
 
     for (const recipient of recipients) {
       if (!recipient.token || !recipient.amount || !recipient.address) {
+        if (!recipient.amount) {
+          clearErrors('selectedAccount')
+        }
+
         setError('recipients', '')
+        return
+      }
+
+      const amountNumber = NumberHelper.number(recipient.amount)
+      const tokenHash = UtilsHelper.normalizeHash(recipient.token!.token.hash)
+      const tokenBalance = balance.data?.tokensBalances.find(
+        tokenBalance => UtilsHelper.normalizeHash(tokenBalance.token.hash) === tokenHash
+      )
+
+      if (!tokenBalance || amountNumber > tokenBalance.amountNumber) {
+        setError('selectedAccount', t('errors.insufficientFunds'))
         return
       }
     }
 
-    clearErrors('recipients')
+    clearErrors(['recipients', 'selectedAccount'])
   }
 
   const handleSelectAccount = (account?: IAccountState) => {
@@ -213,8 +228,14 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
   useEffect(() => {
     if (balance.isLoading) return
 
+    const abortController = new AbortController()
+
     const handleCalculateFee = async () => {
       try {
+        // It works as a debounce
+        await UtilsHelper.sleep(1000)
+        if (abortController.signal.aborted) return
+
         const fields = await getSendFields()
         if (!fields || !isCalculableFee(fields.service)) {
           setData({ fee: undefined })
@@ -229,7 +250,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
         })
 
         setData({
-          fee: `${fee} ${fields.service.feeToken.symbol}`,
+          fee,
         })
 
         let totalFeeAmount = NumberHelper.number(fee)
@@ -255,6 +276,8 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
       } catch (error) {
         console.error(error)
         ToastHelper.error({ message: t('errors.feeError') })
+        setError('fee', t('errors.feeError'))
+        setData({ fee: undefined })
         throw error
       } finally {
         setData({ isCalculatingFee: false })
@@ -262,33 +285,12 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
     }
 
     handleCalculateFee()
+
+    return () => {
+      abortController.abort()
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [actionData.recipients, balance.data])
-
-  useEffect(() => {
-    const validateAmounts = () => {
-      for (const recipient of actionData.recipients) {
-        if (!recipient.amount || !recipient.token) {
-          continue
-        }
-
-        const amountNumber = NumberHelper.number(recipient.amount)
-        const tokenHash = UtilsHelper.normalizeHash(recipient.token!.token.hash)
-        const tokenBalance = balance.data?.tokensBalances.find(
-          tokenBalance => UtilsHelper.normalizeHash(tokenBalance.token.hash) === tokenHash
-        )
-
-        if (!tokenBalance || amountNumber > tokenBalance.amountNumber) {
-          setError('recipients', t('errors.insufficientFunds'))
-          return
-        }
-      }
-
-      clearErrors('recipients')
-    }
-
-    validateAmounts()
-  }, [actionData.recipients, balance.data?.tokensBalances, clearErrors, setError, t])
 
   useEffect(() => {
     handleSelectAccount(account)
@@ -359,7 +361,12 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
           />
         )}
 
-        {actionState.errors.fee && <AlertErrorBanner className="w-full mt-2" message={actionState.errors.fee} />}
+        {(actionState.errors.fee || actionState.errors.selectedAccount) && (
+          <AlertErrorBanner
+            className="w-full mt-2"
+            message={actionState.errors.fee || actionState.errors.selectedAccount || ''}
+          />
+        )}
 
         <Button
           className="max-w-[16rem] w-full mt-4"
