@@ -63,7 +63,8 @@ export const SendRecipient = ({
   } = useNameService()
 
   const handleChangeAddress = (event: ChangeEvent<HTMLInputElement>) => {
-    onUpdateRecipient({ addressInput: event.target.value, address: undefined })
+    const address = UtilsHelper.removeSpecialCharacters(event.target.value, false)
+    onUpdateRecipient({ addressInput: address, address: undefined })
   }
 
   const handleSelectContact = (address: TContactAddress) => {

@@ -7,6 +7,7 @@ import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
+import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useNameService } from '@renderer/hooks/useNameService'
@@ -45,8 +46,9 @@ export const AddAddressModal = () => {
   })
 
   const handleChange = ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
-    setData({ address: value })
-    validateAddressOrNS(value, actionData.blockchain)
+    const fixedValue = UtilsHelper.removeSpecialCharacters(value, false)
+    setData({ address: fixedValue })
+    validateAddressOrNS(fixedValue, actionData.blockchain)
   }
 
   const handleSelectBlockchain = (blockchain: TBlockchainServiceKey) => {

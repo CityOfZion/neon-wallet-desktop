@@ -204,4 +204,8 @@ export class UtilsHelper {
 
     return false
   }
+
+  static removeSpecialCharacters(string: string, allowSpaces: boolean) {
+    return allowSpaces ? string.replace(/[^a-zA-Z0-9 ]/g, '') : string.replace(/[^a-zA-Z0-9]/g, '')
+  }
 }
