@@ -31,4 +31,8 @@ export class NetworkHelper {
 
     return 'bg-pink'
   }
+
+  static isBlockchainBasedOnEthereum<T extends TBlockchainServiceKey>(blockchain: T) {
+    return ['ethereum', 'neox', 'bnb'].includes(blockchain)
+  }
 }

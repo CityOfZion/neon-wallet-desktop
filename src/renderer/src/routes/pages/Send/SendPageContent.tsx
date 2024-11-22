@@ -10,6 +10,7 @@ import { Button } from '@renderer/components/Button'
 import { GreyAccountSelect } from '@renderer/components/GreyAccountSelect'
 import { Separator } from '@renderer/components/Separator'
 import { TransactionFeeActionStep } from '@renderer/components/TransactionFeeActionStep'
+import { NetworkHelper } from '@renderer/helpers/NetworkHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
@@ -342,7 +343,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
         />
 
         {actionData.selectedAccount &&
-          (actionData.selectedAccount.blockchain === 'neox' || actionData.selectedAccount.blockchain === 'ethereum') &&
+          NetworkHelper.isBlockchainBasedOnEthereum(actionData.selectedAccount.blockchain) &&
           actionData.recipients.length > 1 && (
             <Banner
               type="warning"

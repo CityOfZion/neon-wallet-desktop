@@ -6,6 +6,11 @@ import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
 
 const { t } = getI18next()
 
+const BNB_NETWORK_IDS = ['56']
+const BNB_NETWORKS = BSEthereumConstants.ALL_NETWORKS.filter(({ id }) => BNB_NETWORK_IDS.includes(id))
+
+const isEthereumNetworkId = (id: string) => ![...BSEthereumConstants.NEOX_NETWORK_IDS, ...BNB_NETWORK_IDS].includes(id)
+
 export const NETWORK_OPTIONS_BY_BLOCKCHAIN: Record<
   TBlockchainServiceKey,
   {
@@ -25,18 +30,19 @@ export const NETWORK_OPTIONS_BY_BLOCKCHAIN: Record<
     testnet: BSNeoLegacyConstants.TESTNET_NETWORKS,
   },
   ethereum: {
-    all: BSEthereumConstants.ALL_NETWORKS.filter(({ id }) => !BSEthereumConstants.NEOX_NETWORK_IDS.includes(id)),
-    mainnet: BSEthereumConstants.MAINNET_NETWORKS.filter(
-      ({ id }) => !BSEthereumConstants.NEOX_NETWORK_IDS.includes(id)
-    ),
-    testnet: BSEthereumConstants.TESTNET_NETWORKS.filter(
-      ({ id }) => !BSEthereumConstants.NEOX_NETWORK_IDS.includes(id)
-    ),
+    all: BSEthereumConstants.ALL_NETWORKS.filter(({ id }) => isEthereumNetworkId(id)),
+    mainnet: BSEthereumConstants.MAINNET_NETWORKS.filter(({ id }) => isEthereumNetworkId(id)),
+    testnet: BSEthereumConstants.TESTNET_NETWORKS.filter(({ id }) => isEthereumNetworkId(id)),
   },
   neox: {
     all: BSEthereumConstants.NEOX_NETWORKS,
     mainnet: [BSEthereumConstants.NEOX_MAINNET_NETWORK],
     testnet: [BSEthereumConstants.NEOX_TESTNET_NETWORK],
+  },
+  bnb: {
+    all: BNB_NETWORKS,
+    mainnet: [BNB_NETWORKS[0]],
+    testnet: [],
   },
 }
 
@@ -45,6 +51,7 @@ export const DEFAULT_NETWORK_BY__BLOCKCHAIN: Record<TBlockchainServiceKey, TNetw
   neoLegacy: NETWORK_OPTIONS_BY_BLOCKCHAIN.neoLegacy.mainnet[0],
   ethereum: NETWORK_OPTIONS_BY_BLOCKCHAIN.ethereum.mainnet[0],
   neox: NETWORK_OPTIONS_BY_BLOCKCHAIN.neox.mainnet[0],
+  bnb: NETWORK_OPTIONS_BY_BLOCKCHAIN.bnb.mainnet[0],
 }
 
 export const DEFAULT_NETWORK_PROFILE = {

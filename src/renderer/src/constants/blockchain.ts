@@ -1,3 +1,7 @@
+import { ReactComponent as BnbBlue } from '@renderer/assets/blockchain/images/bnb_blue.svg'
+import { ReactComponent as BnbGray } from '@renderer/assets/blockchain/images/bnb_gray.svg'
+import { ReactComponent as BnbGreen } from '@renderer/assets/blockchain/images/bnb_green.svg'
+import { ReactComponent as BnbWhite } from '@renderer/assets/blockchain/images/bnb_white.svg'
 import { ReactComponent as EthereumBlue } from '@renderer/assets/blockchain/images/ethereum_blue.svg'
 import { ReactComponent as EthereumGray } from '@renderer/assets/blockchain/images/ethereum_gray.svg'
 import { ReactComponent as EthereumGreen } from '@renderer/assets/blockchain/images/ethereum_green.svg'
@@ -43,5 +47,11 @@ export const blockchainIconsByBlockchain: Record<
     white: NeoxWhite,
     blue: NeoxBlue,
     green: NeoxGreen,
+  },
+  bnb: {
+    gray: BnbGray,
+    white: BnbWhite,
+    blue: BnbBlue,
+    green: BnbGreen,
   },
 }

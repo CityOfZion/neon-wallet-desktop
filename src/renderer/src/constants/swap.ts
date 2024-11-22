@@ -15,6 +15,9 @@ export const SWAP_NETWORK_BY_BLOCKCHAIN_AND_NETWORK_ID: {
   neox: {
     '47763': [''],
   },
+  bnb: {
+    '56': ['bnb', 'bsc'],
+  },
 }
 
 export const SWAP_DISCORD_LINK = 'https://discord.gg/zW26BZC5ku'
