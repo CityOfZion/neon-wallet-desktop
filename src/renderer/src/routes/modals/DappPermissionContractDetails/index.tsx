@@ -92,8 +92,17 @@ export const DappPermissionContractDetailsModal = () => {
   const { data, isLoading } = useContract({ blockchain, hash })
   const { modalNavigate } = useModalNavigate()
   const { t } = useTranslation('modals', { keyPrefix: 'dappPermissionContractDetails' })
+  const service = bsAggregator.blockchainServicesByName[blockchain]
+  let explorerUrl
 
-  const methodsInfo = data?.methods.find(method => method.name === operation)
+  if (hasExplorerService(service)) {
+    try {
+      explorerUrl = service.explorerService.buildContractUrl(hash)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   if (!methodsInfo) {
     ToastHelper.error({ message: t('methodNotFoundError') })
     modalNavigate(-1)
@@ -110,10 +119,7 @@ export const DappPermissionContractDetailsModal = () => {
   })
 
   const handleHashClick = () => {
-    const service = bsAggregator.blockchainServicesByName[blockchain]
-    if (!hasExplorerService(service)) return
-
-    window.open(service.explorerService.buildContractUrl(hash), '_blank')
+    window.open(explorerUrl, '_blank')
   }
 
   return (
@@ -147,7 +153,10 @@ export const DappPermissionContractDetailsModal = () => {
 
                   <div className="flex justify-between pr-4 pl-5 bg-gray-700/60 py-2.5 rounded min-w-0 gap-3">
                     <p className="truncate">{hash}</p>
-                    <IconButton icon={<MdLaunch className="text-neon" />} compacted onClick={handleHashClick} />
+
+                    {explorerUrl && (
+                      <IconButton icon={<MdLaunch className="text-neon" />} compacted onClick={handleHashClick} />
+                    )}
                   </div>
                 </div>
               </div>

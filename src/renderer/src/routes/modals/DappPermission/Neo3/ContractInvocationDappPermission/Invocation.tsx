@@ -21,12 +21,19 @@ export const Invocation = ({ invocation, session, blockchain }: TProps) => {
   const { data, isLoading } = useContract({ blockchain, hash: invocation.scriptHash })
   const { modalNavigateWrapper } = useModalNavigate()
   const { t } = useTranslation('modals', { keyPrefix: 'dappPermission.requests.neo3.contractInvocation' })
+  const service = bsAggregator.blockchainServicesByName[blockchain]
+  let explorerUrl
+
+  if (hasExplorerService(service)) {
+    try {
+      explorerUrl = service.explorerService.buildContractUrl(invocation.scriptHash)
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   const handleHashClick = () => {
-    const service = bsAggregator.blockchainServicesByName[blockchain]
-    if (!hasExplorerService(service)) return
-
-    window.open(service.explorerService.buildContractUrl(invocation.scriptHash), '_blank')
+    window.open(explorerUrl, '_blank')
   }
 
   const showAmount =
@@ -66,7 +73,7 @@ export const Invocation = ({ invocation, session, blockchain }: TProps) => {
 
         <div className="flex justify-between pr-4 pl-5 bg-gray-700/60 py-2.5 rounded min-w-0 gap-3">
           <p className="truncate">{invocation.scriptHash}</p>
-          <IconButton icon={<MdLaunch className="text-neon" />} compacted onClick={handleHashClick} />
+          {explorerUrl && <IconButton icon={<MdLaunch className="text-neon" />} compacted onClick={handleHashClick} />}
         </div>
       </div>
       {showAmount && (

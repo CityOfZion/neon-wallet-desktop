@@ -95,6 +95,7 @@ export const TransactionsTable = forwardRef<HTMLDivElement, TTransactionListProp
         columnHelper.display({
           id: 'actions',
           cell: info => {
+            const explorerUrl = getExplorerUrl(info.row.original)
             const swapRecord = swapRecords.find(
               swapRecord =>
                 swapRecord.txFrom &&
@@ -115,7 +116,10 @@ export const TransactionsTable = forwardRef<HTMLDivElement, TTransactionListProp
                     }}
                   />
                 )}
-                <TbChevronRight className="w-4 h-4 my-2 text-gray-300" />
+                <TbChevronRight
+                  style={{ visibility: explorerUrl ? 'visible' : 'hidden' }}
+                  className="w-4 h-4 my-2 text-gray-300"
+                />
               </div>
             )
           },
@@ -139,12 +143,26 @@ export const TransactionsTable = forwardRef<HTMLDivElement, TTransactionListProp
       getCoreRowModel: getCoreRowModel(),
     })
 
-    const handleClick = (row: TUseTransactionsTransfer) => {
+    const getExplorerUrl = (row: TUseTransactionsTransfer) => {
       if (row.isPending) return
+
       const service = bsAggregator.blockchainServicesByName[row.account.blockchain]
+
       if (!hasExplorerService(service)) return
 
-      window.open(service.explorerService.buildTransactionUrl(row.hash))
+      let explorerUrl
+
+      try {
+        explorerUrl = service.explorerService.buildTransactionUrl(row.hash)
+      } catch (error) {
+        console.error(error)
+      }
+
+      return explorerUrl
+    }
+
+    const openExplorerUrl = (explorerUrl: string) => {
+      window.open(explorerUrl)
     }
 
     useImperativeHandle(ref, () => scrollRef.current!, [scrollRef])
@@ -182,17 +200,22 @@ export const TransactionsTable = forwardRef<HTMLDivElement, TTransactionListProp
                   hoverable={!row.original.isPending}
                   className={StyleHelper.mergeStyles('truncate', { 'animate-pulse': row.original.isPending })}
                 >
-                  {row.getVisibleCells().map(cell => (
-                    <Table.Cell
-                      className={StyleHelper.mergeStyles('truncate cursor-pointer', {
-                        'cursor-not-allowed': row.original.isPending,
-                      })}
-                      key={cell.id}
-                      onClick={handleClick.bind(null, row.original)}
-                    >
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </Table.Cell>
-                  ))}
+                  {row.getVisibleCells().map(cell => {
+                    const explorerUrl = getExplorerUrl(row.original)
+
+                    return (
+                      <Table.Cell
+                        className={StyleHelper.mergeStyles('truncate ', {
+                          'cursor-pointer': !!explorerUrl && !row.original.isPending,
+                          'cursor-not-allowed': row.original.isPending,
+                        })}
+                        key={cell.id}
+                        onClick={explorerUrl ? openExplorerUrl.bind(null, explorerUrl) : undefined}
+                      >
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </Table.Cell>
+                    )
+                  })}
                 </Table.BodyRow>
               ))}
             </Table.Body>
