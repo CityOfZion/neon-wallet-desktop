@@ -30,7 +30,7 @@ export const useImportAction = (
   }
 
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    const value = UtilsHelper.removeSpecialCharacters(event.target.value, true)
+    const value = UtilsHelper.removeSpecialCharacters(event.target.value)
     setData({ text: value, inputType: undefined })
 
     try {
@@ -76,7 +76,7 @@ export const useImportAction = (
         throw new Error(t('errors.invalid'))
       }
 
-      const fixedText = UtilsHelper.removeSpecialCharacters(data.text.trim(), true)
+      const fixedText = UtilsHelper.removeSpecialCharacters(data.text, { trimText: true })
 
       const submit = submitByInputType[data.inputType]
       if (!submit) throw new Error(t('errors.invalid'))

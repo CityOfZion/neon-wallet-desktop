@@ -11,6 +11,11 @@ export type TImageSize = {
   height: number
 }
 
+type TRemoveSpecialCharacterOptions = {
+  allowSpaces?: boolean
+  trimText?: boolean
+}
+
 export class UtilsHelper {
   static getRandomNumber(max: number) {
     return Math.floor(Math.random() * Math.floor(max))
@@ -205,7 +210,12 @@ export class UtilsHelper {
     return false
   }
 
-  static removeSpecialCharacters(string: string, allowSpaces: boolean) {
-    return allowSpaces ? string.replace(/[^a-zA-Z0-9 ]/g, '') : string.replace(/[^a-zA-Z0-9]/g, '')
+  static removeSpecialCharacters(text: string, options?: TRemoveSpecialCharacterOptions) {
+    options = { allowSpaces: true, trimText: false, ...options }
+    text = text.replace(options.allowSpaces ? /[^a-zA-Z0-9 ]/g : /[^a-zA-Z0-9]/g, '')
+
+    if (options.trimText) text = text.trim()
+
+    return text
   }
 }

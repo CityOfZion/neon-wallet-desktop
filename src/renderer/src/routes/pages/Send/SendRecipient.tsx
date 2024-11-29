@@ -63,7 +63,7 @@ export const SendRecipient = ({
   } = useNameService()
 
   const handleChangeAddress = (event: ChangeEvent<HTMLInputElement>) => {
-    const address = UtilsHelper.removeSpecialCharacters(event.target.value, false)
+    const address = UtilsHelper.removeSpecialCharacters(event.target.value, { allowSpaces: false })
     onUpdateRecipient({ addressInput: address, address: undefined })
   }
 
