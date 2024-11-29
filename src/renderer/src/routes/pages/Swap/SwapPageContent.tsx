@@ -83,7 +83,6 @@ export const SwapPageContent = ({ account }: TProps) => {
 
   const swapServiceRef = useRef<SimpleSwapService<TBlockchainServiceKey>>(
     new SimpleSwapService({
-      apiKey: import.meta.env.VITE_SIMPLE_SWAP_API_KEY ?? '',
       blockchainServicesByName: bsAggregator.blockchainServicesByName,
       chainsByServiceName: swapChainsByServiceName,
     })

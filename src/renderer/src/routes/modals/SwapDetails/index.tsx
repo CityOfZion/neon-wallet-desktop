@@ -24,7 +24,7 @@ type TState = {
   swapRecord: TSwapRecord
 }
 
-const swapServiceHelper = new SimpleSwapServiceHelper(import.meta.env.VITE_SIMPLE_SWAP_API_KEY ?? '')
+const swapServiceHelper = new SimpleSwapServiceHelper()
 
 const stepsByStatus: Record<TSwapRecord['swapStatus'], number> = {
   confirming: 2,
