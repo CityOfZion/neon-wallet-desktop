@@ -1,3 +1,7 @@
+import { ReactComponent as BaseBlue } from '@renderer/assets/blockchain/images/base_blue.svg'
+import { ReactComponent as BaseGray } from '@renderer/assets/blockchain/images/base_gray.svg'
+import { ReactComponent as BaseGreen } from '@renderer/assets/blockchain/images/base_green.svg'
+import { ReactComponent as BaseWhite } from '@renderer/assets/blockchain/images/base_white.svg'
 import { ReactComponent as EthereumBlue } from '@renderer/assets/blockchain/images/ethereum_blue.svg'
 import { ReactComponent as EthereumGray } from '@renderer/assets/blockchain/images/ethereum_gray.svg'
 import { ReactComponent as EthereumGreen } from '@renderer/assets/blockchain/images/ethereum_green.svg'
@@ -43,5 +47,11 @@ export const blockchainIconsByBlockchain: Record<
     white: NeoxWhite,
     blue: NeoxBlue,
     green: NeoxGreen,
+  },
+  base: {
+    gray: BaseGray,
+    white: BaseWhite,
+    blue: BaseBlue,
+    green: BaseGreen,
   },
 }

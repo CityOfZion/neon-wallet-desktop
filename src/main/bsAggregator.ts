@@ -15,6 +15,7 @@ export function exposeBsAggregatorToRenderer() {
     new BSNeoLegacy('neoLegacy'),
     new BSEthereum('ethereum', undefined, getHardwareWalletTransport),
     new BSEthereum('neox', undefined, getHardwareWalletTransport),
+    new BSEthereum('base', undefined, getHardwareWalletTransport),
   ])
 
   exposeApiToRenderer(bsAggregator)

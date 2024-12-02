@@ -15,6 +15,9 @@ export const SWAP_NETWORK_BY_BLOCKCHAIN_AND_NETWORK_ID: {
   neox: {
     '47763': [''],
   },
+  base: {
+    '8453': ['base', 'baseevm'],
+  },
 }
 
 export const SWAP_DISCORD_LINK = 'https://discord.gg/zW26BZC5ku'

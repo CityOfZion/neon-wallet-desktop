@@ -9,13 +9,15 @@ export abstract class WalletConnectHelper {
     neo3: 'neo3',
     ethereum: 'eip155',
     neox: 'eip155',
+    base: 'eip155',
   }
 
   static supportedChainIds = Object.keys(this.supportedBlockchains as TBlockchainServiceKey[]).reduce(
     (acc, key) => {
       const networks = NETWORK_OPTIONS_BY_BLOCKCHAIN[key].all
-      const chainIds = networks.map(({ id }) => `${this.supportedBlockchains[key]}:${id}`)
-      acc[key] = chainIds
+
+      acc[key] = networks.map(({ id }) => `${this.supportedBlockchains[key]}:${id}`)
+
       return acc
     },
     {} as Partial<Record<TBlockchainServiceKey, string[]>>
@@ -56,7 +58,7 @@ export abstract class WalletConnectHelper {
   static getInformationFromProposal(proposal: TSessionProposal): TWalletConnectHelperProposalInformation[] {
     const combinedNamespaces = merge({}, proposal.params.requiredNamespaces, proposal.params.optionalNamespaces)
 
-    const proposalInformation = Object.values(combinedNamespaces).map((namespace: any) => {
+    return Object.values(combinedNamespaces).map((namespace: any) => {
       const chains = namespace.chains
       if (!chains) throw new Error('Chains not found')
 
@@ -89,8 +91,6 @@ export abstract class WalletConnectHelper {
         proposalBlockchain,
       }
     })
-
-    return proposalInformation
   }
 
   static isValidURI(uri: string) {
