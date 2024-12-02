@@ -31,14 +31,10 @@ export const NftList = ({ account, nfts }: TProps) => {
 
   return (
     <ul className="flex flex-col gap-1 min-w-0">
-      {nfts.map(nft => (
-        <li key={`${nft.contractHash}-${nft.id}`} className="w-full">
-          <a
-            href={getHref(nft)}
-            target="_blank"
-            className="flex p-2.5 gap-5 bg-gray-700/60 rounded-md text-sm items-center cursor-pointer hover:bg-gray-300/30 w-full transition-colors min-w-0"
-            rel="noreferrer"
-          >
+      {nfts.map(nft => {
+        const link = getHref(nft)
+        const content = (
+          <>
             <div className="min-w-[5rem] w-[5rem] h-[3.5rem] mi-h-[3.5rem] rounded bg-gray-300/30 overflow-hidden">
               <img className="w-full h-full object-cover" src={nft.image} />
             </div>
@@ -69,11 +65,30 @@ export const NftList = ({ account, nfts }: TProps) => {
                 </div>
               </div>
 
-              <TbChevronRight className="w-6 h-6 text-gray-300" />
+              {link && <TbChevronRight className="w-6 h-6 text-gray-300" />}
             </div>
-          </a>
-        </li>
-      ))}
+          </>
+        )
+
+        return (
+          <li key={`${nft.contractHash}-${nft.id}`} className="w-full">
+            {link ? (
+              <a
+                href={link}
+                target="_blank"
+                className="flex p-2.5 gap-5 bg-gray-700/60 rounded-md text-sm items-center cursor-pointer hover:bg-gray-300/30 w-full transition-colors min-w-0"
+                rel="noreferrer"
+              >
+                {content}
+              </a>
+            ) : (
+              <div className="flex p-2.5 gap-5 bg-gray-700/60 rounded-md text-sm items-center w-full min-w-0">
+                {content}
+              </div>
+            )}
+          </li>
+        )
+      })}
     </ul>
   )
 }
