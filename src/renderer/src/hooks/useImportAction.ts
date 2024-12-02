@@ -1,6 +1,7 @@
 import { ChangeEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MnemonicHelper } from '@renderer/helpers/MnemonicHelper'
+import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { TUseImportActionInputType } from '@shared/@types/hooks'
 
@@ -29,7 +30,7 @@ export const useImportAction = (
   }
 
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    const value = event.target.value
+    const value = UtilsHelper.removeSpecialCharacters(event.target.value)
     setData({ text: value, inputType: undefined })
 
     try {
@@ -75,7 +76,7 @@ export const useImportAction = (
         throw new Error(t('errors.invalid'))
       }
 
-      const fixedText = data.text.trim().replace(/[^a-zA-Z0-9 ]/g, '') // Remove all special characters except spaces
+      const fixedText = UtilsHelper.removeSpecialCharacters(data.text, { trimText: true })
 
       const submit = submitByInputType[data.inputType]
       if (!submit) throw new Error(t('errors.invalid'))

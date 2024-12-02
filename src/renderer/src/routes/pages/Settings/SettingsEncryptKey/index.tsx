@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { MdOutlineKey } from 'react-icons/md'
 import { Button } from '@renderer/components/Button'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
+import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { SettingsLayout } from '@renderer/layouts/Settings'
@@ -31,7 +32,8 @@ export const SettingsEncryptKeyPage = (): JSX.Element => {
   })
 
   const handlePrivateKeyChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value
+    const value = UtilsHelper.removeSpecialCharacters(event.target.value, { allowSpaces: false })
+
     setData({
       privateKey: value,
     })
