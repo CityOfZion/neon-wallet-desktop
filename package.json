@@ -32,7 +32,7 @@
     "@cityofzion/blockchain-service": "1.10.1",
     "@cityofzion/bs-asteroid-sdk": "0.9.0",
     "@cityofzion/bs-electron": "0.1.22",
-    "@cityofzion/bs-ethereum": "2.7.4",
+    "@cityofzion/bs-ethereum": "2.7.5",
     "@cityofzion/bs-neo-legacy": "1.6.3",
     "@cityofzion/bs-neo3": "1.8.4",
     "@cityofzion/bs-swap": "0.2.3",
