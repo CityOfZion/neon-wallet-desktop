@@ -12,6 +12,7 @@ export type TMainLayoutProps = {
   titleIcon?: JSX.Element
   contentClassName?: string
   headerClassName?: string
+  rightComponent?: ReactNode
 } & ComponentProps<'div'>
 
 export const ContentLayout = ({
@@ -21,6 +22,7 @@ export const ContentLayout = ({
   contentClassName,
   headerClassName,
   className,
+  rightComponent,
   ...props
 }: TMainLayoutProps): JSX.Element => {
   const navigate = useNavigate()
@@ -45,12 +47,17 @@ export const ContentLayout = ({
         )}
       >
         <header
-          className={StyleHelper.mergeStyles('border-b border-b-gray-300/30 min-h-12 flex pb-4', headerClassName)}
+          className={StyleHelper.mergeStyles(
+            'border-b border-b-gray-300/30 min-h-12 flex',
+            { 'pb-2': !!rightComponent, 'pb-4': !rightComponent },
+            headerClassName
+          )}
         >
           <button type="button" onClick={handleBackClick}>
             <TbArrowLeft className="w-5 h-5 text-gray-100" />
           </button>
-          <div className="flex items-center mx-auto pr-6 gap-x-2">
+
+          <div className={StyleHelper.mergeStyles('flex items-center mx-auto gap-x-2', { 'pr-6': !rightComponent })}>
             {titleIcon &&
               cloneElement(titleIcon, {
                 className: StyleHelper.mergeStyles('text-neon', titleIconClassName),
@@ -58,6 +65,8 @@ export const ContentLayout = ({
               })}
             <h1 className="text-sm">{title}</h1>
           </div>
+
+          {rightComponent}
         </header>
 
         <main className={StyleHelper.mergeStyles('flex w-full flex-col flex-grow min-h-0 pt-5', contentClassName)}>
