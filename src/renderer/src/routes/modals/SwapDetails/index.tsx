@@ -8,7 +8,7 @@ import { Details } from '@renderer/components/Details'
 import { Link } from '@renderer/components/Link'
 import { Separator } from '@renderer/components/Separator'
 import { Stepper, TStepperCurrentState } from '@renderer/components/Stepper'
-import { SWAP_DISCORD_LINK } from '@renderer/constants/swap'
+import { DISCORD_LINK } from '@renderer/constants/urls'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { useModalState } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
@@ -204,7 +204,7 @@ export const SwapDetailsModal = () => {
       </Details.Root>
 
       <Link
-        to={SWAP_DISCORD_LINK}
+        to={DISCORD_LINK}
         target="_blank"
         className="mt-8"
         label={t('helpButtonLabel')}

@@ -1,5 +1,6 @@
 import { ComponentProps, ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react'
 import * as RadixPopover from '@radix-ui/react-popover'
+import { Link } from '@renderer/components/Link'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import { Button } from './Button'
@@ -9,51 +10,92 @@ const Root = RadixPopover.Root
 
 const Trigger = RadixPopover.Trigger
 
-const Content = forwardRef<
-  ElementRef<typeof RadixPopover.Content>,
-  ComponentPropsWithoutRef<typeof RadixPopover.Content>
->(({ className, side = 'right', children, ...props }, ref) => (
-  <RadixPopover.Portal>
-    <RadixPopover.Content
-      ref={ref}
-      className={StyleHelper.mergeStyles('relative group', className)}
-      side={side}
-      align="center"
-      sideOffset={32}
-      {...props}
-    >
-      <div
-        className={StyleHelper.mergeStyles('bg-gray-900 flex flex-col rounded  overflow-hidden', {
-          'border-r-4 border-r-neon': side === 'right',
-          'border-l-4 border-l-neon': side === 'left',
-        })}
-      >
-        {children}
-      </div>
+type TContentProps = ComponentPropsWithoutRef<typeof RadixPopover.Content> & {
+  contentClassName?: string
+  pointerClassName?: string
+  color?: 'neon' | 'yellow'
+}
 
-      <div
-        className={StyleHelper.mergeStyles('flex items-center absolute top-2/4 -translate-y-2/4 ', {
-          'right-0 translate-x-full flex-row-reverse': side === 'right',
-          'left-0 -translate-x-full flex-row': side === 'left',
-        })}
-      >
-        <div className="w-2 h-2 bg-neon rounded-full" />
+const Content = forwardRef<ElementRef<typeof RadixPopover.Content>, TContentProps>(
+  ({ className, contentClassName, pointerClassName, side = 'right', color = 'neon', children, ...props }, ref) => {
+    const isRightSide = side === 'right'
+    const isLeftSide = side === 'left'
+    const isTopSide = side === 'top'
+    const isNeonColor = color === 'neon'
+    const isYellowColor = color === 'yellow'
 
-        <div className="w-5 h-px bg-neon" />
-      </div>
-    </RadixPopover.Content>
-  </RadixPopover.Portal>
-))
+    return (
+      <RadixPopover.Portal>
+        <RadixPopover.Content
+          ref={ref}
+          className={StyleHelper.mergeStyles('relative group', className)}
+          side={side}
+          align="center"
+          sideOffset={32}
+          {...props}
+        >
+          <div
+            className={StyleHelper.mergeStyles(
+              'bg-gray-900 flex flex-col rounded overflow-hidden',
+              {
+                'border-r-4': isRightSide,
+                'border-l-4': isLeftSide,
+                'border-t-4': isTopSide,
+                'border-neon': isNeonColor,
+                'border-yellow': isYellowColor,
+              },
+              contentClassName
+            )}
+          >
+            {children}
+          </div>
 
-const Item = ({ clickableProps, ...props }: ComponentProps<typeof Button>) => (
-  <Button
-    clickableProps={{ className: 'rounded-none h-10 px-4 justify-start', ...clickableProps }}
-    className="w-full"
-    variant="text"
-    flat
-    {...props}
-  />
+          <div
+            className={StyleHelper.mergeStyles(
+              'flex items-center absolute',
+              {
+                'right-0 top-2/4 -translate-y-2/4 translate-x-full flex-row-reverse': isRightSide,
+                'left-0 top-2/4 -translate-y-2/4 -translate-x-full flex-row': isLeftSide,
+                'left-[50%] top-0 -translate-y-4 -translate-x-[50%] rotate-90 flex-row': isTopSide,
+              },
+              pointerClassName
+            )}
+          >
+            <div
+              className={StyleHelper.mergeStyles('w-2 h-2 rounded-full', {
+                'bg-neon': isNeonColor,
+                'bg-yellow': isYellowColor,
+              })}
+            />
+
+            <div
+              className={StyleHelper.mergeStyles('w-5 h-px', { 'bg-neon': isNeonColor, 'bg-yellow': isYellowColor })}
+            />
+          </div>
+        </RadixPopover.Content>
+      </RadixPopover.Portal>
+    )
+  }
 )
+
+type TItemProps = { actionPopoverItemType?: 'button' | 'link' } & (
+  | ComponentProps<typeof Button>
+  | ComponentProps<typeof Link>
+)
+
+const Item = ({ actionPopoverItemType = 'button', clickableProps, ...props }: TItemProps) => {
+  const Component = actionPopoverItemType === 'button' ? Button : Link
+
+  return (
+    <Component
+      variant="text"
+      flat
+      className="w-full"
+      clickableProps={{ className: 'rounded-none h-10 px-4 justify-start', ...clickableProps }}
+      {...props}
+    />
+  )
+}
 
 export const ActionPopover = {
   Root,

@@ -6,6 +6,7 @@ import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import { hasNft } from '@cityofzion/blockchain-service'
 import { ActionPopover } from '@renderer/components/ActionPopover'
 import { Button } from '@renderer/components/Button'
+import { HelpButton } from '@renderer/components/HelpButton'
 import { IconButton } from '@renderer/components/IconButton'
 import { Separator } from '@renderer/components/Separator'
 import { SidebarMenuButton } from '@renderer/components/SidebarMenuButton'
@@ -171,6 +172,8 @@ export const WalletsPage = () => {
             disabled={!isPasswordLogin || hasHardwareAccount}
             {...TestHelper.buildTestObject('connect-hardware-wallet')}
           />
+
+          <HelpButton />
         </div>
       }
       contentClassName="flex-row gap-x-3"

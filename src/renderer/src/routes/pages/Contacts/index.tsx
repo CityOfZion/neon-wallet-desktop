@@ -4,6 +4,7 @@ import { TbPencil, TbPlus } from 'react-icons/tb'
 import { Button } from '@renderer/components/Button'
 import { ContactAddressTable } from '@renderer/components/ContactAddressTable'
 import { ContactList } from '@renderer/components/ContactList'
+import { HelpButton } from '@renderer/components/HelpButton'
 import { IconButton } from '@renderer/components/IconButton'
 import { Separator } from '@renderer/components/Separator'
 import { StringHelper } from '@renderer/helpers/StringHelper'
@@ -32,14 +33,18 @@ export const ContactsPage = () => {
     <MainLayout
       heading={t('title')}
       rightComponent={
-        <IconButton
-          icon={<TbPlus className="text-neon" />}
-          size="md"
-          className="text-neon"
-          text={t('buttonAddContactLabel')}
-          onClick={modalNavigateWrapper('persist-contact')}
-          {...TestHelper.buildTestObject('add-contact-action')}
-        />
+        <div className="flex gap-x-2">
+          <IconButton
+            icon={<TbPlus className="text-neon" />}
+            size="md"
+            className="text-neon"
+            text={t('buttonAddContactLabel')}
+            onClick={modalNavigateWrapper('persist-contact')}
+            {...TestHelper.buildTestObject('add-contact-action')}
+          />
+
+          <HelpButton />
+        </div>
       }
     >
       <section className="bg-gray-800 w-full h-full flex rounded">

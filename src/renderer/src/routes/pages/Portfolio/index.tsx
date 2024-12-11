@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { MdAdd } from 'react-icons/md'
 import { TbFileExport, TbFileImport } from 'react-icons/tb'
 import { Outlet, useMatch } from 'react-router-dom'
+import { HelpButton } from '@renderer/components/HelpButton'
 import { IconButton } from '@renderer/components/IconButton'
 import { Separator } from '@renderer/components/Separator'
 import { SidebarMenuButton } from '@renderer/components/SidebarMenuButton'
@@ -37,6 +38,8 @@ export const PortfolioPage = () => {
             onClick={modalNavigateWrapper('import')}
           />
           <IconButton icon={<TbFileExport />} size="md" text={t('exportButtonLabel')} disabled />
+
+          <HelpButton />
         </div>
       }
       contentClassName="flex-row gap-x-3"
