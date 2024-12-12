@@ -6,18 +6,12 @@ import { Button } from '@renderer/components/Button'
 import { ButtonDownloadPasswordQRCode } from '@renderer/components/ButtonDownloadPasswordQRCode'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
-import { BACKUP_FILE_EXTENSION } from '@renderer/constants/backup'
-import { ApplicationDataHelper } from '@renderer/helpers/ApplicationDataHelper'
-import { DateHelper } from '@renderer/helpers/DateHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
-import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
-import { useCurrentLoginSessionSelector, useSwapRecordsSelector } from '@renderer/hooks/useAuthSelector'
-import { useContactsSelector } from '@renderer/hooks/useContactSelector'
+import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
-import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
+import { useNeonCreateBackup } from '@renderer/hooks/useNeonBackup'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
-import { TAccountBackupFormat, TBackupFormat } from '@shared/@types/blockchain'
 
 type TFormData = {
   password: string
@@ -43,12 +37,9 @@ const SuccessFooter = () => {
 export const ConfirmPasswordBackupModal = () => {
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const { t } = useTranslation('modals', { keyPrefix: 'confirmPasswordBackup' })
-  const { contacts } = useContactsSelector()
-  const { wallets } = useWalletsSelector()
-  const { accounts } = useAccountsSelector()
-  const { swapRecords } = useSwapRecordsSelector()
   const { selectedFilePath } = useModalState<TLocationState>()
   const { modalNavigate } = useModalNavigate()
+  const { handleCreateBackup } = useNeonCreateBackup()
 
   const { actionData, actionState, handleAct, setDataFromEventWrapper, setError } = useActions<TFormData>({
     password: '',
@@ -65,52 +56,11 @@ export const ConfirmPasswordBackupModal = () => {
 
     if (password.length === 0 || password !== decryptedPassword) {
       setError('password', t('error'))
-
       return
     }
 
     try {
-      const backupFile: TBackupFormat = { wallets: [], contacts, swapRecords }
-
-      backupFile.wallets = wallets.map(({ encryptedMnemonic, ...wallet }) => {
-        let mnemonic: string | undefined
-
-        if (encryptedMnemonic)
-          mnemonic = window.api.sendSync('decryptBasedEncryptedSecretSync', {
-            value: encryptedMnemonic,
-            encryptedSecret: encryptedPassword,
-          })
-
-        const walletAccounts: TAccountBackupFormat[] = []
-
-        accounts.forEach(({ encryptedKey, ...account }) => {
-          if (account.idWallet !== wallet.id) return
-
-          let key: string | undefined
-
-          if (encryptedKey)
-            key = window.api.sendSync('decryptBasedEncryptedSecretSync', {
-              value: encryptedKey,
-              encryptedSecret: encryptedPassword,
-            })
-
-          walletAccounts.push({ ...account, key })
-        })
-
-        return { ...wallet, mnemonic, accounts: walletAccounts }
-      })
-
-      ApplicationDataHelper.convertTypes(backupFile.wallets)
-
-      const content = await window.api.sendAsync('encryptBasedSecret', {
-        value: JSON.stringify(backupFile),
-        secret: decryptedPassword,
-      })
-
-      await window.api.sendAsync('saveFile', {
-        path: `${selectedFilePath}/NEON3-Backup-${DateHelper.getNowUnix()}.${BACKUP_FILE_EXTENSION}`,
-        content,
-      })
+      await handleCreateBackup(password, selectedFilePath)
 
       modalNavigate('success', {
         state: {

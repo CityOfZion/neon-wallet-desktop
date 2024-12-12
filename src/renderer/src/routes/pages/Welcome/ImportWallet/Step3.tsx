@@ -9,9 +9,10 @@ import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { TUseBackupOrMigrateActionsData, useBackupOrMigrate } from '@renderer/hooks/useBackupOrMigrate'
 import { useImportAction } from '@renderer/hooks/useImportAction'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+import { TUseNeonBackupDataSchema } from '@renderer/hooks/useNeonBackup'
+import { TUseNeonMigrateGeneratedData } from '@renderer/hooks/useNeonMigrate'
 import { bsAggregator } from '@renderer/libs/blockchainService'
-import { TAccountsToImport, TBackupFormat, TBlockchainServiceKey, TWalletToCreate } from '@shared/@types/blockchain'
-import { IContactState } from '@shared/@types/store'
+import { TAccountsToImport, TBlockchainServiceKey, TWalletToCreate } from '@shared/@types/blockchain'
 
 type TLocationState = {
   password: string
@@ -115,10 +116,14 @@ export const WelcomeImportWalletStep3Page = () => {
       modalNavigate('migrate-accounts-step-3', {
         state: {
           content: data.content,
-          onDecrypt: (wallet: TWalletToCreate, accounts: TAccountsToImport, contacts: IContactState[]) => {
+          onDecrypt: ({ accountsToCreate, contactsToCreate, walletToCreate }: TUseNeonMigrateGeneratedData) => {
             modalErase('side')
             navigate('/welcome-import-wallet/4', {
-              state: { wallets: [{ ...wallet, accounts }], password: state.password, contacts },
+              state: {
+                wallets: [{ ...walletToCreate, accounts: accountsToCreate }],
+                password: state.password,
+                contacts: contactsToCreate,
+              },
             })
           },
         },
@@ -128,8 +133,8 @@ export const WelcomeImportWalletStep3Page = () => {
 
     modalNavigate('confirm-password-recover', {
       state: {
-        content: data.content,
-        onDecrypt: (data: TBackupFormat) => {
+        data,
+        onDecrypt: (data: TUseNeonBackupDataSchema) => {
           modalErase('side')
           navigate('/welcome-import-wallet/4', { state: { ...data, password: state.password } })
         },

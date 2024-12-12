@@ -6,15 +6,17 @@ import { Button } from '@renderer/components/Button'
 import { Checkbox } from '@renderer/components/Checkbox'
 import { Separator } from '@renderer/components/Separator'
 import { useAccountUtils } from '@renderer/hooks/useAccountSelector'
-import { TMigrateAccountsSchema, TMigrateSchema } from '@renderer/hooks/useBackupOrMigrate'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
+import {
+  TUseNeonMigrateAccountsSchema,
+  TUseNeonMigrateGeneratedData,
+  TUseNeonMigrateSchema,
+} from '@renderer/hooks/useNeonMigrate'
 import { MigrateAccountsModalLayout } from '@renderer/layouts/MigrateAccountsModalLayout'
-import { TAccountsToImport, TWalletToCreate } from '@shared/@types/blockchain'
-import { IContactState } from '@shared/@types/store'
 
 type TState = {
-  content: TMigrateSchema
-  onDecrypt?: (wallet: TWalletToCreate, accounts: TAccountsToImport, contacts: IContactState[]) => void
+  content: TUseNeonMigrateSchema
+  onDecrypt?: (generatedData: TUseNeonMigrateGeneratedData) => void
 }
 
 export const MigrateAccountsStep3Modal = () => {
@@ -23,9 +25,9 @@ export const MigrateAccountsStep3Modal = () => {
   const { modalNavigateWrapper } = useModalNavigate()
   const { doesAccountExist } = useAccountUtils()
 
-  const [selectedAccountsToMigrate, setSelectedAccountsToMigrate] = useState<TMigrateAccountsSchema[]>([])
+  const [selectedAccountsToMigrate, setSelectedAccountsToMigrate] = useState<TUseNeonMigrateAccountsSchema[]>([])
 
-  const handleSelect = (wallet: TMigrateAccountsSchema) => {
+  const handleSelect = (wallet: TUseNeonMigrateAccountsSchema) => {
     setSelectedAccountsToMigrate(prev => {
       const index = prev.findIndex(prevWallet => prevWallet.address === wallet.address)
 

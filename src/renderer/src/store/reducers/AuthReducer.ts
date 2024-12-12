@@ -1,6 +1,5 @@
 import { BlockchainService, waitForTransaction } from '@cityofzion/blockchain-service'
 import { CaseReducer, createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { ApplicationDataHelper } from '@renderer/helpers/ApplicationDataHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { buildQueryKeyBalance } from '@renderer/hooks/useBalances'
@@ -36,15 +35,22 @@ const authReducerMigrations = {
     const accountsJSON: any[] = accountsStore ? JSON.parse(JSON.parse(accountsStore).data) : []
 
     walletsJSON.forEach(wallet => {
-      const accounts = accountsJSON.filter(account => account.idWallet === wallet.id)
+      wallet.type = wallet.type === 'ledger' ? 'hardware' : wallet.type
+
+      const accounts: any[] = []
+      accountsJSON.forEach(account => {
+        if (account.idWallet !== wallet.id) return
+
+        account.type = account.type === 'ledger' ? 'hardware' : account.type
+
+        accounts.push(account)
+      })
 
       passwordWallets.push({
         ...wallet,
         accounts,
       })
     })
-
-    ApplicationDataHelper.convertTypes(passwordWallets)
 
     window.localStorage.removeItem('persist:walletReducer')
     window.localStorage.removeItem('persist:accountReducer')

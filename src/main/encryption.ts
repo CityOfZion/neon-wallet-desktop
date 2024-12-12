@@ -1,3 +1,9 @@
+import {
+  TDecryptBasedEncryptedSecretParams,
+  TDecryptBasedSecretParams,
+  TEncryptBasedEncryptedSecretParams,
+  TEncryptBasedSecretParams,
+} from '@shared/@types/ipc'
 import { mainApi } from '@shared/api/main'
 import { safeStorage } from 'electron'
 import crypto from 'node:crypto'
@@ -17,39 +23,61 @@ export const decryptBasedOS = (value: string) => {
   return safeStorage.decryptString(buffer)
 }
 
-export const encryptBasedSecret = (value: string, secret: string) => {
+export const encryptBasedSecret = ({ secret, value, options }: TEncryptBasedSecretParams) => {
   const iv = crypto.randomBytes(16)
-  const key = crypto.scryptSync(secret, 'salt', 24)
+
+  let key: Buffer
+  if (options?.algorithm === 'pbkdf2') {
+    key = crypto.pbkdf2Sync(secret, 'salt', 100000, 24, 'sha256')
+  } else {
+    key = crypto.scryptSync(secret, 'salt', 24)
+  }
+
   const cipher = crypto.createCipheriv(ALGORITHM, key, iv)
   const encrypted = cipher.update(value, 'utf8', 'hex') + cipher.final('hex')
   return iv.toString('hex') + encrypted
 }
 
-export const decryptBasedSecret = (value: string, secret: string) => {
+export const decryptBasedSecret = ({ secret, value, options }: TDecryptBasedSecretParams) => {
   const iv = Buffer.from(value.slice(0, 32), 'hex')
-  const key = crypto.scryptSync(secret, 'salt', 24)
+
+  let key: Buffer
+  if (options?.algorithm === 'pbkdf2') {
+    key = crypto.pbkdf2Sync(secret, 'salt', 100000, 24, 'sha256')
+  } else {
+    key = crypto.scryptSync(secret, 'salt', 24)
+  }
+
   const decipher = crypto.createDecipheriv(ALGORITHM, key, iv)
   return decipher.update(value.slice(32), 'hex', 'utf8') + decipher.final('utf8')
 }
 
-export const encryptBasedEncryptedSecret = (value: string, encryptedSecret?: string) => {
+export const encryptBasedEncryptedSecret = ({
+  value,
+  encryptedSecret,
+  options,
+}: TEncryptBasedEncryptedSecretParams) => {
   if (!encryptedSecret) {
     return encryptBasedOS(value)
   }
 
   const secret = decryptBasedOS(encryptedSecret)
-  const encryptedBySecretValue = encryptBasedSecret(value, secret)
+  const encryptedBySecretValue = encryptBasedSecret({ secret, value, options })
   return encryptBasedOS(encryptedBySecretValue)
 }
 
-export const decryptBasedEncryptedSecret = (value: string, encryptedSecret?: string) => {
+export const decryptBasedEncryptedSecret = ({
+  value,
+  encryptedSecret,
+  options,
+}: TDecryptBasedEncryptedSecretParams) => {
   if (!encryptedSecret) {
     return decryptBasedOS(value)
   }
 
   const decryptedByOSValue = decryptBasedOS(value)
   const secret = decryptBasedOS(encryptedSecret)
-  return decryptBasedSecret(decryptedByOSValue, secret)
+  return decryptBasedSecret({ secret, value: decryptedByOSValue, options })
 }
 
 export function registerEncryptionHandlers() {
@@ -66,26 +94,26 @@ export function registerEncryptionHandlers() {
   mainApi.listenSync('decryptBasedOSSync', ({ args }) => decryptBasedOS(args))
 
   mainApi.listenAsync('encryptBasedSecret', ({ args }) => {
-    return encryptBasedSecret(args.value, args.secret)
+    return encryptBasedSecret(args)
   })
 
   mainApi.listenAsync('decryptBasedSecret', ({ args }) => {
-    return decryptBasedSecret(args.value, args.secret)
+    return decryptBasedSecret(args)
   })
 
   mainApi.listenAsync('encryptBasedEncryptedSecret', ({ args }) => {
-    return encryptBasedEncryptedSecret(args.value, args.encryptedSecret)
+    return encryptBasedEncryptedSecret(args)
   })
 
   mainApi.listenAsync('decryptBasedEncryptedSecret', ({ args }) => {
-    return decryptBasedEncryptedSecret(args.value, args.encryptedSecret)
+    return decryptBasedEncryptedSecret(args)
   })
 
   mainApi.listenSync('encryptBasedEncryptedSecretSync', ({ args }) => {
-    return encryptBasedEncryptedSecret(args.value, args.encryptedSecret)
+    return encryptBasedEncryptedSecret(args)
   })
 
   mainApi.listenSync('decryptBasedEncryptedSecretSync', ({ args }) => {
-    return decryptBasedEncryptedSecret(args.value, args.encryptedSecret)
+    return decryptBasedEncryptedSecret(args)
   })
 }

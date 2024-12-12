@@ -1,127 +1,53 @@
 import { useTranslation } from 'react-i18next'
-import { hasNameService } from '@cityofzion/blockchain-service'
-import { BACKUP_FILE_EXTENSION } from '@renderer/constants/backup'
+import { BACKUP_FILE_EXTENSION, DEPRECATED_BACKUP_FILE_EXTENSION } from '@renderer/constants/backup'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
-import { bsAggregator } from '@renderer/libs/blockchainService'
-import { getI18next } from '@renderer/libs/i18next'
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import zod from 'zod'
 
 import { useActions } from './useActions'
-
-export type TMigrateAccountsSchema = {
-  address: string
-  label: string
-  key: string
-  blockchain: TBlockchainServiceKey
-}
-export type TMigrateContactsSchema = {
-  addresses: { address: string; blockchain: TBlockchainServiceKey }[]
-  name: string
-}
-export type TMigrateSchema = zod.infer<typeof migrateSchema>
+import { TUseNeonBackupData, TUseNeonBackupDeprecatedData, useNeonImportBackup } from './useNeonBackup'
+import { TUseNeonMigrateData, useNeonImportMigrate } from './useNeonMigrate'
 
 export type TUseBackupOrMigrateActionsData = {
   path?: string
-  content?: string | TMigrateSchema
-  type?: 'backup' | 'migrate'
-}
-
-const { t } = getI18next()
-
-const migrateAccountsSchema = zod.object({
-  address: zod.string().nullish(),
-  label: zod.string().nullish(),
-  key: zod.string().nullish(),
-})
-
-const migrateContactsSchema = zod.object({ name: zod.string().nullish(), addresses: zod.array(zod.string()).nullish() })
-
-const migrateSchema = zod
-  .object({
-    accounts: zod.array(migrateAccountsSchema),
-    contacts: zod.array(migrateContactsSchema),
-  })
-  .transform(data => {
-    const transformedAccounts: TMigrateAccountsSchema[] = []
-
-    data.accounts.forEach(({ label, address, key }) => {
-      if (!address || !key || transformedAccounts.some(account => account.address === address || account.key === key))
-        return
-
-      const [blockchain] = bsAggregator.getBlockchainNameByAddress(address)
-
-      if (!blockchain) return
-
-      transformedAccounts.push({
-        address,
-        key,
-        label: label || t('hooks:useBackupOrMigrate.defaultAccountLabel'),
-        blockchain,
-      })
-    })
-
-    const transformedContacts = data.contacts.map<TMigrateContactsSchema>(contact => {
-      const transformedAddresses: TMigrateContactsSchema['addresses'] = []
-      const blockchainServices = Object.values(bsAggregator.blockchainServicesByName)
-
-      contact.addresses?.forEach(address => {
-        for (const service of blockchainServices) {
-          if (
-            (hasNameService(service) && service.validateNameServiceDomainFormat(address)) ||
-            service.validateAddress(address)
-          ) {
-            transformedAddresses.push({ address, blockchain: service.name })
-            return
-          }
-        }
-      })
-
-      return { name: contact.name ?? t('hooks:useBackupOrMigrate.defaultContactName'), addresses: transformedAddresses }
-    })
-
-    return {
-      accounts: transformedAccounts,
-      contacts: transformedContacts,
-    }
-  })
+} & (TUseNeonMigrateData | TUseNeonBackupData | TUseNeonBackupDeprecatedData | { content: undefined; type: undefined })
 
 export const useBackupOrMigrate = () => {
   const { t } = useTranslation('hooks', { keyPrefix: 'useBackupOrMigrate' })
+  const importBackupActions = useNeonImportBackup()
+  const importMigrateActions = useNeonImportMigrate()
 
-  const { actionData, actionState, handleAct, setData, setError, reset } = useActions<TUseBackupOrMigrateActionsData>(
-    {}
-  )
+  const { actionData, actionState, handleAct, setData, setError, reset } = useActions<TUseBackupOrMigrateActionsData>({
+    content: undefined,
+    type: undefined,
+    path: undefined,
+  })
 
   const handleBrowse = async () => {
     const [filePath] = await window.api.sendAsync('openDialog', {
       properties: ['openFile'],
-      filters: [{ name: `${BACKUP_FILE_EXTENSION}, json`, extensions: [BACKUP_FILE_EXTENSION, 'json'] }],
+      filters: [
+        {
+          name: t('filterName'),
+          extensions: [BACKUP_FILE_EXTENSION, DEPRECATED_BACKUP_FILE_EXTENSION, 'json'],
+        },
+      ],
     })
 
     const fileContent = await window.api.sendAsync('readFile', filePath)
 
-    if (filePath.endsWith(BACKUP_FILE_EXTENSION)) {
+    const backupContent = await importBackupActions.validateAndParseFile(filePath, fileContent)
+    if (backupContent) {
       ToastHelper.success({ message: t('neon3BackupFileDetected') })
 
-      setData({ path: filePath, content: fileContent, type: 'backup' })
+      setData({ path: filePath, ...backupContent })
       return
     }
 
-    try {
-      const parsedContent = JSON.parse(fileContent)
-      const validatedContent = await migrateSchema.parseAsync(parsedContent)
-
+    const migrateContent = await importMigrateActions.validateAndParseFile(fileContent)
+    if (migrateContent) {
       ToastHelper.success({ message: t('neon2MigrateFileDetected') })
 
-      setData({
-        path: filePath,
-        content: validatedContent,
-        type: 'migrate',
-      })
+      setData({ path: filePath, ...migrateContent })
       return
-    } catch {
-      /* empty */
     }
 
     setError('path', t('error'))

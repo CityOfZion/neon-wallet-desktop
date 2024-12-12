@@ -219,6 +219,7 @@ interface Resources {
     useBackupOrMigrate: {
       neon3BackupFileDetected: 'NEON3 backup file detected'
       neon2MigrateFileDetected: 'NEON2 migrate file detected'
+      filterName: 'Neon backup or migration file'
       error: 'File not recognised'
       defaultAccountLabel: 'Migrated account'
       defaultContactName: 'Migrated contact'
@@ -237,6 +238,19 @@ interface Resources {
     useOverTheAirUpdate: {
       downloading: 'New version found. Downloading...'
       downloaded: 'New version downloaded. The app will restart to apply update.'
+    }
+    useNeonBackup: {
+      errors: {
+        unexpectedError: 'Unexpected error. Restart the application.'
+        backupError: 'There was an error trying to backup. Please, try again.'
+      }
+    }
+    useNeonImportBackup: {
+      errors: {
+        wrongPassword: 'The password is incorrect. Please try again.'
+        wrongVersion: 'The backup file version is not supported. Please try to generate a new backup in the latest NEON version.'
+        importData: 'There was an error importing the data (It might imported partially).'
+      }
     }
   }
   layouts: {

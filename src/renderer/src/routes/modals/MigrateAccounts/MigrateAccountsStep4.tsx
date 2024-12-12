@@ -5,81 +5,55 @@ import { TbPackageImport } from 'react-icons/tb'
 import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useActions } from '@renderer/hooks/useActions'
-import { TMigrateAccountsSchema, TMigrateSchema } from '@renderer/hooks/useBackupOrMigrate'
-import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
-import { useContactsSelector } from '@renderer/hooks/useContactSelector'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
+import {
+  TUseNeonMigrateAccountsSchema,
+  TUseNeonMigrateDecryptedAccountSchema,
+  TUseNeonMigrateGeneratedData,
+  TUseNeonMigrateSchema,
+  useNeonImportMigrate,
+} from '@renderer/hooks/useNeonMigrate'
 import { MigrateAccountsModalLayout } from '@renderer/layouts/MigrateAccountsModalLayout'
-import { TAccountsToImport, TWalletToCreate } from '@shared/@types/blockchain'
-import { IContactState, TContactAddress } from '@shared/@types/store'
 
-import { DecryptAccountPasswordContainer, TMigrateDecryptedAccountSchema } from './DecryptAccountPasswordContainer'
+import { MigrateAccountsStep4Password } from './MigrateAccountsStep4Password'
 import { SuccessContent } from './SuccessContent'
 
 type TState = {
-  selectedAccountsToMigrate: TMigrateAccountsSchema[]
-  content: TMigrateSchema
-  onDecrypt?: (wallet: TWalletToCreate, accounts: TAccountsToImport, contacts: IContactState[]) => void
+  selectedAccountsToMigrate: TUseNeonMigrateAccountsSchema[]
+  content: TUseNeonMigrateSchema
+  onDecrypt?: (generatedData: TUseNeonMigrateGeneratedData) => void
 }
 
 type TActionData = {
-  decryptedAccounts: TMigrateDecryptedAccountSchema[]
+  decryptedAccounts: TUseNeonMigrateDecryptedAccountSchema[]
 }
 
 export const MigrateAccountsStep4Modal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'migrateWallets' })
-  const { t: commonT } = useTranslation('common', { keyPrefix: 'wallet' })
   const { selectedAccountsToMigrate, content, onDecrypt } = useModalState<TState>()
-  const { createContacts, createWallet, importAccounts } = useBlockchainActions()
-  const { contactsRef } = useContactsSelector()
   const { modalNavigate } = useModalNavigate()
+  const { handleTryDecryptAccount, handleGenerateData, handleImportBackupData } = useNeonImportMigrate()
 
   const { actionData, actionState, setData, handleAct } = useActions<TActionData>({
     decryptedAccounts: [],
   })
 
-  const handleDecrypt = (decryptedWallet: TMigrateDecryptedAccountSchema) => {
-    setData(prev => ({ ...prev, decryptedAccounts: [...prev.decryptedAccounts, decryptedWallet] }))
+  const handlePasswordSubmit = async (accountToMigrate: TUseNeonMigrateAccountsSchema, password: string) => {
+    const decryptedAccount = await handleTryDecryptAccount(accountToMigrate, password)
+    setData(prev => ({ ...prev, decryptedAccounts: [...prev.decryptedAccounts, decryptedAccount] }))
   }
 
   const handleMigrate = async (data: TActionData) => {
-    const contactsToCreate: IContactState[] = []
-    const walletToCreate: TWalletToCreate = { name: commonT('migratedWalletName') }
-    const accountsToCreate: TAccountsToImport = []
-
-    data.decryptedAccounts.map(({ address, blockchain, decryptedKey, label }) => {
-      if (!blockchain) return
-
-      accountsToCreate.push({ address, blockchain, key: decryptedKey, type: 'standard', name: label })
-    })
-
-    content.contacts.forEach(({ name, addresses }) => {
-      const contactAddresses: TContactAddress[] = []
-      const foundContact = contactsRef.current.find(contact => name === contact.name)
-
-      addresses.forEach(({ address, blockchain }) => {
-        if (!blockchain || foundContact?.addresses?.some(contact => contact.address === address)) return
-
-        contactAddresses.push({ address, blockchain })
-      })
-
-      if (!contactAddresses.length) return
-
-      contactsToCreate.push({ name, id: UtilsHelper.uuid(), addresses: contactAddresses })
-    })
+    const generatedData = handleGenerateData(content, data.decryptedAccounts)
 
     if (onDecrypt) {
-      onDecrypt(walletToCreate, accountsToCreate, contactsToCreate)
+      onDecrypt(generatedData)
       return
     }
 
     try {
-      createContacts(contactsToCreate)
-
-      const wallet = createWallet(walletToCreate)
-      const accounts = await importAccounts({ wallet, accounts: accountsToCreate })
+      const { accounts } = await handleImportBackupData(generatedData)
 
       modalNavigate(-3)
       modalNavigate('success', {
@@ -103,7 +77,7 @@ export const MigrateAccountsStep4Modal = () => {
       <div className="w-full flex-grow flex flex-col overflow-y-auto min-h-0 mt-1 mb-3 pr-2">
         {selectedAccountsToMigrate.map((accountToMigrate, index) => (
           <Fragment key={accountToMigrate.address}>
-            <DecryptAccountPasswordContainer accountToMigrate={accountToMigrate} onDecrypt={handleDecrypt} />
+            <MigrateAccountsStep4Password accountToMigrate={accountToMigrate} onSubmit={handlePasswordSubmit} />
 
             {index < selectedAccountsToMigrate.length - 1 && <Separator />}
           </Fragment>
