@@ -21,6 +21,10 @@ export type TAccountToImport = {
 
 export type TAccountsToImport = Omit<TAccountToImport, 'wallet'>[]
 
+export type TCreateWalletAndAccountParam = TWalletToCreate & {
+  accounts: TAccountsToImport
+}
+
 export type TImportAccountsParam = {
   wallet: IWalletState
   accounts: TAccountsToImport

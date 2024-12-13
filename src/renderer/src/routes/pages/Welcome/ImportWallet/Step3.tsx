@@ -9,7 +9,7 @@ import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { TUseBackupOrMigrateActionsData, useBackupOrMigrate } from '@renderer/hooks/useBackupOrMigrate'
 import { useImportAction } from '@renderer/hooks/useImportAction'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
-import { TUseNeonBackupDataSchema } from '@renderer/hooks/useNeonBackup'
+import { TUseNeonBackupGeneratedData } from '@renderer/hooks/useNeonBackup'
 import { TUseNeonMigrateGeneratedData } from '@renderer/hooks/useNeonMigrate'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { TAccountsToImport, TBlockchainServiceKey, TWalletToCreate } from '@shared/@types/blockchain'
@@ -134,7 +134,7 @@ export const WelcomeImportWalletStep3Page = () => {
     modalNavigate('confirm-password-recover', {
       state: {
         data,
-        onDecrypt: (data: TUseNeonBackupDataSchema) => {
+        onDecrypt: (data: TUseNeonBackupGeneratedData) => {
           modalErase('side')
           navigate('/welcome-import-wallet/4', { state: { ...data, password: state.password } })
         },

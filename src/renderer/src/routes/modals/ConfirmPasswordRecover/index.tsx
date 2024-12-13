@@ -9,8 +9,8 @@ import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import {
   TUseNeonBackupData,
-  TUseNeonBackupDataSchema,
   TUseNeonBackupDeprecatedData,
+  TUseNeonBackupGeneratedData,
   useNeonImportBackup,
 } from '@renderer/hooks/useNeonBackup'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
@@ -21,7 +21,7 @@ type TFormData = {
 
 type TLocationState = {
   data: TUseNeonBackupData | TUseNeonBackupDeprecatedData
-  onDecrypt: (data: TUseNeonBackupDataSchema) => void
+  onDecrypt: (data: TUseNeonBackupGeneratedData) => void
 }
 
 const SuccessFooter = () => {
@@ -40,7 +40,7 @@ export const ConfirmPasswordRecoverModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'confirmPasswordRecover' })
   const { data, onDecrypt } = useModalState<TLocationState>()
   const { modalNavigate } = useModalNavigate()
-  const { handleImportBackupData, handleTryDecryptData } = useNeonImportBackup()
+  const { handleImportBackupData, handleTryDecryptData, handleGenerateData } = useNeonImportBackup()
 
   const { actionData, actionState, handleAct, setDataFromEventWrapper, setError, reset } = useActions<TFormData>({
     password: '',
@@ -54,13 +54,14 @@ export const ConfirmPasswordRecoverModal = () => {
 
     try {
       const decryptedData = await handleTryDecryptData(data, password)
+      const generatedData = handleGenerateData(decryptedData)
 
       if (onDecrypt) {
-        onDecrypt(decryptedData)
+        onDecrypt(generatedData)
         return
       }
 
-      await handleImportBackupData(decryptedData)
+      await handleImportBackupData(generatedData)
 
       await UtilsHelper.sleep(2000)
 
