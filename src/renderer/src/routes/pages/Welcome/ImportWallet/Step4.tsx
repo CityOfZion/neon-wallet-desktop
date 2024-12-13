@@ -9,13 +9,11 @@ import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useSettingsActions } from '@renderer/hooks/useSettingsSelector'
 import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
-import { TAccountsToImport, TWalletToCreate } from '@shared/@types/blockchain'
+import { TCreateWalletAndAccountParam } from '@shared/@types/blockchain'
 import { IContactState, TSwapRecord } from '@shared/@types/store'
 
 type TLocationState = {
-  wallets: (TWalletToCreate & {
-    accounts: TAccountsToImport
-  })[]
+  wallets: TCreateWalletAndAccountParam[]
   swapRecords?: TSwapRecord[]
   contacts?: IContactState[]
   password: string
@@ -49,8 +47,8 @@ export const WelcomeImportWalletStep4Page = () => {
 
       setProgress(progress => progress + progressByStep)
 
-      for (const { name, mnemonic, accounts } of wallets) {
-        const wallet = await createWallet({ name, mnemonic })
+      for (const { name, mnemonic, type, id, accounts } of wallets) {
+        const wallet = createWallet({ name, mnemonic, type, id })
 
         await importAccounts({ accounts, wallet })
 
