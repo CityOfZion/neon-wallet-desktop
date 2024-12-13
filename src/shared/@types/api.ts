@@ -5,6 +5,10 @@ import { OpenDialogOptions } from 'electron'
 import { TBlockchainServiceKey } from './blockchain'
 import {
   TAddHardwareWalletAccountParams,
+  TDecryptBasedEncryptedSecretParams,
+  TDecryptBasedSecretParams,
+  TEncryptBasedEncryptedSecretParams,
+  TEncryptBasedSecretParams,
   TGetStoreFromWCSession,
   THardwareWalletInfo,
   TIpcMainAsyncListener,
@@ -14,8 +18,8 @@ import {
 export type TMainApiListenersSync = {
   restore: TIpcMainSyncListener<undefined, void>
   sendStoreFromWC: TIpcMainSyncListener<TGetStoreFromWCSession>
-  encryptBasedEncryptedSecretSync: TIpcMainSyncListener<{ value: string; encryptedSecret?: string }, string>
-  decryptBasedEncryptedSecretSync: TIpcMainSyncListener<{ value: string; encryptedSecret?: string }, string>
+  encryptBasedEncryptedSecretSync: TIpcMainSyncListener<TEncryptBasedEncryptedSecretParams, string>
+  decryptBasedEncryptedSecretSync: TIpcMainSyncListener<TDecryptBasedEncryptedSecretParams, string>
   encryptBasedOSSync: TIpcMainSyncListener<string, string>
   decryptBasedOSSync: TIpcMainSyncListener<string, string>
 }
@@ -33,10 +37,10 @@ export type TMainApiListenersAsync = {
   quitAndInstall: TIpcMainAsyncListener<undefined, void>
   encryptBasedOS: TIpcMainAsyncListener<string, string>
   decryptBasedOS: TIpcMainAsyncListener<string, string>
-  encryptBasedSecret: TIpcMainAsyncListener<{ value: string; secret: string }, string>
-  decryptBasedSecret: TIpcMainAsyncListener<{ value: string; secret: string }, string>
-  encryptBasedEncryptedSecret: TIpcMainAsyncListener<{ value: string; encryptedSecret?: string }, string>
-  decryptBasedEncryptedSecret: TIpcMainAsyncListener<{ value: string; encryptedSecret?: string }, string>
+  encryptBasedSecret: TIpcMainAsyncListener<TEncryptBasedSecretParams, string>
+  decryptBasedSecret: TIpcMainAsyncListener<TDecryptBasedSecretParams, string>
+  encryptBasedEncryptedSecret: TIpcMainAsyncListener<TEncryptBasedEncryptedSecretParams, string>
+  decryptBasedEncryptedSecret: TIpcMainAsyncListener<TDecryptBasedEncryptedSecretParams, string>
   getInitialDeepLinkUri: TIpcMainAsyncListener<undefined, string | undefined>
   resetInitialDeeplink: TIpcMainAsyncListener<undefined, void>
 }

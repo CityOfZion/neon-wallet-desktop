@@ -32,7 +32,7 @@ class WalletConnectNeonAdapter extends AbstractWalletConnectNeonAdapter {
     if (!account) throw new Error('Account not found')
     if (!account.encryptedKey) throw new Error('Key not found')
 
-    const key = decryptBasedEncryptedSecret(account.encryptedKey, encryptedPassword)
+    const key = decryptBasedEncryptedSecret({ value: account.encryptedKey, encryptedSecret: encryptedPassword })
     if (!key) throw new Error('Error to decrypt key')
 
     return key
@@ -59,7 +59,7 @@ class WalletConnectNeonAdapter extends AbstractWalletConnectNeonAdapter {
     if (account.type !== 'hardware') return undefined
     if (!account.encryptedKey) throw new Error('Key not found')
 
-    const key = decryptBasedEncryptedSecret(account.encryptedKey, encryptedPassword)
+    const key = decryptBasedEncryptedSecret({ value: account.encryptedKey, encryptedSecret: encryptedPassword })
     if (!key) throw new Error('Error to decrypt key')
 
     const service = bsAggregator.blockchainServicesByName.neo3 as BSNeo3<TBlockchainServiceKey>
@@ -80,7 +80,7 @@ export class WalletConnectEIP155Adapter extends AbstractWalletConnectEIP155Adapt
     if (!account) throw new Error('Account not found')
     if (!account.encryptedKey) throw new Error('Key not found')
 
-    const key = decryptBasedEncryptedSecret(account.encryptedKey, encryptedPassword)
+    const key = decryptBasedEncryptedSecret({ value: account.encryptedKey, encryptedSecret: encryptedPassword })
     if (!key) throw new Error('Error to decrypt key')
 
     return key
@@ -100,7 +100,7 @@ export class WalletConnectEIP155Adapter extends AbstractWalletConnectEIP155Adapt
     if (account.type !== 'hardware') return undefined
     if (!account.encryptedKey) throw new Error('Key not found')
 
-    const key = decryptBasedEncryptedSecret(account.encryptedKey, encryptedPassword)
+    const key = decryptBasedEncryptedSecret({ value: account.encryptedKey, encryptedSecret: encryptedPassword })
     if (!key) throw new Error('Error to decrypt key')
 
     const service = bsAggregator.blockchainServicesByName.ethereum as BSEthereum<TBlockchainServiceKey>

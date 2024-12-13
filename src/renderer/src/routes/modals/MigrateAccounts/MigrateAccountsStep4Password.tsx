@@ -5,23 +5,18 @@ import { TbAlertTriangle } from 'react-icons/tb'
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Input } from '@renderer/components/Input'
 import { useActions } from '@renderer/hooks/useActions'
-import { TMigrateAccountsSchema } from '@renderer/hooks/useBackupOrMigrate'
-import { bsAggregator } from '@renderer/libs/blockchainService'
-
-export type TMigrateDecryptedAccountSchema = TMigrateAccountsSchema & {
-  decryptedKey: string
-}
+import { TUseNeonMigrateAccountsSchema } from '@renderer/hooks/useNeonMigrate'
 
 type TProps = {
-  accountToMigrate: TMigrateAccountsSchema
-  onDecrypt?: (decryptedAccount: TMigrateDecryptedAccountSchema) => void
+  accountToMigrate: TUseNeonMigrateAccountsSchema
+  onSubmit: (accountToMigrate: TUseNeonMigrateAccountsSchema, password: string) => Promise<void>
 }
 
 type TActionData = {
   password: string
 }
 
-export const DecryptAccountPasswordContainer = ({ accountToMigrate, onDecrypt }: TProps) => {
+export const MigrateAccountsStep4Password = ({ accountToMigrate, onSubmit }: TProps) => {
   const { t } = useTranslation('modals', { keyPrefix: 'migrateWallets.step4' })
 
   const { actionData, actionState, setDataFromEventWrapper, setError, handleAct } = useActions<TActionData>({
@@ -30,14 +25,7 @@ export const DecryptAccountPasswordContainer = ({ accountToMigrate, onDecrypt }:
 
   const handleSubmit = async (data: TActionData) => {
     try {
-      const service = bsAggregator.blockchainServicesByName[accountToMigrate.blockchain]
-
-      const decryptedAccount = await service.decrypt(accountToMigrate.key, data.password)
-
-      onDecrypt?.({
-        ...accountToMigrate,
-        decryptedKey: decryptedAccount.key,
-      })
+      await onSubmit(accountToMigrate, data.password)
     } catch (error) {
       setError('password', t('passwordError'))
     }

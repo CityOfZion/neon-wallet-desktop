@@ -17,13 +17,13 @@ export const MigrateAccountsStep2Modal = () => {
   const handleSubmit = async (data: TUseBackupOrMigrateActionsData) => {
     if (!data.content || !data.path || !data.type) return
 
-    if (data.type === 'backup') {
-      navigate('/app/settings/security/recover-wallet')
-      modalNavigate('confirm-password-recover', { state: { content: data.content as string }, replace: true })
+    if (data.type === 'migrate') {
+      modalNavigate('migrate-accounts-step-3', { state: { content: data.content } })
       return
     }
 
-    modalNavigate('migrate-accounts-step-3', { state: { content: data.content } })
+    navigate('/app/settings/security/recover-wallet')
+    modalNavigate('confirm-password-recover', { state: { data }, replace: true })
   }
 
   return (

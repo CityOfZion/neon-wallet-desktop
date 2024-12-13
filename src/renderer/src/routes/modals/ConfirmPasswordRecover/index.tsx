@@ -4,24 +4,24 @@ import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
-import { ApplicationDataHelper } from '@renderer/helpers/ApplicationDataHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
-import { useAccountUtils } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
-import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
-import { useAppDispatch } from '@renderer/hooks/useRedux'
+import {
+  TUseNeonBackupData,
+  TUseNeonBackupDataSchema,
+  TUseNeonBackupDeprecatedData,
+  useNeonImportBackup,
+} from '@renderer/hooks/useNeonBackup'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
-import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
-import { TAccountsToImport, TBackupFormat } from '@shared/@types/blockchain'
 
 type TFormData = {
   password: string
 }
 
 type TLocationState = {
-  content: string
-  onDecrypt: (data: TBackupFormat) => void
+  data: TUseNeonBackupData | TUseNeonBackupDeprecatedData
+  onDecrypt: (data: TUseNeonBackupDataSchema) => void
 }
 
 const SuccessFooter = () => {
@@ -38,11 +38,9 @@ const SuccessFooter = () => {
 
 export const ConfirmPasswordRecoverModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'confirmPasswordRecover' })
-  const { content, onDecrypt } = useModalState<TLocationState>()
-  const { doesAccountExist } = useAccountUtils()
+  const { data, onDecrypt } = useModalState<TLocationState>()
   const { modalNavigate } = useModalNavigate()
-  const { createContacts, createWallet, importAccounts } = useBlockchainActions()
-  const dispatch = useAppDispatch()
+  const { handleImportBackupData, handleTryDecryptData } = useNeonImportBackup()
 
   const { actionData, actionState, handleAct, setDataFromEventWrapper, setError, reset } = useActions<TFormData>({
     password: '',
@@ -55,38 +53,14 @@ export const ConfirmPasswordRecoverModal = () => {
     }
 
     try {
-      const contentDecrypted = await window.api.sendAsync('decryptBasedSecret', { value: content, secret: password })
-      const backupFile = JSON.parse(contentDecrypted as string) as TBackupFormat
-
-      ApplicationDataHelper.convertTypes(backupFile.wallets)
-
-      if (!backupFile.swapRecords) backupFile.swapRecords = []
+      const decryptedData = await handleTryDecryptData(data, password)
 
       if (onDecrypt) {
-        onDecrypt(backupFile)
+        onDecrypt(decryptedData)
         return
       }
 
-      backupFile.swapRecords.forEach(swapRecord => dispatch(authReducerActions.persistSwapRecord(swapRecord)))
-      createContacts(backupFile.contacts)
-
-      const importPromises = backupFile.wallets.map(async wallet => {
-        const accountsToImport: TAccountsToImport = []
-
-        wallet.accounts.forEach(account => {
-          if (doesAccountExist(account)) return
-
-          accountsToImport.push(account)
-        })
-
-        if (accountsToImport.length === 0) return
-
-        const newWallet = createWallet(wallet)
-
-        await importAccounts({ wallet: newWallet, accounts: accountsToImport })
-      })
-
-      await Promise.allSettled(importPromises)
+      await handleImportBackupData(decryptedData)
 
       await UtilsHelper.sleep(2000)
 
@@ -100,8 +74,8 @@ export const ConfirmPasswordRecoverModal = () => {
         replace: true,
       })
     } catch {
-      setError('password', t('error'))
       reset()
+      setError('password', t('error'))
     }
   }
 

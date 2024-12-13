@@ -47,3 +47,17 @@ export type THardwareWalletInfoWithTransport = THardwareWalletInfo & {
   transport: NodeHidTransport
   descriptor: string
 }
+
+export type TEncryptBasedSecretParams = {
+  value: string
+  secret: string
+  options?: { algorithm?: 'scrypt' | 'pbkdf2' }
+}
+
+export type TDecryptBasedSecretParams = TEncryptBasedSecretParams
+
+export type TEncryptBasedEncryptedSecretParams = Omit<TEncryptBasedSecretParams, 'secret'> & {
+  encryptedSecret?: string
+}
+
+export type TDecryptBasedEncryptedSecretParams = TEncryptBasedEncryptedSecretParams
