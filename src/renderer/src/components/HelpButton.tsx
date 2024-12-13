@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next'
-import { TbAlertTriangle, TbHelp, TbMessage } from 'react-icons/tb'
+import { TbHelp, TbMessage } from 'react-icons/tb'
 import { ActionPopover } from '@renderer/components/ActionPopover'
 import { IconButton } from '@renderer/components/IconButton'
-import { DISCORD_LINK, HELP_LINK } from '@renderer/constants/urls'
+import { DISCORD_LINK } from '@renderer/constants/urls'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 
 export const HelpButton = () => {
@@ -25,7 +25,7 @@ export const HelpButton = () => {
         side="top"
         color="yellow"
         className="mr-4 mt-[-10px]"
-        contentClassName="bg-gray-900/50 backdrop-blur-sm"
+        contentClassName="bg-gray-900/60 backdrop-blur-sm"
         pointerClassName="left-[100%] -translate-x-[58px]"
         {...TestHelper.buildTestObject('help-content')}
       >
@@ -38,19 +38,6 @@ export const HelpButton = () => {
           iconsOnEdge={false}
           leftIcon={<TbMessage aria-hidden="true" className="text-yellow" />}
           {...TestHelper.buildTestObject('help-chat-with-us')}
-        />
-
-        <ActionPopover.Separator className="h-[2px] mx-2 w-[calc(100%_-_2)]" />
-
-        <ActionPopover.Item
-          actionPopoverItemType="link"
-          label={t('list.reportProblem')}
-          to={HELP_LINK}
-          target="_blank"
-          colorSchema="white"
-          iconsOnEdge={false}
-          leftIcon={<TbAlertTriangle aria-hidden="true" className="text-yellow" />}
-          {...TestHelper.buildTestObject('help-report-problem')}
         />
       </ActionPopover.Content>
     </ActionPopover.Root>

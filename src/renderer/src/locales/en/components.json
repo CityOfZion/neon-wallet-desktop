@@ -161,8 +161,7 @@
   "helpButton": {
     "text": "Help",
     "list": {
-      "chatWithUs": "Chat with us",
-      "reportProblem": "Report a problem"
+      "chatWithUs": "Chat with us"
     }
   }
 }
