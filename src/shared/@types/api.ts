@@ -19,7 +19,7 @@ export type TMainApiListenersSync = {
   restore: TIpcMainSyncListener<undefined, void>
   sendStoreFromWC: TIpcMainSyncListener<TGetStoreFromWCSession>
   encryptBasedEncryptedSecretSync: TIpcMainSyncListener<TEncryptBasedEncryptedSecretParams, string>
-  decryptBasedEncryptedSecretSync: TIpcMainSyncListener<TEncryptBasedEncryptedSecretParams, string>
+  decryptBasedEncryptedSecretSync: TIpcMainSyncListener<TDecryptBasedEncryptedSecretParams, string>
   encryptBasedOSSync: TIpcMainSyncListener<string, string>
   decryptBasedOSSync: TIpcMainSyncListener<string, string>
 }
