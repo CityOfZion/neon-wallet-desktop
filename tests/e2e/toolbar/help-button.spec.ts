@@ -38,13 +38,4 @@ test.describe('Help button', () => {
 
     await window.getByTestId('help-chat-with-us').click()
   })
-
-  // Skipped because it opens a link in the browser every time
-  test.skip('Should click on "Report a problem" button and open the Pipefy link on browser', async () => {
-    await expect(helpButton).toBeVisible()
-
-    await helpButton.click()
-
-    await window.getByTestId('help-report-problem').click()
-  })
 })

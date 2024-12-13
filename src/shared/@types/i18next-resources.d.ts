@@ -210,7 +210,6 @@ interface Resources {
       text: 'Help'
       list: {
         chatWithUs: 'Chat with us'
-        reportProblem: 'Report a problem'
       }
     }
   }
