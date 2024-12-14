@@ -9,6 +9,7 @@ import { queryClient } from '@renderer/libs/query'
 import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
 import { TUseTransactionsTransfer } from '@shared/@types/hooks'
 import { IAccountState, IWalletState, TLoginSession, TLoginSessionType, TSwapRecord } from '@shared/@types/store'
+import { cloneDeep } from 'lodash'
 import { createMigrate, getStoredState, PersistConfig, PersistedState, PURGE } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
@@ -238,7 +239,10 @@ const addPendingTransaction = createAsyncThunk<
 })
 
 const persistSwapRecord: CaseReducer<IAuthReducer, PayloadAction<TSwapRecord>> = (state, action) => {
-  const swapRecord = action.payload
+  const swapRecord = cloneDeep(action.payload)
+
+  // We don't want to save this long information in the storage
+  swapRecord.log = undefined
 
   const index = state.data.swapRecords.findIndex(
     it => it.swapId === swapRecord.swapId && it.swapProvider === swapRecord.swapProvider

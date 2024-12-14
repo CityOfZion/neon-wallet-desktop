@@ -4,13 +4,14 @@ import { MdLaunch, MdRefresh } from 'react-icons/md'
 import { TbCircleX, TbDiscountCheck, TbReceipt, TbReplace } from 'react-icons/tb'
 import { SimpleSwapServiceHelper } from '@cityofzion/bs-swap'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
+import { Button } from '@renderer/components/Button'
 import { Details } from '@renderer/components/Details'
 import { Link } from '@renderer/components/Link'
 import { Separator } from '@renderer/components/Separator'
 import { Stepper, TStepperCurrentState } from '@renderer/components/Stepper'
 import { DISCORD_LINK } from '@renderer/constants/urls'
 import { StringHelper } from '@renderer/helpers/StringHelper'
-import { useModalState } from '@renderer/hooks/useModalRouter'
+import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 import { bsAggregator } from '@renderer/libs/blockchainService'
@@ -38,6 +39,7 @@ export const SwapDetailsModal = () => {
   const modalState = useModalState<TState>()
   const dispatch = useAppDispatch()
   const { t } = useTranslation('modals', { keyPrefix: 'swapDetails' })
+  const { modalNavigate } = useModalNavigate()
 
   const [swapRecord, setSwapRecord] = useState<TSwapRecord>(modalState.swapRecord)
 
@@ -45,31 +47,34 @@ export const SwapDetailsModal = () => {
 
   const service = bsAggregator.blockchainServicesByName[swapRecord.account.blockchain]
 
+  const handleGoToSwapLog = () => {
+    modalNavigate('swap-details-log', { state: { swapRecord } })
+  }
+
   useEffect(() => {
     const getStatus = async () => {
-      if (!swapRecord.swapId) return
+      if (!swapRecord.swapId || !['confirming', 'exchanging'].includes(swapRecord.swapStatus)) return
 
       try {
-        const response = await swapServiceHelper.getStatus(swapRecord.swapId)
-
-        const updatedSwapRecord: TSwapRecord = { ...swapRecord, swapStatus: response.status, txTo: response.txTo }
+        const { status, ...response } = await swapServiceHelper.getStatus(swapRecord.swapId)
+        const updatedSwapRecord: TSwapRecord = { ...swapRecord, ...response, swapStatus: status }
 
         setSwapRecord(updatedSwapRecord)
         dispatch(authReducerActions.persistSwapRecord(updatedSwapRecord))
 
-        if (response && response.status === 'finished') {
+        if (status === 'finished') {
           clearTimeout(timeoutRef.current)
+
           return
         }
       } catch {
         // Empty block
       }
 
-      timeoutRef.current = setTimeout(getStatus, 2500)
+      timeoutRef.current = setTimeout(getStatus, 2000)
     }
 
-    if ((swapRecord.swapStatus === 'confirming' || swapRecord.swapStatus === 'exchanging') && swapRecord.swapId)
-      timeoutRef.current = setTimeout(getStatus, 0)
+    timeoutRef.current = setTimeout(getStatus, 100)
 
     return () => {
       clearTimeout(timeoutRef.current)
@@ -203,15 +208,27 @@ export const SwapDetailsModal = () => {
         </Details.Body>
       </Details.Root>
 
-      <Link
-        to={DISCORD_LINK}
-        target="_blank"
-        className="mt-8"
-        label={t('helpButtonLabel')}
-        flat
-        rightIcon={<MdLaunch />}
-        wide
-      />
+      <div className="flex w-full items-center gap-2 mt-8 px-4">
+        <Button
+          label={t('swapLog')}
+          className="w-40"
+          textClassName="text-gray-100"
+          flat
+          wide
+          onClick={handleGoToSwapLog}
+        />
+
+        <Link
+          label={t('helpButtonLabel')}
+          className="flex-grow"
+          target="_blank"
+          to={DISCORD_LINK}
+          flat
+          wide
+          iconsOnEdge={false}
+          rightIcon={<MdLaunch aria-hidden={true} />}
+        />
+      </div>
     </SideModalLayout>
   )
 }
