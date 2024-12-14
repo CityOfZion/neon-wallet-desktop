@@ -551,6 +551,12 @@
     "receivePanelLabel": "You’ll receive",
     "receivePanelTokenLabel": "Token",
     "receivePanelAddressLabel": "Receiving address",
-    "helpButtonLabel": "Need help? Chat with us"
+    "helpButtonLabel": "Need help? Chat with us",
+    "swapLog": "Swap log"
+  },
+  "swapDetailsLog": {
+    "title": "Swap log",
+    "copySwapLog": "Copy swap log to clipboard",
+    "thereIsNoLog": "There is no swap log"
   }
 }

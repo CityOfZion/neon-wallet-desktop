@@ -14,6 +14,7 @@ interface Resources {
       downloadQRCodePassword: 'Download password QR code'
       default: 'Default'
       remove: 'Remove'
+      copy: 'Copy to clipboard'
       swap: 'Swap'
     }
     walletConnect: {
@@ -819,6 +820,12 @@ interface Resources {
       receivePanelTokenLabel: 'Token'
       receivePanelAddressLabel: 'Receiving address'
       helpButtonLabel: 'Need help? Chat with us'
+      swapLog: 'Swap log'
+    }
+    swapDetailsLog: {
+      title: 'Swap log'
+      copySwapLog: 'Copy swap log to clipboard'
+      thereIsNoLog: 'There is no swap log'
     }
   }
   pages: {

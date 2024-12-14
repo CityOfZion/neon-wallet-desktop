@@ -209,12 +209,15 @@ export const SwapPageContent = ({ account }: TProps) => {
 
     try {
       const swapResponse = await swapServiceRef.current.swap()
-      swapRecord.txFrom = swapResponse.transactionHash
+
       swapRecord.swapId = swapResponse.id
+      swapRecord.txFrom = swapResponse.txFrom
+      swapRecord.log = swapResponse.log
     } catch (error: any) {
       console.error(error)
-      swapRecord.swapStatus = 'refunded'
     } finally {
+      if (!swapRecord.txFrom) swapRecord.swapStatus = 'refunded'
+
       dispatch(authReducerActions.persistSwapRecord(swapRecord))
 
       modalNavigate('swap-details', {

@@ -13,6 +13,7 @@
     "downloadQRCodePassword": "Download password QR code",
     "default": "Default",
     "remove": "Remove",
+    "copy": "Copy to clipboard",
     "swap": "Swap"
   },
   "walletConnect": {
