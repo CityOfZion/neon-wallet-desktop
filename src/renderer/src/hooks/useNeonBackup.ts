@@ -1,6 +1,8 @@
 import { useTranslation } from 'react-i18next'
 import { BACKUP_FILE_EXTENSION, BACKUP_VERSION, DEPRECATED_BACKUP_FILE_EXTENSION } from '@renderer/constants/backup'
+import { ACCOUNT_COLOR_SKINS } from '@renderer/constants/skins'
 import { DateHelper } from '@renderer/helpers/DateHelper'
+import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { doesBlockchainSupported } from '@renderer/libs/blockchainService'
 import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
 import { contactReducerActions } from '@renderer/store/reducers/ContactReducer'
@@ -108,6 +110,9 @@ const fixAccountProperties = (
 
   const type: TAccountType =
     backupAccount.type === 'ledger' || backupAccount.type === 'hardware' ? 'watch' : backupAccount.type
+
+  if (!backupAccount.skin || UtilsHelper.isHexadecimal(backupAccount.skin.id))
+    backupAccount.skin = { id: ACCOUNT_COLOR_SKINS[UtilsHelper.getRandomNumber(7)].id, type: 'color' }
 
   return {
     address: backupAccount.address,

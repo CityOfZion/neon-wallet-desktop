@@ -8,10 +8,10 @@ type TProps = {
 }
 
 const AccountIconColor = ({ account }: TProps) => {
-  const color = ACCOUNT_COLOR_SKINS.find(it => it.id === account.skin.id)!.color
+  const bgColor = ACCOUNT_COLOR_SKINS.find(({ id }) => id === account.skin.id)?.color ?? ACCOUNT_COLOR_SKINS[0].color
 
   return (
-    <div className={`w-full h-full flex items-center  justify-center relative ${color}`}>
+    <div className={`w-full h-full flex items-center justify-center relative ${bgColor}`}>
       <div className="w-3.5 h-3.5 flex items-center justify-center relative">
         <div className="w-full h-full rounded-full bg-asphalt mix-blend-overlay absolute" />
         <BlockchainIcon blockchain={account.blockchain} type="white" className="w-2 h-2" />

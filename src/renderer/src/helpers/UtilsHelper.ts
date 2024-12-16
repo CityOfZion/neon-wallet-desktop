@@ -218,4 +218,8 @@ export class UtilsHelper {
 
     return text
   }
+
+  static isHexadecimal(hexadecimal: string) {
+    return /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(hexadecimal)
+  }
 }
