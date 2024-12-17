@@ -64,4 +64,18 @@ test.describe('Create new wallet', () => {
 
     await window.close()
   })
+
+  test('Should create a wallet with accounts for each chain', async () => {
+    const window = await launch()
+
+    await createNewWallet(window)
+
+    await window.getByTestId('sidebar-link-wallets').click()
+
+    const accountsLength = await window.getByTestId('accounts-wallet-list').locator('> li').count()
+
+    expect(accountsLength).toBeGreaterThan(1)
+
+    await window.close()
+  })
 })
