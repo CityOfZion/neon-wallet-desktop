@@ -8,6 +8,7 @@ import { TestHelper } from '@renderer/helpers/TestHelper'
 import { useActions } from '@renderer/hooks/useActions'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useSettingsActions } from '@renderer/hooks/useSettingsSelector'
+import { blockchainNames } from '@renderer/libs/blockchainService'
 
 type TFormData = {
   confirmPassword: string
@@ -57,11 +58,15 @@ export const WelcomeSecuritySetupStep2Page = ({ onSubmit }: TProps) => {
       mnemonic: words.join(' '),
     })
 
-    await createStandardAccount({
-      wallet,
-      blockchain: 'neo3',
-      name: commonT('account.defaultName', { accountNumber: 1 }),
-    })
+    const promises = blockchainNames.map(blockchain =>
+      createStandardAccount({
+        wallet,
+        blockchain,
+        name: commonT('account.defaultName', { accountNumber: 1 }),
+      })
+    )
+
+    await Promise.allSettled(promises)
 
     navigate('/welcome-security-setup/3')
   }

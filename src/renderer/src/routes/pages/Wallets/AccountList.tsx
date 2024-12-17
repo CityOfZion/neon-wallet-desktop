@@ -3,6 +3,7 @@ import { AccountIcon } from '@renderer/components/AccountIcon'
 import { Separator } from '@renderer/components/Separator'
 import { Tooltip } from '@renderer/components/Tooltip'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
+import { TestHelper } from '@renderer/helpers/TestHelper'
 import { useAccountsByWalletIdSelector } from '@renderer/hooks/useAccountSelector'
 import { useBalances } from '@renderer/hooks/useBalances'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
@@ -51,7 +52,10 @@ export const AccountList = ({ selectedWallet, selectedAccount, onSelect }: TProp
   const { accountsByWalletId } = useAccountsByWalletIdSelector(selectedWallet.id)
 
   return (
-    <ul className="flex flex-grow flex-col min-h-0 min-w-0 w-full overflow-y-auto">
+    <ul
+      {...TestHelper.buildTestObject('accounts-wallet-list')}
+      className="flex flex-grow flex-col min-h-0 min-w-0 w-full overflow-y-auto"
+    >
       {accountsByWalletId.map((account, index) => (
         <Fragment key={account?.id}>
           <AccountItem
