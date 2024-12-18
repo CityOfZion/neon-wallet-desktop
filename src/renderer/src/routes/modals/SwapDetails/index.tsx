@@ -56,8 +56,14 @@ export const SwapDetailsModal = () => {
       if (!swapRecord.swapId || !['confirming', 'exchanging'].includes(swapRecord.swapStatus)) return
 
       try {
-        const { status, ...response } = await swapServiceHelper.getStatus(swapRecord.swapId)
-        const updatedSwapRecord: TSwapRecord = { ...swapRecord, ...response, swapStatus: status }
+        const response = await swapServiceHelper.getStatus(swapRecord.swapId)
+        const { status, log } = response
+        let { txFrom, txTo } = response
+
+        if (!txFrom) txFrom = swapRecord.txFrom
+        if (!txTo) txTo = swapRecord.txTo
+
+        const updatedSwapRecord: TSwapRecord = { ...swapRecord, txFrom, txTo, swapStatus: status, log }
 
         setSwapRecord(updatedSwapRecord)
         dispatch(authReducerActions.persistSwapRecord(updatedSwapRecord))
