@@ -1217,6 +1217,7 @@ interface Resources {
       }
       form: {
         title: 'What tokens do you want to swap?'
+        restart: 'Restart'
         swapFromTitle: 'Swap this...'
         swapToTitle: 'For this...'
         balanceLabel: 'Balance'
