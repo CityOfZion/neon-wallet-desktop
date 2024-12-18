@@ -57,7 +57,7 @@ export const GreyAccountSelect = ({
   }
 
   return (
-    <Select.Root open={open} onOpenChange={setOpen} value={selectedAccount?.id} onValueChange={handleChangeValue}>
+    <Select.Root open={open} onOpenChange={setOpen} value={selectedAccount?.id ?? ''} onValueChange={handleChangeValue}>
       {children ? (
         <Select.RawTrigger asChild disabled={isDisabled}>
           {children}

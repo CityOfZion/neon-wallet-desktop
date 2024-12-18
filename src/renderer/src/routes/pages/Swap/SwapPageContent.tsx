@@ -1,6 +1,6 @@
 import { ChangeEvent, Fragment, useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { MdArrowForward, MdInfoOutline } from 'react-icons/md'
+import { MdArrowForward, MdInfoOutline, MdRestartAlt } from 'react-icons/md'
 import { TbArrowDown, TbStepInto, TbStepOut, TbUsers, TbWallet } from 'react-icons/tb'
 import { VscCircleFilled } from 'react-icons/vsc'
 import {
@@ -81,16 +81,11 @@ export const SwapPageContent = ({ account }: TProps) => {
     return chainsByServiceName
   }, [networkByBlockchain])
 
-  const swapServiceRef = useRef<SimpleSwapService<TBlockchainServiceKey>>(
-    new SimpleSwapService({
-      blockchainServicesByName: bsAggregator.blockchainServicesByName,
-      chainsByServiceName: swapChainsByServiceName,
-    })
-  )
+  const swapServiceRef = useRef<SimpleSwapService<TBlockchainServiceKey>>()
 
   const { actionData, actionState, setData, setError, clearErrors, reset, handleAct } = useActions<TActionsData>(
     {
-      availableTokensToUse: { loading: true, value: null },
+      availableTokensToUse: { loading: true, value: [] },
       selectedTokenToUse: { loading: false, value: null },
       selectedAccountToUse: { loading: false, value: null, valid: null },
       selectedAmountToUse: { loading: false, value: null },
@@ -124,6 +119,59 @@ export const SwapPageContent = ({ account }: TProps) => {
       tokenBalance => UtilsHelper.normalizeHash(tokenBalance.token.hash) === tokenHash
     )
   }, [actionData.selectedTokenToUse.value, balanceQuery.data, service])
+
+  const initializeOrRestartSwapService = () => {
+    reset()
+
+    const swapService = new SimpleSwapService({
+      blockchainServicesByName: bsAggregator.blockchainServicesByName,
+      chainsByServiceName: swapChainsByServiceName,
+    })
+
+    swapService.eventEmitter.on('availableTokensToUse', availableTokensToUse => {
+      setData({ availableTokensToUse })
+    })
+
+    swapService.eventEmitter.on('tokenToUse', tokenToUse => {
+      setData({ selectedTokenToUse: tokenToUse })
+    })
+
+    swapService.eventEmitter.on('accountToUse', accountToUse => {
+      const account = accountToUse.value
+        ? accountsRef.current.find(AccountHelper.predicate(accountToUse.value!))
+        : undefined
+
+      setData({ selectedAccountToUse: { ...accountToUse, value: account ?? null } })
+    })
+
+    swapService.eventEmitter.on('amountToUse', amountToUse => {
+      setData({ selectedAmountToUse: amountToUse })
+    })
+
+    swapService.eventEmitter.on('availableTokensToReceive', availableTokensToReceive => {
+      setData({ availableTokensToReceive: availableTokensToReceive })
+    })
+
+    swapService.eventEmitter.on('tokenToReceive', tokenToReceive => {
+      setData({ selectedTokenToReceive: tokenToReceive })
+    })
+
+    swapService.eventEmitter.on('amountToReceive', amountToReceive => {
+      setData({ selectedAmountToReceive: amountToReceive })
+    })
+
+    swapService.eventEmitter.on('addressToReceive', addressToReceive => {
+      setData({ selectedAddressToReceive: addressToReceive })
+    })
+
+    swapService.eventEmitter.on('amountToUseMinMax', amountToUseMinMax => {
+      setData({ selectAmountToUseMinMax: amountToUseMinMax })
+    })
+
+    swapServiceRef.current = swapService
+
+    swapService.init()
+  }
 
   const handleSelectTokenToUse = (token: SwapServiceToken<TBlockchainServiceKey>) => {
     swapServiceRef.current.setTokenToUse(token)
@@ -226,59 +274,13 @@ export const SwapPageContent = ({ account }: TProps) => {
         },
       })
 
-      reset()
+      initializeOrRestartSwapService()
     }
   }
 
-  useEffect(() => {
-    const swapService = swapServiceRef.current
-
-    swapService.eventEmitter.on('availableTokensToUse', availableTokensToUse => {
-      setData({ availableTokensToUse })
-    })
-
-    swapService.eventEmitter.on('tokenToUse', tokenToUse => {
-      setData({ selectedTokenToUse: tokenToUse })
-    })
-
-    swapService.eventEmitter.on('accountToUse', accountToUse => {
-      const account = accountToUse.value
-        ? accountsRef.current.find(AccountHelper.predicate(accountToUse.value!))
-        : undefined
-
-      setData({ selectedAccountToUse: { ...accountToUse, value: account ?? null } })
-    })
-
-    swapService.eventEmitter.on('amountToUse', amountToUse => {
-      setData({ selectedAmountToUse: amountToUse })
-    })
-
-    swapService.eventEmitter.on('availableTokensToReceive', availableTokensToReceive => {
-      setData({ availableTokensToReceive: availableTokensToReceive })
-    })
-
-    swapService.eventEmitter.on('tokenToReceive', tokenToReceive => {
-      setData({ selectedTokenToReceive: tokenToReceive })
-    })
-
-    swapService.eventEmitter.on('amountToReceive', amountToReceive => {
-      setData({ selectedAmountToReceive: amountToReceive })
-    })
-
-    swapService.eventEmitter.on('addressToReceive', addressToReceive => {
-      setData({ selectedAddressToReceive: addressToReceive })
-    })
-
-    swapService.eventEmitter.on('amountToUseMinMax', amountToUseMinMax => {
-      setData({ selectAmountToUseMinMax: amountToUseMinMax })
-    })
-
-    swapService.init()
-
-    return () => {
-      swapService.eventEmitter.removeAllListeners()
-    }
-  }, [accountsRef, setData])
+  const removeSwapServiceListeners = () => {
+    swapServiceRef.current?.eventEmitter.removeAllListeners()
+  }
 
   useEffect(() => {
     if (balanceQuery.isLoading) return
@@ -417,6 +419,15 @@ export const SwapPageContent = ({ account }: TProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account])
 
+  useEffect(() => {
+    initializeOrRestartSwapService()
+
+    return () => {
+      removeSwapServiceListeners()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <section className="flex rounded bg-gray-700/60 flex-grow min-h-0">
       <div className="flex flex-col w-72 bg-gray-900/50 px-4 border-r border-gray-300/15">
@@ -437,7 +448,18 @@ export const SwapPageContent = ({ account }: TProps) => {
       </div>
 
       <div className="min-h-0 flex-grow flex flex-col px-4  text-sm items-center">
-        <h2 className="text-white w-full my-3 text-sm">{t('form.title')}</h2>
+        <div className="w-full flex items-center justify-between gap-2">
+          <h2 className="text-white w-full my-3 text-sm">{t('form.title')}</h2>
+
+          <Button
+            label={t('form.restart')}
+            variant="text-slim"
+            colorSchema="neon"
+            leftIcon={<MdRestartAlt aria-hidden={true} className="w-5 h-5 min-w-5 min-h-5" />}
+            disabled={actionData.availableTokensToUse.loading}
+            onClick={initializeOrRestartSwapService}
+          />
+        </div>
 
         <Separator />
 
@@ -452,7 +474,7 @@ export const SwapPageContent = ({ account }: TProps) => {
               leftIcon={<VscCircleFilled className="text-gray-300 w-2 h-2" />}
             >
               <GreyTokenSelect
-                tokens={actionData.availableTokensToUse.value ?? []}
+                tokens={actionData.availableTokensToUse.value}
                 loading={actionData.availableTokensToUse.loading}
                 onSelect={handleSelectTokenToUse}
                 selectedToken={actionData.selectedTokenToUse.value ?? undefined}

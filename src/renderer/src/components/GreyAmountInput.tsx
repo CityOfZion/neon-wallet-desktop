@@ -19,7 +19,7 @@ export const GreyAmountInput = ({ onChange, value, disabled, loading, className,
   return (
     <div
       className={StyleHelper.mergeStyles(
-        'h-8.5 bg-gray-300/15 rounded w-28 aria-disabled:opacity-50 aria-disabled:cursor-not-allowed items-center justify-center flex text-sm',
+        'h-8.5 bg-gray-300/15 rounded w-32 aria-disabled:opacity-50 aria-disabled:cursor-not-allowed items-center justify-center flex text-sm',
         className
       )}
       aria-disabled={isDisabled}
