@@ -26,6 +26,7 @@ import { TransactionFeeActionStep } from '@renderer/components/TransactionFeeAct
 import { SWAP_NETWORK_BY_BLOCKCHAIN_AND_NETWORK_ID } from '@renderer/constants/swap'
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
+import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
@@ -168,9 +169,17 @@ export const SwapPageContent = ({ account }: TProps) => {
       setData({ selectAmountToUseMinMax: amountToUseMinMax })
     })
 
+    swapService.eventEmitter.on('error', error => {
+      ToastHelper.error({ message: error, duration: 6000 })
+    })
+
     swapServiceRef.current = swapService
 
     swapService.init()
+  }
+
+  const removeSwapServiceListeners = () => {
+    swapServiceRef.current?.eventEmitter.removeAllListeners()
   }
 
   const handleSelectTokenToUse = (token: SwapServiceToken<TBlockchainServiceKey>) => {
@@ -276,10 +285,6 @@ export const SwapPageContent = ({ account }: TProps) => {
 
       initializeOrRestartSwapService()
     }
-  }
-
-  const removeSwapServiceListeners = () => {
-    swapServiceRef.current?.eventEmitter.removeAllListeners()
   }
 
   useEffect(() => {
