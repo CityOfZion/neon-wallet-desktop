@@ -36,8 +36,6 @@ export const GreyAccountSelect = ({
 
   const [open, setOpen] = useState(false)
 
-  const isDisabled = loading || disabled
-
   const filteredAccounts = useMemo(() => {
     let filtered = accountsWithWallet.filter(account => account.type !== 'watch')
 
@@ -47,6 +45,8 @@ export const GreyAccountSelect = ({
 
     return filtered
   }, [blockchains, accountsWithWallet])
+
+  const isDisabled = loading || disabled || filteredAccounts.length === 0
 
   const handleChangeValue = (value: string) => {
     const account = accountsWithWallet.find(account => account.id === value)
