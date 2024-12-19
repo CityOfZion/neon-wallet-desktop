@@ -1256,6 +1256,9 @@ interface Resources {
           insufficientFunds: "You don't have enough balance"
           insufficientFundsFee: "You don't have enough balance to pay the fee"
         }
+        hints: {
+          enterValidAddress: 'Enter a valid address'
+        }
       }
     }
   }

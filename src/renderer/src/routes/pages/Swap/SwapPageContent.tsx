@@ -32,10 +32,11 @@ import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useBalance } from '@renderer/hooks/useBalances'
+import { useHasContactsByBlockchain } from '@renderer/hooks/useContactSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useSelectedNetworkByBlockchainSelector } from '@renderer/hooks/useSettingsSelector'
-import { bsAggregator } from '@renderer/libs/blockchainService'
+import { bsAggregator, doesBlockchainSupported } from '@renderer/libs/blockchainService'
 import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { IAccountState, TContactAddress, TSwapRecord } from '@shared/@types/store'
@@ -101,6 +102,14 @@ export const SwapPageContent = ({ account }: TProps) => {
     { clearErrorsOnChange: false }
   )
 
+  const tokenToReceiveBlockchain = actionData.selectedTokenToReceive.value?.blockchain
+
+  const { hasContactsByBlockchain } = useHasContactsByBlockchain(tokenToReceiveBlockchain)
+
+  const isContactsAndAccountsSelectionDisabled = tokenToReceiveBlockchain
+    ? !doesBlockchainSupported(tokenToReceiveBlockchain)
+    : true
+
   const balanceQuery = useBalance(actionData.selectedAccountToUse.value ?? undefined)
 
   const service = useMemo(
@@ -130,6 +139,8 @@ export const SwapPageContent = ({ account }: TProps) => {
     })
 
     swapService.eventEmitter.on('availableTokensToUse', availableTokensToUse => {
+      if (!availableTokensToUse.value) availableTokensToUse.value = []
+
       setData({ availableTokensToUse })
     })
 
@@ -480,7 +491,7 @@ export const SwapPageContent = ({ account }: TProps) => {
             >
               <GreyTokenSelect
                 tokens={actionData.availableTokensToUse.value}
-                loading={actionData.availableTokensToUse.loading}
+                loading={actionData.availableTokensToUse.loading || actionData.selectedTokenToUse.loading}
                 onSelect={handleSelectTokenToUse}
                 selectedToken={actionData.selectedTokenToUse.value ?? undefined}
                 balance={balanceQuery.data}
@@ -576,23 +587,30 @@ export const SwapPageContent = ({ account }: TProps) => {
                     onClick={modalNavigateWrapper('select-contact', {
                       state: {
                         onSelectContact: handleSelectContactToReceive,
+                        blockchain: tokenToReceiveBlockchain,
                       },
                     })}
                     compacted
-                    disabled={!actionData.selectedTokenToReceive.value}
+                    disabled={isContactsAndAccountsSelectionDisabled || !hasContactsByBlockchain}
                   />
                 }
                 loading={actionData.selectedAddressToReceive.loading}
                 errorMessage={
                   actionData.selectedAddressToReceive.valid === false ? t('form.errors.invalidAddress') : undefined
                 }
+                hint={
+                  actionData.selectedTokenToReceive.value && isContactsAndAccountsSelectionDisabled
+                    ? t('form.hints.enterValidAddress')
+                    : undefined
+                }
                 disabled={!actionData.selectedTokenToReceive.value}
               />
 
               <GreyAccountSelect
-                onSelect={handleSelectAccountToReceive}
                 withoutIndicator
-                disabled={!actionData.selectedTokenToReceive.value}
+                blockchains={tokenToReceiveBlockchain ? [tokenToReceiveBlockchain] : undefined}
+                disabled={isContactsAndAccountsSelectionDisabled}
+                onSelect={handleSelectAccountToReceive}
               >
                 <Button
                   colorSchema="neon"

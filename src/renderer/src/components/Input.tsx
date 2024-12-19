@@ -3,6 +3,7 @@ import { MdCancel, MdContentCopy, MdContentPasteGo, MdVisibility, MdVisibilityOf
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+import { match, P } from 'ts-pattern'
 
 import { IconButton } from './IconButton'
 import { Loader } from './Loader'
@@ -12,6 +13,7 @@ export type TInputProps = Omit<React.ComponentProps<'input'>, 'type' | 'ref'> & 
   contentClassName?: string
   errorMessage?: string
   error?: boolean
+  hint?: string
   clearable?: boolean
   compacted?: boolean
   copyable?: boolean
@@ -33,6 +35,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
       type,
       errorMessage,
       error,
+      hint,
       compacted,
       clearable,
       pastable,
@@ -195,11 +198,18 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
           </div>
         </div>
 
-        {errorMessage && (
-          <span className="block mt-1 text-xs text-pink" {...TestHelper.buildTestObject(testId, 'error')}>
-            {errorMessage}
-          </span>
-        )}
+        {match({ errorMessage, hint })
+          .with({ errorMessage: P.when(value => !!value && typeof value === 'string') }, () => (
+            <span className="block mt-1 text-xs text-pink" {...TestHelper.buildTestObject(testId, 'error')}>
+              {errorMessage}
+            </span>
+          ))
+          .with({ hint: P.when(value => !!value && typeof value === 'string') }, () => (
+            <span className="block mt-1 text-xs text-gray-300" {...TestHelper.buildTestObject(testId, 'hint')}>
+              {hint}
+            </span>
+          ))
+          .otherwise(() => null)}
       </div>
     )
   }
