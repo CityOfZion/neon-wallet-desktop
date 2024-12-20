@@ -49,6 +49,10 @@ const connectHardwareWallet = async () => {
     }
   }
 
+  if (transporters.some(transport => transport.blockchain === 'neoLegacy')) {
+    transporters = transporters.filter(transport => transport.blockchain === 'neoLegacy')
+  }
+
   if (!transporters.length) {
     transport.close()
     throw new Error('Transport is open but it was not possible to identify the blockchain')
