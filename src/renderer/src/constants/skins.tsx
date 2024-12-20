@@ -1,3 +1,4 @@
+import CozFaceDecember2024 from '@renderer/assets/skins/coz-face-december-2024.png'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 
 type TAccountColorSkin = {
@@ -22,6 +23,13 @@ export const ACCOUNT_COLOR_SKINS: TAccountColorSkin[] = [
   { id: 'orange', color: 'bg-[#FE872F]' },
 ]
 
-export const ACCOUNT_LOCAL_SKINS: TLocalSkin[] = []
+export const ACCOUNT_LOCAL_SKINS: TLocalSkin[] = [
+  {
+    id: 'coz-face-december-2024',
+    blockchain: 'neo3',
+    component: <img src={CozFaceDecember2024} alt="" />,
+    unlockedContractHash: '0x76a8f8a7a901b29a33013b469949f4b08db15756',
+  },
+]
 
 export const LOCAL_SKINS: TLocalSkin[] = [...ACCOUNT_LOCAL_SKINS]

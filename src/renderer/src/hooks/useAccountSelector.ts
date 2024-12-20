@@ -14,6 +14,10 @@ const selectAccounts = createAppSelector(
   }
 )
 
+const selectOwnAccounts = createAppSelector(selectAccounts, accounts =>
+  accounts.filter(account => account.type !== 'watch')
+)
+
 const selectHasHardwareAccount = createAppSelector(
   [state => state.auth.data.applicationDataByLoginType, state => state.auth.currentLoginSession],
   (applicationDataByLoginType, currentLoginSession) => {
@@ -50,6 +54,15 @@ export const useAccountsSelector = () => {
   return {
     accounts: value,
     accountsRef: ref,
+  }
+}
+
+export const useOwnAccountsSelector = () => {
+  const { value: ownAccounts, ref: ownAccountsRef } = useAppSelector(selectOwnAccounts)
+
+  return {
+    ownAccounts,
+    ownAccountsRef,
   }
 }
 
