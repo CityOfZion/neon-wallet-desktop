@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next'
 import { BACKUP_FILE_EXTENSION, BACKUP_VERSION, DEPRECATED_BACKUP_FILE_EXTENSION } from '@renderer/constants/backup'
-import { ACCOUNT_COLOR_SKINS } from '@renderer/constants/skins'
 import { DateHelper } from '@renderer/helpers/DateHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { doesBlockchainSupported } from '@renderer/libs/blockchainService'
@@ -13,7 +12,6 @@ import {
   IWalletState,
   TAccountType,
   TContactAddress,
-  TNftSkin,
   TSkin,
   TSwapRecord,
 } from '@shared/@types/store'
@@ -55,7 +53,6 @@ export const backupAccountSchema = zod.object({
   key: zod.string().optional(),
   order: zod.number(),
   skin: backupAccountSkinSchema,
-  lastNftSkin: backupAccountSkinSchema.optional(),
 })
 
 export const backupWalletSchema = zod.object({
@@ -112,7 +109,7 @@ const fixAccountProperties = (
     backupAccount.type === 'ledger' || backupAccount.type === 'hardware' ? 'watch' : backupAccount.type
 
   if (!backupAccount.skin || UtilsHelper.isHexadecimal(backupAccount.skin.id))
-    backupAccount.skin = { id: ACCOUNT_COLOR_SKINS[UtilsHelper.getRandomNumber(7)].id, type: 'color' }
+    backupAccount.skin = UtilsHelper.generateColorSkin()
 
   return {
     address: backupAccount.address,
@@ -122,7 +119,6 @@ const fixAccountProperties = (
     name: backupAccount.name,
     order: backupAccount.order,
     skin: backupAccount.skin as TSkin,
-    lastNftSkin: backupAccount.lastNftSkin as TNftSkin,
     type,
   }
 }

@@ -13,16 +13,18 @@ import { cloneDeep } from 'lodash'
 import { createMigrate, getStoredState, PersistConfig, PersistedState, PURGE } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
+type TApplicationDataByLoginType = {
+  [K in TLoginSessionType]: {
+    wallets: IWalletState[]
+  }
+}
+
 export interface IAuthReducer {
   currentLoginSession?: TLoginSession
   pendingTransactions: TUseTransactionsTransfer[]
   data: {
     swapRecords: TSwapRecord[]
-    applicationDataByLoginType: {
-      [K in TLoginSessionType]: {
-        wallets: IWalletState[]
-      }
-    }
+    applicationDataByLoginType: TApplicationDataByLoginType
   }
 }
 
@@ -73,6 +75,20 @@ const authReducerMigrations = {
       data: {
         ...state.data,
         swapRecords: [],
+        applicationDataByLoginType: {
+          ...state.data.applicationDataByLoginType,
+          password: {
+            ...state.data.applicationDataByLoginType.password,
+            wallets: state.data.applicationDataByLoginType.password.wallets.map((wallet: any) => ({
+              ...wallet,
+              accounts: wallet.accounts.map((account: any) => {
+                delete account.lastNftSkin
+
+                return account
+              }),
+            })),
+          },
+        },
       },
     }
   },
@@ -256,6 +272,19 @@ const persistSwapRecord: CaseReducer<IAuthReducer, PayloadAction<TSwapRecord>> =
   state.data.swapRecords[index] = swapRecord
 }
 
+const removeAccountSkins: CaseReducer<IAuthReducer, PayloadAction<string[]>> = (state, action) => {
+  const invalidSkinIds = action.payload
+  const applicationDataByLoginTypeCloned = cloneDeep(state.data.applicationDataByLoginType)
+
+  applicationDataByLoginTypeCloned[state.currentLoginSession?.type]?.wallets?.forEach((wallet: any) =>
+    wallet.accounts.forEach((account: any) => {
+      if (invalidSkinIds.includes(account.skin.id)) account.skin = UtilsHelper.generateColorSkin()
+    })
+  )
+
+  state.data.applicationDataByLoginType = applicationDataByLoginTypeCloned
+}
+
 const AuthReducer = createSlice({
   name: authReducerConfig.key,
   initialState,
@@ -267,6 +296,7 @@ const AuthReducer = createSlice({
     setCurrentLoginSession,
     resetTemporaryApplicationData,
     persistSwapRecord,
+    removeAccountSkins,
   },
   extraReducers: builder => {
     builder.addCase(PURGE, () => initialState)

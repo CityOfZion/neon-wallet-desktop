@@ -5,15 +5,15 @@ import { hasNft } from '@cityofzion/blockchain-service'
 import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
 import { LOCAL_SKINS } from '@renderer/constants/skins'
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
-import { NetworkHelper } from '@renderer/helpers/NetworkHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { bsAggregator } from '@renderer/libs/blockchainService'
+import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
 import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
 import { IAccountState } from '@shared/@types/store'
 
-import { useAccountsSelector } from './useAccountSelector'
+import { useAccountsSelector, useOwnAccountsSelector } from './useAccountSelector'
 import { useCurrentLoginSessionSelector } from './useAuthSelector'
 import { useBlockchainActions } from './useBlockchainActions'
 import { useLogin } from './useLogin'
@@ -193,50 +193,55 @@ const useRegisterDeeplinkListeners = () => {
   }, [commonWc, modalNavigate, navigate])
 }
 
-const useUnlockedSkins = () => {
-  const { unlockedSkinIdsRef } = useUnlockedSkinIdsSelector()
-  const { accounts } = useAccountsSelector()
-  const { networkByBlockchainRef } = useSelectedNetworkByBlockchainSelector()
+const useUnlockSkins = () => {
   const dispatch = useAppDispatch()
+  const { unlockedSkinIds } = useUnlockedSkinIdsSelector()
+  const { ownAccounts } = useOwnAccountsSelector()
 
-  const unlockSkins = useCallback(async () => {
+  const unlockSkins = async () => {
+    const skinIds = new Set<string>([])
+
     await Promise.allSettled(
       LOCAL_SKINS.map(async skin => {
-        if (
-          unlockedSkinIdsRef.current.includes(skin.id) ||
-          !NetworkHelper.isMainnet(skin.blockchain, networkByBlockchainRef.current[skin.blockchain])
-        )
-          return
-
-        await Promise.allSettled(
-          accounts.map(async account => {
-            if (account.type === 'watch') return
-
+        for (const account of ownAccounts) {
+          try {
             const service = bsAggregator.blockchainServicesByName[account.blockchain]
-            if (!hasNft(service)) return
+
+            if (account.blockchain !== skin.blockchain || !hasNft(service)) continue
 
             const hasToken = await service.nftDataService.hasToken({
-              contractHash: skin.unlockedContractHash,
               address: account.address,
+              contractHash: skin.unlockedContractHash,
             })
 
-            if (hasToken) {
-              dispatch(settingsReducerActions.unlockSkin(skin.id))
-            }
-          })
-        )
+            if (!hasToken) continue
+
+            skinIds.add(skin.id)
+
+            break
+          } catch {
+            /* empty */
+          }
+        }
       })
     )
-  }, [accounts, dispatch, networkByBlockchainRef, unlockedSkinIdsRef])
+
+    const invalidSkinIds = unlockedSkinIds.filter(skinId => !skinIds.has(skinId))
+
+    dispatch(settingsReducerActions.setUnlockedSkinIds([...skinIds]))
+    dispatch(authReducerActions.removeAccountSkins(invalidSkinIds))
+  }
 
   useEffect(() => {
     unlockSkins()
-  }, [unlockSkins])
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 }
 
 export const useAfterLogin = () => {
   useRegisterWalletConnectListeners()
   useRegisterHardwareWalletListeners()
   useRegisterDeeplinkListeners()
-  useUnlockedSkins()
+  useUnlockSkins()
 }

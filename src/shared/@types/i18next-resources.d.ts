@@ -322,7 +322,7 @@ interface Resources {
       inputPlaceholder: 'Enter your account name...'
       inputSubtitle: 'It could be helpful to name your account with a label related to what you want to use the account for (such as ‘Investments’ or ‘Trading’).'
       selectBlockchainDescription: 'Please select which chain you would like to use for this account.'
-      colorSelectorLabel: 'Select an account colour'
+      skinSelectorLabel: 'Select an account skin'
       saveButtonLabel: 'Save'
       nextButtonLabel: 'Next'
       cancelButtonLabel: 'Cancel'

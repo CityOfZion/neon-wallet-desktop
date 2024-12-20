@@ -10,12 +10,18 @@ export type TNftSkin = {
   type: 'nft'
   imgUrl: string
 }
-export type TColorOrLocalSkin = {
+
+export type TColorSkin = {
   id: string
-  type: 'local' | 'color'
+  type: 'color'
 }
 
-export type TSkin = TColorOrLocalSkin | TNftSkin
+export type TLocalSkin = {
+  id: string
+  type: 'local'
+}
+
+export type TSkin = TColorSkin | TLocalSkin | TNftSkin
 export interface IAccountState {
   id: string
   address: string
@@ -26,7 +32,6 @@ export interface IAccountState {
   encryptedKey?: string
   order: number
   skin: TSkin
-  lastNftSkin?: TNftSkin
 }
 export interface IWalletState {
   id: string

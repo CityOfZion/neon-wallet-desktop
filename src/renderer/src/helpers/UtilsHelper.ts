@@ -1,5 +1,7 @@
 import { getI18n } from 'react-i18next'
 import { AVAILABLE_RANDOM_COLORS, MANDATORY_TOKEN_COLORS } from '@renderer/constants/colors'
+import { ACCOUNT_COLOR_SKINS } from '@renderer/constants/skins'
+import { TColorSkin } from '@shared/@types/store'
 import _ from 'lodash'
 import * as uuid from 'uuid'
 
@@ -221,5 +223,15 @@ export class UtilsHelper {
 
   static isHexadecimal(hexadecimal: string) {
     return /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(hexadecimal)
+  }
+
+  static getSkinColor(index?: number) {
+    const newIndex = index ?? UtilsHelper.getRandomNumber(7)
+
+    return ACCOUNT_COLOR_SKINS[newIndex]?.id ?? ACCOUNT_COLOR_SKINS[0].id
+  }
+
+  static generateColorSkin(colorIndex?: number): TColorSkin {
+    return { id: UtilsHelper.getSkinColor(colorIndex), type: 'color' }
   }
 }

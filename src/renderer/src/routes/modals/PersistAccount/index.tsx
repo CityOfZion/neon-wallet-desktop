@@ -4,7 +4,7 @@ import { TbPencil, TbPlus } from 'react-icons/tb'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
-import { ACCOUNT_COLOR_SKINS } from '@renderer/constants/skins'
+import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useActions } from '@renderer/hooks/useActions'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useHardwareWalletActions } from '@renderer/hooks/useHardwareWallet'
@@ -13,14 +13,13 @@ import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { IAccountState, IWalletState, TNftSkin, TSkin } from '@shared/@types/store'
+import { IAccountState, IWalletState, TSkin } from '@shared/@types/store'
 
 import { SkinSelector } from './SkinSelector'
 
 type TFormData = {
   name: string
   skin: TSkin
-  lastNftSkin?: TNftSkin
 }
 
 type TLocationState = {
@@ -39,15 +38,14 @@ export const PersistAccountModal = () => {
 
   const { actionData, actionState, handleAct, setDataFromEventWrapper, setData, setError } = useActions<TFormData>({
     name: account ? account.name : '',
-    skin: account ? account.skin : { id: ACCOUNT_COLOR_SKINS[0].id, type: 'color' },
-    lastNftSkin: account ? account.lastNftSkin : undefined,
+    skin: account ? account.skin : UtilsHelper.generateColorSkin(0),
   })
 
   const handleSelectColorSkin = (skin: TSkin) => {
     setData({ skin })
   }
 
-  const handleSubmit = async ({ name, skin, lastNftSkin }: TFormData) => {
+  const handleSubmit = async ({ name, skin }: TFormData) => {
     const nameTrimmed = name.trim()
     if (nameTrimmed.length === 0) {
       setError('name', t('nameLengthError'))
@@ -55,7 +53,7 @@ export const PersistAccountModal = () => {
     }
 
     if (account) {
-      dispatch(authReducerActions.saveAccount({ ...account, name: nameTrimmed, skin, lastNftSkin }))
+      dispatch(authReducerActions.saveAccount({ ...account, name: nameTrimmed, skin }))
       modalNavigate(-1)
 
       return
@@ -116,14 +114,15 @@ export const PersistAccountModal = () => {
           </div>
 
           <SkinSelector
-            label={t('colorSelectorLabel')}
+            label={t('skinSelectorLabel')}
             onSelectSkin={handleSelectColorSkin}
             selectedSkin={actionData.skin}
+            account={account}
           />
         </div>
 
         <Button
-          className="w-full"
+          className="w-full mt-6"
           type="submit"
           label={account ? t('saveButtonLabel') : t('nextButtonLabel')}
           flat

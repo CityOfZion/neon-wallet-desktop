@@ -1,7 +1,6 @@
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
-import { ACCOUNT_COLOR_SKINS } from '@renderer/constants/skins'
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
@@ -88,8 +87,7 @@ export function useBlockchainActions() {
         idWallet: wallet.id,
         name,
         blockchain,
-        skin: skin ?? { type: 'color', id: ACCOUNT_COLOR_SKINS[UtilsHelper.getRandomNumber(7)].id },
-        lastNftSkin: skin?.type === 'nft' ? skin : undefined,
+        skin: skin ?? UtilsHelper.generateColorSkin(),
         address: generatedAccount.address,
         type: 'standard',
         encryptedKey,
@@ -126,8 +124,7 @@ export function useBlockchainActions() {
         idWallet: wallet.id,
         name: name ?? t('defaultName', { accountNumber: accountOrder + 1 }),
         blockchain,
-        skin: skin ?? { type: 'color', id: ACCOUNT_COLOR_SKINS[UtilsHelper.getRandomNumber(7)].id },
-        lastNftSkin: skin?.type === 'nft' ? skin : undefined,
+        skin: skin ?? UtilsHelper.generateColorSkin(),
         address,
         type,
         encryptedKey,

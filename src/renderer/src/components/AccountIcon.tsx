@@ -1,5 +1,6 @@
 import { cloneElement } from 'react'
 import { ACCOUNT_COLOR_SKINS, ACCOUNT_LOCAL_SKINS } from '@renderer/constants/skins'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { IAccountState, TNftSkin } from '@shared/@types/store'
 
 import { BlockchainIcon } from './BlockchainIcon'
@@ -7,43 +8,70 @@ type TProps = {
   account: IAccountState
 }
 
+type TAccountBlockchainCircleProps = {
+  blockchain: TBlockchainServiceKey
+}
+
+const AccountBlockchainCircle = ({ blockchain }: TAccountBlockchainCircleProps) => (
+  <div className="w-4.5 h-4.5 flex items-center justify-center relative">
+    <div className="w-full h-full rounded-full bg-asphalt mix-blend-overlay absolute" />
+
+    <BlockchainIcon blockchain={blockchain} type="white" className="w-2.5 h-2.5" />
+  </div>
+)
+
 const AccountIconColor = ({ account }: TProps) => {
-  const bgColor = ACCOUNT_COLOR_SKINS.find(({ id }) => id === account.skin.id)?.color ?? ACCOUNT_COLOR_SKINS[0].color
+  const color = ACCOUNT_COLOR_SKINS.find(({ id }) => id === account.skin.id)?.color
+
+  if (!color) return null
 
   return (
-    <div className={`w-full h-full flex items-center justify-center relative ${bgColor}`}>
-      <div className="w-3.5 h-3.5 flex items-center justify-center relative">
-        <div className="w-full h-full rounded-full bg-asphalt mix-blend-overlay absolute" />
-        <BlockchainIcon blockchain={account.blockchain} type="white" className="w-2 h-2" />
-      </div>
+    <div className={`flex w-full h-full items-center justify-center relative ${color}`}>
+      <AccountBlockchainCircle blockchain={account.blockchain} />
     </div>
   )
 }
 
 const AccountIconNFT = ({ account }: TProps) => {
-  const skin = account.skin as TNftSkin
+  const imgUrl = (account.skin as TNftSkin)?.imgUrl
+
+  if (!imgUrl) return null
+
   return (
-    <div className="w-full h-full relative bg-gray-300/30">
-      <img src={skin.imgUrl} className="w-full h-full object-cover" />
+    <div className="flex w-full h-full items-center justify-center relative bg-gray-300/30">
+      <img aria-hidden={true} src={imgUrl} alt="" className="w-full h-full object-cover absolute inset-0 m-auto" />
+
+      <AccountBlockchainCircle blockchain={account.blockchain} />
     </div>
   )
 }
 
 const AccountIconLocal = ({ account }: TProps) => {
-  const component = ACCOUNT_LOCAL_SKINS.find(it => it.id === account.skin.id)!.component
+  const component = ACCOUNT_LOCAL_SKINS.find(({ id }) => id === account.skin.id)?.component
 
-  return <div className="w-full h-full relative">{cloneElement(component, { className: 'w-full h-full' })}</div>
+  if (!component) return null
+
+  return (
+    <div className="flex w-full h-full items-center justify-center relative">
+      {cloneElement(component, {
+        'aria-hidden': true,
+        className: 'w-full h-full object-cover absolute inset-0 m-auto',
+      })}
+
+      <AccountBlockchainCircle blockchain={account.blockchain} />
+    </div>
+  )
 }
 
 export const AccountIcon = ({ account }: TProps) => {
   return (
-    <div className="w-7 h-5 rounded-sm shadow-sm overflow-hidden">
-      {account.skin.type === 'color' ? (
-        <AccountIconColor account={account} />
-      ) : account.skin.type === 'nft' ? (
+    <div className="w-10 h-6 min-w-10 min-h-6 min-w-10 max-h-6 rounded-sm shadow-sm overflow-hidden">
+      {account.skin.type === 'nft' ? (
         <AccountIconNFT account={account} />
-      ) : (
+      ) : account.skin.type === 'local' ? (
         <AccountIconLocal account={account} />
+      ) : (
+        <AccountIconColor account={account} />
       )}
     </div>
   )
