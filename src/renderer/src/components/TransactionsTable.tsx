@@ -134,7 +134,7 @@ export const TransactionsTable = forwardRef<HTMLDivElement, TTransactionListProp
           .filter(transaction => accounts.some(AccountHelper.predicate(transaction.account)))
           .concat(aggregatedData),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [accounts, pendingTransactions, aggregatedData.length]
+      [accounts, pendingTransactions, aggregatedData, aggregatedData.length]
     )
 
     const table = useReactTable({
