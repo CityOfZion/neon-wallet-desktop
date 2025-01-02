@@ -1,4 +1,5 @@
-import { BlockchainService, waitForTransaction } from '@cityofzion/blockchain-service'
+import { BlockchainService, waitForAccountTransaction } from '@cityofzion/blockchain-service'
+import { Account } from '@cityofzion/blockchain-service/dist/interfaces'
 import { CaseReducer, createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
@@ -216,27 +217,28 @@ const resetTemporaryApplicationData: CaseReducer<IAuthReducer> = state => {
   state.data.applicationDataByLoginType.key = { wallets: [] }
 }
 
-const addPendingTransaction = createAsyncThunk<
+const waitPendingTransaction = createAsyncThunk<
   void,
   {
     transaction: TUseTransactionsTransfer
     blockchainService: BlockchainService<TBlockchainServiceKey>
     network: TNetwork<TBlockchainServiceKey>
+    account: Account<TBlockchainServiceKey>
   }
->('auth/addPendingTransaction', async ({ transaction, blockchainService, network }) => {
-  const success = await waitForTransaction(blockchainService, transaction.hash)
+>('auth/waitPendingTransaction', async ({ transaction, blockchainService, network, account }) => {
+  const success = await waitForAccountTransaction(blockchainService, transaction.hash, account, 20)
 
   if (success) {
-    // Temporary solution to wait for the transaction to be indexed, we need to improve waitForTransaction method
-    await UtilsHelper.sleep(60000)
     ToastHelper.success({ message: t('pages:send.transactionCompleted') })
 
     queryClient.removeQueries({
       queryKey: buildQueryKeyTokenTransfer(transaction.account, network),
     })
+
     queryClient.removeQueries({
       queryKey: buildQueryKeyTokenTransferAggregate(),
     })
+
     queryClient.removeQueries({
       queryKey: buildQueryKeyBalance(transaction.account.address, transaction.account.blockchain, network),
     })
@@ -245,12 +247,13 @@ const addPendingTransaction = createAsyncThunk<
       queryClient.removeQueries({
         queryKey: buildQueryKeyBalance(transaction.toAccount.address, transaction.toAccount.blockchain, network),
       })
+
       queryClient.removeQueries({
         queryKey: buildQueryKeyTokenTransfer(transaction.toAccount, network),
       })
     }
   } else {
-    ToastHelper.error({ message: t('pages:send.transactionFailed') })
+    ToastHelper.error({ message: t('pages:send.transactionFailed'), duration: 4000 })
   }
 })
 
@@ -300,10 +303,10 @@ const AuthReducer = createSlice({
   },
   extraReducers: builder => {
     builder.addCase(PURGE, () => initialState)
-    builder.addCase(addPendingTransaction.pending, (state, action) => {
+    builder.addCase(waitPendingTransaction.pending, (state, action) => {
       state.pendingTransactions = [...state.pendingTransactions, action.meta.arg.transaction]
     })
-    builder.addCase(addPendingTransaction.fulfilled, (state, action) => {
+    builder.addCase(waitPendingTransaction.fulfilled, (state, action) => {
       state.pendingTransactions = state.pendingTransactions.filter(
         transaction => transaction.hash !== action.meta.arg.transaction.hash
       )
@@ -313,7 +316,7 @@ const AuthReducer = createSlice({
 
 export const authReducerActions = {
   ...AuthReducer.actions,
-  addPendingTransaction,
+  waitPendingTransaction,
 }
 
 export default AuthReducer.reducer

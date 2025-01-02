@@ -145,10 +145,11 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
       }
 
       dispatch(
-        authReducerActions.addPendingTransaction({
+        authReducerActions.waitPendingTransaction({
           transaction,
           blockchainService,
           network: networkByBlockchain[account.blockchain],
+          account: serviceAccount,
         })
       )
     } catch {

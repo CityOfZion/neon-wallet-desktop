@@ -190,11 +190,13 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
           toAccount: accountsRef.current.find(account => account.address === recipient.address),
           isPending: true,
         }
+
         dispatch(
-          authReducerActions.addPendingTransaction({
+          authReducerActions.waitPendingTransaction({
             transaction,
             blockchainService: fields.service,
             network: networkByBlockchain[fields.selectedAccount.blockchain],
+            account: fields.serviceAccount,
           })
         )
         return transaction
