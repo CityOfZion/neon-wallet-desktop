@@ -1,10 +1,20 @@
-import { BSEthereumConstants } from '@cityofzion/bs-ethereum'
+import { Network } from '@cityofzion/blockchain-service'
+import { BSEthereumConstants, BSEthereumNetworkId } from '@cityofzion/bs-ethereum'
 import { BSNeoLegacyConstants } from '@cityofzion/bs-neo-legacy'
 import { BSNeo3Constants } from '@cityofzion/bs-neo3'
 import { getI18next } from '@renderer/libs/i18next'
 import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
 
 const { t } = getI18next()
+
+const POLYGON_MAINNET_NETWORK_IDS = ['137']
+const POLYGON_TESTNET_NETWORK_IDS = ['1101', '80002']
+const POLYGON_NETWORK_IDS = [...POLYGON_MAINNET_NETWORK_IDS, ...POLYGON_TESTNET_NETWORK_IDS]
+const POLYGON_NETWORKS = BSEthereumConstants.ALL_NETWORKS.filter(({ id }) => POLYGON_NETWORK_IDS.includes(id))
+const NETWORK_IDS_BASED_ON_ETHEREUM = [...BSEthereumConstants.NEOX_NETWORK_IDS, ...POLYGON_NETWORK_IDS]
+
+const getOnlyEthereumNetworks = (allEthereumNetworks: Network<BSEthereumNetworkId>[]) =>
+  allEthereumNetworks.filter(({ id }) => !NETWORK_IDS_BASED_ON_ETHEREUM.includes(id))
 
 export const NETWORK_OPTIONS_BY_BLOCKCHAIN: Record<
   TBlockchainServiceKey,
@@ -25,18 +35,19 @@ export const NETWORK_OPTIONS_BY_BLOCKCHAIN: Record<
     testnet: BSNeoLegacyConstants.TESTNET_NETWORKS,
   },
   ethereum: {
-    all: BSEthereumConstants.ALL_NETWORKS.filter(({ id }) => !BSEthereumConstants.NEOX_NETWORK_IDS.includes(id)),
-    mainnet: BSEthereumConstants.MAINNET_NETWORKS.filter(
-      ({ id }) => !BSEthereumConstants.NEOX_NETWORK_IDS.includes(id)
-    ),
-    testnet: BSEthereumConstants.TESTNET_NETWORKS.filter(
-      ({ id }) => !BSEthereumConstants.NEOX_NETWORK_IDS.includes(id)
-    ),
+    all: getOnlyEthereumNetworks(BSEthereumConstants.ALL_NETWORKS),
+    mainnet: getOnlyEthereumNetworks(BSEthereumConstants.MAINNET_NETWORKS),
+    testnet: getOnlyEthereumNetworks(BSEthereumConstants.TESTNET_NETWORKS),
   },
   neox: {
     all: BSEthereumConstants.NEOX_NETWORKS,
     mainnet: [BSEthereumConstants.NEOX_MAINNET_NETWORK],
     testnet: [BSEthereumConstants.NEOX_TESTNET_NETWORK],
+  },
+  polygon: {
+    all: POLYGON_NETWORKS,
+    mainnet: POLYGON_NETWORKS.filter(({ id }) => POLYGON_MAINNET_NETWORK_IDS.includes(id)),
+    testnet: POLYGON_NETWORKS.filter(({ id }) => POLYGON_TESTNET_NETWORK_IDS.includes(id)),
   },
 }
 
@@ -45,6 +56,7 @@ export const DEFAULT_NETWORK_BY__BLOCKCHAIN: Record<TBlockchainServiceKey, TNetw
   neoLegacy: NETWORK_OPTIONS_BY_BLOCKCHAIN.neoLegacy.mainnet[0],
   ethereum: NETWORK_OPTIONS_BY_BLOCKCHAIN.ethereum.mainnet[0],
   neox: NETWORK_OPTIONS_BY_BLOCKCHAIN.neox.mainnet[0],
+  polygon: NETWORK_OPTIONS_BY_BLOCKCHAIN.polygon.mainnet[0],
 }
 
 export const DEFAULT_NETWORK_PROFILE = {

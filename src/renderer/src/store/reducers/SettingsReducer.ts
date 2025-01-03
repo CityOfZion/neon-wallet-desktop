@@ -20,12 +20,40 @@ const settingsReducerMigrations = {
     },
     _persist,
   }),
+  1: (state: any) => ({
+    ...state,
+    data: {
+      ...state.data,
+      customNetworks: {
+        ...state.data.customNetworks,
+        polygon: [],
+      },
+      selectedNetworkByBlockchain: {
+        ...state.data.selectedNetworkByBlockchain,
+        polygon: DEFAULT_NETWORK_BY__BLOCKCHAIN.polygon,
+      },
+      networkProfiles: state.data.networkProfiles.map(profile => ({
+        ...profile,
+        networkByBlockchain: {
+          ...profile.networkByBlockchain,
+          polygon: DEFAULT_NETWORK_BY__BLOCKCHAIN.polygon,
+        },
+      })),
+      selectedNetworkProfile: {
+        ...state.data.selectedNetworkProfile,
+        networkByBlockchain: {
+          ...state.data.selectedNetworkProfile.networkByBlockchain,
+          polygon: DEFAULT_NETWORK_BY__BLOCKCHAIN.polygon,
+        },
+      },
+    },
+  }),
 }
 
 export const settingsReducerConfig: PersistConfig<ISettingsReducer> = {
   key: 'settingsReducer',
   storage: storage,
-  version: 0,
+  version: 1,
   migrate: createMigrate(settingsReducerMigrations),
 }
 
@@ -40,6 +68,7 @@ const initialState: ISettingsReducer = {
       neo3: [],
       neoLegacy: [],
       neox: [],
+      polygon: [],
     },
     selectedNetworkByBlockchain: DEFAULT_NETWORK_BY__BLOCKCHAIN,
     networkProfiles: [DEFAULT_NETWORK_PROFILE],
@@ -125,7 +154,7 @@ const deleteCustomNetwork = <T extends TBlockchainServiceKey>(
   const cloneNetworks = cloneDeep(state.data.customNetworks)
   const cloneSelectedNetwork = cloneDeep(state.data.selectedNetworkByBlockchain)
 
-  const filteredNetworks = cloneNetworks[blockchain].filter(network => network.id !== network.id)
+  const filteredNetworks = cloneNetworks[blockchain].filter(({ id }) => id !== network.id)
   cloneNetworks[blockchain] = filteredNetworks as any
   state.data.customNetworks = cloneNetworks
 

@@ -14,6 +14,10 @@ import { ReactComponent as NeoxBlue } from '@renderer/assets/blockchain/images/n
 import { ReactComponent as NeoxGray } from '@renderer/assets/blockchain/images/neox_gray.svg'
 import { ReactComponent as NeoxGreen } from '@renderer/assets/blockchain/images/neox_green.svg'
 import { ReactComponent as NeoxWhite } from '@renderer/assets/blockchain/images/neox_white.svg'
+import { ReactComponent as PolygonBlue } from '@renderer/assets/blockchain/images/polygon_blue.svg'
+import { ReactComponent as PolygonGray } from '@renderer/assets/blockchain/images/polygon_gray.svg'
+import { ReactComponent as PolygonGreen } from '@renderer/assets/blockchain/images/polygon_green.svg'
+import { ReactComponent as PolygonWhite } from '@renderer/assets/blockchain/images/polygon_white.svg'
 import { TBlockchainImageColor, TBlockchainServiceKey } from '@shared/@types/blockchain'
 
 export const blockchainIconsByBlockchain: Record<
@@ -43,5 +47,11 @@ export const blockchainIconsByBlockchain: Record<
     white: NeoxWhite,
     blue: NeoxBlue,
     green: NeoxGreen,
+  },
+  polygon: {
+    gray: PolygonGray,
+    white: PolygonWhite,
+    blue: PolygonBlue,
+    green: PolygonGreen,
   },
 }

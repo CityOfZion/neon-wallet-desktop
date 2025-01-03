@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Tb3DCubeSphere, TbRefresh } from 'react-icons/tb'
 import { Button } from '@renderer/components/Button'
@@ -12,6 +12,7 @@ import { useNodes } from '@renderer/hooks/useNodes'
 import { useNetworkActions, useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
+import { match, P } from 'ts-pattern'
 
 type TState = {
   blockchain: TBlockchainServiceKey
@@ -25,9 +26,16 @@ export const NetworkNodeSelection = () => {
   const { network } = useSelectedNetworkSelector(blockchain)
   const { setNetworkNode } = useNetworkActions()
   const query = useNodes(blockchain)
-
   const [selectedUrl, setSelectedUrl] = useState<string>(network.url)
   const [isAutomatic, setIsAutomatic] = useState<boolean>(network.isAutomatic ?? false)
+
+  const nodes = useMemo(() => {
+    const data = query?.data ?? []
+
+    if (!data.find(({ url }) => url === selectedUrl)) data.unshift({ url: selectedUrl, latency: null, height: null })
+
+    return data
+  }, [query?.data, selectedUrl])
 
   const handleSelectRadioItem = (selectedValue: string) => {
     setIsAutomatic(false)
@@ -35,10 +43,9 @@ export const NetworkNodeSelection = () => {
   }
 
   const handleIsAutomaticallyChange = (value: boolean) => {
-    const firstNode = query.data?.[0]
-    if (firstNode) {
-      setSelectedUrl(firstNode.url)
-    }
+    const firstNode = nodes.filter(node => node.height !== null && node.latency !== null)[0]
+
+    if (firstNode) setSelectedUrl(firstNode.url)
 
     setIsAutomatic(value)
   }
@@ -82,7 +89,7 @@ export const NetworkNodeSelection = () => {
           <Loader />
         ) : (
           <RadioGroup.Group value={selectedUrl} onValueChange={handleSelectRadioItem}>
-            {query.data?.map(node => (
+            {nodes.map(node => (
               <RadioGroup.Item key={node.url} value={node.url} className="h-15 text-xs">
                 <div className="flex items-center gap-4 flex-grow  min-w-0">
                   <div className="flex flex-col items-center justify-center gap-0.5">
@@ -90,17 +97,32 @@ export const NetworkNodeSelection = () => {
                       <div
                         className={StyleHelper.mergeStyles(
                           'w-[0.375rem] h-[0.375rem] min-w-[0.375rem] min-h-[0.375rem] rounded-full',
-                          node.latency < 400 ? 'bg-green' : node.latency < 800 ? 'bg-orange' : 'bg-pink'
+                          match(node.latency)
+                            .with(null, () => 'bg-gray-300')
+                            .with(
+                              P.when(value => value < 400),
+                              () => 'bg-green'
+                            )
+                            .with(
+                              P.when(value => value < 800),
+                              () => 'bg-orange'
+                            )
+                            .otherwise(() => 'bg-pink')
                         )}
                       />
                     </div>
 
-                    <span className="text-gray-300 ">{t('latency', { latency: node.latency })}</span>
+                    <span className="text-gray-300 min-w-[48px]">
+                      {node.latency === null ? '--' : t('latency', { latency: node.latency })}
+                    </span>
                   </div>
 
                   <div className="flex flex-col flex-start gap-0.5 flex-grow min-w-0">
                     <span className="truncate block text-left w-full">{node.url}</span>
-                    <span className="text-gray-300 text-left">{t('blockHeight', { height: node.height })}</span>
+
+                    <span className="text-gray-300 text-left">
+                      {t('blockHeight', { height: node.height === null ? '--' : node.height })}
+                    </span>
                   </div>
                 </div>
 
@@ -124,7 +146,7 @@ export const NetworkNodeSelection = () => {
             colorSchema="gray"
           />
 
-          <Button className="w-full" label={commonGeneral('save')} flat onClick={handleSave} />
+          <Button className="w-full" label={commonGeneral('save')} disabled={!selectedUrl} flat onClick={handleSave} />
         </div>
       </div>
     </SideModalLayout>

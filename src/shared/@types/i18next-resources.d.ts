@@ -38,6 +38,7 @@ interface Resources {
       neoLegacy: 'Neo Legacy'
       ethereum: 'Ethereum'
       neox: 'NeoX'
+      polygon: 'Polygon'
     }
     networkTypeLabel: {
       mainnet: 'MainNet'

@@ -15,4 +15,7 @@ export const SWAP_NETWORK_BY_BLOCKCHAIN_AND_NETWORK_ID: {
   neox: {
     '47763': [''],
   },
+  polygon: {
+    '137': ['matic'],
+  },
 }

@@ -5,7 +5,7 @@ import { BSNeo3NetworkId } from '@cityofzion/bs-neo3'
 
 import { IAccountState, IWalletState, TAccountType, TSkin, TWalletType } from './store'
 
-export type TBlockchainServiceKey = 'neo3' | 'neoLegacy' | 'ethereum' | 'neox'
+export type TBlockchainServiceKey = 'neo3' | 'neoLegacy' | 'ethereum' | 'neox' | 'polygon'
 export type TBlockchainImageColor = 'white' | 'gray' | 'blue' | 'green'
 
 export type TAccountToImport = {
@@ -50,6 +50,7 @@ type TNetworkIdsByBlockchain = {
   neoLegacy: BSNeoLegacyNetworkId
   ethereum: BSEthereumNetworkId
   neox: BSEthereumNetworkId
+  polygon: BSEthereumNetworkId
 }
 
 export type TNetworkIds<K extends TBlockchainServiceKey> = TNetworkIdsByBlockchain[K]
