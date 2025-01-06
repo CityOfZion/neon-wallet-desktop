@@ -36,7 +36,8 @@
     "neo3": "Neo N3",
     "neoLegacy": "Neo Legacy",
     "ethereum": "Ethereum",
-    "neox": "NeoX"
+    "neox": "NeoX",
+    "polygon": "Polygon"
   },
   "networkTypeLabel": {
     "mainnet": "MainNet",
