@@ -35,12 +35,19 @@ const useOverTheAirUpdate = () => {
       window.api.sendAsync('quitAndInstall')
     })
 
+    const removeUpdateErrorListener = window.api.listen('updateError', error => {
+      ToastHelper.dismiss('auto-update-downloading')
+      ToastHelper.error({ message: t('error'), duration: 5000 })
+      console.error(error)
+    })
+
     window.api.sendAsync('checkForUpdates').then(hasUpdates => {
       if (!hasUpdates) return
       ToastHelper.loading({ message: t('downloading'), id: 'auto-update-downloading' })
     })
 
     return () => {
+      removeUpdateErrorListener()
       removeUpdateCompletedListener()
     }
   }, [dispatch, t])

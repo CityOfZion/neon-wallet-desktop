@@ -246,6 +246,7 @@ interface Resources {
     useOverTheAirUpdate: {
       downloading: 'New version found. Downloading...'
       downloaded: 'New version downloaded. The app will restart to apply update.'
+      error: 'Error downloading update. Please try again later restarting the app.'
     }
     useNeonBackup: {
       errors: {

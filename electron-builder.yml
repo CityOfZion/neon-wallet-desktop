@@ -13,11 +13,13 @@ asarUnpack:
   - resources/**
 win:
   artifactName: NeonWallet-${version}-win.${ext}
+  publisherName:
+    - 'COZ, Inc.'
   target:
     - target: nsis
       arch:
         - x64
-  sign: "./customSign.js"
+  sign: './customSign.js'
 nsis:
   shortcutName: ${productName}
   uninstallDisplayName: ${productName}
@@ -54,5 +56,3 @@ publish:
   provider: github
   owner: CityOfZion
   repo: neon-wallet-desktop
-  private: true
-  token: ${env.GH_TOKEN}
