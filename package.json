@@ -29,13 +29,13 @@
     "playwright:report": "npx playwright show-report"
   },
   "dependencies": {
-    "@cityofzion/blockchain-service": "1.13.0",
+    "@cityofzion/blockchain-service": "1.13.1",
     "@cityofzion/bs-asteroid-sdk": "0.9.0",
-    "@cityofzion/bs-electron": "0.1.26",
+    "@cityofzion/bs-electron": "0.1.27",
     "@cityofzion/bs-ethereum": "2.7.11",
-    "@cityofzion/bs-neo-legacy": "1.7.0",
-    "@cityofzion/bs-neo3": "1.8.9",
-    "@cityofzion/bs-swap": "0.3.2",
+    "@cityofzion/bs-neo-legacy": "1.7.1",
+    "@cityofzion/bs-neo3": "1.8.10",
+    "@cityofzion/bs-swap": "0.3.3",
     "@cityofzion/neon-core": "5.6.0",
     "@cityofzion/neon-js": "5.6.0",
     "@cityofzion/wallet-connect-sdk-wallet-core": "4.4.0",
