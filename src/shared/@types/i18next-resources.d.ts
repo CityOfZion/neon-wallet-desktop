@@ -203,7 +203,7 @@ interface Resources {
     }
     mnemonicOrKeyAccountSelection: {
       noAccountsToImport: 'No accounts to import'
-      accountsLength: '{{ length }} address(es) found'
+      accountsLength: '{{length}} address(es) found'
       alreadyExists: 'Already exists'
     }
     greyAccountSelect: {
@@ -447,6 +447,7 @@ interface Resources {
       title: 'Import'
       description: 'Select the addresses you’d like to import:'
       importButtonLabel: 'Import'
+      noAccountsToImport: 'No accounts to import'
     }
     dappDisconnection: {
       title: 'Connection details'

@@ -1,12 +1,12 @@
 import { ComponentProps } from 'react'
-import { ReactComponent as ArrowRightBoldOutlineIcon } from '@renderer/assets/images/arrow-right-bold-outline-icon.svg'
+import ArrowRightBoldOutlineIcon from '@renderer/assets/images/arrow-right-bold-outline-icon.svg?react'
 import { animate, motion, useMotionValue } from 'framer-motion'
 
 type TProps = {
   text: string
   buttonAriaLabel: string
   onComplete: () => void
-} & ComponentProps<'div'>
+} & ComponentProps<typeof motion.div>
 
 const WIDTH = 300
 const DRAG_WIDTH = 64

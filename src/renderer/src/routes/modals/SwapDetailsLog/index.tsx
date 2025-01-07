@@ -33,16 +33,16 @@ export const SwapDetailsLogModal = () => {
       let finalLog = swapRecord.log
 
       if (!finalLog) {
-        const response = await swapServiceHelper.getStatus(swapId)
-
+        const response = await swapServiceHelper.getStatus(swapId!)
         if (response.log) finalLog = response.log
       }
 
-      return JSON.stringify(JSON.parse(finalLog), null, 4)
+      return JSON.stringify(JSON.parse(finalLog ?? ''), null, 4)
     },
   })
 
   const handleCopyLogToClipboard = () => {
+    if (!log) return
     UtilsHelper.copyToClipboard(log)
   }
 

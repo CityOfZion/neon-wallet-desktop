@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { ReactComponent as AppStore } from '@renderer/assets/images/appstore.svg'
+import AppStore from '@renderer/assets/images/appstore.svg?react'
 import PlayStore from '@renderer/assets/images/playstore.png'
 import { MOBILE_APP_APPSTORE_LINK, MOBILE_APP_PLAYSTORE_LINK } from '@renderer/constants/urls'
 import { SettingsLayout } from '@renderer/layouts/Settings'

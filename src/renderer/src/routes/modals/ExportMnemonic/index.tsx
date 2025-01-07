@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { MdContentCopy } from 'react-icons/md'
 import { PiPrinter } from 'react-icons/pi'
 import { TbCircleKey, TbUpload } from 'react-icons/tb'
-import ReactToPrint from 'react-to-print'
+import { useReactToPrint } from 'react-to-print'
 import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'
@@ -20,8 +20,14 @@ type TLocationState = {
 export const ExportMnemonic = () => {
   const { wallet } = useModalState<TLocationState>()
   const { t } = useTranslation('modals', { keyPrefix: 'exportMnemonic' })
-  const ref = useRef<HTMLDivElement>(null)
   const { currentLoginSession } = useCurrentLoginSessionSelector()
+
+  const ref = useRef<HTMLDivElement>(null)
+
+  const handlePrint = useReactToPrint({
+    contentRef: ref,
+    bodyClass: 'print-agreement',
+  })
 
   if (!currentLoginSession) {
     throw new Error('Login session not defined')
@@ -63,18 +69,14 @@ export const ExportMnemonic = () => {
               onClick={() => UtilsHelper.copyToClipboard(words)}
               flat
             />
-            <ReactToPrint
-              bodyClass="print-agreement"
-              content={() => ref.current}
-              trigger={() => (
-                <Button
-                  iconsOnEdge={false}
-                  variant="text"
-                  leftIcon={<PiPrinter />}
-                  label={t('printButtonLabel')}
-                  flat
-                />
-              )}
+
+            <Button
+              iconsOnEdge={false}
+              variant="text"
+              leftIcon={<PiPrinter />}
+              label={t('printButtonLabel')}
+              flat
+              onClick={() => handlePrint()}
             />
           </div>
           <Banner type="error" message={t('warning')} className="print:hidden" />

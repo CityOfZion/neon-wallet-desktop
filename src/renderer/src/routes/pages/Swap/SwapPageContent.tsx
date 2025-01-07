@@ -236,12 +236,12 @@ export const SwapPageContent = ({ account }: TProps) => {
   }
 
   const handleSelectTokenToUse = (token: SwapServiceToken<TBlockchainServiceKey>) => {
-    swapServiceRef.current!.setAmountToUse(null)
-    swapServiceRef.current.setTokenToUse(token)
+    swapServiceRef.current?.setAmountToUse(null)
+    swapServiceRef.current?.setTokenToUse(token)
   }
 
   const handleSelectTokenToReceive = (token: SwapServiceToken<TBlockchainServiceKey>) => {
-    swapServiceRef.current.setTokenToReceive(token)
+    swapServiceRef.current?.setTokenToReceive(token)
   }
 
   const handleSelectAccountToUse = async (account: IAccountState) => {
@@ -263,23 +263,23 @@ export const SwapPageContent = ({ account }: TProps) => {
       serviceAccount = blockchainService.generateAccountFromKey(key)
     }
 
-    swapServiceRef.current.setAccountToUse(serviceAccount)
+    swapServiceRef.current?.setAccountToUse(serviceAccount)
   }
 
   const handleSelectContactToReceive = (address: TContactAddress) => {
-    swapServiceRef.current.setAddressToReceive(address.address)
+    swapServiceRef.current?.setAddressToReceive(address.address)
   }
 
   const handleSelectAccountToReceive = (account: IAccountState) => {
-    swapServiceRef.current.setAddressToReceive(account.address)
+    swapServiceRef.current?.setAddressToReceive(account.address)
   }
 
   const handleChangeAddressToReceive = (event: ChangeEvent<HTMLInputElement>) => {
-    swapServiceRef.current.setAddressToReceive(event.target.value)
+    swapServiceRef.current?.setAddressToReceive(event.target.value)
   }
 
   const handleChangeExtraIdToReceive = (event: ChangeEvent<HTMLInputElement>) => {
-    swapServiceRef.current.setExtraIdToReceive(event.target.value)
+    swapServiceRef.current?.setExtraIdToReceive(event.target.value)
   }
 
   const handlePasteAddressToReceive = async () => {
@@ -296,7 +296,7 @@ export const SwapPageContent = ({ account }: TProps) => {
   const handleChangeAmountToUse = (value: string) => {
     const amount = NumberHelper.formatString(value, actionData.selectedTokenToUse.value?.decimals, 24)
 
-    swapServiceRef.current!.setAmountToUse(amount)
+    swapServiceRef.current?.setAmountToUse(amount)
   }
 
   const handleSubmit = async () => {
@@ -334,7 +334,7 @@ export const SwapPageContent = ({ account }: TProps) => {
     const swapRecord: TSwapRecord = {
       account,
       addressTo: actionData.selectedAddressToReceive.value,
-      extraIdTo: actionData.selectedExtraIdToReceive.value,
+      extraIdTo: actionData.selectedExtraIdToReceive.value ?? undefined,
       amountFrom: actionData.selectedAmountToUse.value,
       amountTo: actionData.selectedAmountToReceive.value,
       tokenFrom: actionData.selectedTokenToUse.value,
@@ -566,7 +566,7 @@ export const SwapPageContent = ({ account }: TProps) => {
               headerClassName="gap-4"
             >
               <GreyTokenSelect
-                tokens={actionData.availableTokensToUse.value}
+                tokens={actionData.availableTokensToUse.value ?? []}
                 loading={actionData.availableTokensToUse.loading || actionData.selectedTokenToUse.loading}
                 onSelect={handleSelectTokenToUse}
                 selectedToken={actionData.selectedTokenToUse.value ?? undefined}
@@ -583,7 +583,7 @@ export const SwapPageContent = ({ account }: TProps) => {
               headerClassName="gap-4"
             >
               <GreyTokenSelect
-                tokens={actionData.availableTokensToReceive.value}
+                tokens={actionData.availableTokensToReceive.value ?? []}
                 loading={actionData.availableTokensToReceive.loading}
                 onSelect={handleSelectTokenToReceive}
                 selectedToken={actionData.selectedTokenToReceive.value ?? undefined}

@@ -1,5 +1,4 @@
 import { cloneElement, ComponentProps } from 'react'
-import { useTranslation } from 'react-i18next'
 import { NavLink } from 'react-router-dom'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
@@ -8,12 +7,9 @@ type Props = {
   title: string
   to: string
   disabled?: boolean
-  isNew?: boolean
 } & ComponentProps<'a'>
 
-export const SidebarLink = ({ icon, title, to, disabled, isNew, ...props }: Props): JSX.Element => {
-  const { t } = useTranslation('components', { keyPrefix: 'sidebar.link' })
-
+export const SidebarLink = ({ icon, title, to, disabled, ...props }: Props): JSX.Element => {
   const handleClick: React.MouseEventHandler<HTMLAnchorElement> = event => {
     if (!disabled) return
     event.preventDefault()
@@ -40,12 +36,6 @@ export const SidebarLink = ({ icon, title, to, disabled, isNew, ...props }: Prop
         {cloneElement(icon, {
           className: 'group-aria-[current=page]:stroke-white stroke-gray-300 object-contain w-6 h-6',
         })}
-
-        {isNew && (
-          <div className="bg-neon rounded-full text-asphalt font-bold px-1 absolute top-2 right-[0.4rem]">
-            {t('isNew')}
-          </div>
-        )}
 
         <span className="whitespace-nowrap">{title}</span>
       </NavLink>

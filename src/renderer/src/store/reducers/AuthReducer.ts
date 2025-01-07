@@ -276,10 +276,14 @@ const persistSwapRecord: CaseReducer<IAuthReducer, PayloadAction<TSwapRecord>> =
 }
 
 const removeAccountSkins: CaseReducer<IAuthReducer, PayloadAction<string[]>> = (state, action) => {
+  if (!state.currentLoginSession) {
+    throw new Error('Error to delete account: Current login session is not defined')
+  }
+
   const invalidSkinIds = action.payload
   const applicationDataByLoginTypeCloned = cloneDeep(state.data.applicationDataByLoginType)
 
-  applicationDataByLoginTypeCloned[state.currentLoginSession?.type]?.wallets?.forEach((wallet: any) =>
+  applicationDataByLoginTypeCloned[state.currentLoginSession.type]?.wallets?.forEach((wallet: any) =>
     wallet.accounts.forEach((account: any) => {
       if (invalidSkinIds.includes(account.skin.id)) account.skin = UtilsHelper.generateColorSkin()
     })

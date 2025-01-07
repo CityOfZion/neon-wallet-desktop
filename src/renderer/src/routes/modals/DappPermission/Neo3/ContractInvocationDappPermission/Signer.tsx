@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { MdChevronRight } from 'react-icons/md'
-import { Tb3DCubeSphere } from 'react-icons/tb'
+import { TbCube3dSphere } from 'react-icons/tb'
 import { tx } from '@cityofzion/neon-core'
 import { Signer as ContractSigner, TSession } from '@cityofzion/wallet-connect-sdk-wallet-react'
 import { IconButton } from '@renderer/components/IconButton'
@@ -41,7 +41,7 @@ export const Signer = ({ signer, session }: TProps) => {
   return (
     <div className="flex justify-between items-center text-gray-100">
       <div className="flex items-center gap-2.5">
-        <Tb3DCubeSphere className="w-6 h-6" />
+        <TbCube3dSphere className="w-6 h-6" />
         <p className="text-white">{t('signatureScopeTitle')}</p>
       </div>
 

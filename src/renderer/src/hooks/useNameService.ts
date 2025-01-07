@@ -29,7 +29,7 @@ export const useNameService = (debounceTime = 1000) => {
       const queryKey = buildQueryKey(blockchain, domainOrAddress)
       const defaultedOptions = queryClient.defaultQueryOptions({ queryKey, staleTime: STALE_TIME })
       const query = queryCache.get(defaultedOptions.queryHash) as Query<string> | undefined
-      const shouldFetch = !query || query.isStaleByTime(defaultedOptions.staleTime)
+      const shouldFetch = !query || query.isStaleByTime(Number(defaultedOptions.staleTime))
 
       if (!shouldFetch) {
         address = query?.state.data

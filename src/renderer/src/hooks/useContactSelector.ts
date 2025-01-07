@@ -14,7 +14,7 @@ export const useContactsSelector = () => {
   }
 }
 
-const hasContactsByBlockchainSelector = (blockchain?: string) =>
+const hasContactsByBlockchainSelector = (blockchain?: TBlockchainServiceKey) =>
   createAppSelector([state => state.contact.data], data => {
     if (!blockchain) return false
 

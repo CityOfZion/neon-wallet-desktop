@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { MdLaunch, MdOutlineAutoAwesome } from 'react-icons/md'
 import Markdown from 'react-markdown'
-import { ReactComponent as NeonWalletLogo } from '@renderer/assets/images/neon-wallet-full.svg'
+import NeonWalletLogo from '@renderer/assets/images/neon-wallet-full.svg?react'
 import releaseNotes from '@renderer/assets/release-notes.json'
 import { Button } from '@renderer/components/Button'
 import { Link } from '@renderer/components/Link'

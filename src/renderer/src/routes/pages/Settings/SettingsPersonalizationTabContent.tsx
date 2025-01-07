@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { BsCash } from 'react-icons/bs'
 import { MdOutlineListAlt } from 'react-icons/md'
-import { Tb3DCubeSphere, TbDeviceMobile } from 'react-icons/tb'
+import { TbCube3dSphere, TbDeviceMobile } from 'react-icons/tb'
 import { useMatch } from 'react-router-dom'
 
 import { SettingsSidebarLink } from './SettingsSidebarLink'
@@ -17,7 +17,7 @@ export const SettingsPersonalizationTabContent = () => {
       <ul className="max-w-full w-full">
         <SettingsSidebarLink
           title={t('personalisationOption.networkConfiguration')}
-          icon={<Tb3DCubeSphere />}
+          icon={<TbCube3dSphere />}
           to="/app/settings/personalisation/network-configuration"
           match={!!matchRootNetworkConfiguration || !!matchRootSettings}
         />

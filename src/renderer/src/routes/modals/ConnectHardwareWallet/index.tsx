@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { TbDeviceUsb, TbX } from 'react-icons/tb'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { ReactComponent as NeonWalletFullImage } from '@renderer/assets/images/neon-wallet-full.svg'
+import NeonWalletFullImage from '@renderer/assets/images/neon-wallet-full.svg?react'
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { AlertSuccessBanner } from '@renderer/components/AlertSuccessBanner'
 import { Button } from '@renderer/components/Button'

@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { MdOutlineAutoAwesome } from 'react-icons/md'
-import { TbDiscountCheck } from 'react-icons/tb'
+import { TbRosetteDiscountCheck } from 'react-icons/tb'
 import { Link } from '@renderer/components/Link'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 
@@ -12,7 +12,7 @@ export const WelcomeSecuritySetupStep3Page = () => {
       <div className="flex flex-col items-center mt-15">
         <h3 className="text-sm text-white text-center">{t('title')}</h3>
 
-        <TbDiscountCheck className="w-[6.25rem] h-[6.25rem] text-blue stroke-1 mt-3" />
+        <TbRosetteDiscountCheck className="w-[6.25rem] h-[6.25rem] text-blue stroke-1 mt-3" />
       </div>
 
       <Link

@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { ReactComponent as NeonWalletFullImage } from '@renderer/assets/images/neon-wallet-full.svg'
+import NeonWalletFullImage from '@renderer/assets/images/neon-wallet-full.svg?react'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { TLoginSessionType } from '@shared/@types/store'
 
