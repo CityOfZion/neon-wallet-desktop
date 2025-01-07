@@ -49,6 +49,7 @@ export type TMainApiSend = {
   getStoreFromWC: TSession
   hardwareWalletDisconnected: THardwareWalletInfo
   updateCompleted: undefined
+  updateError: string
   deeplink: string
   getHardwareWalletSignatureStart: undefined
   getHardwareWalletSignatureEnd: undefined
