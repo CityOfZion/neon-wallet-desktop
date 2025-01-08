@@ -32,9 +32,14 @@ export const AutoUpdateNotes = () => {
           <div key={latestRelease.tag_name} className="my-7 overflow-auto min-h-0 ">
             <span className="text-gray-300 block text-xs mb-1">{latestRelease.published_at}</span>
             <span className="text-white block text-lg mb-2">{latestRelease.tag_name}</span>
-            <Markdown className="markdown-body bg-transparent text-white font-sans text-xs" rehypePlugins={[rehypeRaw]}>
-              {latestRelease.body}
-            </Markdown>
+            <ul>
+              <Markdown
+                className="markdown-body bg-transparent text-white font-sans text-xs"
+                rehypePlugins={[rehypeRaw]}
+              >
+                {latestRelease.body}
+              </Markdown>
+            </ul>
           </div>
         </div>
       </div>

@@ -57,12 +57,13 @@ const Panel = ({ className, children, label, ...props }: TPanelProps) => {
   )
 }
 
-type TItemProps = { label: string; copyable?: boolean } & ComponentProps<'div'>
+type TItemProps = { label: string; copyable?: string } & ComponentProps<'div'>
+
 const Item = ({ label, children, copyable, className, ...props }: TItemProps) => {
   const handleCopy = () => {
-    if (typeof children !== 'string') return
-    UtilsHelper.copyToClipboard(children)
+    if (copyable) UtilsHelper.copyToClipboard(copyable)
   }
+
   return (
     <div className={StyleHelper.mergeStyles('flex flex-col group', className)}>
       <div className="flex flex-col gap-2.5 py-4 px-3" {...props}>
@@ -73,7 +74,7 @@ const Item = ({ label, children, copyable, className, ...props }: TItemProps) =>
 
           {copyable && (
             <IconButton
-              icon={<MdOutlineContentCopy className="text-neon" />}
+              icon={<MdOutlineContentCopy aria-hidden={true} className="text-neon" />}
               size="sm"
               onClick={handleCopy}
               compacted

@@ -145,10 +145,23 @@ export const SwapDetailsModal = () => {
 
           <Details.Panel label={t('routingPanelLabel')} className="mt-6">
             {swapRecord.txFrom && (
-              <Details.Item label={t('routingPanelTransactionFromLabel')} copyable>
+              <Details.Item label={t('routingPanelTransactionFromLabel')} copyable={swapRecord.txFrom}>
                 <div className="flex gap-2.5 items-center">
                   <BlockchainIcon blockchain={swapRecord.tokenFrom.blockchain!} />
-                  <span className="text-white">{StringHelper.truncateStringMiddle(swapRecord.txFrom, 20)}</span>
+
+                  {swapRecord.tokenFrom.txTemplateUrl ? (
+                    <Link
+                      to={swapRecord.tokenFrom.txTemplateUrl.replace('{txId}', swapRecord.txFrom)}
+                      target="_blank"
+                      label={StringHelper.truncateStringMiddle(swapRecord.txFrom, 20)}
+                      colorSchema="white"
+                      variant="text-slim"
+                      textClassName="font-normal"
+                      clickableProps={{ className: 'text-xs text-blue underline' }}
+                    />
+                  ) : (
+                    <span className="text-white">{StringHelper.truncateStringMiddle(swapRecord.txFrom, 20)}</span>
+                  )}
                 </div>
               </Details.Item>
             )}
@@ -156,12 +169,25 @@ export const SwapDetailsModal = () => {
             {swapRecord.txFrom &&
               (swapRecord.txTo ||
                 (swapRecord.swapStatus !== 'refunded' && swapRecord.swapStatus !== 'failed' && !swapRecord.txTo)) && (
-                <Details.Item label={t('routingPanelTransactionToLabel')} copyable={!!swapRecord.txTo}>
+                <Details.Item label={t('routingPanelTransactionToLabel')} copyable={swapRecord.txTo}>
                   {match({ txTo: swapRecord.txTo })
                     .with({ txTo: P.string }, ({ txTo }) => (
                       <div className="flex gap-2.5 items-center">
                         {swapRecord.tokenTo.blockchain && <BlockchainIcon blockchain={swapRecord.tokenTo.blockchain} />}
-                        <span className="text-white"> {StringHelper.truncateStringMiddle(txTo, 20)}</span>
+
+                        {swapRecord.tokenTo.txTemplateUrl ? (
+                          <Link
+                            to={swapRecord.tokenTo.txTemplateUrl.replace('{txId}', txTo)}
+                            target="_blank"
+                            label={StringHelper.truncateStringMiddle(txTo, 20)}
+                            colorSchema="white"
+                            variant="text-slim"
+                            textClassName="font-normal"
+                            clickableProps={{ className: 'text-xs text-blue underline' }}
+                          />
+                        ) : (
+                          <span className="text-white">{StringHelper.truncateStringMiddle(txTo, 20)}</span>
+                        )}
                       </div>
                     ))
                     .otherwise(() => (
@@ -197,7 +223,21 @@ export const SwapDetailsModal = () => {
               />
             </Details.Item>
 
-            <Details.Item label={t('sentPanelAddressLabel')}>{swapRecord.account.address}</Details.Item>
+            <Details.Item label={t('sentPanelAddressLabel')}>
+              {swapRecord.tokenFrom.addressTemplateUrl ? (
+                <Link
+                  to={swapRecord.tokenFrom.addressTemplateUrl.replace('{address}', swapRecord.account.address)}
+                  target="_blank"
+                  label={swapRecord.account.address}
+                  colorSchema="white"
+                  variant="text-slim"
+                  textClassName="font-normal"
+                  clickableProps={{ className: 'text-blue underline' }}
+                />
+              ) : (
+                swapRecord.account.address
+              )}
+            </Details.Item>
           </Details.Panel>
 
           <Details.Panel label={t('receivePanelLabel')}>
@@ -209,7 +249,21 @@ export const SwapDetailsModal = () => {
               />
             </Details.Item>
 
-            <Details.Item label={t('receivePanelAddressLabel')}>{swapRecord.addressTo}</Details.Item>
+            <Details.Item label={t('receivePanelAddressLabel')}>
+              {swapRecord.tokenTo.addressTemplateUrl ? (
+                <Link
+                  to={swapRecord.tokenTo.addressTemplateUrl.replace('{address}', swapRecord.addressTo)}
+                  target="_blank"
+                  label={swapRecord.addressTo}
+                  colorSchema="white"
+                  variant="text-slim"
+                  textClassName="font-normal"
+                  clickableProps={{ className: 'text-blue underline' }}
+                />
+              ) : (
+                swapRecord.addressTo
+              )}
+            </Details.Item>
           </Details.Panel>
         </Details.Body>
       </Details.Root>
