@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdArrowForward } from 'react-icons/md'
-import { TbArrowDown, TbPlus, TbStepOut } from 'react-icons/tb'
+import { TbPlus, TbStepOut } from 'react-icons/tb'
 import { Account, hasLedger, IntentTransferParam, isCalculableFee } from '@cityofzion/blockchain-service'
 import { ActionStep } from '@renderer/components/ActionStep'
+import { ActionStepSeparator } from '@renderer/components/ActionStepSeparator'
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
@@ -311,9 +312,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
           <GreyAccountSelect onSelect={handleSelectAccount} selectedAccount={actionData.selectedAccount} />
         </ActionStep>
 
-        <div className="relative z-10">
-          <TbArrowDown className="w-5 h-5 p-1 bg-gray-600 rounded-full border-8 border-gray-800 box-content absolute top-2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
-        </div>
+        <ActionStepSeparator />
 
         <div className="w-full flex flex-col gap-3 mt-2 relative">
           <AnimatePresence>

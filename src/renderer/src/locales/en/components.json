@@ -163,5 +163,8 @@
     "list": {
       "chatWithUs": "Chat with us"
     }
+  },
+  "connectHardwareWalletButton": {
+    "connect": "Connect"
   }
 }

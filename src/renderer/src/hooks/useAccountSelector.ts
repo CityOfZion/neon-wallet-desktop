@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { MutableRefObject, useCallback } from 'react'
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { SelectorHelper } from '@renderer/helpers/SelectorHelper'
 import { TAccountHelperPredicateParams } from '@shared/@types/helpers'
@@ -85,11 +85,11 @@ export const useAccountsWithWalletSelector = () => {
 }
 
 export const useHasHardwareAccountSelector = () => {
-  const { ref, value } = useAppSelector(selectHasHardwareAccount)
+  const selector: { value: boolean; ref: MutableRefObject<boolean> } = useAppSelector(selectHasHardwareAccount)
 
   return {
-    hasHardwareAccount: value,
-    hasHardwareAccountRef: ref,
+    hasHardwareAccount: selector.value,
+    hasHardwareAccountRef: selector.ref,
   }
 }
 

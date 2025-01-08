@@ -16,6 +16,7 @@ interface Resources {
       remove: 'Remove'
       copy: 'Copy to clipboard'
       swap: 'Swap'
+      logo: "Neon Wallet's logo"
     }
     walletConnect: {
       name: 'Neon Wallet'
@@ -213,6 +214,9 @@ interface Resources {
       list: {
         chatWithUs: 'Chat with us'
       }
+    }
+    connectHardwareWalletButton: {
+      connect: 'Connect'
     }
   }
   hooks: {
@@ -994,7 +998,6 @@ interface Resources {
       editWalletButtonLabel: 'Edit'
       editAccountButton: 'Edit account'
       exportButtonLabel: 'Export'
-      connectHardwareWalletButtonLabel: 'Connect'
       exportKeyButton: 'Export key'
       importButtonLabel: 'Import'
       newWalletButtonLabel: 'New Wallet'
@@ -1210,7 +1213,7 @@ interface Resources {
       importSelectedButtonLabel: 'Import selected'
     }
     swap: {
-      title: 'Swap'
+      title: 'Swap tokens'
       explanation: {
         title: 'How does it work?'
         description1: 'Exchange tokens for other token, across chains, without using an exchange.'
@@ -1220,17 +1223,18 @@ interface Resources {
       form: {
         title: 'What tokens do you want to swap?'
         restart: 'Restart'
-        swapFromTitle: 'Swap this...'
-        swapToTitle: 'For this...'
+        assets: 'Assets'
+        source: 'Source'
+        recipient: 'Recipient'
         balanceLabel: 'Balance'
         balancePlaceholder: '0.00'
-        tokenToUseTitle: 'Token to swap'
+        tokenToUseTitle: 'Swap this'
         accountToUseTitle: 'From this account'
         amountToUseTitle: 'Amount'
         minimumAmountToUseLabel: 'Minimum {{amount}}'
         minimumAmountToUsePlaceholder: '0.00000000'
-        tokenToReceiveTitle: 'Token to receive'
-        addressToReceivePlaceholder: 'Enter address...'
+        tokenToReceiveTitle: 'Receive this'
+        addressToReceivePlaceholder: 'Enter recipient address...'
         myAccountsButtonLabel: 'My accounts'
         amountToReceiveTitle: "Amount you'll get"
         amountToReceiveTitleComplement: '(after fees)'

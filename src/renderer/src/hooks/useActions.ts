@@ -17,6 +17,7 @@ export const useActions = <T extends TUseActionsData>(initialData: T, options?: 
     const initialDataKeys = Object.keys(initialData) as (keyof T)[]
 
     return {
+      hasChanged: true,
       isValid: false,
       isActing: false,
       hasActed: false,
@@ -98,6 +99,7 @@ export const useActions = <T extends TUseActionsData>(initialData: T, options?: 
       actionDataRef.current = { ...actionDataRef.current, ...newValues }
 
       setState(prev => ({
+        hasChanged: false,
         hasActed: false,
         changed: {
           ...prev.changed,

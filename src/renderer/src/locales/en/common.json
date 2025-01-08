@@ -14,7 +14,8 @@
     "default": "Default",
     "remove": "Remove",
     "copy": "Copy to clipboard",
-    "swap": "Swap"
+    "swap": "Swap",
+    "logo": "Neon Wallet's logo"
   },
   "walletConnect": {
     "name": "Neon Wallet",

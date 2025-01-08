@@ -26,11 +26,11 @@ export const SidebarLink = ({ icon, title, to, disabled, isNew, ...props }: Prop
         onClick={handleClick}
         className={({ isActive }) => {
           return StyleHelper.mergeStyles(
-            'group text-white text-2xs flex flex-col justify-center items-center gap-1 py-2.5 w-full transition-colors relative',
+            'group text-white text-1xs flex flex-col justify-center items-center gap-1 py-2.5 w-full transition-colors relative',
             {
               'border-l-3 border-l-neon bg-asphalt shadow-inner-md pr-0.75': isActive,
-              'bg-transparent opacity-40 cursor-not-allowed': !isActive && disabled,
-              'bg-transparent cursor-pointer opacity-60 hover:border-l-neon hover:border-l-3 hover:pr-0.75 hover:bg-asphalt hover:shadow-inner-md  hover:opacity-100':
+              'bg-transparent cursor-not-allowed': !isActive && disabled,
+              'bg-transparent cursor-pointer hover:border-l-neon hover:border-l-3 hover:pr-0.75 hover:bg-asphalt hover:shadow-inner-md':
                 !isActive && !disabled,
             }
           )

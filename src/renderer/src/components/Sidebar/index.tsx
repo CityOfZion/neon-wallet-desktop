@@ -11,11 +11,13 @@ import { SidebarLink } from './SidebarLink'
 
 export const Sidebar = (): JSX.Element => {
   const { t } = useTranslation('components', { keyPrefix: 'sidebar' })
+  const { t: tCommon } = useTranslation('common', { keyPrefix: 'general' })
   const { logout } = useLogin()
+
   return (
     <aside className="bg-gray-800 w-[4rem] min-w-[4rem] h-screen-minus-drag-region flex flex-col">
-      <div className="flex justify-center pt-4 pb-2" {...TestHelper.buildTestObject('neon-wallet-logo')}>
-        <NeonLogoIcon className="border border-green rounded p-1" />
+      <div className="flex justify-center py-4" {...TestHelper.buildTestObject('neon-wallet-logo')}>
+        <NeonLogoIcon title={tCommon('logo')} />
       </div>
 
       <nav className="flex-grow">

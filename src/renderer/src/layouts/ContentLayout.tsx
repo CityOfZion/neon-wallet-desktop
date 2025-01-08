@@ -40,7 +40,7 @@ export const ContentLayout = ({
     <div className={StyleHelper.mergeStyles('flex h-screen-minus-drag-region', className)} {...props}>
       <div
         className={StyleHelper.mergeStyles(
-          'h-full w-full flex flex-col bg-asphalt text-white px-7 py-4 min-w-0 min-h-0',
+          'h-full w-full flex flex-col bg-asphalt text-white px-14 py-4 min-w-0 min-h-0',
           {
             'pt-10': hasCustomProfile,
           }
@@ -60,7 +60,7 @@ export const ContentLayout = ({
           <div className={StyleHelper.mergeStyles('flex items-center mx-auto gap-x-2', { 'pr-6': !rightComponent })}>
             {titleIcon &&
               cloneElement(titleIcon, {
-                className: StyleHelper.mergeStyles('text-neon', titleIconClassName),
+                className: StyleHelper.mergeStyles('text-neon w-6 h-6', titleIconClassName),
                 ...titleIconProps,
               })}
             <h1 className="text-sm">{title}</h1>
