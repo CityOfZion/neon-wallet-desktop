@@ -1228,6 +1228,7 @@ interface Resources {
         recipient: 'Recipient'
         balanceLabel: 'Balance'
         balancePlaceholder: '0.00'
+        max: 'Max'
         tokenToUseTitle: 'Swap this'
         accountToUseTitle: 'From this account'
         amountToUseTitle: 'Amount'
