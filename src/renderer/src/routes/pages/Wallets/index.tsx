@@ -1,18 +1,18 @@
 import { Fragment, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdAdd, MdOutlineContentCopy } from 'react-icons/md'
-import { TbDeviceUsb, TbDotsVertical, TbFileExport, TbFileImport, TbPencil, TbRefresh, TbUpload } from 'react-icons/tb'
+import { TbDotsVertical, TbFileExport, TbFileImport, TbPencil, TbRefresh, TbUpload } from 'react-icons/tb'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import { hasNft } from '@cityofzion/blockchain-service'
 import { ActionPopover } from '@renderer/components/ActionPopover'
 import { Button } from '@renderer/components/Button'
+import { ConnectHardwareWalletButton } from '@renderer/components/ConnectHardwareWalletButton'
 import { HelpButton } from '@renderer/components/HelpButton'
 import { IconButton } from '@renderer/components/IconButton'
 import { Separator } from '@renderer/components/Separator'
 import { SidebarMenuButton } from '@renderer/components/SidebarMenuButton'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
-import { TestHelper } from '@renderer/helpers/TestHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { useAccountsSelector, useHasHardwareAccountSelector } from '@renderer/hooks/useAccountSelector'
@@ -164,14 +164,7 @@ export const WalletsPage = () => {
             />
           )}
 
-          <IconButton
-            icon={<TbDeviceUsb className="rotate-45" />}
-            size="md"
-            text={t('connectHardwareWalletButtonLabel')}
-            onClick={modalNavigateWrapper('connect-hardware-wallet')}
-            disabled={!isPasswordLogin || hasHardwareAccount}
-            {...TestHelper.buildTestObject('connect-hardware-wallet')}
-          />
+          <ConnectHardwareWalletButton />
 
           <HelpButton />
         </div>

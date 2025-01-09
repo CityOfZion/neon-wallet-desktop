@@ -107,9 +107,9 @@ export const TransactionsTable = forwardRef<HTMLDivElement, TTransactionListProp
                 {swapRecord && (
                   <Button
                     variant="text-slim"
-                    label="Swap"
+                    label={t('common:general.swap')}
                     colorSchema="blue"
-                    leftIcon={<TbTransform />}
+                    leftIcon={<TbTransform aria-hidden={true} />}
                     onClick={event => {
                       event.stopPropagation()
                       modalNavigate('swap-details', { state: { swapRecord } })

@@ -6,16 +6,30 @@ type TAccountParams = {
   disabled?: boolean
   leftIcon?: JSX.Element
   className?: string
+  titleClassName?: string
+  headerClassName?: string
   children?: ReactNode
 }
 
-export const ActionStep = ({ title, disabled, leftIcon, className, children }: TAccountParams) => {
+export const ActionStep = ({
+  title,
+  disabled,
+  leftIcon,
+  className,
+  titleClassName,
+  headerClassName,
+  children,
+}: TAccountParams) => {
   return (
     <div className={StyleHelper.mergeStyles('flex justify-between items-center w-full min-h-14', className)}>
       <div
-        className={StyleHelper.mergeStyles('flex items-center gap-3', {
-          'opacity-50': disabled,
-        })}
+        className={StyleHelper.mergeStyles(
+          'flex items-center gap-3',
+          {
+            'opacity-50': disabled,
+          },
+          headerClassName
+        )}
       >
         {leftIcon && (
           <div className="w-5 h-5 flex items-center justify-center">
@@ -26,7 +40,7 @@ export const ActionStep = ({ title, disabled, leftIcon, className, children }: T
           </div>
         )}
 
-        <span className="text-sm">{title}</span>
+        <span className={StyleHelper.mergeStyles('text-sm', titleClassName)}>{title}</span>
       </div>
 
       {children}

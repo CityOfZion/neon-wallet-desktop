@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { TbReplace } from 'react-icons/tb'
 import { Location, useLocation } from 'react-router-dom'
+import { ConnectHardwareWalletButton } from '@renderer/components/ConnectHardwareWalletButton'
 import { HelpButton } from '@renderer/components/HelpButton'
 import { ContentLayout } from '@renderer/layouts/ContentLayout'
 import { MainLayout } from '@renderer/layouts/Main'
@@ -18,6 +19,8 @@ export const SwapPage = () => {
 
   const rightComponent = (
     <div className="flex gap-x-2">
+      <ConnectHardwareWalletButton />
+
       <HelpButton />
     </div>
   )

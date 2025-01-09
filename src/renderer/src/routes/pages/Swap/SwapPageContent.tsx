@@ -1,7 +1,7 @@
 import { ChangeEvent, Fragment, useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { MdArrowForward, MdInfoOutline, MdRestartAlt } from 'react-icons/md'
-import { TbArrowDown, TbStepInto, TbStepOut, TbUsers, TbWallet } from 'react-icons/tb'
+import { MdInfoOutline, MdRestartAlt } from 'react-icons/md'
+import { TbDiamond, TbReplace, TbStepInto, TbStepOut, TbUsers, TbWallet } from 'react-icons/tb'
 import { VscCircleFilled } from 'react-icons/vsc'
 import {
   Account,
@@ -14,6 +14,7 @@ import {
 } from '@cityofzion/blockchain-service'
 import { SimpleSwapService } from '@cityofzion/bs-swap'
 import { ActionStep } from '@renderer/components/ActionStep'
+import { ActionStepSeparator } from '@renderer/components/ActionStepSeparator'
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Button } from '@renderer/components/Button'
 import { GreyAccountSelect } from '@renderer/components/GreyAccountSelect'
@@ -64,7 +65,7 @@ export const SwapPageContent = ({ account }: TProps) => {
   const { modalNavigateWrapper, modalNavigate } = useModalNavigate()
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
-  const { accountsRef } = useAccountsSelector()
+  const { accounts } = useAccountsSelector()
   const dispatch = useAppDispatch()
 
   const swapChainsByServiceName = useMemo(() => {
@@ -91,7 +92,7 @@ export const SwapPageContent = ({ account }: TProps) => {
       selectedTokenToUse: { loading: false, value: null },
       selectedAccountToUse: { loading: false, value: null, valid: null },
       selectedAmountToUse: { loading: false, value: null },
-      availableTokensToReceive: { loading: false, value: null },
+      availableTokensToReceive: { loading: false, value: [] },
       selectedTokenToReceive: { loading: false, value: null },
       selectedAmountToReceive: { loading: false, value: null },
       selectedAddressToReceive: { loading: false, value: null, valid: null },
@@ -106,9 +107,18 @@ export const SwapPageContent = ({ account }: TProps) => {
 
   const { hasContactsByBlockchain } = useHasContactsByBlockchain(tokenToReceiveBlockchain)
 
+  const isRestartDisabled = actionData.availableTokensToUse.loading || actionState.hasChanged
+
   const isContactsAndAccountsSelectionDisabled = tokenToReceiveBlockchain
-    ? !doesBlockchainSupported(tokenToReceiveBlockchain)
+    ? !doesBlockchainSupported(tokenToReceiveBlockchain) || !actionData.selectedAccountToUse.value
     : true
+
+  const isSourceDisabled =
+    !actionData.selectedTokenToUse.value ||
+    !actionData.selectedTokenToReceive.value ||
+    actionData.availableTokensToReceive.loading ||
+    actionData.availableTokensToUse.loading ||
+    actionData.selectedTokenToUse.loading
 
   const balanceQuery = useBalance(actionData.selectedAccountToUse.value ?? undefined)
 
@@ -149,9 +159,7 @@ export const SwapPageContent = ({ account }: TProps) => {
     })
 
     swapService.eventEmitter.on('accountToUse', accountToUse => {
-      const account = accountToUse.value
-        ? accountsRef.current.find(AccountHelper.predicate(accountToUse.value!))
-        : undefined
+      const account = accountToUse.value ? accounts.find(AccountHelper.predicate(accountToUse.value!)) : undefined
 
       setData({ selectedAccountToUse: { ...accountToUse, value: account ?? null } })
     })
@@ -161,6 +169,8 @@ export const SwapPageContent = ({ account }: TProps) => {
     })
 
     swapService.eventEmitter.on('availableTokensToReceive', availableTokensToReceive => {
+      if (!availableTokensToReceive.value) availableTokensToReceive.value = []
+
       setData({ availableTokensToReceive: availableTokensToReceive })
     })
 
@@ -463,31 +473,38 @@ export const SwapPageContent = ({ account }: TProps) => {
         </div>
       </div>
 
-      <div className="min-h-0 flex-grow flex flex-col px-4  text-sm items-center">
+      <div className="min-h-0 flex-grow flex flex-col px-4 text-sm items-center">
         <div className="w-full flex items-center justify-between gap-2">
           <h2 className="text-white w-full my-3 text-sm">{t('form.title')}</h2>
 
           <Button
             label={t('form.restart')}
             variant="text-slim"
-            colorSchema="neon"
+            colorSchema={isRestartDisabled ? 'gray' : 'neon'}
+            disabled={isRestartDisabled}
             leftIcon={<MdRestartAlt aria-hidden={true} className="w-5 h-5 min-w-5 min-h-5" />}
-            disabled={actionData.availableTokensToUse.loading}
             onClick={initializeOrRestartSwapService}
           />
         </div>
 
         <Separator />
 
-        <div className="max-w-[33.25rem] min-h-0 w-full flex-grow flex flex-col items-center px-5 py-8 my-2 overflow-auto">
+        <div className="max-w-[36rem] min-h-0 w-full flex-grow flex flex-col items-center px-4 pt-2 pb-8 my-2 overflow-auto">
           <div className="flex flex-col items-center bg-gray-700/60 px-4 w-full rounded">
-            <ActionStep title={t('form.swapFromTitle')} leftIcon={<TbStepOut />} className="min-h-11" />
+            <ActionStep
+              title={t('form.assets')}
+              leftIcon={<TbDiamond aria-hidden={true} className="w-6 h-6 min-w-6 min-h-6" />}
+              className="font-bold"
+              titleClassName="text-md"
+              headerClassName="gap-4"
+            />
 
             <Separator />
 
             <ActionStep
               title={t('form.tokenToUseTitle')}
-              leftIcon={<VscCircleFilled className="text-gray-300 w-2 h-2" />}
+              leftIcon={<VscCircleFilled aria-hidden={true} className="text-gray-300 w-2 h-2" />}
+              headerClassName="gap-4"
             >
               <GreyTokenSelect
                 tokens={actionData.availableTokensToUse.value}
@@ -502,8 +519,37 @@ export const SwapPageContent = ({ account }: TProps) => {
             <Separator />
 
             <ActionStep
+              title={t('form.tokenToReceiveTitle')}
+              leftIcon={<VscCircleFilled aria-hidden={true} className="text-gray-300 w-2 h-2" />}
+              headerClassName="gap-4"
+            >
+              <GreyTokenSelect
+                tokens={actionData.availableTokensToReceive.value}
+                loading={actionData.availableTokensToReceive.loading}
+                onSelect={handleSelectTokenToReceive}
+                selectedToken={actionData.selectedTokenToReceive.value ?? undefined}
+                disabled={!actionData.selectedTokenToUse.value}
+              />
+            </ActionStep>
+          </div>
+
+          <ActionStepSeparator />
+
+          <div className="flex flex-col items-center bg-gray-700/60 px-4 w-full rounded mt-2.5">
+            <ActionStep
+              title={t('form.source')}
+              leftIcon={<TbStepOut aria-hidden={true} className="w-6 h-6 min-w-6 min-h-6" />}
+              className="font-bold"
+              titleClassName="text-md"
+              headerClassName="gap-4"
+            />
+
+            <Separator />
+
+            <ActionStep
               title={t('form.accountToUseTitle')}
-              leftIcon={<VscCircleFilled className="text-gray-300 w-2 h-2" />}
+              leftIcon={<VscCircleFilled aria-hidden={true} className="text-gray-300 w-2 h-2" />}
+              headerClassName="gap-4"
             >
               <GreyAccountSelect
                 selectedAccount={actionData.selectedAccountToUse.value}
@@ -513,7 +559,7 @@ export const SwapPageContent = ({ account }: TProps) => {
                     ? [actionData.selectedTokenToUse.value.blockchain]
                     : (Object.keys(swapChainsByServiceName) as TBlockchainServiceKey[])
                 }
-                loading={actionData.availableTokensToUse.loading}
+                disabled={isSourceDisabled}
               />
             </ActionStep>
 
@@ -521,10 +567,11 @@ export const SwapPageContent = ({ account }: TProps) => {
 
             <ActionStep
               title={t('form.amountToUseTitle')}
-              leftIcon={<VscCircleFilled className="text-gray-300 w-2 h-2" />}
+              leftIcon={<VscCircleFilled aria-hidden={true} className="text-gray-300 w-2 h-2" />}
+              headerClassName="gap-4"
             >
               <div className="flex gap-2.5 items-center">
-                <span className="text-gray-200 text-xs ">
+                <span className="text-gray-200 text-xs">
                   {t('form.minimumAmountToUseLabel', {
                     amount: actionData.selectAmountToUseMinMax.value?.min ?? t('form.minimumAmountToUsePlaceholder'),
                   })}
@@ -533,8 +580,8 @@ export const SwapPageContent = ({ account }: TProps) => {
                 <GreyAmountInput
                   value={actionData.selectedAmountToUse.value ?? ''}
                   onChange={handleChangeAmountToUse}
-                  disabled={!actionData.selectedTokenToUse.value}
-                  loading={actionData.selectedAmountToUse.loading}
+                  disabled={isSourceDisabled}
+                  loading={actionData.selectedAmountToUse.loading || actionData.selectAmountToUseMinMax.loading}
                 />
               </div>
             </ActionStep>
@@ -547,41 +594,31 @@ export const SwapPageContent = ({ account }: TProps) => {
             </div>
           </div>
 
-          <div className="relative z-10">
-            <TbArrowDown className="w-5 h-5 p-1 bg-gray-600 rounded-full border-8 border-gray-800 box-content absolute top-2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
-          </div>
+          <ActionStepSeparator />
 
-          <div className="flex flex-col items-center bg-gray-700/60  px-4  w-full rounded mt-2.5">
-            <ActionStep title={t('form.swapToTitle')} className="min-h-11" leftIcon={<TbStepInto />} />
-
-            <Separator />
-
+          <div className="flex flex-col items-center bg-gray-700/60 px-4 w-full rounded mt-2.5">
             <ActionStep
-              title={t('form.tokenToReceiveTitle')}
-              leftIcon={<VscCircleFilled className="text-gray-300 w-2 h-2" />}
-            >
-              <GreyTokenSelect
-                tokens={actionData.availableTokensToReceive.value ?? []}
-                loading={actionData.availableTokensToReceive.loading}
-                onSelect={handleSelectTokenToReceive}
-                selectedToken={actionData.selectedTokenToReceive.value ?? undefined}
-                disabled={!actionData.selectedTokenToUse.value}
-              />
-            </ActionStep>
+              title={t('form.recipient')}
+              leftIcon={<TbStepInto aria-hidden={true} className="w-6 h-6 min-w-6 min-h-6" />}
+              className="font-bold"
+              titleClassName="text-md"
+              headerClassName="gap-4"
+            />
 
             <Separator />
 
-            <div className="flex w-full gap-3 items-start my-2.5">
+            <div className="flex w-full gap-3 items-center my-3">
               <Input
                 value={actionData.selectedAddressToReceive.value ?? ''}
                 onChange={handleChangeAddressToReceive}
                 compacted
                 className="w-full"
+                contentClassName="px-4 h-9"
                 placeholder={t('form.addressToReceivePlaceholder')}
                 clearable={false}
                 buttons={
                   <IconButton
-                    icon={<TbUsers />}
+                    icon={<TbUsers aria-hidden={true} className="w-5 h-5 min-w-5 min-h-5" />}
                     colorSchema="neon"
                     type="button"
                     onClick={modalNavigateWrapper('select-contact', {
@@ -603,7 +640,7 @@ export const SwapPageContent = ({ account }: TProps) => {
                     ? t('form.hints.enterValidAddress')
                     : undefined
                 }
-                disabled={!actionData.selectedTokenToReceive.value}
+                disabled={!actionData.selectedTokenToReceive.value || !actionData.selectedAccountToUse.value}
               />
 
               <GreyAccountSelect
@@ -613,10 +650,11 @@ export const SwapPageContent = ({ account }: TProps) => {
                 onSelect={handleSelectAccountToReceive}
               >
                 <Button
+                  disabled={isContactsAndAccountsSelectionDisabled}
                   colorSchema="neon"
                   variant="text"
                   label={t('form.myAccountsButtonLabel')}
-                  leftIcon={<TbWallet />}
+                  leftIcon={<TbWallet aria-hidden={true} />}
                   flat
                 />
               </GreyAccountSelect>
@@ -631,7 +669,8 @@ export const SwapPageContent = ({ account }: TProps) => {
                   <span className="text-gray-100">{` ${t('form.amountToReceiveTitleComplement')}`}</span>
                 </Fragment>
               }
-              leftIcon={<VscCircleFilled className="text-gray-300 w-2 h-2" />}
+              leftIcon={<VscCircleFilled aria-hidden={true} className="text-gray-300 w-2 h-2" />}
+              headerClassName="gap-4"
             >
               <GreyAmountInput
                 disabled={!actionData.selectedTokenToUse.value}
@@ -655,16 +694,17 @@ export const SwapPageContent = ({ account }: TProps) => {
               fee={actionData.fee}
               isCalculatingFee={actionData.isCalculatingFee}
               service={service}
+              className="mt-2.5"
             />
           )}
 
           <Button
-            className="max-w-[16rem] w-full mt-8"
+            className="max-w-[20rem] w-full mt-8"
             iconsOnEdge={false}
             onClick={handleAct(handleSubmit)}
             label={t('form.submitLabel')}
             loading={actionState.isActing}
-            rightIcon={<MdArrowForward />}
+            leftIcon={<TbReplace aria-hidden={true} />}
             disabled={
               !actionState.isValid ||
               !actionData.selectAmountToUseMinMax.value ||

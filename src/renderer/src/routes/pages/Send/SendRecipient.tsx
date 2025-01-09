@@ -163,6 +163,7 @@ export const SendRecipient = ({
               onSelect={handleSelectAccount}
               withoutIndicator
               blockchains={selectedAccount ? [selectedAccount.blockchain] : undefined}
+              disabled={!selectedAccount}
             >
               <Button
                 disabled={!selectedAccount}
