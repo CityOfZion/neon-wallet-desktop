@@ -42,7 +42,7 @@ export class NumberHelper {
     }
   }
 
-  static formatString(value: string, decimals: number = 0) {
+  static formatString(value: string, decimals: number = 0, max?: number) {
     let newValue = value
     if (decimals === 0) {
       newValue = newValue.replace(/[^\d]/g, '')
@@ -55,9 +55,13 @@ export class NumberHelper {
       }
     }
 
-    return newValue.replace(/\s|-/g, '').replace(/^([^.]*\.)(.*)$/, function (_a, b, c) {
+    newValue = newValue.replace(/\s|-/g, '').replace(/^([^.]*\.)(.*)$/, function (_a, b, c) {
       return b + c.replace(/\./g, '')
     })
+
+    if (typeof max === 'number') newValue = newValue.slice(0, max)
+
+    return newValue
   }
 
   static removeLeadingZero(value: string) {

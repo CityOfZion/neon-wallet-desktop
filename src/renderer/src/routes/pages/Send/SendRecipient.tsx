@@ -81,7 +81,8 @@ export const SendRecipient = ({
   }
 
   const handleChangeAmount = (event: ChangeEvent<HTMLInputElement>) => {
-    const value = NumberHelper.formatString(event.target.value, recipient.token?.token.decimals)
+    const value = NumberHelper.formatString(event.target.value, recipient.token?.token?.decimals, 24)
+
     onUpdateRecipient({ amount: value })
   }
 

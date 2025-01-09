@@ -246,13 +246,19 @@ export const SwapPageContent = ({ account }: TProps) => {
   }
 
   const handleChangeAmountToUse = (event: ChangeEvent<HTMLInputElement>) => {
-    let amount = event.target.value
-
-    if (actionData.selectedTokenToUse.value?.decimals) {
-      amount = NumberHelper.formatString(amount, actionData.selectedTokenToUse.value.decimals)
-    }
+    const amount = NumberHelper.formatString(event.target.value, actionData.selectedTokenToUse.value?.decimals, 24)
 
     swapServiceRef.current.setAmountToUse(amount)
+  }
+
+  const handleMaxAmountToUse = () => {
+    if (!selectedTokenBalance || !actionData.selectedTokenToUse.value?.hash) return
+
+    const amount = actionData.selectAmountToUseMinMax.value?.max
+      ? Math.min(selectedTokenBalance.amountNumber, NumberHelper.number(actionData.selectAmountToUseMinMax.value.max))
+      : selectedTokenBalance.amountNumber
+
+    swapServiceRef.current!.setAmountToUse(amount.toString())
   }
 
   const handleSubmit = async () => {
@@ -573,7 +579,9 @@ export const SwapPageContent = ({ account }: TProps) => {
               <div className="flex gap-2.5 items-center">
                 <span className="text-gray-200 text-xs">
                   {t('form.minimumAmountToUseLabel', {
-                    amount: actionData.selectAmountToUseMinMax.value?.min ?? t('form.minimumAmountToUsePlaceholder'),
+                    amount:
+                      actionData.selectAmountToUseMinMax.value?.min?.slice(0, 24) ??
+                      t('form.minimumAmountToUsePlaceholder'),
                   })}
                 </span>
 
@@ -581,8 +589,23 @@ export const SwapPageContent = ({ account }: TProps) => {
                   value={actionData.selectedAmountToUse.value ?? ''}
                   onChange={handleChangeAmountToUse}
                   disabled={isSourceDisabled}
-                  loading={actionData.selectedAmountToUse.loading || actionData.selectAmountToUseMinMax.loading}
-                />
+                  loading={actionData.selectedAmountToUse.loading}
+                >
+                  <Button
+                    label={t('form.max')}
+                    flat
+                    variant="text"
+                    colorSchema="neon"
+                    className="bg-asphalt rounded-r"
+                    disabled={
+                      isSourceDisabled ||
+                      actionData.selectedAmountToUse.loading ||
+                      actionData.selectAmountToUseMinMax.loading ||
+                      (!selectedTokenBalance && !actionData.selectAmountToUseMinMax.value?.max)
+                    }
+                    onClick={handleMaxAmountToUse}
+                  />
+                </GreyAmountInput>
               </div>
             </ActionStep>
 
