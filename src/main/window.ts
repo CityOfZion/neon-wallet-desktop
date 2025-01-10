@@ -1,5 +1,5 @@
 import { mainApi } from '@shared/api/main'
-import { dialog } from 'electron'
+import { app, dialog } from 'electron'
 import { readFile, writeFile } from 'fs/promises'
 
 export function registerWindowHandlers() {
@@ -34,5 +34,9 @@ export function registerWindowHandlers() {
 
   mainApi.listenAsync('setWindowButtonPosition', ({ args, window }) => {
     window.setWindowButtonPosition(args)
+  })
+
+  mainApi.listenSync('getVersion', () => {
+    return app.getVersion()
   })
 }

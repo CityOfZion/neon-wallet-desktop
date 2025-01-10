@@ -65,11 +65,17 @@ export type TNetworkProfile = {
   name: string
   networkByBlockchain: TSelectedNetworks
 }
+
+export type TOverTheAirInfo = {
+  lastAppVersion?: string
+  hasUpdated?: boolean
+  shouldUpdate: boolean
+}
 export interface ISettingsState {
   isFirstTime: boolean
   hasPassword: boolean
   currency: TCurrency
-  hasOverTheAirUpdates: boolean
+  overTheAirInfo: TOverTheAirInfo
   customNetworks: TCustomNetwork
   selectedNetworkByBlockchain: TSelectedNetworks
   networkProfiles: TNetworkProfile[]

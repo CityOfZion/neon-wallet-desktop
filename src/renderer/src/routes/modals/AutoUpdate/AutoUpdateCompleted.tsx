@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdOutlineAutoAwesome } from 'react-icons/md'
 import { PiSealCheck } from 'react-icons/pi'
@@ -6,18 +5,11 @@ import { TbNotes } from 'react-icons/tb'
 import { ReactComponent as NeonWalletLogo } from '@renderer/assets/images/neon-wallet-full.svg'
 import { Button } from '@renderer/components/Button'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
-import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
-import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
 
 export const AutoUpdateCompleted = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'autoUpdate.completed' })
   const { modalNavigateWrapper } = useModalNavigate()
-  const dispatch = useAppDispatch()
-
-  useEffect(() => {
-    dispatch(settingsReducerActions.setHasOverTheAirUpdates(false))
-  }, [dispatch])
 
   return (
     <CenterModalLayout contentClassName="flex flex-col w-full items-center justify-between">
