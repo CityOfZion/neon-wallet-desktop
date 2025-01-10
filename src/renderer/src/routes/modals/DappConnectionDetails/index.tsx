@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbPlug } from 'react-icons/tb'
 import { TSessionProposal } from '@cityofzion/wallet-connect-sdk-wallet-core'
@@ -13,6 +13,7 @@ import { Separator } from '@renderer/components/Separator'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
+import { useMountUnsafe } from '@renderer/hooks/useMount'
 import { useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
 import { TWalletConnectHelperProposalInformation } from '@shared/@types/helpers'
@@ -33,7 +34,7 @@ export const DappConnectionDetailsModal = () => {
   const { networkRef } = useSelectedNetworkSelector(account.blockchain)
   const { t } = useTranslation('modals', { keyPrefix: 'dappConnectionDetails' })
 
-  const [proposalInformation, setProposalInformation] = useState<TWalletConnectHelperProposalInformation[]>()
+  const [proposalInformation, setProposalInformation] = useState<TWalletConnectHelperProposalInformation>()
   const [loading, setLoading] = useState(false)
 
   const handleClose = async () => {
@@ -49,19 +50,16 @@ export const DappConnectionDetailsModal = () => {
     try {
       setLoading(true)
 
+      if (!proposalInformation) return
+
       try {
-        const accountProposalInformation = proposalInformation?.find(info => info.blockchain === account.blockchain)
-        if (!accountProposalInformation) throw new Error(t('errorModal.accountProposalError'))
-
-        if (accountProposalInformation.network !== networkRef.current.id)
-          throw new Error(t('errorModal.differentNetworkError'))
-
         try {
           await approveProposal(proposal, {
             address: account.address,
-            chain: accountProposalInformation.network,
-            blockchain: accountProposalInformation.proposalBlockchain,
+            chain: proposalInformation.network,
+            blockchain: proposalInformation.proposalBlockchain,
           })
+
           modalNavigate(-1)
           modalNavigate('success', {
             state: {
@@ -71,7 +69,8 @@ export const DappConnectionDetailsModal = () => {
               content: <DappConnectionSuccessContent />,
             },
           })
-        } catch {
+        } catch (error) {
+          console.error(error)
           modalNavigate(-1)
           modalNavigate('error', {
             state: {
@@ -92,16 +91,25 @@ export const DappConnectionDetailsModal = () => {
     }
   }
 
-  useEffect(() => {
+  useMountUnsafe(() => {
     try {
-      const proposalInformation = WalletConnectHelper.getInformationFromProposal(proposal)
-      setProposalInformation(proposalInformation)
-    } catch {
+      const proposalInformation = WalletConnectHelper.getInformationFromProposal(proposal, account)
+
+      if (proposalInformation.length === 0) throw new Error(t('errorModal.accountProposalError'))
+
+      const selectedNetworkProposalInformation = proposalInformation.find(
+        information => information.network === networkRef.current.id
+      )
+
+      if (!selectedNetworkProposalInformation) throw new Error(t('errorModal.differentNetworkError'))
+
+      setProposalInformation(selectedNetworkProposalInformation)
+    } catch (error: any) {
       rejectProposal(proposal)
-      ToastHelper.error({ message: t('errorModal.genericError'), id: 'dapp-connection-details-proposal-error' })
+      ToastHelper.error({ message: error.message, id: 'dapp-connection-details-proposal-error' })
       modalNavigate(-1)
     }
-  }, [proposal, modalNavigate, rejectProposal, t])
+  })
 
   return (
     <CenterModalLayout onClose={handleClose} contentClassName="items-center justify-center flex flex-col">
@@ -127,8 +135,11 @@ export const DappConnectionDetailsModal = () => {
           </p>
 
           <ul className="flex flex-col gap-2 flex-grow  w-full mt-2 overflow-y-auto">
-            {proposalInformation.map(info => (
-              <li key={info.blockchain} className="w-full flex flex-col bg-gray-900 rounded text-white px-4 py-2.5">
+            {proposalInformation && (
+              <li
+                key={proposalInformation.blockchain}
+                className="w-full flex flex-col bg-gray-900 rounded text-white px-4 py-2.5"
+              >
                 <div className="flex justify-between text-sm items-center">
                   <div className="flex items-center gap-x-2.5">
                     <TbPlug className="stroke-blue w-6 h-6" />
@@ -136,20 +147,20 @@ export const DappConnectionDetailsModal = () => {
                     <span>{t('connectionDetailsTitle')}</span>
                   </div>
 
-                  <span className="text-gray-300">{info.chain}</span>
+                  <span className="text-gray-300">{proposalInformation.chain}</span>
                 </div>
 
                 <Separator className="my-2.5" />
 
                 <ul className="text-xs grid max-h-[10rem] overflow-y-scroll grid-cols-2">
-                  {info.methods.map(method => (
+                  {proposalInformation.methods.map(method => (
                     <li key={method} className="list-disc w-1/2 mx-4">
                       {method}
                     </li>
                   ))}
                 </ul>
               </li>
-            ))}
+            )}
           </ul>
 
           <div className="flex gap-x-2.5 w-full mt-4 items-end">

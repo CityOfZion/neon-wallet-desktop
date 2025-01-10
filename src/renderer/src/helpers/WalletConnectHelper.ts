@@ -1,8 +1,8 @@
-import { TSession, TSessionProposal } from '@cityofzion/wallet-connect-sdk-wallet-react'
+import { TSession, TSessionProposal, WalletConnectTypes } from '@cityofzion/wallet-connect-sdk-wallet-react'
 import { NETWORK_OPTIONS_BY_BLOCKCHAIN } from '@renderer/constants/networks'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TWalletConnectHelperProposalInformation, TWalletConnectHelperSessionInformation } from '@shared/@types/helpers'
-import { merge } from 'lodash'
+import { IAccountState } from '@shared/@types/store'
 
 export abstract class WalletConnectHelper {
   static supportedBlockchains: Partial<Record<TBlockchainServiceKey, string>> = {
@@ -55,42 +55,48 @@ export abstract class WalletConnectHelper {
     }
   }
 
-  static getInformationFromProposal(proposal: TSessionProposal): TWalletConnectHelperProposalInformation[] {
-    const combinedNamespaces = merge({}, proposal.params.requiredNamespaces, proposal.params.optionalNamespaces)
+  static getInformationFromProposal(
+    proposal: TSessionProposal,
+    account: IAccountState
+  ): TWalletConnectHelperProposalInformation[] {
+    let namespaces: WalletConnectTypes.ProposalTypes.BaseRequiredNamespace[]
+    const requiredNamespaces = Object.values(proposal.params.requiredNamespaces)
 
-    return Object.values(combinedNamespaces).map((namespace: any) => {
-      const chains = namespace.chains
-      if (!chains) throw new Error('Chains not found')
+    if (requiredNamespaces.length !== 0) {
+      namespaces = requiredNamespaces
+    } else {
+      namespaces = Object.values(proposal.params.optionalNamespaces)
+    }
 
-      const methods = namespace?.methods ?? []
+    const blockchainSupportedChains = this.supportedChainIds[account.blockchain]
+    if (!blockchainSupportedChains) return []
 
-      const chainId = chains[0]
+    const proposalInformation: TWalletConnectHelperProposalInformation[] = []
 
-      let proposalBlockchain: string | undefined
-      let blockchain: TBlockchainServiceKey | undefined
-      let network: string | undefined
+    for (const namespace of namespaces) {
+      try {
+        const namespaceChains = namespace.chains
+        if (!namespaceChains) continue
 
-      for (const supportedChainIds of Object.entries(this.supportedChainIds)) {
-        const [key, chainIds] = supportedChainIds
-        if (chainIds.includes(chainId)) {
-          const splitChainId = chainId.split(':')
-          proposalBlockchain = splitChainId[0]
-          network = splitChainId[1]
-          blockchain = key as TBlockchainServiceKey
-          break
+        for (const namespaceChain of namespaceChains) {
+          if (!blockchainSupportedChains.includes(namespaceChain)) continue
+
+          const splitChainId = namespaceChain.split(':')
+
+          proposalInformation.push({
+            blockchain: account.blockchain,
+            network: splitChainId[1],
+            chain: namespaceChain,
+            methods: namespace?.methods ?? [],
+            proposalBlockchain: splitChainId[0],
+          })
         }
+      } catch {
+        /* empty */
       }
+    }
 
-      if (!blockchain || !network || !proposalBlockchain) throw new Error('Chain not supported')
-
-      return {
-        blockchain,
-        network,
-        chain: chainId,
-        methods,
-        proposalBlockchain,
-      }
-    })
+    return proposalInformation
   }
 
   static isValidURI(uri: string) {
