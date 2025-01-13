@@ -2,7 +2,7 @@ import { ChangeEvent, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbStepInto, TbUsers, TbWallet } from 'react-icons/tb'
 import { VscCircleFilled } from 'react-icons/vsc'
-import { Token } from '@cityofzion/blockchain-service'
+import { BlockchainService, Token } from '@cityofzion/blockchain-service'
 import { ActionStep } from '@renderer/components/ActionStep'
 import { Button } from '@renderer/components/Button'
 import { GreyAccountSelect } from '@renderer/components/GreyAccountSelect'
@@ -17,6 +17,7 @@ import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useNameService } from '@renderer/hooks/useNameService'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TTokenBalance, TUseBalanceResult } from '@shared/@types/query'
 import { IAccountState, TContactAddress } from '@shared/@types/store'
 import { motion, useIsPresent } from 'framer-motion'
@@ -27,6 +28,7 @@ export type TSendRecipient = {
   amount?: string
   address?: string
   addressInput?: string
+  isMaxClicked?: boolean
 }
 
 type TProps = {
@@ -37,6 +39,8 @@ type TProps = {
   onRemoveRecipient: () => void
   removable?: boolean
   balance?: TUseBalanceResult
+  service?: BlockchainService<TBlockchainServiceKey, string> | undefined
+  isCalculatingFee?: boolean
 }
 
 export const SendRecipient = ({
@@ -47,6 +51,8 @@ export const SendRecipient = ({
   onRemoveRecipient,
   removable = false,
   balance,
+  service,
+  isCalculatingFee,
 }: TProps) => {
   const { t } = useTranslation('pages', { keyPrefix: 'send.recipient' })
   const { t: commonT } = useTranslation('common')
@@ -88,6 +94,12 @@ export const SendRecipient = ({
 
   const handleSelectAccount = (account: IAccountState) => {
     onUpdateRecipient({ addressInput: account.address, address: undefined })
+  }
+
+  const handleMaxAmountToUse = () => {
+    if (!service || !recipient.token?.token.hash) return
+
+    onUpdateRecipient({ amount: recipient.token.amountNumber.toString(), isMaxClicked: true })
   }
 
   useEffect(() => {
@@ -207,7 +219,17 @@ export const SendRecipient = ({
             value={recipient.amount ?? ''}
             onChange={handleChangeAmount}
             disabled={!selectedAccount || !recipient.token}
-          />
+          >
+            <Button
+              label={t('max')}
+              flat
+              variant="text"
+              colorSchema="neon"
+              className="bg-asphalt rounded-r"
+              onClick={handleMaxAmountToUse}
+              disabled={!selectedAccount || !recipient.token || isCalculatingFee}
+            />
+          </GreyAmountInput>
         </ActionStep>
 
         <div className="flex justify-between w-full pl-8 pb-3">

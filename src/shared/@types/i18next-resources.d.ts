@@ -981,6 +981,7 @@ interface Resources {
         tokenToSendLabel: 'Token to send'
         amountLabel: 'Amount'
         fiatLabel: 'Fiat value ({{currency}} estimated)'
+        max: 'Max'
         errors: {
           invalidAddress: 'Invalid address'
         }

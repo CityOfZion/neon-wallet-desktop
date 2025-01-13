@@ -38,6 +38,7 @@ type TActionsData = {
   recipients: TSendRecipient[]
   fee?: string
   isCalculatingFee: boolean
+  isTokenSelected: boolean
 }
 
 type TProps = {
@@ -60,6 +61,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
     recipients: [],
     isCalculatingFee: false,
     fee: undefined,
+    isTokenSelected: false,
   })
 
   const balance = useBalance(actionData.selectedAccount)
@@ -257,20 +259,53 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
           fee,
         })
 
-        let totalFeeAmount = NumberHelper.number(fee)
+        const feeNumber = NumberHelper.number(fee)
 
-        fields.intents.forEach(intent => {
-          if (UtilsHelper.normalizeHash(intent.tokenHash) !== UtilsHelper.normalizeHash(fields.service.feeToken.hash))
-            return
+        let totalFeeAmount = feeNumber
 
-          totalFeeAmount += NumberHelper.number(intent.amount)
-        })
+        let shouldUpdateRecipients = false
 
         const feeBalanceNumber =
           balance.data?.tokensBalances.find(
             ({ token }) =>
               UtilsHelper.normalizeHash(token.hash) === UtilsHelper.normalizeHash(fields.service.feeToken.hash)
           )?.amountNumber ?? 0
+
+        const newRecipients = actionData.recipients.map(recipient => {
+          const numberAmount = NumberHelper.number(recipient.amount ?? 0)
+
+          let amount = recipient.amount
+          let isMaxClicked = recipient.isMaxClicked
+
+          if (
+            UtilsHelper.normalizeHash(recipient.token!.token.hash) ===
+            UtilsHelper.normalizeHash(fields.service.feeToken.hash)
+          ) {
+            if (isMaxClicked && amount && numberAmount + feeNumber > feeBalanceNumber) {
+              amount = NumberHelper.formatString(
+                (feeBalanceNumber - feeNumber).toString(),
+                recipient.token?.token.decimals
+              )
+              shouldUpdateRecipients = true
+            }
+            totalFeeAmount += NumberHelper.number(amount ?? 0)
+          }
+
+          if (isMaxClicked) {
+            shouldUpdateRecipients = true
+            isMaxClicked = false
+          }
+
+          return {
+            ...recipient,
+            amount,
+            isMaxClicked,
+          }
+        })
+
+        if (shouldUpdateRecipients) {
+          setData({ recipients: newRecipients })
+        }
 
         if (totalFeeAmount > feeBalanceNumber) {
           setError('fee', t('errors.insufficientFunds'))
@@ -326,6 +361,8 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
                 recipient={recipient}
                 removable={actionData.recipients.length > 1}
                 balance={balance}
+                service={service}
+                isCalculatingFee={actionData.isCalculatingFee}
               />
             ))}
           </AnimatePresence>
