@@ -37,6 +37,7 @@ export const TransactionFeeActionStep = ({ fee, isCalculatingFee, service, class
       leftIcon={<TbReceipt aria-hidden={true} className="w-6 h-6 min-w-6 min-h-6" />}
       className={StyleHelper.mergeStyles('bg-gray-700/60 font-bold rounded px-4 mt-2 min-h-11', className)}
       titleClassName="text-md"
+      headerClassName="gap-4"
     >
       {isCalculatingFee ? (
         <Loader className="w-4 h-4" containerClassName="w-min items-center" />

@@ -411,6 +411,9 @@
       "tokenToReceiveTitle": "Receive this",
       "addressToReceivePlaceholder": "Enter recipient address...",
       "myAccountsButtonLabel": "My accounts",
+      "extraIdToReceive": "Destination tag/memo",
+      "extraIdToReceivePlaceholder": "Enter tag/memo...",
+      "openAboutExtraIdToReceiveModal": "Open destination tag/memo about modal",
       "amountToReceiveTitle": "Amount you'll get",
       "amountToReceiveTitleComplement": "(after fees)",
       "submitLabel": "Swap now",
@@ -432,6 +435,7 @@
       },
       "errors": {
         "invalidAddress": "Invalid address",
+        "invalidExtraIdToReceive": "Invalid destination tag/memo",
         "amountMin": "Amount is too low. Minimum amount is {{amount}}",
         "amountMax": "Amount is too high. Maximum amount is {{amount}}",
         "insufficientFunds": "You don't have enough balance",

@@ -86,6 +86,7 @@ export const backupSwapSchema = zod.object({
   amountFrom: zod.string(),
   amountTo: zod.string(),
   addressTo: zod.string(),
+  extraIdTo: zod.string().optional(),
   fee: zod.string().optional(),
 })
 
@@ -162,6 +163,7 @@ export const useNeonCreateBackup = () => {
       account: swap.account,
       swapId: swap.swapId,
       addressTo: swap.addressTo,
+      extraIdTo: swap.extraIdTo,
       amountFrom: swap.amountFrom,
       amountTo: swap.amountTo,
       swapProvider: swap.swapProvider,
@@ -326,6 +328,7 @@ export const useNeonImportBackup = () => {
 
       swapRecordsToCreate.push({
         addressTo: swap.addressTo,
+        extraIdTo: swap.extraIdTo,
         amountFrom: swap.amountFrom,
         amountTo: swap.amountTo,
         fee: swap.fee,

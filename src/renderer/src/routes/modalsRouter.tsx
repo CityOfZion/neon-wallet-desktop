@@ -3,6 +3,7 @@ import { ExportKeyModal } from '@renderer/routes/modals/ExportKey'
 import { SwapDetailsLogModal } from '@renderer/routes/modals/SwapDetailsLog'
 import { TRoute } from '@shared/@types/modal'
 
+import { AboutExtraIdToReceiveModal } from './modals/AboutExtraIdToReceiveModal'
 import { AddAddressModal } from './modals/AddAddress'
 import { AddCustomNetwork } from './modals/AddCustomNetwork'
 import { AddNetworkProfileModal } from './modals/AddNetworkProfile'
@@ -96,4 +97,5 @@ export const modalsRouter: TRoute[] = [
   { name: 'connect-hardware-wallet', type: 'center', size: 'lg', element: <ConnectHardwareWalletModal /> },
   { name: 'swap-details', type: 'side', size: 'lg', element: <SwapDetailsModal /> },
   { name: 'swap-details-log', type: 'side', size: 'lg', element: <SwapDetailsLogModal /> },
+  { name: 'about-extra-id-to-receive', type: 'side', size: 'sm', element: <AboutExtraIdToReceiveModal /> },
 ]
