@@ -254,9 +254,14 @@ export const SwapPageContent = ({ account }: TProps) => {
   const handleMaxAmountToUse = () => {
     if (!selectedTokenBalance || !actionData.selectedTokenToUse.value?.hash) return
 
+    const tokenBalanceWithoutFee =
+      service?.feeToken.hash === actionData.selectedTokenToUse.value?.hash
+        ? selectedTokenBalance.amountNumber - NumberHelper.number(actionData.fee ?? 0)
+        : selectedTokenBalance.amountNumber
+
     const amount = actionData.selectAmountToUseMinMax.value?.max
-      ? Math.min(selectedTokenBalance.amountNumber, NumberHelper.number(actionData.selectAmountToUseMinMax.value.max))
-      : selectedTokenBalance.amountNumber
+      ? Math.min(tokenBalanceWithoutFee, NumberHelper.number(actionData.selectAmountToUseMinMax.value.max))
+      : tokenBalanceWithoutFee
 
     swapServiceRef.current!.setAmountToUse(amount.toString())
   }
