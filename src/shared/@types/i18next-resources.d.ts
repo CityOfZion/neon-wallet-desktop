@@ -824,6 +824,7 @@ interface Resources {
       receivePanelLabel: 'You’ll receive'
       receivePanelTokenLabel: 'Token'
       receivePanelAddressLabel: 'Receiving address'
+      extraIdToLabel: 'Destination tag/memo'
       helpButtonLabel: 'Need help? Chat with us'
       swapLog: 'Swap log'
     }
