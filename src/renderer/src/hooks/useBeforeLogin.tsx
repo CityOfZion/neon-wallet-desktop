@@ -7,26 +7,38 @@ import { bsAggregator } from '@renderer/libs/blockchainService'
 import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
 import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
+import { compareVersions } from 'compare-versions'
 
 import { useCurrentLoginSessionSelector } from './useAuthSelector'
 import { useAppDispatch } from './useRedux'
 import {
-  useHasOverTheAirUpdatesSelector,
+  useOverTheAirInfoSelector,
   useSelectedNetworkByBlockchainSelector,
   useSelectedNetworkProfileSelector,
 } from './useSettingsSelector'
 
 const useOverTheAirUpdate = () => {
-  const { hasOverTheAirUpdatesRef } = useHasOverTheAirUpdatesSelector()
+  const { overTheAirInfoRef } = useOverTheAirInfoSelector()
   const { modalNavigate } = useModalNavigate()
   const dispatch = useAppDispatch()
   const { t } = useTranslation('hooks', { keyPrefix: 'useOverTheAirUpdate' })
 
   useEffect(() => {
+    if (!overTheAirInfoRef.current.shouldUpdate || overTheAirInfoRef.current.hasUpdated) {
+      return
+    }
+
     const removeUpdateCompletedListener = window.api.listen('updateCompleted', async () => {
       ToastHelper.dismiss('auto-update-downloading')
 
-      dispatch(settingsReducerActions.setHasOverTheAirUpdates(true))
+      const appVersion = window.api.sendSync('getVersion')
+
+      dispatch(
+        settingsReducerActions.setOverTheAirInfo({
+          lastAppVersion: appVersion,
+          hasUpdated: true,
+        })
+      )
 
       ToastHelper.success({ message: t('downloaded'), duration: 5000 })
 
@@ -50,15 +62,41 @@ const useOverTheAirUpdate = () => {
       removeUpdateErrorListener()
       removeUpdateCompletedListener()
     }
-  }, [dispatch, t])
+  }, [dispatch, overTheAirInfoRef, t])
 
   useEffect(() => {
-    if (hasOverTheAirUpdatesRef.current) {
+    const { lastAppVersion, hasUpdated } = overTheAirInfoRef.current
+    const currentAppVersion = window.api.sendSync('getVersion')
+
+    if (!lastAppVersion) return
+
+    if (compareVersions(currentAppVersion, lastAppVersion) === 0) {
+      if (hasUpdated) {
+        // It is necessary to wait the app to be done to show the toast
+        UtilsHelper.sleep(1000).then(() => {
+          ToastHelper.info({
+            message: t('installError'),
+          })
+        })
+      }
+
+      dispatch(settingsReducerActions.setOverTheAirInfo({ shouldUpdate: false, hasUpdated: false }))
+      return
+    }
+
+    if (hasUpdated) {
       modalNavigate('auto-update-completed')
     }
-  }, [hasOverTheAirUpdatesRef, modalNavigate])
-}
 
+    dispatch(
+      settingsReducerActions.setOverTheAirInfo({
+        shouldUpdate: true,
+        hasUpdated: undefined,
+        lastAppVersion: undefined,
+      })
+    )
+  }, [overTheAirInfoRef, modalNavigate, dispatch])
+}
 const useDeeplinkListeners = () => {
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const { t } = useTranslation('hooks', { keyPrefix: 'DappConnection' })

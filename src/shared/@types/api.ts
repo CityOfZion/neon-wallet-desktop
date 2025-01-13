@@ -22,6 +22,7 @@ export type TMainApiListenersSync = {
   decryptBasedEncryptedSecretSync: TIpcMainSyncListener<TDecryptBasedEncryptedSecretParams, string>
   encryptBasedOSSync: TIpcMainSyncListener<string, string>
   decryptBasedOSSync: TIpcMainSyncListener<string, string>
+  getVersion: TIpcMainSyncListener<undefined, string>
 }
 
 export type TMainApiListenersAsync = {

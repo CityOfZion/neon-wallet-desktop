@@ -92,11 +92,11 @@ export const useIsFirstTimeSelector = () => {
   }
 }
 
-export const useHasOverTheAirUpdatesSelector = () => {
-  const { ref, value } = useAppSelector(state => state.settings.data.hasOverTheAirUpdates)
+export const useOverTheAirInfoSelector = () => {
+  const { ref, value } = useAppSelector(state => state.settings.data.overTheAirInfo)
   return {
-    hasOverTheAirUpdates: value,
-    hasOverTheAirUpdatesRef: ref,
+    overTheAirInfo: value,
+    overTheAirInfoRef: ref,
   }
 }
 

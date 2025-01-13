@@ -2,7 +2,7 @@ import { CaseReducer, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { availableCurrencies } from '@renderer/constants/currency'
 import { DEFAULT_NETWORK_BY__BLOCKCHAIN, DEFAULT_NETWORK_PROFILE } from '@renderer/constants/networks'
 import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
-import { ISettingsState, TCurrency, TNetworkProfile } from '@shared/@types/store'
+import { ISettingsState, TCurrency, TNetworkProfile, TOverTheAirInfo } from '@shared/@types/store'
 import { cloneDeep } from 'lodash'
 import { createMigrate, PersistConfig, PURGE } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
@@ -48,12 +48,25 @@ const settingsReducerMigrations = {
       },
     },
   }),
+  2: (state: any) => {
+    delete state.data.hasOverTheAirUpdates
+
+    return {
+      ...state,
+      data: {
+        ...state.data,
+        overTheAirInfo: {
+          shouldUpdate: true,
+        },
+      },
+    }
+  },
 }
 
 export const settingsReducerConfig: PersistConfig<ISettingsReducer> = {
   key: 'settingsReducer',
   storage: storage,
-  version: 1,
+  version: 2,
   migrate: createMigrate(settingsReducerMigrations),
 }
 
@@ -62,7 +75,9 @@ const initialState: ISettingsReducer = {
     hasPassword: false,
     isFirstTime: true,
     currency: availableCurrencies[0],
-    hasOverTheAirUpdates: false,
+    overTheAirInfo: {
+      shouldUpdate: true,
+    },
     customNetworks: {
       ethereum: [],
       neo3: [],
@@ -93,8 +108,8 @@ const setCurrency: CaseReducer<ISettingsReducer, PayloadAction<TCurrency>> = (st
   state.data.currency = action.payload
 }
 
-const setHasOverTheAirUpdates: CaseReducer<ISettingsReducer, PayloadAction<boolean>> = (state, action) => {
-  state.data.hasOverTheAirUpdates = action.payload
+const setOverTheAirInfo: CaseReducer<ISettingsReducer, PayloadAction<Partial<TOverTheAirInfo>>> = (state, action) => {
+  state.data.overTheAirInfo = { ...state.data.overTheAirInfo, ...action.payload }
 }
 
 const setSelectNetwork = <T extends TBlockchainServiceKey>(
@@ -212,7 +227,7 @@ const SettingsReducer = createSlice({
     setHasPassword,
     setIsFirstTime,
     setCurrency,
-    setHasOverTheAirUpdates,
+    setOverTheAirInfo,
     setSelectNetwork,
     setSelectedNetworkUrl,
     saveCustomNetwork,

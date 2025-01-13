@@ -251,6 +251,7 @@ interface Resources {
       downloading: 'New version found. Downloading...'
       downloaded: 'New version downloaded. The app will restart to apply update.'
       error: 'Error downloading update. Please try again later restarting the app.'
+      installError: 'It was not possible to install the update. Please verify the app permissions and download the update manually.'
     }
     useNeonBackup: {
       errors: {
