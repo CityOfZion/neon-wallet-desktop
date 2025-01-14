@@ -10,9 +10,19 @@ type TProps = PropsWithChildren<{
   readOnly?: boolean
   loading?: boolean
   className?: string
+  inputClassName?: string
 }>
 
-export const GreyAmountInput = ({ onChange, value, disabled, loading, className, readOnly, children }: TProps) => {
+export const GreyAmountInput = ({
+  onChange,
+  value,
+  disabled,
+  loading,
+  className,
+  inputClassName,
+  readOnly,
+  children,
+}: TProps) => {
   const { t } = useTranslation('components', { keyPrefix: 'greyAmountInput' })
   const isDisabled = loading || disabled
 
@@ -29,7 +39,10 @@ export const GreyAmountInput = ({ onChange, value, disabled, loading, className,
       ) : (
         <>
           <input
-            className="w-full h-full px-2 bg-transparent outline-none disabled:cursor-not-allowed [appearance:textfield] text-neon text-center"
+            className={StyleHelper.mergeStyles(
+              'w-full h-full px-2 bg-transparent outline-none disabled:cursor-not-allowed [appearance:textfield] text-neon text-center',
+              inputClassName
+            )}
             onChange={onChange}
             value={value}
             disabled={isDisabled}

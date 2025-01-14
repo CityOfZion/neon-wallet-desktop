@@ -22,7 +22,7 @@ export const SideModalLayout = ({ children, heading, headingIcon, contentClassNa
   return (
     <div className="bg-gray-800 h-full text-white text-xs flex flex-col">
       <header className="flex flex-col px-4">
-        <div className="flex justify-between py-2.5  items-center">
+        <div className="flex justify-between py-2.5 items-center">
           {withBackButton && (
             <IconButton
               icon={<MdKeyboardBackspace className="fill-gray-200" />}

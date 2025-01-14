@@ -50,9 +50,10 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
     },
     ref
   ) => {
+    const isTypePassword = type === 'password'
     const internalRef = useRef<HTMLInputElement>(null)
-    const [hidden, setHidden] = useState(type === 'password')
-    const realType = type === 'password' ? (hidden ? 'password' : 'text') : type
+    const [hidden, setHidden] = useState(isTypePassword)
+    const realType = isTypePassword ? (hidden ? 'password' : 'text') : type
 
     const toggleHidden: React.MouseEventHandler<HTMLButtonElement> = event => {
       event.stopPropagation()
@@ -120,7 +121,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
               'ring-pink': !!errorMessage || error === true,
               'focus:ring-neon': !errorMessage || error === false,
               'pl-3': !!leftIcon,
-              'pr-3': type === 'password' || clearable,
+              'pr-3': isTypePassword || clearable,
             },
             contentClassName
           )}
@@ -155,47 +156,55 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
             {...TestHelper.buildTestObject(testId)}
           />
 
-          <div className="flex items-center gap-x-2">
-            {loading && <Loader className="w-4 h-4 mr-1" />}
+          {(loading || isTypePassword || pastable || copyable || clearable || buttons) && (
+            <div className="flex items-center gap-x-2">
+              {loading && <Loader className="w-4 h-4 mr-1" />}
 
-            {type === 'password' && (
-              <IconButton
-                icon={hidden ? <MdVisibility /> : <MdVisibilityOff />}
-                onClick={toggleHidden}
-                type="button"
-                disabled={props.disabled}
-                compacted
-              />
-            )}
+              {isTypePassword && (
+                <IconButton
+                  icon={hidden ? <MdVisibility aria-hidden={true} /> : <MdVisibilityOff aria-hidden={true} />}
+                  onClick={toggleHidden}
+                  type="button"
+                  disabled={props.disabled}
+                  compacted
+                />
+              )}
 
-            {pastable && (
-              <IconButton
-                icon={<MdContentPasteGo />}
-                onClick={handlePaste}
-                colorSchema="neon"
-                type="button"
-                disabled={props.disabled}
-                compacted
-              />
-            )}
+              {pastable && (
+                <IconButton
+                  icon={<MdContentPasteGo aria-hidden={true} />}
+                  onClick={handlePaste}
+                  colorSchema="neon"
+                  type="button"
+                  disabled={props.disabled}
+                  compacted
+                />
+              )}
 
-            {copyable && (
-              <IconButton
-                icon={<MdContentCopy />}
-                onClick={handleCopyInput}
-                colorSchema="neon"
-                type="button"
-                compacted
-                disabled={props.disabled}
-              />
-            )}
+              {copyable && (
+                <IconButton
+                  icon={<MdContentCopy aria-hidden={true} />}
+                  onClick={handleCopyInput}
+                  colorSchema="neon"
+                  type="button"
+                  compacted
+                  disabled={props.disabled}
+                />
+              )}
 
-            {clearable && (
-              <IconButton icon={<MdCancel />} type="button" onClick={clear} compacted disabled={props.disabled} />
-            )}
+              {clearable && (
+                <IconButton
+                  icon={<MdCancel aria-hidden={true} />}
+                  type="button"
+                  onClick={clear}
+                  compacted
+                  disabled={props.disabled}
+                />
+              )}
 
-            {buttons}
-          </div>
+              {buttons}
+            </div>
+          )}
         </div>
 
         {match({ errorMessage, hint })

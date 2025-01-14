@@ -9,7 +9,7 @@ type TProps = {
 export const Loader = ({ containerClassName, className }: TProps) => {
   return (
     <div className={StyleHelper.mergeStyles('flex justify-center w-full', containerClassName)}>
-      <TbLoader2 className={StyleHelper.mergeStyles('animate-spin w-6 h-6', className)} />
+      <TbLoader2 aria-hidden={true} className={StyleHelper.mergeStyles('animate-spin w-6 h-6', className)} />
     </div>
   )
 }

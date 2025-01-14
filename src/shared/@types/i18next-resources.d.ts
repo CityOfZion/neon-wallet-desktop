@@ -834,6 +834,21 @@ interface Resources {
       copySwapLog: 'Copy swap log to clipboard'
       thereIsNoLog: 'There is no swap log'
     }
+    aboutExtraIdToReceiveModal: {
+      title: 'About a destination tag/memo'
+      what: {
+        title: 'What is a destination tag or memo?'
+        description: "A destination tag or memo is a unique identifier that helps ensure a cryptocurrency deposit is credited to the correct recipient. It's usually required when sending funds to services or exchanges that use shared wallet addresses."
+      }
+      why: {
+        title: 'Why do I need one?'
+        description: 'The destination token is identified as requiring additional identifying information in order to be properly delivered. Please make sure you provide this additional information to guarantee a successful swap.'
+      }
+      where: {
+        title: 'Where can I find my destination tag/memo?'
+        description: 'It is typically a unique identifying string that can be found in your recipient account information.'
+      }
+    }
   }
   pages: {
     welcome: {
@@ -1238,6 +1253,9 @@ interface Resources {
         tokenToReceiveTitle: 'Receive this'
         addressToReceivePlaceholder: 'Enter recipient address...'
         myAccountsButtonLabel: 'My accounts'
+        extraIdToReceive: 'Destination tag/memo'
+        extraIdToReceivePlaceholder: 'Enter tag/memo...'
+        openAboutExtraIdToReceiveModal: 'Open destination tag/memo about modal'
         amountToReceiveTitle: "Amount you'll get"
         amountToReceiveTitleComplement: '(after fees)'
         submitLabel: 'Swap now'
@@ -1259,6 +1277,7 @@ interface Resources {
         }
         errors: {
           invalidAddress: 'Invalid address'
+          invalidExtraIdToReceive: 'Invalid destination tag/memo'
           amountMin: 'Amount is too low. Minimum amount is {{amount}}'
           amountMax: 'Amount is too high. Maximum amount is {{amount}}'
           insufficientFunds: "You don't have enough balance"

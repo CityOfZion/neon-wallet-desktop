@@ -1,7 +1,7 @@
 import { ChangeEvent, Fragment, useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdInfoOutline, MdRestartAlt } from 'react-icons/md'
-import { TbDiamond, TbReplace, TbStepInto, TbStepOut, TbUsers, TbWallet } from 'react-icons/tb'
+import { TbDiamond, TbHelp, TbReplace, TbStepInto, TbStepOut, TbUsers, TbWallet } from 'react-icons/tb'
 import { VscCircleFilled } from 'react-icons/vsc'
 import {
   Account,
@@ -51,6 +51,7 @@ type TActionsData = {
   selectedTokenToReceive: SwapServiceLoadableValue<SwapServiceToken<TBlockchainServiceKey>>
   selectedAmountToReceive: SwapServiceLoadableValue<string>
   selectedAddressToReceive: SwapServiceValidateValue<string>
+  selectedExtraIdToReceive: SwapServiceValidateValue<string>
   selectAmountToUseMinMax: SwapServiceLoadableValue<SwapServiceMinMaxAmount>
   fee?: string
   isCalculatingFee: boolean
@@ -96,6 +97,7 @@ export const SwapPageContent = ({ account }: TProps) => {
       selectedTokenToReceive: { loading: false, value: null },
       selectedAmountToReceive: { loading: false, value: null },
       selectedAddressToReceive: { loading: false, value: null, valid: null },
+      selectedExtraIdToReceive: { loading: false, value: null, valid: null },
       selectAmountToUseMinMax: { loading: false, value: null },
       fee: undefined,
       isCalculatingFee: false,
@@ -120,7 +122,28 @@ export const SwapPageContent = ({ account }: TProps) => {
     actionData.availableTokensToUse.loading ||
     actionData.selectedTokenToUse.loading
 
+  const hasExtraIdToReceive = !!actionData.selectedTokenToReceive.value?.hasExtraId
+
+  const isExtraIdToReceiveInvalid =
+    hasExtraIdToReceive &&
+    (!actionData.selectedExtraIdToReceive.valid || !actionData.selectedExtraIdToReceive.value?.trim())
+
+  const isExtraIdToReceiveWrong = hasExtraIdToReceive && actionData.selectedExtraIdToReceive.valid === false
+
+  const isRecipientDisabled = !actionData.selectedTokenToReceive.value || !actionData.selectedAccountToUse.value
+
   const balanceQuery = useBalance(actionData.selectedAccountToUse.value ?? undefined)
+
+  const errorMessage = useMemo(() => {
+    const message = actionState.errors.selectedAmountToUse ?? actionState.errors.fee ?? ''
+
+    if (message) return message
+    if (isExtraIdToReceiveWrong) return t('form.errors.invalidExtraIdToReceive') as string
+
+    return message
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [actionState, isExtraIdToReceiveWrong])
 
   const service = useMemo(
     () =>
@@ -186,6 +209,10 @@ export const SwapPageContent = ({ account }: TProps) => {
       setData({ selectedAddressToReceive: addressToReceive })
     })
 
+    swapService.eventEmitter.on('extraIdToReceive', selectedExtraIdToReceive => {
+      setData({ selectedExtraIdToReceive })
+    })
+
     swapService.eventEmitter.on('amountToUseMinMax', amountToUseMinMax => {
       setData({ selectAmountToUseMinMax: amountToUseMinMax })
     })
@@ -245,6 +272,10 @@ export const SwapPageContent = ({ account }: TProps) => {
     swapServiceRef.current.setAddressToReceive(event.target.value)
   }
 
+  const handleChangeExtraIdToReceive = (event: ChangeEvent<HTMLInputElement>) => {
+    swapServiceRef.current.setExtraIdToReceive(event.target.value)
+  }
+
   const handleChangeAmountToUse = (event: ChangeEvent<HTMLInputElement>) => {
     const amount = NumberHelper.formatString(event.target.value, actionData.selectedTokenToUse.value?.decimals, 24)
 
@@ -279,7 +310,8 @@ export const SwapPageContent = ({ account }: TProps) => {
       !actionData.selectedAccountToUse.value ||
       !actionData.selectedAddressToReceive.value ||
       !actionData.selectedAddressToReceive.valid ||
-      !actionData.selectAmountToUseMinMax.value
+      !actionData.selectAmountToUseMinMax.value ||
+      isExtraIdToReceiveInvalid
     ) {
       return
     }
@@ -287,6 +319,7 @@ export const SwapPageContent = ({ account }: TProps) => {
     const swapRecord: TSwapRecord = {
       account: actionData.selectedAccountToUse.value,
       addressTo: actionData.selectedAddressToReceive.value,
+      extraIdTo: actionData.selectedExtraIdToReceive.value,
       amountFrom: actionData.selectedAmountToUse.value,
       amountTo: actionData.selectedAmountToReceive.value,
       tokenFrom: actionData.selectedTokenToUse.value,
@@ -614,7 +647,7 @@ export const SwapPageContent = ({ account }: TProps) => {
               </div>
             </ActionStep>
 
-            <div className="flex justify-between w-full pl-8 pb-4">
+            <div className="flex justify-between w-full pl-8.5 pb-4">
               <span className="text-gray-200 italic text-xs">{t('form.balanceLabel')}</span>
               <span className="text-gray-100 italic text-xs">
                 {selectedTokenBalance?.amount ?? t('form.balancePlaceholder')}
@@ -664,11 +697,13 @@ export const SwapPageContent = ({ account }: TProps) => {
                   actionData.selectedAddressToReceive.valid === false ? t('form.errors.invalidAddress') : undefined
                 }
                 hint={
-                  actionData.selectedTokenToReceive.value && isContactsAndAccountsSelectionDisabled
+                  actionData.selectedTokenToReceive.value &&
+                  actionData.selectedAccountToUse.value &&
+                  isContactsAndAccountsSelectionDisabled
                     ? t('form.hints.enterValidAddress')
                     : undefined
                 }
-                disabled={!actionData.selectedTokenToReceive.value || !actionData.selectedAccountToUse.value}
+                disabled={isRecipientDisabled}
               />
 
               <GreyAccountSelect
@@ -688,6 +723,45 @@ export const SwapPageContent = ({ account }: TProps) => {
               </GreyAccountSelect>
             </div>
 
+            {hasExtraIdToReceive && (
+              <>
+                <Separator />
+
+                <ActionStep
+                  headerClassName="gap-4"
+                  title={
+                    <div className="flex items-center gap-2">
+                      <p>{t('form.extraIdToReceive')}</p>
+
+                      <IconButton
+                        aria-label={t('form.openAboutExtraIdToReceiveModal')}
+                        colorSchema="neon"
+                        type="button"
+                        compacted
+                        icon={<TbHelp aria-hidden={true} className="w-5 h-5 min-w-5 min-h-5" />}
+                        onClick={modalNavigateWrapper('about-extra-id-to-receive')}
+                      />
+                    </div>
+                  }
+                  leftIcon={<VscCircleFilled aria-hidden={true} className="text-gray-300 w-2 h-2" />}
+                >
+                  <Input
+                    aria-label={t('form.extraIdToReceive')}
+                    placeholder={t('form.extraIdToReceivePlaceholder')}
+                    compacted
+                    className="text-center"
+                    contentClassName="px-4 h-9"
+                    containerClassName="w-42"
+                    error={actionData.selectedExtraIdToReceive.valid === false}
+                    value={actionData.selectedExtraIdToReceive.value ?? ''}
+                    required={true}
+                    disabled={isRecipientDisabled}
+                    onChange={handleChangeExtraIdToReceive}
+                  />
+                </ActionStep>
+              </>
+            )}
+
             <Separator />
 
             <ActionStep
@@ -704,18 +778,14 @@ export const SwapPageContent = ({ account }: TProps) => {
                 disabled={!actionData.selectedTokenToUse.value}
                 readOnly
                 className="bg-transparent"
+                inputClassName="px-0"
                 value={actionData.selectedAmountToReceive.value ?? ''}
                 loading={actionData.selectedAmountToReceive.loading}
               />
             </ActionStep>
           </div>
 
-          {(actionState.errors.selectedAmountToUse || actionState.errors.fee) && (
-            <AlertErrorBanner
-              className="w-full mt-2"
-              message={actionState.errors.selectedAmountToUse ?? actionState.errors.fee ?? ''}
-            />
-          )}
+          {errorMessage && <AlertErrorBanner className="w-full mt-2.5" message={errorMessage} />}
 
           {(!service || (service && isCalculableFee(service))) && (
             <TransactionFeeActionStep
@@ -742,6 +812,7 @@ export const SwapPageContent = ({ account }: TProps) => {
               !actionData.selectedTokenToReceive.value ||
               !actionData.selectedAccountToUse.value ||
               !actionData.selectedAddressToReceive.value ||
+              isExtraIdToReceiveInvalid ||
               !service ||
               (isCalculableFee(service) && !actionData.fee)
             }
