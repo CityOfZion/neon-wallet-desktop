@@ -264,6 +264,8 @@ export const SwapDetailsModal = () => {
                 swapRecord.addressTo
               )}
             </Details.Item>
+
+            {swapRecord.extraIdTo && <Details.Item label={t('extraIdToLabel')}>{swapRecord.extraIdTo}</Details.Item>}
           </Details.Panel>
         </Details.Body>
       </Details.Root>
