@@ -1,5 +1,11 @@
 [
   {
+    "tag_name": "Version v3.4.0",
+    "published_at": "17 Jan 2025",
+    "body": "<li>• Polygon Network Support</li><li>• Swap UI Enhancements</li><li>• Max button for Swaps</li><li>• Minor bugfixes</li>",
+    "html_url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.4.0"
+  },
+  {
     "tag_name": "Version v3.3.0",
     "published_at": "24 Dec 2024",
     "body": "<li>• Cross-chain Swap Feature Implementation</li><li>• Offline Sync Compatibility with Neon Wallet Mobile by using Neon Backups</li><li>• Enhancement to Skins Feature</li><li>• Help Feature Initial Implementation</li><li>• Minor bugfixes</li><li>• Support to Neo Legacy Ledger</li>",
