@@ -148,11 +148,12 @@ export const GreyTokenSelect = <T extends TGreyTokenSelectToken>({
             >
               {rowVirtualizer.getVirtualItems().map((virtualItem, _, array) => {
                 const row = filteredTokensByText[virtualItem.index]
+                const value = `${row.symbol}-${row.network}-${virtualItem.key}`
 
                 return (
                   <Command.Item
                     key={virtualItem.key}
-                    value={`${row.symbol}-${row.network}`}
+                    value={value}
                     onSelect={() => handleClickToken(row)}
                     className="flex-col absolute top-0 left-0 w-full h-10"
                     style={{
