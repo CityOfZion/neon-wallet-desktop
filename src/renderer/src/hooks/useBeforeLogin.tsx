@@ -95,6 +95,8 @@ const useOverTheAirUpdate = () => {
         lastAppVersion: undefined,
       })
     )
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [overTheAirInfoRef, modalNavigate, dispatch])
 }
 const useDeeplinkListeners = () => {

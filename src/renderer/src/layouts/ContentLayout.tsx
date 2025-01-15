@@ -48,7 +48,7 @@ export const ContentLayout = ({
       >
         <header
           className={StyleHelper.mergeStyles(
-            'border-b border-b-gray-300/30 min-h-12 flex',
+            'border-b border-b-gray-300/30 min-h-13 flex',
             { 'pb-2': !!rightComponent, 'pb-4': !rightComponent },
             headerClassName
           )}

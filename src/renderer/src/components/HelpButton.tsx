@@ -24,9 +24,8 @@ export const HelpButton = () => {
       <ActionPopover.Content
         side="top"
         color="yellow"
-        className="mr-4 mt-[-10px]"
+        className="mt-[-10px]"
         contentClassName="bg-gray-900/60 backdrop-blur-sm"
-        pointerClassName="left-[100%] -translate-x-[58px]"
         {...TestHelper.buildTestObject('help-content')}
       >
         <ActionPopover.Item
@@ -37,6 +36,7 @@ export const HelpButton = () => {
           colorSchema="white"
           iconsOnEdge={false}
           leftIcon={<TbMessage aria-hidden="true" className="text-yellow" />}
+          clickableProps={{ className: 'px-2' }}
           {...TestHelper.buildTestObject('help-chat-with-us')}
         />
       </ActionPopover.Content>

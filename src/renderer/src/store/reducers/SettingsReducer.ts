@@ -61,12 +61,40 @@ const settingsReducerMigrations = {
       },
     }
   },
+  3: (state: any) => ({
+    ...state,
+    data: {
+      ...state.data,
+      customNetworks: {
+        ...state.data.customNetworks,
+        base: [],
+      },
+      selectedNetworkByBlockchain: {
+        ...state.data.selectedNetworkByBlockchain,
+        base: DEFAULT_NETWORK_BY__BLOCKCHAIN.base,
+      },
+      networkProfiles: state.data.networkProfiles.map(profile => ({
+        ...profile,
+        networkByBlockchain: {
+          ...profile.networkByBlockchain,
+          base: DEFAULT_NETWORK_BY__BLOCKCHAIN.base,
+        },
+      })),
+      selectedNetworkProfile: {
+        ...state.data.selectedNetworkProfile,
+        networkByBlockchain: {
+          ...state.data.selectedNetworkProfile.networkByBlockchain,
+          base: DEFAULT_NETWORK_BY__BLOCKCHAIN.base,
+        },
+      },
+    },
+  }),
 }
 
 export const settingsReducerConfig: PersistConfig<ISettingsReducer> = {
   key: 'settingsReducer',
   storage: storage,
-  version: 2,
+  version: 3,
   migrate: createMigrate(settingsReducerMigrations),
 }
 
@@ -84,6 +112,7 @@ const initialState: ISettingsReducer = {
       neoLegacy: [],
       neox: [],
       polygon: [],
+      base: [],
     },
     selectedNetworkByBlockchain: DEFAULT_NETWORK_BY__BLOCKCHAIN,
     networkProfiles: [DEFAULT_NETWORK_PROFILE],
