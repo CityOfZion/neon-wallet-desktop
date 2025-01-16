@@ -231,6 +231,7 @@ export const SwapPageContent = ({ account }: TProps) => {
   }
 
   const handleSelectTokenToUse = (token: SwapServiceToken<TBlockchainServiceKey>) => {
+    swapServiceRef.current!.setAmountToUse(null)
     swapServiceRef.current.setTokenToUse(token)
   }
 
