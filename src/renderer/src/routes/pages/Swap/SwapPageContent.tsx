@@ -282,21 +282,6 @@ export const SwapPageContent = ({ account }: TProps) => {
     swapServiceRef.current.setAmountToUse(amount)
   }
 
-  const handleMaxAmountToUse = () => {
-    if (!selectedTokenBalance || !actionData.selectedTokenToUse.value?.hash) return
-
-    const tokenBalanceWithoutFee =
-      service?.feeToken.hash === actionData.selectedTokenToUse.value?.hash
-        ? selectedTokenBalance.amountNumber - NumberHelper.number(actionData.fee ?? 0)
-        : selectedTokenBalance.amountNumber
-
-    const amount = actionData.selectAmountToUseMinMax.value?.max
-      ? Math.min(tokenBalanceWithoutFee, NumberHelper.number(actionData.selectAmountToUseMinMax.value.max))
-      : tokenBalanceWithoutFee
-
-    swapServiceRef.current!.setAmountToUse(amount.toString())
-  }
-
   const handleSubmit = async () => {
     if (
       !swapServiceRef.current ||
@@ -628,22 +613,7 @@ export const SwapPageContent = ({ account }: TProps) => {
                   onChange={handleChangeAmountToUse}
                   disabled={isSourceDisabled}
                   loading={actionData.selectedAmountToUse.loading}
-                >
-                  <Button
-                    label={t('form.max')}
-                    flat
-                    variant="text"
-                    colorSchema="neon"
-                    className="bg-asphalt rounded-r"
-                    disabled={
-                      isSourceDisabled ||
-                      actionData.selectedAmountToUse.loading ||
-                      actionData.selectAmountToUseMinMax.loading ||
-                      (!selectedTokenBalance && !actionData.selectAmountToUseMinMax.value?.max)
-                    }
-                    onClick={handleMaxAmountToUse}
-                  />
-                </GreyAmountInput>
+                />
               </div>
             </ActionStep>
 
