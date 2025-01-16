@@ -981,6 +981,7 @@ interface Resources {
         tokenToSendLabel: 'Token to send'
         amountLabel: 'Amount'
         fiatLabel: 'Fiat value ({{currency}} estimated)'
+        max: 'Max'
         errors: {
           invalidAddress: 'Invalid address'
         }
@@ -1006,6 +1007,8 @@ interface Resources {
       errors: {
         feeError: 'Error to calculate fee'
         insufficientFunds: 'Insufficient funds'
+        calculateMaxAmount: 'Error to calculate the maximum amount'
+        amountIsLessOrEqualZero: 'The amount is less than or equal to zero'
       }
     }
     wallets: {

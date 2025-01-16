@@ -36,19 +36,19 @@ export const TransactionFeeActionStep = ({ fee, isCalculatingFee, service, class
       title={t('title')}
       leftIcon={<TbReceipt aria-hidden={true} className="w-6 h-6 min-w-6 min-h-6" />}
       className={StyleHelper.mergeStyles('bg-gray-700/60 font-bold rounded px-4 mt-2 min-h-11', className)}
-      titleClassName="text-md"
+      titleClassName="text-md whitespace-nowrap mr-3"
       headerClassName="gap-4"
     >
       {isCalculatingFee ? (
         <Loader className="w-4 h-4" containerClassName="w-min items-center" />
       ) : (
-        <div className="flex items-center gap-4.5 text-sm">
-          <span className="font-normal uppercase mt-0.5">
-            {fee ?? '0.00'} {service?.feeToken.symbol}{' '}
+        <div className="flex items-center gap-3 text-sm">
+          <span className="font-normal uppercase mt-0.5 text-right leading-4">
+            {(!service ? '' : fee) ?? '0.00'} {service?.feeToken.symbol}{' '}
             {service ? <span className="text-gray-100">| {service.name}</span> : null}
           </span>
 
-          <span className="text-white">{NumberHelper.currency(fiatFee, currency.label)}</span>
+          <span className="text-white whitespace-nowrap">{NumberHelper.currency(fiatFee, currency.label)}</span>
         </div>
       )}
     </ActionStep>

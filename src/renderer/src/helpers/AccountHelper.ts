@@ -1,3 +1,4 @@
+import { BlockchainService } from '@cityofzion/blockchain-service'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TAccountHelperPredicateParams } from '@shared/@types/helpers'
 import { IAccountState } from '@shared/@types/store'
@@ -21,5 +22,9 @@ export class AccountHelper {
     for (let index = 0; index <= maxOrder; index++) if (!orders.includes(index)) return index
 
     return maxOrder + 1
+  }
+
+  static getBip44Path(service: BlockchainService<TBlockchainServiceKey>, order = 0) {
+    return service.bip44DerivationPath.replace('?', order.toString())
   }
 }
