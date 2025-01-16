@@ -11,6 +11,7 @@ import { Button } from '@renderer/components/Button'
 import { GreyAccountSelect } from '@renderer/components/GreyAccountSelect'
 import { Separator } from '@renderer/components/Separator'
 import { TransactionFeeActionStep } from '@renderer/components/TransactionFeeActionStep'
+import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { NetworkHelper } from '@renderer/helpers/NetworkHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
@@ -28,6 +29,7 @@ import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TUseTransactionsTransfer } from '@shared/@types/hooks'
 import { IAccountState } from '@shared/@types/store'
 import { AnimatePresence } from 'framer-motion'
+import { lte } from 'lodash'
 
 import { SendErrorModalContent } from './SendErrorModalContent'
 import { SendRecipient, TSendRecipient } from './SendRecipient'
@@ -38,6 +40,8 @@ type TActionsData = {
   recipients: TSendRecipient[]
   fee?: string
   isCalculatingFee: boolean
+  isLoadingMaxAmount: boolean
+  maxAmountRecipientId: boolean
 }
 
 type TProps = {
@@ -54,6 +58,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
   const { modalNavigate } = useModalNavigate()
   const currentRecipientAddress = useRef(recipientAddress)
+  const isDisabledMaxAmountRef = useRef(false)
 
   const { actionData, actionState, setData, setError, clearErrors, handleAct, reset } = useActions<TActionsData>({
     selectedAccount: undefined,
@@ -62,6 +67,9 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
     fee: undefined,
   })
 
+  const isCalculatingMaxAmount = isDisabledMaxAmountRef.current || actionData.isLoadingMaxAmount
+  const isCalculatingForm = isCalculatingMaxAmount || actionData.isCalculatingFee
+  const isAccountDisabled = !actionData.selectedAccount || isCalculatingForm
   const balance = useBalance(actionData.selectedAccount)
 
   const service = useMemo(
@@ -118,22 +126,22 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
 
     setData(state => {
       recipients = setRecipients(state.recipients)
+
       return { recipients }
     })
 
     for (const recipient of recipients) {
       if (!recipient.token || !recipient.amount || !recipient.address) {
-        if (!recipient.amount) {
-          clearErrors('selectedAccount')
-        }
+        if (!recipient.amount) clearErrors('selectedAccount')
 
         setError('recipients', '')
+
         return
       }
 
       const amountNumber = NumberHelper.number(recipient.amount)
-      const tokenHash = UtilsHelper.normalizeHash(recipient.token!.token.hash)
-      const tokenBalance = balance.data?.tokensBalances.find(
+      const tokenHash = UtilsHelper.normalizeHash(recipient.token?.token?.hash ?? '')
+      const tokenBalance = balance.data?.tokensBalances?.find(
         tokenBalance => UtilsHelper.normalizeHash(tokenBalance.token.hash) === tokenHash
       )
 
@@ -155,21 +163,103 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
     handleSetRecipients(prev => prev.filter(recipient => recipient.id !== id))
   }
 
-  const handleUpdateRecipient = (id: string, newRecipients: Partial<TSendRecipient>) => {
-    if (newRecipients.address) currentRecipientAddress.current = undefined
+  const handleUpdateRecipient = (id: string, newRecipient: Partial<TSendRecipient>) => {
+    if (newRecipient.address) currentRecipientAddress.current = undefined
 
     handleSetRecipients(prev =>
-      prev.map(recipient => (recipient.id === id ? { ...recipient, ...newRecipients } : recipient))
+      prev.map(recipient => (recipient.id === id ? { ...recipient, ...newRecipient } : recipient))
     )
+  }
+
+  const handleUpdateRecipientAmount = (id: string, amount: number, decimals?: number) => {
+    if (lte(amount, 0)) ToastHelper.error({ message: t('errors.amountIsLessOrEqualZero') })
+    else handleUpdateRecipient(id, { amount: NumberHelper.formatString(amount.toString(), decimals) })
   }
 
   const handleAddRecipient = () => {
     handleSetRecipients(prev => [...prev, { id: UtilsHelper.uuid() }])
   }
 
+  const handleMaxAmount = async (recipient: TSendRecipient) => {
+    const { selectedAccount } = actionData
+    const encryptedKey = selectedAccount?.encryptedKey
+    const encryptedPassword = currentLoginSessionRef.current?.encryptedPassword
+    const decimals = recipient.token?.token?.decimals
+
+    if (
+      !encryptedPassword ||
+      !encryptedKey ||
+      !service ||
+      !actionState.changed.recipients ||
+      !recipient.id ||
+      !recipient.address ||
+      !recipient.token ||
+      isCalculatingMaxAmount
+    )
+      return
+
+    if (
+      UtilsHelper.normalizeHash(recipient.token.token?.hash ?? '') !== UtilsHelper.normalizeHash(service.feeToken.hash)
+    ) {
+      handleUpdateRecipientAmount(recipient.id, recipient.token.amountNumber, decimals)
+
+      return
+    }
+
+    if (!isCalculableFee(service)) {
+      handleUpdateRecipientAmount(
+        recipient.id,
+        recipient.token.amountNumber - NumberHelper.number(actionData.fee ?? '0'),
+        decimals
+      )
+
+      return
+    }
+
+    isDisabledMaxAmountRef.current = true
+    setData({ isLoadingMaxAmount: true, maxAmountRecipientId: recipient.id })
+
+    try {
+      let senderAccount: Account<TBlockchainServiceKey>
+      const intents = actionData.recipients
+        .map(currentRecipient => {
+          const receiverAddress = currentRecipient.address
+          const tokenHash = currentRecipient.token?.token?.hash
+          const amount = currentRecipient.id === recipient.id ? currentRecipient.token?.amount : currentRecipient.amount
+
+          if (!receiverAddress || !tokenHash || !amount) return null
+
+          return { receiverAddress, tokenHash, amount, tokenDecimals: currentRecipient.token!.token.decimals }
+        })
+        .filter(recipient => recipient !== null) as IntentTransferParam[]
+
+      const key = await window.api.sendAsync('decryptBasedEncryptedSecret', {
+        value: encryptedKey,
+        encryptedSecret: encryptedPassword,
+      })
+
+      if (selectedAccount!.type === 'hardware' && hasLedger(service)) {
+        senderAccount = service.generateAccountFromPublicKey(key)
+        senderAccount.isHardware = true
+        senderAccount.bip44Path = AccountHelper.getBip44Path(service, selectedAccount!.order)
+      } else senderAccount = service.generateAccountFromKey(key)
+
+      const fee = await service.calculateTransferFee({ intents, senderAccount })
+
+      handleUpdateRecipientAmount(recipient.id, recipient.token.amountNumber - NumberHelper.number(fee), decimals)
+    } catch (error) {
+      console.error(error)
+      ToastHelper.error({ message: t('errors.calculateMaxAmount') })
+    } finally {
+      isDisabledMaxAmountRef.current = false
+      setData({ isLoadingMaxAmount: false, maxAmountRecipientId: '' })
+    }
+  }
+
   const handleSubmit = async () => {
     const fields = await getSendFields()
-    if (!fields) return
+
+    if (!fields || isCalculatingForm) return
 
     try {
       const transactionHashes = await fields.service.transfer({
@@ -206,7 +296,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
       modalNavigate('success', {
         state: {
           heading: t('title'),
-          headingIcon: <TbStepOut />,
+          headingIcon: <TbStepOut aria-hidden={true} />,
           subtitle: t('sendSuccess.title'),
           content: <SendSuccessModalContent transactions={transactions} selectedAccount={fields.selectedAccount} />,
         },
@@ -216,7 +306,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
       modalNavigate('error', {
         state: {
           heading: t('title'),
-          headingIcon: <TbStepOut />,
+          headingIcon: <TbStepOut aria-hidden={true} />,
           subtitle: t('sendFail.title'),
           description: t('sendFail.subtitle'),
           content: <SendErrorModalContent error={error.message} />,
@@ -237,12 +327,15 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
     const handleCalculateFee = async () => {
       try {
         // It works as a debounce
-        await UtilsHelper.sleep(1000)
+        await UtilsHelper.sleep(500)
+
         if (abortController.signal.aborted) return
 
         const fields = await getSendFields()
+
         if (!fields || !isCalculableFee(fields.service)) {
           setData({ fee: undefined })
+
           return
         }
 
@@ -308,8 +401,16 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
       <Separator />
 
       <div className="max-w-[33.25rem] min-h-0 w-full flex-grow flex flex-col items-center py-8 my-2 px-5 overflow-auto">
-        <ActionStep className="bg-gray-700/60 rounded px-4" title={t('sourceAccountLabel')} leftIcon={<TbStepOut />}>
-          <GreyAccountSelect onSelect={handleSelectAccount} selectedAccount={actionData.selectedAccount} />
+        <ActionStep
+          className="bg-gray-700/60 rounded px-4"
+          title={t('sourceAccountLabel')}
+          leftIcon={<TbStepOut aria-hidden={true} />}
+        >
+          <GreyAccountSelect
+            onSelect={handleSelectAccount}
+            disabled={isCalculatingForm}
+            selectedAccount={actionData.selectedAccount}
+          />
         </ActionStep>
 
         <ActionStepSeparator />
@@ -326,19 +427,22 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
                 recipient={recipient}
                 removable={actionData.recipients.length > 1}
                 balance={balance}
+                isLoadingMaxAmount={actionData.maxAmountRecipientId === recipient.id}
+                isDisabledMaxAmount={isCalculatingForm}
+                onMaxAmount={handleMaxAmount}
               />
             ))}
           </AnimatePresence>
         </div>
 
         <Button
-          leftIcon={<TbPlus />}
+          leftIcon={<TbPlus aria-hidden={true} />}
           label={t('addRecipientButtonLabel')}
           flat
           variant="text"
           iconsOnEdge={false}
-          disabled={!actionData.selectedAccount}
-          colorSchema={!actionData.selectedAccount ? 'white' : 'neon'}
+          disabled={isAccountDisabled}
+          colorSchema={isAccountDisabled ? 'white' : 'neon'}
           className="mt-2 w-64"
           onClick={handleAddRecipient}
         />
@@ -357,7 +461,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
 
         {(!service || (service && isCalculableFee(service))) && (
           <TransactionFeeActionStep
-            fee={actionData.fee}
+            fee={actionData.fee ?? '0'}
             isCalculatingFee={actionData.isCalculatingFee}
             service={service}
           />
@@ -376,13 +480,14 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
           onClick={handleAct(handleSubmit)}
           label={commonT('general.continue')}
           loading={actionState.isActing}
-          rightIcon={<MdArrowForward />}
+          rightIcon={<MdArrowForward aria-hidden={true} />}
           disabled={
             !actionState.isValid ||
             !actionData.selectedAccount ||
             !!actionState.errors.fee ||
             !!actionState.errors.recipients ||
             !service ||
+            isCalculatingForm ||
             (isCalculableFee(service) && !actionData.fee)
           }
         />

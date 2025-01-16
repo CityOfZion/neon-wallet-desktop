@@ -37,6 +37,9 @@ type TProps = {
   onRemoveRecipient: () => void
   removable?: boolean
   balance?: TUseBalanceResult
+  isLoadingMaxAmount: boolean
+  isDisabledMaxAmount: boolean
+  onMaxAmount: (recipient: TSendRecipient) => void
 }
 
 export const SendRecipient = ({
@@ -47,6 +50,9 @@ export const SendRecipient = ({
   onRemoveRecipient,
   removable = false,
   balance,
+  isLoadingMaxAmount,
+  isDisabledMaxAmount,
+  onMaxAmount,
 }: TProps) => {
   const { t } = useTranslation('pages', { keyPrefix: 'send.recipient' })
   const { t: commonT } = useTranslation('common')
@@ -61,6 +67,9 @@ export const SendRecipient = ({
     isValidatingAddressOrDomainAddress,
     validateAddressOrNS,
   } = useNameService()
+
+  const isDisabled = !selectedAccount || isDisabledMaxAmount
+  const isAmountDisabled = isDisabled || !recipient.token || !recipient.address
 
   const handleChangeAddress = (event: ChangeEvent<HTMLInputElement>) => {
     const address = UtilsHelper.removeSpecialCharacters(event.target.value, { allowSpaces: false })
@@ -117,13 +126,14 @@ export const SendRecipient = ({
       })}
     >
       <div className="flex flex-col items-center bg-gray-700/60  px-3.5 w-full rounded">
-        <ActionStep className="px-0" title={t('title', { order })} leftIcon={<TbStepInto />}>
+        <ActionStep className="px-0" title={t('title', { order })} leftIcon={<TbStepInto aria-hidden={true} />}>
           {removable && (
             <Button
               label={commonT('general.remove')}
               flat
               variant="text-slim"
               textClassName="text-pink"
+              disabled={isDisabled}
               onClick={() => onRemoveRecipient()}
             />
           )}
@@ -143,7 +153,7 @@ export const SendRecipient = ({
               clearable={false}
               buttons={
                 <IconButton
-                  icon={<TbUsers />}
+                  icon={<TbUsers aria-hidden={true} />}
                   type="button"
                   onClick={modalNavigateWrapper('select-contact', {
                     state: {
@@ -152,25 +162,25 @@ export const SendRecipient = ({
                     },
                   })}
                   compacted
-                  disabled={!selectedAccount}
+                  disabled={isDisabled}
                 />
               }
               loading={isValidatingAddressOrDomainAddress}
               errorMessage={isValidAddressOrDomainAddress === false ? t('errors.invalidAddress') : undefined}
-              disabled={!selectedAccount}
+              disabled={isDisabled}
             />
 
             <GreyAccountSelect
               onSelect={handleSelectAccount}
               withoutIndicator
               blockchains={selectedAccount ? [selectedAccount.blockchain] : undefined}
-              disabled={!selectedAccount}
+              disabled={isDisabled}
             >
               <Button
-                disabled={!selectedAccount}
+                disabled={isDisabled}
                 variant="text"
                 label={t('myAccountButtonLabel')}
-                leftIcon={<TbWallet />}
+                leftIcon={<TbWallet aria-hidden={true} />}
                 flat
               />
             </GreyAccountSelect>
@@ -184,7 +194,7 @@ export const SendRecipient = ({
         <ActionStep
           className="px-0"
           title={t('tokenToSendLabel')}
-          leftIcon={<VscCircleFilled className="text-gray-300 w-2 h-2" />}
+          leftIcon={<VscCircleFilled aria-hidden={true} className="text-gray-300 w-2 h-2" />}
         >
           <GreyTokenSelect
             tokens={balance?.data?.tokensBalances.map(tokenBalance => tokenBalance.token) ?? []}
@@ -192,7 +202,7 @@ export const SendRecipient = ({
             onSelect={handleSelectToken}
             selectedToken={recipient.token?.token}
             loading={balance?.isLoading}
-            disabled={!selectedAccount}
+            disabled={isDisabled}
           />
         </ActionStep>
 
@@ -201,13 +211,20 @@ export const SendRecipient = ({
         <ActionStep
           className="px-0"
           title={t('amountLabel')}
-          leftIcon={<VscCircleFilled className="text-gray-300 w-2 h-2" />}
+          leftIcon={<VscCircleFilled aria-hidden={true} className="text-gray-300 w-2 h-2" />}
         >
-          <GreyAmountInput
-            value={recipient.amount ?? ''}
-            onChange={handleChangeAmount}
-            disabled={!selectedAccount || !recipient.token}
-          />
+          <GreyAmountInput value={recipient.amount ?? ''} onChange={handleChangeAmount} disabled={isAmountDisabled}>
+            <Button
+              label={t('max')}
+              flat
+              variant="text"
+              colorSchema="neon"
+              className="bg-asphalt rounded-r w-15"
+              loading={isLoadingMaxAmount}
+              disabled={isAmountDisabled}
+              onClick={() => onMaxAmount(recipient)}
+            />
+          </GreyAmountInput>
         </ActionStep>
 
         <div className="flex justify-between w-full pl-8 pb-3">
