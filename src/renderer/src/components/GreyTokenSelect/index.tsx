@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Loader } from '@renderer/components/Loader'
 import { Popover } from '@renderer/components/Popover'
 import { Separator } from '@renderer/components/Separator'
+import { FilterHelper } from '@renderer/helpers/FilterHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
@@ -46,9 +47,7 @@ export const GreyTokenSelect = <T extends TGreyTokenSelectToken>({
   const [filter, setFilter] = useState('')
   const [open, setOpen] = useState(false)
   const { t } = useTranslation('components', { keyPrefix: 'greyTokenSelect' })
-
   const parentRef = useRef<HTMLDivElement>(null)
-
   const isDisabled = loading || disabled
 
   const filteredAndSortedTokens = useMemo(() => {
@@ -77,15 +76,10 @@ export const GreyTokenSelect = <T extends TGreyTokenSelectToken>({
     return filtered
   }, [tokens, balance, blockchain])
 
-  const filteredTokensByText = useMemo(() => {
-    let filtered = [...filteredAndSortedTokens]
-    const newFilter = filter.toLowerCase().trim()
-
-    if (newFilter)
-      filtered = filteredAndSortedTokens.filter(token => token.symbol.toLowerCase().trim().includes(newFilter))
-
-    return filtered
-  }, [filter, filteredAndSortedTokens])
+  const filteredTokensByText = useMemo(
+    () => FilterHelper.filterTextByFields<T>(filteredAndSortedTokens, filter, ['symbol', 'network', 'blockchain']),
+    [filter, filteredAndSortedTokens]
+  )
 
   const rowVirtualizer = useVirtualizer({
     count: filteredTokensByText.length,
