@@ -103,6 +103,7 @@ export const DappPermissionContractDetailsModal = () => {
     }
   }
 
+  const methodsInfo = data?.methods.find(method => method.name === operation)
   if (!methodsInfo) {
     ToastHelper.error({ message: t('methodNotFoundError') })
     modalNavigate(-1)
