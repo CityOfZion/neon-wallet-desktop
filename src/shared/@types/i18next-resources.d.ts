@@ -17,6 +17,8 @@ interface Resources {
       copy: 'Copy to clipboard'
       swap: 'Swap'
       logo: "Neon Wallet's logo"
+      pasteFromClipboard: 'Paste from clipboard'
+      pasteFromClipboardError: 'Failed to paste from clipboard'
     }
     walletConnect: {
       name: 'Neon Wallet'

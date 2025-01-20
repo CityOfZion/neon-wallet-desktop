@@ -88,6 +88,7 @@ export const ImportModal = () => {
             onChange={handleChange}
             compacted
             clearable
+            pastable
             multiline={actionData.inputType === 'mnemonic'}
           />
 

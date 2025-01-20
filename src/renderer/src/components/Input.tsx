@@ -1,4 +1,5 @@
 import { cloneElement, forwardRef, MouseEvent, useImperativeHandle, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { MdCancel, MdContentCopy, MdContentPasteGo, MdVisibility, MdVisibilityOff } from 'react-icons/md'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
@@ -50,6 +51,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
     },
     ref
   ) => {
+    const { t: tCommonGeneral } = useTranslation('common', { keyPrefix: 'general' })
     const isTypePassword = type === 'password'
     const internalRef = useRef<HTMLInputElement>(null)
     const [hidden, setHidden] = useState(isTypePassword)
@@ -172,6 +174,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
 
               {pastable && (
                 <IconButton
+                  aria-label={tCommonGeneral('pasteFromClipboard')}
                   icon={<MdContentPasteGo aria-hidden={true} />}
                   onClick={handlePaste}
                   colorSchema="neon"

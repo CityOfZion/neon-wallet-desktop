@@ -99,6 +99,7 @@ export const AddAddressModal = () => {
             onChange={handleChange}
             clearable
             compacted
+            pastable
             loading={isValidatingAddressOrDomainAddress}
             disabled={!actionData.blockchain}
             error={isValidAddressOrDomainAddress === false}

@@ -110,6 +110,7 @@ export const SettingsEncryptKeyPage = (): JSX.Element => {
           <div className="flex flex-col gap-4">
             <SettingsEncryptInputStep
               step={1}
+              pastable
               description={t('encryptKey.titleInput1')}
               placeholder={t('encryptKey.inputPrivateKeyPlaceholder')}
               onChange={handlePrivateKeyChange}

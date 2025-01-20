@@ -151,6 +151,7 @@ export const SendRecipient = ({
               className="w-full"
               placeholder={t('addressPlaceholder')}
               clearable={false}
+              pastable
               buttons={
                 <IconButton
                   icon={<TbUsers aria-hidden={true} />}
