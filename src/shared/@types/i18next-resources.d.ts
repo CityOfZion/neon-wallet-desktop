@@ -228,6 +228,15 @@ interface Resources {
     connectHardwareWalletButton: {
       connect: 'Connect'
     }
+    fieldActionsMenu: {
+      cut: 'Cut'
+      copy: 'Copy'
+      paste: 'Paste'
+      messages: {
+        copied: 'Copied'
+        error: 'Error executing this action'
+      }
+    }
   }
   hooks: {
     useImportAction: {

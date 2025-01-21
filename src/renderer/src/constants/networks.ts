@@ -2,8 +2,8 @@ import { Network } from '@cityofzion/blockchain-service'
 import { BSEthereumConstants, BSEthereumNetworkId } from '@cityofzion/bs-ethereum'
 import { BSNeoLegacyConstants } from '@cityofzion/bs-neo-legacy'
 import { BSNeo3Constants } from '@cityofzion/bs-neo3'
-import { getI18next } from '@renderer/libs/i18next'
 import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
+import { getI18next } from '@shared/libs/i18next'
 
 const { t } = getI18next()
 

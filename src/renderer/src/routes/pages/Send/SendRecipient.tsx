@@ -89,10 +89,8 @@ export const SendRecipient = ({
     onUpdateRecipient({ token: tokenBalance, amount: undefined })
   }
 
-  const handleChangeAmount = (event: ChangeEvent<HTMLInputElement>) => {
-    const value = NumberHelper.formatString(event.target.value, recipient.token?.token?.decimals, 24)
-
-    onUpdateRecipient({ amount: value })
+  const handleChangeAmount = (value: string) => {
+    onUpdateRecipient({ amount: NumberHelper.formatString(value, recipient.token?.token?.decimals, 24) })
   }
 
   const handleSelectAccount = (account: IAccountState) => {

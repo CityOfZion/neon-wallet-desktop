@@ -293,10 +293,10 @@ export const SwapPageContent = ({ account }: TProps) => {
     }
   }
 
-  const handleChangeAmountToUse = (event: ChangeEvent<HTMLInputElement>) => {
-    const amount = NumberHelper.formatString(event.target.value, actionData.selectedTokenToUse.value?.decimals, 24)
+  const handleChangeAmountToUse = (value: string) => {
+    const amount = NumberHelper.formatString(value, actionData.selectedTokenToUse.value?.decimals, 24)
 
-    swapServiceRef.current.setAmountToUse(amount)
+    swapServiceRef.current!.setAmountToUse(amount)
   }
 
   const handleSubmit = async () => {
@@ -456,13 +456,13 @@ export const SwapPageContent = ({ account }: TProps) => {
         const amountNumber = NumberHelper.number(actionData.selectedAmountToUse.value)
 
         if (actionData.selectAmountToUseMinMax.value) {
-          const minNumber = NumberHelper.number(actionData.selectAmountToUseMinMax.value.min)
+          const minNumber = NumberHelper.number(actionData.selectAmountToUseMinMax.value?.min ?? 0)
 
           if (amountNumber < minNumber) {
-            throw new Error(t('form.errors.amountMin', { amount: actionData.selectAmountToUseMinMax.value.min }))
+            throw new Error(t('form.errors.amountMin', { amount: minNumber }))
           }
 
-          if (actionData.selectAmountToUseMinMax.value.max) {
+          if (actionData.selectAmountToUseMinMax.value?.max) {
             const maxNumber = NumberHelper.number(actionData.selectAmountToUseMinMax.value.max)
 
             if (amountNumber > maxNumber) {
@@ -668,7 +668,7 @@ export const SwapPageContent = ({ account }: TProps) => {
 
             <Separator />
 
-            <div className="flex w-full gap-3 items-center my-3">
+            <div className="flex w-full items-start gap-3 my-3">
               <Input
                 value={actionData.selectedAddressToReceive.value ?? ''}
                 onChange={handleChangeAddressToReceive}
@@ -725,6 +725,7 @@ export const SwapPageContent = ({ account }: TProps) => {
                 onSelect={handleSelectAccountToReceive}
               >
                 <Button
+                  className="h-9"
                   disabled={isContactsAndAccountsSelectionDisabled}
                   colorSchema="neon"
                   variant="text"
