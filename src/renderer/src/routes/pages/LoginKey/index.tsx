@@ -59,6 +59,7 @@ export const LoginKeyPage = () => {
             value={actionData.text}
             onChange={handleChange}
             clearable
+            pastable
             multiline={actionData.inputType === 'mnemonic'}
             {...TestHelper.buildTestObject('login-key-textarea')}
           />

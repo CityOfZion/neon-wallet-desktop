@@ -1,6 +1,6 @@
 import { ChangeEvent, Fragment, useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { MdInfoOutline, MdRestartAlt } from 'react-icons/md'
+import { MdContentPasteGo, MdInfoOutline, MdRestartAlt } from 'react-icons/md'
 import { TbDiamond, TbHelp, TbReplace, TbStepInto, TbStepOut, TbUsers, TbWallet } from 'react-icons/tb'
 import { VscCircleFilled } from 'react-icons/vsc'
 import {
@@ -35,6 +35,7 @@ import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useBalance } from '@renderer/hooks/useBalances'
 import { useHasContactsByBlockchain } from '@renderer/hooks/useContactSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+import { usePressOnce } from '@renderer/hooks/usePressOnce'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useSelectedNetworkByBlockchainSelector } from '@renderer/hooks/useSettingsSelector'
 import { bsAggregator, doesBlockchainSupported } from '@renderer/libs/blockchainService'
@@ -63,11 +64,13 @@ type TProps = {
 
 export const SwapPageContent = ({ account }: TProps) => {
   const { t } = useTranslation('pages', { keyPrefix: 'swap' })
+  const { t: tCommonGeneral } = useTranslation('common', { keyPrefix: 'general' })
   const { modalNavigateWrapper, modalNavigate } = useModalNavigate()
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const { accounts } = useAccountsSelector()
   const dispatch = useAppDispatch()
+  const pressOncePasteAddressToReceive = usePressOnce()
 
   const swapChainsByServiceName = useMemo(() => {
     const chainsByServiceName: Partial<Record<TBlockchainServiceKey, string[]>> = {}
@@ -275,6 +278,17 @@ export const SwapPageContent = ({ account }: TProps) => {
 
   const handleChangeExtraIdToReceive = (event: ChangeEvent<HTMLInputElement>) => {
     swapServiceRef.current.setExtraIdToReceive(event.target.value)
+  }
+
+  const handlePasteAddressToReceive = async () => {
+    try {
+      const text = await navigator.clipboard.readText()
+
+      await swapServiceRef.current!.setAddressToReceive(text)
+    } catch (error) {
+      ToastHelper.error({ message: tCommonGeneral('pasteFromClipboardError') })
+      console.error(error)
+    }
   }
 
   const handleChangeAmountToUse = (event: ChangeEvent<HTMLInputElement>) => {
@@ -649,19 +663,31 @@ export const SwapPageContent = ({ account }: TProps) => {
                 placeholder={t('form.addressToReceivePlaceholder')}
                 clearable={false}
                 buttons={
-                  <IconButton
-                    icon={<TbUsers aria-hidden={true} className="w-5 h-5 min-w-5 min-h-5" />}
-                    colorSchema="neon"
-                    type="button"
-                    onClick={modalNavigateWrapper('select-contact', {
-                      state: {
-                        onSelectContact: handleSelectContactToReceive,
-                        blockchain: tokenToReceiveBlockchain,
-                      },
-                    })}
-                    compacted
-                    disabled={isContactsAndAccountsSelectionDisabled || !hasContactsByBlockchain}
-                  />
+                  <Fragment>
+                    <IconButton
+                      aria-label={tCommonGeneral('pasteFromClipboard')}
+                      colorSchema="neon"
+                      type="button"
+                      compacted
+                      disabled={isRecipientDisabled || pressOncePasteAddressToReceive.isPressing}
+                      icon={<MdContentPasteGo aria-hidden={true} className="w-5 h-5 min-w-5 min-h-5" />}
+                      onClick={pressOncePasteAddressToReceive.handlePressOnce(handlePasteAddressToReceive)}
+                    />
+
+                    <IconButton
+                      icon={<TbUsers aria-hidden={true} className="w-5 h-5 min-w-5 min-h-5" />}
+                      colorSchema="neon"
+                      type="button"
+                      onClick={modalNavigateWrapper('select-contact', {
+                        state: {
+                          onSelectContact: handleSelectContactToReceive,
+                          blockchain: tokenToReceiveBlockchain,
+                        },
+                      })}
+                      compacted
+                      disabled={isContactsAndAccountsSelectionDisabled || !hasContactsByBlockchain}
+                    />
+                  </Fragment>
                 }
                 loading={actionData.selectedAddressToReceive.loading}
                 errorMessage={

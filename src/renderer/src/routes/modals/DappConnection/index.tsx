@@ -84,6 +84,7 @@ export const DappConnectionModal = () => {
         <Input
           placeholder={t('inputPlaceholder')}
           clearable
+          pastable
           value={actionData.url}
           onChange={handleChange}
           errorMessage={actionState.errors.url}

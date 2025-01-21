@@ -113,6 +113,7 @@ export const AddCustomNetwork = () => {
             compacted
             placeholder={t('urlPlaceholder')}
             label={t('urlLabel')}
+            pastable
             value={actionData.url}
             onChange={setDataFromEventWrapper('url')}
             loading={actionData.validating}

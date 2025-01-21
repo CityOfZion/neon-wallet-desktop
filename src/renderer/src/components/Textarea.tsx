@@ -1,4 +1,5 @@
 import { ChangeEventHandler, forwardRef, useCallback, useEffect, useImperativeHandle, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { MdCancel, MdContentPasteGo } from 'react-icons/md'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
@@ -30,6 +31,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TProps>(
     },
     ref
   ) => {
+    const { t: tCommonGeneral } = useTranslation('common', { keyPrefix: 'general' })
     const internalRef = useRef<HTMLTextAreaElement>(null)
 
     const handlePaste = async () => {
@@ -117,10 +119,13 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TProps>(
 
           {pastable && (
             <IconButton
-              icon={<MdContentPasteGo className="text-neon" />}
-              onClick={handlePaste}
+              aria-label={tCommonGeneral('pasteFromClipboard')}
               type="button"
+              colorSchema="neon"
               compacted
+              disabled={props.disabled}
+              icon={<MdContentPasteGo aria-hidden={true} className="text-neon" />}
+              onClick={handlePaste}
             />
           )}
 
