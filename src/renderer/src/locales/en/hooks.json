@@ -44,5 +44,10 @@
       "wrongVersion": "The backup file version is not supported. Please try to generate a new backup in the latest NEON version.",
       "importData": "There was an error importing the data (It might imported partially)."
     }
+  },
+  "useUnclaimedMutation": {
+    "errors": {
+      "claimError": "There was an error trying to claim. Please, try again."
+    }
   }
 }

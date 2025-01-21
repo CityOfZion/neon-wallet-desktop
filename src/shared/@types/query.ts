@@ -64,3 +64,10 @@ export type TUseExchangeParams = {
   tokens: Token[]
   blockchain: TBlockchainServiceKey
 }
+
+export type TUseUnclaimedResult = {
+  unclaimed: string
+  unclaimedNumber: number
+  fee: string
+  feeNumber: number
+}

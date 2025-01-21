@@ -1,4 +1,11 @@
-import { useAppSelector } from './useRedux'
+import { IAccountState } from '@shared/@types/store'
+
+import { createAppSelector, useAppSelector } from './useRedux'
+
+const selectHasClaimPendingTransaction = (account: IAccountState) =>
+  createAppSelector([state => state.auth.pendingTransactions], pendingTransactions => {
+    return pendingTransactions.some(transaction => !!transaction.isClaim && transaction.account.id === account.id)
+  })
 
 export const useCurrentLoginSessionSelector = () => {
   const { ref, value } = useAppSelector(state => state.auth.currentLoginSession)
@@ -13,6 +20,14 @@ export const usePendingTransactionsSelector = () => {
   return {
     pendingTransactions: value,
     pendingTransactionsRef: ref,
+  }
+}
+
+export const useHasClaimPendingTransactionSelector = (account: IAccountState) => {
+  const { ref, value } = useAppSelector(selectHasClaimPendingTransaction(account))
+  return {
+    hasClaimPendingTransaction: value,
+    hasClaimPendingTransactionRef: ref,
   }
 }
 

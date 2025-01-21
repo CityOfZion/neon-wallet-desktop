@@ -1,167 +1,55 @@
-import { Fragment, useMemo, useState } from 'react'
+import { Fragment, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbTransform } from 'react-icons/tb'
-import { Account, BlockchainService, BSClaimable, hasLedger, isCalculableFee } from '@cityofzion/blockchain-service'
+import { BlockchainService, BSClaimable } from '@cityofzion/blockchain-service'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { Button } from '@renderer/components/Button'
 import { Loader } from '@renderer/components/Loader'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
-import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
-import { useBalances } from '@renderer/hooks/useBalances'
-import { useAppDispatch } from '@renderer/hooks/useRedux'
-import { useSelectedNetworkByBlockchainSelector } from '@renderer/hooks/useSettingsSelector'
-import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
+import { useBalance } from '@renderer/hooks/useBalances'
+import { useUnclaimed, useUnclaimedMutation } from '@renderer/hooks/useUnclaimed'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { TUseTransactionsTransfer } from '@shared/@types/hooks'
 import { IAccountState } from '@shared/@types/store'
-import { useQuery } from '@tanstack/react-query'
+import { match } from 'ts-pattern'
 
 type TProps = {
   account: IAccountState
   blockchainService: BlockchainService<TBlockchainServiceKey> & BSClaimable
 }
 
-const getUnclaimedInfos = async (
-  account: IAccountState,
-  blockchainService: BlockchainService<TBlockchainServiceKey> & BSClaimable,
-  encryptedPassword?: string
-) => {
-  if (!account.encryptedKey) throw new Error()
-
-  const unclaimed = await blockchainService.blockchainDataService.getUnclaimed(account.address)
-
-  const key = await window.api.sendAsync('decryptBasedEncryptedSecret', {
-    value: account.encryptedKey,
-    encryptedSecret: encryptedPassword,
-  })
-
-  let fee = '0'
-
-  if (isCalculableFee(blockchainService)) {
-    const isHardware = account.type === 'hardware'
-
-    let serviceAccount: Account<TBlockchainServiceKey>
-
-    if (isHardware && hasLedger(blockchainService)) {
-      serviceAccount = blockchainService.generateAccountFromPublicKey(key)
-      serviceAccount.isHardware = true
-      serviceAccount.bip44Path = blockchainService.bip44DerivationPath.replace('?', account.order.toString())
-    } else {
-      serviceAccount = blockchainService.generateAccountFromKey(key)
-    }
-
-    fee = await blockchainService.calculateTransferFee({
-      intents: [
-        {
-          amount: '0',
-          receiverAddress: account.address,
-          tokenHash: blockchainService.burnToken.hash,
-          tokenDecimals: blockchainService.burnToken.decimals,
-        },
-      ],
-      senderAccount: serviceAccount,
-    })
-  }
-
-  return { unclaimed, unclaimedNumber: parseFloat(unclaimed), fee, feeNumber: parseFloat(fee) }
-}
-
 export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
   const { t } = useTranslation('components', { keyPrefix: 'claimGasButton' })
-  const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
-  const dispatch = useAppDispatch()
-  const balances = useBalances([account])
-  const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
 
-  const unclaimed = useQuery({
-    queryKey: ['claim', account.address],
-    queryFn: getUnclaimedInfos.bind(
-      null,
-      account,
-      blockchainService,
-      currentLoginSessionRef.current?.encryptedPassword
-    ),
-    staleTime: 0,
-    retry: false,
-  })
+  const balance = useBalance(account)
 
-  const [claiming, setClaiming] = useState(false)
+  const unclaimedQuery = useUnclaimed(account)
+  const unclaimedMutation = useUnclaimedMutation()
 
   const feeIsLessThanBalance = useMemo(() => {
-    if (!balances.data || !unclaimed.data || unclaimed.data.unclaimedNumber <= 0) return undefined
+    if (!balance.data || !unclaimedQuery.data || unclaimedQuery.data.unclaimedNumber <= 0) return undefined
 
-    const tokenBalance = balances.data[0]?.tokensBalances.find(
+    const tokenBalance = balance.data.tokensBalances.find(
       tokenBalance => tokenBalance.token.symbol === blockchainService.feeToken.symbol
     )
     if (!tokenBalance) return false
 
-    return tokenBalance.amountNumber > unclaimed.data.feeNumber
-  }, [balances, unclaimed, blockchainService])
+    return tokenBalance.amountNumber > unclaimedQuery.data.feeNumber
+  }, [balance.data, unclaimedQuery.data, blockchainService])
 
-  const feeIsLessThanUnclaimed = useMemo(() => {
-    if (!unclaimed.data || unclaimed.data.unclaimedNumber <= 0) return undefined
-    return unclaimed.data.feeNumber < unclaimed.data.unclaimedNumber
-  }, [unclaimed])
+  const feeIsLessThanUnclaimed = unclaimedQuery.data
+    ? unclaimedQuery.data.feeNumber < unclaimedQuery.data.unclaimedNumber
+    : undefined
 
-  const handleClaimGas = async () => {
-    try {
-      setClaiming(true)
-      if (!currentLoginSessionRef.current) {
-        throw new Error('Login session not defined')
-      }
+  useEffect(() => {
+    if (!unclaimedQuery.error) return
 
-      if (!unclaimed.data?.unclaimed || !account.encryptedKey) return
-
-      const key = await window.api.sendAsync('decryptBasedEncryptedSecret', {
-        value: account.encryptedKey,
-        encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
-      })
-
-      const isHardware = account.type === 'hardware'
-
-      let serviceAccount: Account<TBlockchainServiceKey>
-
-      if (isHardware && hasLedger(blockchainService)) {
-        serviceAccount = blockchainService.generateAccountFromPublicKey(key)
-        serviceAccount.isHardware = true
-        serviceAccount.bip44Path = blockchainService.bip44DerivationPath.replace('?', account.order.toString())
-      } else {
-        serviceAccount = blockchainService.generateAccountFromKey(key)
-      }
-
-      const transactionHash = await blockchainService.claim(serviceAccount)
-
-      const transaction: TUseTransactionsTransfer = {
-        hash: transactionHash,
-        time: Date.now() / 1000,
-        account: account,
-        toAccount: account,
-        isPending: true,
-        amount: unclaimed.data?.unclaimed,
-        to: account.address,
-        from: 'claim',
-        asset: blockchainService.claimToken.symbol,
-        fromAccount: account,
-      }
-
-      dispatch(
-        authReducerActions.waitPendingTransaction({
-          transaction,
-          blockchainService,
-          network: networkByBlockchain[account.blockchain],
-          account: serviceAccount,
-        })
-      )
-    } catch {
-      ToastHelper.error({ message: t('errorDecryptKey') })
-    } finally {
-      setClaiming(false)
-    }
-  }
+    ToastHelper.error({ message: t('errorToGetUnclaimed') })
+    console.error(unclaimedQuery.error)
+  }, [t, unclaimedQuery.error])
 
   return (
     <div className="w-full bg-asphalt flex items-center justify-center rounded h-[55px] mb-5 text-sm">
-      {unclaimed.isLoading || balances.isLoading ? (
+      {unclaimedQuery.isLoading || balance.isLoading ? (
         <Loader />
       ) : (
         <div className="w-full flex justify-between items-center h-full px-4">
@@ -171,50 +59,64 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
               {blockchainService.claimToken.symbol}
             </div>
 
-            {feeIsLessThanUnclaimed === false ? (
-              <span className="text-gray-300">{t('unclaimedLessFee')}</span>
-            ) : feeIsLessThanBalance === false ? (
-              <span className="text-gray-300">{t('balanceLessFee')}</span>
-            ) : feeIsLessThanBalance === true ? (
-              <div className="flex gap-x-1">
-                <span className="text-gray-100">
-                  {t('youHaveUnclaimed', {
-                    symbol: blockchainService.claimToken.symbol,
-                  })}
-                </span>
-
+            {match({
+              feeIsLessThanBalance,
+              feeIsLessThanUnclaimed,
+              unclaimedNumber: unclaimedQuery.data?.unclaimedNumber,
+            })
+              .with({ unclaimedNumber: 0 }, () => (
                 <span className="text-gray-300">
-                  {t('feeToClaim', {
-                    fee: unclaimed.data?.fee,
+                  {t('youDoNotHaveUnclaimed', {
                     symbol: blockchainService.claimToken.symbol,
                   })}
                 </span>
-              </div>
-            ) : (
-              <Fragment />
-            )}
+              ))
+              .with({ feeIsLessThanUnclaimed: false }, () => (
+                <span className="text-gray-300">{t('unclaimedLessFee')}</span>
+              ))
+              .with({ feeIsLessThanBalance: false }, () => <span className="text-gray-300">{t('balanceLessFee')}</span>)
+              .with({ feeIsLessThanBalance: true }, () => (
+                <div className="flex gap-x-1">
+                  <span className="text-gray-100">
+                    {t('youHaveUnclaimed', {
+                      symbol: blockchainService.claimToken.symbol,
+                    })}
+                  </span>
+
+                  <span className="text-gray-300">
+                    {t('feeToClaim', {
+                      fee: unclaimedQuery.data?.fee,
+                      symbol: blockchainService.claimToken.symbol,
+                    })}
+                  </span>
+                </div>
+              ))
+              .otherwise(() => (
+                <Fragment />
+              ))}
           </div>
 
           <div className="flex items-center gap-x-5">
             <span>
               {t('claimAmount', {
-                amount: unclaimed.data?.unclaimed ?? 0,
+                amount: unclaimedQuery.data?.unclaimed ?? 0,
                 symbol: blockchainService.claimToken.symbol,
               })}
             </span>
 
             <Button
               label={t('buttonLabel')}
+              className="w-28"
               leftIcon={<TbTransform />}
               disabled={
                 !feeIsLessThanBalance ||
                 !feeIsLessThanUnclaimed ||
-                !unclaimed.data ||
-                unclaimed.data.unclaimedNumber <= 0
+                !unclaimedQuery.data ||
+                unclaimedQuery.data.unclaimedNumber <= 0
               }
               flat
-              loading={claiming}
-              onClick={handleClaimGas}
+              loading={unclaimedMutation.isPending}
+              onClick={() => unclaimedMutation.mutate(account)}
             />
           </div>
         </div>
