@@ -3,7 +3,11 @@ import { ledgerUSBVendorId } from '@ledgerhq/devices'
 import Transport from '@ledgerhq/hw-transport'
 import NodeHidTransport, { getDevices } from '@ledgerhq/hw-transport-node-hid-noevents'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { TAddHardwareWalletAccountParams, THardwareWalletInfoWithTransport } from '@shared/@types/ipc'
+import {
+  TAddHardwareWalletAccountParams,
+  THardwareWalletInfoWithTransport,
+  TIsConnectedAndUnlockedHardwareWalletParams,
+} from '@shared/@types/ipc'
 import { mainApi } from '@shared/api/main'
 import { usb } from 'usb'
 
@@ -80,9 +84,29 @@ const addNewHardwareAccount = async ({ blockchain, index }: TAddHardwareWalletAc
   return account
 }
 
+const isConnectedAndUnlockedHardwareWallet = async ({
+  account,
+  order,
+}: TIsConnectedAndUnlockedHardwareWalletParams) => {
+  if (!account.isHardware) throw new Error("Accounts isn't a hardware wallet")
+
+  const transporter = transporters.find(({ blockchain }) => blockchain === account.blockchain)
+
+  if (!transporter) throw new Error("Transporter isn't found")
+
+  const service = bsAggregator.blockchainServicesByName[transporter.blockchain]
+
+  if (!hasLedger(service)) throw new Error("This blockchain doesn't support hardware wallet")
+
+  const accountFromHardwareService = await service.ledgerService.getAccount(transporter.transport, order)
+
+  return !!accountFromHardwareService
+}
+
 export function registerHardwareWalletHandler() {
   mainApi.listenAsync('connectHardwareWallet', connectHardwareWallet)
   mainApi.listenAsync('disconnectHardwareWallet', disconnectHardwareWallet)
+  mainApi.listenAsync('isConnectedAndUnlockedHardwareWallet', ({ args }) => isConnectedAndUnlockedHardwareWallet(args))
   mainApi.listenAsync('addNewHardwareAccount', ({ args }) => addNewHardwareAccount(args))
 
   Object.values(bsAggregator.blockchainServicesByName).forEach(service => {

@@ -13,6 +13,7 @@ import {
   THardwareWalletInfo,
   TIpcMainAsyncListener,
   TIpcMainSyncListener,
+  TIsConnectedAndUnlockedHardwareWalletParams,
 } from './ipc'
 
 export type TMainApiListenersSync = {
@@ -33,6 +34,7 @@ export type TMainApiListenersAsync = {
   setWindowButtonPosition: TIpcMainAsyncListener<Electron.Point, void>
   connectHardwareWallet: TIpcMainAsyncListener<undefined, THardwareWalletInfo[]>
   disconnectHardwareWallet: TIpcMainAsyncListener<undefined, void>
+  isConnectedAndUnlockedHardwareWallet: TIpcMainAsyncListener<TIsConnectedAndUnlockedHardwareWalletParams, boolean>
   addNewHardwareAccount: TIpcMainAsyncListener<TAddHardwareWalletAccountParams, Account<TBlockchainServiceKey>>
   checkForUpdates: TIpcMainAsyncListener<undefined, boolean>
   quitAndInstall: TIpcMainAsyncListener<undefined, void>
