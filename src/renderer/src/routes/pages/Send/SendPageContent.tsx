@@ -40,8 +40,8 @@ type TActionsData = {
   recipients: TSendRecipient[]
   fee?: string
   isCalculatingFee: boolean
-  isLoadingMaxAmount: boolean
-  maxAmountRecipientId: boolean
+  isLoadingMaxAmount?: boolean
+  maxAmountRecipientId?: string
 }
 
 type TProps = {
@@ -327,7 +327,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
     const handleCalculateFee = async () => {
       try {
         // It works as a debounce
-        await UtilsHelper.sleep(500)
+        await UtilsHelper.sleep(1500)
 
         if (abortController.signal.aborted) return
 
