@@ -1287,6 +1287,7 @@ interface Resources {
           amountMax: 'Amount is too high. Maximum amount is {{amount}}'
           insufficientFunds: "You don't have enough balance"
           insufficientFundsFee: "You don't have enough balance to pay the fee"
+          hardwareWalletNotConnectedOrLocked: "Hardware wallet isn't connected or is locked, verify your device and try again"
         }
         hints: {
           enterValidAddress: 'Enter a valid address'

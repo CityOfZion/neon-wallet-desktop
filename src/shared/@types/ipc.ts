@@ -38,6 +38,11 @@ export type TAddHardwareWalletAccountParams = {
   blockchain: TBlockchainServiceKey
 }
 
+export type TIsConnectedAndUnlockedHardwareWalletParams = {
+  account: Account<TBlockchainServiceKey>
+  order: number
+}
+
 export type THardwareWalletInfo = {
   accounts: Account<TBlockchainServiceKey>[]
   blockchain: TBlockchainServiceKey

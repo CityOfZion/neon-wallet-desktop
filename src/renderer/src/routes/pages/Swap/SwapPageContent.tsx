@@ -34,6 +34,7 @@ import { useActions } from '@renderer/hooks/useActions'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useBalance } from '@renderer/hooks/useBalances'
 import { useHasContactsByBlockchain } from '@renderer/hooks/useContactSelector'
+import { useHardwareWalletActions } from '@renderer/hooks/useHardwareWallet'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { usePressOnce } from '@renderer/hooks/usePressOnce'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
@@ -69,6 +70,7 @@ export const SwapPageContent = ({ account }: TProps) => {
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const { accounts } = useAccountsSelector()
+  const { isConnectedAndUnlockedHardwareWallet } = useHardwareWalletActions()
   const dispatch = useAppDispatch()
   const pressOncePasteAddressToReceive = usePressOnce()
 
@@ -298,6 +300,8 @@ export const SwapPageContent = ({ account }: TProps) => {
   }
 
   const handleSubmit = async () => {
+    const account = actionData.selectedAccountToUse.value
+
     if (
       !swapServiceRef.current ||
       !service ||
@@ -307,17 +311,28 @@ export const SwapPageContent = ({ account }: TProps) => {
       !actionData.selectedTokenToReceive.value ||
       !actionData.selectedAmountToUse.value ||
       !actionData.selectedAmountToReceive.value ||
-      !actionData.selectedAccountToUse.value ||
+      !account ||
       !actionData.selectedAddressToReceive.value ||
       !actionData.selectedAddressToReceive.valid ||
       !actionData.selectAmountToUseMinMax.value ||
       isExtraIdToReceiveInvalid
-    ) {
+    )
       return
+
+    if (account.type === 'hardware' && hasLedger(service)) {
+      const isConnectedAndUnlocked = await isConnectedAndUnlockedHardwareWallet(account)
+
+      if (!isConnectedAndUnlocked) {
+        const message = t('form.errors.hardwareWalletNotConnectedOrLocked')
+
+        ToastHelper.error({ message, duration: 8000 })
+
+        throw new Error(message)
+      }
     }
 
     const swapRecord: TSwapRecord = {
-      account: actionData.selectedAccountToUse.value,
+      account,
       addressTo: actionData.selectedAddressToReceive.value,
       extraIdTo: actionData.selectedExtraIdToReceive.value,
       amountFrom: actionData.selectedAmountToUse.value,

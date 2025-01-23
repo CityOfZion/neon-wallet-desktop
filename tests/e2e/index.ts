@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test'
+import { ElectronApplication, Page } from '@playwright/test'
 import { _electron as electron } from 'playwright-core'
 
 import { TCreateContact } from './types'
@@ -6,8 +6,13 @@ import { TCreateContact } from './types'
 export const PASSWORD = '.7g/7i*Vcf%V3:9Ls3AAt3;i'
 export const ADDRESSES = ['NRwXs5yZRMuuXUo7AqvetHQ4GDHe3pV7Mb', 'NcuusM86eJ1u1FKxh2qUUpfsQ1kgjZqNrf']
 
+let electronApp: ElectronApplication
+
 export const launch = async (shouldResetStorage = true) => {
-  const electronApp = await electron.launch({ args: ['.', '--no-sandbox'] })
+  if (electronApp) await electronApp.close()
+
+  electronApp = await electron.launch({ args: ['.', '--no-sandbox'] })
+
   const window = await electronApp.firstWindow()
 
   if (shouldResetStorage) {

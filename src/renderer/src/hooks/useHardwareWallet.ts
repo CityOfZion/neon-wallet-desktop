@@ -1,11 +1,14 @@
 import { useCallback, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { BlockchainService, BSWithLedger } from '@cityofzion/blockchain-service'
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { MnemonicHelper } from '@renderer/helpers/MnemonicHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+import { bsAggregator } from '@renderer/libs/blockchainService'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { THardwareWalletInfo } from '@shared/@types/ipc'
-import { IWalletState } from '@shared/@types/store'
+import { IAccountState, IWalletState } from '@shared/@types/store'
 
 import { useCurrentLoginSessionSelector } from './useAuthSelector'
 import { useBlockchainActions } from './useBlockchainActions'
@@ -66,6 +69,32 @@ export const useHardwareWalletActions = () => {
   const { t: commonT } = useTranslation('common')
   const { createWallet, editAccount, importAccount, editWallet } = useBlockchainActions()
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
+
+  const isConnectedAndUnlockedHardwareWallet = useCallback(
+    async ({ order, encryptedKey, blockchain }: IAccountState) => {
+      try {
+        const service = bsAggregator.blockchainServicesByName[blockchain] as BlockchainService<TBlockchainServiceKey> &
+          BSWithLedger<TBlockchainServiceKey>
+
+        const key = await window.api.sendAsync('decryptBasedEncryptedSecret', {
+          value: encryptedKey!,
+          encryptedSecret: currentLoginSessionRef.current!.encryptedPassword,
+        })
+
+        const senderAccount = service.generateAccountFromPublicKey(key)
+
+        senderAccount.isHardware = true
+        senderAccount.bip44Path = AccountHelper.getBip44Path(service, order)
+
+        return await window.api.sendAsync('isConnectedAndUnlockedHardwareWallet', { account: senderAccount, order })
+      } catch (error) {
+        console.error(error)
+
+        return false
+      }
+    },
+    [currentLoginSessionRef]
+  )
 
   const createHardwareWallet = useCallback(
     async (infos: THardwareWalletInfo[]) => {
@@ -180,5 +209,6 @@ export const useHardwareWalletActions = () => {
   return {
     createHardwareWallet,
     addNewHardwareAccount,
+    isConnectedAndUnlockedHardwareWallet,
   }
 }
