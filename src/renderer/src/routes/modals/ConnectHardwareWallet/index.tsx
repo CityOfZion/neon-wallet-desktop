@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { TbDeviceUsb, TbX } from 'react-icons/tb'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { ReactComponent as NeonWalletFullImage } from '@renderer/assets/images/neon-wallet-full.svg'
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { AlertSuccessBanner } from '@renderer/components/AlertSuccessBanner'
@@ -15,11 +15,13 @@ export const ConnectHardwareWalletModal = () => {
   const navigate = useNavigate()
   const { modalErase } = useModalNavigate()
   const { createHardwareWallet } = useHardwareWalletActions()
+  const { pathname } = useLocation()
 
   const { status, handleTryConnect } = useConnectHardwareWallet(async info => {
     const [firstAccount] = await createHardwareWallet(info)
 
-    navigate(`/app/wallets/${firstAccount.id}/overview`)
+    if (pathname.startsWith('/app/wallets/')) navigate(`/app/wallets/${firstAccount.id}/overview`)
+
     modalErase('center')
   })
 
