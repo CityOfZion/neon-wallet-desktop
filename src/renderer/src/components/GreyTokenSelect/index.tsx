@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { RemoveScroll } from 'react-remove-scroll'
 import { Loader } from '@renderer/components/Loader'
 import { Popover } from '@renderer/components/Popover'
 import { Separator } from '@renderer/components/Separator'
@@ -133,45 +134,47 @@ export const GreyTokenSelect = <T extends TGreyTokenSelectToken>({
       </Popover.Trigger>
 
       <Popover.Content className="max-w-48 bg-transparent" align="end" sideOffset={-34}>
-        <Command.Root shouldFilter={false}>
-          <Command.Input value={filter} onValueChange={setFilter} />
+        <RemoveScroll>
+          <Command.Root shouldFilter={false}>
+            <Command.Input value={filter} onValueChange={setFilter} />
 
-          <Command.List ref={parentRef} className="max-h-60">
-            <Command.Empty>{t('empty')}</Command.Empty>
+            <Command.List ref={parentRef} className="max-h-60">
+              <Command.Empty>{t('empty')}</Command.Empty>
 
-            <Command.Group
-              style={{
-                height: `${rowVirtualizer.getTotalSize()}px`,
-                width: '100%',
-                position: 'relative',
-              }}
-            >
-              {rowVirtualizer.getVirtualItems().map((virtualItem, _, array) => {
-                const row = filteredTokensByText[virtualItem.index]
-                const value = `${row.symbol}-${row.network}-${virtualItem.key}`
+              <Command.Group
+                style={{
+                  height: `${rowVirtualizer.getTotalSize()}px`,
+                  width: '100%',
+                  position: 'relative',
+                }}
+              >
+                {rowVirtualizer.getVirtualItems().map((virtualItem, _, array) => {
+                  const row = filteredTokensByText[virtualItem.index]
+                  const value = `${row.symbol}-${row.network}-${virtualItem.key}`
 
-                return (
-                  <Command.Item
-                    key={virtualItem.key}
-                    value={value}
-                    onSelect={() => handleClickToken(row)}
-                    className="flex-col absolute top-0 left-0 w-full h-10"
-                    style={{
-                      height: `${virtualItem.size}px`,
-                      transform: `translateY(${virtualItem.start}px)`,
-                    }}
-                  >
-                    <div className="w-full h-full flex gap-2 items-center">
-                      <GreyTokenSelectItem token={row} />
-                    </div>
+                  return (
+                    <Command.Item
+                      key={virtualItem.key}
+                      value={value}
+                      onSelect={() => handleClickToken(row)}
+                      className="flex-col absolute top-0 left-0 w-full h-10"
+                      style={{
+                        height: `${virtualItem.size}px`,
+                        transform: `translateY(${virtualItem.start}px)`,
+                      }}
+                    >
+                      <div className="w-full h-full flex gap-2 items-center">
+                        <GreyTokenSelectItem token={row} />
+                      </div>
 
-                    {virtualItem.index + 1 !== array.length && <Separator />}
-                  </Command.Item>
-                )
-              })}
-            </Command.Group>
-          </Command.List>
-        </Command.Root>
+                      {virtualItem.index + 1 !== array.length && <Separator />}
+                    </Command.Item>
+                  )
+                })}
+              </Command.Group>
+            </Command.List>
+          </Command.Root>
+        </RemoveScroll>
       </Popover.Content>
     </Popover.Root>
   )
