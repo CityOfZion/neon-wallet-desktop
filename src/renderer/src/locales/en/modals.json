@@ -27,7 +27,7 @@
     "willBeAdded": "This account will be added:",
     "buttonAdd": "Add Watch Account",
     "errors": {
-      "invalid": "Invalid address",
+      "invalid": "Invalid address or already exists",
       "empty": "Please enter some text"
     }
   },

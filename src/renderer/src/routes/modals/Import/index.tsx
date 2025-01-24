@@ -106,7 +106,7 @@ export const ImportModal = () => {
           className="mt-8"
           type="submit"
           label={t('buttonContinueLabel')}
-          disabled={!actionData.text}
+          disabled={!actionData.text || !actionState.isValid}
           loading={actionState.isActing}
           flat
         />

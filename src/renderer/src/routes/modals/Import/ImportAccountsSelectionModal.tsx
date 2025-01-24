@@ -57,7 +57,11 @@ export const ImportAccountsSelectionModal = () => {
   }
 
   return (
-    <SideModalLayout heading={t('title')} headingIcon={<TbFileImport />} contentClassName="flex flex-col min-h-0">
+    <SideModalLayout
+      heading={t('title')}
+      headingIcon={<TbFileImport aria-hidden={true} />}
+      contentClassName="flex flex-col min-h-0"
+    >
       <p className="text-sm text-center">{t('description')}</p>
 
       <MnemonicOrKeyAccountSelection
@@ -73,7 +77,7 @@ export const ImportAccountsSelectionModal = () => {
         type="button"
         onClick={handleAct(handleImport)}
         label={t('importButtonLabel')}
-        leftIcon={<TbFileImport />}
+        leftIcon={<TbFileImport aria-hidden={true} />}
         loading={isActing}
         disabled={selectedAccounts.length === 0}
         flat

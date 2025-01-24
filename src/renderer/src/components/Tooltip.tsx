@@ -12,6 +12,8 @@ export const Tooltip = ({ children, title, ...props }: TProps) => {
   const { className: contentClassName, ...contentProps } = props.contentProps ?? {}
   const { className: arrowClassName, ...arrowProps } = props.arrowProps ?? {}
 
+  if (!title) return children
+
   return (
     <RadixTooltip.Provider>
       <RadixTooltip.Root>

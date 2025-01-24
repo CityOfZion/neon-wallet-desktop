@@ -7,6 +7,7 @@ import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
+import { useAccountUtils } from '@renderer/hooks/useAccountSelector'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
@@ -34,7 +35,7 @@ export const ImportWatchAccountsModal = () => {
   const { t: commomT } = useTranslation('common', { keyPrefix: 'wallet' })
   const { onAddWallet, address: addressModalState } = useModalState<TState>()
   const navigate = useNavigate()
-
+  const { doesAccountExist } = useAccountUtils()
   const [address, setAddress] = useState<string>('')
   const [validatedAddresses, setValidatedAddresses] = useState<TValidatedAddress[]>([])
   const [error, setError] = useState<string>()
@@ -94,7 +95,7 @@ export const ImportWatchAccountsModal = () => {
     for (const blockchainService of Object.values(bsAggregator.blockchainServicesByName)) {
       const isValid = blockchainService.validateAddress(address)
 
-      if (!isValid) continue
+      if (!isValid || doesAccountExist({ address, blockchain: blockchainService.name })) continue
 
       validatedAddressesCache.push({
         blockchain: blockchainService.name,
@@ -155,7 +156,8 @@ export const ImportWatchAccountsModal = () => {
               className="mt-8 w-full px-5"
               type="submit"
               label={t('buttonAdd')}
-              leftIcon={<MdAdd />}
+              leftIcon={<MdAdd aria-hidden={true} />}
+              disabled={validatedAddresses.length === 0}
               loading={isLoading}
               flat
             />

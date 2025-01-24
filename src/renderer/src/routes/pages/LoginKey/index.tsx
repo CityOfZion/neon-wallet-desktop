@@ -39,11 +39,14 @@ export const LoginKeyPage = () => {
     navigate('/app/portfolio')
   }
 
-  const { actionData, actionState, handleAct, handleChange, handleSubmit } = useImportAction({
-    key: submitKey,
-    mnemonic: submitMnemonic,
-    address: submitAddress,
-  })
+  const { actionData, actionState, handleAct, handleChange, handleSubmit } = useImportAction(
+    {
+      key: submitKey,
+      mnemonic: submitMnemonic,
+      address: submitAddress,
+    },
+    { verifyIfAddressAlreadyExists: false }
+  )
 
   return (
     <WelcomeWithTabsLayout tabItemSelected="key">

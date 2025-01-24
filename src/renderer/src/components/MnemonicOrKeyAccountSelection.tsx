@@ -13,6 +13,7 @@ import { BlockchainIcon } from './BlockchainIcon'
 import { Checkbox } from './Checkbox'
 import { Loader } from './Loader'
 import { Separator } from './Separator'
+import { Tooltip } from './Tooltip'
 
 export type TMnemonicOrKeyAccountWithBlockchain = {
   address: string
@@ -69,7 +70,7 @@ const MnemonicOrKeyAccountSelectionAccordion = ({
                 {commonT(`blockchain.${blockchain}`)}
               </div>
 
-              <span className="text-gray-300 text-xs mr-6 uppercase">
+              <span className="text-gray-300 text-1xs text-right mr-2 uppercase">
                 {t('accountsLength', { length: accounts.length })}
               </span>
             </div>
@@ -80,23 +81,36 @@ const MnemonicOrKeyAccountSelectionAccordion = ({
               <Separator />
             </div>
             <ul className="flex flex-col px-4 py-2.5 gap-2.5">
-              {accounts.map(account => (
-                <li
-                  key={`${account.address}-${blockchain}`}
-                  className="flex flex-col w-full gap-y-0.5 text-white text-xs"
-                >
-                  {account.derivationPath && <span className="text-gray-300">{account.derivationPath}</span>}
+              {accounts.map(account => {
+                const isDisabled = onVerifyAccountExistence?.({ ...account, blockchain }) ?? false
 
-                  <div className="flex gap-x-2 justify-between items-center">
-                    <span className="block truncate min-w-0">{account.address}</span>
-                    <Checkbox
-                      checked={selectedAccounts.some(AccountHelper.predicate({ address: account.address, blockchain }))}
-                      onCheckedChange={checked => handleChecked(checked, { ...account, blockchain })}
-                      disabled={onVerifyAccountExistence?.({ ...account, blockchain })}
-                    />
-                  </div>
-                </li>
-              ))}
+                return (
+                  <li
+                    key={`${account.address}-${blockchain}`}
+                    className="flex flex-col w-full gap-y-0.5 text-white text-xs"
+                  >
+                    {account.derivationPath && <span className="text-gray-300">{account.derivationPath}</span>}
+
+                    <div className="flex gap-x-2 justify-between items-center">
+                      <span
+                        className={StyleHelper.mergeStyles('block truncate min-w-0', { 'text-gray-300': isDisabled })}
+                      >
+                        {account.address}
+                      </span>
+
+                      <Tooltip title={isDisabled ? t('alreadyExists') : ''}>
+                        <Checkbox
+                          checked={selectedAccounts.some(
+                            AccountHelper.predicate({ address: account.address, blockchain })
+                          )}
+                          onCheckedChange={checked => handleChecked(checked, { ...account, blockchain })}
+                          disabled={isDisabled}
+                        />
+                      </Tooltip>
+                    </div>
+                  </li>
+                )
+              })}
             </ul>
           </Accordion.Content>
         </Accordion.Item>
