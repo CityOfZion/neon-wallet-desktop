@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BlockchainService, BSWithLedger } from '@cityofzion/blockchain-service'
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
@@ -12,7 +12,6 @@ import { IAccountState, IWalletState } from '@shared/@types/store'
 
 import { useCurrentLoginSessionSelector } from './useAuthSelector'
 import { useBlockchainActions } from './useBlockchainActions'
-import { useMountUnsafe } from './useMount'
 import { useWalletsSelector } from './useWalletSelector'
 
 type TStatus = 'searching' | 'connected' | 'not-connected'
@@ -23,10 +22,15 @@ export const useConnectHardwareWallet = (onConnect: (hardwareWalletInfos: THardw
   const [status, setStatus] = useState<TStatus>('searching')
   const triesRef = useRef(0)
   const timeoutRef = useRef<NodeJS.Timeout>()
+  const isConnecting = useRef(true)
 
   const tryConnect = async () => {
+    if (!isConnecting.current) return
+
     try {
       const connectedHardwareWallet = await window.api.sendAsync('connectHardwareWallet')
+
+      if (!isConnecting.current) return
 
       setStatus('connected')
       clearTimeout(timeoutRef.current)
@@ -35,6 +39,8 @@ export const useConnectHardwareWallet = (onConnect: (hardwareWalletInfos: THardw
 
       onConnect(connectedHardwareWallet)
     } catch {
+      if (!isConnecting.current) return
+
       triesRef.current += 1
 
       if (triesRef.current > MAX_ATTEMPTS) {
@@ -48,18 +54,23 @@ export const useConnectHardwareWallet = (onConnect: (hardwareWalletInfos: THardw
 
   const handleTryConnect = () => {
     triesRef.current = 0
+    isConnecting.current = true
     setStatus('searching')
     tryConnect()
   }
 
-  useMountUnsafe(() => {
+  useEffect(() => {
+    isConnecting.current = true
+
     handleTryConnect()
 
     return () => {
+      isConnecting.current = false
+
       clearTimeout(timeoutRef.current)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  })
+  }, [])
 
   return { status, handleTryConnect }
 }

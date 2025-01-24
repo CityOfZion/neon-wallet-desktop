@@ -40,7 +40,7 @@ test.describe('Temporary data', () => {
 
     const authReducerJson = await anotherWindow.evaluate(() => localStorage.getItem('persist:authReducer'))
     expect(authReducerJson).toBeTruthy()
-    const authReducer = JSON.parse(JSON.parse(authReducerJson!).data)
+    const authReducer = JSON.parse(JSON.parse(<string>authReducerJson!).data)
     expect(authReducer.applicationDataByLoginType.key.wallets).toHaveLength(0)
 
     await anotherWindow.close()
