@@ -195,7 +195,8 @@ interface Resources {
     }
     mnemonicOrKeyAccountSelection: {
       noAccountsToImport: 'No accounts to import'
-      accountsLength: '{{length}} address'
+      accountsLength: '{{ length }} address(es) found'
+      alreadyExists: 'Already exists'
     }
     greyAccountSelect: {
       placeholder: 'Select account...'
@@ -224,7 +225,7 @@ interface Resources {
   hooks: {
     useImportAction: {
       errors: {
-        invalid: 'Invalid text'
+        invalid: 'Invalid text or already exists'
         empty: 'Please enter some text'
         allAddressesAlreadyImported: 'All addresses are already imported'
         mnemonicIncomplete: 'Mnemonic incomplete'
@@ -308,7 +309,7 @@ interface Resources {
       willBeAdded: 'This account will be added:'
       buttonAdd: 'Add Watch Account'
       errors: {
-        invalid: 'Invalid address'
+        invalid: 'Invalid address or already exists'
         empty: 'Please enter some text'
       }
     }

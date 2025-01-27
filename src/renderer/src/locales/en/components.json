@@ -142,7 +142,8 @@
   },
   "mnemonicOrKeyAccountSelection": {
     "noAccountsToImport": "No accounts to import",
-    "accountsLength": "{{length}} address"
+    "accountsLength": "{{ length }} address(es) found",
+    "alreadyExists": "Already exists"
   },
   "greyAccountSelect": {
     "placeholder": "Select account...",

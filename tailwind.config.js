@@ -119,7 +119,7 @@ module.exports = {
     plugin(function ({ addUtilities }) {
       const newUtilities = {
         '.scrollbar-overlay': {
-          scrollbarGutter: 'stable both-edges',
+          scrollbarGutter: 'stable',
         },
       }
 
