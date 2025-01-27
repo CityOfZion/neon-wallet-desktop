@@ -68,16 +68,19 @@ const settingsReducerMigrations = {
       customNetworks: {
         ...state.data.customNetworks,
         base: [],
+        arbitrum: [],
       },
       selectedNetworkByBlockchain: {
         ...state.data.selectedNetworkByBlockchain,
         base: DEFAULT_NETWORK_BY__BLOCKCHAIN.base,
+        arbitrum: DEFAULT_NETWORK_BY__BLOCKCHAIN.arbitrum,
       },
       networkProfiles: state.data.networkProfiles.map(profile => ({
         ...profile,
         networkByBlockchain: {
           ...profile.networkByBlockchain,
           base: DEFAULT_NETWORK_BY__BLOCKCHAIN.base,
+          arbitrum: DEFAULT_NETWORK_BY__BLOCKCHAIN.arbitrum,
         },
       })),
       selectedNetworkProfile: {
@@ -85,6 +88,7 @@ const settingsReducerMigrations = {
         networkByBlockchain: {
           ...state.data.selectedNetworkProfile.networkByBlockchain,
           base: DEFAULT_NETWORK_BY__BLOCKCHAIN.base,
+          arbitrum: DEFAULT_NETWORK_BY__BLOCKCHAIN.arbitrum,
         },
       },
     },
@@ -113,6 +117,7 @@ const initialState: ISettingsReducer = {
       neox: [],
       polygon: [],
       base: [],
+      arbitrum: [],
     },
     selectedNetworkByBlockchain: DEFAULT_NETWORK_BY__BLOCKCHAIN,
     networkProfiles: [DEFAULT_NETWORK_PROFILE],

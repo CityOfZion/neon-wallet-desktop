@@ -33,6 +33,6 @@ export class NetworkHelper {
   }
 
   static isBlockchainEthereumOrBasedOnEthereum<T extends TBlockchainServiceKey>(blockchain: T) {
-    return ['ethereum', 'neox', 'polygon', 'base'].includes(blockchain)
+    return ['ethereum', 'neox', 'polygon', 'base', 'arbitrum'].includes(blockchain)
   }
 }

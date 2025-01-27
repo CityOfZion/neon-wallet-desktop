@@ -41,7 +41,8 @@
     "ethereum": "Ethereum",
     "neox": "NeoX",
     "polygon": "Polygon",
-    "base": "Base"
+    "base": "Base",
+    "arbitrum": "Arbitrum"
   },
   "networkTypeLabel": {
     "mainnet": "MainNet",

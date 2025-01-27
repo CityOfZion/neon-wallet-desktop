@@ -21,4 +21,7 @@ export const SWAP_NETWORK_BY_BLOCKCHAIN_AND_NETWORK_ID: {
   base: {
     '8453': ['base', 'baseevm'],
   },
+  arbitrum: {
+    '42161': ['arbitrum', 'arbevm', 'arbnova'],
+  },
 }

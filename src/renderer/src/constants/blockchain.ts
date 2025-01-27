@@ -1,3 +1,7 @@
+import { ReactComponent as ArbitrumBlue } from '@renderer/assets/blockchain/images/arbitrum_blue.svg'
+import { ReactComponent as ArbitrumGray } from '@renderer/assets/blockchain/images/arbitrum_gray.svg'
+import { ReactComponent as ArbitrumGreen } from '@renderer/assets/blockchain/images/arbitrum_green.svg'
+import { ReactComponent as ArbitrumWhite } from '@renderer/assets/blockchain/images/arbitrum_white.svg'
 import { ReactComponent as BaseBlue } from '@renderer/assets/blockchain/images/base_blue.svg'
 import { ReactComponent as BaseGray } from '@renderer/assets/blockchain/images/base_gray.svg'
 import { ReactComponent as BaseGreen } from '@renderer/assets/blockchain/images/base_green.svg'
@@ -63,5 +67,11 @@ export const blockchainIconsByBlockchain: Record<
     white: BaseWhite,
     blue: BaseBlue,
     green: BaseGreen,
+  },
+  arbitrum: {
+    gray: ArbitrumGray,
+    white: ArbitrumWhite,
+    blue: ArbitrumBlue,
+    green: ArbitrumGreen,
   },
 }
