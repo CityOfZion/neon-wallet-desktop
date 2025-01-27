@@ -42,6 +42,7 @@ interface Resources {
       ethereum: 'Ethereum'
       neox: 'NeoX'
       polygon: 'Polygon'
+      base: 'Base'
     }
     networkTypeLabel: {
       mainnet: 'MainNet'

@@ -18,4 +18,7 @@ export const SWAP_NETWORK_BY_BLOCKCHAIN_AND_NETWORK_ID: {
   polygon: {
     '137': ['matic'],
   },
+  base: {
+    '8453': ['base', 'baseevm'],
+  },
 }

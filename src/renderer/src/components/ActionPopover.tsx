@@ -91,7 +91,10 @@ const Item = ({ actionPopoverItemType = 'button', clickableProps, ...props }: TI
       variant="text"
       flat
       className="w-full"
-      clickableProps={{ className: 'rounded-none h-10 px-4 justify-start', ...clickableProps }}
+      clickableProps={{
+        ...clickableProps,
+        className: StyleHelper.mergeStyles('rounded-none h-10 px-4 justify-start', clickableProps?.className),
+      }}
       {...props}
     />
   )
