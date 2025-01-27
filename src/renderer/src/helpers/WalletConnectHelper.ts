@@ -11,6 +11,7 @@ export abstract class WalletConnectHelper {
     neox: 'eip155',
     polygon: 'eip155',
     base: 'eip155',
+    arbitrum: 'eip155',
   }
 
   static supportedChainIds = Object.keys(this.supportedBlockchains as TBlockchainServiceKey[]).reduce(

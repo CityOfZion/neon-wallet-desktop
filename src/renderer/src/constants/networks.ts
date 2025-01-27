@@ -7,6 +7,11 @@ import { getI18next } from '@shared/libs/i18next'
 
 const { t } = getI18next()
 
+const ARBITRUM_MAINNET_NETWORK_IDS = ['42161']
+const ARBITRUM_TESTNET_NETWORK_IDS = ['421614']
+const ARBITRUM_NETWORK_IDS = [...ARBITRUM_MAINNET_NETWORK_IDS, ...ARBITRUM_TESTNET_NETWORK_IDS]
+const ARBITRUM_NETWORKS = BSEthereumConstants.ALL_NETWORKS.filter(({ id }) => ARBITRUM_NETWORK_IDS.includes(id))
+
 const POLYGON_MAINNET_NETWORK_IDS = ['137']
 const POLYGON_TESTNET_NETWORK_IDS = ['1101', '80002']
 const POLYGON_NETWORK_IDS = [...POLYGON_MAINNET_NETWORK_IDS, ...POLYGON_TESTNET_NETWORK_IDS]
@@ -21,6 +26,7 @@ const NETWORK_IDS_BASED_ON_ETHEREUM = [
   ...BSEthereumConstants.NEOX_NETWORK_IDS,
   ...POLYGON_NETWORK_IDS,
   ...BASE_NETWORK_IDS,
+  ...ARBITRUM_NETWORK_IDS,
 ]
 
 const getOnlyEthereumNetworks = (allEthereumNetworks: Network<BSEthereumNetworkId>[]) =>
@@ -64,6 +70,11 @@ export const NETWORK_OPTIONS_BY_BLOCKCHAIN: Record<
     mainnet: BASE_NETWORKS.filter(({ id }) => BASE_MAINNET_NETWORK_IDS.includes(id)),
     testnet: BASE_NETWORKS.filter(({ id }) => BASE_TESTNET_NETWORK_IDS.includes(id)),
   },
+  arbitrum: {
+    all: ARBITRUM_NETWORKS,
+    mainnet: ARBITRUM_NETWORKS.filter(({ id }) => ARBITRUM_MAINNET_NETWORK_IDS.includes(id)),
+    testnet: ARBITRUM_NETWORKS.filter(({ id }) => ARBITRUM_TESTNET_NETWORK_IDS.includes(id)),
+  },
 }
 
 export const DEFAULT_NETWORK_BY__BLOCKCHAIN: Record<TBlockchainServiceKey, TNetwork<TBlockchainServiceKey>> = {
@@ -73,6 +84,7 @@ export const DEFAULT_NETWORK_BY__BLOCKCHAIN: Record<TBlockchainServiceKey, TNetw
   neox: NETWORK_OPTIONS_BY_BLOCKCHAIN.neox.mainnet[0],
   polygon: NETWORK_OPTIONS_BY_BLOCKCHAIN.polygon.mainnet[0],
   base: NETWORK_OPTIONS_BY_BLOCKCHAIN.base.mainnet[0],
+  arbitrum: NETWORK_OPTIONS_BY_BLOCKCHAIN.arbitrum.mainnet[0],
 }
 
 export const DEFAULT_NETWORK_PROFILE = {

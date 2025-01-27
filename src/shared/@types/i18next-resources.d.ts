@@ -43,6 +43,7 @@ interface Resources {
       neox: 'NeoX'
       polygon: 'Polygon'
       base: 'Base'
+      arbitrum: 'Arbitrum'
     }
     networkTypeLabel: {
       mainnet: 'MainNet'
