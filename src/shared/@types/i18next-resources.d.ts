@@ -50,6 +50,11 @@ interface Resources {
     ledger: {
       requestingPermission: 'Please confirm on your Ledger device'
     }
+    errors: {
+      noEncryptedKey: 'There is not encrypted key for this account: {{address}}'
+      blockchainIsNotClaimable: 'The account blockchain is not claimable: {{address}} {{blockchain}}'
+      loginSessionIsNotDefined: 'Unknown error. Login session is not defined.'
+    }
   }
   components: {
     sidebar: {
@@ -166,10 +171,11 @@ interface Resources {
       buttonLabel: 'Claim GAS'
       claimAmount: '{{amount}} {{symbol}}'
       youHaveUnclaimed: 'You have unclaimed {{symbol}}!'
+      youDoNotHaveUnclaimed: "You don't have unclaimed {{symbol}}!"
       feeToClaim: 'Fee to claim: {{fee}} {{symbol}}'
       balanceLessFee: "Can't claim because balance will not cover network fees!"
       unclaimedLessFee: "Claim is unavailable as claimable amount doesn't cover network fee!"
-      errorDecryptKey: 'Error decrypting key'
+      errorToGetUnclaimed: "Can't get unclaimed amount"
     }
     dappPermissionContextualMessage: {
       messageLabel: 'Contextual Message'
@@ -267,6 +273,11 @@ interface Resources {
         wrongPassword: 'The password is incorrect. Please try again.'
         wrongVersion: 'The backup file version is not supported. Please try to generate a new backup in the latest NEON version.'
         importData: 'There was an error importing the data (It might imported partially).'
+      }
+    }
+    useUnclaimedMutation: {
+      errors: {
+        claimError: 'There was an error trying to claim. Please, try again.'
       }
     }
   }

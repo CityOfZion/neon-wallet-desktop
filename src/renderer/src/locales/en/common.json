@@ -48,5 +48,10 @@
   },
   "ledger": {
     "requestingPermission": "Please confirm on your Ledger device"
+  },
+  "errors": {
+    "noEncryptedKey": "There is not encrypted key for this account: {{address}}",
+    "blockchainIsNotClaimable": "The account blockchain is not claimable: {{address}} {{blockchain}}",
+    "loginSessionIsNotDefined": "Unknown error. Login session is not defined."
   }
 }
