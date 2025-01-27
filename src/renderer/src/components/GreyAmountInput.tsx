@@ -1,11 +1,12 @@
-import { ChangeEvent, PropsWithChildren } from 'react'
+import { PropsWithChildren } from 'react'
 import { useTranslation } from 'react-i18next'
+import { FieldActionsMenu } from '@renderer/components/FieldActionsMenu'
 import { Loader } from '@renderer/components/Loader'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 type TProps = PropsWithChildren<{
   value?: string
-  onChange?: (event: ChangeEvent<HTMLInputElement>) => void
+  onChange?: (value: string) => void
   disabled?: boolean
   readOnly?: boolean
   loading?: boolean
@@ -38,17 +39,19 @@ export const GreyAmountInput = ({
         <Loader />
       ) : (
         <>
-          <input
-            className={StyleHelper.mergeStyles(
-              'w-full h-full px-2 bg-transparent outline-none disabled:cursor-not-allowed [appearance:textfield] text-neon text-center',
-              inputClassName
-            )}
-            onChange={onChange}
-            value={value}
-            disabled={isDisabled}
-            placeholder={t('placeholder')}
-            readOnly={readOnly}
-          />
+          <FieldActionsMenu value={value ?? ''} disabled={isDisabled} readOnly={readOnly} onChange={onChange}>
+            <input
+              className={StyleHelper.mergeStyles(
+                'w-full h-full px-2 bg-transparent outline-none disabled:cursor-not-allowed [appearance:textfield] text-neon text-center',
+                inputClassName
+              )}
+              onChange={event => onChange?.(event.target.value)}
+              value={value}
+              disabled={isDisabled}
+              placeholder={t('placeholder')}
+              readOnly={readOnly}
+            />
+          </FieldActionsMenu>
 
           {children}
         </>

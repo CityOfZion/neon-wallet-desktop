@@ -3,8 +3,8 @@ import { FiSend } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { TestHelper } from '@renderer/helpers/TestHelper'
-import { getI18next } from '@renderer/libs/i18next'
 import { TContactAddress } from '@shared/@types/store'
+import { getI18next } from '@shared/libs/i18next'
 import {
   createColumnHelper,
   flexRender,

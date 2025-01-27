@@ -1,6 +1,7 @@
 import { cloneElement, forwardRef, MouseEvent, useImperativeHandle, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdCancel, MdContentCopy, MdContentPasteGo, MdVisibility, MdVisibilityOff } from 'react-icons/md'
+import { FieldActionsMenu } from '@renderer/components/FieldActionsMenu'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
@@ -62,29 +63,29 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
       setHidden(prev => !prev)
     }
 
+    const setValue = (value: string) => {
+      if (!internalRef.current) return
+
+      const nativeSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!
+
+      nativeSetter.call(internalRef.current, value)
+
+      const event = new Event('input', { bubbles: true })
+
+      internalRef.current.dispatchEvent(event)
+      internalRef.current.focus()
+    }
+
     const handleCopyInput = () => {
       UtilsHelper.copyToClipboard(internalRef.current?.value ?? '')
     }
 
     const handlePaste = async () => {
-      if (internalRef.current) {
-        const text = await navigator.clipboard.readText()
-        const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')!.set!
-        nativeInputValueSetter.call(internalRef.current, text)
-        const inputEvent = new Event('input', { bubbles: true })
-        internalRef.current.dispatchEvent(inputEvent)
-        internalRef.current.focus()
-      }
+      setValue(await navigator.clipboard.readText())
     }
 
     const clear = () => {
-      if (internalRef.current) {
-        const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')!.set!
-        nativeInputValueSetter.call(internalRef.current, '')
-        const inputEvent = new Event('input', { bubbles: true })
-        internalRef.current.dispatchEvent(inputEvent)
-        internalRef.current.focus()
-      }
+      setValue('')
     }
 
     const handleContainerClick = () => {
@@ -123,7 +124,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
               'ring-pink': !!errorMessage || error === true,
               'focus:ring-neon': !errorMessage || error === false,
               'pl-3': !!leftIcon,
-              'pr-3': isTypePassword || clearable,
+              'pr-3': isTypePassword || clearable || pastable,
             },
             contentClassName
           )}
@@ -142,21 +143,28 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
               ),
             })}
 
-          <input
-            ref={internalRef}
-            className={StyleHelper.mergeStyles(
-              'bg-transparent w-full disabled:cursor-not-allowed flex-grow outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none',
-              className
-            )}
-            onMouseDown={handleMouseDown}
-            onClick={handleClick}
-            type={realType}
-            spellCheck="false"
-            autoComplete="off"
+          <FieldActionsMenu
+            value={['string', 'number'].includes(typeof props.value) ? props.value!.toString() : ''}
+            disabled={props.disabled}
             readOnly={readOnly}
-            {...props}
-            {...TestHelper.buildTestObject(testId)}
-          />
+            onChange={setValue}
+          >
+            <input
+              ref={internalRef}
+              className={StyleHelper.mergeStyles(
+                'bg-transparent w-full disabled:cursor-not-allowed flex-grow outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none',
+                className
+              )}
+              onMouseDown={handleMouseDown}
+              onClick={handleClick}
+              type={realType}
+              spellCheck="false"
+              autoComplete="off"
+              readOnly={readOnly}
+              {...props}
+              {...TestHelper.buildTestObject(testId)}
+            />
+          </FieldActionsMenu>
 
           {(loading || isTypePassword || pastable || copyable || clearable || buttons) && (
             <div className="flex items-center gap-x-2">

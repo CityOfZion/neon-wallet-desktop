@@ -1,6 +1,7 @@
 import { ChangeEventHandler, forwardRef, useCallback, useEffect, useImperativeHandle, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdCancel, MdContentPasteGo } from 'react-icons/md'
+import { FieldActionsMenu } from '@renderer/components/FieldActionsMenu'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import { IconButton } from './IconButton'
@@ -34,38 +35,35 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TProps>(
     const { t: tCommonGeneral } = useTranslation('common', { keyPrefix: 'general' })
     const internalRef = useRef<HTMLTextAreaElement>(null)
 
+    const setValue = (value: string) => {
+      if (!internalRef.current) return
+
+      const nativeSetter = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value')!.set!
+
+      nativeSetter.call(internalRef.current, value)
+
+      const event = new Event('input', { bubbles: true })
+
+      internalRef.current.dispatchEvent(event)
+      internalRef.current.focus()
+    }
+
     const handlePaste = async () => {
-      if (internalRef.current) {
-        const text = await navigator.clipboard.readText()
-        const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
-          window.HTMLTextAreaElement.prototype,
-          'value'
-        )!.set!
-        nativeInputValueSetter.call(internalRef.current, text)
-        const inputEvent = new Event('input', { bubbles: true })
-        internalRef.current.dispatchEvent(inputEvent)
-        internalRef.current.focus()
-      }
+      setValue(await navigator.clipboard.readText())
     }
 
     const clear = () => {
-      if (internalRef.current) {
-        const nativeTextAreaValueSetter = Object.getOwnPropertyDescriptor(
-          window.HTMLTextAreaElement.prototype,
-          'value'
-        )!.set!
-        nativeTextAreaValueSetter.call(internalRef.current, '')
-        const inputEvent = new Event('input', { bubbles: true })
-        internalRef.current.dispatchEvent(inputEvent)
-        internalRef.current.focus()
-        calcHeight()
-      }
+      setValue('')
+      calcHeight()
     }
 
     const calcHeight = useCallback(() => {
       if (!internalRef.current) return
+
       internalRef.current.style.height = '0px'
+
       const scrollHeight = internalRef.current.scrollHeight
+
       internalRef.current.style.height = scrollHeight + 'px'
     }, [])
 
@@ -101,21 +99,28 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TProps>(
             }
           )}
         >
-          <textarea
-            className={StyleHelper.mergeStyles(
-              'bg-transparent flex-grow outline-none resize-none overflow-hidden min-h-[1rem]',
-              {
-                'whitespace-nowrap': !multiline,
-              },
-              className
-            )}
-            ref={internalRef}
-            rows={1}
-            onChange={handleChange}
-            onKeyDown={handleKeyDown}
-            spellCheck="false"
-            {...props}
-          />
+          <FieldActionsMenu
+            value={['string', 'number'].includes(typeof props.value) ? props.value!.toString() : ''}
+            disabled={props.disabled}
+            readOnly={props.readOnly}
+            onChange={setValue}
+          >
+            <textarea
+              className={StyleHelper.mergeStyles(
+                'bg-transparent w-full flex-grow outline-none resize-none overflow-hidden min-h-[1rem]',
+                {
+                  'whitespace-nowrap': !multiline,
+                },
+                className
+              )}
+              ref={internalRef}
+              rows={1}
+              onChange={handleChange}
+              onKeyDown={handleKeyDown}
+              spellCheck="false"
+              {...props}
+            />
+          </FieldActionsMenu>
 
           {pastable && (
             <IconButton

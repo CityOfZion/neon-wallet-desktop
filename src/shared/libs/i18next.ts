@@ -1,6 +1,7 @@
 import { initReactI18next } from 'react-i18next'
-import { enResources } from '@renderer/locales/en'
 import i18n from 'i18next'
+
+import { enResources } from '../locales/en'
 
 export const setupI18next = () => {
   if (!i18n.isInitialized) {
@@ -21,5 +22,6 @@ export const setupI18next = () => {
 
 export const getI18next = () => {
   setupI18next()
+
   return i18n
 }

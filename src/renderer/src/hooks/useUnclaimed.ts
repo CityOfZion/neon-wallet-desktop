@@ -2,12 +2,12 @@ import { Account, hasLedger, isCalculableFee, isClaimable } from '@cityofzion/bl
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { bsAggregator } from '@renderer/libs/blockchainService'
-import { getI18next } from '@renderer/libs/i18next'
 import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
 import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
 import { TUseTransactionsTransfer } from '@shared/@types/hooks'
 import { TUseUnclaimedResult } from '@shared/@types/query'
 import { IAccountState } from '@shared/@types/store'
+import { getI18next } from '@shared/libs/i18next'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 import { useCurrentLoginSessionSelector, useHasClaimPendingTransactionSelector } from './useAuthSelector'

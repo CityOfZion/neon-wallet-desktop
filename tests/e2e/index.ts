@@ -15,9 +15,7 @@ export const launch = async (shouldResetStorage = true) => {
 
   const window = await electronApp.firstWindow()
 
-  if (shouldResetStorage) {
-    await window.evaluate('window.localStorage.clear()')
-  }
+  if (shouldResetStorage) await window.evaluate('window.localStorage.clear()')
 
   await window.reload({ waitUntil: 'load' })
 
