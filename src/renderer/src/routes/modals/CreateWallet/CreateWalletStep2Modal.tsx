@@ -60,7 +60,7 @@ export const CreateWalletStep2Modal = () => {
           <MdLooksTwo className="text-blue h-4.5 w-4.5" />
           <h2 className="text-sm">{t('title')}</h2>
         </div>
-        <div className="text-blue text-sm">{t('step2of3')}</div>
+        <div className="text-blue text-sm">{t('step2of4')}</div>
       </header>
 
       <Separator className="min-h-[0.0625rem] mb-9" />

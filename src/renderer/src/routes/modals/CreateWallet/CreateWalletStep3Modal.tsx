@@ -4,7 +4,6 @@ import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
 import { useActions } from '@renderer/hooks/useActions'
-import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { CreateWalletModalLayout } from '@renderer/layouts/CreateWalletModalLayout'
 
@@ -18,10 +17,8 @@ type TFormData = {
 
 export const CreateWalletStep3Modal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'createWallet.step3' })
-  const { t: commonT } = useTranslation('common')
   const { words } = useModalState<TLocationState>()
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
-  const { createWallet, createStandardAccount } = useBlockchainActions()
 
   const form = useActions<TFormData>({
     name: '',
@@ -39,18 +36,7 @@ export const CreateWalletStep3Modal = () => {
       return
     }
 
-    const wallet = createWallet({
-      name: nameTrimmed,
-      mnemonic: words.join(' '),
-    })
-
-    const account = await createStandardAccount({
-      wallet,
-      blockchain: 'neo3',
-      name: commonT('account.defaultName', { accountNumber: 1 }),
-    })
-
-    modalNavigate('create-wallet-step-4', { state: { account } })
+    modalNavigate('create-wallet-step-4', { state: { nameTrimmed, words } })
   }
 
   return (
@@ -60,7 +46,7 @@ export const CreateWalletStep3Modal = () => {
           <MdLooks3 className="text-blue h-4.5 w-4.5" />
           <h2 className="text-sm">{t('title')}</h2>
         </div>
-        <div className="text-blue text-sm">{t('step3of3')}</div>
+        <div className="text-blue text-sm">{t('step3of4')}</div>
       </header>
       <Separator className="min-h-[0.0625rem] mb-9" />
       <form
@@ -86,7 +72,7 @@ export const CreateWalletStep3Modal = () => {
         <div className="flex gap-2">
           <Button label={t('backButtonLabel')} colorSchema="gray" flat wide onClick={modalNavigateWrapper(-1)} />
 
-          <Button className="w-48" type="submit" label={t('createWalletButtonLabel')} flat />
+          <Button className="w-48" type="submit" label={t('nextButtonLabel')} flat />
         </div>
       </form>
     </CreateWalletModalLayout>
