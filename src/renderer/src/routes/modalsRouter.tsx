@@ -18,6 +18,7 @@ import { CreateWalletStep1Modal } from './modals/CreateWallet/CreateWalletStep1M
 import { CreateWalletStep2Modal } from './modals/CreateWallet/CreateWalletStep2Modal'
 import { CreateWalletStep3Modal } from './modals/CreateWallet/CreateWalletStep3Modal'
 import { CreateWalletStep4Modal } from './modals/CreateWallet/CreateWalletStep4Modal'
+import { CreateWalletStep5Modal } from './modals/CreateWallet/CreateWalletStep5Modal'
 import { DappConnectionModal } from './modals/DappConnection'
 import { DappConnectionDetailsModal } from './modals/DappConnectionDetails'
 import { DappDisconnectionModal } from './modals/DappDisconnection'
@@ -64,6 +65,7 @@ export const modalsRouter: TRoute[] = [
   { name: 'create-wallet-step-2', type: 'side', size: '1xl', element: <CreateWalletStep2Modal /> },
   { name: 'create-wallet-step-3', type: 'side', size: '1xl', element: <CreateWalletStep3Modal /> },
   { name: 'create-wallet-step-4', type: 'side', size: '1xl', element: <CreateWalletStep4Modal /> },
+  { name: 'create-wallet-step-5', type: 'side', size: '1xl', element: <CreateWalletStep5Modal /> },
   { name: 'persist-contact', type: 'side', element: <PersistContactModal /> },
   { name: 'delete-contact', type: 'side', element: <DeleteModal /> },
   { name: 'add-address', type: 'side', element: <AddAddressModal /> },
