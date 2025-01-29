@@ -1,7 +1,5 @@
 import { useTranslation } from 'react-i18next'
 import { MdLooks4 } from 'react-icons/md'
-import { useNavigate } from 'react-router-dom'
-import NeonWalletIcon3D from '@renderer/assets/images/neon-wallet-icon-3d.svg?react'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { Button } from '@renderer/components/Button'
 import { Checkbox } from '@renderer/components/Checkbox'
