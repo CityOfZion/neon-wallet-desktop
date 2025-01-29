@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { Tb3DCubeSphere } from 'react-icons/tb'
+import { TbCube3dSphere } from 'react-icons/tb'
 import { useDispatch } from 'react-redux'
 import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
@@ -97,7 +97,7 @@ export const AddCustomNetwork = () => {
   }
 
   return (
-    <SideModalLayout heading={t('title')} headingIcon={<Tb3DCubeSphere />} contentClassName="flex flex-col">
+    <SideModalLayout heading={t('title')} headingIcon={<TbCube3dSphere />} contentClassName="flex flex-col">
       <form className="flex flex-col flex-grow" onSubmit={handleAct(handleSubmit)}>
         <div className="flex-grow flex flex-col gap-6">
           <Input

@@ -78,26 +78,23 @@ const Content = forwardRef<ElementRef<typeof RadixPopover.Content>, TContentProp
   }
 )
 
-type TItemProps = { actionPopoverItemType?: 'button' | 'link' } & (
-  | ComponentProps<typeof Button>
-  | ComponentProps<typeof Link>
-)
+type TItemProps =
+  | ({ actionPopoverItemType?: 'button' } & ComponentProps<typeof Button>)
+  | ({ actionPopoverItemType?: 'link' } & ComponentProps<typeof Link>)
 
 const Item = ({ actionPopoverItemType = 'button', clickableProps, ...props }: TItemProps) => {
-  const Component = actionPopoverItemType === 'button' ? Button : Link
+  const commonProps: any = {
+    variant: 'text',
+    flat: true,
+    className: 'w-full',
+    clickableProps: { className: 'rounded-none h-10 px-4 justify-start', ...clickableProps },
+  }
 
-  return (
-    <Component
-      variant="text"
-      flat
-      className="w-full"
-      clickableProps={{
-        ...clickableProps,
-        className: StyleHelper.mergeStyles('rounded-none h-10 px-4 justify-start', clickableProps?.className),
-      }}
-      {...props}
-    />
-  )
+  if (actionPopoverItemType === 'button') {
+    return <Button {...commonProps} {...props} />
+  }
+
+  return <Link {...commonProps} {...props} />
 }
 
 export const ActionPopover = {

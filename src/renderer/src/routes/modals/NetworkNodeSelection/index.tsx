@@ -1,6 +1,6 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Tb3DCubeSphere, TbRefresh } from 'react-icons/tb'
+import { TbCube3dSphere, TbRefresh } from 'react-icons/tb'
 import { Button } from '@renderer/components/Button'
 import { Checkbox } from '@renderer/components/Checkbox'
 import { Loader } from '@renderer/components/Loader'
@@ -25,17 +25,10 @@ export const NetworkNodeSelection = () => {
   const { blockchain } = useModalState<TState>()
   const { network } = useSelectedNetworkSelector(blockchain)
   const { setNetworkNode } = useNetworkActions()
-  const query = useNodes(blockchain)
+  const { data: nodes, ...query } = useNodes(blockchain)
+
   const [selectedUrl, setSelectedUrl] = useState<string>(network.url)
   const [isAutomatic, setIsAutomatic] = useState<boolean>(network.isAutomatic ?? false)
-
-  const nodes = useMemo(() => {
-    const data = query?.data ?? []
-
-    if (!data.find(({ url }) => url === selectedUrl)) data.unshift({ url: selectedUrl, latency: null, height: null })
-
-    return data
-  }, [query?.data, selectedUrl])
 
   const handleSelectRadioItem = (selectedValue: string) => {
     setIsAutomatic(false)
@@ -43,8 +36,7 @@ export const NetworkNodeSelection = () => {
   }
 
   const handleIsAutomaticallyChange = (value: boolean) => {
-    const firstNode = nodes.filter(node => node.height !== null && node.latency !== null)[0]
-
+    const firstNode = nodes?.find(node => node.height !== undefined && node.latency !== undefined)
     if (firstNode) setSelectedUrl(firstNode.url)
 
     setIsAutomatic(value)
@@ -56,7 +48,7 @@ export const NetworkNodeSelection = () => {
   }
 
   return (
-    <SideModalLayout heading={t('title')} headingIcon={<Tb3DCubeSphere />} contentClassName="px-0 flex flex-col">
+    <SideModalLayout heading={t('title')} headingIcon={<TbCube3dSphere />} contentClassName="px-0 flex flex-col">
       <p className="text-xs text-white px-4">{t('description')}</p>
 
       <span className="text-gray-100 font-bold mt-6 block px-4">{t('listLabel')}</span>
@@ -89,7 +81,7 @@ export const NetworkNodeSelection = () => {
           <Loader />
         ) : (
           <RadioGroup.Group value={selectedUrl} onValueChange={handleSelectRadioItem}>
-            {nodes.map(node => (
+            {nodes?.map(node => (
               <RadioGroup.Item key={node.url} value={node.url} className="h-15 text-xs">
                 <div className="flex items-center gap-4 flex-grow  min-w-0">
                   <div className="flex flex-col items-center justify-center gap-0.5">
@@ -98,7 +90,7 @@ export const NetworkNodeSelection = () => {
                         className={StyleHelper.mergeStyles(
                           'w-[0.375rem] h-[0.375rem] min-w-[0.375rem] min-h-[0.375rem] rounded-full',
                           match(node.latency)
-                            .with(null, () => 'bg-gray-300')
+                            .with(undefined, () => 'bg-gray-300')
                             .with(
                               P.when(value => value < 400),
                               () => 'bg-green'

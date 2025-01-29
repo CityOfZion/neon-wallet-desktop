@@ -34,7 +34,7 @@ function createWindow(): void {
     height: 800,
     minWidth: 1350,
     minHeight: 800,
-    titleBarStyle: 'hidden',
+    titleBarStyle: isLinux ? 'default' : 'hidden',
     titleBarOverlay: true,
     show: false,
     ...(isLinux ? { icon } : {}),

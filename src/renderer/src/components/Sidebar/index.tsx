@@ -3,8 +3,8 @@ import { TbDoorExit, TbHome2, TbReplace, TbSettings, TbStepInto, TbStepOut, TbUs
 import { TestHelper } from '@renderer/helpers/TestHelper'
 import { useLogin } from '@renderer/hooks/useLogin'
 
-import { ReactComponent as NeonLogoIcon } from '../../assets/images/neon-wallet-compact.svg'
-import { ReactComponent as WalletIcon } from '../../assets/images/wallet-icon.svg'
+import NeonLogoIcon from '../../assets/images/neon-wallet-compact.svg?react'
+import WalletIcon from '../../assets/images/wallet-icon.svg?react'
 
 import { SidebarButton } from './SidebarButton'
 import { SidebarLink } from './SidebarLink'

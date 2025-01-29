@@ -1,7 +1,7 @@
 import { ComponentProps } from 'react'
 import { MdArrowBack } from 'react-icons/md'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { ReactComponent as NeonWalletFull } from '@renderer/assets/images/neon-wallet-full.svg'
+import NeonWalletFull from '@renderer/assets/images/neon-wallet-full.svg?react'
 import { IconButton } from '@renderer/components/IconButton'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 

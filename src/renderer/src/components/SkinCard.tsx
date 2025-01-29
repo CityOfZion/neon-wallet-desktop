@@ -20,10 +20,10 @@ export const SkinCard = ({ showCheck, image, color, className, component }: TPro
       )}
     >
       {match({ image, component, color })
-        .with({ image: P.when(value => !!value) }, () => (
+        .with({ image: P.when(value => !!value) }, ({ image }) => (
           <img aria-hidden={true} src={image} alt="" className="w-full h-full object-cover absolute inset-0 m-auto" />
         ))
-        .with({ component: P.when(value => !!value) }, () =>
+        .with({ component: P.when(value => !!value) }, ({ component }) =>
           cloneElement(component, {
             'aria-hidden': true,
             className: 'w-full h-full object-cover absolute inset-0 m-auto',

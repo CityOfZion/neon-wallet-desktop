@@ -14,8 +14,13 @@ const selectAccounts = createAppSelector(
   }
 )
 
-const selectOwnAccounts = createAppSelector(selectAccounts, accounts =>
-  accounts.filter(account => account.type !== 'watch')
+const selectOwnAccounts = createAppSelector(
+  [state => state.auth.data.applicationDataByLoginType, state => state.auth.currentLoginSession],
+  (applicationDataByLoginType, currentLoginSession) => {
+    return applicationDataByLoginType[currentLoginSession?.type ?? 'password'].wallets
+      .flatMap(wallet => wallet.accounts)
+      .filter(account => account.type !== 'watch')
+  }
 )
 
 const selectHasHardwareAccount = createAppSelector(

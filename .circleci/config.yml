@@ -3,71 +3,44 @@ version: 2.1
 orbs:
   win: circleci/windows@5.0.0
   node: circleci/node@5.1.0
-  gh: circleci/github-cli@2.3.0
 
 references:
   container_config: &container_config
     docker:
-      - image: electronuserland/builder:wine-chrome
-        environment:
-          TARGET_ARCH: x64
+      - image: cimg/node:current
     working_directory: ~/neon-wallet-desktop
-
-  workspace_root: &workspace_root ~/neon-wallet-desktop
-
-  attach_workspace: &attach_workspace
-    attach_workspace:
-      at: *workspace_root
 
 commands:
   prepare_linux:
     steps:
       - checkout
       - node/install:
-          node-version: '18.14.2'
-      - run: apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4EB27DB2A3B88B8B
-      - run: apt-get -y update
-      - run: apt-get -y install libusb-1.0-0-dev icnsutils graphicsmagick libudev-dev
-      - run: apt-get -y install libxtst6 libxss1 libgtk2.0-0 libnss3 libasound2 libgconf-2-4
-      - run: npm config delete proxy
+          node-version: '20.17.0'
+      - run: sudo npm install -g npm
+      - restore_cache:
+          key: nwd-dependency-cache-{{ checksum "package.json" }}
+      - run: sudo apt-get -y update
+      - run: sudo apt-get -y install libusb-1.0-0-dev libudev-dev
       - run: npm ci --timeout 1500000
-
-jobs:
-  test:
-    <<: *container_config
-    steps:
-      - prepare_linux
-      - run: npm run lint
       - save_cache:
-          key: neon3-wallet-dependencies-cache-{{ checksum "package-lock.json" }}
+          key: nwd-dependency-cache-{{ checksum "package-lock.json" }}
           paths:
             - ~/.npm
             - ./node_modules
 
+jobs:
+  lint_typecheck:
+    <<: *container_config
+    steps:
+      - prepare_linux
+      - run: npm run lint
+      - run: npm run typecheck
+
   build_linux:
     <<: *container_config
-    resource_class: large
     steps:
       - prepare_linux
       - run: npm run build:linux
-      - store_artifacts:
-          path: dist
-          destination: build
-
-  build_macos:
-    macos:
-      xcode: '15.2.0'
-    resource_class: macos.m1.medium.gen1
-    steps:
-      - checkout
-      - node/install:
-          node-version: '18.14.2'
-      - run: |
-          brew install pyenv
-          pyenv install 3.11.6
-          pyenv global 3.11.6
-      - run: npm ci
-      - run: npm run build:mac
       - store_artifacts:
           path: dist
           destination: build
@@ -97,25 +70,19 @@ jobs:
             setx SIGNTOOL_PATH $signtoolPath
             setx CODESIGNING_DLIB_PATH $codesigningDlibPath
             setx METADATA_PATH $metadataPath
+      - run: pip install setuptools
       - run: npm ci --timeout 1500000
       - run: npm run build:win
       - store_artifacts:
           path: dist
           destination: build
 
-  generate_checksums:
-    <<: *container_config
-    steps:
-      - prepare_linux
-      - gh/install
-      - run: npm run generate-checksums
-
 workflows:
   version: 2
-  build_and_test:
+  verify_commit:
     jobs:
       # run test on every commit
-      - test
+      - lint_typecheck
   deploy:
     jobs:
       # build artifacts only on tags with name v.*

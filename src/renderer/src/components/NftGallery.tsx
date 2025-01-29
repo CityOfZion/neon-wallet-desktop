@@ -1,11 +1,13 @@
 import { useMemo } from 'react'
-import PhotoAlbum from 'react-photo-album'
+import { MasonryPhotoAlbum } from 'react-photo-album'
 import { hasExplorerService, NftResponse } from '@cityofzion/blockchain-service'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { IAccountState } from '@shared/@types/store'
 
 import { BlockchainIcon } from './BlockchainIcon'
+
+import 'react-photo-album/masonry.css'
 
 type TProps = {
   nfts: NftResponse[]
@@ -31,7 +33,7 @@ export const NftGallery = ({ account, nfts }: TProps) => {
 
     if (!hasExplorerService(service)) return
 
-    let explorerUrl
+    let explorerUrl: string | undefined
 
     try {
       explorerUrl = service.explorerService.buildNftUrl({
@@ -50,45 +52,51 @@ export const NftGallery = ({ account, nfts }: TProps) => {
   }
 
   return (
-    <PhotoAlbum
+    <MasonryPhotoAlbum
       photos={photos}
-      layout="masonry"
       spacing={6}
       columns={5}
-      renderColumnContainer={({ columnContainerProps, children }) => (
-        <div {...columnContainerProps} className={StyleHelper.mergeStyles('gap-1.5', columnContainerProps.className)}>
-          {children}
-        </div>
-      )}
-      renderPhoto={({ photo, renderDefaultPhoto }) => {
-        const explorerUrl = getExplorerUrl(photo.nft)
+      render={{
+        track: props => <div {...props} className={StyleHelper.mergeStyles('gap-1.5', props.className)} />,
+        photo: (_props, { photo }) => {
+          const explorerUrl = getExplorerUrl(photo.nft)
 
-        return (
-          <div
-            className={StyleHelper.mergeStyles('p-2.5 bg-gray-300/15 flex flex-col rounded-md gap-2', {
-              'cursor-pointer hover:bg-gray-300/30 transition-colors': !!explorerUrl,
-            })}
-            onClick={explorerUrl ? handleClick.bind(null, explorerUrl) : undefined}
-          >
-            <div className="rounded overflow-hidden bg-gray-300/30">{renderDefaultPhoto({ wrapped: true })}</div>
+          return (
+            <div
+              className={StyleHelper.mergeStyles('p-2.5 bg-gray-300/15 flex flex-col rounded-md gap-2', {
+                'cursor-pointer hover:bg-gray-300/30 transition-colors': !!explorerUrl,
+              })}
+              onClick={explorerUrl ? handleClick.bind(null, explorerUrl) : undefined}
+            >
+              <div className="rounded overflow-hidden bg-gray-300/30">
+                <img
+                  loading="lazy"
+                  decoding="async"
+                  title={photo.title}
+                  key={photo.key}
+                  src={photo.src}
+                  className="block w-full h-full"
+                />
+              </div>
 
-            <div className="flex gap-2.5 items-center">
-              <BlockchainIcon blockchain={account.blockchain} type="gray" className="opacity-60 w-3 h-3 ml-0.5" />
+              <div className="flex gap-2.5 items-center">
+                <BlockchainIcon blockchain={account.blockchain} type="gray" className="opacity-60 w-3 h-3 ml-0.5" />
 
-              <span className="text-xs capitalize truncate w-20 2xl:w-36">{photo.title}</span>
+                <span className="text-xs capitalize truncate w-20 2xl:w-36">{photo.title}</span>
+              </div>
+
+              <div className="flex gap-2 items-center">
+                {photo.nft.collectionImage && (
+                  <div className="min-w-[1rem] w-[1rem] min-h-[1rem] h-[1rem] bg-gray-300/30 rounded-full overflow-hidden">
+                    <img className="w-full h-full object-cover" src={photo.nft.collectionImage} />
+                  </div>
+                )}
+
+                <span className="text-xs capitalize text-blue truncate w-20 2xl:w-32">{photo.nft.id}</span>
+              </div>
             </div>
-
-            <div className="flex gap-2 items-center">
-              {photo.nft.collectionImage && (
-                <div className="min-w-[1rem] w-[1rem] min-h-[1rem] h-[1rem] bg-gray-300/30 rounded-full overflow-hidden">
-                  <img className="w-full h-full object-cover" src={photo.nft.collectionImage} />
-                </div>
-              )}
-
-              <span className="text-xs capitalize text-blue truncate w-20 2xl:w-32">{photo.nft.id}</span>
-            </div>
-          </div>
-        )
+          )
+        },
       }}
     />
   )

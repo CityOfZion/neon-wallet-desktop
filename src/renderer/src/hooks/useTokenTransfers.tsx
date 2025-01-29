@@ -61,7 +61,7 @@ async function fetchTransactions(
     }) as Query<TFetchTransactionsResponse> | undefined
 
     // It means that the query is not stale and we can return the data
-    if (query && !query.isStaleByTime(defaultedOptions.staleTime)) {
+    if (query && !query.isStaleByTime(Number(defaultedOptions.staleTime))) {
       data.push(...query.state.data!.transfers)
       hasMorePage ||= !!query.state.data!.nextPageParams
       return

@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdContentCopy, MdOutlinePrint } from 'react-icons/md'
 import { TbReceipt, TbUpload } from 'react-icons/tb'
-import ReactToPrint from 'react-to-print'
+import { useReactToPrint } from 'react-to-print'
 import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'
@@ -23,6 +23,10 @@ export const ExportKeyModal = () => {
   const { currentLoginSession } = useCurrentLoginSessionSelector()
   const { t } = useTranslation('modals', { keyPrefix: 'exportKey' })
   const ref = useRef<HTMLDivElement>(null)
+  const handlePrint = useReactToPrint({
+    contentRef: ref,
+    bodyClass: 'print-agreement',
+  })
 
   if (!currentLoginSession) {
     throw new Error('Login session not defined')
@@ -75,18 +79,14 @@ export const ExportKeyModal = () => {
           clickableProps={{ className: 'px-4' }}
           flat
         />
-        <ReactToPrint
-          bodyClass="print-agreement"
-          content={() => ref.current}
-          trigger={() => (
-            <Button
-              variant="text"
-              leftIcon={<MdOutlinePrint />}
-              label={t('printButtonLabel')}
-              clickableProps={{ className: 'px-4' }}
-              flat
-            />
-          )}
+
+        <Button
+          variant="text"
+          leftIcon={<MdOutlinePrint />}
+          label={t('printButtonLabel')}
+          clickableProps={{ className: 'px-4' }}
+          flat
+          onClick={() => handlePrint()}
         />
       </div>
 

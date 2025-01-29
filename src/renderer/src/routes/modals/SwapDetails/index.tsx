@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdLaunch, MdRefresh } from 'react-icons/md'
-import { TbCircleX, TbDiscountCheck, TbReceipt, TbReplace } from 'react-icons/tb'
+import { TbCircleX, TbReceipt, TbReplace, TbRosetteDiscountCheck } from 'react-icons/tb'
 import { SimpleSwapServiceHelper } from '@cityofzion/bs-swap'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { Button } from '@renderer/components/Button'
@@ -98,7 +98,7 @@ export const SwapDetailsModal = () => {
         {swapRecord.swapStatus === 'failed' || swapRecord.swapStatus === 'refunded' ? (
           <TbCircleX className="w-28 h-28 stroke-1 text-pink" />
         ) : (
-          <TbDiscountCheck className="w-28 h-28 stroke-1 text-blue" />
+          <TbRosetteDiscountCheck className="w-28 h-28 stroke-1 text-blue" />
         )}
       </div>
 

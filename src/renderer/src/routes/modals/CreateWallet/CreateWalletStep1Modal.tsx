@@ -2,7 +2,7 @@ import { useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdContentCopy, MdLooksOne } from 'react-icons/md'
 import { PiPrinter } from 'react-icons/pi'
-import ReactToPrint from 'react-to-print'
+import { useReactToPrint } from 'react-to-print'
 import { generateMnemonic } from '@cityofzion/bs-asteroid-sdk'
 import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
@@ -12,10 +12,11 @@ import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { CreateWalletModalLayout } from '@renderer/layouts/CreateWalletModalLayout'
 
 export const CreateWalletStep1Modal = () => {
+  const ref = useRef<HTMLDivElement>(null)
+
+  const handlePrint = useReactToPrint({ contentRef: ref, bodyClass: 'print-agreement' })
   const { t } = useTranslation('modals', { keyPrefix: 'createWallet.step1' })
   const { modalNavigate } = useModalNavigate()
-
-  const ref = useRef<HTMLDivElement>(null)
 
   const words = useMemo(() => {
     return generateMnemonic()
@@ -41,6 +42,7 @@ export const CreateWalletStep1Modal = () => {
               </span>
             ))}
           </div>
+
           <div className="flex justify-center gap-3 print:hidden">
             <Button
               iconsOnEdge={false}
@@ -50,18 +52,14 @@ export const CreateWalletStep1Modal = () => {
               onClick={() => UtilsHelper.copyToClipboard(words.join(' '))}
               flat
             />
-            <ReactToPrint
-              bodyClass="print-agreement"
-              content={() => ref.current}
-              trigger={() => (
-                <Button
-                  iconsOnEdge={false}
-                  variant="text"
-                  leftIcon={<PiPrinter />}
-                  label={t('printButtonLabel')}
-                  flat
-                />
-              )}
+
+            <Button
+              iconsOnEdge={false}
+              variant="text"
+              leftIcon={<PiPrinter />}
+              label={t('printButtonLabel')}
+              flat
+              onClick={() => handlePrint()}
             />
           </div>
           <Banner type="error" message={t('warning')} className="mx-10 print:hidden" />

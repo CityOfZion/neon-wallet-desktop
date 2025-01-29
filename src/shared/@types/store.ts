@@ -112,7 +112,7 @@ export type TSwapRecord = {
   amountFrom: string
   amountTo: string
   addressTo: string
-  extraIdTo: string | null
+  extraIdTo?: string
   fee?: string
   log?: string
 }

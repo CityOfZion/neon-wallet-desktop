@@ -1,7 +1,7 @@
 import { TSession } from '@cityofzion/wallet-connect-sdk-wallet-react'
 import dappFallbackIcon from '@renderer/assets/images/dapp-fallback-icon.png'
-import { ReactComponent as NeonWalletLogo } from '@renderer/assets/images/neon-wallet-full.svg'
-import { ReactComponent as WalletConnectLogo } from '@renderer/assets/images/wallet-connect.svg'
+import NeonWalletLogo from '@renderer/assets/images/neon-wallet-full.svg?react'
+import WalletConnectLogo from '@renderer/assets/images/wallet-connect.svg?react'
 
 import { ImageWithFallback } from './ImageWithFallback'
 

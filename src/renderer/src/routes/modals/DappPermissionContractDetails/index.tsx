@@ -93,7 +93,7 @@ export const DappPermissionContractDetailsModal = () => {
   const { modalNavigate } = useModalNavigate()
   const { t } = useTranslation('modals', { keyPrefix: 'dappPermissionContractDetails' })
   const service = bsAggregator.blockchainServicesByName[blockchain]
-  let explorerUrl
+  let explorerUrl: string | undefined
 
   if (hasExplorerService(service)) {
     try {

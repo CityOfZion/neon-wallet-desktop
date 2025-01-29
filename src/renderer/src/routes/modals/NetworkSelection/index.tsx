@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Tb3DCubeSphere, TbPencil, TbPlus } from 'react-icons/tb'
+import { TbCube3dSphere, TbPencil, TbPlus } from 'react-icons/tb'
 import { Button } from '@renderer/components/Button'
 import { RadioGroup } from '@renderer/components/RadioGroup'
 import { Separator } from '@renderer/components/Separator'
@@ -50,7 +50,7 @@ export const NetworkSelection = () => {
   }, [network])
 
   return (
-    <SideModalLayout heading={t('title')} headingIcon={<Tb3DCubeSphere />} contentClassName="px-0 flex flex-col">
+    <SideModalLayout heading={t('title')} headingIcon={<TbCube3dSphere />} contentClassName="px-0 flex flex-col">
       <div className="flex-grow min-h-0 overflow-auto ">
         <span className="mb-5 block px-4 text-gray-300">{t('selectNetwork')}</span>
 

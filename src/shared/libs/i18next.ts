@@ -12,7 +12,7 @@ export const setupI18next = () => {
       ns: ['common'],
       defaultNS: 'common',
       fallbackLng: 'en',
-      compatibilityJSON: 'v3',
+      compatibilityJSON: 'v4',
       interpolation: {
         escapeValue: false,
       },

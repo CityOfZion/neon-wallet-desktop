@@ -41,7 +41,7 @@ export const usePriceHistory = (tokenBalances: TTokenBalance[]): TUsePriceHistor
   return useQueries({
     queries: tokenBalances.map(tokenBalance => ({
       queryKey: ['prices', tokenBalance.token.symbol, currency],
-      queryFn: fetchTokenData.bind(null, tokenBalance, currencyRatio),
+      queryFn: fetchTokenData.bind(null, tokenBalance, currencyRatio ?? 0),
       enabled: !isCurrencyRatioLoading && typeof currencyRatio === 'number',
     })),
     combine: results => ({

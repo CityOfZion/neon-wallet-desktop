@@ -71,3 +71,9 @@ export type TUseUnclaimedResult = {
   fee: string
   feeNumber: number
 }
+
+export type TNode = {
+  latency?: number
+  url: string
+  height?: number
+}

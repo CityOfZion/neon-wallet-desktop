@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Location, useLocation, useNavigate } from 'react-router-dom'
-import { ReactComponent as NeonWalletLogo } from '@renderer/assets/images/neon-wallet-compact.svg'
+import NeonWalletLogo from '@renderer/assets/images/neon-wallet-compact.svg?react'
 import { Progress } from '@renderer/components/Progress'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
