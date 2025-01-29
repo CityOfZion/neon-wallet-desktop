@@ -1,5 +1,7 @@
 import { useEffect, useLayoutEffect } from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
+import { Link } from '@renderer/components/Link'
+import { LATEST_GITHUB_RELEASE_LINK } from '@renderer/constants/urls'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
@@ -55,7 +57,25 @@ const useOverTheAirUpdate = () => {
 
     window.api.sendAsync('checkForUpdates').then(hasUpdates => {
       if (!hasUpdates) return
-      ToastHelper.loading({ message: t('downloading'), id: 'auto-update-downloading' })
+
+      ToastHelper.loading({
+        message: (
+          <Trans t={t} i18nKey="downloading">
+            start
+            <span className="inline-block">middle</span>
+            <Link
+              to={LATEST_GITHUB_RELEASE_LINK}
+              target="_blank"
+              colorSchema="white"
+              variant="text-slim"
+              clickableProps={{ className: 'underline inline font-semibold' }}
+            >
+              end
+            </Link>
+          </Trans>
+        ),
+        id: 'auto-update-downloading',
+      })
     })
 
     return () => {
