@@ -25,18 +25,12 @@ export const CreateWalletStep5Modal = () => {
     <CreateWalletModalLayout>
       <div className="flex flex-col items-center w-full h-full justify-between">
         <div className="flex flex-col w-full gap-2.5 px-28 items-center justify-center h-full">
-          <NeonWalletIcon3D />
+          <NeonWalletIcon3D aria-hidden={true} />
           <div className="text-white text-lg text-center">{t('title')}</div>
           <div className="text-gray-100 text-xs text-center">{t('description')}</div>
         </div>
 
-        <Button
-          className="w-48 mb-5"
-          type="submit"
-          label={t('viewWalletButtonLabel')}
-          flat
-          onClick={() => handleNavigate()}
-        />
+        <Button className="w-48 mb-5" type="submit" label={t('viewWalletButtonLabel')} flat onClick={handleNavigate} />
       </div>
     </CreateWalletModalLayout>
   )

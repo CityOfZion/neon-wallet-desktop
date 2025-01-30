@@ -47,10 +47,10 @@ export const CreateWalletStep4Modal = () => {
     const selectedBlockchains = actionData.blockchains.filter(service => service.checked)
 
     const accountsPromise = await Promise.allSettled(
-      selectedBlockchains.map(newAcc =>
+      selectedBlockchains.map(blockchain =>
         createStandardAccount({
           wallet,
-          blockchain: newAcc.name,
+          blockchain: blockchain.name,
           name: commonT('account.defaultName', { accountNumber: 1 }),
         })
       )
@@ -91,11 +91,10 @@ export const CreateWalletStep4Modal = () => {
             {actionData.blockchains.map((blockchain, index) => (
               <li key={`${blockchain.name}-${index}`} className="flex h-12 rounded bg-asphalt border-none px-6 py-4">
                 <div className="flex justify-between flex-grow items-center">
-                  <label className="flex items-center gap-2.5 w-full" htmlFor={blockchain.name}>
+                  <label className="flex items-center gap-2.5 w-full">
                     <BlockchainIcon blockchain={blockchain.name} type="gray" />
                     <div className="flex-grow">{commonT(`blockchain.${blockchain.name}`)}</div>
                     <Checkbox
-                      id={blockchain.name}
                       value={blockchain.name}
                       onCheckedChange={handleSelectedBlockchain.bind(null, index)}
                       checked={blockchain.checked}
