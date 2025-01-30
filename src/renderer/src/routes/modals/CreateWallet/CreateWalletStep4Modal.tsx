@@ -46,7 +46,7 @@ export const CreateWalletStep4Modal = () => {
 
     const selectedBlockchains = actionData.blockchains.filter(service => service.checked)
 
-    const accountsPromise = await Promise.allSettled(
+    const accounts = await Promise.allSettled(
       selectedBlockchains.map(blockchain =>
         createStandardAccount({
           wallet,
@@ -56,9 +56,9 @@ export const CreateWalletStep4Modal = () => {
       )
     )
 
-    const accounts = accountsPromise.filter(result => result.status === 'fulfilled').map(result => result.value)
+    const createdAccounts = accounts.filter(result => result.status === 'fulfilled').map(result => result.value)
 
-    modalNavigate('create-wallet-step-5', { state: { accounts } })
+    modalNavigate('create-wallet-step-5', { state: { accounts: createdAccounts } })
   }
 
   const handleSelectedBlockchain = (position: number) => {
