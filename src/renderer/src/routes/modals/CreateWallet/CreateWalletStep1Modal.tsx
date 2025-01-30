@@ -29,7 +29,7 @@ export const CreateWalletStep1Modal = () => {
           <MdLooksOne className="text-blue h-4.5 w-4.5" />
           <h2 className="text-sm">{t('title')}</h2>
         </div>
-        <div className="text-blue text-sm">{t('step1of3')}</div>
+        <div className="text-blue text-sm">{t('step1of4')}</div>
       </header>
       <Separator className="min-h-[0.0625rem] mb-9" />
       <div className="flex flex-col items-center w-full h-[84%] justify-between">
