@@ -370,11 +370,13 @@ interface Resources {
       step1Description: 'This set of secret words make it easy to back up and restore your account. This makes your wallet really secure'
       step2Header: 'Confirm security phrase'
       step2Description: 'It’s really important you remember your phrase correctly so we will help you with that. If you’re in a rush you can do it another time.'
-      step3Header: 'Give your new wallet a name and passphrase'
-      step3Description: 'Give your wallet a memorable name and passphrase and your ready to go!'
+      step3Header: 'Give your new wallet a name'
+      step3Description: 'Give your wallet a memorable name.'
+      step4Header: 'Select chains'
+      step4Description: "Select which chains you would like to use for this wallet, and you're ready to go!"
       step1: {
         title: 'Generate security phrase'
-        step1of3: '1 of 3'
+        step1of4: '1 of 4'
         description: 'Write this phrase down on a piece of paper or record it in a secure digital note. You can also download it below but be sure to keep it safe.'
         copyButtonLabel: 'Copy'
         printButtonLabel: 'Print'
@@ -384,7 +386,7 @@ interface Resources {
       }
       step2: {
         title: 'Confirm security phrase'
-        step2of3: '2 of 3'
+        step2of4: '2 of 4'
         description: 'Please select each phrase in the correct order to make sure you’ve got it right:'
         backButtonLabel: 'Back'
         nextButtonLabel: 'Next'
@@ -393,15 +395,22 @@ interface Resources {
       }
       step3: {
         title: 'Give your new wallet a name and passphrase'
-        step3of3: '3 of 3'
+        step3of4: '3 of 4'
         description: 'Give your wallet a memorable name, it could be helpful to name it with a label related to what you want to use the wallet for (such as ‘Investments’ or ‘Trading Wallet’).'
         inputLabel: 'Wallet name'
         inputPlaceholder: 'Enter your wallet name...'
         backButtonLabel: 'Back'
-        createWalletButtonLabel: 'Create wallet'
+        nextButtonLabel: 'Next'
         nameLengthError: 'Name must be at least 1 character long'
       }
       step4: {
+        title: 'Select network'
+        step4of4: '4 of 4'
+        backButtonLabel: 'Back'
+        createWalletButtonLabel: 'Create wallet'
+        description: 'Please select which chains you would like to use for this wallet.'
+      }
+      step5: {
         title: 'Congratulations, you’re now the proud owner of a shiny new wallet!'
         description: 'Remember to keep your secret phrase safe, having several backups is always a good idea. If you need to find out a wallets secret phrase you can find it in the settings page for that wallet.'
         viewWalletButtonLabel: 'View wallet'
@@ -503,7 +512,7 @@ interface Resources {
       title: 'Select a contact'
       selectRecipient: 'Select recipient'
     }
-    blockchaiinSelectionModal: {
+    blockchainSelectionModal: {
       buttonContinueLabel: 'Next'
     }
     decryptKeyModal: {

@@ -19,7 +19,7 @@ type TLocation = {
 }
 
 export const BlockchainSelectionModal = () => {
-  const { t } = useTranslation('modals', { keyPrefix: 'blockchaiinSelectionModal' })
+  const { t } = useTranslation('modals', { keyPrefix: 'blockchainSelectionModal' })
   const { t: blockchainT } = useTranslation('common', { keyPrefix: 'blockchain' })
   const { heading, headingIcon, description, buttonLabel, onSelect, subtitle } = useModalState<TLocation>()
 
