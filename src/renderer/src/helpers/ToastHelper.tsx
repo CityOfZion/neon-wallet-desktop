@@ -1,9 +1,10 @@
+import { ReactNode } from 'react'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { ErrorToast, InfoToast, PromiseToast, SuccessToast } from '@renderer/libs/sonner'
 import { toast, ToastT } from 'sonner'
 
 type TToastProp = Omit<ToastT, 'id'> & {
-  message: string
+  message: ReactNode
   id?: string | number
 }
 

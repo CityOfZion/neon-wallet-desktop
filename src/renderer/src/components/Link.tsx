@@ -19,6 +19,7 @@ export const Link = ({
   onClick,
   wide,
   textClassName,
+  children,
   ...props
 }: TProps) => {
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
@@ -43,7 +44,9 @@ export const Link = ({
         iconsOnEdge={iconsOnEdge}
         wide={wide}
         textClassName={textClassName}
-      />
+      >
+        {children}
+      </Clickable>
     </RRDLink>
   )
 }

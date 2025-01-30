@@ -1,10 +1,11 @@
 import { cloneElement } from 'react'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+import { match, P } from 'ts-pattern'
 
 import { Loader } from './Loader'
 
 export type TCustomClickableProps = {
-  label: string | JSX.Element
+  label?: string | JSX.Element
   leftIcon?: JSX.Element
   rightIcon?: JSX.Element
   variant?: 'outlined' | 'contained' | 'text' | 'text-slim' | 'card'
@@ -103,6 +104,7 @@ const Base = ({
   iconsOnEdge,
   wide,
   textClassName,
+  children,
   ...props
 }: TClickableProps) => {
   const { className: leftIconClassName = '', ...leftIconProps } = leftIcon ? leftIcon.props : {}
@@ -150,21 +152,22 @@ const Base = ({
               ...leftIconProps,
             })}
 
-          {typeof label === 'string' ? (
-            <span
-              className={StyleHelper.mergeStyles(
-                'font-medium truncate',
-                {
-                  'flex-grow': iconsOnEdge,
-                },
-                textClassName
-              )}
-            >
-              {label}
-            </span>
-          ) : (
-            label
-          )}
+          {match({ label, children })
+            .with({ children: P.nonNullable }, () => children)
+            .with({ label: P.string }, () => (
+              <span
+                className={StyleHelper.mergeStyles(
+                  'font-medium truncate',
+                  {
+                    'flex-grow': iconsOnEdge,
+                  },
+                  textClassName
+                )}
+              >
+                {label}
+              </span>
+            ))
+            .otherwise(() => label)}
 
           {rightIcon &&
             cloneElement(rightIcon, {

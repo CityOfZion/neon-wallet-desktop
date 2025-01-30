@@ -1,4 +1,4 @@
-import { cloneElement } from 'react'
+import { cloneElement, ReactNode } from 'react'
 import { MdCheckCircleOutline, MdClose, MdErrorOutline } from 'react-icons/md'
 import { Loader } from '@renderer/components/Loader'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
@@ -6,7 +6,7 @@ import { TestHelper } from '@renderer/helpers/TestHelper'
 import { toast, Toaster } from 'sonner'
 
 export type TBaseToastProps = {
-  message: string
+  message: ReactNode
   className?: string
   sonnerId: string | number
   icon?: JSX.Element
@@ -29,7 +29,8 @@ const BaseToast = ({ message, className, sonnerId, icon, closeable = true }: TBa
             icon.props.className
           ),
         })}
-      <p className="flex-grow">{message}</p>
+
+      <div className="flex-grow">{message}</div>
 
       {closeable && (
         <MdClose
