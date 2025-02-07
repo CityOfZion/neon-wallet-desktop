@@ -409,6 +409,7 @@
       "tokenToUseTitle": "Swap this",
       "accountToUseTitle": "From this account",
       "amountToUseTitle": "Amount",
+      "tooltipTitle": "Exchange rates get better with higher swap amounts!",
       "minimumAmountToUseLabel": "Minimum {{amount}}",
       "minimumAmountToUsePlaceholder": "0.00000000",
       "tokenToReceiveTitle": "Receive this",

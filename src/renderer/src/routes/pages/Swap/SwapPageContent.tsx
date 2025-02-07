@@ -1,7 +1,7 @@
 import { ChangeEvent, Fragment, useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdContentPasteGo, MdInfoOutline, MdRestartAlt } from 'react-icons/md'
-import { TbDiamond, TbHelp, TbReplace, TbStepInto, TbStepOut, TbUsers, TbWallet } from 'react-icons/tb'
+import { TbDiamond, TbHelp, TbReplace, TbStepInto, TbStepOut, TbUsers, TbWallet, TbWand } from 'react-icons/tb'
 import { VscCircleFilled } from 'react-icons/vsc'
 import {
   Account,
@@ -23,6 +23,7 @@ import { GreyTokenSelect } from '@renderer/components/GreyTokenSelect'
 import { IconButton } from '@renderer/components/IconButton'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
+import { Tooltip } from '@renderer/components/Tooltip'
 import { TransactionFeeActionStep } from '@renderer/components/TransactionFeeActionStep'
 import { SWAP_NETWORK_BY_BLOCKCHAIN_AND_NETWORK_ID } from '@renderer/constants/swap'
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
@@ -33,6 +34,7 @@ import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useBalance } from '@renderer/hooks/useBalances'
+import { useOutsideClick } from '@renderer/hooks/useClickOutside'
 import { useHasContactsByBlockchain } from '@renderer/hooks/useContactSelector'
 import { useHardwareWalletActions } from '@renderer/hooks/useHardwareWallet'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
@@ -73,6 +75,7 @@ export const SwapPageContent = ({ account }: TProps) => {
   const { isConnectedAndUnlockedHardwareWallet } = useHardwareWalletActions()
   const dispatch = useAppDispatch()
   const pressOncePasteAddressToReceive = usePressOnce()
+  const { ref, isOutsideClick } = useOutsideClick<HTMLInputElement>()
 
   const swapChainsByServiceName = useMemo(() => {
     const chainsByServiceName: Partial<Record<TBlockchainServiceKey, string[]>> = {}
@@ -602,9 +605,7 @@ export const SwapPageContent = ({ account }: TProps) => {
               titleClassName="text-md"
               headerClassName="gap-4"
             />
-
             <Separator />
-
             <ActionStep
               title={t('form.accountToUseTitle')}
               leftIcon={<VscCircleFilled aria-hidden={true} className="text-gray-300 w-2 h-2" />}
@@ -621,7 +622,6 @@ export const SwapPageContent = ({ account }: TProps) => {
                 disabled={isSourceDisabled}
               />
             </ActionStep>
-
             <Separator />
 
             <ActionStep
@@ -637,13 +637,20 @@ export const SwapPageContent = ({ account }: TProps) => {
                       t('form.minimumAmountToUsePlaceholder'),
                   })}
                 </span>
-
-                <GreyAmountInput
-                  value={actionData.selectedAmountToUse.value ?? ''}
-                  onChange={handleChangeAmountToUse}
-                  disabled={isSourceDisabled}
-                  loading={actionData.selectedAmountToUse.loading}
-                />
+                <Tooltip
+                  title={t('form.tooltipTitle')}
+                  icon={<TbWand aria-hidden className="text-blue w-6 h-6" />}
+                  open={isOutsideClick}
+                  contentProps={{ side: 'top', className: 'text-center' }}
+                >
+                  <GreyAmountInput
+                    ref={ref}
+                    value={actionData.selectedAmountToUse.value ?? ''}
+                    onChange={handleChangeAmountToUse}
+                    disabled={isSourceDisabled}
+                    loading={actionData.selectedAmountToUse.loading}
+                  />
+                </Tooltip>
               </div>
             </ActionStep>
 

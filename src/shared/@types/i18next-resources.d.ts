@@ -268,7 +268,7 @@ interface Resources {
       controlIsNotValid: 'Unexpected error. Login control is not valid.'
     }
     useOverTheAirUpdate: {
-      downloading: 'New version found. Downloading...'
+      downloading: 'New version found. Downloading... <1>Or download it manually on</1> <2>our GitHub</2>'
       downloaded: 'New version downloaded. The app will restart to apply update.'
       error: 'Error downloading update. Please try again later restarting the app.'
       installError: 'It was not possible to install the update. Please verify the app permissions and download the update manually.'
@@ -1286,6 +1286,7 @@ interface Resources {
         tokenToUseTitle: 'Swap this'
         accountToUseTitle: 'From this account'
         amountToUseTitle: 'Amount'
+        tooltipTitle: 'Exchange rates get better with higher swap amounts!'
         minimumAmountToUseLabel: 'Minimum {{amount}}'
         minimumAmountToUsePlaceholder: '0.00000000'
         tokenToReceiveTitle: 'Receive this'
