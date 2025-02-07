@@ -9,9 +9,10 @@ export type TSideModalProps = {
   heading?: JSX.Element | string
   headingIcon?: JSX.Element
   contentClassName?: string
+  onClose?: () => void
 } & ComponentProps<'div'>
 
-export const SideModalLayout = ({ children, heading, headingIcon, contentClassName }: TSideModalProps) => {
+export const SideModalLayout = ({ children, heading, headingIcon, contentClassName, onClose }: TSideModalProps) => {
   const { modalNavigateWrapper, modalEraseWrapper } = useModalNavigate()
   const { histories } = useModalHistories()
 
@@ -44,7 +45,7 @@ export const SideModalLayout = ({ children, heading, headingIcon, contentClassNa
             icon={<MdClose className="fill-white" />}
             size="md"
             compacted
-            onClick={modalEraseWrapper('side')}
+            onClick={onClose ?? modalEraseWrapper('side')}
           />
         </div>
 

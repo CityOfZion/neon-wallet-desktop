@@ -12,25 +12,32 @@ const Item = forwardRef<
   <AccordionPrimitive.Item ref={ref} className={StyleHelper.mergeStyles('group', className)} {...props} />
 ))
 
-const Trigger = forwardRef<
-  ElementRef<typeof AccordionPrimitive.Trigger>,
-  ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger>
->(({ className, children, ...props }, ref) => (
-  <AccordionPrimitive.Header className="flex">
-    <AccordionPrimitive.Trigger
-      ref={ref}
-      className={StyleHelper.mergeStyles(
-        'flex flex-1 px-2.5 items-center justify-between py-2.5 border-b border-gray-100/50 text-sm font-medium transition-all  [&[data-state=open]>svg]:rotate-180',
-        className
-      )}
-      {...props}
-    >
-      {children}
+type TTriggerProps = ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger> & { iconClassName?: string }
 
-      <MdExpandMore className="h-6 w-6 text-gray-100 shrink-0 text-muted-foreground transition-transform duration-200" />
-    </AccordionPrimitive.Trigger>
-  </AccordionPrimitive.Header>
-))
+const Trigger = forwardRef<ElementRef<typeof AccordionPrimitive.Trigger>, TTriggerProps>(
+  ({ className, iconClassName, children, ...props }, ref) => (
+    <AccordionPrimitive.Header className="flex">
+      <AccordionPrimitive.Trigger
+        ref={ref}
+        className={StyleHelper.mergeStyles(
+          'flex flex-1 px-2.5 items-center justify-between py-2.5 border-b border-gray-100/50 text-sm font-medium transition-all [&[data-state=open]>svg]:rotate-180',
+          className
+        )}
+        {...props}
+      >
+        {children}
+
+        <MdExpandMore
+          aria-hidden={true}
+          className={StyleHelper.mergeStyles(
+            'h-6 w-6 text-gray-100 shrink-0 transition-transform duration-200',
+            iconClassName
+          )}
+        />
+      </AccordionPrimitive.Trigger>
+    </AccordionPrimitive.Header>
+  )
+)
 
 const Content = forwardRef<
   ElementRef<typeof AccordionPrimitive.Content>,

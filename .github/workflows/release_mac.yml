@@ -17,6 +17,9 @@ jobs:
       CSC_LINK: ${{ secrets.CSC_LINK }}
       DEBUG: ${{ secrets.DEBUG }}
       VITE_SENTRY_DNS: ${{ secrets.VITE_SENTRY_DNS }}
+      VITE_UNLIMIT_MERCHANT_ID: ${{ secrets.VITE_UNLIMIT_MERCHANT_ID }}
+      VITE_UNLIMIT_BUY_TOKENS_IFRAME_URL: ${{ secrets.VITE_UNLIMIT_BUY_TOKENS_IFRAME_URL }}
+      VITE_UNLIMIT_SELL_TOKENS_IFRAME_URL: ${{ secrets.VITE_UNLIMIT_SELL_TOKENS_IFRAME_URL }}
       NODE_OPTIONS: ${{ secrets.NODE_OPTIONS }}
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:

@@ -80,6 +80,8 @@ export const decryptBasedEncryptedSecret = ({
   return decryptBasedSecret({ secret, value: decryptedByOSValue, options })
 }
 
+const generateRandomHex = (bytes = 32) => crypto.randomBytes(bytes).toString('hex')
+
 export function registerEncryptionHandlers() {
   mainApi.listenAsync('encryptBasedOS', ({ args }) => {
     return encryptBasedOS(args)
@@ -116,4 +118,6 @@ export function registerEncryptionHandlers() {
   mainApi.listenSync('decryptBasedEncryptedSecretSync', ({ args }) => {
     return decryptBasedEncryptedSecret(args)
   })
+
+  mainApi.listenSync('generateRandomHexSync', ({ args }) => generateRandomHex(args))
 }

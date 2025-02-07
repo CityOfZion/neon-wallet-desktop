@@ -10,6 +10,7 @@
     "src/shared/**/*.json",
     "sentry.config.ts",
     "package.json",
+    "tailwind.config.ts"
   ],
   "compilerOptions": {
     "composite": true,
@@ -23,7 +24,7 @@
       ],
       "@shared/*": [
         "src/shared/*"
-      ],
+      ]
     }
   },
 }

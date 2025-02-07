@@ -23,6 +23,7 @@ export type TMainApiListenersSync = {
   decryptBasedEncryptedSecretSync: TIpcMainSyncListener<TDecryptBasedEncryptedSecretParams, string>
   encryptBasedOSSync: TIpcMainSyncListener<string, string>
   decryptBasedOSSync: TIpcMainSyncListener<string, string>
+  generateRandomHexSync: TIpcMainSyncListener<number | undefined, string>
   getVersion: TIpcMainSyncListener<undefined, string>
 }
 

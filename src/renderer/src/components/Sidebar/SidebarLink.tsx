@@ -37,7 +37,7 @@ export const SidebarLink = ({ icon, title, to, disabled, ...props }: Props): JSX
           className: 'group-aria-[current=page]:stroke-white stroke-gray-300 object-contain w-6 h-6',
         })}
 
-        <span className="whitespace-nowrap">{title}</span>
+        <span className="text-center px-1 leading-3">{title}</span>
       </NavLink>
     </li>
   )

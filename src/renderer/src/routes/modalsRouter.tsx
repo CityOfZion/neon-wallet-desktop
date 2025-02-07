@@ -44,6 +44,7 @@ import { PersistContactModal } from './modals/PersistContact'
 import { DeleteModal } from './modals/PersistContact/DeleteModal'
 import { SelectAccountModal } from './modals/SelectAccount'
 import { SelectContact } from './modals/SelectContact'
+import { SellTokensDepositModal } from './modals/SellTokensDeposit/SellTokensDepositModal'
 import { SuccessModal } from './modals/Success'
 import { SwapDetailsModal } from './modals/SwapDetails'
 
@@ -98,4 +99,5 @@ export const modalsRouter: TRoute[] = [
   { name: 'swap-details', type: 'side', size: 'lg', element: <SwapDetailsModal /> },
   { name: 'swap-details-log', type: 'side', size: 'lg', element: <SwapDetailsLogModal /> },
   { name: 'about-extra-id-to-receive', type: 'side', size: 'sm', element: <AboutExtraIdToReceiveModal /> },
+  { name: 'sell-tokens-deposit', type: 'side', size: 'lg', element: <SellTokensDepositModal /> },
 ]

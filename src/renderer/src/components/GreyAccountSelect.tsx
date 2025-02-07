@@ -20,6 +20,7 @@ type TProps = {
   withoutIndicator?: boolean
   loading?: boolean
   placeholder?: string
+  triggerClassName?: string
 }
 
 export const GreyAccountSelect = ({
@@ -30,6 +31,7 @@ export const GreyAccountSelect = ({
   disabled = false,
   withoutIndicator,
   loading,
+  triggerClassName,
 }: TProps) => {
   const { accountsWithWallet } = useAccountsWithWalletSelector()
   const { t } = useTranslation('components', { keyPrefix: 'greyAccountSelect' })
@@ -71,7 +73,8 @@ export const GreyAccountSelect = ({
               'aria-[disabled=false]:hover:bg-asphalt/60': !selectedAccount && !open && !isDisabled,
               'aria-[disabled=false]:hover:bg-gray-300/30 bg-gray-300/15': !isDisabled && !open && selectedAccount,
               'opacity-50': isDisabled,
-            }
+            },
+            triggerClassName
           )}
         >
           {match({ loading, isSelectedAccount: !!selectedAccount })

@@ -13,6 +13,7 @@ export type TMainLayoutProps = {
   contentClassName?: string
   headerClassName?: string
   rightComponent?: ReactNode
+  onBackClick?: () => void
 } & ComponentProps<'div'>
 
 export const ContentLayout = ({
@@ -23,6 +24,7 @@ export const ContentLayout = ({
   headerClassName,
   className,
   rightComponent,
+  onBackClick,
   ...props
 }: TMainLayoutProps): JSX.Element => {
   const navigate = useNavigate()
@@ -33,6 +35,12 @@ export const ContentLayout = ({
   const hasCustomProfile = selectedNetworkProfile.id !== DEFAULT_NETWORK_PROFILE.id
 
   const handleBackClick = () => {
+    if (onBackClick) {
+      onBackClick()
+
+      return
+    }
+
     navigate(-1)
   }
 
