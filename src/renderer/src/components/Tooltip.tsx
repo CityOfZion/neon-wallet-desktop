@@ -9,10 +9,9 @@ type TProps = {
   contentProps?: RadixTooltip.TooltipContentProps
   arrowProps?: RadixTooltip.TooltipArrowProps
   open?: boolean
-  onOpenChange?: (open: boolean) => void
 }
 
-export const Tooltip = ({ children, title, icon, ...props }: TProps) => {
+export const Tooltip = ({ children, title, icon, open, ...props }: TProps) => {
   const { className: contentClassName, ...contentProps } = props.contentProps ?? {}
   const { className: arrowClassName, ...arrowProps } = props.arrowProps ?? {}
 
@@ -20,7 +19,7 @@ export const Tooltip = ({ children, title, icon, ...props }: TProps) => {
 
   return (
     <RadixTooltip.Provider>
-      <RadixTooltip.Root open={props.open} onOpenChange={props.onOpenChange}>
+      <RadixTooltip.Root open={open}>
         <RadixTooltip.Trigger asChild>{children}</RadixTooltip.Trigger>
         <RadixTooltip.Portal>
           <RadixTooltip.Content

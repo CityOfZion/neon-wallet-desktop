@@ -34,9 +34,9 @@ import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useBalance } from '@renderer/hooks/useBalances'
-import { useOutsideClick } from '@renderer/hooks/useClickOutside'
 import { useHasContactsByBlockchain } from '@renderer/hooks/useContactSelector'
 import { useHardwareWalletActions } from '@renderer/hooks/useHardwareWallet'
+import { useIsFocused } from '@renderer/hooks/useIsFocused'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { usePressOnce } from '@renderer/hooks/usePressOnce'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
@@ -75,7 +75,7 @@ export const SwapPageContent = ({ account }: TProps) => {
   const { isConnectedAndUnlockedHardwareWallet } = useHardwareWalletActions()
   const dispatch = useAppDispatch()
   const pressOncePasteAddressToReceive = usePressOnce()
-  const { ref, isOutsideClick } = useOutsideClick<HTMLInputElement>()
+  const { ref: amountInputRef, isFocused: isAmountInputFocused } = useIsFocused<HTMLInputElement>()
 
   const swapChainsByServiceName = useMemo(() => {
     const chainsByServiceName: Partial<Record<TBlockchainServiceKey, string[]>> = {}
@@ -640,14 +640,14 @@ export const SwapPageContent = ({ account }: TProps) => {
                 <Tooltip
                   title={t('form.tooltipTitle')}
                   icon={<TbWand aria-hidden className="text-blue w-6 h-6" />}
-                  open={isOutsideClick}
+                  open={isAmountInputFocused}
                   contentProps={{ side: 'top', className: 'text-center' }}
                 >
                   <GreyAmountInput
-                    ref={ref}
+                    ref={amountInputRef}
                     value={actionData.selectedAmountToUse.value ?? ''}
                     onChange={handleChangeAmountToUse}
-                    disabled={isSourceDisabled}
+                    //disabled={isSourceDisabled}
                     loading={actionData.selectedAmountToUse.loading}
                   />
                 </Tooltip>

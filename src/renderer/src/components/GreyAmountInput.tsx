@@ -7,7 +7,6 @@ import { StyleHelper } from '@renderer/helpers/StyleHelper'
 type TProps = PropsWithChildren<{
   value?: string
   onChange?: (value: string) => void
-  onClick?: () => void
   disabled?: boolean
   readOnly?: boolean
   loading?: boolean
@@ -16,7 +15,7 @@ type TProps = PropsWithChildren<{
 }>
 
 export const GreyAmountInput = forwardRef<HTMLInputElement, TProps>(
-  ({ onChange, onClick, value, disabled, loading, className, inputClassName, readOnly, children }, ref) => {
+  ({ onChange, value, disabled, loading, className, inputClassName, readOnly, children }, ref) => {
     const { t } = useTranslation('components', { keyPrefix: 'greyAmountInput' })
     const isDisabled = loading || disabled
 
@@ -40,7 +39,6 @@ export const GreyAmountInput = forwardRef<HTMLInputElement, TProps>(
                 )}
                 ref={ref}
                 onChange={event => onChange?.(event.target.value)}
-                onClick={onClick}
                 value={value}
                 disabled={isDisabled}
                 placeholder={t('placeholder')}

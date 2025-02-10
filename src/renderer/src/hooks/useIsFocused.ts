@@ -1,17 +1,17 @@
 import { useEffect, useRef, useState } from 'react'
 
-export const useOutsideClick = <T extends HTMLElement>() => {
-  const [isOutsideClick, setIsOutsideClick] = useState<boolean>(false)
+export const useIsFocused = <T extends HTMLElement>() => {
+  const [isFocused, setIsFocused] = useState(false)
   const ref = useRef<T>(null)
 
   useEffect(() => {
     const element = ref.current
     const handleFocus = () => {
-      setIsOutsideClick(true)
+      setIsFocused(true)
     }
 
     const handleBlur = () => {
-      setIsOutsideClick(false)
+      setIsFocused(false)
     }
 
     element?.addEventListener('focus', handleFocus)
@@ -23,5 +23,5 @@ export const useOutsideClick = <T extends HTMLElement>() => {
     }
   })
 
-  return { ref, isOutsideClick }
+  return { ref, isFocused }
 }
