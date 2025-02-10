@@ -647,7 +647,7 @@ export const SwapPageContent = ({ account }: TProps) => {
                     ref={amountInputRef}
                     value={actionData.selectedAmountToUse.value ?? ''}
                     onChange={handleChangeAmountToUse}
-                    //disabled={isSourceDisabled}
+                    disabled={isSourceDisabled}
                     loading={actionData.selectedAmountToUse.loading}
                   />
                 </Tooltip>
