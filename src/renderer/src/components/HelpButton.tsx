@@ -22,7 +22,7 @@ export const HelpButton = () => {
       </ActionPopover.Trigger>
 
       <ActionPopover.Content
-        side="top"
+        side="bottom"
         color="yellow"
         className="mt-[-10px]"
         contentClassName="bg-gray-900/60 backdrop-blur-sm"

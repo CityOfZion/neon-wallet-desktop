@@ -20,6 +20,7 @@ const Content = forwardRef<ElementRef<typeof RadixPopover.Content>, TContentProp
   ({ className, contentClassName, pointerClassName, side = 'right', color = 'neon', children, ...props }, ref) => {
     const isRightSide = side === 'right'
     const isLeftSide = side === 'left'
+    const isBottomSide = side === 'bottom'
     const isTopSide = side === 'top'
     const isNeonColor = color === 'neon'
     const isYellowColor = color === 'yellow'
@@ -40,7 +41,8 @@ const Content = forwardRef<ElementRef<typeof RadixPopover.Content>, TContentProp
               {
                 'border-r-4': isRightSide,
                 'border-l-4': isLeftSide,
-                'border-t-4': isTopSide,
+                'border-t-4': isBottomSide,
+                'border-b-4': isTopSide,
                 'border-neon': isNeonColor,
                 'border-yellow': isYellowColor,
               },
@@ -56,7 +58,8 @@ const Content = forwardRef<ElementRef<typeof RadixPopover.Content>, TContentProp
               {
                 'right-0 top-2/4 -translate-y-2/4 translate-x-full flex-row-reverse': isRightSide,
                 'left-0 top-2/4 -translate-y-2/4 -translate-x-full flex-row': isLeftSide,
-                'left-[50%] top-0 -translate-y-4 -translate-x-[50%] rotate-90 flex-row': isTopSide,
+                'left-[50%] top-0 -translate-y-4 -translate-x-[50%] rotate-90 flex-row': isBottomSide,
+                'left-[50%] bottom-0 translate-y-4 -translate-x-[50%] -rotate-90 flex-row': isTopSide,
               },
               pointerClassName
             )}
