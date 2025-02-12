@@ -636,11 +636,11 @@
     }
   },
   "buyAndSellTokensLeaveAlert": {
-    "title": "Do you want to leave from Buy & Sell Tokens?",
-    "description": "If you leave, you will lose all input data in the forms.",
+    "title": "Are you sure you want to leave this screen?",
+    "description": "By switching screens, forms will have their data reset.",
     "buttons": {
-      "close": "No, keep here",
-      "continue": "Yes, continue ahead"
+      "close": "No, I wish to stay",
+      "continue": "Yes, proceed"
     }
   }
 }
