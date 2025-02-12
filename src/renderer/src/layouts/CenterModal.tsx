@@ -11,7 +11,7 @@ type TProps = {
   onBack?: () => void
 } & ComponentProps<'div'>
 
-export const CenterModalLayout = ({ children, onClose, onBack, contentClassName }: TProps) => {
+export const CenterModalLayout = ({ children, onClose, onBack, contentClassName, ...props }: TProps) => {
   const { modalNavigate, modalErase } = useModalNavigate()
   const { histories } = useModalHistories()
 
@@ -30,7 +30,7 @@ export const CenterModalLayout = ({ children, onClose, onBack, contentClassName 
   }
 
   return (
-    <div className="bg-gray-800 rounded-md px-4 h-full w-full flex flex-col">
+    <div className="bg-gray-800 rounded-md px-4 h-full w-full flex flex-col" {...props}>
       <header
         className={StyleHelper.mergeStyles('flex items-center pt-5', {
           'justify-between': withBackButton,

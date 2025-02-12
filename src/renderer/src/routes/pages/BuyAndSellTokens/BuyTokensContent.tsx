@@ -1,4 +1,4 @@
-import { Dispatch, useRef, useState } from 'react'
+import { ComponentProps, Dispatch, useRef, useState } from 'react'
 import fingerprint from '@fingerprintjs/fingerprintjs'
 import { GateFiDisplayModeEnum, GateFiEventTypes, GateFiSDK } from '@gatefi/js-sdk'
 import { buyTokensIframeUrl, hideBrand, lang, merchantId, theme } from '@renderer/constants/buy-and-sell-tokens'
@@ -16,12 +16,12 @@ type TProps = {
   hidden: boolean
   setScreenType: Dispatch<BuyAndSellTokensScreenType>
   account?: IAccountState
-}
+} & ComponentProps<'section'>
 
 const NEON_COLOR = tailwindTheme.colors.neon.DEFAULT
 const ASPHALT_COLOR = tailwindTheme.colors.asphalt.DEFAULT
 
-export const BuyTokensContent = ({ hidden, account, setScreenType }: TProps) => {
+export const BuyTokensContent = ({ hidden, account, setScreenType, ...props }: TProps) => {
   const { currency } = useCurrencySelector()
   const [isIframeLoading, setIsIframeLoading] = useState(true)
   const iframeInstanceRef = useRef<GateFiSDK>()
@@ -75,6 +75,7 @@ export const BuyTokensContent = ({ hidden, account, setScreenType }: TProps) => 
       screenType={BuyAndSellTokensScreenType.BUY_TOKENS}
       setScreenType={setScreenType}
       account={account}
+      {...props}
     >
       <div id={iframeId} className="buy-and-sell-tokens-iframe-container my-4 mx-auto" />
     </BuyAndSellTokensLayout>

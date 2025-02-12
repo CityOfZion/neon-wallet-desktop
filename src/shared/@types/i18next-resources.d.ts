@@ -928,7 +928,6 @@ interface Resources {
         recipient: 'Recipient'
         amount: 'Amount'
         transactionHash: 'Transaction hash'
-        status: 'View status'
         labels: {
           copyAddress: 'Copy address'
           copyTransactionHash: 'Copy transaction hash'
@@ -939,6 +938,14 @@ interface Resources {
         text: "I'm sorry but your transaction could not be processed."
         label: 'Error message'
         default: 'Unknown error'
+      }
+    }
+    buyAndSellTokensLeaveAlert: {
+      title: 'Do you want to leave from Buy & Sell Tokens?'
+      description: 'If you leave, you will lose all input data in the forms.'
+      buttons: {
+        close: 'No, keep here'
+        continue: 'Yes, continue ahead'
       }
     }
   }

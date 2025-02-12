@@ -1,4 +1,4 @@
-import { Dispatch, ReactNode, useState } from 'react'
+import { ComponentProps, Dispatch, ReactNode, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { IoChevronDown, IoChevronUp } from 'react-icons/io5'
 import { MdInfoOutline, MdLaunch } from 'react-icons/md'
@@ -23,7 +23,7 @@ type TProps = {
   children: ReactNode
   leftActions?: ReactNode
   account?: IAccountState
-}
+} & ComponentProps<'section'>
 
 export const BuyAndSellTokensLayout = ({
   hidden,
@@ -33,6 +33,7 @@ export const BuyAndSellTokensLayout = ({
   account,
   leftActions,
   children,
+  ...props
 }: TProps) => {
   const { t } = useTranslation('pages', { keyPrefix: 'buyAndSellTokens.buyAndSellTokensLayout' })
   const [isAccordionAccountsOpened, setIsAccordionAccountsOpened] = useState(true)
@@ -46,7 +47,10 @@ export const BuyAndSellTokensLayout = ({
   }
 
   return (
-    <section className={StyleHelper.mergeStyles('flex rounded bg-gray-700/60 flex-grow min-h-0', { hidden: hidden })}>
+    <section
+      className={StyleHelper.mergeStyles('flex rounded bg-gray-700/60 flex-grow min-h-0', { hidden: hidden })}
+      {...props}
+    >
       <div className="flex flex-col w-[24%] max-w-[22rem] bg-gray-900/50 px-4 border-r border-gray-300/15">
         <div className="flex gap-2.5 items-center h-12">
           <MdInfoOutline aria-hidden={true} className="w-6 h-6 text-green" />

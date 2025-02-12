@@ -11,6 +11,7 @@ import { AutoUpdateCompleted } from './modals/AutoUpdate/AutoUpdateCompleted'
 import { AutoUpdateMobile } from './modals/AutoUpdate/AutoUpdateMobile'
 import { AutoUpdateNotes } from './modals/AutoUpdate/AutoUpdateNotes'
 import { BlockchainSelectionModal } from './modals/BlockchainSelection'
+import { BuyAndSellTokensLeaveAlertModal } from './modals/BuyAndSellTokensLeaveAlert'
 import { ConfirmPasswordBackupModal } from './modals/ConfirmPasswordBackup'
 import { ConfirmPasswordRecoverModal } from './modals/ConfirmPasswordRecover'
 import { ConnectHardwareWalletModal } from './modals/ConnectHardwareWallet'
@@ -102,4 +103,10 @@ export const modalsRouter: TRoute[] = [
   { name: 'swap-details-log', type: 'side', size: 'lg', element: <SwapDetailsLogModal /> },
   { name: 'about-extra-id-to-receive', type: 'side', size: 'sm', element: <AboutExtraIdToReceiveModal /> },
   { name: 'sell-tokens-deposit', type: 'side', size: 'lg', element: <SellTokensDepositModal /> },
+  {
+    name: 'buy-and-sell-tokens-leave-alert',
+    type: 'center',
+    size: 'xs',
+    element: <BuyAndSellTokensLeaveAlertModal />,
+  },
 ]

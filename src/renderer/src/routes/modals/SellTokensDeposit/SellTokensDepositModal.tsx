@@ -207,7 +207,7 @@ export const SellTokensDepositModal = () => {
           heading: t('title'),
           subtitle: t('success.subtitle'),
           headingIcon: <TbStepInto aria-hidden={true} />,
-          content: <SellTokensDepositSuccessContent transaction={transaction} account={account!} />,
+          content: <SellTokensDepositSuccessContent transaction={transaction} />,
         },
       })
     } catch (error: any) {
