@@ -1,5 +1,11 @@
 [
   {
+    "tag_name": "Version v3.5.0",
+    "published_at": "12 Feb 2025",
+    "body": "<li>• Arbitrum Network Support</li><li>• BASE Network Support</li><li>• On-Ramp Feature Delivery</li><li>• Off-Ramp Feature Delivery</li><li>• Enhancements to Swap Request Screen</li><li>• Minor bugfixes</li>",
+    "html_url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.5.0"
+  },
+  {
     "tag_name": "Version v3.4.0",
     "published_at": "23 Jan 2025",
     "body": "<li>• Polygon Network Support</li><li>• Swap UI Enhancements</li><li>• Max button for Send</li><li>• Minor bugfixes</li>",
