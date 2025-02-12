@@ -8,16 +8,28 @@ import { motion, useAnimate, usePresence } from 'framer-motion'
 import { ModalContainer } from './ModalContainer'
 
 const widthBySizes: Partial<Record<TRouterSize, string>> = {
+  xs: '24rem',
   sm: '32rem',
   lg: '53rem',
+}
+
+const DEFAULT_HEIGHT = '38.75rem'
+
+const heightBySizes: Partial<Record<TRouterSize, string>> = {
+  xs: 'auto',
+  sm: DEFAULT_HEIGHT,
+  lg: DEFAULT_HEIGHT,
 }
 
 export const CenterModal = () => {
   const { histories } = useModalHistories()
   const [isPresent, safeToRemove] = usePresence()
   const [scope, animate] = useAnimate()
-
   const [centerHistories, setCenterHistories] = useState<THistory[]>([])
+
+  const sideHistory = centerHistories[centerHistories.length - 1]
+  const size = sideHistory?.route?.size
+  const height = (size ? heightBySizes[size] : null) ?? heightBySizes.sm
 
   const lastCenterHistoryWidth = useMemo(() => {
     const lastSideHistory = centerHistories[centerHistories.length - 1]
@@ -52,7 +64,7 @@ export const CenterModal = () => {
 
   return (
     <ModalContainer className="flex justify-center items-center">
-      <motion.div className="relative h-[38.75rem]" ref={scope} initial={{ scale: 0.95, opacity: 0 }}>
+      <motion.div ref={scope} initial={{ scale: 0.95, opacity: 0 }} className="relative" style={{ height }}>
         {lastCenterHistoryWidth &&
           centerHistories.map((history, index) => (
             <div

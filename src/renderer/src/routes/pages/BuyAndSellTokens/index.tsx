@@ -1,9 +1,11 @@
-import { Dispatch, Fragment, useState } from 'react'
+import { Dispatch, Fragment, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbShoppingBag } from 'react-icons/tb'
-import { Location, useLocation, useNavigate } from 'react-router-dom'
+import { Location, useBlocker, useLocation, useNavigate } from 'react-router-dom'
 import { HelpButton } from '@renderer/components/HelpButton'
 import { isConfigured } from '@renderer/constants/buy-and-sell-tokens'
+import { TestHelper } from '@renderer/helpers/TestHelper'
+import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { ContentLayout } from '@renderer/layouts/ContentLayout'
 import { MainLayout } from '@renderer/layouts/Main'
 import { TTokenBalance } from '@shared/@types/query'
@@ -56,6 +58,7 @@ const BuyAndSellTokensContent = ({
         hidden={screenType !== BuyAndSellTokensScreenType.BUY_TOKENS}
         account={account}
         setScreenType={setScreenType}
+        {...TestHelper.buildTestObject('buy-tokens-content-layout')}
       />
 
       <SellTokensContent
@@ -64,6 +67,7 @@ const BuyAndSellTokensContent = ({
         depositActionsData={depositActionsData}
         setDepositActionsData={setDepositActionsData}
         setScreenType={setScreenType}
+        {...TestHelper.buildTestObject('sell-tokens-content-layout')}
       />
     </Fragment>
   )
@@ -79,14 +83,28 @@ export const BuyAndSellTokensPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'buyAndSellTokens' })
   const { state } = useLocation() as Location<TLocationState>
   const navigate = useNavigate()
+  const { modalNavigate } = useModalNavigate()
   const [screenType, setScreenType] = useState(BuyAndSellTokensScreenType.BUY_TOKENS)
   const [depositActionsData, setDepositActionsData] = useState<TDepositActionsData | null>(null)
+  const canNavigateRef = useRef(false)
 
   const account = state?.account
+
+  const setCanNavigate = (canNavigate: boolean) => {
+    canNavigateRef.current = canNavigate
+  }
 
   const handleBackClick = () => {
     navigate(`/app/wallets/${account!.id}/overview`)
   }
+
+  useBlocker(({ nextLocation }) => {
+    if (canNavigateRef.current) return false
+
+    modalNavigate('buy-and-sell-tokens-leave-alert', { state: { nextUrl: nextLocation.pathname, setCanNavigate } })
+
+    return true
+  })
 
   return account ? (
     <ContentLayout

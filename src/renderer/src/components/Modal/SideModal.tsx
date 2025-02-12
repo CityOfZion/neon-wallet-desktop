@@ -8,6 +8,7 @@ import { motion, useAnimate, usePresence } from 'framer-motion'
 import { ModalContainer } from './ModalContainer'
 
 const widthBySizes: Partial<Record<TRouterSize, string>> = {
+  xs: '14rem',
   md: '25.875rem',
   sm: '20.625rem',
   lg: '32rem',

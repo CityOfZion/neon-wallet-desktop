@@ -50,6 +50,7 @@ export const Sidebar = (): JSX.Element => {
               to="/app/buy-and-sell-tokens"
               title={t('buyAndSellTokens')}
               icon={<TbShoppingBag aria-hidden={true} />}
+              {...TestHelper.buildTestObject('sidebar-link-buy-and-sell-tokens')}
             />
 
             <SidebarLink

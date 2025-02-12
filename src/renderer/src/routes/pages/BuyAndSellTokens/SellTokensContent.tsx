@@ -1,4 +1,4 @@
-import { Dispatch, useState } from 'react'
+import { ComponentProps, Dispatch, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdChevronRight } from 'react-icons/md'
 import { Button } from '@renderer/components/Button'
@@ -18,7 +18,7 @@ type TProps = {
   depositActionsData: TDepositActionsData | null
   setDepositActionsData: Dispatch<TDepositActionsData | null>
   setScreenType: Dispatch<BuyAndSellTokensScreenType>
-}
+} & ComponentProps<'section'>
 
 export const SellTokensContent = ({
   hidden,
@@ -26,6 +26,7 @@ export const SellTokensContent = ({
   depositActionsData,
   setDepositActionsData,
   setScreenType,
+  ...props
 }: TProps) => {
   const { t } = useTranslation('pages', { keyPrefix: 'buyAndSellTokens.sellTokensContent' })
   const { currency } = useCurrencySelector()
@@ -65,12 +66,18 @@ export const SellTokensContent = ({
           })}
         />
       }
+      {...props}
     >
       <div className="buy-and-sell-tokens-iframe-container my-4">
         {hasIframeError ? (
           <p className="text-white text-center text-xl mx-auto p-4">{t('error')}</p>
         ) : (
-          <iframe src={`${url}&redirectUrl=${url}`} onLoad={handleLoad} onError={handleError} />
+          <iframe
+            src={`${url}&redirectUrl=${url}`}
+            allow="clipboard-read; clipboard-write"
+            onLoad={handleLoad}
+            onError={handleError}
+          />
         )}
       </div>
     </BuyAndSellTokensLayout>
