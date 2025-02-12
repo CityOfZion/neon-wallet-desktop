@@ -1,4 +1,5 @@
 import { createRouteHandler } from '@renderer/libs/sentryReact'
+import { BuyAndSellTokensPage } from '@renderer/routes/pages/BuyAndSellTokens'
 import { ForgottenPasswordPage } from '@renderer/routes/pages/ForgottenPassword'
 import { ForgottenPasswordConfirmPage } from '@renderer/routes/pages/ForgottenPassword/Confirm'
 
@@ -119,6 +120,10 @@ export const pagesRouter = routeHandler([
           {
             path: 'swap',
             element: <SwapPage />,
+          },
+          {
+            path: 'buy-and-sell-tokens',
+            element: <BuyAndSellTokensPage />,
           },
           {
             path: 'contacts',

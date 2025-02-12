@@ -580,5 +580,60 @@
       "title": "Where can I find my destination tag/memo?",
       "description": "It is typically a unique identifying string that can be found in your recipient account information."
     }
+  },
+  "sellTokensDeposit": {
+    "title": "Make deposit",
+    "description": "In order to progress the sale of your digital assets, you need to transfer your assets to our off-ramp provider.",
+    "observation": "When the transaction is confirmed, you can return to the ‘Sell tokens’ process.",
+    "form": {
+      "title": "Your deposit details",
+      "source": {
+        "label": "Source account"
+      },
+      "receive": {
+        "label": "Deposit recipient"
+      },
+      "token": {
+        "label": "Token to send"
+      },
+      "address": {
+        "label": "Deposit address",
+        "placeholder": "Enter deposit address…"
+      },
+      "amount": {
+        "label": "Amount"
+      }
+    },
+    "labels": {
+      "fiat": "Fiat value ({{currencyLabel}} estimated)",
+      "fee": "Total fee"
+    },
+    "buttons": {
+      "submit": "Send tokens"
+    },
+    "messages": {
+      "feeError": "Error to calculate fee",
+      "insufficientFunds": "Insufficient funds",
+      "invalidAddress": "Invalid address"
+    },
+    "success": {
+      "subtitle": "Your deposit was successful",
+      "details": "Transaction details",
+      "section": "Transaction",
+      "recipient": "Recipient",
+      "amount": "Amount",
+      "transactionHash": "Transaction hash",
+      "status": "View status",
+      "labels": {
+        "copyAddress": "Copy address",
+        "copyTransactionHash": "Copy transaction hash"
+      }
+    },
+    "error": {
+      "subtitle": "Transaction failed",
+      "text": "I'm sorry but your transaction could not be processed.",
+      "label": "Error message",
+      "default": "Unknown error"
+    }
   }
 }

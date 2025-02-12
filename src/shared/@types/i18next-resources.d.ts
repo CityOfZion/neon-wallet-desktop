@@ -16,6 +16,7 @@ interface Resources {
       remove: 'Remove'
       copy: 'Copy to clipboard'
       swap: 'Swap'
+      buyAndSellTokens: 'Buy + Sell'
       logo: "Neon Wallet's logo"
       pasteFromClipboard: 'Paste from clipboard'
       pasteFromClipboardError: 'Failed to paste from clipboard'
@@ -68,6 +69,7 @@ interface Resources {
       receive: 'Receive'
       swap: 'Swap'
       nfts: 'NFTs'
+      buyAndSellTokens: 'Buy + Sell'
       contacts: 'Contacts'
     }
     walletsSelect: {
@@ -884,6 +886,61 @@ interface Resources {
         description: 'It is typically a unique identifying string that can be found in your recipient account information.'
       }
     }
+    sellTokensDeposit: {
+      title: 'Make deposit'
+      description: 'In order to progress the sale of your digital assets, you need to transfer your assets to our off-ramp provider.'
+      observation: 'When the transaction is confirmed, you can return to the ‘Sell tokens’ process.'
+      form: {
+        title: 'Your deposit details'
+        source: {
+          label: 'Source account'
+        }
+        receive: {
+          label: 'Deposit recipient'
+        }
+        token: {
+          label: 'Token to send'
+        }
+        address: {
+          label: 'Deposit address'
+          placeholder: 'Enter deposit address…'
+        }
+        amount: {
+          label: 'Amount'
+        }
+      }
+      labels: {
+        fiat: 'Fiat value ({{currencyLabel}} estimated)'
+        fee: 'Total fee'
+      }
+      buttons: {
+        submit: 'Send tokens'
+      }
+      messages: {
+        feeError: 'Error to calculate fee'
+        insufficientFunds: 'Insufficient funds'
+        invalidAddress: 'Invalid address'
+      }
+      success: {
+        subtitle: 'Your deposit was successful'
+        details: 'Transaction details'
+        section: 'Transaction'
+        recipient: 'Recipient'
+        amount: 'Amount'
+        transactionHash: 'Transaction hash'
+        status: 'View status'
+        labels: {
+          copyAddress: 'Copy address'
+          copyTransactionHash: 'Copy transaction hash'
+        }
+      }
+      error: {
+        subtitle: 'Transaction failed'
+        text: "I'm sorry but your transaction could not be processed."
+        label: 'Error message'
+        default: 'Unknown error'
+      }
+    }
   }
   pages: {
     welcome: {
@@ -1325,6 +1382,49 @@ interface Resources {
         }
         hints: {
           enterValidAddress: 'Enter a valid address'
+        }
+      }
+    }
+    buyAndSellTokens: {
+      title: 'Buy & Sell Tokens'
+      notConfigured: "The Buy & Sell Tokens aren't configured"
+      buyAndSellTokensLayout: {
+        howWorks: {
+          title: 'How does it work?'
+          description: 'Buy and sell tokens without relying on an exchange! Neon provides an effortless and secure way to buy and sell digital assets using fiat money.'
+        }
+        whereBegin: {
+          title: 'Where do I begin?'
+          description: 'Simply choose the desired digital asset you wish to sell, select the currency you wish to receive then pick a payout method.'
+        }
+        cards: {
+          kyc: 'For security and compliance, you need to verify your identity (KYC). After a successful verification, your transaction will be processed.'
+        }
+        tabs: {
+          buyTokens: 'Buy tokens'
+          sellTokens: 'Sell tokens'
+        }
+        buttons: {
+          help: 'Need help? Chat with us'
+          walletsAndAccounts: 'Wallets & Accounts'
+        }
+        labels: {
+          walletsAndAccounts: {
+            opened: 'Wallets & Accounts are opened'
+            closed: 'Wallets & Accounts are closed'
+          }
+        }
+      }
+      buyAndSellTokensAccordionAccounts: {
+        title: 'Your wallet(s) & account(s)'
+        labels: {
+          copyAddress: 'Copy address'
+        }
+      }
+      sellTokensContent: {
+        error: 'There is an error with Sell Tokens, please, try again'
+        buttons: {
+          deposit: 'Make deposit'
         }
       }
     }

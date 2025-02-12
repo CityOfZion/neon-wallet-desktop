@@ -1,7 +1,10 @@
-const plugin = require('tailwindcss/plugin')
+import plugin from 'tailwindcss/plugin'
+import animate from 'tailwindcss-animate'
+
+import { Config } from 'tailwindcss'
 
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
   content: ['./src/**/*.{ts,tsx}'],
   theme: {
     colors: {
@@ -115,15 +118,28 @@ module.exports = {
     },
   },
   plugins: [
-    require('tailwindcss-animate'),
+    animate,
     plugin(function ({ addUtilities }) {
       const newUtilities = {
         '.scrollbar-overlay': {
           scrollbarGutter: 'stable',
         },
+        iframe: {
+          borderRadius: '.5rem',
+        },
+        '.buy-and-sell-tokens-iframe-container': {
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          overflowY: 'auto',
+          iframe: {
+            width: '420px !important',
+            height: '680px !important',
+            border: 'none !important',
+          },
+        },
       }
 
-      addUtilities(newUtilities, ['responsive', 'hover'])
+      addUtilities(newUtilities)
     }),
   ],
-}
+} satisfies Config

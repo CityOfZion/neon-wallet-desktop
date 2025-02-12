@@ -4,12 +4,14 @@ import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 export type TAlertErrorBanner = {
   message: string | JSX.Element
+  messageClassName?: string
   icon?: JSX.Element
+  iconClassName?: string
 }
 
 type TProps = TAlertErrorBanner & ComponentProps<'div'>
 
-export const AlertErrorBanner = ({ message, className, icon, ...props }: TProps) => {
+export const AlertErrorBanner = ({ className, message, messageClassName, icon, iconClassName, ...props }: TProps) => {
   return (
     <div
       className={StyleHelper.mergeStyles(
@@ -23,9 +25,12 @@ export const AlertErrorBanner = ({ message, className, icon, ...props }: TProps)
           className: StyleHelper.mergeStyles('text-magenta h-6 w-6', icon.props.className),
         })
       ) : (
-        <TbAlertTriangle className="text-magenta h-6 w-6" />
+        <TbAlertTriangle
+          aria-hidden={true}
+          className={StyleHelper.mergeStyles('text-magenta h-6 w-6 min-h-6 min-w-6', iconClassName)}
+        />
       )}
-      <span>{message}</span>
+      <span className={messageClassName}>{message}</span>
     </div>
   )
 }

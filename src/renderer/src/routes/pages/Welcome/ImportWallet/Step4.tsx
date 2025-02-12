@@ -34,7 +34,7 @@ export const WelcomeImportWalletStep4Page = () => {
   const handleImport = async () => {
     try {
       const { wallets, contacts, password, swapRecords } = state
-      const progressByStep = 100 / wallets.length + 3
+      const progressByStep = 100 / (wallets.length + 3)
 
       await setHasPassword(password)
 
@@ -43,7 +43,7 @@ export const WelcomeImportWalletStep4Page = () => {
       if (swapRecords) swapRecords.forEach(swapRecord => dispatch(authReducerActions.persistSwapRecord(swapRecord)))
       if (contacts) createContacts(contacts)
 
-      await UtilsHelper.sleep(1000)
+      await UtilsHelper.sleep(250)
 
       setProgress(progress => progress + progressByStep)
 
@@ -52,16 +52,16 @@ export const WelcomeImportWalletStep4Page = () => {
 
         await importAccounts({ accounts, wallet })
 
-        await UtilsHelper.sleep(1000)
+        await UtilsHelper.sleep(250)
 
         setProgress(progress => progress + progressByStep)
       }
 
-      await UtilsHelper.sleep(1000)
+      await UtilsHelper.sleep(250)
 
       setProgress(progress => progress + progressByStep)
 
-      await UtilsHelper.sleep(1000)
+      await UtilsHelper.sleep(250)
 
       navigate('/welcome-import-wallet/5')
     } catch (error: any) {

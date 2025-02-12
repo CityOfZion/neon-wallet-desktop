@@ -1,5 +1,14 @@
 import { useTranslation } from 'react-i18next'
-import { TbDoorExit, TbHome2, TbReplace, TbSettings, TbStepInto, TbStepOut, TbUsers } from 'react-icons/tb'
+import {
+  TbDoorExit,
+  TbHome2,
+  TbReplace,
+  TbSettings,
+  TbShoppingBag,
+  TbStepInto,
+  TbStepOut,
+  TbUsers,
+} from 'react-icons/tb'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 import { useLogin } from '@renderer/hooks/useLogin'
 
@@ -36,6 +45,12 @@ export const Sidebar = (): JSX.Element => {
             <SidebarLink to="/app/receive" title={t('receive')} icon={<TbStepInto />} />
 
             <SidebarLink to="/app/swap" title={t('swap')} icon={<TbReplace />} />
+
+            <SidebarLink
+              to="/app/buy-and-sell-tokens"
+              title={t('buyAndSellTokens')}
+              icon={<TbShoppingBag aria-hidden={true} />}
+            />
 
             <SidebarLink
               to="/app/contacts"
