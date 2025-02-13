@@ -2,7 +2,7 @@ import { ComponentProps, Dispatch, useRef, useState } from 'react'
 import fingerprint from '@fingerprintjs/fingerprintjs'
 import { GateFiDisplayModeEnum, GateFiEventTypes, GateFiSDK } from '@gatefi/js-sdk'
 import { buyTokensIframeUrl, hideBrand, lang, merchantId, theme } from '@renderer/constants/buy-and-sell-tokens'
-import { BuyAndsellTokensHelper } from '@renderer/helpers/BuyAndsellTokensHelper'
+import { BuyAndSellTokensHelper } from '@renderer/helpers/BuyAndSellTokensHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useMountUnsafe } from '@renderer/hooks/useMount'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
@@ -41,10 +41,10 @@ export const BuyTokensContent = ({ hidden, account, setScreenType, ...props }: T
       displayMode: GateFiDisplayModeEnum.Embedded,
       nodeSelector: `#${iframeId}`,
       lang,
-      defaultFiat: { currency: BuyAndsellTokensHelper.getValidCurrencyLabel(currency.label) },
+      defaultFiat: { currency: BuyAndSellTokensHelper.getValidCurrencyLabel(currency.label) },
       hideThemeSwitcher: true,
       hideBrand,
-      redirectUrl: BuyAndsellTokensHelper.getMountedUrl({ domainUrl: buyTokensIframeUrl, currency, account }),
+      redirectUrl: BuyAndSellTokensHelper.getMountedUrl({ domainUrl: buyTokensIframeUrl, currency, account }),
       fingerprint: result.visitorId,
       walletAddress: account?.address,
       styles: {
