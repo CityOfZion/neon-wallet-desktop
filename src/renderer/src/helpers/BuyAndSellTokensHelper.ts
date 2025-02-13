@@ -7,12 +7,12 @@ type TGetMountedUrlParams = {
   account?: IAccountState
 }
 
-export class BuyAndsellTokensHelper {
+export class BuyAndSellTokensHelper {
   static getValidCurrencyLabel(currencyLabel: TAvailableCurrency) {
     return ['USD', 'EUR', 'BRL', 'GBP'].includes(currencyLabel) ? currencyLabel : 'USD'
   }
 
   static getMountedUrl({ domainUrl, currency, account }: TGetMountedUrlParams) {
-    return `${domainUrl}?merchantId=${merchantId}&fiatCurrency=${BuyAndsellTokensHelper.getValidCurrencyLabel(currency.label)}&lang=${lang}&themeMode=${theme}&hideBrand=${hideBrand}&wallet=${account?.address ?? ''}`
+    return `${domainUrl}?merchantId=${merchantId}&fiatCurrency=${BuyAndSellTokensHelper.getValidCurrencyLabel(currency.label)}&lang=${lang}&themeMode=${theme}&hideBrand=${hideBrand}&wallet=${account?.address ?? ''}`
   }
 }

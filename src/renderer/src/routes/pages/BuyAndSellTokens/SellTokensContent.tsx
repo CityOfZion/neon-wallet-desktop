@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { MdChevronRight } from 'react-icons/md'
 import { Button } from '@renderer/components/Button'
 import { sellTokensIframeUrl } from '@renderer/constants/buy-and-sell-tokens'
-import { BuyAndsellTokensHelper } from '@renderer/helpers/BuyAndsellTokensHelper'
+import { BuyAndSellTokensHelper } from '@renderer/helpers/BuyAndSellTokensHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
@@ -34,7 +34,7 @@ export const SellTokensContent = ({
   const [isIframeLoading, setIsIframeLoading] = useState(true)
   const [hasIframeError, setHasIframeError] = useState(false)
 
-  const url = BuyAndsellTokensHelper.getMountedUrl({ domainUrl: sellTokensIframeUrl, currency, account })
+  const url = BuyAndSellTokensHelper.getMountedUrl({ domainUrl: sellTokensIframeUrl, currency, account })
 
   const handleLoad = async () => {
     await UtilsHelper.sleep(4000)
