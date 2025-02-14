@@ -1,5 +1,5 @@
-import { ComponentProps, Dispatch, ReactNode, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { ComponentProps, Dispatch, Fragment, ReactNode, useState } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 import { IoChevronDown, IoChevronUp } from 'react-icons/io5'
 import { MdInfoOutline, MdLaunch } from 'react-icons/md'
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
@@ -10,10 +10,32 @@ import { Separator } from '@renderer/components/Separator'
 import { Tabs } from '@renderer/components/Tabs'
 import { DISCORD_LINK } from '@renderer/constants/urls'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { IAccountState } from '@shared/@types/store'
+import { match } from 'ts-pattern'
 
 import { BuyAndSellTokensScreenType } from '../routes/pages/BuyAndSellTokens'
 import { BuyAndSellTokensAccordionAccounts } from '../routes/pages/BuyAndSellTokens/BuyAndSellTokensAccordionAccounts'
+
+type TAboutDataButtonProps = {
+  className?: string
+}
+
+const AboutDataButton = ({ className }: TAboutDataButtonProps) => {
+  const { t } = useTranslation('pages', { keyPrefix: 'buyAndSellTokens.buyAndSellTokensLayout' })
+  const { modalNavigateWrapper } = useModalNavigate()
+
+  return (
+    <Button
+      label={t('buttons.aboutData')}
+      colorSchema="neon"
+      variant="text-slim"
+      className={StyleHelper.mergeStyles('w-fit', className)}
+      clickableProps={{ className: 'text-xs' }}
+      onClick={modalNavigateWrapper('buy-and-sell-tokens-about-data')}
+    />
+  )
+}
 
 type TProps = {
   hidden: boolean
@@ -51,7 +73,7 @@ export const BuyAndSellTokensLayout = ({
       className={StyleHelper.mergeStyles('flex rounded bg-gray-700/60 flex-grow min-h-0', { hidden: hidden })}
       {...props}
     >
-      <div className="flex flex-col w-[24%] max-w-[22rem] bg-gray-900/50 px-4 border-r border-gray-300/15">
+      <div className="flex flex-col w-[27%] max-w-[22rem] bg-gray-900/50 px-4 border-r border-gray-300/15">
         <div className="flex gap-2.5 items-center h-12">
           <MdInfoOutline aria-hidden={true} className="w-6 h-6 text-green" />
 
@@ -60,22 +82,78 @@ export const BuyAndSellTokensLayout = ({
 
         <Separator />
 
-        <p className="text-xs text-white font-semibold my-7">{t('howWorks.description')}</p>
+        <p className="text-xs text-white font-semibold mt-7 mb-5">{t('howWorks.description')}</p>
 
-        <Separator />
+        <Separator containerClassName="mb-5" />
 
-        <p className="text-xs text-gray-100 font-semibold mt-7 uppercase">{t('whereBegin.title')}</p>
+        {match(screenType)
+          .with(BuyAndSellTokensScreenType.BUY_TOKENS, () => (
+            <Fragment>
+              <p className="text-xs text-white">
+                <Trans t={t} i18nKey="processes.buyTokens.text">
+                  start
+                  <strong className="font-bold block">middle</strong>
+                  <em className="italic">end</em>
+                </Trans>
+              </p>
 
-        <p className="text-xs text-white mt-4">{t('whereBegin.description')}</p>
+              <AboutDataButton className="mt-1" />
 
-        <AlertErrorBanner
-          className="mt-6 bg-magenta-700/50 gap-3 p-3"
-          message={t('cards.kyc')}
-          messageClassName="font-normal text-xs leading-4"
-          iconClassName="self-start"
-        />
+              <p className="text-xs text-white mt-5">
+                <Trans t={t} i18nKey="processes.buyTokens.kyc">
+                  start
+                  <span className="font-bold">middle</span>
+                  end
+                </Trans>
+              </p>
 
-        <div className="flex flex-grow w-full items-end">
+              <AlertErrorBanner
+                className="mt-6 bg-magenta-700/50 gap-3 p-3"
+                message={t('processes.buyTokens.alert')}
+                messageClassName="font-normal text-xs leading-4"
+                iconClassName="self-start"
+              />
+            </Fragment>
+          ))
+          .with(BuyAndSellTokensScreenType.SELL_TOKENS, () => (
+            <Fragment>
+              <p className="text-xs text-white">
+                <Trans t={t} i18nKey="processes.sellTokens.text">
+                  start
+                  <strong className="font-bold block">middle</strong>
+                  <em className="italic">end</em>
+                </Trans>
+              </p>
+
+              <AboutDataButton className="mt-1" />
+
+              <p className="text-xs text-white mt-5">
+                <Trans t={t} i18nKey="processes.sellTokens.kyc">
+                  start
+                  <span className="font-bold">middle</span>
+                  end
+                </Trans>
+              </p>
+
+              <AlertErrorBanner
+                className="mt-6 bg-magenta-700/50 gap-3 p-3"
+                message={
+                  <Trans t={t} i18nKey="processes.sellTokens.alert">
+                    start
+                    <span className="uppercase">middle</span>
+                    end
+                  </Trans>
+                }
+                messageClassName="font-normal text-xs leading-4"
+                iconClassName="self-start"
+              />
+            </Fragment>
+          ))
+          .otherwise(() => null)}
+
+        <p className="text-xs text-white mt-5">{t('processes.all.observation')}</p>
+
+        <div className="flex flex-grow w-full items-end mt-7">
           <Link
             label={t('buttons.help')}
             to={DISCORD_LINK}

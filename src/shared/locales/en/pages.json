@@ -459,12 +459,20 @@
         "title": "How does it work?",
         "description": "Buy and sell tokens without relying on an exchange! Neon provides an effortless and secure way to buy and sell digital assets using fiat money."
       },
-      "whereBegin": {
-        "title": "Where do I begin?",
-        "description": "Simply choose the desired digital asset you wish to sell, select the currency you wish to receive then pick a payout method."
-      },
-      "cards": {
-        "kyc": "For security and compliance, you need to verify your identity (KYC). After a successful verification, your transaction will be processed."
+      "processes": {
+        "all": {
+          "observation": "After the transfer has been completed, your new tokens will take a few moments to arrive."
+        },
+        "buyTokens": {
+          "text": "<1>This process uses an embedded widget.</1> When buying tokens, some personal data might be requested for KYC purposes. <1>Larger sales require a greater amount of KYC data.</1>",
+          "kyc": "<1>Once the KYC process is complete:</1> You will need to provide a destination address for your tokens. From the 'Wallets & Accounts' panel, copy the destination address of your desired Neon account.",
+          "alert": "Ensure that the account you select is compatible with the network of your purchased token!"
+        },
+        "sellTokens": {
+          "text": "<1>This process uses an embedded widget.</1> When selling tokens, some personal data might be requested for KYC purposes. <2>Larger sales require a greater amount of KYC data.</2>",
+          "kyc": "<1>Once the KYC process is complete:</1> You will need to send your tokens to the deposit address using the ‘Make a Deposit’ button.  Please ensure that you transfer the correct amount of tokens to the deposit address! You can also copy a destination address of your desired Neon account, from the 'Wallets & Accounts' panel.",
+          "alert": "Deposit transactions need to be sent from the <1>same address</1> used in the widget!"
+        }
       },
       "tabs": {
         "buyTokens": "Buy tokens",
@@ -472,7 +480,8 @@
       },
       "buttons": {
         "help": "Need help? Chat with us",
-        "walletsAndAccounts": "Wallets & Accounts"
+        "walletsAndAccounts": "Wallets & Accounts",
+        "aboutData": "About your data"
       },
       "labels": {
         "walletsAndAccounts": {

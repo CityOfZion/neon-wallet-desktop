@@ -642,5 +642,18 @@
       "close": "No, I wish to stay",
       "continue": "Yes, proceed"
     }
+  },
+  "buyAndSellTokensAboutData": {
+    "title": "About your data",
+    "description": "Our on/off ramp partner only keeps an ID reference to your data and uses the email you provide to update you about your sales and purchases.",
+    "alert": "COZ doesn't store any of your data!",
+    "sumbsub": {
+      "title": "Your KYC data is encrypted and used by our KYC partner:",
+      "link": "About Sumsub's service"
+    },
+    "unlimit": {
+      "title": "All other data is handled by our on/off ramp partner:",
+      "link": "About Unlimit's service"
+    }
   }
 }

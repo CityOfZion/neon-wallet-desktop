@@ -99,9 +99,11 @@ export const BuyAndSellTokensPage = () => {
   }
 
   useBlocker(({ nextLocation }) => {
-    if (canNavigateRef.current) return false
+    const nextUrl = nextLocation.pathname
 
-    modalNavigate('buy-and-sell-tokens-leave-alert', { state: { nextUrl: nextLocation.pathname, setCanNavigate } })
+    if (canNavigateRef.current || nextUrl === '/app/buy-and-sell-tokens') return false
+
+    modalNavigate('buy-and-sell-tokens-leave-alert', { state: { nextUrl, setCanNavigate } })
 
     return true
   })
