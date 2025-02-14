@@ -1,10 +1,10 @@
-import 'i18next'
+import { enResources } from '@shared/locales/en'
 
-import Resources from './i18next-resources'
+import 'i18next'
 
 declare module 'i18next' {
   interface CustomTypeOptions {
     defaultNS: 'common'
-    resources: Resources
+    resources: typeof enResources
   }
 }

@@ -11,6 +11,7 @@ import { AutoUpdateCompleted } from './modals/AutoUpdate/AutoUpdateCompleted'
 import { AutoUpdateMobile } from './modals/AutoUpdate/AutoUpdateMobile'
 import { AutoUpdateNotes } from './modals/AutoUpdate/AutoUpdateNotes'
 import { BlockchainSelectionModal } from './modals/BlockchainSelection'
+import { BuyAndSellTokensAboutDataModal } from './modals/BuyAndSellTokensAboutData'
 import { BuyAndSellTokensLeaveAlertModal } from './modals/BuyAndSellTokensLeaveAlert'
 import { ConfirmPasswordBackupModal } from './modals/ConfirmPasswordBackup'
 import { ConfirmPasswordRecoverModal } from './modals/ConfirmPasswordRecover'
@@ -74,15 +75,21 @@ export const modalsRouter: TRoute[] = [
   { name: 'success', type: 'side', size: 'md', element: <SuccessModal /> },
   { name: 'error', type: 'side', size: 'md', element: <ErrorModal /> },
   { name: 'dapp-disconnection', type: 'side', element: <DappDisconnectionModal /> },
-  { name: 'dapp-connection', type: 'center', element: <DappConnectionModal /> },
-  { name: 'dapp-connection-details', type: 'center', element: <DappConnectionDetailsModal /> },
-  { name: 'dapp-permission', type: 'center', element: <DappPermissionModal /> },
+  { name: 'dapp-connection', type: 'center', size: 'sm', element: <DappConnectionModal /> },
+  { name: 'dapp-connection-details', type: 'center', size: 'sm', element: <DappConnectionDetailsModal /> },
+  { name: 'dapp-permission', type: 'center', size: 'sm', element: <DappPermissionModal /> },
   {
     name: 'dapp-permission-contract-details',
     type: 'center',
+    size: 'sm',
     element: <DappPermissionContractDetailsModal />,
   },
-  { name: 'dapp-permission-signature-scope', type: 'center', element: <DappPermissionSignatureScopeModal /> },
+  {
+    name: 'dapp-permission-signature-scope',
+    type: 'center',
+    size: 'sm',
+    element: <DappPermissionSignatureScopeModal />,
+  },
   { name: 'select-contact', type: 'side', element: <SelectContact /> },
   { name: 'blockchain-selection', type: 'side', element: <BlockchainSelectionModal /> },
   { name: 'decrypt-key', type: 'side', element: <DecryptKeyModal /> },
@@ -108,5 +115,11 @@ export const modalsRouter: TRoute[] = [
     type: 'center',
     size: 'xs',
     element: <BuyAndSellTokensLeaveAlertModal />,
+  },
+  {
+    name: 'buy-and-sell-tokens-about-data',
+    type: 'side',
+    size: 'sm',
+    element: <BuyAndSellTokensAboutDataModal />,
   },
 ]

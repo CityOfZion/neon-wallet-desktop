@@ -1,4 +1,4 @@
-import { useLayoutEffect, useMemo, useState } from 'react'
+import { useLayoutEffect, useState } from 'react'
 import { ModalRouterCurrentHistoryProvider } from '@renderer/contexts/ModalRouterCurrentHistoryContext'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { useModalHistories } from '@renderer/hooks/useModalRouter'
@@ -29,17 +29,8 @@ export const CenterModal = () => {
 
   const sideHistory = centerHistories[centerHistories.length - 1]
   const size = sideHistory?.route?.size
-  const height = (size ? heightBySizes[size] : null) ?? heightBySizes.sm
-
-  const lastCenterHistoryWidth = useMemo(() => {
-    const lastSideHistory = centerHistories[centerHistories.length - 1]
-    if (!lastSideHistory) return
-
-    const widthBySize = widthBySizes[lastSideHistory.route.size ?? 'sm']
-    if (!widthBySize) throw new Error('Invalid size')
-
-    return widthBySize
-  }, [centerHistories])
+  const height = (size ? heightBySizes[size] : null) ?? heightBySizes.xs
+  const width = (size ? widthBySizes[size] : null) ?? ''
 
   useLayoutEffect(() => {
     if (!isPresent) return
@@ -48,10 +39,10 @@ export const CenterModal = () => {
   }, [histories, isPresent])
 
   useLayoutEffect(() => {
-    if (!lastCenterHistoryWidth) return
+    if (!width) return
 
     if (isPresent) {
-      animate(scope.current, { scale: 1, opacity: 1, width: lastCenterHistoryWidth }, { type: 'spring', duration: 0.1 })
+      animate(scope.current, { scale: 1, opacity: 1, width }, { type: 'spring', duration: 0.1 })
     } else {
       const exitAnimation = async () => {
         await animate(scope.current, { scale: 0.95, opacity: 0 }, { duration: 0.1 })
@@ -60,20 +51,17 @@ export const CenterModal = () => {
 
       exitAnimation()
     }
-  }, [lastCenterHistoryWidth, isPresent, animate, scope, safeToRemove])
+  }, [width, isPresent, animate, scope, safeToRemove])
 
   return (
     <ModalContainer className="flex justify-center items-center">
-      <motion.div ref={scope} initial={{ scale: 0.95, opacity: 0 }} className="relative" style={{ height }}>
-        {lastCenterHistoryWidth &&
+      <motion.div ref={scope} initial={{ scale: 0.95, opacity: 0 }} className="relative" style={{ width, height }}>
+        {width &&
           centerHistories.map((history, index) => (
             <div
-              className={StyleHelper.mergeStyles(
-                `min-w-[${lastCenterHistoryWidth}] max-w-[${lastCenterHistoryWidth}] h-full`,
-                {
-                  'invisible hidden': index !== centerHistories.length - 1,
-                }
-              )}
+              className={StyleHelper.mergeStyles('w-full h-full', {
+                'invisible hidden': index !== centerHistories.length - 1,
+              })}
               key={history.id}
             >
               <ModalRouterCurrentHistoryProvider value={history}>
