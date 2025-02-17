@@ -496,10 +496,16 @@
         "copyAddress": "Copy address"
       }
     },
+    "buyTokensContent": {
+      "buttons": {
+        "restart": "Restart"
+      }
+    },
     "sellTokensContent": {
       "error": "There is an error with Sell Tokens, please, try again",
       "buttons": {
-        "deposit": "Make deposit"
+        "deposit": "Make deposit",
+        "restart": "Restart"
       }
     }
   }

@@ -1,7 +1,8 @@
 import { ComponentProps, Dispatch, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { MdChevronRight } from 'react-icons/md'
+import { MdChevronRight, MdRestartAlt } from 'react-icons/md'
 import { Button } from '@renderer/components/Button'
+import { Separator } from '@renderer/components/Separator'
 import { sellTokensIframeUrl } from '@renderer/constants/buy-and-sell-tokens'
 import { BuyAndSellTokensHelper } from '@renderer/helpers/BuyAndSellTokensHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
@@ -31,10 +32,17 @@ export const SellTokensContent = ({
   const { t } = useTranslation('pages', { keyPrefix: 'buyAndSellTokens.sellTokensContent' })
   const { currency } = useCurrencySelector()
   const { modalNavigateWrapper } = useModalNavigate()
+  const [iframeId, setIframeId] = useState(UtilsHelper.uuid())
   const [isIframeLoading, setIsIframeLoading] = useState(true)
   const [hasIframeError, setHasIframeError] = useState(false)
-
   const url = BuyAndSellTokensHelper.getMountedUrl({ domainUrl: sellTokensIframeUrl, currency, account })
+
+  const handleRestart = () => {
+    setDepositActionsData(null)
+    setHasIframeError(false)
+    setIsIframeLoading(true)
+    setIframeId(UtilsHelper.uuid())
+  }
 
   const handleLoad = async () => {
     await UtilsHelper.sleep(4000)
@@ -54,17 +62,31 @@ export const SellTokensContent = ({
       setScreenType={setScreenType}
       account={account}
       leftActions={
-        <Button
-          label={t('buttons.deposit')}
-          textClassName="font-normal"
-          variant="text-slim"
-          colorSchema={isIframeLoading ? 'gray' : 'neon'}
-          disabled={isIframeLoading}
-          rightIcon={<MdChevronRight aria-hidden={true} className="w-5 h-5 min-w-5 min-h-5" />}
-          onClick={modalNavigateWrapper('sell-tokens-deposit', {
-            state: { account, depositActionsData, setDepositActionsData },
-          })}
-        />
+        <div className="flex items-center gap-x-3">
+          <Button
+            label={t('buttons.restart')}
+            variant="text-slim"
+            textClassName="font-normal"
+            colorSchema={isIframeLoading ? 'gray' : 'neon'}
+            disabled={isIframeLoading}
+            leftIcon={<MdRestartAlt aria-hidden={true} className="w-5 h-5 min-w-5 min-h-5" />}
+            onClick={handleRestart}
+          />
+
+          <Separator containerClassName="w-0 h-full" className="w-px h-7" />
+
+          <Button
+            label={t('buttons.deposit')}
+            textClassName="font-normal"
+            variant="text-slim"
+            colorSchema={isIframeLoading ? 'gray' : 'neon'}
+            disabled={isIframeLoading}
+            rightIcon={<MdChevronRight aria-hidden={true} className="w-5 h-5 min-w-5 min-h-5" />}
+            onClick={modalNavigateWrapper('sell-tokens-deposit', {
+              state: { account, depositActionsData, setDepositActionsData },
+            })}
+          />
+        </div>
       }
       {...props}
     >
@@ -73,7 +95,7 @@ export const SellTokensContent = ({
           <p className="text-white text-center text-xl mx-auto p-4">{t('error')}</p>
         ) : (
           <iframe
-            src={`${url}&redirectUrl=${url}`}
+            src={`${url}&redirectUrl=${url}&confirmRedirectUrl${url}&reloadId=${iframeId}`}
             allow="clipboard-read; clipboard-write"
             onLoad={handleLoad}
             onError={handleError}
