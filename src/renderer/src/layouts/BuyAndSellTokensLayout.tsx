@@ -173,7 +173,7 @@ export const BuyAndSellTokensLayout = ({
       <div className="min-h-0 flex-grow flex flex-col px-4 items-center">
         <div className="flex flex-col w-full">
           <div className="flex justify-between gap-x-4 w-full h-12">
-            <div className="flex items-center w-56 gap-x-2">{leftActions}</div>
+            <div className="flex items-center w-72 gap-x-2">{leftActions}</div>
 
             <Tabs.Root value={screenType} className="h-fit self-end">
               <Tabs.List className="w-full">
@@ -195,7 +195,7 @@ export const BuyAndSellTokensLayout = ({
               </Tabs.List>
             </Tabs.Root>
 
-            <div className="flex items-center w-56 justify-end gap-x-2">
+            <div className="flex items-center w-72 justify-end gap-x-2">
               <Button
                 label={t('buttons.walletsAndAccounts')}
                 aria-expanded={isAccordionAccountsOpened}

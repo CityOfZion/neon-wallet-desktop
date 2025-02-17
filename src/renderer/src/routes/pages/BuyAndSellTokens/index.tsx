@@ -2,6 +2,7 @@ import { Dispatch, Fragment, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbShoppingBag } from 'react-icons/tb'
 import { Location, useBlocker, useLocation, useNavigate } from 'react-router-dom'
+import { ConnectHardwareWalletButton } from '@renderer/components/ConnectHardwareWalletButton'
 import { HelpButton } from '@renderer/components/HelpButton'
 import { isConfigured } from '@renderer/constants/buy-and-sell-tokens'
 import { TestHelper } from '@renderer/helpers/TestHelper'
@@ -30,6 +31,10 @@ export type TDepositActionsData = {
   fee?: string
   token?: TTokenBalance
   account?: IAccountState
+}
+
+type TBuyAndSellTokensRightActionsProps = {
+  showHardwareWallet?: boolean
 }
 
 type TBuyAndSellTokensContentProps = {
@@ -73,8 +78,10 @@ const BuyAndSellTokensContent = ({
   )
 }
 
-const BuyAndSellTokensRightActions = (
+const BuyAndSellTokensRightActions = ({ showHardwareWallet }: TBuyAndSellTokensRightActionsProps) => (
   <div className="flex gap-x-2">
+    {showHardwareWallet && <ConnectHardwareWalletButton />}
+
     <HelpButton />
   </div>
 )
@@ -112,7 +119,7 @@ export const BuyAndSellTokensPage = () => {
     <ContentLayout
       title={t('title')}
       titleIcon={<TbShoppingBag aria-hidden={true} />}
-      rightComponent={BuyAndSellTokensRightActions}
+      rightComponent={<BuyAndSellTokensRightActions />}
       onBackClick={handleBackClick}
     >
       <BuyAndSellTokensContent
@@ -124,7 +131,7 @@ export const BuyAndSellTokensPage = () => {
       />
     </ContentLayout>
   ) : (
-    <MainLayout heading={t('title')} rightComponent={BuyAndSellTokensRightActions}>
+    <MainLayout heading={t('title')} rightComponent={<BuyAndSellTokensRightActions showHardwareWallet={true} />}>
       <BuyAndSellTokensContent
         depositActionsData={depositActionsData}
         setDepositActionsData={setDepositActionsData}

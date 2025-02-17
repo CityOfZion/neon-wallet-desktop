@@ -1,6 +1,9 @@
 import { ComponentProps, Dispatch, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { MdRestartAlt } from 'react-icons/md'
 import fingerprint from '@fingerprintjs/fingerprintjs'
 import { GateFiDisplayModeEnum, GateFiEventTypes, GateFiSDK } from '@gatefi/js-sdk'
+import { Button } from '@renderer/components/Button'
 import { buyTokensIframeUrl, hideBrand, lang, merchantId, theme } from '@renderer/constants/buy-and-sell-tokens'
 import { BuyAndSellTokensHelper } from '@renderer/helpers/BuyAndSellTokensHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
@@ -22,6 +25,7 @@ const NEON_COLOR = tailwindTheme.colors.neon.DEFAULT
 const ASPHALT_COLOR = tailwindTheme.colors.asphalt.DEFAULT
 
 export const BuyTokensContent = ({ hidden, account, setScreenType, ...props }: TProps) => {
+  const { t } = useTranslation('pages', { keyPrefix: 'buyAndSellTokens.buyTokensContent' })
   const { currency } = useCurrencySelector()
   const [isIframeLoading, setIsIframeLoading] = useState(true)
   const iframeInstanceRef = useRef<GateFiSDK>()
@@ -35,6 +39,7 @@ export const BuyTokensContent = ({ hidden, account, setScreenType, ...props }: T
 
     const loadedFingerprint = await fingerprint.load()
     const result = await loadedFingerprint.get()
+    const url = BuyAndSellTokensHelper.getMountedUrl({ domainUrl: buyTokensIframeUrl, currency, account })
 
     iframeInstanceRef.current = new GateFiSDK({
       merchantId,
@@ -44,7 +49,12 @@ export const BuyTokensContent = ({ hidden, account, setScreenType, ...props }: T
       defaultFiat: { currency: BuyAndSellTokensHelper.getValidCurrencyLabel(currency.label) },
       hideThemeSwitcher: true,
       hideBrand,
-      redirectUrl: BuyAndSellTokensHelper.getMountedUrl({ domainUrl: buyTokensIframeUrl, currency, account }),
+      redirectUrl: url,
+      confirmRedirectUrl: url,
+      successUrl: url,
+      cancelUrl: url,
+      declineUrl: url,
+      inprocessUrl: url,
       fingerprint: result.visitorId,
       walletAddress: account?.address,
       styles: {
@@ -64,6 +74,10 @@ export const BuyTokensContent = ({ hidden, account, setScreenType, ...props }: T
     })
   }
 
+  const handleRestart = () => {
+    initIframe()
+  }
+
   useMountUnsafe(() => {
     initIframe()
   })
@@ -75,6 +89,17 @@ export const BuyTokensContent = ({ hidden, account, setScreenType, ...props }: T
       screenType={BuyAndSellTokensScreenType.BUY_TOKENS}
       setScreenType={setScreenType}
       account={account}
+      leftActions={
+        <Button
+          label={t('buttons.restart')}
+          variant="text-slim"
+          textClassName="font-normal"
+          colorSchema={isIframeLoading ? 'gray' : 'neon'}
+          disabled={isIframeLoading}
+          leftIcon={<MdRestartAlt aria-hidden={true} className="w-5 h-5 min-w-5 min-h-5" />}
+          onClick={handleRestart}
+        />
+      }
       {...props}
     >
       <div id={iframeId} className="buy-and-sell-tokens-iframe-container my-4 mx-auto" />

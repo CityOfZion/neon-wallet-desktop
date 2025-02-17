@@ -54,7 +54,7 @@ export const SellTokensDepositModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'sellTokensDeposit' })
   const dispatch = useAppDispatch()
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
-  const { accountsRef } = useAccountsSelector()
+  const { accounts } = useAccountsSelector()
   const { modalNavigate } = useModalNavigate()
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
   const { currency } = useCurrencySelector()
@@ -188,7 +188,7 @@ export const SellTokensDepositModal = () => {
         hash: transactionHash,
         time: Date.now() / 1000,
         fromAccount: account,
-        toAccount: accountsRef.current.find(account => account.address === address),
+        toAccount: accounts.find(account => account.address === address),
         isPending: true,
       }
 
