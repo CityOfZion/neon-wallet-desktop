@@ -1,7 +1,5 @@
 import { exec } from 'child_process'
-import fs from 'fs/promises'
 import inquirer from 'inquirer'
-import path from 'path'
 import { promisify } from 'util'
 
 import packageJson from '../package.json'
@@ -22,50 +20,6 @@ async function verifyIfGitIsClean() {
   }
 }
 
-async function bumpVersion(bumpType: string) {
-  try {
-    if (bumpType === 'none') {
-      console.log('No version bump was made.')
-      return packageJson.version
-    }
-
-    const versionParts = packageJson.version.split('.').map(Number)
-
-    switch (bumpType) {
-      case 'patch':
-        versionParts[2] = versionParts[2] + 1
-        break
-      case 'minor':
-        versionParts[1] = versionParts[1] + 1
-        versionParts[2] = 0
-        break
-      case 'major':
-        versionParts[0] = versionParts[0] + 1
-        versionParts[1] = 0
-        versionParts[2] = 0
-        break
-    }
-
-    const bumpedVersion = versionParts.join('.')
-
-    packageJson.version = bumpedVersion
-
-    await fs.writeFile(path.join(__dirname, '../package.json'), JSON.stringify(packageJson, null, 2))
-
-    await execAsync('npm i --package-lock-only --ignore-scripts')
-    await execAsync('git add .')
-    await execAsync(`git commit -m "Bump version to ${bumpedVersion}" --no-verify`)
-    await execAsync('git push origin HEAD --no-verify')
-
-    console.log(`Version bumped to ${bumpedVersion}`)
-
-    return bumpedVersion
-  } catch (error) {
-    console.error('Error bumping version', error)
-    process.exit(1)
-  }
-}
-
 async function verifyIfTagAlreadyExists(version: string) {
   try {
     await execAsync(`git rev-parse v${version}`)
@@ -75,59 +29,94 @@ async function verifyIfTagAlreadyExists(version: string) {
   }
 }
 
-async function createTag(version: string) {
-  try {
-    const tagAlreadyExists = await verifyIfTagAlreadyExists(version)
+async function bumpVersion(npmCliBumpType: string) {
+  const { stdout } = await execAsync(
+    `npm version ${npmCliBumpType} --no-git-tag-version --no-commit-hooks --preid rc --json`
+  )
 
-    let shouldForceTag = false
-
-    if (tagAlreadyExists) {
-      const { value: shouldResendTag } = await inquirer.prompt([
-        {
-          type: 'confirm',
-          name: 'value',
-          message: 'Tag already exists. Do you want to force create?',
-        },
-      ])
-
-      if (!shouldResendTag) {
-        process.exit(1)
-      }
-
-      shouldForceTag = true
-    }
-
-    await execAsync(`git tag v${version} ${shouldForceTag ? '--force' : ''}`)
-    await execAsync(`git push origin v${version} --no-verify`)
-
-    console.log('Tag was pushed.')
-  } catch (error) {
-    console.error('Error creating tag', error)
-    process.exit(1)
-  }
+  return stdout.slice(1, -1)
 }
 
 async function main() {
   await verifyIfGitIsClean()
 
-  const { value: bumpType } = await inquirer.prompt([
+  const { value: selectedReleaseType } = await inquirer.prompt([
     {
       type: 'select',
-      message: 'Select the bump type',
-      name: 'value',
-      loop: false,
-      default: 'patch',
+      message: 'What type of release do you wanna create?',
+      default: 'release-candidate',
       choices: [
-        { value: 'patch', name: 'Patch' },
-        { value: 'minor', name: 'Minor' },
-        { value: 'major', name: 'Major' },
-        { value: 'none', name: 'Do not bump' },
+        { value: 'release-candidate', name: 'Release Candidate' },
+        { value: 'stable', name: 'Stable' },
       ],
+      name: 'value',
     },
   ])
 
-  const bumpedVersion = await bumpVersion(bumpType)
-  await createTag(bumpedVersion)
+  const packageJsonVersion = packageJson.version
+  const actualVersionIsPreRelease = packageJsonVersion.includes('rc')
+  const isReleaseCandidate = selectedReleaseType === 'release-candidate'
+
+  let npmCliBumpType: string
+
+  if (isReleaseCandidate && actualVersionIsPreRelease) {
+    npmCliBumpType = 'prerelease'
+  } else {
+    const { value: selectedBumpType } = await inquirer.prompt([
+      {
+        type: 'select',
+        message: 'Select the bump type',
+        name: 'value',
+        loop: false,
+        default: 'patch',
+        choices: [
+          { value: 'patch', name: 'Patch' },
+          { value: 'minor', name: 'Minor' },
+          { value: 'major', name: 'Major' },
+        ],
+      },
+    ])
+
+    npmCliBumpType = isReleaseCandidate ? `pre${selectedBumpType}` : selectedBumpType
+  }
+
+  let newVersion: string | null = null
+
+  do {
+    const bumpedVersion = await bumpVersion(npmCliBumpType)
+    const tagAlreadyExists = await verifyIfTagAlreadyExists(bumpedVersion)
+
+    if (tagAlreadyExists) {
+      const { value } = await inquirer.prompt([
+        {
+          type: 'confirm',
+          message: `The tag v${bumpedVersion} already exists. Do you want to run again?`,
+          name: 'value',
+        },
+      ])
+
+      if (!value) {
+        await execAsync('git restore .')
+        console.error(
+          `All changes were reverted, try to remove the tag 'v${bumpedVersion}' manually and run again.\nIt may cause issues to trigger the CI process.`
+        )
+        process.exit(0)
+      }
+
+      continue
+    }
+
+    newVersion = bumpedVersion
+  } while (!newVersion)
+
+  await execAsync('git add .')
+  await execAsync(`git commit -m "Bump version to ${newVersion}" --no-verify`)
+  await execAsync('git push origin HEAD --no-verify')
+
+  await execAsync(`git tag v${newVersion}`)
+  await execAsync(`git push origin v${newVersion}`)
+
+  console.log(`\n\nVersion ${newVersion} released successfully`)
 }
 
 main()
