@@ -8,7 +8,14 @@ import { buildQueryKeyTokenTransfer, buildQueryKeyTokenTransferAggregate } from 
 import { queryClient } from '@renderer/libs/query'
 import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
 import { TUseTransactionsTransfer } from '@shared/@types/hooks'
-import { IAccountState, IWalletState, TLoginSession, TLoginSessionType, TSwapRecord } from '@shared/@types/store'
+import {
+  IAccountState,
+  IWalletState,
+  TLastIndexesByWallet,
+  TLoginSession,
+  TLoginSessionType,
+  TSwapRecord,
+} from '@shared/@types/store'
 import { getI18next } from '@shared/libs/i18next'
 import { cloneDeep } from 'lodash'
 import { createMigrate, getStoredState, PersistConfig, PersistedState, PURGE } from 'redux-persist'
@@ -26,6 +33,7 @@ export interface IAuthReducer {
   data: {
     swapRecords: TSwapRecord[]
     applicationDataByLoginType: TApplicationDataByLoginType
+    lastIndexesByWallet: TLastIndexesByWallet
   }
 }
 
@@ -93,13 +101,22 @@ const authReducerMigrations = {
       },
     }
   },
+  2: (state: any) => {
+    return {
+      ...state,
+      data: {
+        ...state.data,
+        lastIndexesByWallet: {},
+      },
+    }
+  },
 }
 
 export const authReducerConfig: PersistConfig<IAuthReducer> = {
   key: 'authReducer',
   storage: storage,
   blacklist: ['currentLoginSession', 'pendingTransactions'],
-  version: 1,
+  version: 2,
   migrate: createMigrate(authReducerMigrations),
   // It is necessary to check if the stored state is empty, because the redux-persist library does not call the migrate function when the state is empty
   getStoredState: async config => {
@@ -128,6 +145,7 @@ const initialState: IAuthReducer = {
       key: { wallets: [] },
       password: { wallets: [] },
     },
+    lastIndexesByWallet: {},
   },
 }
 
@@ -292,6 +310,21 @@ const removeAccountSkins: CaseReducer<IAuthReducer, PayloadAction<string[]>> = (
   state.data.applicationDataByLoginType = applicationDataByLoginTypeCloned
 }
 
+const saveLastIndexByWallet: CaseReducer<
+  IAuthReducer,
+  PayloadAction<{
+    index: number
+    firstAccountAddress: string
+    blockchain: TBlockchainServiceKey
+  }>
+> = (state, action) => {
+  const { firstAccountAddress, index, blockchain } = action.payload
+  state.data.lastIndexesByWallet[blockchain] = {
+    ...state.data.lastIndexesByWallet[blockchain],
+    [firstAccountAddress]: index,
+  }
+}
+
 const AuthReducer = createSlice({
   name: authReducerConfig.key,
   initialState,
@@ -304,6 +337,7 @@ const AuthReducer = createSlice({
     resetTemporaryApplicationData,
     persistSwapRecord,
     removeAccountSkins,
+    saveLastIndexByWallet,
   },
   extraReducers: builder => {
     builder.addCase(PURGE, () => initialState)

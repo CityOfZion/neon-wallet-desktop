@@ -4,6 +4,7 @@ import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { MnemonicHelper } from '@renderer/helpers/MnemonicHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+import { useLastIndexesByWallet } from '@renderer/hooks/useAuthSelector'
 import { useMount } from '@renderer/hooks/useMount'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
@@ -129,13 +130,14 @@ export const MnemonicOrKeyAccountSelection = ({
 }: TProps) => {
   const { t } = useTranslation('components', { keyPrefix: 'mnemonicOrKeyAccountSelection' })
   const [mnemonicAccounts, setMnemonicAccounts] = useState<TMnemonicAccounts>([])
+  const { lastIndexesByWallet } = useLastIndexesByWallet()
 
   const { isMounting } = useMount(async () => {
     const selectedAccounts: TMnemonicOrKeyAccountWithBlockchain[] = []
     let mnemonicAccountsArray: TMnemonicAccounts = []
 
     if (MnemonicHelper.isValidMnemonic(mnemonicOrKey)) {
-      const accountFromMnemonicMap = await bsAggregator.generateAccountsFromMnemonic(mnemonicOrKey)
+      const accountFromMnemonicMap = await bsAggregator.generateAccountsFromMnemonic(mnemonicOrKey, lastIndexesByWallet)
 
       mnemonicAccountsArray = Array.from(accountFromMnemonicMap.entries())
     } else {
@@ -159,7 +161,7 @@ export const MnemonicOrKeyAccountSelection = ({
   }, [mnemonicOrKey])
 
   return (
-    <div className={StyleHelper.mergeStyles('flex flex-col gap-y-2.5 min-h-0 overflow-y-auto w-full ', className)}>
+    <div className={StyleHelper.mergeStyles('flex flex-col gap-y-2.5 min-h-0 overflow-y-auto w-full', className)}>
       {isMounting ? (
         <Loader className="text-white" />
       ) : mnemonicAccounts.length > 0 ? (

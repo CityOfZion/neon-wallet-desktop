@@ -5,6 +5,7 @@ import NodeHidTransport, { getDevices } from '@ledgerhq/hw-transport-node-hid-no
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import {
   TAddHardwareWalletAccountParams,
+  TConnectHardwareWalletParams,
   THardwareWalletInfoWithTransport,
   TIsConnectedAndUnlockedHardwareWalletParams,
 } from '@shared/@types/ipc'
@@ -26,8 +27,8 @@ export const getHardwareWalletTransport = async (account: Account<TBlockchainSer
   return transporter.transport as Transport
 }
 
-const connectHardwareWallet = async () => {
-  transporters = []
+const connectHardwareWallet = async ({ lastIndexesByWallet }: TConnectHardwareWalletParams) => {
+  disconnectHardwareWallet()
 
   const devices = getDevices()
   if (!devices.length) throw new Error('No hardware wallet found')
@@ -40,7 +41,7 @@ const connectHardwareWallet = async () => {
     try {
       if (!hasLedger(service)) continue
 
-      const accounts = await service.ledgerService.getAccounts(transport)
+      const accounts = await service.ledgerService.getAccounts(transport, lastIndexesByWallet)
 
       transporters.push({
         accounts,
@@ -70,7 +71,7 @@ const disconnectHardwareWallet = () => {
   transporters = []
 }
 
-const addNewHardwareAccount = async ({ blockchain, index }: TAddHardwareWalletAccountParams) => {
+const getHardwareWalletAccount = async ({ blockchain, index }: TAddHardwareWalletAccountParams) => {
   const transporter = transporters.find(transporter => transporter.blockchain === blockchain)
   if (!transporter) throw new Error('Hardware wallet is not connected')
 
@@ -78,6 +79,12 @@ const addNewHardwareAccount = async ({ blockchain, index }: TAddHardwareWalletAc
   if (!hasLedger(service)) throw new Error('Blockchain does not support hardware wallet')
 
   const account = await service.ledgerService.getAccount(transporter.transport, index)
+
+  return { account, transporter }
+}
+
+const addNewHardwareAccount = async ({ blockchain, index }: TAddHardwareWalletAccountParams) => {
+  const { account, transporter } = await getHardwareWalletAccount({ blockchain, index })
 
   transporter.accounts.push(account)
 
@@ -104,10 +111,14 @@ const isConnectedAndUnlockedHardwareWallet = async ({
 }
 
 export function registerHardwareWalletHandler() {
-  mainApi.listenAsync('connectHardwareWallet', connectHardwareWallet)
+  mainApi.listenAsync('connectHardwareWallet', ({ args }) => connectHardwareWallet(args))
   mainApi.listenAsync('disconnectHardwareWallet', disconnectHardwareWallet)
   mainApi.listenAsync('isConnectedAndUnlockedHardwareWallet', ({ args }) => isConnectedAndUnlockedHardwareWallet(args))
   mainApi.listenAsync('addNewHardwareAccount', ({ args }) => addNewHardwareAccount(args))
+  mainApi.listenAsync('getHardwareAccount', async ({ args }) => {
+    const { account } = await getHardwareWalletAccount(args)
+    return account
+  })
 
   Object.values(bsAggregator.blockchainServicesByName).forEach(service => {
     if (!hasLedger(service)) return

@@ -29,13 +29,23 @@ export const useMount = (
 }
 
 export const useMountUnsafe = (effect: EffectCallback) => {
-  const initialized = useRef(false)
+  const numberOfRender = useRef(0)
+  const unmountEffectRef = useRef<ReturnType<EffectCallback>>()
 
   useEffect(() => {
-    if (initialized.current) return
+    numberOfRender.current += 1
 
-    initialized.current = true
-    return effect()
+    // StrictMode make the effect to run twice and we want to run the effect only once on the first render
+    if (numberOfRender.current <= 1) {
+      unmountEffectRef.current = effect()
+    }
+
+    return () => {
+      // StrictMode make the effect to run twice and we don't want to unmount the effect on the first render because it's not the real unmount
+      if (numberOfRender.current > 1 && unmountEffectRef.current) {
+        unmountEffectRef.current()
+      }
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 }

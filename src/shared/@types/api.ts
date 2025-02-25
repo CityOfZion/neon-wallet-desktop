@@ -5,6 +5,7 @@ import { OpenDialogOptions } from 'electron'
 import { TBlockchainServiceKey } from './blockchain'
 import {
   TAddHardwareWalletAccountParams,
+  TConnectHardwareWalletParams,
   TDecryptBasedEncryptedSecretParams,
   TDecryptBasedSecretParams,
   TEncryptBasedEncryptedSecretParams,
@@ -33,10 +34,11 @@ export type TMainApiListenersAsync = {
   saveFile: TIpcMainAsyncListener<{ path: string; content: string }, void>
   setTitleBarOverlay: TIpcMainAsyncListener<Electron.TitleBarOverlay, void>
   setWindowButtonPosition: TIpcMainAsyncListener<Electron.Point, void>
-  connectHardwareWallet: TIpcMainAsyncListener<undefined, THardwareWalletInfo[]>
+  connectHardwareWallet: TIpcMainAsyncListener<TConnectHardwareWalletParams, THardwareWalletInfo[]>
   disconnectHardwareWallet: TIpcMainAsyncListener<undefined, void>
   isConnectedAndUnlockedHardwareWallet: TIpcMainAsyncListener<TIsConnectedAndUnlockedHardwareWalletParams, boolean>
   addNewHardwareAccount: TIpcMainAsyncListener<TAddHardwareWalletAccountParams, Account<TBlockchainServiceKey>>
+  getHardwareAccount: TIpcMainAsyncListener<TAddHardwareWalletAccountParams, Account<TBlockchainServiceKey>>
   checkForUpdates: TIpcMainAsyncListener<undefined, boolean>
   quitAndInstall: TIpcMainAsyncListener<undefined, void>
   encryptBasedOS: TIpcMainAsyncListener<string, string>

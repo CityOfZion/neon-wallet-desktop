@@ -116,3 +116,5 @@ export type TSwapRecord = {
   fee?: string
   log?: string
 }
+
+export type TLastIndexesByWallet = Partial<Record<TBlockchainServiceKey, Record<string, number>>>
