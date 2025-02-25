@@ -6,6 +6,7 @@ import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
 import { Textarea } from '@renderer/components/Textarea'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+import { useLastIndexesByWallet } from '@renderer/hooks/useAuthSelector'
 import { TUseBackupOrMigrateActionsData, useBackupOrMigrate } from '@renderer/hooks/useBackupOrMigrate'
 import { useImportAction } from '@renderer/hooks/useImportAction'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
@@ -25,6 +26,7 @@ export const WelcomeImportWalletStep3Page = () => {
   const navigate = useNavigate()
   const { state } = useLocation() as Location<TLocationState>
   const { modalErase, modalNavigate } = useModalNavigate()
+  const { lastIndexesByWalletRef } = useLastIndexesByWallet()
 
   const submitAddress = async (address: string) => {
     const wallet: TWalletToCreate = {
@@ -56,7 +58,7 @@ export const WelcomeImportWalletStep3Page = () => {
   }
 
   const submitMnemonic = async (mnemonic: string) => {
-    const mnemonicAccounts = await bsAggregator.generateAccountsFromMnemonic(mnemonic)
+    const mnemonicAccounts = await bsAggregator.generateAccountsFromMnemonic(mnemonic, lastIndexesByWalletRef.current)
 
     const accounts = Array.from(mnemonicAccounts.entries())
       .map<TAccountsToImport>(([blockchain, accounts]) => {

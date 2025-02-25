@@ -96,6 +96,15 @@ export function useBlockchainActions() {
 
       dispatch(authReducerActions.saveAccount(newAccount))
 
+      const firstAccount = service.generateAccountFromMnemonic(mnemonic, 0)
+      dispatch(
+        authReducerActions.saveLastIndexByWallet({
+          firstAccountAddress: firstAccount.address,
+          index: accountOrder,
+          blockchain,
+        })
+      )
+
       return newAccount
     },
     [currentLoginSessionRef, dispatch]

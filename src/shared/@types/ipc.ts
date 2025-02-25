@@ -3,7 +3,7 @@ import type NodeHidTransport from '@ledgerhq/hw-transport-node-hid-noevents'
 import type { BrowserWindow, IpcMainEvent, IpcMainInvokeEvent, IpcRendererEvent } from 'electron'
 
 import { TBlockchainServiceKey } from './blockchain'
-import { IAccountState, TSelectedNetworks } from './store'
+import { IAccountState, TLastIndexesByWallet, TSelectedNetworks } from './store'
 
 export type TIpcMainSyncListener<T = any[], R = any> = (options: {
   event: IpcMainEvent
@@ -66,3 +66,5 @@ export type TEncryptBasedEncryptedSecretParams = Omit<TEncryptBasedSecretParams,
 }
 
 export type TDecryptBasedEncryptedSecretParams = TEncryptBasedEncryptedSecretParams
+
+export type TConnectHardwareWalletParams = { lastIndexesByWallet: TLastIndexesByWallet }

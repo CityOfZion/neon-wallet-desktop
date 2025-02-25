@@ -38,3 +38,11 @@ export const useSwapRecordsSelector = () => {
     swapRecordsRef: ref,
   }
 }
+
+export const useLastIndexesByWallet = () => {
+  const { ref, value } = useAppSelector(state => state.auth.data.lastIndexesByWallet)
+  return {
+    lastIndexesByWallet: value,
+    lastIndexesByWalletRef: ref,
+  }
+}

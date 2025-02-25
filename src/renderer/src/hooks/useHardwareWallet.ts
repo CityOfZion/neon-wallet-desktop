@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BlockchainService, BSWithLedger } from '@cityofzion/blockchain-service'
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
@@ -6,12 +6,15 @@ import { MnemonicHelper } from '@renderer/helpers/MnemonicHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { bsAggregator } from '@renderer/libs/blockchainService'
+import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { THardwareWalletInfo } from '@shared/@types/ipc'
 import { IAccountState, IWalletState } from '@shared/@types/store'
 
-import { useCurrentLoginSessionSelector } from './useAuthSelector'
+import { useCurrentLoginSessionSelector, useLastIndexesByWallet } from './useAuthSelector'
 import { useBlockchainActions } from './useBlockchainActions'
+import { useMountUnsafe } from './useMount'
+import { useAppDispatch } from './useRedux'
 import { useWalletsSelector } from './useWalletSelector'
 
 type TStatus = 'searching' | 'connected' | 'not-connected'
@@ -23,12 +26,15 @@ export const useConnectHardwareWallet = (onConnect: (hardwareWalletInfos: THardw
   const triesRef = useRef(0)
   const timeoutRef = useRef<NodeJS.Timeout>()
   const isConnecting = useRef(true)
+  const { lastIndexesByWalletRef } = useLastIndexesByWallet()
 
   const tryConnect = async () => {
     if (!isConnecting.current) return
 
     try {
-      const connectedHardwareWallet = await window.api.sendAsync('connectHardwareWallet')
+      const connectedHardwareWallet = await window.api.sendAsync('connectHardwareWallet', {
+        lastIndexesByWallet: lastIndexesByWalletRef.current,
+      })
 
       if (!isConnecting.current) return
 
@@ -59,18 +65,16 @@ export const useConnectHardwareWallet = (onConnect: (hardwareWalletInfos: THardw
     tryConnect()
   }
 
-  useEffect(() => {
+  useMountUnsafe(() => {
     isConnecting.current = true
 
     handleTryConnect()
 
     return () => {
       isConnecting.current = false
-
       clearTimeout(timeoutRef.current)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  })
 
   return { status, handleTryConnect }
 }
@@ -80,6 +84,7 @@ export const useHardwareWalletActions = () => {
   const { t: commonT } = useTranslation('common')
   const { createWallet, editAccount, importAccount, editWallet } = useBlockchainActions()
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
+  const dispatch = useAppDispatch()
 
   const isConnectedAndUnlockedHardwareWallet = useCallback(
     async ({ order, encryptedKey, blockchain }: IAccountState) => {
@@ -128,11 +133,15 @@ export const useHardwareWalletActions = () => {
         })
 
         if (!existentWallet) {
-          wallet = createWallet({ name: commonT('wallet.ledgerName'), type: 'hardware' })
+          wallet = createWallet({
+            name: commonT('wallet.ledgerName', { blockchain: commonT(`blockchain.${info.blockchain}`) }),
+            type: 'hardware',
+          })
         } else {
           wallet = editWallet({
             wallet: existentWallet,
             data: {
+              name: commonT('wallet.ledgerName', { blockchain: commonT(`blockchain.${info.blockchain}`) }),
               type: 'hardware',
             },
           })
@@ -210,11 +219,20 @@ export const useHardwareWalletActions = () => {
           order: accountOrder,
           name: accountName ?? `Account ${accountOrder + 1}`,
         })
+
+        const firstAccount = await window.api.sendAsync('getHardwareAccount', { index: 0, blockchain })
+        dispatch(
+          authReducerActions.saveLastIndexByWallet({
+            firstAccountAddress: firstAccount.address,
+            index: accountOrder,
+            blockchain,
+          })
+        )
       } catch (error: any) {
         ToastHelper.error({ message: error.message })
       }
     },
-    [currentLoginSessionRef, importAccount]
+    [currentLoginSessionRef, dispatch, importAccount]
   )
 
   return {
