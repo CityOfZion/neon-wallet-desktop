@@ -10,6 +10,13 @@ const selectWallets = createAppSelector(
   }
 )
 
+const selectWalletById = (id: string) =>
+  createAppSelector(
+    [({ auth }) => auth.data.applicationDataByLoginType, ({ auth }) => auth.currentLoginSession],
+    (applicationDataByLoginType, currentLoginSession) =>
+      applicationDataByLoginType[currentLoginSession?.type ?? 'password'].wallets.find(wallet => wallet.id === id)
+  )
+
 export const useWalletsSelector = () => {
   const { ref, value } = useAppSelector(selectWallets)
 
@@ -17,6 +24,12 @@ export const useWalletsSelector = () => {
     wallets: value,
     walletsRef: ref,
   }
+}
+
+export const useWalletByIdSelector = (id: string) => {
+  const { value: wallet, ref: walletRef } = useAppSelector(selectWalletById(id))
+
+  return { wallet, walletRef }
 }
 
 export const useWalletsUtils = () => {

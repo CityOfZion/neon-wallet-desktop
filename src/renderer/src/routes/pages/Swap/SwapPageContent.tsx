@@ -4,7 +4,6 @@ import { MdContentPasteGo, MdInfoOutline, MdRestartAlt } from 'react-icons/md'
 import { TbDiamond, TbHelp, TbReplace, TbStepInto, TbStepOut, TbUsers, TbWallet, TbWand } from 'react-icons/tb'
 import { VscCircleFilled } from 'react-icons/vsc'
 import {
-  Account,
   hasLedger,
   isCalculableFee,
   SwapServiceLoadableValue,
@@ -254,17 +253,8 @@ export const SwapPageContent = ({ account }: TProps) => {
       value: account.encryptedKey,
       encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
     })
-    const blockchainService = bsAggregator.blockchainServicesByName[account.blockchain]
 
-    let serviceAccount: Account<TBlockchainServiceKey>
-
-    if (account.type === 'hardware' && hasLedger(blockchainService)) {
-      serviceAccount = blockchainService.generateAccountFromPublicKey(key)
-      serviceAccount.isHardware = true
-      serviceAccount.bip44Path = blockchainService.bip44DerivationPath.replace('?', account.order.toString())
-    } else {
-      serviceAccount = blockchainService.generateAccountFromKey(key)
-    }
+    const serviceAccount = AccountHelper.getServiceAccount({ account, key })
 
     swapServiceRef.current?.setAccountToUse(serviceAccount)
   }

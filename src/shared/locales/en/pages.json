@@ -206,7 +206,10 @@
       "disconnectAll": "Disconnect all"
     },
     "exportKeyTitle": "Export Key",
-    "exportWalletTitle": "Export Wallet"
+    "exportWalletTitle": "Export Wallet",
+    "tooltips": {
+      "migrateRules": "You need to have at least 0.1 GAS or 2 NEO to migrate tokens to Neo3 on Mainnet. If you've already migrated the tokens, wait for them to arrive in your Neo 3 account."
+    }
   },
   "contacts": {
     "title": "Contacts",
@@ -506,6 +509,45 @@
       "buttons": {
         "deposit": "Make deposit",
         "restart": "Restart"
+      }
+    }
+  },
+  "migrationNeo3": {
+    "title": "Migrate Legacy Tokens",
+    "subtitle": "Migrate your legacy tokens",
+    "labels": {
+      "assets": "Your assets",
+      "address": "Address details",
+      "amounts": "Amounts",
+      "migrate": "Migrate",
+      "receive": "Receive",
+      "amountYouGet": "Amount you’ll get <1>(after fees)</1>",
+      "notFoundNeo3Account": "Neo 3 account not found",
+      "fee": "Migration fee",
+      "notFound": "Not found"
+    },
+    "buttons": {
+      "migrate": "Migrate now"
+    },
+    "messages": {
+      "migrationSuccess": "Successful migration, wait for token(s) to arrive",
+      "migrationError": "There was a problem with migration, please contact support and try again",
+      "generateNeo3AccountError": "There was a problem with generation Neo 3 account",
+      "getKeyError": "There was a problem with get key",
+      "generateAccountError": "There was a problem with generation account",
+      "calculateValuesError": "There was a problem with calculated values for fee and amount"
+    },
+    "sideBar": {
+      "title": "How does it work?",
+      "steps": [
+        "Neon will create a new Neo N3 account using your existing private key and add it to your wallet",
+        "We will process the transaction once you have confirmed the details",
+        "Migrations usually take less than 30 seconds to finish. You can check the status in the Account 'Activity' tab"
+      ],
+      "fee": "Migration fees are around 1% (rounded up and include a small amount of GAS to support transactions on the new network). Minimum of 0.1 GAS or 2 NEO.",
+      "alert": "This migration tool will only move your NEO and GAS. It will not move your other NEP-5 tokens. You will need to contact these projects to learn how to migrate their tokens",
+      "buttons": {
+        "help": "Need help? Chat with us"
       }
     }
   }

@@ -1,3 +1,4 @@
+import { BlockchainService } from '@cityofzion/blockchain-service'
 import { exposeApiToRenderer } from '@cityofzion/bs-electron/dist/main'
 import { BSEthereum } from '@cityofzion/bs-ethereum'
 import { BSNeo3 } from '@cityofzion/bs-neo3'
@@ -9,11 +10,15 @@ import {
 import type { TAdapterMethodParam, TCustomSigner, WalletInfo } from '@cityofzion/wallet-connect-sdk-wallet-react'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TGetStoreFromWCSession } from '@shared/@types/ipc'
+import { IAccountState } from '@shared/@types/store'
 import { mainApi } from '@shared/api/main'
 
 import { bsAggregator } from './bsAggregator'
 import { decryptBasedEncryptedSecret } from './encryption'
 import { getHardwareWalletTransport } from './hardwareWallet'
+
+const getBip44DerivationPath = (account: IAccountState, service: BlockchainService<TBlockchainServiceKey>) =>
+  service.bip44DerivationPath.replace('?', account.order.toString())
 
 const getStoreAccountFromWCSession = async ({ session }: TAdapterMethodParam): Promise<TGetStoreFromWCSession> => {
   return new Promise(resolve => {
@@ -65,8 +70,9 @@ class WalletConnectNeonAdapter extends AbstractWalletConnectNeonAdapter {
     const service = bsAggregator.blockchainServicesByName.neo3 as BSNeo3<TBlockchainServiceKey>
 
     const serviceAccount = service.generateAccountFromPublicKey(key)
+
     serviceAccount.isHardware = true
-    serviceAccount.bip44Path = service.bip44DerivationPath.replace('?', account.order.toString())
+    serviceAccount.bip44Path = getBip44DerivationPath(account, service)
 
     const transport = await getHardwareWalletTransport(serviceAccount)
 
@@ -106,8 +112,9 @@ export class WalletConnectEIP155Adapter extends AbstractWalletConnectEIP155Adapt
     const service = bsAggregator.blockchainServicesByName.ethereum as BSEthereum<TBlockchainServiceKey>
 
     const serviceAccount = service.generateAccountFromPublicKey(key)
+
     serviceAccount.isHardware = true
-    serviceAccount.bip44Path = service.bip44DerivationPath.replace('?', account.order.toString())
+    serviceAccount.bip44Path = getBip44DerivationPath(account, service)
 
     const transport = await getHardwareWalletTransport(serviceAccount)
 
