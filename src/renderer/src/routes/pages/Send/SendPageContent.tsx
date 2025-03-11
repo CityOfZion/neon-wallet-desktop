@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdArrowForward } from 'react-icons/md'
 import { TbPlus, TbStepOut } from 'react-icons/tb'
-import { Account, hasLedger, IntentTransferParam, isCalculableFee } from '@cityofzion/blockchain-service'
+import { IntentTransferParam, isCalculableFee } from '@cityofzion/blockchain-service'
 import { ActionStep } from '@renderer/components/ActionStep'
 import { ActionStepSeparator } from '@renderer/components/ActionStepSeparator'
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
@@ -25,7 +25,6 @@ import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useSelectedNetworkByBlockchainSelector } from '@renderer/hooks/useSettingsSelector'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TUseTransactionsTransfer } from '@shared/@types/hooks'
 import { IAccountState } from '@shared/@types/store'
 import { AnimatePresence } from 'framer-motion'
@@ -103,15 +102,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
       encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
     })
 
-    let serviceAccount: Account<TBlockchainServiceKey>
-
-    if (actionData.selectedAccount.type === 'hardware' && hasLedger(service)) {
-      serviceAccount = service.generateAccountFromPublicKey(key)
-      serviceAccount.isHardware = true
-      serviceAccount.bip44Path = service.bip44DerivationPath.replace('?', actionData.selectedAccount.order.toString())
-    } else {
-      serviceAccount = service.generateAccountFromKey(key)
-    }
+    const serviceAccount = AccountHelper.getServiceAccount({ account: actionData.selectedAccount, key })
 
     return {
       service,
@@ -220,7 +211,6 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
     setData({ isLoadingMaxAmount: true, maxAmountRecipientId: recipient.id })
 
     try {
-      let senderAccount: Account<TBlockchainServiceKey>
       const intents = actionData.recipients
         .map(currentRecipient => {
           const receiverAddress = currentRecipient.address
@@ -238,11 +228,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
         encryptedSecret: encryptedPassword,
       })
 
-      if (selectedAccount!.type === 'hardware' && hasLedger(service)) {
-        senderAccount = service.generateAccountFromPublicKey(key)
-        senderAccount.isHardware = true
-        senderAccount.bip44Path = AccountHelper.getBip44Path(service, selectedAccount!.order)
-      } else senderAccount = service.generateAccountFromKey(key)
+      const senderAccount = AccountHelper.getServiceAccount({ account: selectedAccount, key })
 
       const fee = await service.calculateTransferFee({ intents, senderAccount })
 

@@ -3,10 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { TbStepInto, TbStepOut } from 'react-icons/tb'
 import { VscCircleFilled } from 'react-icons/vsc'
 import {
-  Account,
   BlockchainService,
   BSCalculableFee,
-  hasLedger,
   IntentTransferParam,
   isCalculableFee,
   Token,
@@ -36,7 +34,6 @@ import { SideModalLayout } from '@renderer/layouts/SideModal'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { TDepositActionsData } from '@renderer/routes/pages/BuyAndSellTokens'
 import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TUseTransactionsTransfer } from '@shared/@types/hooks'
 import { IAccountState } from '@shared/@types/store'
 import { debounce } from 'lodash'
@@ -105,7 +102,7 @@ export const SellTokensDepositModal = () => {
     const token = actionData.token?.token
     const encryptedPassword = currentLoginSessionRef.current?.encryptedPassword
 
-    if (!encryptedPassword || isInvalidForm) return
+    if (!encryptedPassword || isInvalidForm || !account) return
 
     const intent: IntentTransferParam = {
       amount: actionData.amount,
@@ -115,19 +112,11 @@ export const SellTokensDepositModal = () => {
     }
 
     const key = await window.api.sendAsync('decryptBasedEncryptedSecret', {
-      value: account!.encryptedKey!,
+      value: account.encryptedKey!,
       encryptedSecret: encryptedPassword,
     })
 
-    let serviceAccount: Account<TBlockchainServiceKey>
-
-    if (account!.type === 'hardware' && hasLedger(service)) {
-      serviceAccount = service.generateAccountFromPublicKey(key)
-      serviceAccount.isHardware = true
-      serviceAccount.bip44Path = AccountHelper.getBip44Path(service, account!.order)
-    } else {
-      serviceAccount = service.generateAccountFromKey(key)
-    }
+    const serviceAccount = AccountHelper.getServiceAccount({ account, key })
 
     return {
       serviceAccount,

@@ -1,4 +1,4 @@
-import { Account, hasLedger, isCalculableFee, isClaimable } from '@cityofzion/blockchain-service'
+import { isCalculableFee, isClaimable } from '@cityofzion/blockchain-service'
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { bsAggregator } from '@renderer/libs/blockchainService'
@@ -52,17 +52,7 @@ const getUnclaimedInfos = async (
       encryptedSecret: encryptedPassword,
     })
 
-    const isHardware = account.type === 'hardware'
-
-    let serviceAccount: Account<TBlockchainServiceKey>
-
-    if (isHardware && hasLedger(blockchainService)) {
-      serviceAccount = blockchainService.generateAccountFromPublicKey(key)
-      serviceAccount.isHardware = true
-      serviceAccount.bip44Path = AccountHelper.getBip44Path(blockchainService, account.order)
-    } else {
-      serviceAccount = blockchainService.generateAccountFromKey(key)
-    }
+    const serviceAccount = AccountHelper.getServiceAccount({ account, key })
 
     fee = await blockchainService.calculateTransferFee({
       intents: [
@@ -85,7 +75,7 @@ export const useUnclaimed = (account: IAccountState) => {
   const { hasClaimPendingTransactionRef } = useHasClaimPendingTransactionSelector(account)
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
 
-  const unclaimed = useQuery({
+  return useQuery({
     queryKey: buildQueryKeyUnclaimed(account, networkByBlockchain[account.blockchain]),
     staleTime: 0,
     gcTime: 0,
@@ -97,8 +87,6 @@ export const useUnclaimed = (account: IAccountState) => {
       currentLoginSessionRef.current?.encryptedPassword
     ),
   })
-
-  return unclaimed
 }
 
 export const useUnclaimedMutation = () => {
@@ -107,7 +95,7 @@ export const useUnclaimedMutation = () => {
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
   const queryClient = useQueryClient()
 
-  const mutation = useMutation({
+  return useMutation({
     mutationFn: async (account: IAccountState) => {
       if (!currentLoginSessionRef.current) {
         throw new Error(t('common:errors.loginSessionIsNotDefined'))
@@ -127,18 +115,7 @@ export const useUnclaimedMutation = () => {
         encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
       })
 
-      const isHardware = account.type === 'hardware'
-
-      let serviceAccount: Account<TBlockchainServiceKey>
-
-      if (isHardware && hasLedger(blockchainService)) {
-        serviceAccount = blockchainService.generateAccountFromPublicKey(key)
-        serviceAccount.isHardware = true
-        serviceAccount.bip44Path = AccountHelper.getBip44Path(blockchainService, account.order)
-      } else {
-        serviceAccount = blockchainService.generateAccountFromKey(key)
-      }
-
+      const serviceAccount = AccountHelper.getServiceAccount({ account, key })
       const transactionHash = await blockchainService.claim(serviceAccount)
 
       const transaction: TUseTransactionsTransfer = {
@@ -177,6 +154,4 @@ export const useUnclaimedMutation = () => {
       })
     },
   })
-
-  return mutation
 }

@@ -10,6 +10,7 @@ import { LoginHardwarePage } from './pages/LoginHardware'
 import { LoginKeyPage } from './pages/LoginKey'
 import { LoginKeySelectAccountPage } from './pages/LoginKeySelectAccountPage'
 import { LoginPasswordPage } from './pages/LoginPassword'
+import { MigrationNeo3Page } from './pages/MigrationNeo3'
 import { PortfolioPage } from './pages/Portfolio'
 import { PortfolioActivityPage } from './pages/Portfolio/Activity'
 import { PortfolioConnectionsPage } from './pages/Portfolio/Connections'
@@ -120,6 +121,10 @@ export const pagesRouter = routeHandler([
           {
             path: 'swap',
             element: <SwapPage />,
+          },
+          {
+            path: 'migration-neo3',
+            element: <MigrationNeo3Page />,
           },
           {
             path: 'buy-and-sell-tokens',
