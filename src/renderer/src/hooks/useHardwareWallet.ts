@@ -27,6 +27,7 @@ export const useConnectHardwareWallet = (onConnect: (hardwareWalletInfos: THardw
   const timeoutRef = useRef<NodeJS.Timeout>()
   const isConnecting = useRef(true)
   const { lastIndexesByWalletRef } = useLastIndexesByWallet()
+  const { wallets } = useWalletsSelector()
 
   const tryConnect = async () => {
     if (!isConnecting.current) return
@@ -37,6 +38,22 @@ export const useConnectHardwareWallet = (onConnect: (hardwareWalletInfos: THardw
       })
 
       if (!isConnecting.current) return
+
+      const currentHardwareAccounts = wallets
+        .filter(({ type }) => type === 'hardware')
+        .flatMap(({ accounts }) => accounts)
+        .filter(({ type }) => type === 'hardware')
+
+      const [firstConnectedHardwareWallet] = connectedHardwareWallet
+
+      if (
+        firstConnectedHardwareWallet.accounts.every(({ address }) =>
+          currentHardwareAccounts.some(
+            AccountHelper.predicate({ address, blockchain: firstConnectedHardwareWallet.blockchain })
+          )
+        )
+      )
+        throw new Error('Accounts already connected')
 
       setStatus('connected')
       clearTimeout(timeoutRef.current)
