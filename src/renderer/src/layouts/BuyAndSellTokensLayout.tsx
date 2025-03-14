@@ -58,7 +58,7 @@ export const BuyAndSellTokensLayout = ({
   ...props
 }: TProps) => {
   const { t } = useTranslation('pages', { keyPrefix: 'buyAndSellTokens.buyAndSellTokensLayout' })
-  const [isAccordionAccountsOpened, setIsAccordionAccountsOpened] = useState(true)
+  const [isAccordionAccountsOpened, setIsAccordionAccountsOpened] = useState(false)
 
   const handleChangeScreenType = (screenType: BuyAndSellTokensScreenType) => () => {
     setScreenType(screenType)
