@@ -1,12 +1,7 @@
-import { BlockchainService, waitForAccountTransaction } from '@cityofzion/blockchain-service'
-import { Account } from '@cityofzion/blockchain-service/dist/interfaces'
-import { CaseReducer, createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { ToastHelper } from '@renderer/helpers/ToastHelper'
+import { CaseReducer, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { DateHelper } from '@renderer/helpers/DateHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
-import { buildQueryKeyBalance } from '@renderer/hooks/useBalances'
-import { buildQueryKeyTokenTransfer, buildQueryKeyTokenTransferAggregate } from '@renderer/hooks/useTokenTransfers'
-import { queryClient } from '@renderer/libs/query'
-import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TUseTransactionsTransfer } from '@shared/@types/hooks'
 import {
   IAccountState,
@@ -14,9 +9,10 @@ import {
   TLastIndexesByWallet,
   TLoginSession,
   TLoginSessionType,
+  TNotification,
+  TSaveNotification,
   TSwapRecord,
 } from '@shared/@types/store'
-import { getI18next } from '@shared/libs/i18next'
 import { cloneDeep } from 'lodash'
 import { createMigrate, getStoredState, PersistConfig, PersistedState, PURGE } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
@@ -24,6 +20,7 @@ import storage from 'redux-persist/lib/storage'
 type TApplicationDataByLoginType = {
   [K in TLoginSessionType]: {
     wallets: IWalletState[]
+    notifications: TNotification[]
   }
 }
 
@@ -110,13 +107,34 @@ const authReducerMigrations = {
       },
     }
   },
+  3: (state: any) => {
+    const applicationDataByLoginType = Object.keys(state.data.applicationDataByLoginType).reduce((acc, key) => {
+      const loginType = key as TLoginSessionType
+      const applicationData = state.data.applicationDataByLoginType[loginType]
+
+      acc[loginType] = {
+        ...applicationData,
+        notifications: [],
+      }
+
+      return acc
+    }, {} as TApplicationDataByLoginType)
+
+    return {
+      ...state,
+      data: {
+        ...state.data,
+        applicationDataByLoginType,
+      },
+    }
+  },
 }
 
 export const authReducerConfig: PersistConfig<IAuthReducer> = {
   key: 'authReducer',
   storage: storage,
   blacklist: ['currentLoginSession', 'pendingTransactions'],
-  version: 2,
+  version: 3,
   migrate: createMigrate(authReducerMigrations),
   // It is necessary to check if the stored state is empty, because the redux-persist library does not call the migrate function when the state is empty
   getStoredState: async config => {
@@ -141,20 +159,34 @@ const initialState: IAuthReducer = {
   data: {
     swapRecords: [],
     applicationDataByLoginType: {
-      hardware: { wallets: [] },
-      key: { wallets: [] },
-      password: { wallets: [] },
+      hardware: { wallets: [], notifications: [] },
+      key: { wallets: [], notifications: [] },
+      password: { wallets: [], notifications: [] },
     },
     lastIndexesByWallet: {},
   },
 }
 
-const { t } = getI18next()
-
+// Generic Reducers
 const setCurrentLoginSession: CaseReducer<IAuthReducer, PayloadAction<TLoginSession | undefined>> = (state, action) => {
   state.currentLoginSession = action.payload
 }
 
+const resetTemporaryApplicationData: CaseReducer<IAuthReducer> = state => {
+  state.data.applicationDataByLoginType.hardware = { wallets: [], notifications: [] }
+  state.data.applicationDataByLoginType.key = { wallets: [], notifications: [] }
+}
+
+// Pending Transaction Reducers
+const addPendingTransaction: CaseReducer<IAuthReducer, PayloadAction<TUseTransactionsTransfer>> = (state, action) => {
+  state.pendingTransactions = [...state.pendingTransactions, action.payload]
+}
+
+const removePendingTransaction: CaseReducer<IAuthReducer, PayloadAction<string>> = (state, action) => {
+  state.pendingTransactions = state.pendingTransactions.filter(transaction => transaction.hash !== action.payload)
+}
+
+// Wallet Reducers
 const saveWallet: CaseReducer<IAuthReducer, PayloadAction<IWalletState>> = (state, action) => {
   if (!state.currentLoginSession) {
     throw new Error('Error to save wallet: Current login session is not defined')
@@ -186,6 +218,7 @@ const deleteWallet: CaseReducer<IAuthReducer, PayloadAction<string>> = (state, a
   applicationData.wallets = applicationData.wallets.filter(it => it.id !== walletId)
 }
 
+// Account Reducers
 const saveAccount: CaseReducer<IAuthReducer, PayloadAction<IAccountState>> = (state, action) => {
   if (!state.currentLoginSession) {
     throw new Error('Error to save account: Current login session is not defined')
@@ -230,51 +263,24 @@ const deleteAccount: CaseReducer<IAuthReducer, PayloadAction<IAccountState>> = (
   wallet.accounts = wallet.accounts.filter(account => account.id !== accountToRemove.id)
 }
 
-const resetTemporaryApplicationData: CaseReducer<IAuthReducer> = state => {
-  state.data.applicationDataByLoginType.hardware = { wallets: [] }
-  state.data.applicationDataByLoginType.key = { wallets: [] }
+const removeAccountSkins: CaseReducer<IAuthReducer, PayloadAction<string[]>> = (state, action) => {
+  if (!state.currentLoginSession) {
+    throw new Error('Error to delete account: Current login session is not defined')
+  }
+
+  const invalidSkinIds = action.payload
+  const applicationDataByLoginTypeCloned = cloneDeep(state.data.applicationDataByLoginType)
+
+  applicationDataByLoginTypeCloned[state.currentLoginSession.type]?.wallets?.forEach((wallet: any) =>
+    wallet.accounts.forEach((account: any) => {
+      if (invalidSkinIds.includes(account.skin.id)) account.skin = UtilsHelper.generateColorSkin()
+    })
+  )
+
+  state.data.applicationDataByLoginType = applicationDataByLoginTypeCloned
 }
 
-const waitPendingTransaction = createAsyncThunk<
-  void,
-  {
-    transaction: TUseTransactionsTransfer
-    blockchainService: BlockchainService<TBlockchainServiceKey>
-    network: TNetwork<TBlockchainServiceKey>
-    account: Account<TBlockchainServiceKey>
-  }
->('auth/waitPendingTransaction', async ({ transaction, blockchainService, network, account }) => {
-  const success = await waitForAccountTransaction(blockchainService, transaction.hash, account, 20)
-
-  if (success) {
-    ToastHelper.success({ message: t('pages:send.transactionCompleted') })
-
-    queryClient.removeQueries({
-      queryKey: buildQueryKeyTokenTransfer(transaction.account, network),
-    })
-
-    queryClient.removeQueries({
-      queryKey: buildQueryKeyTokenTransferAggregate(),
-    })
-
-    queryClient.removeQueries({
-      queryKey: buildQueryKeyBalance(transaction.account.address, transaction.account.blockchain, network),
-    })
-
-    if (transaction.toAccount) {
-      queryClient.removeQueries({
-        queryKey: buildQueryKeyBalance(transaction.toAccount.address, transaction.toAccount.blockchain, network),
-      })
-
-      queryClient.removeQueries({
-        queryKey: buildQueryKeyTokenTransfer(transaction.toAccount, network),
-      })
-    }
-  } else {
-    ToastHelper.error({ message: t('pages:send.transactionFailed'), duration: 4000 })
-  }
-})
-
+// Swap Reducers
 const persistSwapRecord: CaseReducer<IAuthReducer, PayloadAction<TSwapRecord>> = (state, action) => {
   const swapRecord = cloneDeep(action.payload)
 
@@ -293,21 +299,33 @@ const persistSwapRecord: CaseReducer<IAuthReducer, PayloadAction<TSwapRecord>> =
   state.data.swapRecords[index] = swapRecord
 }
 
-const removeAccountSkins: CaseReducer<IAuthReducer, PayloadAction<string[]>> = (state, action) => {
-  if (!state.currentLoginSession) {
-    throw new Error('Error to delete account: Current login session is not defined')
+// Notification Reducers
+const saveNotification: CaseReducer<IAuthReducer, PayloadAction<TSaveNotification>> = (state, action) => {
+  const loginSessionType = state.currentLoginSession?.type ?? 'password'
+
+  const notification: TNotification = {
+    id: UtilsHelper.uuid(),
+    date: DateHelper.getNowUnix(),
+    read: false,
+    priority: 'low',
+    provider: 'system',
+    ...action.payload,
+  }
+  const applicationData = state.data.applicationDataByLoginType[loginSessionType]
+
+  const findIndex = applicationData.notifications.findIndex(item => item.id === notification.id)
+
+  if (findIndex < 0) {
+    applicationData.notifications = [...applicationData.notifications, notification]
+
+    new window.Notification(notification.title, {
+      body: notification.previewBody,
+    })
+
+    return
   }
 
-  const invalidSkinIds = action.payload
-  const applicationDataByLoginTypeCloned = cloneDeep(state.data.applicationDataByLoginType)
-
-  applicationDataByLoginTypeCloned[state.currentLoginSession.type]?.wallets?.forEach((wallet: any) =>
-    wallet.accounts.forEach((account: any) => {
-      if (invalidSkinIds.includes(account.skin.id)) account.skin = UtilsHelper.generateColorSkin()
-    })
-  )
-
-  state.data.applicationDataByLoginType = applicationDataByLoginTypeCloned
+  applicationData.notifications[findIndex] = notification
 }
 
 const saveLastIndexByWallet: CaseReducer<
@@ -338,23 +356,17 @@ const AuthReducer = createSlice({
     persistSwapRecord,
     removeAccountSkins,
     saveLastIndexByWallet,
+    saveNotification,
+    addPendingTransaction,
+    removePendingTransaction,
   },
   extraReducers: builder => {
     builder.addCase(PURGE, () => initialState)
-    builder.addCase(waitPendingTransaction.pending, (state, action) => {
-      state.pendingTransactions = [...state.pendingTransactions, action.meta.arg.transaction]
-    })
-    builder.addCase(waitPendingTransaction.fulfilled, (state, action) => {
-      state.pendingTransactions = state.pendingTransactions.filter(
-        transaction => transaction.hash !== action.meta.arg.transaction.hash
-      )
-    })
   },
 })
 
 export const authReducerActions = {
   ...AuthReducer.actions,
-  waitPendingTransaction,
 }
 
 export default AuthReducer.reducer

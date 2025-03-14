@@ -1,8 +1,9 @@
 import { isCalculableFee, isClaimable } from '@cityofzion/blockchain-service'
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
+import { DateHelper } from '@renderer/helpers/DateHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { bsAggregator } from '@renderer/libs/blockchainService'
-import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
+import { thunks } from '@renderer/store/thunks'
 import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
 import { TUseTransactionsTransfer } from '@shared/@types/hooks'
 import { TUseUnclaimedResult } from '@shared/@types/query'
@@ -91,9 +92,9 @@ export const useUnclaimed = (account: IAccountState) => {
 
 export const useUnclaimedMutation = () => {
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
-  const dispatch = useAppDispatch()
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
   const queryClient = useQueryClient()
+  const dispatch = useAppDispatch()
 
   return useMutation({
     mutationFn: async (account: IAccountState) => {
@@ -120,7 +121,7 @@ export const useUnclaimedMutation = () => {
 
       const transaction: TUseTransactionsTransfer = {
         hash: transactionHash,
-        time: Date.now() / 1000,
+        time: DateHelper.getNowUnix(),
         account: account,
         toAccount: account,
         isPending: true,
@@ -133,11 +134,10 @@ export const useUnclaimedMutation = () => {
       }
 
       dispatch(
-        authReducerActions.waitPendingTransaction({
+        thunks.waitTransaction({
           transaction,
-          blockchainService,
-          network: networkByBlockchain[account.blockchain],
-          account: serviceAccount,
+          successNotification: t('hooks:useUnclaimedMutation.successNotification', { returnObjects: true }),
+          failureNotification: t('hooks:useUnclaimedMutation.failureNotification', { returnObjects: true }),
         })
       )
     },

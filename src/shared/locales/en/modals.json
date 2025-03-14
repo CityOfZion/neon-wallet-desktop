@@ -211,7 +211,6 @@
   "blockchainSelectionModal": {
     "buttonContinueLabel": "Next"
   },
-
   "decryptKeyModal": {
     "title": "Import",
     "description": "Enter a pass phrase for your encrypted key:",
@@ -545,7 +544,11 @@
     "detailsHeaderLabel": "Details",
     "detailsHeaderDescription": " We aim to complete swaps in under 7 minutes",
     "statusPanelLabel": "Status",
-    "statusPanelSteps": ["Confirm", "Exchange", "Complete"],
+    "statusPanelSteps": [
+      "Confirm",
+      "Exchange",
+      "Complete"
+    ],
     "routingPanelLabel": "Routing",
     "routingPanelTransactionFromLabel": "Transaction from",
     "routingPanelTransactionToLabel": "Transaction to",
@@ -633,6 +636,14 @@
       "text": "I'm sorry but your transaction could not be processed.",
       "label": "Error message",
       "default": "Unknown error"
+    },
+    "successNotification": {
+      "title": "Sell completed",
+      "previewBody": "Your sell transfer has been completed"
+    },
+    "failureNotification": {
+      "title": "Sell failed",
+      "previewBody": "We couldn't verify the completion of your sell transfer"
     }
   },
   "buyAndSellTokensLeaveAlert": {
@@ -654,6 +665,20 @@
     "unlimit": {
       "title": "All other data is handled by our on/off ramp partner:",
       "link": "About Unlimit's service"
+    }
+  },
+  "notifications": {
+    "title": "Alerts",
+    "clearAllButtonLabel": "Clear all",
+    "emptyListTitle": "Nothing to see here",
+    "emptyListBody": "You’re caught up!",
+    "notification": {
+      "dateFormat": "dd MMM yy | hh:mm",
+      "markAsReadButtonLabel": "Mark as read",
+      "markAsUnreadButtonLabel": "Mark as unread",
+      "viewButtonLabel": "View",
+      "relatedAddressLabel": "Address",
+      "relatedAccountLabel": "Account"
     }
   }
 }

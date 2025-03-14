@@ -1,6 +1,7 @@
 import { SwapServiceStatusResponse, SwapServiceToken } from '@cityofzion/blockchain-service'
 
 import { TBlockchainServiceKey, TNetwork } from './blockchain'
+import { Optional } from './global'
 
 export type TAccountType = 'standard' | 'watch' | 'hardware'
 export type TWalletType = 'standard' | 'hardware'
@@ -118,3 +119,40 @@ export type TSwapRecord = {
 }
 
 export type TLastIndexesByWallet = Partial<Record<TBlockchainServiceKey, Record<string, number>>>
+
+export type TNotificationNavigateAction = {
+  type: 'navigate'
+  payload:
+    | {
+        to: 'account'
+        address: string
+        blockchain: TBlockchainServiceKey
+      }
+    | {
+        to: 'account-transaction'
+        address: string
+        blockchain: TBlockchainServiceKey
+      }
+}
+
+export type TNotificationAction = TNotificationNavigateAction
+
+export type TNotificationPriority = 'low' | 'medium' | 'high'
+
+export type TNotification = {
+  id: string
+  title: string
+  previewBody: string
+  date: number
+  body?: string
+  read: boolean
+  priority: TNotificationPriority
+  provider: 'system'
+  action?: TNotificationAction
+  related?: {
+    blockchain: TBlockchainServiceKey
+    address?: string
+  }
+}
+
+export type TSaveNotification = Optional<TNotification, 'id' | 'date' | 'provider' | 'read' | 'priority'>

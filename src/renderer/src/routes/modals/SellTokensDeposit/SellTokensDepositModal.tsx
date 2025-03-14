@@ -20,6 +20,7 @@ import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
 import { TransactionFeeActionStep } from '@renderer/components/TransactionFeeActionStep'
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
+import { DateHelper } from '@renderer/helpers/DateHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
@@ -29,11 +30,11 @@ import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useBalance } from '@renderer/hooks/useBalances'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
-import { useCurrencySelector, useSelectedNetworkByBlockchainSelector } from '@renderer/hooks/useSettingsSelector'
+import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { TDepositActionsData } from '@renderer/routes/pages/BuyAndSellTokens'
-import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
+import { thunks } from '@renderer/store/thunks'
 import { TUseTransactionsTransfer } from '@shared/@types/hooks'
 import { IAccountState } from '@shared/@types/store'
 import { debounce } from 'lodash'
@@ -49,13 +50,12 @@ type TLocationState = {
 
 export const SellTokensDepositModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'sellTokensDeposit' })
-  const dispatch = useAppDispatch()
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const { accounts } = useAccountsSelector()
   const { modalNavigate } = useModalNavigate()
-  const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
   const { currency } = useCurrencySelector()
   const { account, depositActionsData, setDepositActionsData } = useModalState<TLocationState>()
+  const dispatch = useAppDispatch()
 
   const { actionData, actionState, setData, setError, clearErrors, handleAct, reset } = useActions<TDepositActionsData>(
     depositActionsData ?? {
@@ -175,18 +175,17 @@ export const SellTokensDepositModal = () => {
         to: address,
         from: account!.address,
         hash: transactionHash,
-        time: Date.now() / 1000,
+        time: DateHelper.getNowUnix(),
         fromAccount: account,
         toAccount: accounts.find(account => account.address === address),
         isPending: true,
       }
 
       dispatch(
-        authReducerActions.waitPendingTransaction({
+        thunks.waitTransaction({
           transaction,
-          blockchainService: service,
-          network: networkByBlockchain[account!.blockchain],
-          account: serviceAccount,
+          successNotification: t('successNotification', { returnObjects: true }),
+          failureNotification: t('failureNotification', { returnObjects: true }),
         })
       )
 

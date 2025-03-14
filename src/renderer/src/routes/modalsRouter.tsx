@@ -42,6 +42,7 @@ import { MigrateAccountsStep4Modal } from './modals/MigrateAccounts/MigrateAccou
 import { NetworkNodeSelection } from './modals/NetworkNodeSelection'
 import { NetworkSelection } from './modals/NetworkSelection'
 import { NFTSelectionModal } from './modals/NftSelection'
+import { NotificationsModal } from './modals/Notifications'
 import { PersistAccountModal } from './modals/PersistAccount'
 import { PersistContactModal } from './modals/PersistContact'
 import { DeleteModal } from './modals/PersistContact/DeleteModal'
@@ -122,4 +123,5 @@ export const modalsRouter: TRoute[] = [
     size: 'sm',
     element: <BuyAndSellTokensAboutDataModal />,
   },
+  { name: 'notifications', type: 'side', size: 'sm', element: <NotificationsModal /> },
 ]

@@ -1,5 +1,6 @@
 import { ComponentProps, ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react'
 import * as RadixPopover from '@radix-ui/react-popover'
+import ActionPopoverArrow from '@renderer/assets/images/action-popover-arrow.svg?react'
 import { Link } from '@renderer/components/Link'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
@@ -12,38 +13,36 @@ const Trigger = RadixPopover.Trigger
 
 type TContentProps = ComponentPropsWithoutRef<typeof RadixPopover.Content> & {
   contentClassName?: string
-  pointerClassName?: string
-  color?: 'neon' | 'yellow'
+  color?: 'green' | 'yellow'
 }
 
 const Content = forwardRef<ElementRef<typeof RadixPopover.Content>, TContentProps>(
-  ({ className, contentClassName, pointerClassName, side = 'right', color = 'neon', children, ...props }, ref) => {
+  ({ className, contentClassName, side = 'right', align = 'center', color = 'green', children, ...props }, ref) => {
     const isRightSide = side === 'right'
     const isLeftSide = side === 'left'
     const isBottomSide = side === 'bottom'
     const isTopSide = side === 'top'
-    const isNeonColor = color === 'neon'
+    const isGreenColor = color === 'green'
     const isYellowColor = color === 'yellow'
 
     return (
       <RadixPopover.Portal>
         <RadixPopover.Content
           ref={ref}
-          className={StyleHelper.mergeStyles('relative group', className)}
+          className={StyleHelper.mergeStyles('relative group z-[1000]', className)}
           side={side}
-          align="center"
-          sideOffset={32}
+          align={align}
           {...props}
         >
           <div
             className={StyleHelper.mergeStyles(
-              'bg-gray-900 flex flex-col rounded overflow-hidden',
+              'bg-gray-900/50 flex flex-col rounded overflow-hidden backdrop-blur-md',
               {
                 'border-r-4': isRightSide,
                 'border-l-4': isLeftSide,
                 'border-t-4': isBottomSide,
                 'border-b-4': isTopSide,
-                'border-neon': isNeonColor,
+                'border-green': isGreenColor,
                 'border-yellow': isYellowColor,
               },
               contentClassName
@@ -52,29 +51,14 @@ const Content = forwardRef<ElementRef<typeof RadixPopover.Content>, TContentProp
             {children}
           </div>
 
-          <div
-            className={StyleHelper.mergeStyles(
-              'flex items-center absolute',
-              {
-                'right-0 top-2/4 -translate-y-2/4 translate-x-full flex-row-reverse': isRightSide,
-                'left-0 top-2/4 -translate-y-2/4 -translate-x-full flex-row': isLeftSide,
-                'left-[50%] top-0 -translate-y-4 -translate-x-[50%] rotate-90 flex-row': isBottomSide,
-                'left-[50%] bottom-0 translate-y-4 -translate-x-[50%] -rotate-90 flex-row': isTopSide,
-              },
-              pointerClassName
-            )}
+          <RadixPopover.Arrow
+            asChild
+            width={24}
+            height={24}
+            className={StyleHelper.mergeStyles({ 'text-green': isGreenColor, 'text-yellow': isYellowColor })}
           >
-            <div
-              className={StyleHelper.mergeStyles('w-2 h-2 rounded-full', {
-                'bg-neon': isNeonColor,
-                'bg-yellow': isYellowColor,
-              })}
-            />
-
-            <div
-              className={StyleHelper.mergeStyles('w-5 h-px', { 'bg-neon': isNeonColor, 'bg-yellow': isYellowColor })}
-            />
-          </div>
+            <ActionPopoverArrow preserveAspectRatio="xMinYMin" />
+          </RadixPopover.Arrow>
         </RadixPopover.Content>
       </RadixPopover.Portal>
     )
@@ -94,10 +78,18 @@ const Item = ({ actionPopoverItemType = 'button', clickableProps, ...props }: TI
   }
 
   if (actionPopoverItemType === 'button') {
-    return <Button {...commonProps} {...props} />
+    return (
+      <RadixPopover.PopoverClose asChild>
+        <Button {...commonProps} {...props} />
+      </RadixPopover.PopoverClose>
+    )
   }
 
-  return <Link {...commonProps} {...props} />
+  return (
+    <RadixPopover.PopoverClose asChild>
+      <Link {...commonProps} {...props} />
+    </RadixPopover.PopoverClose>
+  )
 }
 
 export const ActionPopover = {

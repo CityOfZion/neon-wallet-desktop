@@ -12,6 +12,7 @@ import { GreyAccountSelect } from '@renderer/components/GreyAccountSelect'
 import { Separator } from '@renderer/components/Separator'
 import { TransactionFeeActionStep } from '@renderer/components/TransactionFeeActionStep'
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
+import { DateHelper } from '@renderer/helpers/DateHelper'
 import { NetworkHelper } from '@renderer/helpers/NetworkHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
@@ -22,9 +23,8 @@ import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useBalance } from '@renderer/hooks/useBalances'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
-import { useSelectedNetworkByBlockchainSelector } from '@renderer/hooks/useSettingsSelector'
 import { bsAggregator } from '@renderer/libs/blockchainService'
-import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
+import { thunks } from '@renderer/store/thunks'
 import { TUseTransactionsTransfer } from '@shared/@types/hooks'
 import { IAccountState } from '@shared/@types/store'
 import { AnimatePresence } from 'framer-motion'
@@ -53,11 +53,10 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
   const { t: commonT } = useTranslation('common')
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const { accountsRef } = useAccountsSelector()
-  const dispatch = useAppDispatch()
-  const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
   const { modalNavigate } = useModalNavigate()
   const currentRecipientAddress = useRef(recipientAddress)
   const isDisabledMaxAmountRef = useRef(false)
+  const dispatch = useAppDispatch()
 
   const { actionData, actionState, setData, setError, clearErrors, handleAct, reset } = useActions<TActionsData>({
     selectedAccount: undefined,
@@ -256,6 +255,9 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
       const transactions = transactionHashes.map((hash, index) => {
         if (!hash) return
         const recipient = actionData.recipients[index]
+
+        // TODO: It is incorrect, we are add only one transfer but it could have multiple
+        // Fix here: https://app.clickup.com/t/86a791t0c
         const transaction: TUseTransactionsTransfer = {
           account: fields.selectedAccount,
           amount: recipient.amount!,
@@ -263,20 +265,20 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
           to: recipient.address!,
           from: fields.selectedAccount.address,
           hash,
-          time: Date.now() / 1000,
+          time: DateHelper.getNowUnix(),
           fromAccount: fields.selectedAccount,
           toAccount: accountsRef.current.find(account => account.address === recipient.address),
           isPending: true,
         }
 
         dispatch(
-          authReducerActions.waitPendingTransaction({
+          thunks.waitTransaction({
             transaction,
-            blockchainService: fields.service,
-            network: networkByBlockchain[fields.selectedAccount.blockchain],
-            account: fields.serviceAccount,
+            successNotification: t('successNotification', { returnObjects: true }),
+            failureNotification: t('failureNotification', { returnObjects: true }),
           })
         )
+
         return transaction
       })
       modalNavigate('success', {
