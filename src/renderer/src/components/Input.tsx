@@ -13,6 +13,7 @@ import { Loader } from './Loader'
 export type TInputProps = Omit<React.ComponentProps<'input'>, 'type' | 'ref'> & {
   containerClassName?: string
   contentClassName?: string
+  actionsClassName?: string
   errorMessage?: string
   error?: boolean
   hint?: string
@@ -34,6 +35,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
       className,
       containerClassName,
       contentClassName,
+      actionsClassName,
       type,
       errorMessage,
       error,
@@ -167,7 +169,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
           </FieldActionsMenu>
 
           {(loading || isTypePassword || pastable || copyable || clearable || buttons) && (
-            <div className="flex items-center gap-x-2">
+            <div className={StyleHelper.mergeStyles('flex items-center gap-x-2', actionsClassName)}>
               {loading && <Loader className="w-4 h-4 mr-1" />}
 
               {isTypePassword && (
