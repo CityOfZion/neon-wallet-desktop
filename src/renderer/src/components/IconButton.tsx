@@ -34,7 +34,7 @@ export const IconButton = forwardRef<HTMLButtonElement, TProps>(
       >
         {cloneElement(icon, {
           className: StyleHelper.mergeStyles(
-            'object-contain ',
+            'object-contain',
             {
               'w-4 h-4': size === 'xs',
               'w-5 h-5': size === 'sm',

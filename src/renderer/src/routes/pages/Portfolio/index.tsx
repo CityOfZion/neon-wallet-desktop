@@ -11,6 +11,8 @@ import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { MainLayout } from '@renderer/layouts/Main'
 
+import { PortfolioNotificationsIcon } from './PortfolioNotificationsIcon'
+
 export const PortfolioPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'portfolio' })
   const { currentLoginSession } = useCurrentLoginSessionSelector()
@@ -24,20 +26,29 @@ export const PortfolioPage = () => {
       rightComponent={
         <div className="flex gap-x-2">
           <IconButton
-            icon={<MdAdd />}
+            icon={<PortfolioNotificationsIcon aria-hidden />}
+            size="md"
+            text={t('notificationsButtonLabel')}
+            onClick={modalNavigateWrapper('notifications')}
+          />
+
+          <IconButton
+            icon={<MdAdd aria-hidden />}
             size="md"
             text={t('newWalletButtonLabel')}
             onClick={modalNavigateWrapper('create-wallet-step-1')}
             disabled={currentLoginSession?.type !== 'password'}
             {...TestHelper.buildTestObject('portfolio-new-wallet-button')}
           />
+
           <IconButton
-            icon={<TbFileImport />}
+            icon={<TbFileImport aria-hidden />}
             size="md"
             text={t('importButtonLabel')}
             onClick={modalNavigateWrapper('import')}
           />
-          <IconButton icon={<TbFileExport />} size="md" text={t('exportButtonLabel')} disabled />
+
+          <IconButton icon={<TbFileExport aria-hidden />} size="md" text={t('exportButtonLabel')} disabled />
 
           <HelpButton />
         </div>

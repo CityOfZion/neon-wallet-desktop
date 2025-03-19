@@ -82,6 +82,7 @@
     "importButtonLabel": "Import",
     "newWalletButtonLabel": "New Wallet",
     "exportButtonLabel": "Export",
+    "notificationsButtonLabel": "Alerts",
     "portfolioActivity": {
       "allActivity": "All activity",
       "walletsAndAccounts": "{{wallets}} Wallets / {{accounts}} Accounts",
@@ -146,8 +147,14 @@
     },
     "addRecipientButtonLabel": "Add recipient",
     "separatelyTransferWarning": "{{blockchain}} does not support more than one send per transaction, so we will send each transfer separately which will drastically increase the fee.",
-    "transactionCompleted": "Transaction completed",
-    "transactionFailed": "Transaction failed",
+    "successNotification": {
+      "title": "Send completed",
+      "previewBody": "Your send has been completed successfully"
+    },
+    "failureNotification": {
+      "title": "Send failed",
+      "previewBody": "We couldn't verify the completion of your send"
+    },
     "sendFail": {
       "title": "Oops! We've encountered an error.",
       "subtitle": "Please try again later"
@@ -550,6 +557,22 @@
       "buttons": {
         "help": "Need help? Chat with us"
       }
+    },
+    "successNotification": {
+      "title": "Migration completed",
+      "previewBody": "Your migration has been completed successfully"
+    },
+    "failureNeoLegacyNotification": {
+      "title": "Migration failed - Neo Legacy",
+      "previewBody": "We couldn't verify the completion of your migration transfer on Neo Legacy"
+    },
+    "failureNeo3Notification": {
+      "title": "Migration failed - Neo 3",
+      "previewBody": "We couldn't verify any migration transfer to your Neo 3 account"
+    },
+    "failureNotification": {
+      "title": "Migration failed",
+      "previewBody": "We couldn't verify the completion of your migration transfer"
     }
   }
 }

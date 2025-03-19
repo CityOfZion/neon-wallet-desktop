@@ -1,3 +1,4 @@
+import { DateArg, format } from 'date-fns'
 export class DateHelper {
   static timeToDate = (unixTime: number): string => {
     const date = new Date(unixTime * 1000)
@@ -14,7 +15,7 @@ export class DateHelper {
   }
 
   static getNowUnix = (): number => {
-    return Date.now()
+    return Date.now() / 1000
   }
 
   static getCurrentFullDateString = () => {
@@ -23,5 +24,13 @@ export class DateHelper {
     const month = (currentDate.getMonth() + 1).toString().padStart(2, '0')
     const day = currentDate.getDate().toString().padStart(2, '0')
     return `${year}${month}${day}`
+  }
+
+  static format(date: DateArg<Date>, formatStr: string): string {
+    if (typeof date === 'number') {
+      date = date * 1000
+    }
+
+    return format(date, formatStr)
   }
 }

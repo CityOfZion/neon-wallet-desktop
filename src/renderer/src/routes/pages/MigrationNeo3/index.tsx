@@ -15,6 +15,7 @@ import { IconButton } from '@renderer/components/IconButton'
 import { Loader } from '@renderer/components/Loader'
 import { Separator } from '@renderer/components/Separator'
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
+import { DateHelper } from '@renderer/helpers/DateHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useAccountsSelector, useAccountUtils } from '@renderer/hooks/useAccountSelector'
@@ -25,11 +26,10 @@ import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useMigrationNeo3Validations } from '@renderer/hooks/useMigrationNeo3Validations'
 import { useMountUnsafe } from '@renderer/hooks/useMount'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
-import { useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
 import { useWalletByIdSelector } from '@renderer/hooks/useWalletSelector'
 import { ContentLayout } from '@renderer/layouts/ContentLayout'
 import { bsAggregator } from '@renderer/libs/blockchainService'
-import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
+import { thunks } from '@renderer/store/thunks'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TUseTransactionsTransfer } from '@shared/@types/hooks'
 import { TTokenBalance } from '@shared/@types/query'
@@ -67,7 +67,6 @@ export const MigrationNeo3Page = () => {
     state: { account },
   } = useLocation() as Location<TLocationState>
 
-  const { network } = useSelectedNetworkSelector(account.blockchain)
   const { wallet } = useWalletByIdSelector(account.idWallet)
   const balanceQuery = useBalance(account)
   const migrationNeo3Validations = useMigrationNeo3Validations({ account })
@@ -189,7 +188,6 @@ export const MigrationNeo3Page = () => {
     if (actionState.isActing || !serviceAccount || !neo3Account || !hasMigrationNeo3(service)) return
 
     try {
-      const tokenBalanceTransfers: TTokenBalance[] = []
       const transactionHash = await service.migrateToNeo3({ account: serviceAccount, address: neo3Account.address })
 
       const doesNeo3AccountExist = doesAccountExist({
@@ -206,32 +204,32 @@ export const MigrationNeo3Page = () => {
           wallet: wallet!,
         })
 
+      const tokenBalanceTransfers: TTokenBalance[] = []
       if (hasGasAmount && gasTokenBalance) tokenBalanceTransfers.push(gasTokenBalance)
       if (hasNeoAmount && neoTokenBalance) tokenBalanceTransfers.push(neoTokenBalance)
 
-      tokenBalanceTransfers.forEach(tokenBalance => {
-        const transaction: TUseTransactionsTransfer = {
-          account,
-          amount: tokenBalance.amount,
-          asset: tokenBalance.token.symbol,
-          to: BSNeoLegacyConstants.MIGRATION_NEO3_COZ_ADDRESS,
-          from: account.address,
-          hash: transactionHash,
-          time: Date.now() / 1000,
-          fromAccount: account,
-          isPending: true,
-          toAccount: accounts.find(({ address }) => address === BSNeoLegacyConstants.MIGRATION_NEO3_COZ_ADDRESS),
-        }
+      // TODO: It is an workaround to avoid check two times the same transaction as migration happens in only one transaction
+      // Fix here: https://app.clickup.com/t/86a791t0c
+      const transactionsTransfer = tokenBalanceTransfers.map<TUseTransactionsTransfer>(tokenBalance => ({
+        account,
+        amount: tokenBalance.amount,
+        asset: tokenBalance.token.symbol,
+        to: BSNeoLegacyConstants.MIGRATION_NEO3_COZ_ADDRESS,
+        from: account.address,
+        hash: transactionHash,
+        time: DateHelper.getNowUnix(),
+        fromAccount: account,
+        isPending: true,
+        toAccount: accounts.find(({ address }) => address === BSNeoLegacyConstants.MIGRATION_NEO3_COZ_ADDRESS),
+      }))
 
-        dispatch(
-          authReducerActions.waitPendingTransaction({
-            transaction,
-            blockchainService: service,
-            network,
-            account: serviceAccount,
-          })
-        )
-      })
+      dispatch(
+        thunks.waitMigration({
+          hash: transactionHash,
+          transactionsTransfer,
+          neo3Address: neo3Account.address,
+        })
+      )
 
       navigate(`/app/wallets/${account.id}/transactions`)
 

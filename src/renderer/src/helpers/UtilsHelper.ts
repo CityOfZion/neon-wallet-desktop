@@ -6,7 +6,6 @@ import _ from 'lodash'
 import * as uuid from 'uuid'
 
 import { DateHelper } from './DateHelper'
-import { ToastHelper } from './ToastHelper'
 
 export type TImageSize = {
   width: number
@@ -111,7 +110,8 @@ export class UtilsHelper {
     })
   }
 
-  static copyToClipboard(text: string) {
+  static async copyToClipboard(text: string) {
+    const { ToastHelper } = await import('@renderer/helpers/ToastHelper')
     const { t } = getI18n()
     ToastHelper.success({ message: t('common:general.successfullyCopied') })
     navigator.clipboard.writeText(text)

@@ -48,6 +48,14 @@
   "useUnclaimedMutation": {
     "errors": {
       "claimError": "There was an error trying to claim. Please, try again."
+    },
+    "successNotification": {
+      "title": "Claim successful",
+      "previewBody": "You have successfully claimed your unclaimed tokens."
+    },
+    "failureNotification": {
+      "title": "Claim error",
+      "previewBody": "We couldn't verify the completion of your claim"
     }
   }
 }

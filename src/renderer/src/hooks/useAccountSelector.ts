@@ -5,7 +5,7 @@ import { TAccountHelperPredicateParams } from '@shared/@types/helpers'
 
 import { createAppSelector, useAppSelector } from './useRedux'
 
-const selectAccounts = createAppSelector(
+export const selectAccounts = createAppSelector(
   [state => state.auth.data.applicationDataByLoginType, state => state.auth.currentLoginSession],
   (applicationDataByLoginType, currentLoginSession) => {
     return applicationDataByLoginType[currentLoginSession?.type ?? 'password'].wallets.flatMap(

@@ -36,7 +36,7 @@ export const SideModalLayout = ({ children, heading, headingIcon, contentClassNa
           <div className="flex items-center gap-x-2.5">
             {headingIcon &&
               cloneElement(headingIcon, {
-                className: StyleHelper.mergeStyles('w-6 h-6 text-neon', headingIcon.props?.className ?? ''),
+                className: StyleHelper.mergeStyles('w-6 h-6 text-green', headingIcon.props?.className ?? ''),
               })}
             {heading && <h2 className="text-sm">{heading}</h2>}
           </div>
