@@ -1,4 +1,6 @@
 import { useMemo } from 'react'
+import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+import { usePendingTransactionsSelector } from '@renderer/hooks/useAuthSelector'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
 import { TFetchTransactionsResponse, TUseTransactionsTransfer } from '@shared/@types/hooks'
@@ -26,15 +28,17 @@ export function buildQueryKeyTokenTransfer(
 
 export function buildQueryKeyTokenTransferAggregate(
   accounts?: IAccountState[],
-  networkByBlockchain?: TSelectedNetworks
+  networkByBlockchain?: TSelectedNetworks,
+  pendingTransactions?: TUseTransactionsTransfer[]
 ) {
-  if (!accounts || !networkByBlockchain) {
+  if (!accounts || !networkByBlockchain || !pendingTransactions) {
     return ['token-transfers-aggregate']
   }
 
   return [
     'token-transfers-aggregate',
     accounts.map(account => ({ ...account, network: networkByBlockchain[account.blockchain] })),
+    pendingTransactions,
   ]
 }
 
@@ -43,7 +47,8 @@ async function fetchTransactions(
   allAccounts: IAccountState[],
   queryClient: QueryClient,
   networkByBlockchain: TSelectedNetworks,
-  page: number
+  page: number,
+  pendingTransactions: TUseTransactionsTransfer[]
 ) {
   const data: TUseTransactionsTransfer[] = []
   let hasMorePage = false
@@ -88,9 +93,15 @@ async function fetchTransactions(
         nextPageParams: previousQuery?.state.data?.nextPageParams,
       })
 
+      const pendingTransactionHashes = pendingTransactions.map(({ hash }) => UtilsHelper.normalizeHash(hash))
+
       queryData.nextPageParams = data.nextPageParams
       data.transactions.forEach(transaction => {
+        const normalizedHash = UtilsHelper.normalizeHash(transaction.hash)
+
         transaction.transfers.forEach(transfer => {
+          if (pendingTransactionHashes.find(hash => hash === normalizedHash)) return
+
           queryData.transfers.push({
             amount: transfer.type === 'nft' ? '1' : Number(transfer.amount).toFixed(transfer.token?.decimals ?? 8),
             asset: transfer.type === 'nft' ? transfer.tokenId : (transfer.token?.symbol ?? ''),
@@ -132,11 +143,19 @@ export function useTokenTransfers({ accounts }: TProps) {
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
   const queryClient = useQueryClient()
   const { accountsRef } = useAccountsSelector()
+  const { pendingTransactions } = usePendingTransactionsSelector()
 
   const query = useInfiniteQuery({
-    queryKey: buildQueryKeyTokenTransferAggregate(accounts, networkByBlockchain),
+    queryKey: buildQueryKeyTokenTransferAggregate(accounts, networkByBlockchain, pendingTransactions),
     queryFn: ({ pageParam }) =>
-      fetchTransactions(accounts, accountsRef.current, queryClient, networkByBlockchain, pageParam),
+      fetchTransactions(
+        accounts,
+        accountsRef.current,
+        queryClient,
+        networkByBlockchain,
+        pageParam,
+        pendingTransactions
+      ),
     initialPageParam: 1,
     getNextPageParam: ({ page }) => page,
   })

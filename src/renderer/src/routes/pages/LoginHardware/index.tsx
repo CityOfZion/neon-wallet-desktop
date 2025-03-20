@@ -15,9 +15,11 @@ export const LoginHardwarePage = () => {
   const navigate = useNavigate()
   const { loginWithHardwareWallet } = useLogin()
 
-  const { status, handleTryConnect } = useConnectHardwareWallet(async info => {
-    await loginWithHardwareWallet(info)
-    navigate('/app/portfolio')
+  const { status, handleTryConnect } = useConnectHardwareWallet({
+    onConnect: async info => {
+      await loginWithHardwareWallet(info)
+      navigate('/app/portfolio')
+    },
   })
 
   return (

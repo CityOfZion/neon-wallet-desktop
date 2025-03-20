@@ -71,7 +71,7 @@ export const SwapPageContent = ({ account }: TProps) => {
   const { modalNavigateWrapper, modalNavigate } = useModalNavigate()
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
-  const { accounts } = useAccountsSelector()
+  const { accountsRef } = useAccountsSelector()
   const { isConnectedAndUnlockedHardwareWallet } = useHardwareWalletActions()
   const dispatch = useAppDispatch()
   const pressOncePasteAddressToReceive = usePressOnce()
@@ -195,7 +195,9 @@ export const SwapPageContent = ({ account }: TProps) => {
     })
 
     swapService.eventEmitter.on('accountToUse', accountToUse => {
-      const account = accountToUse.value ? accounts.find(AccountHelper.predicate(accountToUse.value!)) : undefined
+      const account = accountToUse.value
+        ? accountsRef.current.find(AccountHelper.predicate(accountToUse.value!))
+        : undefined
 
       setData({ selectedAccountToUse: { ...accountToUse, value: account ?? null } })
     })

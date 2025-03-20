@@ -1,4 +1,4 @@
-import { ComponentProps, useMemo } from 'react'
+import { ComponentProps, ReactNode, useMemo } from 'react'
 import { MdClose, MdKeyboardBackspace } from 'react-icons/md'
 import { IconButton } from '@renderer/components/IconButton'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
@@ -7,11 +7,20 @@ import { useModalHistories, useModalNavigate } from '@renderer/hooks/useModalRou
 
 type TProps = {
   contentClassName?: string
+  headerComponent?: ReactNode
   onClose?: () => void
   onBack?: () => void
 } & ComponentProps<'div'>
 
-export const CenterModalLayout = ({ children, onClose, onBack, contentClassName, ...props }: TProps) => {
+export const CenterModalLayout = ({
+  children,
+  onClose,
+  onBack,
+  contentClassName,
+  className,
+  headerComponent,
+  ...props
+}: TProps) => {
   const { modalNavigate, modalErase } = useModalNavigate()
   const { histories } = useModalHistories()
 
@@ -30,30 +39,35 @@ export const CenterModalLayout = ({ children, onClose, onBack, contentClassName,
   }
 
   return (
-    <div className="bg-gray-800 rounded-md px-4 h-full w-full flex flex-col" {...props}>
-      <header
-        className={StyleHelper.mergeStyles('flex items-center pt-5', {
-          'justify-between': withBackButton,
-          'justify-end': !withBackButton,
-        })}
-      >
-        {withBackButton && (
+    <div
+      {...props}
+      className={StyleHelper.mergeStyles('bg-gray-800 rounded-md px-4 h-full w-full flex flex-col', className)}
+    >
+      {headerComponent ?? (
+        <header
+          className={StyleHelper.mergeStyles('flex items-center pt-5', {
+            'justify-between': withBackButton,
+            'justify-end': !withBackButton,
+          })}
+        >
+          {withBackButton && (
+            <IconButton
+              icon={<MdKeyboardBackspace aria-hidden={true} className="fill-gray-200" />}
+              size="md"
+              compacted
+              onClick={handleBack}
+            />
+          )}
+
           <IconButton
-            icon={<MdKeyboardBackspace className="fill-gray-200" />}
+            icon={<MdClose aria-hidden={true} className="fill-white" />}
             size="md"
             compacted
-            onClick={handleBack}
+            onClick={handleClose}
+            {...TestHelper.buildTestObject('center-modal-close')}
           />
-        )}
-
-        <IconButton
-          icon={<MdClose className="fill-white" />}
-          size="md"
-          compacted
-          onClick={handleClose}
-          {...TestHelper.buildTestObject('center-modal-close')}
-        />
-      </header>
+        </header>
+      )}
 
       <main className={StyleHelper.mergeStyles('flex-grow px-9 pb-10 pt-2.5 min-h-0', contentClassName)}>
         {children}

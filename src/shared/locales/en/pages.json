@@ -543,7 +543,8 @@
       "generateNeo3AccountError": "There was a problem with generation Neo 3 account",
       "getKeyError": "There was a problem with get key",
       "generateAccountError": "There was a problem with generation account",
-      "calculateValuesError": "There was a problem with calculated values for fee and amount"
+      "calculateValuesError": "There was a problem with calculated values for fee and amount",
+      "hardwareWalletNotConnectedOrLocked": "Hardware wallet isn't connected or is locked, please, verify your device and try again"
     },
     "sideBar": {
       "title": "How does it work?",

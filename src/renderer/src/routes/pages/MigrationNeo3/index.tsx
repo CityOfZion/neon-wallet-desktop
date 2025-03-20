@@ -4,7 +4,12 @@ import { MdContentCopy } from 'react-icons/md'
 import { TbArrowsExchange, TbCoin, TbDiamond, TbReceipt, TbStepOut, TbWallet } from 'react-icons/tb'
 import { VscCircleFilled } from 'react-icons/vsc'
 import { Location, useLocation, useNavigate } from 'react-router-dom'
-import { Account, CalculateToMigrateToNeo3ValuesResponse, hasMigrationNeo3 } from '@cityofzion/blockchain-service'
+import {
+  Account,
+  CalculateToMigrateToNeo3ValuesResponse,
+  hasLedger,
+  hasMigrationNeo3,
+} from '@cityofzion/blockchain-service'
 import { BSNeoLegacyConstants } from '@cityofzion/bs-neo-legacy'
 import { ActionCard } from '@renderer/components/ActionCard'
 import { ActionStep } from '@renderer/components/ActionStep'
@@ -23,6 +28,7 @@ import { useActions } from '@renderer/hooks/useActions'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useBalance } from '@renderer/hooks/useBalances'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
+import { useHardwareWalletActions } from '@renderer/hooks/useHardwareWallet'
 import { useMigrationNeo3Validations } from '@renderer/hooks/useMigrationNeo3Validations'
 import { useMountUnsafe } from '@renderer/hooks/useMount'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
@@ -32,6 +38,7 @@ import { bsAggregator } from '@renderer/libs/blockchainService'
 import { thunks } from '@renderer/store/thunks'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TUseTransactionsTransfer } from '@shared/@types/hooks'
+import { THardwareWalletInfo } from '@shared/@types/ipc'
 import { TTokenBalance } from '@shared/@types/query'
 import { IAccountState } from '@shared/@types/store'
 import { match } from 'ts-pattern'
@@ -51,6 +58,8 @@ type TActionsData = {
 
 type TLocationState = {
   account: IAccountState
+  neo3Account?: Account<'neo3'>
+  neo3WalletInfo?: THardwareWalletInfo
 }
 
 export const MigrationNeo3Page = () => {
@@ -60,16 +69,22 @@ export const MigrationNeo3Page = () => {
   const { doesAccountExist } = useAccountUtils()
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const { importAccount } = useBlockchainActions()
-  const { accounts } = useAccountsSelector()
+  const { accountsRef } = useAccountsSelector()
   const dispatch = useAppDispatch()
+  const { isConnectedAndUnlockedHardwareWallet } = useHardwareWalletActions()
+  const { createHardwareWallet } = useHardwareWalletActions()
 
   const {
-    state: { account },
+    state: { account, neo3WalletInfo, ...params },
   } = useLocation() as Location<TLocationState>
 
   const { wallet } = useWalletByIdSelector(account.idWallet)
   const balanceQuery = useBalance(account)
   const migrationNeo3Validations = useMigrationNeo3Validations({ account })
+
+  const service = bsAggregator.blockchainServicesByName[account.blockchain]
+
+  const isHardwareAccount = account.type === 'hardware' && hasLedger(service)
 
   const neo3Service = bsAggregator.blockchainServicesByName.neo3
   const neo3GasToken = neo3Service.tokens.find(({ symbol }) => symbol === 'GAS')!
@@ -84,7 +99,7 @@ export const MigrationNeo3Page = () => {
     handleAct,
   } = useActions<TActionsData>({
     serviceAccount: null,
-    neo3Account: null,
+    neo3Account: params.neo3Account ?? null,
     isGeneratingAccounts: true,
     isCalculatingValues: false,
     calculatedValues: {},
@@ -95,8 +110,6 @@ export const MigrationNeo3Page = () => {
 
   const hasGasAmount = migrationNeo3Validations.hasGasAmount(gasTokenBalance?.amountNumber ?? 0)
   const hasNeoAmount = migrationNeo3Validations.hasNeoAmount(neoTokenBalance?.amountNumber ?? 0)
-
-  const service = bsAggregator.blockchainServicesByName[account.blockchain]
 
   const tokensText = match({ hasGasAmount, hasNeoAmount })
     .with({ hasGasAmount: true, hasNeoAmount: true }, () => `${neo3NeoToken.symbol} & ${neo3GasToken.symbol}`)
@@ -165,20 +178,22 @@ export const MigrationNeo3Page = () => {
       return
     }
 
-    let neo3Account: Account<'neo3'>
+    if (!isHardwareAccount) {
+      let neo3Account: Account<'neo3'>
 
-    try {
-      neo3Account = neo3Service.generateAccountFromKey(key) as Account<'neo3'>
+      try {
+        neo3Account = neo3Service.generateAccountFromKey(key) as Account<'neo3'>
 
-      setData({ neo3Account })
-    } catch (error) {
-      console.error(error)
+        setData({ neo3Account })
+      } catch (error) {
+        console.error(error)
 
-      ToastHelper.error({ message: t('messages.generateNeo3AccountError') })
+        ToastHelper.error({ message: t('messages.generateNeo3AccountError') })
 
-      handleGoBack()
+        handleGoBack()
 
-      return
+        return
+      }
     }
 
     setData({ isGeneratingAccounts: false })
@@ -186,6 +201,18 @@ export const MigrationNeo3Page = () => {
 
   const handleMigrateToNeo3 = async () => {
     if (actionState.isActing || !serviceAccount || !neo3Account || !hasMigrationNeo3(service)) return
+
+    if (isHardwareAccount) {
+      const isConnectedAndUnlocked = await isConnectedAndUnlockedHardwareWallet(account)
+
+      if (!isConnectedAndUnlocked) {
+        const message = t('messages.hardwareWalletNotConnectedOrLocked')
+
+        ToastHelper.error({ message, duration: 8000 })
+
+        throw new Error(message)
+      }
+    }
 
     try {
       const transactionHash = await service.migrateToNeo3({ account: serviceAccount, address: neo3Account.address })
@@ -195,7 +222,8 @@ export const MigrationNeo3Page = () => {
         blockchain: neo3Account.blockchain,
       })
 
-      if (!doesNeo3AccountExist)
+      if (isHardwareAccount && neo3WalletInfo) await createHardwareWallet([neo3WalletInfo], { accountsType: 'watch' })
+      else if (!doesNeo3AccountExist)
         await importAccount({
           address: neo3Account.address,
           blockchain: neo3Account.blockchain,
@@ -205,6 +233,7 @@ export const MigrationNeo3Page = () => {
         })
 
       const tokenBalanceTransfers: TTokenBalance[] = []
+
       if (hasGasAmount && gasTokenBalance) tokenBalanceTransfers.push(gasTokenBalance)
       if (hasNeoAmount && neoTokenBalance) tokenBalanceTransfers.push(neoTokenBalance)
 
@@ -220,7 +249,9 @@ export const MigrationNeo3Page = () => {
         time: DateHelper.getNowUnix(),
         fromAccount: account,
         isPending: true,
-        toAccount: accounts.find(({ address }) => address === BSNeoLegacyConstants.MIGRATION_NEO3_COZ_ADDRESS),
+        toAccount: accountsRef.current.find(
+          ({ address }) => address === BSNeoLegacyConstants.MIGRATION_NEO3_COZ_ADDRESS
+        ),
       }))
 
       dispatch(

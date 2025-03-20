@@ -12,6 +12,9 @@ export default {
       asphalt: {
         DEFAULT: '#1A2026',
       },
+      black: {
+        DEFAULT: '#000',
+      },
       neon: {
         DEFAULT: '#4CFFB3',
       },
@@ -88,6 +91,7 @@ export default {
         30: '7.5rem',
       },
       fontSize: {
+        '1xl': '1.5rem',
         md: '1rem',
         '1xs': '0.625rem',
         '2xs': '0.5rem',
