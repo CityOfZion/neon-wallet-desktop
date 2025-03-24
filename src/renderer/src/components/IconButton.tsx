@@ -6,7 +6,7 @@ type TProps = {
   text?: string
   size?: 'xs' | 'sm' | 'md'
   compacted?: boolean
-  colorSchema?: 'neon' | 'gray' | 'white' | 'yellow'
+  colorSchema?: 'neon' | 'gray' | 'white' | 'yellow' | 'error'
 } & ComponentProps<'button'>
 
 export const IconButton = forwardRef<HTMLButtonElement, TProps>(
@@ -28,11 +28,13 @@ export const IconButton = forwardRef<HTMLButtonElement, TProps>(
             'text-gray-100 ': colorSchema === 'gray',
             'text-white': colorSchema === 'white',
             'text-yellow': colorSchema === 'yellow',
+            'text-pink': colorSchema === 'error',
           },
           props.className
         )}
       >
         {cloneElement(icon, {
+          'aria-hidden': true,
           className: StyleHelper.mergeStyles(
             'object-contain',
             {

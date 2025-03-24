@@ -1,6 +1,6 @@
 import { SkinCard } from '@renderer/components/SkinCard'
 import { ACCOUNT_COLOR_SKINS, ACCOUNT_LOCAL_SKINS } from '@renderer/constants/skins'
-import { useUnlockedSkinIdsSelector } from '@renderer/hooks/useSettingsSelector'
+import { useUnlockedSkinIdsSelector } from '@renderer/hooks/useUtilitySelector'
 import { IAccountState, TSkin } from '@shared/@types/store'
 
 type TProps = {

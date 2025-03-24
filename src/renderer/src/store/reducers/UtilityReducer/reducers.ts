@@ -1,0 +1,107 @@
+import { CaseReducer, PayloadAction } from '@reduxjs/toolkit'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
+import { TUseTransactionsTransfer } from '@shared/@types/hooks'
+import { TMigrationNeo3, TMigrationsNeo3, TSwapRecord } from '@shared/@types/store'
+import { cloneDeep } from 'lodash'
+
+import { IUtilityReducer } from './index'
+
+// Pending Transaction Reducers
+const addPendingTransaction: CaseReducer<IUtilityReducer, PayloadAction<TUseTransactionsTransfer>> = (
+  state,
+  action
+) => {
+  state.inMemoryData.pendingTransactions = [...state.inMemoryData.pendingTransactions, action.payload]
+}
+
+const removePendingTransaction: CaseReducer<IUtilityReducer, PayloadAction<string>> = (state, action) => {
+  state.inMemoryData.pendingTransactions = state.inMemoryData.pendingTransactions.filter(
+    transaction => transaction.hash !== action.payload
+  )
+}
+
+// Swap Reducers
+const persistSwapRecord: CaseReducer<IUtilityReducer, PayloadAction<TSwapRecord>> = (state, action) => {
+  const swapRecord = cloneDeep(action.payload)
+
+  // We don't want to save this long information in the storage
+  swapRecord.log = undefined
+
+  const index = state.data.swapRecords.findIndex(
+    it => it.swapId === swapRecord.swapId && it.swapProvider === swapRecord.swapProvider
+  )
+
+  if (index === -1) {
+    state.data.swapRecords = [...state.data.swapRecords, swapRecord]
+    return
+  }
+
+  state.data.swapRecords[index] = swapRecord
+}
+
+// Last Indexes By Wallet Reducers
+const saveLastIndexByWallet: CaseReducer<
+  IUtilityReducer,
+  PayloadAction<{
+    index: number
+    firstAccountAddress: string
+    blockchain: TBlockchainServiceKey
+  }>
+> = (state, action) => {
+  const { firstAccountAddress, index, blockchain } = action.payload
+  state.data.lastIndexesByWallet[blockchain] = {
+    ...state.data.lastIndexesByWallet[blockchain],
+    [firstAccountAddress]: index,
+  }
+}
+
+// Unlocked Skins Reducers
+const setUnlockedSkinIds: CaseReducer<IUtilityReducer, PayloadAction<string[]>> = (state, action) => {
+  const skinIds = action.payload
+
+  state.data.unlockedSkinIds = skinIds
+}
+
+// Hidden Tokens Reducers
+const toggleHiddenToken: CaseReducer<
+  IUtilityReducer,
+  PayloadAction<{ blockchain: TBlockchainServiceKey; hash: string }>
+> = (state, action) => {
+  const { blockchain, hash } = action.payload
+
+  const hiddenTokens = cloneDeep(state.data.hiddenTokensByBlockchain[blockchain] ?? [])
+
+  const index = hiddenTokens.findIndex(it => it === hash)
+  if (index < 0) {
+    hiddenTokens.push(hash)
+  } else {
+    hiddenTokens.splice(index, 1)
+  }
+
+  state.data.hiddenTokensByBlockchain = {
+    ...state.data.hiddenTokensByBlockchain,
+    [blockchain]: hiddenTokens,
+  }
+}
+
+// Migration Neo3 Reducers
+const saveMigrationNeo3: CaseReducer<IUtilityReducer, PayloadAction<TMigrationNeo3>> = (state, action) => {
+  const migrationNeo3 = cloneDeep(action.payload)
+  state.data.migrationsNeo3[migrationNeo3.hash] = migrationNeo3
+}
+
+const mergeMigrationsNeo3: CaseReducer<IUtilityReducer, PayloadAction<TMigrationsNeo3>> = (state, action) => {
+  const migrationsNeo3 = cloneDeep(action.payload)
+  state.data.migrationsNeo3 = { ...state.data.migrationsNeo3, ...migrationsNeo3 }
+}
+
+export const utilitySliceReducers = {
+  addPendingTransaction,
+  removePendingTransaction,
+  persistSwapRecord,
+  saveLastIndexByWallet,
+  toggleHiddenToken,
+  saveMigrationNeo3,
+  mergeMigrationsNeo3,
+  setUnlockedSkinIds,
+}

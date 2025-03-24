@@ -81,7 +81,6 @@ export interface ISettingsState {
   selectedNetworkByBlockchain: TSelectedNetworks
   networkProfiles: TNetworkProfile[]
   selectedNetworkProfile: TNetworkProfile
-  unlockedSkinIds: string[]
   encryptedLoginControl?: string
 }
 
@@ -179,3 +178,4 @@ export type TPendingMigrationNeo3 = Omit<TMigrationNeo3, 'status'> & { status: '
 export type TMigrationsNeo3 = {
   [hash: string]: TMigrationNeo3
 }
+export type THiddenTokenByBlockchain = Partial<Record<TBlockchainServiceKey, string[]>>

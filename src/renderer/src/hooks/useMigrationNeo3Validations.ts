@@ -3,11 +3,12 @@ import { BSNeoLegacyConstants } from '@cityofzion/bs-neo-legacy'
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { NetworkHelper } from '@renderer/helpers/NetworkHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
-import { useHasClaimPendingTransactionSelector, usePendingTransactionsSelector } from '@renderer/hooks/useAuthSelector'
 import { useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { TTokenBalance, TUseUnclaimedResult } from '@shared/@types/query'
 import { IAccountState } from '@shared/@types/store'
+
+import { useHasClaimPendingTransactionSelector, usePendingTransactionsSelector } from './useUtilitySelector'
 
 type TShouldClaimBeforeMigrateToNeo3Params = {
   tokenBalances: TTokenBalance[]

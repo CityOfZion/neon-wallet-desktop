@@ -6,11 +6,14 @@ import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
-import { usePendingTransactionsSelector, useSwapRecordsSelector } from '@renderer/hooks/useAuthSelector'
 import { useInfiniteScroll } from '@renderer/hooks/useInfiniteScroll'
-import { useMigrationsNeo3Selector } from '@renderer/hooks/useMigrationNeo3Selector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useTokenTransfers } from '@renderer/hooks/useTokenTransfers'
+import {
+  useMigrationsNeo3Selector,
+  usePendingTransactionsSelector,
+  useSwapRecordsSelector,
+} from '@renderer/hooks/useUtilitySelector'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { TUseTransactionsTransfer } from '@shared/@types/hooks'
 import { IAccountState } from '@shared/@types/store'

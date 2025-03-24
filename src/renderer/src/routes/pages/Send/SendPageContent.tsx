@@ -262,6 +262,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
           account: fields.selectedAccount,
           amount: recipient.amount!,
           asset: recipient.token!.token.symbol,
+          assetHash: recipient.token!.token.hash,
           to: recipient.address!,
           from: fields.selectedAccount.address,
           hash,

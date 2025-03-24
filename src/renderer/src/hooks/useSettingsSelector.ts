@@ -59,15 +59,6 @@ export const useCurrencySelector = () => {
   }
 }
 
-export const useUnlockedSkinIdsSelector = () => {
-  const { ref, value } = useAppSelector(state => state.settings.data.unlockedSkinIds)
-
-  return {
-    unlockedSkinIds: value,
-    unlockedSkinIdsRef: ref,
-  }
-}
-
 export const useLoginControlSelector = () => {
   const { ref, value } = useAppSelector(state => state.settings.data.encryptedLoginControl)
   return {

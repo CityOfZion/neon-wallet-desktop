@@ -10,7 +10,7 @@ import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
-import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
+import { utilityReducerActions } from '@renderer/store/reducers/UtilityReducer'
 import { IAccountState } from '@shared/@types/store'
 
 import { useAccountsSelector, useOwnAccountsSelector } from './useAccountSelector'
@@ -19,7 +19,8 @@ import { useBlockchainActions } from './useBlockchainActions'
 import { useModalHistories, useModalNavigate } from './useModalRouter'
 import { useMountUnsafe } from './useMount'
 import { useAppDispatch } from './useRedux'
-import { useSelectedNetworkByBlockchainSelector, useUnlockedSkinIdsSelector } from './useSettingsSelector'
+import { useSelectedNetworkByBlockchainSelector } from './useSettingsSelector'
+import { useUnlockedSkinIdsSelector } from './useUtilitySelector'
 import { useWalletsSelector } from './useWalletSelector'
 
 const useRegisterWalletConnectListeners = () => {
@@ -222,7 +223,7 @@ const useUnlockSkins = () => {
 
     const invalidSkinIds = unlockedSkinIds.filter(skinId => !skinIds.has(skinId))
 
-    dispatch(settingsReducerActions.setUnlockedSkinIds([...skinIds]))
+    dispatch(utilityReducerActions.setUnlockedSkinIds([...skinIds]))
     dispatch(authReducerActions.removeAccountSkins(invalidSkinIds))
   }
 

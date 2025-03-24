@@ -23,7 +23,7 @@ const Trigger = forwardRef<
   <TabsPrimitive.Trigger
     ref={ref}
     className={StyleHelper.mergeStyles(
-      'h-full py-[12px] justify-center whitespace-nowrap px-4 text-1xs border-b-2 border-transparent transition-all focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 data-[state=active]:text-white data-[state=active]:border-white',
+      'h-full py-3 uppercase justify-center whitespace-nowrap px-4 text-1xs border-b-2 border-transparent transition-all focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 data-[state=active]:text-white data-[state=active]:border-white',
       className
     )}
     {...props}

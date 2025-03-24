@@ -47,6 +47,12 @@ export type TUseBalancesParams = {
   blockchain: TBlockchainServiceKey
 }
 
+export type TUseBalanceOptionShowType = 'hidden' | 'active'
+
+export type TUseBalancesOptions = {
+  showType?: TUseBalanceOptionShowType
+}
+
 export type TPriceHistory = {
   tokenBalance: TTokenBalance
   todayPrice: number

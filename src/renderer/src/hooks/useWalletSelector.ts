@@ -4,7 +4,7 @@ import { useCurrentLoginSessionSelector } from './useAuthSelector'
 import { createAppSelector, useAppSelector } from './useRedux'
 
 const selectWallets = createAppSelector(
-  [state => state.auth.data.applicationDataByLoginType, state => state.auth.currentLoginSession],
+  [state => state.auth.data.applicationDataByLoginType, state => state.auth.inMemoryData.currentLoginSession],
   (applicationDataByLoginType, currentLoginSession) => {
     return applicationDataByLoginType[currentLoginSession?.type ?? 'password'].wallets
   }
@@ -12,7 +12,7 @@ const selectWallets = createAppSelector(
 
 const selectWalletById = (id: string) =>
   createAppSelector(
-    [({ auth }) => auth.data.applicationDataByLoginType, ({ auth }) => auth.currentLoginSession],
+    [({ auth }) => auth.data.applicationDataByLoginType, ({ auth }) => auth.inMemoryData.currentLoginSession],
     (applicationDataByLoginType, currentLoginSession) =>
       applicationDataByLoginType[currentLoginSession?.type ?? 'password'].wallets.find(wallet => wallet.id === id)
   )

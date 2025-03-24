@@ -201,7 +201,11 @@
     },
     "accountTokensList": {
       "title": "Tokens",
-      "balance": "Balance"
+      "balance": "Balance",
+      "tabs": {
+        "active": "Active",
+        "hidden": "Hidden"
+      }
     },
     "accountTransactionsList": {
       "title": "Transactions"

@@ -11,9 +11,10 @@ import { IAccountState } from '@shared/@types/store'
 import { getI18next } from '@shared/libs/i18next'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
-import { useCurrentLoginSessionSelector, useHasClaimPendingTransactionSelector } from './useAuthSelector'
+import { useCurrentLoginSessionSelector } from './useAuthSelector'
 import { useAppDispatch } from './useRedux'
 import { useSelectedNetworkByBlockchainSelector } from './useSettingsSelector'
+import { useHasClaimPendingTransactionSelector } from './useUtilitySelector'
 
 const { t } = getI18next()
 
@@ -130,6 +131,7 @@ export const useUnclaimedMutation = () => {
         to: account.address,
         from: account.address,
         asset: blockchainService.burnToken.symbol,
+        assetHash: blockchainService.burnToken.hash,
         fromAccount: account,
       }
 

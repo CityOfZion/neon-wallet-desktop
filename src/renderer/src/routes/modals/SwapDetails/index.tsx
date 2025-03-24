@@ -15,7 +15,7 @@ import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 import { bsAggregator } from '@renderer/libs/blockchainService'
-import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
+import { utilityReducerActions } from '@renderer/store/reducers/UtilityReducer'
 import { TSwapRecord } from '@shared/@types/store'
 import { match, P } from 'ts-pattern'
 
@@ -66,7 +66,7 @@ export const SwapDetailsModal = () => {
         const updatedSwapRecord: TSwapRecord = { ...swapRecord, txFrom, txTo, swapStatus: status, log }
 
         setSwapRecord(updatedSwapRecord)
-        dispatch(authReducerActions.persistSwapRecord(updatedSwapRecord))
+        dispatch(utilityReducerActions.persistSwapRecord(updatedSwapRecord))
 
         if (status === 'finished') {
           clearTimeout(timeoutRef.current)

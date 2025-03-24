@@ -1,0 +1,71 @@
+import { forwardRef } from 'react'
+import { useTranslation } from 'react-i18next'
+import { TSession } from '@cityofzion/wallet-connect-sdk-wallet-react'
+import { Table } from '@renderer/components/Table'
+import { StyleHelper } from '@renderer/helpers/StyleHelper'
+import { flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
+
+import { useColumns } from './columns'
+
+type TConnectionsTableProps = {
+  sessions: TSession[]
+  withAddress?: boolean
+  tableHeaderClassName?: string
+  className?: string
+}
+
+export const ConnectionsTable = forwardRef<HTMLDivElement, TConnectionsTableProps>(
+  ({ sessions, tableHeaderClassName, withAddress = false, className }, ref) => {
+    const { t } = useTranslation('components', { keyPrefix: 'connectionsTable' })
+
+    const columns = useColumns(withAddress)
+
+    const table = useReactTable({
+      data: sessions,
+      columns,
+      getCoreRowModel: getCoreRowModel(),
+    })
+
+    return (
+      <div
+        ref={ref}
+        className={StyleHelper.mergeStyles(
+          'overflow-auto min-h-0 w-full flex flex-col flex-grow pr-1 text-xs min-w-0',
+          className
+        )}
+      >
+        {sessions.length <= 0 ? (
+          <div className="flex justify-center mt-4">
+            <p className="text-gray-300">{t('emptyList')}</p>
+          </div>
+        ) : (
+          <Table.Root className="table-fixed">
+            <Table.Header className={StyleHelper.mergeStyles('sticky top-0 uppercase', tableHeaderClassName)}>
+              {table.getHeaderGroups().map(headerGroup => (
+                <Table.HeaderRow key={headerGroup.id}>
+                  {headerGroup.headers.map(header => (
+                    <Table.Head key={header.id} className={header.column.columnDef?.meta?.['className']}>
+                      {flexRender(header.column.columnDef.header, header.getContext())}
+                    </Table.Head>
+                  ))}
+                </Table.HeaderRow>
+              ))}
+            </Table.Header>
+
+            <Table.Body>
+              {table.getRowModel().rows.map(row => (
+                <Table.BodyRow key={row.id} hoverable={false}>
+                  {row.getVisibleCells().map(cell => (
+                    <Table.Cell className={cell.column.columnDef?.meta?.['className']} key={cell.id}>
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </Table.Cell>
+                  ))}
+                </Table.BodyRow>
+              ))}
+            </Table.Body>
+          </Table.Root>
+        )}
+      </div>
+    )
+  }
+)

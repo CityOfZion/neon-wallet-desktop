@@ -8,8 +8,7 @@ import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useSettingsActions } from '@renderer/hooks/useSettingsSelector'
-import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
-import { migrationNeo3ReducerActions } from '@renderer/store/reducers/MigrationNeo3Reducer'
+import { utilityReducerActions } from '@renderer/store/reducers/UtilityReducer'
 import { TCreateWalletAndAccountParam } from '@shared/@types/blockchain'
 import { IContactState, TMigrationsNeo3, TSwapRecord } from '@shared/@types/store'
 
@@ -42,8 +41,8 @@ export const WelcomeImportWalletStep4Page = () => {
 
       setProgress(progress => progress + progressByStep)
 
-      if (swapRecords) swapRecords.forEach(swapRecord => dispatch(authReducerActions.persistSwapRecord(swapRecord)))
-      if (migrationsNeo3) dispatch(migrationNeo3ReducerActions.mergeMigrationsNeo3(migrationsNeo3))
+      if (swapRecords) swapRecords.forEach(swapRecord => dispatch(utilityReducerActions.persistSwapRecord(swapRecord)))
+      if (migrationsNeo3) dispatch(utilityReducerActions.mergeMigrationsNeo3(migrationsNeo3))
       if (contacts) createContacts(contacts)
 
       await UtilsHelper.sleep(250)
