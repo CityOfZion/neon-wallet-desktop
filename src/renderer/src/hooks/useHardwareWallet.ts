@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BlockchainService, BSWithLedger } from '@cityofzion/blockchain-service'
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
@@ -9,11 +9,10 @@ import { bsAggregator } from '@renderer/libs/blockchainService'
 import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { THardwareWalletInfo } from '@shared/@types/ipc'
-import { IAccountState, IWalletState } from '@shared/@types/store'
+import { IAccountState, IWalletState, TAccountType } from '@shared/@types/store'
 
 import { useCurrentLoginSessionSelector, useLastIndexesByWallet } from './useAuthSelector'
 import { useBlockchainActions } from './useBlockchainActions'
-import { useMountUnsafe } from './useMount'
 import { useAppDispatch } from './useRedux'
 import { useWalletsSelector } from './useWalletSelector'
 
@@ -21,13 +20,28 @@ type TStatus = 'searching' | 'connected' | 'not-connected'
 
 const MAX_ATTEMPTS = 10
 
-export const useConnectHardwareWallet = (onConnect: (hardwareWalletInfos: THardwareWalletInfo[]) => Promise<void>) => {
+export type TConnectHardwareWalletResponse = {
+  status: TStatus
+  handleTryConnect: () => void
+}
+
+type TConnectHardwareWalletOptions = {
+  onConnect(hardwareWalletInfos: THardwareWalletInfo[]): Promise<void>
+  enabled?: boolean
+  beforeConnectMs?: number
+  beforeConnectValidation?(walletsInfo: THardwareWalletInfo[]): boolean
+}
+
+export const useConnectHardwareWallet = (options: TConnectHardwareWalletOptions): TConnectHardwareWalletResponse => {
+  const { onConnect, enabled = true, beforeConnectMs = 2000, beforeConnectValidation } = options
+
   const [status, setStatus] = useState<TStatus>('searching')
   const triesRef = useRef(0)
   const timeoutRef = useRef<NodeJS.Timeout>()
-  const isConnecting = useRef(true)
+  const isConnecting = useRef(enabled)
   const { lastIndexesByWalletRef } = useLastIndexesByWallet()
   const { wallets } = useWalletsSelector()
+  const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
 
   const tryConnect = async () => {
     if (!isConnecting.current) return
@@ -39,26 +53,31 @@ export const useConnectHardwareWallet = (onConnect: (hardwareWalletInfos: THardw
 
       if (!isConnecting.current) return
 
-      const currentHardwareAccounts = wallets
-        .filter(({ type }) => type === 'hardware')
-        .flatMap(({ accounts }) => accounts)
-        .filter(({ type }) => type === 'hardware')
+      if (currentLoginSessionRef.current) {
+        const currentHardwareAccounts = wallets
+          .filter(({ type }) => type === 'hardware')
+          .flatMap(({ accounts }) => accounts)
+          .filter(({ type }) => type === 'hardware')
 
-      const [firstConnectedHardwareWallet] = connectedHardwareWallet
+        const [firstConnectedHardwareWallet] = connectedHardwareWallet
 
-      if (
-        firstConnectedHardwareWallet.accounts.every(({ address }) =>
-          currentHardwareAccounts.some(
-            AccountHelper.predicate({ address, blockchain: firstConnectedHardwareWallet.blockchain })
+        if (
+          firstConnectedHardwareWallet.accounts.every(({ address }) =>
+            currentHardwareAccounts.some(
+              AccountHelper.predicate({ address, blockchain: firstConnectedHardwareWallet.blockchain })
+            )
           )
         )
-      )
-        throw new Error('Accounts already connected')
+          throw new Error('Accounts already connected')
+      }
+
+      if (beforeConnectValidation && !beforeConnectValidation(connectedHardwareWallet))
+        throw new Error('There was an error on connection')
 
       setStatus('connected')
       clearTimeout(timeoutRef.current)
 
-      await UtilsHelper.sleep(2000)
+      await UtilsHelper.sleep(beforeConnectMs)
 
       onConnect(connectedHardwareWallet)
     } catch {
@@ -82,18 +101,24 @@ export const useConnectHardwareWallet = (onConnect: (hardwareWalletInfos: THardw
     tryConnect()
   }
 
-  useMountUnsafe(() => {
-    isConnecting.current = true
+  useEffect(() => {
+    isConnecting.current = enabled
 
-    handleTryConnect()
+    if (enabled) handleTryConnect()
 
     return () => {
       isConnecting.current = false
       clearTimeout(timeoutRef.current)
     }
-  })
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [enabled])
 
   return { status, handleTryConnect }
+}
+
+type TCreateHardwareWalletOptions = {
+  accountsType?: TAccountType
 }
 
 export const useHardwareWalletActions = () => {
@@ -130,7 +155,9 @@ export const useHardwareWalletActions = () => {
   )
 
   const createHardwareWallet = useCallback(
-    async (infos: THardwareWalletInfo[]) => {
+    async (infos: THardwareWalletInfo[], options: TCreateHardwareWalletOptions = {}) => {
+      const { accountsType = 'hardware' } = options
+
       if (!currentLoginSessionRef.current) {
         throw new Error('Login session not defined')
       }
@@ -168,7 +195,7 @@ export const useHardwareWalletActions = () => {
           editAccount({
             account,
             data: {
-              type: 'hardware',
+              type: accountsType,
             },
           })
         )
@@ -194,7 +221,7 @@ export const useHardwareWalletActions = () => {
           return await importAccount({
             address: hardwareAccount.address,
             blockchain: info.blockchain,
-            type: 'hardware',
+            type: accountsType,
             key: hardwareAccount.key,
             wallet: editedWallet,
             order: MnemonicHelper.extractIndexFromPath(hardwareAccount.bip44Path!),

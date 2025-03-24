@@ -46,6 +46,7 @@ import { NotificationsModal } from './modals/Notifications'
 import { PersistAccountModal } from './modals/PersistAccount'
 import { PersistContactModal } from './modals/PersistContact'
 import { DeleteModal } from './modals/PersistContact/DeleteModal'
+import { PrepareHardwareWalletMigrationNeo3Modal } from './modals/PrepareHardwareWalletMigrationNeo3'
 import { SelectAccountModal } from './modals/SelectAccount'
 import { SelectContact } from './modals/SelectContact'
 import { SellTokensDepositModal } from './modals/SellTokensDeposit/SellTokensDepositModal'
@@ -124,4 +125,10 @@ export const modalsRouter: TRoute[] = [
     element: <BuyAndSellTokensAboutDataModal />,
   },
   { name: 'notifications', type: 'side', size: 'sm', element: <NotificationsModal /> },
+  {
+    name: 'prepare-hardware-wallet-migration-neo3',
+    type: 'center',
+    size: 'lg',
+    element: <PrepareHardwareWalletMigrationNeo3Modal />,
+  },
 ]

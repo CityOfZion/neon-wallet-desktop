@@ -16,7 +16,6 @@ import { IAccountState } from '@shared/@types/store'
 import { useAccountsSelector, useOwnAccountsSelector } from './useAccountSelector'
 import { useCurrentLoginSessionSelector } from './useAuthSelector'
 import { useBlockchainActions } from './useBlockchainActions'
-import { useLogin } from './useLogin'
 import { useModalHistories, useModalNavigate } from './useModalRouter'
 import { useMountUnsafe } from './useMount'
 import { useAppDispatch } from './useRedux'
@@ -78,7 +77,6 @@ const useRegisterHardwareWalletListeners = () => {
   const { walletsRef } = useWalletsSelector()
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const { editAccount } = useBlockchainActions()
-  const { logout } = useLogin()
   const { t: commonT } = useTranslation('common')
 
   const transformHardwareAccountsToWatch = useCallback(() => {
@@ -103,19 +101,15 @@ const useRegisterHardwareWalletListeners = () => {
   })
 
   useEffect(() => {
-    const removeHardwareWalletDisconnectedListener = window.api.listen('hardwareWalletDisconnected', () => {
-      if (currentLoginSessionRef.current?.type === 'password') {
-        transformHardwareAccountsToWatch()
-        return
-      }
-
-      logout()
-    })
+    const removeHardwareWalletDisconnectedListener = window.api.listen(
+      'hardwareWalletDisconnected',
+      transformHardwareAccountsToWatch
+    )
 
     return () => {
       removeHardwareWalletDisconnectedListener()
     }
-  }, [currentLoginSessionRef, logout, transformHardwareAccountsToWatch])
+  }, [currentLoginSessionRef, transformHardwareAccountsToWatch])
 
   useEffect(() => {
     const removeGetHardwareWalletSignatureStartListener = window.api.listen('getHardwareWalletSignatureStart', () => {

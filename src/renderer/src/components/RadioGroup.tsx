@@ -12,11 +12,12 @@ const Group = forwardRef<
 })
 
 type ItemProps = ComponentPropsWithoutRef<typeof RadixRadioGroup.Item> & {
+  separatorClassName?: string
   withSeparator?: boolean
 }
 
 const Item = forwardRef<ElementRef<typeof RadixRadioGroup.Item>, ItemProps>(
-  ({ className, withSeparator = true, children, ...props }, ref) => {
+  ({ className, separatorClassName, withSeparator = true, children, ...props }, ref) => {
     return (
       <RadixRadioGroup.Item
         {...props}
@@ -28,7 +29,7 @@ const Item = forwardRef<ElementRef<typeof RadixRadioGroup.Item>, ItemProps>(
         </div>
 
         {withSeparator && (
-          <div className="w-full px-4 group-last:hidden">
+          <div className={StyleHelper.mergeStyles('w-full px-4 group-last:hidden', separatorClassName)}>
             <Separator />
           </div>
         )}

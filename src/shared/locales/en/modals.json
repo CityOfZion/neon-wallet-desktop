@@ -680,5 +680,42 @@
       "relatedAddressLabel": "Address",
       "relatedAccountLabel": "Account"
     }
+  },
+  "prepareHardwareWalletMigrationNeo3": {
+    "labels": {
+      "hardwareWallet": "Hardware Wallet",
+      "connected": "Your device was connected!",
+      "confirmation": "Confirmation",
+      "navigateNeo3": "Navigate to the NEO N3 app",
+      "prepareNeo3": "To prepare your Neo Legacy to Neo N3 migration, Neon needs a Neo N3 address to serve as destination for your migrated tokens.",
+      "hardwareWalletNotFound": "No hardware wallet or app found! Please check your connection",
+      "hardwareWalletAlert": "Ensure your hardware wallet remains unlocked for the entire process!",
+      "neo3Addresses": "Your addresses:",
+      "searchingNeo3HardwareWallet": "Waiting for user to open Neo N3 app…",
+      "searchingHardwareWallet": "Waiting for Neo Legacy app…",
+      "switchAccount": "Switch back to the Neo Legacy App on your hardware wallet to move to the next step.",
+      "switchNeo3": "In order to fetch this address, Neon needs you to <1>switch to your Neo N3 App</1> on your hardware wallet.",
+      "sourceAddress": "Source address",
+      "receiverAddress": "Receive address",
+      "fromHere": "Your <1>Neo Legacy</1> tokens will come from here:",
+      "depositedHere": "Your migrated <1>Neo N3</1> tokens will be deposited here:"
+    },
+    "steps": [
+      "Connect hardware",
+      "Open Neo N3 app",
+      "Select address",
+      "Confirmation",
+      "Complete"
+    ],
+    "buttons": {
+      "continue": "Continue",
+      "confirmAndContinue": "Confirm & Continue",
+      "searchAgain": "Search again",
+      "addAccount": "Add account"
+    },
+    "messages": {
+      "addNeo3AccountError": "There was a problem on add a new Neo 3 account. Verify if your hardware wallet is connected and unlocked"
+    }
   }
+
 }

@@ -1,19 +1,18 @@
 import { DependencyList, EffectCallback, useEffect, useRef, useState } from 'react'
 
-export const useMount = (
-  effect: () => void | Promise<void>,
-  changingStateVars?: DependencyList,
-  delay: number = 500
-) => {
+export const useMount = (effect: () => any, changingStateVars?: DependencyList, delay: number = 500) => {
   const [isMounting, setIsMounting] = useState(false)
 
   const timeoutRef = useRef<NodeJS.Timeout>()
 
   useEffect(() => {
     setIsMounting(true)
+
+    let callback
+
     timeoutRef.current = setTimeout(async () => {
       try {
-        await effect()
+        callback = await effect()
       } finally {
         setIsMounting(false)
       }
@@ -21,6 +20,8 @@ export const useMount = (
 
     return () => {
       clearTimeout(timeoutRef.current)
+
+      callback?.()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, changingStateVars)

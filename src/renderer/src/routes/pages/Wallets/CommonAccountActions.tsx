@@ -2,12 +2,16 @@ import { Fragment } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbArrowsExchange, TbCancel, TbReplace, TbShoppingBag, TbStepInto, TbStepOut } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
+import { hasLedger } from '@cityofzion/blockchain-service'
 import { Button } from '@renderer/components/Button'
 import { Tooltip } from '@renderer/components/Tooltip'
 import { SWAP_NETWORK_BY_BLOCKCHAIN_AND_NETWORK_ID } from '@renderer/constants/swap'
+import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useBalance } from '@renderer/hooks/useBalances'
 import { useMigrationNeo3Validations } from '@renderer/hooks/useMigrationNeo3Validations'
+import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
+import { bsAggregator } from '@renderer/libs/blockchainService'
 import { IAccountState } from '@shared/@types/store'
 
 type TProps = {
@@ -16,12 +20,12 @@ type TProps = {
 
 export const CommonAccountActions = ({ account }: TProps) => {
   const navigate = useNavigate()
-
   const { network } = useSelectedNetworkSelector(account.blockchain)
   const { t } = useTranslation('common', { keyPrefix: 'general' })
   const { t: tWallets } = useTranslation('pages', { keyPrefix: 'wallets' })
   const balanceQuery = useBalance(account)
   const { canMigrateToNeo3 } = useMigrationNeo3Validations({ account })
+  const { modalNavigate } = useModalNavigate()
 
   const tokenBalances = balanceQuery.data?.tokensBalances ?? []
   const isShowedMigrationNeo3 = account.blockchain === 'neoLegacy'
@@ -30,6 +34,21 @@ export const CommonAccountActions = ({ account }: TProps) => {
     isShowedMigrationNeo3 && (balanceQuery.isLoading || !canMigrateToNeo3({ tokenBalances }))
 
   const isSwapAvailable = !!SWAP_NETWORK_BY_BLOCKCHAIN_AND_NETWORK_ID[account.blockchain][network.id]?.length
+
+  const handleMigrate = async () => {
+    const service = bsAggregator.blockchainServicesByName[account.blockchain]
+    const isHardwareAccount = account.type === 'hardware' && hasLedger(service)
+
+    if (isHardwareAccount) {
+      await UtilsHelper.sleep(100)
+
+      modalNavigate('prepare-hardware-wallet-migration-neo3', { state: { account } })
+
+      return
+    }
+
+    navigate('/app/migration-neo3', { state: { account } })
+  }
 
   return account?.type !== 'watch' ? (
     <div className="flex gap-2">
@@ -48,7 +67,7 @@ export const CommonAccountActions = ({ account }: TProps) => {
             disabled={isDisabledMigrationNeo3}
             clickableProps={{ className: 'text-xs' }}
             leftIcon={<TbArrowsExchange aria-hidden={true} />}
-            onClick={() => navigate('/app/migration-neo3', { state: { account } })}
+            onClick={handleMigrate}
           />
         </Tooltip>
       )}

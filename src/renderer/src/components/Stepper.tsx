@@ -8,12 +8,14 @@ type TProps = {
   currentStep?: number
   currentState?: TStepperCurrentState
   theme?: 'neon' | 'default'
+  textClassName?: string
 } & React.ComponentProps<'div'>
 
 export const Stepper = ({
   steps,
   currentStep = 1,
   className,
+  textClassName,
   theme = 'default',
   currentState = 'success',
   ...props
@@ -36,7 +38,7 @@ export const Stepper = ({
             <div className="flex flex-col relative">
               <span
                 className={StyleHelper.mergeStyles(
-                  'w-6 h-6  rounded-full flex items-center justify-center text-sm font-bold transition-colors',
+                  'w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold transition-colors',
                   {
                     'bg-blue text-asphalt': isPastStep && isDefaultTheme,
                     'bg-gray-900 text-gray-300': isFutureStep && isDefaultTheme,
@@ -59,7 +61,8 @@ export const Stepper = ({
                     'text-white': isCurrentStep && isSuccessState,
                     'text-pink': isCurrentStep && isErrorState,
                     'text-gray-300': isFutureStep,
-                  }
+                  },
+                  textClassName
                 )}
               >
                 {step}

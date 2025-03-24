@@ -17,12 +17,14 @@ export const ConnectHardwareWalletModal = () => {
   const { createHardwareWallet } = useHardwareWalletActions()
   const { pathname } = useLocation()
 
-  const { status, handleTryConnect } = useConnectHardwareWallet(async info => {
-    const [firstAccount] = await createHardwareWallet(info)
+  const { status, handleTryConnect } = useConnectHardwareWallet({
+    onConnect: async info => {
+      const [firstAccount] = await createHardwareWallet(info)
 
-    if (pathname.startsWith('/app/wallets/')) navigate(`/app/wallets/${firstAccount.id}/overview`)
+      if (pathname.startsWith('/app/wallets/')) navigate(`/app/wallets/${firstAccount.id}/overview`)
 
-    modalErase('center')
+      modalErase('center')
+    },
   })
 
   return (
