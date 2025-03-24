@@ -1,6 +1,6 @@
 import { forwardRef, useImperativeHandle, useMemo } from 'react'
 import { MdContentCopy } from 'react-icons/md'
-import { TbChevronRight, TbTransform } from 'react-icons/tb'
+import { TbArrowsExchange, TbChevronRight, TbTransform } from 'react-icons/tb'
 import { hasExplorerService } from '@cityofzion/blockchain-service'
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
@@ -8,6 +8,7 @@ import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { usePendingTransactionsSelector, useSwapRecordsSelector } from '@renderer/hooks/useAuthSelector'
 import { useInfiniteScroll } from '@renderer/hooks/useInfiniteScroll'
+import { useMigrationsNeo3Selector } from '@renderer/hooks/useMigrationNeo3Selector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useTokenTransfers } from '@renderer/hooks/useTokenTransfers'
 import { bsAggregator } from '@renderer/libs/blockchainService'
@@ -38,6 +39,7 @@ export const TransactionsTable = forwardRef<HTMLDivElement, TTransactionListProp
 
     const { pendingTransactions } = usePendingTransactionsSelector()
     const { swapRecords } = useSwapRecordsSelector()
+    const { migrationsNeo3 } = useMigrationsNeo3Selector()
     const { modalNavigate } = useModalNavigate()
 
     const { handleScroll, ref: scrollRef } = useInfiniteScroll<HTMLDivElement>(fetchNextPage)
@@ -96,14 +98,32 @@ export const TransactionsTable = forwardRef<HTMLDivElement, TTransactionListProp
           id: 'actions',
           cell: info => {
             const explorerUrl = getExplorerUrl(info.row.original)
+            const hash = info.row.original.hash
+            const normalizedHash = UtilsHelper.normalizeHash(hash)
+            const migrationNeo3 = migrationsNeo3[hash]
+
             const swapRecord = swapRecords.find(
-              swapRecord =>
-                swapRecord.txFrom &&
-                UtilsHelper.normalizeHash(swapRecord.txFrom) === UtilsHelper.normalizeHash(info.row.original.hash)
+              swapRecord => !!swapRecord.txFrom && UtilsHelper.normalizeHash(swapRecord.txFrom) === normalizedHash
             )
 
             return (
               <div className="flex gap-5 justify-end">
+                {migrationNeo3 && (
+                  <Button
+                    label={t('common:general.migrationNeo3')}
+                    variant="text-slim"
+                    colorSchema="yellow"
+                    leftIcon={<TbArrowsExchange aria-hidden={true} />}
+                    onClick={async event => {
+                      event.stopPropagation()
+
+                      await UtilsHelper.sleep(100)
+
+                      modalNavigate('migration-neo3-status', { state: { hash } })
+                    }}
+                  />
+                )}
+
                 {swapRecord && (
                   <Button
                     variant="text-slim"
@@ -116,6 +136,7 @@ export const TransactionsTable = forwardRef<HTMLDivElement, TTransactionListProp
                     }}
                   />
                 )}
+
                 <TbChevronRight
                   style={{ visibility: explorerUrl ? 'visible' : 'hidden' }}
                   className="w-4 h-4 my-2 text-gray-300"
@@ -125,7 +146,7 @@ export const TransactionsTable = forwardRef<HTMLDivElement, TTransactionListProp
           },
         }),
       ],
-      [modalNavigate, showSimplified, swapRecords]
+      [migrationsNeo3, modalNavigate, showSimplified, swapRecords]
     )
 
     const allTransfers = useMemo(

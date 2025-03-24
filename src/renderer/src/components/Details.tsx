@@ -26,7 +26,11 @@ const Header = ({ label, icon, children, ...props }: THeaderProps) => {
   return (
     <div {...props}>
       <div className="flex  items-center gap-2.5">
-        {icon && cloneElement(icon, { className: StyleHelper.mergeStyles('text-blue w-6 h-6', icon.props.className) })}
+        {icon &&
+          cloneElement(icon, {
+            'aria-hidden': true,
+            className: StyleHelper.mergeStyles('text-blue w-6 h-6', icon.props.className),
+          })}
 
         <span className="text-sm text-white">{label}</span>
 
@@ -57,9 +61,9 @@ const Panel = ({ className, children, label, ...props }: TPanelProps) => {
   )
 }
 
-type TItemProps = { label: string; copyable?: string } & ComponentProps<'div'>
+type TItemProps = { label: string; copyable?: string; contentClassName?: string } & ComponentProps<'div'>
 
-const Item = ({ label, children, copyable, className, ...props }: TItemProps) => {
+const Item = ({ label, children, copyable, className, contentClassName, ...props }: TItemProps) => {
   const handleCopy = () => {
     if (copyable) UtilsHelper.copyToClipboard(copyable)
   }
@@ -69,7 +73,7 @@ const Item = ({ label, children, copyable, className, ...props }: TItemProps) =>
       <div className="flex flex-col gap-2.5 py-4 px-3" {...props}>
         <span className="text-xs text-gray-100 uppercase">{label}</span>
 
-        <div className="flex gap-2.5 items-center">
+        <div className={StyleHelper.mergeStyles('flex gap-2.5 items-center', contentClassName)}>
           {typeof children === 'string' ? <span className="text-sm text-white break-all">{children}</span> : children}
 
           {copyable && (
