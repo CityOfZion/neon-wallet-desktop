@@ -40,7 +40,7 @@ export const useConnectHardwareWallet = (options: TConnectHardwareWalletOptions)
   const timeoutRef = useRef<NodeJS.Timeout>()
   const isConnecting = useRef(enabled)
   const { lastIndexesByWalletRef } = useLastIndexesByWallet()
-  const { wallets } = useWalletsSelector()
+  const { walletsRef } = useWalletsSelector()
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
 
   const tryConnect = async () => {
@@ -54,7 +54,7 @@ export const useConnectHardwareWallet = (options: TConnectHardwareWalletOptions)
       if (!isConnecting.current) return
 
       if (currentLoginSessionRef.current) {
-        const currentHardwareAccounts = wallets
+        const currentHardwareAccounts = walletsRef.current
           .filter(({ type }) => type === 'hardware')
           .flatMap(({ accounts }) => accounts)
           .filter(({ type }) => type === 'hardware')

@@ -740,5 +740,12 @@
     "buttons": {
       "viewStatus": "View status"
     }
+  },
+  "migrationNeo3ClaimAlert": {
+    "title": "You're trying migrate before claim your {{tokenSymbol}}",
+    "description": "Claim your token in overview screen, and try again, please.",
+    "buttons": {
+      "understood": "I understood"
+    }
   }
 }

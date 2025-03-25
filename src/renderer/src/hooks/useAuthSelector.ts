@@ -1,3 +1,4 @@
+import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { IAccountState, TNotification, TNotificationPriority } from '@shared/@types/store'
 import lodash from 'lodash'
 
@@ -32,9 +33,11 @@ const selectAllNotifications = createAppSelector(
 )
 
 const selectHasClaimPendingTransaction = (account: IAccountState) =>
-  createAppSelector([state => state.auth.pendingTransactions], pendingTransactions => {
-    return pendingTransactions.some(transaction => !!transaction.isClaim && transaction.account.id === account.id)
-  })
+  createAppSelector([state => state.auth.pendingTransactions], pendingTransactions =>
+    pendingTransactions.some(
+      transaction => !!transaction.isClaim && AccountHelper.predicate(transaction.account)(account)
+    )
+  )
 
 export const useCurrentLoginSessionSelector = () => {
   const { ref, value } = useAppSelector(state => state.auth.currentLoginSession)
