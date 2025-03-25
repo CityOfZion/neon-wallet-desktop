@@ -9,12 +9,14 @@ import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useSettingsActions } from '@renderer/hooks/useSettingsSelector'
 import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
+import { migrationNeo3ReducerActions } from '@renderer/store/reducers/MigrationNeo3Reducer'
 import { TCreateWalletAndAccountParam } from '@shared/@types/blockchain'
-import { IContactState, TSwapRecord } from '@shared/@types/store'
+import { IContactState, TMigrationsNeo3, TSwapRecord } from '@shared/@types/store'
 
 type TLocationState = {
   wallets: TCreateWalletAndAccountParam[]
   swapRecords?: TSwapRecord[]
+  migrationsNeo3?: TMigrationsNeo3
   contacts?: IContactState[]
   password: string
 }
@@ -33,7 +35,7 @@ export const WelcomeImportWalletStep4Page = () => {
 
   const handleImport = async () => {
     try {
-      const { wallets, contacts, password, swapRecords } = state
+      const { wallets, contacts, password, swapRecords, migrationsNeo3 } = state
       const progressByStep = 100 / (wallets.length + 3)
 
       await setHasPassword(password)
@@ -41,6 +43,7 @@ export const WelcomeImportWalletStep4Page = () => {
       setProgress(progress => progress + progressByStep)
 
       if (swapRecords) swapRecords.forEach(swapRecord => dispatch(authReducerActions.persistSwapRecord(swapRecord)))
+      if (migrationsNeo3) dispatch(migrationNeo3ReducerActions.mergeMigrationsNeo3(migrationsNeo3))
       if (contacts) createContacts(contacts)
 
       await UtilsHelper.sleep(250)

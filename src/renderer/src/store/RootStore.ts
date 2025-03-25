@@ -3,17 +3,20 @@ import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, R
 
 import AuthReducer, { authReducerConfig } from './reducers/AuthReducer'
 import ContactReducer, { contactReducerConfig } from './reducers/ContactReducer'
+import MigrationNeo3Reducer, { migrationNeo3ReducerConfig } from './reducers/MigrationNeo3Reducer'
 import SettingsReducer, { settingsReducerConfig } from './reducers/SettingsReducer'
 
 const persistedAuthReducer = persistReducer(authReducerConfig, AuthReducer)
 const persistedSettingsReducer = persistReducer(settingsReducerConfig, SettingsReducer)
 const persistedContactReducer = persistReducer(contactReducerConfig, ContactReducer)
+const persistedMigrationNeo3Reducer = persistReducer(migrationNeo3ReducerConfig, MigrationNeo3Reducer)
 
 export class RootStore {
   static reducers = combineReducers({
     auth: persistedAuthReducer,
     settings: persistedSettingsReducer,
     contact: persistedContactReducer,
+    migrationNeo3: persistedMigrationNeo3Reducer,
   })
 
   static store = configureStore({

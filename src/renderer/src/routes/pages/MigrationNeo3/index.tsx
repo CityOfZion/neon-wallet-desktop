@@ -30,6 +30,7 @@ import { useBalance } from '@renderer/hooks/useBalances'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useHardwareWalletActions } from '@renderer/hooks/useHardwareWallet'
 import { useMigrationNeo3Validations } from '@renderer/hooks/useMigrationNeo3Validations'
+import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useMountUnsafe } from '@renderer/hooks/useMount'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useWalletByIdSelector } from '@renderer/hooks/useWalletSelector'
@@ -40,7 +41,7 @@ import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TUseTransactionsTransfer } from '@shared/@types/hooks'
 import { THardwareWalletInfo } from '@shared/@types/ipc'
 import { TTokenBalance } from '@shared/@types/query'
-import { IAccountState } from '@shared/@types/store'
+import { IAccountState, TPendingMigrationNeo3 } from '@shared/@types/store'
 import { match } from 'ts-pattern'
 
 import { MigrationNeo3AssetText } from './MigrationNeo3AssetText'
@@ -70,6 +71,7 @@ export const MigrationNeo3Page = () => {
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const { importAccount } = useBlockchainActions()
   const { accountsRef } = useAccountsSelector()
+  const { modalNavigate } = useModalNavigate()
   const dispatch = useAppDispatch()
   const { isConnectedAndUnlockedHardwareWallet } = useHardwareWalletActions()
   const { createHardwareWallet } = useHardwareWalletActions()
@@ -108,10 +110,19 @@ export const MigrationNeo3Page = () => {
   const gasTokenBalance = tokenBalances.find(({ token }) => token.symbol === 'GAS')
   const neoTokenBalance = tokenBalances.find(({ token }) => token.symbol === 'NEO')
 
+  const gasToken = gasTokenBalance?.token
+  const neoToken = neoTokenBalance?.token
+
   const hasGasAmount = migrationNeo3Validations.hasGasAmount(gasTokenBalance?.amountNumber ?? 0)
   const hasNeoAmount = migrationNeo3Validations.hasNeoAmount(neoTokenBalance?.amountNumber ?? 0)
 
   const tokensText = match({ hasGasAmount, hasNeoAmount })
+    .with({ hasGasAmount: true, hasNeoAmount: true }, () => `${neoToken!.symbol} & ${gasToken!.symbol}`)
+    .with({ hasNeoAmount: true }, () => neoToken!.symbol)
+    .with({ hasGasAmount: true }, () => gasToken!.symbol)
+    .otherwise(() => t('labels.notFound'))
+
+  const neo3TokensText = match({ hasGasAmount, hasNeoAmount })
     .with({ hasGasAmount: true, hasNeoAmount: true }, () => `${neo3NeoToken.symbol} & ${neo3GasToken.symbol}`)
     .with({ hasNeoAmount: true }, () => neo3NeoToken.symbol)
     .with({ hasGasAmount: true }, () => neo3GasToken.symbol)
@@ -254,15 +265,37 @@ export const MigrationNeo3Page = () => {
         ),
       }))
 
+      const pendingMigrationNeo3: TPendingMigrationNeo3 = {
+        hash: transactionHash,
+        account,
+        neo3Address: neo3Account.address,
+        status: 'pending',
+        gasToken,
+        neoToken,
+        neo3GasToken,
+        neo3NeoToken,
+        gasSent: gasTokenBalance?.amount,
+        neoSent: neoTokenBalance?.amount,
+        neo3GasFee: calculatedValues.gasMigrationTotalFees,
+        neo3NeoFee: calculatedValues.neoMigrationTotalFees,
+        neo3GasAmount: calculatedValues.gasMigrationAmount,
+        neo3NeoAmount: calculatedValues.neoMigrationAmount,
+      }
+
       dispatch(
         thunks.waitMigration({
           hash: transactionHash,
           transactionsTransfer,
           neo3Address: neo3Account.address,
+          pendingMigrationNeo3,
         })
       )
 
       navigate(`/app/wallets/${account.id}/transactions`)
+
+      await UtilsHelper.sleep(100)
+
+      modalNavigate('migration-neo3-status', { state: { hash: transactionHash } })
 
       ToastHelper.success({ message: t('messages.migrationSuccess') })
     } catch (error) {
@@ -347,7 +380,7 @@ export const MigrationNeo3Page = () => {
                     headerClassName="gap-4"
                     leftIcon={<VscCircleFilled aria-hidden={true} className="text-gray-100 w-2 h-2" />}
                   >
-                    <MigrationNeo3AssetText text={tokensText} blockchain="neo3" />
+                    <MigrationNeo3AssetText text={neo3TokensText} blockchain="neo3" />
                   </ActionStep>
                 </ActionCard>
 

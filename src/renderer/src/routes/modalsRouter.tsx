@@ -39,6 +39,7 @@ import { ImportWatchAccountsModal } from './modals/Import/ImportWatchAccountsMod
 import { MigrateAccountsStep2Modal } from './modals/MigrateAccounts/MigrateAccountsStep2'
 import { MigrateAccountsStep3Modal } from './modals/MigrateAccounts/MigrateAccountsStep3'
 import { MigrateAccountsStep4Modal } from './modals/MigrateAccounts/MigrateAccountsStep4'
+import { MigrationNeo3StatusModal } from './modals/MigrationNeo3Status'
 import { NetworkNodeSelection } from './modals/NetworkNodeSelection'
 import { NetworkSelection } from './modals/NetworkSelection'
 import { NFTSelectionModal } from './modals/NftSelection'
@@ -131,4 +132,5 @@ export const modalsRouter: TRoute[] = [
     size: 'lg',
     element: <PrepareHardwareWalletMigrationNeo3Modal />,
   },
+  { name: 'migration-neo3-status', type: 'side', size: 'md', element: <MigrationNeo3StatusModal /> },
 ]

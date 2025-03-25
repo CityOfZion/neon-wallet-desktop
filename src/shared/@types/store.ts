@@ -1,4 +1,4 @@
-import { SwapServiceStatusResponse, SwapServiceToken } from '@cityofzion/blockchain-service'
+import { SwapServiceStatusResponse, SwapServiceToken, Token } from '@cityofzion/blockchain-service'
 
 import { TBlockchainServiceKey, TNetwork } from './blockchain'
 import { Optional } from './global'
@@ -156,3 +156,26 @@ export type TNotification = {
 }
 
 export type TSaveNotification = Optional<TNotification, 'id' | 'date' | 'provider' | 'read' | 'priority'>
+
+export type TMigrationNeo3 = {
+  hash: string
+  account: IAccountState
+  neo3Address: string
+  status: 'done' | 'pending' | 'failure'
+  gasToken?: Token
+  neoToken?: Token
+  neo3GasToken: Token
+  neo3NeoToken: Token
+  gasSent?: string
+  neoSent?: string
+  neo3GasFee?: string
+  neo3NeoFee?: string
+  neo3GasAmount?: string
+  neo3NeoAmount?: string
+}
+
+export type TPendingMigrationNeo3 = Omit<TMigrationNeo3, 'status'> & { status: 'pending' }
+
+export type TMigrationsNeo3 = {
+  [hash: string]: TMigrationNeo3
+}

@@ -2,9 +2,11 @@ import { useTranslation } from 'react-i18next'
 import { BACKUP_FILE_EXTENSION, BACKUP_VERSION, DEPRECATED_BACKUP_FILE_EXTENSION } from '@renderer/constants/backup'
 import { DateHelper } from '@renderer/helpers/DateHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+import { useMigrationsNeo3Selector } from '@renderer/hooks/useMigrationNeo3Selector'
 import { doesBlockchainSupported } from '@renderer/libs/blockchainService'
 import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
 import { contactReducerActions } from '@renderer/store/reducers/ContactReducer'
+import { migrationNeo3ReducerActions } from '@renderer/store/reducers/MigrationNeo3Reducer'
 import { TAccountsToImport, TCreateWalletAndAccountParam } from '@shared/@types/blockchain'
 import {
   IAccountState,
@@ -12,9 +14,11 @@ import {
   IWalletState,
   TAccountType,
   TContactAddress,
+  TMigrationsNeo3,
   TSkin,
   TSwapRecord,
 } from '@shared/@types/store'
+import { cloneDeep } from 'lodash'
 import zod from 'zod'
 
 import { useAccountsSelector, useAccountUtils } from './useAccountSelector'
@@ -32,6 +36,7 @@ export type TUseNeonBackupDeprecatedData = { content: string; type: 'backup-depr
 export type TUseNeonBackupGeneratedData = {
   wallets: TCreateWalletAndAccountParam[]
   swapRecords?: TSwapRecord[]
+  migrationsNeo3?: TMigrationsNeo3
   contacts?: IContactState[]
 }
 
@@ -90,10 +95,38 @@ export const backupSwapSchema = zod.object({
   fee: zod.string().optional(),
 })
 
+const backupTokenSchema = zod.object({
+  symbol: zod.string(),
+  name: zod.string(),
+  hash: zod.string(),
+  decimals: zod.number(),
+})
+
+const backupMigrationsNeo3Schema = zod.record(
+  zod.string(),
+  zod.object({
+    hash: zod.string(),
+    account: backupAccountSchema,
+    neo3Address: zod.string(),
+    status: zod.union([zod.literal('failure'), zod.literal('pending'), zod.literal('done')]),
+    gasToken: backupTokenSchema.optional(),
+    neoToken: backupTokenSchema.optional(),
+    neo3GasToken: backupTokenSchema,
+    neo3NeoToken: backupTokenSchema,
+    gasSent: zod.string().optional(),
+    neoSent: zod.string().optional(),
+    neo3GasFee: zod.string().optional(),
+    neo3NeoFee: zod.string().optional(),
+    neo3GasAmount: zod.string().optional(),
+    neo3NeoAmount: zod.string().optional(),
+  })
+)
+
 export const backupDataSchema = zod.object({
   wallets: zod.array(backupWalletSchema),
   contacts: zod.array(backupContactSchema),
   swapRecords: zod.array(backupSwapSchema).optional(),
+  migrationsNeo3: backupMigrationsNeo3Schema.optional(),
 })
 
 export const backupFileSchema = zod.object({
@@ -139,6 +172,7 @@ const fixWalletProperties = (
 export const useNeonCreateBackup = () => {
   const { t } = useTranslation('hooks', { keyPrefix: 'useNeonBackup' })
   const { swapRecords } = useSwapRecordsSelector()
+  const { migrationsNeo3 } = useMigrationsNeo3Selector()
   const { wallets } = useWalletsSelector()
   const { accounts } = useAccountsSelector()
   const { contacts } = useContactsSelector()
@@ -151,7 +185,12 @@ export const useNeonCreateBackup = () => {
 
     const encryptedPassword = currentLoginSessionRef.current.encryptedPassword
 
-    const backupFile: zod.infer<typeof backupDataSchema> = { wallets: [], contacts: [], swapRecords: [] }
+    const backupFile: zod.infer<typeof backupDataSchema> = {
+      wallets: [],
+      contacts: [],
+      swapRecords: [],
+      migrationsNeo3: {},
+    }
 
     backupFile.contacts = contacts.map(contact => ({
       id: contact.id,
@@ -174,6 +213,8 @@ export const useNeonCreateBackup = () => {
       txFrom: swap.txFrom,
       txTo: swap.txTo,
     }))
+
+    backupFile.migrationsNeo3 = cloneDeep(migrationsNeo3)
 
     const backupAccountsByWalletId = new Map<string, zod.infer<typeof backupAccountSchema>[]>()
 
@@ -309,9 +350,8 @@ export const useNeonImportBackup = () => {
       }
 
       const parsedData = JSON.parse(decrypted)
-      const validatedData = await backupDataSchema.parseAsync(parsedData)
 
-      return validatedData
+      return await backupDataSchema.parseAsync(parsedData)
     } catch {
       throw new Error(t('errors.wrongPassword'))
     }
@@ -320,6 +360,7 @@ export const useNeonImportBackup = () => {
   const handleGenerateData = (data: zod.infer<typeof backupDataSchema>): TUseNeonBackupGeneratedData => {
     const contactsToCreate: IContactState[] = []
     const swapRecordsToCreate: TSwapRecord[] = []
+    const migrationsNeo3ToCreate: TMigrationsNeo3 = {}
     const walletsToCreate: TCreateWalletAndAccountParam[] = []
 
     data.swapRecords?.forEach(swap => {
@@ -342,6 +383,24 @@ export const useNeonImportBackup = () => {
         account,
       })
     })
+
+    if (data.migrationsNeo3)
+      Object.assign(
+        migrationsNeo3ToCreate,
+        Object.values(data.migrationsNeo3).reduce((migrationsNeo3, migrationNeo3) => {
+          const account = fixAccountProperties(migrationNeo3.account)
+
+          if (!account) return migrationsNeo3
+
+          return {
+            ...migrationsNeo3,
+            [migrationNeo3.hash]: {
+              ...migrationNeo3,
+              account,
+            },
+          }
+        }, {})
+      )
 
     data.contacts.forEach(contact => {
       const addresses: TContactAddress[] = []
@@ -383,6 +442,7 @@ export const useNeonImportBackup = () => {
       wallets: walletsToCreate,
       contacts: contactsToCreate,
       swapRecords: swapRecordsToCreate,
+      migrationsNeo3: migrationsNeo3ToCreate,
     }
   }
 
@@ -391,6 +451,9 @@ export const useNeonImportBackup = () => {
       generatedData.swapRecords?.forEach(swap => {
         dispatch(authReducerActions.persistSwapRecord(swap))
       })
+
+      if (generatedData.migrationsNeo3)
+        dispatch(migrationNeo3ReducerActions.mergeMigrationsNeo3(generatedData.migrationsNeo3))
 
       generatedData.contacts?.forEach(contact => {
         dispatch(contactReducerActions.saveContact(contact))

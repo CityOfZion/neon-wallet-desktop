@@ -716,6 +716,29 @@
     "messages": {
       "addNeo3AccountError": "There was a problem on add a new Neo 3 account. Verify if your hardware wallet is connected and unlocked"
     }
+  },
+  "migrationNeo3Status": {
+    "title": "Migration token(s)",
+    "subtitles": {
+      "done": "Your migration has been done!",
+      "pending": "Your migration has been started!",
+      "failure": "Your migration failed!"
+    },
+    "card": {
+      "title": "Migration details",
+      "transaction": "Transaction",
+      "labels": {
+        "destinationAddress": "Neo N3 destination address",
+        "amountSent": "Amount sent",
+        "migrationFee": "Migration fee",
+        "amountWouldReceive": "Amount you would receive",
+        "amountReceived": "Amount received",
+        "amountWillReceive":  "Amount you will receive",
+        "hash": "Transaction hash"
+      }
+    },
+    "buttons": {
+      "viewStatus": "View status"
+    }
   }
-
 }

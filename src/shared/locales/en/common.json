@@ -17,6 +17,7 @@
     "swap": "Swap",
     "buyAndSellTokens": "Buy + Sell",
     "migrate": "Migrate",
+    "migrationNeo3": "Migration",
     "logo": "Neon Wallet's logo",
     "pasteFromClipboard": "Paste from clipboard",
     "pasteFromClipboardError": "Failed to paste from clipboard"
