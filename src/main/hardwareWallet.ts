@@ -18,24 +18,27 @@ const NodeHidTransportFixed = (NodeHidTransport as any).default as typeof NodeHi
 
 let transporters: THardwareWalletInfoWithTransport[] = []
 
-export const getHardwareWalletTransport = async (account: Account<TBlockchainServiceKey>) => {
-  const transporter = transporters.find(item => item.accounts.some(item => item.address === account.address))
+export const getHardwareWalletTransport = async ({ address, blockchain }: Account<TBlockchainServiceKey>) => {
+  const transporter = transporters.find(item =>
+    item.accounts.some(account => account.blockchain === blockchain && account.address === address)
+  )
+
   if (!transporter) {
-    throw new Error(`No hardware wallet found for account ${account.address}`)
+    throw new Error(`No hardware wallet found for account ${address}`)
   }
 
   return transporter.transport as Transport
 }
 
 const connectHardwareWallet = async ({ lastIndexesByWallet }: TConnectHardwareWalletParams) => {
-  disconnectHardwareWallet()
-
   const devices = getDevices()
+
   if (!devices.length) throw new Error('No hardware wallet found')
 
   const [device] = devices
 
   const transport = await NodeHidTransportFixed.open(device.path)
+  const newTransporters: THardwareWalletInfoWithTransport[] = []
 
   for (const service of Object.values(bsAggregator.blockchainServicesByName)) {
     try {
@@ -43,7 +46,7 @@ const connectHardwareWallet = async ({ lastIndexesByWallet }: TConnectHardwareWa
 
       const accounts = await service.ledgerService.getAccounts(transport, lastIndexesByWallet)
 
-      transporters.push({
+      newTransporters.push({
         accounts,
         blockchain: service.name,
         transport,
@@ -54,11 +57,13 @@ const connectHardwareWallet = async ({ lastIndexesByWallet }: TConnectHardwareWa
     }
   }
 
-  if (transporters.some(transport => transport.blockchain === 'neoLegacy')) {
-    transporters = transporters.filter(transport => transport.blockchain === 'neoLegacy')
-  }
+  if (newTransporters.length > 0) {
+    disconnectHardwareWallet()
 
-  if (!transporters.length) {
+    const neoLegacyTransport = newTransporters.find(({ blockchain }) => blockchain === 'neoLegacy')
+
+    transporters = neoLegacyTransport ? [neoLegacyTransport] : newTransporters
+  } else {
     transport.close()
     throw new Error('Transport is open but it was not possible to identify the blockchain')
   }
@@ -139,6 +144,7 @@ export function registerHardwareWalletHandler() {
 
     transporters.forEach((transporter, index) => {
       const isConnected = connectedDevices.some(device => transporter.descriptor === device.path)
+
       if (isConnected) return
 
       transporter.transport.close()

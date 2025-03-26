@@ -33,6 +33,7 @@ import { useMigrationNeo3Validations } from '@renderer/hooks/useMigrationNeo3Val
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useMountUnsafe } from '@renderer/hooks/useMount'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
+import { useUnclaimed } from '@renderer/hooks/useUnclaimed'
 import { useWalletByIdSelector } from '@renderer/hooks/useWalletSelector'
 import { ContentLayout } from '@renderer/layouts/ContentLayout'
 import { bsAggregator } from '@renderer/libs/blockchainService'
@@ -82,6 +83,7 @@ export const MigrationNeo3Page = () => {
 
   const { wallet } = useWalletByIdSelector(account.idWallet)
   const balanceQuery = useBalance(account)
+  const unclaimedQuery = useUnclaimed(account)
   const migrationNeo3Validations = useMigrationNeo3Validations({ account })
 
   const service = bsAggregator.blockchainServicesByName[account.blockchain]
@@ -93,6 +95,7 @@ export const MigrationNeo3Page = () => {
   const neo3NeoToken = neo3Service.tokens.find(({ symbol }) => symbol === 'NEO')!
 
   const tokenBalances = balanceQuery.data?.tokensBalances ?? []
+  const unclaimedResult = unclaimedQuery.data
 
   const {
     actionData: { serviceAccount, neo3Account, isGeneratingAccounts, isCalculatingValues, calculatedValues },
@@ -308,12 +311,14 @@ export const MigrationNeo3Page = () => {
   useEffect(() => {
     if (
       account.blockchain !== 'neoLegacy' ||
-      (!balanceQuery.isLoading && !migrationNeo3Validations.canMigrateToNeo3({ tokenBalances }))
+      (!balanceQuery.isLoading &&
+        !unclaimedQuery.isLoading &&
+        !migrationNeo3Validations.canMigrateToNeo3({ tokenBalances, unclaimedResult }))
     )
       handleGoBack()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [balanceQuery.isLoading, tokenBalances])
+  }, [balanceQuery.isLoading, unclaimedQuery.isLoading, tokenBalances, unclaimedResult])
 
   useEffect(() => {
     if (!serviceAccount || !neo3Account) return

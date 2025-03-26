@@ -14,6 +14,7 @@ import { useBalance } from '@renderer/hooks/useBalances'
 import { useConnectHardwareWallet, useHardwareWalletActions } from '@renderer/hooks/useHardwareWallet'
 import { useMigrationNeo3Validations } from '@renderer/hooks/useMigrationNeo3Validations'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
+import { useUnclaimed } from '@renderer/hooks/useUnclaimed'
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
 import { THardwareWalletInfo } from '@shared/@types/ipc'
 import { IAccountState } from '@shared/@types/store'
@@ -42,6 +43,7 @@ export const PrepareHardwareWalletMigrationNeo3Modal = () => {
   const { account } = useModalState<TLocationState>()
   const { modalErase } = useModalNavigate()
   const balanceQuery = useBalance(account)
+  const unclaimedQuery = useUnclaimed(account)
   const { canMigrateToNeo3 } = useMigrationNeo3Validations({ account })
   const { createHardwareWallet } = useHardwareWalletActions()
   const navigate = useNavigate()
@@ -91,6 +93,7 @@ export const PrepareHardwareWalletMigrationNeo3Modal = () => {
     .otherwise(() => 2)
 
   const tokenBalances = balanceQuery.data?.tokensBalances ?? []
+  const unclaimedResult = unclaimedQuery.data
 
   const handleClose = () => {
     modalErase('center')
@@ -142,11 +145,14 @@ export const PrepareHardwareWalletMigrationNeo3Modal = () => {
   }
 
   useEffect(() => {
-    if (account.blockchain !== 'neoLegacy' || (!balanceQuery.isLoading && !canMigrateToNeo3({ tokenBalances })))
+    if (
+      account.blockchain !== 'neoLegacy' ||
+      (!balanceQuery.isLoading && !unclaimedQuery.isLoading && !canMigrateToNeo3({ tokenBalances, unclaimedResult }))
+    )
       handleClose()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [balanceQuery.isLoading, tokenBalances])
+  }, [balanceQuery.isLoading, unclaimedQuery.isLoading, tokenBalances, unclaimedResult])
 
   return (
     <CenterModalLayout

@@ -2,14 +2,21 @@ import { hasMigrationNeo3 } from '@cityofzion/blockchain-service'
 import { BSNeoLegacyConstants } from '@cityofzion/bs-neo-legacy'
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { NetworkHelper } from '@renderer/helpers/NetworkHelper'
-import { usePendingTransactionsSelector } from '@renderer/hooks/useAuthSelector'
+import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+import { useHasClaimPendingTransactionSelector, usePendingTransactionsSelector } from '@renderer/hooks/useAuthSelector'
 import { useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
 import { bsAggregator } from '@renderer/libs/blockchainService'
-import { TTokenBalance } from '@shared/@types/query'
+import { TTokenBalance, TUseUnclaimedResult } from '@shared/@types/query'
 import { IAccountState } from '@shared/@types/store'
+
+type TShouldClaimBeforeMigrateToNeo3Params = {
+  tokenBalances: TTokenBalance[]
+  unclaimedResult: TUseUnclaimedResult
+}
 
 type TCanMigrateToNeo3Params = {
   tokenBalances: TTokenBalance[]
+  unclaimedResult?: TUseUnclaimedResult
 }
 
 type TMigrateToNeo3Params = {
@@ -18,7 +25,8 @@ type TMigrateToNeo3Params = {
 
 export const useMigrationNeo3Validations = ({ account }: TMigrateToNeo3Params) => {
   const { network } = useSelectedNetworkSelector(account.blockchain)
-  const { pendingTransactions } = usePendingTransactionsSelector()
+  const { pendingTransactionsRef } = usePendingTransactionsSelector()
+  const { hasClaimPendingTransactionRef } = useHasClaimPendingTransactionSelector(account)
 
   const service = bsAggregator.blockchainServicesByName[account.blockchain]
 
@@ -26,14 +34,36 @@ export const useMigrationNeo3Validations = ({ account }: TMigrateToNeo3Params) =
 
   const hasNeoAmount = (amount: number) => amount >= 2
 
-  const canMigrateToNeo3 = ({ tokenBalances }: TCanMigrateToNeo3Params) => {
+  const shouldClaimBeforeMigrateToNeo3 = ({
+    tokenBalances,
+    unclaimedResult,
+  }: TShouldClaimBeforeMigrateToNeo3Params) => {
+    const normalizedFeeTokenHash = UtilsHelper.normalizeHash(service.feeToken.hash)
+    const feeTokenBalance = tokenBalances.find(
+      ({ token }) => UtilsHelper.normalizeHash(token.hash) === normalizedFeeTokenHash
+    )
+
+    return (
+      unclaimedResult.unclaimedNumber > 0 &&
+      unclaimedResult.unclaimedNumber > unclaimedResult.feeNumber &&
+      (unclaimedResult.feeNumber === 0 ||
+        (!!feeTokenBalance && feeTokenBalance.amountNumber > unclaimedResult.feeNumber))
+    )
+  }
+
+  const canMigrateToNeo3 = ({ tokenBalances, unclaimedResult }: TCanMigrateToNeo3Params) => {
     const gasAmount = tokenBalances.find(({ token }) => token.symbol === 'GAS')?.amountNumber ?? 0
     const neoAmount = tokenBalances.find(({ token }) => token.symbol === 'NEO')?.amountNumber ?? 0
+    let shouldClaim = false
+
+    if (unclaimedResult) shouldClaim = shouldClaimBeforeMigrateToNeo3({ tokenBalances, unclaimedResult })
 
     return (
       hasMigrationNeo3(service) &&
+      !hasClaimPendingTransactionRef.current &&
+      !shouldClaim &&
       (hasGasAmount(gasAmount) || hasNeoAmount(neoAmount)) &&
-      !pendingTransactions.some(
+      !pendingTransactionsRef.current.some(
         ({ fromAccount, to }) =>
           !!fromAccount &&
           AccountHelper.predicate(fromAccount)(account) &&
@@ -43,5 +73,5 @@ export const useMigrationNeo3Validations = ({ account }: TMigrateToNeo3Params) =
     )
   }
 
-  return { canMigrateToNeo3, hasGasAmount, hasNeoAmount }
+  return { hasGasAmount, hasNeoAmount, shouldClaimBeforeMigrateToNeo3, canMigrateToNeo3 }
 }

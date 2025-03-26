@@ -107,7 +107,7 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
             <Button
               label={t('buttonLabel')}
               className="w-28"
-              leftIcon={<TbTransform />}
+              leftIcon={<TbTransform aria-hidden={true} />}
               disabled={
                 !feeIsLessThanBalance ||
                 !feeIsLessThanUnclaimed ||
