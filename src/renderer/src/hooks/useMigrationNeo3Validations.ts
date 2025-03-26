@@ -25,7 +25,7 @@ type TMigrateToNeo3Params = {
 }
 
 export const useMigrationNeo3Validations = ({ account }: TMigrateToNeo3Params) => {
-  const { network } = useSelectedNetworkSelector(account.blockchain)
+  const { networkRef } = useSelectedNetworkSelector(account.blockchain)
   const { pendingTransactionsRef } = usePendingTransactionsSelector()
   const { hasClaimPendingTransactionRef } = useHasClaimPendingTransactionSelector(account)
 
@@ -70,7 +70,7 @@ export const useMigrationNeo3Validations = ({ account }: TMigrateToNeo3Params) =
           AccountHelper.predicate(fromAccount)(account) &&
           to === BSNeoLegacyConstants.MIGRATION_NEO3_COZ_ADDRESS
       ) &&
-      NetworkHelper.isMainnet(service.name, network)
+      NetworkHelper.isMainnet(service.name, networkRef.current)
     )
   }
 
