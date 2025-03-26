@@ -17,9 +17,9 @@ type TOutletContext = {
 export const AccountOverview = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'wallets.accountOverview' })
   const { account } = useOutletContext<TOutletContext>()
+  const balances = useBalances([account])
 
   const blockchainService = bsAggregator.blockchainServicesByName[account.blockchain]
-  const balances = useBalances([account])
 
   return (
     <AccountDetailsLayout title={t('title')} actions={account ? <CommonAccountActions account={account} /> : undefined}>

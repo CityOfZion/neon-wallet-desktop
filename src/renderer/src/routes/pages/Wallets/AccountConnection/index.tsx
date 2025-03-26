@@ -55,12 +55,7 @@ export const AccountConnections = () => {
       }
       title={t('title')}
     >
-      <ConnectionsTable
-        hasAddress={false}
-        sessions={filteredSessions}
-        tableHeaderClassName="bg-gray-950"
-        className="mt-5"
-      />
+      <ConnectionsTable sessions={filteredSessions} tableHeaderClassName="bg-gray-950" className="mt-5" />
     </AccountDetailsLayout>
   )
 }

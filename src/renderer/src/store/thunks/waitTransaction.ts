@@ -7,6 +7,7 @@ import { TUseTransactionsTransfer } from '@shared/@types/hooks'
 import { TNotification, TSaveNotification } from '@shared/@types/store'
 
 import { authReducerActions } from '../reducers/AuthReducer'
+import { utilityReducerActions } from '../reducers/UtilityReducer'
 
 type TWaitTransactionParams = {
   transaction: TUseTransactionsTransfer
@@ -32,7 +33,7 @@ export const waitTransaction = createAsyncThunk<void, TWaitTransactionParams>(
     }
 
     try {
-      dispatch(authReducerActions.addPendingTransaction(transaction))
+      dispatch(utilityReducerActions.addPendingTransaction(transaction))
 
       const service = bsAggregator.blockchainServicesByName[transaction.account.blockchain]
 
@@ -62,6 +63,6 @@ export const waitTransaction = createAsyncThunk<void, TWaitTransactionParams>(
     ReactQueryHelper.invalidateTransactionQueries(transaction, network)
 
     dispatch(authReducerActions.saveNotification(notification))
-    dispatch(authReducerActions.removePendingTransaction(transaction.hash))
+    dispatch(utilityReducerActions.removePendingTransaction(transaction.hash))
   }
 )

@@ -6,7 +6,7 @@ import { TAccountHelperPredicateParams } from '@shared/@types/helpers'
 import { createAppSelector, useAppSelector } from './useRedux'
 
 export const selectAccounts = createAppSelector(
-  [state => state.auth.data.applicationDataByLoginType, state => state.auth.currentLoginSession],
+  [state => state.auth.data.applicationDataByLoginType, state => state.auth.inMemoryData.currentLoginSession],
   (applicationDataByLoginType, currentLoginSession) => {
     return applicationDataByLoginType[currentLoginSession?.type ?? 'password'].wallets.flatMap(
       wallet => wallet.accounts
@@ -15,7 +15,7 @@ export const selectAccounts = createAppSelector(
 )
 
 const selectOwnAccounts = createAppSelector(
-  [state => state.auth.data.applicationDataByLoginType, state => state.auth.currentLoginSession],
+  [state => state.auth.data.applicationDataByLoginType, state => state.auth.inMemoryData.currentLoginSession],
   (applicationDataByLoginType, currentLoginSession) => {
     return applicationDataByLoginType[currentLoginSession?.type ?? 'password'].wallets
       .flatMap(wallet => wallet.accounts)
@@ -24,7 +24,7 @@ const selectOwnAccounts = createAppSelector(
 )
 
 const selectHasHardwareAccount = createAppSelector(
-  [state => state.auth.data.applicationDataByLoginType, state => state.auth.currentLoginSession],
+  [state => state.auth.data.applicationDataByLoginType, state => state.auth.inMemoryData.currentLoginSession],
   (applicationDataByLoginType, currentLoginSession) => {
     return applicationDataByLoginType[currentLoginSession?.type ?? 'password'].wallets.some(wallet =>
       wallet.accounts.some(account => account.type === 'hardware')
@@ -33,7 +33,7 @@ const selectHasHardwareAccount = createAppSelector(
 )
 
 const selectAccountsWithWallet = createAppSelector(
-  [state => state.auth.data.applicationDataByLoginType, state => state.auth.currentLoginSession],
+  [state => state.auth.data.applicationDataByLoginType, state => state.auth.inMemoryData.currentLoginSession],
   (applicationDataByLoginType, currentLoginSession) => {
     return applicationDataByLoginType[currentLoginSession?.type ?? 'password'].wallets.flatMap(wallet =>
       wallet.accounts.map(account => ({ ...account, wallet }))
@@ -43,7 +43,7 @@ const selectAccountsWithWallet = createAppSelector(
 
 const selectAccountsByWalletId = (walletId: string) =>
   createAppSelector(
-    [state => state.auth.data.applicationDataByLoginType, state => state.auth.currentLoginSession],
+    [state => state.auth.data.applicationDataByLoginType, state => state.auth.inMemoryData.currentLoginSession],
     (applicationDataByLoginType, currentLoginSession) => {
       const wallet = applicationDataByLoginType[currentLoginSession?.type ?? 'password'].wallets.find(
         wallet => wallet.id === walletId

@@ -7,6 +7,7 @@ import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
 import { contactReducerActions } from '@renderer/store/reducers/ContactReducer'
+import { utilityReducerActions } from '@renderer/store/reducers/UtilityReducer'
 import {
   TAccountToCreate,
   TAccountToEdit,
@@ -98,7 +99,7 @@ export function useBlockchainActions() {
 
       const firstAccount = service.generateAccountFromMnemonic(mnemonic, 0)
       dispatch(
-        authReducerActions.saveLastIndexByWallet({
+        utilityReducerActions.saveLastIndexByWallet({
           firstAccountAddress: firstAccount.address,
           index: accountOrder,
           blockchain,

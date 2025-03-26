@@ -1,130 +1,10 @@
-import { CaseReducer, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { availableCurrencies } from '@renderer/constants/currency'
+import { CaseReducer, PayloadAction } from '@reduxjs/toolkit'
 import { DEFAULT_NETWORK_BY__BLOCKCHAIN, DEFAULT_NETWORK_PROFILE } from '@renderer/constants/networks'
 import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
-import { ISettingsState, TCurrency, TNetworkProfile, TOverTheAirInfo } from '@shared/@types/store'
+import { TCurrency, TNetworkProfile, TOverTheAirInfo } from '@shared/@types/store'
 import { cloneDeep } from 'lodash'
-import { createMigrate, PersistConfig, PURGE } from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
 
-export interface ISettingsReducer {
-  data: ISettingsState
-}
-
-const settingsReducerMigrations = {
-  0: ({ _persist, ...state }: any) => ({
-    data: {
-      ...state,
-      securityType: undefined,
-      hasPassword: state.securityType === 'password',
-    },
-    _persist,
-  }),
-  1: (state: any) => ({
-    ...state,
-    data: {
-      ...state.data,
-      customNetworks: {
-        ...state.data.customNetworks,
-        polygon: [],
-      },
-      selectedNetworkByBlockchain: {
-        ...state.data.selectedNetworkByBlockchain,
-        polygon: DEFAULT_NETWORK_BY__BLOCKCHAIN.polygon,
-      },
-      networkProfiles: state.data.networkProfiles.map(profile => ({
-        ...profile,
-        networkByBlockchain: {
-          ...profile.networkByBlockchain,
-          polygon: DEFAULT_NETWORK_BY__BLOCKCHAIN.polygon,
-        },
-      })),
-      selectedNetworkProfile: {
-        ...state.data.selectedNetworkProfile,
-        networkByBlockchain: {
-          ...state.data.selectedNetworkProfile.networkByBlockchain,
-          polygon: DEFAULT_NETWORK_BY__BLOCKCHAIN.polygon,
-        },
-      },
-    },
-  }),
-  2: (state: any) => {
-    delete state.data.hasOverTheAirUpdates
-
-    return {
-      ...state,
-      data: {
-        ...state.data,
-        overTheAirInfo: {
-          shouldUpdate: true,
-        },
-      },
-    }
-  },
-  3: (state: any) => ({
-    ...state,
-    data: {
-      ...state.data,
-      customNetworks: {
-        ...state.data.customNetworks,
-        base: [],
-        arbitrum: [],
-      },
-      selectedNetworkByBlockchain: {
-        ...state.data.selectedNetworkByBlockchain,
-        base: DEFAULT_NETWORK_BY__BLOCKCHAIN.base,
-        arbitrum: DEFAULT_NETWORK_BY__BLOCKCHAIN.arbitrum,
-      },
-      networkProfiles: state.data.networkProfiles.map(profile => ({
-        ...profile,
-        networkByBlockchain: {
-          ...profile.networkByBlockchain,
-          base: DEFAULT_NETWORK_BY__BLOCKCHAIN.base,
-          arbitrum: DEFAULT_NETWORK_BY__BLOCKCHAIN.arbitrum,
-        },
-      })),
-      selectedNetworkProfile: {
-        ...state.data.selectedNetworkProfile,
-        networkByBlockchain: {
-          ...state.data.selectedNetworkProfile.networkByBlockchain,
-          base: DEFAULT_NETWORK_BY__BLOCKCHAIN.base,
-          arbitrum: DEFAULT_NETWORK_BY__BLOCKCHAIN.arbitrum,
-        },
-      },
-    },
-  }),
-}
-
-export const settingsReducerConfig: PersistConfig<ISettingsReducer> = {
-  key: 'settingsReducer',
-  storage: storage,
-  version: 3,
-  migrate: createMigrate(settingsReducerMigrations),
-}
-
-const initialState: ISettingsReducer = {
-  data: {
-    hasPassword: false,
-    isFirstTime: true,
-    currency: availableCurrencies[0],
-    overTheAirInfo: {
-      shouldUpdate: true,
-    },
-    customNetworks: {
-      ethereum: [],
-      neo3: [],
-      neoLegacy: [],
-      neox: [],
-      polygon: [],
-      base: [],
-      arbitrum: [],
-    },
-    selectedNetworkByBlockchain: DEFAULT_NETWORK_BY__BLOCKCHAIN,
-    networkProfiles: [DEFAULT_NETWORK_PROFILE],
-    selectedNetworkProfile: DEFAULT_NETWORK_PROFILE,
-    unlockedSkinIds: [],
-  },
-}
+import { ISettingsReducer } from './index'
 
 const setEncryptedLoginControl: CaseReducer<ISettingsReducer, PayloadAction<string | undefined>> = (state, action) => {
   state.data.encryptedLoginControl = action.payload
@@ -248,37 +128,17 @@ const setSelectNetworkProfile: CaseReducer<ISettingsReducer, PayloadAction<strin
   state.data.selectedNetworkByBlockchain = profile.networkByBlockchain
 }
 
-const setUnlockedSkinIds: CaseReducer<ISettingsReducer, PayloadAction<string[]>> = (state, action) => {
-  const skinIds = action.payload
-
-  state.data.unlockedSkinIds = skinIds
+export const settingsSliceReducers = {
+  setEncryptedLoginControl,
+  setIsFirstTime,
+  setHasPassword,
+  setCurrency,
+  setOverTheAirInfo,
+  setSelectNetwork,
+  setSelectedNetworkUrl,
+  saveCustomNetwork,
+  deleteCustomNetwork,
+  saveNetworkProfile,
+  deleteNetworkProfile,
+  setSelectNetworkProfile,
 }
-
-const SettingsReducer = createSlice({
-  name: settingsReducerConfig.key,
-  initialState,
-  reducers: {
-    setHasPassword,
-    setIsFirstTime,
-    setCurrency,
-    setOverTheAirInfo,
-    setSelectNetwork,
-    setSelectedNetworkUrl,
-    saveCustomNetwork,
-    deleteCustomNetwork,
-    saveNetworkProfile,
-    deleteNetworkProfile,
-    setSelectNetworkProfile,
-    setUnlockedSkinIds,
-    setEncryptedLoginControl,
-  },
-  extraReducers: builder => {
-    builder.addCase(PURGE, () => initialState)
-  },
-})
-
-export const settingsReducerActions = {
-  ...SettingsReducer.actions,
-}
-
-export default SettingsReducer.reducer

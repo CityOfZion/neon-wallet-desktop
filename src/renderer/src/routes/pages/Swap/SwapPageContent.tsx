@@ -42,7 +42,7 @@ import { usePressOnce } from '@renderer/hooks/usePressOnce'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useSelectedNetworkByBlockchainSelector } from '@renderer/hooks/useSettingsSelector'
 import { bsAggregator, doesBlockchainSupported } from '@renderer/libs/blockchainService'
-import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
+import { utilityReducerActions } from '@renderer/store/reducers/UtilityReducer'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { IAccountState, TContactAddress, TSwapRecord } from '@shared/@types/store'
 
@@ -356,7 +356,7 @@ export const SwapPageContent = ({ account }: TProps) => {
     } finally {
       if (!swapRecord.txFrom) swapRecord.swapStatus = 'refunded'
 
-      dispatch(authReducerActions.persistSwapRecord(swapRecord))
+      dispatch(utilityReducerActions.persistSwapRecord(swapRecord))
 
       modalNavigate('swap-details', {
         state: {

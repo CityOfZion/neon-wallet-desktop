@@ -1,6 +1,5 @@
 import { useMemo } from 'react'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
-import { usePendingTransactionsSelector } from '@renderer/hooks/useAuthSelector'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
 import { TFetchTransactionsResponse, TUseTransactionsTransfer } from '@shared/@types/hooks'
@@ -9,6 +8,7 @@ import { Query, QueryClient, useInfiniteQuery, useQueryClient } from '@tanstack/
 
 import { useAccountsSelector } from './useAccountSelector'
 import { useSelectedNetworkByBlockchainSelector } from './useSettingsSelector'
+import { useHiddenTokensByBlockchainSelector, usePendingTransactionsSelector } from './useUtilitySelector'
 
 type TProps = {
   accounts: IAccountState[]
@@ -47,8 +47,7 @@ async function fetchTransactions(
   allAccounts: IAccountState[],
   queryClient: QueryClient,
   networkByBlockchain: TSelectedNetworks,
-  page: number,
-  pendingTransactions: TUseTransactionsTransfer[]
+  page: number
 ) {
   const data: TUseTransactionsTransfer[] = []
   let hasMorePage = false
@@ -93,18 +92,13 @@ async function fetchTransactions(
         nextPageParams: previousQuery?.state.data?.nextPageParams,
       })
 
-      const pendingTransactionHashes = pendingTransactions.map(({ hash }) => UtilsHelper.normalizeHash(hash))
-
       queryData.nextPageParams = data.nextPageParams
       data.transactions.forEach(transaction => {
-        const normalizedHash = UtilsHelper.normalizeHash(transaction.hash)
-
         transaction.transfers.forEach(transfer => {
-          if (pendingTransactionHashes.find(hash => hash === normalizedHash)) return
-
           queryData.transfers.push({
             amount: transfer.type === 'nft' ? '1' : Number(transfer.amount).toFixed(transfer.token?.decimals ?? 8),
             asset: transfer.type === 'nft' ? transfer.tokenId : (transfer.token?.symbol ?? ''),
+            assetHash: transfer.contractHash,
             from: transfer.from,
             to: transfer.to,
             time: transaction.time,
@@ -144,18 +138,12 @@ export function useTokenTransfers({ accounts }: TProps) {
   const queryClient = useQueryClient()
   const { accountsRef } = useAccountsSelector()
   const { pendingTransactions } = usePendingTransactionsSelector()
+  const { hiddenTokensByBlockchain } = useHiddenTokensByBlockchainSelector()
 
   const query = useInfiniteQuery({
     queryKey: buildQueryKeyTokenTransferAggregate(accounts, networkByBlockchain, pendingTransactions),
     queryFn: ({ pageParam }) =>
-      fetchTransactions(
-        accounts,
-        accountsRef.current,
-        queryClient,
-        networkByBlockchain,
-        pageParam,
-        pendingTransactions
-      ),
+      fetchTransactions(accounts, accountsRef.current, queryClient, networkByBlockchain, pageParam),
     initialPageParam: 1,
     getNextPageParam: ({ page }) => page,
   })
@@ -164,6 +152,18 @@ export function useTokenTransfers({ accounts }: TProps) {
     return (
       query.data?.pages
         .flatMap(page => page.data)
+        .filter(item => {
+          const transactionHash = UtilsHelper.normalizeHash(item.hash)
+          if (pendingTransactions.find(({ hash }) => UtilsHelper.normalizeHash(hash) === transactionHash)) return false
+
+          const tokenHash = UtilsHelper.normalizeHash(item.assetHash)
+          const hiddenTokens = hiddenTokensByBlockchain[item.account.blockchain]
+          if (hiddenTokens?.includes(tokenHash)) {
+            return false
+          }
+
+          return true
+        })
         .sort((itemA, itemB) => {
           if (itemA.time < itemB.time) {
             return 1
@@ -176,7 +176,7 @@ export function useTokenTransfers({ accounts }: TProps) {
           return 0
         }) ?? []
     )
-  }, [query.data])
+  }, [hiddenTokensByBlockchain, pendingTransactions, query.data?.pages])
 
   return {
     aggregatedData,

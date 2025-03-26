@@ -68,7 +68,7 @@ export const PortfolioConnectionsPage = () => {
         </div>
 
         <ConnectionsTable
-          hasAddress={true}
+          withAddress={true}
           sessions={filteredSessions}
           tableHeaderClassName="bg-gray-800"
           className="mt-4"

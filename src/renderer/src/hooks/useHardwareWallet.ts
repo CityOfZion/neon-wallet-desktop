@@ -6,14 +6,15 @@ import { MnemonicHelper } from '@renderer/helpers/MnemonicHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { bsAggregator } from '@renderer/libs/blockchainService'
-import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
+import { utilityReducerActions } from '@renderer/store/reducers/UtilityReducer'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { THardwareWalletInfo } from '@shared/@types/ipc'
 import { IAccountState, IWalletState, TAccountType } from '@shared/@types/store'
 
-import { useCurrentLoginSessionSelector, useLastIndexesByWallet } from './useAuthSelector'
+import { useCurrentLoginSessionSelector } from './useAuthSelector'
 import { useBlockchainActions } from './useBlockchainActions'
 import { useAppDispatch } from './useRedux'
+import { useLastIndexesByWallet } from './useUtilitySelector'
 import { useWalletsSelector } from './useWalletSelector'
 
 type TStatus = 'searching' | 'connected' | 'not-connected'
@@ -266,7 +267,7 @@ export const useHardwareWalletActions = () => {
 
         const firstAccount = await window.api.sendAsync('getHardwareAccount', { index: 0, blockchain })
         dispatch(
-          authReducerActions.saveLastIndexByWallet({
+          utilityReducerActions.saveLastIndexByWallet({
             firstAccountAddress: firstAccount.address,
             index: accountOrder,
             blockchain,

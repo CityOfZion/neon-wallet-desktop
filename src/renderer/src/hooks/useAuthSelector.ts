@@ -1,5 +1,4 @@
-import { AccountHelper } from '@renderer/helpers/AccountHelper'
-import { IAccountState, TNotification, TNotificationPriority } from '@shared/@types/store'
+import { TNotification, TNotificationPriority } from '@shared/@types/store'
 import lodash from 'lodash'
 
 import { createAppSelector, useAppSelector } from './useRedux'
@@ -19,7 +18,7 @@ const orderNotifications = <T extends TNotification>(notifications: T[]): T[] =>
 }
 
 const selectHasNewNotifications = createAppSelector(
-  [state => state.auth.data.applicationDataByLoginType, state => state.auth.currentLoginSession],
+  [state => state.auth.data.applicationDataByLoginType, state => state.auth.inMemoryData.currentLoginSession],
   (applicationDataByLoginType, currentLoginSession) =>
     applicationDataByLoginType[currentLoginSession?.type ?? 'password'].notifications.some(
       notification => !notification.read
@@ -27,55 +26,16 @@ const selectHasNewNotifications = createAppSelector(
 )
 
 const selectAllNotifications = createAppSelector(
-  [state => state.auth.data.applicationDataByLoginType, state => state.auth.currentLoginSession],
+  [state => state.auth.data.applicationDataByLoginType, state => state.auth.inMemoryData.currentLoginSession],
   (applicationDataByLoginType, currentLoginSession) =>
     orderNotifications(applicationDataByLoginType[currentLoginSession?.type ?? 'password'].notifications)
 )
 
-const selectHasClaimPendingTransaction = (account: IAccountState) =>
-  createAppSelector([state => state.auth.pendingTransactions], pendingTransactions =>
-    pendingTransactions.some(
-      transaction => !!transaction.isClaim && AccountHelper.predicate(transaction.account)(account)
-    )
-  )
-
 export const useCurrentLoginSessionSelector = () => {
-  const { ref, value } = useAppSelector(state => state.auth.currentLoginSession)
+  const { ref, value } = useAppSelector(state => state.auth.inMemoryData.currentLoginSession)
   return {
     currentLoginSession: value,
     currentLoginSessionRef: ref,
-  }
-}
-
-export const usePendingTransactionsSelector = () => {
-  const { ref, value } = useAppSelector(state => state.auth.pendingTransactions)
-  return {
-    pendingTransactions: value,
-    pendingTransactionsRef: ref,
-  }
-}
-
-export const useHasClaimPendingTransactionSelector = (account: IAccountState) => {
-  const { ref, value } = useAppSelector(selectHasClaimPendingTransaction(account))
-  return {
-    hasClaimPendingTransaction: value,
-    hasClaimPendingTransactionRef: ref,
-  }
-}
-
-export const useSwapRecordsSelector = () => {
-  const { ref, value } = useAppSelector(state => state.auth.data.swapRecords)
-  return {
-    swapRecords: value,
-    swapRecordsRef: ref,
-  }
-}
-
-export const useLastIndexesByWallet = () => {
-  const { ref, value } = useAppSelector(state => state.auth.data.lastIndexesByWallet)
-  return {
-    lastIndexesByWallet: value,
-    lastIndexesByWalletRef: ref,
   }
 }
 

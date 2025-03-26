@@ -1,22 +1,22 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from 'redux-persist'
 
-import AuthReducer, { authReducerConfig } from './reducers/AuthReducer'
-import ContactReducer, { contactReducerConfig } from './reducers/ContactReducer'
-import MigrationNeo3Reducer, { migrationNeo3ReducerConfig } from './reducers/MigrationNeo3Reducer'
-import SettingsReducer, { settingsReducerConfig } from './reducers/SettingsReducer'
+import { authReducer, authReducerConfig } from './reducers/AuthReducer'
+import { contactReducer, contactReducerConfig } from './reducers/ContactReducer'
+import { settingsReducer, settingsReducerConfig } from './reducers/SettingsReducer'
+import { utilityReducer, utilityReducerConfig } from './reducers/UtilityReducer'
 
-const persistedAuthReducer = persistReducer(authReducerConfig, AuthReducer)
-const persistedSettingsReducer = persistReducer(settingsReducerConfig, SettingsReducer)
-const persistedContactReducer = persistReducer(contactReducerConfig, ContactReducer)
-const persistedMigrationNeo3Reducer = persistReducer(migrationNeo3ReducerConfig, MigrationNeo3Reducer)
+const persistedAuthReducer = persistReducer(authReducerConfig, authReducer)
+const persistedContactReducer = persistReducer(contactReducerConfig, contactReducer)
+const persistedSettingsReducer = persistReducer(settingsReducerConfig, settingsReducer)
+const persistedUtilityReducer = persistReducer(utilityReducerConfig, utilityReducer)
 
 export class RootStore {
   static reducers = combineReducers({
+    utility: persistedUtilityReducer,
     auth: persistedAuthReducer,
     settings: persistedSettingsReducer,
     contact: persistedContactReducer,
-    migrationNeo3: persistedMigrationNeo3Reducer,
   })
 
   static store = configureStore({

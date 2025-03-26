@@ -257,6 +257,7 @@ export const MigrationNeo3Page = () => {
         account,
         amount: tokenBalance.amount,
         asset: tokenBalance.token.symbol,
+        assetHash: tokenBalance.token.hash,
         to: BSNeoLegacyConstants.MIGRATION_NEO3_COZ_ADDRESS,
         from: account.address,
         hash: transactionHash,

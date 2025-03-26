@@ -2,11 +2,9 @@ import { useTranslation } from 'react-i18next'
 import { BACKUP_FILE_EXTENSION, BACKUP_VERSION, DEPRECATED_BACKUP_FILE_EXTENSION } from '@renderer/constants/backup'
 import { DateHelper } from '@renderer/helpers/DateHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
-import { useMigrationsNeo3Selector } from '@renderer/hooks/useMigrationNeo3Selector'
 import { doesBlockchainSupported } from '@renderer/libs/blockchainService'
-import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
 import { contactReducerActions } from '@renderer/store/reducers/ContactReducer'
-import { migrationNeo3ReducerActions } from '@renderer/store/reducers/MigrationNeo3Reducer'
+import { utilityReducerActions } from '@renderer/store/reducers/UtilityReducer'
 import { TAccountsToImport, TCreateWalletAndAccountParam } from '@shared/@types/blockchain'
 import {
   IAccountState,
@@ -22,10 +20,11 @@ import { cloneDeep } from 'lodash'
 import zod from 'zod'
 
 import { useAccountsSelector, useAccountUtils } from './useAccountSelector'
-import { useCurrentLoginSessionSelector, useSwapRecordsSelector } from './useAuthSelector'
+import { useCurrentLoginSessionSelector } from './useAuthSelector'
 import { useBlockchainActions } from './useBlockchainActions'
 import { useContactsSelector } from './useContactSelector'
 import { useAppDispatch } from './useRedux'
+import { useMigrationsNeo3Selector, useSwapRecordsSelector } from './useUtilitySelector'
 import { useWalletsSelector } from './useWalletSelector'
 
 export type TUseNeonBackupSchema = zod.infer<typeof backupFileSchema>
@@ -449,11 +448,11 @@ export const useNeonImportBackup = () => {
   const handleImportBackupData = async (generatedData: TUseNeonBackupGeneratedData) => {
     try {
       generatedData.swapRecords?.forEach(swap => {
-        dispatch(authReducerActions.persistSwapRecord(swap))
+        dispatch(utilityReducerActions.persistSwapRecord(swap))
       })
 
       if (generatedData.migrationsNeo3)
-        dispatch(migrationNeo3ReducerActions.mergeMigrationsNeo3(generatedData.migrationsNeo3))
+        dispatch(utilityReducerActions.mergeMigrationsNeo3(generatedData.migrationsNeo3))
 
       generatedData.contacts?.forEach(contact => {
         dispatch(contactReducerActions.saveContact(contact))

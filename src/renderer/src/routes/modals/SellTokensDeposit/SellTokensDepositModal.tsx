@@ -172,6 +172,7 @@ export const SellTokensDepositModal = () => {
         account: account!,
         amount,
         asset: token!.token.symbol,
+        assetHash: token!.token.hash,
         to: address,
         from: account!.address,
         hash: transactionHash,
