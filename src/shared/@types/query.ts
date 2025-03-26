@@ -31,6 +31,12 @@ export type TBalance = {
   exchangeTotal: number
 }
 
+export type TUseBalancesFetchResult = {
+  address: string
+  blockchain: TBlockchainServiceKey
+  tokensBalancesMap: Map<string, TTokenBalance>
+}
+
 export type TUseBalancesResult = {
   data: TBalance[]
   isLoading: boolean
