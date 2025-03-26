@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { ExchangeHelper } from '@renderer/helpers/ExchangeHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
+import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useCurrencyRatio } from '@renderer/hooks/useCurrencyRatio'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
@@ -9,12 +10,14 @@ import {
   TTokenBalance,
   TUseBalanceOptionShowType,
   TUseBalanceResult,
+  TUseBalancesFetchResult,
   TUseBalancesOptions,
   TUseBalancesParams,
   TUseBalancesResult,
 } from '@shared/@types/query'
 import { TCurrency, THiddenTokenByBlockchain } from '@shared/@types/store'
 import { QueryClient, useQueries, useQuery, useQueryClient } from '@tanstack/react-query'
+import { cloneDeep } from 'lodash'
 
 import { fetchExchange } from './useExchange'
 import { useCurrencySelector, useSelectedNetworkByBlockchainSelector } from './useSettingsSelector'
@@ -41,14 +44,14 @@ const fetchBalance = async (
   queryClient: QueryClient,
   currency: TCurrency,
   currencyRatio: number
-): Promise<Omit<TBalance, 'exchangeTotal'>> => {
+): Promise<TUseBalancesFetchResult> => {
   try {
     const service = bsAggregator.blockchainServicesByName[param.blockchain]
     const balance = await service.blockchainDataService.getBalance(param.address)
     const tokens = balance.map(balance => balance.token)
     const exchange = await fetchExchange(param.blockchain, tokens, network, queryClient, currency, currencyRatio)
 
-    const tokensBalances: TTokenBalance[] = []
+    const tokensBalancesMap: Map<string, TTokenBalance> = new Map()
 
     await Promise.allSettled(
       balance.map(async balance => {
@@ -61,7 +64,7 @@ const fetchBalance = async (
         const amountNumber = NumberHelper.number(balance.amount)
         const exchangeAmount = amountNumber * exchangeConvertedPrice
 
-        tokensBalances.push({
+        tokensBalancesMap.set(UtilsHelper.normalizeHash(balance.token.hash), {
           ...balance,
           blockchain: param.blockchain,
           amount: balance.amount,
@@ -74,30 +77,46 @@ const fetchBalance = async (
 
     return {
       address: param.address,
-      tokensBalances,
+      blockchain: param.blockchain,
+      tokensBalancesMap,
     }
   } catch {
     return {
       address: param.address,
-      tokensBalances: [],
+      blockchain: param.blockchain,
+      tokensBalancesMap: new Map(),
     }
   }
 }
 
-const filterHiddenTokens = (
-  tokensBalance: TTokenBalance[],
+const fixBalanceResult = (
+  result: TUseBalancesFetchResult,
   showType: TUseBalanceOptionShowType,
   hiddenTokensByBlockchain: THiddenTokenByBlockchain
-) => {
-  return tokensBalance.filter(tokenBalance => {
-    const hiddenTokens = hiddenTokensByBlockchain[tokenBalance.blockchain]
-    const isHiddenToken = hiddenTokens?.includes(tokenBalance.token.hash)
+): TBalance => {
+  const tokenBalancesMapClone = cloneDeep(result.tokensBalancesMap)
 
-    if (showType === 'active' && isHiddenToken) return false
-    if (showType === 'hidden' && !isHiddenToken) return false
+  const hiddenTokens = hiddenTokensByBlockchain[result.blockchain]
+  let tokensBalances: TTokenBalance[] = []
 
-    return true
-  })
+  if (showType === 'active') {
+    hiddenTokens?.forEach(tokenHash => {
+      tokenBalancesMapClone.delete(UtilsHelper.normalizeHash(tokenHash))
+    })
+    tokensBalances = Array.from(tokenBalancesMapClone.values())
+  } else {
+    hiddenTokens?.forEach(tokenHash => {
+      const tokenBalance = tokenBalancesMapClone.get(UtilsHelper.normalizeHash(tokenHash))
+      if (!tokenBalance) return
+      tokensBalances.push(tokenBalance)
+    })
+  }
+
+  return {
+    address: result.address,
+    tokensBalances,
+    exchangeTotal: tokensBalances.reduce((acc, tokenBalance) => acc + tokenBalance.exchangeAmount, 0),
+  }
 }
 
 export function useBalances(params: TUseBalancesParams[], options?: TUseBalancesOptions): TUseBalancesResult {
@@ -131,14 +150,7 @@ export function useBalances(params: TUseBalancesParams[], options?: TUseBalances
       if (!isLoading) {
         results.forEach(result => {
           if (!result.data) return
-
-          const tokensBalances = filterHiddenTokens(result.data.tokensBalances, showType, hiddenTokensByBlockchain)
-
-          data.push({
-            ...result.data,
-            tokensBalances,
-            exchangeTotal: tokensBalances.reduce((acc, tokenBalance) => acc + tokenBalance.exchangeAmount, 0),
-          })
+          data.push(fixBalanceResult(result.data, showType, hiddenTokensByBlockchain))
         })
 
         exchangeTotal = data.reduce((acc, result) => acc + (result.exchangeTotal ?? 0), 0)
@@ -181,12 +193,7 @@ export function useBalance(
 
   const data = useMemo(() => {
     if (!query.data) return undefined
-
-    const tokensBalances = filterHiddenTokens(query.data.tokensBalances, showType, hiddenTokensByBlockchain)
-    return {
-      ...query.data,
-      exchangeTotal: tokensBalances.reduce((acc, tokenBalance) => acc + tokenBalance.exchangeAmount, 0),
-    }
+    return fixBalanceResult(query.data, showType, hiddenTokensByBlockchain)
   }, [showType, hiddenTokensByBlockchain, query.data])
 
   return {
