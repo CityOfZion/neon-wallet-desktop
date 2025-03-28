@@ -26,7 +26,7 @@ export type TModalRouterContextValue = {
 
 export type TModalRouterProviderProps = {
   routes: TRoute[]
-  children: React.ReactNode
+  children?: React.ReactNode
 }
 
 export type TModalRouterCurrentHistoryContextValue<T = any> = {

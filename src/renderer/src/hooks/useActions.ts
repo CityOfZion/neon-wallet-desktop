@@ -162,5 +162,14 @@ export const useActions = <T extends TUseActionsData>(initialData: T, options?: 
     actionStateRef.current = initialState
   }, [initialData, initialState])
 
-  return { actionData, setData, setError, setDataFromEventWrapper, clearErrors, actionState, handleAct, reset }
+  return {
+    actionData,
+    setData,
+    setError,
+    setDataFromEventWrapper,
+    clearErrors,
+    actionState,
+    handleAct,
+    reset,
+  }
 }

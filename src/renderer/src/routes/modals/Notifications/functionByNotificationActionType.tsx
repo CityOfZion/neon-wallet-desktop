@@ -5,6 +5,7 @@ import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { RootStore } from '@renderer/store/RootStore'
 import { TAccountHelperPredicateParams } from '@shared/@types/helpers'
 import { TNotificationAction } from '@shared/@types/store'
+import { getI18next } from '@shared/libs/i18next'
 import { match } from 'ts-pattern'
 
 type TFunctionParams<T> = {
@@ -17,11 +18,18 @@ type TFunctionByNotificationActionType = {
   [K in TNotificationAction['type']]: (params: TFunctionParams<TNotificationAction & { type: K }>) => Promise<void>
 }
 
+const { t } = getI18next()
+
 const getAccount = (predicate: TAccountHelperPredicateParams) => {
   const state = RootStore.store.getState()
   const accounts = selectAccounts(state)
+  const account = accounts.find(AccountHelper.predicate(predicate))
 
-  return accounts.find(AccountHelper.predicate(predicate))
+  if (!account) {
+    throw new Error(t('modals:notifications.errors.accountNotFound'))
+  }
+
+  return account
 }
 
 export const functionByNotificationActionType: TFunctionByNotificationActionType = {
@@ -29,17 +37,22 @@ export const functionByNotificationActionType: TFunctionByNotificationActionType
     match(notificationAction.payload)
       .with({ to: 'account' }, payload => {
         const account = getAccount(payload)
-        if (!account) return
 
         modalActions.modalErase('side')
         pageNavigate(`/app/wallets/${account.id}`)
       })
       .with({ to: 'account-transaction' }, payload => {
         const account = getAccount(payload)
-        if (!account) return
 
         modalActions.modalErase('side')
         pageNavigate(`/app/wallets/${account.id}/transactions`)
       })
+      .with({ to: 'migration-neo3' }, payload => {
+        const account = getAccount(payload)
+
+        modalActions.modalErase('side')
+        pageNavigate('/app/migration-neo3', { state: { neoLegacyAccount: account } })
+      })
+      .exhaustive()
   },
 }

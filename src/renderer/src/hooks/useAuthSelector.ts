@@ -31,6 +31,14 @@ const selectAllNotifications = createAppSelector(
     orderNotifications(applicationDataByLoginType[currentLoginSession?.type ?? 'password'].notifications)
 )
 
+const selectUnreadNotifications = createAppSelector(
+  [state => state.auth.data.applicationDataByLoginType, state => state.auth.inMemoryData.currentLoginSession],
+  (applicationDataByLoginType, currentLoginSession) =>
+    applicationDataByLoginType[currentLoginSession?.type ?? 'password'].notifications.filter(
+      notification => !notification.read
+    )
+)
+
 export const useCurrentLoginSessionSelector = () => {
   const { ref, value } = useAppSelector(state => state.auth.inMemoryData.currentLoginSession)
   return {
@@ -52,5 +60,13 @@ export const useNotificationsSelector = () => {
   return {
     notifications: value,
     notificationsRef: ref,
+  }
+}
+
+export const useUnreadNotificationsSelector = () => {
+  const { ref, value } = useAppSelector(selectUnreadNotifications)
+  return {
+    unreadNotifications: value,
+    unreadNotificationsRef: ref,
   }
 }

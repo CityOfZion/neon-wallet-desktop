@@ -1,16 +1,14 @@
-import { useEffect } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { MdContentCopy } from 'react-icons/md'
 import { TbArrowsExchange, TbCoin, TbDiamond, TbReceipt, TbStepOut, TbWallet } from 'react-icons/tb'
 import { VscCircleFilled } from 'react-icons/vsc'
 import { Location, useLocation, useNavigate } from 'react-router-dom'
+import { Account } from '@cityofzion/blockchain-service'
 import {
-  Account,
-  CalculateToMigrateToNeo3ValuesResponse,
-  hasLedger,
-  hasMigrationNeo3,
-} from '@cityofzion/blockchain-service'
-import { BSNeoLegacyConstants } from '@cityofzion/bs-neo-legacy'
+  BSNeoLegacyConstants,
+  CalculateNeo3MigrationAmountsResponse,
+  CalculateNeoLegacyMigrationAmountsResponse,
+} from '@cityofzion/bs-neo-legacy'
 import { ActionCard } from '@renderer/components/ActionCard'
 import { ActionStep } from '@renderer/components/ActionStep'
 import { ActionStepSeparator } from '@renderer/components/ActionStepSeparator'
@@ -19,11 +17,17 @@ import { HelpButton } from '@renderer/components/HelpButton'
 import { IconButton } from '@renderer/components/IconButton'
 import { Loader } from '@renderer/components/Loader'
 import { Separator } from '@renderer/components/Separator'
+import {
+  NEO_LEGACY_GAS_TOKEN,
+  NEO_LEGACY_NEO_TOKEN,
+  NEO3_GAS_TOKEN,
+  NEO3_NEO_TOKEN,
+} from '@renderer/constants/migration-neo3'
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { DateHelper } from '@renderer/helpers/DateHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
-import { useAccountsSelector, useAccountUtils } from '@renderer/hooks/useAccountSelector'
+import { useAccountUtils } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useBalance } from '@renderer/hooks/useBalances'
@@ -31,7 +35,7 @@ import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useHardwareWalletActions } from '@renderer/hooks/useHardwareWallet'
 import { useMigrationNeo3Validations } from '@renderer/hooks/useMigrationNeo3Validations'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
-import { useMountUnsafe } from '@renderer/hooks/useMount'
+import { useMount } from '@renderer/hooks/useMount'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useUnclaimed } from '@renderer/hooks/useUnclaimed'
 import { useWalletByIdSelector } from '@renderer/hooks/useWalletSelector'
@@ -41,9 +45,7 @@ import { thunks } from '@renderer/store/thunks'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TUseTransactionsTransfer } from '@shared/@types/hooks'
 import { THardwareWalletInfo } from '@shared/@types/ipc'
-import { TTokenBalance } from '@shared/@types/query'
 import { IAccountState, TPendingMigrationNeo3 } from '@shared/@types/store'
-import { match } from 'ts-pattern'
 
 import { MigrationNeo3AssetText } from './MigrationNeo3AssetText'
 import { MigrationNeo3ListItemAmount } from './MigrationNeo3ListItemAmount'
@@ -51,250 +53,136 @@ import { MigrationNeo3ListItemFee } from './MigrationNeo3ListItemFee'
 import { MigrationNeo3SideBar } from './MigrationNeo3SideBar'
 
 type TActionsData = {
-  serviceAccount: Account<TBlockchainServiceKey> | null
-  neo3Account: Account<'neo3'> | null
-  isGeneratingAccounts: boolean
-  isCalculatingValues: boolean
-  calculatedValues: CalculateToMigrateToNeo3ValuesResponse
+  neoLegacyServiceAccount?: Account<TBlockchainServiceKey>
+  neo3ServiceAccount?: Account<TBlockchainServiceKey>
+  neo3MigrationAmounts?: CalculateNeo3MigrationAmountsResponse
+  neoLegacyMigrationAmounts?: CalculateNeoLegacyMigrationAmountsResponse
 }
 
 type TLocationState = {
-  account: IAccountState
-  neo3Account?: Account<'neo3'>
-  neo3WalletInfo?: THardwareWalletInfo
+  neoLegacyAccount: IAccountState
+  neo3HardwareServiceAccount?: Account<TBlockchainServiceKey>
+  neo3HardwareWalletInfo?: THardwareWalletInfo
 }
 
 export const MigrationNeo3Page = () => {
+  const location = useLocation() as Location<TLocationState>
+  const { neoLegacyAccount, neo3HardwareServiceAccount, neo3HardwareWalletInfo } = location.state
+
   const { t } = useTranslation('pages', { keyPrefix: 'migrationNeo3' })
   const { t: tBlockchain } = useTranslation('common', { keyPrefix: 'blockchain' })
   const navigate = useNavigate()
   const { doesAccountExist } = useAccountUtils()
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const { importAccount } = useBlockchainActions()
-  const { accountsRef } = useAccountsSelector()
   const { modalNavigate } = useModalNavigate()
   const dispatch = useAppDispatch()
   const { createHardwareWallet, isConnectedAndUnlockedHardwareWallet } = useHardwareWalletActions()
 
-  const {
-    state: { account, neo3WalletInfo, ...params },
-  } = useLocation() as Location<TLocationState>
+  const { wallet } = useWalletByIdSelector(neoLegacyAccount.idWallet)
+  const balanceQuery = useBalance(neoLegacyAccount)
+  const unclaimedQuery = useUnclaimed(neoLegacyAccount)
+  const { canMigrateToNeo3, neoLegacyService, shouldClaimBeforeMigrateToNeo3 } =
+    useMigrationNeo3Validations(neoLegacyAccount)
 
-  const { wallet } = useWalletByIdSelector(account.idWallet)
-  const balanceQuery = useBalance(account)
-  const unclaimedQuery = useUnclaimed(account)
-  const migrationNeo3Validations = useMigrationNeo3Validations({ account })
-
-  const service = bsAggregator.blockchainServicesByName[account.blockchain]
-
-  const isHardwareAccount = account.type === 'hardware' && hasLedger(service)
-
-  const neo3Service = bsAggregator.blockchainServicesByName.neo3
-  const neo3GasToken = neo3Service.tokens.find(({ symbol }) => symbol === 'GAS')!
-  const neo3NeoToken = neo3Service.tokens.find(({ symbol }) => symbol === 'NEO')!
-
-  const tokenBalances = balanceQuery.data?.tokensBalances ?? []
-  const unclaimedResult = unclaimedQuery.data
-
-  const {
-    actionData: { serviceAccount, neo3Account, isGeneratingAccounts, isCalculatingValues, calculatedValues },
-    actionState,
-    setData,
-    handleAct,
-  } = useActions<TActionsData>({
-    serviceAccount: null,
-    neo3Account: params.neo3Account ?? null,
-    isGeneratingAccounts: true,
-    isCalculatingValues: false,
-    calculatedValues: {},
-  })
-
-  const gasTokenBalance = tokenBalances.find(({ token }) => token.symbol === 'GAS')
-  const neoTokenBalance = tokenBalances.find(({ token }) => token.symbol === 'NEO')
-
-  const gasToken = gasTokenBalance?.token
-  const neoToken = neoTokenBalance?.token
-
-  const hasGasAmount = migrationNeo3Validations.hasGasAmount(gasTokenBalance?.amountNumber ?? 0)
-  const hasNeoAmount = migrationNeo3Validations.hasNeoAmount(neoTokenBalance?.amountNumber ?? 0)
-
-  const tokensText = match({ hasGasAmount, hasNeoAmount })
-    .with({ hasGasAmount: true, hasNeoAmount: true }, () => `${neoToken!.symbol} & ${gasToken!.symbol}`)
-    .with({ hasNeoAmount: true }, () => neoToken!.symbol)
-    .with({ hasGasAmount: true }, () => gasToken!.symbol)
-    .otherwise(() => t('labels.notFound'))
-
-  const neo3TokensText = match({ hasGasAmount, hasNeoAmount })
-    .with({ hasGasAmount: true, hasNeoAmount: true }, () => `${neo3NeoToken.symbol} & ${neo3GasToken.symbol}`)
-    .with({ hasNeoAmount: true }, () => neo3NeoToken.symbol)
-    .with({ hasGasAmount: true }, () => neo3GasToken.symbol)
-    .otherwise(() => t('labels.notFound'))
+  const { actionData, actionState, setData, handleAct } = useActions<TActionsData>({})
 
   const handleGoBack = () => {
-    navigate(`/app/wallets/${account.id}/overview`)
+    navigate(`/app/wallets/${neoLegacyAccount.id}/overview`)
   }
 
-  const handleCalculateToMigrateToNeo3Values = async () => {
-    if (isCalculatingValues || actionState.isActing || !serviceAccount || !neo3Account || !hasMigrationNeo3(service))
-      return
-
-    setData({ isCalculatingValues: true })
-
-    try {
-      const calculatedValues = await service.calculateToMigrateToNeo3Values({ account: serviceAccount })
-
-      setData({ calculatedValues })
-    } catch (error) {
-      console.error(error)
-
-      ToastHelper.error({ message: t('messages.calculateValuesError') })
-    } finally {
-      setData({ isCalculatingValues: false })
-    }
-  }
-
-  const handleGenerateAccounts = async () => {
-    if (!isGeneratingAccounts) return
-
-    setData({ isGeneratingAccounts: true })
-
-    let key = ''
-
-    try {
-      key = await window.api.sendAsync('decryptBasedEncryptedSecret', {
-        value: account.encryptedKey!,
-        encryptedSecret: currentLoginSessionRef.current!.encryptedPassword,
-      })
-    } catch (error) {
-      console.error(error)
-
-      ToastHelper.error({ message: t('messages.getKeyError') })
-
-      handleGoBack()
-
+  const handleMigrateToNeo3 = async () => {
+    if (
+      !actionData.neo3MigrationAmounts ||
+      !actionData.neoLegacyMigrationAmounts ||
+      !actionData.neo3ServiceAccount ||
+      !actionData.neoLegacyServiceAccount ||
+      !wallet
+    ) {
       return
     }
 
-    let serviceAccount: Account<TBlockchainServiceKey>
+    const isHardwareAccount = neoLegacyAccount.type === 'hardware'
 
-    try {
-      serviceAccount = AccountHelper.getServiceAccount({ account, key })
+    if (isHardwareAccount) {
+      const isConnectedAndUnlocked = await isConnectedAndUnlockedHardwareWallet(neoLegacyAccount)
 
-      setData({ serviceAccount })
-    } catch (error) {
-      console.error(error)
-
-      ToastHelper.error({ message: t('messages.generateAccountError') })
-
-      handleGoBack()
-
-      return
-    }
-
-    if (!isHardwareAccount) {
-      let neo3Account: Account<'neo3'>
-
-      try {
-        neo3Account = neo3Service.generateAccountFromKey(key) as Account<'neo3'>
-
-        setData({ neo3Account })
-      } catch (error) {
-        console.error(error)
-
-        ToastHelper.error({ message: t('messages.generateNeo3AccountError') })
-
-        handleGoBack()
-
+      if (!isConnectedAndUnlocked) {
+        ToastHelper.error({ message: t('messages.hardwareWalletNotConnectedOrLocked'), duration: 8000 })
         return
       }
     }
 
-    setData({ isGeneratingAccounts: false })
-  }
-
-  const handleMigrateToNeo3 = async () => {
-    if (actionState.isActing || !serviceAccount || !neo3Account || !hasMigrationNeo3(service)) return
-
-    if (isHardwareAccount) {
-      const isConnectedAndUnlocked = await isConnectedAndUnlockedHardwareWallet(account)
-
-      if (!isConnectedAndUnlocked) {
-        const message = t('messages.hardwareWalletNotConnectedOrLocked')
-
-        ToastHelper.error({ message, duration: 8000 })
-
-        throw new Error(message)
-      }
-    }
-
     try {
-      const transactionHash = await service.migrateToNeo3({ account: serviceAccount, address: neo3Account.address })
-
-      const doesNeo3AccountExist = doesAccountExist({
-        address: neo3Account.address,
-        blockchain: neo3Account.blockchain,
+      const transactionHash = await neoLegacyService.migrate({
+        account: actionData.neoLegacyServiceAccount,
+        neo3Address: actionData.neo3ServiceAccount.address,
+        neoLegacyMigrationAmounts: actionData.neoLegacyMigrationAmounts,
       })
 
-      if (isHardwareAccount && neo3WalletInfo) await createHardwareWallet([neo3WalletInfo], { accountsType: 'watch' })
-      else if (!doesNeo3AccountExist)
+      const doesNeo3AccountExist = doesAccountExist({
+        address: actionData.neo3ServiceAccount.address,
+        blockchain: actionData.neo3ServiceAccount.blockchain,
+      })
+
+      if (isHardwareAccount) {
+        // We are using non-null assertion operator here because we validate in unMount hook if this value exist when is hardware account
+        await createHardwareWallet([neo3HardwareWalletInfo!], { accountsType: 'watch' })
+      } else if (!doesNeo3AccountExist) {
         await importAccount({
-          address: neo3Account.address,
-          blockchain: neo3Account.blockchain,
-          key: neo3Account.key,
+          ...actionData.neo3ServiceAccount,
           type: 'standard',
-          wallet: wallet!,
+          wallet,
         })
+      }
 
-      const tokenBalanceTransfers: TTokenBalance[] = []
-
-      if (hasGasAmount && gasTokenBalance) tokenBalanceTransfers.push(gasTokenBalance)
-      if (hasNeoAmount && neoTokenBalance) tokenBalanceTransfers.push(neoTokenBalance)
-
-      // TODO: It is an workaround to avoid check two times the same transaction as migration happens in only one transaction
-      // Fix here: https://app.clickup.com/t/86a791t0c
-      const transactionsTransfer = tokenBalanceTransfers.map<TUseTransactionsTransfer>(tokenBalance => ({
-        account,
-        amount: tokenBalance.amount,
-        asset: tokenBalance.token.symbol,
-        assetHash: tokenBalance.token.hash,
-        to: BSNeoLegacyConstants.MIGRATION_NEO3_COZ_ADDRESS,
-        from: account.address,
+      const transfer = {
+        account: neoLegacyAccount,
+        to: BSNeoLegacyConstants.MIGRATION_COZ_LEGACY_ADDRESS,
+        from: neoLegacyAccount.address,
         hash: transactionHash,
         time: DateHelper.getNowUnix(),
-        fromAccount: account,
+        fromAccount: neoLegacyAccount,
         isPending: true,
-        toAccount: accountsRef.current.find(
-          ({ address }) => address === BSNeoLegacyConstants.MIGRATION_NEO3_COZ_ADDRESS
-        ),
-      }))
+        isMigrate: true,
+      }
+      const migrationTransfers: TUseTransactionsTransfer[] = []
+
+      if (actionData.neoLegacyMigrationAmounts.hasEnoughGasBalance && actionData.neoLegacyMigrationAmounts.gasBalance) {
+        migrationTransfers.push({
+          amount: actionData.neoLegacyMigrationAmounts.gasBalance.amount,
+          asset: actionData.neoLegacyMigrationAmounts.gasBalance.token.symbol,
+          assetHash: actionData.neoLegacyMigrationAmounts.gasBalance.token.hash,
+          ...transfer,
+        })
+      }
+
+      if (actionData.neoLegacyMigrationAmounts.hasEnoughNeoBalance && actionData.neoLegacyMigrationAmounts.neoBalance) {
+        migrationTransfers.push({
+          amount: actionData.neoLegacyMigrationAmounts.neoBalance.amount,
+          asset: actionData.neoLegacyMigrationAmounts.neoBalance.token.symbol,
+          assetHash: actionData.neoLegacyMigrationAmounts.neoBalance.token.hash,
+          ...transfer,
+        })
+      }
 
       const pendingMigrationNeo3: TPendingMigrationNeo3 = {
         hash: transactionHash,
-        account,
-        neo3Address: neo3Account.address,
+        neoLegacyAccount,
+        neo3Address: actionData.neo3ServiceAccount.address,
         status: 'pending',
-        gasToken,
-        neoToken,
-        neo3GasToken,
-        neo3NeoToken,
-        gasSent: gasTokenBalance?.amount,
-        neoSent: neoTokenBalance?.amount,
-        neo3GasFee: calculatedValues.gasMigrationTotalFees,
-        neo3NeoFee: calculatedValues.neoMigrationTotalFees,
-        neo3GasAmount: calculatedValues.gasMigrationAmount,
-        neo3NeoAmount: calculatedValues.neoMigrationAmount,
+        neo3MigrationAmounts: actionData.neo3MigrationAmounts,
+        neoLegacyMigrationAmounts: actionData.neoLegacyMigrationAmounts,
       }
 
       dispatch(
         thunks.waitMigration({
-          hash: transactionHash,
-          transactionsTransfer,
-          neo3Address: neo3Account.address,
+          migrationTransfers,
           pendingMigrationNeo3,
         })
       )
 
-      navigate(`/app/wallets/${account.id}/transactions`)
+      navigate(`/app/wallets/${neoLegacyAccount.id}/transactions`)
 
       await UtilsHelper.sleep(100)
 
@@ -308,29 +196,85 @@ export const MigrationNeo3Page = () => {
     }
   }
 
-  useEffect(() => {
-    if (
-      account.blockchain !== 'neoLegacy' ||
-      (!balanceQuery.isLoading &&
-        !unclaimedQuery.isLoading &&
-        !migrationNeo3Validations.canMigrateToNeo3({ tokenBalances, unclaimedResult }))
-    )
-      handleGoBack()
+  const { isMounting } = useMount(
+    async () => {
+      try {
+        if (neoLegacyAccount.blockchain !== 'neoLegacy' || !wallet) {
+          throw new Error(t('messages.accountIsNotNeoLegacy'))
+        }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [balanceQuery.isLoading, unclaimedQuery.isLoading, tokenBalances, unclaimedResult])
+        // When these queries are loading, we need to wait for them to finish
+        if (balanceQuery.isLoading || unclaimedQuery.isLoading) {
+          return
+        }
 
-  useEffect(() => {
-    if (!serviceAccount || !neo3Account) return
+        if (!!unclaimedQuery.data && shouldClaimBeforeMigrateToNeo3(unclaimedQuery.data)) {
+          modalNavigate('migration-neo3-claim-alert', { state: { neoLegacyAccount } })
+          return
+        }
 
-    handleCalculateToMigrateToNeo3Values()
+        const tokenBalances = balanceQuery.data?.tokensBalances ?? []
+        const unclaimedResult = unclaimedQuery.data
+        if (!canMigrateToNeo3({ tokenBalances, unclaimedResult })) {
+          throw new Error(t('messages.migrationNotAvailableError'))
+        }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [serviceAccount, neo3Account])
+        const isHardwareWatchAccount = neoLegacyAccount.type === 'watch' && wallet.type === 'hardware'
+        const isHardwareAccount = neoLegacyAccount.type === 'hardware' || isHardwareWatchAccount
+        // It verify if the navigation is from prepare-hardware-wallet-migration-neo3 modal
+        if (isHardwareAccount && (!neo3HardwareServiceAccount || !neo3HardwareWalletInfo)) {
+          modalNavigate('prepare-hardware-wallet-migration-neo3', { state: { neoLegacyAccount } })
+          return
+        }
 
-  useMountUnsafe(() => {
-    handleGenerateAccounts()
-  })
+        let neo3MigrationAmounts: CalculateNeo3MigrationAmountsResponse
+        let neoLegacyMigrationAmounts: CalculateNeoLegacyMigrationAmountsResponse
+        try {
+          neoLegacyMigrationAmounts = neoLegacyService.calculateNeoLegacyMigrationAmounts(tokenBalances)
+          neo3MigrationAmounts = neoLegacyService.calculateNeo3MigrationAmounts(neoLegacyMigrationAmounts)
+        } catch {
+          throw new Error(t('messages.calculateValuesError'))
+        }
+
+        let key: string
+        try {
+          key = await window.api.sendAsync('decryptBasedEncryptedSecret', {
+            value: neoLegacyAccount.encryptedKey!,
+            encryptedSecret: currentLoginSessionRef.current!.encryptedPassword,
+          })
+        } catch {
+          throw new Error(t('messages.getKeyError'))
+        }
+
+        let neoLegacyServiceAccount: Account<TBlockchainServiceKey>
+        try {
+          neoLegacyServiceAccount = AccountHelper.getServiceAccount({ account: neoLegacyAccount, key })
+        } catch {
+          throw new Error(t('messages.generateAccountError'))
+        }
+
+        let neo3ServiceAccount: Account<TBlockchainServiceKey>
+        if (isHardwareAccount) {
+          // We are using non-null assertion operator here because we validate in the beginning if this value exist when is hardware account
+          neo3ServiceAccount = neo3HardwareServiceAccount!
+        } else {
+          try {
+            const neo3Service = bsAggregator.blockchainServicesByName.neo3
+            neo3ServiceAccount = neo3Service.generateAccountFromKey(key)
+          } catch {
+            throw new Error(t('messages.generateNeo3AccountError'))
+          }
+        }
+
+        setData({ neo3ServiceAccount, neoLegacyServiceAccount, neo3MigrationAmounts, neoLegacyMigrationAmounts })
+      } catch (error: any) {
+        ToastHelper.error({ message: error.message })
+        handleGoBack()
+      }
+    },
+    [balanceQuery.isLoading, unclaimedQuery.isLoading, location.state],
+    1000
+  )
 
   return (
     <ContentLayout
@@ -354,9 +298,12 @@ export const MigrationNeo3Page = () => {
             <Separator />
           </div>
 
-          {isGeneratingAccounts || isCalculatingValues ? (
-            <Loader className="w-12 h-12 text-neon mt-6" />
-          ) : (
+          {isMounting ? (
+            <Loader containerClassName="flex-grow items-center " className="w-12 h-12 text-white" />
+          ) : actionData.neo3MigrationAmounts &&
+            actionData.neoLegacyMigrationAmounts &&
+            actionData.neo3ServiceAccount &&
+            actionData.neoLegacyServiceAccount ? (
             <div className="w-full overflow-y-auto">
               <div className="flex flex-col w-full max-w-[572px] mx-auto mt-6 gap-y-1 mb-12">
                 <ActionCard>
@@ -375,7 +322,12 @@ export const MigrationNeo3Page = () => {
                     headerClassName="gap-4"
                     leftIcon={<VscCircleFilled aria-hidden={true} className="text-gray-100 w-2 h-2" />}
                   >
-                    <MigrationNeo3AssetText text={tokensText} blockchain={account.blockchain} />
+                    <MigrationNeo3AssetText
+                      neoLegacyMigrationAmounts={actionData.neoLegacyMigrationAmounts}
+                      blockchain="neoLegacy"
+                      gasTokenSymbol={NEO_LEGACY_GAS_TOKEN.symbol}
+                      neoTokenSymbol={NEO_LEGACY_NEO_TOKEN.symbol}
+                    />
                   </ActionStep>
 
                   <Separator />
@@ -385,7 +337,12 @@ export const MigrationNeo3Page = () => {
                     headerClassName="gap-4"
                     leftIcon={<VscCircleFilled aria-hidden={true} className="text-gray-100 w-2 h-2" />}
                   >
-                    <MigrationNeo3AssetText text={neo3TokensText} blockchain="neo3" />
+                    <MigrationNeo3AssetText
+                      neoLegacyMigrationAmounts={actionData.neoLegacyMigrationAmounts}
+                      blockchain="neo3"
+                      gasTokenSymbol={NEO3_GAS_TOKEN.symbol}
+                      neoTokenSymbol={NEO3_NEO_TOKEN.symbol}
+                    />
                   </ActionStep>
                 </ActionCard>
 
@@ -403,11 +360,11 @@ export const MigrationNeo3Page = () => {
                   <Separator />
 
                   <ActionStep
-                    title={tBlockchain(account.blockchain)}
+                    title={tBlockchain(neoLegacyAccount.blockchain)}
                     headerClassName="gap-4"
                     leftIcon={<VscCircleFilled aria-hidden={true} className="text-gray-100 w-2 h-2" />}
                   >
-                    <p className="text-gray-100 text-sm pr-2">{account.address}</p>
+                    <p className="text-gray-100 text-sm pr-2">{neoLegacyAccount.address}</p>
                   </ActionStep>
 
                   <Separator />
@@ -419,20 +376,14 @@ export const MigrationNeo3Page = () => {
                     leftIcon={<VscCircleFilled aria-hidden={true} className="text-gray-100 w-2 h-2" />}
                   >
                     <div className="flex items-center py-2 px-4 rounded bg-asphalt gap-x-2">
-                      {!neo3Account ? (
-                        <p className="text-pink text-sm min-w-56 text-center">{t('labels.notFoundNeo3Account')}</p>
-                      ) : (
-                        <>
-                          <p className="text-gray-100 text-sm">{neo3Account.address}</p>
+                      <p className="text-gray-100 text-sm">{actionData.neo3ServiceAccount.address}</p>
 
-                          <IconButton
-                            icon={<MdContentCopy aria-hidden={true} className="text-neon" />}
-                            className="-mr-1"
-                            compacted
-                            onClick={UtilsHelper.copyToClipboard.bind(null, neo3Account.address)}
-                          />
-                        </>
-                      )}
+                      <IconButton
+                        icon={<MdContentCopy aria-hidden={true} className="text-neon" />}
+                        className="-mr-1"
+                        compacted
+                        onClick={UtilsHelper.copyToClipboard.bind(null, actionData.neo3ServiceAccount.address)}
+                      />
                     </div>
                   </ActionStep>
                 </ActionCard>
@@ -463,21 +414,17 @@ export const MigrationNeo3Page = () => {
                     headerClassName="gap-4 py-5"
                     leftIcon={<VscCircleFilled aria-hidden={true} className="text-gray-100 w-2 h-2" />}
                   >
-                    {!calculatedValues.neoMigrationAmount && !calculatedValues.gasMigrationAmount ? (
-                      <p className="text-gray-100 text-right py-5 text-sm pr-2">{t('labels.notFound')}</p>
-                    ) : (
-                      <ul className="flex flex-col pr-2 py-5 text-sm gap-y-2 self-center">
-                        <MigrationNeo3ListItemAmount
-                          amount={calculatedValues.neoMigrationAmount}
-                          symbol={neo3NeoToken.symbol}
-                        />
+                    <ul className="flex flex-col pr-2 py-5 text-sm gap-y-2 self-center">
+                      <MigrationNeo3ListItemAmount
+                        amount={actionData.neo3MigrationAmounts.neoMigrationReceiveAmount}
+                        symbol={NEO3_NEO_TOKEN.symbol}
+                      />
 
-                        <MigrationNeo3ListItemAmount
-                          amount={calculatedValues.gasMigrationAmount}
-                          symbol={neo3GasToken.symbol}
-                        />
-                      </ul>
-                    )}
+                      <MigrationNeo3ListItemAmount
+                        amount={actionData.neo3MigrationAmounts.gasMigrationReceiveAmount}
+                        symbol={NEO3_GAS_TOKEN.symbol}
+                      />
+                    </ul>
                   </ActionStep>
                 </ActionCard>
 
@@ -490,27 +437,23 @@ export const MigrationNeo3Page = () => {
                     leftIcon={<TbReceipt aria-hidden={true} className="w-6 h-6 min-w-6 min-h-6" />}
                   >
                     <div className="flex font-normal text-sm pr-2 self-center">
-                      {!calculatedValues.neoMigrationTotalFees && !calculatedValues.gasMigrationTotalFees ? (
-                        <p className="text-gray-100 text-right">{t('labels.notFound')}</p>
-                      ) : (
-                        <ul className="flex flex-col py-5 gap-y-2">
-                          {calculatedValues.neoMigrationTotalFees && (
-                            <MigrationNeo3ListItemFee
-                              fee={calculatedValues.neoMigrationTotalFees}
-                              hasAmount={hasNeoAmount}
-                              neo3Token={neo3NeoToken}
-                            />
-                          )}
+                      <ul className="flex flex-col py-5 gap-y-2">
+                        {actionData.neo3MigrationAmounts.neoMigrationTotalFees && (
+                          <MigrationNeo3ListItemFee
+                            fee={actionData.neo3MigrationAmounts.neoMigrationTotalFees}
+                            hasAmount={actionData.neoLegacyMigrationAmounts.hasEnoughNeoBalance}
+                            neo3Token={NEO3_NEO_TOKEN}
+                          />
+                        )}
 
-                          {calculatedValues.gasMigrationTotalFees && (
-                            <MigrationNeo3ListItemFee
-                              fee={calculatedValues.gasMigrationTotalFees}
-                              hasAmount={hasGasAmount}
-                              neo3Token={neo3GasToken}
-                            />
-                          )}
-                        </ul>
-                      )}
+                        {actionData.neo3MigrationAmounts.gasMigrationTotalFees && (
+                          <MigrationNeo3ListItemFee
+                            fee={actionData.neo3MigrationAmounts.gasMigrationTotalFees}
+                            hasAmount={actionData.neoLegacyMigrationAmounts.hasEnoughGasBalance}
+                            neo3Token={NEO3_GAS_TOKEN}
+                          />
+                        )}
+                      </ul>
                     </div>
                   </ActionStep>
                 </ActionCard>
@@ -527,7 +470,7 @@ export const MigrationNeo3Page = () => {
                 />
               </div>
             </div>
-          )}
+          ) : null}
         </div>
       </section>
     </ContentLayout>

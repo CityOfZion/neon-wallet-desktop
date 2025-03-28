@@ -18,13 +18,13 @@ export const PrepareHardwareWalletStatusConnection = ({
   searchLabel,
   connectHardwareWallet: { status, handleTryConnect },
 }: TProps) => {
-  const { t } = useTranslation('modals', { keyPrefix: 'prepareHardwareWalletMigrationNeo3' })
+  const { t } = useTranslation('modals', { keyPrefix: 'prepareHardwareWalletMigrationNeo3.statusConnection' })
 
   return match(status)
     .with('connected', () => (
       <AlertSuccessBanner
         className="gap-2 text-sm py-4 my-4"
-        message={t('labels.connected')}
+        message={t('connectedMessage')}
         icon={<TbDeviceUsb aria-hidden={true} className="rotate-45" />}
       />
     ))
@@ -32,12 +32,12 @@ export const PrepareHardwareWalletStatusConnection = ({
       <Fragment>
         <AlertErrorBanner
           className="gap-2 text-sm py-4 mt-4"
-          message={t('labels.hardwareWalletNotFound')}
+          message={t('notFoundMessage')}
           icon={<TbX aria-hidden={true} />}
         />
 
         <Button
-          label={t('buttons.searchAgain')}
+          label={t('searchAgainButtonLabel')}
           variant="card"
           textClassName="text-neon"
           iconsOnEdge={false}

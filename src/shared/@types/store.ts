@@ -1,4 +1,8 @@
-import { SwapServiceStatusResponse, SwapServiceToken, Token } from '@cityofzion/blockchain-service'
+import { SwapServiceStatusResponse, SwapServiceToken } from '@cityofzion/blockchain-service'
+import {
+  CalculateNeo3MigrationAmountsResponse,
+  CalculateNeoLegacyMigrationAmountsResponse,
+} from '@cityofzion/bs-neo-legacy'
 
 import { TBlockchainServiceKey, TNetwork } from './blockchain'
 import { Optional } from './global'
@@ -132,6 +136,11 @@ export type TNotificationNavigateAction = {
         address: string
         blockchain: TBlockchainServiceKey
       }
+    | {
+        to: 'migration-neo3'
+        address: string
+        blockchain: TBlockchainServiceKey
+      }
 }
 
 export type TNotificationAction = TNotificationNavigateAction
@@ -158,19 +167,11 @@ export type TSaveNotification = Optional<TNotification, 'id' | 'date' | 'provide
 
 export type TMigrationNeo3 = {
   hash: string
-  account: IAccountState
+  neoLegacyAccount: IAccountState
   neo3Address: string
   status: 'done' | 'pending' | 'failure'
-  gasToken?: Token
-  neoToken?: Token
-  neo3GasToken: Token
-  neo3NeoToken: Token
-  gasSent?: string
-  neoSent?: string
-  neo3GasFee?: string
-  neo3NeoFee?: string
-  neo3GasAmount?: string
-  neo3NeoAmount?: string
+  neo3MigrationAmounts: CalculateNeo3MigrationAmountsResponse
+  neoLegacyMigrationAmounts: CalculateNeoLegacyMigrationAmountsResponse
 }
 
 export type TPendingMigrationNeo3 = Omit<TMigrationNeo3, 'status'> & { status: 'pending' }

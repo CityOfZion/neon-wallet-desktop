@@ -1,8 +1,9 @@
-import { hasMigrationNeo3, waitForMigration } from '@cityofzion/blockchain-service'
+import { BSNeoLegacy, BSNeoLegacyHelper } from '@cityofzion/bs-neo-legacy'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { ReactQueryHelper } from '@renderer/helpers/ReactQueryHelper'
 import { TRootState } from '@renderer/hooks/useRedux'
 import { bsAggregator } from '@renderer/libs/blockchainService'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TUseTransactionsTransfer } from '@shared/@types/hooks'
 import { TMigrationNeo3, TPendingMigrationNeo3, TSaveNotification } from '@shared/@types/store'
 import { getI18next } from '@shared/libs/i18next'
@@ -13,9 +14,7 @@ import { authReducerActions } from '../reducers/AuthReducer'
 import { utilityReducerActions } from '../reducers/UtilityReducer'
 
 type TWaitMigrationWorkerParams = {
-  hash: string
-  transactionsTransfer: TUseTransactionsTransfer[]
-  neo3Address: string
+  migrationTransfers: TUseTransactionsTransfer[]
   pendingMigrationNeo3: TPendingMigrationNeo3
 }
 
@@ -24,10 +23,10 @@ const { t } = getI18next()
 export const waitMigration = createAsyncThunk<void, TWaitMigrationWorkerParams>(
   'waitMigration',
   async (params, { getState, dispatch }) => {
-    const { hash, transactionsTransfer, neo3Address } = params
-    const firstTransaction = transactionsTransfer[0]
+    const { migrationTransfers, pendingMigrationNeo3 } = params
+    const firstTransaction = migrationTransfers[0]
 
-    const migrationNeo3 = cloneDeep<TMigrationNeo3>(params.pendingMigrationNeo3)
+    const migrationNeo3 = cloneDeep<TMigrationNeo3>(pendingMigrationNeo3)
 
     const state = getState() as TRootState
     const network = state.settings.data.selectedNetworkByBlockchain[firstTransaction.account.blockchain]
@@ -43,21 +42,19 @@ export const waitMigration = createAsyncThunk<void, TWaitMigrationWorkerParams>(
 
     try {
       dispatch(utilityReducerActions.saveMigrationNeo3(migrationNeo3))
-
-      transactionsTransfer.forEach(transaction => dispatch(utilityReducerActions.addPendingTransaction(transaction)))
+      migrationTransfers.forEach(transaction => dispatch(utilityReducerActions.addPendingTransaction(transaction)))
 
       migrationNeo3.status = 'failure'
 
       const neo3Service = bsAggregator.blockchainServicesByName.neo3
-      const service = bsAggregator.blockchainServicesByName[firstTransaction.account.blockchain]
+      const neoLegacyService = bsAggregator.blockchainServicesByName.neoLegacy as BSNeoLegacy<TBlockchainServiceKey>
 
-      if (!hasMigrationNeo3(service)) {
-        dispatch(utilityReducerActions.saveMigrationNeo3(migrationNeo3))
-
-        throw new Error('Migration is not supported for this blockchain service')
-      }
-
-      const response = await waitForMigration({ service, neo3Service, neo3Address, txId: hash })
+      const response = await BSNeoLegacyHelper.waitForMigration({
+        neoLegacyService,
+        neo3Service,
+        neo3Address: pendingMigrationNeo3.neo3Address,
+        transactionHash: pendingMigrationNeo3.hash,
+      })
 
       match(response)
         .with({ isTransactionConfirmed: false }, () => {
@@ -89,6 +86,6 @@ export const waitMigration = createAsyncThunk<void, TWaitMigrationWorkerParams>(
 
     dispatch(utilityReducerActions.saveMigrationNeo3(migrationNeo3))
     dispatch(authReducerActions.saveNotification(notification))
-    dispatch(utilityReducerActions.removePendingTransaction(hash))
+    dispatch(utilityReducerActions.removePendingTransaction(pendingMigrationNeo3.hash))
   }
 )

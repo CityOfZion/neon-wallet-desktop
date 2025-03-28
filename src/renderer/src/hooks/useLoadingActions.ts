@@ -1,16 +1,14 @@
 import { useState } from 'react'
 
-export const useLoadingActions = () => {
+export const useLoadingActions = (onAct: () => Promise<void> | void) => {
   const [isActing, setIsActing] = useState(false)
 
-  const handleAct = (action: () => Promise<void> | void) => {
-    return async () => {
-      try {
-        setIsActing(true)
-        await action()
-      } finally {
-        setIsActing(false)
-      }
+  const handleAct = async () => {
+    try {
+      setIsActing(true)
+      await onAct()
+    } finally {
+      setIsActing(false)
     }
   }
 

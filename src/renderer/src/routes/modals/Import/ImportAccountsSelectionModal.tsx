@@ -28,11 +28,9 @@ export const ImportAccountsSelectionModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'importAccountsSelection' })
   const { doesAccountExist } = useAccountUtils()
 
-  const { handleAct, isActing } = useLoadingActions()
-
   const [selectedAccounts, setSelectedAccounts] = useState<TMnemonicOrKeyAccountWithBlockchain[]>([])
 
-  const handleImport = async () => {
+  const { handleAct, isActing } = useLoadingActions(async () => {
     const isMnemonic = MnemonicHelper.isValidMnemonic(mnemonicOrKey)
 
     const wallet = blockchainActions.createWallet({
@@ -54,7 +52,7 @@ export const ImportAccountsSelectionModal = () => {
 
     modalNavigate(-2)
     navigate(`/app/wallets/${accounts[0].id}/overview`)
-  }
+  })
 
   return (
     <SideModalLayout
@@ -75,7 +73,7 @@ export const ImportAccountsSelectionModal = () => {
       <Button
         className="w-full"
         type="button"
-        onClick={handleAct(handleImport)}
+        onClick={handleAct}
         label={t('importButtonLabel')}
         leftIcon={<TbFileImport aria-hidden={true} />}
         loading={isActing}
