@@ -25,7 +25,7 @@ type THeaderProps = {
 const Header = ({ label, icon, children, ...props }: THeaderProps) => {
   return (
     <div {...props}>
-      <div className="flex  items-center gap-2.5">
+      <div className="flex items-center gap-2.5">
         {icon &&
           cloneElement(icon, {
             'aria-hidden': true,

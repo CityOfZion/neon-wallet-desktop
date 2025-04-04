@@ -175,6 +175,8 @@ export type TMigrationNeo3 = {
 
 export type TPendingMigrationNeo3 = Omit<TMigrationNeo3, 'status'> & { status: 'pending' }
 
+export type TFailureMigrationNeo3 = Omit<TMigrationNeo3, 'status'> & { status: 'failure' }
+
 export type TMigrationsNeo3 = {
   [hash: string]: TMigrationNeo3
 }

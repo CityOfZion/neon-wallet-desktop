@@ -20,8 +20,8 @@ type TFunctionByNotificationActionType = {
 const getAccount = (predicate: TAccountHelperPredicateParams) => {
   const state = RootStore.store.getState()
   const accounts = selectAccounts(state)
-  const account = accounts.find(AccountHelper.predicate(predicate))
-  return account
+
+  return accounts.find(AccountHelper.predicate(predicate))
 }
 
 export const functionByNotificationActionType: TFunctionByNotificationActionType = {

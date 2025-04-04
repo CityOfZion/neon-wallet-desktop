@@ -64,7 +64,7 @@ export const MigrateAccountsStep4Modal = () => {
           content: <SuccessContent accounts={accounts} />,
         },
       })
-    } catch (error) {
+    } catch {
       ToastHelper.error({ message: t('step4.migrateError') })
       modalNavigate(-3)
     }

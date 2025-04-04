@@ -33,7 +33,7 @@ export const waitMigration = createAsyncThunk<void, TWaitMigrationWorkerParams>(
     const network = state.settings.data.selectedNetworkByBlockchain[firstTransaction.account.blockchain]
 
     const notification: TSaveNotification = {
-      title: t('pages:migrationNeo3.failureNotification.previewBody'),
+      title: t('pages:migrationNeo3.failureNotification.title'),
       previewBody: t('pages:migrationNeo3.failureNotification.previewBody'),
       related: {
         blockchain: firstTransaction.account.blockchain,
@@ -70,7 +70,7 @@ export const waitMigration = createAsyncThunk<void, TWaitMigrationWorkerParams>(
         })
         .otherwise(() => {
           migrationNeo3.status = 'done'
-          notification.title = t('pages:migrationNeo3.successNotification.previewBody')
+          notification.title = t('pages:migrationNeo3.successNotification.title')
           notification.previewBody = t('pages:migrationNeo3.successNotification.previewBody')
           notification.action = {
             type: 'navigate',

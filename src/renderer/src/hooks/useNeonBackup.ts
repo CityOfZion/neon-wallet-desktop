@@ -290,7 +290,7 @@ export const useNeonCreateBackup = () => {
         path: `${selectedFilePath}/Neon-Backup-${DateHelper.getNowUnix()}.${BACKUP_FILE_EXTENSION}`,
         content: JSON.stringify(backupFile),
       })
-    } catch (error) {
+    } catch {
       throw new Error(t('errors.backupError'))
     }
   }
@@ -464,7 +464,7 @@ export const useNeonImportBackup = () => {
       })
 
       await Promise.allSettled(promises)
-    } catch (error) {
+    } catch {
       throw new Error(t('errors.importData'))
     }
   }

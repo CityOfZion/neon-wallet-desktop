@@ -9,17 +9,18 @@ type TProps = {
   contentProps?: RadixTooltip.TooltipContentProps
   arrowProps?: RadixTooltip.TooltipArrowProps
   open?: boolean
+  delayDuration?: number
 }
 
-export const Tooltip = ({ children, title, icon, open, ...props }: TProps) => {
+export const Tooltip = ({ children, title, icon, open, delayDuration, ...props }: TProps) => {
   const { className: contentClassName, ...contentProps } = props.contentProps ?? {}
   const { className: arrowClassName, ...arrowProps } = props.arrowProps ?? {}
 
   if (!title) return children
 
   return (
-    <RadixTooltip.Provider>
-      <RadixTooltip.Root open={open}>
+    <RadixTooltip.Provider delayDuration={delayDuration}>
+      <RadixTooltip.Root open={open} delayDuration={delayDuration}>
         <RadixTooltip.Trigger asChild>{children}</RadixTooltip.Trigger>
         <RadixTooltip.Portal>
           <RadixTooltip.Content

@@ -54,7 +54,7 @@ export const BlockchainNetworkAccordion = ({ blockchain }: TProps) => {
               blockchain,
             },
           })}
-          disabled={!!NetworkHelper.isCustom(blockchain, network)}
+          disabled={NetworkHelper.isCustom(blockchain, network)}
         />
       </Accordion.Content>
     </Accordion.Item>

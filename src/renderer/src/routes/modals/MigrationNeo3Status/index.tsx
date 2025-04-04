@@ -1,14 +1,20 @@
 import { cloneElement } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TbArrowsExchange, TbCircleX, TbEye, TbReceipt, TbRosetteDiscountCheck } from 'react-icons/tb'
+import { MdRefresh } from 'react-icons/md'
+import { TbArrowsExchange, TbCircleX, TbEye, TbHourglass, TbReceipt, TbRosetteDiscountCheck } from 'react-icons/tb'
 import { Details } from '@renderer/components/Details'
+import { IconButton } from '@renderer/components/IconButton'
 import { Link } from '@renderer/components/Link'
+import { Tooltip } from '@renderer/components/Tooltip'
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
+import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useMigrationNeo3Selector } from '@renderer/hooks/useUtilitySelector'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
+import { thunks } from '@renderer/store/thunks'
+import { TFailureMigrationNeo3 } from '@shared/@types/store'
 import { match } from 'ts-pattern'
 
 import { MigrationNeo3StatusAssetItem } from './MigrationNeo3StatusAssetItem'
@@ -22,9 +28,12 @@ export const MigrationNeo3StatusModal = () => {
   const { modalErase } = useModalNavigate()
   const { hash } = useModalState<TState>()
   const { accounts } = useAccountsSelector()
+  const dispatch = useAppDispatch()
   const migrationNeo3Selector = useMigrationNeo3Selector(hash)
 
   const migrationNeo3 = migrationNeo3Selector.migrationNeo3!
+
+  const isFailure = migrationNeo3.status === 'failure'
 
   const account = accounts.find(AccountHelper.predicate(migrationNeo3.account))
 
@@ -35,7 +44,14 @@ export const MigrationNeo3StatusModal = () => {
 
   const icon = match(migrationNeo3.status)
     .with('failure', () => <TbCircleX className="text-pink" />)
-    .otherwise(() => <TbRosetteDiscountCheck className="text-blue" />)
+    .with('done', () => <TbRosetteDiscountCheck className="text-blue" />)
+    .otherwise(() => <TbHourglass className="text-blue p-1 animate-[wiggle_2s_ease-in-out_infinite]" />)
+
+  const handleRevalidateMigration = () => {
+    if (!isFailure) return
+
+    dispatch(thunks.revalidateMigration({ failureMigrationNeo3: migrationNeo3 as TFailureMigrationNeo3 }))
+  }
 
   const handleClose = () => {
     modalErase('side')
@@ -58,7 +74,22 @@ export const MigrationNeo3StatusModal = () => {
       <h2 className="text-white text-xl text-center">{t(`subtitles.${migrationNeo3.status}`)}</h2>
 
       <Details.Root>
-        <Details.Header label={t('card.title')} icon={<TbReceipt />} />
+        <Details.Header label={t('card.title')} icon={<TbReceipt />}>
+          {isFailure && (
+            <div className="flex flex-row flex-grow items-center justify-end">
+              <Tooltip title={t('buttons.revalidateMigration')} delayDuration={0}>
+                <IconButton
+                  aria-label={t('buttons.revalidateMigration')}
+                  colorSchema="yellow"
+                  size="xs"
+                  compacted
+                  icon={<MdRefresh aria-hidden className="w-6 h-6" />}
+                  onClick={handleRevalidateMigration}
+                />
+              </Tooltip>
+            </div>
+          )}
+        </Details.Header>
 
         <Details.Body className="text-sm">
           <Details.Panel label={t('card.transaction')}>

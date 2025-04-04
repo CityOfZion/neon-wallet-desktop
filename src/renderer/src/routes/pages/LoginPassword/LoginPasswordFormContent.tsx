@@ -35,7 +35,7 @@ export const LoginPasswordFormContent = () => {
     try {
       await loginWithPassword(data.password)
       navigate('/app/portfolio/overview')
-    } catch (error: any) {
+    } catch {
       setError('password', t('invalidPassword'))
     }
   }

@@ -578,6 +578,22 @@
     "failureNotification": {
       "title": "Migration failed",
       "previewBody": "We couldn't verify the completion of your migration transfer"
+    },
+    "successRevalidateNotification": {
+      "title": "Migration revalidation completed",
+      "previewBody": "Your migration revalidation has been completed successfully"
+    },
+    "failureRevalidateNotification": {
+      "title": "Migration revalidation failed",
+      "previewBody": "We couldn't verify the completion of your migration revalidation transfer"
+    },
+    "failureRevalidateNeoLegacyNotification": {
+      "title": "Migration revalidation failed - Neo Legacy",
+      "previewBody": "We couldn't verify the completion of your migration revalidation transfer on Neo Legacy"
+    },
+    "failureRevalidateNeo3Notification": {
+      "title": "Migration revalidation failed - Neo 3",
+      "previewBody": "We couldn't verify any migration revalidation transfer to your Neo 3 account"
     }
   }
 }
