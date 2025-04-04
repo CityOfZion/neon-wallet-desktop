@@ -74,8 +74,7 @@ export const MigrationNeo3Page = () => {
   const { accountsRef } = useAccountsSelector()
   const { modalNavigate } = useModalNavigate()
   const dispatch = useAppDispatch()
-  const { isConnectedAndUnlockedHardwareWallet } = useHardwareWalletActions()
-  const { createHardwareWallet } = useHardwareWalletActions()
+  const { createHardwareWallet, isConnectedAndUnlockedHardwareWallet } = useHardwareWalletActions()
 
   const {
     state: { account, neo3WalletInfo, ...params },

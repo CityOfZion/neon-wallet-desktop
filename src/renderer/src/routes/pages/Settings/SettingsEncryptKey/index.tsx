@@ -85,7 +85,7 @@ export const SettingsEncryptKeyPage = (): JSX.Element => {
       })
 
       reset()
-    } catch (error) {
+    } catch {
       ToastHelper.error({ message: t('encryptKey.error.errorToEncryptKey') })
     }
   }

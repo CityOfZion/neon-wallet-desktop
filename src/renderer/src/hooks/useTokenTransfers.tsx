@@ -109,7 +109,7 @@ async function fetchTransactions(
           })
         })
       })
-    } catch (error) {
+    } catch {
       /* empty */
     }
 

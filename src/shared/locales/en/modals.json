@@ -721,7 +721,7 @@
     "title": "Migration token(s)",
     "subtitles": {
       "done": "Your migration has been done!",
-      "pending": "Your migration has been started!",
+      "pending": "Your migration is pending!",
       "failure": "Your migration failed!"
     },
     "card": {
@@ -738,7 +738,8 @@
       }
     },
     "buttons": {
-      "viewStatus": "View status"
+      "viewStatus": "View status",
+      "revalidateMigration": "Revalidate migration"
     }
   },
   "migrationNeo3ClaimAlert": {

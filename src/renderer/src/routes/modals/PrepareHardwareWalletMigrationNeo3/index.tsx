@@ -113,7 +113,7 @@ export const PrepareHardwareWalletMigrationNeo3Modal = () => {
       })
 
       setData({ neo3WalletInfo: { ...neo3WalletInfo, accounts: [...neo3WalletInfo.accounts, nextNeo3Account] } })
-    } catch (error) {
+    } catch {
       ToastHelper.error({ message: t('messages.addNeo3AccountError'), duration: 8000 })
     } finally {
       setData({ isAddingNeo3Account: false })

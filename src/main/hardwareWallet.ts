@@ -100,11 +100,11 @@ const isConnectedAndUnlockedHardwareWallet = async ({
   account,
   order,
 }: TIsConnectedAndUnlockedHardwareWalletParams) => {
-  if (!account.isHardware) throw new Error("Accounts isn't a hardware wallet")
+  if (!account.isHardware) throw new Error("Account isn't a hardware wallet")
 
   const transporter = transporters.find(({ blockchain }) => blockchain === account.blockchain)
 
-  if (!transporter) throw new Error("Transporter isn't found")
+  if (!transporter) throw new Error("Transporter wasn't found")
 
   const service = bsAggregator.blockchainServicesByName[transporter.blockchain]
 

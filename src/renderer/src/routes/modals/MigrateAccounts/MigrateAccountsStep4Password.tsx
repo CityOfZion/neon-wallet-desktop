@@ -26,7 +26,7 @@ export const MigrateAccountsStep4Password = ({ accountToMigrate, onSubmit }: TPr
   const handleSubmit = async (data: TActionData) => {
     try {
       await onSubmit(accountToMigrate, data.password)
-    } catch (error) {
+    } catch {
       setError('password', t('passwordError'))
     }
   }
@@ -59,7 +59,7 @@ export const MigrateAccountsStep4Password = ({ accountToMigrate, onSubmit }: TPr
       </div>
 
       <div className="flex items-start h-full w-6">
-        {!!actionState.hasActed && (
+        {actionState.hasActed && (
           <Fragment>
             {actionState.isValid ? (
               <MdCheck className="w-6 h-6 text-green" />
