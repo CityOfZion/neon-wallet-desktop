@@ -39,7 +39,7 @@ export const OverviewCharts = ({
       if (repeated) {
         repeated.amountNumber += balance.amountNumber
         repeated.exchangeAmount += balance.exchangeAmount
-        repeated.amount = NumberHelper.removeLeadingZero(repeated.amountNumber.toFixed(repeated.token.decimals))
+        repeated.amount = NumberHelper.formatString(repeated.amountNumber)
         return
       }
 

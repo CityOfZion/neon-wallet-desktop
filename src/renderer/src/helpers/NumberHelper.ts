@@ -1,3 +1,10 @@
+type TFormatStringOptions = {
+  decimals?: number
+  max?: number
+  removeLeadingZero?: boolean
+  removeTrailingZero?: boolean
+}
+
 export class NumberHelper {
   static number(input: string | number) {
     if (typeof input === 'number') {
@@ -42,8 +49,21 @@ export class NumberHelper {
     }
   }
 
-  static formatString(value: string, decimals: number = 0, max?: number) {
-    let newValue = value
+  static formatString(value: string | number, options?: TFormatStringOptions) {
+    const { decimals = 0, max, removeLeadingZero = true, removeTrailingZero = true } = options ?? {}
+    let newValue = value.toString().trim()
+
+    if (isNaN(Number(newValue))) {
+      throw new Error('Invalid number')
+    }
+
+    const sciNotationRegex = /^[+-]?\d+(\.\d+)?e[+-]?\d+$/i
+
+    if (sciNotationRegex.test(newValue)) {
+      const num = Number(newValue).toFixed(decimals)
+      newValue = num.toString()
+    }
+
     if (decimals === 0) {
       newValue = newValue.replace(/[^\d]/g, '')
     } else {
@@ -61,10 +81,22 @@ export class NumberHelper {
 
     if (typeof max === 'number') newValue = newValue.slice(0, max)
 
+    if (removeLeadingZero) {
+      newValue = this.removeLeadingZero(newValue)
+    }
+
+    if (removeTrailingZero) {
+      newValue = this.removeTrailingZero(newValue)
+    }
+
     return newValue
   }
 
   static removeLeadingZero(value: string) {
-    return value.replace(/^0+/, '')
+    return value.replace(/^0+/, '0')
+  }
+
+  static removeTrailingZero(value: string) {
+    return value.replace(/\.?0+$/, '')
   }
 }

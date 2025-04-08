@@ -2,6 +2,8 @@ import { Fragment, useEffect, useState } from 'react'
 import defaultTokenLogo from '@renderer/assets/images/default-token-logo.png'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 
+import { Tooltip } from '../Tooltip'
+
 import { TGreyTokenSelectToken } from '.'
 
 type TProps = {
@@ -26,14 +28,15 @@ export const GreyTokenSelectItem = ({ token }: TProps) => {
         }}
         alt={token.symbol}
       />
-
-      <span className="flex flex-grow items-center gap-1 min-w-0">
-        <span className="text-white text-sm text-left uppercase truncate">{token.symbol}</span>
-        {token.network && <span className="text-gray-100 text-sm truncate uppercase">{` | ${token.network}`}</span>}
-      </span>
+      <Tooltip title={token.network ? `${token.symbol} | ${token.network}` : ''}>
+        <span className="flex flex-grow items-center gap-1 min-w-0">
+          <span className="text-white text-sm text-left uppercase">{token.symbol}</span>
+          {token.network && <span className="text-gray-100 text-sm truncate uppercase">{` | ${token.network}`}</span>}
+        </span>
+      </Tooltip>
 
       {token.amount && (
-        <span className="text-1xs text-neon truncate">{NumberHelper.formatString(token.amount, 6)}</span>
+        <span className="text-1xs text-neon">{NumberHelper.formatString(token.amount, { decimals: 12 })}</span>
       )}
     </Fragment>
   )

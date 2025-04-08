@@ -24,9 +24,9 @@ export const useData = (accounts: IAccountState[], showType: TUseBalanceOptionSh
         }
 
         groupedToken.amountNumber += tokenBalance.amountNumber
-        groupedToken.amount = NumberHelper.removeLeadingZero(
-          groupedToken.amountNumber.toFixed(tokenBalance.token.decimals)
-        )
+        groupedToken.amount = NumberHelper.formatString(groupedToken.amountNumber, {
+          decimals: tokenBalance.token.decimals,
+        })
         groupedToken.exchangeAmount += tokenBalance.exchangeAmount
       })
     )
