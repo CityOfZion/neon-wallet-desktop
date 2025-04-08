@@ -51,7 +51,7 @@ export const useColumns = (showType: TUseBalanceOptionShowType) => {
         cell: info => info.getValue(),
         header: t('token'),
       }),
-      columnHelper.accessor(row => Number(row.amount).toFixed(row.token?.decimals ?? 8), {
+      columnHelper.accessor(row => NumberHelper.formatString(row.amount, { decimals: row.token.decimals }), {
         cell: info => info.getValue(),
         id: 'holdings',
         header: t('holdings'),

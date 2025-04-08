@@ -137,7 +137,7 @@ export const SellTokensDepositModal = () => {
   }
 
   const handleChangeAmount = (value: string) => {
-    setData({ amount: NumberHelper.formatString(value, actionData.token?.token?.decimals, 24) })
+    setData({ amount: NumberHelper.formatString(value, { decimals: actionData.token?.token?.decimals, max: 24 }) })
   }
 
   const handleChangeAddress = (event: ChangeEvent<HTMLInputElement>) => {

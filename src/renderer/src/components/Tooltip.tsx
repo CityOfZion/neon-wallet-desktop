@@ -26,17 +26,14 @@ export const Tooltip = ({ children, title, icon, open, delayDuration, ...props }
           <RadixTooltip.Content
             side="bottom"
             className={StyleHelper.mergeStyles(
-              'bg-gray-900/70 p-2 rounded text-xs text-white z-[1010] font-bold flex items-center gap-2',
+              'bg-gray-700 p-2 rounded text-xs text-white z-[1010] font-bold flex items-center gap-2 shadow-lg ',
               contentClassName
             )}
             {...contentProps}
           >
             {icon}
             {title}
-            <RadixTooltip.Arrow
-              className={StyleHelper.mergeStyles('fill-gray-900/70', arrowClassName)}
-              {...arrowProps}
-            />
+            <RadixTooltip.Arrow className={StyleHelper.mergeStyles('fill-gray-700', arrowClassName)} {...arrowProps} />
           </RadixTooltip.Content>
         </RadixTooltip.Portal>
       </RadixTooltip.Root>
