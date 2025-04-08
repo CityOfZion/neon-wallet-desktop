@@ -91,7 +91,11 @@ export const SendRecipient = ({
 
   const handleChangeAmount = (value: string) => {
     onUpdateRecipient({
-      amount: NumberHelper.formatString(value, { decimals: recipient.token?.token?.decimals, max: 24 }),
+      amount: NumberHelper.formatString(value, {
+        decimals: recipient.token?.token?.decimals,
+        max: 24,
+        removeTrailingZero: false,
+      }),
     })
   }
 
