@@ -1,6 +1,7 @@
-import { hasMigrationNeo3, waitForMigration } from '@cityofzion/blockchain-service'
+import { BSNeoLegacy, BSNeoLegacyHelper } from '@cityofzion/bs-neo-legacy'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { bsAggregator } from '@renderer/libs/blockchainService'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TFailureMigrationNeo3, TMigrationNeo3, TSaveNotification } from '@shared/@types/store'
 import { getI18next } from '@shared/libs/i18next'
 import { cloneDeep } from 'lodash'
@@ -24,7 +25,10 @@ export const revalidateMigration = createAsyncThunk<void, TRevalidateMigrationWo
     const notification: TSaveNotification = {
       title: texts.failureRevalidateNotification.title,
       previewBody: texts.failureRevalidateNotification.previewBody,
-      related: { blockchain: migrationNeo3.account.blockchain, address: migrationNeo3.account.address },
+      related: {
+        blockchain: migrationNeo3.neoLegacyAccount.blockchain,
+        address: migrationNeo3.neoLegacyAccount.address,
+      },
     }
 
     try {
@@ -34,20 +38,16 @@ export const revalidateMigration = createAsyncThunk<void, TRevalidateMigrationWo
 
       migrationNeo3.status = 'failure'
 
-      const service = bsAggregator.blockchainServicesByName[migrationNeo3.account.blockchain]
+      const neoLegacyService = bsAggregator.blockchainServicesByName[
+        migrationNeo3.neoLegacyAccount.blockchain
+      ] as BSNeoLegacy<TBlockchainServiceKey>
       const neo3Service = bsAggregator.blockchainServicesByName.neo3
 
-      if (!hasMigrationNeo3(service)) {
-        dispatch(utilityReducerActions.saveMigrationNeo3(migrationNeo3))
-
-        throw new Error('Migration to Neo 3 is not supported for this blockchain service')
-      }
-
-      const response = await waitForMigration({
-        txId: migrationNeo3.hash,
-        service,
-        neo3Service,
+      const response = await BSNeoLegacyHelper.waitForMigration({
         neo3Address: migrationNeo3.neo3Address,
+        neoLegacyService,
+        neo3Service,
+        transactionHash: migrationNeo3.hash,
       })
 
       match(response)
@@ -67,8 +67,8 @@ export const revalidateMigration = createAsyncThunk<void, TRevalidateMigrationWo
             type: 'navigate',
             payload: {
               to: 'account-transaction',
-              address: migrationNeo3.account.address,
-              blockchain: migrationNeo3.account.blockchain,
+              address: migrationNeo3.neoLegacyAccount.address,
+              blockchain: migrationNeo3.neoLegacyAccount.blockchain,
             },
           }
         })
