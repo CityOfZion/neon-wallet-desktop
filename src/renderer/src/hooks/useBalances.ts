@@ -18,6 +18,7 @@ import {
 import { TCurrency, THiddenTokenByBlockchain } from '@shared/@types/store'
 import { QueryClient, useQueries, useQuery, useQueryClient } from '@tanstack/react-query'
 import { cloneDeep } from 'lodash'
+import { match } from 'ts-pattern'
 
 import { fetchExchange } from './useExchange'
 import { useCurrencySelector, useSelectedNetworkByBlockchainSelector } from './useSettingsSelector'
@@ -99,28 +100,31 @@ const fixBalanceResult = (
   const hiddenTokens = hiddenTokensByBlockchain[result.blockchain]
   let tokensBalances: TTokenBalance[] = []
 
-  if (showType === 'active') {
-    hiddenTokens?.forEach(tokenHash => {
-      tokenBalancesMapClone.delete(UtilsHelper.normalizeHash(tokenHash))
+  match(showType)
+    .with('active', () => {
+      hiddenTokens?.forEach(tokenHash => {
+        tokenBalancesMapClone.delete(UtilsHelper.normalizeHash(tokenHash))
+      })
+      tokensBalances = Array.from(tokenBalancesMapClone.values())
     })
-    tokensBalances = Array.from(tokenBalancesMapClone.values())
-  } else {
-    hiddenTokens?.forEach(tokenHash => {
-      const tokenBalance = tokenBalancesMapClone.get(UtilsHelper.normalizeHash(tokenHash))
-      if (!tokenBalance) return
-      tokensBalances.push(tokenBalance)
+    .otherwise(() => {
+      hiddenTokens?.forEach(tokenHash => {
+        const tokenBalance = tokenBalancesMapClone.get(UtilsHelper.normalizeHash(tokenHash))
+        if (!tokenBalance) return
+        tokensBalances.push(tokenBalance)
+      })
     })
-  }
 
   return {
     address: result.address,
+    blockchain: result.blockchain,
     tokensBalances,
     exchangeTotal: tokensBalances.reduce((acc, tokenBalance) => acc + tokenBalance.exchangeAmount, 0),
   }
 }
 
 export function useBalances(params: TUseBalancesParams[], options?: TUseBalancesOptions): TUseBalancesResult {
-  const { showType = 'active' } = options ?? {}
+  const { showType = 'active', queryOptions } = options ?? {}
 
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
   const queryClient = useQueryClient()
@@ -140,6 +144,7 @@ export function useBalances(params: TUseBalancesParams[], options?: TUseBalances
         currencyRatio ?? 0
       ),
       enabled: !isCurrencyRatioLoading && typeof currencyRatio === 'number',
+      ...queryOptions,
     })),
     combine: results => {
       const isLoading = isCurrencyRatioLoading || results.some(result => result.isLoading)
@@ -176,7 +181,7 @@ export function useBalance(
   const { hiddenTokensByBlockchain } = useHiddenTokensByBlockchainSelector()
 
   const params = balanceParams ?? { address: '', blockchain: 'neo3' }
-  const { showType = 'active' } = options ?? {}
+  const { showType = 'active', queryOptions } = options ?? {}
 
   const query = useQuery({
     queryKey: buildQueryKeyBalance(params.address, params.blockchain, networkByBlockchain[params.blockchain], currency),
@@ -189,6 +194,7 @@ export function useBalance(
       currencyRatio ?? 0
     ),
     enabled: !!balanceParams && !isCurrencyRatioLoading && typeof currencyRatio === 'number',
+    ...queryOptions,
   })
 
   const data = useMemo(() => {

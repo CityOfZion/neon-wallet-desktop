@@ -27,9 +27,6 @@ export const LoginKeySelectAccountPage = () => {
   const { loginWithKey } = useLogin()
   const navigate = useNavigate()
 
-  const { handleAct: handleActSelected, isActing: isActingSelected } = useLoadingActions()
-  const { handleAct: handleActAll, isActing: isActingAll } = useLoadingActions()
-
   const [selectedAccounts, setSelectedAccounts] = useState<TMnemonicOrKeyAccountWithBlockchain[]>([])
   const [allAccounts, setAllAccounts] = useState<TMnemonicOrKeyAccountWithBlockchain[]>([])
 
@@ -47,6 +44,11 @@ export const LoginKeySelectAccountPage = () => {
 
     navigate('/app/portfolio')
   }
+
+  const { handleAct: handleActSelected, isActing: isActingSelected } = useLoadingActions(() =>
+    handleImport(selectedAccounts)
+  )
+  const { handleAct: handleActAll, isActing: isActingAll } = useLoadingActions(() => handleImport(allAccounts))
 
   return (
     <LoginKeyLayout heading={t('title')}>
@@ -67,7 +69,7 @@ export const LoginKeySelectAccountPage = () => {
           wide
           loading={isActingAll}
           disabled={allAccounts.length === 0 || isActingSelected}
-          onClick={handleActAll(() => handleImport(allAccounts))}
+          onClick={handleActAll}
           {...TestHelper.buildTestObject('login-key-select-account-import-all')}
         />
 
@@ -77,7 +79,7 @@ export const LoginKeySelectAccountPage = () => {
           wide
           disabled={selectedAccounts.length === 0 || isActingAll}
           loading={isActingSelected}
-          onClick={handleActSelected(() => handleImport(selectedAccounts))}
+          onClick={handleActSelected}
           {...TestHelper.buildTestObject('login-key-select-account-import-selected')}
         />
       </div>

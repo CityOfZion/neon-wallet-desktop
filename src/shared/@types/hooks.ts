@@ -29,6 +29,7 @@ export type TUseTransactionsTransfer = {
   fromAccount?: IAccountState
   isPending?: boolean
   isClaim?: boolean
+  isMigrate?: boolean
   amount: string
   to: string
   from: string

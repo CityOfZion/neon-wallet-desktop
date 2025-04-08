@@ -1,7 +1,8 @@
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { hasNft } from '@cityofzion/blockchain-service'
+import { BSNeoLegacy } from '@cityofzion/bs-neo-legacy'
 import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
 import { LOCAL_SKINS } from '@renderer/constants/skins'
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
@@ -11,17 +12,39 @@ import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
 import { utilityReducerActions } from '@renderer/store/reducers/UtilityReducer'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { IAccountState } from '@shared/@types/store'
 
 import { useAccountsSelector, useOwnAccountsSelector } from './useAccountSelector'
-import { useCurrentLoginSessionSelector } from './useAuthSelector'
+import { useCurrentLoginSessionSelector, useUnreadNotificationsSelector } from './useAuthSelector'
+import { useBalances } from './useBalances'
 import { useBlockchainActions } from './useBlockchainActions'
 import { useModalHistories, useModalNavigate } from './useModalRouter'
 import { useMountUnsafe } from './useMount'
-import { useAppDispatch } from './useRedux'
+import { createAppSelector, useAppDispatch, useAppSelector } from './useRedux'
 import { useSelectedNetworkByBlockchainSelector } from './useSettingsSelector'
 import { useUnlockedSkinIdsSelector } from './useUtilitySelector'
 import { useWalletsSelector } from './useWalletSelector'
+
+const selectMigrationNeo3Accounts = createAppSelector(
+  [state => state.auth.data.applicationDataByLoginType, state => state.auth.inMemoryData.currentLoginSession],
+  (applicationDataByLoginType, currentLoginSession) => {
+    const accounts: IAccountState[] = []
+
+    applicationDataByLoginType[currentLoginSession?.type ?? 'password'].wallets.forEach(wallet =>
+      wallet.accounts.forEach(account => {
+        if (account.blockchain !== 'neoLegacy') return
+
+        const isWatchHardwareAccount = account.type === 'watch' && wallet.type === 'hardware'
+        if (!isWatchHardwareAccount && account.type === 'watch') return
+
+        accounts.push(account)
+      })
+    )
+
+    return accounts
+  }
+)
 
 const useRegisterWalletConnectListeners = () => {
   const { sessions, requests } = useWalletConnectWallet()
@@ -234,7 +257,61 @@ const useUnlockSkins = () => {
   }, [])
 }
 
+const useMigrationNeo3Notification = () => {
+  const { value: migrationNeo3Accounts } = useAppSelector(selectMigrationNeo3Accounts)
+  const { unreadNotificationsRef } = useUnreadNotificationsSelector()
+  const dispatch = useAppDispatch()
+  const { t } = useTranslation('hooks', { keyPrefix: 'useMigrationNeo3Notification' })
+
+  const alreadyNotifiedRef = useRef(false)
+
+  const balanceQuery = useBalances(migrationNeo3Accounts, {
+    queryOptions: { gcTime: Infinity, staleTime: Infinity },
+  })
+
+  useEffect(() => {
+    if (balanceQuery.isLoading || alreadyNotifiedRef.current) return
+
+    alreadyNotifiedRef.current = true
+
+    const neoLegacyService = bsAggregator.blockchainServicesByName.neoLegacy as BSNeoLegacy<TBlockchainServiceKey>
+    balanceQuery.data.forEach(balance => {
+      const neoLegacyMigrationAmounts = neoLegacyService.calculateNeoLegacyMigrationAmounts(balance.tokensBalances)
+      if (!neoLegacyMigrationAmounts.hasEnoughGasBalance && !neoLegacyMigrationAmounts.hasEnoughNeoBalance) return
+
+      const hasUnreadNotification = unreadNotificationsRef.current.some(
+        notification =>
+          notification.action?.type === 'navigate' &&
+          notification.action.payload.to === 'migration-neo3' &&
+          notification.action.payload?.blockchain === balance.blockchain &&
+          notification.action.payload?.address === balance.address
+      )
+      if (hasUnreadNotification) return
+
+      dispatch(
+        authReducerActions.saveNotification({
+          title: t('notificationTitle'),
+          previewBody: t('notificationDescription'),
+          action: {
+            type: 'navigate',
+            payload: {
+              to: 'migration-neo3',
+              address: balance.address,
+              blockchain: balance.blockchain,
+            },
+          },
+          related: {
+            blockchain: balance.blockchain,
+            address: balance.address,
+          },
+        })
+      )
+    })
+  }, [balanceQuery.data, balanceQuery.isLoading, dispatch, t, unreadNotificationsRef])
+}
+
 export const useAfterLogin = () => {
+  useMigrationNeo3Notification()
   useRegisterWalletConnectListeners()
   useRegisterHardwareWalletListeners()
   useRegisterDeeplinkListeners()

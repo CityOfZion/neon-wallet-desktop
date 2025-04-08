@@ -534,7 +534,6 @@
       "migrate": "Migrate",
       "receive": "Receive",
       "amountYouGet": "Amount you’ll get <1>(after fees)</1>",
-      "notFoundNeo3Account": "Neo 3 account not found",
       "fee": "Migration fee",
       "notFound": "Not found"
     },
@@ -548,7 +547,9 @@
       "getKeyError": "There was a problem with get key",
       "generateAccountError": "There was a problem with generation account",
       "calculateValuesError": "There was a problem with calculated values for fee and amount",
-      "hardwareWalletNotConnectedOrLocked": "Hardware wallet isn't connected or is locked, please, verify your device and try again"
+      "hardwareWalletNotConnectedOrLocked": "Hardware wallet isn't connected or is locked, please, verify your device and try again",
+      "migrationNotAvailableError": "Migration is not available for this account",
+      "accountIsNotNeoLegacy": "The account is not a Neo Legacy account and cannot be migrated"
     },
     "sideBar": {
       "title": "How does it work?",

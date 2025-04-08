@@ -6,9 +6,14 @@ import { Details } from '@renderer/components/Details'
 import { IconButton } from '@renderer/components/IconButton'
 import { Link } from '@renderer/components/Link'
 import { Tooltip } from '@renderer/components/Tooltip'
-import { AccountHelper } from '@renderer/helpers/AccountHelper'
+import {
+  NEO_LEGACY_GAS_TOKEN,
+  NEO_LEGACY_NEO_TOKEN,
+  NEO3_GAS_TOKEN,
+  NEO3_NEO_TOKEN,
+} from '@renderer/constants/migration-neo3'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
-import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
+import { useAccountSelector } from '@renderer/hooks/useAccountSelector'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useMigrationNeo3Selector } from '@renderer/hooks/useUtilitySelector'
@@ -27,21 +32,12 @@ export const MigrationNeo3StatusModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'migrationNeo3Status' })
   const { modalErase } = useModalNavigate()
   const { hash } = useModalState<TState>()
-  const { accounts } = useAccountsSelector()
   const dispatch = useAppDispatch()
-  const migrationNeo3Selector = useMigrationNeo3Selector(hash)
 
-  const migrationNeo3 = migrationNeo3Selector.migrationNeo3!
+  const { migrationNeo3 } = useMigrationNeo3Selector(hash)
+  const { account: updatedNeoLegacyAccount } = useAccountSelector(migrationNeo3.neoLegacyAccount)
 
   const isFailure = migrationNeo3.status === 'failure'
-
-  const account = accounts.find(AccountHelper.predicate(migrationNeo3.account))
-
-  const hasGas = !!migrationNeo3.gasToken
-  const hasNeo = !!migrationNeo3.neoToken
-
-  const { blockchain } = migrationNeo3.account
-
   const icon = match(migrationNeo3.status)
     .with('failure', () => <TbCircleX className="text-pink" />)
     .with('done', () => <TbRosetteDiscountCheck className="text-blue" />)
@@ -102,36 +98,36 @@ export const MigrationNeo3StatusModal = () => {
             </Details.Item>
 
             <Details.Item label={t('card.labels.amountSent')} contentClassName="flex flex-col items-start gap-y-1">
-              {hasGas && (
+              {migrationNeo3.neoLegacyMigrationAmounts.gasBalance && (
                 <MigrationNeo3StatusAssetItem
-                  amount={migrationNeo3.gasSent!}
-                  token={migrationNeo3.gasToken!}
-                  blockchain={blockchain}
+                  amount={migrationNeo3.neoLegacyMigrationAmounts.gasBalance.amount}
+                  token={NEO_LEGACY_GAS_TOKEN}
+                  blockchain="neoLegacy"
                 />
               )}
 
-              {hasNeo && (
+              {migrationNeo3.neoLegacyMigrationAmounts.neoBalance && (
                 <MigrationNeo3StatusAssetItem
-                  amount={migrationNeo3.neoSent!}
-                  token={migrationNeo3.neoToken!}
-                  blockchain={blockchain}
+                  amount={migrationNeo3.neoLegacyMigrationAmounts.neoBalance.amount}
+                  token={NEO_LEGACY_NEO_TOKEN}
+                  blockchain="neoLegacy"
                 />
               )}
             </Details.Item>
 
             <Details.Item label={t('card.labels.migrationFee')} contentClassName="flex flex-col items-start gap-y-1">
-              {hasGas && (
+              {migrationNeo3.neo3MigrationAmounts.gasMigrationTotalFees && (
                 <MigrationNeo3StatusAssetItem
-                  amount={migrationNeo3.neo3GasFee!}
-                  token={migrationNeo3.neo3GasToken}
+                  amount={migrationNeo3.neo3MigrationAmounts.gasMigrationTotalFees}
+                  token={NEO3_GAS_TOKEN}
                   blockchain="neo3"
                 />
               )}
 
-              {hasNeo && (
+              {migrationNeo3.neo3MigrationAmounts.neoMigrationTotalFees && (
                 <MigrationNeo3StatusAssetItem
-                  amount={migrationNeo3.neo3NeoFee!}
-                  token={migrationNeo3.neo3NeoToken}
+                  amount={migrationNeo3.neo3MigrationAmounts.neoMigrationTotalFees}
+                  token={NEO3_NEO_TOKEN}
                   blockchain="neo3"
                 />
               )}
@@ -144,18 +140,18 @@ export const MigrationNeo3StatusModal = () => {
                 .otherwise(() => t('card.labels.amountWillReceive'))}
               contentClassName="flex flex-col items-start gap-y-1"
             >
-              {hasGas && (
+              {migrationNeo3.neo3MigrationAmounts.gasMigrationReceiveAmount && (
                 <MigrationNeo3StatusAssetItem
-                  amount={migrationNeo3.neo3GasAmount!}
-                  token={migrationNeo3.neo3GasToken}
+                  amount={migrationNeo3.neo3MigrationAmounts.gasMigrationReceiveAmount}
+                  token={NEO3_GAS_TOKEN}
                   blockchain="neo3"
                 />
               )}
 
-              {hasNeo && (
+              {migrationNeo3.neo3MigrationAmounts.neoMigrationReceiveAmount && (
                 <MigrationNeo3StatusAssetItem
-                  amount={migrationNeo3.neo3NeoAmount!}
-                  token={migrationNeo3.neo3NeoToken}
+                  amount={migrationNeo3.neo3MigrationAmounts.neoMigrationReceiveAmount}
+                  token={NEO3_NEO_TOKEN}
                   blockchain="neo3"
                 />
               )}
@@ -168,11 +164,11 @@ export const MigrationNeo3StatusModal = () => {
         </Details.Body>
       </Details.Root>
 
-      {account && (
+      {updatedNeoLegacyAccount && (
         <Link
           label={t('buttons.viewStatus')}
           className="w-full max-w-64 mx-auto"
-          to={`/app/wallets/${account.id}/transactions`}
+          to={`/app/wallets/${updatedNeoLegacyAccount.id}/transactions`}
           flat
           wide
           iconsOnEdge={false}

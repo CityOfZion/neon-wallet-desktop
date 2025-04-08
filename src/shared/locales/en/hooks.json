@@ -57,5 +57,9 @@
       "title": "Claim error",
       "previewBody": "We couldn't verify the completion of your claim"
     }
+  },
+  "useMigrationNeo3Notification": {
+    "notificationTitle": "You have tokens available to migrate!",
+    "notificationDescription": "Neo Legacy to Neo N3 migration available!"
   }
 }

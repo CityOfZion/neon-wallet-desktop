@@ -101,23 +101,30 @@ const backupTokenSchema = zod.object({
   decimals: zod.number(),
 })
 
+const backupBalanceSchema = zod.object({
+  token: backupTokenSchema,
+  amount: zod.string(),
+})
+
 const backupMigrationsNeo3Schema = zod.record(
   zod.string(),
   zod.object({
     hash: zod.string(),
-    account: backupAccountSchema,
+    neoLegacyAccount: backupAccountSchema,
     neo3Address: zod.string(),
     status: zod.union([zod.literal('failure'), zod.literal('pending'), zod.literal('done')]),
-    gasToken: backupTokenSchema.optional(),
-    neoToken: backupTokenSchema.optional(),
-    neo3GasToken: backupTokenSchema,
-    neo3NeoToken: backupTokenSchema,
-    gasSent: zod.string().optional(),
-    neoSent: zod.string().optional(),
-    neo3GasFee: zod.string().optional(),
-    neo3NeoFee: zod.string().optional(),
-    neo3GasAmount: zod.string().optional(),
-    neo3NeoAmount: zod.string().optional(),
+    neo3MigrationAmounts: zod.object({
+      gasMigrationTotalFees: zod.string().optional(),
+      neoMigrationTotalFees: zod.string().optional(),
+      gasMigrationReceiveAmount: zod.string().optional(),
+      neoMigrationReceiveAmount: zod.string().optional(),
+    }),
+    neoLegacyMigrationAmounts: zod.object({
+      hasEnoughGasBalance: zod.boolean(),
+      hasEnoughNeoBalance: zod.boolean(),
+      gasBalance: backupBalanceSchema.optional(),
+      neoBalance: backupBalanceSchema.optional(),
+    }),
   })
 )
 
@@ -387,7 +394,7 @@ export const useNeonImportBackup = () => {
       Object.assign(
         migrationsNeo3ToCreate,
         Object.values(data.migrationsNeo3).reduce((migrationsNeo3, migrationNeo3) => {
-          const account = fixAccountProperties(migrationNeo3.account)
+          const account = fixAccountProperties(migrationNeo3.neoLegacyAccount)
 
           if (!account) return migrationsNeo3
 

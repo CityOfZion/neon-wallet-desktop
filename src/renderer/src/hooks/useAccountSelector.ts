@@ -14,6 +14,16 @@ export const selectAccounts = createAppSelector(
   }
 )
 
+export const selectAccount = (params: TAccountHelperPredicateParams) =>
+  createAppSelector(
+    [state => state.auth.data.applicationDataByLoginType, state => state.auth.inMemoryData.currentLoginSession],
+    (applicationDataByLoginType, currentLoginSession) => {
+      return applicationDataByLoginType[currentLoginSession?.type ?? 'password'].wallets
+        .flatMap(wallet => wallet.accounts)
+        .find(AccountHelper.predicate(params))
+    }
+  )
+
 const selectOwnAccounts = createAppSelector(
   [state => state.auth.data.applicationDataByLoginType, state => state.auth.inMemoryData.currentLoginSession],
   (applicationDataByLoginType, currentLoginSession) => {
@@ -59,6 +69,15 @@ export const useAccountsSelector = () => {
   return {
     accounts: value,
     accountsRef: ref,
+  }
+}
+
+export const useAccountSelector = (account: TAccountHelperPredicateParams) => {
+  const { ref, value } = useAppSelector(selectAccount(account))
+
+  return {
+    account: value,
+    accountRef: ref,
   }
 }
 

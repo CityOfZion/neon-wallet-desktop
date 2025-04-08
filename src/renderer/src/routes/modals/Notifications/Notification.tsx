@@ -9,6 +9,7 @@ import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { DateHelper } from '@renderer/helpers/DateHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
@@ -62,21 +63,36 @@ export const Notification = ({ notification }: TProps) => {
     )
   }
 
-  const handleView = async () => {
-    if (!notification.action) return
+  const handleClick = async () => {
+    try {
+      if (!notification.action || notification.read) return
 
-    const actionsFn = functionByNotificationActionType[notification.action.type]
-    if (!actionsFn) return
+      const actionsFn = functionByNotificationActionType[notification.action.type]
+      if (!actionsFn) return
 
-    await actionsFn({
-      modalActions,
-      pageNavigate,
-      notificationAction: notification.action,
-    })
+      await actionsFn({
+        modalActions,
+        pageNavigate,
+        notificationAction: notification.action,
+      })
+    } catch (error: any) {
+      console.error(error)
+      ToastHelper.error({ message: error.message })
+    }
+  }
+
+  const handleStopPropagation = (event: React.MouseEvent) => {
+    event.stopPropagation()
   }
 
   return (
-    <div className="flex gap-2.5 w-full py-2.5 px-4 hover:bg-gray-700/60">
+    <div
+      className={StyleHelper.mergeStyles('flex gap-2.5 w-full py-2.5 px-4', {
+        'hover:bg-gray-700/60 cursor-pointer': notification.action && !notification.read,
+      })}
+      onClick={handleClick}
+      role="button"
+    >
       {cloneElement(icon, {
         'aria-hidden': true,
         className: StyleHelper.mergeStyles(icon.props?.className, 'w-5 h-5 mt-[22px]', {
@@ -103,7 +119,7 @@ export const Notification = ({ notification }: TProps) => {
         </div>
 
         <p
-          className={StyleHelper.mergeStyles('text-white text-xs font-bold capitalize truncate', {
+          className={StyleHelper.mergeStyles('text-white text-xs font-bold truncate', {
             'text-gray-300': notification.read,
           })}
         >
@@ -111,7 +127,7 @@ export const Notification = ({ notification }: TProps) => {
         </p>
 
         <p
-          className={StyleHelper.mergeStyles('text-gray-100 text-1xs capitalize truncate', {
+          className={StyleHelper.mergeStyles('text-gray-100 text-1xs truncate', {
             'text-gray-300': notification.read,
           })}
         >
@@ -136,21 +152,14 @@ export const Notification = ({ notification }: TProps) => {
       <div className="flex items-center">
         <ActionPopover.Root>
           <ActionPopover.Trigger asChild>
-            <IconButton compacted icon={<MdMoreVert aria-hidden className="w-5 h-5 min-w-5 min-h-5 text-gray-300" />} />
+            <IconButton
+              compacted
+              icon={<MdMoreVert aria-hidden className="w-5 h-5 min-w-5 min-h-5 text-gray-300" />}
+              onClick={handleStopPropagation}
+            />
           </ActionPopover.Trigger>
 
-          <ActionPopover.Content side="bottom" align="end">
-            <ActionPopover.Item
-              actionPopoverItemType="button"
-              label={t('viewButtonLabel')}
-              colorSchema="white"
-              disabled={!notification.action}
-              iconsOnEdge={false}
-              onClick={handleView}
-            />
-
-            <ActionPopover.Separator />
-
+          <ActionPopover.Content side="bottom" align="end" onClick={handleStopPropagation}>
             <ActionPopover.Item
               actionPopoverItemType="button"
               label={notification.read ? t('markAsUnreadButtonLabel') : t('markAsReadButtonLabel')}

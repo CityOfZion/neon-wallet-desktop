@@ -3,8 +3,10 @@ import { useTranslation } from 'react-i18next'
 import { TbEye, TbEyeOff } from 'react-icons/tb'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
+import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
+import { bsAggregator } from '@renderer/libs/blockchainService'
 import { utilityReducerActions } from '@renderer/store/reducers/UtilityReducer'
 import { TTokenBalance, TUseBalanceOptionShowType } from '@shared/@types/query'
 import { createColumnHelper } from '@tanstack/react-table'
@@ -67,7 +69,16 @@ export const useColumns = (showType: TUseBalanceOptionShowType) => {
       columnHelper.display({
         id: 'actions',
         cell: info => {
+          const value = info.row.original
+
+          const service = bsAggregator.blockchainServicesByName[value.blockchain]
+          const normalizedHash = UtilsHelper.normalizeHash(value.token.hash)
+          const isNativeToken = service.nativeTokens.some(
+            token => UtilsHelper.normalizeHash(token.hash) === normalizedHash
+          )
+
           const isHidden = showType === 'hidden'
+
           return (
             <div className="flex justify-end">
               <IconButton
@@ -76,6 +87,7 @@ export const useColumns = (showType: TUseBalanceOptionShowType) => {
                 colorSchema={isHidden ? 'neon' : 'error'}
                 icon={isHidden ? <TbEye aria-hidden /> : <TbEyeOff aria-hidden />}
                 compacted
+                disabled={isNativeToken}
                 onClick={() =>
                   dispatch(
                     utilityReducerActions.toggleHiddenToken({

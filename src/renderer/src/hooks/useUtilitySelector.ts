@@ -10,6 +10,13 @@ const selectHasClaimPendingTransaction = (account: IAccountState) =>
     )
   })
 
+const selectHasMigratePendingTransaction = (account: IAccountState) =>
+  createAppSelector([state => state.utility.inMemoryData.pendingTransactions], pendingTransactions => {
+    return pendingTransactions.some(
+      transaction => !!transaction.isMigrate && AccountHelper.predicate(account)(transaction.account)
+    )
+  })
+
 export const usePendingTransactionsSelector = () => {
   const { ref, value } = useAppSelector(state => state.utility.inMemoryData.pendingTransactions)
 
@@ -25,6 +32,14 @@ export const useHasClaimPendingTransactionSelector = (account: IAccountState) =>
   return {
     hasClaimPendingTransaction: value,
     hasClaimPendingTransactionRef: ref,
+  }
+}
+
+export const useHasMigratePendingTransactionSelector = (account: IAccountState) => {
+  const { ref, value } = useAppSelector(selectHasMigratePendingTransaction(account))
+  return {
+    hasMigratePendingTransaction: value,
+    hasMigratePendingTransactionRef: ref,
   }
 }
 

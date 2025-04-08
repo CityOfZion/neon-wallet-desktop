@@ -27,6 +27,7 @@ export type TTokenBalance = BalanceResponse & {
 }
 export type TBalance = {
   address: string
+  blockchain: TBlockchainServiceKey
   tokensBalances: TTokenBalance[]
   exchangeTotal: number
 }
@@ -57,6 +58,7 @@ export type TUseBalanceOptionShowType = 'hidden' | 'active'
 
 export type TUseBalancesOptions = {
   showType?: TUseBalanceOptionShowType
+  queryOptions?: TBaseOptions<TUseBalancesFetchResult>
 }
 
 export type TPriceHistory = {

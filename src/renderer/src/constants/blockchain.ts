@@ -28,7 +28,7 @@ import PolygonGreen from '@renderer/assets/blockchain/images/polygon_green.svg?r
 import PolygonWhite from '@renderer/assets/blockchain/images/polygon_white.svg?react'
 import { TBlockchainImageColor, TBlockchainServiceKey } from '@shared/@types/blockchain'
 
-export const blockchainIconsByBlockchain: Record<
+export const ICONS_BY_BLOCKCHAIN: Record<
   TBlockchainServiceKey,
   Record<TBlockchainImageColor, React.FC<React.SVGProps<SVGSVGElement>>>
 > = {
