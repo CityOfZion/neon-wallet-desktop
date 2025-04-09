@@ -298,6 +298,7 @@ export const SwapPageContent = ({ account }: TProps) => {
     const amount = NumberHelper.formatString(value, {
       decimals: actionData.selectedTokenToUse.value?.decimals,
       max: 24,
+      removeTrailingZero: false,
     })
 
     swapServiceRef.current?.setAmountToUse(amount)

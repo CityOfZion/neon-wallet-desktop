@@ -53,6 +53,10 @@ export class NumberHelper {
     const { decimals = 0, max, removeLeadingZero = true, removeTrailingZero = true } = options ?? {}
     let newValue = value.toString().trim()
 
+    if (newValue === '') {
+      return ''
+    }
+
     if (isNaN(Number(newValue))) {
       throw new Error('Invalid number')
     }
@@ -93,10 +97,10 @@ export class NumberHelper {
   }
 
   static removeLeadingZero(value: string) {
-    return value.replace(/^0+/, '0')
+    return value.replace(/^0+(?!\.)/, '') || '0'
   }
 
   static removeTrailingZero(value: string) {
-    return value.replace(/\.?0+$/, '')
+    return value.replace(/(\.\d*?[1-9])0+$/g, '$1').replace(/\.0+$/, '')
   }
 }
