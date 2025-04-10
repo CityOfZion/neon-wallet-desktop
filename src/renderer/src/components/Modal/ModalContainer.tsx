@@ -28,5 +28,6 @@ export const ModalContent = ({ children, className }: TModalContainerProps) => (
 
 export const ModalContainer = (props: TModalContainerProps) => {
   const modalRoot = document.querySelector('#root') as HTMLDivElement
+
   return createPortal(<ModalContent {...props} />, modalRoot)
 }

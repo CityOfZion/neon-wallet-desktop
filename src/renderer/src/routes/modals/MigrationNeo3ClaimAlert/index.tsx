@@ -19,10 +19,12 @@ export const MigrationNeo3ClaimAlertModal = () => {
 
   const service = bsAggregator.blockchainServicesByName[neoLegacyAccount.blockchain]
 
-  const handleClose = () => {
-    modalErase('center')
+  const handleClose = async () => {
     // We need to go back to prevent the user to see a blank migration page
-    navigate(-1)
+
+    await navigate(-1)
+
+    modalErase('center')
   }
 
   if (!isClaimable(service)) {
