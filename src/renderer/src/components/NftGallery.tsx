@@ -57,12 +57,19 @@ export const NftGallery = ({ account, nfts }: TProps) => {
       spacing={6}
       columns={5}
       render={{
-        track: props => <div {...props} className={StyleHelper.mergeStyles('gap-1.5', props.className)} />,
+        track: props => (
+          <div
+            key={JSON.stringify(props.style)}
+            {...props}
+            className={StyleHelper.mergeStyles('gap-1.5', props.className)}
+          />
+        ),
         photo: (_props, { photo }) => {
           const explorerUrl = getExplorerUrl(photo.nft)
 
           return (
             <div
+              key={`${photo.key}-${photo.src}`}
               className={StyleHelper.mergeStyles('p-2.5 bg-gray-300/15 flex flex-col rounded-md gap-2', {
                 'cursor-pointer hover:bg-gray-300/30 transition-colors': !!explorerUrl,
               })}
@@ -75,6 +82,7 @@ export const NftGallery = ({ account, nfts }: TProps) => {
                   title={photo.title}
                   key={photo.key}
                   src={photo.src}
+                  alt={photo.title}
                   className="block w-full h-full"
                 />
               </div>
@@ -88,7 +96,11 @@ export const NftGallery = ({ account, nfts }: TProps) => {
               <div className="flex gap-2 items-center">
                 {photo.nft.collectionImage && (
                   <div className="min-w-[1rem] w-[1rem] min-h-[1rem] h-[1rem] bg-gray-300/30 rounded-full overflow-hidden">
-                    <img className="w-full h-full object-cover" src={photo.nft.collectionImage} />
+                    <img
+                      className="w-full h-full object-cover"
+                      src={photo.nft.collectionImage}
+                      alt={photo.nft.collectionName || photo.nft.creator?.name || photo.nft.name || photo.nft.symbol}
+                    />
                   </div>
                 )}
 
