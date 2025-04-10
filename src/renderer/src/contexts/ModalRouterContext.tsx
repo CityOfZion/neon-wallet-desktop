@@ -1,5 +1,4 @@
 import { createContext, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
-import ReactFocusLock from 'react-focus-lock'
 import { CenterModal } from '@renderer/components/Modal/CenterModal'
 import { SideModal } from '@renderer/components/Modal/SideModal'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
@@ -89,14 +88,14 @@ export const ModalRouterProvider = ({ routes, children }: TModalRouterProviderPr
   return (
     <ModalRouterContext.Provider value={{ navigate, erase, histories, historiesRef }}>
       {children}
-      <ReactFocusLock>
-        <AnimatePresence>
-          {typesToRender.map(type => {
-            const Component = modalByRouteType[type]
-            return <Component key={type} />
-          })}
-        </AnimatePresence>
-      </ReactFocusLock>
+
+      <AnimatePresence>
+        {typesToRender.map(type => {
+          const Component = modalByRouteType[type]
+
+          return <Component key={type} />
+        })}
+      </AnimatePresence>
     </ModalRouterContext.Provider>
   )
 }

@@ -18,9 +18,11 @@ export const PrepareHardwareWalletModalHeader = ({ currentStep }: TProps) => {
   const { t } = useTranslation('modals', { keyPrefix: 'prepareHardwareWalletMigrationNeo3' })
 
   const handleClose = async () => {
-    modalErase('center')
     // We need to go back to prevent the user to see a blank migration page
-    navigate(-1)
+
+    await navigate(-1)
+
+    modalErase('center')
   }
 
   return (
