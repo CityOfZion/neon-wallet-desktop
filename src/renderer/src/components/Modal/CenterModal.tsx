@@ -1,4 +1,5 @@
 import { useLayoutEffect, useState } from 'react'
+import { FocusScope } from '@radix-ui/react-focus-scope'
 import { ModalRouterCurrentHistoryProvider } from '@renderer/contexts/ModalRouterCurrentHistoryContext'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { useModalHistories } from '@renderer/hooks/useModalRouter'
@@ -58,16 +59,17 @@ export const CenterModal = () => {
       <motion.div ref={scope} initial={{ scale: 0.95, opacity: 0 }} className="relative" style={{ width, height }}>
         {width &&
           centerHistories.map((history, index) => (
-            <div
+            <FocusScope
+              key={history.id}
+              loop
               className={StyleHelper.mergeStyles('w-full h-full', {
                 'invisible hidden': index !== centerHistories.length - 1,
               })}
-              key={history.id}
             >
               <ModalRouterCurrentHistoryProvider value={history}>
                 {history.route.element}
               </ModalRouterCurrentHistoryProvider>
-            </div>
+            </FocusScope>
           ))}
       </motion.div>
     </ModalContainer>

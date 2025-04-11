@@ -1,7 +1,8 @@
-import { createContext, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { createContext, useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import { CenterModal } from '@renderer/components/Modal/CenterModal'
 import { SideModal } from '@renderer/components/Modal/SideModal'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+import { useDelayedState } from '@renderer/hooks/useDelayedState'
 import {
   THistory,
   TModalRouterContextNavigateOptions,
@@ -19,7 +20,7 @@ const modalByRouteType: Record<TRouteType, (...props: any[]) => JSX.Element> = {
 export const ModalRouterContext = createContext<TModalRouterContextValue>({} as TModalRouterContextValue)
 
 export const ModalRouterProvider = ({ routes, children }: TModalRouterProviderProps) => {
-  const [histories, setHistories] = useState<THistory[]>([])
+  const [histories, setHistories] = useDelayedState<THistory[]>([])
   const historiesRef = useRef<THistory[]>([])
 
   const typesToRender = useMemo<TRouteType[]>(() => {
@@ -56,7 +57,7 @@ export const ModalRouterProvider = ({ routes, children }: TModalRouterProviderPr
           }
 
           return [...prevState, newHistory]
-        })
+        }, 10)
         return
       }
 
@@ -64,13 +65,17 @@ export const ModalRouterProvider = ({ routes, children }: TModalRouterProviderPr
         throw new Error('Number is only allowed to go back in history')
       }
 
-      setHistories(prevState => prevState.slice(0, name))
+      setHistories(prevState => prevState.slice(0, name), 10)
     },
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [routes]
   )
 
-  const erase = useCallback((type: TRouteType) => {
-    setHistories(prevState => prevState.filter(history => history.route.type !== type))
+  const erase = useCallback(async (type: TRouteType) => {
+    setHistories(prevState => prevState.filter(history => history.route.type !== type), 10)
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
