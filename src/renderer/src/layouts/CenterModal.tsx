@@ -1,6 +1,5 @@
 import { ComponentProps, ReactNode, useMemo } from 'react'
 import { MdClose, MdKeyboardBackspace } from 'react-icons/md'
-import { FocusScope } from '@react-aria/focus'
 import { IconButton } from '@renderer/components/IconButton'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
@@ -40,41 +39,39 @@ export const CenterModalLayout = ({
   }
 
   return (
-    <FocusScope contain restoreFocus autoFocus>
-      <div
-        {...props}
-        className={StyleHelper.mergeStyles('bg-gray-800 rounded-md px-4 h-full w-full flex flex-col', className)}
-      >
-        {headerComponent ?? (
-          <header
-            className={StyleHelper.mergeStyles('flex items-center pt-5', {
-              'justify-between': withBackButton,
-              'justify-end': !withBackButton,
-            })}
-          >
-            {withBackButton && (
-              <IconButton
-                icon={<MdKeyboardBackspace aria-hidden={true} className="fill-gray-200" />}
-                size="md"
-                compacted
-                onClick={handleBack}
-              />
-            )}
-
+    <div
+      {...props}
+      className={StyleHelper.mergeStyles('bg-gray-800 rounded-md px-4 h-full w-full flex flex-col', className)}
+    >
+      {headerComponent ?? (
+        <header
+          className={StyleHelper.mergeStyles('flex items-center pt-5', {
+            'justify-between': withBackButton,
+            'justify-end': !withBackButton,
+          })}
+        >
+          {withBackButton && (
             <IconButton
-              icon={<MdClose aria-hidden={true} className="fill-white" />}
+              icon={<MdKeyboardBackspace aria-hidden={true} className="fill-gray-200" />}
               size="md"
               compacted
-              onClick={handleClose}
-              {...TestHelper.buildTestObject('center-modal-close')}
+              onClick={handleBack}
             />
-          </header>
-        )}
+          )}
 
-        <main className={StyleHelper.mergeStyles('flex-grow px-9 pb-10 pt-2.5 min-h-0', contentClassName)}>
-          {children}
-        </main>
-      </div>
-    </FocusScope>
+          <IconButton
+            icon={<MdClose aria-hidden={true} className="fill-white" />}
+            size="md"
+            compacted
+            onClick={handleClose}
+            {...TestHelper.buildTestObject('center-modal-close')}
+          />
+        </header>
+      )}
+
+      <main className={StyleHelper.mergeStyles('flex-grow px-9 pb-10 pt-2.5 min-h-0', contentClassName)}>
+        {children}
+      </main>
+    </div>
   )
 }

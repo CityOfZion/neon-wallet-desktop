@@ -1,6 +1,5 @@
 import { cloneElement, ComponentProps, useMemo } from 'react'
 import { MdClose, MdKeyboardBackspace } from 'react-icons/md'
-import { FocusScope } from '@react-aria/focus'
 import { IconButton } from '@renderer/components/IconButton'
 import { Separator } from '@renderer/components/Separator'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
@@ -22,42 +21,40 @@ export const SideModalLayout = ({ children, heading, headingIcon, contentClassNa
   }, [histories])
 
   return (
-    <FocusScope contain restoreFocus autoFocus>
-      <div className="bg-gray-800 h-full text-white text-xs flex flex-col">
-        <header className="flex flex-col px-4">
-          <div className="flex justify-between py-2.5 items-center">
-            {withBackButton && (
-              <IconButton
-                icon={<MdKeyboardBackspace className="fill-gray-200" />}
-                size="md"
-                compacted
-                onClick={modalNavigateWrapper(-1)}
-              />
-            )}
-
-            <div className="flex items-center gap-x-2.5">
-              {headingIcon &&
-                cloneElement(headingIcon, {
-                  className: StyleHelper.mergeStyles('w-6 h-6 text-green', headingIcon.props?.className ?? ''),
-                })}
-              {heading && <h2 className="text-sm">{heading}</h2>}
-            </div>
-
+    <div className="bg-gray-800 h-full text-white text-xs flex flex-col">
+      <header className="flex flex-col px-4">
+        <div className="flex justify-between py-2.5 items-center">
+          {withBackButton && (
             <IconButton
-              icon={<MdClose className="fill-white" />}
+              icon={<MdKeyboardBackspace className="fill-gray-200" />}
               size="md"
               compacted
-              onClick={onClose ?? modalEraseWrapper('side')}
+              onClick={modalNavigateWrapper(-1)}
             />
+          )}
+
+          <div className="flex items-center gap-x-2.5">
+            {headingIcon &&
+              cloneElement(headingIcon, {
+                className: StyleHelper.mergeStyles('w-6 h-6 text-green', headingIcon.props?.className ?? ''),
+              })}
+            {heading && <h2 className="text-sm">{heading}</h2>}
           </div>
 
-          <Separator />
-        </header>
+          <IconButton
+            icon={<MdClose className="fill-white" />}
+            size="md"
+            compacted
+            onClick={onClose ?? modalEraseWrapper('side')}
+          />
+        </div>
 
-        <main className={StyleHelper.mergeStyles('flex-grow py-8 px-4 min-h-0 min-w-0', contentClassName)}>
-          {children}
-        </main>
-      </div>
-    </FocusScope>
+        <Separator />
+      </header>
+
+      <main className={StyleHelper.mergeStyles('flex-grow py-8 px-4 min-h-0 min-w-0', contentClassName)}>
+        {children}
+      </main>
+    </div>
   )
 }
