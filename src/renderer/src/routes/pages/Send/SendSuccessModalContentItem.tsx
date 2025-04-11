@@ -42,7 +42,7 @@ export const SendSuccessModalContentItem = ({ order, transaction }: TProps) => {
             <IconButton
               icon={<MdOutlineContentCopy className="text-neon" />}
               size="md"
-              onClick={() => UtilsHelper.copyToClipboard(transaction.hash)}
+              onClick={() => UtilsHelper.copyToClipboard(transaction.to)}
               compacted
             />
           )}
