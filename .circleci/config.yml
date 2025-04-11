@@ -52,6 +52,11 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Change node version
+          command: |
+            nvm install 20.17.0
+            nvm use 20.17.0
+      - run:
           name: Install NuGet
           command: Invoke-WebRequest -Uri https://dist.nuget.org/win-x86-commandline/latest/nuget.exe -OutFile .\nuget.exe
       - run:
