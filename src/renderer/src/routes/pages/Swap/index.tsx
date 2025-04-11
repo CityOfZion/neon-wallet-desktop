@@ -3,6 +3,7 @@ import { TbReplace } from 'react-icons/tb'
 import { Location, useLocation } from 'react-router-dom'
 import { ConnectHardwareWalletButton } from '@renderer/components/ConnectHardwareWalletButton'
 import { HelpButton } from '@renderer/components/HelpButton'
+import { NotificationsButton } from '@renderer/components/NotificationsButton'
 import { ContentLayout } from '@renderer/layouts/ContentLayout'
 import { MainLayout } from '@renderer/layouts/Main'
 import { IAccountState } from '@shared/@types/store'
@@ -19,6 +20,8 @@ export const SwapPage = () => {
 
   const rightComponent = (
     <div className="flex gap-x-2">
+      <NotificationsButton />
+
       <ConnectHardwareWalletButton />
 
       <HelpButton />

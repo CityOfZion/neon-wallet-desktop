@@ -180,5 +180,9 @@
       "copied": "Copied",
       "error": "Error executing this action"
     }
+  },
+  "notificationsButton": {
+    "label": "Alerts",
+    "unreadNotifications": "You have unread notifications"
   }
 }

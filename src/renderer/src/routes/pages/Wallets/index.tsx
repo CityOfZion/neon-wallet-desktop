@@ -9,6 +9,7 @@ import { Button } from '@renderer/components/Button'
 import { ConnectHardwareWalletButton } from '@renderer/components/ConnectHardwareWalletButton'
 import { HelpButton } from '@renderer/components/HelpButton'
 import { IconButton } from '@renderer/components/IconButton'
+import { NotificationsButton } from '@renderer/components/NotificationsButton'
 import { Separator } from '@renderer/components/Separator'
 import { SidebarMenuButton } from '@renderer/components/SidebarMenuButton'
 import { StringHelper } from '@renderer/helpers/StringHelper'
@@ -135,6 +136,8 @@ export const WalletsPage = () => {
       }
       rightComponent={
         <div className="flex gap-x-2">
+          <NotificationsButton />
+
           <IconButton
             icon={<TbPencil />}
             size="md"

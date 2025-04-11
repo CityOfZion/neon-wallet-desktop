@@ -82,7 +82,6 @@
     "importButtonLabel": "Import",
     "newWalletButtonLabel": "New Wallet",
     "exportButtonLabel": "Export",
-    "notificationsButtonLabel": "Alerts",
     "portfolioActivity": {
       "allActivity": "All activity",
       "walletsAndAccounts": "{{wallets}} Wallets / {{accounts}} Accounts",
