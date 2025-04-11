@@ -27,7 +27,7 @@ import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { DateHelper } from '@renderer/helpers/DateHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
-import { useAccountUtils } from '@renderer/hooks/useAccountSelector'
+import { useAccountSelector, useAccountUtils } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useBalance } from '@renderer/hooks/useBalances'
@@ -67,7 +67,7 @@ type TLocationState = {
 
 export const MigrationNeo3Page = () => {
   const location = useLocation() as Location<TLocationState>
-  const { neoLegacyAccount, neo3HardwareServiceAccount, neo3HardwareWalletInfo } = location.state
+  const { neo3HardwareServiceAccount, neo3HardwareWalletInfo } = location.state
 
   const { t } = useTranslation('pages', { keyPrefix: 'migrationNeo3' })
   const { t: tBlockchain } = useTranslation('common', { keyPrefix: 'blockchain' })
@@ -78,6 +78,9 @@ export const MigrationNeo3Page = () => {
   const { modalNavigate } = useModalNavigate()
   const dispatch = useAppDispatch()
   const { createHardwareWallet, isConnectedAndUnlockedHardwareWallet } = useHardwareWalletActions()
+
+  const neoLegacyAccountSelector = useAccountSelector(location.state.neoLegacyAccount)
+  const neoLegacyAccount = neoLegacyAccountSelector.account!
 
   const { wallet } = useWalletByIdSelector(neoLegacyAccount.idWallet)
   const balanceQuery = useBalance(neoLegacyAccount)
@@ -249,7 +252,9 @@ export const MigrationNeo3Page = () => {
         let neoLegacyServiceAccount: Account<TBlockchainServiceKey>
         try {
           neoLegacyServiceAccount = AccountHelper.getServiceAccount({ account: neoLegacyAccount, key })
-        } catch {
+        } catch (error) {
+          console.error(error)
+
           throw new Error(t('messages.generateAccountError'))
         }
 
