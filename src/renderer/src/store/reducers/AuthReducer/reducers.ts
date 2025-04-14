@@ -11,6 +11,7 @@ const setCurrentLoginSession: CaseReducer<IAuthReducer, PayloadAction<TLoginSess
 }
 
 const resetTemporaryApplicationData: CaseReducer<IAuthReducer> = state => {
+  state.data.applicationDataByLoginType.hardware = { wallets: [], notifications: [] }
   state.data.applicationDataByLoginType.key = { wallets: [], notifications: [] }
 }
 
