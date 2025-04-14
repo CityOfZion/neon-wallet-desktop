@@ -59,11 +59,11 @@ export const useColumns = (showType: TUseBalanceOptionShowType) => {
         header: t('holdings'),
       }),
       columnHelper.accessor('exchangeConvertedPrice', {
-        cell: info => NumberHelper.currency(info.getValue(), currency.label),
+        cell: info => NumberHelper.currency(info.getValue(), currency.label, undefined, 8),
         header: t('price'),
       }),
       columnHelper.accessor('exchangeAmount', {
-        cell: info => NumberHelper.currency(info.getValue(), currency.label),
+        cell: info => NumberHelper.currency(info.getValue(), currency.label, undefined, 8),
         header: t('value'),
       }),
       columnHelper.display({
