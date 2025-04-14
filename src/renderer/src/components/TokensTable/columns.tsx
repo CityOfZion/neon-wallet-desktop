@@ -78,25 +78,33 @@ export const useColumns = (showType: TUseBalanceOptionShowType) => {
           )
 
           const isHidden = showType === 'hidden'
+          const label = isHidden ? t('showTokenLabel') : t('hideTokenLabel')
+          let tooltipTitle = ''
+
+          if (!isNativeToken) tooltipTitle = label
 
           return (
             <div className="flex justify-end">
-              <IconButton
-                aria-label={isHidden ? t('showTokenLabel') : t('hideTokenLabel')}
-                size="sm"
-                colorSchema={isHidden ? 'neon' : 'error'}
-                icon={isHidden ? <TbEye aria-hidden /> : <TbEyeOff aria-hidden />}
-                compacted
-                disabled={isNativeToken}
-                onClick={() =>
-                  dispatch(
-                    utilityReducerActions.toggleHiddenToken({
-                      blockchain: info.row.original.blockchain,
-                      hash: info.row.original.token.hash,
-                    })
-                  )
-                }
-              />
+              <Tooltip title={tooltipTitle} delayDuration={0} contentProps={{ className: 'text-center' }}>
+                <IconButton
+                  aria-label={label}
+                  size="sm"
+                  colorSchema={isHidden ? 'neon' : 'error'}
+                  icon={isHidden ? <TbEye aria-hidden /> : <TbEyeOff aria-hidden />}
+                  compacted
+                  disabled={isNativeToken}
+                  onClick={() => {
+                    if (isNativeToken) return
+
+                    dispatch(
+                      utilityReducerActions.toggleHiddenToken({
+                        blockchain: info.row.original.blockchain,
+                        hash: info.row.original.token.hash,
+                      })
+                    )
+                  }}
+                />
+              </Tooltip>
             </div>
           )
         },
