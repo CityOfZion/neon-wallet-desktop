@@ -6,6 +6,7 @@ import { ContactAddressTable } from '@renderer/components/ContactAddressTable'
 import { ContactList } from '@renderer/components/ContactList'
 import { HelpButton } from '@renderer/components/HelpButton'
 import { IconButton } from '@renderer/components/IconButton'
+import { NotificationsButton } from '@renderer/components/NotificationsButton'
 import { Separator } from '@renderer/components/Separator'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
@@ -34,6 +35,8 @@ export const ContactsPage = () => {
       heading={t('title')}
       rightComponent={
         <div className="flex gap-x-2">
+          <NotificationsButton />
+
           <IconButton
             icon={<TbPlus className="text-neon" />}
             size="md"

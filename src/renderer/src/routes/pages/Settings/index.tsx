@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { HelpButton } from '@renderer/components/HelpButton'
+import { NotificationsButton } from '@renderer/components/NotificationsButton'
 import { Tabs } from '@renderer/components/Tabs'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
@@ -48,6 +49,8 @@ export const SettingsPage = () => {
       heading={t('title')}
       rightComponent={
         <div className="flex gap-x-2">
+          <NotificationsButton />
+
           <HelpButton />
         </div>
       }

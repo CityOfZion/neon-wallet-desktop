@@ -4,14 +4,13 @@ import { TbFileExport, TbFileImport } from 'react-icons/tb'
 import { Outlet, useMatch } from 'react-router-dom'
 import { HelpButton } from '@renderer/components/HelpButton'
 import { IconButton } from '@renderer/components/IconButton'
+import { NotificationsButton } from '@renderer/components/NotificationsButton'
 import { Separator } from '@renderer/components/Separator'
 import { SidebarMenuButton } from '@renderer/components/SidebarMenuButton'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { MainLayout } from '@renderer/layouts/Main'
-
-import { PortfolioNotificationsIcon } from './PortfolioNotificationsIcon'
 
 export const PortfolioPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'portfolio' })
@@ -25,12 +24,7 @@ export const PortfolioPage = () => {
       heading={t('title')}
       rightComponent={
         <div className="flex gap-x-2">
-          <IconButton
-            icon={<PortfolioNotificationsIcon aria-hidden />}
-            size="md"
-            text={t('notificationsButtonLabel')}
-            onClick={modalNavigateWrapper('notifications')}
-          />
+          <NotificationsButton />
 
           <IconButton
             icon={<MdAdd aria-hidden />}

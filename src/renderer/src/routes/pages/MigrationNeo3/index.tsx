@@ -16,6 +16,7 @@ import { Button } from '@renderer/components/Button'
 import { HelpButton } from '@renderer/components/HelpButton'
 import { IconButton } from '@renderer/components/IconButton'
 import { Loader } from '@renderer/components/Loader'
+import { NotificationsButton } from '@renderer/components/NotificationsButton'
 import { Separator } from '@renderer/components/Separator'
 import {
   NEO_LEGACY_GAS_TOKEN,
@@ -287,6 +288,8 @@ export const MigrationNeo3Page = () => {
       titleIcon={<TbArrowsExchange aria-hidden={true} />}
       rightComponent={
         <div className="flex gap-x-2">
+          <NotificationsButton />
+
           <HelpButton />
         </div>
       }

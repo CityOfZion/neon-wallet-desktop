@@ -4,6 +4,7 @@ import { TbShoppingBag } from 'react-icons/tb'
 import { Location, useBlocker, useLocation, useNavigate } from 'react-router-dom'
 import { ConnectHardwareWalletButton } from '@renderer/components/ConnectHardwareWalletButton'
 import { HelpButton } from '@renderer/components/HelpButton'
+import { NotificationsButton } from '@renderer/components/NotificationsButton'
 import { isConfigured } from '@renderer/constants/buy-and-sell-tokens'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
@@ -80,6 +81,8 @@ const BuyAndSellTokensContent = ({
 
 const BuyAndSellTokensRightActions = ({ showHardwareWallet }: TBuyAndSellTokensRightActionsProps) => (
   <div className="flex gap-x-2">
+    <NotificationsButton />
+
     {showHardwareWallet && <ConnectHardwareWalletButton />}
 
     <HelpButton />

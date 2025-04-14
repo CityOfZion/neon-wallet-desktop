@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { TbStepOut } from 'react-icons/tb'
 import { Location, useLocation } from 'react-router-dom'
 import { HelpButton } from '@renderer/components/HelpButton'
+import { NotificationsButton } from '@renderer/components/NotificationsButton'
 import { ContentLayout } from '@renderer/layouts/ContentLayout'
 import { MainLayout } from '@renderer/layouts/Main'
 import { IAccountState } from '@shared/@types/store'
@@ -19,6 +20,8 @@ export const SendPage = () => {
 
   const rightComponent = (
     <div className="flex gap-x-2">
+      <NotificationsButton />
+
       <HelpButton />
     </div>
   )
