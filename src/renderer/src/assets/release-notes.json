@@ -1,5 +1,11 @@
 [
   {
+    "tag_name": "Version v3.6.0",
+    "published_at": "17 Apr 2025",
+    "body": "<li>• New Native Migration (Legacy > N3)</li><li>• Notifications Feature Initial Delivery (Migrate Now and Migration Completed)</li><li>• FTW Pricing Data Integration</li><li>• Hide Token Feature</li><li>• Ledger Session UX Enhancement - Persist Account Indexes Across Sessions</li><li>• Minor UX Enhancements</li><li>• Minor Bugfixes</li>",
+    "html_url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.6.0"
+  },
+  {
     "tag_name": "Version v3.5.0",
     "published_at": "17 Feb 2025",
     "body": "<li>• Arbitrum Network Support</li><li>• BASE Network Support</li><li>• On-Ramp Feature Delivery</li><li>• Off-Ramp Feature Delivery</li><li>• Enhancements to Swap Request Screen</li><li>• Minor bugfixes</li>",
