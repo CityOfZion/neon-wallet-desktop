@@ -32,7 +32,9 @@ export const MigrationNeo3StatusAssetItem = ({ amount, token, blockchain }: TPro
         {amount} {token.symbol} <span className="text-gray-100">| {tBlockchain(blockchain)}</span>
       </span>
 
-      <span className="font-bold text-right">{NumberHelper.currency(fiatAmount, currency.label)}</span>
+      <span className="font-bold text-right">
+        {NumberHelper.currency(fiatAmount, currency.label, { approximateSymbol: true })}
+      </span>
     </p>
   )
 }

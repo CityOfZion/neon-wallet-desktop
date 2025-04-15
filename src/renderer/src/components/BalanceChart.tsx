@@ -58,7 +58,7 @@ export const BalanceChart = ({ balances, sortedBalances, className }: TProps) =>
     return [...firstFourBars, otherBar]
   }, [balances, t, currency, sortedBalances])
 
-  const exchangeTotalFormatted = NumberHelper.currency(balances.exchangeTotal, currency.label, 2, 2, false)
+  const exchangeTotalFormatted = NumberHelper.currency(balances.exchangeTotal, currency.label, { showZero: false })
 
   return (
     <div className={StyleHelper.mergeStyles('w-full pt-7 pb-9', className)}>

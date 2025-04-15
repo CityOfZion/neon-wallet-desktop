@@ -6,6 +6,13 @@ type TFormatStringOptions = {
   throwWhenNaN?: boolean
 }
 
+type TCurrencyOptions = {
+  minimumFractionDigits?: number
+  maximumFractionDigits?: number
+  showZero?: boolean
+  approximateSymbol?: boolean
+}
+
 export class NumberHelper {
   static number(input: string | number) {
     if (typeof input === 'number') {
@@ -20,17 +27,19 @@ export class NumberHelper {
     return decimals?.length ?? 0
   }
 
-  static currency(
-    input: string | number,
-    currencyName: string,
-    minimumFractionDigits = 2,
-    maximumFractionDigits = 2,
-    showZero = true
-  ) {
+  static currency(input: string | number, currencyName: string, options?: TCurrencyOptions) {
+    const {
+      minimumFractionDigits = 2,
+      maximumFractionDigits = 2,
+      showZero = true,
+      approximateSymbol = false,
+    } = options ?? {}
+
     const num = Number(input)
+    let result = '0'
 
     try {
-      const result = new Intl.NumberFormat('en-US', {
+      result = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: currencyName,
         minimumFractionDigits,
@@ -40,14 +49,14 @@ export class NumberHelper {
         .replace(/^(\D+)/, '$1 ')
         .replace(/\s+/, ' ')
 
-      if (!showZero && num === 0) {
-        return result.replace('0', '--').replaceAll('0', '-')
-      }
-
-      return result
-    } catch {
-      return '0'
+      if (!showZero && num === 0) result = result.replace('0', '--').replaceAll('0', '-')
+    } catch (error) {
+      console.error(error)
     }
+
+    if (approximateSymbol) result = `~${result}`
+
+    return result
   }
 
   static sanitizeCommasAndDotsInNumber(value: string) {
