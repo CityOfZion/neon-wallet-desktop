@@ -163,8 +163,15 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
 
   const handleUpdateRecipientAmount = (id: string, amount: number, decimals?: number) => {
     if (lte(amount, 0)) ToastHelper.error({ message: t('errors.amountIsLessOrEqualZero') })
-    else
-      handleUpdateRecipient(id, { amount: NumberHelper.formatString(amount, { decimals, removeTrailingZero: false }) })
+    else {
+      try {
+        handleUpdateRecipient(id, {
+          amount: NumberHelper.formatString(amount, { decimals, removeTrailingZero: false, throwWhenNaN: true }),
+        })
+      } catch (error) {
+        console.error(error)
+      }
+    }
   }
 
   const handleAddRecipient = () => {

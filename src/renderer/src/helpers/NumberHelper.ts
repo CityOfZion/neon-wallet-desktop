@@ -3,6 +3,7 @@ type TFormatStringOptions = {
   max?: number
   removeLeadingZero?: boolean
   removeTrailingZero?: boolean
+  throwWhenNaN?: boolean
 }
 
 export class NumberHelper {
@@ -49,24 +50,39 @@ export class NumberHelper {
     }
   }
 
+  static sanitizeCommasAndDotsInNumber(value: string) {
+    let newValue = value.replace(/,|\.\.|\.,|,,/g, '.')
+    const parts = newValue.split('.')
+
+    if (parts.length > 2) newValue = `${parts[0]}.${parts.slice(1).join('')}`
+
+    return newValue
+  }
+
   static formatString(value: string | number, options?: TFormatStringOptions) {
-    const { decimals = 0, max, removeLeadingZero = true, removeTrailingZero = true } = options ?? {}
+    const {
+      decimals = 0,
+      max,
+      removeLeadingZero = true,
+      removeTrailingZero = true,
+      throwWhenNaN = false,
+    } = options ?? {}
+
     let newValue = value.toString().trim()
 
-    if (newValue === '') {
-      return ''
-    }
+    if (newValue === '') return newValue
+
+    newValue = NumberHelper.sanitizeCommasAndDotsInNumber(newValue)
 
     if (isNaN(Number(newValue))) {
-      throw new Error('Invalid number')
+      if (throwWhenNaN) throw new Error('Invalid number')
+
+      return '0'
     }
 
     const sciNotationRegex = /^[+-]?\d+(\.\d+)?e[+-]?\d+$/i
 
-    if (sciNotationRegex.test(newValue)) {
-      const num = Number(newValue).toFixed(decimals)
-      newValue = num.toString()
-    }
+    if (sciNotationRegex.test(newValue)) newValue = Number(newValue).toFixed(decimals).toString()
 
     if (decimals === 0) {
       newValue = newValue.replace(/[^\d]/g, '')

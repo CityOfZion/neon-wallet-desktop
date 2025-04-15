@@ -90,13 +90,18 @@ export const SendRecipient = ({
   }
 
   const handleChangeAmount = (value: string) => {
-    onUpdateRecipient({
-      amount: NumberHelper.formatString(value, {
-        decimals: recipient.token?.token?.decimals,
-        max: 24,
-        removeTrailingZero: false,
-      }),
-    })
+    try {
+      onUpdateRecipient({
+        amount: NumberHelper.formatString(value, {
+          decimals: recipient.token?.token?.decimals,
+          max: 24,
+          removeTrailingZero: false,
+          throwWhenNaN: true,
+        }),
+      })
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   const handleSelectAccount = (account: IAccountState) => {

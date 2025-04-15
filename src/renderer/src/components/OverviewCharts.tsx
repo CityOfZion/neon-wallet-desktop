@@ -46,10 +46,7 @@ export const OverviewCharts = ({
       map.set(balance.token.hash, cloneDeep(balance))
     })
 
-    const tokenBalancesSorted = Array.from(map.values()).sort(
-      (token1, token2) => token2.exchangeAmount - token1.exchangeAmount
-    )
-    return tokenBalancesSorted
+    return Array.from(map.values()).sort((token1, token2) => token2.exchangeAmount - token1.exchangeAmount)
   }, [balances])
 
   return (
