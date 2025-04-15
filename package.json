@@ -8,7 +8,7 @@
     "CoZ"
   ],
   "keywords": [],
-  "license": "MIT",
+  "license": "GPL-3.0-only",
   "main": "./out/main/index.js",
   "scripts": {
     "lint": "eslint . --fix",
