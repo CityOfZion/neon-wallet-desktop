@@ -402,8 +402,7 @@ export const SellTokensDepositModal = () => {
                       ? NumberHelper.number(actionData.amount) * actionData.token.exchangeConvertedPrice
                       : 0,
                     currency.label,
-                    undefined,
-                    6
+                    { maximumFractionDigits: 6 }
                   )}
                 </p>
               </div>

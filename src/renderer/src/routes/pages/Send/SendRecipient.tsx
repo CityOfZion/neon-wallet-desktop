@@ -245,8 +245,7 @@ export const SendRecipient = ({
                 ? NumberHelper.number(recipient.amount) * recipient.token.exchangeConvertedPrice
                 : 0,
               currency.label,
-              undefined,
-              6
+              { maximumFractionDigits: 6 }
             )}
           </span>
         </div>
