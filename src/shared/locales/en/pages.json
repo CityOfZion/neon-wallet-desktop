@@ -147,12 +147,12 @@
     "addRecipientButtonLabel": "Add recipient",
     "separatelyTransferWarning": "{{blockchain}} does not support more than one send per transaction, so we will send each transfer separately which will drastically increase the fee.",
     "successNotification": {
-      "title": "Send completed",
-      "previewBody": "Your send has been completed successfully"
+      "title": "Transfer completed",
+      "previewBody": "Your transfer has been completed successfully"
     },
     "failureNotification": {
-      "title": "Send failed",
-      "previewBody": "We couldn't verify the completion of your send"
+      "title": "Transfer failed",
+      "previewBody": "We couldn't verify the completion of your transfer"
     },
     "sendFail": {
       "title": "Oops! We've encountered an error.",
