@@ -295,13 +295,18 @@ export const SwapPageContent = ({ account }: TProps) => {
   }
 
   const handleChangeAmountToUse = (value: string) => {
-    const amount = NumberHelper.formatString(value, {
-      decimals: actionData.selectedTokenToUse.value?.decimals,
-      max: 24,
-      removeTrailingZero: false,
-    })
+    try {
+      const amount = NumberHelper.formatString(value, {
+        decimals: actionData.selectedTokenToUse.value?.decimals,
+        max: 24,
+        removeTrailingZero: false,
+        throwWhenNaN: true,
+      })
 
-    swapServiceRef.current?.setAmountToUse(amount)
+      swapServiceRef.current?.setAmountToUse(amount)
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   const handleSubmit = async () => {
