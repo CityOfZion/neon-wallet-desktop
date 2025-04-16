@@ -10,7 +10,6 @@ import { useBlockchainActions } from './useBlockchainActions'
 import { useHardwareWalletActions } from './useHardwareWallet'
 import { useAppDispatch } from './useRedux'
 import { useLoginControlSelector } from './useSettingsSelector'
-import { useWalletsSelector } from './useWalletSelector'
 
 export const useLogin = () => {
   const { encryptedLoginControlRef } = useLoginControlSelector()
@@ -18,7 +17,6 @@ export const useLogin = () => {
   const { t } = useTranslation('hooks', { keyPrefix: 'useLogin' })
   const { createWallet, importAccounts } = useBlockchainActions()
   const { createHardwareWallet } = useHardwareWalletActions()
-  const { walletsRef } = useWalletsSelector()
 
   const loginWithPassword = useCallback(
     async (password: string) => {
@@ -37,26 +35,6 @@ export const useLogin = () => {
         throw new Error(t('controlIsNotValid'))
       }
 
-      const walletPromises = walletsRef.current.map(async wallet => {
-        const accountPromises = wallet.accounts.map(async account => {
-          if (!account.encryptedKey) return
-          await window.api.sendAsync('decryptBasedEncryptedSecret', {
-            value: account.encryptedKey,
-            encryptedSecret: encryptedPassword,
-          })
-        })
-
-        await Promise.all(accountPromises)
-
-        if (!wallet.encryptedMnemonic) return
-        await window.api.sendAsync('decryptBasedEncryptedSecret', {
-          value: wallet.encryptedMnemonic,
-          encryptedSecret: encryptedPassword,
-        })
-      })
-
-      await Promise.all(walletPromises)
-
       dispatch(
         authReducerActions.setCurrentLoginSession({
           type: 'password',
@@ -64,7 +42,7 @@ export const useLogin = () => {
         })
       )
     },
-    [encryptedLoginControlRef, walletsRef, dispatch, t]
+    [encryptedLoginControlRef, dispatch, t]
   )
 
   const loginWithHardwareWallet = useCallback(
