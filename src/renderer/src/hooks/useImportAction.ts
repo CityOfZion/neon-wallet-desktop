@@ -97,8 +97,6 @@ export const useImportAction = (
       if (!submit) throw new Error(t('errors.invalid'))
 
       await submit(fixedText, data.inputType)
-
-      reset()
     } catch (error: any) {
       setError('text', error.message)
     }

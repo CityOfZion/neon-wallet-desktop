@@ -105,16 +105,14 @@ export const NetworkNodeSelection = () => {
                     </div>
 
                     <span className="text-gray-300 min-w-[48px]">
-                      {node.latency === null ? '--' : t('latency', { latency: node.latency })}
+                      {typeof node.latency === 'number' ? t('latency', { latency: node.latency }) : '--'}
                     </span>
                   </div>
 
                   <div className="flex flex-col flex-start gap-0.5 flex-grow min-w-0">
                     <span className="truncate block text-left w-full">{node.url}</span>
 
-                    <span className="text-gray-300 text-left">
-                      {t('blockHeight', { height: node.height === null ? '--' : node.height })}
-                    </span>
+                    <span className="text-gray-300 text-left">{t('blockHeight', { height: node.height ?? '--' })}</span>
                   </div>
                 </div>
 
