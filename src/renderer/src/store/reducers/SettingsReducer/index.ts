@@ -124,12 +124,41 @@ const settingsReducerMigrations = {
       data: state.data,
     }
   },
+  // This function will set the Polygon networks with the current RPC
+  5: (state: any) => ({
+    ...state,
+    data: {
+      ...state.data,
+      customNetworks: {
+        ...state.data.customNetworks,
+        polygon: [],
+      },
+      selectedNetworkByBlockchain: {
+        ...state.data.selectedNetworkByBlockchain,
+        polygon: DEFAULT_NETWORK_BY__BLOCKCHAIN.polygon,
+      },
+      networkProfiles: state.data.networkProfiles.map(profile => ({
+        ...profile,
+        networkByBlockchain: {
+          ...profile.networkByBlockchain,
+          polygon: DEFAULT_NETWORK_BY__BLOCKCHAIN.polygon,
+        },
+      })),
+      selectedNetworkProfile: {
+        ...state.data.selectedNetworkProfile,
+        networkByBlockchain: {
+          ...state.data.selectedNetworkProfile.networkByBlockchain,
+          polygon: DEFAULT_NETWORK_BY__BLOCKCHAIN.polygon,
+        },
+      },
+    },
+  }),
 }
 
 export const settingsReducerConfig: PersistConfig<ISettingsReducer> = {
   key: 'settingsReducer',
   storage: storage,
-  version: 4,
+  version: 5,
   migrate: createMigrate(settingsReducerMigrations),
 }
 
