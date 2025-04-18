@@ -112,7 +112,12 @@ const backupMigrationsNeo3Schema = zod.record(
     hash: zod.string(),
     neoLegacyAccount: backupAccountSchema,
     neo3Address: zod.string(),
-    status: zod.union([zod.literal('failure'), zod.literal('pending'), zod.literal('done')]),
+    status: zod.union([
+      zod.literal('failure'),
+      zod.literal('pending'),
+      zod.literal('done'),
+      zod.literal('failure-neo3'),
+    ]),
     neo3MigrationAmounts: zod.object({
       gasMigrationTotalFees: zod.string().optional(),
       neoMigrationTotalFees: zod.string().optional(),

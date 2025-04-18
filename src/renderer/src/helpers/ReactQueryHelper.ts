@@ -2,15 +2,16 @@ import { buildQueryKeyBalance } from '@renderer/hooks/useBalances'
 import { buildQueryKeyTokenTransfer, buildQueryKeyTokenTransferAggregate } from '@renderer/hooks/useTokenTransfers'
 import { queryClient } from '@renderer/libs/query'
 import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
-import { TUseTransactionsTransfer } from '@shared/@types/hooks'
+import { IAccountState } from '@shared/@types/store'
 
 export class ReactQueryHelper {
   static invalidateTransactionQueries = (
-    transaction: TUseTransactionsTransfer,
-    network: TNetwork<TBlockchainServiceKey>
+    account: IAccountState,
+    network: TNetwork<TBlockchainServiceKey>,
+    toAccount?: IAccountState
   ) => {
     queryClient.invalidateQueries({
-      queryKey: buildQueryKeyTokenTransfer(transaction.account, network),
+      queryKey: buildQueryKeyTokenTransfer(account, network),
       refetchType: 'all',
     })
 
@@ -20,18 +21,18 @@ export class ReactQueryHelper {
     })
 
     queryClient.invalidateQueries({
-      queryKey: buildQueryKeyBalance(transaction.account.address, transaction.account.blockchain, network),
+      queryKey: buildQueryKeyBalance(account.address, account.blockchain, network),
       refetchType: 'all',
     })
 
-    if (transaction.toAccount) {
+    if (toAccount) {
       queryClient.invalidateQueries({
-        queryKey: buildQueryKeyBalance(transaction.toAccount.address, transaction.toAccount.blockchain, network),
+        queryKey: buildQueryKeyBalance(toAccount.address, toAccount.blockchain, network),
         refetchType: 'all',
       })
 
       queryClient.invalidateQueries({
-        queryKey: buildQueryKeyTokenTransfer(transaction.toAccount, network),
+        queryKey: buildQueryKeyTokenTransfer(toAccount, network),
         refetchType: 'all',
       })
     }

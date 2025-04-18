@@ -87,9 +87,6 @@ export default {
       minWidth: {
         '1/2': '50%',
       },
-      width: {
-        30: '7.5rem',
-      },
       fontSize: {
         '1xl': '1.5rem',
         md: '1rem',
@@ -101,6 +98,7 @@ export default {
         0.75: '0.1875rem',
         8.5: '2.125rem',
         4.5: '1.125rem',
+        30: '7.5rem',
       },
       lineHeight: {
         2: '0.625rem',

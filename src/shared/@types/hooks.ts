@@ -35,6 +35,7 @@ export type TUseTransactionsTransfer = {
   from: string
   asset: string
   assetHash: string
+  explorerUrl?: string
 }
 export type TFetchTransactionsResponse = {
   transfers: TUseTransactionsTransfer[]
