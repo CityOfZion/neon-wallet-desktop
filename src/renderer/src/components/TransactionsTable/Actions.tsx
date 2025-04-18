@@ -7,6 +7,7 @@ import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useMigrationNeo3Selector, useSwapRecordsSelector } from '@renderer/hooks/useUtilitySelector'
 import { thunks } from '@renderer/store/thunks'
 import { TUseTransactionsTransfer } from '@shared/@types/hooks'
+import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 
 import { Button } from '../Button'
 
@@ -28,7 +29,7 @@ export const Actions = ({ transfer }: TProps) => {
 
   const handleMigrationClick = async (event: React.MouseEvent) => {
     event.stopPropagation()
-    await UtilsHelper.sleep(100)
+    await SharedUtilsHelper.sleep(100)
     modalNavigate('migration-neo3-status', { state: { hash: transfer.hash } })
   }
 

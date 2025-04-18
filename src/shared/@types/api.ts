@@ -4,17 +4,16 @@ import { OpenDialogOptions } from 'electron'
 
 import { TBlockchainServiceKey } from './blockchain'
 import {
-  TAddHardwareWalletAccountParams,
-  TConnectHardwareWalletParams,
+  TAddAccountHardwareWalletGenericParams,
+  TConnectHardwareWalletByUsbParams,
   TDecryptBasedEncryptedSecretParams,
   TDecryptBasedSecretParams,
   TEncryptBasedEncryptedSecretParams,
   TEncryptBasedSecretParams,
   TGetStoreFromWCSession,
-  THardwareWalletInfo,
   TIpcMainAsyncListener,
   TIpcMainSyncListener,
-  TIsConnectedAndUnlockedHardwareWalletParams,
+  TIsConnectedAndUnlockedHardwareWalletGenericParams,
 } from './ipc'
 
 export type TMainApiListenersSync = {
@@ -34,11 +33,6 @@ export type TMainApiListenersAsync = {
   saveFile: TIpcMainAsyncListener<{ path: string; content: string }, void>
   setTitleBarOverlay: TIpcMainAsyncListener<Electron.TitleBarOverlay, void>
   setWindowButtonPosition: TIpcMainAsyncListener<Electron.Point, void>
-  connectHardwareWallet: TIpcMainAsyncListener<TConnectHardwareWalletParams, THardwareWalletInfo[]>
-  disconnectHardwareWallet: TIpcMainAsyncListener<undefined, void>
-  isConnectedAndUnlockedHardwareWallet: TIpcMainAsyncListener<TIsConnectedAndUnlockedHardwareWalletParams, boolean>
-  addNewHardwareAccount: TIpcMainAsyncListener<TAddHardwareWalletAccountParams, Account<TBlockchainServiceKey>>
-  getHardwareAccount: TIpcMainAsyncListener<TAddHardwareWalletAccountParams, Account<TBlockchainServiceKey>>
   checkForUpdates: TIpcMainAsyncListener<undefined, boolean>
   quitAndInstall: TIpcMainAsyncListener<undefined, void>
   encryptBasedOS: TIpcMainAsyncListener<string, string>
@@ -49,14 +43,32 @@ export type TMainApiListenersAsync = {
   decryptBasedEncryptedSecret: TIpcMainAsyncListener<TDecryptBasedEncryptedSecretParams, string>
   getInitialDeepLinkUri: TIpcMainAsyncListener<undefined, string | undefined>
   resetInitialDeeplink: TIpcMainAsyncListener<undefined, void>
+
+  // Hardware wallet
+  'hardwareWallet:disconnect': TIpcMainAsyncListener<undefined, void>
+  'hardwareWallet:isConnectedAndUnlocked': TIpcMainAsyncListener<
+    TIsConnectedAndUnlockedHardwareWalletGenericParams,
+    boolean
+  >
+  'hardwareWallet:addAccount': TIpcMainAsyncListener<
+    TAddAccountHardwareWalletGenericParams,
+    Account<TBlockchainServiceKey>
+  >
+
+  'hardwareWalletByUsb:connect': TIpcMainAsyncListener<
+    TConnectHardwareWalletByUsbParams,
+    Account<TBlockchainServiceKey>[]
+  >
 }
 
 export type TMainApiSend = {
   getStoreFromWC: TSession
-  hardwareWalletDisconnected: THardwareWalletInfo
   updateCompleted: undefined
   updateError: string
   deeplink: string
-  getHardwareWalletSignatureStart: undefined
-  getHardwareWalletSignatureEnd: undefined
+
+  // Hardware wallet
+  'hardwareWallet:onDisconnect': undefined
+  'hardwareWallet:onSignatureStart': undefined
+  'hardwareWallet:onSignatureEnd': undefined
 }

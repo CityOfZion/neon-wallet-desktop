@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom'
-import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { selectAccounts } from '@renderer/hooks/useAccountSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { RootStore } from '@renderer/store/RootStore'
 import { TAccountHelperPredicateParams } from '@shared/@types/helpers'
 import { TNotificationAction } from '@shared/@types/store'
+import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 import { getI18next } from '@shared/libs/i18next'
 import { match } from 'ts-pattern'
 
@@ -23,7 +23,7 @@ const { t } = getI18next()
 const getAccount = (predicate: TAccountHelperPredicateParams) => {
   const state = RootStore.store.getState()
   const accounts = selectAccounts(state)
-  const account = accounts.find(AccountHelper.predicate(predicate))
+  const account = accounts.find(SharedAccountHelper.predicate(predicate))
 
   if (!account) {
     throw new Error(t('modals:notifications.errors.accountNotFound'))

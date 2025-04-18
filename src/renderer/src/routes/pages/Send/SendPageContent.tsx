@@ -27,6 +27,7 @@ import { bsAggregator } from '@renderer/libs/blockchainService'
 import { thunks } from '@renderer/store/thunks'
 import { TUseTransactionsTransfer } from '@shared/@types/hooks'
 import { IAccountState } from '@shared/@types/store'
+import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 import { AnimatePresence } from 'framer-motion'
 import { lte } from 'lodash'
 
@@ -324,7 +325,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
     const handleCalculateFee = async () => {
       try {
         // It works as a debounce
-        await UtilsHelper.sleep(1500)
+        await SharedUtilsHelper.sleep(1500)
 
         if (abortController.signal.aborted) return
 

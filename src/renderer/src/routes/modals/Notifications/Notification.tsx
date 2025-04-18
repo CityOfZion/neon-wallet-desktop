@@ -5,7 +5,6 @@ import { TbAlertSquare, TbAlertTriangle } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
 import { ActionPopover } from '@renderer/components/ActionPopover'
 import { IconButton } from '@renderer/components/IconButton'
-import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { DateHelper } from '@renderer/helpers/DateHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
@@ -15,6 +14,7 @@ import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
 import { TNotification, TNotificationPriority } from '@shared/@types/store'
+import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 
 import { functionByNotificationActionType } from './functionByNotificationActionType'
 
@@ -43,7 +43,7 @@ export const Notification = ({ notification }: TProps) => {
     () =>
       notification.related?.address
         ? accounts.find(
-            AccountHelper.predicate({
+            SharedAccountHelper.predicate({
               address: notification.related.address!,
               blockchain: notification.related.blockchain,
             })

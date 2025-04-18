@@ -61,5 +61,10 @@
   "useMigrationNeo3Notification": {
     "notificationTitle": "You have tokens available to migrate!",
     "notificationDescription": "Neo Legacy to Neo N3 migration available!"
+  },
+  "useHardwareWalletByUsb": {
+    "errors": {
+      "noDevice": "There is no device connected"
+    }
   }
 }

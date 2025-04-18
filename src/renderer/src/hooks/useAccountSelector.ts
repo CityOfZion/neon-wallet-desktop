@@ -1,9 +1,11 @@
-import { MutableRefObject, useCallback } from 'react'
-import { AccountHelper } from '@renderer/helpers/AccountHelper'
+import { MutableRefObject, useCallback, useRef } from 'react'
+import { useSelector } from 'react-redux'
 import { SelectorHelper } from '@renderer/helpers/SelectorHelper'
 import { TAccountHelperPredicateParams } from '@shared/@types/helpers'
+import { TAccountWithWallet } from '@shared/@types/store'
+import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 
-import { createAppSelector, useAppSelector } from './useRedux'
+import { createAppSelector, TRootState, useAppSelector } from './useRedux'
 
 export const selectAccounts = createAppSelector(
   [state => state.auth.data.applicationDataByLoginType, state => state.auth.inMemoryData.currentLoginSession],
@@ -20,7 +22,7 @@ export const selectAccount = (params: TAccountHelperPredicateParams) =>
     (applicationDataByLoginType, currentLoginSession) => {
       return applicationDataByLoginType[currentLoginSession?.type ?? 'password'].wallets
         .flatMap(wallet => wallet.accounts)
-        .find(AccountHelper.predicate(params))
+        .find(SharedAccountHelper.predicate(params))
     }
   )
 
@@ -46,7 +48,7 @@ const selectAccountsWithWallet = createAppSelector(
   [state => state.auth.data.applicationDataByLoginType, state => state.auth.inMemoryData.currentLoginSession],
   (applicationDataByLoginType, currentLoginSession) => {
     return applicationDataByLoginType[currentLoginSession?.type ?? 'password'].wallets.flatMap(wallet =>
-      wallet.accounts.map(account => ({ ...account, wallet }))
+      wallet.accounts.map<TAccountWithWallet>(account => ({ ...account, wallet }))
     )
   }
 )
@@ -117,12 +119,28 @@ export const useHasHardwareAccountSelector = () => {
   }
 }
 
+export const useAccountMapSelector = () => {
+  const accountsMapRef = useRef<Map<string, TAccountWithWallet>>() as MutableRefObject<Map<string, TAccountWithWallet>>
+
+  useSelector((state: TRootState) => {
+    const result = selectAccountsWithWallet(state)
+    accountsMapRef.current = new Map<string, TAccountWithWallet>()
+    result.forEach(account => {
+      accountsMapRef.current.set(SharedAccountHelper.buildAccountKey(account), account)
+    })
+  })
+
+  return {
+    accountsMapRef,
+  }
+}
+
 export const useAccountUtils = () => {
-  const { accountsRef } = useAccountsSelector()
+  const { accountsMapRef } = useAccountMapSelector()
 
   const doesAccountExist = useCallback(
-    (params: TAccountHelperPredicateParams) => accountsRef.current.some(AccountHelper.predicate(params)),
-    [accountsRef]
+    (params: TAccountHelperPredicateParams) => accountsMapRef.current.has(SharedAccountHelper.buildAccountKey(params)),
+    [accountsMapRef]
   )
 
   return {

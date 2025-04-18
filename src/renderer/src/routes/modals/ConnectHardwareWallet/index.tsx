@@ -6,8 +6,9 @@ import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { AlertSuccessBanner } from '@renderer/components/AlertSuccessBanner'
 import { Button } from '@renderer/components/Button'
 import { SearchingLoader } from '@renderer/components/SearchingLoader'
-import { useConnectHardwareWallet, useHardwareWalletActions } from '@renderer/hooks/useHardwareWallet'
+import { useHardwareWalletActions, useHardwareWalletByUsb } from '@renderer/hooks/useHardwareWallet'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+import { useMountUnsafe } from '@renderer/hooks/useMount'
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
 
 export const ConnectHardwareWalletModal = () => {
@@ -17,15 +18,21 @@ export const ConnectHardwareWalletModal = () => {
   const { createHardwareWallet } = useHardwareWalletActions()
   const { pathname } = useLocation()
 
-  const { status, handleTryConnect } = useConnectHardwareWallet({
-    onConnect: async info => {
-      const [firstAccount] = await createHardwareWallet(info)
+  const { status, connect } = useHardwareWalletByUsb()
 
-      if (pathname.startsWith('/app/wallets/')) navigate(`/app/wallets/${firstAccount.id}/overview`)
+  const handleConnect = async () => {
+    const accounts = await connect()
 
-      modalErase('center')
-    },
-  })
+    const [firstAccount] = await createHardwareWallet(accounts)
+
+    if (pathname.startsWith('/app/wallets/')) navigate(`/app/wallets/${firstAccount.id}/overview`)
+
+    modalErase('center')
+  }
+
+  useMountUnsafe(() => {
+    handleConnect()
+  }, 500)
 
   return (
     <CenterModalLayout contentClassName="flex flex-col items-center justify-between">
@@ -55,7 +62,7 @@ export const ConnectHardwareWalletModal = () => {
         label={t('searchAgainButtonLabel')}
         className="w-64"
         disabled={status !== 'not-connected'}
-        onClick={handleTryConnect}
+        onClick={handleConnect}
       />
     </CenterModalLayout>
   )

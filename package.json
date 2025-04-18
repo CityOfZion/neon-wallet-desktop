@@ -36,7 +36,7 @@
     "@cityofzion/bs-electron": "0.1.38",
     "@cityofzion/bs-ethereum": "2.9.9",
     "@cityofzion/bs-neo-legacy": "1.10.8",
-    "@cityofzion/bs-neo3": "1.10.9",
+    "@cityofzion/bs-neo3": "1.10.10",
     "@cityofzion/bs-swap": "0.5.16",
     "@cityofzion/neon-core": "5.7.0",
     "@cityofzion/neon-js": "5.7.0",

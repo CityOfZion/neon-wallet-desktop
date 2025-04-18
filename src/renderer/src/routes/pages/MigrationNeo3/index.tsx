@@ -43,8 +43,8 @@ import { ContentLayout } from '@renderer/layouts/ContentLayout'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { thunks } from '@renderer/store/thunks'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { THardwareWalletInfo } from '@shared/@types/ipc'
 import { IAccountState, TMigrationNeo3 } from '@shared/@types/store'
+import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 
 import { MigrationNeo3AssetText } from './MigrationNeo3AssetText'
 import { MigrationNeo3ListItemAmount } from './MigrationNeo3ListItemAmount'
@@ -61,12 +61,11 @@ type TActionsData = {
 type TLocationState = {
   neoLegacyAccount: IAccountState
   neo3HardwareServiceAccount?: Account<TBlockchainServiceKey>
-  neo3HardwareWalletInfo?: THardwareWalletInfo
 }
 
 export const MigrationNeo3Page = () => {
   const location = useLocation() as Location<TLocationState>
-  const { neo3HardwareServiceAccount, neo3HardwareWalletInfo } = location.state
+  const { neo3HardwareServiceAccount } = location.state
 
   const { t } = useTranslation('pages', { keyPrefix: 'migrationNeo3' })
   const { t: tBlockchain } = useTranslation('common', { keyPrefix: 'blockchain' })
@@ -76,7 +75,7 @@ export const MigrationNeo3Page = () => {
   const { importAccount } = useBlockchainActions()
   const { modalNavigate } = useModalNavigate()
   const dispatch = useAppDispatch()
-  const { createHardwareWallet, isConnectedAndUnlockedHardwareWallet } = useHardwareWalletActions()
+  const { isConnectedAndUnlockedHardwareWallet } = useHardwareWalletActions()
 
   const neoLegacyAccountSelector = useAccountSelector(location.state.neoLegacyAccount)
   const neoLegacyAccount = neoLegacyAccountSelector.account!
@@ -127,10 +126,7 @@ export const MigrationNeo3Page = () => {
         blockchain: actionData.neo3ServiceAccount.blockchain,
       })
 
-      if (isHardwareAccount) {
-        // We are using non-null assertion operator here because we validate in unMount hook if this value exist when is hardware account
-        await createHardwareWallet([neo3HardwareWalletInfo!], { accountsType: 'watch' })
-      } else if (!doesNeo3AccountExist) {
+      if (!isHardwareAccount && !doesNeo3AccountExist) {
         await importAccount({
           ...actionData.neo3ServiceAccount,
           type: 'standard',
@@ -152,7 +148,7 @@ export const MigrationNeo3Page = () => {
 
       navigate(`/app/wallets/${neoLegacyAccount.id}/transactions`)
 
-      await UtilsHelper.sleep(100)
+      await SharedUtilsHelper.sleep(100)
 
       modalNavigate('migration-neo3-status', { state: { hash: transactionHash } })
 
@@ -190,7 +186,7 @@ export const MigrationNeo3Page = () => {
         const isHardwareWatchAccount = neoLegacyAccount.type === 'watch' && wallet.type === 'hardware'
         const isHardwareAccount = neoLegacyAccount.type === 'hardware' || isHardwareWatchAccount
         // It verify if the navigation is from prepare-hardware-wallet-migration-neo3 modal
-        if (isHardwareAccount && (!neo3HardwareServiceAccount || !neo3HardwareWalletInfo)) {
+        if (isHardwareAccount && !neo3HardwareServiceAccount) {
           modalNavigate('prepare-hardware-wallet-migration-neo3', { state: { neoLegacyAccount } })
           return
         }

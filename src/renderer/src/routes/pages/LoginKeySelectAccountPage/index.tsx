@@ -8,11 +8,11 @@ import {
 } from '@renderer/components/MnemonicOrKeyAccountSelection'
 import { MnemonicHelper } from '@renderer/helpers/MnemonicHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useLoadingActions } from '@renderer/hooks/useLoadingActions'
 import { useLogin } from '@renderer/hooks/useLogin'
 import { LoginKeyLayout } from '@renderer/layouts/LoginKeyLayout'
 import { TAccountsToImport } from '@shared/@types/blockchain'
+import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 
 type TState = {
   mnemonicOrKey: string
@@ -40,7 +40,7 @@ export const LoginKeySelectAccountPage = () => {
     })
 
     // It improves the user experience
-    await UtilsHelper.sleep(1000)
+    await SharedUtilsHelper.sleep(1000)
 
     navigate('/app/portfolio')
   }

@@ -3,11 +3,11 @@ import { useTranslation } from 'react-i18next'
 import { TbPlugX } from 'react-icons/tb'
 import { TSession } from '@cityofzion/wallet-connect-sdk-wallet-core'
 import dappFallbackIcon from '@renderer/assets/images/dapp-fallback-icon.png'
-import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { DateHelper } from '@renderer/helpers/DateHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 
 import { BlockchainIcon } from '../BlockchainIcon'
@@ -84,7 +84,7 @@ export const useColumns = (withAddress: boolean) => {
           header: t('account'),
           cell: info => {
             const value = info.getValue()
-            return accounts.find(AccountHelper.predicate(value))?.name ?? value.address
+            return accounts.find(SharedAccountHelper.predicate(value))?.name ?? value.address
           },
         })
       )

@@ -37,6 +37,7 @@ import { TDepositActionsData } from '@renderer/routes/pages/BuyAndSellTokens'
 import { thunks } from '@renderer/store/thunks'
 import { TUseTransactionsTransfer } from '@shared/@types/hooks'
 import { IAccountState } from '@shared/@types/store'
+import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 import { debounce } from 'lodash'
 
 import { SellTokensDepositErrorContent } from './SellTokensDepositErrorContent'
@@ -241,7 +242,7 @@ export const SellTokensDepositModal = () => {
 
     const handleCalculateFee = async () => {
       try {
-        await UtilsHelper.sleep(1500)
+        await SharedUtilsHelper.sleep(1500)
 
         if (abortController.signal.aborted) return
 

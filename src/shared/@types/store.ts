@@ -46,6 +46,10 @@ export interface IWalletState {
   accounts: IAccountState[]
 }
 
+export type TAccountWithWallet = IAccountState & {
+  wallet: IWalletState
+}
+
 export type TLoginSessionType = 'password' | 'hardware' | 'key'
 export type TLoginSession = {
   type: TLoginSessionType

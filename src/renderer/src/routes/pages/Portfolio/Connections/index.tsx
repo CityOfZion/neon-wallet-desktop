@@ -6,12 +6,12 @@ import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-re
 import { Button } from '@renderer/components/Button'
 import { ConnectionsTable } from '@renderer/components/ConnectionsTable'
 import { Separator } from '@renderer/components/Separator'
-import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
+import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 
 export const PortfolioConnectionsPage = () => {
   const { sessions } = useWalletConnectWallet()
@@ -26,7 +26,7 @@ export const PortfolioConnectionsPage = () => {
       sessions.filter(session => {
         const info = WalletConnectHelper.getAccountInformationFromSession(session)
 
-        return accounts.some(account => account.type !== 'watch' && AccountHelper.predicate(info)(account))
+        return accounts.some(account => account.type !== 'watch' && SharedAccountHelper.predicate(info)(account))
       }),
     [sessions, accounts]
   )

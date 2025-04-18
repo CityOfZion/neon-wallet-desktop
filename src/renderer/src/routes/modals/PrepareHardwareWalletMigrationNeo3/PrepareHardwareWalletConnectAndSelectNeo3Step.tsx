@@ -5,14 +5,17 @@ import { Account } from '@cityofzion/blockchain-service'
 import { Button } from '@renderer/components/Button'
 import { RadioGroup } from '@renderer/components/RadioGroup'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
-import { useConnectHardwareWallet } from '@renderer/hooks/useHardwareWallet'
+import { useAccountMapSelector } from '@renderer/hooks/useAccountSelector'
+import { useHardwareWalletActions, useHardwareWalletByUsb } from '@renderer/hooks/useHardwareWallet'
 import { useLoadingActions } from '@renderer/hooks/useLoadingActions'
+import { useMountUnsafe } from '@renderer/hooks/useMount'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { cloneDeep } from 'lodash'
+import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 
 import { EPrepareHardwareWalletMigrationStep } from './EPrepareHardwareWalletMigrationStep'
 import { TPrepareHardwareWalletMigrationActionsData, TTPrepareHardwareWalletMigrationSetData } from './index'
 import { PrepareHardwareWalletContinueButton } from './PrepareHardwareWalletContinueButton'
+import { PrepareHardwareWalletSearchAgainButton } from './PrepareHardwareWalletSearchAgainButton'
 import { PrepareHardwareWalletStatusConnection } from './PrepareHardwareWalletStatusConnection'
 import { PrepareHardwareWalletTipInfo } from './PrepareHardwareWalletTipInfo'
 
@@ -23,41 +26,39 @@ type TProps = {
 
 export const PrepareHardwareWalletConnectAndSelectNeo3Step = ({ actionData, setData }: TProps) => {
   const { t } = useTranslation('modals', { keyPrefix: 'prepareHardwareWalletMigrationNeo3.connectAndSelectNeo3Step' })
-
-  const neo3ConnectHardwareWallet = useConnectHardwareWallet({
-    onConnect: async walletsInfo => {
-      setData({
-        neo3HardwareWalletInfo: walletsInfo.find(walletInfo => walletInfo.blockchain === 'neo3'),
-        currentStep: EPrepareHardwareWalletMigrationStep.SELECT_NEO3_ACCOUNT,
-      })
-    },
-    enabled: actionData.currentStep === EPrepareHardwareWalletMigrationStep.CONNECT_NEO3,
-    beforeConnectMs: 0,
-    beforeConnectValidation: walletsInfo =>
-      walletsInfo.some(({ blockchain, accounts }) => blockchain === 'neo3' && accounts.length > 0),
-  })
+  const { createHardwareWallet, addNewHardwareAccount } = useHardwareWalletActions()
+  const { connect, status } = useHardwareWalletByUsb()
+  const { accountsMapRef } = useAccountMapSelector()
 
   const addAccountAction = useLoadingActions(async () => {
     try {
-      if (!actionData.neo3HardwareWalletInfo) return
+      if (!actionData.neo3HardwareAccounts) return
 
-      const nextNeo3AccountOrder = actionData.neo3HardwareWalletInfo.accounts.length
+      const accountWithWallet = accountsMapRef.current.get(
+        SharedAccountHelper.buildAccountKey(actionData.neo3HardwareAccounts[0])
+      )
+      if (!accountWithWallet) return
 
-      const nextNeo3Account = await window.api.sendAsync('addNewHardwareAccount', {
-        index: nextNeo3AccountOrder,
-        blockchain: actionData.neo3HardwareWalletInfo.blockchain,
-      })
-
-      const newNeo3HardwareWalletInfo = cloneDeep(actionData.neo3HardwareWalletInfo)
-      newNeo3HardwareWalletInfo.accounts.push(nextNeo3Account)
+      const serviceAccount = await addNewHardwareAccount(accountWithWallet.wallet)
 
       setData({
-        neo3HardwareWalletInfo: newNeo3HardwareWalletInfo,
+        neo3HardwareAccounts: [...actionData.neo3HardwareAccounts, serviceAccount],
       })
     } catch (error) {
       ToastHelper.error({ message: t('addNeo3AccountError'), duration: 8000 })
     }
   })
+
+  const handleConnect = async () => {
+    const accounts = await connect({ blockchain: 'neo3' })
+
+    await createHardwareWallet(accounts)
+
+    setData({
+      neo3HardwareAccounts: accounts,
+      currentStep: EPrepareHardwareWalletMigrationStep.SELECT_NEO3_ACCOUNT,
+    })
+  }
 
   const handleSelectAccount = (account: Account<TBlockchainServiceKey>) => {
     setData({
@@ -68,6 +69,10 @@ export const PrepareHardwareWalletConnectAndSelectNeo3Step = ({ actionData, setD
   const handleContinue = () => {
     setData({ currentStep: EPrepareHardwareWalletMigrationStep.CONFIRM })
   }
+
+  useMountUnsafe(() => {
+    handleConnect()
+  })
 
   return (
     <Fragment>
@@ -89,13 +94,10 @@ export const PrepareHardwareWalletConnectAndSelectNeo3Step = ({ actionData, setD
       </div>
 
       {actionData.currentStep === EPrepareHardwareWalletMigrationStep.CONNECT_NEO3 ? (
-        <PrepareHardwareWalletStatusConnection
-          searchLabel={t('searchHardwareWalletLabel')}
-          connectHardwareWallet={neo3ConnectHardwareWallet}
-        />
+        <PrepareHardwareWalletStatusConnection searchLabel={t('searchHardwareWalletLabel')} status={status} />
       ) : (
-        <div className="flex flex-col items-center mx-auto gap-y-4">
-          {actionData.neo3HardwareWalletInfo && actionData.neo3HardwareWalletInfo.accounts.length > 0 && (
+        <div className="flex flex-col items-center mx-auto gap-y-2.5 mb-4">
+          {actionData.neo3HardwareAccounts && (
             <div className="flex flex-col flex-grow min-h-0 gap-y-2">
               <h3 className="text-gray-100 uppercase text-xs">{t('selectLabel')}</h3>
 
@@ -103,7 +105,7 @@ export const PrepareHardwareWalletConnectAndSelectNeo3Step = ({ actionData, setD
                 value={actionData.selectedNeo3HardwareServiceAccount?.address}
                 className="flex flex-col max-h-[200px] overflow-y-auto min-w-[400px] w-full rounded-md"
               >
-                {actionData.neo3HardwareWalletInfo.accounts.map(account => (
+                {actionData.neo3HardwareAccounts.map(account => (
                   <RadioGroup.Item
                     key={account.address}
                     value={account.address}
@@ -121,8 +123,8 @@ export const PrepareHardwareWalletConnectAndSelectNeo3Step = ({ actionData, setD
 
           <Button
             label={t('addAccountButtonLabel')}
-            className="w-44"
             textClassName="text-neon"
+            wide
             flat
             variant="card"
             loading={addAccountAction.isActing}
@@ -133,11 +135,15 @@ export const PrepareHardwareWalletConnectAndSelectNeo3Step = ({ actionData, setD
         </div>
       )}
 
-      <PrepareHardwareWalletContinueButton
-        disabled={!actionData.selectedNeo3HardwareServiceAccount}
-        label={t('continueButtonLabel')}
-        onClick={handleContinue}
-      />
+      {status === 'not-connected' ? (
+        <PrepareHardwareWalletSearchAgainButton onClick={handleConnect} />
+      ) : (
+        <PrepareHardwareWalletContinueButton
+          disabled={!actionData.selectedNeo3HardwareServiceAccount}
+          label={t('continueButtonLabel')}
+          onClick={handleContinue}
+        />
+      )}
     </Fragment>
   )
 }

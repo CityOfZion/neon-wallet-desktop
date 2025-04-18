@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { TbPlug } from 'react-icons/tb'
 import { ResponseErrorCode } from '@cityofzion/wallet-connect-sdk-wallet-core'
 import { TSession, TSessionRequest, useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
-import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
@@ -12,6 +11,7 @@ import { CenterModalLayout } from '@renderer/layouts/CenterModal'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TWalletConnectHelperSessionInformation } from '@shared/@types/helpers'
 import { IAccountState } from '@shared/@types/store'
+import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 
 import { EthereumSendTransactionDappPermission } from './Ethereum/SendTransactionDappPermission'
 import { EthereumSignMessageDappPermission } from './Ethereum/SignMessageDappPermission'
@@ -119,7 +119,9 @@ export const DappPermissionModal = () => {
   const sessionInfo = WalletConnectHelper.getAccountInformationFromSession(session)
   const method = request.params.request.method
 
-  const account = accounts.find(account => account.type !== 'watch' && AccountHelper.predicate(sessionInfo)(account))
+  const account = accounts.find(
+    account => account.type !== 'watch' && SharedAccountHelper.predicate(sessionInfo)(account)
+  )
   const Component = componentsByBlockchain[sessionInfo.blockchain]?.[method]
 
   const handleCancel = useCallback(

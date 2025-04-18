@@ -3,12 +3,12 @@ import { Trans, useTranslation } from 'react-i18next'
 import { Link } from '@renderer/components/Link'
 import { LATEST_GITHUB_RELEASE_LINK } from '@renderer/constants/urls'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
 import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
+import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 import { compareVersions } from 'compare-versions'
 
 import { useCurrentLoginSessionSelector } from './useAuthSelector'
@@ -44,7 +44,7 @@ const useOverTheAirUpdate = () => {
 
       ToastHelper.success({ message: t('downloaded'), duration: 5000 })
 
-      await UtilsHelper.sleep(1000)
+      await SharedUtilsHelper.sleep(1000)
 
       window.api.sendAsync('quitAndInstall')
     })
@@ -93,7 +93,7 @@ const useOverTheAirUpdate = () => {
     if (compareVersions(currentAppVersion, lastAppVersion) === 0) {
       if (hasUpdated) {
         // It is necessary to wait the app to be done to show the toast
-        UtilsHelper.sleep(1000).then(() => {
+        SharedUtilsHelper.sleep(1000).then(() => {
           ToastHelper.info({
             message: t('installError'),
           })

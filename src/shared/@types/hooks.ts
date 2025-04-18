@@ -41,3 +41,5 @@ export type TFetchTransactionsResponse = {
   transfers: TUseTransactionsTransfer[]
   nextPageParams?: any
 }
+
+export type TUseHardwareWalletByUsbStatus = 'searching' | 'connected' | 'not-connected'

@@ -5,7 +5,6 @@ import { useActions } from '@renderer/hooks/useActions'
 import { useModalState } from '@renderer/hooks/useModalRouter'
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { THardwareWalletInfo } from '@shared/@types/ipc'
 import { IAccountState } from '@shared/@types/store'
 import { match, P } from 'ts-pattern'
 
@@ -21,7 +20,7 @@ type TLocationState = {
 export type TPrepareHardwareWalletMigrationActionsData = {
   currentStep: EPrepareHardwareWalletMigrationStep
   selectedNeo3HardwareServiceAccount?: Account<TBlockchainServiceKey>
-  neo3HardwareWalletInfo?: THardwareWalletInfo
+  neo3HardwareAccounts?: Account<TBlockchainServiceKey>[]
 }
 
 export type TTPrepareHardwareWalletMigrationSetData = ReturnType<

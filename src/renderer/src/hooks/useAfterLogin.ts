@@ -5,15 +5,15 @@ import { hasNft } from '@cityofzion/blockchain-service'
 import { BSNeoLegacy } from '@cityofzion/bs-neo-legacy'
 import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
 import { LOCAL_SKINS } from '@renderer/constants/skins'
-import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
 import { utilityReducerActions } from '@renderer/store/reducers/UtilityReducer'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { IAccountState } from '@shared/@types/store'
+import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
+import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 
 import { useAccountsSelector, useOwnAccountsSelector } from './useAccountSelector'
 import { useCurrentLoginSessionSelector, useUnreadNotificationsSelector } from './useAuthSelector'
@@ -21,30 +21,10 @@ import { useBalances } from './useBalances'
 import { useBlockchainActions } from './useBlockchainActions'
 import { useModalHistories, useModalNavigate } from './useModalRouter'
 import { useMountUnsafe } from './useMount'
-import { createAppSelector, useAppDispatch, useAppSelector } from './useRedux'
+import { useAppDispatch } from './useRedux'
 import { useSelectedNetworkByBlockchainSelector } from './useSettingsSelector'
-import { useUnlockedSkinIdsSelector } from './useUtilitySelector'
+import { useMigrationNeo3AccountsSelector, useUnlockedSkinIdsSelector } from './useUtilitySelector'
 import { useWalletsSelector } from './useWalletSelector'
-
-const selectMigrationNeo3Accounts = createAppSelector(
-  [state => state.auth.data.applicationDataByLoginType, state => state.auth.inMemoryData.currentLoginSession],
-  (applicationDataByLoginType, currentLoginSession) => {
-    const accounts: IAccountState[] = []
-
-    applicationDataByLoginType[currentLoginSession?.type ?? 'password'].wallets.forEach(wallet =>
-      wallet.accounts.forEach(account => {
-        if (account.blockchain !== 'neoLegacy') return
-
-        const isWatchHardwareAccount = account.type === 'watch' && wallet.type === 'hardware'
-        if (!isWatchHardwareAccount && account.type === 'watch') return
-
-        accounts.push(account)
-      })
-    )
-
-    return accounts
-  }
-)
 
 const useRegisterWalletConnectListeners = () => {
   const { sessions, requests } = useWalletConnectWallet()
@@ -55,7 +35,7 @@ const useRegisterWalletConnectListeners = () => {
   const { networkByBlockchainRef } = useSelectedNetworkByBlockchainSelector()
 
   const watchRequests = useCallback(async () => {
-    await UtilsHelper.sleep(1500)
+    await SharedUtilsHelper.sleep(1500)
 
     const currentHistory = historiesRef.current.slice(-1)[0]
     if (currentHistory && currentHistory.route.name === 'dapp-permission') {
@@ -82,7 +62,7 @@ const useRegisterWalletConnectListeners = () => {
   useEffect(() => {
     const removeGetStoreFromWCListener = window.api.listen('getStoreFromWC', ({ args }) => {
       const info = WalletConnectHelper.getAccountInformationFromSession(args)
-      const account = accountsRef.current.find(AccountHelper.predicate(info))
+      const account = accountsRef.current.find(SharedAccountHelper.predicate(info))
 
       window.api.sendSync('sendStoreFromWC', {
         account,
@@ -125,28 +105,28 @@ const useRegisterHardwareWalletListeners = () => {
   })
 
   useEffect(() => {
-    const removeHardwareWalletDisconnectedListener = window.api.listen(
-      'hardwareWalletDisconnected',
+    const removeOnDisconnectListener = window.api.listen(
+      'hardwareWallet:onDisconnect',
       transformHardwareAccountsToWatch
     )
 
     return () => {
-      removeHardwareWalletDisconnectedListener()
+      removeOnDisconnectListener()
     }
   }, [currentLoginSessionRef, transformHardwareAccountsToWatch])
 
   useEffect(() => {
-    const removeGetHardwareWalletSignatureStartListener = window.api.listen('getHardwareWalletSignatureStart', () => {
+    const removeOnSignatureStartListener = window.api.listen('hardwareWallet:onSignatureStart', () => {
       ToastHelper.loading({ message: commonT('ledger.requestingPermission'), id: 'hardware-wallet-request-permission' })
     })
 
-    const removeGetHardwareWalletSignatureEndListener = window.api.listen('getHardwareWalletSignatureEnd', () => {
+    const removeOnSignatureEndListener = window.api.listen('hardwareWallet:onSignatureEnd', () => {
       ToastHelper.dismiss('hardware-wallet-request-permission')
     })
 
     return () => {
-      removeGetHardwareWalletSignatureStartListener()
-      removeGetHardwareWalletSignatureEndListener()
+      removeOnSignatureStartListener()
+      removeOnSignatureEndListener()
     }
   }, [commonT])
 }
@@ -258,7 +238,7 @@ const useUnlockSkins = () => {
 }
 
 const useMigrationNeo3Notification = () => {
-  const { value: migrationNeo3Accounts } = useAppSelector(selectMigrationNeo3Accounts)
+  const { migrationNeo3Accounts } = useMigrationNeo3AccountsSelector()
   const { unreadNotificationsRef } = useUnreadNotificationsSelector()
   const dispatch = useAppDispatch()
   const { t } = useTranslation('hooks', { keyPrefix: 'useMigrationNeo3Notification' })

@@ -2,16 +2,18 @@ import { Fragment } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { TbStepInto, TbStepOut } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
-import { AccountHelper } from '@renderer/helpers/AccountHelper'
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
-import { useConnectHardwareWallet, useHardwareWalletActions } from '@renderer/hooks/useHardwareWallet'
+import { useHardwareWalletActions, useHardwareWalletByUsb } from '@renderer/hooks/useHardwareWallet'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+import { useMountUnsafe } from '@renderer/hooks/useMount'
 import { IAccountState } from '@shared/@types/store'
+import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
+import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 
 import { EPrepareHardwareWalletMigrationStep } from './EPrepareHardwareWalletMigrationStep'
 import { TPrepareHardwareWalletMigrationActionsData, TTPrepareHardwareWalletMigrationSetData } from './index'
 import { PrepareHardwareWalletAddressItem } from './PrepareHardwareWalletAddressItem'
 import { PrepareHardwareWalletContinueButton } from './PrepareHardwareWalletContinueButton'
+import { PrepareHardwareWalletSearchAgainButton } from './PrepareHardwareWalletSearchAgainButton'
 import { PrepareHardwareWalletStatusConnection } from './PrepareHardwareWalletStatusConnection'
 import { PrepareHardwareWalletTipInfo } from './PrepareHardwareWalletTipInfo'
 
@@ -27,37 +29,42 @@ export const PrepareHardwareWalletConfirmAndCompleteStep = ({ neoLegacyAccount, 
   const { modalErase } = useModalNavigate()
   const navigate = useNavigate()
 
-  const connectHardwareWallet = useConnectHardwareWallet({
-    onConnect: async walletsInfo => {
-      await createHardwareWallet(walletsInfo)
-    },
-    enabled: actionData.currentStep === EPrepareHardwareWalletMigrationStep.CONFIRM,
-    beforeConnectMs: 0,
-    beforeConnectValidation: walletsInfo =>
-      walletsInfo.some(
-        ({ blockchain, accounts }) =>
-          blockchain === 'neoLegacy' && accounts.some(AccountHelper.predicate(neoLegacyAccount))
-      ),
-  })
+  const { connect, status, setStatus } = useHardwareWalletByUsb()
+
+  const handleConnect = async () => {
+    const accounts = await connect({ blockchain: 'neoLegacy' })
+
+    const neoLegacyAccountExist = accounts.some(SharedAccountHelper.predicate(neoLegacyAccount))
+    if (!neoLegacyAccountExist) {
+      setStatus('not-connected')
+      await window.api.sendAsync('hardwareWallet:disconnect')
+      return
+    }
+
+    await createHardwareWallet(accounts)
+  }
 
   const handleContinue = async () => {
     setData({ currentStep: EPrepareHardwareWalletMigrationStep.COMPLETE })
 
-    await UtilsHelper.sleep(2000)
+    await SharedUtilsHelper.sleep(2000)
 
     modalErase('center')
 
-    await UtilsHelper.sleep(200)
+    await SharedUtilsHelper.sleep(200)
 
     navigate('/app/migration-neo3', {
       replace: true,
       state: {
         neoLegacyAccount,
         neo3HardwareServiceAccount: actionData.selectedNeo3HardwareServiceAccount,
-        neo3HardwareWalletInfo: actionData.neo3HardwareWalletInfo,
       },
     })
   }
+
+  useMountUnsafe(() => {
+    handleConnect()
+  })
 
   return (
     <Fragment>
@@ -93,17 +100,17 @@ export const PrepareHardwareWalletConfirmAndCompleteStep = ({ neoLegacyAccount, 
         <strong className="text-sm text-white w-full font-bold">{t('tip')}</strong>
       </PrepareHardwareWalletTipInfo>
 
-      <PrepareHardwareWalletStatusConnection
-        searchLabel={t('searchHardwareWalletLabel')}
-        connectHardwareWallet={connectHardwareWallet}
-      />
-
-      <PrepareHardwareWalletContinueButton
-        label={t('continueButtonLabel')}
-        disabled={connectHardwareWallet.status !== 'connected'}
-        loading={actionData.currentStep === EPrepareHardwareWalletMigrationStep.COMPLETE}
-        onClick={handleContinue}
-      />
+      <PrepareHardwareWalletStatusConnection searchLabel={t('searchHardwareWalletLabel')} status={status} />
+      {status === 'not-connected' ? (
+        <PrepareHardwareWalletSearchAgainButton onClick={handleConnect} />
+      ) : (
+        <PrepareHardwareWalletContinueButton
+          label={t('continueButtonLabel')}
+          disabled={status !== 'connected'}
+          loading={actionData.currentStep === EPrepareHardwareWalletMigrationStep.COMPLETE}
+          onClick={handleContinue}
+        />
+      )}
     </Fragment>
   )
 }
