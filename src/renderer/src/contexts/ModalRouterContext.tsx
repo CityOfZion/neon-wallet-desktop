@@ -20,7 +20,7 @@ const modalByRouteType: Record<TRouteType, (...props: any[]) => JSX.Element> = {
 export const ModalRouterContext = createContext<TModalRouterContextValue>({} as TModalRouterContextValue)
 
 export const ModalRouterProvider = ({ routes, children }: TModalRouterProviderProps) => {
-  const [histories, setHistories] = useDelayedState<THistory[]>([])
+  const [histories, setHistories] = useDelayedState<THistory[]>([], { shouldCancelBeforeSet: false })
   const historiesRef = useRef<THistory[]>([])
 
   const typesToRender = useMemo<TRouteType[]>(() => {

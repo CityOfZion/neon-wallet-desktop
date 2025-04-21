@@ -43,49 +43,51 @@ export const DappConnectionDetailsModal = () => {
 
   const handleDecline = async () => {
     await rejectProposal(proposal)
+
     modalNavigate(-1)
   }
 
   const handleAccept = async () => {
-    try {
-      setLoading(true)
+    if (!proposalInformation) return
 
-      if (!proposalInformation) return
+    setLoading(true)
+
+    try {
+      await approveProposal(proposal, {
+        address: account.address,
+        chain: proposalInformation.network,
+        blockchain: proposalInformation.proposalBlockchain,
+      })
+
+      modalNavigate(-1)
+      modalNavigate('success', {
+        state: {
+          heading: t('successModal.title'),
+          headingIcon: <TbPlug aria-hidden={true} />,
+          subtitle: t('successModal.subtitle'),
+          content: <DappConnectionSuccessContent />,
+        },
+      })
+    } catch (error: any) {
+      console.error(error)
 
       try {
-        try {
-          await approveProposal(proposal, {
-            address: account.address,
-            chain: proposalInformation.network,
-            blockchain: proposalInformation.proposalBlockchain,
-          })
-
-          modalNavigate(-1)
-          modalNavigate('success', {
-            state: {
-              heading: t('successModal.title'),
-              headingIcon: <TbPlug />,
-              subtitle: t('successModal.subtitle'),
-              content: <DappConnectionSuccessContent />,
-            },
-          })
-        } catch (error) {
-          console.error(error)
-          modalNavigate(-1)
-          modalNavigate('error', {
-            state: {
-              heading: t('errorModal.title'),
-              headingIcon: <TbPlug />,
-              subtitle: t('errorModal.subtitle'),
-              content: <DappConnectionErrorContent />,
-            },
-          })
-        }
-      } catch (error: any) {
-        rejectProposal(proposal)
-        ToastHelper.error({ message: error.message })
-        modalNavigate(-1)
+        await rejectProposal(proposal)
+      } catch {
+        /* empty */
       }
+
+      if (error?.message) ToastHelper.error({ message: error.message })
+
+      modalNavigate(-1)
+      modalNavigate('error', {
+        state: {
+          heading: t('errorModal.title'),
+          headingIcon: <TbPlug aria-hidden={true} />,
+          subtitle: t('errorModal.subtitle'),
+          content: <DappConnectionErrorContent />,
+        },
+      })
     } finally {
       setLoading(false)
     }

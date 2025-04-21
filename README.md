@@ -21,7 +21,7 @@
 2. **Install** the application on your platform:
    - **Windows**: Download the `.exe` installer and follow the installation wizard.
    - **macOS**: Download the `.dmg` file, open it, and drag NEON to your Applications folder (this is an universal build, compatible with both Intel and ARM devices).
-   - **Linux**: *Note: Linux support is not available in this first release, but it is a priority for upcoming patches. In the meantime, Linux users can continue using [NEON 2](https://github.com/CityOfZion/neon-wallet).*
+   - **Linux**: Download the `.deb` or `.AppImage` installer and follow the installation wizard.
 
 ## Roadmap
 We are continuously working to improve NEON 3 Wallet. Check out our [Roadmap](https://medium.com/proof-of-working/coz-presents-the-neon-wallet-roadmap-0a092742709e) for upcoming features and enhancements.
