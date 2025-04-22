@@ -139,6 +139,7 @@ export const DappPermissionModal = () => {
   const handleAccept = async (heading: string, subtitle: string, Content?: (result: any) => JSX.Element) => {
     try {
       const { result } = await approveRequest(request)
+
       modalNavigate(-1)
       modalNavigate('success', {
         state: {

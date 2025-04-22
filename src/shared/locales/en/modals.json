@@ -181,14 +181,14 @@
     "successModal": {
       "title": "Connect a dApp",
       "subtitle": "A new dApp has been connected!",
-      "buttonReturnLabel": "Return to your dashboard"
+      "buttonReturnLabel": "Return"
     },
     "errorModal": {
       "title": "Connect a dApp",
       "subtitle": "Oops! we’ve encountered an error",
       "subtitle2": "The dApp hasn’t been connected",
       "subtitle3": "Please try again later.",
-      "buttonReturnLabel": "Return to your dashboard",
+      "buttonReturnLabel": "Return",
       "accountProposalError": "The dApp is trying to connect to a different blockchain than the selected account's blockchain.",
       "differentNetworkError": "The dApp is trying to connect to a different network than the one you are currently connected to. Please change your network to connect to this dApp."
     }
