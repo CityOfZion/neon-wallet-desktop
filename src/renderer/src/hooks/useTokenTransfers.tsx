@@ -1,4 +1,5 @@
 import { useMemo } from 'react'
+import { hasExplorerService } from '@cityofzion/blockchain-service'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
@@ -92,6 +93,11 @@ async function fetchTransactions(
         nextPageParams: previousQuery?.state.data?.nextPageParams,
       })
 
+      let transactionTemplateUrl
+      if (hasExplorerService(service)) {
+        transactionTemplateUrl = service.explorerService.getTxTemplateUrl()
+      }
+
       queryData.nextPageParams = data.nextPageParams
       data.transactions.forEach(transaction => {
         transaction.transfers.forEach(transfer => {
@@ -106,6 +112,9 @@ async function fetchTransactions(
             account,
             toAccount: allAccounts.find(a => a.address === transfer.to),
             fromAccount: allAccounts.find(a => a.address === transfer.from),
+            explorerUrl: transactionTemplateUrl
+              ? transactionTemplateUrl.replace('{txId}', transaction.hash)
+              : undefined,
           })
         })
       })

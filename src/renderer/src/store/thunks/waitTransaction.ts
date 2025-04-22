@@ -60,7 +60,7 @@ export const waitTransaction = createAsyncThunk<void, TWaitTransactionParams>(
       /* empty */
     }
 
-    ReactQueryHelper.invalidateTransactionQueries(transaction, network)
+    ReactQueryHelper.invalidateTransactionQueries(transaction.account, network, transaction.toAccount)
 
     dispatch(authReducerActions.saveNotification(notification))
     dispatch(utilityReducerActions.removePendingTransaction(transaction.hash))

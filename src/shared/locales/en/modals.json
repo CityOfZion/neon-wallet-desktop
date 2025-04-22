@@ -727,25 +727,23 @@
     "subtitles": {
       "done": "Your migration has been done!",
       "pending": "Your migration is pending!",
-      "failure": "Your migration failed!"
+      "failure": "Your migration is taking longer than expected, check the status again later, or contact our support.",
+      "failure-neo3": "Your migration is taking longer than expected, check the status again later, or contact our support."
     },
-    "card": {
-      "title": "Migration details",
-      "transaction": "Transaction",
-      "labels": {
-        "destinationAddress": "Neo N3 destination address",
-        "amountSent": "Amount sent",
-        "migrationFee": "Migration fee",
-        "amountWouldReceive": "Amount you would receive",
-        "amountReceived": "Amount received",
-        "amountWillReceive": "Amount you will receive",
-        "hash": "Transaction hash"
-      }
+    "detailsHeaderLabel": "Migration status",
+    "detailsPanelLabel": "Transaction",
+    "detailsDestinationAddressLabel": "Neo N3 destination address",
+    "detailsMigrationFeeLabel": "Migration fee",
+    "detailsTransactionHashLabel": "Transaction hash",
+    "detailsAmountSentLabel": "Amount sent",
+    "detailsAmountReceiveLabel": {
+      "done": "Amount received",
+      "pending": "Amount you will receive",
+      "failure": "Amount you would receive",
+      "failure-neo3": "Amount you would receive"
     },
-    "buttons": {
-      "viewStatus": "View status",
-      "revalidateMigration": "Revalidate migration"
-    }
+    "viewStatusButtonLabel": "View status",
+    "revalidateMigrationButtonLabel": "Revalidate migration"
   },
   "migrationNeo3ClaimAlert": {
     "title": "You're trying to migrate while having unclaimed {{tokenSymbol}}",

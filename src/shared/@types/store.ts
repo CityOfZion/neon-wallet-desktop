@@ -165,18 +165,17 @@ export type TNotification = {
 
 export type TSaveNotification = Optional<TNotification, 'id' | 'date' | 'provider' | 'read' | 'priority'>
 
+export type TMigrationNeo3Status = 'done' | 'pending' | 'failure' | 'failure-neo3'
+
 export type TMigrationNeo3 = {
   hash: string
   neoLegacyAccount: IAccountState
   neo3Address: string
-  status: 'done' | 'pending' | 'failure'
+  status: TMigrationNeo3Status
   neo3MigrationAmounts: CalculateNeo3MigrationAmountsResponse
   neoLegacyMigrationAmounts: CalculateNeoLegacyMigrationAmountsResponse
+  time: number
 }
-
-export type TPendingMigrationNeo3 = Omit<TMigrationNeo3, 'status'> & { status: 'pending' }
-
-export type TFailureMigrationNeo3 = Omit<TMigrationNeo3, 'status'> & { status: 'failure' }
 
 export type TMigrationsNeo3 = {
   [hash: string]: TMigrationNeo3

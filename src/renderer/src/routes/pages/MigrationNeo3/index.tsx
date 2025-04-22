@@ -5,7 +5,6 @@ import { VscCircleFilled } from 'react-icons/vsc'
 import { Location, useLocation, useNavigate } from 'react-router-dom'
 import { Account } from '@cityofzion/blockchain-service'
 import {
-  BSNeoLegacyConstants,
   CalculateNeo3MigrationAmountsResponse,
   CalculateNeoLegacyMigrationAmountsResponse,
 } from '@cityofzion/bs-neo-legacy'
@@ -44,9 +43,8 @@ import { ContentLayout } from '@renderer/layouts/ContentLayout'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { thunks } from '@renderer/store/thunks'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { TUseTransactionsTransfer } from '@shared/@types/hooks'
 import { THardwareWalletInfo } from '@shared/@types/ipc'
-import { IAccountState, TPendingMigrationNeo3 } from '@shared/@types/store'
+import { IAccountState, TMigrationNeo3 } from '@shared/@types/store'
 
 import { MigrationNeo3AssetText } from './MigrationNeo3AssetText'
 import { MigrationNeo3ListItemAmount } from './MigrationNeo3ListItemAmount'
@@ -140,51 +138,17 @@ export const MigrationNeo3Page = () => {
         })
       }
 
-      const transfer = {
-        account: neoLegacyAccount,
-        to: BSNeoLegacyConstants.MIGRATION_COZ_LEGACY_ADDRESS,
-        from: neoLegacyAccount.address,
-        hash: transactionHash,
-        time: DateHelper.getNowUnix(),
-        fromAccount: neoLegacyAccount,
-        isPending: true,
-        isMigrate: true,
-      }
-      const migrationTransfers: TUseTransactionsTransfer[] = []
-
-      if (actionData.neoLegacyMigrationAmounts.hasEnoughGasBalance && actionData.neoLegacyMigrationAmounts.gasBalance) {
-        migrationTransfers.push({
-          amount: actionData.neoLegacyMigrationAmounts.gasBalance.amount,
-          asset: actionData.neoLegacyMigrationAmounts.gasBalance.token.symbol,
-          assetHash: actionData.neoLegacyMigrationAmounts.gasBalance.token.hash,
-          ...transfer,
-        })
-      }
-
-      if (actionData.neoLegacyMigrationAmounts.hasEnoughNeoBalance && actionData.neoLegacyMigrationAmounts.neoBalance) {
-        migrationTransfers.push({
-          amount: actionData.neoLegacyMigrationAmounts.neoBalance.amount,
-          asset: actionData.neoLegacyMigrationAmounts.neoBalance.token.symbol,
-          assetHash: actionData.neoLegacyMigrationAmounts.neoBalance.token.hash,
-          ...transfer,
-        })
-      }
-
-      const pendingMigrationNeo3: TPendingMigrationNeo3 = {
-        hash: transactionHash,
+      const pendingMigrationNeo3: TMigrationNeo3 = {
+        hash: UtilsHelper.normalizeHash(transactionHash),
         neoLegacyAccount,
         neo3Address: actionData.neo3ServiceAccount.address,
         status: 'pending',
         neo3MigrationAmounts: actionData.neo3MigrationAmounts,
         neoLegacyMigrationAmounts: actionData.neoLegacyMigrationAmounts,
+        time: DateHelper.getNowUnix(),
       }
 
-      dispatch(
-        thunks.waitMigration({
-          migrationTransfers,
-          pendingMigrationNeo3,
-        })
-      )
+      dispatch(thunks.waitMigration(pendingMigrationNeo3))
 
       navigate(`/app/wallets/${neoLegacyAccount.id}/transactions`)
 
