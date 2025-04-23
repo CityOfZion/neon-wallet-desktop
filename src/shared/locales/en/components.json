@@ -145,7 +145,7 @@
     ]
   },
   "mnemonicOrKeyAccountSelection": {
-    "noAccountsToImport": "No accounts to import",
+    "noAccountsToImport": "No accounts found or already exist, check your input and try again later, please.",
     "accountsLength": "{{length}} address(es) found",
     "alreadyExists": "Already exists"
   },
