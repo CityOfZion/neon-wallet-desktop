@@ -1,5 +1,5 @@
 import { Account } from '@cityofzion/blockchain-service'
-import type NodeHidTransport from '@ledgerhq/hw-transport-node-hid-noevents'
+import type Transport from '@ledgerhq/hw-transport'
 import type { BrowserWindow, IpcMainEvent, IpcMainInvokeEvent, IpcRendererEvent } from 'electron'
 
 import { TBlockchainServiceKey } from './blockchain'
@@ -38,20 +38,27 @@ export type TAddHardwareWalletAccountParams = {
   blockchain: TBlockchainServiceKey
 }
 
-export type TIsConnectedAndUnlockedHardwareWalletParams = {
-  account: Account<TBlockchainServiceKey>
-  order: number
+export type THardwareWalletInfo = {
+  transport: Transport
+  accounts: Account<TBlockchainServiceKey>[]
 }
 
-export type THardwareWalletInfo = {
-  accounts: Account<TBlockchainServiceKey>[]
+export type TConnectHardwareWalletGenericParams = {
+  transport: Transport
+  lastIndexesByWallet: TLastIndexesByWallet
+  blockchain?: TBlockchainServiceKey
+}
+
+export type TAddAccountHardwareWalletGenericParams = {
+  index: number
   blockchain: TBlockchainServiceKey
 }
 
-export type THardwareWalletInfoWithTransport = THardwareWalletInfo & {
-  transport: NodeHidTransport
-  descriptor: string
+export type TIsConnectedAndUnlockedHardwareWalletGenericParams = {
+  blockchain: TBlockchainServiceKey
 }
+
+export type TConnectHardwareWalletByUsbParams = Omit<TConnectHardwareWalletGenericParams, 'transport'>
 
 export type TEncryptBasedSecretParams = {
   value: string

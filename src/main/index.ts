@@ -6,6 +6,7 @@ import { join } from 'path'
 import * as packageJson from '../../package.json'
 import icon from '../../resources/icon.png?asset'
 
+import { registerHardwareWalletUsbHandler } from './hardwareWallet/usb'
 import { exposeBsAggregatorToRenderer } from './bsAggregator'
 import {
   registerDeeplinkHandler,
@@ -126,5 +127,6 @@ if (!gotTheLock) {
   registerWindowHandlers()
   registerEncryptionHandlers()
   registerHardwareWalletHandler()
+  registerHardwareWalletUsbHandler()
   registerDeeplinkHandler()
 }

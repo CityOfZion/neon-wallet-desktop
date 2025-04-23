@@ -4,11 +4,11 @@ import { TbUsers } from 'react-icons/tb'
 import { Button } from '@renderer/components/Button'
 import { IconButton } from '@renderer/components/IconButton'
 import { Separator } from '@renderer/components/Separator'
-import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useContactsSelector } from '@renderer/hooks/useContactSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { TUseTransactionsTransfer } from '@shared/@types/hooks'
+import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 
 type TProps = {
   transaction: TUseTransactionsTransfer
@@ -22,7 +22,7 @@ export const SendSuccessModalContentItem = ({ order, transaction }: TProps) => {
 
   const contact = contacts.find(contact =>
     contact.addresses.some(
-      AccountHelper.predicate({ address: transaction.to, blockchain: transaction.account.blockchain })
+      SharedAccountHelper.predicate({ address: transaction.to, blockchain: transaction.account.blockchain })
     )
   )
 

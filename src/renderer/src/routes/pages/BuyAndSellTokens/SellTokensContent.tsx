@@ -10,6 +10,7 @@ import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 import { BuyAndSellTokensLayout } from '@renderer/layouts/BuyAndSellTokensLayout'
 import { IAccountState } from '@shared/@types/store'
+import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 
 import { BuyAndSellTokensScreenType, TDepositActionsData } from './index'
 
@@ -45,7 +46,7 @@ export const SellTokensContent = ({
   }
 
   const handleLoad = async () => {
-    await UtilsHelper.sleep(4000)
+    await SharedUtilsHelper.sleep(4000)
 
     setIsIframeLoading(false)
   }

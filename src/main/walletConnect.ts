@@ -13,9 +13,8 @@ import { TGetStoreFromWCSession } from '@shared/@types/ipc'
 import { IAccountState } from '@shared/@types/store'
 import { mainApi } from '@shared/api/main'
 
-import { bsAggregator } from './bsAggregator'
+import { bsAggregator, getHardwareWalletTransport } from './bsAggregator'
 import { decryptBasedEncryptedSecret } from './encryption'
-import { getHardwareWalletTransport } from './hardwareWallet'
 
 const getBip44DerivationPath = (account: IAccountState, service: BlockchainService<TBlockchainServiceKey>) =>
   service.bip44DerivationPath.replace('?', account.order.toString())

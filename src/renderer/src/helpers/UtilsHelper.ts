@@ -177,10 +177,6 @@ export class UtilsHelper {
     return AVAILABLE_RANDOM_COLORS[randomColorIndex]
   }
 
-  static sleep(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms))
-  }
-
   static getImageSize(url: string) {
     return new Promise<TImageSize>((resolve, reject) => {
       if (!url) {

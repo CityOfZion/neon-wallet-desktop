@@ -1,4 +1,3 @@
-import { Fragment } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbArrowsExchange, TbCancel, TbReplace, TbShoppingBag, TbStepInto, TbStepOut } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
@@ -40,7 +39,11 @@ export const CommonAccountActions = ({ account }: TProps) => {
     navigate('/app/migration-neo3', { state: { neoLegacyAccount: account } })
   }
 
-  return account?.type !== 'watch' ? (
+  if (account.type === 'watch') {
+    return null
+  }
+
+  return (
     <div className="flex gap-2">
       {account.blockchain === 'neoLegacy' && (
         <Tooltip
@@ -114,7 +117,5 @@ export const CommonAccountActions = ({ account }: TProps) => {
         onClick={() => navigate('/app/send', { state: { account } })}
       />
     </div>
-  ) : (
-    <Fragment />
   )
 }

@@ -4,13 +4,13 @@ import { Location, useLocation, useNavigate } from 'react-router-dom'
 import NeonWalletLogo from '@renderer/assets/images/neon-wallet-compact.svg?react'
 import { Progress } from '@renderer/components/Progress'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useSettingsActions } from '@renderer/hooks/useSettingsSelector'
 import { utilityReducerActions } from '@renderer/store/reducers/UtilityReducer'
 import { TCreateWalletAndAccountParam } from '@shared/@types/blockchain'
 import { IContactState, TMigrationsNeo3, TSwapRecord } from '@shared/@types/store'
+import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 
 type TLocationState = {
   wallets: TCreateWalletAndAccountParam[]
@@ -45,7 +45,7 @@ export const WelcomeImportWalletStep4Page = () => {
       if (migrationsNeo3) dispatch(utilityReducerActions.mergeMigrationsNeo3(migrationsNeo3))
       if (contacts) createContacts(contacts)
 
-      await UtilsHelper.sleep(250)
+      await SharedUtilsHelper.sleep(250)
 
       setProgress(progress => progress + progressByStep)
 
@@ -54,16 +54,16 @@ export const WelcomeImportWalletStep4Page = () => {
 
         await importAccounts({ accounts, wallet })
 
-        await UtilsHelper.sleep(250)
+        await SharedUtilsHelper.sleep(250)
 
         setProgress(progress => progress + progressByStep)
       }
 
-      await UtilsHelper.sleep(250)
+      await SharedUtilsHelper.sleep(250)
 
       setProgress(progress => progress + progressByStep)
 
-      await UtilsHelper.sleep(250)
+      await SharedUtilsHelper.sleep(250)
 
       navigate('/welcome-import-wallet/5')
     } catch (error: any) {

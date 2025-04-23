@@ -6,11 +6,11 @@ import { GateFiDisplayModeEnum, GateFiEventTypes, GateFiSDK } from '@gatefi/js-s
 import { Button } from '@renderer/components/Button'
 import { buyTokensIframeUrl, hideBrand, lang, merchantId, theme } from '@renderer/constants/buy-and-sell-tokens'
 import { BuyAndSellTokensHelper } from '@renderer/helpers/BuyAndSellTokensHelper'
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useMountUnsafe } from '@renderer/hooks/useMount'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 import { BuyAndSellTokensLayout } from '@renderer/layouts/BuyAndSellTokensLayout'
 import { IAccountState } from '@shared/@types/store'
+import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 import { theme as tailwindTheme } from '@shared/libs/theme'
 
 import { BuyAndSellTokensScreenType } from './index'
@@ -68,7 +68,7 @@ export const BuyTokensContent = ({ hidden, account, setScreenType, ...props }: T
     })
 
     iframeInstanceRef.current.subscribe(GateFiEventTypes.onLoad, async () => {
-      await UtilsHelper.sleep(4000)
+      await SharedUtilsHelper.sleep(4000)
 
       setIsIframeLoading(false)
     })

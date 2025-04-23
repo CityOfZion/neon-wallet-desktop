@@ -1,10 +1,11 @@
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Account } from '@cityofzion/blockchain-service'
 import { LOGIN_CONTROL_VALUE } from '@renderer/constants/password'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
-import { TAccountsToImport, TWalletToCreate } from '@shared/@types/blockchain'
-import { THardwareWalletInfo } from '@shared/@types/ipc'
+import { TAccountsToImport, TBlockchainServiceKey, TWalletToCreate } from '@shared/@types/blockchain'
+import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 
 import { useBlockchainActions } from './useBlockchainActions'
 import { useHardwareWalletActions } from './useHardwareWallet'
@@ -46,13 +47,16 @@ export const useLogin = () => {
   )
 
   const loginWithHardwareWallet = useCallback(
-    async (hardwareWalletInfos: THardwareWalletInfo[]) => {
+    async (accounts: Account<TBlockchainServiceKey>[]) => {
       const randomPassword = UtilsHelper.uuid()
       const encryptedPassword = await window.api.sendAsync('encryptBasedOS', randomPassword)
 
       dispatch(authReducerActions.setCurrentLoginSession({ type: 'hardware', encryptedPassword }))
 
-      await createHardwareWallet(hardwareWalletInfos)
+      // Prevent the login session from being not set within createHardwareWallet
+      await SharedUtilsHelper.sleep(500)
+
+      await createHardwareWallet(accounts)
     },
     [createHardwareWallet, dispatch]
   )
@@ -75,9 +79,8 @@ export const useLogin = () => {
   )
 
   const logout = useCallback(async () => {
-    window.api.sendAsync('disconnectHardwareWallet')
-
     dispatch(authReducerActions.setCurrentLoginSession(undefined))
+    await window.api.sendAsync('hardwareWallet:disconnect')
   }, [dispatch])
 
   return {

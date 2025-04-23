@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { MnemonicHelper } from '@renderer/helpers/MnemonicHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
@@ -8,6 +7,7 @@ import { useMount } from '@renderer/hooks/useMount'
 import { useLastIndexesByWallet } from '@renderer/hooks/useUtilitySelector'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
+import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 
 import { Accordion } from './Accordion'
 import { BlockchainIcon } from './BlockchainIcon'
@@ -57,7 +57,9 @@ const MnemonicOrKeyAccountSelectionAccordion = ({
   const { t: commonT } = useTranslation('common')
 
   const handleChecked = (checked: boolean, account: TMnemonicOrKeyAccountWithBlockchain) => {
-    onSelect(checked ? [...selectedAccounts, account] : selectedAccounts.filter(AccountHelper.predicateNot(account)))
+    onSelect(
+      checked ? [...selectedAccounts, account] : selectedAccounts.filter(SharedAccountHelper.predicateNot(account))
+    )
   }
 
   return (
@@ -102,7 +104,7 @@ const MnemonicOrKeyAccountSelectionAccordion = ({
                       <Tooltip title={isDisabled ? t('alreadyExists') : ''}>
                         <Checkbox
                           checked={selectedAccounts.some(
-                            AccountHelper.predicate({ address: account.address, blockchain })
+                            SharedAccountHelper.predicate({ address: account.address, blockchain })
                           )}
                           onCheckedChange={checked => handleChecked(checked, { ...account, blockchain })}
                           disabled={isDisabled}

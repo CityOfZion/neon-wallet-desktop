@@ -1,21 +1,40 @@
-import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { IAccountState } from '@shared/@types/store'
+import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 
 import { createAppSelector, useAppSelector } from './useRedux'
 
 const selectHasClaimPendingTransaction = (account: IAccountState) =>
   createAppSelector([state => state.utility.inMemoryData.pendingTransactions], pendingTransactions => {
     return pendingTransactions.some(
-      transaction => !!transaction.isClaim && AccountHelper.predicate(account)(transaction.account)
+      transaction => !!transaction.isClaim && SharedAccountHelper.predicate(account)(transaction.account)
     )
   })
 
 const selectHasMigratePendingTransaction = (account: IAccountState) =>
   createAppSelector([state => state.utility.inMemoryData.pendingTransactions], pendingTransactions => {
     return pendingTransactions.some(
-      transaction => !!transaction.isMigrate && AccountHelper.predicate(account)(transaction.account)
+      transaction => !!transaction.isMigrate && SharedAccountHelper.predicate(account)(transaction.account)
     )
   })
+
+const selectMigrationNeo3Accounts = createAppSelector(
+  [state => state.auth.data.applicationDataByLoginType, state => state.auth.inMemoryData.currentLoginSession],
+  (applicationDataByLoginType, currentLoginSession) => {
+    const accounts: IAccountState[] = []
+
+    applicationDataByLoginType[currentLoginSession?.type ?? 'password'].wallets.forEach(wallet =>
+      wallet.accounts.forEach(account => {
+        if (account.blockchain !== 'neoLegacy') return
+
+        if (account.type === 'watch' && wallet.type !== 'hardware') return
+
+        accounts.push(account)
+      })
+    )
+
+    return accounts
+  }
+)
 
 export const usePendingTransactionsSelector = () => {
   const { ref, value } = useAppSelector(state => state.utility.inMemoryData.pendingTransactions)
@@ -90,5 +109,14 @@ export const useUnlockedSkinIdsSelector = () => {
   return {
     unlockedSkinIds: value,
     unlockedSkinIdsRef: ref,
+  }
+}
+
+export const useMigrationNeo3AccountsSelector = () => {
+  const { value: migrationNeo3Accounts, ref: migrationNeo3AccountsRef } = useAppSelector(selectMigrationNeo3Accounts)
+
+  return {
+    migrationNeo3Accounts,
+    migrationNeo3AccountsRef,
   }
 }

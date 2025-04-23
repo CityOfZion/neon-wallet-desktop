@@ -4,7 +4,6 @@ import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import {
@@ -14,6 +13,7 @@ import {
   useNeonImportBackup,
 } from '@renderer/hooks/useNeonBackup'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
+import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 
 type TFormData = {
   password: string
@@ -63,7 +63,7 @@ export const ConfirmPasswordRecoverModal = () => {
 
       await handleImportBackupData(generatedData)
 
-      await UtilsHelper.sleep(2000)
+      await SharedUtilsHelper.sleep(2000)
 
       modalNavigate('success', {
         state: {

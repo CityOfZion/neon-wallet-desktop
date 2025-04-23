@@ -45,6 +45,7 @@ import { bsAggregator, doesBlockchainSupported } from '@renderer/libs/blockchain
 import { utilityReducerActions } from '@renderer/store/reducers/UtilityReducer'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { IAccountState, TContactAddress, TSwapRecord } from '@shared/@types/store'
+import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 
 type TActionsData = {
   availableTokensToUse: SwapServiceLoadableValue<SwapServiceToken<TBlockchainServiceKey>[]>
@@ -196,7 +197,7 @@ export const SwapPageContent = ({ account }: TProps) => {
 
     swapService.eventEmitter.on('accountToUse', accountToUse => {
       const account = accountToUse.value
-        ? accountsRef.current.find(AccountHelper.predicate(accountToUse.value!))
+        ? accountsRef.current.find(SharedAccountHelper.predicate(accountToUse.value!))
         : undefined
 
       setData({ selectedAccountToUse: { ...accountToUse, value: account ?? null } })

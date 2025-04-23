@@ -6,8 +6,9 @@ import { AlertSuccessBanner } from '@renderer/components/AlertSuccessBanner'
 import { Button } from '@renderer/components/Button'
 import { SearchingLoader } from '@renderer/components/SearchingLoader'
 import { TemporaryLimitsBox } from '@renderer/components/TemporaryLimitsBox'
-import { useConnectHardwareWallet } from '@renderer/hooks/useHardwareWallet'
+import { useHardwareWalletByUsb } from '@renderer/hooks/useHardwareWallet'
 import { useLogin } from '@renderer/hooks/useLogin'
+import { useMountUnsafe } from '@renderer/hooks/useMount'
 import { WelcomeWithTabsLayout } from '@renderer/layouts/WelcomeWithTabs'
 
 export const LoginHardwarePage = () => {
@@ -15,12 +16,18 @@ export const LoginHardwarePage = () => {
   const navigate = useNavigate()
   const { loginWithHardwareWallet } = useLogin()
 
-  const { status, handleTryConnect } = useConnectHardwareWallet({
-    onConnect: async info => {
-      await loginWithHardwareWallet(info)
-      navigate('/app/portfolio')
-    },
-  })
+  const { status, connect } = useHardwareWalletByUsb()
+
+  const handleConnect = async () => {
+    const accounts = await connect()
+
+    await loginWithHardwareWallet(accounts)
+    navigate('/app/portfolio')
+  }
+
+  useMountUnsafe(() => {
+    handleConnect()
+  }, 500)
 
   return (
     <WelcomeWithTabsLayout tabItemSelected="hardware" contentClassName="px-9">
@@ -34,12 +41,7 @@ export const LoginHardwarePage = () => {
         <div className="flex flex-col mt-12 gap-7 items-center">
           <AlertErrorBanner className="gap-2.5 text-sm" message={t('notConnectedMessage')} icon={<TbX />} />
 
-          <Button
-            variant="text-slim"
-            className="w-fit"
-            label={t('searchAgainButtonLabel')}
-            onClick={handleTryConnect}
-          />
+          <Button variant="text-slim" className="w-fit" label={t('searchAgainButtonLabel')} onClick={handleConnect} />
         </div>
       )}
 
