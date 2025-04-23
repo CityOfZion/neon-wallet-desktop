@@ -6,7 +6,6 @@ import { bsAggregator } from '@renderer/libs/blockchainService'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TMigrationNeo3, TMigrationNeo3Status, TSaveNotification } from '@shared/@types/store'
 import { getI18next } from '@shared/libs/i18next'
-import { cloneDeep } from 'lodash'
 import { match } from 'ts-pattern'
 
 import { authReducerActions } from '../reducers/AuthReducer'
@@ -17,8 +16,6 @@ const { t } = getI18next()
 export const waitMigration = createAsyncThunk<void, TMigrationNeo3>(
   'waitMigration',
   async (pendingMigrationNeo3, { getState, dispatch }) => {
-    const migrationNeo3 = cloneDeep<TMigrationNeo3>(pendingMigrationNeo3)
-
     const state = getState() as TRootState
     const network = state.settings.data.selectedNetworkByBlockchain[pendingMigrationNeo3.neoLegacyAccount.blockchain]
 
@@ -33,7 +30,7 @@ export const waitMigration = createAsyncThunk<void, TMigrationNeo3>(
     }
 
     try {
-      if (migrationNeo3.status === 'pending' || migrationNeo3.status === 'failure') {
+      if (pendingMigrationNeo3.status === 'pending' || pendingMigrationNeo3.status === 'failure') {
         const transfer = {
           account: pendingMigrationNeo3.neoLegacyAccount,
           to: BSNeoLegacyConstants.MIGRATION_COZ_LEGACY_ADDRESS,
@@ -74,7 +71,7 @@ export const waitMigration = createAsyncThunk<void, TMigrationNeo3>(
         }
       }
 
-      dispatch(utilityReducerActions.saveMigrationNeo3({ ...migrationNeo3, status }))
+      dispatch(utilityReducerActions.saveMigrationNeo3({ ...pendingMigrationNeo3, status }))
 
       const neo3Service = bsAggregator.blockchainServicesByName.neo3
       const neoLegacyService = bsAggregator.blockchainServicesByName.neoLegacy as BSNeoLegacy<TBlockchainServiceKey>
@@ -116,7 +113,7 @@ export const waitMigration = createAsyncThunk<void, TMigrationNeo3>(
 
     ReactQueryHelper.invalidateTransactionQueries(pendingMigrationNeo3.neoLegacyAccount, network)
 
-    dispatch(utilityReducerActions.saveMigrationNeo3({ ...migrationNeo3, status }))
+    dispatch(utilityReducerActions.saveMigrationNeo3({ ...pendingMigrationNeo3, status }))
     dispatch(authReducerActions.saveNotification(notification))
     dispatch(utilityReducerActions.removePendingTransaction(pendingMigrationNeo3.hash))
   }
