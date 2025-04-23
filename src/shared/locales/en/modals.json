@@ -151,8 +151,7 @@
   "importAccountsSelection": {
     "title": "Import",
     "description": "Select the addresses you’d like to import:",
-    "importButtonLabel": "Import",
-    "noAccountsToImport": "No accounts to import"
+    "importButtonLabel": "Import"
   },
   "dappDisconnection": {
     "title": "Connection details",

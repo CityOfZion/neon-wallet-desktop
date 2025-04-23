@@ -174,7 +174,7 @@ export const MnemonicOrKeyAccountSelection = ({
           onVerifyAccountExistence={onVerifyAccountExistence}
         />
       ) : (
-        <p className="w-full text-center text-xs text-gray-100">{t('noAccountsToImport')}</p>
+        <p className="w-full text-center text-xs text-gray-100 px-6">{t('noAccountsToImport')}</p>
       )}
     </div>
   )
