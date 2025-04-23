@@ -52,7 +52,7 @@ export const MigrationNeo3StatusModal = () => {
   const { migrationNeo3 } = useMigrationNeo3Selector(hash)
   const { account: updatedNeoLegacyAccount } = useAccountSelector(migrationNeo3.neoLegacyAccount)
 
-  const isCheckFailure = true
+  const isCheckFailure = migrationNeo3.status === 'failure' || migrationNeo3.status === 'failure-neo3'
 
   const handleRevalidateMigration = () => {
     if (!isCheckFailure) return
@@ -172,7 +172,7 @@ export const MigrationNeo3StatusModal = () => {
           wide
           iconsOnEdge={false}
           rightIcon={<TbEye aria-hidden={true} />}
-          onClick={modalEraseWrapper('center')}
+          onClick={modalEraseWrapper('side')}
         />
       )}
     </SideModalLayout>
