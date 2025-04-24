@@ -49,7 +49,7 @@ export type TConnectHardwareWalletGenericParams = {
   blockchain?: TBlockchainServiceKey
 }
 
-export type TAddAccountHardwareWalletGenericParams = {
+export type TGetAccountHardwareWalletGenericParams = {
   index: number
   blockchain: TBlockchainServiceKey
 }

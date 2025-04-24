@@ -4,12 +4,12 @@ import { OpenDialogOptions } from 'electron'
 
 import { TBlockchainServiceKey } from './blockchain'
 import {
-  TAddAccountHardwareWalletGenericParams,
   TConnectHardwareWalletByUsbParams,
   TDecryptBasedEncryptedSecretParams,
   TDecryptBasedSecretParams,
   TEncryptBasedEncryptedSecretParams,
   TEncryptBasedSecretParams,
+  TGetAccountHardwareWalletGenericParams,
   TGetStoreFromWCSession,
   TIpcMainAsyncListener,
   TIpcMainSyncListener,
@@ -51,7 +51,11 @@ export type TMainApiListenersAsync = {
     boolean
   >
   'hardwareWallet:addAccount': TIpcMainAsyncListener<
-    TAddAccountHardwareWalletGenericParams,
+    TGetAccountHardwareWalletGenericParams,
+    Account<TBlockchainServiceKey>
+  >
+  'hardwareWallet:getAccount': TIpcMainAsyncListener<
+    TGetAccountHardwareWalletGenericParams,
     Account<TBlockchainServiceKey>
   >
 
