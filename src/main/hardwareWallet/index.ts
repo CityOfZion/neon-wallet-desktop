@@ -1,8 +1,8 @@
 import { Account, hasLedger } from '@cityofzion/blockchain-service'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import {
-  TAddAccountHardwareWalletGenericParams,
   TConnectHardwareWalletGenericParams,
+  TGetAccountHardwareWalletGenericParams,
   THardwareWalletInfo,
   TIsConnectedAndUnlockedHardwareWalletGenericParams,
 } from '@shared/@types/ipc'
@@ -28,7 +28,7 @@ export class HardwareWalletGeneric {
     blockchain,
     lastIndexesByWallet,
   }: TConnectHardwareWalletGenericParams): Promise<Account<TBlockchainServiceKey>[]> {
-    let newAccounts: Account<TBlockchainServiceKey>[] = []
+    const newAccounts: Account<TBlockchainServiceKey>[] = []
 
     if (this.info) {
       throw new Error('You must disconnect the hardware wallet before connecting again')
@@ -54,12 +54,6 @@ export class HardwareWalletGeneric {
       throw new Error('Transport is open but it was not possible to identify the blockchain')
     }
 
-    // Get only neoLegacy transporter if it exists because NEO Ledger app also detect neo3
-    const newNeoLegacyAccounts = newAccounts.filter(account => account.blockchain === 'neoLegacy')
-    if (newNeoLegacyAccounts.length > 0) {
-      newAccounts = newNeoLegacyAccounts
-    }
-
     this.info = {
       accounts: newAccounts,
       transport,
@@ -68,7 +62,7 @@ export class HardwareWalletGeneric {
     return newAccounts
   }
 
-  static async addAccount({ blockchain, index }: TAddAccountHardwareWalletGenericParams) {
+  static async getAccounts({ blockchain, index }: TGetAccountHardwareWalletGenericParams) {
     if (!this.info) {
       throw new Error('Hardware wallet is not connected')
     }
@@ -80,22 +74,19 @@ export class HardwareWalletGeneric {
 
     const account = await service.ledgerService.getAccount(this.info.transport, index)
 
-    this.info.accounts.push(account)
+    return account
+  }
+
+  static async addAccount(params: TGetAccountHardwareWalletGenericParams) {
+    const account = await this.getAccounts(params)
+
+    this.info!.accounts.push(account)
 
     return account
   }
 
   static async isConnectedAndUnlocked({ blockchain }: TIsConnectedAndUnlockedHardwareWalletGenericParams) {
-    if (!this.info) {
-      throw new Error('Hardware wallet is not connected')
-    }
-
-    const service = bsAggregator.blockchainServicesByName[blockchain]
-    if (!hasLedger(service)) {
-      throw new Error('This service does not support Ledger')
-    }
-
-    const accountFromHardwareService = await service.ledgerService.getAccount(this.info.transport, 0)
+    const accountFromHardwareService = await this.getAccounts({ blockchain, index: 0 })
 
     return !!accountFromHardwareService
   }
@@ -107,6 +98,7 @@ export function registerHardwareWalletHandler() {
     HardwareWalletGeneric.isConnectedAndUnlocked(args)
   )
   mainApi.listenAsync('hardwareWallet:addAccount', ({ args }) => HardwareWalletGeneric.addAccount(args))
+  mainApi.listenAsync('hardwareWallet:getAccount', ({ args }) => HardwareWalletGeneric.getAccounts(args))
 
   Object.values(bsAggregator.blockchainServicesByName).forEach(service => {
     if (!hasLedger(service)) return

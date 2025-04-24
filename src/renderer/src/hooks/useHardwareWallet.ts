@@ -198,7 +198,7 @@ export const useHardwareWalletActions = () => {
         name: accountName || `Account ${accountOrder + 1}`,
       })
 
-      const firstAccount = await window.api.sendAsync('hardwareWallet:addAccount', { index: 0, blockchain })
+      const firstAccount = await window.api.sendAsync('hardwareWallet:getAccount', { index: 0, blockchain })
       dispatch(
         utilityReducerActions.saveLastIndexByWallet({
           firstAccountAddress: firstAccount.address,
