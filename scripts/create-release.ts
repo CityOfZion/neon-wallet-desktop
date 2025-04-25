@@ -1,5 +1,8 @@
 import { exec } from 'child_process'
+import { format } from 'date-fns'
+import fs from 'fs/promises'
 import inquirer from 'inquirer'
+import path from 'path'
 import { promisify } from 'util'
 
 import packageJson from '../package.json'
@@ -108,6 +111,39 @@ async function main() {
 
     newVersion = bumpedVersion
   } while (!newVersion)
+
+  if (!isReleaseCandidate) {
+    const { value } = await inquirer.prompt([
+      {
+        type: 'editor',
+        message: 'Enter the release notes',
+        name: 'value',
+        default: JSON.stringify(
+          {
+            version: newVersion,
+            date: format(new Date(), 'dd MMM yyyy'),
+            changes: [],
+            url: `https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v${newVersion}`,
+          },
+          null,
+          2
+        ),
+        postfix: '.json',
+      },
+    ])
+    const releaseNotes = JSON.parse(value)
+
+    const actualChangelog = await fs.readFile(path.join(__dirname, '../src/shared/locales/en/changelog.json'), 'utf-8')
+    const parsedChangelog = JSON.parse(actualChangelog)
+
+    parsedChangelog.notes.unshift(releaseNotes)
+
+    await fs.writeFile(
+      path.join(__dirname, '../src/shared/locales/en/changelog.json'),
+      JSON.stringify(parsedChangelog, null, 2),
+      'utf-8'
+    )
+  }
 
   await execAsync('git add .')
   await execAsync(`git commit -m "Bump version to ${newVersion}" --no-verify`)

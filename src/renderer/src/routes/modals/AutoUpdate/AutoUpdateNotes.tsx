@@ -2,7 +2,6 @@ import { useTranslation } from 'react-i18next'
 import { MdLaunch, MdOutlineAutoAwesome } from 'react-icons/md'
 import Markdown from 'react-markdown'
 import NeonWalletLogo from '@renderer/assets/images/neon-wallet-full.svg?react'
-import releaseNotes from '@renderer/assets/release-notes.json'
 import { Button } from '@renderer/components/Button'
 import { Link } from '@renderer/components/Link'
 import { Separator } from '@renderer/components/Separator'
@@ -13,11 +12,13 @@ import rehypeRaw from 'rehype-raw'
 
 import 'github-markdown-css/github-markdown.css'
 
-const latestRelease = releaseNotes[0]
-
 export const AutoUpdateNotes = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'autoUpdate.notes' })
+  const { t: changelogT } = useTranslation('changelog')
   const { modalNavigateWrapper } = useModalNavigate()
+
+  const releaseNotes = changelogT('notes', { returnObjects: true })
+  const latestRelease = releaseNotes[0]
 
   return (
     <CenterModalLayout contentClassName="flex flex-col w-full items-center justify-between">
@@ -29,16 +30,23 @@ export const AutoUpdateNotes = () => {
           <p className="text-sm text-white">{t('subtitle')}</p>
           <Separator className="mt-3" />
 
-          <div key={latestRelease.tag_name} className="my-7 overflow-auto min-h-0 ">
-            <span className="text-gray-300 block text-xs mb-1">{latestRelease.published_at}</span>
-            <span className="text-white block text-lg mb-2">{latestRelease.tag_name}</span>
+          <div key={latestRelease.version} className="my-7 overflow-auto min-h-0 w-full">
+            <span className="text-gray-300 block text-xs mb-1">{latestRelease.date}</span>
+            <span className="text-white block text-lg mb-2">
+              {changelogT('versionLabel', { version: latestRelease.version })}
+            </span>
+
             <ul>
-              <Markdown
-                className="markdown-body bg-transparent text-white font-sans text-xs"
-                rehypePlugins={[rehypeRaw]}
-              >
-                {latestRelease.body}
-              </Markdown>
+              {latestRelease.changes.map((item, index) => (
+                <li key={`changelog-item-${index}`} className="list-disc list-inside text-white">
+                  <Markdown
+                    className="markdown-body bg-transparent font-sans inline-block text-xs"
+                    rehypePlugins={[rehypeRaw]}
+                  >
+                    {item}
+                  </Markdown>
+                </li>
+              ))}
             </ul>
           </div>
         </div>

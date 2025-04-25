@@ -1,3 +1,4 @@
+import enChangelog from './changelog.json'
 import enCommon from './common.json'
 import enComponents from './components.json'
 import enHooks from './hooks.json'
@@ -12,4 +13,5 @@ export const enResources = {
   modals: enModals,
   hooks: enHooks,
   layouts: enLayouts,
+  changelog: enChangelog,
 }

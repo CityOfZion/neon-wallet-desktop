@@ -1,0 +1,122 @@
+{
+  "versionLabel": "Version v{{version}}",
+  "notes": [
+    {
+      "version": "3.6.0",
+      "date": "17 Apr 2025",
+      "changes": [
+        "New Native Migration (Legacy > N3)",
+        "Notifications Feature Initial Delivery (Migrate Now and Migration Completed)",
+        "FTW Pricing Data Integration",
+        "Hide Token Feature",
+        "Ledger Session UX Enhancement - Persist Account Indexes Across Sessions",
+        "Minor UX Enhancements",
+        "Minor Bugfixes"
+      ],
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.6.0"
+    },
+    {
+      "version": "3.5.0",
+      "date": "17 Feb 2025",
+      "changes": [
+        "Arbitrum Network Support",
+        "BASE Network Support",
+        "On-Ramp Feature Delivery",
+        "Off-Ramp Feature Delivery",
+        "Enhancements to Swap Request Screen",
+        "Minor bugfixes"
+      ],
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.5.0"
+    },
+    {
+      "version": "3.4.0",
+      "date": "23 Jan 2025",
+      "changes": [
+        "Polygon Network Support",
+        "Swap UI Enhancements",
+        "Max button for Send",
+        "Minor bugfixes"
+      ],
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.4.0"
+    },
+    {
+      "version": "3.3.0",
+      "date": "24 Dec 2024",
+      "changes": [
+        "Cross-chain Swap Feature Implementation",
+        "Offline Sync Compatibility with Neon Wallet Mobile by using Neon Backups",
+        "Enhancement to Skins Feature",
+        "Help Feature Initial Implementation",
+        "Minor bugfixes",
+        "Support to Neo Legacy Ledger"
+      ],
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.3.0"
+    },
+    {
+      "version": "3.2.0",
+      "date": "24 Oct 2024",
+      "changes": [
+        "New Login method: Login with Address or Key",
+        "Integration with new Flamingo API for enhanced pricing date",
+        "Ledger Multi-Account Support",
+        "Support for Neo X NFTs",
+        "Support for Multiple Transfers in the same Transaction",
+        "Support to selection of owned accounts as target of a transfer",
+        "Minor Bugfixes"
+      ],
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.2.0"
+    },
+    {
+      "version": "3.1.0",
+      "date": "20 Set 2024",
+      "changes": [
+        "Anonymous Login with Ledger",
+        "Revamped Ledger UX",
+        "Export Options (Private Keys and Mnemonics)",
+        "Reset App Feature",
+        "BETA Access to Linux Build",
+        "Refresh Blockchain Data Button",
+        "Enhancement to Neo X Transaction list - Link to XExplorer",
+        "Performance Enhancement when waking up NEON"
+      ],
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.1.0"
+    },
+    {
+      "version": "3.0.2",
+      "date": "16 Aug 2024",
+      "changes": [
+        "Ledger UX Enhancement",
+        "Wallet Connect Enhancement - Support to EIP-1559"
+      ],
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.0.2"
+    },
+    {
+      "version": "3.0.1",
+      "date": "13 Aug 2024",
+      "changes": [
+        "Wallet Connect Enhancement - New Ethereum methods being supported (eth_call, eth_sendRawTransaction, eth_requestAccounts)",
+        "Fix issue where if mnemonic has repeated words it was not being properly handled during confirmation",
+        "Fix issue with derivation index during import scan",
+        "Fix to Claim GAS visual bug when using Ledger",
+        "Fix to issue that was preventing users from sending assets with Ledger"
+      ],
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.0.1"
+    },
+    {
+      "version": "3.0.0",
+      "date": "13 Aug 2024",
+      "changes": [
+        "The new generation of Neon Wallet 3 has arrived, and our self-custodial wallet is better than ever! Since 2017, our mission is to deliver a smooth and enjoyable experience by combining the most modern technologies with an elegant and functional design. Our philosophy remains the same, but Neon certainly does not. Since its launch, it has undergone numerous improvements, and its third generation is here to show that it is ready for the new era of Web3. Here’s what’s new in this version:",
+        "Ethereum & Neo X support",
+        "New product design",
+        "Common Platform Code",
+        "Multi-Wallet Architecture",
+        "Enhanced Interface Customization",
+        "Global Login",
+        "Account Import Scanning",
+        "Improved WalletConnect Experience"
+      ],
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.0.0"
+    }
+  ]
+}
