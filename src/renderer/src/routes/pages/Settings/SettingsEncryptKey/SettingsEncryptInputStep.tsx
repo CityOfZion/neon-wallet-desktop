@@ -19,7 +19,7 @@ export const SettingsEncryptInputStep = ({ step, description, withLine = true, .
       <div className="flex gap-4">
         <div className="w-5 h-14 flex justify-center">{withLine && <div className="w-px h-full bg-gray-300" />}</div>
 
-        <Input {...props} compacted />
+        <Input {...props} aria-label={description} compacted />
       </div>
     </div>
   )
