@@ -2,6 +2,20 @@
   "versionLabel": "Version v{{version}}",
   "notes": [
     {
+      "version": "3.6.1",
+      "date": "30 Apr 2025",
+      "changes": [
+        "Fixed issue that caused Wallet Connect modals to remain open after a successful result",
+        "Fixed issue that caused ledger navigation to be slow while connected for migration",
+        "Improvement to message presented when importing a mnemonic returns no accounts",
+        "Improvement to message presented when migration check timesout",
+        "Improved approach to parsing swap option tickers returned by swap partner",
+        "Change default node for Polygon",
+        "Minor Bugfixes"
+      ],
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.6.1"
+    },
+    {
       "version": "3.6.0",
       "date": "17 Apr 2025",
       "changes": [
