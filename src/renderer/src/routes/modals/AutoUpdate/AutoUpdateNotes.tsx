@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next'
 import { MdLaunch, MdOutlineAutoAwesome } from 'react-icons/md'
-import Markdown from 'react-markdown'
 import NeonWalletLogo from '@renderer/assets/images/neon-wallet-full.svg?react'
 import { Button } from '@renderer/components/Button'
 import { Link } from '@renderer/components/Link'
@@ -8,7 +7,6 @@ import { Separator } from '@renderer/components/Separator'
 import { LATEST_RELEASE_URL } from '@renderer/constants/urls'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
-import rehypeRaw from 'rehype-raw'
 
 import 'github-markdown-css/github-markdown.css'
 
@@ -38,13 +36,8 @@ export const AutoUpdateNotes = () => {
 
             <ul>
               {latestRelease.changes.map((item, index) => (
-                <li key={`changelog-item-${index}`} className="list-disc list-inside text-white">
-                  <Markdown
-                    className="markdown-body bg-transparent font-sans inline-block text-xs"
-                    rehypePlugins={[rehypeRaw]}
-                  >
-                    {item}
-                  </Markdown>
+                <li key={`changelog-item-${index}`} className="list-disc list-inside text-gray-100 text-xs">
+                  {item}
                 </li>
               ))}
             </ul>
