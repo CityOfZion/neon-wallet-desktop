@@ -1,9 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { MdLaunch } from 'react-icons/md'
-import Markdown from 'react-markdown'
 import { Link } from '@renderer/components/Link'
 import { SettingsLayout } from '@renderer/layouts/Settings'
-import rehypeRaw from 'rehype-raw'
 
 import 'github-markdown-css/github-markdown.css'
 
@@ -25,13 +23,8 @@ export const SettingsReleaseNotesPage = () => {
 
             <ul>
               {item.changes.map((item, index) => (
-                <li key={`changelog-item-${index}`} className="list-disc list-inside text-white">
-                  <Markdown
-                    className="markdown-body bg-transparent font-sans inline-block text-xs"
-                    rehypePlugins={[rehypeRaw]}
-                  >
-                    {item}
-                  </Markdown>
+                <li key={`changelog-item-${index}`} className="list-disc list-inside text-gray-100 text-xs">
+                  {item}
                 </li>
               ))}
             </ul>
