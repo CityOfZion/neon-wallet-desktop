@@ -27,7 +27,7 @@ export const BlockchainNetworkAccordion = ({ blockchain }: TProps) => {
       <Accordion.Trigger>
         <div className="flex items-center gap-2.5">
           <div className="flex items-center justify-center w-4 h-4">
-            <BlockchainIcon blockchain={blockchain} type="blue" className="" />
+            <BlockchainIcon blockchain={blockchain} type="blue" />
           </div>
           <span className="text-white text-sm">{tCommon(blockchain)}</span>
         </div>

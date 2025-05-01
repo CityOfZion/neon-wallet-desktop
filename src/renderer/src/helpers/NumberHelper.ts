@@ -128,4 +128,8 @@ export class NumberHelper {
   static removeTrailingZero(value: string) {
     return value.replace(/(\.\d*?[1-9])0+$/g, '$1').replace(/\.0+$/, '')
   }
+
+  static isBiggerThanZero(value: string) {
+    return NumberHelper.number(value) > 0
+  }
 }

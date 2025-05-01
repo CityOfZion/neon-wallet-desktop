@@ -22,9 +22,12 @@ export const AccountOverview = () => {
   const blockchainService = bsAggregator.blockchainServicesByName[account.blockchain]
 
   return (
-    <AccountDetailsLayout title={t('title')} actions={account ? <CommonAccountActions account={account} /> : undefined}>
-      <div className="flex flex-col h-full items-center w-full justify-center">
-        <OverviewCharts balances={balances} account={account} balanceChartClassName="h-2/6">
+    <AccountDetailsLayout
+      heading={t('title')}
+      actions={account ? <CommonAccountActions account={account} /> : undefined}
+    >
+      <div className="flex flex-col flex-grow items-center w-full justify-center">
+        <OverviewCharts balances={balances} account={account}>
           {balances.exchangeTotal > 0 && isClaimable(blockchainService) && account.type !== 'watch' && (
             <ClaimGasBanner blockchainService={blockchainService} account={account} />
           )}

@@ -141,7 +141,6 @@ export const WelcomeImportWalletStep3Page = () => {
           navigate('/welcome-import-wallet/4', { state: { ...data, password: state.password } })
         },
       },
-      replace: true,
     })
   }
 

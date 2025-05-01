@@ -94,6 +94,7 @@ export default {
         '2xs': '0.5rem',
       },
       spacing: {
+        13: '3.25rem',
         15: '3.75rem',
         0.75: '0.1875rem',
         8.5: '2.125rem',

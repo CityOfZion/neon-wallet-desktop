@@ -41,7 +41,7 @@ export const CommonScreenActions = ({ children, className, ...props }: TProps) =
           fullHeight
           className="min-w-14"
           icon={
-            <div className="relative">
+            <div className="relative w-6 h-6">
               <TbBell className="w-6 h-6" aria-hidden />
 
               {hasNewNotifications && (

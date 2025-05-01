@@ -119,6 +119,7 @@ export const useUnclaimedMutation = () => {
 
       const serviceAccount = AccountHelper.getServiceAccount({ account, key })
       const transactionHash = await blockchainService.claim(serviceAccount)
+      const token = blockchainService.burnToken
 
       const transaction: TUseTransactionsTransfer = {
         hash: transactionHash,
@@ -130,8 +131,9 @@ export const useUnclaimedMutation = () => {
         amount: '0',
         to: account.address,
         from: account.address,
-        asset: blockchainService.burnToken.symbol,
-        assetHash: blockchainService.burnToken.hash,
+        asset: token.symbol,
+        assetHash: token.hash,
+        token,
         fromAccount: account,
       }
 

@@ -22,7 +22,7 @@ export const ChartCardList = ({ sortedBalances, className }: TProps) => {
   )
 
   return (
-    <div className={StyleHelper.mergeStyles('w-full', className)}>
+    <div className={StyleHelper.mergeStyles('w-full py-9', className)}>
       {priceHistories.isLoading ? (
         <Loader className="w-10 h-10" />
       ) : (

@@ -62,7 +62,8 @@
     "to": "ADDRESS",
     "viewButtonLabel": "View",
     "empty": "No transactions to display",
-    "doraError": "Dora does not support this blockchain"
+    "doraError": "Dora does not support this blockchain",
+    "formatDateHourMinutes": "MM/dd/yyyy HH:mm"
   },
   "balanceChart": {
     "othersTokens": "Others",
@@ -184,5 +185,44 @@
     "importButtonLabel": "Import",
     "newWalletButtonLabel": "New Wallet",
     "connectButtonLabel": "Connect"
+  },
+  "refreshAction": {
+    "refreshLabel": "Refresh",
+    "lastUpdated": "Last updated: {{ date }}",
+    "emptyDate": "--:--",
+    "dateFormat": "HH:mm"
+  },
+  "transactionActivityList": {
+    "dates": "Date from: {{ dateFrom }} | Date to: {{ dateTo }}",
+    "notFoundTitle": "No transactions to display",
+    "notFoundDescription": "Make a transaction and it'll appear here",
+    "item": {
+      "timeLabel": "Time",
+      "notificationCountLabel": "Notifications",
+      "invocationCountLabel": "Invocations",
+      "blockLabel": "Block: {{ block }}",
+      "networkFeeAmountLabel": "Network fee: {{ networkFeeAmount }}",
+      "systemFeeAmountLabel": "System fee: {{ systemFeeAmount }}",
+      "txIdLabel": "Tx ID",
+      "copyTxIdLabel": "Copy tx ID",
+      "pendingDataLabel": "Processing…",
+      "pendingTooltipLabel": "This transaction is processing, wait, please",
+      "formatHourMinutes": "HH:mm"
+    },
+    "event": {
+      "nftImageAltWithNameLabel": "NFT image: {{ name }}",
+      "nftImageAltLabel": "NFT image",
+      "columns": {
+        "fromLabel": "From",
+        "toLabel": "To",
+        "hashLabel": "Hash",
+        "methodNameLabel": "Method",
+        "tokenLabel": "Token",
+        "tokenIdLabel": "Token ID",
+        "amountLabel": "Amount",
+        "collectionNameLabel": "Collection",
+        "nameLabel": "Name"
+      }
+    }
   }
 }

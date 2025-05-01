@@ -40,8 +40,8 @@ export const TransactionsTable = forwardRef<HTMLDivElement, TTransactionListProp
     useImperativeHandle(ref, () => scrollRef.current!, [scrollRef])
 
     return (
-      <section
-        className="overflow-auto min-h-0 w-full flex flex-col flex-grow mt-4 text-xs min-w-0"
+      <div
+        className="overflow-y-auto overflow-x-hidden min-h-0 h-full w-full flex flex-col flex-grow mt-2 text-xs"
         ref={scrollRef}
         onScroll={handleScroll}
       >
@@ -92,7 +92,7 @@ export const TransactionsTable = forwardRef<HTMLDivElement, TTransactionListProp
               </Table.Body>
             </Table.Root>
           ))}
-      </section>
+      </div>
     )
   }
 )

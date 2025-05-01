@@ -13,7 +13,7 @@ export const ErrorModalContent = ({ error }: TProps) => {
 
       <div className="mt-8 flex flex-col gap-1 text-xs w-full ">
         <span className="font-bold  ">{t('errorModal.errorMessageLabel')}</span>
-        <p className=" bg-asphalt w-full p-2 rounded break-words whitespace-pre-wrap max-h-48 overflow-y-auto">
+        <p className="bg-asphalt w-full p-2 rounded break-words whitespace-pre-wrap max-h-48 overflow-y-auto">
           {error}
         </p>
       </div>

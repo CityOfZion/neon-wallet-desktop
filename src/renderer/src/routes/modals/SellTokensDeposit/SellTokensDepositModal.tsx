@@ -180,11 +180,14 @@ export const SellTokensDepositModal = () => {
         intents: [intent],
       })
 
+      const assetToken = token!.token
+
       const transaction: TUseTransactionsTransfer = {
         account: account!,
         amount,
-        asset: token!.token.symbol,
-        assetHash: token!.token.hash,
+        asset: assetToken.symbol,
+        assetHash: assetToken.hash,
+        token: assetToken,
         to: address,
         from: account!.address,
         hash: transactionHash,

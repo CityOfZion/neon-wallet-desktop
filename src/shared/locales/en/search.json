@@ -49,6 +49,22 @@
       "label": "View contacts"
     },
     {
+      "id": "allActivity",
+      "verbs": [
+        "view",
+        "list",
+        "transfer"
+      ],
+      "nonVerbs": [
+        "all",
+        "transaction",
+        "transactions",
+        "activity",
+        "activities"
+      ],
+      "label": "All activity (transactions)"
+    },
+    {
       "id": "swap",
       "verbs": [
         "swap",

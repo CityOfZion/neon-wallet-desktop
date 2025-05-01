@@ -61,13 +61,11 @@ export const BalanceChart = ({ balances, sortedBalances, className }: TProps) =>
   const exchangeTotalFormatted = NumberHelper.currency(balances.exchangeTotal, currency.label, { showZero: false })
 
   return (
-    <div className={StyleHelper.mergeStyles('w-full pt-7 pb-9', className)}>
-      <div className="w-full flex justify-end flex-grow">
-        <div className="flex gap-2 text-xl mr-2">
-          <span className="text-gray-300">{t('balance')}</span>
+    <div className={StyleHelper.mergeStyles('w-full py-9', className)}>
+      <div className="flex items-center gap-2 text-xl mr-2 w-full justify-end mb-9">
+        <span className="text-gray-300">{t('balance')}</span>
 
-          <span className=" text-white">{exchangeTotalFormatted}</span>
-        </div>
+        <span className="text-white">{exchangeTotalFormatted}</span>
       </div>
 
       <div className="w-full flex flex-col">

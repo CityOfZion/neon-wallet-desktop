@@ -50,15 +50,15 @@ export const OverviewCharts = ({
   }, [balances])
 
   return (
-    <div className="flex flex-col flex-grow justify-center w-full">
+    <div className="flex flex-col flex-grow w-full">
       {balances.isLoading ? (
-        <Loader className="w-10 h-10" />
+        <Loader className="w-10 h-10" containerClassName="mt-12" />
       ) : balances.exchangeTotal !== 0 ? (
         <Fragment key={account?.address}>
           <BalanceChart
             balances={balances}
             sortedBalances={sortedBalances}
-            className={StyleHelper.mergeStyles('h-2/5 flex flex-col justify-center', balanceChartClassName)}
+            className={StyleHelper.mergeStyles('flex flex-col', balanceChartClassName)}
           />
 
           {children}
@@ -67,7 +67,7 @@ export const OverviewCharts = ({
 
           <ChartCardList
             sortedBalances={sortedBalances}
-            className={StyleHelper.mergeStyles('flex-grow flex flex-col justify-center', chartCardListClassName)}
+            className={StyleHelper.mergeStyles('flex flex-col', chartCardListClassName)}
           />
         </Fragment>
       ) : (

@@ -69,9 +69,7 @@ export const CenterModalLayout = ({
         </header>
       )}
 
-      <main className={StyleHelper.mergeStyles('flex-grow px-9 pb-10 pt-2.5 min-h-0', contentClassName)}>
-        {children}
-      </main>
+      <main className={StyleHelper.mergeStyles('flex-grow px-9 pb-10 pt-2.5', contentClassName)}>{children}</main>
     </div>
   )
 }

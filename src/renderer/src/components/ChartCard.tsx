@@ -23,7 +23,7 @@ export const ChartCard = ({ priceHistory }: TProps) => {
   const { currency } = useCurrencySelector()
 
   return (
-    <div className="min-w-[200px] grow w-full h-[205px] flex flex-col bg-gray-900 rounded py-2 px-3 gap-y-1.5 text-xs overflow-hidden">
+    <div className="grow w-full h-[205px] flex flex-col bg-gray-900 rounded py-2 px-3 gap-y-1.5 text-xs overflow-hidden">
       <div className="flex items-center gap-x-2 mb-1.5">
         <div className="bg-gray-600 rounded-full w-6 h-6 flex items-center justify-center p-1.5">
           <BlockchainIcon blockchain={priceHistory.tokenBalance.blockchain} type="white" />
