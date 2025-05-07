@@ -1,24 +1,21 @@
-import { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdLooks3, MdLooks4, MdLooksOne, MdLooksTwo } from 'react-icons/md'
 import { TbPlus } from 'react-icons/tb'
 import { Separator } from '@renderer/components/Separator'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
-import { SideModalLayout } from './SideModal'
+import { SideModalLayout, TSideModalProps } from './SideModal'
 
-type TProps = {
-  contentClassName?: string
-  children?: ReactNode
-}
+type TProps = TSideModalProps
 
-export const CreateWalletModalLayout = ({ children, contentClassName }: TProps) => {
+export const CreateWalletModalLayout = ({ children, contentClassName, ...props }: TProps) => {
   const { t } = useTranslation('modals', { keyPrefix: 'createWallet' })
   return (
     <SideModalLayout
       heading={t('title')}
       headingIcon={<TbPlus className="text-neon" />}
       contentClassName="flex flex-col justify-between"
+      {...props}
     >
       <section className="w-full flex-grow flex flex-row min-h-0">
         <div className="min-w-[22rem] max-w-[22rem] border-r border-gray-300/30 pr-5 print:hidden">

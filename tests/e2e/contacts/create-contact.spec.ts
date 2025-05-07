@@ -11,7 +11,8 @@ test.describe('Create contact', () => {
     await createNewWallet(window)
 
     await window.getByTestId('sidebar-link-contacts').click()
-    await window.getByTestId('add-contact-action').click()
+    await window.getByTestId('more-button').click()
+    await window.getByTestId('add-contact-button').click()
 
     await window.getByTestId('input-contact-name').fill(contactName)
 
@@ -56,7 +57,8 @@ test.describe('Create contact', () => {
     await createNewWallet(window)
 
     await window.getByTestId('sidebar-link-contacts').click()
-    await window.getByTestId('add-contact-action').click()
+    await window.getByTestId('more-button').click()
+    await window.getByTestId('add-contact-button').click()
 
     await expect(window.getByTestId('not-found-contact-address')).toBeVisible()
     await expect(window.getByTestId('add-more-contact-button')).toBeDisabled()
@@ -71,7 +73,8 @@ test.describe('Create contact', () => {
     await createNewWallet(window)
 
     await window.getByTestId('sidebar-link-contacts').click()
-    await window.getByTestId('add-contact-action').click()
+    await window.getByTestId('more-button').click()
+    await window.getByTestId('add-contact-button').click()
 
     await window.getByTestId('input-contact-name').fill('Contact')
 

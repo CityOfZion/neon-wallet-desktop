@@ -60,7 +60,7 @@ const Text = ({ className, ...props }: TClickableProps) => {
   return (
     <Base
       className={StyleHelper.mergeStyles(
-        'flex min-w-0 justify-center items-center text-center gap-x-1.5 aria-[disabled=false]:hover:bg-gray-300/15 rounded transition-colors',
+        'flex min-w-0 justify-center items-center text-center gap-x-2.5 aria-[disabled=false]:hover:bg-gray-300/15 rounded transition-colors',
         className
       )}
       {...props}
@@ -84,7 +84,7 @@ const Card = ({ className, ...props }: TClickableProps) => {
   return (
     <Base
       className={StyleHelper.mergeStyles(
-        'flex min-w-0 justify-center items-center text-center py-3 gap-x-2.5 transition-colors rounded text-white',
+        'flex min-w-0 justify-center items-center text-center py-3 gap-x-2.5 transition-colors rounded',
         'aria-[disabled=true]:bg-gray-300/30 aria-[disabled=true]:text-gray-100/50 aria-[disabled=true]:opacity-100',
         'aria-[disabled=false]:bg-gray-300/15 aria-[disabled=false]:hover:bg-gray-300/30',
         className
@@ -133,7 +133,7 @@ const Base = ({
           'px-7': wide,
           'h-12 text-sm': !flat,
           'h-8.5 text-xs': flat,
-          'px-3': !flat && !wide,
+          'px-4': !flat && !wide,
           'px-2': flat && !wide,
           'text-neon': colorSchema === 'neon',
           'text-gray-200': colorSchema === 'gray',

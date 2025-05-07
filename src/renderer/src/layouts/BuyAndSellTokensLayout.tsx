@@ -70,7 +70,7 @@ export const BuyAndSellTokensLayout = ({
 
   return (
     <section
-      className={StyleHelper.mergeStyles('flex rounded bg-gray-700/60 flex-grow min-h-0', { hidden: hidden })}
+      className={StyleHelper.mergeStyles('flex rounded bg-gray-800 flex-grow min-h-0', { hidden: hidden })}
       {...props}
     >
       <div className="flex flex-col w-[27%] max-w-[22rem] bg-gray-900/50 px-4 border-r border-gray-300/15">

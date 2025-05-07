@@ -1,15 +1,13 @@
 import { Fragment, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdAdd, MdOutlineContentCopy } from 'react-icons/md'
-import { TbDotsVertical, TbFileExport, TbFileImport, TbPencil, TbRefresh, TbUpload } from 'react-icons/tb'
+import { TbDotsVertical, TbFileExport, TbPencil, TbRefresh, TbUpload } from 'react-icons/tb'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import { hasNft } from '@cityofzion/blockchain-service'
 import { ActionPopover } from '@renderer/components/ActionPopover'
 import { Button } from '@renderer/components/Button'
-import { ConnectHardwareWalletButton } from '@renderer/components/ConnectHardwareWalletButton'
-import { HelpButton } from '@renderer/components/HelpButton'
+import { CommonScreenActions } from '@renderer/components/CommonScreenActions'
 import { IconButton } from '@renderer/components/IconButton'
-import { NotificationsButton } from '@renderer/components/NotificationsButton'
 import { Separator } from '@renderer/components/Separator'
 import { SidebarMenuButton } from '@renderer/components/SidebarMenuButton'
 import { StringHelper } from '@renderer/helpers/StringHelper'
@@ -18,7 +16,6 @@ import { TestHelper } from '@renderer/helpers/TestHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { useAccountsSelector, useHasHardwareAccountSelector } from '@renderer/hooks/useAccountSelector'
-import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useLastUpdated, useRefetch } from '@renderer/hooks/useQuery'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
@@ -40,7 +37,6 @@ export const WalletsPage = () => {
   const { wallets } = useWalletsSelector()
   const { accounts } = useAccountsSelector()
   const { hasHardwareAccount } = useHasHardwareAccountSelector()
-  const { currentLoginSession } = useCurrentLoginSessionSelector()
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
   const navigate = useNavigate()
   const { id } = useParams<TParams>()
@@ -53,7 +49,6 @@ export const WalletsPage = () => {
     accounts.find(account => account.idWallet === selectedWallet?.id)
   )
 
-  const isPasswordLogin = currentLoginSession?.type === 'password'
   const service = selectedAccount ? bsAggregator.blockchainServicesByName[selectedAccount.blockchain] : undefined
 
   const handleSelectAccount = (selected: IAccountState) => {
@@ -135,43 +130,27 @@ export const WalletsPage = () => {
         </div>
       }
       rightComponent={
-        <div className="flex gap-x-2">
-          <NotificationsButton />
-
-          <IconButton
-            icon={<TbPencil />}
-            size="md"
-            text={t('editWalletButtonLabel')}
+        <CommonScreenActions>
+          <ActionPopover.Item
+            actionPopoverItemType="button"
+            leftIcon={<TbPencil aria-hidden className="text-neon" />}
+            label={t('editWalletButtonLabel')}
             onClick={modalNavigateWrapper('edit-wallet', { state: { wallet: selectedWallet } })}
+            colorSchema="white"
           />
-          <IconButton
-            icon={<MdAdd />}
-            size="md"
-            text={t('newWalletButtonLabel')}
-            onClick={modalNavigateWrapper('create-wallet-step-1')}
-            disabled={!isPasswordLogin}
-          />
-          <IconButton
-            icon={<TbFileImport />}
-            size="md"
-            text={t('importButtonLabel')}
-            onClick={modalNavigateWrapper('import')}
-          />
+
+          <ActionPopover.Separator />
 
           {selectedWallet?.type === 'standard' && selectedWallet?.encryptedMnemonic && (
-            <IconButton
-              icon={<TbFileExport />}
-              size="md"
-              text={t('exportButtonLabel')}
+            <ActionPopover.Item
+              actionPopoverItemType="button"
+              leftIcon={<TbFileExport aria-hidden className="text-neon" />}
+              label={t('exportButtonLabel')}
+              colorSchema="white"
               onClick={handleExportMnemonic}
-              disabled={!isPasswordLogin}
             />
           )}
-
-          <ConnectHardwareWalletButton />
-
-          <HelpButton />
-        </div>
+        </CommonScreenActions>
       }
       contentClassName="flex-row gap-x-3"
       {...TestHelper.buildTestObject('wallets-screen')}

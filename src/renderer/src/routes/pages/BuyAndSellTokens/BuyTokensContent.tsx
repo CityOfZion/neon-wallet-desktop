@@ -96,7 +96,7 @@ export const BuyTokensContent = ({ hidden, account, setScreenType, ...props }: T
           textClassName="font-normal"
           colorSchema={isIframeLoading ? 'gray' : 'neon'}
           disabled={isIframeLoading}
-          leftIcon={<MdRestartAlt aria-hidden={true} className="w-5 h-5 min-w-5 min-h-5" />}
+          leftIcon={<MdRestartAlt aria-hidden={true} />}
           onClick={handleRestart}
         />
       }

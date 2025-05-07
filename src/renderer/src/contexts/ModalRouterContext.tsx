@@ -50,10 +50,7 @@ export const ModalRouterProvider = ({ routes, children }: TModalRouterProviderPr
           }
 
           if (options?.replace) {
-            const lastTypeItem = prevState.findLastIndex(item => item.route.type === routeExist.type)
-            if (lastTypeItem >= 0) {
-              return prevState.map((item, index) => (index === lastTypeItem ? newHistory : item))
-            }
+            return prevState.map((item, index, array) => (index === array.length - 1 ? newHistory : item))
           }
 
           return [...prevState, newHistory]

@@ -60,11 +60,11 @@ export const CenterModalLayout = ({
           )}
 
           <IconButton
-            icon={<MdClose aria-hidden={true} className="fill-white" />}
+            icon={<MdClose aria-hidden={true} className="text-gray-100" />}
             size="md"
             compacted
             onClick={handleClose}
-            {...TestHelper.buildTestObject('center-modal-close')}
+            {...TestHelper.buildTestObject('center-modal-close-button')}
           />
         </header>
       )}

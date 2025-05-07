@@ -14,6 +14,7 @@ export type TImageSize = {
 
 type TRemoveSpecialCharacterOptions = {
   allowSpaces?: boolean
+  allowDots?: boolean
   trimText?: boolean
 }
 
@@ -210,7 +211,16 @@ export class UtilsHelper {
 
   static removeSpecialCharacters(text: string, options?: TRemoveSpecialCharacterOptions) {
     options = { allowSpaces: true, trimText: false, ...options }
-    text = text.replace(options.allowSpaces ? /[^a-zA-Z0-9 ]/g : /[^a-zA-Z0-9]/g, '')
+
+    let regex = 'a-zA-Z0-9'
+    if (options.allowDots) {
+      regex += '.'
+    }
+
+    if (options.allowSpaces) {
+      regex += ' '
+    }
+    text = text.replace(new RegExp(`[^${regex}]`, 'g'), '')
 
     if (options.trimText) text = text.trim()
 

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react'
+import { useHotkeys } from 'react-hotkeys-hook'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { hasNft } from '@cityofzion/blockchain-service'
@@ -290,10 +291,30 @@ const useMigrationNeo3Notification = () => {
   }, [balanceQuery.data, balanceQuery.isLoading, dispatch, t, unreadNotificationsRef])
 }
 
+const useRegisterHotKeys = () => {
+  const { modalNavigate } = useModalNavigate()
+  const { historiesRef } = useModalHistories()
+
+  useHotkeys(
+    'ctrl+k',
+    () => {
+      const lastHistory = historiesRef.current.slice(-1)[0]
+      if (lastHistory?.route.name === 'search') {
+        modalNavigate(-1)
+        return
+      }
+
+      modalNavigate('search')
+    },
+    { enableOnFormTags: true }
+  )
+}
+
 export const useAfterLogin = () => {
   useMigrationNeo3Notification()
   useRegisterWalletConnectListeners()
   useRegisterHardwareWalletListeners()
   useRegisterDeeplinkListeners()
   useUnlockSkins()
+  useRegisterHotKeys()
 }

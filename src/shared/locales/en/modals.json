@@ -217,6 +217,7 @@
     "buttonContinueLabel": "Import"
   },
   "selectAccount": {
+    "title": "Select account",
     "yourAccounts": "Your accounts:",
     "placeholder": "Select a wallet...",
     "noAccounts": "No accounts"
@@ -749,6 +750,18 @@
     "description": "Claim your {{tokenSymbol}} in the Account Overview screen, and try again.",
     "buttons": {
       "understood": "I understand"
+    }
+  },
+  "search": {
+    "title": "Search Neon",
+    "closeButtonLabel": "Close",
+    "inputPlaceholder": "Enter your search…",
+    "idleResultDescription": "Looking for something?",
+    "emptyResultDescription": "Nothing found!",
+    "resultDescription": "You may be interested in these topics:",
+    "errors": {
+      "noFunction": "There is no action available for this item. Please, contact our support.",
+      "errorToExecute": "There was an error trying to execute the action. Please, contact our support."
     }
   }
 }

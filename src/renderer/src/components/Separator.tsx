@@ -3,12 +3,31 @@ import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 type TProps = ComponentProps<'div'> & {
   containerClassName?: string
+  type?: 'vertical' | 'horizontal'
 }
 
-export const Separator = ({ className, containerClassName, ...props }: TProps) => {
+export const Separator = ({ className, containerClassName, type = 'horizontal', ...props }: TProps) => {
   return (
-    <div className={StyleHelper.mergeStyles('w-full', containerClassName)}>
-      <div className={StyleHelper.mergeStyles('w-full h-px bg-gray-300/15 min-h-[0.0625rem]', className)} {...props} />
+    <div
+      className={StyleHelper.mergeStyles(
+        {
+          'w-full': type === 'horizontal',
+          'h-full': type === 'vertical',
+        },
+        containerClassName
+      )}
+    >
+      {type === 'horizontal' ? (
+        <div
+          className={StyleHelper.mergeStyles('w-full h-px bg-gray-300/15 min-h-[0.0625rem]', className)}
+          {...props}
+        />
+      ) : (
+        <div
+          className={StyleHelper.mergeStyles('h-full w-px bg-gray-300/15 min-w-[0.0625rem]', className)}
+          {...props}
+        />
+      )}
     </div>
   )
 }

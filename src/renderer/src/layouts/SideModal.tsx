@@ -12,7 +12,15 @@ export type TSideModalProps = {
   onClose?: () => void
 } & ComponentProps<'div'>
 
-export const SideModalLayout = ({ children, heading, headingIcon, contentClassName, onClose }: TSideModalProps) => {
+export const SideModalLayout = ({
+  children,
+  heading,
+  headingIcon,
+  contentClassName,
+  onClose,
+  className,
+  ...props
+}: TSideModalProps) => {
   const { modalNavigateWrapper, modalEraseWrapper } = useModalNavigate()
   const { histories } = useModalHistories()
 
@@ -21,7 +29,10 @@ export const SideModalLayout = ({ children, heading, headingIcon, contentClassNa
   }, [histories])
 
   return (
-    <div className="bg-gray-800 h-full text-white text-xs flex flex-col">
+    <div
+      className={StyleHelper.mergeStyles('bg-gray-800 h-full text-white text-xs flex flex-col', className)}
+      {...props}
+    >
       <header className="flex flex-col px-4">
         <div className="flex justify-between py-2.5 items-center">
           {withBackButton && (

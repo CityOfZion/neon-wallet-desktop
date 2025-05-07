@@ -525,7 +525,7 @@ export const SwapPageContent = ({ account }: TProps) => {
   }, [])
 
   return (
-    <section className="flex rounded bg-gray-700/60 flex-grow min-h-0">
+    <section className="flex rounded bg-gray-800 flex-grow min-h-0">
       <div className="flex flex-col w-72 bg-gray-900/50 px-4 border-r border-gray-300/15">
         <div className="flex gap-2.5 items-center">
           <MdInfoOutline className="w-6 h-6 text-green" />
@@ -544,15 +544,15 @@ export const SwapPageContent = ({ account }: TProps) => {
       </div>
 
       <div className="min-h-0 flex-grow flex flex-col px-4 text-sm items-center">
-        <div className="w-full flex items-center justify-between gap-2">
-          <h2 className="text-white w-full my-3 text-sm">{t('form.title')}</h2>
+        <div className="w-full flex items-center justify-between gap-2 py-3">
+          <h2 className="text-white w-full text-sm">{t('form.title')}</h2>
 
           <Button
             label={t('form.restart')}
             variant="text-slim"
             colorSchema={isRestartDisabled ? 'gray' : 'neon'}
             disabled={isRestartDisabled}
-            leftIcon={<MdRestartAlt aria-hidden={true} className="w-5 h-5 min-w-5 min-h-5" />}
+            leftIcon={<MdRestartAlt aria-hidden={true} />}
             onClick={initializeOrRestartSwapService}
           />
         </div>
@@ -655,7 +655,7 @@ export const SwapPageContent = ({ account }: TProps) => {
                     actionsClassName="gap-x-1"
                     placeholder={t('form.addressToReceivePlaceholder')}
                     clearable={false}
-                    buttons={
+                    rightElement={
                       <Fragment>
                         <IconButton
                           aria-label={tCommonGeneral('pasteFromClipboard')}
