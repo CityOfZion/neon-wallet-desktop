@@ -1,0 +1,169 @@
+{
+  "actions": [
+    {
+      "id": "transfer",
+      "nonVerbs": [
+        "token"
+      ],
+      "verbs": [
+        "transfer",
+        "send"
+      ],
+      "label": "Transfer tokens"
+    },
+    {
+      "id": "connect",
+      "verbs": [
+        "connect",
+        "create",
+        "pair"
+      ],
+      "nonVerbs": [
+        "link",
+        "connection",
+        "wc",
+        "dapp"
+      ],
+      "label": "Create connection"
+    },
+    {
+      "id": "createContact",
+      "verbs": [
+        "add",
+        "create"
+      ],
+      "nonVerbs": [
+        "contact"
+      ],
+      "label": "Create contact"
+    },
+    {
+      "id": "viewContacts",
+      "verbs": [
+        "list",
+        "view"
+      ],
+      "nonVerbs": [
+        "contact"
+      ],
+      "label": "View contacts"
+    },
+    {
+      "id": "swap",
+      "verbs": [
+        "swap",
+        "exchange",
+        "trade"
+      ],
+      "nonVerbs": [
+        "token"
+      ],
+      "label": "Swap tokens"
+    },
+    {
+      "id": "buy",
+      "verbs": [
+        "buy",
+        "purchase",
+        "acquire"
+      ],
+      "nonVerbs": [
+        "token"
+      ],
+      "label": "Buy tokens"
+    },
+    {
+      "id": "sell",
+      "verbs": [
+        "sell",
+        "trade",
+        "liquidate"
+      ],
+      "nonVerbs": [
+        "token"
+      ],
+      "label": "Sell tokens"
+    },
+    {
+      "id": "createWallet",
+      "verbs": [
+        "create",
+        "generate"
+      ],
+      "nonVerbs": [
+        "wallet"
+      ],
+      "label": "Create wallet"
+    },
+    {
+      "id": "encrypt",
+      "verbs": [
+        "secure",
+        "lock",
+        "encrypt"
+      ],
+      "nonVerbs": [
+        "key"
+      ],
+      "label": "Encrypt key"
+    },
+    {
+      "id": "createBackup",
+      "verbs": [
+        "save",
+        "export",
+        "secure"
+      ],
+      "nonVerbs": [
+        "backup"
+      ],
+      "label": "Create backup"
+    },
+    {
+      "id": "import",
+      "verbs": [
+        "restore",
+        "recover",
+        "import",
+        "restore",
+        "load",
+        "add",
+        "create"
+      ],
+      "nonVerbs": [
+        "wallet",
+        "account",
+        "address",
+        "key"
+      ],
+      "label": "Import wallet/account"
+    },
+    {
+      "id": "restoreBackup",
+      "verbs": [
+        "restore",
+        "recover",
+        "import",
+        "restore",
+        "load"
+      ],
+      "nonVerbs": [
+        "backup"
+      ],
+      "label": "Restore backup"
+    },
+    {
+      "id": "connectHardwareWallet",
+      "verbs": [
+        "connect",
+        "pair"
+      ],
+      "nonVerbs": [
+        "hardware",
+        "usb",
+        "ledger"
+      ],
+      "label": "Connect hardware wallet"
+    }
+  ]
+}

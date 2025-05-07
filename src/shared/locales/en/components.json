@@ -163,12 +163,6 @@
   "transactionFeeActionStep": {
     "title": "Transaction Fee"
   },
-  "helpButton": {
-    "text": "Help",
-    "list": {
-      "chatWithUs": "Chat with us"
-    }
-  },
   "connectHardwareWalletButton": {
     "connect": "Connect"
   },
@@ -181,8 +175,14 @@
       "error": "Error executing this action"
     }
   },
-  "notificationsButton": {
-    "label": "Alerts",
-    "unreadNotifications": "You have unread notifications"
+  "commonScreenActions": {
+    "searchButtonLabel": "Search…",
+    "notificationButtonLabel": "Alerts",
+    "unreadNotificationsIconLabel": "You have unread notifications",
+    "helpButtonLabel": "Help",
+    "chatWithUsButtonLabel": "Chat with us",
+    "importButtonLabel": "Import",
+    "newWalletButtonLabel": "New Wallet",
+    "connectButtonLabel": "Connect"
   }
 }

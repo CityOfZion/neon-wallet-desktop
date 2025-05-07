@@ -12,10 +12,9 @@ import { ActionCard } from '@renderer/components/ActionCard'
 import { ActionStep } from '@renderer/components/ActionStep'
 import { ActionStepSeparator } from '@renderer/components/ActionStepSeparator'
 import { Button } from '@renderer/components/Button'
-import { HelpButton } from '@renderer/components/HelpButton'
+import { CommonScreenActions } from '@renderer/components/CommonScreenActions'
 import { IconButton } from '@renderer/components/IconButton'
 import { Loader } from '@renderer/components/Loader'
-import { NotificationsButton } from '@renderer/components/NotificationsButton'
 import { Separator } from '@renderer/components/Separator'
 import {
   NEO_LEGACY_GAS_TOKEN,
@@ -246,15 +245,9 @@ export const MigrationNeo3Page = () => {
     <ContentLayout
       title={t('title')}
       titleIcon={<TbArrowsExchange aria-hidden={true} />}
-      rightComponent={
-        <div className="flex gap-x-2">
-          <NotificationsButton />
-
-          <HelpButton />
-        </div>
-      }
+      rightComponent={<CommonScreenActions />}
     >
-      <section className="flex rounded bg-gray-700/60 flex-grow min-h-0">
+      <section className="flex rounded bg-gray-800 flex-grow min-h-0">
         <MigrationNeo3SideBar />
 
         <div className="min-h-0 flex-grow flex flex-col px-4 items-center">

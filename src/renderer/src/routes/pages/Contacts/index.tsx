@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbPencil, TbPlus } from 'react-icons/tb'
+import { ActionPopover } from '@renderer/components/ActionPopover'
 import { Button } from '@renderer/components/Button'
+import { CommonScreenActions } from '@renderer/components/CommonScreenActions'
 import { ContactAddressTable } from '@renderer/components/ContactAddressTable'
 import { ContactList } from '@renderer/components/ContactList'
-import { HelpButton } from '@renderer/components/HelpButton'
-import { IconButton } from '@renderer/components/IconButton'
-import { NotificationsButton } from '@renderer/components/NotificationsButton'
 import { Separator } from '@renderer/components/Separator'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
@@ -34,20 +33,18 @@ export const ContactsPage = () => {
     <MainLayout
       heading={t('title')}
       rightComponent={
-        <div className="flex gap-x-2">
-          <NotificationsButton />
-
-          <IconButton
-            icon={<TbPlus className="text-neon" />}
-            size="md"
-            className="text-neon"
-            text={t('buttonAddContactLabel')}
+        <CommonScreenActions>
+          <ActionPopover.Item
+            actionPopoverItemType="button"
+            leftIcon={<TbPlus aria-hidden className="text-neon" />}
+            label={t('buttonAddContactLabel')}
             onClick={modalNavigateWrapper('persist-contact')}
-            {...TestHelper.buildTestObject('add-contact-action')}
+            colorSchema="white"
+            {...TestHelper.buildTestObject('add-contact-button')}
           />
 
-          <HelpButton />
-        </div>
+          <ActionPopover.Separator />
+        </CommonScreenActions>
       }
     >
       <section className="bg-gray-800 w-full h-full flex rounded">
@@ -68,6 +65,7 @@ export const ContactsPage = () => {
                 {...TestHelper.buildTestObject('contact-name-title')}
               >
                 {StringHelper.truncateStringMiddle(selectedContact.name, 70)}
+
                 <Button
                   leftIcon={<TbPencil className="text-neon" />}
                   label={commonGeneral('edit')}

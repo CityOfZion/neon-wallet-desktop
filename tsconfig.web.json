@@ -17,6 +17,8 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "strict": true,
     "paths": {
       "@renderer/*": [

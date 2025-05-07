@@ -49,6 +49,7 @@ import { PersistAccountModal } from './modals/PersistAccount'
 import { PersistContactModal } from './modals/PersistContact'
 import { DeleteModal } from './modals/PersistContact/DeleteModal'
 import { PrepareHardwareWalletMigrationNeo3Modal } from './modals/PrepareHardwareWalletMigrationNeo3'
+import { SearchModal } from './modals/Search'
 import { SelectAccountModal } from './modals/SelectAccount'
 import { SelectContact } from './modals/SelectContact'
 import { SellTokensDepositModal } from './modals/SellTokensDeposit/SellTokensDepositModal'
@@ -135,4 +136,5 @@ export const modalsRouter: TRoute[] = [
   },
   { name: 'migration-neo3-status', type: 'side', size: 'md', element: <MigrationNeo3StatusModal /> },
   { name: 'migration-neo3-claim-alert', type: 'center', size: 'xs', element: <MigrationNeo3ClaimAlertModal /> },
+  { name: 'search', type: 'center', size: 'sm', element: <SearchModal /> },
 ]

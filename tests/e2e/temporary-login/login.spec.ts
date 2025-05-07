@@ -70,7 +70,11 @@ test.describe('Temporary Login', () => {
 
     await loginWithKey(window, address)
 
-    await expect(window.getByTestId('portfolio-new-wallet-button')).toBeDisabled()
+    const moreButton = window.getByTestId('more-button')
+    await expect(moreButton).toBeVisible()
+    await moreButton.click()
+
+    await expect(window.getByTestId('new-wallet-button')).toBeDisabled()
 
     await window.getByTestId('sidebar-settings').click()
 

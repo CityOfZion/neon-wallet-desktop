@@ -24,6 +24,8 @@ type TLocationState = {
 
 export const SelectAccountModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'selectAccount' })
+  const { t: tCommon } = useTranslation('common')
+
   const { onSelectAccount, leftIcon, title, buttonLabel, blockchain } = useModalState<TLocationState>()
   const { modalNavigate } = useModalNavigate()
   const { accounts } = useAccountsSelector()
@@ -76,7 +78,7 @@ export const SelectAccountModal = () => {
   }
 
   return (
-    <SideModalLayout heading={title} headingIcon={leftIcon} contentClassName="flex flex-col min-h-0">
+    <SideModalLayout heading={title ?? t('title')} headingIcon={leftIcon} contentClassName="flex flex-col min-h-0">
       <Select.Root value={selectedWallet?.id} onValueChange={handleSelectWallet}>
         <Select.Trigger
           className={StyleHelper.mergeStyles('bg-asphalt', {
@@ -147,7 +149,7 @@ export const SelectAccountModal = () => {
           <Button
             className="w-full px-5"
             type="submit"
-            label={buttonLabel}
+            label={buttonLabel ?? tCommon('general.next')}
             disabled={!selectedAccount}
             onClick={handleSelectFinish}
           />

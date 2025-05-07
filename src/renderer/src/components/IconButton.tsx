@@ -5,12 +5,13 @@ type TProps = {
   icon: JSX.Element
   text?: string
   size?: 'xs' | 'sm' | 'md'
+  fullHeight?: boolean
   compacted?: boolean
   colorSchema?: 'neon' | 'gray' | 'white' | 'yellow' | 'error'
 } & ComponentProps<'button'>
 
 export const IconButton = forwardRef<HTMLButtonElement, TProps>(
-  ({ text, icon, size = 'xs', compacted, colorSchema = 'gray', ...props }, ref) => {
+  ({ text, icon, size = 'xs', fullHeight, compacted, colorSchema = 'gray', ...props }, ref) => {
     const { className: iconClassName, ...iconProps } = icon.props
 
     return (
@@ -18,7 +19,7 @@ export const IconButton = forwardRef<HTMLButtonElement, TProps>(
         ref={ref}
         {...props}
         className={StyleHelper.mergeStyles(
-          'flex flex-col h-fit  justify-center items-center disabled:cursor-not-allowed disabled:opacity-50 flex-grow-0 rounded transition-colors hover:enabled:bg-gray-300/15 aria-selected:bg-gray-300/15 aria-selected:hover:bg-gray-300/30 aria-expanded:bg-gray-300/15 aria-expanded:hover:bg-gray-300/30',
+          'flex flex-col h-fit justify-center items-center disabled:cursor-not-allowed disabled:opacity-50 flex-grow-0 rounded transition-colors hover:enabled:bg-gray-300/15 aria-selected:bg-gray-300/15 aria-selected:hover:bg-gray-300/30 aria-expanded:bg-gray-300/15 aria-expanded:hover:bg-gray-300/30',
           {
             'py-1 px-2 gap-y-0.5': (size === 'sm' || size === 'xs') && !compacted,
             'p-1 gap-y-0.5': (size === 'sm' || size === 'xs') && compacted,
@@ -29,6 +30,7 @@ export const IconButton = forwardRef<HTMLButtonElement, TProps>(
             'text-white': colorSchema === 'white',
             'text-yellow': colorSchema === 'yellow',
             'text-pink': colorSchema === 'error',
+            'h-full rounded-none': fullHeight,
           },
           props.className
         )}

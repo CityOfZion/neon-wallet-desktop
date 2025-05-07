@@ -10,17 +10,18 @@ test.describe('Focus lock', () => {
     await createNewWallet(window)
 
     await window.getByTestId('sidebar-link-wallets').click()
-    await window.getByTestId('connect-hardware-wallet').click()
+    await window.getByTestId('more-button').click()
+    await window.getByTestId('connect-hardware-wallet-button').click()
 
     await window.press('html', 'Tab')
-    await window.press('html', 'Tab')
-    await window.press('html', 'Tab')
-    await window.press('html', 'Tab')
+    await window.waitForTimeout(1000)
 
     const focusedElement = await window.evaluateHandle(() => document.activeElement)
+    const testId = await focusedElement.evaluate(
+      (element, testIdAttribute) => element?.getAttribute(testIdAttribute),
+      playwrightConfig.use!.testIdAttribute!
+    )
 
-    await expect(await focusedElement.getAttribute(playwrightConfig.use.testIdAttribute)).toBe('center-modal-close')
-
-    await window.close()
+    expect(testId).toBe('center-modal-close-button')
   })
 })

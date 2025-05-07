@@ -46,7 +46,7 @@ export const AddAddressModal = () => {
   })
 
   const handleChange = ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
-    const fixedValue = UtilsHelper.removeSpecialCharacters(value, { allowSpaces: false })
+    const fixedValue = UtilsHelper.removeSpecialCharacters(value, { allowSpaces: false, allowDots: true })
     setData({ address: fixedValue })
     validateAddressOrNS(fixedValue, actionData.blockchain)
   }

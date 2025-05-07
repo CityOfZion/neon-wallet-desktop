@@ -56,7 +56,8 @@ export const createContact = async (
   { contactName = 'My contact', address = ADDRESSES[0], blockchainName = 'Neo N3' }: TCreateContact = {}
 ) => {
   await window.getByTestId('sidebar-link-contacts').click()
-  await window.getByTestId('add-contact-action').click()
+  await window.getByTestId('more-button').click()
+  await window.getByTestId('add-contact-button').click()
 
   await window.getByTestId('input-contact-name').fill(contactName)
 

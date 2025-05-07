@@ -79,9 +79,6 @@
     "overview": "Overview",
     "allActivity": "All activity",
     "allConnections": "All connections",
-    "importButtonLabel": "Import",
-    "newWalletButtonLabel": "New Wallet",
-    "exportButtonLabel": "Export",
     "portfolioActivity": {
       "allActivity": "All activity",
       "walletsAndAccounts": "{{wallets}} Wallets / {{accounts}} Accounts",

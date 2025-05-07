@@ -7,6 +7,7 @@ import { generateMnemonic } from '@cityofzion/bs-asteroid-sdk'
 import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'
+import { TestHelper } from '@renderer/helpers/TestHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { CreateWalletModalLayout } from '@renderer/layouts/CreateWalletModalLayout'
@@ -23,7 +24,7 @@ export const CreateWalletStep1Modal = () => {
   }, [])
 
   return (
-    <CreateWalletModalLayout>
+    <CreateWalletModalLayout {...TestHelper.buildTestObject('create-wallet-step1-modal')}>
       <header className="flex justify-between items-center py-2.5 print:hidden">
         <div className="flex items-center gap-x-2.5">
           <MdLooksOne className="text-blue h-4.5 w-4.5" />

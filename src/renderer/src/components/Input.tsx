@@ -23,10 +23,10 @@ export type TInputProps = Omit<React.ComponentProps<'input'>, 'type' | 'ref'> & 
   pastable?: boolean
   type?: 'text' | 'password' | 'number'
   leftIcon?: JSX.Element
+  rightElement?: JSX.Element
   loading?: boolean
   label?: string
   testId?: string
-  buttons?: JSX.Element
 }
 
 export const Input = forwardRef<HTMLInputElement, TInputProps>(
@@ -49,7 +49,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
       loading,
       label,
       testId,
-      buttons,
+      rightElement,
       ...props
     },
     ref
@@ -168,7 +168,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
             />
           </FieldActionsMenu>
 
-          {(loading || isTypePassword || pastable || copyable || clearable || buttons) && (
+          {(loading || isTypePassword || pastable || copyable || clearable || rightElement) && (
             <div className={StyleHelper.mergeStyles('flex items-center gap-x-2', actionsClassName)}>
               {loading && <Loader className="w-4 h-4 mr-1" />}
 
@@ -215,7 +215,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
                 />
               )}
 
-              {buttons}
+              {rightElement}
             </div>
           )}
         </div>
