@@ -72,7 +72,8 @@ export const SendRecipient = ({
   const isAmountDisabled = isDisabled || !recipient.token || !recipient.address
 
   const handleChangeAddress = (event: ChangeEvent<HTMLInputElement>) => {
-    const address = UtilsHelper.removeSpecialCharacters(event.target.value, { allowSpaces: false })
+    const address = UtilsHelper.removeSpecialCharacters(event.target.value, { allowSpaces: false, allowDots: true })
+
     onUpdateRecipient({ addressInput: address, address: undefined })
   }
 
