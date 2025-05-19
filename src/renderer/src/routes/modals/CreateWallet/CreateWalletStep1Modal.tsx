@@ -27,19 +27,21 @@ export const CreateWalletStep1Modal = () => {
     <CreateWalletModalLayout {...TestHelper.buildTestObject('create-wallet-step1-modal')}>
       <header className="flex justify-between items-center py-2.5 print:hidden">
         <div className="flex items-center gap-x-2.5">
-          <MdLooksOne className="text-blue h-4.5 w-4.5" />
+          <MdLooksOne aria-hidden={true} className="text-blue h-4.5 w-4.5" />
           <h2 className="text-sm">{t('title')}</h2>
         </div>
         <div className="text-blue text-sm">{t('step1of4')}</div>
       </header>
+
       <Separator className="min-h-[0.0625rem] mb-9" />
+
       <div className="flex flex-col items-center w-full h-[84%] justify-between">
         <div className="flex flex-col w-full gap-6" ref={ref}>
           <div className="text-gray-100 text-xs print:hidden">{t('description')}</div>
-          <div className="min-h-[6rem] rounded bg-asphalt mx-5 gap-x-2.5 flex flex-wrap py-5 px-10 justify-center">
-            {words.map(word => (
+          <div className="min-h-[6rem] rounded bg-asphalt mx-5 gap-y-2 gap-x-4 flex flex-wrap py-5 px-10 justify-center">
+            {words.map((word, index) => (
               <span className="text-lg text-white" key={word}>
-                {word}
+                {index + 1}. {word}
               </span>
             ))}
           </div>
@@ -48,7 +50,7 @@ export const CreateWalletStep1Modal = () => {
             <Button
               iconsOnEdge={false}
               variant="text"
-              leftIcon={<MdContentCopy />}
+              leftIcon={<MdContentCopy aria-hidden={true} />}
               label={t('copyButtonLabel')}
               onClick={() => UtilsHelper.copyToClipboard(words.join(' '))}
               flat
@@ -57,7 +59,7 @@ export const CreateWalletStep1Modal = () => {
             <Button
               iconsOnEdge={false}
               variant="text"
-              leftIcon={<PiPrinter />}
+              leftIcon={<PiPrinter aria-hidden={true} />}
               label={t('printButtonLabel')}
               flat
               onClick={() => handlePrint()}
