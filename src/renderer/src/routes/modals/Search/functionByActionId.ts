@@ -74,4 +74,8 @@ export const functionsByActionId: TFunctionsByActionId = {
       replace: true,
     })
   },
+  allActivity: async ({ modalActions, pageNavigate }) => {
+    modalActions.modalErase('center')
+    pageNavigate('/app/portfolio/activity')
+  },
 }

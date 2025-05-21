@@ -46,11 +46,14 @@ export const waitMigration = createAsyncThunk<void, TMigrationNeo3>(
           pendingMigrationNeo3.neoLegacyMigrationAmounts.hasEnoughGasBalance &&
           pendingMigrationNeo3.neoLegacyMigrationAmounts.gasBalance
         ) {
+          const token = pendingMigrationNeo3.neoLegacyMigrationAmounts.gasBalance.token
+
           dispatch(
             utilityReducerActions.addPendingTransaction({
               amount: pendingMigrationNeo3.neoLegacyMigrationAmounts.gasBalance.amount,
-              asset: pendingMigrationNeo3.neoLegacyMigrationAmounts.gasBalance.token.symbol,
-              assetHash: pendingMigrationNeo3.neoLegacyMigrationAmounts.gasBalance.token.hash,
+              asset: token.symbol,
+              assetHash: token.hash,
+              token,
               ...transfer,
             })
           )
@@ -60,11 +63,14 @@ export const waitMigration = createAsyncThunk<void, TMigrationNeo3>(
           pendingMigrationNeo3.neoLegacyMigrationAmounts.hasEnoughNeoBalance &&
           pendingMigrationNeo3.neoLegacyMigrationAmounts.neoBalance
         ) {
+          const token = pendingMigrationNeo3.neoLegacyMigrationAmounts.neoBalance.token
+
           dispatch(
             utilityReducerActions.addPendingTransaction({
               amount: pendingMigrationNeo3.neoLegacyMigrationAmounts.neoBalance.amount,
-              asset: pendingMigrationNeo3.neoLegacyMigrationAmounts.neoBalance.token.symbol,
-              assetHash: pendingMigrationNeo3.neoLegacyMigrationAmounts.neoBalance.token.hash,
+              asset: token.symbol,
+              assetHash: token.hash,
+              token,
               ...transfer,
             })
           )

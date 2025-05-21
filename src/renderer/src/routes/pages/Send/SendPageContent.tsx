@@ -264,14 +264,16 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
       const transactions = transactionHashes.map((hash, index) => {
         if (!hash) return
         const recipient = actionData.recipients[index]
+        const token = recipient.token!.token
 
         // TODO: It is incorrect, we are add only one transfer but it could have multiple
         // Fix here: https://app.clickup.com/t/86a791t0c
         const transaction: TUseTransactionsTransfer = {
           account: fields.selectedAccount,
           amount: recipient.amount!,
-          asset: recipient.token!.token.symbol,
-          assetHash: recipient.token!.token.hash,
+          asset: token.symbol,
+          assetHash: token.hash,
+          token,
           to: recipient.address!,
           from: fields.selectedAccount.address,
           hash,

@@ -20,7 +20,8 @@
     "migrationNeo3": "Migration",
     "logo": "Neon Wallet's logo",
     "pasteFromClipboard": "Paste from clipboard",
-    "pasteFromClipboardError": "Failed to paste from clipboard"
+    "pasteFromClipboardError": "Failed to paste from clipboard",
+    "emptyColumn": "--"
   },
   "walletConnect": {
     "name": "Neon Wallet",

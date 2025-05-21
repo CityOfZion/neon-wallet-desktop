@@ -53,7 +53,7 @@ export const AccountConnections = () => {
           />
         </div>
       }
-      title={t('title')}
+      heading={t('title')}
     >
       <ConnectionsTable sessions={filteredSessions} tableHeaderClassName="bg-gray-950" className="mt-5" />
     </AccountDetailsLayout>

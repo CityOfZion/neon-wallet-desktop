@@ -3,22 +3,17 @@ import { notifyManager, QueryFilters, useIsFetching, useQueryClient } from '@tan
 
 export function useRefetch(filters?: QueryFilters) {
   const queryClient = useQueryClient()
-
-  const isRefetching = useIsFetching({ ...filters, predicate: query => query.state.status !== 'pending' })
+  const isRefetching = !!useIsFetching({ ...filters, predicate: query => query.state.status !== 'pending' })
 
   const refetch = useCallback(async () => {
     await queryClient.invalidateQueries({ ...filters, refetchType: 'all' })
   }, [queryClient, filters])
 
-  return {
-    refetch,
-    isRefetching,
-  }
+  return { refetch, isRefetching }
 }
 
 export function useLastUpdated(filters?: QueryFilters) {
   const queryClient = useQueryClient()
-
   const queryCache = queryClient.getQueryCache()
 
   return useSyncExternalStore(

@@ -66,5 +66,8 @@
     "errors": {
       "noDevice": "There is no device connected"
     }
+  },
+  "useGetFullTransactions": {
+    "formatExtendedDate": "dd MMM yyyy"
   }
 }

@@ -28,7 +28,10 @@ export const AccountTokensList = () => {
   const balances = useBalances([account], { showType: tab })
 
   return (
-    <AccountDetailsLayout title={t('title')} actions={account ? <CommonAccountActions account={account} /> : undefined}>
+    <AccountDetailsLayout
+      heading={t('title')}
+      actions={account ? <CommonAccountActions account={account} /> : undefined}
+    >
       <Tabs.Root value={tab} onValueChange={value => setTab(value as TUseBalanceOptionShowType)}>
         <Tabs.List className="relative mt-3">
           <Tabs.Trigger value="active">{t('tabs.active')}</Tabs.Trigger>

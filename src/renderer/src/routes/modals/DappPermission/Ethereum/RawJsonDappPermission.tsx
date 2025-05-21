@@ -57,7 +57,7 @@ export const EthereumRawJsonDappPermission = ({
 
       <div className="mt-8 flex flex-col gap-2 text-xs w-full text-gray-100 flex-grow">
         <span className="font-bold">{t('dataLabel')}</span>
-        <div className=" bg-asphalt w-full p-2 rounded break-words whitespace-pre-wrap max-h-48 overflow-y-auto relative">
+        <div className="bg-asphalt w-full p-2 rounded break-words whitespace-pre-wrap max-h-48 overflow-y-auto relative">
           {json}
 
           <IconButton

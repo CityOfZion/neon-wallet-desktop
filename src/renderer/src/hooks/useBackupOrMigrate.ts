@@ -35,6 +35,7 @@ export const useBackupOrMigrate = () => {
     const fileContent = await window.api.sendAsync('readFile', filePath)
 
     const backupContent = await importBackupActions.validateAndParseFile(filePath, fileContent)
+
     if (backupContent) {
       ToastHelper.success({ message: t('neon3BackupFileDetected') })
 

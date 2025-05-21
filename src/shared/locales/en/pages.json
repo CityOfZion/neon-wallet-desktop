@@ -82,7 +82,8 @@
     "portfolioActivity": {
       "allActivity": "All activity",
       "walletsAndAccounts": "{{wallets}} Wallets / {{accounts}} Accounts",
-      "balance": "Balance"
+      "balance": "Balance",
+      "newPageLabel": "New page"
     },
     "portfolioOverview": {
       "overview": "Overview",
@@ -183,14 +184,13 @@
     "newWalletButtonLabel": "New Wallet",
     "address": "Address",
     "accounts": "Accounts",
-    "lastUpdated": "Last updated: {{date}}",
     "hardwareWalletConnectBadge": "Hardware wallet connected",
-    "emptyDate": "--:--",
-    "dateFormat": "HH:mm",
     "accountNftList": {
       "title": "NFTs",
       "empty": "No NFTS to display",
-      "total": "{{length}} items"
+      "total": "{{length}} items",
+      "listLabel": "Show as list",
+      "gridLabel": "Show as grid"
     },
     "accountOverview": {
       "title": "Account Overview"
@@ -204,7 +204,8 @@
       }
     },
     "accountTransactionsList": {
-      "title": "Transactions"
+      "title": "Transactions",
+      "newPageLabel": "New page"
     },
     "accountConnections": {
       "title": "Connections",

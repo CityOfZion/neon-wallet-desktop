@@ -30,11 +30,19 @@ export const useColumns = (showSimplified: boolean) => {
           ]
         : []),
       columnHelper.accessor('time', {
-        cell: info => format((info.getValue() ?? DateHelper.getNowUnix()) * 1000, 'MM/dd/yyyy HH:mm:ss'),
+        cell: info =>
+          format(
+            (info.getValue() ?? DateHelper.getNowUnix()) * 1000,
+            t('components:transactionsTable.formatDateHourMinutes')
+          ),
         header: t('components:transactionsTable.date'),
       }),
       columnHelper.accessor('asset', {
-        cell: info => info.getValue(),
+        cell: info => {
+          const text = info.getValue()
+
+          return text ? StringHelper.truncateString(text, 15) : t('general.emptyColumn')
+        },
         header: t('components:transactionsTable.asset'),
       }),
       columnHelper.accessor('amount', {
@@ -54,7 +62,7 @@ export const useColumns = (showSimplified: boolean) => {
         cell: info => (
           <Button
             className="flex flex-row"
-            label={StringHelper.truncateStringMiddle(info.getValue(), 25)}
+            label={StringHelper.truncateStringMiddle(info.getValue(), 15)}
             rightIcon={<MdContentCopy aria-hidden className="text-neon w-4.5 h-4.5" />}
             variant="text-slim"
             colorSchema="white"

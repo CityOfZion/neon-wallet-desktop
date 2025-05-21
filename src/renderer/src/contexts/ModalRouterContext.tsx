@@ -49,7 +49,7 @@ export const ModalRouterProvider = ({ routes, children }: TModalRouterProviderPr
             replace: options?.replace ?? false,
           }
 
-          if (options?.replace) {
+          if (options?.replace && prevState.length > 0) {
             return prevState.map((item, index, array) => (index === array.length - 1 ? newHistory : item))
           }
 

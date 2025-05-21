@@ -1,3 +1,4 @@
+import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { IAccountState } from '@shared/@types/store'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 
@@ -71,6 +72,16 @@ export const useSwapRecordsSelector = () => {
   }
 }
 
+export const useSwapRecordSelector = (hash: string) => {
+  const normalizedHash = UtilsHelper.normalizeHash(hash)
+
+  const { value: swapRecord, ref: swapRecordRef } = useAppSelector(({ utility }) =>
+    utility.data.swapRecords.find(({ txFrom }) => !!txFrom && UtilsHelper.normalizeHash(txFrom) === normalizedHash)
+  )
+
+  return { swapRecord, swapRecordRef }
+}
+
 export const useLastIndexesByWallet = () => {
   const { ref, value } = useAppSelector(state => state.utility.data.lastIndexesByWallet)
 
@@ -97,7 +108,7 @@ export const useMigrationsNeo3Selector = () => {
 
 export const useMigrationNeo3Selector = (hash: string) => {
   const { value: migrationNeo3, ref: migrationNeo3Ref } = useAppSelector(
-    state => state.utility.data.migrationsNeo3[hash]
+    ({ utility }) => utility.data.migrationsNeo3[UtilsHelper.normalizeHash(hash)]
   )
 
   return { migrationNeo3, migrationNeo3Ref }

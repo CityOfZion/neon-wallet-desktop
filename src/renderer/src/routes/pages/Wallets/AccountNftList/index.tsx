@@ -34,7 +34,7 @@ export const AccountNftList = () => {
   const [selectedViewOption, setSelectedViewOption] = useState(ENftViewOption.LIST)
 
   return (
-    <AccountDetailsLayout title={t('title')}>
+    <AccountDetailsLayout heading={t('title')}>
       <div className="w-full flex flex-col flex-grow text-xs min-h-0 gap-2">
         {isLoading ? (
           <div className="flex flex-grow items-center">
@@ -45,7 +45,8 @@ export const AccountNftList = () => {
             <div className="flex items-center justify-start gap-1 my-5">
               <IconButton
                 aria-selected={selectedViewOption === ENftViewOption.LIST}
-                icon={<MdFormatListBulleted />}
+                aria-label={t('listLabel')}
+                icon={<MdFormatListBulleted aria-hidden={true} />}
                 colorSchema={selectedViewOption === ENftViewOption.LIST ? 'neon' : 'gray'}
                 onClick={() => setSelectedViewOption(ENftViewOption.LIST)}
                 size="md"
@@ -53,7 +54,8 @@ export const AccountNftList = () => {
 
               <IconButton
                 aria-selected={selectedViewOption === ENftViewOption.GALLERY}
-                icon={<MdGridView />}
+                aria-label={t('gridLabel')}
+                icon={<MdGridView aria-hidden={true} />}
                 colorSchema={selectedViewOption === ENftViewOption.GALLERY ? 'neon' : 'gray'}
                 onClick={() => setSelectedViewOption(ENftViewOption.GALLERY)}
                 size="md"

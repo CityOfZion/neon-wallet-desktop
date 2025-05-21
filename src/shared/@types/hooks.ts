@@ -1,3 +1,12 @@
+import {
+  FullTransactionAssetEvent,
+  FullTransactionNftEvent,
+  FullTransactionsByAddressResponse,
+  FullTransactionsItem,
+  Token,
+} from '@cityofzion/blockchain-service'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
+
 import { IAccountState } from './store'
 
 export type TUseActionsData = Record<string, any>
@@ -35,6 +44,7 @@ export type TUseTransactionsTransfer = {
   from: string
   asset: string
   assetHash: string
+  token?: Token
   explorerUrl?: string
 }
 export type TFetchTransactionsResponse = {
@@ -43,3 +53,29 @@ export type TFetchTransactionsResponse = {
 }
 
 export type TUseHardwareWalletByUsbStatus = 'searching' | 'connected' | 'not-connected'
+
+type TFullTransactionCommonEvent = {
+  fromAccount?: IAccountState
+  toAccount?: IAccountState
+}
+
+export type TFullTransactionNftEvent = TFullTransactionCommonEvent & FullTransactionNftEvent
+
+export type TFullTransactionAssetEvent = TFullTransactionCommonEvent & FullTransactionAssetEvent
+
+export type TFullTransactionEvent = TFullTransactionAssetEvent | TFullTransactionNftEvent
+
+export type TFullTransactionsItem = Omit<FullTransactionsItem, 'events'> & {
+  blockchain: TBlockchainServiceKey
+  isPending: boolean
+  events: TFullTransactionEvent[]
+}
+
+export type TFullTransactionsByAddressResponse = Omit<FullTransactionsByAddressResponse, 'data'> & {
+  data: Map<string, TFullTransactionsItem>
+}
+
+export type TFullTransactionsGroupedDataByDate = {
+  date: string
+  items: TFullTransactionsItem[]
+}

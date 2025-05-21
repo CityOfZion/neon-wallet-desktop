@@ -47,7 +47,7 @@ export const PortfolioConnectionsPage = () => {
 
       <Separator />
 
-      <div className="mt-7 flex-grow flex flex-col min-h-0">
+      <div className="mt-5 flex-grow flex flex-col min-h-0">
         <div
           className={StyleHelper.mergeStyles('flex flex-row justify-between', {
             'justify-end': filteredSessions.length === 0,

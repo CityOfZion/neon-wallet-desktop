@@ -1,28 +1,26 @@
 import { Fragment, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdAdd, MdOutlineContentCopy } from 'react-icons/md'
-import { TbDotsVertical, TbFileExport, TbPencil, TbRefresh, TbUpload } from 'react-icons/tb'
+import { TbDotsVertical, TbFileExport, TbPencil, TbUpload } from 'react-icons/tb'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import { hasNft } from '@cityofzion/blockchain-service'
 import { ActionPopover } from '@renderer/components/ActionPopover'
 import { Button } from '@renderer/components/Button'
 import { CommonScreenActions } from '@renderer/components/CommonScreenActions'
 import { IconButton } from '@renderer/components/IconButton'
+import { RefreshAction } from '@renderer/components/RefreshAction'
 import { Separator } from '@renderer/components/Separator'
 import { SidebarMenuButton } from '@renderer/components/SidebarMenuButton'
 import { StringHelper } from '@renderer/helpers/StringHelper'
-import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { useAccountsSelector, useHasHardwareAccountSelector } from '@renderer/hooks/useAccountSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
-import { useLastUpdated, useRefetch } from '@renderer/hooks/useQuery'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
 import { MainLayout } from '@renderer/layouts/Main'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { IAccountState, IWalletState } from '@shared/@types/store'
-import { format } from 'date-fns'
 
 import { AccountList } from './AccountList'
 import { HardwareWalletConnectedBadge } from './HardwareWalletConnectedBadge'
@@ -40,9 +38,6 @@ export const WalletsPage = () => {
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
   const navigate = useNavigate()
   const { id } = useParams<TParams>()
-
-  const { refetch, isRefetching } = useRefetch()
-  const lastUpdated = useLastUpdated()
 
   const [selectedWallet, setSelectedWallet] = useState<IWalletState | undefined>(wallets[0])
   const [selectedAccount, setSelectedAccount] = useState<IAccountState | undefined>(
@@ -65,7 +60,7 @@ export const WalletsPage = () => {
     modalNavigate('confirm-password-export', {
       state: {
         title: t('exportKeyTitle'),
-        icon: <TbUpload />,
+        icon: <TbUpload aria-hidden={true} />,
         onSubmitPassword: () =>
           modalNavigate('export-key', {
             state: {
@@ -81,7 +76,7 @@ export const WalletsPage = () => {
     modalNavigate('confirm-password-export', {
       state: {
         title: t('exportWalletTitle'),
-        icon: <TbFileExport />,
+        icon: <TbFileExport aria-hidden={true} />,
         onSubmitPassword: () =>
           modalNavigate('export-mnemonic', {
             state: {
@@ -181,7 +176,7 @@ export const WalletsPage = () => {
                   variant="outlined"
                   className="w-full"
                   flat
-                  leftIcon={<MdAdd />}
+                  leftIcon={<MdAdd aria-hidden={true} />}
                   onClick={modalNavigateWrapper('persist-account', { state: { wallet: selectedWallet } })}
                 />
               </footer>
@@ -195,7 +190,7 @@ export const WalletsPage = () => {
                 <p className="text-gray-300">{t('address')}</p>
                 <p className="text-gray-100">{StringHelper.truncateStringMiddle(selectedAccount.address, 8)}</p>
                 <IconButton
-                  icon={<MdOutlineContentCopy />}
+                  icon={<MdOutlineContentCopy aria-hidden={true} />}
                   colorSchema="neon"
                   compacted
                   onClick={() => UtilsHelper.copyToClipboard(selectedAccount.address)}
@@ -203,39 +198,23 @@ export const WalletsPage = () => {
               </div>
 
               <div className="flex gap-2">
-                <div className="flex items-center gap-2">
-                  {lastUpdated && (
-                    <span className="text-xs text-gray-300 italic">
-                      {t('lastUpdated', {
-                        date: isRefetching ? t('emptyDate') : format(new Date(lastUpdated), t('dateFormat')),
-                      })}
-                    </span>
-                  )}
-                  <IconButton
-                    icon={<TbRefresh className={StyleHelper.mergeStyles({ 'animate-spin': isRefetching })} />}
-                    disabled={!!isRefetching}
-                    compacted
-                    size="sm"
-                    colorSchema="neon"
-                    onClick={refetch}
-                  />
-                </div>
+                <RefreshAction />
 
                 <ActionPopover.Root>
                   <ActionPopover.Trigger asChild>
-                    <IconButton icon={<TbDotsVertical />} size="md" compacted />
+                    <IconButton icon={<TbDotsVertical aria-hidden={true} />} size="md" compacted />
                   </ActionPopover.Trigger>
 
                   <ActionPopover.Content>
                     <ActionPopover.Item
-                      leftIcon={<TbPencil />}
+                      leftIcon={<TbPencil aria-hidden={true} />}
                       onClick={modalNavigateWrapper('persist-account', { state: { account: selectedAccount } })}
                       label={t('editAccountButton')}
                       textClassName="text-start text-white"
                     />
                     {selectedAccount?.type !== 'watch' && selectedAccount?.type !== 'hardware' && (
                       <ActionPopover.Item
-                        leftIcon={<TbUpload />}
+                        leftIcon={<TbUpload aria-hidden={true} />}
                         onClick={handleExportKey}
                         label={t('exportKeyButton')}
                         textClassName="text-start text-white"
