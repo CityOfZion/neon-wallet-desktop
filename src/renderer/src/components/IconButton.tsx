@@ -7,11 +7,12 @@ type TProps = {
   size?: 'xs' | 'sm' | 'md'
   fullHeight?: boolean
   compacted?: boolean
+  variant?: 'ghost' | 'outline'
   colorSchema?: 'neon' | 'gray' | 'white' | 'yellow' | 'error'
 } & ComponentProps<'button'>
 
 export const IconButton = forwardRef<HTMLButtonElement, TProps>(
-  ({ text, icon, size = 'xs', fullHeight, compacted, colorSchema = 'gray', ...props }, ref) => {
+  ({ text, icon, size = 'xs', fullHeight, compacted, variant = 'ghost', colorSchema = 'gray', ...props }, ref) => {
     const { className: iconClassName, ...iconProps } = icon.props
 
     return (
@@ -25,12 +26,13 @@ export const IconButton = forwardRef<HTMLButtonElement, TProps>(
             'p-1 gap-y-0.5': (size === 'sm' || size === 'xs') && compacted,
             'py-1.5 px-3 gap-y-1': size === 'md' && !compacted,
             'p-1 gap-y-1': size === 'md' && compacted,
-            'text-neon ': colorSchema === 'neon',
-            'text-gray-100 ': colorSchema === 'gray',
-            'text-white': colorSchema === 'white',
-            'text-yellow': colorSchema === 'yellow',
-            'text-pink': colorSchema === 'error',
+            'text-neon border-neon': colorSchema === 'neon',
+            'text-gray-100 border-gray-300/15': colorSchema === 'gray',
+            'text-white border-white': colorSchema === 'white',
+            'text-yellow border-yellow': colorSchema === 'yellow',
+            'text-pink border-pink': colorSchema === 'error',
             'h-full rounded-none': fullHeight,
+            border: variant === 'outline',
           },
           props.className
         )}

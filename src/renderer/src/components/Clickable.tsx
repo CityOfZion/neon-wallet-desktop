@@ -1,11 +1,11 @@
-import { cloneElement } from 'react'
+import { cloneElement, ReactNode } from 'react'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { match, P } from 'ts-pattern'
 
 import { Loader } from './Loader'
 
 export type TCustomClickableProps = {
-  label?: string | JSX.Element
+  label?: ReactNode
   leftIcon?: JSX.Element
   rightIcon?: JSX.Element
   variant?: 'outlined' | 'contained' | 'text' | 'text-slim' | 'card'
@@ -25,8 +25,8 @@ const Outline = ({ className, ...props }: TClickableProps) => {
     <Base
       className={StyleHelper.mergeStyles(
         'group flex items-center justify-center border text-center py-3 gap-x-2.5 cursor-pointer transition-colors rounded',
-        'aria-[disabled=true]:opacity-100 aria-[disabled=true]:text-gray-100/50 aria-[disabled=true]:border-gray-100/50',
-        'aria-[disabled=false]:hover:bg-gray-300/15',
+        'group-aria-[disabled=true]:opacity-100 group-aria-[disabled=true]:text-gray-100/50 group-aria-[disabled=true]:border-gray-100/50',
+        'group-aria-[disabled=false]:hover:bg-gray-300/15 group-aria-selected:bg-gray-300/15 group-aria-expanded:bg-gray-300/15',
         {
           'border-neon': props.colorSchema === 'neon',
           'border-gray-100': props.colorSchema === 'gray',
@@ -47,8 +47,9 @@ const Contained = ({ className, ...props }: TClickableProps) => {
     <Base
       className={StyleHelper.mergeStyles(
         'flex min-w-0 justify-center items-center text-center py-3 gap-x-2.5 transition-colors rounded',
-        'aria-[disabled=true]:bg-gray-300/30 aria-[disabled=true]:text-gray-100/50 aria-[disabled=true]:opacity-100',
-        'aria-[disabled=false]:bg-gradient-to-t aria-[disabled=false]:from-gray-800 aria-[disabled=false]:to-gray-600 aria-[disabled=false]:shadow-[4px_8px_20px_0px_rgba(18,21,23,0.40),inset_1px_1px_0px_0px_rgba(214,210,210,0.14),inset_-1px_-1px_0px_0px_rgba(0,0,0,0.32)] aria-[disabled=false]:hover:from-gray-600 aria-[disabled=false]:hover:to-gray-600',
+        'group-aria-[disabled=true]:bg-gray-300/30 group-aria-[disabled=true]:text-gray-100/50 group-aria-[disabled=true]:opacity-100',
+        'group-aria-[disabled=false]:bg-gradient-to-t group-aria-[disabled=false]:from-gray-800 group-aria-[disabled=false]:to-gray-600 group-aria-[disabled=false]:shadow-[4px_8px_20px_0px_rgba(18,21,23,0.40),inset_1px_1px_0px_0px_rgba(214,210,210,0.14),inset_-1px_-1px_0px_0px_rgba(0,0,0,0.32)] group-aria-[disabled=false]:hover:from-gray-600 group-aria-[disabled=false]:hover:to-gray-600',
+        'group-aria-[disabled=false]:group-aria-selected:from-gray-600 group-aria-[disabled=false]:group-aria-selected:to-gray-600 group-aria-[disabled=false]:group-aria-expanded:from-gray-600 group-aria-[disabled=false]:group-aria-expanded:to-gray-600',
         className
       )}
       {...props}
@@ -60,7 +61,7 @@ const Text = ({ className, ...props }: TClickableProps) => {
   return (
     <Base
       className={StyleHelper.mergeStyles(
-        'flex min-w-0 justify-center items-center text-center gap-x-2.5 aria-[disabled=false]:hover:bg-gray-300/15 rounded transition-colors',
+        'flex min-w-0 justify-center items-center text-center gap-x-2.5 group-aria-[disabled=false]:hover:bg-gray-300/15 group-aria-selected:bg-gray-300/15 group-aria-expanded:bg-gray-300/15 rounded transition-colors',
         className
       )}
       {...props}
@@ -72,7 +73,7 @@ const TextSlim = ({ className, ...props }: TClickableProps) => {
   return (
     <Base
       className={StyleHelper.mergeStyles(
-        'flex min-w-0 justify-center items-center text-center gap-x-1.5 aria-[disabled=false]:hover:opacity-75 aria-[disabled=false]:focus:opacity-75 aria-[disabled=false]:active:opacity-50 h-fit px-0 transition-opacity',
+        'flex min-w-0 justify-center items-center text-center gap-x-1.5 group-aria-[disabled=false]:hover:opacity-75 group-aria-selected:opacity-75  group-aria-expanded:opacity-75 group-aria-[disabled=false]:focus:opacity-75 group-aria-[disabled=false]:active:opacity-50 h-fit px-0 transition-opacity',
         className
       )}
       {...props}
@@ -85,8 +86,8 @@ const Card = ({ className, ...props }: TClickableProps) => {
     <Base
       className={StyleHelper.mergeStyles(
         'flex min-w-0 justify-center items-center text-center py-3 gap-x-2.5 transition-colors rounded',
-        'aria-[disabled=true]:bg-gray-300/30 aria-[disabled=true]:text-gray-100/50 aria-[disabled=true]:opacity-100',
-        'aria-[disabled=false]:bg-gray-300/15 aria-[disabled=false]:hover:bg-gray-300/30',
+        'group-aria-[disabled=true]:bg-gray-300/30 group-aria-[disabled=true]:text-gray-100/50 group-aria-[disabled=true]:opacity-100',
+        'group-aria-[disabled=false]:bg-gray-300/15 group-aria-[disabled=false]:hover: group-aria-selected:bg-gray-300/30 group-aria-expanded:bg-gray-300/30',
         className
       )}
       {...props}
@@ -98,7 +99,6 @@ const Base = ({
   leftIcon,
   rightIcon,
   label,
-  disabled,
   loading,
   flat,
   colorSchema,
@@ -110,8 +110,6 @@ const Base = ({
 }: TClickableProps) => {
   const { className: leftIconClassName = '', ...leftIconProps } = leftIcon ? leftIcon.props : {}
   const { className: rightIconClassName = '', ...rightIconProps } = rightIcon ? rightIcon.props : {}
-
-  const isDisabled = disabled ?? loading
 
   const buildIconClassName = (className: string) => {
     return StyleHelper.mergeStyles(
@@ -126,9 +124,8 @@ const Base = ({
 
   return (
     <div
-      aria-disabled={isDisabled}
       className={StyleHelper.mergeStyles(
-        'aria-[disabled=true]:cursor-not-allowed w-full aria-[disabled=true]:opacity-50 aria-[disabled=false]:cursor-pointer',
+        'group-aria-[disabled=true]:cursor-not-allowed w-full group-aria-[disabled=true]:opacity-50 group-aria-[disabled=false]:cursor-pointer',
         {
           'px-7': wide,
           'h-12 text-sm': !flat,

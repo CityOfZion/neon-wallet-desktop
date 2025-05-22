@@ -32,6 +32,7 @@ import { DeleteAccountModal } from './modals/DeleteAccount'
 import { DeleteWalletModal } from './modals/DeleteWallet'
 import { EditWalletModal } from './modals/EditWallet'
 import { ErrorModal } from './modals/Error'
+import { ExportFullTransactionsModal } from './modals/ExportFullTransactions'
 import { ExportMnemonic } from './modals/ExportMnemonic'
 import { ImportModal } from './modals/Import'
 import { ImportAccountsSelectionModal } from './modals/Import/ImportAccountsSelectionModal'
@@ -137,4 +138,5 @@ export const modalsRouter: TRoute[] = [
   { name: 'migration-neo3-status', type: 'side', size: 'md', element: <MigrationNeo3StatusModal /> },
   { name: 'migration-neo3-claim-alert', type: 'center', size: 'xs', element: <MigrationNeo3ClaimAlertModal /> },
   { name: 'search', type: 'center', size: 'sm', element: <SearchModal /> },
+  { name: 'export-full-transactions', type: 'center', size: 'sm', element: <ExportFullTransactionsModal /> },
 ]

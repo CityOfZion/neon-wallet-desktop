@@ -133,7 +133,7 @@ export const GreyTokenSelect = <T extends TGreyTokenSelectToken>({
           ))}
       </Popover.Trigger>
 
-      <Popover.Content className="max-w-48 bg-transparent z-[1010]" align="end" sideOffset={-34}>
+      <Popover.Content className="max-w-48 bg-transparent" align="end" sideOffset={-34}>
         <RemoveScroll>
           <Command.Root shouldFilter={false}>
             <Command.Input value={filter} onValueChange={setFilter} />
