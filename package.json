@@ -38,7 +38,7 @@
     "@cityofzion/bs-neo-legacy": "1.12.0",
     "@cityofzion/bs-neo3": "1.13.0",
     "@cityofzion/bs-swap": "0.5.21",
-    "@cityofzion/bs-neox": "1.1.0",
+    "@cityofzion/bs-neox": "1.1.1",
     "@cityofzion/neon-core": "5.7.0",
     "@cityofzion/neon-js": "5.7.0",
     "@cityofzion/wallet-connect-sdk-wallet-core": "4.4.0",
