@@ -147,6 +147,7 @@ const getFullTransactions = async ({
         dateFrom,
         dateTo,
         nextCursor,
+        pageSize: blockchain === 'neoLegacy' ? 30 : 50,
       })
 
       queryData.nextCursor = response.nextCursor
