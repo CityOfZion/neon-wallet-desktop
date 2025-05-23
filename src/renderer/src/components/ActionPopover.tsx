@@ -29,7 +29,7 @@ const Content = forwardRef<ElementRef<typeof RadixPopover.Content>, TContentProp
       <RadixPopover.Portal>
         <RadixPopover.Content
           ref={ref}
-          className={StyleHelper.mergeStyles('relative group z-[1000]', className)}
+          className={StyleHelper.mergeStyles('relative group z-[1010]', className)}
           side={side}
           align={align}
           {...props}

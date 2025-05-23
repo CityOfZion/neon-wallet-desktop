@@ -1,3 +1,4 @@
+import { ComponentProps } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbArrowsExchange, TbCancel, TbReplace, TbShoppingBag, TbStepInto, TbStepOut } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
@@ -5,6 +6,7 @@ import { isClaimable } from '@cityofzion/blockchain-service'
 import { Button } from '@renderer/components/Button'
 import { Tooltip } from '@renderer/components/Tooltip'
 import { SWAP_NETWORK_BY_BLOCKCHAIN_AND_NETWORK_ID } from '@renderer/constants/swap'
+import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { useBalance } from '@renderer/hooks/useBalances'
 import { useMigrationNeo3Validations } from '@renderer/hooks/useMigrationNeo3Validations'
 import { useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
@@ -14,9 +16,9 @@ import { IAccountState } from '@shared/@types/store'
 
 type TProps = {
   account: IAccountState
-}
+} & ComponentProps<'div'>
 
-export const CommonAccountActions = ({ account }: TProps) => {
+export const CommonAccountActions = ({ account, children, className, ...props }: TProps) => {
   const navigate = useNavigate()
   const { network } = useSelectedNetworkSelector(account.blockchain)
   const { t } = useTranslation('common', { keyPrefix: 'general' })
@@ -44,7 +46,9 @@ export const CommonAccountActions = ({ account }: TProps) => {
   }
 
   return (
-    <div className="flex gap-2">
+    <div className={StyleHelper.mergeStyles('flex gap-2', className)} {...props}>
+      {children}
+
       {account.blockchain === 'neoLegacy' && (
         <Tooltip
           title={

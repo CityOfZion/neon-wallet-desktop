@@ -224,5 +224,9 @@
         "nameLabel": "Name"
       }
     }
+  },
+  "calendar": {
+    "previousYearButtonLabel": "Go to the previous {{years}} years",
+    "nextYearButtonLabel": "Go to the next {{years}} years"
   }
 }

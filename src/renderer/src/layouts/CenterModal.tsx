@@ -1,6 +1,7 @@
-import { ComponentProps, ReactNode, useMemo } from 'react'
+import { cloneElement, ComponentProps, ReactNode, useMemo } from 'react'
 import { MdClose, MdKeyboardBackspace } from 'react-icons/md'
 import { IconButton } from '@renderer/components/IconButton'
+import { Separator } from '@renderer/components/Separator'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 import { useModalHistories, useModalNavigate } from '@renderer/hooks/useModalRouter'
@@ -8,6 +9,8 @@ import { useModalHistories, useModalNavigate } from '@renderer/hooks/useModalRou
 type TProps = {
   contentClassName?: string
   headerComponent?: ReactNode
+  headingIcon?: JSX.Element
+  heading?: JSX.Element | string
   onClose?: () => void
   onBack?: () => void
 } & ComponentProps<'div'>
@@ -19,6 +22,8 @@ export const CenterModalLayout = ({
   contentClassName,
   className,
   headerComponent,
+  heading,
+  headingIcon,
   ...props
 }: TProps) => {
   const { modalNavigate, modalErase } = useModalNavigate()
@@ -27,6 +32,8 @@ export const CenterModalLayout = ({
   const withBackButton = useMemo(() => {
     return histories.filter(history => history.route.type === 'center').length > 1
   }, [histories])
+
+  const withHeading = headingIcon || heading
 
   const handleClose = () => {
     modalErase('center')
@@ -44,20 +51,28 @@ export const CenterModalLayout = ({
       className={StyleHelper.mergeStyles('bg-gray-800 rounded-md px-4 h-full w-full flex flex-col', className)}
     >
       {headerComponent ?? (
-        <header
-          className={StyleHelper.mergeStyles('flex items-center pt-5', {
-            'justify-between': withBackButton,
-            'justify-end': !withBackButton,
-          })}
-        >
-          {withBackButton && (
-            <IconButton
-              icon={<MdKeyboardBackspace aria-hidden={true} className="fill-gray-200" />}
-              size="md"
-              compacted
-              onClick={handleBack}
-            />
-          )}
+        <header className={StyleHelper.mergeStyles('flex items-center pt-5 pb-2.5')}>
+          <div className="flex items-center gap-2.5 flex-grow">
+            {withBackButton && (
+              <IconButton
+                icon={<MdKeyboardBackspace aria-hidden={true} className="fill-gray-200" />}
+                size="md"
+                compacted
+                onClick={handleBack}
+              />
+            )}
+
+            {withHeading && (
+              <div className="flex items-center gap-x-2.5">
+                {headingIcon &&
+                  cloneElement(headingIcon, {
+                    className: StyleHelper.mergeStyles('w-6 h-6 text-green', headingIcon.props?.className ?? ''),
+                  })}
+
+                {heading && <h2 className="text-sm text-white">{heading}</h2>}
+              </div>
+            )}
+          </div>
 
           <IconButton
             icon={<MdClose aria-hidden={true} className="text-gray-100" />}
@@ -69,7 +84,11 @@ export const CenterModalLayout = ({
         </header>
       )}
 
-      <main className={StyleHelper.mergeStyles('flex-grow px-9 pb-10 pt-2.5', contentClassName)}>{children}</main>
+      {withHeading && <Separator />}
+
+      <main className={StyleHelper.mergeStyles('flex-grow px-9 pb-10 pt-2.5 min-h-0', contentClassName)}>
+        {children}
+      </main>
     </div>
   )
 }

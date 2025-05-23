@@ -20,6 +20,7 @@ export const Link = ({
   wide,
   textClassName,
   children,
+  loading,
   ...props
 }: TProps) => {
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
@@ -30,8 +31,15 @@ export const Link = ({
     onClick?.(e)
   }
 
+  const isDisabled = disabled || loading || false
+
   return (
-    <RRDLink className={StyleHelper.mergeStyles('cursor-default', className)} onClick={handleClick} {...props}>
+    <RRDLink
+      aria-disabled={isDisabled}
+      className={StyleHelper.mergeStyles('cursor-default group', className)}
+      onClick={handleClick}
+      {...props}
+    >
       <Clickable
         {...clickableProps}
         label={label}
@@ -44,6 +52,7 @@ export const Link = ({
         iconsOnEdge={iconsOnEdge}
         wide={wide}
         textClassName={textClassName}
+        loading={loading}
       >
         {children}
       </Clickable>
