@@ -12,7 +12,7 @@ import {
 } from '@shared/@types/hooks'
 import { IAccountState, TSelectedNetworks } from '@shared/@types/store'
 import { Query, QueryClient, useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
-import { format, isWithinInterval } from 'date-fns'
+import { format, isSameDay, isWithinInterval } from 'date-fns'
 import { cloneDeep } from 'lodash'
 
 import { useAccountsSelector } from './useAccountSelector'
@@ -22,22 +22,22 @@ import { useHiddenTokensByBlockchainSelector, usePendingTransactionsSelector } f
 type TBuildGetFullTransactionsQueryKeyParams = {
   account: IAccountState
   network: TNetwork<TBlockchainServiceKey>
-  dateFrom?: string
-  dateTo?: string
+  dateFrom?: Date
+  dateTo?: Date
   page?: number
 }
 
 type TBuildGetFullTransactionsAggregatedQueryKeyParams = {
-  dateFrom?: string
-  dateTo?: string
+  dateFrom?: Date
+  dateTo?: Date
   accounts?: IAccountState[]
   networksByBlockchain?: TSelectedNetworks
 }
 
 type TGetFullTransactionsParams = {
   queryClient: QueryClient
-  dateFrom: string
-  dateTo: string
+  dateFrom: Date
+  dateTo: Date
   accounts: IAccountState[]
   allAccounts: IAccountState[]
   networksByBlockchain: TSelectedNetworks
@@ -46,12 +46,12 @@ type TGetFullTransactionsParams = {
 
 type TProps = {
   accounts: IAccountState[]
-  dateTo: string
-  dateFrom: string
+  dateTo: Date
+  dateFrom: Date
 }
 
 const createNewDateByTime = (time: number) => new Date(time * 1000)
-const formatDateString = (date: string) => format(date, 'yyyy-MM-dd')
+const formatDateString = (date: Date) => format(date, 'yyyy-MM-dd')
 
 export const buildGetFullTransactionsQueryKey = ({
   account: { address, blockchain },
@@ -142,10 +142,12 @@ const getFullTransactions = async ({
     }
 
     try {
+      const dateNow = new Date()
+
       const response = await service.blockchainDataService.getFullTransactionsByAddress({
         address: account.address,
-        dateFrom,
-        dateTo,
+        dateFrom: dateFrom.toJSON(),
+        dateTo: (isSameDay(dateTo, dateNow) ? dateNow : dateTo).toJSON(),
         nextCursor,
         pageSize: blockchain === 'neoLegacy' ? 30 : 50,
       })
@@ -329,7 +331,7 @@ export const useGetFullTransactions = ({ accounts, dateFrom, dateTo }: TProps) =
     return Array.from(groupedDataByDates.values())
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [accounts, hiddenTokensByBlockchain, pendingTransactions, query.data?.pages, query.isLoading])
+  }, [accounts, dateFrom, dateTo, hiddenTokensByBlockchain, pendingTransactions, query.data?.pages, query.isLoading])
 
   return { ...query, data }
 }

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { DayPicker, type DayPickerProps, labelNext, labelPrevious, useDayPicker } from 'react-day-picker'
 import { useTranslation } from 'react-i18next'
 import { TbChevronLeft, TbChevronRight } from 'react-icons/tb'
@@ -90,6 +90,7 @@ const Nav = ({
         from: prev.from - (prev.to - prev.from + 1),
         to: prev.to - (prev.to - prev.from + 1),
       }))
+
       onPrevClick?.(new Date(displayYears.from - (displayYears.to - displayYears.from), 0, 1))
       return
     }
@@ -106,7 +107,9 @@ const Nav = ({
         from: prev.from + (prev.to - prev.from + 1),
         to: prev.to + (prev.to - prev.from + 1),
       }))
+
       onNextClick?.(new Date(displayYears.from + (displayYears.to - displayYears.from), 0, 1))
+
       return
     }
 
@@ -117,34 +120,34 @@ const Nav = ({
   return (
     <nav className={StyleHelper.mergeStyles('flex items-start', className)}>
       <IconButton
-        size="xs"
-        variant="outline"
-        icon={<TbChevronLeft aria-hidden />}
-        className=" absolute left-0 h-7 w-7 bg-transparent p-0 opacity-80 hover:opacity-100"
-        type="button"
-        tabIndex={isPreviousDisabled ? undefined : -1}
-        disabled={isPreviousDisabled}
         aria-label={
           isYearsView
             ? t('previousYearButtonLabel', { years: displayYears.to - displayYears.from + 1 })
             : labelPrevious(previousMonth)
         }
+        type="button"
+        className=" absolute left-0 h-7 w-7 bg-transparent p-0 opacity-80 hover:opacity-100"
+        variant="outline"
+        size="xs"
+        tabIndex={isPreviousDisabled ? undefined : -1}
+        disabled={isPreviousDisabled}
+        icon={<TbChevronLeft aria-hidden={true} />}
         onClick={handlePreviousClick}
       />
 
       <IconButton
-        size="xs"
-        variant="outline"
-        icon={<TbChevronRight aria-hidden />}
-        className="absolute right-0 h-7 w-7 bg-transparent p-0 opacity-80 hover:opacity-100"
-        type="button"
-        tabIndex={isNextDisabled ? undefined : -1}
-        disabled={isNextDisabled}
         aria-label={
           isYearsView
             ? t('nextYearButtonLabel', { years: displayYears.to - displayYears.from + 1 })
             : labelNext(nextMonth)
         }
+        type="button"
+        className="absolute right-0 h-7 w-7 bg-transparent p-0 opacity-80 hover:opacity-100"
+        variant="outline"
+        size="xs"
+        tabIndex={isNextDisabled ? undefined : -1}
+        disabled={isNextDisabled}
+        icon={<TbChevronRight aria-hidden={true} />}
         onClick={handleNextClick}
       />
     </nav>
@@ -169,13 +172,11 @@ const CaptionLabel = ({
 
   return (
     <Button
+      label={navView === 'days' ? children : `${displayYears.from} - ${displayYears.to}`}
       colorSchema="white"
-      className={StyleHelper.mergeStyles('w-full', className)}
-      label={navView === 'days' ? children : displayYears.from + ' - ' + displayYears.to}
-      clickableProps={{
-        className: 'h-7 ',
-      }}
       variant="text"
+      className={StyleHelper.mergeStyles('w-full', className)}
+      clickableProps={{ className: 'h-7 ' }}
       onClick={() => setNavView(prev => (prev === 'days' ? 'years' : 'days'))}
     />
   )
@@ -226,19 +227,18 @@ const YearGrid = ({ className, displayYears, startMonth, endMonth, setNavView, n
 
         return (
           <Button
-            label={displayYears.from + index}
+            key={`year-${index}`}
+            label={(displayYears.from + index).toString()}
             colorSchema="white"
             variant="text"
-            key={`year-${index}`}
             aria-selected={displayYears.from + index === new Date().getFullYear()}
-            clickableProps={{
-              className: 'h-7',
-            }}
+            disabled={navView === 'years' ? isDisabled : undefined}
+            clickableProps={{ className: 'h-7' }}
             onClick={() => {
               setNavView('days')
+
               goToMonth(new Date(displayYears.from + index, 0))
             }}
-            disabled={navView === 'years' ? isDisabled : undefined}
           />
         )
       })}
@@ -256,8 +256,10 @@ export const Calendar = ({
   ...props
 }: TCalendarProps) => {
   const [navView, setNavView] = useState<TNavView>('days')
+
   const [displayYears, setDisplayYears] = useState<TDisplayYears>(() => {
     const currentYear = new Date().getFullYear()
+
     return {
       from: currentYear - Math.floor(yearRange / 2 - 1),
       to: currentYear + Math.ceil(yearRange / 2),
@@ -287,11 +289,11 @@ export const Calendar = ({
         range_middle:
           'bg-gray-100/10 !text-white [&>button]:!bg-transparent [&>button]:!text-white [&>button]:hover:!bg-transparent [&>button]:hover:!text-white',
         range_end: 'day-range-end rounded bg-neon [&>button]:bg-neon [&>button]:hover:neon [&>button]:hover:neon',
-        selected: '[&>button]:bg-neon [&>button]:text-asphalt [&>button]:hover:!bg-neon [&>button]:hover:text-asphalt',
+        selected: '[&>button]:!bg-neon [&>button]:!text-asphalt',
         today:
-          '[&>button]:bg-gray-300/10 [&>button]:data-[selected=true]:bg-neon [&>button]:data-[selected=true]:text-asphalt',
-        outside: 'day-outside  opacity-50',
-        disabled: '[&>button]:text-gray-300 opacity-30',
+          '[&>button]:bg-gray-300/10 [&>button]:data-[selected=true]:bg-neon [&>button]:data-[selected=true]:[not(:disabled)]:text-asphalt',
+        outside: 'day-outside opacity-50',
+        disabled: '[&>button]:text-gray-300 !opacity-30',
         hidden: 'invisible flex-1',
       }}
       components={{

@@ -72,9 +72,9 @@ export const BalanceChart = ({ balances, sortedBalances, className }: TProps) =>
         <p className="text-sm text-gray-100 mb-3.5 px-2">{t('holdings')}</p>
 
         <ul className="flex w-full justify-center">
-          {bars.map(bar => (
+          {bars.map((bar, index) => (
             <li
-              key={bar.name}
+              key={`${bar.name}-${bar.color}-${index}`}
               className="flex flex-col mx-2 min-w-[5rem]"
               style={{
                 width: `${bar.widthPercent}%`,
