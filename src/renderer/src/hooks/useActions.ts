@@ -5,6 +5,7 @@ import {
   TUseActionsData,
   TUseActionsErrors,
   TUseActionsOptions,
+  TUseActionsReturn,
 } from '@shared/@types/hooks'
 import { cloneDeep } from 'lodash'
 
@@ -12,7 +13,10 @@ const resolveOptions = (options?: TUseActionsOptions) => {
   return Object.assign({ clearErrorsOnChange: true }, options)
 }
 
-export const useActions = <T extends TUseActionsData>(initialData: T, options?: TUseActionsOptions) => {
+export const useActions = <T extends TUseActionsData>(
+  initialData: T,
+  options?: TUseActionsOptions
+): TUseActionsReturn<T> => {
   const initialState = useMemo(() => {
     const initialDataKeys = Object.keys(initialData) as (keyof T)[]
 

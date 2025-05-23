@@ -52,15 +52,15 @@
       "id": "allActivity",
       "verbs": [
         "view",
-        "list",
-        "transfer"
+        "list"
       ],
       "nonVerbs": [
         "all",
         "transaction",
         "transactions",
         "activity",
-        "activities"
+        "activities",
+        "transfers"
       ],
       "label": "All activity (transactions)"
     },
@@ -180,6 +180,20 @@
         "ledger"
       ],
       "label": "Connect hardware wallet"
+    },
+    {
+      "id": "exportFullTransactions",
+      "label": "Export transactions",
+      "verbs": [
+        "export",
+        "download"
+      ],
+      "nonVerbs": [
+        "transactions",
+        "transaction",
+        "activity",
+        "activities"
+      ]
     }
   ]
 }

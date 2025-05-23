@@ -1,13 +1,9 @@
 import { useTranslation } from 'react-i18next'
-import { MdDateRange } from 'react-icons/md'
-import { TbChevronRight, TbDeviceFloppy, TbFileExport, TbPackages } from 'react-icons/tb'
-import { ActionStep } from '@renderer/components/ActionStep'
-import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
+import { TbDeviceFloppy, TbFileExport } from 'react-icons/tb'
+import { useNavigate } from 'react-router-dom'
 import { Button } from '@renderer/components/Button'
-import { DatePicker } from '@renderer/components/DatePicker'
 import { Input } from '@renderer/components/Input'
-import { Separator } from '@renderer/components/Separator'
-import { DateHelper } from '@renderer/helpers/DateHelper'
+import { SuccessIcon } from '@renderer/components/SuccessIcon'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
@@ -16,34 +12,39 @@ import { bsAggregator } from '@renderer/libs/blockchainService'
 import { IAccountState } from '@shared/@types/store'
 import * as dateFns from 'date-fns'
 
+import { ExportFullTransactionInfo } from './ExportFullTransactionInfo'
+
 type TModalState = {
-  account: IAccountState
-  to: Date
-  from: Date
+  account?: IAccountState
+  to?: Date
+  from?: Date
 }
 
-type TActionData = {
-  account: IAccountState
+export type TExportFullTransactionsActionData = {
+  account?: IAccountState
   to: Date
   from: Date
   selectedFolderPath?: string
+  exported: boolean
 }
 
 export const ExportFullTransactionsModal = () => {
   const modalState = useModalState<TModalState>()
-  const { modalNavigateWrapper } = useModalNavigate()
   const { t } = useTranslation('modals', { keyPrefix: 'exportFullTransactions' })
-  const { t: commonT } = useTranslation('common')
+  const { modalErase } = useModalNavigate()
+  const navigate = useNavigate()
 
   const today = new Date()
 
-  const { actionData, actionState, setData, handleAct } = useActions<TActionData>({
+  const { actionData, actionState, setData, handleAct } = useActions<TExportFullTransactionsActionData>({
     account: modalState.account,
     from: modalState.from ?? dateFns.sub(today, { weeks: 1 }),
     to: modalState.to ?? today,
+    exported: false,
+    selectedFolderPath: undefined,
   })
 
-  const isDisabled = !actionData.selectedFolderPath
+  const isDisabled = !actionData.account || !actionData.selectedFolderPath
 
   const handleSelectAccount = (account: IAccountState) => {
     setData({ account })
@@ -56,27 +57,30 @@ export const ExportFullTransactionsModal = () => {
 
   const handleExport = async () => {
     try {
-      if (isDisabled) {
-        return
-      }
+      if (isDisabled) return
 
-      const service = bsAggregator.blockchainServicesByName[actionData.account.blockchain]
+      const account = actionData.account!
+      const service = bsAggregator.blockchainServicesByName[account.blockchain]
 
       const result = await service.blockchainDataService.exportFullTransactionsByAddress({
-        address: actionData.account.address,
+        address: account.address,
         dateFrom: actionData.from.toISOString(),
         dateTo: actionData.to.toISOString(),
       })
 
+      const formattedDateFrom = dateFns.format(actionData.from, t('filenameDateFormat'))
+      const formattedDateTo = dateFns.format(actionData.to, t('filenameDateFormat'))
+      const filename = `NEON3-ACTV-${account.address}-${account.blockchain}-${formattedDateFrom}-${formattedDateTo}.csv`
+
       await window.api.sendAsync('saveFile', {
-        path: `${actionData.selectedFolderPath}/export-${DateHelper.getNowUnix()}.csv`,
+        path: `${actionData.selectedFolderPath}/${filename}`,
         content: result,
       })
 
-      ToastHelper.success({ message: t('successfullyMessage') })
+      setData({ exported: true })
     } catch (error) {
       console.error(error)
-      ToastHelper.error({ message: t('errorMessage') })
+      ToastHelper.error({ message: t('form.errorMessage') })
     }
   }
 
@@ -106,152 +110,92 @@ export const ExportFullTransactionsModal = () => {
     }
   }
 
+  const handleReturn = () => {
+    modalErase('center')
+    navigate(`/app/wallets/${actionData.account!.id}/transactions`)
+  }
+
   return (
     <CenterModalLayout
       heading={t('title')}
       headingIcon={<TbFileExport aria-hidden />}
-      contentClassName="px-4 pt-6 flex flex-col"
+      contentClassName="px-4 pt-4 overflow-auto"
     >
-      <p className="text-white text-xs">{t('description')}</p>
+      {actionData.exported ? (
+        <div className="flex flex-col items-center">
+          <SuccessIcon className="mt-0" />
 
-      <p className="text-xs text-gray-100 uppercase font-bold mt-7">{t('formLabel')}</p>
+          <p className="text-lg text-white mt-8">{t('exported.description')}</p>
 
-      <form onSubmit={handleAct(handleExport)} className="flex flex-col flex-grow">
-        <div className="w-full flex flex-col gap-3 mt-2 relative">
-          <div className="bg-gray-800  rounded w-full">
-            <div className="flex flex-col items-center bg-gray-700/60 px-3.5 w-full rounded">
-              <ActionStep
-                title={
-                  <Button
-                    className="min-w-0"
-                    colorSchema="neon"
-                    label={actionData.account.address}
-                    textClassName="text-xs text-left"
-                    variant="text"
-                    flat
-                    onClick={modalNavigateWrapper('select-account', {
-                      state: { onSelectAccount: handleSelectAccount, leftIcon: <TbFileExport aria-hidden /> },
-                    })}
-                  />
-                }
-                leftIcon={<BlockchainIcon blockchain={actionData.account.blockchain} type="blue" className="w-4 h-4" />}
-                className="min-h-12"
-                titleClassName="text-xs"
-                leftIconContainerClassName="h-5 w-5"
-              >
-                <span className="text-gray-100 text-xs whitespace-nowrap">
-                  {commonT(`blockchain.${actionData.account.blockchain}`)}
-                </span>
-              </ActionStep>
-
-              <Separator />
-
-              <ActionStep
-                title={
-                  <div className="flex items-center gap-1">
-                    <DatePicker.Root>
-                      <DatePicker.Trigger asChild>
-                        <Button
-                          label={
-                            actionData.from
-                              ? dateFns.format(actionData.from, t('datePickerStepFormat'))
-                              : commonT('general.emptyColumn')
-                          }
-                          flat
-                          variant="text"
-                          colorSchema="neon"
-                        />
-                      </DatePicker.Trigger>
-
-                      <DatePicker.Picker
-                        autoFocus
-                        mode="single"
-                        disabled={{
-                          after: today,
-                        }}
-                        required
-                        defaultMonth={actionData.from}
-                        selected={actionData.from}
-                        onSelect={handleSelectDateFrom}
-                        popoverContentProps={{ align: 'start' }}
-                      />
-                    </DatePicker.Root>
-
-                    <TbChevronRight className="w-4 h-4 text-blue" aria-hidden />
-
-                    <DatePicker.Root>
-                      <DatePicker.Trigger asChild>
-                        <Button
-                          label={
-                            actionData.to
-                              ? dateFns.format(actionData.to, t('datePickerStepFormat'))
-                              : commonT('general.emptyColumn')
-                          }
-                          flat
-                          variant="text"
-                          colorSchema="neon"
-                        />
-                      </DatePicker.Trigger>
-
-                      <DatePicker.Picker
-                        numberOfMonths={1}
-                        autoFocus
-                        required
-                        mode="single"
-                        disabled={{
-                          after: today,
-                        }}
-                        defaultMonth={actionData.to}
-                        selected={actionData.to}
-                        onSelect={handleSelectDateTo}
-                        popoverContentProps={{ align: 'start' }}
-                      />
-                    </DatePicker.Root>
-                  </div>
-                }
-                className="min-h-12"
-                leftIcon={<MdDateRange aria-hidden />}
-                titleClassName="text-xs"
-                leftIconContainerClassName="h-5 w-5"
-              >
-                <span className="text-xs text-gray-300">{t('datePickerStepTip')}</span>
-              </ActionStep>
-
-              <Separator />
-
-              <ActionStep
-                title={t('allTransactionsStepLabel')}
-                leftIcon={<TbPackages aria-hidden />}
-                headerClassName="gap-5"
-                className="min-h-12"
-                titleClassName="text-xs"
-                leftIconContainerClassName="h-5 w-5"
-              />
-            </div>
+          <div className="mt-6 w-full flex flex-col items-center gap-2">
+            <p className="text-gray-300 text-xs">{t('exported.selectedFolderPathInputLabel')}</p>
+            <Input readOnly compacted value={actionData.selectedFolderPath} />
           </div>
-        </div>
 
-        <div className="mt-7 flex items-end gap-2.5">
-          <Input
-            label={t('selectedFolderPathInputLabel')}
-            compacted
-            readOnly
-            value={actionData.selectedFolderPath ?? ''}
+          <div className="flex flex-col w-full">
+            <p className="text-xs text-gray-100 uppercase font-bold mt-7">{t('exported.infoLabel')}</p>
+
+            <ExportFullTransactionInfo
+              account={actionData.account}
+              today={today}
+              readOnly
+              from={actionData.from}
+              to={actionData.to}
+              onSelectAccount={handleSelectAccount}
+              onSelectDateFrom={handleSelectDateFrom}
+              onSelectDateTo={handleSelectDateTo}
+            />
+          </div>
+
+          <Button
+            className="mt-9"
+            colorSchema="gray"
+            wide
+            label={t('exported.returnButtonLabel')}
+            onClick={handleReturn}
+            type="button"
           />
-          <Button type="button" label={t('browseButtonLabel')} flat wide onClick={handleBrowse} />
         </div>
+      ) : (
+        <div className="flex flex-col h-full">
+          <p className="text-white text-xs">{t('form.description')}</p>
 
-        <Button
-          label={t('exportButtonLabel')}
-          className="mt-auto w-48 mx-auto"
-          leftIcon={<TbDeviceFloppy aria-hidden />}
-          wide
-          type="submit"
-          loading={actionState.isActing}
-          disabled={isDisabled}
-          onClick={handleAct(handleExport)}
-        />
-      </form>
+          <p className="text-xs text-gray-100 uppercase font-bold mt-7">{t('form.infoLabel')}</p>
+
+          <form onSubmit={handleAct(handleExport)} className="flex flex-col flex-grow">
+            <ExportFullTransactionInfo
+              account={actionData.account}
+              today={today}
+              from={actionData.from}
+              to={actionData.to}
+              onSelectAccount={handleSelectAccount}
+              onSelectDateFrom={handleSelectDateFrom}
+              onSelectDateTo={handleSelectDateTo}
+            />
+
+            <div className="mt-7 flex items-end gap-2.5">
+              <Input
+                label={t('form.selectedFolderPathInputLabel')}
+                compacted
+                readOnly
+                value={actionData.selectedFolderPath ?? ''}
+              />
+              <Button type="button" label={t('form.browseButtonLabel')} flat wide onClick={handleBrowse} />
+            </div>
+
+            <Button
+              label={t('form.exportButtonLabel')}
+              className="mt-auto w-48 mx-auto"
+              leftIcon={<TbDeviceFloppy aria-hidden />}
+              wide
+              type="submit"
+              loading={actionState.isActing}
+              disabled={isDisabled}
+              onClick={handleAct(handleExport)}
+            />
+          </form>
+        </div>
+      )}
     </CenterModalLayout>
   )
 }

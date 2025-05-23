@@ -8,6 +8,7 @@ import { useModalHistories, useModalNavigate } from '@renderer/hooks/useModalRou
 
 type TProps = {
   contentClassName?: string
+  headerClassName?: string
   headerComponent?: ReactNode
   headingIcon?: JSX.Element
   heading?: JSX.Element | string
@@ -22,6 +23,7 @@ export const CenterModalLayout = ({
   contentClassName,
   className,
   headerComponent,
+  headerClassName,
   heading,
   headingIcon,
   ...props
@@ -51,7 +53,7 @@ export const CenterModalLayout = ({
       className={StyleHelper.mergeStyles('bg-gray-800 rounded-md px-4 h-full w-full flex flex-col', className)}
     >
       {headerComponent ?? (
-        <header className={StyleHelper.mergeStyles('flex items-center pt-5 pb-2.5')}>
+        <header className={StyleHelper.mergeStyles('flex items-center pt-5 pb-2.5', headerClassName)}>
           <div className="flex items-center gap-2.5 flex-grow">
             {withBackButton && (
               <IconButton
@@ -86,7 +88,7 @@ export const CenterModalLayout = ({
 
       {withHeading && <Separator />}
 
-      <main className={StyleHelper.mergeStyles('flex-grow px-9 pb-10 pt-2.5 min-h-0', contentClassName)}>
+      <main className={StyleHelper.mergeStyles('flex-grow px-9 pb-8 my-2 pt-0.5 min-h-0', contentClassName)}>
         {children}
       </main>
     </div>
