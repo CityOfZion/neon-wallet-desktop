@@ -14,7 +14,7 @@ import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { IAccountState } from '@shared/@types/store'
-import { add, differenceInYears, format, isAfter, isBefore, sub } from 'date-fns'
+import * as dateFns from 'date-fns'
 
 type TModalState = {
   account: IAccountState
@@ -39,7 +39,7 @@ export const ExportFullTransactionsModal = () => {
 
   const { actionData, actionState, setData, handleAct } = useActions<TActionData>({
     account: modalState.account,
-    from: modalState.from ?? sub(today, { weeks: 1 }),
+    from: modalState.from ?? dateFns.sub(today, { weeks: 1 }),
     to: modalState.to ?? today,
   })
 
@@ -83,26 +83,26 @@ export const ExportFullTransactionsModal = () => {
   const handleSelectDateFrom = (date: Date) => {
     setData({ from: date })
 
-    if (actionData.to && isAfter(date, actionData.to)) {
-      setData({ to: sub(date, { weeks: 1 }) })
+    if (actionData.to && dateFns.isAfter(date, actionData.to)) {
+      setData({ to: dateFns.min([today, dateFns.add(date, { weeks: 1 })]) })
       return
     }
 
-    if (actionData.to && differenceInYears(actionData.to, date) > 0) {
-      setData({ to: add(date, { years: 1, days: -1 }) })
+    if (actionData.to && dateFns.differenceInYears(actionData.to, date) > 0) {
+      setData({ to: dateFns.add(date, { years: 1, days: -1 }) })
     }
   }
 
   const handleSelectDateTo = (date: Date) => {
     setData({ to: date })
 
-    if (actionData.from && isBefore(date, actionData.from)) {
-      setData({ from: sub(date, { weeks: 1 }) })
+    if (actionData.from && dateFns.isBefore(date, actionData.from)) {
+      setData({ from: dateFns.sub(date, { weeks: 1 }) })
       return
     }
 
-    if (actionData.from && differenceInYears(date, actionData.from) > 0) {
-      setData({ from: sub(date, { years: 1, days: -1 }) })
+    if (actionData.from && dateFns.differenceInYears(date, actionData.from) > 0) {
+      setData({ from: dateFns.sub(date, { years: 1, days: -1 }) })
     }
   }
 
@@ -154,7 +154,7 @@ export const ExportFullTransactionsModal = () => {
                         <Button
                           label={
                             actionData.from
-                              ? format(actionData.from, t('datePickerStepFormat'))
+                              ? dateFns.format(actionData.from, t('datePickerStepFormat'))
                               : commonT('general.emptyColumn')
                           }
                           flat
@@ -184,7 +184,7 @@ export const ExportFullTransactionsModal = () => {
                         <Button
                           label={
                             actionData.to
-                              ? format(actionData.to, t('datePickerStepFormat'))
+                              ? dateFns.format(actionData.to, t('datePickerStepFormat'))
                               : commonT('general.emptyColumn')
                           }
                           flat
