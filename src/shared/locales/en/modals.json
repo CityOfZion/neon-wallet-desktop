@@ -766,15 +766,26 @@
   },
   "exportFullTransactions": {
     "title": "Export CSV",
-    "description": "Save a CSV file to your computer that will allow you review your activity over the defined time period.",
-    "formLabel": "Account to export",
-    "datePickerStepFormat": "dd MMM yyyy",
-    "datePickerStepTip": "Maximum 12 month period",
-    "allTransactionsStepLabel": "All transactions",
-    "selectedFolderPathInputLabel": "Where would you like to save your csv file?",
-    "browseButtonLabel": "Browse…",
-    "exportButtonLabel": "Export your CSV",
-    "successfullyMessage": "Your CSV file has been successfully exported!",
-    "errorMessage": "There was an error trying to export your CSV. Please, try again."
+    "filenameDateFormat": "MMddyyyy",
+    "info": {
+      "addressPlaceholder": "Select an address",
+      "datePickerStepFormat": "dd MMM yyyy",
+      "datePickerStepTip": "Maximum 12 month period",
+      "allTransactionsStepLabel": "All transactions"
+    },
+    "form": {
+      "description": "Save a CSV file to your computer that will allow you review your activity over the defined time period.",
+      "infoLabel": "Account to export",
+      "browseButtonLabel": "Browse…",
+      "exportButtonLabel": "Export your CSV",
+      "selectedFolderPathInputLabel": "Where would you like to save your csv file?",
+      "errorMessage": "There was an error trying to export your CSV. Please, try again."
+    },
+    "exported": {
+      "description": "Your CSV file has been saved successfully!",
+      "selectedFolderPathInputLabel": "Your file was saved here:",
+      "infoLabel": "Exported data",
+      "returnButtonLabel": "Return to your activity"
+    }
   }
 }

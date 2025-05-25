@@ -1,3 +1,4 @@
+import { FormEvent, MouseEvent } from 'react'
 import {
   FullTransactionAssetEvent,
   FullTransactionNftEvent,
@@ -26,6 +27,17 @@ export type TUseActionsActionState<T> = {
   errors: TUseActionsErrors<T>
   changed: TUseActionsChanged<T>
   hasActed: boolean
+}
+
+export type TUseActionsReturn<T> = {
+  actionData: T
+  setData: (values: Partial<T> | ((prev: T) => Partial<T>)) => void
+  setError: (key: keyof T, error: string) => void
+  setDataFromEventWrapper: (key: keyof T) => (event: any) => void
+  clearErrors: (key?: keyof T | (keyof T)[]) => void
+  actionState: TUseActionsActionState<T>
+  handleAct: (callback: (data: T) => void | Promise<void>) => (event: FormEvent | MouseEvent) => Promise<void>
+  reset: () => void
 }
 
 export type TUseImportActionInputType = 'key' | 'mnemonic' | 'encrypted' | 'address'
