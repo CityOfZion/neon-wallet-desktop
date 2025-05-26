@@ -12,7 +12,7 @@ import {
 } from '@shared/@types/hooks'
 import { IAccountState, TSelectedNetworks } from '@shared/@types/store'
 import { Query, QueryClient, useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
-import { format, isSameDay, isWithinInterval } from 'date-fns'
+import * as dateFns from 'date-fns'
 import { cloneDeep } from 'lodash'
 
 import { useAccountsSelector } from './useAccountSelector'
@@ -51,7 +51,7 @@ type TProps = {
 }
 
 const createNewDateByTime = (time: number) => new Date(time * 1000)
-const formatDateString = (date: Date) => format(date, 'yyyy-MM-dd')
+const formatDateString = (date: Date) => dateFns.format(date, 'yyyy-MM-dd')
 
 export const buildGetFullTransactionsQueryKey = ({
   account: { address, blockchain },
@@ -147,7 +147,8 @@ const getFullTransactions = async ({
       const response = await service.blockchainDataService.getFullTransactionsByAddress({
         address: account.address,
         dateFrom: dateFrom.toJSON(),
-        dateTo: (isSameDay(dateTo, dateNow) ? dateNow : dateTo).toJSON(),
+        // TODO: subtract a second to avoid issues with server date, it's necessary to consider only the date on server in future
+        dateTo: (dateFns.isSameDay(dateTo, dateNow) ? dateFns.sub(dateNow, { seconds: 1 }) : dateTo).toJSON(),
         nextCursor,
         pageSize: blockchain === 'neoLegacy' ? 30 : 50,
       })
@@ -237,7 +238,7 @@ export const useGetFullTransactions = ({ accounts, dateFrom, dateTo }: TProps) =
     pendingTransactions.forEach(({ hash, time, account, to, from, assetHash, token, ...transfer }) => {
       if (
         !accounts.some(AccountHelper.predicate(account)) ||
-        !isWithinInterval(createNewDateByTime(time), { start: dateFrom, end: dateTo })
+        !dateFns.isWithinInterval(createNewDateByTime(time), { start: dateFrom, end: dateTo })
       )
         return
 
@@ -321,7 +322,7 @@ export const useGetFullTransactions = ({ accounts, dateFrom, dateTo }: TProps) =
 
       if (filteredEvents) item.events = filteredEvents
 
-      const date = format(item.date, extendedDateFormat)
+      const date = dateFns.format(item.date, extendedDateFormat)
       const existingGroupedData = groupedDataByDates.get(date)
 
       if (existingGroupedData) existingGroupedData.items.push(item)
