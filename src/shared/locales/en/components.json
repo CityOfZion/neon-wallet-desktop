@@ -193,7 +193,6 @@
     "dateFormat": "HH:mm"
   },
   "transactionActivityList": {
-    "dates": "Date from: {{ dateFrom }} | Date to: {{ dateTo }}",
     "notFoundTitle": "No transactions to display",
     "notFoundDescription": "Make a transaction and it'll appear here",
     "item": {
@@ -223,6 +222,9 @@
         "collectionNameLabel": "Collection",
         "nameLabel": "Name"
       }
+    },
+    "dateRange": {
+      "formatExtendedDate": "dd MMM yyyy"
     }
   },
   "calendar": {

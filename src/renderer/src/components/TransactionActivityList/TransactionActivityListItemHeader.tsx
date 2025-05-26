@@ -19,8 +19,8 @@ export const TransactionActivityListItemHeader = ({ item, migrationNeo3 }: TProp
 
   return (
     <div className="flex items-center h-8.5 min-h-8.5 max-h-8.5 gap-x-2 w-full">
-      <TransactionActivityListTooltip data={tCommonBlockchain(blockchain)}>
-        <div className="px-1 flex items-center gap-x-2 justify-center rounded bg-gray-700 w-20 min-w-20 max-w-20 h-full">
+      <TransactionActivityListTooltip data={tCommonBlockchain(blockchain)} className="relative -top-2">
+        <div className="px-1 flex items-center gap-x-1 justify-center rounded bg-gray-700 w-20 min-w-20 max-w-20 h-full">
           <BlockchainIcon blockchain={blockchain} type="default" className="w-3 min-w-3 max-w-3 h-3 min-h-3 max-h-3" />
 
           <span className="text-white inline-block truncate">{tCommonBlockchain(blockchain)}</span>

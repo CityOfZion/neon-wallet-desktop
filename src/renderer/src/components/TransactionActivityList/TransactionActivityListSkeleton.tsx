@@ -1,7 +1,7 @@
 import { Skeleton } from '@renderer/components/Skeleton'
 
 export const TransactionActivityListSkeleton = () => (
-  <div className="flex flex-col overflow-y-auto min-h-0 w-full gap-y-6">
+  <div className="flex flex-col overflow-y-auto min-h-0 w-full gap-y-6 py-4">
     {new Array(4).fill(null).map((_, index) => (
       <div key={`skeleton-${index}`} className="flex flex-col gap-y-2">
         <Skeleton className="h-10" />
