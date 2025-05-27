@@ -82,8 +82,7 @@
     "portfolioActivity": {
       "allActivity": "All activity",
       "walletsAndAccounts": "{{wallets}} Wallets / {{accounts}} Accounts",
-      "balance": "Balance",
-      "newPageLabel": "New page"
+      "balance": "Balance"
     },
     "portfolioOverview": {
       "overview": "Overview",
@@ -205,7 +204,6 @@
     },
     "accountTransactionsList": {
       "title": "Transactions",
-      "newPageLabel": "New page",
       "exportCSVButtonLabel": "Export CSV"
     },
     "accountConnections": {
