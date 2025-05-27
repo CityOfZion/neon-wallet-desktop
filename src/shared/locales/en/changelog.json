@@ -2,6 +2,19 @@
   "versionLabel": "Version v{{version}}",
   "notes": [
     {
+      "version": "3.7.0",
+      "date": "29 May 2025",
+      "changes": [
+        "New Feature: Action Search - Quick access to existing wallet actions",
+        "New Feature: Export Transaction History",
+        "Updated Feature: Enhanced Activity Screen",
+        "UX Improvement to how mnemonics word ordering is presented",
+        "Fix to issue that prevented NNS usage in some scenarios",
+        "Minor Bugfixes"
+      ],
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.7.0"
+    },
+    {
       "version": "3.6.1",
       "date": "30 Apr 2025",
       "changes": [
