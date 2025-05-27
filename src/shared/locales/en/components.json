@@ -53,18 +53,6 @@
     },
     "title": "All accounts"
   },
-  "transactionsTable": {
-    "blockchain": "BLOCKCHAIN",
-    "date": "DATE",
-    "asset": "ASSET",
-    "amount": "AMOUNT",
-    "from": "ACCOUNT",
-    "to": "ADDRESS",
-    "viewButtonLabel": "View",
-    "empty": "No transactions to display",
-    "doraError": "Dora does not support this blockchain",
-    "formatDateHourMinutes": "MM/dd/yyyy HH:mm"
-  },
   "balanceChart": {
     "othersTokens": "Others",
     "noAssets": "No assets",

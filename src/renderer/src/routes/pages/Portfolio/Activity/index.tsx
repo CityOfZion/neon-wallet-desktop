@@ -2,19 +2,12 @@ import { Fragment } from 'react'
 import { useTranslation } from 'react-i18next'
 import { RefreshAction } from '@renderer/components/RefreshAction'
 import { Separator } from '@renderer/components/Separator'
-import { Switch } from '@renderer/components/Switch'
 import { TransactionActivityList } from '@renderer/components/TransactionActivityList'
-import { TransactionsTable } from '@renderer/components/TransactionsTable'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
-import { useActions } from '@renderer/hooks/useActions'
 import { useBalances } from '@renderer/hooks/useBalances'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
-
-type TActionsData = {
-  newPage: boolean
-}
 
 export const PortfolioActivityPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'portfolio.portfolioActivity' })
@@ -23,24 +16,10 @@ export const PortfolioActivityPage = () => {
   const { currency } = useCurrencySelector()
   const balances = useBalances(accounts)
 
-  const {
-    actionData: { newPage },
-    setDataFromEventWrapper,
-  } = useActions<TActionsData>({ newPage: true })
-
   return (
     <section className="w-full flex flex-col bg-gray-800 rounded shadow-lg py-3 h-full px-4 min-w-0">
       <div className="flex justify-between items-center text-sm mb-3 gap-x-4 h-5 max-h-5 min-h-5">
-        <div className="flex items-center gap-x-4">
-          <h1 className="text-white">{t('allActivity')}</h1>
-
-          <Switch
-            label={t('newPageLabel')}
-            name="new-page"
-            checked={newPage}
-            onChange={setDataFromEventWrapper('newPage')}
-          />
-        </div>
+        <h1 className="text-white">{t('allActivity')}</h1>
 
         <div className="flex items-center gap-x-4">
           {wallets && accounts && (
@@ -64,11 +43,7 @@ export const PortfolioActivityPage = () => {
         <span className="text-white">{NumberHelper.currency(balances.exchangeTotal, currency.label)}</span>
       </div>
 
-      {newPage ? (
-        <TransactionActivityList defaultAccounts={accounts} />
-      ) : (
-        <TransactionsTable accounts={accounts} tableHeaderClassName="bg-gray-800" />
-      )}
+      <TransactionActivityList defaultAccounts={accounts} />
     </section>
   )
 }

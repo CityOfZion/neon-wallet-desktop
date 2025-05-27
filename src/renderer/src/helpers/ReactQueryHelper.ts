@@ -3,7 +3,6 @@ import {
   buildGetFullTransactionsAggregatedQueryKey,
   buildGetFullTransactionsQueryKey,
 } from '@renderer/hooks/useGetFullTransactions'
-import { buildQueryKeyTokenTransfer, buildQueryKeyTokenTransferAggregate } from '@renderer/hooks/useTokenTransfers'
 import { queryClient } from '@renderer/libs/query'
 import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
 import { IAccountState } from '@shared/@types/store'
@@ -14,16 +13,6 @@ export class ReactQueryHelper {
     network: TNetwork<TBlockchainServiceKey>,
     toAccount?: IAccountState
   ) => {
-    queryClient.removeQueries({
-      queryKey: buildQueryKeyTokenTransfer(account, network),
-      refetchType: 'all',
-    })
-
-    queryClient.removeQueries({
-      queryKey: buildQueryKeyTokenTransferAggregate(),
-      refetchType: 'all',
-    })
-
     queryClient.removeQueries({
       queryKey: buildGetFullTransactionsQueryKey({ account, network }),
       refetchType: 'all',
@@ -42,11 +31,6 @@ export class ReactQueryHelper {
     if (toAccount) {
       queryClient.removeQueries({
         queryKey: buildQueryKeyBalance(toAccount.address, toAccount.blockchain, network),
-        refetchType: 'all',
-      })
-
-      queryClient.removeQueries({
-        queryKey: buildQueryKeyTokenTransfer(toAccount, network),
         refetchType: 'all',
       })
 
