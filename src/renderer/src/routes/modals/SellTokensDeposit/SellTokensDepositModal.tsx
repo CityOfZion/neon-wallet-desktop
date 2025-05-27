@@ -125,8 +125,7 @@ export const SellTokensDepositModal = () => {
     }
   }
 
-  const handleClose = () => {
-    modalNavigate(-1)
+  const handleOnClose = () => {
     setDepositActionsData({ ...actionData, fee: undefined, isFeeLoading: false })
   }
 
@@ -307,7 +306,7 @@ export const SellTokensDepositModal = () => {
       heading={t('title')}
       headingIcon={<TbStepInto aria-hidden={true} />}
       contentClassName="flex flex-col overflow-y-auto"
-      onClose={handleClose}
+      onClose={handleOnClose}
     >
       <p className="font-semibold mb-6">{t('description')}</p>
 

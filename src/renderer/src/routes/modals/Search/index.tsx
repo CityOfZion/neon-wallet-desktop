@@ -16,7 +16,7 @@ import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
 import { search } from 'fast-fuzzy'
-import { debounce } from 'lodash'
+import { debounce, orderBy } from 'lodash'
 import { removeStopwords } from 'stopword'
 import { match } from 'ts-pattern'
 import winkWebModel from 'wink-eng-lite-web-model'
@@ -25,6 +25,12 @@ import WinkNLP from 'wink-nlp'
 import { functionsByActionId } from './functionByActionId'
 
 const nlp = WinkNLP(winkWebModel)
+
+type TItem = {
+  action: TSearchAction
+  verbsMatchedQuantity: number
+  nonVerbsMatchedQuantity: number
+}
 
 type TActionData = {
   isSearching: boolean
@@ -48,10 +54,8 @@ export const SearchModal = () => {
 
   const { actionData, setData } = useActions<TActionData>({ isSearching: false, search: '', foundActions: undefined })
 
-  const searchActions = useMemo<TSearchAction[]>(() => {
-    const actions = tSearch('actions', { returnObjects: true })
-    return actions
-  }, [tSearch])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const searchActions = useMemo<TSearchAction[]>(() => tSearch('actions', { returnObjects: true }), [])
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleSearch = useCallback(
@@ -63,36 +67,60 @@ export const SearchModal = () => {
         tokens.filter(token => token.out(nlp.its.pos) !== 'VERB').out(nlp.its.lemma as any) as string[]
       )
 
+      const verbsQuantity = verbs.length
+      const nonVerbsQuantity = nonVerbs.length
+
+      const hasVerbs = verbsQuantity > 0
+      const hasNonVerbs = nonVerbsQuantity > 0
+
       try {
-        if (verbs.length === 0 && nonVerbs.length === 0) {
+        if (!hasVerbs && !hasNonVerbs) {
           setData({ foundActions: [] })
+
           return
         }
 
-        const foundActions: TSearchAction[] = []
+        const items: TItem[] = []
 
         for (const action of searchActions) {
           const allVerbsSynonyms = await SynonymsHelper.getAllSynonyms(action.verbs)
           const allNonVerbsSynonyms = await SynonymsHelper.getAllSynonyms(action.nonVerbs)
 
-          const allVerbs = [...action.verbs, ...allVerbsSynonyms]
-          const allNonVerbs = [...action.nonVerbs, ...allNonVerbsSynonyms]
+          const lowerCaseLabels = action.label.toLowerCase().split(' ')
+          const allVerbs = [...lowerCaseLabels, ...action.verbs, ...allVerbsSynonyms]
+          const allNonVerbs = [...lowerCaseLabels, ...action.nonVerbs, ...allNonVerbsSynonyms]
 
-          const hasVerb = verbs.some(value => search(value, allVerbs).length > 0)
-          const hasNonVerb = nonVerbs.some(item => search(item, allNonVerbs).length > 0)
+          const filteredVerbs = verbs.filter(
+            verb =>
+              allVerbs.some(value => value.startsWith(verb)) || search(verb, allVerbs, { threshold: 0.8 }).length > 0
+          )
 
-          if (verbs.length > 0 && nonVerbs.length > 0) {
-            if (hasVerb && hasNonVerb) {
-              foundActions.push(action)
-            }
-          } else if (nonVerbs.length > 0 && hasNonVerb) {
-            foundActions.push(action)
-          } else if (verbs.length > 0 && hasVerb) {
-            foundActions.push(action)
-          }
+          const filteredNonVerbs = nonVerbs.filter(
+            nonVerb =>
+              allNonVerbs.some(value => value.startsWith(nonVerb)) ||
+              search(nonVerb, allNonVerbs, { threshold: 0.8 }).length > 0
+          )
+
+          const verbsMatchedQuantity = filteredVerbs.length
+          const nonVerbsMatchedQuantity = filteredNonVerbs.length
+
+          const hasVerbsMatchedQuantity = verbsMatchedQuantity > 0
+          const hasNonVerbsMatchedQuantity = nonVerbsMatchedQuantity > 0
+
+          if (hasVerbs && hasNonVerbs) {
+            if (hasVerbsMatchedQuantity && hasNonVerbsMatchedQuantity)
+              items.push({ action, verbsMatchedQuantity, nonVerbsMatchedQuantity })
+          } else if (hasVerbs) {
+            if (hasVerbsMatchedQuantity) items.push({ action, verbsMatchedQuantity, nonVerbsMatchedQuantity })
+          } else if (hasNonVerbs && hasNonVerbsMatchedQuantity)
+            items.push({ action, verbsMatchedQuantity, nonVerbsMatchedQuantity })
         }
 
-        setData({ foundActions })
+        setData({
+          foundActions: orderBy(items, ['verbsMatchedQuantity', 'nonVerbsMatchedQuantity'], ['desc', 'desc']).map(
+            ({ action }) => action
+          ),
+        })
       } catch (error) {
         setData({ foundActions: [] })
       } finally {
@@ -132,7 +160,7 @@ export const SearchModal = () => {
 
   return (
     <CenterModalLayout
-      contentClassName="px-0 pt-7 flex flex-col"
+      contentClassName="px-0 pt-7 flex flex-col pb-2"
       headerComponent={
         <Fragment>
           <header className="flex items-center justify-between pt-6 pb-2.5">
@@ -166,6 +194,7 @@ export const SearchModal = () => {
         value={actionData.search}
         clearable
         autoFocus
+        maxLength={200}
         {...TestHelper.buildTestObject('search-input')}
       />
 
@@ -174,7 +203,7 @@ export const SearchModal = () => {
           <Loader containerClassName="flex-grow items-center" className="w-10 h-10 text-gray-300" />
         ))
         .with({ foundActions: undefined }, () => (
-          <div className="flex items-center gap-2.5  flex-grow justify-center">
+          <div className="flex items-center gap-2.5 mb-8 flex-grow justify-center">
             <TbSearch aria-hidden className="w-10 h-10 text-gray-300" />
             <h2 className="text-2xl text-gray-300">{t('idleResultDescription')}</h2>
           </div>

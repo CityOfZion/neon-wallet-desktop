@@ -37,7 +37,7 @@ export const DappConnectionDetailsModal = () => {
   const [proposalInformation, setProposalInformation] = useState<TWalletConnectHelperProposalInformation>()
   const [loading, setLoading] = useState(false)
 
-  const handleClose = async () => {
+  const handleOnClose = async () => {
     await rejectProposal(proposal)
   }
 
@@ -114,13 +114,13 @@ export const DappConnectionDetailsModal = () => {
   })
 
   return (
-    <CenterModalLayout onClose={handleClose} contentClassName="items-center justify-center flex flex-col">
+    <CenterModalLayout onClose={handleOnClose} contentClassName="items-center justify-center flex flex-col">
       {proposalInformation ? (
         <Fragment>
           <div className="flex w-full gap-x-12 items-center">
-            <NeonWalletLogo className="w-full h-min" />
+            <NeonWalletLogo aria-hidden={true} className="w-full h-min" />
 
-            <WalletConnectLogo className="w-full h-min opacity-60" />
+            <WalletConnectLogo aria-hidden={true} className="w-full h-min opacity-60" />
           </div>
 
           <ImageWithFallback
@@ -144,7 +144,7 @@ export const DappConnectionDetailsModal = () => {
               >
                 <div className="flex justify-between text-sm items-center">
                   <div className="flex items-center gap-x-2.5">
-                    <TbPlug className="stroke-blue w-6 h-6" />
+                    <TbPlug aria-hidden={true} className="stroke-blue w-6 h-6" />
 
                     <span>{t('connectionDetailsTitle')}</span>
                   </div>

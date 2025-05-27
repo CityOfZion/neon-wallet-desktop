@@ -5,6 +5,7 @@ import { Separator } from '@renderer/components/Separator'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 import { useModalHistories, useModalNavigate } from '@renderer/hooks/useModalRouter'
+import { useModalRouterOnClose } from '@renderer/hooks/useModalRouterOnClose'
 
 type TProps = {
   contentClassName?: string
@@ -31,6 +32,8 @@ export const CenterModalLayout = ({
   const { modalNavigate, modalErase } = useModalNavigate()
   const { histories } = useModalHistories()
 
+  useModalRouterOnClose(onClose)
+
   const withBackButton = useMemo(() => {
     return histories.filter(history => history.route.type === 'center').length > 1
   }, [histories])
@@ -39,7 +42,6 @@ export const CenterModalLayout = ({
 
   const handleClose = () => {
     modalErase('center')
-    onClose?.()
   }
 
   const handleBack = () => {

@@ -7,7 +7,6 @@ import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Link } from '@renderer/components/Link'
 import { Separator } from '@renderer/components/Separator'
 import { SUMSUB_TERMS_AND_CONDITIONS_LINK, UNLIMIT_USE_TERMS_LINK } from '@renderer/constants/urls'
-import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 type TLinkItemProps = {
@@ -43,14 +42,12 @@ const LinkItem = ({ title, to, linkLabel, svgImage }: TLinkItemProps) => (
 
 export const BuyAndSellTokensAboutDataModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'buyAndSellTokensAboutData' })
-  const { modalNavigateWrapper } = useModalNavigate()
 
   return (
     <SideModalLayout
       heading={t('title')}
       headingIcon={<MdInfoOutline aria-hidden={true} />}
       contentClassName="flex flex-col gap-y-5 overflow-y-auto text-xs text-white py-6"
-      onClose={modalNavigateWrapper(-1)}
     >
       <ul className="flex flex-col w-full gap-y-5">
         <LinkItem
