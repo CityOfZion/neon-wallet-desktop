@@ -53,8 +53,8 @@ export const NETWORK_OPTIONS_BY_BLOCKCHAIN: Record<
   },
   neox: {
     all: BSNeoXConstants.ALL_NETWORK,
-    mainnet: BSEthereumConstants.MAINNET_NETWORKS,
-    testnet: BSEthereumConstants.TESTNET_NETWORKS,
+    mainnet: [BSNeoXConstants.MAINNET_NETWORK],
+    testnet: [BSNeoXConstants.TESTNET_NETWORK],
   },
   polygon: {
     all: POLYGON_NETWORKS,
