@@ -1,6 +1,5 @@
 import { Fragment } from 'react'
 import { useTranslation } from 'react-i18next'
-import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { TFullTransactionAssetEvent, TFullTransactionEvent, TFullTransactionNftEvent } from '@shared/@types/hooks'
 import { match } from 'ts-pattern'
 
@@ -54,9 +53,7 @@ export const TransactionActivityListEvent = ({ event }: TProps) => {
         />
       )}
 
-      {NumberHelper.isBiggerThanZero(amount) && (
-        <TransactionActivityListEventColumn label={t('columns.amountLabel')} data={amount} />
-      )}
+      {amount && <TransactionActivityListEventColumn label={t('columns.amountLabel')} data={amount} />}
 
       {match(eventType)
         .with('nft', () => {

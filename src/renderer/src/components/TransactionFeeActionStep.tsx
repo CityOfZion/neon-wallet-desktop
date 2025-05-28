@@ -49,7 +49,7 @@ export const TransactionFeeActionStep = ({
       title={title ?? t('title')}
       leftIcon={<TbReceipt aria-hidden={true} className="w-6 h-6 min-w-6 min-h-6" />}
       className={StyleHelper.mergeStyles('bg-gray-700/60 font-bold rounded px-4 mt-2 min-h-11', className)}
-      titleClassName={StyleHelper.mergeStyles('text-md whitespace-nowrap mr-3', titleClassName)}
+      titleClassName={StyleHelper.mergeStyles('text-md whitespace-nowrap mr-3 !overflow-visible', titleClassName)}
       headerClassName="gap-4"
     >
       {isCalculatingFee ? (
