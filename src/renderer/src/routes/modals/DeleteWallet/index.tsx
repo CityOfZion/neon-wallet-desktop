@@ -39,11 +39,11 @@ export const DeleteWalletModal = () => {
   }
 
   return (
-    <SideModalLayout heading={t('title')} headingIcon={<TbPencil className="text-neon" />}>
+    <SideModalLayout heading={t('title')} headingIcon={<TbPencil aria-hidden={true} className="text-neon" />}>
       <div className="bg-gray-800 h-full w-full flex flex-col px-4 rounded text-xs items-center justify-between">
         <div className="flex flex-col items-center">
           <div className="w-36 h-36 rounded-full bg-asphalt flex items-center justify-center">
-            <TbTrash className="text-pink w-[5rem] h-[5rem]" />
+            <TbTrash aria-hidden={true} className="text-pink w-[5rem] h-[5rem]" />
           </div>
           <p className="text-white text-lg pt-7">{t('deleteWallet')}</p>
 
@@ -71,7 +71,7 @@ export const DeleteWalletModal = () => {
               className="w-full"
               variant="outlined"
               label={t('delete')}
-              leftIcon={<TbTrash />}
+              leftIcon={<TbTrash aria-hidden={true} />}
               colorSchema="error"
               onClick={() => handleDelete()}
             />

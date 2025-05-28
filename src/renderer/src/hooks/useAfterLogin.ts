@@ -295,19 +295,21 @@ const useRegisterHotKeys = () => {
   const { modalNavigate } = useModalNavigate()
   const { historiesRef } = useModalHistories()
 
-  useHotkeys(
-    'ctrl+k',
-    () => {
-      const lastHistory = historiesRef.current.slice(-1)[0]
-      if (lastHistory?.route.name === 'search') {
-        modalNavigate(-1)
-        return
-      }
+  const handleSearch = () => {
+    const [lastHistory] = historiesRef.current.slice(-1)
 
-      modalNavigate('search')
-    },
-    { enableOnFormTags: true }
-  )
+    if (lastHistory?.route.name === 'search') {
+      modalNavigate(-1)
+
+      return
+    }
+
+    if (lastHistory) return
+
+    modalNavigate('search')
+  }
+
+  useHotkeys('ctrl+f', handleSearch, { enableOnFormTags: true })
 }
 
 export const useAfterLogin = () => {

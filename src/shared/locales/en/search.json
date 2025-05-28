@@ -3,11 +3,13 @@
     {
       "id": "transfer",
       "nonVerbs": [
-        "token"
+        "token",
+        "crypto"
       ],
       "verbs": [
         "transfer",
-        "send"
+        "send",
+        "crypto"
       ],
       "label": "Transfer tokens"
     },
@@ -30,10 +32,12 @@
       "id": "createContact",
       "verbs": [
         "add",
-        "create"
+        "create",
+        "address"
       ],
       "nonVerbs": [
-        "contact"
+        "contact",
+        "address"
       ],
       "label": "Create contact"
     },
@@ -41,10 +45,12 @@
       "id": "viewContacts",
       "verbs": [
         "list",
-        "view"
+        "view",
+        "address"
       ],
       "nonVerbs": [
-        "contact"
+        "contact",
+        "address"
       ],
       "label": "View contacts"
     },
@@ -67,12 +73,15 @@
     {
       "id": "swap",
       "verbs": [
-        "swap",
         "exchange",
-        "trade"
+        "trade",
+        "receive",
+        "crypto"
       ],
       "nonVerbs": [
-        "token"
+        "token",
+        "swap",
+        "crypto"
       ],
       "label": "Swap tokens"
     },
@@ -80,11 +89,16 @@
       "id": "buy",
       "verbs": [
         "buy",
-        "purchase",
-        "acquire"
+        "acquire",
+        "ramp",
+        "crypto"
       ],
       "nonVerbs": [
-        "token"
+        "token",
+        "purchase",
+        "crypto",
+        "on ramp",
+        "ramps"
       ],
       "label": "Buy tokens"
     },
@@ -93,12 +107,33 @@
       "verbs": [
         "sell",
         "trade",
-        "liquidate"
+        "liquidate",
+        "receive",
+        "ramp",
+        "crypto"
       ],
       "nonVerbs": [
-        "token"
+        "token",
+        "off ramp",
+        "ramps",
+        "crypto"
       ],
       "label": "Sell tokens"
+    },
+    {
+      "id": "receive",
+      "verbs": [
+        "address",
+        "transfer",
+        "crypto"
+      ],
+      "nonVerbs": [
+        "token",
+        "account",
+        "address",
+        "crypto"
+      ],
+      "label": "Receive tokens"
     },
     {
       "id": "createWallet",
@@ -138,6 +173,7 @@
     {
       "id": "import",
       "verbs": [
+        "address",
         "restore",
         "recover",
         "import",

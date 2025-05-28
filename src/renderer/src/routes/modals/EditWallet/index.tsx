@@ -45,7 +45,11 @@ export const EditWalletModal = () => {
   }
 
   return (
-    <SideModalLayout heading={t('title')} headingIcon={<TbPencil />} contentClassName="flex flex-col">
+    <SideModalLayout
+      heading={t('title')}
+      headingIcon={<TbPencil aria-hidden={true} />}
+      contentClassName="flex flex-col"
+    >
       <form onSubmit={form.handleAct(handleSubmit)} className="flex flex-col flex-grow">
         <Input
           placeholder={t('inputPlaceholder')}
@@ -81,7 +85,7 @@ export const EditWalletModal = () => {
         <Button
           label="Delete Wallet"
           type="button"
-          leftIcon={<MdDeleteForever />}
+          leftIcon={<MdDeleteForever aria-hidden={true} />}
           className="mt-7"
           variant="outlined"
           onClick={() => modalNavigate('delete-wallet', { state: { wallet } })}

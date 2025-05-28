@@ -6,6 +6,8 @@ export type TRoute = {
   name: string
   type: TRouteType
   size?: TRouterSize
+  closeOnEsc?: boolean
+  closeOnClickOutside?: boolean
 }
 
 export type THistory<T = any> = {

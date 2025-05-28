@@ -4,6 +4,7 @@ import { IconButton } from '@renderer/components/IconButton'
 import { Separator } from '@renderer/components/Separator'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { useModalHistories, useModalNavigate } from '@renderer/hooks/useModalRouter'
+import { useModalRouterOnClose } from '@renderer/hooks/useModalRouterOnClose'
 
 export type TSideModalProps = {
   heading?: JSX.Element | string
@@ -24,6 +25,8 @@ export const SideModalLayout = ({
   const { modalNavigateWrapper, modalEraseWrapper } = useModalNavigate()
   const { histories } = useModalHistories()
 
+  useModalRouterOnClose(onClose)
+
   const withBackButton = useMemo(() => {
     return histories.filter(history => history.route.type === 'side').length > 1
   }, [histories])
@@ -37,7 +40,7 @@ export const SideModalLayout = ({
         <div className="flex justify-between py-2.5 items-center">
           {withBackButton && (
             <IconButton
-              icon={<MdKeyboardBackspace className="fill-gray-200" />}
+              icon={<MdKeyboardBackspace aria-hidden={true} className="fill-gray-200" />}
               size="md"
               compacted
               onClick={modalNavigateWrapper(-1)}
@@ -53,10 +56,10 @@ export const SideModalLayout = ({
           </div>
 
           <IconButton
-            icon={<MdClose className="fill-white" />}
+            icon={<MdClose aria-hidden={true} className="fill-white" />}
             size="md"
             compacted
-            onClick={onClose ?? modalEraseWrapper('side')}
+            onClick={modalEraseWrapper('side')}
           />
         </div>
 

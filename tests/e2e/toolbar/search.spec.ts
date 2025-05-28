@@ -24,13 +24,13 @@ test.describe('Search button', () => {
   })
 
   test('Should be able to open the search modal by hotkey', async () => {
-    await window.keyboard.press('Control+K')
+    await window.keyboard.press('Control+F')
 
     const searchModal = window.getByTestId('search-modal')
 
     await expect(searchModal).toBeVisible()
 
-    await window.keyboard.press('Control+K')
+    await window.keyboard.press('Control+F')
 
     await expect(searchModal).not.toBeVisible()
   })

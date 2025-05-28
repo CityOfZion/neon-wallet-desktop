@@ -47,6 +47,10 @@ export const functionsByActionId: TFunctionsByActionId = {
     modalActions.modalErase('center')
     pageNavigate('/app/buy-and-sell-tokens', { state: { screenType: BuyAndSellTokensScreenType.SELL_TOKENS } })
   },
+  receive: async ({ pageNavigate, modalActions }) => {
+    modalActions.modalErase('center')
+    pageNavigate('/app/receive')
+  },
   createWallet: async ({ modalActions }) => {
     modalActions.modalNavigate('create-wallet-step-1', {
       replace: true,
