@@ -42,21 +42,29 @@ export const TransactionActivityListEvent = ({ event }: TProps) => {
         />
       )}
 
-      {!!from && (
-        <TransactionActivityListEventColumn
-          label={t('columns.fromLabel')}
-          data={<TransactionActivityListEventColumnDataAddress address={from} addressName={fromName} />}
-          url={fromUrl}
-        />
-      )}
+      <TransactionActivityListEventColumn
+        label={t('columns.fromLabel')}
+        data={
+          !from ? (
+            <span className="inline-block">{tCommonGeneral('emptyColumn')}</span>
+          ) : (
+            <TransactionActivityListEventColumnDataAddress address={from} addressName={fromName} />
+          )
+        }
+        url={fromUrl}
+      />
 
-      {!!to && (
-        <TransactionActivityListEventColumn
-          label={t('columns.toLabel')}
-          data={<TransactionActivityListEventColumnDataAddress address={to} addressName={toName} />}
-          url={toUrl}
-        />
-      )}
+      <TransactionActivityListEventColumn
+        label={t('columns.toLabel')}
+        data={
+          !to ? (
+            <span className="inline-block">{tCommonGeneral('emptyColumn')}</span>
+          ) : (
+            <TransactionActivityListEventColumnDataAddress address={to} addressName={toName} />
+          )
+        }
+        url={toUrl}
+      />
 
       {amount && <TransactionActivityListEventColumn label={t('columns.amountLabel')} data={amount} />}
 
