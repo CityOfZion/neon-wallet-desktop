@@ -14,11 +14,8 @@ type TProps = {
 export const TransactionActivityListEvent = ({ event }: TProps) => {
   const { t } = useTranslation('components', { keyPrefix: 'transactionActivityList.event' })
 
-  const { eventType, amount, methodName, to, toUrl, toAccount, from, fromUrl, fromAccount, hash, hashUrl, tokenType } =
-    event
+  const { eventType, amount, methodName, to, toUrl, toAccount, from, fromUrl, fromAccount, hash, hashUrl } = event
 
-  const tokenTypeLabel = !!tokenType && tokenType !== 'generic' ? `(${tokenType.toUpperCase()})` : ''
-  const methodNameLabel = `${methodName} ${tokenTypeLabel}`.trim()
   const toName = toAccount?.name
   const fromName = fromAccount?.name
 
@@ -26,12 +23,12 @@ export const TransactionActivityListEvent = ({ event }: TProps) => {
     <div className="flex-grow flex justify-between items-center gap-x-2 ml-20 pl-4 pr-2 h-13 min-h-13 max-h-13 whitespace-nowrap overflow-x-auto overflow-y-hidden">
       {!!hash && <TransactionActivityListEventColumn label={t('columns.hashLabel')} data={hash} url={hashUrl} />}
 
-      {!!methodNameLabel && (
+      {!!methodName && (
         <TransactionActivityListEventColumn
           label={t('columns.methodNameLabel')}
           data={
-            <TransactionActivityListTooltip data={methodNameLabel} className="uppercase">
-              <span className="inline-block uppercase truncate max-w-32">{methodNameLabel}</span>
+            <TransactionActivityListTooltip data={methodName} className="uppercase">
+              <span className="inline-block uppercase truncate max-w-32">{methodName}</span>
             </TransactionActivityListTooltip>
           }
         />
