@@ -184,7 +184,6 @@
     "notFoundTitle": "No transactions to display",
     "notFoundDescription": "Make a transaction and it'll appear here",
     "item": {
-      "timeLabel": "Time",
       "notificationCountLabel": "Notifications",
       "invocationCountLabel": "Invocations",
       "blockLabel": "Block: {{ block }}",
@@ -194,7 +193,8 @@
       "copyTxIdLabel": "Copy tx ID",
       "pendingDataLabel": "Processing…",
       "pendingTooltipLabel": "This transaction is processing, wait, please",
-      "formatHourMinutes": "HH:mm"
+      "formatHourMinutes": "HH:mm",
+      "formatFullDateTime": "dd MMM yyyy (HH:mm)"
     },
     "event": {
       "nftImageAltWithNameLabel": "NFT image: {{ name }}",
