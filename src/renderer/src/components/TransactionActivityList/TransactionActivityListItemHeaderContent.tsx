@@ -77,7 +77,7 @@ export const TransactionActivityListItemHeaderContent = ({
     <div className="bg-asphalt w-full flex items-center justify-between rounded px-1 gap-x-2 h-full">
       <div className="flex items-center gap-x-2 whitespace-nowrap truncate" onClick={handleCancelBubbleEvent}>
         <TransactionActivityListItemHeaderDetails
-          label={t('timeLabel')}
+          label={format(date, t('formatFullDateTime'))}
           data={format(date, t('formatHourMinutes'))}
           icon={<TbClock aria-hidden={true} />}
         />
