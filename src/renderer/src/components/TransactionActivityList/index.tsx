@@ -2,13 +2,17 @@ import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbAlertTriangle } from 'react-icons/tb'
 import { Separator } from '@renderer/components/Separator'
+import { TransactionActivityListProvider } from '@renderer/contexts/TransactionActivityListContext'
 import { useActions } from '@renderer/hooks/useActions'
 import { useGetFullTransactions } from '@renderer/hooks/useGetFullTransactions'
 import { useInfiniteScroll } from '@renderer/hooks/useInfiniteScroll'
+import { useTransactionActivityList } from '@renderer/hooks/useTransactionActivityList'
+import { TTransactionActivityListEventColumnSize } from '@shared/@types/modal'
 import { IAccountState } from '@shared/@types/store'
+import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import * as dateFns from 'date-fns'
-import { match } from 'ts-pattern'
+import { match, P } from 'ts-pattern'
 
 import { TransactionActivityListDateRange } from './TransactionActivityListDateRange'
 import { TransactionActivityListItem } from './TransactionActivityListItem'
@@ -34,8 +38,9 @@ const heights = {
   TRANSACTION_GAP: 16,
 }
 
-export const TransactionActivityList = ({ defaultAccounts }: TProps) => {
+const Content = ({ defaultAccounts }: TProps) => {
   const { t } = useTranslation('components', { keyPrefix: 'transactionActivityList' })
+  const { setEventColumnSize } = useTransactionActivityList()
 
   const dateNow = new Date()
 
@@ -52,7 +57,15 @@ export const TransactionActivityList = ({ defaultAccounts }: TProps) => {
 
   const isDateDisabled = isLoading ? true : { after: dateNow }
 
-  const handleSelectDateFrom = (date: Date) => {
+  const handleScrollToTop = async () => {
+    scrollRef.current?.scroll({ top: 0, behavior: 'instant' })
+
+    await SharedUtilsHelper.sleep(200)
+  }
+
+  const handleSelectDateFrom = async (date: Date) => {
+    await handleScrollToTop()
+
     setData({ dateFrom: date })
 
     if (dateTo && dateFns.isAfter(date, dateTo)) {
@@ -66,7 +79,9 @@ export const TransactionActivityList = ({ defaultAccounts }: TProps) => {
     }
   }
 
-  const handleSelectDateTo = (date: Date) => {
+  const handleSelectDateTo = async (date: Date) => {
+    await handleScrollToTop()
+
     setData({ dateTo: date })
 
     if (dateFrom && dateFns.isBefore(date, dateFrom)) {
@@ -121,6 +136,45 @@ export const TransactionActivityList = ({ defaultAccounts }: TProps) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [actionData])
+
+  useEffect(() => {
+    const scrollElement = scrollRef.current
+
+    if (!scrollElement) return
+
+    const resizeObserver = new ResizeObserver(([entry]) => {
+      if (!entry) return
+
+      const { width } = entry.contentRect
+
+      setEventColumnSize(
+        match(width)
+          .with(
+            P.when(value => value <= 822),
+            () => 'xs'
+          )
+          .with(
+            P.when(value => value <= 914),
+            () => 'sm'
+          )
+          .with(
+            P.when(value => value <= 1008),
+            () => 'md'
+          )
+          .with(
+            P.when(value => value <= 1120),
+            () => 'lg'
+          )
+          .otherwise(() => 'xl') as TTransactionActivityListEventColumnSize
+      )
+    })
+
+    resizeObserver.observe(scrollElement)
+
+    return () => resizeObserver.disconnect()
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [scrollRef.current])
 
   return (
     <div className="w-full flex flex-col gap-y-2 mt-2 min-h-0 text-sm">
@@ -178,3 +232,9 @@ export const TransactionActivityList = ({ defaultAccounts }: TProps) => {
     </div>
   )
 }
+
+export const TransactionActivityList = (props: TProps) => (
+  <TransactionActivityListProvider>
+    <Content {...props} />
+  </TransactionActivityListProvider>
+)

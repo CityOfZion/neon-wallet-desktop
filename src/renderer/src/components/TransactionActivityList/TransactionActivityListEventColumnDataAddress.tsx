@@ -12,11 +12,13 @@ export const TransactionActivityListEventColumnDataAddress = ({ address, address
 
   if (addressName) tooltipLabel += ` (${addressName})`
 
-  const textLabel = StringHelper.truncateString(addressName ? addressName : address, 10)
+  const textLabel = addressName
+    ? StringHelper.truncateString(addressName, 10)
+    : StringHelper.truncateStringMiddle(address, 8)
 
   return (
     <TransactionActivityListTooltip data={tooltipLabel}>
-      <span>{textLabel}</span>
+      <span className="inline-block">{textLabel}</span>
     </TransactionActivityListTooltip>
   )
 }

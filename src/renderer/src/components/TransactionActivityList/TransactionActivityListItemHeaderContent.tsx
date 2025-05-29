@@ -101,7 +101,7 @@ export const TransactionActivityListItemHeaderContent = ({
         {!!block && (
           <TransactionActivityListItemHeaderDetails
             label={t('blockLabel', { block })}
-            data={StringHelper.truncateStringMiddle(block.toString(), 8)}
+            data={StringHelper.truncateStringMiddle(block.toString(), 10)}
             icon={<TbCube aria-hidden={true} />}
           />
         )}
@@ -111,12 +111,12 @@ export const TransactionActivityListItemHeaderContent = ({
             data={
               <div className="flex items-center whitespace-nowrap">
                 <TransactionActivityListTooltip data={t('networkFeeAmountLabel', { networkFeeAmount })}>
-                  <span className="text-white">{StringHelper.truncateString(networkFeeAmount, 10)}</span>
+                  <span className="text-white">{StringHelper.truncateString(networkFeeAmount, 12)}</span>
                 </TransactionActivityListTooltip>
 
                 {NumberHelper.isBiggerThanZero(systemFeeAmount) && (
                   <TransactionActivityListTooltip data={t('systemFeeAmountLabel', { systemFeeAmount })}>
-                    <span className="text-gray-100 whitespace-break-spaces">{` | ${StringHelper.truncateString(systemFeeAmount, 10)}`}</span>
+                    <span className="text-gray-100 whitespace-break-spaces">{` | ${StringHelper.truncateString(systemFeeAmount, 12)}`}</span>
                   </TransactionActivityListTooltip>
                 )}
               </div>
