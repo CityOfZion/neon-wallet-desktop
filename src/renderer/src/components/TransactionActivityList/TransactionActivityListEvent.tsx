@@ -1,5 +1,6 @@
 import { Fragment } from 'react'
 import { useTranslation } from 'react-i18next'
+import { StringHelper } from '@renderer/helpers/StringHelper'
 import { TFullTransactionAssetEvent, TFullTransactionEvent, TFullTransactionNftEvent } from '@shared/@types/hooks'
 import { match } from 'ts-pattern'
 
@@ -13,6 +14,7 @@ type TProps = {
 
 export const TransactionActivityListEvent = ({ event }: TProps) => {
   const { t } = useTranslation('components', { keyPrefix: 'transactionActivityList.event' })
+  const { t: tCommonGeneral } = useTranslation('common', { keyPrefix: 'general' })
 
   const { eventType, amount, methodName, to, toUrl, toAccount, from, fromUrl, fromAccount, hash, hashUrl } = event
 
@@ -20,15 +22,21 @@ export const TransactionActivityListEvent = ({ event }: TProps) => {
   const fromName = fromAccount?.name
 
   return (
-    <div className="flex-grow flex justify-between items-center gap-x-2 ml-20 pl-4 pr-2 h-13 min-h-13 max-h-13 whitespace-nowrap overflow-x-auto overflow-y-hidden">
-      {!!hash && <TransactionActivityListEventColumn label={t('columns.hashLabel')} data={hash} url={hashUrl} />}
+    <div className="flex-grow flex items-center gap-x-2 ml-20 pl-4 pr-2 h-13 min-h-13 max-h-13 whitespace-nowrap overflow-x-auto overflow-y-hidden">
+      {!!hash && (
+        <TransactionActivityListEventColumn
+          label={t('columns.hashLabel')}
+          data={StringHelper.truncateStringMiddle(hash, 8)}
+          url={hashUrl}
+        />
+      )}
 
       {!!methodName && (
         <TransactionActivityListEventColumn
           label={t('columns.methodNameLabel')}
           data={
             <TransactionActivityListTooltip data={methodName} className="uppercase">
-              <span className="inline-block uppercase truncate max-w-32">{methodName}</span>
+              <span className="inline-block uppercase truncate">{methodName}</span>
             </TransactionActivityListTooltip>
           }
         />
@@ -69,11 +77,12 @@ export const TransactionActivityListEvent = ({ event }: TProps) => {
 
               {!!nftImageUrl && (
                 <TransactionActivityListEventColumn
+                  className="flex-grow flex items-end justify-center mt-0.5 mb-0 mr-0 ml-auto"
                   data={
                     <TransactionActivityListTooltip data={nftImageLabel}>
                       <div>
                         <img
-                          className="w-full max-w-16 max-h-9 select-none pointer-events-none rounded"
+                          className="w-full max-w-16 max-h-8 select-none pointer-events-none rounded"
                           src={nftImageUrl}
                           alt={nftImageLabel}
                         />
@@ -90,16 +99,19 @@ export const TransactionActivityListEvent = ({ event }: TProps) => {
           const { token } = event as TFullTransactionAssetEvent
           const tokenSymbol = token?.symbol ?? ''
           const tokenName = token?.name ?? ''
-
-          if (!tokenSymbol && !tokenName) return null
+          const hasTokenLabel = !!tokenSymbol || !!tokenName
 
           return (
             <TransactionActivityListEventColumn
               label={t('columns.tokenLabel')}
               data={
-                <TransactionActivityListTooltip data={tokenName || tokenSymbol}>
-                  <span className="inline-block truncate max-w-28">{tokenSymbol || tokenName}</span>
-                </TransactionActivityListTooltip>
+                !hasTokenLabel ? (
+                  <span className="inline-block">{tCommonGeneral('emptyColumn')}</span>
+                ) : (
+                  <TransactionActivityListTooltip data={tokenName || tokenSymbol}>
+                    <span className="inline-block truncate">{tokenSymbol || tokenName}</span>
+                  </TransactionActivityListTooltip>
+                )
               }
             />
           )

@@ -1,3 +1,5 @@
+import { Dispatch, ReactNode, SetStateAction } from 'react'
+
 export type TRouteType = 'side' | 'center'
 export type TRouterSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '1xl'
 
@@ -38,4 +40,15 @@ export type TModalRouterCurrentHistoryContextValue<T = any> = {
 export type TModalRouterCurrentHistoryProviderProps<T = any> = {
   value: THistory<T>
   children: React.ReactNode
+}
+
+export type TTransactionActivityListEventColumnSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+
+export type TTransactionActivityListProviderProps = {
+  children: ReactNode
+}
+
+export type TTransactionActivityListContextValue = {
+  eventColumnSize: TTransactionActivityListEventColumnSize
+  setEventColumnSize: Dispatch<SetStateAction<TTransactionActivityListEventColumnSize>>
 }
