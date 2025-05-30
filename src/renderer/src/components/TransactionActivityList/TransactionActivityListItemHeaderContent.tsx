@@ -106,7 +106,7 @@ export const TransactionActivityListItemHeaderContent = ({
           />
         )}
 
-        {NumberHelper.isBiggerThanZero(networkFeeAmount) && (
+        {networkFeeAmount && NumberHelper.isBiggerThanZero(networkFeeAmount) && (
           <TransactionActivityListItemHeaderDetails
             data={
               <div className="flex items-center whitespace-nowrap">
@@ -114,7 +114,7 @@ export const TransactionActivityListItemHeaderContent = ({
                   <span className="text-white">{StringHelper.truncateString(networkFeeAmount, 12)}</span>
                 </TransactionActivityListTooltip>
 
-                {NumberHelper.isBiggerThanZero(systemFeeAmount) && (
+                {systemFeeAmount && NumberHelper.isBiggerThanZero(systemFeeAmount) && (
                   <TransactionActivityListTooltip data={t('systemFeeAmountLabel', { systemFeeAmount })}>
                     <span className="text-gray-100 whitespace-break-spaces">{` | ${StringHelper.truncateString(systemFeeAmount, 12)}`}</span>
                   </TransactionActivityListTooltip>
