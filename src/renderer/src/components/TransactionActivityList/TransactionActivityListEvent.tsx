@@ -26,8 +26,12 @@ export const TransactionActivityListEvent = ({ event }: TProps) => {
       {!!hash && (
         <TransactionActivityListEventColumn
           label={t('columns.hashLabel')}
-          data={StringHelper.truncateStringMiddle(hash, 8)}
           url={hashUrl}
+          data={
+            <TransactionActivityListTooltip data={hash}>
+              <span className="inline-block">{StringHelper.truncateStringMiddle(hash, 8)}</span>
+            </TransactionActivityListTooltip>
+          }
         />
       )}
 
@@ -66,7 +70,18 @@ export const TransactionActivityListEvent = ({ event }: TProps) => {
         url={toUrl}
       />
 
-      {amount && <TransactionActivityListEventColumn label={t('columns.amountLabel')} data={amount} />}
+      <TransactionActivityListEventColumn
+        label={t('columns.amountLabel')}
+        data={
+          !amount ? (
+            <span className="inline-block">{tCommonGeneral('emptyColumn')}</span>
+          ) : (
+            <TransactionActivityListTooltip data={amount}>
+              <span className="inline-block truncate">{amount}</span>
+            </TransactionActivityListTooltip>
+          )
+        }
+      />
 
       {match(eventType)
         .with('nft', () => {
