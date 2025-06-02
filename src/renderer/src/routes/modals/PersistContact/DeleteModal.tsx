@@ -44,19 +44,19 @@ export const DeleteModal = () => {
   }
 
   return (
-    <SideModalLayout heading={modalTitle} headingIcon={<MdDeleteForever className="text-pink" />}>
-      <div className="flex flex-col justify-between h-full">
-        <div className="flex flex-col items-center ga´p-y-6 text-lg text-center">
-          <div className="bg-asphalt rounded-full w-[9.25rem] h-[9.25rem] flex items-center justify-center">
-            <PiWarningLight className="w-28 h-28 px-1 text-pink" />
+    <SideModalLayout heading={modalTitle} headingIcon={<MdDeleteForever aria-hidden={true} className="text-pink" />}>
+      <div className="flex h-full flex-col justify-between">
+        <div className="ga´p-y-6 flex flex-col items-center text-center text-lg">
+          <div className="flex h-[9.25rem] w-[9.25rem] items-center justify-center rounded-full bg-asphalt">
+            <PiWarningLight aria-hidden={true} className="h-28 w-28 px-1 text-pink" />
           </div>
           <p>{warningText}</p>
 
-          <p className="text-gray-100 text-sm">{formatFirstName(firstName)}</p>
+          <p className="text-sm text-gray-100">{formatFirstName(firstName)}</p>
 
           {warningDescription && <p className="text-sm text-gray-300">{warningDescription}</p>}
 
-          {secondName && <p className="text-gray-100 text-sm">{secondName}</p>}
+          {secondName && <p className="text-sm text-gray-100">{secondName}</p>}
         </div>
 
         <Button

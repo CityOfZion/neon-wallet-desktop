@@ -36,7 +36,7 @@ export const Link = ({
   return (
     <RRDLink
       aria-disabled={isDisabled}
-      className={StyleHelper.mergeStyles('cursor-default group', className)}
+      className={StyleHelper.mergeStyles('group cursor-default', className)}
       onClick={handleClick}
       {...props}
     >

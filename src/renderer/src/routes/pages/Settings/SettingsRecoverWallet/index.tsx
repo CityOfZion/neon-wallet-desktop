@@ -28,17 +28,17 @@ export const SettingsRecoverWallet = () => {
 
   return (
     <SettingsLayout title={t('title')}>
-      <form className="w-full h-full flex flex-col" onSubmit={handleAct(handleSubmit)}>
+      <form className="flex h-full w-full flex-col" onSubmit={handleAct(handleSubmit)}>
         <div className="h-full">
           <p className="mb-7 text-xs">{t('description')}</p>
 
-          <p className="uppercase text-gray-100 font-bold text-xs mb-3.5">{t('saveBackupLabel')}</p>
+          <p className="mb-3.5 text-xs font-bold uppercase text-gray-100">{t('saveBackupLabel')}</p>
 
           <div className="w-fit">
             <div className="flex gap-2.5">
               <Input value={actionData?.path ?? ''} compacted readOnly containerClassName="w-[17rem]" />
 
-              <Button flat label={t('browse')} type="button" onClick={handleBrowse} className="w-36 h-fit" />
+              <Button flat label={t('browse')} type="button" onClick={handleBrowse} className="h-fit w-36" />
             </div>
 
             {actionState.errors.path && <AlertErrorBanner message={actionState.errors.path} className="mt-4" />}

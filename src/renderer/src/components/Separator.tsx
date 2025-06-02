@@ -19,12 +19,12 @@ export const Separator = ({ className, containerClassName, type = 'horizontal', 
     >
       {type === 'horizontal' ? (
         <div
-          className={StyleHelper.mergeStyles('w-full h-px bg-gray-300/15 min-h-[0.0625rem]', className)}
+          className={StyleHelper.mergeStyles('h-px min-h-[0.0625rem] w-full bg-gray-300/15', className)}
           {...props}
         />
       ) : (
         <div
-          className={StyleHelper.mergeStyles('h-full w-px bg-gray-300/15 min-w-[0.0625rem]', className)}
+          className={StyleHelper.mergeStyles('h-full w-px min-w-[0.0625rem] bg-gray-300/15', className)}
           {...props}
         />
       )}

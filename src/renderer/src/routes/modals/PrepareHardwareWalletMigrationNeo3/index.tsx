@@ -41,11 +41,11 @@ export const PrepareHardwareWalletMigrationNeo3Modal = () => {
       className="overflow-y-auto"
       headerComponent={<PrepareHardwareWalletModalHeader currentStep={actionData.currentStep} />}
     >
-      <div className="flex flex-col items-center w-full mx-auto gap-y-4 h-full max-w-[600px]">
-        <p className="bg-black rounded-full text-center py-2 px-6 text-gray-100 font-light">{t('title')}</p>
+      <div className="mx-auto flex h-full w-full max-w-[600px] flex-col items-center gap-y-4">
+        <p className="rounded-full bg-black px-6 py-2 text-center font-light text-gray-100">{t('title')}</p>
 
         <Stepper
-          className="w-full max-w-[460px] mt-4 mb-14"
+          className="mb-14 mt-4 w-full max-w-[460px]"
           textClassName="w-16"
           currentStep={actionData.currentStep}
           steps={t('steps', { returnObjects: true })}

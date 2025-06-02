@@ -30,12 +30,12 @@ export const useColumns = (withAddress: boolean) => {
           const value = info.getValue()
 
           return (
-            <div className="flex gap-2 min-w-0 items-center">
+            <div className="flex min-w-0 items-center gap-2">
               <ImageWithFallback
                 src={value.icons[0]}
                 alt={value.name}
                 fallbackSrc={dappFallbackIcon}
-                className="h-5 w-5 min-w-[1.25rem] object-contain rounded-full bg-gray-300/30 overflow-hidden"
+                className="h-5 w-5 min-w-[1.25rem] overflow-hidden rounded-full bg-gray-300/30 object-contain"
               />
               <span className="truncate">{value.name}</span>
             </div>

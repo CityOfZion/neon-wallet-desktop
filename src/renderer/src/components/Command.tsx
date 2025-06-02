@@ -18,12 +18,12 @@ const Input = forwardRef<
   ComponentPropsWithoutRef<typeof CommandPrimitive.Input>
 >(({ className, ...props }, ref) => (
   // eslint-disable-next-line react/no-unknown-property
-  <div className="flex items-center bg-asphalt px-2 rounded h-8.5" cmdk-input-wrapper="">
-    <MdSearch className="w-6 h-6 text-gray-300 shrink-0 mr-2" />
+  <div className="flex h-8.5 items-center rounded bg-asphalt px-2" cmdk-input-wrapper="">
+    <MdSearch aria-hidden={true} className="mr-2 h-6 w-6 shrink-0 text-gray-300" />
     <CommandPrimitive.Input
       ref={ref}
       className={StyleHelper.mergeStyles(
-        'flex  w-full h-full bg-transparent text-sm outline-none placeholder:text-gray-300 disabled:cursor-not-allowed disabled:opacity-50',
+        'flex h-full w-full bg-transparent text-sm outline-none placeholder:text-gray-300 disabled:cursor-not-allowed disabled:opacity-50',
         className
       )}
       {...props}
@@ -38,7 +38,7 @@ const List = forwardRef<
   <CommandPrimitive.List
     ref={ref}
     className={StyleHelper.mergeStyles(
-      'max-h-96 overflow-y-auto overflow-x-hidden [scrollbar-width:none] bg-gray-900 rounded mt-0.5',
+      'mt-0.5 max-h-96 overflow-y-auto overflow-x-hidden rounded bg-gray-900 [scrollbar-width:none]',
       className
     )}
     {...props}

@@ -126,7 +126,7 @@ const Nav = ({
             : labelPrevious(previousMonth)
         }
         type="button"
-        className=" absolute left-0 h-7 w-7 bg-transparent p-0 opacity-80 hover:opacity-100"
+        className="absolute left-0 h-7 w-7 bg-transparent p-0 opacity-80 hover:opacity-100"
         variant="outline"
         size="xs"
         tabIndex={isPreviousDisabled ? undefined : -1}
@@ -217,7 +217,7 @@ const YearGrid = ({ className, displayYears, startMonth, endMonth, setNavView, n
   const { goToMonth } = useDayPicker()
 
   return (
-    <div className={StyleHelper.mergeStyles('grid grid-cols-4 gap-y-2 mx-auto mt-4', className)} {...props}>
+    <div className={StyleHelper.mergeStyles('mx-auto mt-4 grid grid-cols-4 gap-y-2', className)} {...props}>
       {Array.from({ length: displayYears.to - displayYears.from + 1 }, (_, index) => {
         const isBefore = differenceInCalendarDays(new Date(displayYears.from + index, 11, 31), startMonth!) < 0
 

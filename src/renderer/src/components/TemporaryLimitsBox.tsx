@@ -11,13 +11,13 @@ export const TemporaryLimitsBox = (props: TProps) => {
 
   return (
     <div {...props}>
-      <p className="text-gray-100 text-xs text-center">{t('description')}</p>
+      <p className="text-center text-xs text-gray-100">{t('description')}</p>
 
-      <div className="bg-gray-900/50 px-8 py-2 rounded w-full grid grid-cols-2 gap-y-2.5 mt-3.5">
+      <div className="mt-3.5 grid w-full grid-cols-2 gap-y-2.5 rounded bg-gray-900/50 px-8 py-2">
         {limits.map((limit, index) => (
-          <div className="flex gap-1.5 items-center" key={`limits-${index}`}>
-            <TbX className="text-pink w-4 h-4 stroke-[3px]" />
-            <p className="text-xs text-gray-100 relative -top-px">{limit}</p>
+          <div className="flex items-center gap-1.5" key={`limits-${index}`}>
+            <TbX aria-hidden={true} className="h-4 w-4 stroke-[3px] text-pink" />
+            <p className="relative -top-px text-xs text-gray-100">{limit}</p>
           </div>
         ))}
       </div>

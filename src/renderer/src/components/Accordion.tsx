@@ -20,7 +20,7 @@ const Trigger = forwardRef<ElementRef<typeof AccordionPrimitive.Trigger>, TTrigg
       <AccordionPrimitive.Trigger
         ref={ref}
         className={StyleHelper.mergeStyles(
-          'flex flex-1 px-2.5 items-center justify-between py-2.5 border-b border-gray-100/50 text-sm font-medium transition-all [&[data-state=open]>svg]:rotate-180',
+          'flex flex-1 items-center justify-between border-b border-gray-100/50 px-2.5 py-2.5 text-sm font-medium transition-all [&[data-state=open]>svg]:rotate-180',
           className
         )}
         {...props}
@@ -30,7 +30,7 @@ const Trigger = forwardRef<ElementRef<typeof AccordionPrimitive.Trigger>, TTrigg
         <MdExpandMore
           aria-hidden={true}
           className={StyleHelper.mergeStyles(
-            'h-6 w-6 text-gray-100 shrink-0 transition-transform duration-200',
+            'h-6 w-6 shrink-0 text-gray-100 transition-transform duration-200',
             iconClassName
           )}
         />

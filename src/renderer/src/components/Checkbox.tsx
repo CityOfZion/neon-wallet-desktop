@@ -21,10 +21,10 @@ export const Checkbox = forwardRef<HTMLButtonElement, TCheckboxProps>(
       <RadixCheckbox.Root
         ref={ref}
         className={StyleHelper.mergeStyles(
-          'min-w-[1.125rem] flex items-center justify-center min-h-[1.125rem] max-w-[1.125rem] max-h-[1.125rem] rounded-sm border-2',
+          'flex max-h-[1.125rem] min-h-[1.125rem] min-w-[1.125rem] max-w-[1.125rem] items-center justify-center rounded-sm border-2',
           {
             'cursor-not-allowed border-gray-300': props.disabled,
-            'border-neon data-[state=unchecked]:bg-transparent data-[state=checked]:bg-neon': !props.disabled,
+            'border-neon data-[state=checked]:bg-neon data-[state=unchecked]:bg-transparent': !props.disabled,
           },
           className
         )}
@@ -32,7 +32,7 @@ export const Checkbox = forwardRef<HTMLButtonElement, TCheckboxProps>(
         {...props}
       >
         <RadixCheckbox.Indicator>
-          <FiCheck className="w-full h-full stroke-asphalt stroke-2" />
+          <FiCheck aria-hidden={true} className="h-full w-full stroke-asphalt stroke-2" />
         </RadixCheckbox.Indicator>
       </RadixCheckbox.Root>
     )

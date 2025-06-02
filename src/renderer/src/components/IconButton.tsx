@@ -20,17 +20,17 @@ export const IconButton = forwardRef<HTMLButtonElement, TProps>(
         ref={ref}
         {...props}
         className={StyleHelper.mergeStyles(
-          'flex flex-col h-fit justify-center items-center disabled:cursor-not-allowed disabled:opacity-50 flex-grow-0 rounded transition-colors hover:enabled:bg-gray-300/15 aria-selected:bg-gray-300/15 aria-selected:hover:bg-gray-300/30 aria-expanded:bg-gray-300/15 aria-expanded:hover:bg-gray-300/30',
+          'flex h-fit flex-grow-0 flex-col items-center justify-center rounded transition-colors hover:enabled:bg-gray-300/15 disabled:cursor-not-allowed disabled:opacity-50 aria-expanded:bg-gray-300/15 aria-expanded:hover:bg-gray-300/30 aria-selected:bg-gray-300/15 aria-selected:hover:bg-gray-300/30',
           {
-            'py-1 px-2 gap-y-0.5': (size === 'sm' || size === 'xs') && !compacted,
-            'p-1 gap-y-0.5': (size === 'sm' || size === 'xs') && compacted,
-            'py-1.5 px-3 gap-y-1': size === 'md' && !compacted,
-            'p-1 gap-y-1': size === 'md' && compacted,
-            'text-neon border-neon': colorSchema === 'neon',
-            'text-gray-100 border-gray-300/15': colorSchema === 'gray',
-            'text-white border-white': colorSchema === 'white',
-            'text-yellow border-yellow': colorSchema === 'yellow',
-            'text-pink border-pink': colorSchema === 'error',
+            'gap-y-0.5 px-2 py-1': (size === 'sm' || size === 'xs') && !compacted,
+            'gap-y-0.5 p-1': (size === 'sm' || size === 'xs') && compacted,
+            'gap-y-1 px-3 py-1.5': size === 'md' && !compacted,
+            'gap-y-1 p-1': size === 'md' && compacted,
+            'border-neon text-neon': colorSchema === 'neon',
+            'border-gray-300/15 text-gray-100': colorSchema === 'gray',
+            'border-white text-white': colorSchema === 'white',
+            'border-yellow text-yellow': colorSchema === 'yellow',
+            'border-pink text-pink': colorSchema === 'error',
             'h-full rounded-none': fullHeight,
             border: variant === 'outline',
           },
@@ -50,7 +50,7 @@ export const IconButton = forwardRef<HTMLButtonElement, TProps>(
           ),
           ...iconProps,
         })}
-        {text && <span className="text-1xs whitespace-nowrap">{text}</span>}
+        {text && <span className="whitespace-nowrap text-1xs">{text}</span>}
       </button>
     )
   }

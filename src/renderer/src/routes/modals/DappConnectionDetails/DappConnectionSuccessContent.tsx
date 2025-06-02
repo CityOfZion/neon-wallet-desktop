@@ -8,7 +8,7 @@ export const DappConnectionSuccessContent = () => {
   const { modalNavigateWrapper } = useModalNavigate()
 
   return (
-    <div className="flex flex-grow  justify-center w-full items-end">
+    <div className="flex w-full flex-grow items-end justify-center">
       <Button
         label={t('buttonReturnLabel')}
         className="w-full px-14"

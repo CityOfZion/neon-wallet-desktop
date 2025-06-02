@@ -12,8 +12,8 @@ export const PortfolioOverviewPage = () => {
   const balances = useBalances(accounts)
 
   return (
-    <section className="w-full flex flex-col bg-gray-800 rounded shadow-lg py-3 h-full px-4 min-w-0">
-      <div className="flex justify-between text-sm mb-3">
+    <section className="flex h-full w-full min-w-0 flex-col rounded bg-gray-800 px-4 py-3 shadow-lg">
+      <div className="mb-3 flex justify-between text-sm">
         <h1 className="text-white">{t('overview')}</h1>
 
         {wallets && accounts && (

@@ -17,23 +17,23 @@ export const SellTokensDepositSuccessContent = ({ transaction }: TProps) => {
   const name = toAccount?.name
 
   return (
-    <div className="flex flex-col w-full min-h-0 p-3 pb-4 bg-asphalt mt-6 rounded">
-      <div className="flex text-sm text-white items-center gap-2.5">
-        <TbReceipt aria-hidden={true} className="text-blue w-6 h-6" />
+    <div className="mt-6 flex min-h-0 w-full flex-col rounded bg-asphalt p-3 pb-4">
+      <div className="flex items-center gap-2.5 text-sm text-white">
+        <TbReceipt aria-hidden={true} className="h-6 w-6 text-blue" />
 
         <p className="flex-grow font-medium">{t('details')}</p>
       </div>
 
       <Separator className="mt-3" />
 
-      <div className="flex flex-col mt-4 gap-3.5">
-        <p className="text-blue text-xs py-1.5 px-3.5 bg-gray-300/15">{t('section')}</p>
+      <div className="mt-4 flex flex-col gap-3.5">
+        <p className="bg-gray-300/15 px-3.5 py-1.5 text-xs text-blue">{t('section')}</p>
 
         <div className="flex flex-col gap-2 px-3">
-          <p className="text-xs text-gray-100 uppercase">{t('recipient')}</p>
+          <p className="text-xs uppercase text-gray-100">{t('recipient')}</p>
 
           <div className="flex items-center gap-2">
-            <p className="text-sm text-white break-all flex-grow font-medium">{name ? `${name} (${to})` : to}</p>
+            <p className="flex-grow break-all text-sm font-medium text-white">{name ? `${name} (${to})` : to}</p>
 
             <Tooltip title={t('labels.copyAddress')}>
               <IconButton
@@ -50,9 +50,9 @@ export const SellTokensDepositSuccessContent = ({ transaction }: TProps) => {
         <Separator />
 
         <div className="flex flex-col gap-2 px-3">
-          <p className="text-xs text-gray-100 uppercase">{t('amount')}</p>
+          <p className="text-xs uppercase text-gray-100">{t('amount')}</p>
 
-          <p className="text-sm text-white break-all font-medium">
+          <p className="break-all text-sm font-medium text-white">
             {transaction.amount} <span className="font-normal text-gray-100">{transaction.asset}</span>
           </p>
         </div>
@@ -60,10 +60,10 @@ export const SellTokensDepositSuccessContent = ({ transaction }: TProps) => {
         <Separator />
 
         <div className="flex flex-col gap-2 px-3">
-          <p className="text-xs text-gray-100 uppercase">{t('transactionHash')}</p>
+          <p className="text-xs uppercase text-gray-100">{t('transactionHash')}</p>
 
           <div className="flex items-center gap-2">
-            <p className="text-sm text-white break-all flex-grow font-medium">{hash}</p>
+            <p className="flex-grow break-all text-sm font-medium text-white">{hash}</p>
 
             <Tooltip title={t('labels.copyTransactionHash')}>
               <IconButton

@@ -19,7 +19,7 @@ export const WelcomeImportWalletPage = () => {
     <WelcomeLayout heading={t('title')} withBackButton={currentStep <= 3} className="overflow-hidden px-8">
       <Stepper steps={steps} className="my-10" currentStep={currentStep} />
 
-      <div className="px-8 flex flex-col flex-grow min-h-0 w-full items-center">
+      <div className="flex min-h-0 w-full flex-grow flex-col items-center px-8">
         <Outlet />
       </div>
     </WelcomeLayout>

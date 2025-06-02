@@ -6,15 +6,15 @@ type TProps = {
 
 export const WelcomeCard = ({ image, title, description }: TProps) => {
   return (
-    <div className="w-full max-w-[10.875rem] flex flex-col gap-y-4">
-      <div className="flex w-[10.875rem] h-[10.875rem] rounded bg-asphalt justify-center items-center drop-shadow-md">
+    <div className="flex w-full max-w-[10.875rem] flex-col gap-y-4">
+      <div className="flex h-[10.875rem] w-[10.875rem] items-center justify-center rounded bg-asphalt drop-shadow-md">
         {image}
       </div>
 
       <div className="flex flex-col gap-y-2">
-        <p className="text-xl text-white text-center">{title}</p>
+        <p className="text-center text-xl text-white">{title}</p>
 
-        <p className="text-xs text-gray-100 text-center">{description}</p>
+        <p className="text-center text-xs text-gray-100">{description}</p>
       </div>
     </div>
   )

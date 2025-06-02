@@ -13,14 +13,15 @@ export const AutoUpdateCompleted = () => {
 
   return (
     <CenterModalLayout contentClassName="flex flex-col w-full items-center justify-between">
-      <div className="text-center px-8 flex flex-col items-center">
-        <NeonWalletLogo className="w-56 h-min" />
-        <h2 className="text-2xl text-white mt-11">{t('title')}</h2>
+      <div className="flex flex-col items-center px-8 text-center">
+        <NeonWalletLogo aria-hidden={true} className="h-min w-56" />
 
-        <p className="mt-7 text-gray-100 text-sm leading-5 w-full max-w-[31rem]">{t('description')}</p>
+        <h2 className="mt-11 text-2xl text-white">{t('title')}</h2>
 
-        <div className="w-36 h-36 rounded-full bg-asphalt flex items-center justify-center mt-9">
-          <PiSealCheck className="text-blue w-[7rem] h-[7rem]" />
+        <p className="mt-7 w-full max-w-[31rem] text-sm leading-5 text-gray-100">{t('description')}</p>
+
+        <div className="mt-9 flex h-36 w-36 items-center justify-center rounded-full bg-asphalt">
+          <PiSealCheck aria-hidden={true} className="h-[7rem] w-[7rem] text-blue" />
         </div>
       </div>
 

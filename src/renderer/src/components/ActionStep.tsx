@@ -23,10 +23,10 @@ export const ActionStep = ({
   children,
 }: TAccountParams) => {
   return (
-    <div className={StyleHelper.mergeStyles('flex justify-between items-center w-full min-h-14 gap-3', className)}>
+    <div className={StyleHelper.mergeStyles('flex min-h-14 w-full items-center justify-between gap-3', className)}>
       <div
         className={StyleHelper.mergeStyles(
-          'flex items-center gap-3 flex-grow min-w-0',
+          'flex min-w-0 flex-grow items-center gap-3',
           {
             'opacity-50': disabled,
           },
@@ -35,7 +35,7 @@ export const ActionStep = ({
       >
         {leftIcon && (
           <div
-            className={StyleHelper.mergeStyles('w-5 h-5 flex items-center justify-center', leftIconContainerClassName)}
+            className={StyleHelper.mergeStyles('flex h-5 w-5 items-center justify-center', leftIconContainerClassName)}
           >
             {cloneElement(leftIcon, {
               ...leftIcon.props,
@@ -45,7 +45,7 @@ export const ActionStep = ({
         )}
 
         {typeof title === 'string' ? (
-          <span className={StyleHelper.mergeStyles('text-sm text-white truncate', titleClassName)}>{title}</span>
+          <span className={StyleHelper.mergeStyles('truncate text-sm text-white', titleClassName)}>{title}</span>
         ) : (
           title
         )}

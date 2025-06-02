@@ -20,10 +20,7 @@ export const Fee = ({ request, session, onReject }: TProps) => {
     error: feeError,
   } = useQuery({
     queryKey: ['fee', request.id],
-    queryFn: async () => {
-      const total = await walletConnectEIP155Adapter.calculateFee({ request, session })
-      return total
-    },
+    queryFn: async () => await walletConnectEIP155Adapter.calculateFee({ request, session }),
     gcTime: 0,
     staleTime: 0,
   })
@@ -38,8 +35,8 @@ export const Fee = ({ request, session, onReject }: TProps) => {
     <div className="flex flex-col gap-1">
       <span className="text-xs font-bold">{t('label')}</span>
 
-      <div className="pr-4 pl-5 bg-asphalt py-2.5 rounded min-w-0 gap-3">
-        {feeIsLoading ? <Loader className="w-4 h-4" /> : <p>{t('fee', { fee: fee })}</p>}
+      <div className="min-w-0 gap-3 rounded bg-asphalt py-2.5 pl-5 pr-4">
+        {feeIsLoading ? <Loader className="h-4 w-4" /> : <p>{t('fee', { fee: fee })}</p>}
       </div>
     </div>
   )

@@ -45,9 +45,9 @@ export const ConfirmPasswordExportModal = () => {
 
   return (
     <SideModalLayout heading={title} headingIcon={icon} contentClassName="flex flex-col">
-      <p className="text-xs mb-5">{t('description')}</p>
+      <p className="mb-5 text-xs">{t('description')}</p>
 
-      <form className="flex flex-col justify-between flex-grow" onSubmit={handleAct(handleSubmit)}>
+      <form className="flex flex-grow flex-col justify-between" onSubmit={handleAct(handleSubmit)}>
         <div>
           <Input
             placeholder={t('inputPlaceholder')}
@@ -63,7 +63,7 @@ export const ConfirmPasswordExportModal = () => {
           </div>
         </div>
 
-        <div className="flex flex-col w-full items-center px-5">
+        <div className="flex w-full flex-col items-center px-5">
           <Button
             className="w-full"
             type="submit"

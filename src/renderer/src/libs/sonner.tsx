@@ -17,7 +17,7 @@ const BaseToast = ({ message, className, sonnerId, icon, closeable = true }: TBa
   return (
     <div
       className={StyleHelper.mergeStyles(
-        'flex p-5 rounded items-center w-[var(--width)] text-sm font-medium gap-5 shadow-lg',
+        'flex w-[var(--width)] items-center gap-5 rounded p-5 text-sm font-medium shadow-lg',
         className
       )}
       {...TestHelper.buildTestObject('toast')}
@@ -34,7 +34,8 @@ const BaseToast = ({ message, className, sonnerId, icon, closeable = true }: TBa
 
       {closeable && (
         <MdClose
-          className="w-[1.5rem] h-[1.5rem] min-w-[1.5rem] min-h-[1.5rem] opacity-50 cursor-pointer"
+          aria-hidden={true}
+          className="h-[1.5rem] min-h-[1.5rem] w-[1.5rem] min-w-[1.5rem] cursor-pointer opacity-50"
           onClick={() => toast.dismiss(sonnerId)}
         />
       )}

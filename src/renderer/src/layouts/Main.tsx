@@ -20,13 +20,13 @@ export const MainLayout = ({
   ...props
 }: TMainLayoutProps): JSX.Element => {
   return (
-    <div className={StyleHelper.mergeStyles('flex w-screen h-screen-minus-drag-region', className)} {...props}>
+    <div className={StyleHelper.mergeStyles('flex h-screen-minus-drag-region w-screen', className)} {...props}>
       <Sidebar />
 
-      <div className="h-full w-full flex flex-col bg-asphalt text-white px-7 pb-4 min-w-0 min-h-0">
+      <div className="flex h-full min-h-0 w-full min-w-0 flex-col bg-asphalt px-7 pb-4 text-white">
         <header
           className={StyleHelper.mergeStyles(
-            'border-b border-b-gray-300/30 h-[4.0625rem] min-h-[4.0625rem] flex justify-between items-center',
+            'flex h-[4.0625rem] min-h-[4.0625rem] items-center justify-between border-b border-b-gray-300/30',
             headerClassName
           )}
         >
@@ -35,7 +35,7 @@ export const MainLayout = ({
           {rightComponent}
         </header>
 
-        <main className={StyleHelper.mergeStyles('flex w-full flex-col flex-grow min-h-0 pt-5', contentClassName)}>
+        <main className={StyleHelper.mergeStyles('flex min-h-0 w-full flex-grow flex-col pt-5', contentClassName)}>
           {children}
         </main>
       </div>

@@ -163,9 +163,9 @@ export const SearchModal = () => {
       contentClassName="px-0 pt-7 flex flex-col pb-2"
       headerComponent={
         <Fragment>
-          <header className="flex items-center justify-between pt-6 pb-2.5">
-            <div className="flex gap-2.5 items-center">
-              <MdSearch aria-hidden className="w-6 h-6 text-neon" />
+          <header className="flex items-center justify-between pb-2.5 pt-6">
+            <div className="flex items-center gap-2.5">
+              <MdSearch aria-hidden className="h-6 w-6 text-neon" />
 
               <h1 className="text-sm text-white">{t('title')}</h1>
             </div>
@@ -189,7 +189,7 @@ export const SearchModal = () => {
         className="placeholder:text-gray-100"
         contentClassName="bg-gray-300/30 mb-7"
         containerClassName="w-full"
-        rightElement={<TbSearch aria-hidden className="w-6 h-6 text-neon" />}
+        rightElement={<TbSearch aria-hidden className="h-6 w-6 text-neon" />}
         onChange={handleChange}
         value={actionData.search}
         clearable
@@ -200,24 +200,24 @@ export const SearchModal = () => {
 
       {match(actionData)
         .with({ isSearching: true }, () => (
-          <Loader containerClassName="flex-grow items-center" className="w-10 h-10 text-gray-300" />
+          <Loader containerClassName="flex-grow items-center" className="h-10 w-10 text-gray-300" />
         ))
         .with({ foundActions: undefined }, () => (
-          <div className="flex items-center gap-2.5 mb-8 flex-grow justify-center">
-            <TbSearch aria-hidden className="w-10 h-10 text-gray-300" />
+          <div className="mb-8 flex flex-grow items-center justify-center gap-2.5">
+            <TbSearch aria-hidden className="h-10 w-10 text-gray-300" />
             <h2 className="text-2xl text-gray-300">{t('idleResultDescription')}</h2>
           </div>
         ))
         .with({ foundActions: [] }, () => (
-          <div className="flex items-center flex-grow justify-center">
+          <div className="flex flex-grow items-center justify-center">
             <h2 className="text-2xl text-gray-300">{t('emptyResultDescription')}</h2>
           </div>
         ))
         .otherwise(({ foundActions }) => (
-          <div className="flex flex-col flex-grow min-h-0">
-            <h2 className="text-sm text-gray-100 py-2.5">{t('resultDescription')}</h2>
+          <div className="flex min-h-0 flex-grow flex-col">
+            <h2 className="py-2.5 text-sm text-gray-100">{t('resultDescription')}</h2>
 
-            <ul className="flex flex-col flex-grow  min-h-0 overflow-auto">
+            <ul className="flex min-h-0 flex-grow flex-col overflow-auto">
               {foundActions!.map((action, index) => (
                 <li key={`search-action-${index}`} className="w-full">
                   <Button
@@ -227,8 +227,8 @@ export const SearchModal = () => {
                     textClassName="text-left"
                     label={action.label}
                     colorSchema="white"
-                    leftIcon={<TbHelp aria-hidden className="text-blue w-5 h-5" />}
-                    rightIcon={<MdChevronRight aria-hidden className="w-5 h-5 text-white" />}
+                    leftIcon={<TbHelp aria-hidden className="h-5 w-5 text-blue" />}
+                    rightIcon={<MdChevronRight aria-hidden className="h-5 w-5 text-white" />}
                     {...TestHelper.buildTestObject(`search-item-${index}`)}
                   />
                 </li>

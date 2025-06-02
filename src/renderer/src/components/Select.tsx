@@ -17,8 +17,8 @@ const Trigger = forwardRef<
     ref={ref}
     aria-disabled={disabled}
     className={StyleHelper.mergeStyles(
-      'flex items-center justify-between group w-full min-w-[11.625rem] text-sm min-h-8.5 px-2.5 transition-colors rounded [&>span]:truncate',
-      'aria-[disabled=false]:hover:bg-gray-300/15 aria-[disabled=true]:opacity-50 aria-[disabled=true]:cursor-not-allowed aria-expanded:bg-gray-300/15',
+      'group flex min-h-8.5 w-full min-w-[11.625rem] items-center justify-between rounded px-2.5 text-sm transition-colors [&>span]:truncate',
+      'aria-expanded:bg-gray-300/15 aria-[disabled=true]:cursor-not-allowed aria-[disabled=true]:opacity-50 aria-[disabled=false]:hover:bg-gray-300/15',
       className
     )}
     disabled={disabled}
@@ -33,15 +33,21 @@ const Icon = forwardRef<ElementRef<typeof SelectPrimitive.Icon>, ComponentPropsW
     <SelectPrimitive.Icon
       ref={ref}
       className={StyleHelper.mergeStyles(
-        'min-w-[1.5rem] min-h-[1.5rem] max-w-[1.5rem] max-h-[1.5rem] text-white',
+        'max-h-[1.5rem] min-h-[1.5rem] min-w-[1.5rem] max-w-[1.5rem] text-white',
         className
       )}
       {...props}
     >
       <Fragment>
-        <MdExpandMore className={StyleHelper.mergeStyles('w-full h-full group-aria-expanded:hidden')} />
+        <MdExpandMore
+          aria-hidden={true}
+          className={StyleHelper.mergeStyles('h-full w-full group-aria-expanded:hidden')}
+        />
 
-        <MdExpandLess className={StyleHelper.mergeStyles('w-full h-full hidden group-aria-expanded:block')} />
+        <MdExpandLess
+          aria-hidden={true}
+          className={StyleHelper.mergeStyles('hidden h-full w-full group-aria-expanded:block')}
+        />
       </Fragment>
     </SelectPrimitive.Icon>
   )
@@ -87,7 +93,7 @@ const Item = forwardRef<ElementRef<typeof SelectPrimitive.Item>, ComponentPropsW
     <SelectPrimitive.Item
       ref={ref}
       className={StyleHelper.mergeStyles(
-        'relative flex justify-between min-w-0 w-full gap-4 cursor-default select-none items-center rounded-sm py-2 px-3 text-xs outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&>span]:truncate hover:bg-gray-800 focus:bg-gray-800 transition-colors',
+        'relative flex w-full min-w-0 cursor-default select-none items-center justify-between gap-4 rounded-sm px-3 py-2 text-xs outline-none transition-colors hover:bg-gray-800 focus:bg-gray-800 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&>span]:truncate',
         className
       )}
       {...props}
@@ -102,7 +108,7 @@ const ItemIndicator = forwardRef<
   ComponentPropsWithoutRef<typeof SelectPrimitive.ItemIndicator>
 >((props, ref) => (
   <SelectPrimitive.ItemIndicator ref={ref} asChild {...props}>
-    <MdCheck className="min-h-[1rem] min-w-[1rem] max-h-[1rem] max-w-[1rem]" />
+    <MdCheck aria-hidden={true} className="max-h-[1rem] min-h-[1rem] min-w-[1rem] max-w-[1rem]" />
   </SelectPrimitive.ItemIndicator>
 ))
 
@@ -110,12 +116,12 @@ const ItemRadialIndicator = forwardRef<
   ElementRef<typeof SelectPrimitive.ItemIndicator>,
   ComponentPropsWithoutRef<typeof SelectPrimitive.ItemIndicator>
 >((props, ref) => (
-  <div className="group-data-[state=unchecked]:border-gray-300 group-data-[state=checked]:border-neon border-2 bg-transparent min-w-[1rem] min-h-[1rem] w-[1rem] h-[1rem] rounded-full outline-none">
+  <div className="h-[1rem] min-h-[1rem] w-[1rem] min-w-[1rem] rounded-full border-2 bg-transparent outline-none group-data-[state=checked]:border-neon group-data-[state=unchecked]:border-gray-300">
     <SelectPrimitive.ItemIndicator
       ref={ref}
       {...props}
       className={StyleHelper.mergeStyles(
-        "flex items-center justify-center w-full h-full relative after:content-[''] after:block after:w-2 after:h-2 after:rounded-[50%] after:bg-neon",
+        "relative flex h-full w-full items-center justify-center after:block after:h-2 after:w-2 after:rounded-[50%] after:bg-neon after:content-['']",
         props.className
       )}
     />

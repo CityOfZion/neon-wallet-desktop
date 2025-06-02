@@ -82,11 +82,14 @@ export const WelcomeImportWalletStep4Page = () => {
 
   return (
     <Fragment>
-      <p className="text-sm text-white mt-15">{t('title')}</p>
+      <p className="mt-15 text-sm text-white">{t('title')}</p>
 
       <Progress value={progress} className="mt-7" />
 
-      <NeonWalletLogo className="w-[13.75rem] h-[12.5rem] fill-gray-700/30 absolute -bottom-11 -left-11" />
+      <NeonWalletLogo
+        aria-hidden={true}
+        className="absolute -bottom-11 -left-11 h-[12.5rem] w-[13.75rem] fill-gray-700/30"
+      />
     </Fragment>
   )
 }

@@ -24,12 +24,12 @@ export const ModalContent = ({ children, className }: TModalContainerProps) => {
   return (
     <div
       className={StyleHelper.mergeStyles(
-        'fixed left-0 top-drag-region h-screen-minus-drag-region w-screen overflow-hidden z-[1000]',
+        'fixed left-0 top-drag-region z-[1000] h-screen-minus-drag-region w-screen overflow-hidden',
         className
       )}
     >
       <motion.div
-        className="absolute bg-gray-900/50 backdrop-blur-sm top-0 left-0 w-full h-full"
+        className="absolute left-0 top-0 h-full w-full bg-gray-900/50 backdrop-blur-sm"
         initial={{ opacity: 0 }}
         transition={{ duration: 0.1 }}
         animate={{ opacity: 1 }}

@@ -177,7 +177,7 @@ const Content = ({ defaultAccounts }: TProps) => {
   }, [scrollRef.current])
 
   return (
-    <div className="w-full flex flex-col gap-y-2 mt-2 min-h-0 text-sm">
+    <div className="mt-2 flex min-h-0 w-full flex-col gap-y-2 text-sm">
       <div className="flex justify-end">
         <TransactionActivityListDateRange
           dateFrom={dateFrom}
@@ -191,30 +191,30 @@ const Content = ({ defaultAccounts }: TProps) => {
       {match({ isLoading, data })
         .with({ isLoading: true }, () => <TransactionActivityListSkeleton />)
         .with({ data: [] }, () => (
-          <section className="flex flex-col items-center text-center mt-16">
-            <TbAlertTriangle aria-hidden={true} className="w-16 h-16 text-blue mb-2" />
-            <h3 className="text-white text-lg">{t('notFoundTitle')}</h3>
+          <section className="mt-16 flex flex-col items-center text-center">
+            <TbAlertTriangle aria-hidden={true} className="mb-2 h-16 w-16 text-blue" />
+            <h3 className="text-lg text-white">{t('notFoundTitle')}</h3>
             <p className="text-gray-300">{t('notFoundDescription')}</p>
           </section>
         ))
         .otherwise(() => (
-          <div className="w-full min-h-0 overflow-y-auto overflow-x-hidden" ref={scrollRef} onScroll={handleScroll}>
-            <ul className="flex flex-col w-full relative" style={{ height: `${virtualizer.getTotalSize()}px` }}>
+          <div className="min-h-0 w-full overflow-y-auto overflow-x-hidden" ref={scrollRef} onScroll={handleScroll}>
+            <ul className="relative flex w-full flex-col" style={{ height: `${virtualizer.getTotalSize()}px` }}>
               {virtualizer.getVirtualItems().map(virtualItem => {
                 const { date, items } = data[virtualItem.index]
 
                 return (
                   <li
                     key={virtualItem.key}
-                    className="flex flex-col w-full absolute top-0 left-0"
+                    className="absolute left-0 top-0 flex w-full flex-col"
                     style={{
                       height: `${virtualItem.size}px`,
                       transform: `translateY(${virtualItem.start}px)`,
                     }}
                   >
-                    <h3 className="flex items-center text-white font-medium h-10 min-h-10 max-h-10">{date}</h3>
+                    <h3 className="flex h-10 max-h-10 min-h-10 items-center font-medium text-white">{date}</h3>
 
-                    <Separator className="h-px min-h-px max-h-px" containerClassName="mb-2" />
+                    <Separator className="h-px max-h-px min-h-px" containerClassName="mb-2" />
 
                     {items.length > 0 && (
                       <ul className="flex flex-col gap-y-4">

@@ -8,12 +8,12 @@ export const SellTokensDepositErrorContent = ({ errorMessage }: TProps) => {
   const { t } = useTranslation('modals', { keyPrefix: 'sellTokensDeposit.error' })
 
   return (
-    <section className="flex flex-grow flex-col min-w-0 w-full text-gray-100">
-      <h3 className="text-center text-md leading-5 mt-4 px-8">{t('text')}</h3>
+    <section className="flex w-full min-w-0 flex-grow flex-col text-gray-100">
+      <h3 className="mt-4 px-8 text-center text-md leading-5">{t('text')}</h3>
 
-      <div className="mt-8 flex flex-col gap-2 text-xs w-full">
+      <div className="mt-8 flex w-full flex-col gap-2 text-xs">
         <p className="font-semibold uppercase">{t('label')}</p>
-        <p className="bg-asphalt w-full p-3 rounded break-words whitespace-pre-wrap max-h-48 overflow-y-auto">
+        <p className="max-h-48 w-full overflow-y-auto whitespace-pre-wrap break-words rounded bg-asphalt p-3">
           {errorMessage || t('default')}
         </p>
       </div>

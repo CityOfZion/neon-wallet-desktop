@@ -18,10 +18,10 @@ const Step = ({ icon, colorSchema, label, className, ...props }: TStepProps) => 
     <div
       {...props}
       className={StyleHelper.mergeStyles(
-        'flex gap-2.5 py-2.5 px-3.5 items-center rounded aria-selected:rounded-l-none border-transparent border-l-3',
+        'flex items-center gap-2.5 rounded border-l-3 border-transparent px-3.5 py-2.5 aria-selected:rounded-l-none',
         {
-          'text-green bg-green-700 aria-selected:border-green': colorSchema === 'green',
-          'text-blue bg-blue/10 aria-selected:border-blue': colorSchema === 'blue',
+          'bg-green-700 text-green aria-selected:border-green': colorSchema === 'green',
+          'bg-blue/10 text-blue aria-selected:border-blue': colorSchema === 'blue',
         },
         className
       )}
@@ -37,11 +37,16 @@ export const MigrateSteps = ({ className, currentStep, ...props }: TProps) => {
 
   return (
     <div className={StyleHelper.mergeStyles('w-full', className)} {...props}>
-      <span className="text-neon text-sm mb-1 block font-light">{t('inNeon2.label')}</span>
+      <span className="mb-1 block text-sm font-light text-neon">{t('inNeon2.label')}</span>
 
-      <Step icon={<MdLooksOne />} colorSchema="green" label={t('inNeon2.step1')} aria-selected={currentStep === 1} />
+      <Step
+        icon={<MdLooksOne aria-hidden={true} />}
+        colorSchema="green"
+        label={t('inNeon2.step1')}
+        aria-selected={currentStep === 1}
+      />
 
-      <span className="text-blue block text-sm mb-1 mt-5 font-light">{t('inNeon3.label')}</span>
+      <span className="mb-1 mt-5 block text-sm font-light text-blue">{t('inNeon3.label')}</span>
 
       <Step
         icon={<MdLooksTwo />}

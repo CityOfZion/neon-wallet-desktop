@@ -14,7 +14,7 @@ export const WelcomeTabs = ({ defaultValue }: TProps) => {
 
   return (
     <Tabs.Root defaultValue={defaultValue} className="w-full">
-      <Tabs.List className="w-full mt-6 mb-9">
+      <Tabs.List className="mb-9 mt-6 w-full">
         <Tabs.Trigger value="password" className="uppercase" onClick={() => navigate('/login-password')}>
           {t('password')}
         </Tabs.Trigger>

@@ -52,11 +52,11 @@ export const CenterModalLayout = ({
   return (
     <div
       {...props}
-      className={StyleHelper.mergeStyles('bg-gray-800 rounded-md px-4 h-full w-full flex flex-col', className)}
+      className={StyleHelper.mergeStyles('flex h-full w-full flex-col rounded-md bg-gray-800 px-4', className)}
     >
       {headerComponent ?? (
-        <header className={StyleHelper.mergeStyles('flex items-center pt-5 pb-2.5', headerClassName)}>
-          <div className="flex items-center gap-2.5 flex-grow">
+        <header className={StyleHelper.mergeStyles('flex items-center pb-2.5 pt-5', headerClassName)}>
+          <div className="flex flex-grow items-center gap-2.5">
             {withBackButton && (
               <IconButton
                 icon={<MdKeyboardBackspace aria-hidden={true} className="fill-gray-200" />}
@@ -90,7 +90,7 @@ export const CenterModalLayout = ({
 
       {withHeading && <Separator />}
 
-      <main className={StyleHelper.mergeStyles('flex-grow px-9 pb-8 my-2 pt-0.5 min-h-0', contentClassName)}>
+      <main className={StyleHelper.mergeStyles('my-2 min-h-0 flex-grow px-9 pb-8 pt-0.5', contentClassName)}>
         {children}
       </main>
     </div>

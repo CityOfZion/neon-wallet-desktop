@@ -14,16 +14,21 @@ export const LoginKeyLayout = ({ children, heading, className, ...props }: Props
   }
 
   return (
-    <div className="w-screen h-screen-minus-drag-region bg-asphalt flex justify-center items-center">
+    <div className="flex h-screen-minus-drag-region w-screen items-center justify-center bg-asphalt">
       <div
         className={StyleHelper.mergeStyles(
-          'w-full h-full bg-gray-800 max-h-[38.375rem] flex flex-col items-center pb-10 pt-8 px-8 rounded relative max-w-[32rem]',
+          'relative flex h-full max-h-[38.375rem] w-full max-w-[32rem] flex-col items-center rounded bg-gray-800 px-8 pb-10 pt-8',
           className
         )}
         {...props}
       >
-        <div className="flex justify-center w-full relative">
-          <IconButton icon={<MdArrowBack />} size="md" className="absolute left-0" onClick={handleBack} />
+        <div className="relative flex w-full justify-center">
+          <IconButton
+            icon={<MdArrowBack aria-hidden={true} />}
+            size="md"
+            className="absolute left-0"
+            onClick={handleBack}
+          />
           <h1 className="text-2xl text-white">{heading}</h1>
         </div>
 

@@ -37,24 +37,28 @@ export const ConnectHardwareWalletModal = () => {
   return (
     <CenterModalLayout contentClassName="flex flex-col items-center justify-between">
       <div className="flex flex-col items-center">
-        <NeonWalletFullImage />
+        <NeonWalletFullImage aria-hidden={true} />
 
-        <p className="text-white text-2xl text-center mt-12">{t('title')}</p>
+        <p className="mt-12 text-center text-2xl text-white">{t('title')}</p>
 
-        <p className="text-gray-100 text-sm mt-6">{t('description')}</p>
+        <p className="mt-6 text-sm text-gray-100">{t('description')}</p>
       </div>
 
       {status === 'searching' && <SearchingLoader label={t('searchingLabel')} />}
 
       {status === 'not-connected' && (
-        <AlertErrorBanner className="gap-2.5 text-sm py-5s" message={t('notConnectedMessage')} icon={<TbX />} />
+        <AlertErrorBanner
+          className="py-5s gap-2.5 text-sm"
+          message={t('notConnectedMessage')}
+          icon={<TbX aria-hidden={true} />}
+        />
       )}
 
       {status === 'connected' && (
         <AlertSuccessBanner
-          className="gap-2.5 text-sm py-5"
+          className="gap-2.5 py-5 text-sm"
           message={t('connectedMessage')}
-          icon={<TbDeviceUsb className="rotate-45" />}
+          icon={<TbDeviceUsb aria-hidden={true} className="rotate-45" />}
         />
       )}
 

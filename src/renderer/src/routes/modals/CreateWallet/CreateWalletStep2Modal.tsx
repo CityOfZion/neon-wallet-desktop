@@ -55,20 +55,20 @@ export const CreateWalletStep2Modal = () => {
 
   return (
     <CreateWalletModalLayout>
-      <header className="flex justify-between items-center py-2.5">
+      <header className="flex items-center justify-between py-2.5">
         <div className="flex items-center gap-x-2.5">
-          <MdLooksTwo className="text-blue h-4.5 w-4.5" />
+          <MdLooksTwo aria-hidden={true} className="h-4.5 w-4.5 text-blue" />
           <h2 className="text-sm">{t('title')}</h2>
         </div>
-        <div className="text-blue text-sm">{t('step2of4')}</div>
+        <div className="text-sm text-blue">{t('step2of4')}</div>
       </header>
 
-      <Separator className="min-h-[0.0625rem] mb-9" />
+      <Separator className="mb-9 min-h-[0.0625rem]" />
 
-      <div className="flex flex-col items-center w-full h-[84%] justify-between">
-        <div className="flex flex-col w-full gap-6">
-          <div className="text-gray-100 text-xs">{t('description')}</div>
-          <div className="min-h-[6rem] rounded mx-5 gap-x-8 gap-y-4 grid grid-cols-4 py-5 px-5 justify-center">
+      <div className="flex h-[84%] w-full flex-col items-center justify-between">
+        <div className="flex w-full flex-col gap-6">
+          <div className="text-xs text-gray-100">{t('description')}</div>
+          <div className="mx-5 grid min-h-[6rem] grid-cols-4 justify-center gap-x-8 gap-y-4 rounded px-5 py-5">
             {shuffledWords.map((word, index) => (
               <Button
                 clickableProps={{

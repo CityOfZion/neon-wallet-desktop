@@ -48,11 +48,11 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
   }, [t, unclaimedQuery.error])
 
   return (
-    <div className="w-full bg-asphalt flex items-center justify-center rounded h-[55px] mb-5 text-sm">
+    <div className="mb-5 flex h-[55px] w-full items-center justify-center rounded bg-asphalt text-sm">
       {unclaimedQuery.isLoading || balance.isLoading ? (
         <Loader />
       ) : (
-        <div className="w-full flex justify-between items-center h-full px-4">
+        <div className="flex h-full w-full items-center justify-between px-4">
           <div className="flex items-center gap-x-2">
             <div className="flex items-center gap-x-1.5">
               <BlockchainIcon blockchain={account.blockchain} type="green" />

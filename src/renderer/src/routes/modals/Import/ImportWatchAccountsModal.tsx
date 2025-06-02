@@ -120,38 +120,42 @@ export const ImportWatchAccountsModal = () => {
   }, [addressModalState])
 
   return (
-    <SideModalLayout heading={t('title')} headingIcon={<TbEyePlus />} contentClassName="flex flex-col">
+    <SideModalLayout
+      heading={t('title')}
+      headingIcon={<TbEyePlus aria-hidden={true} />}
+      contentClassName="flex flex-col"
+    >
       <p className="text-xs">{t('description')}</p>
 
-      <form className="mt-6 flex flex-col flex-grow min-h-0" onSubmit={handleSubmit}>
+      <form className="mt-6 flex min-h-0 flex-grow flex-col" onSubmit={handleSubmit}>
         <Input value={address} onChange={handleChange} placeholder={t('inputPlaceholder')} errorMessage={error} />
 
         <Banner className="mt-5" message={t('information')} type="info" />
 
-        <div className="flex flex-col flex-grow min-h-0">
+        <div className="flex min-h-0 flex-grow flex-col">
           <Separator className="mt-6" />
 
           <p className="mt-6 text-xs">{t('willBeAdded')}</p>
 
-          <ul className="flex flex-col flex-grow gap-2 mt-5 overflow-auto min-h-0">
+          <ul className="mt-5 flex min-h-0 flex-grow flex-col gap-2 overflow-auto">
             {validatedAddresses.map((validatedAddress, index) => (
-              <li className="bg-asphalt rounded-md" key={index}>
-                <div className="flex p-4 overflow-hidden">
+              <li className="rounded-md bg-asphalt" key={index}>
+                <div className="flex overflow-hidden p-4">
                   <BlockchainIcon
                     blockchain={validatedAddress.blockchain}
                     type="white"
-                    className="w-5 h-5 opacity-50"
+                    className="h-5 w-5 opacity-50"
                   />
 
-                  <p className="text-xs ml-4 capitalize">{validatedAddress.blockchain}</p>
+                  <p className="ml-4 text-xs capitalize">{validatedAddress.blockchain}</p>
                 </div>
-                <Separator className="mx-4 w-9/10" />
-                <p className="text-xs p-4 pt-3">{validatedAddress.abbreviatedAddress}</p>
+                <Separator className="w-9/10 mx-4" />
+                <p className="p-4 pt-3 text-xs">{validatedAddress.abbreviatedAddress}</p>
               </li>
             ))}
           </ul>
 
-          <div className="flex justify-center w-full">
+          <div className="flex w-full justify-center">
             <Button
               className="mt-8 w-full px-5"
               type="submit"

@@ -103,9 +103,9 @@ export const SettingsEncryptKeyPage = (): JSX.Element => {
 
   return (
     <SettingsLayout title={t('securityOption.encryptKey')}>
-      <form className="flex flex-col items-center text-xs flex-grow" onSubmit={handleAct(handleSubmit)}>
-        <div className="max-w-[24rem] w-full flex flex-grow flex-col">
-          <h2 className="text-gray-100 text-center mb-6">{t('encryptKey.subtitle')}</h2>
+      <form className="flex flex-grow flex-col items-center text-xs" onSubmit={handleAct(handleSubmit)}>
+        <div className="flex w-full max-w-[24rem] flex-grow flex-col">
+          <h2 className="mb-6 text-center text-gray-100">{t('encryptKey.subtitle')}</h2>
 
           <div className="flex flex-col gap-4">
             <SettingsEncryptInputStep

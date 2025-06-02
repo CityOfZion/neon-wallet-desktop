@@ -17,8 +17,8 @@ export const SkinSelector = ({ label, selectedSkin, account, onSelectSkin }: TPr
 
   return (
     <div>
-      <div className="text-gray-300 uppercase text-xs font-bold mt-4 mb-4">{label}</div>
-      <div className="flex-wrap grid grid-cols-4 gap-4">
+      <div className="mb-4 mt-4 text-xs font-bold uppercase text-gray-300">{label}</div>
+      <div className="grid grid-cols-4 flex-wrap gap-4">
         {ACCOUNT_COLOR_SKINS.map(skin => (
           <button key={skin.id} onClick={() => onSelectSkin({ id: skin.id, type: 'color' })} type="button">
             <SkinCard showCheck={selectedSkin.id === skin.id} color={skin.color} />

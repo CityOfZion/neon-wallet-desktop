@@ -18,15 +18,15 @@ export const SettingsMobileApp = () => {
   return (
     <SettingsLayout title={t('title')} contentClassName="overflow-y-auto">
       <div>
-        <span className="text-white block text-lg mb-2">{t('subtitle')}</span>
-        <div className="flex flex-col text-xs text-gray-100 mb-8">
+        <span className="mb-2 block text-lg text-white">{t('subtitle')}</span>
+        <div className="mb-8 flex flex-col text-xs text-gray-100">
           <span>{t('descriptionLine1')}</span>
           <span>{t('descriptionLine2')}</span>
         </div>
         <div className="flex items-center">
-          <AppStore className="w-[10rem] h-[3rem]" onClick={appstoreClick} />
-          <div className="w-5 h-12 flex justify-center mx-5">
-            <div className="w-px h-full bg-gray-300/30" />
+          <AppStore className="h-[3rem] w-[10rem]" onClick={appstoreClick} />
+          <div className="mx-5 flex h-12 w-5 justify-center">
+            <div className="h-full w-px bg-gray-300/30" />
           </div>
           <img src={PlayStore} className="w-[11rem]" onClick={playstoreClick} />
         </div>

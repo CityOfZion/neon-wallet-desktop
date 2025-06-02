@@ -27,7 +27,7 @@ const iconsByPriority: Record<TNotificationPriority, JSX.Element> = {
   medium: <TbAlertSquare className="text-blue" />,
   low: (
     <div className="flex items-center justify-center text-neon">
-      <div className="w-1.5 h-1.5 rounded-full bg-[currentcolor]" />
+      <div className="h-1.5 w-1.5 rounded-full bg-[currentcolor]" />
     </div>
   ),
 }
@@ -87,8 +87,8 @@ export const Notification = ({ notification }: TProps) => {
 
   return (
     <div
-      className={StyleHelper.mergeStyles('flex gap-2.5 w-full py-2.5 px-4', {
-        'hover:bg-gray-700/60 cursor-pointer': notification.action && !notification.read,
+      className={StyleHelper.mergeStyles('flex w-full gap-2.5 px-4 py-2.5', {
+        'cursor-pointer hover:bg-gray-700/60': notification.action && !notification.read,
       })}
       onClick={handleClick}
       role="button"
@@ -100,14 +100,14 @@ export const Notification = ({ notification }: TProps) => {
         }),
       })}
 
-      <div className="flex-grow flex flex-col gap-0.5 min-w-0">
+      <div className="flex min-w-0 flex-grow flex-col gap-0.5">
         <div className="flex items-center gap-2.5">
-          <span className="text-gray-300 text-1xs">{DateHelper.format(notification.date, t('dateFormat'))}</span>
+          <span className="text-1xs text-gray-300">{DateHelper.format(notification.date, t('dateFormat'))}</span>
 
           {notification.provider && (
             <span
               className={StyleHelper.mergeStyles(
-                'text-1xs text-gray-300 capitalize bg-asphalt rounded-full px-2 py-0.5',
+                'rounded-full bg-asphalt px-2 py-0.5 text-1xs capitalize text-gray-300',
                 {
                   'bg-gray-300/15 text-gray-100/50': notification.read,
                 }
@@ -119,7 +119,7 @@ export const Notification = ({ notification }: TProps) => {
         </div>
 
         <p
-          className={StyleHelper.mergeStyles('text-white text-xs font-bold truncate', {
+          className={StyleHelper.mergeStyles('truncate text-xs font-bold text-white', {
             'text-gray-300': notification.read,
           })}
         >
@@ -127,7 +127,7 @@ export const Notification = ({ notification }: TProps) => {
         </p>
 
         <p
-          className={StyleHelper.mergeStyles('text-gray-100 text-1xs truncate', {
+          className={StyleHelper.mergeStyles('truncate text-1xs text-gray-100', {
             'text-gray-300': notification.read,
           })}
         >
@@ -137,12 +137,12 @@ export const Notification = ({ notification }: TProps) => {
         {notification.related?.address && (
           <div className="flex gap-2.5">
             {account && (
-              <span className="text-gray-300 text-1xs capitalize">
+              <span className="text-1xs capitalize text-gray-300">
                 {`${t('relatedAccountLabel')}: ${StringHelper.truncateString(account?.name, 10)}`}
               </span>
             )}
 
-            <span className="text-gray-300 text-1xs capitalize">
+            <span className="text-1xs capitalize text-gray-300">
               {`${t('relatedAddressLabel')}: ${StringHelper.truncateStringStart(notification.related.address, 10)}`}
             </span>
           </div>
@@ -154,7 +154,7 @@ export const Notification = ({ notification }: TProps) => {
           <ActionPopover.Trigger asChild>
             <IconButton
               compacted
-              icon={<MdMoreVert aria-hidden className="w-5 h-5 min-w-5 min-h-5 text-gray-300" />}
+              icon={<MdMoreVert aria-hidden className="h-5 min-h-5 w-5 min-w-5 text-gray-300" />}
               onClick={handleStopPropagation}
             />
           </ActionPopover.Trigger>

@@ -113,13 +113,13 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
     useImperativeHandle(ref, () => internalRef.current!, [])
 
     return (
-      <div className={StyleHelper.mergeStyles('w-full relative', containerClassName)}>
-        {label && <label className="block text-gray-100 text-xs uppercase mb-2 font-bold">{label}</label>}
+      <div className={StyleHelper.mergeStyles('relative w-full', containerClassName)}>
+        {label && <label className="mb-2 block text-xs font-bold uppercase text-gray-100">{label}</label>}
 
         <div
           aria-disabled={props.disabled}
           className={StyleHelper.mergeStyles(
-            'flex items-center gap-x-1.5 rounded bg-asphalt ring-2 ring-transparent w-full px-5 outline-none font-medium placeholder:text-white/50 text-white aria-disabled:opacity-50 aria-disabled:cursor-not-allowed transition-colors cursor-text',
+            'flex w-full cursor-text items-center gap-x-1.5 rounded bg-asphalt px-5 font-medium text-white outline-none ring-2 ring-transparent transition-colors placeholder:text-white/50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50',
             {
               'h-8.5 py-1.5 text-xs': compacted,
               'h-12 py-2 text-sm': !compacted,
@@ -154,7 +154,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
             <input
               ref={internalRef}
               className={StyleHelper.mergeStyles(
-                'bg-transparent w-full disabled:cursor-not-allowed flex-grow outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none',
+                'w-full flex-grow bg-transparent outline-none [appearance:textfield] disabled:cursor-not-allowed [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none',
                 className
               )}
               onMouseDown={handleMouseDown}
@@ -170,7 +170,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
 
           {(loading || isTypePassword || pastable || copyable || clearable || rightElement) && (
             <div className={StyleHelper.mergeStyles('flex items-center gap-x-2', actionsClassName)}>
-              {loading && <Loader className="w-4 h-4 mr-1" />}
+              {loading && <Loader className="mr-1 h-4 w-4" />}
 
               {isTypePassword && (
                 <IconButton
@@ -222,12 +222,12 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
 
         {match({ errorMessage, hint })
           .with({ errorMessage: P.when(value => !!value && typeof value === 'string') }, () => (
-            <span className="block mt-1 text-xs text-pink" {...TestHelper.buildTestObject(testId, 'error')}>
+            <span className="mt-1 block text-xs text-pink" {...TestHelper.buildTestObject(testId, 'error')}>
               {errorMessage}
             </span>
           ))
           .with({ hint: P.when(value => !!value && typeof value === 'string') }, () => (
-            <span className="block mt-1 text-xs text-gray-300" {...TestHelper.buildTestObject(testId, 'hint')}>
+            <span className="mt-1 block text-xs text-gray-300" {...TestHelper.buildTestObject(testId, 'hint')}>
               {hint}
             </span>
           ))

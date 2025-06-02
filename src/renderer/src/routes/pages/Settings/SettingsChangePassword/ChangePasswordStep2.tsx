@@ -72,12 +72,10 @@ export const ChangePasswordStep2 = (): JSX.Element => {
             encryptedSecret: encryptedPassword,
           })
 
-          const newEncryptedMnemonic = await window.api.sendAsync('encryptBasedEncryptedSecret', {
+          clonedWallet.encryptedMnemonic = await window.api.sendAsync('encryptBasedEncryptedSecret', {
             value: mnemonic,
             encryptedSecret: encryptedNewPassword,
           })
-
-          clonedWallet.encryptedMnemonic = newEncryptedMnemonic
         }
 
         dispatch(authReducerActions.saveWallet({ ...clonedWallet, accounts: newAccounts }))
@@ -97,13 +95,13 @@ export const ChangePasswordStep2 = (): JSX.Element => {
   }
 
   return (
-    <div className="w-full px-5 flex flex-col h-full items-center justify-between pb-10">
-      <div className="flex flex-col items-center pt-20 gap-5">
-        <div className="w-36 h-36 rounded-full bg-asphalt flex items-center justify-center">
-          <TbDownload className="text-blue w-[7rem] h-[7rem]" />
+    <div className="flex h-full w-full flex-col items-center justify-between px-5 pb-10">
+      <div className="flex flex-col items-center gap-5 pt-20">
+        <div className="flex h-36 w-36 items-center justify-center rounded-full bg-asphalt">
+          <TbDownload aria-hidden={true} className="h-[7rem] w-[7rem] text-blue" />
         </div>
         <span className="text-lg">{t('subtitle')}</span>
-        <span className="text-xs text-gray-100 w-[30rem] text-center">{t('description')}</span>
+        <span className="w-[30rem] text-center text-xs text-gray-100">{t('description')}</span>
       </div>
 
       <ButtonDownloadPasswordQRCode

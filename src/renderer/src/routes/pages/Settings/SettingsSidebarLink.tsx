@@ -37,9 +37,9 @@ export const SettingsSidebarLink = ({
       >
         <div
           className={StyleHelper.mergeStyles(
-            'py-2 px-3 gap-3 w-full flex border-l-3 justify-content-end transition-colors border-transparent',
-            'group-[.active]:border-neon group-[.active]:bg-asphalt group-aria-[disabled=false]:group-hover:border-neon group-aria-[disabled=false]:group-hover:bg-asphalt group-aria-[disabled=false]:cursor-pointer',
-            'group-aria-[disabled=true]:opacity-50 group-aria-[disabled=true]:cursor-default'
+            'justify-content-end flex w-full gap-3 border-l-3 border-transparent px-3 py-2 transition-colors',
+            'group-[.active]:border-neon group-[.active]:bg-asphalt group-aria-[disabled=false]:cursor-pointer group-aria-[disabled=false]:group-hover:border-neon group-aria-[disabled=false]:group-hover:bg-asphalt',
+            'group-aria-[disabled=true]:cursor-default group-aria-[disabled=true]:opacity-50'
           )}
         >
           {cloneElement(icon, {
@@ -53,7 +53,7 @@ export const SettingsSidebarLink = ({
           })}
 
           <span
-            className={StyleHelper.mergeStyles('leading-5  transition-colors', {
+            className={StyleHelper.mergeStyles('leading-5 transition-colors', {
               'text-neon': colorSchema === 'neon',
               'text-gray-300 group-[.active]:text-white group-aria-[disabled=false]:group-hover:text-white':
                 colorSchema === 'gray',

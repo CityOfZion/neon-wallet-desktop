@@ -5,7 +5,7 @@ import { StyleHelper } from '@renderer/helpers/StyleHelper'
 export const SuccessIcon = ({ className, ...props }: IconBaseProps) => (
   <TbRosetteDiscountCheck
     className={StyleHelper.mergeStyles(
-      'text-blue stroke-1 bg-asphalt rounded-[50%] p-1.5 mt-8 w-[118px] h-[118px]',
+      'mt-8 h-[118px] w-[118px] rounded-[50%] bg-asphalt stroke-1 p-1.5 text-blue',
       className
     )}
     aria-hidden={true}

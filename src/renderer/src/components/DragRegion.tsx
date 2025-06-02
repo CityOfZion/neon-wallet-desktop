@@ -23,7 +23,7 @@ export const DragRegion = () => {
 
   return (
     <div
-      className="h-drag-region min-h-drag-region w-screen relative z-[2000] bg-gray-800 shadow shadow-asphalt"
+      className="relative z-[2000] h-drag-region min-h-drag-region w-screen bg-gray-800 shadow shadow-asphalt"
       style={{
         // @ts-ignore This property is not in the types
         WebkitAppRegion: 'drag',

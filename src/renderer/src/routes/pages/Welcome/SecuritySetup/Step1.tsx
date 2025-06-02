@@ -43,9 +43,9 @@ export const WelcomeSecuritySetupStep1Page = ({ onSubmit }: TProps) => {
 
   return (
     <Fragment>
-      <p className="text-sm text-white mt-15">{t('formTitle')}</p>
+      <p className="mt-15 text-sm text-white">{t('formTitle')}</p>
       <form
-        className="w-full flex-grow flex flex-col justify-between mt-6 items-center"
+        className="mt-6 flex w-full flex-grow flex-col items-center justify-between"
         onSubmit={handleAct(handleSubmit)}
       >
         <Input

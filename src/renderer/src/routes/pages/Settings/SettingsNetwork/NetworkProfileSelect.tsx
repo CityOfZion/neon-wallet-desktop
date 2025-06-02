@@ -18,7 +18,7 @@ export const NetworkProfileSelect = () => {
 
   return (
     <Select.Root value={selectedNetworkProfile.id} onValueChange={handleSelect}>
-      <Select.Trigger className={StyleHelper.mergeStyles('bg-asphalt max-w-[11.625rem]')}>
+      <Select.Trigger className={StyleHelper.mergeStyles('max-w-[11.625rem] bg-asphalt')}>
         <Select.Value placeholder={t('selectProfilePlaceholder')} />
 
         <Select.Icon className="text-neon" />
@@ -29,7 +29,7 @@ export const NetworkProfileSelect = () => {
           <Fragment key={`network-profile-${profile.id}`}>
             <Select.Item
               value={profile.id}
-              className="hover:bg-gray-300/15 flex gap-x-2 items-center cursor-pointer justify-start text-gray-100 text-sm"
+              className="flex cursor-pointer items-center justify-start gap-x-2 text-sm text-gray-100 hover:bg-gray-300/15"
             >
               <Select.ItemText>{profile.name}</Select.ItemText>
             </Select.Item>

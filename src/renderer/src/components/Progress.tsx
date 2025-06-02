@@ -8,11 +8,11 @@ const Progress = React.forwardRef<
 >(({ className, value, ...props }, ref) => (
   <ProgressPrimitive.Root
     ref={ref}
-    className={StyleHelper.mergeStyles('h-3 w-full rounded-full bg-asphalt flex items-center p-[0.188rem]', className)}
+    className={StyleHelper.mergeStyles('flex h-3 w-full items-center rounded-full bg-asphalt p-[0.188rem]', className)}
     {...props}
   >
     <ProgressPrimitive.Indicator
-      className="h-full rounded-full bg-blue transition-all shadow-[0px_0px_9px_0px_theme(colors.blue.DEFAULT)]"
+      className="h-full rounded-full bg-blue shadow-[0px_0px_9px_0px_theme(colors.blue.DEFAULT)] transition-all"
       style={{ width: `${Math.min(value ?? 0, 100)}%` }}
     />
   </ProgressPrimitive.Root>

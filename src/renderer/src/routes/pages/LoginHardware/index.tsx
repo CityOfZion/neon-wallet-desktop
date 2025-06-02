@@ -31,15 +31,19 @@ export const LoginHardwarePage = () => {
 
   return (
     <WelcomeWithTabsLayout tabItemSelected="hardware" contentClassName="px-9">
-      <p className="text-white text-sm text-center">{t('title')}</p>
+      <p className="text-center text-sm text-white">{t('title')}</p>
 
       <TemporaryLimitsBox className="mt-4" />
 
       {status === 'searching' && <SearchingLoader className="mt-20" label={t('searchingLabel')} />}
 
       {status === 'not-connected' && (
-        <div className="flex flex-col mt-12 gap-7 items-center">
-          <AlertErrorBanner className="gap-2.5 text-sm" message={t('notConnectedMessage')} icon={<TbX />} />
+        <div className="mt-12 flex flex-col items-center gap-7">
+          <AlertErrorBanner
+            className="gap-2.5 text-sm"
+            message={t('notConnectedMessage')}
+            icon={<TbX aria-hidden={true} />}
+          />
 
           <Button variant="text-slim" className="w-fit" label={t('searchAgainButtonLabel')} onClick={handleConnect} />
         </div>
@@ -47,9 +51,9 @@ export const LoginHardwarePage = () => {
 
       {status === 'connected' && (
         <AlertSuccessBanner
-          className="gap-2.5 mt-20 text-sm"
+          className="mt-20 gap-2.5 text-sm"
           message={t('connectedMessage')}
-          icon={<TbDeviceUsb className="rotate-45" />}
+          icon={<TbDeviceUsb aria-hidden={true} className="rotate-45" />}
         />
       )}
     </WelcomeWithTabsLayout>

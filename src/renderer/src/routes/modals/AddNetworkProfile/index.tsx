@@ -61,7 +61,7 @@ export const AddNetworkProfileModal = () => {
 
   return (
     <SideModalLayout heading={t('title')} contentClassName="flex flex-col">
-      <form className="flex flex-col gap-y-5 flex-grow" onSubmit={handleAct(handleSubmit)}>
+      <form className="flex flex-grow flex-col gap-y-5" onSubmit={handleAct(handleSubmit)}>
         <Input
           label={t('inputLabel')}
           value={actionData.name}

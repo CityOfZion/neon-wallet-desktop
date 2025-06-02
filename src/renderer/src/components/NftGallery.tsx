@@ -70,12 +70,12 @@ export const NftGallery = ({ account, nfts }: TProps) => {
           return (
             <div
               key={`${photo.key}-${photo.src}`}
-              className={StyleHelper.mergeStyles('p-2.5 bg-gray-300/15 flex flex-col rounded-md gap-2', {
-                'cursor-pointer hover:bg-gray-300/30 transition-colors': !!explorerUrl,
+              className={StyleHelper.mergeStyles('flex flex-col gap-2 rounded-md bg-gray-300/15 p-2.5', {
+                'cursor-pointer transition-colors hover:bg-gray-300/30': !!explorerUrl,
               })}
               onClick={explorerUrl ? handleClick.bind(null, explorerUrl) : undefined}
             >
-              <div className="rounded overflow-hidden bg-gray-300/30">
+              <div className="overflow-hidden rounded bg-gray-300/30">
                 <img
                   loading="lazy"
                   decoding="async"
@@ -83,28 +83,28 @@ export const NftGallery = ({ account, nfts }: TProps) => {
                   key={photo.key}
                   src={photo.src}
                   alt={photo.title}
-                  className="block w-full h-full"
+                  className="block h-full w-full"
                 />
               </div>
 
-              <div className="flex gap-2.5 items-center">
-                <BlockchainIcon blockchain={account.blockchain} type="gray" className="opacity-60 w-3 h-3 ml-0.5" />
+              <div className="flex items-center gap-2.5">
+                <BlockchainIcon blockchain={account.blockchain} type="gray" className="ml-0.5 h-3 w-3 opacity-60" />
 
-                <span className="text-xs capitalize truncate w-20 2xl:w-36">{photo.title}</span>
+                <span className="w-20 truncate text-xs capitalize 2xl:w-36">{photo.title}</span>
               </div>
 
-              <div className="flex gap-2 items-center">
+              <div className="flex items-center gap-2">
                 {photo.nft.collectionImage && (
-                  <div className="min-w-[1rem] w-[1rem] min-h-[1rem] h-[1rem] bg-gray-300/30 rounded-full overflow-hidden">
+                  <div className="h-[1rem] min-h-[1rem] w-[1rem] min-w-[1rem] overflow-hidden rounded-full bg-gray-300/30">
                     <img
-                      className="w-full h-full object-cover"
+                      className="h-full w-full object-cover"
                       src={photo.nft.collectionImage}
                       alt={photo.nft.collectionName || photo.nft.creator?.name || photo.nft.name || photo.nft.symbol}
                     />
                   </div>
                 )}
 
-                <span className="text-xs capitalize text-blue truncate w-20 2xl:w-32">{photo.nft.id}</span>
+                <span className="w-20 truncate text-xs capitalize text-blue 2xl:w-32">{photo.nft.id}</span>
               </div>
             </div>
           )

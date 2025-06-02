@@ -37,25 +37,25 @@ export const DeleteAccountModal = () => {
   }
 
   return (
-    <SideModalLayout heading={t('title')} headingIcon={<TbPencil className="text-neon" />}>
-      <div className="bg-gray-800 h-full w-full flex flex-col px-4 rounded text-xs items-center justify-between">
+    <SideModalLayout heading={t('title')} headingIcon={<TbPencil aria-hidden={true} className="text-neon" />}>
+      <div className="flex h-full w-full flex-col items-center justify-between rounded bg-gray-800 px-4 text-xs">
         <div className="flex flex-col items-center">
-          <div className="w-36 h-36 rounded-full bg-asphalt flex items-center justify-center">
-            <TbTrash className="text-pink w-[5rem] h-[5rem]" />
+          <div className="flex h-36 w-36 items-center justify-center rounded-full bg-asphalt">
+            <TbTrash aria-hidden={true} className="h-[5rem] w-[5rem] text-pink" />
           </div>
-          <p className="text-white text-lg pt-7">{t('deleteAccount')}</p>
+          <p className="pt-7 text-lg text-white">{t('deleteAccount')}</p>
 
-          <div className="flex w-full px-3 bg-gray-300/15 rounded min-h-[2rem] items-center justify-center mt-3">
-            <p className="text-center text-xs p-2">{StringHelper.truncateStringMiddle(account.name, 45)}</p>
+          <div className="mt-3 flex min-h-[2rem] w-full items-center justify-center rounded bg-gray-300/15 px-3">
+            <p className="p-2 text-center text-xs">{StringHelper.truncateStringMiddle(account.name, 45)}</p>
           </div>
 
-          <span className="text-center px-2 text-xs text-gray-100 pt-4">{t('subtitle')}</span>
+          <span className="px-2 pt-4 text-center text-xs text-gray-100">{t('subtitle')}</span>
         </div>
-        <div className="flex flex-col w-full items-center">
+        <div className="flex w-full flex-col items-center">
           <Banner message={t('alert')} type="error" className="mb-7" />
           <Separator />
-          <span className="text-xs py-6">{t('warning')}</span>
-          <div className="flex gap-2.5 w-full px-6">
+          <span className="py-6 text-xs">{t('warning')}</span>
+          <div className="flex w-full gap-2.5 px-6">
             <Button
               flat
               className="w-full"

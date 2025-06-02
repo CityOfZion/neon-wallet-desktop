@@ -21,7 +21,7 @@ export const GreyTokenSelectItem = ({ token }: TProps) => {
     <Fragment>
       <img
         src={img}
-        className="w-4 h-4 rounded-full"
+        className="h-4 w-4 rounded-full"
         onError={() => {
           setImg(defaultTokenLogo)
           token.imageUrl = defaultTokenLogo
@@ -29,9 +29,9 @@ export const GreyTokenSelectItem = ({ token }: TProps) => {
         alt={token.symbol}
       />
       <Tooltip title={token.network ? `${token.symbol} | ${token.network}` : ''}>
-        <span className="flex flex-grow items-center gap-1 min-w-0">
-          <span className="text-white text-sm text-left uppercase">{token.symbol}</span>
-          {token.network && <span className="text-gray-100 text-sm truncate uppercase">{` | ${token.network}`}</span>}
+        <span className="flex min-w-0 flex-grow items-center gap-1">
+          <span className="text-left text-sm uppercase text-white">{token.symbol}</span>
+          {token.network && <span className="truncate text-sm uppercase text-gray-100">{` | ${token.network}`}</span>}
         </span>
       </Tooltip>
 

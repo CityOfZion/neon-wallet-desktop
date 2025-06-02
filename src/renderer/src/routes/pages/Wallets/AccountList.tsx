@@ -32,15 +32,15 @@ const AccountItem = ({ account, onClick, active }: TAccountItemProps) => {
       <button
         onClick={onClick}
         aria-selected={active}
-        className="flex w-full min-w-0 items-center gap-x-2.5 py-2.5 px-3 border-l-4 border-l-transparent cursor-pointer transition-colors hover:border-l-neon hover:bg-gray-900/50 aria-selected:border-l-neon aria-selected:bg-gray-900/50"
+        className="flex w-full min-w-0 cursor-pointer items-center gap-x-2.5 border-l-4 border-l-transparent px-3 py-2.5 transition-colors hover:border-l-neon hover:bg-gray-900/50 aria-selected:border-l-neon aria-selected:bg-gray-900/50"
       >
         <AccountIcon account={account} />
 
-        <div className="flex flex-col flex-grow  min-w-0 gap-x-2">
-          <p className="text-xs text-white truncate text-left">{account.name}</p>
+        <div className="flex min-w-0 flex-grow flex-col gap-x-2">
+          <p className="truncate text-left text-xs text-white">{account.name}</p>
 
           <Tooltip title={totalExchangeFormatted}>
-            <span className="block text-xs text-gray-100 text-left truncate">{totalExchangeFormatted}</span>
+            <span className="block truncate text-left text-xs text-gray-100">{totalExchangeFormatted}</span>
           </Tooltip>
         </div>
       </button>
@@ -54,7 +54,7 @@ export const AccountList = ({ selectedWallet, selectedAccount, onSelect }: TProp
   return (
     <ul
       {...TestHelper.buildTestObject('accounts-wallet-list')}
-      className="flex flex-grow flex-col min-h-0 min-w-0 w-full overflow-y-auto"
+      className="flex min-h-0 w-full min-w-0 flex-grow flex-col overflow-y-auto"
     >
       {accountsByWalletId.map((account, index) => (
         <Fragment key={account?.id}>

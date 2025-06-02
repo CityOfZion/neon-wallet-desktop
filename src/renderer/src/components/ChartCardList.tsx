@@ -24,12 +24,12 @@ export const ChartCardList = ({ sortedBalances, className }: TProps) => {
   return (
     <div className={StyleHelper.mergeStyles('w-full py-9', className)}>
       {priceHistories.isLoading ? (
-        <Loader className="w-10 h-10" />
+        <Loader className="h-10 w-10" />
       ) : (
         <Fragment>
-          <span className="text-sm text-gray-100 mb-3.5">{t('title')}</span>
+          <span className="mb-3.5 text-sm text-gray-100">{t('title')}</span>
 
-          <div className="flex gap-1.5 justify-around w-full">
+          <div className="flex w-full justify-around gap-1.5">
             {priceHistories.data.map(
               item => item && <ChartCard priceHistory={item} key={item.tokenBalance.token.symbol} />
             )}

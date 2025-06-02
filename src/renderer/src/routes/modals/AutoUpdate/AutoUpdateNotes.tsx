@@ -20,23 +20,24 @@ export const AutoUpdateNotes = () => {
 
   return (
     <CenterModalLayout contentClassName="flex flex-col w-full items-center justify-between">
-      <div className="flex flex-col items-center w-full min-h-0 flex-grow">
-        <NeonWalletLogo className="w-56 h-min" />
-        <h2 className="text-2xl text-white mt-11">{t('title')}</h2>
+      <div className="flex min-h-0 w-full flex-grow flex-col items-center">
+        <NeonWalletLogo aria-hidden={true} className="h-min w-56" />
 
-        <div className="w-full flex flex-col items-start mt-8 min-h-0">
+        <h2 className="mt-11 text-2xl text-white">{t('title')}</h2>
+
+        <div className="mt-8 flex min-h-0 w-full flex-col items-start">
           <p className="text-sm text-white">{t('subtitle')}</p>
           <Separator className="mt-3" />
 
-          <div key={latestRelease.version} className="my-7 overflow-auto min-h-0 w-full">
-            <span className="text-gray-300 block text-xs mb-1">{latestRelease.date}</span>
-            <span className="text-white block text-lg mb-2">
+          <div key={latestRelease.version} className="my-7 min-h-0 w-full overflow-auto">
+            <span className="mb-1 block text-xs text-gray-300">{latestRelease.date}</span>
+            <span className="mb-2 block text-lg text-white">
               {changelogT('versionLabel', { version: latestRelease.version })}
             </span>
 
             <ul>
               {latestRelease.changes.map((item, index) => (
-                <li key={`changelog-item-${index}`} className="list-disc list-inside text-gray-100 text-xs">
+                <li key={`changelog-item-${index}`} className="list-inside list-disc text-xs text-gray-100">
                   {item}
                 </li>
               ))}

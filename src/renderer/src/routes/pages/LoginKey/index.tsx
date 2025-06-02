@@ -50,9 +50,9 @@ export const LoginKeyPage = () => {
 
   return (
     <WelcomeWithTabsLayout tabItemSelected="key">
-      <p className="text-sm text-white text-center">{t('description')}</p>
+      <p className="text-center text-sm text-white">{t('description')}</p>
       <form
-        className="mt-6 flex flex-col w-full items-center justify-between flex-grow"
+        className="mt-6 flex w-full flex-grow flex-col items-center justify-between"
         onSubmit={handleAct(handleSubmit)}
       >
         <div className="flex flex-col items-center">

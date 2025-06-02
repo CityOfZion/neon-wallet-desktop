@@ -8,18 +8,18 @@ export const AboutExtraIdToReceiveModal = () => {
 
   return (
     <SideModalLayout heading={t('title')} contentClassName="py-6" headingIcon={<TbHelp aria-hidden={true} />}>
-      <h3 className="text-gray-100 uppercase text-xs font-bold">{t('what.title')}</h3>
-      <p className="text-xs text-white mt-3">{t('what.description')}</p>
+      <h3 className="text-xs font-bold uppercase text-gray-100">{t('what.title')}</h3>
+      <p className="mt-3 text-xs text-white">{t('what.description')}</p>
 
       <Separator containerClassName="my-6" />
 
-      <h3 className="text-gray-100 uppercase text-xs font-bold">{t('why.title')}</h3>
-      <p className="text-xs text-white mt-3">{t('why.description')}</p>
+      <h3 className="text-xs font-bold uppercase text-gray-100">{t('why.title')}</h3>
+      <p className="mt-3 text-xs text-white">{t('why.description')}</p>
 
       <Separator containerClassName="my-6" />
 
-      <h3 className="text-gray-100 uppercase text-xs font-bold">{t('where.title')}</h3>
-      <p className="text-xs text-white mt-3">{t('where.description')}</p>
+      <h3 className="text-xs font-bold uppercase text-gray-100">{t('where.title')}</h3>
+      <p className="mt-3 text-xs text-white">{t('where.description')}</p>
     </SideModalLayout>
   )
 }

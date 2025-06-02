@@ -8,8 +8,8 @@ type TProps = {
 }
 
 export const PrepareHardwareWalletTipInfo = ({ className, children }: TProps) => (
-  <div className={StyleHelper.mergeStyles('flex gap-x-3 w-full', className)}>
-    <TbArrowRight aria-hidden={true} className="text-gray-300 w-6 h-6" />
+  <div className={StyleHelper.mergeStyles('flex w-full gap-x-3', className)}>
+    <TbArrowRight aria-hidden={true} className="h-6 w-6 text-gray-300" />
     {children}
   </div>
 )

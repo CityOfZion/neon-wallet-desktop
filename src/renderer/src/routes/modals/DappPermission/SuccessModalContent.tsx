@@ -11,8 +11,8 @@ type TProps = {
 export const SuccessModalContent = ({ result }: TProps) => {
   const { t } = useTranslation('modals', { keyPrefix: 'dappPermission.requests.neo3.invokeFunction' })
   return (
-    <div className="flex flex-grow flex-col min-w-0 w-full items-center">
-      <p className="text-center text-sm mt-4 px-9">{t('successModal.text')}</p>
+    <div className="flex w-full min-w-0 flex-grow flex-col items-center">
+      <p className="mt-4 px-9 text-center text-sm">{t('successModal.text')}</p>
 
       <Button
         className="mt-8 w-fit"

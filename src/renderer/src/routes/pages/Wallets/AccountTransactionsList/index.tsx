@@ -22,7 +22,7 @@ export const AccountTransactionsList = () => {
 
   return (
     <AccountDetailsLayout
-      heading={<h1 className="text-white text-sm">{t('title')}</h1>}
+      heading={<h1 className="text-sm text-white">{t('title')}</h1>}
       actions={
         account ? (
           <CommonAccountActions account={account}>

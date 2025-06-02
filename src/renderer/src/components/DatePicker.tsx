@@ -10,7 +10,7 @@ type TPickerProps = TCalendarProps & {
 }
 
 const Picker = ({ popoverContentProps, ...props }: TPickerProps) => (
-  <Popover.Content className="w-auto p-0 bg-gray-900" {...popoverContentProps}>
+  <Popover.Content className="w-auto bg-gray-900 p-0" {...popoverContentProps}>
     <Calendar {...props} />
   </Popover.Content>
 )

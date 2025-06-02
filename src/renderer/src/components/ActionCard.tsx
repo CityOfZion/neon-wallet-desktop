@@ -7,7 +7,7 @@ type TProps = {
 }
 
 export const ActionCard = ({ children, className }: TProps) => (
-  <div className={StyleHelper.mergeStyles('flex flex-col bg-gray-700/60 px-4 w-full rounded', className)}>
+  <div className={StyleHelper.mergeStyles('flex w-full flex-col rounded bg-gray-700/60 px-4', className)}>
     {children}
   </div>
 )

@@ -40,18 +40,18 @@ export const Invocation = ({ invocation, session, blockchain }: TProps) => {
     invocation.operation === 'transfer' && invocation.args?.length === 4 && invocation.args[2].type === 'Integer'
 
   return (
-    <div className="px-4 pt-3 pb-5 bg-asphalt text-gray-100 rounded w-full text-sm">
-      <div className="flex justify-between items-center">
-        <div className="flex gap-2.5 items-center">
-          <TbArrowsSort className="w-6 h-6 rotate-90 text-blue" />
+    <div className="w-full rounded bg-asphalt px-4 pb-5 pt-3 text-sm text-gray-100">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2.5">
+          <TbArrowsSort aria-hidden={true} className="h-6 w-6 rotate-90 text-blue" />
           <p className="capitalize text-white">{invocation.operation}</p>
         </div>
 
         <div className="flex items-center gap-3">
-          {isLoading ? <Loader className="w-4 h-4" /> : data && <p className="capitalize">{data.name}</p>}
+          {isLoading ? <Loader className="h-4 w-4" /> : data && <p className="capitalize">{data.name}</p>}
 
           <IconButton
-            icon={<MdChevronRight className="text-gray-100" />}
+            icon={<MdChevronRight aria-hidden={true} className="text-gray-100" />}
             compacted
             onClick={modalNavigateWrapper('dapp-permission-contract-details', {
               state: {
@@ -66,22 +66,28 @@ export const Invocation = ({ invocation, session, blockchain }: TProps) => {
         </div>
       </div>
 
-      <Separator className="mt-3 mb-4" />
+      <Separator className="mb-4 mt-3" />
 
       <div className="flex flex-col gap-1">
         <span className="text-xs font-bold">{t('hashLabel')}</span>
 
-        <div className="flex justify-between pr-4 pl-5 bg-gray-700/60 py-2.5 rounded min-w-0 gap-3">
+        <div className="flex min-w-0 justify-between gap-3 rounded bg-gray-700/60 py-2.5 pl-5 pr-4">
           <p className="truncate">{invocation.scriptHash}</p>
-          {explorerUrl && <IconButton icon={<MdLaunch className="text-neon" />} compacted onClick={handleHashClick} />}
+          {explorerUrl && (
+            <IconButton
+              icon={<MdLaunch aria-hidden={true} className="text-neon" />}
+              compacted
+              onClick={handleHashClick}
+            />
+          )}
         </div>
       </div>
       {showAmount && (
         <div className="flex flex-col gap-1">
-          <div className="w-full h-px bg-gray-300/30 min-h-[0.0625rem] mt-4 mb-4"></div>
+          <div className="mb-4 mt-4 h-px min-h-[0.0625rem] w-full bg-gray-300/30"></div>
           <span className="text-xs font-bold">{t('amountLabel')}</span>
 
-          <div className="flex justify-between pr-4 pl-5 bg-gray-700/60 py-2.5 rounded min-w-0 gap-3">
+          <div className="flex min-w-0 justify-between gap-3 rounded bg-gray-700/60 py-2.5 pl-5 pr-4">
             <p className="truncate">{invocation.args?.[2].value}</p>
           </div>
         </div>

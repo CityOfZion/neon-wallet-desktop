@@ -25,7 +25,7 @@ export const MigrationNeo3AssetText = ({
     .run()
 
   return (
-    <p className="text-white text-sm pr-2">
+    <p className="pr-2 text-sm text-white">
       {text} <span className="text-gray-100">| {tBlockchain(blockchain)}</span>
     </p>
   )

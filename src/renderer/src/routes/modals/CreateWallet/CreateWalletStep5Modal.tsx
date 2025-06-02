@@ -23,14 +23,14 @@ export const CreateWalletStep5Modal = () => {
 
   return (
     <CreateWalletModalLayout>
-      <div className="flex flex-col items-center w-full h-full justify-between">
-        <div className="flex flex-col w-full gap-2.5 px-28 items-center justify-center h-full">
+      <div className="flex h-full w-full flex-col items-center justify-between">
+        <div className="flex h-full w-full flex-col items-center justify-center gap-2.5 px-28">
           <NeonWalletIcon3D aria-hidden={true} />
-          <div className="text-white text-lg text-center">{t('title')}</div>
-          <div className="text-gray-100 text-xs text-center">{t('description')}</div>
+          <div className="text-center text-lg text-white">{t('title')}</div>
+          <div className="text-center text-xs text-gray-100">{t('description')}</div>
         </div>
 
-        <Button className="w-48 mb-5" type="submit" label={t('viewWalletButtonLabel')} flat onClick={handleNavigate} />
+        <Button className="mb-5 w-48" type="submit" label={t('viewWalletButtonLabel')} flat onClick={handleNavigate} />
       </div>
     </CreateWalletModalLayout>
   )

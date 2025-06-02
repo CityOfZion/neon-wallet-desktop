@@ -46,8 +46,8 @@ const BodyRow = forwardRef<HTMLTableRowElement, HTMLAttributes<HTMLTableRowEleme
         'transition-colors',
         {
           'even:bg-gray-300/15': !active,
-          'hover:border-neon hover:bg-gray-900/50 border-l-2 border-transparent': hoverable && !active,
-          'border-neon bg-gray-900/50 border-l-2': active,
+          'border-l-2 border-transparent hover:border-neon hover:bg-gray-900/50': hoverable && !active,
+          'border-l-2 border-neon bg-gray-900/50': active,
         },
         className
       )}
@@ -71,18 +71,20 @@ const Head = forwardRef<HTMLTableCellElement, ThHTMLAttributes<HTMLTableCellElem
       )}
       {...props}
     >
-      <div className="flex gap-1.5 items-center">
+      <div className="flex items-center gap-1.5">
         {children}
         {sortable && (
-          <div className="relative ">
+          <div className="relative">
             <TbCaretUpFilled
+              aria-hidden={true}
               className={StyleHelper.mergeStyles('-mb-1.5 opacity-30', {
-                'opacity-100 text-white': sortedBy === 'asc',
+                'text-white opacity-100': sortedBy === 'asc',
               })}
             />
             <TbCaretDownFilled
+              aria-hidden={true}
               className={StyleHelper.mergeStyles('-mt-1.5 opacity-30', {
-                'opacity-100 text-white': sortedBy === 'desc',
+                'text-white opacity-100': sortedBy === 'desc',
               })}
             />
           </div>
@@ -97,7 +99,7 @@ const Cell = forwardRef<HTMLTableCellElement, TdHTMLAttributes<HTMLTableCellElem
     <td
       ref={ref}
       className={StyleHelper.mergeStyles(
-        'p-2 px-2.5 align-middle whitespace-nowrap text-white [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]',
+        'whitespace-nowrap p-2 px-2.5 align-middle text-white [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]',
         className
       )}
       {...props}

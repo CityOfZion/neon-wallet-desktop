@@ -11,5 +11,5 @@ type Props = React.SVGProps<SVGSVGElement> & {
 export const BlockchainIcon = React.memo(({ blockchain, type = 'gray', ...props }: Props) => {
   const Component = ICONS_BY_BLOCKCHAIN[blockchain][type]
 
-  return <Component {...props} className={StyleHelper.mergeStyles('w-4 h-4 object-contain', props.className)} />
+  return <Component {...props} className={StyleHelper.mergeStyles('h-4 w-4 object-contain', props.className)} />
 })

@@ -69,16 +69,16 @@ export const AddAddressModal = () => {
 
   return (
     <SideModalLayout heading={address ? t('editTitle') : t('title')}>
-      <form className="flex flex-col gap-y-5 justify-between h-full" onSubmit={handleAct(handleSubmit)}>
+      <form className="flex h-full flex-col justify-between gap-y-5" onSubmit={handleAct(handleSubmit)}>
         <div className="flex flex-col gap-y-5">
           <div>
-            <div className="text-gray-100 font-bold pb-2">{t('name')}</div>
+            <div className="pb-2 font-bold text-gray-100">{t('name')}</div>
             {StringHelper.truncateStringMiddle(contactName, 35)}
           </div>
 
           <Separator />
 
-          <p aria-labelledby="blockchainSelect" className="text-gray-100 font-bold uppercase">
+          <p aria-labelledby="blockchainSelect" className="font-bold uppercase text-gray-100">
             {t('blockchain')}
           </p>
 
@@ -88,7 +88,7 @@ export const AddAddressModal = () => {
             testId="contact-blockchain-select"
           />
 
-          <p aria-labelledby="addressOrDomain" className="text-gray-100 font-bold uppercase">
+          <p aria-labelledby="addressOrDomain" className="font-bold uppercase text-gray-100">
             {t('addressOrDomain')}
           </p>
 

@@ -68,9 +68,9 @@ export const PrepareHardwareWalletConfirmAndCompleteStep = ({ neoLegacyAccount, 
 
   return (
     <Fragment>
-      <h2 className="text-1xl text-white leading-8 mb-2">{t('title')}</h2>
+      <h2 className="mb-2 text-1xl leading-8 text-white">{t('title')}</h2>
 
-      <div className="flex flex-col items-center w-full mx-auto gap-y-6 max-w-[480px]">
+      <div className="mx-auto flex w-full max-w-[480px] flex-col items-center gap-y-6">
         <PrepareHardwareWalletAddressItem
           title={
             <Trans t={t} i18nKey="sourceAddressTitle">
@@ -96,8 +96,8 @@ export const PrepareHardwareWalletConfirmAndCompleteStep = ({ neoLegacyAccount, 
         />
       </div>
 
-      <PrepareHardwareWalletTipInfo className="max-w-[450px] mt-2">
-        <strong className="text-sm text-white w-full font-bold">{t('tip')}</strong>
+      <PrepareHardwareWalletTipInfo className="mt-2 max-w-[450px]">
+        <strong className="w-full text-sm font-bold text-white">{t('tip')}</strong>
       </PrepareHardwareWalletTipInfo>
 
       <PrepareHardwareWalletStatusConnection searchLabel={t('searchHardwareWalletLabel')} status={status} />

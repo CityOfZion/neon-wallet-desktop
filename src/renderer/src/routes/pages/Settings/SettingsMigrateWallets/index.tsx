@@ -15,11 +15,11 @@ export const SettingsMigrateWalletsPage = () => {
 
   return (
     <SettingsLayout title={t('title')} contentClassName="items-center">
-      <div className="max-w-[33rem] flex flex-col flex-grow">
-        <h2 className="text-xs text-gray-100 uppercase font-bold">{t('subtitleWhy')}</h2>
-        <p className="text-xs text-gray-100 mt-3">{t('descriptionWhy')}</p>
+      <div className="flex max-w-[33rem] flex-grow flex-col">
+        <h2 className="text-xs font-bold uppercase text-gray-100">{t('subtitleWhy')}</h2>
+        <p className="mt-3 text-xs text-gray-100">{t('descriptionWhy')}</p>
 
-        <h2 className="text-xs text-gray-100 uppercase font-bold mt-8">{t('subtitleHow')}</h2>
+        <h2 className="mt-8 text-xs font-bold uppercase text-gray-100">{t('subtitleHow')}</h2>
 
         <MigrateSteps className="mt-5" />
       </div>

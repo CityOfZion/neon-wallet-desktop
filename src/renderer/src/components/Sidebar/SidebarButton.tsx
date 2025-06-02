@@ -14,10 +14,10 @@ export const SidebarButton = ({ icon, title, onClick, disabled, ...props }: Prop
       <button
         onClick={onClick}
         className={StyleHelper.mergeStyles(
-          'text-white text-1xs flex flex-col justify-center items-center gap-1 py-2.5 w-full transition-colors relative',
+          'relative flex w-full flex-col items-center justify-center gap-1 py-2.5 text-1xs text-white transition-colors',
           {
-            'bg-transparent cursor-not-allowed': disabled,
-            'bg-transparent cursor-pointer hover:border-l-neon hover:border-l-3 hover:pr-[0.188rem] hover:bg-asphalt hover:shadow-inner-md':
+            'cursor-not-allowed bg-transparent': disabled,
+            'hover:shadow-inner-md cursor-pointer bg-transparent hover:border-l-3 hover:border-l-neon hover:bg-asphalt hover:pr-[0.188rem]':
               !disabled,
           }
         )}

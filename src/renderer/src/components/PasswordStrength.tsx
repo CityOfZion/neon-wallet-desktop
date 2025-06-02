@@ -14,7 +14,7 @@ type TProps = {
 const PasswordStrengthBar = ({ ariaLabel, className }: TBarProps) => (
   <span
     aria-label={ariaLabel}
-    className={StyleHelper.mergeStyles('block w-1/3 bg-gray-300/70 rounded h-1', className)}
+    className={StyleHelper.mergeStyles('block h-1 w-1/3 rounded bg-gray-300/70', className)}
   />
 )
 
@@ -34,7 +34,7 @@ export const PasswordStrength = ({ password }: TProps) => {
   }
 
   return (
-    <div className="w-full mt-2.5">
+    <div className="mt-2.5 w-full">
       <div className="flex w-full gap-1">
         <PasswordStrengthBar
           ariaLabel={t('weak')}
@@ -46,7 +46,7 @@ export const PasswordStrength = ({ password }: TProps) => {
         />
         <PasswordStrengthBar ariaLabel={t('strong')} className={StyleHelper.mergeStyles({ 'bg-green': isStrong })} />
       </div>
-      <div className="flex justify-between mt-2">
+      <div className="mt-2 flex justify-between">
         <p className="text-1xs text-gray-300">{t('label')}</p>
         <p
           className={StyleHelper.mergeStyles('text-1xs font-bold text-gray-100', {

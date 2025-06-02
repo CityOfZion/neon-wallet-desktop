@@ -38,7 +38,7 @@ export const ContactAddressTable = ({ contactAddresses }: TProps) => {
         cell: info => {
           return (
             <div className="flex flex-row items-center" {...TestHelper.buildTestObject('blockchain-column-cell')}>
-              <div className="mr-2 bg-gray-700 p-2 rounded-full">
+              <div className="mr-2 rounded-full bg-gray-700 p-2">
                 <BlockchainIcon blockchain={info.row.original.blockchain} type="white" />
               </div>
               <span className="uppercase">{t(`common:blockchain.${info.row.original.blockchain}`)}</span>
@@ -62,11 +62,11 @@ export const ContactAddressTable = ({ contactAddresses }: TProps) => {
         id: 'actions',
         cell: info => {
           return (
-            <div className="w-full flex justify-end">
+            <div className="flex w-full justify-end">
               <Button
                 variant="text"
                 label={t('components:contactAddressTable.sendAssets')}
-                leftIcon={<FiSend />}
+                leftIcon={<FiSend aria-hidden={true} />}
                 onClick={() => navigate('/app/send', { state: { recipient: info.row.original.address } })}
                 flat
                 {...TestHelper.buildTestObject('send-assets-button')}
@@ -95,7 +95,7 @@ export const ContactAddressTable = ({ contactAddresses }: TProps) => {
   })
 
   return (
-    <section className="overflow-auto flex flex-col min-h-0 w-full flex-grow mt-4 pr-1 min-w-0" ref={scrollRef}>
+    <section className="mt-4 flex min-h-0 w-full min-w-0 flex-grow flex-col overflow-auto pr-1" ref={scrollRef}>
       <Table.Root>
         <Table.Header className="sticky top-0 bg-gray-800">
           {table.getHeaderGroups().map(headerGroup => (

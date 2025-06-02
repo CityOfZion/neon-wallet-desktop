@@ -26,7 +26,7 @@ export const Tooltip = ({ children, title, icon, open, delayDuration, ...props }
           <RadixTooltip.Content
             side="bottom"
             className={StyleHelper.mergeStyles(
-              'bg-gray-700 p-2 rounded text-xs text-white z-[1010] font-bold flex items-center gap-2 shadow-lg ',
+              'z-[1010] flex items-center gap-2 rounded bg-gray-700 p-2 text-xs font-bold text-white shadow-lg',
               contentClassName
             )}
             {...contentProps}

@@ -12,7 +12,7 @@ export const SwapDetailsModalTokenDetails = ({ amount, blockchain, symbol }: TPr
   const { t: commonT } = useTranslation('common')
 
   return (
-    <div className="flex gap-2.5 w-full items-center">
+    <div className="flex w-full items-center gap-2.5">
       {blockchain && <BlockchainIcon blockchain={blockchain} />}
       <span className="uppercase">
         {symbol}

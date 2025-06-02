@@ -42,13 +42,13 @@ export const LoginPasswordFormContent = () => {
 
   return (
     <form
-      className="w-full flex-grow flex flex-col justify-between items-center"
+      className="flex w-full flex-grow flex-col items-center justify-between"
       onSubmit={handleAct(handleSubmit)}
       {...TestHelper.buildTestObject('login-container')}
     >
-      <div className="flex flex-col w-full">
-        <div className="flex flex-col w-full gap-y-6">
-          <p className="text-white text-sm text-center">{t('text')}</p>
+      <div className="flex w-full flex-col">
+        <div className="flex w-full flex-col gap-y-6">
+          <p className="text-center text-sm text-white">{t('text')}</p>
 
           <Input
             testId="login-password-input"
@@ -67,7 +67,7 @@ export const LoginPasswordFormContent = () => {
           label={t('forgotPassword')}
           colorSchema="neon"
           variant="text-slim"
-          className="mt-2 w-fit mx-auto p-4"
+          className="mx-auto mt-2 w-fit p-4"
           {...TestHelper.buildTestObject('login-forgot-password')}
         />
       </div>

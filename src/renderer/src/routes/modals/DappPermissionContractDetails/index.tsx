@@ -125,10 +125,10 @@ export const DappPermissionContractDetailsModal = () => {
 
   return (
     <CenterModalLayout contentClassName="px-0 flex flex-col pb-5 min-h-0">
-      <div className="flex flex-col min-h-0 overflow-y-auto pr-2 pl-5">
+      <div className="flex min-h-0 flex-col overflow-y-auto pl-5 pr-2">
         <DappPermissionHeader session={session} />
 
-        <p className="text-center text-white text-2xl mt-9 mb-6">{t('title')}</p>
+        <p className="mb-6 mt-9 text-center text-2xl text-white">{t('title')}</p>
 
         {isLoading || !data ? (
           <Loader className="text-gray-600" />
@@ -137,42 +137,46 @@ export const DappPermissionContractDetailsModal = () => {
             <div className="flex flex-col gap-2">
               <span className="text-xs font-bold text-gray-100">{t('detailsLabel')}</span>
 
-              <div className="px-4 pt-3 pb-5 bg-asphalt/50 text-gray-100 rounded w-full text-sm">
-                <div className="flex justify-between items-center">
-                  <div className="flex gap-2.5 items-center">
-                    <TbArrowsSort className="w-6 h-6 rotate-90 text-blue" />
+              <div className="w-full rounded bg-asphalt/50 px-4 pb-5 pt-3 text-sm text-gray-100">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2.5">
+                    <TbArrowsSort aria-hidden={true} className="h-6 w-6 rotate-90 text-blue" />
                     <p className="capitalize text-white">{operation}</p>
                   </div>
 
                   <p className="capitalize">{data.name}</p>
                 </div>
 
-                <Separator className="mt-2.5 mb-4" />
+                <Separator className="mb-4 mt-2.5" />
 
                 <div className="flex flex-col gap-1">
                   <span className="text-xs font-bold">{t('hashLabel')}</span>
 
-                  <div className="flex justify-between pr-4 pl-5 bg-gray-700/60 py-2.5 rounded min-w-0 gap-3">
+                  <div className="flex min-w-0 justify-between gap-3 rounded bg-gray-700/60 py-2.5 pl-5 pr-4">
                     <p className="truncate">{hash}</p>
 
                     {explorerUrl && (
-                      <IconButton icon={<MdLaunch className="text-neon" />} compacted onClick={handleHashClick} />
+                      <IconButton
+                        icon={<MdLaunch aria-hidden={true} className="text-neon" />}
+                        compacted
+                        onClick={handleHashClick}
+                      />
                     )}
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="flex flex-col gap-2 mt-7">
+            <div className="mt-7 flex flex-col gap-2">
               <span className="text-xs font-bold text-gray-100">{t('parametersLabel')}</span>
 
               <div className="flex flex-col gap-2.5">
                 {params.map(param => (
-                  <div className="px-4 pt-3 pb-5 bg-asphalt text-gray-100 rounded w-full text-sm" key={param.name}>
+                  <div className="w-full rounded bg-asphalt px-4 pb-5 pt-3 text-sm text-gray-100" key={param.name}>
                     <div className="flex items-center gap-5">
                       <p className="capitalize text-gray-100">{param.name}</p>
                       <div
-                        className="rounded-full px-3.5 py-1 text-asphalt text-xs"
+                        className="rounded-full px-3.5 py-1 text-xs text-asphalt"
                         style={{
                           backgroundColor: COLORS_BY_TYPE[param.type].color,
                           color: COLORS_BY_TYPE[param.type].textColor === 'dark' ? 'black' : 'white',
@@ -182,12 +186,12 @@ export const DappPermissionContractDetailsModal = () => {
                       </div>
                     </div>
 
-                    <Separator className="mt-2.5 mb-4" />
+                    <Separator className="mb-4 mt-2.5" />
 
-                    <div className="flex justify-between px-4 bg-gray-700/60 py-2.5 rounded min-w-0 gap-3">
-                      <p className="break-words whitespace-pre-wrap min-w-0">{param.value}</p>
+                    <div className="flex min-w-0 justify-between gap-3 rounded bg-gray-700/60 px-4 py-2.5">
+                      <p className="min-w-0 whitespace-pre-wrap break-words">{param.value}</p>
                       <IconButton
-                        icon={<MdContentCopy className="fill-neon" />}
+                        icon={<MdContentCopy aria-hidden={true} className="fill-neon" />}
                         compacted
                         onClick={UtilsHelper.copyToClipboard.bind(null, param.value)}
                       />

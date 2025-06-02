@@ -13,7 +13,7 @@ export const RefreshAction = () => {
   return (
     <div className="flex items-center gap-x-2">
       {lastUpdated && (
-        <p className="text-xs text-gray-300 italic">
+        <p className="text-xs italic text-gray-300">
           {t('lastUpdated', {
             date: isRefetching ? t('emptyDate') : format(new Date(lastUpdated), t('dateFormat')),
           })}

@@ -70,10 +70,14 @@ export const ImportModal = () => {
   })
 
   return (
-    <SideModalLayout heading={t('title')} headingIcon={<TbFileImport />} contentClassName="flex flex-col">
+    <SideModalLayout
+      heading={t('title')}
+      headingIcon={<TbFileImport aria-hidden={true} />}
+      contentClassName="flex flex-col"
+    >
       <p className="text-xs">{t('description')}</p>
 
-      <form className="mt-10 flex flex-col justify-between flex-grow" onSubmit={handleAct(handleSubmit)}>
+      <form className="mt-10 flex flex-grow flex-col justify-between" onSubmit={handleAct(handleSubmit)}>
         <div>
           <Textarea
             placeholder={t('inputPlaceholder')}

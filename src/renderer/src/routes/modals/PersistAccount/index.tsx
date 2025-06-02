@@ -89,14 +89,14 @@ export const PersistAccountModal = () => {
   return (
     <SideModalLayout
       heading={account ? t('titleEdit') : t('titleCreate')}
-      headingIcon={account ? <TbPencil /> : <TbPlus className="text-neon" />}
+      headingIcon={account ? <TbPencil aria-hidden={true} /> : <TbPlus aria-hidden={true} className="text-neon" />}
       contentClassName="flex flex-col justify-between"
     >
-      <form onSubmit={handleAct(handleSubmit)} className="flex flex-col h-full justify-between">
+      <form onSubmit={handleAct(handleSubmit)} className="flex h-full flex-col justify-between">
         <div>
-          <div className="flex flex-col text-gray-100 text-xs gap-6 mb-2.5">
+          <div className="mb-2.5 flex flex-col gap-6 text-xs text-gray-100">
             {!account && <p>{t('subtitleCreate')}</p>}
-            <p className="uppercase font-bold">{t('inputLabel')}</p>
+            <p className="font-bold uppercase">{t('inputLabel')}</p>
           </div>
 
           <Input
@@ -109,7 +109,7 @@ export const PersistAccountModal = () => {
           />
 
           <div className="flex flex-col gap-6 pb-2 pt-4">
-            {!account && <p className="text-gray-300 italic text-xs">{t('inputSubtitle')}</p>}
+            {!account && <p className="text-xs italic text-gray-300">{t('inputSubtitle')}</p>}
             <Separator />
           </div>
 
@@ -122,7 +122,7 @@ export const PersistAccountModal = () => {
         </div>
 
         <Button
-          className="w-full mt-6"
+          className="mt-6 w-full"
           type="submit"
           label={account ? t('saveButtonLabel') : t('nextButtonLabel')}
           flat
@@ -131,11 +131,11 @@ export const PersistAccountModal = () => {
       </form>
 
       {account && (
-        <div className="flex flex-col mt-8">
+        <div className="mt-8 flex flex-col">
           <>
             <Separator />
-            <p className="text-gray-300 uppercase text-xs font-bold mt-4">{t('deleteAccountTitle')}</p>
-            <span className="text-xs text-white mt-2">{t('deleteAccountSubtext')}</span>
+            <p className="mt-4 text-xs font-bold uppercase text-gray-300">{t('deleteAccountTitle')}</p>
+            <span className="mt-2 text-xs text-white">{t('deleteAccountSubtext')}</span>
             <Button
               label={t('deleteAccountTitle')}
               type="button"

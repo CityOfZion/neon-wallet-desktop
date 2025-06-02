@@ -71,7 +71,7 @@ export const GreyAccountSelect = ({
             'min-w-36 max-w-36 bg-asphalt aria-expanded:bg-asphalt aria-[disabled=false]:hover:bg-asphalt/60',
             {
               'aria-[disabled=false]:hover:bg-asphalt/60': !selectedAccount && !open && !isDisabled,
-              'aria-[disabled=false]:hover:bg-gray-300/30 bg-gray-300/15': !isDisabled && !open && selectedAccount,
+              'bg-gray-300/15 aria-[disabled=false]:hover:bg-gray-300/30': !isDisabled && !open && selectedAccount,
               'opacity-50': isDisabled,
             },
             triggerClassName
@@ -80,33 +80,33 @@ export const GreyAccountSelect = ({
           {match({ loading, isSelectedAccount: !!selectedAccount })
             .with({ loading: true }, () => <Loader />)
             .with({ isSelectedAccount: true }, () => (
-              <div className="flex items-center gap-2.5 min-w-0">
+              <div className="flex min-w-0 items-center gap-2.5">
                 <BlockchainIcon blockchain={selectedAccount!.blockchain} type="gray" />
 
-                <span className="text-white text-start">
+                <span className="text-start text-white">
                   {StringHelper.truncateStringMiddle(selectedAccount!.address, 8)}
                 </span>
               </div>
             ))
             .otherwise(() => (
-              <span className="text-center text-neon font-medium w-full">{t('placeholder')}</span>
+              <span className="w-full text-center font-medium text-neon">{t('placeholder')}</span>
             ))}
         </Select.Trigger>
       )}
 
-      <Select.Content align="end" side="bottom" className="max-w-48 max-h-60" isTriggerWidth={false}>
+      <Select.Content align="end" side="bottom" className="max-h-60 max-w-48" isTriggerWidth={false}>
         {match(filteredAccounts.length)
           .with(0, () => <p className="py-2.5 text-center text-xs text-gray-100">{t('empty')}</p>)
           .otherwise(() =>
             filteredAccounts.map((account, index) => (
               <Fragment key={account.id}>
-                <Select.Item value={account.id} className="gap-2.5 justify-start">
-                  <BlockchainIcon className="w-4 min-w-4 h-4 min-h-4 " blockchain={account.blockchain} type="gray" />
+                <Select.Item value={account.id} className="justify-start gap-2.5">
+                  <BlockchainIcon className="h-4 min-h-4 w-4 min-w-4" blockchain={account.blockchain} type="gray" />
 
-                  <div className="flex flex-col min-w-0 gap-0.5 flex-grow">
+                  <div className="flex min-w-0 flex-grow flex-col gap-0.5">
                     <Select.ItemText>{StringHelper.truncateStringMiddle(account.address, 8)}</Select.ItemText>
 
-                    <span className="text-1xs text-gray-100 truncate text-left">
+                    <span className="truncate text-left text-1xs text-gray-100">
                       {`${account.name} | ${account.wallet.name}`}
                     </span>
                   </div>

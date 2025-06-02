@@ -17,8 +17,8 @@ export const PortfolioActivityPage = () => {
   const balances = useBalances(accounts)
 
   return (
-    <section className="w-full flex flex-col bg-gray-800 rounded shadow-lg py-3 h-full px-4 min-w-0">
-      <div className="flex justify-between items-center text-sm mb-3 gap-x-4 h-5 max-h-5 min-h-5">
+    <section className="flex h-full w-full min-w-0 flex-col rounded bg-gray-800 px-4 py-3 shadow-lg">
+      <div className="mb-3 flex h-5 max-h-5 min-h-5 items-center justify-between gap-x-4 text-sm">
         <h1 className="text-white">{t('allActivity')}</h1>
 
         <div className="flex items-center gap-x-4">
@@ -28,7 +28,7 @@ export const PortfolioActivityPage = () => {
                 {t('walletsAndAccounts', { wallets: wallets.length, accounts: accounts.length })}
               </span>
 
-              <Separator containerClassName="w-0 h-full" className="w-px h-7" />
+              <Separator containerClassName="w-0 h-full" className="h-7 w-px" />
             </Fragment>
           )}
 
@@ -38,7 +38,7 @@ export const PortfolioActivityPage = () => {
 
       <Separator />
 
-      <div className="flex w-full justify-end items-center gap-x-2 pt-3 text-xl">
+      <div className="flex w-full items-center justify-end gap-x-2 pt-3 text-xl">
         <span className="text-gray-300">{t('balance')}</span>
         <span className="text-white">{NumberHelper.currency(balances.exchangeTotal, currency.label)}</span>
       </div>

@@ -22,9 +22,9 @@ const Item = forwardRef<ElementRef<typeof RadixRadioGroup.Item>, ItemProps>(
       <RadixRadioGroup.Item
         {...props}
         ref={ref}
-        className={StyleHelper.mergeStyles('flex flex-col w-full h-10 group', className)}
+        className={StyleHelper.mergeStyles('group flex h-10 w-full flex-col', className)}
       >
-        <div className="px-5 hover:bg-asphalt bg-transparent outline-none cursor-pointer flex flex-row gap-y-2 gap-x-4  items-center justify-between w-full h-full">
+        <div className="flex h-full w-full cursor-pointer flex-row items-center justify-between gap-x-4 gap-y-2 bg-transparent px-5 outline-none hover:bg-asphalt">
           {children}
         </div>
 
@@ -43,12 +43,12 @@ const Indicator = forwardRef<
   ComponentPropsWithoutRef<typeof RadixRadioGroup.Indicator>
 >((props, ref) => {
   return (
-    <div className="group-data-[state=unchecked]:border-gray-300 group-data-[state=checked]:border-neon border-2 bg-transparent min-w-[1rem] min-h-[1rem] w-[1rem] h-[1rem] rounded-full outline-none cursor-pointer">
+    <div className="h-[1rem] min-h-[1rem] w-[1rem] min-w-[1rem] cursor-pointer rounded-full border-2 bg-transparent outline-none group-data-[state=checked]:border-neon group-data-[state=unchecked]:border-gray-300">
       <RadixRadioGroup.Indicator
         {...props}
         ref={ref}
         className={StyleHelper.mergeStyles(
-          "flex items-center justify-center w-full h-full relative after:content-[''] after:block after:w-2 after:h-2 after:rounded-[50%] after:bg-neon",
+          "relative flex h-full w-full items-center justify-center after:block after:h-2 after:w-2 after:rounded-[50%] after:bg-neon after:content-['']",
           props.className
         )}
       />

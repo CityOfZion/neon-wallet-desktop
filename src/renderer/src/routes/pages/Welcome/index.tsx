@@ -23,13 +23,17 @@ export const WelcomePage = () => {
 
   return (
     <WelcomeLayout heading={t('title')} bigger className="relative">
-      <ul className="flex gap-x-12 mt-14 flex-grow ">
+      <ul className="mt-14 flex flex-grow gap-x-12">
         <li>
           <WelcomeCard image={<NeonPageImage />} title={t('card1.title')} description={t('card1.description')} />
         </li>
 
         <li>
-          <WelcomeCard image={<WalletConnectLogo />} title={t('card2.title')} description={t('card2.description')} />
+          <WelcomeCard
+            image={<WalletConnectLogo aria-hidden={true} />}
+            title={t('card2.title')}
+            description={t('card2.description')}
+          />
         </li>
 
         <li>
@@ -41,7 +45,7 @@ export const WelcomePage = () => {
         </li>
       </ul>
 
-      <div className="flex gap-x-2.5 ">
+      <div className="flex gap-x-2.5">
         <Link
           to="/login-password"
           label={t('continue')}

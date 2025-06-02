@@ -10,18 +10,18 @@ type TProps = {
 export const AccountDetailsLayout = ({ heading, actions, children, className, ...props }: TProps): JSX.Element => {
   return (
     <div
-      className={StyleHelper.mergeStyles('w-full flex flex-col flex-grow px-4 py-3 min-h-0 min-w-0', className)}
+      className={StyleHelper.mergeStyles('flex min-h-0 w-full min-w-0 flex-grow flex-col px-4 py-3', className)}
       {...props}
     >
-      <div className="flex justify-between items-center text-sm mb-3 max-h-7 min-h-7 h-7">
-        {typeof heading === 'string' ? <h1 className="text-white text-sm">{heading}</h1> : heading}
+      <div className="mb-3 flex h-7 max-h-7 min-h-7 items-center justify-between text-sm">
+        {typeof heading === 'string' ? <h1 className="text-sm text-white">{heading}</h1> : heading}
 
         {actions}
       </div>
 
       <Separator />
 
-      <div className="flex flex-col overflow-y-auto w-full flex-grow">{children}</div>
+      <div className="flex w-full flex-grow flex-col overflow-y-auto">{children}</div>
     </div>
   )
 }

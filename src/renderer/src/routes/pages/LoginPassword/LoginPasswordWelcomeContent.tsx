@@ -9,7 +9,7 @@ export const LoginPasswordWelcomeContent = () => {
 
   return (
     <div className="flex flex-col gap-y-6" {...TestHelper.buildTestObject('login-password-welcome-container')}>
-      <p className="text-white text-center text-sm">{t('text')}</p>
+      <p className="text-center text-sm text-white">{t('text')}</p>
 
       <ul className="flex flex-col gap-y-2">
         <li>

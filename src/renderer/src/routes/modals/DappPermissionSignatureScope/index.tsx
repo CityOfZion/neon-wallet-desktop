@@ -16,17 +16,17 @@ export const DappPermissionSignatureScopeModal = () => {
 
   return (
     <CenterModalLayout contentClassName="px-0 flex flex-col pb-5 min-h-0">
-      <div className="flex flex-col min-h-0 overflow-y-auto pr-2 pl-5">
+      <div className="flex min-h-0 flex-col overflow-y-auto pl-5 pr-2">
         <DappPermissionHeader session={session} />
 
-        <p className="text-center text-white text-2xl mt-9 mb-6">Signature scope</p>
+        <p className="mb-6 mt-9 text-center text-2xl text-white">Signature scope</p>
 
-        <div className="text-gray-100 text-sm flex flex-col gap-2">
+        <div className="flex flex-col gap-2 text-sm text-gray-100">
           <div className="flex flex-col gap-1">
             <span className="text-xs font-bold">SCOPE</span>
 
-            <div className="flex justify-between px-5 bg-asphalt py-2.5 rounded min-w-0 gap-3">
-              <p className="break-words min-w-0">{scope}</p>
+            <div className="flex min-w-0 justify-between gap-3 rounded bg-asphalt px-5 py-2.5">
+              <p className="min-w-0 break-words">{scope}</p>
             </div>
           </div>
 
@@ -34,8 +34,8 @@ export const DappPermissionSignatureScopeModal = () => {
             <div className="flex flex-col gap-1">
               <span className="text-xs font-bold">ALLOWED LIST</span>
 
-              <div className="flex justify-between px-5 bg-asphalt py-2.5 rounded min-w-0 gap-3">
-                <p className="break-words min-w-0">{allowedList?.join(',\r\n')}</p>
+              <div className="flex min-w-0 justify-between gap-3 rounded bg-asphalt px-5 py-2.5">
+                <p className="min-w-0 break-words">{allowedList?.join(',\r\n')}</p>
               </div>
             </div>
           )}
@@ -43,8 +43,8 @@ export const DappPermissionSignatureScopeModal = () => {
           <div className="flex flex-col gap-1">
             <span className="text-xs font-bold">EXPLANATION</span>
 
-            <div className="flex justify-between px-5 bg-asphalt py-2.5 rounded min-w-0 gap-3">
-              <p className="break-words min-w-0">{t(`scopes.${scope}` as unknown as TemplateStringsArray)}</p>
+            <div className="flex min-w-0 justify-between gap-3 rounded bg-asphalt px-5 py-2.5">
+              <p className="min-w-0 break-words">{t(`scopes.${scope}` as unknown as TemplateStringsArray)}</p>
             </div>
           </div>
         </div>

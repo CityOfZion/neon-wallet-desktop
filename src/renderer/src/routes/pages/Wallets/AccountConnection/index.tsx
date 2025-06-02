@@ -32,7 +32,7 @@ export const AccountConnections = () => {
     <AccountDetailsLayout
       actions={
         <div className="flex items-center gap-2">
-          <span className="text-gray-300 mr-2">{t('totalConnections', { connections: filteredSessions.length })}</span>
+          <span className="mr-2 text-gray-300">{t('totalConnections', { connections: filteredSessions.length })}</span>
 
           <Button
             variant="text"

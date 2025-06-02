@@ -22,25 +22,25 @@ const Root = ({ blockchain, children }: TRootProps) => {
   const { t: blockchainT } = useTranslation('common', { keyPrefix: 'blockchain' })
 
   return (
-    <div className="rounded bg-asphalt p-2 gap-y-4">
-      <div className="flex p-2 gap-x-2 items-center">
+    <div className="gap-y-4 rounded bg-asphalt p-2">
+      <div className="flex items-center gap-x-2 p-2">
         <BlockchainIcon blockchain={blockchain} type="white" />
         {blockchainT(blockchain)}
       </div>
 
       <Separator />
 
-      <ul className="flex flex-col w-full p-2 gap-y-2 items-center justify-between">{children}</ul>
+      <ul className="flex w-full flex-col items-center justify-between gap-y-2 p-2">{children}</ul>
     </div>
   )
 }
 
 const Item = ({ onCheckedChange, address, label, checked, disabled }: TItemProps) => {
   return (
-    <li className="flex flex-col w-full gap-y-0.5 text-white text-xs">
+    <li className="flex w-full flex-col gap-y-0.5 text-xs text-white">
       <span className="text-gray-300">{label}</span>
-      <div className="flex gap-x-2 justify-between">
-        <span className="block truncate min-w-0">{address}</span>
+      <div className="flex justify-between gap-x-2">
+        <span className="block min-w-0 truncate">{address}</span>
         <Checkbox checked={checked} onCheckedChange={onCheckedChange} disabled={disabled} />
       </div>
     </li>

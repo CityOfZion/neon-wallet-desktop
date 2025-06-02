@@ -39,13 +39,13 @@ export const ExportFullTransactionInfo = ({
   const formattedDateTo = dateFns.format(to, t('datePickerStepFormat'))
 
   return (
-    <div className="w-full flex flex-col gap-3 mt-2 relative">
-      <div className="bg-gray-800  rounded w-full">
-        <div className="flex flex-col items-center bg-gray-700/60 px-3.5 w-full rounded">
+    <div className="relative mt-2 flex w-full flex-col gap-3">
+      <div className="w-full rounded bg-gray-800">
+        <div className="flex w-full flex-col items-center rounded bg-gray-700/60 px-3.5">
           <ActionStep
             title={
               readOnly ? (
-                <p className="text-xs text-white px-2">{account ? account.address : t('addressPlaceholder')}</p>
+                <p className="px-2 text-xs text-white">{account ? account.address : t('addressPlaceholder')}</p>
               ) : (
                 <Button
                   className="min-w-0"
@@ -63,7 +63,7 @@ export const ExportFullTransactionInfo = ({
             }
             leftIcon={
               account ? (
-                <BlockchainIcon blockchain={account.blockchain} type="blue" className="w-4 h-4" />
+                <BlockchainIcon blockchain={account.blockchain} type="blue" className="h-4 w-4" />
               ) : (
                 <TbWallet aria-hidden />
               )
@@ -73,7 +73,7 @@ export const ExportFullTransactionInfo = ({
             leftIconContainerClassName="h-5 w-5"
           >
             {account && (
-              <span className="text-gray-100 text-xs whitespace-nowrap">
+              <span className="whitespace-nowrap text-xs text-gray-100">
                 {commonT(`blockchain.${account.blockchain}`)}
               </span>
             )}
@@ -85,7 +85,7 @@ export const ExportFullTransactionInfo = ({
             title={
               <div className="flex items-center gap-1">
                 {readOnly ? (
-                  <p className="text-xs text-white px-2">{formattedDateFrom}</p>
+                  <p className="px-2 text-xs text-white">{formattedDateFrom}</p>
                 ) : (
                   <DatePicker.Root>
                     <DatePicker.Trigger asChild>
@@ -107,10 +107,10 @@ export const ExportFullTransactionInfo = ({
                   </DatePicker.Root>
                 )}
 
-                <TbChevronRight className="w-4 h-4 text-blue" aria-hidden />
+                <TbChevronRight className="h-4 w-4 text-blue" aria-hidden />
 
                 {readOnly ? (
-                  <p className="text-xs text-white px-2">{formattedDateTo}</p>
+                  <p className="px-2 text-xs text-white">{formattedDateTo}</p>
                 ) : (
                   <DatePicker.Root>
                     <DatePicker.Trigger asChild>

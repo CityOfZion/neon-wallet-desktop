@@ -62,25 +62,25 @@ export const ChangePasswordStep1 = (): JSX.Element => {
   }
 
   return (
-    <div className="w-full px-5 flex flex-col h-full items-center">
-      <form className="flex flex-col justify-between items-center flex-grow" onSubmit={handleAct(handleSubmit)}>
+    <div className="flex h-full w-full flex-col items-center px-5">
+      <form className="flex flex-grow flex-col items-center justify-between" onSubmit={handleAct(handleSubmit)}>
         <div className="mb-6 text-center">
           <span className="text-xs">{t('subtitle')}</span>
         </div>
-        <div className="flex flex-col justify-between flex-grow">
+        <div className="flex flex-grow flex-col justify-between">
           <div className="w-[27rem]">
-            <div className="w-full flex mb-2 justify-between items-center">
-              <span className="text-gray-100 uppercase text-xs font-bold">{t('titleInput1')}</span>
+            <div className="mb-2 flex w-full items-center justify-between">
+              <span className="text-xs font-bold uppercase text-gray-100">{t('titleInput1')}</span>
               <Button
                 variant="text"
                 flat
                 type="button"
-                leftIcon={<TbReload />}
+                leftIcon={<TbReload aria-hidden={true} />}
                 label={t('generatePassword')}
                 onClick={handleGeneratePassword}
               />
             </div>
-            <div className="flex flex-col items-center mb-5">
+            <div className="mb-5 flex flex-col items-center">
               <Input
                 type="password"
                 placeholder={t('inputNewPasswordPlaceholder')}
@@ -91,10 +91,10 @@ export const ChangePasswordStep1 = (): JSX.Element => {
               <PasswordStrength password={actionData.newPassword} />
             </div>
             <Separator />
-            <div className="w-full flex mt-5 mb-2">
-              <span className="text-gray-100 uppercase text-xs font-bold">{t('titleInput2')}</span>
+            <div className="mb-2 mt-5 flex w-full">
+              <span className="text-xs font-bold uppercase text-gray-100">{t('titleInput2')}</span>
             </div>
-            <div className="flex flex-col items-center mb-5">
+            <div className="mb-5 flex flex-col items-center">
               <Input
                 type="password"
                 placeholder={t('inputCurrentPasswordPlaceholder')}
@@ -109,7 +109,7 @@ export const ChangePasswordStep1 = (): JSX.Element => {
               </div>
             </div>
           </div>
-          <div className="flex justify-center w-full mb-8">
+          <div className="mb-8 flex w-full justify-center">
             <Button
               clickableProps={{ className: 'w-52 h-12' }}
               type="submit"

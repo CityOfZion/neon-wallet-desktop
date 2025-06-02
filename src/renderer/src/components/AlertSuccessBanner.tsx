@@ -10,7 +10,7 @@ export const AlertSuccessBanner = ({ message, className, icon, ...props }: TProp
   return (
     <div
       className={StyleHelper.mergeStyles(
-        'bg-green-700 text-white rounded flex items-center px-5 py-2.5 gap-5 text-xs',
+        'flex items-center gap-5 rounded bg-green-700 px-5 py-2.5 text-xs text-white',
         className
       )}
       {...props}

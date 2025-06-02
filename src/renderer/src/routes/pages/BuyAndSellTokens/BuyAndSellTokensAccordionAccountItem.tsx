@@ -24,14 +24,14 @@ export const BuyAndSellTokensAccordionAccountItem = ({ account }: TProps) => {
   const total = NumberHelper.currency(data?.exchangeTotal ?? 0, currency.label)
 
   return (
-    <section className="flex gap-x-3 items-center px-4 py-3">
-      <BlockchainIcon className="w-4 h-4 min-w-4 min-h-4 self-start mt-1" blockchain={account.blockchain} type="gray" />
+    <section className="flex items-center gap-x-3 px-4 py-3">
+      <BlockchainIcon className="mt-1 h-4 min-h-4 w-4 min-w-4 self-start" blockchain={account.blockchain} type="gray" />
 
-      <div className="flex flex-col flex-grow gap-0.5">
-        <h5 className="text-xs max-w-[164px] font-medium text-white truncate">{account.name}</h5>
+      <div className="flex flex-grow flex-col gap-0.5">
+        <h5 className="max-w-[164px] truncate text-xs font-medium text-white">{account.name}</h5>
 
         <div className="flex items-center gap-1">
-          <p className="text-gray-300 text-xs">{StringHelper.truncateStringMiddle(address, 16)}</p>
+          <p className="text-xs text-gray-300">{StringHelper.truncateStringMiddle(address, 16)}</p>
 
           <Tooltip title={t('labels.copyAddress')}>
             <IconButton
@@ -46,10 +46,10 @@ export const BuyAndSellTokensAccordionAccountItem = ({ account }: TProps) => {
       </div>
 
       {isLoading ? (
-        <Loader className="text-white w-4 h-4" containerClassName="w-fit" />
+        <Loader className="h-4 w-4 text-white" containerClassName="w-fit" />
       ) : (
         <Tooltip title={total}>
-          <p className="text-white truncate whitespace-nowrap text-xs">{total}</p>
+          <p className="truncate whitespace-nowrap text-xs text-white">{total}</p>
         </Tooltip>
       )}
     </section>
