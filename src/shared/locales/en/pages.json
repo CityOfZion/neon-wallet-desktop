@@ -169,7 +169,8 @@
       "feeError": "Error to calculate fee",
       "insufficientFunds": "Insufficient funds",
       "calculateMaxAmount": "Error to calculate the maximum amount",
-      "amountIsLessOrEqualZero": "The amount is less than or equal to zero"
+      "amountIsLessOrEqualZero": "The amount is less than or equal to zero",
+      "hardwareWalletShouldBeValid": "To proceed with this operation, please make sure your hardware wallet is unlocked"
     }
   },
   "wallets": {

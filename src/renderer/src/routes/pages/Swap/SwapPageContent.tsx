@@ -4,7 +4,6 @@ import { MdContentPasteGo, MdInfoOutline, MdRestartAlt } from 'react-icons/md'
 import { TbCoin, TbDiamond, TbHelp, TbReplace, TbUsers, TbWallet, TbWand } from 'react-icons/tb'
 import { VscCircleFilled } from 'react-icons/vsc'
 import {
-  hasLedger,
   isCalculableFee,
   SwapServiceLoadableValue,
   SwapServiceMinMaxAmount,
@@ -137,6 +136,11 @@ export const SwapPageContent = ({ account }: TProps) => {
   const isContactsAndAccountsSelectionDisabled = tokenToReceiveBlockchain
     ? !doesBlockchainSupported(tokenToReceiveBlockchain) || !actionData.selectedAccountToUse.value
     : true
+
+  const isAccountsSelectionDisabled = !tokenToReceiveBlockchain
+    ? true
+    : isContactsAndAccountsSelectionDisabled ||
+      !accountsRef.current.some(({ blockchain }) => blockchain === tokenToReceiveBlockchain)
 
   const hasExtraIdToReceive = !!actionData.selectedTokenToReceive.value?.hasExtraId
 
@@ -277,7 +281,9 @@ export const SwapPageContent = ({ account }: TProps) => {
   }
 
   const handleChangeAddressToReceive = (event: ChangeEvent<HTMLInputElement>) => {
-    swapServiceRef.current?.setAddressToReceive(event.target.value)
+    swapServiceRef.current?.setAddressToReceive(
+      UtilsHelper.removeSpecialCharacters(event.target.value, { allowSpaces: false })
+    )
   }
 
   const handleChangeExtraIdToReceive = (event: ChangeEvent<HTMLInputElement>) => {
@@ -330,7 +336,7 @@ export const SwapPageContent = ({ account }: TProps) => {
     )
       return
 
-    if (account.type === 'hardware' && hasLedger(service)) {
+    if (account.type === 'hardware') {
       const isConnectedAndUnlocked = await isConnectedAndUnlockedHardwareWallet(account)
 
       if (!isConnectedAndUnlocked) {
@@ -406,9 +412,7 @@ export const SwapPageContent = ({ account }: TProps) => {
 
         const fee = await swapServiceRef.current.calculateFee()
 
-        setData({
-          fee,
-        })
+        setData({ fee })
 
         let totalFeeAmount = NumberHelper.number(fee)
 
@@ -525,17 +529,17 @@ export const SwapPageContent = ({ account }: TProps) => {
   }, [])
 
   return (
-    <section className="flex rounded bg-gray-800 flex-grow min-h-0">
-      <div className="flex flex-col w-72 bg-gray-900/50 px-4 border-r border-gray-300/15">
-        <div className="flex gap-2.5 items-center">
-          <MdInfoOutline className="w-6 h-6 text-green" />
-          <h2 className="text-white my-3 text-sm">{t('explanation.title')}</h2>
+    <section className="flex min-h-0 flex-grow rounded bg-gray-800">
+      <div className="flex w-72 flex-col border-r border-gray-300/15 bg-gray-900/50 px-4">
+        <div className="flex items-center gap-2.5">
+          <MdInfoOutline className="h-6 w-6 text-green" />
+          <h2 className="my-3 text-sm text-white">{t('explanation.title')}</h2>
         </div>
 
         <Separator />
 
-        <div className="flex flex-col flex-grow justify-between items-center mt-7 mb-6">
-          <div className="text-xs text-white gap-4 flex flex-col ">
+        <div className="mb-6 mt-7 flex flex-grow flex-col items-center justify-between">
+          <div className="flex flex-col gap-4 text-xs text-white">
             <p className="font-bold">{t('explanation.description1')}</p>
 
             <p>{t('explanation.description2')}</p>
@@ -543,9 +547,9 @@ export const SwapPageContent = ({ account }: TProps) => {
         </div>
       </div>
 
-      <div className="min-h-0 flex-grow flex flex-col px-4 text-sm items-center">
-        <div className="w-full flex items-center justify-between gap-2 py-3">
-          <h2 className="text-white w-full text-sm">{t('form.title')}</h2>
+      <div className="flex min-h-0 flex-grow flex-col items-center px-4 text-sm">
+        <div className="flex w-full items-center justify-between gap-2 py-3">
+          <h2 className="w-full text-sm text-white">{t('form.title')}</h2>
 
           <Button
             label={t('form.restart')}
@@ -559,12 +563,12 @@ export const SwapPageContent = ({ account }: TProps) => {
 
         <Separator />
 
-        <div className="min-h-0 w-full flex-grow flex flex-col items-center overflow-auto py-2">
-          <div className="max-w-[36rem] w-full flex flex-col items-center px-4 pt-2 pb-8 mx-auto">
-            <div className="flex flex-col items-center bg-gray-700/60 px-4 w-full rounded">
+        <div className="flex min-h-0 w-full flex-grow flex-col items-center overflow-auto py-2">
+          <div className="mx-auto flex w-full max-w-[36rem] flex-col items-center px-4 pb-8 pt-2">
+            <div className="flex w-full flex-col items-center rounded bg-gray-700/60 px-4">
               <ActionStep
                 title={t('form.assets')}
-                leftIcon={<TbDiamond aria-hidden={true} className="w-6 h-6 min-w-6 min-h-6" />}
+                leftIcon={<TbDiamond aria-hidden={true} className="h-6 min-h-6 w-6 min-w-6" />}
                 className="font-bold"
                 titleClassName="text-md"
                 headerClassName="gap-4"
@@ -574,7 +578,7 @@ export const SwapPageContent = ({ account }: TProps) => {
 
               <ActionStep
                 title={t('form.tokenToUseTitle')}
-                leftIcon={<VscCircleFilled aria-hidden={true} className="text-gray-300 w-2 h-2" />}
+                leftIcon={<VscCircleFilled aria-hidden={true} className="h-2 w-2 text-gray-300" />}
                 headerClassName="gap-4"
               >
                 <GreyTokenSelect
@@ -591,7 +595,7 @@ export const SwapPageContent = ({ account }: TProps) => {
 
               <ActionStep
                 title={t('form.tokenToReceiveTitle')}
-                leftIcon={<VscCircleFilled aria-hidden={true} className="text-gray-300 w-2 h-2" />}
+                leftIcon={<VscCircleFilled aria-hidden={true} className="h-2 w-2 text-gray-300" />}
                 className="mb-2"
                 headerClassName="gap-4"
               >
@@ -607,10 +611,10 @@ export const SwapPageContent = ({ account }: TProps) => {
 
             <ActionStepSeparator />
 
-            <div className="flex flex-col items-center bg-gray-700/60 px-4 w-full rounded mt-2.5 pb-4">
+            <div className="mt-2.5 flex w-full flex-col items-center rounded bg-gray-700/60 px-4 pb-4">
               <ActionStep
                 title={t('form.source')}
-                leftIcon={<TbWallet aria-hidden={true} className="w-6 h-6 min-w-6 min-h-6" />}
+                leftIcon={<TbWallet aria-hidden={true} className="h-6 min-h-6 w-6 min-w-6" />}
                 className="font-bold"
                 titleClassName="text-md"
                 headerClassName="gap-4"
@@ -620,7 +624,7 @@ export const SwapPageContent = ({ account }: TProps) => {
 
               <ActionStep
                 title={t('form.accountToUseTitle')}
-                leftIcon={<VscCircleFilled aria-hidden={true} className="text-gray-300 w-2 h-2" />}
+                leftIcon={<VscCircleFilled aria-hidden={true} className="h-2 w-2 text-gray-300" />}
                 headerClassName="gap-4"
               >
                 <GreyAccountSelect
@@ -639,12 +643,12 @@ export const SwapPageContent = ({ account }: TProps) => {
 
               <ActionStep
                 title={t('form.receiveHere')}
-                titleClassName="whitespace-nowrap"
+                titleClassName="!whitespace-nowrap !overflow-visible !text-ellipsis"
                 className="gap-3"
                 headerClassName="gap-4"
-                leftIcon={<VscCircleFilled aria-hidden={true} className="text-gray-300 w-2 h-2" />}
+                leftIcon={<VscCircleFilled aria-hidden={true} className="h-2 w-2 text-gray-300" />}
               >
-                <div className="flex w-full items-start gap-3 my-3">
+                <div className="my-3 flex w-full items-start gap-3">
                   <Input
                     value={actionData.selectedAddressToReceive.value ?? ''}
                     onChange={handleChangeAddressToReceive}
@@ -667,12 +671,12 @@ export const SwapPageContent = ({ account }: TProps) => {
                             isAddressesDisabled ||
                             pressOncePasteAddressToReceive.isPressing
                           }
-                          icon={<MdContentPasteGo aria-hidden={true} className="w-4 h-4 min-w-4 min-h-4" />}
+                          icon={<MdContentPasteGo aria-hidden={true} className="h-4 min-h-4 w-4 min-w-4" />}
                           onClick={pressOncePasteAddressToReceive.handlePressOnce(handlePasteAddressToReceive)}
                         />
 
                         <IconButton
-                          icon={<TbUsers aria-hidden={true} className="w-4 h-4 min-w-4 min-h-4" />}
+                          icon={<TbUsers aria-hidden={true} className="h-4 min-h-4 w-4 min-w-4" />}
                           colorSchema="neon"
                           type="button"
                           onClick={modalNavigateWrapper('select-contact', {
@@ -703,15 +707,15 @@ export const SwapPageContent = ({ account }: TProps) => {
                   <GreyAccountSelect
                     withoutIndicator
                     blockchains={tokenToReceiveBlockchain ? [tokenToReceiveBlockchain] : undefined}
-                    disabled={isContactsAndAccountsSelectionDisabled}
+                    disabled={isAccountsSelectionDisabled}
                     onSelect={handleSelectAccountToReceive}
                   >
                     <Button
                       className={StyleHelper.mergeStyles('h-9', {
-                        'opacity-40': isContactsAndAccountsSelectionDisabled,
+                        'opacity-40': isAccountsSelectionDisabled,
                       })}
                       clickableProps={{ className: 'px-3 text-neon' }}
-                      disabled={isContactsAndAccountsSelectionDisabled}
+                      disabled={isAccountsSelectionDisabled}
                       colorSchema="neon"
                       variant="card"
                       label={t('form.myAccountsButtonLabel')}
@@ -736,12 +740,12 @@ export const SwapPageContent = ({ account }: TProps) => {
                           colorSchema="neon"
                           type="button"
                           compacted
-                          icon={<TbHelp aria-hidden={true} className="w-5 h-5 min-w-5 min-h-5" />}
+                          icon={<TbHelp aria-hidden={true} className="h-5 min-h-5 w-5 min-w-5" />}
                           onClick={modalNavigateWrapper('about-extra-id-to-receive')}
                         />
                       </div>
                     }
-                    leftIcon={<VscCircleFilled aria-hidden={true} className="text-gray-300 w-2 h-2" />}
+                    leftIcon={<VscCircleFilled aria-hidden={true} className="h-2 w-2 text-gray-300" />}
                   >
                     <Input
                       aria-label={t('form.extraIdToReceive')}
@@ -763,13 +767,13 @@ export const SwapPageContent = ({ account }: TProps) => {
 
             <ActionStepSeparator />
 
-            <div className="flex flex-col items-center bg-gray-700/60 px-4 w-full rounded mt-2.5">
+            <div className="mt-2.5 flex w-full flex-col items-center rounded bg-gray-700/60 px-4">
               <ActionStep
                 title={t('form.amounts')}
                 className="font-bold"
                 titleClassName="text-md"
                 headerClassName="gap-4"
-                leftIcon={<TbCoin aria-hidden={true} className="w-6 h-6 min-w-6 min-h-6" />}
+                leftIcon={<TbCoin aria-hidden={true} className="h-6 min-h-6 w-6 min-w-6" />}
               />
 
               <Separator />
@@ -777,10 +781,10 @@ export const SwapPageContent = ({ account }: TProps) => {
               <ActionStep
                 title={t('form.amountToUseTitle')}
                 headerClassName="gap-4"
-                leftIcon={<VscCircleFilled aria-hidden={true} className="text-gray-300 w-2 h-2" />}
+                leftIcon={<VscCircleFilled aria-hidden={true} className="h-2 w-2 text-gray-300" />}
               >
-                <div className="flex gap-2.5 items-center">
-                  <span className="text-gray-200 text-xs">
+                <div className="flex items-center gap-2.5">
+                  <span className="text-xs text-gray-200">
                     {t('form.minimumAmountToUseLabel', {
                       amount:
                         actionData.selectAmountToUseMinMax.value?.min?.slice(0, 24) ??
@@ -789,7 +793,7 @@ export const SwapPageContent = ({ account }: TProps) => {
                   </span>
                   <Tooltip
                     title={t('form.tooltipTitle')}
-                    icon={<TbWand aria-hidden className="text-blue w-6 h-6" />}
+                    icon={<TbWand aria-hidden className="h-6 w-6 text-blue" />}
                     open={isAmountInputFocused}
                     contentProps={{ side: 'top', className: 'text-center' }}
                   >
@@ -804,9 +808,9 @@ export const SwapPageContent = ({ account }: TProps) => {
                 </div>
               </ActionStep>
 
-              <div className="flex justify-between w-full pl-9 pb-4">
-                <span className="text-gray-200 italic text-xs">{t('form.balanceLabel')}</span>
-                <span className="text-gray-100 italic text-xs">
+              <div className="flex w-full justify-between pb-4 pl-9">
+                <span className="text-xs italic text-gray-200">{t('form.balanceLabel')}</span>
+                <span className="text-xs italic text-gray-100">
                   {selectedTokenBalance?.amount ?? t('form.balancePlaceholder')}
                 </span>
               </div>
@@ -820,7 +824,7 @@ export const SwapPageContent = ({ account }: TProps) => {
                     <span className="text-gray-100">{` ${t('form.amountToReceiveTitleComplement')}`}</span>
                   </Fragment>
                 }
-                leftIcon={<VscCircleFilled aria-hidden={true} className="text-gray-300 w-2 h-2" />}
+                leftIcon={<VscCircleFilled aria-hidden={true} className="h-2 w-2 text-gray-300" />}
                 headerClassName="gap-4"
               >
                 <GreyAmountInput
@@ -834,7 +838,7 @@ export const SwapPageContent = ({ account }: TProps) => {
               </ActionStep>
             </div>
 
-            {errorMessage && <AlertErrorBanner className="w-full mt-2.5" message={errorMessage} />}
+            {errorMessage && <AlertErrorBanner className="mt-2.5 w-full" message={errorMessage} />}
 
             {(!service || (service && isCalculableFee(service))) && (
               <TransactionFeeActionStep
@@ -846,7 +850,7 @@ export const SwapPageContent = ({ account }: TProps) => {
             )}
 
             <Button
-              className="max-w-[20rem] w-full mt-8"
+              className="mt-8 w-full max-w-[20rem]"
               iconsOnEdge={false}
               onClick={handleAct(handleSubmit)}
               label={t('form.submitLabel')}
