@@ -28,6 +28,7 @@ import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useBalance } from '@renderer/hooks/useBalances'
+import { useHardwareWalletActions } from '@renderer/hooks/useHardwareWallet'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
@@ -55,6 +56,7 @@ export const SellTokensDepositModal = () => {
   const { accounts } = useAccountsSelector()
   const { modalNavigate } = useModalNavigate()
   const { currency } = useCurrencySelector()
+  const { isConnectedAndUnlockedHardwareWallet } = useHardwareWalletActions()
   const { account, depositActionsData, setDepositActionsData } = useModalState<TLocationState>()
   const dispatch = useAppDispatch()
 
@@ -172,6 +174,16 @@ export const SellTokensDepositModal = () => {
 
     if (!transferParams || actionData.isFeeLoading || isInvalidForm) return
 
+    if (account?.type === 'hardware') {
+      const isConnectedAndUnlocked = await isConnectedAndUnlockedHardwareWallet(account)
+
+      if (!isConnectedAndUnlocked) {
+        ToastHelper.error({ message: t('messages.hardwareWalletShouldBeValidError'), duration: 8000 })
+
+        return
+      }
+    }
+
     try {
       const { serviceAccount, intent } = transferParams
       const [transactionHash] = await service.transfer({
@@ -260,6 +272,7 @@ export const SellTokensDepositModal = () => {
 
         const { intent } = transferParams
         const feeTokenHash = UtilsHelper.normalizeHash(service.feeToken.hash)
+
         const fee = await (service as BlockchainService & BSCalculableFee).calculateTransferFee({
           senderAccount: transferParams.serviceAccount,
           intents: [intent],
@@ -308,18 +321,18 @@ export const SellTokensDepositModal = () => {
       contentClassName="flex flex-col overflow-y-auto"
       onClose={handleOnClose}
     >
-      <p className="font-semibold mb-6">{t('description')}</p>
+      <p className="mb-6 font-semibold">{t('description')}</p>
 
       <p className="mb-6">{t('observation')}</p>
 
       <Separator />
 
-      <form className="flex flex-col mt-6" onSubmit={handleAct(handleSubmit)}>
-        <h3 className="uppercase text-gray-300 font-bold mb-4">{t('form.title')}</h3>
+      <form className="mt-6 flex flex-col" onSubmit={handleAct(handleSubmit)}>
+        <h3 className="mb-4 font-bold uppercase text-gray-300">{t('form.title')}</h3>
 
         <ActionStep
           title={t('form.source.label')}
-          className="bg-gray-700/60 rounded px-4"
+          className="rounded bg-gray-700/60 px-4"
           titleClassName="font-semibold"
           leftIcon={<TbStepOut aria-hidden={true} />}
         >
@@ -332,9 +345,9 @@ export const SellTokensDepositModal = () => {
 
         <ActionStepSeparator className="bg-gray-700/60" />
 
-        <div className="w-full flex flex-col gap-3 mt-2 relative">
-          <div className="bg-gray-800  rounded w-full">
-            <div className="flex flex-col items-center bg-gray-700/60  px-3.5 w-full rounded">
+        <div className="relative mt-2 flex w-full flex-col gap-3">
+          <div className="w-full rounded bg-gray-800">
+            <div className="flex w-full flex-col items-center rounded bg-gray-700/60 px-3.5">
               <ActionStep
                 title={t('form.receive.label')}
                 titleClassName="font-semibold"
@@ -346,7 +359,7 @@ export const SellTokensDepositModal = () => {
               <ActionStep
                 title={t('form.token.label')}
                 titleClassName="text-xs"
-                leftIcon={<VscCircleFilled aria-hidden={true} className="text-gray-300 w-2 h-2" />}
+                leftIcon={<VscCircleFilled aria-hidden={true} className="h-2 w-2 text-gray-300" />}
               >
                 <GreyTokenSelect
                   selectedToken={actionData.token?.token}
@@ -364,10 +377,10 @@ export const SellTokensDepositModal = () => {
                 title={t('form.address.label')}
                 className="whitespace-nowrap"
                 titleClassName="text-xs"
-                leftIcon={<VscCircleFilled aria-hidden={true} className="text-gray-300 w-2 h-2" />}
+                leftIcon={<VscCircleFilled aria-hidden={true} className="h-2 w-2 text-gray-300" />}
               >
-                <div className="flex flex-col w-full my-3 max-w-[62%]">
-                  <div className="flex w-full gap-3 items-start">
+                <div className="my-3 flex w-full max-w-[62%] flex-col">
+                  <div className="flex w-full items-start gap-3">
                     <Input
                       aria-label={t('form.address.label')}
                       placeholder={t('form.address.placeholder')}
@@ -388,7 +401,7 @@ export const SellTokensDepositModal = () => {
               <ActionStep
                 title={t('form.amount.label')}
                 titleClassName="text-xs"
-                leftIcon={<VscCircleFilled aria-hidden={true} className="text-gray-300 w-2 h-2" />}
+                leftIcon={<VscCircleFilled aria-hidden={true} className="h-2 w-2 text-gray-300" />}
               >
                 <GreyAmountInput
                   value={actionData.amount}
@@ -397,7 +410,7 @@ export const SellTokensDepositModal = () => {
                 />
               </ActionStep>
 
-              <div className="flex justify-between w-full pl-8 pb-4 text-gray-100 italic text-xs">
+              <div className="flex w-full justify-between pb-4 pl-8 text-xs italic text-gray-100">
                 <p>{t('labels.fiat', { currencyLabel: currency.label })}</p>
                 <p>
                   {NumberHelper.currency(
@@ -427,14 +440,14 @@ export const SellTokensDepositModal = () => {
 
         {(actionState.errors.fee || actionState.errors.account) && (
           <AlertErrorBanner
-            className="w-full mt-2"
+            className="mt-2 w-full"
             message={actionState.errors.fee || actionState.errors.account || ''}
           />
         )}
 
         <Button
           label={t('buttons.submit')}
-          className="max-w-[18rem] w-full mx-auto mt-12"
+          className="mx-auto mt-12 w-full max-w-[18rem]"
           iconsOnEdge={false}
           flat
           type="submit"

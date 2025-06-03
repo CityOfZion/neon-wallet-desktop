@@ -617,7 +617,8 @@
     "messages": {
       "feeError": "Error to calculate fee",
       "insufficientFunds": "Insufficient funds",
-      "invalidAddress": "Invalid address"
+      "invalidAddress": "Invalid address",
+      "hardwareWalletShouldBeValidError": "To proceed with this operation, please make sure your hardware wallet is unlocked"
     },
     "success": {
       "subtitle": "Your deposit was successful",

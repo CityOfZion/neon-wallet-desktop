@@ -21,6 +21,7 @@ import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useBalance } from '@renderer/hooks/useBalances'
+import { useHardwareWalletActions } from '@renderer/hooks/useHardwareWallet'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { bsAggregator } from '@renderer/libs/blockchainService'
@@ -55,6 +56,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const { accountsRef } = useAccountsSelector()
   const { modalNavigate } = useModalNavigate()
+  const { isConnectedAndUnlockedHardwareWallet } = useHardwareWalletActions()
   const currentRecipientAddress = useRef(recipientAddress)
   const isDisabledMaxAmountRef = useRef(false)
   const dispatch = useAppDispatch()
@@ -255,6 +257,16 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
 
     if (!fields || isCalculatingForm) return
 
+    if (fields.selectedAccount?.type === 'hardware') {
+      const isConnectedAndUnlocked = await isConnectedAndUnlockedHardwareWallet(fields.selectedAccount)
+
+      if (!isConnectedAndUnlocked) {
+        ToastHelper.error({ message: t('errors.hardwareWalletShouldBeValid'), duration: 8000 })
+
+        return
+      }
+    }
+
     try {
       const transactionHashes = await fields.service.transfer({
         senderAccount: fields.serviceAccount,
@@ -346,9 +358,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
           senderAccount: fields.serviceAccount,
         })
 
-        setData({
-          fee,
-        })
+        setData({ fee })
 
         let totalFeeAmount = NumberHelper.number(fee)
 
@@ -395,14 +405,14 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
   }, [account])
 
   return (
-    <section className="bg-gray-800 min-h-0 flex-grow w-full flex flex-col px-4 rounded text-sm items-center">
-      <h2 className="text-white text-left w-full mt-4 mb-3">{t('subtitle')}</h2>
+    <section className="flex min-h-0 w-full flex-grow flex-col items-center rounded bg-gray-800 px-4 text-sm">
+      <h2 className="mb-3 mt-4 w-full text-left text-white">{t('subtitle')}</h2>
 
       <Separator />
 
-      <div className="max-w-[33.25rem] min-h-0 w-full flex-grow flex flex-col items-center py-8 my-2 px-5 overflow-auto">
+      <div className="my-2 flex min-h-0 w-full max-w-[33.25rem] flex-grow flex-col items-center overflow-auto px-5 py-8">
         <ActionStep
-          className="bg-gray-700/60 rounded px-4"
+          className="rounded bg-gray-700/60 px-4"
           title={t('sourceAccountLabel')}
           leftIcon={<TbStepOut aria-hidden={true} />}
         >
@@ -415,7 +425,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
 
         <ActionStepSeparator />
 
-        <div className="w-full flex flex-col gap-3 mt-2 relative">
+        <div className="relative mt-2 flex w-full flex-col gap-3">
           <AnimatePresence>
             {actionData.recipients.map((recipient, index) => (
               <SendRecipient
@@ -452,7 +462,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
           actionData.recipients.length > 1 && (
             <Banner
               type="warning"
-              className="w-full mt-2"
+              className="mt-2 w-full"
               message={t('separatelyTransferWarning', {
                 blockchain: commonT(`blockchain.${actionData.selectedAccount.blockchain}`),
               })}
@@ -469,13 +479,13 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
 
         {(actionState.errors.fee || actionState.errors.selectedAccount) && (
           <AlertErrorBanner
-            className="w-full mt-2"
+            className="mt-2 w-full"
             message={actionState.errors.fee || actionState.errors.selectedAccount || ''}
           />
         )}
 
         <Button
-          className="max-w-[16rem] w-full mt-4"
+          className="mt-4 w-full max-w-[16rem]"
           iconsOnEdge={false}
           onClick={handleAct(handleSubmit)}
           label={commonT('general.continue')}
