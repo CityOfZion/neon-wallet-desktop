@@ -37,7 +37,7 @@ export const PrepareHardwareWalletMigrationNeo3Modal = () => {
 
   return (
     <CenterModalLayout
-      contentClassName="flex flex-col items-center pt-0"
+      contentClassName="flex flex-col items-center pt-0 min-h-min"
       className="overflow-y-auto"
       headerComponent={<PrepareHardwareWalletModalHeader currentStep={actionData.currentStep} />}
     >

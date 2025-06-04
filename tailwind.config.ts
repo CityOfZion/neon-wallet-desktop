@@ -144,6 +144,9 @@ export default {
             border: 'none !important',
           },
         },
+        'span[role="tooltip"][id^="radix"]': {
+          visibility: 'hidden',
+        },
       }
 
       addUtilities(newUtilities)

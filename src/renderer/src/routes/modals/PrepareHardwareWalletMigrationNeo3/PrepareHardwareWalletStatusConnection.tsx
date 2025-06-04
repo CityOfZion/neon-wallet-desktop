@@ -15,7 +15,7 @@ export const PrepareHardwareWalletStatusConnection = ({ searchLabel, status }: T
   const { t } = useTranslation('modals', { keyPrefix: 'prepareHardwareWalletMigrationNeo3.statusConnection' })
 
   return (
-    <div className="flex flex-grow items-center">
+    <div className="my-2 flex flex-grow items-center">
       {match(status)
         .with('connected', () => (
           <AlertSuccessBanner
