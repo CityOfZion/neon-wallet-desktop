@@ -121,6 +121,25 @@
       "label": "Sell tokens"
     },
     {
+      "id": "migrationNeo3",
+      "verbs": [
+        "token",
+        "crypto",
+        "migrate",
+        "convert"
+      ],
+      "nonVerbs": [
+        "token",
+        "crypto",
+        "migration",
+        "legacy",
+        "neo",
+        "n3",
+        "move"
+      ],
+      "label": "Migrate Neo Legacy to Neo 3"
+    },
+    {
       "id": "receive",
       "verbs": [
         "address",
