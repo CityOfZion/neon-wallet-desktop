@@ -66,32 +66,43 @@ const Content = ({ defaultAccounts }: TProps) => {
   const handleSelectDateFrom = async (date: Date) => {
     await handleScrollToTop()
 
-    setData({ dateFrom: date })
+    const newDateFrom = dateFns.startOfDay(date)
 
-    if (dateTo && dateFns.isAfter(date, dateTo)) {
-      setData({ dateTo: dateFns.min([dateNow, dateFns.add(date, { weeks: 1 })]) })
+    setData({ dateFrom: newDateFrom })
+
+    if (dateTo && dateFns.isAfter(newDateFrom, dateTo)) {
+      const dateNow = new Date()
+      const newDateTo = dateFns.endOfDay(dateFns.min([dateNow, dateFns.add(newDateFrom, { weeks: 1 })]))
+
+      setData({ dateTo: dateFns.isSameDay(dateNow, newDateTo) ? dateNow : newDateTo })
 
       return
     }
 
-    if (dateTo && dateFns.differenceInYears(dateTo, date) > 0) {
-      setData({ dateTo: dateFns.add(date, { years: 1, days: -1 }) })
+    if (dateTo && dateFns.differenceInYears(dateTo, newDateFrom) > 0) {
+      const dateNow = new Date()
+      const newDateTo = dateFns.endOfDay(dateFns.add(newDateFrom, { years: 1, days: -1 }))
+
+      setData({ dateTo: dateFns.isSameDay(dateNow, newDateTo) ? dateNow : newDateTo })
     }
   }
 
   const handleSelectDateTo = async (date: Date) => {
     await handleScrollToTop()
 
-    setData({ dateTo: date })
+    const dateNow = new Date()
+    const newDateTo = dateFns.isSameDay(dateNow, date) ? dateNow : dateFns.endOfDay(date)
 
-    if (dateFrom && dateFns.isBefore(date, dateFrom)) {
-      setData({ dateFrom: dateFns.sub(date, { weeks: 1 }) })
+    setData({ dateTo: newDateTo })
+
+    if (dateFrom && dateFns.isBefore(newDateTo, dateFrom)) {
+      setData({ dateFrom: dateFns.startOfDay(dateFns.sub(newDateTo, { weeks: 1 })) })
 
       return
     }
 
-    if (dateFrom && dateFns.differenceInYears(date, dateFrom) > 0) {
-      setData({ dateFrom: dateFns.sub(date, { years: 1, days: -1 }) })
+    if (dateFrom && dateFns.differenceInYears(newDateTo, dateFrom) > 0) {
+      setData({ dateFrom: dateFns.startOfDay(dateFns.sub(newDateTo, { years: 1, days: -1 })) })
     }
   }
 
