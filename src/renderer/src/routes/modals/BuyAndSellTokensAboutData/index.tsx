@@ -20,7 +20,7 @@ const LinkItem = ({ title, to, linkLabel, svgImage }: TLinkItemProps) => (
   <li className="flex flex-col items-center gap-y-5">
     <h3>{title}</h3>
 
-    <div className="max-w-48 w-48 max-h-14 h-14 rounded-full bg-gray-300/15 flex items-center justify-center">
+    <div className="flex h-14 max-h-14 w-48 max-w-48 items-center justify-center rounded-full bg-gray-300/15">
       {svgImage}
     </div>
 
@@ -32,7 +32,7 @@ const LinkItem = ({ title, to, linkLabel, svgImage }: TLinkItemProps) => (
       variant="text-slim"
       className="w-fit"
       iconsOnEdge={false}
-      rightIcon={<MdLaunch aria-hidden={true} className="w-5 h-5 max-w-5 max-h-5 min-w-5 min-h-5" />}
+      rightIcon={<MdLaunch aria-hidden={true} className="h-5 max-h-5 min-h-5 w-5 min-w-5 max-w-5" />}
       clickableProps={{ className: 'text-xs' }}
     />
 
@@ -49,7 +49,7 @@ export const BuyAndSellTokensAboutDataModal = () => {
       headingIcon={<MdInfoOutline aria-hidden={true} />}
       contentClassName="flex flex-col gap-y-5 overflow-y-auto text-xs text-white py-6"
     >
-      <ul className="flex flex-col w-full gap-y-5">
+      <ul className="flex w-full flex-col gap-y-5">
         <LinkItem
           title={t('sumbsub.title')}
           to={SUMSUB_TERMS_AND_CONDITIONS_LINK}
@@ -67,7 +67,7 @@ export const BuyAndSellTokensAboutDataModal = () => {
 
       <p>{t('description')}</p>
 
-      <AlertErrorBanner className="bg-magenta-700/50 gap-3 p-3" message={t('alert')} messageClassName="font-normal" />
+      <AlertErrorBanner className="gap-3 bg-magenta-700/50 p-3" message={t('alert')} messageClassName="font-normal" />
     </SideModalLayout>
   )
 }

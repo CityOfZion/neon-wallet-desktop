@@ -55,14 +55,14 @@ export const CenterModal = () => {
   }, [width, isPresent, animate, scope, safeToRemove])
 
   return (
-    <ModalContainer className="flex justify-center items-center">
+    <ModalContainer className="flex items-center justify-center">
       <motion.div ref={scope} initial={{ scale: 0.95, opacity: 0 }} className="relative" style={{ width, height }}>
         {width &&
           centerHistories.map((history, index) => (
             <FocusScope
               key={history.id}
               loop
-              className={StyleHelper.mergeStyles('w-full h-full', {
+              className={StyleHelper.mergeStyles('h-full w-full', {
                 'invisible hidden': index !== centerHistories.length - 1,
               })}
             >

@@ -22,9 +22,9 @@ export const MigrationNeo3ListItemFee = ({ fee, hasAmount, neo3Token }: TProps) 
   if (!fee) return null
 
   return (
-    <li className="text-white text-right uppercase">
+    <li className="text-right uppercase text-white">
       {fee} {neo3Token.symbol} <span className="text-gray-100">| {tBlockchain('neo3')}</span>{' '}
-      <span className="text-white font-semibold ml-2">{NumberHelper.currency(fiatFee, currency.label)}</span>
+      <span className="ml-2 font-semibold text-white">{NumberHelper.currency(fiatFee, currency.label)}</span>
     </li>
   )
 }

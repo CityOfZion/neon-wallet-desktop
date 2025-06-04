@@ -10,10 +10,10 @@ export const WelcomeImportWalletStep5Page = () => {
 
   return (
     <Fragment>
-      <div className="flex flex-col items-center flex-grow">
-        <p className="text-sm text-white mt-15">{t('title')}</p>
+      <div className="flex flex-grow flex-col items-center">
+        <p className="mt-15 text-sm text-white">{t('title')}</p>
 
-        <TbRosetteDiscountCheck className="w-[6.25rem] h-[6.25rem] text-blue stroke-1 mt-3" />
+        <TbRosetteDiscountCheck aria-hidden={true} className="mt-3 h-[6.25rem] w-[6.25rem] stroke-1 text-blue" />
       </div>
 
       <div className="flex gap-2.5">

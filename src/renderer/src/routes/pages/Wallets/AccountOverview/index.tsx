@@ -26,7 +26,7 @@ export const AccountOverview = () => {
       heading={t('title')}
       actions={account ? <CommonAccountActions account={account} /> : undefined}
     >
-      <div className="flex flex-col flex-grow items-center w-full justify-center">
+      <div className="flex w-full flex-grow flex-col items-center justify-center">
         <OverviewCharts balances={balances} account={account}>
           {balances.exchangeTotal > 0 && isClaimable(blockchainService) && account.type !== 'watch' && (
             <ClaimGasBanner blockchainService={blockchainService} account={account} />

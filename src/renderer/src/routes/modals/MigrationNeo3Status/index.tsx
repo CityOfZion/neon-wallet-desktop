@@ -32,13 +32,13 @@ type TState = {
 }
 
 const iconsByStatus = {
-  failure: <TbClockExclamation aria-hidden className="text-orange w-4/5 h-4/5 stroke-1" />,
-  'failure-neo3': <TbClockExclamation aria-hidden className="text-orange w-4/5 h-4/5 stroke-1" />,
-  done: <TbRosetteDiscountCheck aria-hidden className="text-blue w-full h-full stroke-1" />,
+  failure: <TbClockExclamation aria-hidden className="h-4/5 w-4/5 stroke-1 text-orange" />,
+  'failure-neo3': <TbClockExclamation aria-hidden className="h-4/5 w-4/5 stroke-1 text-orange" />,
+  done: <TbRosetteDiscountCheck aria-hidden className="h-full w-full stroke-1 text-blue" />,
   pending: (
     <TbHourglass
       aria-hidden
-      className="text-blue p-1 animate-[wiggle_2s_ease-in-out_infinite] w-full h-full stroke-1"
+      className="h-full w-full animate-[wiggle_2s_ease-in-out_infinite] stroke-1 p-1 text-blue"
     />
   ),
 }
@@ -65,23 +65,23 @@ export const MigrationNeo3StatusModal = () => {
       contentClassName="flex flex-col items-center overflow-auto gap-y-6"
       headingIcon={<TbArrowsExchange aria-hidden={true} />}
     >
-      <div className="flex items-center justify-center min-w-30 min-h-30 p-1 bg-asphalt rounded-full">
+      <div className="flex min-h-30 min-w-30 items-center justify-center rounded-full bg-asphalt p-1">
         {iconsByStatus[migrationNeo3.status]}
       </div>
 
-      <h2 className="text-white text-xl text-center">{t(`subtitles.${migrationNeo3.status}`)}</h2>
+      <h2 className="text-center text-xl text-white">{t(`subtitles.${migrationNeo3.status}`)}</h2>
 
       <Details.Root>
-        <Details.Header label={t('detailsHeaderLabel')} icon={<TbReceipt />}>
+        <Details.Header label={t('detailsHeaderLabel')} icon={<TbReceipt aria-hidden={true} />}>
           {isCheckFailure && (
-            <div className="flex flex-row flex-grow items-center justify-end">
+            <div className="flex flex-grow flex-row items-center justify-end">
               <Tooltip title={t('revalidateMigrationButtonLabel')} delayDuration={0}>
                 <IconButton
                   aria-label={t('revalidateMigrationButtonLabel')}
                   colorSchema="yellow"
                   size="xs"
                   compacted
-                  icon={<MdRefresh aria-hidden className="w-6 h-6" />}
+                  icon={<MdRefresh aria-hidden className="h-6 w-6" />}
                   onClick={handleRevalidateMigration}
                 />
               </Tooltip>
@@ -166,7 +166,7 @@ export const MigrationNeo3StatusModal = () => {
       {updatedNeoLegacyAccount && (
         <Link
           label={t('viewStatusButtonLabel')}
-          className="w-full max-w-64 mx-auto"
+          className="mx-auto w-full max-w-64"
           to={`/app/wallets/${updatedNeoLegacyAccount.id}/transactions`}
           flat
           wide

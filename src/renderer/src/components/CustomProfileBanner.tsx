@@ -8,13 +8,13 @@ const Banner = () => {
   if (selectedNetworkProfile.id === DEFAULT_NETWORK_PROFILE.id) return <></>
 
   return (
-    <div className="w-screen border-t-3 border-purple flex justify-center absolute top-drag-region left-0 z-50">
-      <div className="flex justify-center absolute">
-        <div className="w-4.5 h-4.5 overflow-hidden relative before:content-[''] before:block before:w-[100%] before:h-[100%] before:absolute before:top-0 before:left-0 before:shadow-[0.563rem_-0.563rem_0_0] before:shadow-purple before:rounded-[50%]" />
-        <span className="text-white text-xs px-2.5 pb-1 pt-0.5 tracking-wide rounded-b-md bg-purple uppercase block truncate max-w-[400px]">
+    <div className="absolute left-0 top-drag-region z-50 flex w-screen justify-center border-t-3 border-purple">
+      <div className="absolute flex justify-center">
+        <div className="relative h-4.5 w-4.5 overflow-hidden before:absolute before:left-0 before:top-0 before:block before:h-[100%] before:w-[100%] before:rounded-[50%] before:shadow-[0.563rem_-0.563rem_0_0] before:shadow-purple before:content-['']" />
+        <span className="block max-w-[400px] truncate rounded-b-md bg-purple px-2.5 pb-1 pt-0.5 text-xs uppercase tracking-wide text-white">
           {selectedNetworkProfile.name}
         </span>
-        <div className="w-4.5 h-4.5 overflow-hidden relative before:content-[''] before:block before:w-[100%] before:h-[100%] before:absolute before:top-0 before:left-0 before:shadow-[-0.563rem_-0.563rem_0_0] before:shadow-purple before:rounded-[50%]" />
+        <div className="relative h-4.5 w-4.5 overflow-hidden before:absolute before:left-0 before:top-0 before:block before:h-[100%] before:w-[100%] before:rounded-[50%] before:shadow-[-0.563rem_-0.563rem_0_0] before:shadow-purple before:content-['']" />
       </div>
     </div>
   )

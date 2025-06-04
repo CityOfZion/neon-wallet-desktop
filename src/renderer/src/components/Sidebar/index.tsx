@@ -24,13 +24,13 @@ export const Sidebar = (): JSX.Element => {
   const { logout } = useLogin()
 
   return (
-    <aside className="bg-gray-800 w-[4rem] min-w-[4rem] h-screen-minus-drag-region flex flex-col">
+    <aside className="flex h-screen-minus-drag-region w-[4rem] min-w-[4rem] flex-col bg-gray-800">
       <div className="flex justify-center py-4" {...TestHelper.buildTestObject('neon-wallet-logo')}>
         <NeonLogoIcon title={tCommon('logo')} />
       </div>
 
       <nav className="flex-grow">
-        <ul className="flex flex-col justify-between h-full">
+        <ul className="flex h-full flex-col justify-between">
           <div>
             <SidebarLink to="/app/portfolio" title={t('portfolio')} icon={<TbHome2 />} />
 

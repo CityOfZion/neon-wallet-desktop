@@ -37,8 +37,8 @@ export const NFTSelectionModal = () => {
 
       <Separator />
 
-      <div className="mt-7 flex flex-col gap-3.5 flex-grow min-h-0">
-        <span className="uppercase font-bold">{t('selectTitle')}</span>
+      <div className="mt-7 flex min-h-0 flex-grow flex-col gap-3.5">
+        <span className="font-bold uppercase">{t('selectTitle')}</span>
 
         {query.isLoading ? (
           <Loader className="mt-10" />
@@ -49,15 +49,15 @@ export const NFTSelectionModal = () => {
             {query.aggregatedData.map((nft, index) => (
               <li key={nft.id}>
                 <button
-                  className="flex items-center gap-5 hover:opacity-85 w-full transition-opacity"
+                  className="flex w-full items-center gap-5 transition-opacity hover:opacity-85"
                   onClick={() => setSelectedNft(nft)}
                   type="button"
                 >
                   <SkinCard showCheck={selectedNft?.id === nft.id} image={nft.image} />
 
-                  <div className="flex flex-col min-w-0 text-left">
-                    <span className="text-blue truncate ">{nft.id}</span>
-                    <span className="text-white text-sm capitalize truncate">{nft.name}</span>
+                  <div className="flex min-w-0 flex-col text-left">
+                    <span className="truncate text-blue">{nft.id}</span>
+                    <span className="truncate text-sm capitalize text-white">{nft.name}</span>
                   </div>
                 </button>
 

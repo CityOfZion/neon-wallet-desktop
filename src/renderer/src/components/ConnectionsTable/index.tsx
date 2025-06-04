@@ -30,12 +30,12 @@ export const ConnectionsTable = forwardRef<HTMLDivElement, TConnectionsTableProp
       <div
         ref={ref}
         className={StyleHelper.mergeStyles(
-          'overflow-auto min-h-0 w-full flex flex-col flex-grow pr-1 text-xs min-w-0',
+          'flex min-h-0 w-full min-w-0 flex-grow flex-col overflow-auto pr-1 text-xs',
           className
         )}
       >
         {sessions.length <= 0 ? (
-          <div className="flex justify-center mt-4">
+          <div className="mt-4 flex justify-center">
             <p className="text-gray-300">{t('emptyList')}</p>
           </div>
         ) : (

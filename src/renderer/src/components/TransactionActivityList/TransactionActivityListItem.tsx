@@ -25,19 +25,19 @@ export const TransactionActivityListItem = ({ item }: TProps) => {
   })
 
   return (
-    <li className="w-full flex flex-col">
+    <li className="flex w-full flex-col">
       <TransactionActivityListItemHeader item={item} migrationNeo3={migrationNeo3} />
 
       {events.length > 0 && (
-        <ul className="flex flex-col w-full">
+        <ul className="flex w-full flex-col">
           {events.map((event, index, array) => (
             <li
               key={`${event.eventType}-${event.methodName}-${event.hash}-${blockchain}-${index}`}
-              className="w-full flex flex-col justify-center h-[3.3125rem] min-h-[3.3125rem] max-h-[3.3125rem]"
+              className="flex h-[3.3125rem] max-h-[3.3125rem] min-h-[3.3125rem] w-full flex-col justify-center"
             >
               <TransactionActivityListEvent event={event} />
 
-              {index !== array.length - 1 && <Separator className="h-px min-h-px max-h-px" />}
+              {index !== array.length - 1 && <Separator className="h-px max-h-px min-h-px" />}
             </li>
           ))}
         </ul>

@@ -29,7 +29,7 @@ const SubTrigger = forwardRef<
   <ContextMenuPrimitive.SubTrigger
     ref={ref}
     className={StyleHelper.mergeStyles(
-      'flex cursor-pointer text-white select-none items-center rounded-sm px-2 py-1.5 text-xs outline-none transition-colors hover:bg-neon/10 focus:bg-neon/10 data-[state=open]:bg-neon/10',
+      'flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-xs text-white outline-none transition-colors hover:bg-neon/10 focus:bg-neon/10 data-[state=open]:bg-neon/10',
       {
         'pl-8': inset,
       },
@@ -50,7 +50,7 @@ const SubContent = forwardRef<
   <ContextMenuPrimitive.SubContent
     ref={ref}
     className={StyleHelper.mergeStyles(
-      'z-[1012] min-w-[10rem] border-t-3 border-neon overflow-hidden rounded-md bg-asphalt p-1 shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
+      'z-[1012] min-w-[10rem] overflow-hidden rounded-md border-t-3 border-neon bg-asphalt p-1 shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
       className
     )}
     {...props}
@@ -67,7 +67,7 @@ const Content = forwardRef<
     <ContextMenuPrimitive.Content
       ref={ref}
       className={StyleHelper.mergeStyles(
-        'z-[1012] min-w-[10rem] border-t-3 border-neon overflow-hidden rounded-md bg-asphalt p-1 shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
+        'z-[1012] min-w-[10rem] overflow-hidden rounded-md border-t-3 border-neon bg-asphalt p-1 shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
         className
       )}
       {...props}
@@ -84,7 +84,7 @@ const Item = forwardRef<
   <ContextMenuPrimitive.Item
     ref={ref}
     className={StyleHelper.mergeStyles(
-      'relative text-white transition-colors hover:bg-neon/10 focus:bg-neon/10 flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-xs outline-none data-[disabled]:cursor-default data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+      'relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-xs text-white outline-none transition-colors hover:bg-neon/10 focus:bg-neon/10 data-[disabled]:pointer-events-none data-[disabled]:cursor-default data-[disabled]:opacity-50',
       { 'pl-8': inset },
       className
     )}
@@ -101,7 +101,7 @@ const CheckboxItem = forwardRef<
   <ContextMenuPrimitive.CheckboxItem
     ref={ref}
     className={StyleHelper.mergeStyles(
-      'relative text-white transition-colors hover:bg-neon/10 focus:bg-neon/10 flex cursor-pointer select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-xs outline-none data-[disabled]:cursor-default data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+      'relative flex cursor-pointer select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-xs text-white outline-none transition-colors hover:bg-neon/10 focus:bg-neon/10 data-[disabled]:pointer-events-none data-[disabled]:cursor-default data-[disabled]:opacity-50',
       className
     )}
     checked={checked}
@@ -126,14 +126,14 @@ const RadioItem = forwardRef<
   <ContextMenuPrimitive.RadioItem
     ref={ref}
     className={StyleHelper.mergeStyles(
-      'relative text-white transition-colors hover:bg-neon/10 focus:bg-neon/10 flex cursor-pointer select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-xs outline-none data-[disabled]:cursor-default data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+      'relative flex cursor-pointer select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-xs text-white outline-none transition-colors hover:bg-neon/10 focus:bg-neon/10 data-[disabled]:pointer-events-none data-[disabled]:cursor-default data-[disabled]:opacity-50',
       className
     )}
     {...props}
   >
     <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
       <ContextMenuPrimitive.ItemIndicator>
-        <TbCircleFilled aria-hidden={true} className="h-2 w-2 fill-current" />
+        <TbCircleFilled aria-hidden={true} className="fill-current h-2 w-2" />
       </ContextMenuPrimitive.ItemIndicator>
     </span>
 

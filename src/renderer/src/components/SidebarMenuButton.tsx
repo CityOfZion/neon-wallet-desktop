@@ -25,7 +25,7 @@ export const SidebarMenuButton = ({ title, to, match }: TProps): JSX.Element => 
     <li>
       <NavLink to={to ?? ''} className={({ isActive }) => buildClassName(isActive, match)}>
         <span className="text-xs text-white">{title}</span>
-        <MdChevronRight className="text-gray-100 w-6 h-6" />
+        <MdChevronRight aria-hidden={true} className="h-6 w-6 text-gray-100" />
       </NavLink>
       <div className="px-4">
         <Separator />

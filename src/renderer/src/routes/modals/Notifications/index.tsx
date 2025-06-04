@@ -19,9 +19,9 @@ export const NotificationsModal = () => {
     >
       {notifications.length === 0 ? (
         <Fragment>
-          <TbBell className="text-gray-300 w-28 h-28 stroke-1 mt-20" aria-hidden />
-          <p className="mt-7 text-white font-sans-medium text-lg">{t('emptyListTitle')}</p>
-          <p className="text-gray-100 text-sm font-sans-regular mt-3.5">{t('emptyListBody')}</p>
+          <TbBell className="mt-20 h-28 w-28 stroke-1 text-gray-300" aria-hidden />
+          <p className="font-sans-medium mt-7 text-lg text-white">{t('emptyListTitle')}</p>
+          <p className="font-sans-regular mt-3.5 text-sm text-gray-100">{t('emptyListBody')}</p>
         </Fragment>
       ) : (
         <ul className="w-full flex-grow overflow-auto">

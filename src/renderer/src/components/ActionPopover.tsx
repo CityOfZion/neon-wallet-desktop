@@ -29,14 +29,14 @@ const Content = forwardRef<ElementRef<typeof RadixPopover.Content>, TContentProp
       <RadixPopover.Portal>
         <RadixPopover.Content
           ref={ref}
-          className={StyleHelper.mergeStyles('relative group z-[1010]', className)}
+          className={StyleHelper.mergeStyles('group relative z-[1010]', className)}
           side={side}
           align={align}
           {...props}
         >
           <div
             className={StyleHelper.mergeStyles(
-              'bg-gray-900/50 flex flex-col rounded overflow-hidden backdrop-blur-md',
+              'flex flex-col overflow-hidden rounded bg-gray-900/50 backdrop-blur-md',
               {
                 'border-r-4': isRightSide,
                 'border-l-4': isLeftSide,

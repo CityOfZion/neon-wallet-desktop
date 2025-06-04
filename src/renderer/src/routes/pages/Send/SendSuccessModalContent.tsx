@@ -21,17 +21,17 @@ export const SendSuccessModalContent = ({ transactions, selectedAccount }: TProp
   const { modalNavigate } = useModalNavigate()
 
   return (
-    <div className="flex flex-col w-full items-center flex-grow min-h-0 justify-between gap-8">
-      <div className="flex flex-col fle-grow  min-h-0  py-1.5 bg-asphalt mt-6 rounded">
-        <div className="flex flex-col flex-grow w-full min-h-0 px-4 py-1.5 overflow-auto">
-          <div className="flex text-sm text-white items-center  gap-2.5">
-            <TbReceipt className="text-blue w-6 h-6" />
+    <div className="flex min-h-0 w-full flex-grow flex-col items-center justify-between gap-8">
+      <div className="fle-grow mt-6 flex min-h-0 flex-col rounded bg-asphalt py-1.5">
+        <div className="flex min-h-0 w-full flex-grow flex-col overflow-auto px-4 py-1.5">
+          <div className="flex items-center gap-2.5 text-sm text-white">
+            <TbReceipt aria-hidden={true} className="h-6 w-6 text-blue" />
             <span>{t('detailsTitle')}</span>
           </div>
 
           <Separator className="mt-2.5" />
 
-          <ul className="flex flex-col mt-5 gap-3.5">
+          <ul className="mt-5 flex flex-col gap-3.5">
             {transactions.map((transaction, index) => (
               <Fragment key={`send-success-transaction-${index}`}>
                 {transaction && <SendSuccessModalContentItem transaction={transaction} order={index + 1} />}

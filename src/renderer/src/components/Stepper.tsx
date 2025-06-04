@@ -35,10 +35,10 @@ export const Stepper = ({
 
         return (
           <Fragment key={index}>
-            <div className="flex flex-col relative">
+            <div className="relative flex flex-col">
               <span
                 className={StyleHelper.mergeStyles(
-                  'w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold transition-colors',
+                  'flex h-6 w-6 items-center justify-center rounded-full text-sm font-bold transition-colors',
                   {
                     'bg-blue text-asphalt': isPastStep && isDefaultTheme,
                     'bg-gray-900 text-gray-300': isFutureStep && isDefaultTheme,
@@ -54,7 +54,7 @@ export const Stepper = ({
 
               <span
                 className={StyleHelper.mergeStyles(
-                  'text-center w-20 top-8 left-1/2 -translate-x-1/2 text-xs transition-colors absolute',
+                  'absolute left-1/2 top-8 w-20 -translate-x-1/2 text-center text-xs transition-colors',
                   {
                     'text-blue': isPastStep && isDefaultTheme,
                     'text-neon': isPastStep && isNeonTheme,
@@ -71,7 +71,7 @@ export const Stepper = ({
 
             {fixedIndex < steps.length && (
               <div
-                className={StyleHelper.mergeStyles('w-full h-0 border-t-2 border-dashed transition-colors', {
+                className={StyleHelper.mergeStyles('h-0 w-full border-t-2 border-dashed transition-colors', {
                   'border-blue': isPastStep && isDefaultTheme,
                   'border-gray-900': isCurrentOrFutureStep && isDefaultTheme,
                   'border-neon': isPastStep && isNeonTheme,

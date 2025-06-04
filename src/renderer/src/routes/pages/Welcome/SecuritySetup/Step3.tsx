@@ -8,11 +8,11 @@ export const WelcomeSecuritySetupStep3Page = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'welcome.securitySetup.step3' })
 
   return (
-    <div className="flex-grow w-full flex flex-col justify-between items-center">
-      <div className="flex flex-col items-center mt-15">
-        <h3 className="text-sm text-white text-center">{t('title')}</h3>
+    <div className="flex w-full flex-grow flex-col items-center justify-between">
+      <div className="mt-15 flex flex-col items-center">
+        <h3 className="text-center text-sm text-white">{t('title')}</h3>
 
-        <TbRosetteDiscountCheck className="w-[6.25rem] h-[6.25rem] text-blue stroke-1 mt-3" />
+        <TbRosetteDiscountCheck aria-hidden={true} className="mt-3 h-[6.25rem] w-[6.25rem] stroke-1 text-blue" />
       </div>
 
       <Link

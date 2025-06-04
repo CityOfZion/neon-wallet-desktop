@@ -39,9 +39,9 @@ export const Signer = ({ signer, session }: TProps) => {
   const scope = resolveSigner(signer.scopes)
 
   return (
-    <div className="flex justify-between items-center text-gray-100">
+    <div className="flex items-center justify-between text-gray-100">
       <div className="flex items-center gap-2.5">
-        <TbCube3dSphere className="w-6 h-6" />
+        <TbCube3dSphere aria-hidden={true} className="h-6 w-6" />
         <p className="text-white">{t('signatureScopeTitle')}</p>
       </div>
 

@@ -42,12 +42,12 @@ export const BuyAndSellTokensAccordionAccounts = ({ isOpened, account }: TProps)
       id="buy-and-sell-tokens-accordion-accounts"
       aria-hidden={!isOpened}
       ref={scope}
-      className="bg-gray-900 w-full h-full p-4 border-l border-gray-300/15 -mr-4 overflow-y-auto absolute right-0 shadow-[-5px_0px_35px_0px_rgba(26,32,38,0.4)]"
+      className="absolute right-0 -mr-4 h-full w-full overflow-y-auto border-l border-gray-300/15 bg-gray-900 p-4 shadow-[-5px_0px_35px_0px_rgba(26,32,38,0.4)]"
     >
       <h3 className="text-xs uppercase text-gray-300">{t('title')}</h3>
 
       <Accordion.Root
-        className="flex flex-col gap-3 mt-3"
+        className="mt-3 flex flex-col gap-3"
         type="multiple"
         defaultValue={firstWallet ? [firstWallet.id] : []}
       >

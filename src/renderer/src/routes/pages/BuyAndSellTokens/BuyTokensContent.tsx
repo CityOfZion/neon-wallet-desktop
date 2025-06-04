@@ -96,13 +96,13 @@ export const BuyTokensContent = ({ hidden, account, setScreenType, ...props }: T
           textClassName="font-normal"
           colorSchema={isIframeLoading ? 'gray' : 'neon'}
           disabled={isIframeLoading}
-          leftIcon={<MdRestartAlt aria-hidden={true} className="w-5 h-5 min-w-5 min-h-5" />}
+          leftIcon={<MdRestartAlt aria-hidden={true} className="h-5 min-h-5 w-5 min-w-5" />}
           onClick={handleRestart}
         />
       }
       {...props}
     >
-      <div id={iframeId} className="buy-and-sell-tokens-iframe-container my-4 mx-auto" />
+      <div id={iframeId} className="mx-auto my-4 buy-and-sell-tokens-iframe-container" />
     </BuyAndSellTokensLayout>
   )
 }

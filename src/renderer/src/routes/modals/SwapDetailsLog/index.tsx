@@ -53,11 +53,11 @@ export const SwapDetailsLogModal = () => {
       contentClassName="flex flex-col pt-6"
     >
       {match({ isLoading, log })
-        .with({ isLoading: true }, () => <Loader className="w-8 h-8" />)
+        .with({ isLoading: true }, () => <Loader className="h-8 w-8" />)
         .with({ log: P.when(value => !!value && typeof value === 'string') }, () => (
           <Fragment>
-            <div className="flex items-center justify-between gap-2 w-full">
-              <p className="text-gray-300 text-sm font-medium">{t('copySwapLog')}</p>
+            <div className="flex w-full items-center justify-between gap-2">
+              <p className="text-sm font-medium text-gray-300">{t('copySwapLog')}</p>
 
               <IconButton
                 aria-label={tCommon('copy')}
@@ -68,13 +68,13 @@ export const SwapDetailsLogModal = () => {
               />
             </div>
 
-            <div className="w-full flex-grow p-4 rounded bg-gray-900/75 mt-4 whitespace-pre-wrap overflow-y-auto break-words">
-              <p className="text-white text-sm">{log}</p>
+            <div className="mt-4 w-full flex-grow overflow-y-auto whitespace-pre-wrap break-words rounded bg-gray-900/75 p-4">
+              <p className="text-sm text-white">{log}</p>
             </div>
           </Fragment>
         ))
         .otherwise(() => (
-          <p className="w-full text-center text-gray-300 text-lg font-medium">{t('thereIsNoLog')}</p>
+          <p className="w-full text-center text-lg font-medium text-gray-300">{t('thereIsNoLog')}</p>
         ))}
     </SideModalLayout>
   )

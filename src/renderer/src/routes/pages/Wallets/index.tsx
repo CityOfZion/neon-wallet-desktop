@@ -119,7 +119,7 @@ export const WalletsPage = () => {
   return (
     <MainLayout
       heading={
-        <div className="flex gap-2 items-center">
+        <div className="flex items-center gap-2">
           <WalletsSelect wallets={wallets} value={selectedWallet} onSelect={handleSelectWallet} />
           {hasHardwareAccount && <HardwareWalletConnectedBadge />}
         </div>
@@ -152,13 +152,13 @@ export const WalletsPage = () => {
     >
       {selectedWallet && selectedAccount && (
         <Fragment>
-          <section className="bg-gray-800 rounded drop-shadow-lg max-w-[11.625rem] min-w-[11.625rem] w-full flex flex-col">
-            <header className="flex justify-between px-4 py-3 items-center h-fit gap-x-1">
-              <h2 className="text-sm truncate">{t('accounts')}</h2>
+          <section className="flex w-full min-w-[11.625rem] max-w-[11.625rem] flex-col rounded bg-gray-800 drop-shadow-lg">
+            <header className="flex h-fit items-center justify-between gap-x-1 px-4 py-3">
+              <h2 className="truncate text-sm">{t('accounts')}</h2>
             </header>
 
-            <main className="flex flex-col w-full items-center flex-grow min-h-0">
-              <div className="px-4 w-full">
+            <main className="flex min-h-0 w-full flex-grow flex-col items-center">
+              <div className="w-full px-4">
                 <Separator />
               </div>
 
@@ -183,10 +183,10 @@ export const WalletsPage = () => {
             )}
           </section>
 
-          <section className="bg-gray-800 w-full h-full flex rounded flex-grow flex-col min-w-0">
-            <header className="w-full h-12 items-center flex justify-between px-5">
+          <section className="flex h-full w-full min-w-0 flex-grow flex-col rounded bg-gray-800">
+            <header className="flex h-12 w-full items-center justify-between px-5">
               <div className="flex items-center gap-2 text-sm">
-                <h1 className="text-white pr-3 ">{selectedAccount.name}</h1>
+                <h1 className="pr-3 text-white">{selectedAccount.name}</h1>
                 <p className="text-gray-300">{t('address')}</p>
                 <p className="text-gray-100">{StringHelper.truncateStringMiddle(selectedAccount.address, 8)}</p>
                 <IconButton
@@ -225,8 +225,8 @@ export const WalletsPage = () => {
               </div>
             </header>
 
-            <div className="flex h-full bg-gray-900/30 min-h-0">
-              <ul className="max-w-[11.625rem] min-w-[11.625rem] w-full border-r border-gray-300/30">
+            <div className="flex h-full min-h-0 bg-gray-900/30">
+              <ul className="w-full min-w-[11.625rem] max-w-[11.625rem] border-r border-gray-300/30">
                 <SidebarMenuButton
                   title={t('accountOverview.title')}
                   to={`/app/wallets/${selectedAccount.id}/overview`}

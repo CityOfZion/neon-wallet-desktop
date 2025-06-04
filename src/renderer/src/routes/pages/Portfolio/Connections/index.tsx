@@ -33,11 +33,11 @@ export const PortfolioConnectionsPage = () => {
 
   return (
     <div
-      className={StyleHelper.mergeStyles('w-full flex flex-col py-3 flex-grow min-h-0 px-4 min-w-0', {
-        'bg-gray-800 rounded shadow-lg': !address,
+      className={StyleHelper.mergeStyles('flex min-h-0 w-full min-w-0 flex-grow flex-col px-4 py-3', {
+        'rounded bg-gray-800 shadow-lg': !address,
       })}
     >
-      <div className="flex justify-between text-sm mb-3">
+      <div className="mb-3 flex justify-between text-sm">
         <p className="text-white">{t('title')}</p>
 
         <span className="text-gray-300">
@@ -47,7 +47,7 @@ export const PortfolioConnectionsPage = () => {
 
       <Separator />
 
-      <div className="mt-5 flex-grow flex flex-col min-h-0">
+      <div className="mt-5 flex min-h-0 flex-grow flex-col">
         <div
           className={StyleHelper.mergeStyles('flex flex-row justify-between', {
             'justify-end': filteredSessions.length === 0,
@@ -64,7 +64,7 @@ export const PortfolioConnectionsPage = () => {
             />
           )}
 
-          <p className="text-gray-300 text-lg">{t('totalConnections', { connections: filteredSessions.length })}</p>
+          <p className="text-lg text-gray-300">{t('totalConnections', { connections: filteredSessions.length })}</p>
         </div>
 
         <ConnectionsTable

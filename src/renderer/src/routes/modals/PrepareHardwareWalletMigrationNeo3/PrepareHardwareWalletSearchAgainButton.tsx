@@ -10,7 +10,7 @@ export const PrepareHardwareWalletSearchAgainButton = (props: TButtonProps) => {
       label={t('searchAgainButtonLabel')}
       textClassName="text-neon"
       iconsOnEdge={false}
-      leftIcon={<MdSearch aria-hidden={true} className="text-neon w-5 h-5" />}
+      leftIcon={<MdSearch aria-hidden={true} className="h-5 w-5 text-neon" />}
       clickableProps={{ className: 'px-16' }}
       {...props}
     />

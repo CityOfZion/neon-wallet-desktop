@@ -51,7 +51,7 @@ const BuyAndSellTokensContent = ({
   const { t } = useTranslation('pages', { keyPrefix: 'buyAndSellTokens' })
 
   if (!isConfigured)
-    return <h2 className="text-center bg-gray-700/60 py-14 px-4 rounded text-white text-2xl">{t('notConfigured')}</h2>
+    return <h2 className="rounded bg-gray-700/60 px-4 py-14 text-center text-2xl text-white">{t('notConfigured')}</h2>
 
   return (
     <Fragment>

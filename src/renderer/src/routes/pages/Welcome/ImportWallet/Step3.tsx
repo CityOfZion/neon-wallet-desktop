@@ -173,11 +173,11 @@ export const WelcomeImportWalletStep3Page = () => {
 
   return (
     <Fragment>
-      <p className="text-sm text-white mt-10 text-center">
+      <p className="mt-10 text-center text-sm text-white">
         {!state.isMigration ? t('formTitle') : t('migrationFormTitle')}
       </p>
       <form
-        className="w-full flex-grow flex flex-col  mt-6 items-center"
+        className="mt-6 flex w-full flex-grow flex-col items-center"
         onSubmit={
           state?.isMigration
             ? fileActions.handleAct(handleFileSubmit)
@@ -224,7 +224,7 @@ export const WelcomeImportWalletStep3Page = () => {
 
         <Button
           label={commonT('general.next')}
-          className="w-64 mt-auto"
+          className="mt-auto w-64"
           type="submit"
           disabled={importActions.actionData.text ? !importActions.actionState.isValid : !fileActions.actionData.path}
           loading={importActions.actionState.isActing || fileActions.actionState.isActing}

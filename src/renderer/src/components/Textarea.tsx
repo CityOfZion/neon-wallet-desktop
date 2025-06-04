@@ -89,7 +89,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TProps>(
       <div className={StyleHelper.mergeStyles('w-full', containerClassName)}>
         <div
           className={StyleHelper.mergeStyles(
-            'flex items-center gap-x-1 rounded bg-asphalt ring-2 ring-transparent w-full px-5 outline-none font-medium placeholder:text-white/50 text-white',
+            'flex w-full items-center gap-x-1 rounded bg-asphalt px-5 font-medium text-white outline-none ring-2 ring-transparent placeholder:text-white/50',
             {
               'py-[0.3125rem] text-xs': compacted,
               'py-3 text-sm': !compacted,
@@ -107,7 +107,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TProps>(
           >
             <textarea
               className={StyleHelper.mergeStyles(
-                'bg-transparent w-full flex-grow outline-none resize-none overflow-hidden min-h-[1rem]',
+                'min-h-[1rem] w-full flex-grow resize-none overflow-hidden bg-transparent outline-none',
                 {
                   'whitespace-nowrap': !multiline,
                 },
@@ -134,10 +134,10 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TProps>(
             />
           )}
 
-          {clearable && <IconButton icon={<MdCancel />} type="button" onClick={clear} compacted />}
+          {clearable && <IconButton icon={<MdCancel aria-hidden={true} />} type="button" onClick={clear} compacted />}
         </div>
 
-        {errorMessage && <span className="block mt-1 text-xs text-pink">{errorMessage}</span>}
+        {errorMessage && <span className="mt-1 block text-xs text-pink">{errorMessage}</span>}
       </div>
     )
   }

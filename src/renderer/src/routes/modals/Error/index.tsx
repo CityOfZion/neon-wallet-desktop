@@ -19,12 +19,12 @@ export const ErrorModal = () => {
       headingIcon={headingIcon}
       contentClassName="flex flex-col flex-grow items-center justify-center min-w-0"
     >
-      <div className="w-28 h-28 p-2 bg-asphalt rounded-full flex items-center">
-        <MdCancel className="w-24 h-24 text-pink" />
+      <div className="flex h-28 w-28 items-center rounded-full bg-asphalt p-2">
+        <MdCancel aria-hidden={true} className="h-24 w-24 text-pink" />
       </div>
 
-      {subtitle && <p className="text-lg text-white mt-7">{subtitle}</p>}
-      {description && <p className="text-xs text-gray-300 mt-2">{description}</p>}
+      {subtitle && <p className="mt-7 text-lg text-white">{subtitle}</p>}
+      {description && <p className="mt-2 text-xs text-gray-300">{description}</p>}
 
       {content}
     </SideModalLayout>

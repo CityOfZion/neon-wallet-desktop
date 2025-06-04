@@ -50,7 +50,7 @@ export const EditWalletModal = () => {
       headingIcon={<TbPencil aria-hidden={true} />}
       contentClassName="flex flex-col"
     >
-      <form onSubmit={form.handleAct(handleSubmit)} className="flex flex-col flex-grow">
+      <form onSubmit={form.handleAct(handleSubmit)} className="flex flex-grow flex-col">
         <Input
           placeholder={t('inputPlaceholder')}
           errorMessage={form.actionState.errors.name}
@@ -62,7 +62,7 @@ export const EditWalletModal = () => {
 
         <Separator className="my-4" />
 
-        <div className="flex gap-x-3 mt-auto mb-4">
+        <div className="mb-4 mt-auto flex gap-x-3">
           <Button
             className="w-full"
             type="button"
@@ -79,8 +79,8 @@ export const EditWalletModal = () => {
       <div className="flex flex-col">
         <Separator />
 
-        <p className="text-gray-300 uppercase text-xs font-bold mt-4">{t('deleteWalletTitle')}</p>
-        <span className="text-xs text-white mt-2">{t('deleteWalletSubtext')}</span>
+        <p className="mt-4 text-xs font-bold uppercase text-gray-300">{t('deleteWalletTitle')}</p>
+        <span className="mt-2 text-xs text-white">{t('deleteWalletSubtext')}</span>
 
         <Button
           label="Delete Wallet"

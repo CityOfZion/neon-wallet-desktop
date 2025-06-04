@@ -117,10 +117,10 @@ export const GreyTokenSelect = <T extends TGreyTokenSelectToken>({
         disabled={isDisabled}
         aria-disabled={isDisabled}
         className={StyleHelper.mergeStyles(
-          'min-w-3 w-32 h-8.5 rounded bg-asphalt aria-expanded:bg-asphalt flex gap-2 items-center px-2',
+          'flex h-8.5 w-32 min-w-3 items-center gap-2 rounded bg-asphalt px-2 aria-expanded:bg-asphalt',
           {
             'aria-[disabled=false]:hover:bg-asphalt/60': !selectedToken && !isDisabled,
-            'aria-[disabled=false]:hover:bg-gray-300/30 bg-gray-300/15': !isDisabled && selectedToken,
+            'bg-gray-300/15 aria-[disabled=false]:hover:bg-gray-300/30': !isDisabled && selectedToken,
             'opacity-50': isDisabled,
           }
         )}
@@ -129,7 +129,7 @@ export const GreyTokenSelect = <T extends TGreyTokenSelectToken>({
           .with({ loading: true }, () => <Loader />)
           .with({ isTokenSelected: true }, () => <GreyTokenSelectItem token={selectedToken!} />)
           .otherwise(() => (
-            <span className="text-center text-neon font-medium w-full">{t('placeholder')}</span>
+            <span className="w-full text-center font-medium text-neon">{t('placeholder')}</span>
           ))}
       </Popover.Trigger>
 
@@ -157,13 +157,13 @@ export const GreyTokenSelect = <T extends TGreyTokenSelectToken>({
                       key={virtualItem.key}
                       value={value}
                       onSelect={() => handleClickToken(row)}
-                      className="flex-col absolute top-0 left-0 w-full h-10"
+                      className="absolute left-0 top-0 h-10 w-full flex-col"
                       style={{
                         height: `${virtualItem.size}px`,
                         transform: `translateY(${virtualItem.start}px)`,
                       }}
                     >
-                      <div className="w-full h-full flex gap-2 items-center">
+                      <div className="flex h-full w-full items-center gap-2">
                         <GreyTokenSelectItem token={row} />
                       </div>
 

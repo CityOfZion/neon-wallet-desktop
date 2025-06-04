@@ -27,14 +27,14 @@ export const MigrateAccountsStep2Modal = () => {
   }
 
   return (
-    <MigrateAccountsModalLayout currentStep={2} stepIcon={<MdLooksTwo />} stepTitle={t('title')}>
-      <form className="flex flex-col w-full h-full" onSubmit={handleAct(handleSubmit)}>
-        <div className="flex flex-col items-center flex-grow">
+    <MigrateAccountsModalLayout currentStep={2} stepIcon={<MdLooksTwo aria-hidden={true} />} stepTitle={t('title')}>
+      <form className="flex h-full w-full flex-col" onSubmit={handleAct(handleSubmit)}>
+        <div className="flex flex-grow flex-col items-center">
           <p>{t('description')}</p>
 
           <Input compacted label={t('inputLabel')} value={actionData.path ?? ''} readOnly containerClassName="mt-5" />
 
-          {actionState.errors.path && <AlertErrorBanner message={actionState.errors.path} className="w-full mt-3" />}
+          {actionState.errors.path && <AlertErrorBanner message={actionState.errors.path} className="mt-3 w-full" />}
 
           <Button type="button" label={t('buttonBrowseLabel')} className="mt-5" wide flat onClick={handleBrowse} />
         </div>

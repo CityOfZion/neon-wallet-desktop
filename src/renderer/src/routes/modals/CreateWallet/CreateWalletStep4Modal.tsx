@@ -71,27 +71,27 @@ export const CreateWalletStep4Modal = () => {
 
   return (
     <CreateWalletModalLayout>
-      <header className="flex justify-between items-center py-2.5">
+      <header className="flex items-center justify-between py-2.5">
         <div className="flex items-center gap-x-2.5">
-          <MdLooks4 className="text-blue h-4.5 w-4.5" aria-hidden={true} />
+          <MdLooks4 className="h-4.5 w-4.5 text-blue" aria-hidden={true} />
           <h2 className="text-sm">{t('title')}</h2>
         </div>
-        <div className="text-blue text-sm">{t('step4of4')}</div>
+        <div className="text-sm text-blue">{t('step4of4')}</div>
       </header>
-      <Separator className="min-h-[0.0625rem] mb-9" />
+      <Separator className="mb-9 min-h-[0.0625rem]" />
       <form
         onSubmit={handleAct(handleSubmit)}
-        className="flex flex-col items-center w-full flex-grow justify-between min-h-0"
+        className="flex min-h-0 w-full flex-grow flex-col items-center justify-between"
       >
-        <div className="flex flex-col w-full gap-8 min-h-0">
-          <div className="text-gray-100 text-xs">{t('description')}</div>
+        <div className="flex min-h-0 w-full flex-col gap-8">
+          <div className="text-xs text-gray-100">{t('description')}</div>
           <Separator />
 
-          <ul className="m-auto w-1/2 flex flex-col flex-grow gap-2 overflow-auto mb-4">
+          <ul className="m-auto mb-4 flex w-1/2 flex-grow flex-col gap-2 overflow-auto">
             {actionData.blockchains.map((blockchain, index) => (
-              <li key={`${blockchain.name}-${index}`} className="flex h-12 rounded bg-asphalt border-none px-6 py-4">
-                <div className="flex justify-between flex-grow items-center">
-                  <label className="flex items-center gap-2.5 w-full">
+              <li key={`${blockchain.name}-${index}`} className="flex h-12 rounded border-none bg-asphalt px-6 py-4">
+                <div className="flex flex-grow items-center justify-between">
+                  <label className="flex w-full items-center gap-2.5">
                     <BlockchainIcon blockchain={blockchain.name} type="gray" />
                     <div className="flex-grow">{commonT(`blockchain.${blockchain.name}`)}</div>
                     <Checkbox

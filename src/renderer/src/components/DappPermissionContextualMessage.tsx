@@ -8,9 +8,9 @@ export const DappPermissionContextualMessage = ({ contextualMessage }: TProps) =
   const { t } = useTranslation('components', { keyPrefix: 'dappPermissionContextualMessage' })
   return (
     <div className="flex flex-col items-center">
-      <div className="mt-8 flex flex-col gap-1 text-xs w-full text-gray-100 flex-grow ">
+      <div className="mt-8 flex w-full flex-grow flex-col gap-1 text-xs text-gray-100">
         <span className="font-bold uppercase">{t('messageLabel')}</span>
-        <p className="bg-asphalt w-full p-2 rounded break-words whitespace-pre-wrap max-h-48 overflow-y-auto">
+        <p className="max-h-48 w-full overflow-y-auto whitespace-pre-wrap break-words rounded bg-asphalt p-2">
           {contextualMessage}
         </p>
       </div>

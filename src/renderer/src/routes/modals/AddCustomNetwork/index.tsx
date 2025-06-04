@@ -38,7 +38,7 @@ export const AddCustomNetwork = () => {
       name: networkToEdit?.name ?? '',
       url: networkToEdit?.url ?? '',
       validating: false,
-      isValid: networkToEdit ? true : false,
+      isValid: !!networkToEdit,
     })
 
   const handleUrlBlur = async () => {
@@ -98,8 +98,8 @@ export const AddCustomNetwork = () => {
 
   return (
     <SideModalLayout heading={t('title')} headingIcon={<TbCube3dSphere />} contentClassName="flex flex-col">
-      <form className="flex flex-col flex-grow" onSubmit={handleAct(handleSubmit)}>
-        <div className="flex-grow flex flex-col gap-6">
+      <form className="flex flex-grow flex-col" onSubmit={handleAct(handleSubmit)}>
+        <div className="flex flex-grow flex-col gap-6">
           <Input
             compacted
             placeholder={t('namePlaceholder')}

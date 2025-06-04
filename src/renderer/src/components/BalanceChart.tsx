@@ -62,44 +62,44 @@ export const BalanceChart = ({ balances, sortedBalances, className }: TProps) =>
 
   return (
     <div className={StyleHelper.mergeStyles('w-full py-9', className)}>
-      <div className="flex items-center gap-2 text-xl mr-2 w-full justify-end mb-9">
+      <div className="mb-9 mr-2 flex w-full items-center justify-end gap-2 text-xl">
         <span className="text-gray-300">{t('balance')}</span>
 
         <span className="text-white">{exchangeTotalFormatted}</span>
       </div>
 
-      <div className="w-full flex flex-col">
-        <p className="text-sm text-gray-100 mb-3.5 px-2">{t('holdings')}</p>
+      <div className="flex w-full flex-col">
+        <p className="mb-3.5 px-2 text-sm text-gray-100">{t('holdings')}</p>
 
         <ul className="flex w-full justify-center">
           {bars.map((bar, index) => (
             <li
               key={`${bar.name}-${bar.color}-${index}`}
-              className="flex flex-col mx-2 min-w-[5rem]"
+              className="mx-2 flex min-w-[5rem] flex-col"
               style={{
                 width: `${bar.widthPercent}%`,
               }}
             >
               <div
-                className="h-2 rounded-full drop-shadow-lg bg-white"
+                className="h-2 rounded-full bg-white drop-shadow-lg"
                 style={{
                   backgroundImage: `linear-gradient(0deg, ${bar.color} 0%, ${bar.color}80 100%)`,
                 }}
               ></div>
 
-              <div className="flex items-start mt-5 gap-2 min-w-0">
+              <div className="mt-5 flex min-w-0 items-start gap-2">
                 <div
-                  className="w-2 min-w-[0.5rem] h-2 rounded-full mt-1"
+                  className="mt-1 h-2 w-2 min-w-[0.5rem] rounded-full"
                   style={{
                     backgroundColor: bar.color,
                   }}
                 ></div>
 
-                <span className="text-white text-xs font-normal truncate min-w-0">{bar.name}</span>
+                <span className="min-w-0 truncate text-xs font-normal text-white">{bar.name}</span>
               </div>
 
               <Tooltip title={bar.value}>
-                <span className="text-gray-300 text-sm truncate max-w-fit">{bar.value}</span>
+                <span className="max-w-fit truncate text-sm text-gray-300">{bar.value}</span>
               </Tooltip>
             </li>
           ))}

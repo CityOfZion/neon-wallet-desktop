@@ -30,26 +30,26 @@ export const NftList = ({ account, nfts }: TProps) => {
   }
 
   return (
-    <ul className="flex flex-col gap-1 min-w-0">
+    <ul className="flex min-w-0 flex-col gap-1">
       {nfts.map(nft => {
         const link = getHref(nft)
         const content = (
           <>
-            <div className="min-w-[5rem] w-[5rem] h-[3.5rem] mi-h-[3.5rem] rounded bg-gray-300/30 overflow-hidden">
-              <img className="w-full h-full object-cover" src={nft.image} />
+            <div className="mi-h-[3.5rem] h-[3.5rem] w-[5rem] min-w-[5rem] overflow-hidden rounded bg-gray-300/30">
+              <img className="h-full w-full object-cover" src={nft.image} alt={nft.name} />
             </div>
 
-            <div className="flex flex-col min-w-0 gap-2.5 flex-grow">
+            <div className="flex min-w-0 flex-grow flex-col gap-2.5">
               <span className="truncate capitalize">{nft.name}</span>
 
-              <div className="flex gap-1.5 items-center">
+              <div className="flex items-center gap-1.5">
                 {nft.collectionImage && (
-                  <div className="min-w-[1rem] w-[1rem] min-h-[1rem] h-[1rem] bg-gray-300/30 rounded-full overflow-hidden">
-                    <img className="w-full h-full object-cover" src={nft.collectionImage} />
+                  <div className="h-[1rem] min-h-[1rem] w-[1rem] min-w-[1rem] overflow-hidden rounded-full bg-gray-300/30">
+                    <img className="h-full w-full object-cover" src={nft.collectionImage} alt={nft.collectionName} />
                   </div>
                 )}
 
-                <span className="text-gray-300 truncate capitalize -mt-0.5 text-xs">
+                <span className="-mt-0.5 truncate text-xs capitalize text-gray-300">
                   {nft.creator.name ?? nft.creator.address}
                 </span>
               </div>
@@ -60,12 +60,12 @@ export const NftList = ({ account, nfts }: TProps) => {
                 <span className="text-blue">{nft.id}</span>
 
                 <div className="flex items-center gap-1.5">
-                  <BlockchainIcon blockchain={account.blockchain} type="gray" className="opacity-60 w-3 h-3" />
-                  <span className="text-gray-300 text-xs">{tCommon(account.blockchain)}</span>
+                  <BlockchainIcon blockchain={account.blockchain} type="gray" className="h-3 w-3 opacity-60" />
+                  <span className="text-xs text-gray-300">{tCommon(account.blockchain)}</span>
                 </div>
               </div>
 
-              {link && <TbChevronRight className="w-6 h-6 text-gray-300" />}
+              {link && <TbChevronRight aria-hidden={true} className="h-6 w-6 text-gray-300" />}
             </div>
           </>
         )
@@ -76,13 +76,13 @@ export const NftList = ({ account, nfts }: TProps) => {
               <a
                 href={link}
                 target="_blank"
-                className="flex p-2.5 gap-5 bg-gray-700/60 rounded-md text-sm items-center cursor-pointer hover:bg-gray-300/30 w-full transition-colors min-w-0"
+                className="flex w-full min-w-0 cursor-pointer items-center gap-5 rounded-md bg-gray-700/60 p-2.5 text-sm transition-colors hover:bg-gray-300/30"
                 rel="noreferrer"
               >
                 {content}
               </a>
             ) : (
-              <div className="flex p-2.5 gap-5 bg-gray-700/60 rounded-md text-sm items-center w-full min-w-0">
+              <div className="flex w-full min-w-0 items-center gap-5 rounded-md bg-gray-700/60 p-2.5 text-sm">
                 {content}
               </div>
             )}

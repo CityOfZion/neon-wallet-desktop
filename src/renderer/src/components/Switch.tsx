@@ -17,16 +17,16 @@ export const Switch = ({ label, name, checked, className, labelClassName, onChan
     <div className={StyleHelper.mergeStyles('flex items-center gap-x-1.5', className)}>
       <RadioSwitch.Root
         id={id}
-        className="relative rounded-full shadow-lg w-9 h-5 bg-asphalt data-[state=checked]:bg-green cursor-pointer px-0.5 box-content"
+        className="relative box-content h-5 w-9 cursor-pointer rounded-full bg-asphalt px-0.5 shadow-lg data-[state=checked]:bg-green"
         checked={checked}
         onCheckedChange={onChange}
       >
-        <RadioSwitch.Thumb className="block w-4 h-4 bg-white rounded-full shadow-lg transition-transform duration-100 transform translate-x-0 data-[state=checked]:translate-x-5 will-change-transform" />
+        <RadioSwitch.Thumb className="block h-4 w-4 translate-x-0 transform rounded-full bg-white shadow-lg transition-transform duration-100 will-change-transform data-[state=checked]:translate-x-5" />
       </RadioSwitch.Root>
       <label
         htmlFor={id}
         className={StyleHelper.mergeStyles(
-          'font-normal select-none cursor-pointer text-xs text-gray-100',
+          'cursor-pointer select-none text-xs font-normal text-gray-100',
           labelClassName
         )}
       >

@@ -45,10 +45,10 @@ export const SettingsPage = () => {
 
   return (
     <MainLayout heading={t('title')} rightComponent={<CommonScreenActions />}>
-      <section className="bg-gray-800 w-full h-full flex rounded">
-        <div className="min-w-[17.5rem] max-w-[17.5rem] px-5 border-r border-gray-300/15 flex flex-col items-center">
+      <section className="flex h-full w-full rounded bg-gray-800">
+        <div className="flex min-w-[17.5rem] max-w-[17.5rem] flex-col items-center border-r border-gray-300/15 px-5">
           <Tabs.Root value={tabValue} className="w-full">
-            <Tabs.List className="w-full mt-2.5 mb-7">
+            <Tabs.List className="mb-7 mt-2.5 w-full">
               <Tabs.Trigger
                 value={ESettingsOptions.PERSONALISATION}
                 className="px-6"

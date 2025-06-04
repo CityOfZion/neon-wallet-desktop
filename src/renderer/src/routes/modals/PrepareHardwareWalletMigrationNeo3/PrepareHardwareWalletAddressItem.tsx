@@ -8,17 +8,17 @@ type TProps = {
 }
 
 export const PrepareHardwareWalletAddressItem = ({ title, label, address, icon }: TProps) => (
-  <div className="flex flex-col gap-y-3 text-sm w-full">
-    <h3 className="text-white leading-4">{title}</h3>
+  <div className="flex w-full flex-col gap-y-3 text-sm">
+    <h3 className="leading-4 text-white">{title}</h3>
 
-    <div className="flex items-center gap-x-3 px-4 h-11 bg-gray-300/15 rounded">
+    <div className="flex h-11 items-center gap-x-3 rounded bg-gray-300/15 px-4">
       {cloneElement(icon, {
         ...icon.props,
         className: 'text-blue min-w-5 min-h-5 w-5 h-5',
       })}
 
-      <p className="text-gray-100 font-light">{label}</p>
-      <p className="text-white text-right flex-grow">{address}</p>
+      <p className="font-light text-gray-100">{label}</p>
+      <p className="flex-grow text-right text-white">{address}</p>
     </div>
   </div>
 )

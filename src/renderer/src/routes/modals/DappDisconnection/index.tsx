@@ -27,33 +27,33 @@ export const DappDisconnectionModal = () => {
   }
 
   return (
-    <SideModalLayout heading={t('title')} headingIcon={<TbPlug className="text-neon" />}>
-      <div className="bg-gray-800 h-full w-full flex flex-col px-4 rounded text-xs items-center justify-between">
+    <SideModalLayout heading={t('title')} headingIcon={<TbPlug aria-hidden={true} className="text-neon" />}>
+      <div className="flex h-full w-full flex-col items-center justify-between rounded bg-gray-800 px-4 text-xs">
         <div className="flex flex-col items-center">
-          <div className="w-36 h-36 rounded-full bg-asphalt flex items-center justify-center">
-            <TbPlugX className="text-pink w-[5rem] h-[5rem]" />
+          <div className="flex h-36 w-36 items-center justify-center rounded-full bg-asphalt">
+            <TbPlugX aria-hidden={true} className="h-[5rem] w-[5rem] text-pink" />
           </div>
-          <p className="text-white text-lg pt-7">{sessions.length > 1 ? t('disconnectAllApps') : t('disconnectApp')}</p>
+          <p className="pt-7 text-lg text-white">{sessions.length > 1 ? t('disconnectAllApps') : t('disconnectApp')}</p>
           {sessions.length === 1 ? (
             <>
-              <div className="flex w-full px-3 bg-gray-300/15 rounded min-h-[2rem] items-center justify-center mt-3">
-                <p className="text-center text-xs p-2">{sessions[0].peer.metadata.name}</p>
+              <div className="mt-3 flex min-h-[2rem] w-full items-center justify-center rounded bg-gray-300/15 px-3">
+                <p className="p-2 text-center text-xs">{sessions[0].peer.metadata.name}</p>
               </div>
 
-              <span className="text-center px-2 text-xs text-gray-100 pt-4">
+              <span className="px-2 pt-4 text-center text-xs text-gray-100">
                 {sessions[0].peer.metadata.description}
               </span>
             </>
           ) : (
-            <div className="flex flex-col text-center px-2 text-sm text-gray-100 pt-4">
+            <div className="flex flex-col px-2 pt-4 text-center text-sm text-gray-100">
               <span>{t('totalDapps', { totalDapps: sessions.length })}</span>
               <span>{t('willRemove')}</span>
             </div>
           )}
         </div>
-        <div className="flex flex-col w-full items-center">
+        <div className="flex w-full flex-col items-center">
           <Separator />
-          <span className="text-xs py-6">{t('warning')}</span>
+          <span className="py-6 text-xs">{t('warning')}</span>
           <div className="flex w-full gap-x-4">
             <Button
               className="w-full"

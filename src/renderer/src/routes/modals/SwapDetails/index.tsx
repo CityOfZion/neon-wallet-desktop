@@ -91,18 +91,18 @@ export const SwapDetailsModal = () => {
   return (
     <SideModalLayout
       heading={t('title')}
-      headingIcon={<TbReplace />}
+      headingIcon={<TbReplace aria-hidden={true} />}
       contentClassName="flex flex-col items-center overflow-auto"
     >
-      <div className="w-28 h-28 p-2 bg-asphalt rounded-full flex items-center">
+      <div className="flex h-28 w-28 items-center rounded-full bg-asphalt p-2">
         {swapRecord.swapStatus === 'failed' || swapRecord.swapStatus === 'refunded' ? (
-          <TbCircleX className="w-28 h-28 stroke-1 text-pink" />
+          <TbCircleX aria-hidden={true} className="h-28 w-28 stroke-1 text-pink" />
         ) : (
-          <TbRosetteDiscountCheck className="w-28 h-28 stroke-1 text-blue" />
+          <TbRosetteDiscountCheck aria-hidden={true} className="h-28 w-28 stroke-1 text-blue" />
         )}
       </div>
 
-      <div className="mt-9 flex flex-col gap-2.5 items-center">
+      <div className="mt-9 flex flex-col items-center gap-2.5">
         {match({ swapStatus: swapRecord.swapStatus, txFrom: swapRecord.txFrom })
           .with({ swapStatus: P.union('refunded', 'failed'), txFrom: P.nullish }, () => (
             <p className="text-sm text-gray-300">{t('transferErrorMessage')}</p>
@@ -121,11 +121,11 @@ export const SwapDetailsModal = () => {
         </p>
       </div>
 
-      <Separator className="mt-6 mb-8" />
+      <Separator className="mb-8 mt-6" />
 
       <Details.Root>
         <Details.Header label={t('detailsHeaderLabel')} icon={<TbReceipt />}>
-          <span className="text-end flex-grow tet-sm italic text-orange">{t('detailsHeaderDescription')}</span>
+          <span className="tet-sm flex-grow text-end italic text-orange">{t('detailsHeaderDescription')}</span>
         </Details.Header>
 
         <Details.Body>
@@ -146,7 +146,7 @@ export const SwapDetailsModal = () => {
           <Details.Panel label={t('routingPanelLabel')} className="mt-6">
             {swapRecord.txFrom && (
               <Details.Item label={t('routingPanelTransactionFromLabel')} copyable={swapRecord.txFrom}>
-                <div className="flex gap-2.5 items-center">
+                <div className="flex items-center gap-2.5">
                   <BlockchainIcon blockchain={swapRecord.tokenFrom.blockchain!} />
 
                   {swapRecord.tokenFrom.txTemplateUrl ? (
@@ -172,7 +172,7 @@ export const SwapDetailsModal = () => {
                 <Details.Item label={t('routingPanelTransactionToLabel')} copyable={swapRecord.txTo}>
                   {match({ txTo: swapRecord.txTo })
                     .with({ txTo: P.string }, ({ txTo }) => (
-                      <div className="flex gap-2.5 items-center">
+                      <div className="flex items-center gap-2.5">
                         {swapRecord.tokenTo.blockchain && <BlockchainIcon blockchain={swapRecord.tokenTo.blockchain} />}
 
                         {swapRecord.tokenTo.txTemplateUrl ? (
@@ -191,9 +191,10 @@ export const SwapDetailsModal = () => {
                       </div>
                     ))
                     .otherwise(() => (
-                      <div className="flex gap-1.5 text-orange items-center">
+                      <div className="flex items-center gap-1.5 text-orange">
                         <span className="text-sm">{t('routingPanelTransactionToLabelPending')}</span>
-                        <MdRefresh className="w-6 h-6 animate-spin" />
+
+                        <MdRefresh aria-hidden={true} className="h-6 w-6 animate-spin" />
                       </div>
                     ))}
                 </Details.Item>
@@ -270,7 +271,7 @@ export const SwapDetailsModal = () => {
         </Details.Body>
       </Details.Root>
 
-      <div className="flex w-full items-center gap-2 mt-8 px-4">
+      <div className="mt-8 flex w-full items-center gap-2 px-4">
         <Button
           label={t('swapLog')}
           className="w-40"

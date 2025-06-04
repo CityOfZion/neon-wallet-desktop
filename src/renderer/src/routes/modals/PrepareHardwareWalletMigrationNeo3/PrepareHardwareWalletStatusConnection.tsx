@@ -19,20 +19,20 @@ export const PrepareHardwareWalletStatusConnection = ({ searchLabel, status }: T
       {match(status)
         .with('connected', () => (
           <AlertSuccessBanner
-            className="gap-2 text-sm py-4"
+            className="gap-2 py-4 text-sm"
             message={t('connectedMessage')}
             icon={<TbDeviceUsb aria-hidden={true} className="rotate-45" />}
           />
         ))
         .with('not-connected', () => (
           <AlertErrorBanner
-            className="gap-2 text-sm py-4"
+            className="gap-2 py-4 text-sm"
             message={t('notFoundMessage')}
             icon={<TbX aria-hidden={true} />}
           />
         ))
         .otherwise(() => (
-          <SearchingLoader label={searchLabel} icon={<TbHourglass aria-hidden={true} className="w-6 h-6" />} />
+          <SearchingLoader label={searchLabel} icon={<TbHourglass aria-hidden={true} className="h-6 w-6" />} />
         ))}
     </div>
   )

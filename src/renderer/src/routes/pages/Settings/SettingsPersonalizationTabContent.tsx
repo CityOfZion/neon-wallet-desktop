@@ -13,11 +13,11 @@ export const SettingsPersonalizationTabContent = () => {
   const matchRootSettings = useMatch('app/settings')
 
   return (
-    <nav className="flex flex-row justify-between h-15 w-full mb-5 text-[14px]">
-      <ul className="max-w-full w-full">
+    <nav className="mb-5 flex h-15 w-full flex-row justify-between text-[14px]">
+      <ul className="w-full max-w-full">
         <SettingsSidebarLink
           title={t('personalisationOption.networkConfiguration')}
-          icon={<TbCube3dSphere />}
+          icon={<TbCube3dSphere aria-hidden={true} />}
           to="/app/settings/personalisation/network-configuration"
           match={!!matchRootNetworkConfiguration || !!matchRootSettings}
         />

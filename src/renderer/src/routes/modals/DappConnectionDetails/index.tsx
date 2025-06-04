@@ -117,34 +117,34 @@ export const DappConnectionDetailsModal = () => {
     <CenterModalLayout onClose={handleOnClose} contentClassName="items-center justify-center flex flex-col">
       {proposalInformation ? (
         <Fragment>
-          <div className="flex w-full gap-x-12 items-center">
-            <NeonWalletLogo aria-hidden={true} className="w-full h-min" />
+          <div className="flex w-full items-center gap-x-12">
+            <NeonWalletLogo aria-hidden={true} className="h-min w-full" />
 
-            <WalletConnectLogo aria-hidden={true} className="w-full h-min opacity-60" />
+            <WalletConnectLogo aria-hidden={true} className="h-min w-full opacity-60" />
           </div>
 
           <ImageWithFallback
             src={proposal.params.proposer.metadata.icons[0]}
             alt={`${proposal.params.proposer.metadata.name} icon`}
             fallbackSrc={dappFallbackIcon}
-            className="max-h-[2.25rem] max-w-[4rem] object-contain mt-5 rounded-sm "
+            className="mt-5 max-h-[2.25rem] max-w-[4rem] rounded-sm object-contain"
           />
 
-          <p className="text-white text-2xl mt-9">{t('title')}</p>
+          <p className="mt-9 text-2xl text-white">{t('title')}</p>
 
-          <p className="text-gray-100 text-sm mt-6 text-center">
+          <p className="mt-6 text-center text-sm text-gray-100">
             {t('description', { name: proposal.params.proposer.metadata.name })}
           </p>
 
-          <ul className="flex flex-col gap-2 flex-grow  w-full mt-2 overflow-y-auto">
+          <ul className="mt-2 flex w-full flex-grow flex-col gap-2 overflow-y-auto">
             {proposalInformation && (
               <li
                 key={proposalInformation.blockchain}
-                className="w-full flex flex-col bg-gray-900 rounded text-white px-4 py-2.5"
+                className="flex w-full flex-col rounded bg-gray-900 px-4 py-2.5 text-white"
               >
-                <div className="flex justify-between text-sm items-center">
+                <div className="flex items-center justify-between text-sm">
                   <div className="flex items-center gap-x-2.5">
-                    <TbPlug aria-hidden={true} className="stroke-blue w-6 h-6" />
+                    <TbPlug aria-hidden={true} className="h-6 w-6 stroke-blue" />
 
                     <span>{t('connectionDetailsTitle')}</span>
                   </div>
@@ -154,9 +154,9 @@ export const DappConnectionDetailsModal = () => {
 
                 <Separator className="my-2.5" />
 
-                <ul className="text-xs grid max-h-[10rem] overflow-y-scroll grid-cols-2">
+                <ul className="grid max-h-[10rem] grid-cols-2 overflow-y-scroll text-xs">
                   {proposalInformation.methods.map(method => (
-                    <li key={method} className="list-disc w-1/2 mx-4">
+                    <li key={method} className="mx-4 w-1/2 list-disc">
                       {method}
                     </li>
                   ))}
@@ -165,7 +165,7 @@ export const DappConnectionDetailsModal = () => {
             )}
           </ul>
 
-          <div className="flex gap-x-2.5 w-full mt-4 items-end">
+          <div className="mt-4 flex w-full items-end gap-x-2.5">
             <Button
               label="Decline"
               colorSchema="gray"
@@ -178,7 +178,7 @@ export const DappConnectionDetailsModal = () => {
           </div>
         </Fragment>
       ) : (
-        <Loader className="w-10 h-10" />
+        <Loader className="h-10 w-10" />
       )}
     </CenterModalLayout>
   )

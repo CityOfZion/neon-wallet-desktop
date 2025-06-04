@@ -15,7 +15,7 @@ export const AlertErrorBanner = ({ className, message, messageClassName, icon, i
   return (
     <div
       className={StyleHelper.mergeStyles(
-        'bg-magenta-700 text-white rounded flex items-center px-5 py-2.5 gap-5 text-xs',
+        'flex items-center gap-5 rounded bg-magenta-700 px-5 py-2.5 text-xs text-white',
         className
       )}
       {...props}
@@ -27,7 +27,7 @@ export const AlertErrorBanner = ({ className, message, messageClassName, icon, i
       ) : (
         <TbAlertTriangle
           aria-hidden={true}
-          className={StyleHelper.mergeStyles('text-magenta h-6 w-6 min-h-6 min-w-6', iconClassName)}
+          className={StyleHelper.mergeStyles('h-6 min-h-6 w-6 min-w-6 text-magenta', iconClassName)}
         />
       )}
       <span className={messageClassName}>{message}</span>

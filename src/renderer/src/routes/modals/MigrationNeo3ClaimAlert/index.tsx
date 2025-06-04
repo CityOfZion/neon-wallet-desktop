@@ -33,17 +33,17 @@ export const MigrationNeo3ClaimAlertModal = () => {
 
   return (
     <CenterModalLayout contentClassName="flex flex-col items-center px-4 pt-2 pb-8 gap-y-8 flex-grow-0">
-      <h2 className="text-white text-1xl text-center font-semibold">
+      <h2 className="text-center text-1xl font-semibold text-white">
         {t('title', { tokenSymbol: service.claimToken.symbol })}
       </h2>
 
-      <p className="text-center text-gray-100 text-md leading-5">
+      <p className="text-center text-md leading-5 text-gray-100">
         {t('description', { tokenSymbol: service.claimToken.symbol })}
       </p>
 
       <Button
         label={t('buttons.understood')}
-        className="w-full mt-8"
+        className="mt-8 w-full"
         textClassName="text-neon"
         variant="card"
         colorSchema="neon"

@@ -33,11 +33,11 @@ export const SideModalLayout = ({
 
   return (
     <div
-      className={StyleHelper.mergeStyles('bg-gray-800 h-full text-white text-xs flex flex-col', className)}
+      className={StyleHelper.mergeStyles('flex h-full flex-col bg-gray-800 text-xs text-white', className)}
       {...props}
     >
       <header className="flex flex-col px-4">
-        <div className="flex justify-between py-2.5 items-center">
+        <div className="flex items-center justify-between py-2.5">
           {withBackButton && (
             <IconButton
               icon={<MdKeyboardBackspace aria-hidden={true} className="fill-gray-200" />}
@@ -66,7 +66,7 @@ export const SideModalLayout = ({
         <Separator />
       </header>
 
-      <main className={StyleHelper.mergeStyles('flex-grow py-8 px-4 min-h-0 min-w-0', contentClassName)}>
+      <main className={StyleHelper.mergeStyles('min-h-0 min-w-0 flex-grow px-4 py-8', contentClassName)}>
         {children}
       </main>
     </div>

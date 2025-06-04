@@ -65,15 +65,15 @@ const MnemonicOrKeyAccountSelectionAccordion = ({
   return (
     <Accordion.Root className="flex flex-col gap-2.5" type="multiple">
       {mnemonicAccounts.map(([blockchain, accounts]) => (
-        <Accordion.Item key={blockchain} value={blockchain} className="bg-asphalt rounded">
-          <Accordion.Trigger className="border-none ">
-            <div className="flex flex-grow justify-between items-center">
-              <div className="flex px-2 gap-x-2.5 items-center text-sm text-white">
+        <Accordion.Item key={blockchain} value={blockchain} className="rounded bg-asphalt">
+          <Accordion.Trigger className="border-none">
+            <div className="flex flex-grow items-center justify-between">
+              <div className="flex items-center gap-x-2.5 px-2 text-sm text-white">
                 <BlockchainIcon blockchain={blockchain} type="white" />
                 {commonT(`blockchain.${blockchain}`)}
               </div>
 
-              <span className="text-gray-300 text-1xs text-right mr-2 uppercase">
+              <span className="mr-2 text-right text-1xs uppercase text-gray-300">
                 {t('accountsLength', { length: accounts.length })}
               </span>
             </div>
@@ -83,20 +83,20 @@ const MnemonicOrKeyAccountSelectionAccordion = ({
             <div className="px-4">
               <Separator />
             </div>
-            <ul className="flex flex-col px-4 py-2.5 gap-2.5">
+            <ul className="flex flex-col gap-2.5 px-4 py-2.5">
               {accounts.map(account => {
                 const isDisabled = onVerifyAccountExistence?.({ ...account, blockchain }) ?? false
 
                 return (
                   <li
                     key={`${account.address}-${blockchain}`}
-                    className="flex flex-col w-full gap-y-0.5 text-white text-xs"
+                    className="flex w-full flex-col gap-y-0.5 text-xs text-white"
                   >
                     {account.derivationPath && <span className="text-gray-300">{account.derivationPath}</span>}
 
-                    <div className="flex gap-x-2 justify-between items-center">
+                    <div className="flex items-center justify-between gap-x-2">
                       <span
-                        className={StyleHelper.mergeStyles('block truncate min-w-0', { 'text-gray-300': isDisabled })}
+                        className={StyleHelper.mergeStyles('block min-w-0 truncate', { 'text-gray-300': isDisabled })}
                       >
                         {account.address}
                       </span>
@@ -163,7 +163,7 @@ export const MnemonicOrKeyAccountSelection = ({
   }, [mnemonicOrKey])
 
   return (
-    <div className={StyleHelper.mergeStyles('flex flex-col gap-y-2.5 min-h-0 overflow-y-auto w-full', className)}>
+    <div className={StyleHelper.mergeStyles('flex min-h-0 w-full flex-col gap-y-2.5 overflow-y-auto', className)}>
       {isMounting ? (
         <Loader className="text-white" />
       ) : mnemonicAccounts.length > 0 ? (
@@ -174,7 +174,7 @@ export const MnemonicOrKeyAccountSelection = ({
           onVerifyAccountExistence={onVerifyAccountExistence}
         />
       ) : (
-        <p className="w-full text-center text-xs text-gray-100 px-6">{t('noAccountsToImport')}</p>
+        <p className="w-full px-6 text-center text-xs text-gray-100">{t('noAccountsToImport')}</p>
       )}
     </div>
   )

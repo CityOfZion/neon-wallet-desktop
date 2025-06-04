@@ -31,11 +31,11 @@ export const BuyAndSellTokensLeaveAlertModal = () => {
       contentClassName="flex flex-col items-center px-4 pt-4 pb-8 gap-y-8 flex-grow-0"
       {...TestHelper.buildTestObject('buy-and-sell-tokens-leave-alert-modal')}
     >
-      <h2 className="text-white text-xl text-center font-semibold">{t('title')}</h2>
+      <h2 className="text-center text-xl font-semibold text-white">{t('title')}</h2>
 
-      <p className="text-center text-white text-md leading-5">{t('description')}</p>
+      <p className="text-center text-md leading-5 text-white">{t('description')}</p>
 
-      <div className="flex items-center gap-x-4 w-full mt-8">
+      <div className="mt-8 flex w-full items-center gap-x-4">
         <Button
           label={t('buttons.close')}
           className="w-full"

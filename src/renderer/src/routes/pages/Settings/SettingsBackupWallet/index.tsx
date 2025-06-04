@@ -22,9 +22,9 @@ export const SettingsBackupWallet = () => {
     <SettingsLayout title={t('title')}>
       <p className="mb-7 text-xs">{t('description')}</p>
 
-      <p className="uppercase text-gray-100 font-bold text-xs mb-3.5">{t('saveBackupLabel')}</p>
+      <p className="mb-3.5 text-xs font-bold uppercase text-gray-100">{t('saveBackupLabel')}</p>
 
-      <div className="flex flex-col flex-grow gap-y-10">
+      <div className="flex flex-grow flex-col gap-y-10">
         <div className="flex gap-2.5">
           <Input value={selectedFilePath} compacted readOnly containerClassName="max-w-[17rem]" />
 

@@ -50,9 +50,9 @@ export const OverviewCharts = ({
   }, [balances])
 
   return (
-    <div className="flex flex-col flex-grow w-full">
+    <div className="flex w-full flex-grow flex-col">
       {balances.isLoading ? (
-        <Loader className="w-10 h-10" containerClassName="mt-12" />
+        <Loader className="h-10 w-10" containerClassName="mt-12" />
       ) : balances.exchangeTotal !== 0 ? (
         <Fragment key={account?.address}>
           <BalanceChart

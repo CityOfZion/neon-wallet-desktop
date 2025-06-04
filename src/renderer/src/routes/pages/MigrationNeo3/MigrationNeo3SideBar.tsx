@@ -13,11 +13,11 @@ export const MigrationNeo3SideBar = () => {
   const steps = t('steps', { returnObjects: true })
 
   return (
-    <div className="flex flex-col w-[26%] max-w-[24rem] bg-gray-900/50 px-4 border-r border-gray-300/15">
-      <div className="flex gap-2.5 items-center h-12">
-        <MdInfoOutline aria-hidden={true} className="w-6 h-6 text-green" />
+    <div className="flex w-[26%] max-w-[24rem] flex-col border-r border-gray-300/15 bg-gray-900/50 px-4">
+      <div className="flex h-12 items-center gap-2.5">
+        <MdInfoOutline aria-hidden={true} className="h-6 w-6 text-green" />
 
-        <h2 className="text-white text-sm">{t('title')}</h2>
+        <h2 className="text-sm text-white">{t('title')}</h2>
       </div>
 
       <Separator containerClassName="mb-3" />
@@ -30,7 +30,7 @@ export const MigrationNeo3SideBar = () => {
           .otherwise(() => <MdLooks3 />)
 
         return (
-          <div key={index} className="flex flex-col gap-y-3 mt-3">
+          <div key={index} className="mt-3 flex flex-col gap-y-3">
             <div className="flex gap-x-3">
               {cloneElement(icon, {
                 ...icon.props,
@@ -38,7 +38,7 @@ export const MigrationNeo3SideBar = () => {
                 className: 'text-blue h-6 w-6 min-h-6 min-w-6',
               })}
 
-              <p className="text-xs text-white mt-1">{step}</p>
+              <p className="mt-1 text-xs text-white">{step}</p>
             </div>
 
             {!isLast && <Separator />}
@@ -46,18 +46,18 @@ export const MigrationNeo3SideBar = () => {
         )
       })}
 
-      <div className="mt-8 w-full flex flex-grow items-end">
-        <p className="text-xs text-gray-100 italic">{t('fee')}</p>
+      <div className="mt-8 flex w-full flex-grow items-end">
+        <p className="text-xs italic text-gray-100">{t('fee')}</p>
       </div>
 
       <AlertErrorBanner
         message={t('alert')}
-        className="mt-8 bg-magenta-700/50 gap-3 p-3"
+        className="mt-8 gap-3 bg-magenta-700/50 p-3"
         messageClassName="font-normal text-xs leading-4"
         iconClassName="self-start"
       />
 
-      <div className="flex w-full mb-8 mt-12">
+      <div className="mb-8 mt-12 flex w-full">
         <Link
           label={t('buttons.help')}
           to={DISCORD_LINK}

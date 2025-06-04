@@ -25,20 +25,20 @@ export const BuyAndSellTokensAccordionWalletItem = ({ wallet }: TProps) => {
   return (
     <Accordion.Item value={id} className="w-full">
       <Accordion.Trigger
-        className="border-none flex justify-between items-center bg-gray-300/20 rounded gap-x-2"
+        className="flex items-center justify-between gap-x-2 rounded border-none bg-gray-300/20"
         iconClassName="text-white"
       >
         <div>
-          <WalletIcon className="stroke-blue" />
+          <WalletIcon aria-hidden={true} className="stroke-blue" />
         </div>
 
-        <h4 className="text-left text-xs font-semibold text-white flex-grow">{wallet.name}</h4>
+        <h4 className="flex-grow text-left text-xs font-semibold text-white">{wallet.name}</h4>
 
         {balances.isLoading ? (
-          <Loader className="text-gray-300 w-4 h-4" containerClassName="w-fit" />
+          <Loader className="h-4 w-4 text-gray-300" containerClassName="w-fit" />
         ) : (
           <Tooltip title={total}>
-            <span className="text-gray-300 text-xs truncate max-w-[100px] text-right uppercase whitespace-nowrap">
+            <span className="max-w-[100px] truncate whitespace-nowrap text-right text-xs uppercase text-gray-300">
               {total}
             </span>
           </Tooltip>

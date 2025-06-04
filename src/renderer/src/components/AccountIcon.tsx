@@ -13,10 +13,10 @@ type TAccountBlockchainCircleProps = {
 }
 
 const AccountBlockchainCircle = ({ blockchain }: TAccountBlockchainCircleProps) => (
-  <div className="w-4.5 h-4.5 flex items-center justify-center relative">
-    <div className="w-full h-full rounded-full bg-asphalt mix-blend-overlay absolute" />
+  <div className="relative flex h-4.5 w-4.5 items-center justify-center">
+    <div className="absolute h-full w-full rounded-full bg-asphalt mix-blend-overlay" />
 
-    <BlockchainIcon blockchain={blockchain} type="white" className="w-2.5 h-2.5" />
+    <BlockchainIcon blockchain={blockchain} type="white" className="h-2.5 w-2.5" />
   </div>
 )
 
@@ -26,7 +26,7 @@ const AccountIconColor = ({ account }: TProps) => {
   if (!color) return null
 
   return (
-    <div className={`flex w-full h-full items-center justify-center relative ${color}`}>
+    <div className={`relative flex h-full w-full items-center justify-center ${color}`}>
       <AccountBlockchainCircle blockchain={account.blockchain} />
     </div>
   )
@@ -38,8 +38,8 @@ const AccountIconNFT = ({ account }: TProps) => {
   if (!imgUrl) return null
 
   return (
-    <div className="flex w-full h-full items-center justify-center relative bg-gray-300/30">
-      <img aria-hidden={true} src={imgUrl} alt="" className="w-full h-full object-cover absolute inset-0 m-auto" />
+    <div className="relative flex h-full w-full items-center justify-center bg-gray-300/30">
+      <img aria-hidden={true} src={imgUrl} alt="" className="absolute inset-0 m-auto h-full w-full object-cover" />
 
       <AccountBlockchainCircle blockchain={account.blockchain} />
     </div>
@@ -52,7 +52,7 @@ const AccountIconLocal = ({ account }: TProps) => {
   if (!component) return null
 
   return (
-    <div className="flex w-full h-full items-center justify-center relative">
+    <div className="relative flex h-full w-full items-center justify-center">
       {cloneElement(component, {
         'aria-hidden': true,
         className: 'w-full h-full object-cover absolute inset-0 m-auto',
@@ -65,7 +65,7 @@ const AccountIconLocal = ({ account }: TProps) => {
 
 export const AccountIcon = ({ account }: TProps) => {
   return (
-    <div className="w-10 h-6 min-w-10 min-h-6 min-w-10 max-h-6 rounded-sm shadow-sm overflow-hidden">
+    <div className="h-6 max-h-6 min-h-6 w-10 min-w-10 overflow-hidden rounded-sm shadow-sm">
       {account.skin.type === 'nft' ? (
         <AccountIconNFT account={account} />
       ) : account.skin.type === 'local' ? (

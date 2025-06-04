@@ -14,11 +14,11 @@ export const SettingsSecurityTabContent = () => {
   const disabled = currentLoginSession?.type !== 'password'
 
   return (
-    <nav className="flex flex-row justify-between h-15 w-full mb-5 text-[14px]">
-      <ul className="max-w-full w-full">
+    <nav className="mb-5 flex h-15 w-full flex-row justify-between text-[14px]">
+      <ul className="w-full max-w-full">
         <SettingsSidebarLink
           title={t('securityOption.changePassword')}
-          icon={<MdOutlineLock />}
+          icon={<MdOutlineLock aria-hidden={true} />}
           to="/app/settings/security/change-password"
           match={!!matchRootEncryptKey}
           disabled={disabled}

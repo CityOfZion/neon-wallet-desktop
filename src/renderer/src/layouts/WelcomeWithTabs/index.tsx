@@ -15,16 +15,16 @@ export const WelcomeWithTabsLayout = ({ tabItemSelected, children, contentClassN
   const { t } = useTranslation('layouts', { keyPrefix: 'welcomeWithTabs' })
 
   return (
-    <section className="flex justify-center items-center w-screen h-screen-minus-drag-region bg-asphalt">
+    <section className="flex h-screen-minus-drag-region w-screen items-center justify-center bg-asphalt">
       <div
         className={StyleHelper.mergeStyles(
-          'flex flex-col items-center w-full h-full bg-gray-800 max-h-[38.375rem] max-w-[32rem] pb-10 pt-11 px-16 rounded relative',
+          'relative flex h-full max-h-[38.375rem] w-full max-w-[32rem] flex-col items-center rounded bg-gray-800 px-16 pb-10 pt-11',
           contentClassName
         )}
       >
-        <NeonWalletFullImage />
+        <NeonWalletFullImage aria-hidden={true} />
 
-        <h1 className="text-2xl text-white mt-6">{t('welcomeTo')}</h1>
+        <h1 className="mt-6 text-2xl text-white">{t('welcomeTo')}</h1>
 
         <WelcomeTabs defaultValue={tabItemSelected} />
 

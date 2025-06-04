@@ -22,7 +22,7 @@ export const GreyAmountInput = forwardRef<HTMLInputElement, TProps>(
     return (
       <div
         className={StyleHelper.mergeStyles(
-          'h-8.5 bg-gray-300/15 rounded w-36 aria-disabled:opacity-50 aria-disabled:cursor-not-allowed items-center justify-center flex text-sm',
+          'flex h-8.5 w-36 items-center justify-center rounded bg-gray-300/15 text-sm aria-disabled:cursor-not-allowed aria-disabled:opacity-50',
           className
         )}
         aria-disabled={isDisabled}
@@ -34,7 +34,7 @@ export const GreyAmountInput = forwardRef<HTMLInputElement, TProps>(
             <FieldActionsMenu value={value ?? ''} disabled={isDisabled} readOnly={readOnly} onChange={onChange}>
               <input
                 className={StyleHelper.mergeStyles(
-                  'w-full h-full px-2 bg-transparent outline-none disabled:cursor-not-allowed [appearance:textfield] text-neon text-center',
+                  'h-full w-full bg-transparent px-2 text-center text-neon outline-none [appearance:textfield] disabled:cursor-not-allowed',
                   inputClassName
                 )}
                 ref={ref}

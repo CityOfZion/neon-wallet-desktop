@@ -70,11 +70,11 @@ export const SellTokensContent = ({
             textClassName="font-normal"
             colorSchema={isIframeLoading ? 'gray' : 'neon'}
             disabled={isIframeLoading}
-            leftIcon={<MdRestartAlt aria-hidden={true} className="w-5 h-5 min-w-5 min-h-5" />}
+            leftIcon={<MdRestartAlt aria-hidden={true} className="h-5 min-h-5 w-5 min-w-5" />}
             onClick={handleRestart}
           />
 
-          <Separator containerClassName="w-0 h-full" className="w-px h-7" />
+          <Separator containerClassName="w-0 h-full" className="h-7 w-px" />
 
           <Button
             label={t('buttons.deposit')}
@@ -82,7 +82,7 @@ export const SellTokensContent = ({
             variant="text-slim"
             colorSchema={isIframeLoading ? 'gray' : 'neon'}
             disabled={isIframeLoading}
-            rightIcon={<MdChevronRight aria-hidden={true} className="w-5 h-5 min-w-5 min-h-5" />}
+            rightIcon={<MdChevronRight aria-hidden={true} className="h-5 min-h-5 w-5 min-w-5" />}
             onClick={modalNavigateWrapper('sell-tokens-deposit', {
               state: { account, depositActionsData, setDepositActionsData },
             })}
@@ -91,9 +91,9 @@ export const SellTokensContent = ({
       }
       {...props}
     >
-      <div className="buy-and-sell-tokens-iframe-container my-4">
+      <div className="my-4 buy-and-sell-tokens-iframe-container">
         {hasIframeError ? (
-          <p className="text-white text-center text-xl mx-auto p-4">{t('error')}</p>
+          <p className="mx-auto p-4 text-center text-xl text-white">{t('error')}</p>
         ) : (
           <iframe
             src={`${url}&redirectUrl=${url}&confirmRedirectUrl${url}&reloadId=${iframeId}`}

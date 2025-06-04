@@ -50,8 +50,12 @@ export const NetworkSelection = () => {
   }, [network])
 
   return (
-    <SideModalLayout heading={t('title')} headingIcon={<TbCube3dSphere />} contentClassName="px-0 flex flex-col">
-      <div className="flex-grow min-h-0 overflow-auto ">
+    <SideModalLayout
+      heading={t('title')}
+      headingIcon={<TbCube3dSphere aria-hidden={true} />}
+      contentClassName="px-0 flex flex-col"
+    >
+      <div className="min-h-0 flex-grow overflow-auto">
         <span className="mb-5 block px-4 text-gray-300">{t('selectNetwork')}</span>
 
         <RadioGroup.Group value={selectedNetwork.id} onValueChange={onSelectRadioItem}>
@@ -59,7 +63,7 @@ export const NetworkSelection = () => {
             <RadioGroup.Item key={network.id} value={network.id}>
               <div className="flex items-center gap-4">
                 <div
-                  className={`w-[0.375rem] h-[0.375rem] min-w-[0.375rem] min-h-[0.375rem] rounded-full ${NetworkHelper.getColorByNetwork(network, blockchain)}`}
+                  className={`h-[0.375rem] min-h-[0.375rem] w-[0.375rem] min-w-[0.375rem] rounded-full ${NetworkHelper.getColorByNetwork(network, blockchain)}`}
                 />
                 <label>{network.name}</label>
               </div>
@@ -75,8 +79,8 @@ export const NetworkSelection = () => {
           {NetworkHelper.isCustom(blockchain, selectedNetwork) && (
             <Button
               label={t('editCustomNetworkButtonLabel')}
-              rightIcon={<TbPencil />}
-              className="px-4 mb-2.5"
+              rightIcon={<TbPencil aria-hidden={true} />}
+              className="mb-2.5 px-4"
               flat
               colorSchema="gray"
               variant="outlined"
@@ -87,8 +91,8 @@ export const NetworkSelection = () => {
 
           <Button
             label={t('addCustomNetworkButtonLabel')}
-            rightIcon={<TbPlus />}
-            className="px-4 mb-2.5"
+            rightIcon={<TbPlus aria-hidden={true} />}
+            className="mb-2.5 px-4"
             flat
             variant="outlined"
             iconsOnEdge={false}

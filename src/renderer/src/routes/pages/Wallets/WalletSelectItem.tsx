@@ -23,16 +23,16 @@ export const WalletSelectItem = ({ wallet }: TProps) => {
   return (
     <Select.Item
       value={wallet.id}
-      className="border-l-transparent border-l-4 pl-4 cursor-pointer hover:border-l-neon transition-colors data-[state=checked]:border-l-neon"
+      className="cursor-pointer border-l-4 border-l-transparent pl-4 transition-colors hover:border-l-neon data-[state=checked]:border-l-neon"
     >
-      <div className={StyleHelper.mergeStyles('flex items-center gap-x-1 min-w-0')}>
+      <div className={StyleHelper.mergeStyles('flex min-w-0 items-center gap-x-1')}>
         <WalletIcon wallet={wallet} />
 
-        <div className="flex flex-col flex-grow min-w-0 gap-x-2">
-          <p className="text-xs text-gray-100 truncate">{wallet.name}</p>
+        <div className="flex min-w-0 flex-grow flex-col gap-x-2">
+          <p className="truncate text-xs text-gray-100">{wallet.name}</p>
 
           <Tooltip title={exchangeTotalFormatted}>
-            <span className="block w-fit max-w-full text-sm text-white truncate">{exchangeTotalFormatted}</span>
+            <span className="block w-fit max-w-full truncate text-sm text-white">{exchangeTotalFormatted}</span>
           </Tooltip>
         </div>
       </div>

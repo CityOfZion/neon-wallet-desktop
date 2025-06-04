@@ -9,3 +9,4 @@ arrowParens: avoid
 bracketSpacing: true
 bracketSameLine: false
 endOfLine: lf
+plugins: ['prettier-plugin-tailwindcss']

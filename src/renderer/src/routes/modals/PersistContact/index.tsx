@@ -97,12 +97,12 @@ export const PersistContactModal = () => {
   return (
     <SideModalLayout
       heading={contact ? t('editContact') : t('addContact')}
-      headingIcon={contact ? <TbPencil /> : <TbPlus />}
+      headingIcon={contact ? <TbPencil aria-hidden={true} /> : <TbPlus aria-hidden={true} />}
     >
-      <form onSubmit={handleAct(handleSubmit)} className="flex flex-col justify-between h-full">
+      <form onSubmit={handleAct(handleSubmit)} className="flex h-full flex-col justify-between">
         <div className="flex flex-col gap-y-6">
           <div>
-            <div className="text-gray-100 font-bold pb-2">{t('name')}</div>
+            <div className="pb-2 font-bold text-gray-100">{t('name')}</div>
             <Input
               testId="input-contact-name"
               placeholder={t('enterAName')}
@@ -115,22 +115,22 @@ export const PersistContactModal = () => {
           </div>
 
           <div className="flex flex-col">
-            <div className="text-gray-100 font-bold pb-4">{t('addresses')}</div>
+            <div className="pb-4 font-bold text-gray-100">{t('addresses')}</div>
 
             <div>
               {actionData.addresses.map((address, index) => (
                 <div
                   key={index}
-                  className="flex items-center pl-3 pr-2 justify-between h-8.5 rounded bg-asphalt w-full mb-5"
+                  className="mb-5 flex h-8.5 w-full items-center justify-between rounded bg-asphalt pl-3 pr-2"
                 >
-                  <div className="flex items-center gap-x-3 flex-grow min-w-0">
+                  <div className="flex min-w-0 flex-grow items-center gap-x-3">
                     <BlockchainIcon blockchain={address.blockchain} type="white" className="h-3 min-h-3 w-3 min-w-3" />
                     <span {...TestHelper.buildTestObject('contact-address-text')} className="truncate">
                       {address.address}
                     </span>
                   </div>
                   <IconButton
-                    icon={<TbPencil className="text-blue h-5 w-5" />}
+                    icon={<TbPencil aria-hidden={true} className="h-5 w-5 text-blue" />}
                     compacted
                     type="button"
                     onClick={() => openAddAddressModal(address, index)}
@@ -138,7 +138,7 @@ export const PersistContactModal = () => {
                     {...TestHelper.buildTestObject('edit-contact-address-button')}
                   />
                   <IconButton
-                    icon={<MdDeleteForever className="text-pink h-5 w-5" />}
+                    icon={<MdDeleteForever aria-hidden={true} className="h-5 w-5 text-pink" />}
                     compacted
                     type="button"
                     onClick={modalNavigateWrapper('delete-contact', {
@@ -171,7 +171,7 @@ export const PersistContactModal = () => {
               )}
 
               {actionState.errors.addresses && (
-                <div {...TestHelper.buildTestObject('error-message-contact-address')} className="text-pink py-1">
+                <div {...TestHelper.buildTestObject('error-message-contact-address')} className="py-1 text-pink">
                   {actionState.errors.addresses}
                 </div>
               )}
@@ -198,7 +198,7 @@ export const PersistContactModal = () => {
 
         <div className="flex flex-col gap-y-4">
           {contact && (
-            <div className="flex flex-col pt-2 gap-y-4">
+            <div className="flex flex-col gap-y-4 pt-2">
               <Separator />
               <Button
                 label={t('deleteContact.title')}

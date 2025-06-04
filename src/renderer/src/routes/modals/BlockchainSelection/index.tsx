@@ -40,7 +40,7 @@ export const BlockchainSelectionModal = () => {
     <SideModalLayout heading={heading} headingIcon={headingIcon} contentClassName="flex flex-col">
       {subtitle && (
         <Fragment>
-          <p className="text-gray-100 text-xs">{subtitle}</p>
+          <p className="text-xs text-gray-100">{subtitle}</p>
 
           <Separator className="my-7" />
         </Fragment>
@@ -48,8 +48,8 @@ export const BlockchainSelectionModal = () => {
 
       <p>{description}</p>
 
-      <form className="flex flex-col flex-grow mt-6" onSubmit={handleSubmit}>
-        <div className="flex flex-col flex-grow gap-2.5 h-0 min-h-0">
+      <form className="mt-6 flex flex-grow flex-col" onSubmit={handleSubmit}>
+        <div className="flex h-0 min-h-0 flex-grow flex-col gap-2.5">
           <RadioGroup.Group
             value={selectedBlockchain}
             onValueChange={handleSelectRadioItem}
@@ -59,7 +59,7 @@ export const BlockchainSelectionModal = () => {
               <RadioGroup.Item
                 key={index}
                 value={service}
-                className="h-12 rounded bg-asphalt border-none mb-2.5"
+                className="mb-2.5 h-12 rounded border-none bg-asphalt"
                 withSeparator={false}
               >
                 <div className="flex items-center gap-4">

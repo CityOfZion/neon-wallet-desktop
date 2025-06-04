@@ -28,13 +28,13 @@ export const SendSuccessModalContentItem = ({ order, transaction }: TProps) => {
 
   return (
     <li>
-      <div className="text-blue text-xs py-1.5 px-3.5 bg-gray-300/15">{t('transactionNumber', { order })}</div>
+      <div className="bg-gray-300/15 px-3.5 py-1.5 text-xs text-blue">{t('transactionNumber', { order })}</div>
 
-      <div className="flex flex-col gap-2.5 py-4 px-3">
-        <span className="text-xs text-gray-100 uppercase">{t('recipientLabel')}</span>
+      <div className="flex flex-col gap-2.5 px-3 py-4">
+        <span className="text-xs uppercase text-gray-100">{t('recipientLabel')}</span>
 
-        <div className="flex gap-6 w-full">
-          <span className="text-sm text-white break-all flex-grow">
+        <div className="flex w-full gap-6">
+          <span className="flex-grow break-all text-sm text-white">
             {contact?.name ?? transaction.toAccount?.name ?? transaction.to}
           </span>
 
@@ -51,10 +51,10 @@ export const SendSuccessModalContentItem = ({ order, transaction }: TProps) => {
         {!contact && (
           <Button
             label={t('saveContactButtonLabel')}
-            className="w-min -ml-2"
+            className="-ml-2 w-min"
             variant="text"
             flat
-            leftIcon={<TbUsers />}
+            leftIcon={<TbUsers aria-hidden={true} />}
             iconsOnEdge={false}
             onClick={modalNavigateWrapper('persist-contact', {
               state: {
@@ -67,23 +67,23 @@ export const SendSuccessModalContentItem = ({ order, transaction }: TProps) => {
 
       <Separator />
 
-      <div className="flex flex-col gap-2.5 py-4 px-3">
-        <span className="text-xs text-gray-100 uppercase">{t('amountLabel')}</span>
+      <div className="flex flex-col gap-2.5 px-3 py-4">
+        <span className="text-xs uppercase text-gray-100">{t('amountLabel')}</span>
 
-        <span className="text-sm text-white break-all">
+        <span className="break-all text-sm text-white">
           {transaction.amount} <span className="text-gray-100">{transaction.asset}</span>
         </span>
       </div>
 
       <Separator />
 
-      <div className="flex flex-col gap-2.5 py-4 px-3">
-        <span className="text-xs text-gray-100 uppercase">{t('transactionHashLabel')}</span>
+      <div className="flex flex-col gap-2.5 px-3 py-4">
+        <span className="text-xs uppercase text-gray-100">{t('transactionHashLabel')}</span>
 
         <div className="flex gap-6">
-          <span className="text-sm text-white break-all">{transaction.hash}</span>
+          <span className="break-all text-sm text-white">{transaction.hash}</span>
           <IconButton
-            icon={<MdOutlineContentCopy className="text-neon" />}
+            icon={<MdOutlineContentCopy aria-hidden={true} className="text-neon" />}
             size="md"
             onClick={() => UtilsHelper.copyToClipboard(transaction.hash)}
             compacted

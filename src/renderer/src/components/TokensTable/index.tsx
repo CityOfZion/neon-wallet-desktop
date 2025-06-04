@@ -35,7 +35,7 @@ export const TokensTable = forwardRef<HTMLDivElement, TProps>(
     return (
       <section
         className={StyleHelper.mergeStyles(
-          'overflow-auto flex flex-col min-h-0 w-full flex-grow mt-4 min-w-0',
+          'mt-4 flex min-h-0 w-full min-w-0 flex-grow flex-col overflow-auto',
           containerClassName
         )}
         ref={ref}
@@ -43,7 +43,7 @@ export const TokensTable = forwardRef<HTMLDivElement, TProps>(
         {match({ isLoading, data })
           .with({ isLoading: true }, () => <Loader containerClassName="mt-4 flex-grow items-center" />)
           .with({ data: P.when(it => it.length === 0) }, () => (
-            <div className="flex justify-center mt-4">
+            <div className="mt-4 flex justify-center">
               <p className="text-gray-300">{t('components:tokensTable.empty')}</p>
             </div>
           ))

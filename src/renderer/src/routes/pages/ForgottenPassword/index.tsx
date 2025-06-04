@@ -10,8 +10,8 @@ export const ForgottenPasswordPage = () => {
 
   return (
     <WelcomeLayout heading={t('title')} withBackButton className="flex-col justify-between">
-      <div className="flex flex-col gap-y-8 justify-center flex-grow max-w-[308px]">
-        <p className="text-white text-xl text-center">{t('text')}</p>
+      <div className="flex max-w-[308px] flex-grow flex-col justify-center gap-y-8">
+        <p className="text-center text-xl text-white">{t('text')}</p>
 
         <Banner type="warning" message={t('alertCard.text')} textClassName="py-4" iconClassName="text-orange" />
       </div>

@@ -35,14 +35,14 @@ export const AccountNftList = () => {
 
   return (
     <AccountDetailsLayout heading={t('title')}>
-      <div className="w-full flex flex-col flex-grow text-xs min-h-0 gap-2">
+      <div className="flex min-h-0 w-full flex-grow flex-col gap-2 text-xs">
         {isLoading ? (
           <div className="flex flex-grow items-center">
             <Loader className="mt-5" />
           </div>
         ) : (
           <Fragment>
-            <div className="flex items-center justify-start gap-1 my-5">
+            <div className="my-5 flex items-center justify-start gap-1">
               <IconButton
                 aria-selected={selectedViewOption === ENftViewOption.LIST}
                 aria-label={t('listLabel')}
@@ -61,12 +61,12 @@ export const AccountNftList = () => {
                 size="md"
               />
 
-              <p className="text-gray-300 text-sm ml-2">{t('total', { length: aggregatedData.length })}</p>
+              <p className="ml-2 text-sm text-gray-300">{t('total', { length: aggregatedData.length })}</p>
             </div>
 
-            <div className="overflow-y-auto w-full flex flex-col flex-grow min-h-0" onScroll={handleScroll} ref={ref}>
+            <div className="flex min-h-0 w-full flex-grow flex-col overflow-y-auto" onScroll={handleScroll} ref={ref}>
               {aggregatedData.length === 0 ? (
-                <div className="flex justify-center mt-4">
+                <div className="mt-4 flex justify-center">
                   <p className="text-gray-300">{t('empty')}</p>
                 </div>
               ) : selectedViewOption === ENftViewOption.LIST ? (

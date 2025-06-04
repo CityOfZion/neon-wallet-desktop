@@ -73,15 +73,15 @@ export const Neo3ContractInvocationDappPermission = ({
   }, [t, params])
 
   return (
-    <div className="flex flex-col min-h-0 overflow-y-auto pr-2 pl-5">
+    <div className="flex min-h-0 flex-col overflow-y-auto pl-5 pr-2">
       <DappPermissionHeader session={session} />
 
       <div className="flex flex-col items-center">
-        <p className="text-white text-2xl mt-9 text-center">{title}</p>
+        <p className="mt-9 text-center text-2xl text-white">{title}</p>
 
-        <p className="text-gray-100 text-sm my-5">{t('subtitle')}</p>
+        <p className="my-5 text-sm text-gray-100">{t('subtitle')}</p>
 
-        <ul className="flex flex-col w-full gap-2.5">
+        <ul className="flex w-full flex-col gap-2.5">
           {params.invocations.map((invocation, index) => (
             <li key={`invocations-${index}`} className="w-full">
               <Invocation invocation={invocation} session={session} blockchain={sessionInfo.blockchain} />
@@ -89,7 +89,7 @@ export const Neo3ContractInvocationDappPermission = ({
           ))}
         </ul>
 
-        <div className="px-4 pt-3 pb-5 mt-2.5 bg-asphalt text-gray-100 rounded w-full text-sm">
+        <div className="mt-2.5 w-full rounded bg-asphalt px-4 pb-5 pt-3 text-sm text-gray-100">
           {params.signers && (
             <Fragment>
               <ul className="flex flex-col gap-2">
@@ -99,7 +99,7 @@ export const Neo3ContractInvocationDappPermission = ({
                   </li>
                 ))}
               </ul>
-              <Separator className="mt-3 mb-4" />
+              <Separator className="mb-4 mt-3" />
             </Fragment>
           )}
 
@@ -111,7 +111,7 @@ export const Neo3ContractInvocationDappPermission = ({
         <DappPermissionContextualMessage contextualMessage={String(contextualMessage).trim()} />
       )}
 
-      <div className="flex gap-2.5 px-10 mt-8 pb-10 z-50 ">
+      <div className="z-50 mt-8 flex gap-2.5 px-10 pb-10">
         <Button label={t('cancelButtonLabel')} colorSchema="gray" onClick={() => onReject()} />
         <Button
           label={t('acceptButtonLabel')}

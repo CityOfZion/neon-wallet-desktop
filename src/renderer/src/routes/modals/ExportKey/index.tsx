@@ -42,23 +42,27 @@ export const ExportKeyModal = () => {
   }
 
   return (
-    <SideModalLayout heading={t('title')} headingIcon={<TbUpload />} contentClassName="flex flex-col items-center">
-      <div className="flex w-full px-3 bg-gray-300/15 rounded min-h-[2rem] justify-center">
-        <p className="text-center text-xs p-2">{StringHelper.truncateStringMiddle(account.name, 45)}</p>
+    <SideModalLayout
+      heading={t('title')}
+      headingIcon={<TbUpload aria-hidden={true} />}
+      contentClassName="flex flex-col items-center"
+    >
+      <div className="flex min-h-[2rem] w-full justify-center rounded bg-gray-300/15 px-3">
+        <p className="p-2 text-center text-xs">{StringHelper.truncateStringMiddle(account.name, 45)}</p>
       </div>
 
-      <span className="text-center px-9 text-xs text-gray-100 pt-4">{t('subtitle')}</span>
-      <div className="flex rounded-md justify-center mt-8 border-asphalt border-4">
-        <div ref={ref} className="rounded overflow-hidden">
+      <span className="px-9 pt-4 text-center text-xs text-gray-100">{t('subtitle')}</span>
+      <div className="mt-8 flex justify-center rounded-md border-4 border-asphalt">
+        <div ref={ref} className="overflow-hidden rounded">
           <QRCodeSVG id="QRCode" size={174} value={decryptedKey} includeMargin />
         </div>
       </div>
 
       <Separator className="my-8" />
 
-      <div className="min-w-[200px] w-full flex flex-col bg-gray-900 rounded py-2.5 px-3 text-sm overflow-hidden">
-        <div className="flex items-center gap-x-2 mb-2.5">
-          <TbReceipt className="w-6 h-6 text-blue" />
+      <div className="flex w-full min-w-[200px] flex-col overflow-hidden rounded bg-gray-900 px-3 py-2.5 text-sm">
+        <div className="mb-2.5 flex items-center gap-x-2">
+          <TbReceipt aria-hidden={true} className="h-6 w-6 text-blue" />
 
           <div className="text-sm">{t('keyDetailsTitle')}</div>
         </div>
@@ -66,14 +70,14 @@ export const ExportKeyModal = () => {
         <Separator />
 
         <div className="flex flex-col">
-          <span className="pt-8 pb-6 px-3 text-wrap break-all">{decryptedKey}</span>
+          <span className="text-wrap break-all px-3 pb-6 pt-8">{decryptedKey}</span>
         </div>
       </div>
 
-      <div className="flex mt-2.5">
+      <div className="mt-2.5 flex">
         <Button
           variant="text"
-          leftIcon={<MdContentCopy />}
+          leftIcon={<MdContentCopy aria-hidden={true} />}
           label={t('copyButtonLabel')}
           onClick={handleCopy}
           clickableProps={{ className: 'px-4' }}

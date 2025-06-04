@@ -10,18 +10,18 @@ export const ForgottenPasswordSuccessPage: React.FC = () => {
 
   return (
     <WelcomeLayout heading={t('title')}>
-      <div className="flex flex-col h-full text-center gap-y-6 items-center max-w-[280px]">
+      <div className="flex h-full max-w-[280px] flex-col items-center gap-y-6 text-center">
         <SuccessIcon />
 
-        <p className="text-white text-xl">{t('text')}</p>
-        <p className="text-gray-300 text-sm flex-grow">{t('description')}</p>
+        <p className="text-xl text-white">{t('text')}</p>
+        <p className="flex-grow text-sm text-gray-300">{t('description')}</p>
 
         <Link
           to="/login-password"
           label={t('goToWelcome')}
           colorSchema="neon"
           variant="contained"
-          className="w-full max-w-[250px] mx-auto"
+          className="mx-auto w-full max-w-[250px]"
           {...TestHelper.buildTestObject('forgotten-password-success-go-to-welcome')}
         />
       </div>

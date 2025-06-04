@@ -16,21 +16,21 @@ export const SettingsReleaseNotesPage = () => {
       <ul className="flex flex-col gap-10">
         {releaseNotes.map(item => (
           <li key={item.version}>
-            <span className="text-gray-300 block text-xs mb-1">{item.date}</span>
-            <span className="text-white block text-lg mb-2">
+            <span className="mb-1 block text-xs text-gray-300">{item.date}</span>
+            <span className="mb-2 block text-lg text-white">
               {changelogT('versionLabel', { version: item.version })}
             </span>
 
             <ul>
               {item.changes.map((item, index) => (
-                <li key={`changelog-item-${index}`} className="list-disc list-inside text-gray-100 text-xs">
+                <li key={`changelog-item-${index}`} className="list-inside list-disc text-xs text-gray-100">
                   {item}
                 </li>
               ))}
             </ul>
 
             {item.url && (
-              <div className="w-40 mt-6">
+              <div className="mt-6 w-40">
                 <Link
                   target="_blank"
                   to={item.url}

@@ -25,26 +25,26 @@ export const ReceivePageContent = ({ account }: TProps) => {
   }
 
   return (
-    <section className="bg-gray-800 w-full flex-grow flex flex-col rounded text-xs items-center py-10">
-      <div className="max-w-[32rem] w-full flex flex-col items-center flex-grow">
+    <section className="flex w-full flex-grow flex-col items-center rounded bg-gray-800 py-10 text-xs">
+      <div className="flex w-full max-w-[32rem] flex-grow flex-col items-center">
         <ActionStep
-          className="bg-gray-700/60 rounded  px-4"
+          className="rounded bg-gray-700/60 px-4"
           title={t('receivingAccountTitle')}
-          leftIcon={<TbStepInto />}
+          leftIcon={<TbStepInto aria-hidden={true} />}
         >
           <GreyAccountSelect onSelect={setSelectedAccount} selectedAccount={selectedAccount} />
         </ActionStep>
 
-        <div className="bg-gray-700/60 flex flex-col rounded px-3 mt-2 w-full items-center">
-          <div className="flex justify-between my-2.5 w-full">
+        <div className="mt-2 flex w-full flex-col items-center rounded bg-gray-700/60 px-3">
+          <div className="my-2.5 flex w-full justify-between">
             <div className="flex items-center gap-3">
-              <TbStepInto className="text-blue w-5 h-5" />
+              <TbStepInto aria-hidden={true} className="h-5 w-5 text-blue" />
               <span className="font-bold">{t('yourReceivingAddress')}</span>
             </div>
 
             {!selectedAccount && (
               <div className="flex items-center">
-                <span className="text-gray-300 mr-3">{t('selectAccountToGenerateCode')}</span>
+                <span className="mr-3 text-gray-300">{t('selectAccountToGenerateCode')}</span>
               </div>
             )}
           </div>
@@ -61,7 +61,7 @@ export const ReceivePageContent = ({ account }: TProps) => {
           />
 
           <div
-            className={StyleHelper.mergeStyles('border-4 rounded my-6', {
+            className={StyleHelper.mergeStyles('my-6 rounded border-4', {
               'border-white': selectedAccount?.address,
               'border-gray-700 bg-gray-800 p-4': !selectedAccount?.address,
             })}
@@ -69,7 +69,7 @@ export const ReceivePageContent = ({ account }: TProps) => {
             {selectedAccount?.address ? (
               <QRCodeSVG id="QRCode" size={172} value={selectedAccount?.address} includeMargin />
             ) : (
-              <TbQrcode className="text-green-700 w-[140px] h-[140px]" />
+              <TbQrcode aria-hidden={true} className="h-[140px] w-[140px] text-green-700" />
             )}
           </div>
         </div>

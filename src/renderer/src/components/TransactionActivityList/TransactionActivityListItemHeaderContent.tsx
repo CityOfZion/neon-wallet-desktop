@@ -74,8 +74,8 @@ export const TransactionActivityListItemHeaderContent = ({
   }
 
   return (
-    <div className="bg-asphalt w-full flex items-center justify-between rounded px-1 gap-x-2 h-full">
-      <div className="flex items-center gap-x-2 whitespace-nowrap truncate" onClick={handleCancelBubbleEvent}>
+    <div className="flex h-full w-full items-center justify-between gap-x-2 rounded bg-asphalt px-1">
+      <div className="flex items-center gap-x-2 truncate whitespace-nowrap" onClick={handleCancelBubbleEvent}>
         <TransactionActivityListItemHeaderDetails
           label={format(date, t('formatFullDateTime'))}
           data={format(date, t('formatHourMinutes'))}
@@ -116,7 +116,7 @@ export const TransactionActivityListItemHeaderContent = ({
 
                 {systemFeeAmount && NumberHelper.isBiggerThanZero(systemFeeAmount) && (
                   <TransactionActivityListTooltip data={t('systemFeeAmountLabel', { systemFeeAmount })}>
-                    <span className="text-gray-100 whitespace-break-spaces">{` | ${StringHelper.truncateString(systemFeeAmount, 12)}`}</span>
+                    <span className="whitespace-break-spaces text-gray-100">{` | ${StringHelper.truncateString(systemFeeAmount, 12)}`}</span>
                   </TransactionActivityListTooltip>
                 )}
               </div>
@@ -138,7 +138,7 @@ export const TransactionActivityListItemHeaderContent = ({
         )}
       </div>
 
-      <div className="flex items-center gap-x-2 whitespace-nowrap truncate">
+      <div className="flex items-center gap-x-2 truncate whitespace-nowrap">
         {(migrationNeo3 || swapRecord) && (
           <div className="flex items-center gap-x-2" onClick={handleCancelBubbleEvent}>
             {migrationNeo3 && (
@@ -167,7 +167,7 @@ export const TransactionActivityListItemHeaderContent = ({
           </div>
         )}
 
-        <div className="text-gray-300 flex items-center gap-x-1" onClick={handleCancelBubbleEvent}>
+        <div className="flex items-center gap-x-1 text-gray-300" onClick={handleCancelBubbleEvent}>
           <TransactionActivityListTooltip data={txId}>
             <span>
               {t('txIdLabel')} <span className="text-gray-100">{StringHelper.truncateStringStart(txId, 8)}</span>
@@ -186,7 +186,7 @@ export const TransactionActivityListItemHeaderContent = ({
         </div>
 
         {!!txIdUrl && (
-          <TbChevronRight aria-hidden className="w-4 min-w-4 max-w-4 h-4 min-h-4 max-h-4 text-neon -ml-1" />
+          <TbChevronRight aria-hidden className="-ml-1 h-4 max-h-4 min-h-4 w-4 min-w-4 max-w-4 text-neon" />
         )}
       </div>
     </div>

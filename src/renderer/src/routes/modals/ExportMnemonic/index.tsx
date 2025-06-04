@@ -39,20 +39,24 @@ export const ExportMnemonic = () => {
   })
 
   return (
-    <SideModalLayout heading={t('title')} headingIcon={<TbUpload />} contentClassName="flex flex-col items-center">
-      <div className="flex flex-col items-center w-full h-[84%] justify-between">
-        <div className="flex flex-col w-full gap-6" ref={ref}>
-          <div className="bg-gray-600/15 h-[34px] flex items-center justify-center rounded">{wallet.name}</div>
-          <div className="text-gray-100 text-xs text-center print:hidden">{t('description')}</div>
-          <div className="min-h-[6rem] rounded bg-asphalt flex flex-col p-2">
-            <div className="flex gap-2 items-center mb-2">
-              <TbCircleKey className="text-blue h-5 w-5" />
+    <SideModalLayout
+      heading={t('title')}
+      headingIcon={<TbUpload aria-hidden={true} />}
+      contentClassName="flex flex-col items-center"
+    >
+      <div className="flex h-[84%] w-full flex-col items-center justify-between">
+        <div className="flex w-full flex-col gap-6" ref={ref}>
+          <div className="flex h-[34px] items-center justify-center rounded bg-gray-600/15">{wallet.name}</div>
+          <div className="text-center text-xs text-gray-100 print:hidden">{t('description')}</div>
+          <div className="flex min-h-[6rem] flex-col rounded bg-asphalt p-2">
+            <div className="mb-2 flex items-center gap-2">
+              <TbCircleKey aria-hidden={true} className="h-5 w-5 text-blue" />
               <span className="text-sm text-white">{t('yourMnemonic')}</span>
             </div>
 
             <Separator />
 
-            <div className="flex flex-wrap px-10 py-5 gap-2 justify-center">
+            <div className="flex flex-wrap justify-center gap-2 px-10 py-5">
               {words.split(' ').map((word, index) => (
                 <span className="text-lg text-white" key={index}>
                   {word}

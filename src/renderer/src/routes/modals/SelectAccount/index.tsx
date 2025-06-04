@@ -95,7 +95,7 @@ export const SelectAccountModal = () => {
             <Fragment key={wallet.id}>
               <Select.Item
                 value={wallet.id}
-                className="hover:bg-gray-300/15 flex gap-x-2 items-center cursor-pointer justify-start text-gray-100 text-sm"
+                className="flex cursor-pointer items-center justify-start gap-x-2 text-sm text-gray-100 hover:bg-gray-300/15"
               >
                 <Select.ItemText>{wallet.name}</Select.ItemText>
               </Select.Item>
@@ -107,10 +107,10 @@ export const SelectAccountModal = () => {
       </Select.Root>
 
       {selectedWallet && (
-        <section className="w-full flex flex-col flex-grow min-h-0 mt-5 items-center text-sm">
-          <p className="text-left w-full pl-[0.2em]">{t('yourAccounts')}</p>
+        <section className="mt-5 flex min-h-0 w-full flex-grow flex-col items-center text-sm">
+          <p className="w-full pl-[0.2em] text-left">{t('yourAccounts')}</p>
 
-          <ul className="w-full mt-2 mb-5 h-full overflow-y-auto flex flex-col min-h-0">
+          <ul className="mb-5 mt-2 flex h-full min-h-0 w-full flex-col overflow-y-auto">
             {selectedWalletAccounts.length <= 0 ? (
               <p className="mt-5 text-gray-300">{t('noAccounts')}</p>
             ) : (
@@ -118,7 +118,7 @@ export const SelectAccountModal = () => {
                 <li key={account.id}>
                   <button
                     aria-selected={selectedAccount?.id === account.id}
-                    className="flex items-center justify-between gap-x-4 p-2.5 pl-4 border-l-2 border-transparent cursor-pointer hover:border-l-neon hover:bg-asphalt aria-selected:bg-asphalt aria-selected:border-l-neon transition-colors w-full"
+                    className="flex w-full cursor-pointer items-center justify-between gap-x-4 border-l-2 border-transparent p-2.5 pl-4 transition-colors hover:border-l-neon hover:bg-asphalt aria-selected:border-l-neon aria-selected:bg-asphalt"
                     onClick={handleSelectAccount.bind(null, account)}
                   >
                     <div className="flex min-w-0 items-center gap-x-4">
@@ -128,15 +128,15 @@ export const SelectAccountModal = () => {
                         className="min-h-[1rem] min-w-[1rem]"
                       />
                       <div className="flex flex-col text-left">
-                        <span className="text-sm text-white truncate">{account.name}</span>
-                        <span className="text-xs text-gray-300 truncate">
+                        <span className="truncate text-sm text-white">{account.name}</span>
+                        <span className="truncate text-xs text-gray-300">
                           {StringHelper.truncateStringMiddle(account.address, 22)}
                         </span>
                       </div>
                     </div>
 
                     {selectedAccount?.id === account.id && (
-                      <MdCheck className="text-neon w-5 h-5 min-h-[1.25rem] min-w-[1.25rem]" />
+                      <MdCheck aria-hidden={true} className="h-5 min-h-[1.25rem] w-5 min-w-[1.25rem] text-neon" />
                     )}
                   </button>
 

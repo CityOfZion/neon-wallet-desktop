@@ -50,20 +50,20 @@ export const ContentLayout = ({
     <div className={StyleHelper.mergeStyles('flex h-screen-minus-drag-region', className)} {...props}>
       <div
         className={StyleHelper.mergeStyles(
-          'h-full w-full flex flex-col bg-asphalt text-white px-14 pb-4 min-w-0 min-h-0',
+          'flex h-full min-h-0 w-full min-w-0 flex-col bg-asphalt px-14 pb-4 text-white',
           {
             'pt-10': hasCustomProfile,
           }
         )}
       >
         <header
-          className={StyleHelper.mergeStyles('min-h-16 flex relative items-center justify-between', headerClassName)}
+          className={StyleHelper.mergeStyles('relative flex min-h-16 items-center justify-between', headerClassName)}
         >
           <IconButton icon={<TbArrowLeft aria-hidden />} size="sm" compacted onClick={handleBackClick} />
 
           <div
             className={StyleHelper.mergeStyles(
-              'flex items-center mx-auto gap-x-2 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
+              'absolute left-1/2 top-1/2 mx-auto flex -translate-x-1/2 -translate-y-1/2 items-center gap-x-2',
               {
                 'pr-6': !rightComponent,
               }
@@ -83,7 +83,7 @@ export const ContentLayout = ({
 
         <Separator />
 
-        <main className={StyleHelper.mergeStyles('flex w-full flex-col flex-grow min-h-0 mt-4', contentClassName)}>
+        <main className={StyleHelper.mergeStyles('mt-4 flex min-h-0 w-full flex-grow flex-col', contentClassName)}>
           {children}
         </main>
       </div>

@@ -41,23 +41,23 @@ export const CreateWalletStep3Modal = () => {
 
   return (
     <CreateWalletModalLayout>
-      <header className="flex justify-between items-center py-2.5">
+      <header className="flex items-center justify-between py-2.5">
         <div className="flex items-center gap-x-2.5">
-          <MdLooks3 className="text-blue h-4.5 w-4.5" />
+          <MdLooks3 aria-hidden={true} className="h-4.5 w-4.5 text-blue" />
           <h2 className="text-sm">{t('title')}</h2>
         </div>
-        <div className="text-blue text-sm">{t('step3of4')}</div>
+        <div className="text-sm text-blue">{t('step3of4')}</div>
       </header>
-      <Separator className="min-h-[0.0625rem] mb-9" />
+      <Separator className="mb-9 min-h-[0.0625rem]" />
       <form
         onSubmit={form.handleAct(handleSubmit)}
-        className="flex flex-col items-center w-full flex-grow justify-between"
+        className="flex w-full flex-grow flex-col items-center justify-between"
       >
-        <div className="flex flex-col w-full gap-8">
-          <div className="text-gray-100 text-xs">{t('description')}</div>
+        <div className="flex w-full flex-col gap-8">
+          <div className="text-xs text-gray-100">{t('description')}</div>
           <Separator />
           <div className="flex flex-col gap-2.5 px-28">
-            <div className="text-gray-300 uppercase text-xs font-bold">{t('inputLabel')}</div>
+            <div className="text-xs font-bold uppercase text-gray-300">{t('inputLabel')}</div>
             <Input
               placeholder={t('inputPlaceholder')}
               errorMessage={form.actionState.errors.name}

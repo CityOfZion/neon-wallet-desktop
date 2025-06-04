@@ -26,7 +26,7 @@ const SuccessFooter = () => {
   const { modalNavigateWrapper } = useModalNavigate()
 
   return (
-    <div className="flex flex-col items-center flex-grow w-full justify-end gap-7">
+    <div className="flex w-full flex-grow flex-col items-center justify-end gap-7">
       <ButtonDownloadPasswordQRCode />
       <Separator />
       <Button label={t('returnSettings')} onClick={modalNavigateWrapper(-1)} className="w-full px-9" />
@@ -79,13 +79,13 @@ export const ConfirmPasswordBackupModal = () => {
   return (
     <SideModalLayout
       heading={t('title')}
-      headingIcon={<MdOutlineSave className="text-neon" />}
+      headingIcon={<MdOutlineSave aria-hidden={true} className="text-neon" />}
       contentClassName="flex flex-col"
     >
-      <p className="text-xs mb-5">{t('description')}</p>
-      <p className="text-gray-300 uppercase font-bold mb-3.5">{t('subtitle')}</p>
+      <p className="mb-5 text-xs">{t('description')}</p>
+      <p className="mb-3.5 font-bold uppercase text-gray-300">{t('subtitle')}</p>
 
-      <form className="flex flex-col justify-between flex-grow" onSubmit={handleAct(handleSubmit)}>
+      <form className="flex flex-grow flex-col justify-between" onSubmit={handleAct(handleSubmit)}>
         <div>
           <Input
             placeholder={t('inputPlaceholder')}
@@ -101,19 +101,19 @@ export const ConfirmPasswordBackupModal = () => {
           </div>
         </div>
 
-        <div className="flex flex-col w-full items-center">
+        <div className="flex w-full flex-col items-center">
           <Banner
             type="warningOrange"
             message={
               <span>
                 {t('warning')}
-                <span className="text-orange pl-0.75">{t('warningHighlighted')}</span>
+                <span className="pl-0.75 text-orange">{t('warningHighlighted')}</span>
               </span>
             }
           />
           <Separator className="my-7" />
           <Button
-            className="px-9 w-full"
+            className="w-full px-9"
             type="submit"
             label={t('buttonContinueLabel')}
             loading={actionState.isActing}

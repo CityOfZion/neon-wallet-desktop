@@ -59,11 +59,11 @@ export const CommonAccountActions = ({ account, children, className, ...props }:
               : ''
           }
           contentProps={{ className: 'text-center w-72' }}
-          icon={<TbCancel aria-hidden className="text-pink min-w-6 min-h-6 w-6 h-6" />}
+          icon={<TbCancel aria-hidden className="h-6 min-h-6 w-6 min-w-6 text-pink" />}
         >
           <Button
             label={t('migrate')}
-            className="w-fit h-9"
+            className="h-9 w-fit"
             variant="text"
             colorSchema="yellow"
             flat
@@ -77,7 +77,7 @@ export const CommonAccountActions = ({ account, children, className, ...props }:
 
       <Button
         label={t('buyAndSellTokens')}
-        className="w-fit h-9"
+        className="h-9 w-fit"
         variant="text"
         colorSchema="neon"
         flat
@@ -90,7 +90,7 @@ export const CommonAccountActions = ({ account, children, className, ...props }:
         <Button
           leftIcon={<TbReplace aria-hidden={true} />}
           label={t('swap')}
-          className="w-fit h-9"
+          className="h-9 w-fit"
           variant="text"
           flat
           colorSchema="neon"
@@ -100,9 +100,9 @@ export const CommonAccountActions = ({ account, children, className, ...props }:
       )}
 
       <Button
-        leftIcon={<TbStepInto />}
+        leftIcon={<TbStepInto aria-hidden={true} />}
         label={t('receive')}
-        className="w-fit h-9"
+        className="h-9 w-fit"
         variant="text"
         colorSchema="neon"
         flat
@@ -111,9 +111,9 @@ export const CommonAccountActions = ({ account, children, className, ...props }:
       />
 
       <Button
-        leftIcon={<TbStepOut />}
+        leftIcon={<TbStepOut aria-hidden={true} />}
         label={t('send')}
-        className="w-fit h-9"
+        className="h-9 w-fit"
         variant="text"
         flat
         colorSchema="neon"

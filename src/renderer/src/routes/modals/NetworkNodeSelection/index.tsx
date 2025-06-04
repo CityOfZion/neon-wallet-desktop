@@ -48,15 +48,19 @@ export const NetworkNodeSelection = () => {
   }
 
   return (
-    <SideModalLayout heading={t('title')} headingIcon={<TbCube3dSphere />} contentClassName="px-0 flex flex-col">
-      <p className="text-xs text-white px-4">{t('description')}</p>
+    <SideModalLayout
+      heading={t('title')}
+      headingIcon={<TbCube3dSphere aria-hidden={true} />}
+      contentClassName="px-0 flex flex-col"
+    >
+      <p className="px-4 text-xs text-white">{t('description')}</p>
 
-      <span className="text-gray-100 font-bold mt-6 block px-4">{t('listLabel')}</span>
+      <span className="mt-6 block px-4 font-bold text-gray-100">{t('listLabel')}</span>
 
-      <div className="py-3.5 bg-asphalt px-4 mt-4 flex justify-between">
+      <div className="mt-4 flex justify-between bg-asphalt px-4 py-3.5">
         <Button
           label={t('refreshButtonLabel')}
-          leftIcon={<TbRefresh className="text-neon" />}
+          leftIcon={<TbRefresh aria-hidden={true} className="text-neon" />}
           variant="text-slim"
           flat
           colorSchema="white"
@@ -76,19 +80,19 @@ export const NetworkNodeSelection = () => {
         </div>
       </div>
 
-      <div className="overflow-auto flex-grow my-3.5">
+      <div className="my-3.5 flex-grow overflow-auto">
         {query.isLoading ? (
           <Loader />
         ) : (
           <RadioGroup.Group value={selectedUrl} onValueChange={handleSelectRadioItem}>
             {nodes?.map(node => (
               <RadioGroup.Item key={node.url} value={node.url} className="h-15 text-xs">
-                <div className="flex items-center gap-4 flex-grow  min-w-0">
+                <div className="flex min-w-0 flex-grow items-center gap-4">
                   <div className="flex flex-col items-center justify-center gap-0.5">
-                    <div className="w-4 h-4 flex items-center justify-center">
+                    <div className="flex h-4 w-4 items-center justify-center">
                       <div
                         className={StyleHelper.mergeStyles(
-                          'w-[0.375rem] h-[0.375rem] min-w-[0.375rem] min-h-[0.375rem] rounded-full',
+                          'h-[0.375rem] min-h-[0.375rem] w-[0.375rem] min-w-[0.375rem] rounded-full',
                           match(node.latency)
                             .with(undefined, () => 'bg-gray-300')
                             .with(
@@ -104,15 +108,15 @@ export const NetworkNodeSelection = () => {
                       />
                     </div>
 
-                    <span className="text-gray-300 min-w-[48px]">
+                    <span className="min-w-[48px] text-gray-300">
                       {typeof node.latency === 'number' ? t('latency', { latency: node.latency }) : '--'}
                     </span>
                   </div>
 
-                  <div className="flex flex-col flex-start gap-0.5 flex-grow min-w-0">
-                    <span className="truncate block text-left w-full">{node.url}</span>
+                  <div className="flex-start flex min-w-0 flex-grow flex-col gap-0.5">
+                    <span className="block w-full truncate text-left">{node.url}</span>
 
-                    <span className="text-gray-300 text-left">{t('blockHeight', { height: node.height ?? '--' })}</span>
+                    <span className="text-left text-gray-300">{t('blockHeight', { height: node.height ?? '--' })}</span>
                   </div>
                 </div>
 

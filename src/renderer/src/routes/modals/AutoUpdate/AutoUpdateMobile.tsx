@@ -23,27 +23,33 @@ export const AutoUpdateMobile = () => {
 
   return (
     <CenterModalLayout contentClassName="flex flex-col w-full items-center justify-between">
-      <div className="text-center px-8 flex flex-col items-center">
-        <NeonWalletLogo className="w-56 h-min" />
-        <h2 className="text-2xl text-white mt-11">{t('title')}</h2>
+      <div className="flex flex-col items-center px-8 text-center">
+        <NeonWalletLogo aria-hidden={true} className="h-min w-56" />
 
-        <p className="mt-7 text-gray-100 text-sm leading-5 w-full max-w-[37rem]">{t('description')}</p>
+        <h2 className="mt-11 text-2xl text-white">{t('title')}</h2>
 
-        <div className="flex gap-x-4 mt-14">
+        <p className="mt-7 w-full max-w-[37rem] text-sm leading-5 text-gray-100">{t('description')}</p>
+
+        <div className="mt-14 flex gap-x-4">
           <div className="flex flex-col items-center">
             <div className="flex gap-x-4">
-              <MdLaunch className="text-blue w-6 h-6" />
-              <span className="text-white text-lg">{t('downloadForIOS')}</span>
+              <MdLaunch aria-hidden={true} className="h-6 w-6 text-blue" />
+              <span className="text-lg text-white">{t('downloadForIOS')}</span>
             </div>
-            <AppStore className="ml-11 mt-3 w-[10rem] h-[3rem] cursor-pointer" onClick={appstoreClick} />
+            <AppStore className="ml-11 mt-3 h-[3rem] w-[10rem] cursor-pointer" onClick={appstoreClick} />
           </div>
-          <div className="w-px bg-gray-300/30 h-full"></div>
+          <div className="h-full w-px bg-gray-300/30"></div>
           <div className="flex flex-col items-center">
             <div className="flex gap-x-4">
-              <MdLaunch className="text-blue w-6 h-6" />
-              <span className="text-white text-lg">{t('downloadForAndroid')}</span>
+              <MdLaunch aria-hidden={true} className="h-6 w-6 text-blue" />
+              <span className="text-lg text-white">{t('downloadForAndroid')}</span>
             </div>
-            <img src={PlayStore} className="ml-5 w-[11.5rem] cursor-pointer" onClick={playstoreClick} />
+            <img
+              src={PlayStore}
+              className="ml-5 w-[11.5rem] cursor-pointer"
+              onClick={playstoreClick}
+              alt={t('downloadForAndroid')}
+            />
           </div>
         </div>
       </div>

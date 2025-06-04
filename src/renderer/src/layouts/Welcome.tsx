@@ -16,17 +16,22 @@ export const WelcomeLayout = ({ bigger, children, heading, withBackButton, class
   }
 
   return (
-    <div className="w-screen h-screen-minus-drag-region bg-asphalt flex justify-center items-center">
+    <div className="flex h-screen-minus-drag-region w-screen items-center justify-center bg-asphalt">
       <div
         className={StyleHelper.mergeStyles(
-          'w-full h-full bg-gray-800 max-h-[38.375rem] flex flex-col items-center pb-10 pt-11 px-16 rounded relative',
+          'relative flex h-full max-h-[38.375rem] w-full flex-col items-center rounded bg-gray-800 px-16 pb-10 pt-11',
           { 'max-w-[58.125rem]': bigger, 'max-w-[32rem]': !bigger },
           className
         )}
         {...props}
       >
         {withBackButton && location.key !== 'default' && (
-          <IconButton icon={<MdArrowBack />} className="absolute top-5 left-5" size="md" onClick={handleBack} />
+          <IconButton
+            icon={<MdArrowBack aria-hidden={true} />}
+            className="absolute left-5 top-5"
+            size="md"
+            onClick={handleBack}
+          />
         )}
         <NeonWalletFull />
         <h1 className="mt-6 text-2xl text-white">{heading}</h1>

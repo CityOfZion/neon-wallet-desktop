@@ -25,20 +25,20 @@ export const CreateWalletStep1Modal = () => {
 
   return (
     <CreateWalletModalLayout {...TestHelper.buildTestObject('create-wallet-step1-modal')}>
-      <header className="flex justify-between items-center py-2.5 print:hidden">
+      <header className="flex items-center justify-between py-2.5 print:hidden">
         <div className="flex items-center gap-x-2.5">
-          <MdLooksOne aria-hidden={true} className="text-blue h-4.5 w-4.5" />
+          <MdLooksOne aria-hidden={true} className="h-4.5 w-4.5 text-blue" />
           <h2 className="text-sm">{t('title')}</h2>
         </div>
-        <div className="text-blue text-sm">{t('step1of4')}</div>
+        <div className="text-sm text-blue">{t('step1of4')}</div>
       </header>
 
-      <Separator className="min-h-[0.0625rem] mb-9" />
+      <Separator className="mb-9 min-h-[0.0625rem]" />
 
-      <div className="flex flex-col items-center w-full h-[84%] justify-between">
-        <div className="flex flex-col w-full gap-6" ref={ref}>
-          <div className="text-gray-100 text-xs print:hidden">{t('description')}</div>
-          <div className="min-h-[6rem] rounded bg-asphalt mx-5 gap-y-2 gap-x-4 flex flex-wrap py-5 px-10 justify-center">
+      <div className="flex h-[84%] w-full flex-col items-center justify-between">
+        <div className="flex w-full flex-col gap-6" ref={ref}>
+          <div className="text-xs text-gray-100 print:hidden">{t('description')}</div>
+          <div className="mx-5 flex min-h-[6rem] flex-wrap justify-center gap-x-4 gap-y-2 rounded bg-asphalt px-10 py-5">
             {words.map((word, index) => (
               <span className="text-lg text-white" key={word}>
                 {index + 1}. {word}

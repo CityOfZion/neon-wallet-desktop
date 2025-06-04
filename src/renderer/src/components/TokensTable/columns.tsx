@@ -28,8 +28,8 @@ export const useColumns = (showType: TUseBalanceOptionShowType) => {
         cell: info => {
           return (
             <div className="flex gap-2">
-              <div className="rounded-full bg-gray-300 min-w-[1.125rem] w-4.5 h-4.5 flex justify-center items-center">
-                <BlockchainIcon blockchain={info.row.original.blockchain} type="white" className="w-2.5 h-2.5" />
+              <div className="flex h-4.5 w-4.5 min-w-[1.125rem] items-center justify-center rounded-full bg-gray-300">
+                <BlockchainIcon blockchain={info.row.original.blockchain} type="white" className="h-2.5 w-2.5" />
               </div>
               <span>{info.getValue()}</span>
             </div>

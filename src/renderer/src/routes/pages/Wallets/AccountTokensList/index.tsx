@@ -37,11 +37,11 @@ export const AccountTokensList = () => {
           <Tabs.Trigger value="active">{t('tabs.active')}</Tabs.Trigger>
           <Tabs.Trigger value="hidden">{t('tabs.hidden')}</Tabs.Trigger>
 
-          <div className="flex gap-2 absolute right-0 top-1/2 -translate-y-1/2 items-center">
-            <p className="text-gray-300 text-sm">{t('balance')}</p>
+          <div className="absolute right-0 top-1/2 flex -translate-y-1/2 items-center gap-2">
+            <p className="text-sm text-gray-300">{t('balance')}</p>
 
             {balances.isLoading ? (
-              <Loader className="w-4 h-4" />
+              <Loader className="h-4 w-4" />
             ) : (
               <span className="text-sm text-white">
                 {NumberHelper.currency(balances.exchangeTotal, currency.label)}

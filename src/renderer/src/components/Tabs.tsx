@@ -8,10 +8,10 @@ const List = forwardRef<ElementRef<typeof TabsPrimitive.List>, ComponentPropsWit
   ({ className, children, ...props }, ref) => (
     <TabsPrimitive.List
       ref={ref}
-      className={StyleHelper.mergeStyles('w-full flex items-center justify-center text-gray-300', className)}
+      className={StyleHelper.mergeStyles('flex w-full items-center justify-center text-gray-300', className)}
       {...props}
     >
-      <div className="w-fit h-fit flex border-b border-gray-300">{children}</div>
+      <div className="flex h-fit w-fit border-b border-gray-300">{children}</div>
     </TabsPrimitive.List>
   )
 )
@@ -23,7 +23,7 @@ const Trigger = forwardRef<
   <TabsPrimitive.Trigger
     ref={ref}
     className={StyleHelper.mergeStyles(
-      'h-full py-3 uppercase justify-center whitespace-nowrap px-4 text-1xs border-b-2 border-transparent transition-all focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 data-[state=active]:text-white data-[state=active]:border-white',
+      'h-full justify-center whitespace-nowrap border-b-2 border-transparent px-4 py-3 text-1xs uppercase transition-all focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 data-[state=active]:border-white data-[state=active]:text-white',
       className
     )}
     {...props}
@@ -37,7 +37,7 @@ const Content = forwardRef<
   <TabsPrimitive.Content
     ref={ref}
     className={StyleHelper.mergeStyles(
-      'mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+      'ring-offset-background focus-visible:ring-ring mt-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
       className
     )}
     {...props}

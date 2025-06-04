@@ -62,25 +62,25 @@ export const DappConnectionModal = () => {
 
   return (
     <CenterModalLayout contentClassName="flex flex-col">
-      <div className="flex w-full gap-x-12 items-center">
-        <NeonWalletLogo className="w-full h-min" />
+      <div className="flex w-full items-center gap-x-12">
+        <NeonWalletLogo aria-hidden={true} className="h-min w-full" />
 
-        <WalletConnectLogo className="w-full h-min opacity-60" />
+        <WalletConnectLogo aria-hidden={true} className="h-min w-full opacity-60" />
       </div>
 
       <div>
-        <div className="text-center px-8">
-          <h2 className="text-2xl text-white mt-8">{t('title')}</h2>
+        <div className="px-8 text-center">
+          <h2 className="mt-8 text-2xl text-white">{t('title')}</h2>
 
-          <p className="text-sm text-gray-100 mt-5">
+          <p className="mt-5 text-sm text-gray-100">
             <Trans t={t} i18nKey="description" />
           </p>
 
-          <p className="mt-2 text-blue italic text-xs leading-5">{t('disclaimer')}</p>
+          <p className="mt-2 text-xs italic leading-5 text-blue">{t('disclaimer')}</p>
         </div>
       </div>
 
-      <form className="mt-6 flex-grow flex flex-col items-center justify-between" onSubmit={handleAct(handleSubmit)}>
+      <form className="mt-6 flex flex-grow flex-col items-center justify-between" onSubmit={handleAct(handleSubmit)}>
         <Input
           placeholder={t('inputPlaceholder')}
           clearable

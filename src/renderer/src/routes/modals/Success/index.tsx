@@ -15,12 +15,12 @@ export const SuccessModal = () => {
 
   return (
     <SideModalLayout heading={heading} headingIcon={headingIcon} contentClassName="flex flex-col">
-      <div className="flex flex-col items-center min-h-0 flex-grow">
-        <div className="w-28 h-28 p-2 bg-asphalt rounded-full flex items-center">
-          <PiSealCheck className="w-24 h-24 text-blue" />
+      <div className="flex min-h-0 flex-grow flex-col items-center">
+        <div className="flex h-28 w-28 items-center rounded-full bg-asphalt p-2">
+          <PiSealCheck aria-hidden={true} className="h-24 w-24 text-blue" />
         </div>
 
-        <p className="text-lg text-white mt-7 text-center">{subtitle}</p>
+        <p className="mt-7 text-center text-lg text-white">{subtitle}</p>
 
         {content}
       </div>

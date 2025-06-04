@@ -532,7 +532,7 @@ export const SwapPageContent = ({ account }: TProps) => {
     <section className="flex min-h-0 flex-grow rounded bg-gray-800">
       <div className="flex w-72 flex-col border-r border-gray-300/15 bg-gray-900/50 px-4">
         <div className="flex items-center gap-2.5">
-          <MdInfoOutline className="h-6 w-6 text-green" />
+          <MdInfoOutline aria-hidden={true} className="h-6 w-6 text-green" />
           <h2 className="my-3 text-sm text-white">{t('explanation.title')}</h2>
         </div>
 

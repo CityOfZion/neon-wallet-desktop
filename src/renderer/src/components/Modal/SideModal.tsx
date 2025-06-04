@@ -57,7 +57,7 @@ export const SideModal = () => {
 
   return (
     <ModalContainer className="flex justify-end">
-      <motion.div className="h-full relative" ref={scope} initial={{ width: 0 }}>
+      <motion.div className="relative h-full" ref={scope} initial={{ width: 0 }}>
         {lastSideHistoryWidth &&
           sideHistories.map((history, index) => (
             <FocusScope

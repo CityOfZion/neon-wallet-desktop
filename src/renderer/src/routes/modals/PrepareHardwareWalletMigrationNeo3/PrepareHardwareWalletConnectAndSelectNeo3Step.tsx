@@ -76,15 +76,15 @@ export const PrepareHardwareWalletConnectAndSelectNeo3Step = ({ actionData, setD
 
   return (
     <Fragment>
-      <div className="flex flex-col items-center w-full max-w-[420px] mx-auto gap-y-4">
-        <p className="text-lg text-gray-100 leading-4">{t('subtitle')}</p>
+      <div className="mx-auto flex w-full max-w-[420px] flex-col items-center gap-y-4">
+        <p className="text-lg leading-4 text-gray-100">{t('subtitle')}</p>
 
-        <h2 className="text-1xl text-white leading-8 mb-2">{t('title')}</h2>
+        <h2 className="mb-2 text-1xl leading-8 text-white">{t('title')}</h2>
 
-        <p className="text-sm font-light text-gray-100 text-center w-full">{t('description')}</p>
+        <p className="w-full text-center text-sm font-light text-gray-100">{t('description')}</p>
 
         <PrepareHardwareWalletTipInfo className="mt-2">
-          <p className="text-sm font-light text-white w-full">
+          <p className="w-full text-sm font-light text-white">
             <Trans t={t} i18nKey="tip">
               start
               <strong className="font-bold">end</strong>
@@ -96,24 +96,24 @@ export const PrepareHardwareWalletConnectAndSelectNeo3Step = ({ actionData, setD
       {actionData.currentStep === EPrepareHardwareWalletMigrationStep.CONNECT_NEO3 ? (
         <PrepareHardwareWalletStatusConnection searchLabel={t('searchHardwareWalletLabel')} status={status} />
       ) : (
-        <div className="flex flex-col items-center mx-auto gap-y-2.5 mb-4">
+        <div className="mx-auto mb-4 flex flex-col items-center gap-y-2.5">
           {actionData.neo3HardwareAccounts && (
-            <div className="flex flex-col flex-grow min-h-0 gap-y-2">
-              <h3 className="text-gray-100 uppercase text-xs">{t('selectLabel')}</h3>
+            <div className="flex min-h-0 flex-grow flex-col gap-y-2">
+              <h3 className="text-xs uppercase text-gray-100">{t('selectLabel')}</h3>
 
               <RadioGroup.Group
                 value={actionData.selectedNeo3HardwareServiceAccount?.address}
-                className="flex flex-col max-h-[200px] overflow-y-auto min-w-[400px] w-full rounded-md"
+                className="flex max-h-[200px] w-full min-w-[400px] flex-col overflow-y-auto rounded-md"
               >
                 {actionData.neo3HardwareAccounts.map(account => (
                   <RadioGroup.Item
                     key={account.address}
                     value={account.address}
-                    className="min-h-10 h-10 bg-asphalt"
+                    className="h-10 min-h-10 bg-asphalt"
                     separatorClassName="px-0"
                     onClick={handleSelectAccount.bind(null, account)}
                   >
-                    <label className="text-white text-sm">{account.address}</label>
+                    <label className="text-sm text-white">{account.address}</label>
                     <RadioGroup.Indicator />
                   </RadioGroup.Item>
                 ))}

@@ -71,10 +71,15 @@ export const MigrateAccountsStep4Modal = () => {
   }
 
   return (
-    <MigrateAccountsModalLayout currentStep={4} stepIcon={<MdLooks4 />} stepTitle={t('title')} withBackButton>
+    <MigrateAccountsModalLayout
+      currentStep={4}
+      stepIcon={<MdLooks4 aria-hidden={true} />}
+      stepTitle={t('title')}
+      withBackButton
+    >
       <p>{t('step4.description')}</p>
 
-      <div className="w-full flex-grow flex flex-col overflow-y-auto min-h-0 mt-1 mb-3 pr-2">
+      <div className="mb-3 mt-1 flex min-h-0 w-full flex-grow flex-col overflow-y-auto pr-2">
         {selectedAccountsToMigrate.map((accountToMigrate, index) => (
           <Fragment key={accountToMigrate.address}>
             <MigrateAccountsStep4Password accountToMigrate={accountToMigrate} onSubmit={handlePasswordSubmit} />

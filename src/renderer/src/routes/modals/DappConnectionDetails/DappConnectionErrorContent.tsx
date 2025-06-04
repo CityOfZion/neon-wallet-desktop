@@ -8,7 +8,7 @@ export const DappConnectionErrorContent = () => {
   const { modalNavigateWrapper } = useModalNavigate()
 
   return (
-    <div className="flex flex-grow flex-col justify-between w-full items-center mt-2.5">
+    <div className="mt-2.5 flex w-full flex-grow flex-col items-center justify-between">
       <div className="flex flex-col items-center gap-y-2.5">
         <p className="text-lg text-gray-100">{t('subtitle2')}</p>
         <p className="text-sm text-gray-300">{t('subtitle3')}</p>

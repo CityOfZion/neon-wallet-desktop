@@ -21,7 +21,7 @@ export const AddressCell = ({ address, blockchain }: TContactAddress) => {
         {address}
 
         {isValidatingAddressOrDomainAddress && (
-          <Loader containerClassName="justify-start w-min ml-1" className="w-4 h-4" />
+          <Loader containerClassName="justify-start w-min ml-1" className="h-4 w-4" />
         )}
 
         <IconButton

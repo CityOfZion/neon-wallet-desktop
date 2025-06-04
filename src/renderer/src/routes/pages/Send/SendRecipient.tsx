@@ -130,12 +130,12 @@ export const SendRecipient = ({
         zIndex: !isPresent ? 0 : 1,
       }}
       transition={{ type: 'spring', stiffness: 900, damping: 40, opacity: { duration: 0.05 } }}
-      className={StyleHelper.mergeStyles('bg-gray-800  rounded w-full', {
+      className={StyleHelper.mergeStyles('w-full rounded bg-gray-800', {
         static: isPresent,
         absolute: !isPresent,
       })}
     >
-      <div className="flex flex-col items-center bg-gray-700/60  px-3.5 w-full rounded">
+      <div className="flex w-full flex-col items-center rounded bg-gray-700/60 px-3.5">
         <ActionStep className="px-0" title={t('title', { order })} leftIcon={<TbStepInto aria-hidden={true} />}>
           {removable && (
             <Button
@@ -151,8 +151,8 @@ export const SendRecipient = ({
 
         <Separator />
 
-        <div className="flex flex-col w-full my-5">
-          <div className="flex w-full gap-3 items-start">
+        <div className="my-5 flex w-full flex-col">
+          <div className="flex w-full items-start gap-3">
             <Input
               value={recipient.addressInput ?? ''}
               onChange={handleChangeAddress}
@@ -197,7 +197,7 @@ export const SendRecipient = ({
             </GreyAccountSelect>
           </div>
 
-          {isNameService && <span className="text-neon block mt-1 text-xs">{validatedAddress}</span>}
+          {isNameService && <span className="mt-1 block text-xs text-neon">{validatedAddress}</span>}
         </div>
 
         <Separator />
@@ -205,7 +205,7 @@ export const SendRecipient = ({
         <ActionStep
           className="px-0"
           title={t('tokenToSendLabel')}
-          leftIcon={<VscCircleFilled aria-hidden={true} className="text-gray-300 w-2 h-2" />}
+          leftIcon={<VscCircleFilled aria-hidden={true} className="h-2 w-2 text-gray-300" />}
         >
           <GreyTokenSelect
             tokens={balance?.data?.tokensBalances.map(tokenBalance => tokenBalance.token) ?? []}
@@ -222,7 +222,7 @@ export const SendRecipient = ({
         <ActionStep
           className="px-0"
           title={t('amountLabel')}
-          leftIcon={<VscCircleFilled aria-hidden={true} className="text-gray-300 w-2 h-2" />}
+          leftIcon={<VscCircleFilled aria-hidden={true} className="h-2 w-2 text-gray-300" />}
         >
           <GreyAmountInput value={recipient.amount ?? ''} onChange={handleChangeAmount} disabled={isAmountDisabled}>
             <Button
@@ -230,7 +230,7 @@ export const SendRecipient = ({
               flat
               variant="text"
               colorSchema="neon"
-              className="bg-asphalt rounded-r w-15"
+              className="w-15 rounded-r bg-asphalt"
               loading={isLoadingMaxAmount}
               disabled={isAmountDisabled}
               onClick={() => onMaxAmount(recipient)}
@@ -238,9 +238,9 @@ export const SendRecipient = ({
           </GreyAmountInput>
         </ActionStep>
 
-        <div className="flex justify-between w-full pl-8 pb-3">
-          <span className="text-gray-200 italic text-xs">{t('fiatLabel', { currency: currency.label })}</span>
-          <span className="text-gray-100 italic text-xs">
+        <div className="flex w-full justify-between pb-3 pl-8">
+          <span className="text-xs italic text-gray-200">{t('fiatLabel', { currency: currency.label })}</span>
+          <span className="text-xs italic text-gray-100">
             {NumberHelper.currency(
               recipient.amount && recipient.token
                 ? NumberHelper.number(recipient.amount) * recipient.token.exchangeConvertedPrice

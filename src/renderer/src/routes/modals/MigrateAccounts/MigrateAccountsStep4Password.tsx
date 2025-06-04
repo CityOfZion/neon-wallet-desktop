@@ -32,14 +32,14 @@ export const MigrateAccountsStep4Password = ({ accountToMigrate, onSubmit }: TPr
   }
 
   return (
-    <div className="flex py-4 items-center w-full justify-between gap-2.5 min-w-0">
-      <div className="flex items-start h-full w-6">
-        <MdChevronRight className="w-full h-6 text-blue " />
+    <div className="flex w-full min-w-0 items-center justify-between gap-2.5 py-4">
+      <div className="flex h-full w-6 items-start">
+        <MdChevronRight aria-hidden={true} className="h-6 w-full text-blue" />
       </div>
 
-      <div className="flex flex-grow flex-col gap-1 min-w-0">
+      <div className="flex min-w-0 flex-grow flex-col gap-1">
         <span className="text-sm text-white">{accountToMigrate.label}</span>
-        <span className="text-xs text-gray-300 truncate">{accountToMigrate.address}</span>
+        <span className="truncate text-xs text-gray-300">{accountToMigrate.address}</span>
 
         <Input
           label={t('inputLabel')}
@@ -58,13 +58,13 @@ export const MigrateAccountsStep4Password = ({ accountToMigrate, onSubmit }: TPr
         {!!actionState.errors.password && <AlertErrorBanner message={actionState.errors.password} className="mt-2.5" />}
       </div>
 
-      <div className="flex items-start h-full w-6">
+      <div className="flex h-full w-6 items-start">
         {actionState.hasActed && (
           <Fragment>
             {actionState.isValid ? (
-              <MdCheck className="w-6 h-6 text-green" />
+              <MdCheck aria-hidden={true} className="h-6 w-6 text-green" />
             ) : (
-              <TbAlertTriangle className="w-6 h-6 text-pink" />
+              <TbAlertTriangle aria-hidden={true} className="h-6 w-6 text-pink" />
             )}
           </Fragment>
         )}

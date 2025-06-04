@@ -57,20 +57,20 @@ export const MigrateAccountsStep3Modal = () => {
         <Button label={t('selectAllButtonLabel')} variant="text-slim" flat onClick={handleSelectAll} />
       </div>
 
-      <div className="w-full flex-grow flex flex-col overflow-y-auto min-h-0 mt-1 pr-2">
+      <div className="mt-1 flex min-h-0 w-full flex-grow flex-col overflow-y-auto pr-2">
         {content.accounts.map((account, index) => {
           const isAccountExist = doesAccountExist(account)
 
           return (
             <Fragment key={account.address}>
-              <div className="flex py-4 items-center justify-between">
+              <div className="flex items-center justify-between py-4">
                 <div className="flex items-center">
                   <BlockchainIcon className="mr-2" blockchain={account.blockchain} type="gray" />
 
                   <div className="flex flex-col gap-1">
                     <div className="flex gap-2">
                       <span className="text-sm text-white">{account.label}</span>
-                      {isAccountExist && <span className="text-sm text-green italic">{t('alreadyImportedLabel')}</span>}
+                      {isAccountExist && <span className="text-sm italic text-green">{t('alreadyImportedLabel')}</span>}
                     </div>
                     <span className="text-xs text-gray-300">{account.address}</span>
                   </div>
@@ -92,7 +92,7 @@ export const MigrateAccountsStep3Modal = () => {
         })}
       </div>
 
-      <span className="text-center text-blue my-3.5">
+      <span className="my-3.5 text-center text-blue">
         {t('selectedQuantity', { selected: selectedAccountsToMigrate.length, total: content.accounts.length })}
       </span>
 

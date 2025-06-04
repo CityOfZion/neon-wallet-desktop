@@ -114,7 +114,7 @@ export const ContactList = ({
 
   return (
     <Fragment>
-      <div className="flex flex-col w-full h-full items-center">
+      <div className="flex h-full w-full flex-col items-center">
         <div className="mb-8 w-full">
           <SearchInput
             placeholder={contactT('search')}
@@ -130,11 +130,11 @@ export const ContactList = ({
 
         <section
           {...TestHelper.buildTestObject('contacts-list')}
-          className="w-full overflow-y-auto flex-grow flex flex-col gap-y-5 basis-0 text-xs"
+          className="flex w-full flex-grow basis-0 flex-col gap-y-5 overflow-y-auto text-xs"
         >
           {groupContactsByFirstLetter.map(([letter, letterContacts]) => (
             <div key={letter}>
-              <div className="flex bg-asphalt/50 pl-4 text-blue font-bold h-6 items-center">{letter}</div>
+              <div className="flex h-6 items-center bg-asphalt/50 pl-4 font-bold text-blue">{letter}</div>
 
               {letterContacts.map((contact, index) => {
                 const isContactSelected = selectedContact?.id === contact.id
@@ -144,9 +144,9 @@ export const ContactList = ({
                     <button
                       onClick={handleContactSelected.bind(null, contact)}
                       className={StyleHelper.mergeStyles(
-                        'w-full flex items-center justify-between h-10 py-4 pl-2 border-l-4 border-transparent hover:border-neon hover:bg-gray-900',
+                        'flex h-10 w-full items-center justify-between border-l-4 border-transparent py-4 pl-2 hover:border-neon hover:bg-gray-900',
                         {
-                          'bg-gray-900 border-neon': isContactSelected,
+                          'border-neon bg-gray-900': isContactSelected,
                         }
                       )}
                       {...TestHelper.buildTestObject('contact-list-item')}
@@ -154,7 +154,7 @@ export const ContactList = ({
                       <div className="flex w-full items-center">
                         <div
                           className={StyleHelper.mergeStyles(
-                            'w-6 h-6 bg-gray-300/30 rounded-full text-xs flex shrink-0 items-center justify-center text-gray-100',
+                            'flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gray-300/30 text-xs text-gray-100',
                             {
                               'bg-gray-200 text-gray-800': isContactSelected,
                             }
@@ -163,13 +163,13 @@ export const ContactList = ({
                           {getInitialsLetters(contact)}
                         </div>
 
-                        <span className="pl-2 truncate" title={contact.name}>
+                        <span className="truncate pl-2" title={contact.name}>
                           {contact.name}
                         </span>
                       </div>
 
                       {showSelectedAddress && isContactSelected && (
-                        <TbChevronUp className="text-gray-300 h-4 w-4 mr-3" />
+                        <TbChevronUp aria-hidden={true} className="mr-3 h-4 w-4 text-gray-300" />
                       )}
                     </button>
 
@@ -183,11 +183,11 @@ export const ContactList = ({
                           <div key={`contact-list-address-${address}`}>
                             <button
                               onClick={handleAddressSelected.bind(null, address)}
-                              className="pl-[2.3rem] flex w-full items-center justify-between"
+                              className="flex w-full items-center justify-between pl-[2.3rem]"
                             >
                               <div
                                 className={StyleHelper.mergeStyles(
-                                  'flex w-full pl-[0.45rem] py-1 items-center hover:bg-gray-900/50',
+                                  'flex w-full items-center py-1 pl-[0.45rem] hover:bg-gray-900/50',
                                   {
                                     'bg-gray-900/50': isAddressSelected,
                                     'mb-2': addressIndex === filteredSelectedContactAddresses.length - 1,
@@ -196,9 +196,9 @@ export const ContactList = ({
                               >
                                 <div className="flex w-full">
                                   <div className="flex items-center">
-                                    <div className="mr-2 bg-gray-700 p-2 rounded-full">
+                                    <div className="mr-2 rounded-full bg-gray-700 p-2">
                                       <BlockchainIcon
-                                        className="w-3 h-3"
+                                        className="h-3 w-3"
                                         blockchain={address.blockchain}
                                         type="white"
                                       />
@@ -209,7 +209,7 @@ export const ContactList = ({
                                   </div>
                                 </div>
 
-                                {isAddressSelected && <TbCheck className="text-neon h-5 w-5 mr-3" />}
+                                {isAddressSelected && <TbCheck aria-hidden={true} className="mr-3 h-5 w-5 text-neon" />}
                               </div>
                             </button>
 

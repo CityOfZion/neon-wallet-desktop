@@ -15,14 +15,14 @@ export const SearchingLoader = ({ label, className, contentClassName, icon }: TP
   return (
     <div
       className={StyleHelper.mergeStyles(
-        'px-0.5 flex justify-center overflow-hidden items-center py-0.5 rounded-full relative min-h-[52px]',
-        "before:content-[''] before:aspect-square before:block before:bg-[conic-gradient(from_0deg_at_50%_50%,#47BEFF_0%,#47BEFF00_100%)] before:w-full before:absolute before:animate-spin",
+        'relative flex min-h-[52px] items-center justify-center overflow-hidden rounded-full px-0.5 py-0.5',
+        "before:absolute before:block before:aspect-square before:w-full before:animate-spin before:bg-[conic-gradient(from_0deg_at_50%_50%,#47BEFF_0%,#47BEFF00_100%)] before:content-['']",
         className
       )}
     >
       <div
         className={StyleHelper.mergeStyles(
-          'flex gap-2.5 items-center text-blue py-3 text-sm rounded-full px-6 bg-gray-800 relative z-[1]',
+          'relative z-[1] flex items-center gap-2.5 rounded-full bg-gray-800 px-6 py-3 text-sm text-blue',
           contentClassName
         )}
       >

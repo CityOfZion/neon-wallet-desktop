@@ -17,7 +17,7 @@ export const SettingsNetwork = () => {
     <SettingsLayout
       title={t('title')}
       actions={
-        <div className="flex gap-2.5 items-center">
+        <div className="flex items-center gap-2.5">
           <NetworkProfileSelect />
           <NetworkProfileActions />
         </div>

@@ -37,7 +37,7 @@ export const Swipe = ({ text, buttonAriaLabel, onComplete, ...props }: TProps) =
   return (
     <div
       style={{ width: `${WIDTH}px` }}
-      className="bg-gray-300/30 text-white text-sm relative rounded h-[48px] overflow-hidden"
+      className="relative h-[48px] overflow-hidden rounded bg-gray-300/30 text-sm text-white"
     >
       <motion.div
         style={{
@@ -45,7 +45,7 @@ export const Swipe = ({ text, buttonAriaLabel, onComplete, ...props }: TProps) =
           touchAction: 'none',
           boxShadow: '4px 8px 20px 0px #12151766, 1px 1px 0px 0px #D6D2D223 inset, -1px -1px 0px 0px #00000051 inset',
         }}
-        className="flex justify-end bg-pink rounded h-[inherit] relative z-[1] w-full"
+        className="relative z-[1] flex h-[inherit] w-full justify-end rounded bg-pink"
         tabIndex={0}
         role="button"
         aria-label={buttonAriaLabel}
@@ -60,14 +60,14 @@ export const Swipe = ({ text, buttonAriaLabel, onComplete, ...props }: TProps) =
       >
         <div
           style={{ width: `${DRAG_WIDTH}px` }}
-          className="flex items-center h-[inherit] cursor-pointer flex items-center justify-center"
+          className="flex h-[inherit] cursor-pointer items-center justify-center"
         >
-          <ArrowRightBoldOutlineIcon aria-hidden={true} className="w-6 h-6 pointer-events-none" />
+          <ArrowRightBoldOutlineIcon aria-hidden={true} className="pointer-events-none h-6 w-6" />
         </div>
       </motion.div>
       <p
         style={{ left: `calc(${HALF} + ${HALF_DRAG_WIDTH}px)`, transform: `translate(-${HALF}, -${HALF})`, width: MAX }}
-        className="absolute text-center top-1/2"
+        className="absolute top-1/2 text-center"
       >
         {text}
       </p>

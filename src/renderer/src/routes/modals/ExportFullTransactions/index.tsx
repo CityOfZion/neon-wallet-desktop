@@ -125,15 +125,15 @@ export const ExportFullTransactionsModal = () => {
         <div className="flex flex-col items-center">
           <SuccessIcon className="mt-0" />
 
-          <p className="text-lg text-white mt-8">{t('exported.description')}</p>
+          <p className="mt-8 text-lg text-white">{t('exported.description')}</p>
 
-          <div className="mt-6 w-full flex flex-col items-center gap-2">
-            <p className="text-gray-300 text-xs">{t('exported.selectedFolderPathInputLabel')}</p>
+          <div className="mt-6 flex w-full flex-col items-center gap-2">
+            <p className="text-xs text-gray-300">{t('exported.selectedFolderPathInputLabel')}</p>
             <Input readOnly compacted value={actionData.selectedFolderPath} />
           </div>
 
-          <div className="flex flex-col w-full">
-            <p className="text-xs text-gray-100 uppercase font-bold mt-7">{t('exported.infoLabel')}</p>
+          <div className="flex w-full flex-col">
+            <p className="mt-7 text-xs font-bold uppercase text-gray-100">{t('exported.infoLabel')}</p>
 
             <ExportFullTransactionInfo
               account={actionData.account}
@@ -157,12 +157,12 @@ export const ExportFullTransactionsModal = () => {
           />
         </div>
       ) : (
-        <div className="flex flex-col h-full">
-          <p className="text-white text-xs">{t('form.description')}</p>
+        <div className="flex h-full flex-col">
+          <p className="text-xs text-white">{t('form.description')}</p>
 
-          <p className="text-xs text-gray-100 uppercase font-bold mt-7">{t('form.infoLabel')}</p>
+          <p className="mt-7 text-xs font-bold uppercase text-gray-100">{t('form.infoLabel')}</p>
 
-          <form onSubmit={handleAct(handleExport)} className="flex flex-col flex-grow">
+          <form onSubmit={handleAct(handleExport)} className="flex flex-grow flex-col">
             <ExportFullTransactionInfo
               account={actionData.account}
               today={today}
@@ -185,7 +185,7 @@ export const ExportFullTransactionsModal = () => {
 
             <Button
               label={t('form.exportButtonLabel')}
-              className="mt-auto w-48 mx-auto"
+              className="mx-auto mt-auto w-48"
               leftIcon={<TbDeviceFloppy aria-hidden />}
               wide
               type="submit"

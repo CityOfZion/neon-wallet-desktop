@@ -25,7 +25,7 @@ export const CommonScreenActions = ({ children, className, ...props }: TProps) =
 
   return (
     <div className={StyleHelper.mergeStyles('flex h-full', className)} {...props}>
-      <div className="flex gap-x-2 h-full">
+      <div className="flex h-full gap-x-2">
         <Button
           variant="card"
           leftIcon={<TbSearch aria-hidden />}
@@ -41,13 +41,13 @@ export const CommonScreenActions = ({ children, className, ...props }: TProps) =
           fullHeight
           className="min-w-14"
           icon={
-            <div className="relative w-6 h-6">
-              <TbBell className="w-6 h-6" aria-hidden />
+            <div className="relative h-6 w-6">
+              <TbBell className="h-6 w-6" aria-hidden />
 
               {hasNewNotifications && (
                 <div
                   aria-label={t('unreadNotificationsIconLabel')}
-                  className="absolute w-1 h-1 bg-pink rounded-full top-0.5 right-0.5 border-2 border-asphalt box-content"
+                  className="absolute right-0.5 top-0.5 box-content h-1 w-1 rounded-full border-2 border-asphalt bg-pink"
                 />
               )}
             </div>
@@ -59,7 +59,7 @@ export const CommonScreenActions = ({ children, className, ...props }: TProps) =
           <ActionPopover.Trigger asChild>
             <IconButton
               text={t('helpButtonLabel')}
-              className="hover:bg-yellow/15 hover:enabled:bg-yellow/15 aria-selected:bg-yellow/15 aria-selected:hover:bg-yellow/15 aria-expanded:bg-yellow/15 aria-expanded:hover:bg-yellow/15 min-w-16"
+              className="min-w-16 hover:bg-yellow/15 hover:enabled:bg-yellow/15 aria-expanded:bg-yellow/15 aria-expanded:hover:bg-yellow/15 aria-selected:bg-yellow/15 aria-selected:hover:bg-yellow/15"
               colorSchema="yellow"
               size="md"
               fullHeight

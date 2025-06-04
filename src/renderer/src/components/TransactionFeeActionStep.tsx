@@ -47,21 +47,21 @@ export const TransactionFeeActionStep = ({
   return (
     <ActionStep
       title={title ?? t('title')}
-      leftIcon={<TbReceipt aria-hidden={true} className="w-6 h-6 min-w-6 min-h-6" />}
-      className={StyleHelper.mergeStyles('bg-gray-700/60 font-bold rounded px-4 mt-2 min-h-11', className)}
+      leftIcon={<TbReceipt aria-hidden={true} className="h-6 min-h-6 w-6 min-w-6" />}
+      className={StyleHelper.mergeStyles('mt-2 min-h-11 rounded bg-gray-700/60 px-4 font-bold', className)}
       titleClassName={StyleHelper.mergeStyles('text-md whitespace-nowrap mr-3 !overflow-visible', titleClassName)}
       headerClassName="gap-4"
     >
       {isCalculatingFee ? (
-        <Loader className="w-4 h-4" containerClassName="w-min items-center" />
+        <Loader className="h-4 w-4" containerClassName="w-min items-center" />
       ) : (
         <div className={StyleHelper.mergeStyles('flex items-center gap-3 text-sm', textClassName)}>
-          <span className="font-normal uppercase mt-0.5 text-right leading-4">
+          <span className="mt-0.5 text-right font-normal uppercase leading-4">
             {(!service ? '' : fee) ?? '0.00'} {service?.feeToken.symbol}{' '}
             {service ? <span className="text-gray-100">| {service.name}</span> : null}
           </span>
 
-          <span className={StyleHelper.mergeStyles('text-white whitespace-nowrap', fiatClassName)}>
+          <span className={StyleHelper.mergeStyles('whitespace-nowrap text-white', fiatClassName)}>
             {NumberHelper.currency(fiatFee, currency.label)}
           </span>
         </div>

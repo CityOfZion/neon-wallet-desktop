@@ -60,10 +60,10 @@ export const ImportAccountsSelectionModal = () => {
       headingIcon={<TbFileImport aria-hidden={true} />}
       contentClassName="flex flex-col min-h-0"
     >
-      <p className="text-sm text-center">{t('description')}</p>
+      <p className="text-center text-sm">{t('description')}</p>
 
       <MnemonicOrKeyAccountSelection
-        className="mt-6 flex-grow mb-3"
+        className="mb-3 mt-6 flex-grow"
         mnemonicOrKey={mnemonicOrKey}
         selectedAccounts={selectedAccounts}
         onSelect={setSelectedAccounts}
