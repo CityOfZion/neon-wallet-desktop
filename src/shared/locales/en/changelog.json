@@ -4,12 +4,6 @@
     {
       "version": "3.7.0",
       "date": "29 May 2025",
-      "changes": [],
-      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.7.0"
-    },
-    {
-      "version": "3.7.0",
-      "date": "29 May 2025",
       "changes": [
         "New Feature: Action Search - Quick access to existing wallet actions",
         "New Feature: Export Transaction History",
@@ -27,7 +21,7 @@
         "Fixed issue that caused Wallet Connect modals to remain open after a successful result",
         "Fixed issue that caused ledger navigation to be slow while connected for migration",
         "Improvement to message presented when importing a mnemonic returns no accounts",
-        "Improvement to message presented when migration check timesout",
+        "Improvement to message presented when migration check timeout",
         "Improved approach to parsing swap option tickers returned by swap partner",
         "Change default node for Polygon",
         "Minor Bugfixes"
