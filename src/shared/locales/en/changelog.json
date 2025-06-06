@@ -2,6 +2,17 @@
   "versionLabel": "Version v{{version}}",
   "notes": [
     {
+      "version": "3.7.1",
+      "date": "06 Jun 2025",
+      "changes": [
+        "Fix to duplicated 3.7.0 changelog",
+        "Fix to issue impacting transaction fee calculation when doing a swap",
+        "Fix to pending transaction being listed twice in the transaction list",
+        "Quick access to legacy migration via Action Search"
+      ],
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.7.1"
+    },
+    {
       "version": "3.7.0",
       "date": "29 May 2025",
       "changes": [
