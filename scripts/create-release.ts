@@ -6,13 +6,9 @@ import path from 'path'
 import { promisify } from 'util'
 
 import packageJson from '../package.json'
+import changelog from '../src/shared/locales/en/changelog.json'
 
 const execAsync = promisify(exec)
-
-process.on('uncaughtException', error => {
-  console.error('\n' + error)
-  process.exit(1)
-})
 
 async function verifyIfGitIsClean() {
   const { stdout } = await execAsync('git status --porcelain')
@@ -33,60 +29,14 @@ async function verifyIfTagAlreadyExists(version: string) {
 }
 
 async function bumpVersion(npmCliBumpType: string) {
-  const { stdout } = await execAsync(
-    `npm version ${npmCliBumpType} --no-git-tag-version --no-commit-hooks --preid rc --json`
-  )
-
-  return stdout.slice(1, -1)
-}
-
-async function main() {
-  await verifyIfGitIsClean()
-
-  const { value: selectedReleaseType } = await inquirer.prompt([
-    {
-      type: 'select',
-      message: 'What type of release do you wanna create?',
-      default: 'release-candidate',
-      choices: [
-        { value: 'release-candidate', name: 'Release Candidate' },
-        { value: 'stable', name: 'Stable' },
-      ],
-      name: 'value',
-    },
-  ])
-
-  const packageJsonVersion = packageJson.version
-  const actualVersionIsPreRelease = packageJsonVersion.includes('rc')
-  const isReleaseCandidate = selectedReleaseType === 'release-candidate'
-
-  let npmCliBumpType: string
-
-  if (isReleaseCandidate && actualVersionIsPreRelease) {
-    npmCliBumpType = 'prerelease'
-  } else {
-    const { value: selectedBumpType } = await inquirer.prompt([
-      {
-        type: 'select',
-        message: 'Select the bump type',
-        name: 'value',
-        loop: false,
-        default: 'patch',
-        choices: [
-          { value: 'patch', name: 'Patch' },
-          { value: 'minor', name: 'Minor' },
-          { value: 'major', name: 'Major' },
-        ],
-      },
-    ])
-
-    npmCliBumpType = isReleaseCandidate ? `pre${selectedBumpType}` : selectedBumpType
-  }
-
   let newVersion: string | null = null
 
   do {
-    const bumpedVersion = await bumpVersion(npmCliBumpType)
+    const { stdout } = await execAsync(
+      `npm version ${npmCliBumpType} --no-git-tag-version --no-commit-hooks --preid rc --json`
+    )
+    const bumpedVersion = stdout.slice(1, -1)
+
     const tagAlreadyExists = await verifyIfTagAlreadyExists(bumpedVersion)
 
     if (tagAlreadyExists) {
@@ -112,47 +62,112 @@ async function main() {
     newVersion = bumpedVersion
   } while (!newVersion)
 
-  if (!isReleaseCandidate) {
-    const { value } = await inquirer.prompt([
-      {
-        type: 'editor',
-        message: 'Enter the release notes',
-        name: 'value',
-        default: JSON.stringify(
-          {
-            version: newVersion,
-            date: format(new Date(), 'dd MMM yyyy'),
-            changes: [],
-            url: `https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v${newVersion}`,
-          },
-          null,
-          2
-        ),
-        postfix: '.json',
-      },
-    ])
-    const releaseNotes = JSON.parse(value)
+  return newVersion
+}
 
-    const actualChangelog = await fs.readFile(path.join(__dirname, '../src/shared/locales/en/changelog.json'), 'utf-8')
-    const parsedChangelog = JSON.parse(actualChangelog)
+async function createOrUpdateChangelog(bumpedVersion: string, actualVersion: string) {
+  let lastChangelog: (typeof changelog.notes)[0] | undefined
 
-    parsedChangelog.notes.unshift(releaseNotes)
+  // Should not get the last changelog if the actual version is a stable version
+  if (actualVersion.includes('rc')) {
+    const lastChangelogIndex = changelog.notes.findIndex(item => item.version === actualVersion)
+    lastChangelog = changelog.notes[lastChangelogIndex]
 
-    await fs.writeFile(
-      path.join(__dirname, '../src/shared/locales/en/changelog.json'),
-      JSON.stringify(parsedChangelog, null, 2),
-      'utf-8'
-    )
+    if (lastChangelogIndex >= 0) {
+      changelog.notes.splice(lastChangelogIndex, 1)
+    }
   }
 
+  const { value } = await inquirer.prompt([
+    {
+      type: 'editor',
+      message: 'Enter the release notes',
+      name: 'value',
+      default: JSON.stringify(
+        {
+          version: bumpedVersion,
+          date: format(new Date(), 'dd MMM yyyy'),
+          changes: lastChangelog?.changes ?? [],
+          url: `https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v${bumpedVersion}`,
+        },
+        null,
+        2
+      ),
+      postfix: '.json',
+    },
+  ])
+
+  const updatedChangelog = JSON.parse(value)
+
+  changelog.notes.unshift(updatedChangelog)
+
+  await fs.writeFile(
+    path.join(__dirname, '../src/shared/locales/en/changelog.json'),
+    JSON.stringify(changelog, null, 2),
+    'utf-8'
+  )
+}
+
+async function main() {
+  await verifyIfGitIsClean()
+
+  const { value: selectedReleaseType } = await inquirer.prompt([
+    {
+      type: 'select',
+      message: 'What type of release do you wanna create?',
+      default: 'release-candidate',
+      choices: [
+        { value: 'release-candidate', name: 'Release Candidate' },
+        { value: 'stable', name: 'Stable' },
+      ],
+      name: 'value',
+    },
+  ])
+
+  const packageJsonVersion = packageJson.version
+  const actualVersionIsReleaseCandidate = packageJsonVersion.includes('rc')
+  const isReleaseCandidate = selectedReleaseType === 'release-candidate'
+
+  let npmCliBumpType: string
+
+  if (isReleaseCandidate && actualVersionIsReleaseCandidate) {
+    npmCliBumpType = 'prerelease'
+  } else {
+    const { value: selectedBumpType } = await inquirer.prompt([
+      {
+        type: 'select',
+        message: 'Select the bump type',
+        name: 'value',
+        loop: false,
+        default: 'patch',
+        choices: [
+          { value: 'patch', name: 'Patch' },
+          { value: 'minor', name: 'Minor' },
+          { value: 'major', name: 'Major' },
+        ],
+      },
+    ])
+
+    npmCliBumpType = isReleaseCandidate ? `pre${selectedBumpType}` : selectedBumpType
+  }
+
+  const bumpedVersion = await bumpVersion(npmCliBumpType)
+
+  await createOrUpdateChangelog(bumpedVersion, packageJsonVersion)
+
   await execAsync('git add .')
-  await execAsync(`git commit -m "Bump version to ${newVersion}" --no-verify`)
+  await execAsync(`git commit -m "Bump version to ${bumpedVersion}" --no-verify`)
   await execAsync('git push origin HEAD --no-verify')
 
-  await execAsync(`git tag v${newVersion}`)
-  await execAsync(`git push origin v${newVersion}`)
+  await execAsync(`git tag v${bumpedVersion}`)
+  await execAsync(`git push origin v${bumpedVersion}`)
 
-  console.log(`\n\nVersion ${newVersion} released successfully`)
+  console.log(`\n\nVersion ${bumpedVersion} released successfully`)
 }
+
+process.on('uncaughtException', error => {
+  console.error('\n' + error)
+  process.exit(1)
+})
 
 main()
