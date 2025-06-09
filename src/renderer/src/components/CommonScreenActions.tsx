@@ -39,7 +39,7 @@ export const CommonScreenActions = ({ children, className, ...props }: TProps) =
           text={t('notificationButtonLabel')}
           size="sm"
           fullHeight
-          className="min-w-14"
+          className="min-w-16"
           icon={
             <div className="relative h-6 w-6">
               <TbBell className="h-6 w-6" aria-hidden />

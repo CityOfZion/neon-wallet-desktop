@@ -14,6 +14,7 @@ export type TMainLayoutProps = {
   titleIcon?: JSX.Element
   contentClassName?: string
   headerClassName?: string
+  withSeparator?: boolean
   rightComponent?: ReactNode
   onBackClick?: () => void
 } & ComponentProps<'div'>
@@ -27,6 +28,7 @@ export const ContentLayout = ({
   className,
   rightComponent,
   onBackClick,
+  withSeparator = true,
   ...props
 }: TMainLayoutProps): JSX.Element => {
   const navigate = useNavigate()
@@ -81,7 +83,7 @@ export const ContentLayout = ({
           {rightComponent}
         </header>
 
-        <Separator />
+        {withSeparator && <Separator />}
 
         <main className={StyleHelper.mergeStyles('mt-4 flex min-h-0 w-full flex-grow flex-col', contentClassName)}>
           {children}

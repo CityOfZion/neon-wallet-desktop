@@ -1,9 +1,10 @@
 import { cloneElement, ComponentProps, ReactNode } from 'react'
 import { MdInfoOutline, MdVerified } from 'react-icons/md'
+import { PiWarningDiamondFill } from 'react-icons/pi'
 import { TbAlertHexagonFilled, TbAlertSmall, TbAlertTriangle } from 'react-icons/tb'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
-export type TBannerType = 'info' | 'error' | 'success' | 'warning' | 'warningOrange'
+export type TBannerType = 'info' | 'error' | 'success' | 'warning' | 'warningOrange' | 'alert'
 
 export type TBanner = {
   type: TBannerType
@@ -26,6 +27,7 @@ const iconByType: Record<TBannerType, JSX.Element> = {
       <div className="absolute h-4 w-4 rotate-45 rounded-sm border-2 border-orange" />
     </div>
   ),
+  alert: <PiWarningDiamondFill aria-hidden={true} className="h-6 w-6 text-pink" />,
 }
 
 export const Banner = ({ message, type, className, textClassName, iconClassName, ...props }: TProps) => {

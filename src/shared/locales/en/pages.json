@@ -180,6 +180,7 @@
     "editAccountButton": "Edit account",
     "exportButtonLabel": "Export",
     "exportKeyButton": "Export key",
+    "voteNeo3Button": "Vote",
     "importButtonLabel": "Import",
     "newWalletButtonLabel": "New Wallet",
     "address": "Address",
@@ -578,6 +579,22 @@
     "failureNotification": {
       "title": "Migration failed",
       "previewBody": "We couldn't verify the completion of your migration transfer"
+    }
+  },
+  "voteNeo3": {
+    "title": "Voting",
+    "subtitle": "Select a candidate",
+    "noAccountSelectedLabel": "No account selected",
+    "changeNeo3AccountLabel": "Change",
+    "selectNeo3AccountLabel": "Select",
+    "createNeo3AccountLabel": "There isn't any Neo 3 account, create one, please",
+    "sideBar": {
+      "title": "How does it work?",
+      "aboutNeoLabel": "The number of NEO you hold equates to the number of votes you can cast to vote for a candidate.",
+      "whyVoteTitle": "Why vote?",
+      "whyVoteDescription": "By voting, you’re actively participating in the NEO ecosystem and are subsequently eligible to receive GAS as a holder’s benefit.",
+      "noteLabel": "Note: By not voting, you miss will out on this benefit.",
+      "sellNeoAlert": "If you sell your NEO, your votes will be reduced by the number you have sold and your GAS reward will reduce proportionately too"
     }
   }
 }

@@ -1,7 +1,7 @@
 import { Fragment, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdAdd, MdOutlineContentCopy } from 'react-icons/md'
-import { TbDotsVertical, TbFileExport, TbPencil, TbUpload } from 'react-icons/tb'
+import { TbChartBarPopular, TbDotsVertical, TbFileExport, TbPencil, TbUpload } from 'react-icons/tb'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import { hasNft } from '@cityofzion/blockchain-service'
 import { ActionPopover } from '@renderer/components/ActionPopover'
@@ -86,6 +86,10 @@ export const WalletsPage = () => {
           }),
       },
     })
+  }
+
+  const handleGoToVoteNeo3 = () => {
+    navigate('/app/vote-neo3', { state: { defaultNeo3Account: selectedAccount } })
   }
 
   useLayoutEffect(() => {
@@ -205,7 +209,7 @@ export const WalletsPage = () => {
                     <IconButton icon={<TbDotsVertical aria-hidden={true} />} size="md" compacted />
                   </ActionPopover.Trigger>
 
-                  <ActionPopover.Content>
+                  <ActionPopover.Content side="bottom" sideOffset={-8} align="end">
                     <ActionPopover.Item
                       leftIcon={<TbPencil aria-hidden={true} />}
                       onClick={modalNavigateWrapper('persist-account', { state: { account: selectedAccount } })}
@@ -218,6 +222,15 @@ export const WalletsPage = () => {
                         onClick={handleExportKey}
                         label={t('exportKeyButton')}
                         textClassName="text-start text-white"
+                      />
+                    )}
+
+                    {selectedAccount?.blockchain === 'neo3' && (
+                      <ActionPopover.Item
+                        label={t('voteNeo3Button')}
+                        textClassName="text-start text-white"
+                        leftIcon={<TbChartBarPopular aria-hidden={true} />}
+                        onClick={handleGoToVoteNeo3}
                       />
                     )}
                   </ActionPopover.Content>

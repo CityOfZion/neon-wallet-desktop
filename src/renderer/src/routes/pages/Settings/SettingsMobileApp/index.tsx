@@ -24,11 +24,11 @@ export const SettingsMobileApp = () => {
           <span>{t('descriptionLine2')}</span>
         </div>
         <div className="flex items-center">
-          <AppStore className="h-[3rem] w-[10rem]" onClick={appstoreClick} />
+          <AppStore className="h-[3rem] w-[10rem] cursor-pointer" onClick={appstoreClick} />
           <div className="mx-5 flex h-12 w-5 justify-center">
             <div className="h-full w-px bg-gray-300/30" />
           </div>
-          <img src={PlayStore} className="w-[11rem]" onClick={playstoreClick} />
+          <img src={PlayStore} className="w-[11rem] cursor-pointer" onClick={playstoreClick} />
         </div>
       </div>
     </SettingsLayout>
