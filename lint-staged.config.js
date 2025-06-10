@@ -1,3 +1,3 @@
 module.exports = {
-  '**/*.ts?(x)': () => ['npm run lint', 'npm run typecheck:web', 'npm run typecheck:node'],
+  '**/*.ts?(x)': files => [`npm run lint -- ${files.join(' ')}`, 'npm run typecheck:web', 'npm run typecheck:node'],
 }
