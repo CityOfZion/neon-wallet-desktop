@@ -121,6 +121,22 @@
       "label": "Sell tokens"
     },
     {
+      "id": "voteNeo3",
+      "verbs": [
+        "vote"
+      ],
+      "nonVerbs": [
+        "voting",
+        "neo",
+        "n3",
+        "node",
+        "member",
+        "consensus",
+        "council"
+      ],
+      "label": "Vote (Neo 3)"
+    },
+    {
       "id": "migrationNeo3",
       "verbs": [
         "token",

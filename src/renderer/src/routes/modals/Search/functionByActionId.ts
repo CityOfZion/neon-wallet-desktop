@@ -96,4 +96,8 @@ export const functionsByActionId: TFunctionsByActionId = {
       replace: true,
     })
   },
+  voteNeo3: async ({ modalActions, pageNavigate }) => {
+    modalActions.modalErase('center')
+    pageNavigate('/app/vote-neo3')
+  },
 }
