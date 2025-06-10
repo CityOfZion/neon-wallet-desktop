@@ -32,6 +32,7 @@ import { SettingsNetwork } from './pages/Settings/SettingsNetwork'
 import { SettingsRecoverWallet } from './pages/Settings/SettingsRecoverWallet'
 import { SettingsReleaseNotesPage } from './pages/Settings/SettingsReleaseNotes'
 import { SwapPage } from './pages/Swap'
+import { VoteNeo3Page } from './pages/VoteNeo3'
 import { WalletsPage } from './pages/Wallets'
 import { AccountConnections } from './pages/Wallets/AccountConnection'
 import { AccountNftList } from './pages/Wallets/AccountNftList'
@@ -129,6 +130,10 @@ export const pagesRouter = routeHandler([
           {
             path: 'buy-and-sell-tokens',
             element: <BuyAndSellTokensPage />,
+          },
+          {
+            path: 'vote-neo3',
+            element: <VoteNeo3Page />,
           },
           {
             path: 'contacts',

@@ -1,6 +1,7 @@
 import { MutableRefObject, useCallback, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { SelectorHelper } from '@renderer/helpers/SelectorHelper'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TAccountHelperPredicateParams } from '@shared/@types/helpers'
 import { TAccountWithWallet } from '@shared/@types/store'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
@@ -15,6 +16,15 @@ export const selectAccounts = createAppSelector(
     )
   }
 )
+
+export const selectAccountsByBlockchains = (blockchains: TBlockchainServiceKey[]) =>
+  createAppSelector(
+    [state => state.auth.data.applicationDataByLoginType, state => state.auth.inMemoryData.currentLoginSession],
+    (applicationDataByLoginType, currentLoginSession) =>
+      applicationDataByLoginType[currentLoginSession?.type ?? 'password'].wallets
+        .flatMap(wallet => wallet.accounts)
+        .filter(account => blockchains.some(blockchain => blockchain === account.blockchain))
+  )
 
 export const selectAccount = (params: TAccountHelperPredicateParams) =>
   createAppSelector(
@@ -72,6 +82,14 @@ export const useAccountsSelector = () => {
     accounts: value,
     accountsRef: ref,
   }
+}
+
+export const useAccountsByBlockchainsSelector = (blockchains: TBlockchainServiceKey[]) => {
+  const { value: accountsByBlockchains, ref: accountsByBlockchainsRef } = useAppSelector(
+    selectAccountsByBlockchains(blockchains)
+  )
+
+  return { accountsByBlockchains, accountsByBlockchainsRef }
 }
 
 export const useAccountSelector = (account: TAccountHelperPredicateParams) => {
