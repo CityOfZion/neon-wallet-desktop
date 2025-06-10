@@ -147,8 +147,7 @@ const getFullTransactions = async ({
       const response = await service.blockchainDataService.getFullTransactionsByAddress({
         address: account.address,
         dateFrom: dateFrom.toJSON(),
-        // TODO: subtract a second to avoid issues with server date, it's necessary to consider only the date on server in future
-        dateTo: (dateFns.isSameDay(dateTo, dateNow) ? dateFns.sub(dateNow, { seconds: 1 }) : dateTo).toJSON(),
+        dateTo: (dateFns.isSameDay(dateTo, dateNow) ? dateNow : dateTo).toJSON(),
         nextCursor,
         pageSize: blockchain === 'neoLegacy' ? 30 : 50,
       })
