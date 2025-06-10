@@ -25,10 +25,10 @@ export const VoteNeo3Page = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'voteNeo3' })
   const { accounts } = useAccountsSelector()
   const { accountsByBlockchains: neo3Accounts } = useAccountsByBlockchainsSelector(['neo3'])
-  const location = useLocation() as Location<TLocationState>
+  const location = useLocation() as Location<TLocationState | null>
   const navigate = useNavigate()
 
-  const { defaultNeo3Account } = location.state
+  const defaultNeo3Account = location.state?.defaultNeo3Account
 
   const {
     actionData: { neo3Account },
