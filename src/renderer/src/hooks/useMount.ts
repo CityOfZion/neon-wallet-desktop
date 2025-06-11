@@ -31,6 +31,7 @@ export const useMount = (effect: TEffect, changingStateVars?: DependencyList, de
 
   return { isMounting }
 }
+
 export const useMountUnsafe = (effect: TEffect, delay: number = 0) => {
   const [isMounting, setIsMounting] = useState(true)
 

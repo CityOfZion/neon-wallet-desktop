@@ -8,6 +8,9 @@ import { Tooltip } from '@renderer/components/Tooltip'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { useAccountsByBlockchainsSelector, useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
+import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+import { useMountUnsafe } from '@renderer/hooks/useMount'
+import { useCanShowVoteNeo3SupportUsModalSelector } from '@renderer/hooks/useSettingsSelector'
 import { ContentLayout } from '@renderer/layouts/ContentLayout'
 import { IAccountState } from '@shared/@types/store'
 
@@ -25,8 +28,10 @@ export const VoteNeo3Page = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'voteNeo3' })
   const { accounts } = useAccountsSelector()
   const { accountsByBlockchains: neo3Accounts } = useAccountsByBlockchainsSelector(['neo3'])
-  const location = useLocation() as Location<TLocationState | null>
+  const { canShowVoteNeo3SupportUsModalRef } = useCanShowVoteNeo3SupportUsModalSelector()
+  const { modalNavigate } = useModalNavigate()
   const navigate = useNavigate()
+  const location = useLocation() as Location<TLocationState | null>
 
   const defaultNeo3Account = location.state?.defaultNeo3Account
 
@@ -46,6 +51,10 @@ export const VoteNeo3Page = () => {
   const handleChangeNeo3Account = (neo3Account: IAccountState) => {
     setData({ neo3Account })
   }
+
+  useMountUnsafe(() => {
+    if (canShowVoteNeo3SupportUsModalRef.current && neo3Account) modalNavigate('vote-neo3-support-us')
+  })
 
   return (
     <ContentLayout

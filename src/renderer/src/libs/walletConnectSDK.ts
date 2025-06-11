@@ -4,6 +4,7 @@ import {
   type AbstractWalletConnectNeonAdapter,
   type TInitOptions,
 } from '@cityofzion/wallet-connect-sdk-wallet-react'
+import { COZ_WEBSITE_URL } from '@renderer/constants/urls'
 import i18n from 'i18next'
 
 export const walletConnectNeonAdapter = bindApiFromMain<AbstractWalletConnectNeonAdapter>('WalletConnectNeonAdapter')
@@ -21,7 +22,7 @@ export const walletConnectOptions: TInitOptions = {
     metadata: {
       name: i18n.t('common:walletConnect.name'),
       description: i18n.t('common:walletConnect.description'),
-      url: 'https://coz.io/',
+      url: COZ_WEBSITE_URL,
       icons: [
         'https://raw.githubusercontent.com/CityOfZion/visual-identity/develop/_CoZ%20Branding/_Logo/_Logo%20icon/_PNG%20200x178px/CoZ_Icon_DARKBLUE_200x178px.png',
       ],

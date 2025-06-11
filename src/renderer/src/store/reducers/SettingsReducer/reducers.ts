@@ -128,6 +128,10 @@ const setSelectNetworkProfile: CaseReducer<ISettingsReducer, PayloadAction<strin
   state.data.selectedNetworkByBlockchain = profile.networkByBlockchain
 }
 
+const dontShowVoteNeo3SupportUsModalAgain: CaseReducer<ISettingsReducer> = ({ data }) => {
+  data.canShowVoteNeo3SupportUsModal = false
+}
+
 export const settingsSliceReducers = {
   setEncryptedLoginControl,
   setIsFirstTime,
@@ -141,4 +145,5 @@ export const settingsSliceReducers = {
   saveNetworkProfile,
   deleteNetworkProfile,
   setSelectNetworkProfile,
+  dontShowVoteNeo3SupportUsModalAgain,
 }

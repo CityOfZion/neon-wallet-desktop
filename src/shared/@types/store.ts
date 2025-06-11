@@ -89,6 +89,7 @@ export interface ISettingsState {
   selectedNetworkByBlockchain: TSelectedNetworks
   networkProfiles: TNetworkProfile[]
   selectedNetworkProfile: TNetworkProfile
+  canShowVoteNeo3SupportUsModal: boolean
   encryptedLoginControl?: string
 }
 
