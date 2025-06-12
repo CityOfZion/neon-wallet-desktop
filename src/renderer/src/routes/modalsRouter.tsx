@@ -56,6 +56,7 @@ import { SelectContact } from './modals/SelectContact'
 import { SellTokensDepositModal } from './modals/SellTokensDeposit/SellTokensDepositModal'
 import { SuccessModal } from './modals/Success'
 import { SwapDetailsModal } from './modals/SwapDetails'
+import { VoteNeo3SupportUsModal } from './modals/VoteNeo3SupportUs'
 
 export const modalsRouter: TRoute[] = [
   { name: 'import', type: 'side', element: <ImportModal /> },
@@ -139,4 +140,12 @@ export const modalsRouter: TRoute[] = [
   { name: 'migration-neo3-claim-alert', type: 'center', size: 'xs', element: <MigrationNeo3ClaimAlertModal /> },
   { name: 'search', type: 'center', size: 'sm', element: <SearchModal />, closeOnEsc: true, closeOnClickOutside: true },
   { name: 'export-full-transactions', type: 'center', size: 'sm', element: <ExportFullTransactionsModal /> },
+  {
+    name: 'vote-neo3-support-us',
+    type: 'center',
+    size: 'sm',
+    closeOnEsc: true,
+    closeOnClickOutside: true,
+    element: <VoteNeo3SupportUsModal />,
+  },
 ]

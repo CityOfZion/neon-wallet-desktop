@@ -139,3 +139,11 @@ export const useSettingsActions = () => {
     setHasPassword,
   }
 }
+
+export const useCanShowVoteNeo3SupportUsModalSelector = () => {
+  const { value: canShowVoteNeo3SupportUsModal, ref: canShowVoteNeo3SupportUsModalRef } = useAppSelector(
+    ({ settings }) => settings.data.canShowVoteNeo3SupportUsModal
+  )
+
+  return { canShowVoteNeo3SupportUsModal, canShowVoteNeo3SupportUsModalRef }
+}

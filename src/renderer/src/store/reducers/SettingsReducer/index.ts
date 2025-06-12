@@ -31,6 +31,7 @@ const settingsReducerInitialState: ISettingsReducer = {
     selectedNetworkByBlockchain: DEFAULT_NETWORK_BY__BLOCKCHAIN,
     networkProfiles: [DEFAULT_NETWORK_PROFILE],
     selectedNetworkProfile: DEFAULT_NETWORK_PROFILE,
+    canShowVoteNeo3SupportUsModal: true,
   },
 }
 
@@ -153,12 +154,19 @@ const settingsReducerMigrations = {
       },
     },
   }),
+  6: (state: any) => ({
+    ...state,
+    data: {
+      ...state.data,
+      canShowVoteNeo3SupportUsModal: true,
+    },
+  }),
 }
 
 export const settingsReducerConfig: PersistConfig<ISettingsReducer> = {
   key: 'settingsReducer',
   storage: storage,
-  version: 5,
+  version: 6,
   migrate: createMigrate(settingsReducerMigrations),
 }
 
