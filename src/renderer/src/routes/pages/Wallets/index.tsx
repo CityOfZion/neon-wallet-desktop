@@ -89,6 +89,8 @@ export const WalletsPage = () => {
   }
 
   const handleGoToVoteNeo3 = () => {
+    if (selectedAccount!.blockchain !== 'neo3') return
+
     navigate('/app/vote-neo3', { state: { defaultNeo3Account: selectedAccount } })
   }
 

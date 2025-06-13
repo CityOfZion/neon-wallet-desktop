@@ -16,12 +16,7 @@ import { CommonScreenActions } from '@renderer/components/CommonScreenActions'
 import { IconButton } from '@renderer/components/IconButton'
 import { Loader } from '@renderer/components/Loader'
 import { Separator } from '@renderer/components/Separator'
-import {
-  NEO_LEGACY_GAS_TOKEN,
-  NEO_LEGACY_NEO_TOKEN,
-  NEO3_GAS_TOKEN,
-  NEO3_NEO_TOKEN,
-} from '@renderer/constants/migration-neo3'
+import { NEO_LEGACY_GAS_TOKEN, NEO_LEGACY_NEO_TOKEN, NEO3_GAS_TOKEN, NEO3_NEO_TOKEN } from '@renderer/constants/tokens'
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { DateHelper } from '@renderer/helpers/DateHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'

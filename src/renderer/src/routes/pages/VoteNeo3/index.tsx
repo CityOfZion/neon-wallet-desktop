@@ -1,19 +1,35 @@
+import { useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbChartBarPopular } from 'react-icons/tb'
 import { Location, useLocation, useNavigate } from 'react-router-dom'
+import { normalizeHash } from '@cityofzion/blockchain-service'
 import { Button } from '@renderer/components/Button'
 import { GreyAccountSelect } from '@renderer/components/GreyAccountSelect'
 import { Separator } from '@renderer/components/Separator'
 import { Tooltip } from '@renderer/components/Tooltip'
+import { VOTE_NEO3_COZ_PUB_KEY } from '@renderer/constants/public-keys'
+import { NetworkHelper } from '@renderer/helpers/NetworkHelper'
+import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { useAccountsByBlockchainsSelector, useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
+import { useBalance } from '@renderer/hooks/useBalances'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
-import { useMountUnsafe } from '@renderer/hooks/useMount'
+import { useMount } from '@renderer/hooks/useMount'
+import { useSelectedNetworkByBlockchainSelector } from '@renderer/hooks/useSettingsSelector'
 import { useCanShowVoteNeo3SupportUsModalSelector } from '@renderer/hooks/useSettingsSelector'
+import {
+  useVoteNeo3CalculateVoteFee,
+  useVoteNeo3GetCandidatesToVote,
+  useVoteNeo3GetVoteDetailsByAddress,
+} from '@renderer/hooks/useVoteNeo3'
 import { ContentLayout } from '@renderer/layouts/ContentLayout'
+import { bsAggregator } from '@renderer/libs/blockchainService'
 import { IAccountState } from '@shared/@types/store'
+import { match, P } from 'ts-pattern'
 
+import { VoteNeo3AvailableVotes } from './VoteNeo3AvailableVotes'
+import { VoteNeo3List } from './VoteNeo3List'
 import { VoteNeo3SideBar } from './VoteNeo3SideBar'
 
 type TLocationState = {
@@ -28,11 +44,20 @@ export const VoteNeo3Page = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'voteNeo3' })
   const { accounts } = useAccountsSelector()
   const { accountsByBlockchains: neo3Accounts } = useAccountsByBlockchainsSelector(['neo3'])
-  const { canShowVoteNeo3SupportUsModalRef } = useCanShowVoteNeo3SupportUsModalSelector()
   const { modalNavigate } = useModalNavigate()
+  const { canShowVoteNeo3SupportUsModalRef } = useCanShowVoteNeo3SupportUsModalSelector()
+
+  const {
+    networkByBlockchain: { neo3: neo3Network },
+  } = useSelectedNetworkByBlockchainSelector()
+
   const navigate = useNavigate()
   const location = useLocation() as Location<TLocationState | null>
 
+  const canOpenVoteNeo3SupportUsModalRef = useRef(true)
+
+  const service = bsAggregator.blockchainServicesByName.neo3
+  const isMainnet = NetworkHelper.isMainnet('neo3', neo3Network)
   const defaultNeo3Account = location.state?.defaultNeo3Account
 
   const {
@@ -40,7 +65,48 @@ export const VoteNeo3Page = () => {
     setData,
   } = useActions<TActionsData>({ neo3Account: defaultNeo3Account })
 
-  const isAccountSelectionDisabled = neo3Accounts.length === 0
+  // We are using VOTE_NEO3_COZ_PUB_KEY only to calculate the fee
+  const calculateVoteFeeQuery = useVoteNeo3CalculateVoteFee({ neo3Account, candidatePubKey: VOTE_NEO3_COZ_PUB_KEY })
+  const candidatesToVoteQuery = useVoteNeo3GetCandidatesToVote()
+  const voteDetailsByAddressQuery = useVoteNeo3GetVoteDetailsByAddress(neo3Account?.address)
+  const balanceQuery = useBalance(neo3Account)
+
+  const isLoading =
+    calculateVoteFeeQuery.isLoading ||
+    candidatesToVoteQuery.isLoading ||
+    voteDetailsByAddressQuery.isLoading ||
+    balanceQuery.isLoading
+
+  const hasNeo3Accounts = neo3Accounts.length > 0
+  const isAccountSelectionDisabled = isLoading || !hasNeo3Accounts || !isMainnet
+
+  const hasEnoughGasToPayFee = useMemo(() => {
+    const gasFee = calculateVoteFeeQuery.data
+    const normalizedFeeTokenHash = normalizeHash(service.feeToken.hash)
+
+    const gasAmountNumber = balanceQuery.data?.tokensBalances?.find(
+      ({ token }) => normalizeHash(token.hash) === normalizedFeeTokenHash
+    )?.amountNumber
+
+    if (gasAmountNumber === undefined || gasFee === undefined) return undefined
+
+    return gasAmountNumber >= NumberHelper.number(gasFee)
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [balanceQuery.data?.tokensBalances, calculateVoteFeeQuery.data])
+
+  const isWatchAccount = neo3Account?.type === 'watch'
+  const neoAmount = voteDetailsByAddressQuery.data?.neoBalance ?? 0
+  const hasNeoAmount = neoAmount > 0
+  const canVote = !isLoading && isMainnet && !isWatchAccount && hasNeoAmount
+
+  const voteErrorMessage = match({ neo3Account, hasNeoAmount, isMainnet, isWatchAccount, hasEnoughGasToPayFee })
+    .with({ neo3Account: P.when(value => !value) }, () => t('voteErrorMessages.selectNeo3AccountLabel'))
+    .with({ isMainnet: false }, () => t('voteErrorMessages.shouldUseMainnetLabel'))
+    .with({ hasNeoAmount: false }, () => t('voteErrorMessages.thereIsNoNeoLabel'))
+    .with({ isWatchAccount: true }, () => t('voteErrorMessages.accountCanNotBeWatchLabel'))
+    .with({ hasEnoughGasToPayFee: false }, () => t('voteErrorMessages.shouldHaveEnoughGasToPayFeeLabel'))
+    .otherwise(() => undefined)
 
   const handleGoBack = () => {
     const accountId = defaultNeo3Account?.id || neo3Account?.id || neo3Accounts[0]?.id || accounts[0].id
@@ -49,12 +115,28 @@ export const VoteNeo3Page = () => {
   }
 
   const handleChangeNeo3Account = (neo3Account: IAccountState) => {
+    canOpenVoteNeo3SupportUsModalRef.current = false
+
     setData({ neo3Account })
   }
 
-  useMountUnsafe(() => {
-    if (canShowVoteNeo3SupportUsModalRef.current && neo3Account) modalNavigate('vote-neo3-support-us')
-  })
+  useMount(
+    () => {
+      if (
+        !canOpenVoteNeo3SupportUsModalRef.current ||
+        !canShowVoteNeo3SupportUsModalRef.current ||
+        voteDetailsByAddressQuery.isLoading ||
+        VOTE_NEO3_COZ_PUB_KEY === voteDetailsByAddressQuery.data?.candidatePubKey
+      )
+        return
+
+      canOpenVoteNeo3SupportUsModalRef.current = false
+
+      modalNavigate('vote-neo3-support-us')
+    },
+    [voteDetailsByAddressQuery.isLoading, voteDetailsByAddressQuery.data],
+    750
+  )
 
   return (
     <ContentLayout
@@ -74,15 +156,16 @@ export const VoteNeo3Page = () => {
           <GreyAccountSelect
             selectedAccount={neo3Account}
             blockchains={['neo3']}
+            accountTypes={['standard', 'hardware', 'watch']}
             disabled={isAccountSelectionDisabled}
             onSelect={handleChangeNeo3Account}
           >
             <div>
               <Tooltip
-                title={isAccountSelectionDisabled ? t('createNeo3AccountLabel') : ''}
+                title={hasNeo3Accounts ? '' : t('createNeo3AccountLabel')}
+                variant="black"
                 delayDuration={0}
-                contentProps={{ className: 'text-center inline-block max-w-32 break-words bg-gray-900' }}
-                arrowProps={{ className: 'fill-gray-900' }}
+                contentProps={{ className: 'max-w-32' }}
               >
                 <Button
                   label={neo3Account ? t('changeNeo3AccountLabel') : t('selectNeo3AccountLabel')}
@@ -98,17 +181,26 @@ export const VoteNeo3Page = () => {
       }
       onBackClick={handleGoBack}
     >
-      <section className="flex h-full w-full rounded bg-gray-800">
+      <section className="flex h-full min-h-0 w-full rounded bg-gray-800">
         <VoteNeo3SideBar />
 
-        <div className="flex h-full w-full flex-col px-4 pt-1">
+        <div className="flex h-full min-h-0 w-full flex-col gap-y-6 px-4 pb-6 pt-1">
           <div className="flex w-full flex-col">
             <h2 className="flex h-12 w-full items-center text-sm text-white">{t('subtitle')}</h2>
 
             <Separator />
           </div>
 
-          {/* TODO: add list here  */}
+          <div className="flex w-full items-center justify-end pr-4">
+            <VoteNeo3AvailableVotes
+              neoAmount={neoAmount}
+              voteErrorMessage={voteErrorMessage}
+              hasNeoAmount={hasNeoAmount}
+              neo3Account={neo3Account}
+            />
+          </div>
+
+          <VoteNeo3List neo3Account={neo3Account} voteErrorMessage={voteErrorMessage} canVote={canVote} />
         </div>
       </section>
     </ContentLayout>

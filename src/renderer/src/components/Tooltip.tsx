@@ -10,11 +10,15 @@ type TProps = {
   arrowProps?: RadixTooltip.TooltipArrowProps
   open?: boolean
   delayDuration?: number
+  variant?: 'default' | 'black'
 }
 
-export const Tooltip = ({ children, title, icon, open, delayDuration, ...props }: TProps) => {
+export const Tooltip = ({ children, title, icon, open, delayDuration, variant = 'default', ...props }: TProps) => {
   const { className: contentClassName, ...contentProps } = props.contentProps ?? {}
   const { className: arrowClassName, ...arrowProps } = props.arrowProps ?? {}
+
+  const isDefaultVariant = variant === 'default'
+  const isBlackVariant = variant === 'black'
 
   if (!title) return children
 
@@ -26,14 +30,24 @@ export const Tooltip = ({ children, title, icon, open, delayDuration, ...props }
           <RadixTooltip.Content
             side="bottom"
             className={StyleHelper.mergeStyles(
-              'z-[1010] flex items-center gap-2 rounded bg-gray-700 p-2 text-xs font-bold text-white shadow-lg',
+              'z-[1010] flex items-center gap-2 rounded p-2 text-xs font-bold text-white shadow-lg',
+              {
+                'bg-gray-700': isDefaultVariant,
+                'inline-block break-words bg-gray-900 text-center': isBlackVariant,
+              },
               contentClassName
             )}
             {...contentProps}
           >
             {icon}
             {title}
-            <RadixTooltip.Arrow className={StyleHelper.mergeStyles('fill-gray-700', arrowClassName)} {...arrowProps} />
+            <RadixTooltip.Arrow
+              className={StyleHelper.mergeStyles(
+                { 'fill-gray-700': isDefaultVariant, 'fill-gray-900': isBlackVariant },
+                arrowClassName
+              )}
+              {...arrowProps}
+            />
           </RadixTooltip.Content>
         </RadixTooltip.Portal>
       </RadixTooltip.Root>
