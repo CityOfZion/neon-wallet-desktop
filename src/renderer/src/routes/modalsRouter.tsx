@@ -56,6 +56,7 @@ import { SelectContact } from './modals/SelectContact'
 import { SellTokensDepositModal } from './modals/SellTokensDeposit/SellTokensDepositModal'
 import { SuccessModal } from './modals/Success'
 import { SwapDetailsModal } from './modals/SwapDetails'
+import { VoteNeo3CandidateDetailsModal } from './modals/VoteNeo3CandidateDetails'
 import { VoteNeo3SupportUsModal } from './modals/VoteNeo3SupportUs'
 
 export const modalsRouter: TRoute[] = [
@@ -147,5 +148,11 @@ export const modalsRouter: TRoute[] = [
     closeOnEsc: true,
     closeOnClickOutside: true,
     element: <VoteNeo3SupportUsModal />,
+  },
+  {
+    name: 'vote-neo3-candidate-details',
+    type: 'side',
+    size: 'sm',
+    element: <VoteNeo3CandidateDetailsModal />,
   },
 ]
