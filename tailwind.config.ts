@@ -39,6 +39,9 @@ export default {
       yellow: {
         DEFAULT: '#FEC42F',
       },
+      lemon: {
+        DEFAULT: '#BCFF2D',
+      },
       magenta: {
         DEFAULT: '#D355E7',
         700: '#7D4B93',

@@ -1,4 +1,5 @@
 import { BalanceResponse, Token, TokenPricesResponse } from '@cityofzion/blockchain-service'
+import { GetCandidatesToVoteResponse } from '@cityofzion/bs-neo3/dist/interfaces'
 import { QueryKey, UseQueryOptions } from '@tanstack/react-query'
 
 import { TBlockchainServiceKey } from './blockchain'
@@ -91,3 +92,5 @@ export type TNode = {
   url: string
   height?: number
 }
+
+export type TVoteNeo3Candidate = GetCandidatesToVoteResponse[number]

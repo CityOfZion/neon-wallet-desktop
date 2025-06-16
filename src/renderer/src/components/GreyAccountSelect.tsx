@@ -5,7 +5,7 @@ import { StringHelper } from '@renderer/helpers/StringHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { useAccountsWithWalletSelector } from '@renderer/hooks/useAccountSelector'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { IAccountState } from '@shared/@types/store'
+import { IAccountState, TAccountType } from '@shared/@types/store'
 import { match } from 'ts-pattern'
 
 import { BlockchainIcon } from './BlockchainIcon'
@@ -21,6 +21,7 @@ type TProps = {
   loading?: boolean
   placeholder?: string
   triggerClassName?: string
+  accountTypes?: TAccountType[]
 }
 
 export const GreyAccountSelect = ({
@@ -32,6 +33,7 @@ export const GreyAccountSelect = ({
   withoutIndicator,
   loading,
   triggerClassName,
+  accountTypes = ['standard', 'hardware'],
 }: TProps) => {
   const { accountsWithWallet } = useAccountsWithWalletSelector()
   const { t } = useTranslation('components', { keyPrefix: 'greyAccountSelect' })
@@ -39,14 +41,14 @@ export const GreyAccountSelect = ({
   const [open, setOpen] = useState(false)
 
   const filteredAccounts = useMemo(() => {
-    let filtered = accountsWithWallet.filter(account => account.type !== 'watch')
+    let filtered = accountsWithWallet.filter(account => (accountTypes ? accountTypes.includes(account.type) : true))
 
     if (blockchains) {
       filtered = filtered.filter(account => blockchains.includes(account.blockchain))
     }
 
     return filtered
-  }, [blockchains, accountsWithWallet])
+  }, [accountsWithWallet, blockchains, accountTypes])
 
   const isDisabled = loading || disabled || filteredAccounts.length === 0
 

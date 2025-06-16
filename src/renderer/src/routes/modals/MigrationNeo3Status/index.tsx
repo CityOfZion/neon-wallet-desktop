@@ -12,12 +12,7 @@ import { Details } from '@renderer/components/Details'
 import { IconButton } from '@renderer/components/IconButton'
 import { Link } from '@renderer/components/Link'
 import { Tooltip } from '@renderer/components/Tooltip'
-import {
-  NEO_LEGACY_GAS_TOKEN,
-  NEO_LEGACY_NEO_TOKEN,
-  NEO3_GAS_TOKEN,
-  NEO3_NEO_TOKEN,
-} from '@renderer/constants/migration-neo3'
+import { NEO_LEGACY_GAS_TOKEN, NEO_LEGACY_NEO_TOKEN, NEO3_GAS_TOKEN, NEO3_NEO_TOKEN } from '@renderer/constants/tokens'
 import { useAccountSelector } from '@renderer/hooks/useAccountSelector'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'

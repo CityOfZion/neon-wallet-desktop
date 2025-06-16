@@ -132,4 +132,8 @@ export class NumberHelper {
   static isBiggerThanZero(value: string) {
     return NumberHelper.number(value) > 0
   }
+
+  static localeNumber(value: number) {
+    return value.toLocaleString('en-US')
+  }
 }
