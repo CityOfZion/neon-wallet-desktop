@@ -38,7 +38,7 @@ export const VoteNeo3SupportUsModal = () => {
   }
 
   // TODO: redirect to modal of confirm vote
-  const handleGoToConfirmationVoteModalForCoz = () => {
+  const handleGoToVoteNeo3ConfirmationModalForCoz = () => {
     handleClose()
   }
 
@@ -81,7 +81,7 @@ export const VoteNeo3SupportUsModal = () => {
             iconsOnEdge={false}
             wide
             leftIcon={<TbCheckbox aria-hidden={true} />}
-            onClick={handleGoToConfirmationVoteModalForCoz}
+            onClick={handleGoToVoteNeo3ConfirmationModalForCoz}
           />
 
           <Button label={t('skipButtonLabel')} variant="card" colorSchema="gray" wide onClick={handleClose} />

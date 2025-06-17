@@ -1,15 +1,13 @@
-import { useMemo, useRef } from 'react'
+import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbChartBarPopular } from 'react-icons/tb'
 import { Location, useLocation, useNavigate } from 'react-router-dom'
-import { normalizeHash } from '@cityofzion/blockchain-service'
 import { Button } from '@renderer/components/Button'
 import { GreyAccountSelect } from '@renderer/components/GreyAccountSelect'
 import { Separator } from '@renderer/components/Separator'
 import { Tooltip } from '@renderer/components/Tooltip'
 import { VOTE_NEO3_COZ_PUB_KEY } from '@renderer/constants/public-keys'
 import { NetworkHelper } from '@renderer/helpers/NetworkHelper'
-import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { useAccountsByBlockchainsSelector, useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
@@ -22,9 +20,9 @@ import {
   useVoteNeo3CalculateVoteFee,
   useVoteNeo3GetCandidatesToVote,
   useVoteNeo3GetVoteDetailsByAddress,
+  useVoteNeo3Validations,
 } from '@renderer/hooks/useVoteNeo3'
 import { ContentLayout } from '@renderer/layouts/ContentLayout'
-import { bsAggregator } from '@renderer/libs/blockchainService'
 import { IAccountState } from '@shared/@types/store'
 import { match, P } from 'ts-pattern'
 
@@ -56,7 +54,6 @@ export const VoteNeo3Page = () => {
 
   const canOpenVoteNeo3SupportUsModalRef = useRef(true)
 
-  const service = bsAggregator.blockchainServicesByName.neo3
   const isMainnet = NetworkHelper.isMainnet('neo3', neo3Network)
   const defaultNeo3Account = location.state?.defaultNeo3Account
 
@@ -70,6 +67,7 @@ export const VoteNeo3Page = () => {
   const candidatesToVoteQuery = useVoteNeo3GetCandidatesToVote()
   const voteDetailsByAddressQuery = useVoteNeo3GetVoteDetailsByAddress(neo3Account?.address)
   const balanceQuery = useBalance(neo3Account)
+  const { hasEnoughGasToPayFee } = useVoteNeo3Validations({ balanceQuery, gasFee: calculateVoteFeeQuery.data })
 
   const isLoading =
     calculateVoteFeeQuery.isLoading ||
@@ -79,26 +77,10 @@ export const VoteNeo3Page = () => {
 
   const hasNeo3Accounts = neo3Accounts.length > 0
   const isAccountSelectionDisabled = isLoading || !hasNeo3Accounts || !isMainnet
-
-  const hasEnoughGasToPayFee = useMemo(() => {
-    const gasFee = calculateVoteFeeQuery.data
-    const normalizedFeeTokenHash = normalizeHash(service.feeToken.hash)
-
-    const gasAmountNumber = balanceQuery.data?.tokensBalances?.find(
-      ({ token }) => normalizeHash(token.hash) === normalizedFeeTokenHash
-    )?.amountNumber
-
-    if (gasAmountNumber === undefined || gasFee === undefined) return undefined
-
-    return gasAmountNumber >= NumberHelper.number(gasFee)
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [balanceQuery.data?.tokensBalances, calculateVoteFeeQuery.data])
-
   const isWatchAccount = neo3Account?.type === 'watch'
   const neoAmount = voteDetailsByAddressQuery.data?.neoBalance ?? 0
   const hasNeoAmount = neoAmount > 0
-  const canVote = !isLoading && isMainnet && !isWatchAccount && hasNeoAmount
+  const canVote = !isLoading && isMainnet && !isWatchAccount && hasNeoAmount && !!hasEnoughGasToPayFee
 
   const voteErrorMessage = match({ neo3Account, hasNeoAmount, isMainnet, isWatchAccount, hasEnoughGasToPayFee })
     .with({ neo3Account: P.when(value => !value) }, () => t('voteErrorMessages.selectNeo3AccountLabel'))
@@ -126,7 +108,8 @@ export const VoteNeo3Page = () => {
         !canOpenVoteNeo3SupportUsModalRef.current ||
         !canShowVoteNeo3SupportUsModalRef.current ||
         voteDetailsByAddressQuery.isLoading ||
-        VOTE_NEO3_COZ_PUB_KEY === voteDetailsByAddressQuery.data?.candidatePubKey
+        VOTE_NEO3_COZ_PUB_KEY === voteDetailsByAddressQuery.data?.candidatePubKey ||
+        !defaultNeo3Account
       )
         return
 
@@ -134,7 +117,7 @@ export const VoteNeo3Page = () => {
 
       modalNavigate('vote-neo3-support-us')
     },
-    [voteDetailsByAddressQuery.isLoading, voteDetailsByAddressQuery.data],
+    [voteDetailsByAddressQuery.isLoading, voteDetailsByAddressQuery.data, defaultNeo3Account],
     750
   )
 

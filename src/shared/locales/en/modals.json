@@ -802,5 +802,20 @@
     "voteForCozButtonLabel": "Cast your vote for COZ",
     "skipButtonLabel": "Skip",
     "dontShowAgainLabel": "Don't show again"
+  },
+  "voteNeo3CandidateDetails": {
+    "title": "Candidate information",
+    "positionLabel": "Current position",
+    "nameLabel": "Candidate",
+    "pubKeyLabel": "Public key",
+    "votesLabel": "Total votes",
+    "descriptionLabel": "Description",
+    "castVoteButtonLabel": "Cast vote for this candidate",
+    "voteAlreadyCastButtonLabel": "Vote already cast",
+    "insufficientGasTitle": "You have insufficient GAS to cover the voting fee.",
+    "insufficientGasDescription": "Transfer GAS to this account or change account to proceed.",
+    "thereIsNoNeoTitle":  "There isn't NEO in this Neo 3 account",
+    "selectNeo3AccountTitle": "Select a Neo 3 account to continue",
+    "accountCanNotBeWatchTitle": "Use a non-watch Neo 3 account"
   }
 }

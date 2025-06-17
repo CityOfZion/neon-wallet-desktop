@@ -11,6 +11,7 @@ import { VOTE_NEO3_COZ_PUB_KEY } from '@renderer/constants/public-keys'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useSelectedNetworkByBlockchainSelector } from '@renderer/hooks/useSettingsSelector'
 import { TVoteNeo3Candidate } from '@shared/@types/query'
 import { IAccountState } from '@shared/@types/store'
@@ -37,6 +38,7 @@ export const VoteNeo3ListItem = ({
 }: TProps) => {
   const { t } = useTranslation('pages', { keyPrefix: 'voteNeo3.listItem' })
   const queryClient = useQueryClient()
+  const modalNavigate = useModalNavigate()
   const ref = useRef<HTMLLIElement>(null)
 
   const {
@@ -64,7 +66,9 @@ export const VoteNeo3ListItem = ({
   }, [votes, votesTotal])
 
   const handleGoToVoteNeo3CandidateDetailsModal = () => {
-    // TODO: implement this method
+    modalNavigate.modalNavigate('vote-neo3-candidate-details', {
+      state: { neo3Account, candidate, candidateVotePercentage: votePercentage },
+    })
   }
 
   const handleGoToVoteNeo3ConfirmationModal = () => {
