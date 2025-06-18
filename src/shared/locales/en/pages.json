@@ -588,6 +588,8 @@
     "changeNeo3AccountLabel": "Change",
     "selectNeo3AccountLabel": "Select",
     "createNeo3AccountLabel": "There isn't any Neo 3 account, create one, please",
+    "searchLabel": "Search",
+    "searchPlaceholder": "Search for a candidate…",
     "voteErrorMessages": {
       "thereIsNoNeoLabel":  "Your Neo 3 account should have NEO",
       "shouldUseMainnetLabel": "You should use a Mainnet network to vote",

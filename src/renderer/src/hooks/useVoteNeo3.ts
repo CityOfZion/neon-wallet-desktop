@@ -22,19 +22,45 @@ type TValidationsParams = {
   gasFee?: string
 }
 
+type TBuildVoteNeo3GetCandidatesToVoteQueryKeyParams = {
+  neo3Network: TNetwork<'neo3'>
+}
+
 type TBuildVoteNeo3GetVoteDetailsByAddressQueryKeyParams = {
   neo3Network: TNetwork<'neo3'>
   address?: string
 }
 
+type TBuildVoteNeo3CalculateVoteFeeQueryKeyParams = {
+  neo3Network: TNetwork<'neo3'>
+  candidatePubKey: string
+  neo3Account?: IAccountState
+}
+
+const buildVoteNeo3GetCandidatesToVoteQueryKey = ({
+  neo3Network,
+}: TBuildVoteNeo3GetCandidatesToVoteQueryKeyParams): any[] => ['vote-neo3-get-candidates-to-vote', neo3Network]
+
 export const buildVoteNeo3GetVoteDetailsByAddressQueryKey = ({
   neo3Network,
   address,
 }: TBuildVoteNeo3GetVoteDetailsByAddressQueryKeyParams) => {
-  const key: any[] = ['vote-neo3-get-vote-details-by-address']
+  const key: any[] = ['vote-neo3-get-vote-details-by-address', neo3Network]
 
-  if (neo3Network) key.push(neo3Network)
   if (address) key.push(address)
+
+  return key
+}
+
+const buildVoteNeo3CalculateVoteFeeQueryKey = ({
+  neo3Network,
+  candidatePubKey,
+  neo3Account,
+}: TBuildVoteNeo3CalculateVoteFeeQueryKeyParams) => {
+  const key: any[] = ['vote-neo3-calculate-vote-fee', neo3Network]
+
+  if (candidatePubKey) key.push(candidatePubKey)
+  if (neo3Account) key.push(neo3Account)
 
   return key
 }
@@ -47,7 +73,7 @@ export const useVoteNeo3GetCandidatesToVote = () => {
   const blockchainService = bsAggregator.blockchainServicesByName.neo3 as BSNeo3
 
   return useQuery({
-    queryKey: ['vote-neo3-get-candidates-to-vote', neo3Network],
+    queryKey: buildVoteNeo3GetCandidatesToVoteQueryKey({ neo3Network }),
     queryFn: () => blockchainService.voteService.getCandidatesToVote(),
     enabled: NetworkHelper.isMainnet('neo3', neo3Network),
   })
@@ -77,7 +103,7 @@ export const useVoteNeo3CalculateVoteFee = ({ neo3Account, candidatePubKey }: TC
   const blockchainService = bsAggregator.blockchainServicesByName.neo3 as BSNeo3
 
   return useQuery({
-    queryKey: ['vote-neo3-calculate-vote-fee', neo3Account, candidatePubKey, neo3Network],
+    queryKey: buildVoteNeo3CalculateVoteFeeQueryKey({ neo3Network, candidatePubKey, neo3Account }),
     queryFn: async () => {
       const key = await window.api.sendAsync('decryptBasedEncryptedSecret', {
         value: neo3Account!.encryptedKey!,

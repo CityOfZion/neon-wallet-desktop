@@ -1,9 +1,10 @@
 import { useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TbChartBarPopular } from 'react-icons/tb'
+import { TbChartBarPopular, TbSearch } from 'react-icons/tb'
 import { Location, useLocation, useNavigate } from 'react-router-dom'
 import { Button } from '@renderer/components/Button'
 import { GreyAccountSelect } from '@renderer/components/GreyAccountSelect'
+import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
 import { Tooltip } from '@renderer/components/Tooltip'
 import { VOTE_NEO3_COZ_PUB_KEY } from '@renderer/constants/public-keys'
@@ -36,6 +37,7 @@ type TLocationState = {
 
 type TActionsData = {
   neo3Account?: IAccountState
+  search: string
 }
 
 export const VoteNeo3Page = () => {
@@ -58,9 +60,10 @@ export const VoteNeo3Page = () => {
   const defaultNeo3Account = location.state?.defaultNeo3Account
 
   const {
-    actionData: { neo3Account },
+    actionData: { neo3Account, search },
     setData,
-  } = useActions<TActionsData>({ neo3Account: defaultNeo3Account })
+    setDataFromEventWrapper,
+  } = useActions<TActionsData>({ neo3Account: defaultNeo3Account, search: '' })
 
   // We are using VOTE_NEO3_COZ_PUB_KEY only to calculate the fee
   const calculateVoteFeeQuery = useVoteNeo3CalculateVoteFee({ neo3Account, candidatePubKey: VOTE_NEO3_COZ_PUB_KEY })
@@ -180,7 +183,20 @@ export const VoteNeo3Page = () => {
             <Separator />
           </div>
 
-          <div className="flex w-full items-center justify-end pr-4">
+          <div className="flex w-full items-center justify-between gap-x-4 pr-4">
+            <Input
+              aria-label={t('searchLabel')}
+              placeholder={t('searchPlaceholder')}
+              className="placeholder:text-gray-100"
+              contentClassName="h-10"
+              containerClassName="w-full max-w-96"
+              clearable
+              maxLength={100}
+              value={search}
+              leftIcon={<TbSearch aria-hidden className="h-5 max-h-5 min-h-5 w-5 min-w-5 max-w-5 text-neon" />}
+              onChange={setDataFromEventWrapper('search')}
+            />
+
             <VoteNeo3AvailableVotes
               neoAmount={neoAmount}
               voteErrorMessage={voteErrorMessage}
@@ -189,7 +205,12 @@ export const VoteNeo3Page = () => {
             />
           </div>
 
-          <VoteNeo3List neo3Account={neo3Account} voteErrorMessage={voteErrorMessage} canVote={canVote} />
+          <VoteNeo3List
+            neo3Account={neo3Account}
+            search={search}
+            voteErrorMessage={voteErrorMessage}
+            canVote={canVote}
+          />
         </div>
       </section>
     </ContentLayout>

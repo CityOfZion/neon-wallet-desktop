@@ -21,4 +21,8 @@ export class StringHelper {
     }
     return str
   }
+
+  static normalizeText(text: string) {
+    return text.trim().toLowerCase()
+  }
 }

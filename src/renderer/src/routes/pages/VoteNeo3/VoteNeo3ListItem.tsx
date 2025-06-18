@@ -2,7 +2,6 @@ import { cloneElement, useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdCircle, MdInfoOutline } from 'react-icons/md'
 import { TbPackages } from 'react-icons/tb'
-import { GetVoteDetailsByAddressResponse } from '@cityofzion/bs-neo3/dist/interfaces'
 import { Button } from '@renderer/components/Button'
 import { DashedSeparator } from '@renderer/components/DashedSeparator'
 import { IconButton } from '@renderer/components/IconButton'
@@ -12,10 +11,9 @@ import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
-import { useSelectedNetworkByBlockchainSelector } from '@renderer/hooks/useSettingsSelector'
+import { useVoteNeo3GetVoteDetailsByAddress } from '@renderer/hooks/useVoteNeo3'
 import { TVoteNeo3Candidate } from '@shared/@types/query'
 import { IAccountState } from '@shared/@types/store'
-import { useQueryClient } from '@tanstack/react-query'
 
 type TProps = {
   index: number
@@ -25,6 +23,7 @@ type TProps = {
   votesTotal: number
   voteErrorMessage?: string
   canVote: boolean
+  candidatesLength: number
 }
 
 export const VoteNeo3ListItem = ({
@@ -35,29 +34,19 @@ export const VoteNeo3ListItem = ({
   votesTotal,
   voteErrorMessage,
   canVote,
+  candidatesLength,
 }: TProps) => {
   const { t } = useTranslation('pages', { keyPrefix: 'voteNeo3.listItem' })
-  const queryClient = useQueryClient()
+  const voteDetailsByAddressQuery = useVoteNeo3GetVoteDetailsByAddress(neo3Account?.address)
   const { modalNavigate } = useModalNavigate()
   const ref = useRef<HTMLLIElement>(null)
 
-  const {
-    networkByBlockchain: { neo3: neo3Network },
-  } = useSelectedNetworkByBlockchainSelector()
-
-  const voteDetailsByAddressQuery = queryClient.getQueryState<GetVoteDetailsByAddressResponse>([
-    'vote-neo3-get-vote-details-by-address',
-    neo3Network,
-    neo3Account?.address ?? '',
-  ])
-
   const { position, pubKey, votes } = candidate
 
-  const isVoteDetailsByAddressLoading = voteDetailsByAddressQuery?.fetchStatus === 'fetching'
-  const currentCandidatePubKey = voteDetailsByAddressQuery?.data?.candidatePubKey
+  const currentCandidatePubKey = voteDetailsByAddressQuery.data?.candidatePubKey
   const isCozCandidate = VOTE_NEO3_COZ_PUB_KEY === currentCandidatePubKey
   const isCurrentVote = pubKey === currentCandidatePubKey
-  const isVoteDisabled = isCurrentVote || !canVote || isVoteDetailsByAddressLoading
+  const isVoteDisabled = isCurrentVote || !canVote || voteDetailsByAddressQuery.isLoading
   const icon = candidate.type === 'consensus' ? <TbPackages className="h-5 w-5" /> : <MdCircle className="h-3 w-3" />
 
   const votePercentage = useMemo(() => {
@@ -195,7 +184,7 @@ export const VoteNeo3ListItem = ({
               aria-label={t('detailsButtonLabel')}
               size="sm"
               compacted
-              disabled={isVoteDetailsByAddressLoading}
+              disabled={voteDetailsByAddressQuery.isLoading}
               icon={<MdInfoOutline aria-hidden={true} className="text-neon" />}
               onClick={handleGoToVoteNeo3CandidateDetailsModal}
             />
@@ -228,7 +217,7 @@ export const VoteNeo3ListItem = ({
         </div>
       </div>
 
-      {index === 0 && <DashedSeparator className="my-4" />}
+      {index === 0 && candidatesLength > 1 && <DashedSeparator className="my-4" />}
     </li>
   )
 }
