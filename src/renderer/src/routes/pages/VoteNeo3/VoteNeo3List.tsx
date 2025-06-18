@@ -1,12 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbAlertTriangleFilled } from 'react-icons/tb'
-import { GetCandidatesToVoteResponse } from '@cityofzion/bs-neo3/dist/interfaces'
 import { Tooltip } from '@renderer/components/Tooltip'
 import { VOTE_NEO3_COZ_PUB_KEY } from '@renderer/constants/public-keys'
-import { useSelectedNetworkByBlockchainSelector } from '@renderer/hooks/useSettingsSelector'
+import { StringHelper } from '@renderer/helpers/StringHelper'
+import { useVoteNeo3GetCandidatesToVote } from '@renderer/hooks/useVoteNeo3'
 import { IAccountState } from '@shared/@types/store'
-import { useQueryClient } from '@tanstack/react-query'
 import { match, P } from 'ts-pattern'
 
 import { VoteNeo3ListItem } from './VoteNeo3ListItem'
@@ -15,29 +14,39 @@ import { VoteNeo3Skeleton } from './VoteNeo3Skeleton'
 
 type TProps = {
   neo3Account?: IAccountState
+  search: string
   voteErrorMessage?: string
   canVote: boolean
 }
 
-export const VoteNeo3List = ({ neo3Account, voteErrorMessage, canVote }: TProps) => {
+export const VoteNeo3List = ({ neo3Account, search, voteErrorMessage, canVote }: TProps) => {
   const { t } = useTranslation('pages', { keyPrefix: 'voteNeo3.list' })
-  const queryClient = useQueryClient()
+  const candidatesToVoteQuery = useVoteNeo3GetCandidatesToVote()
   const [pubKeySize, setPubKeySize] = useState(0)
   const ref = useRef<HTMLDivElement>(null)
 
-  const {
-    networkByBlockchain: { neo3: neo3Network },
-  } = useSelectedNetworkByBlockchainSelector()
-
-  const candidatesToVoteQuery = queryClient.getQueryState<GetCandidatesToVoteResponse>([
-    'vote-neo3-get-candidates-to-vote',
-    neo3Network,
-  ])
-
   const candidates = useMemo(
-    () => candidatesToVoteQuery?.data?.toSorted(({ pubKey }) => (pubKey === VOTE_NEO3_COZ_PUB_KEY ? -1 : 1)) ?? [],
-    [candidatesToVoteQuery?.data]
+    () => candidatesToVoteQuery.data?.toSorted(({ pubKey }) => (pubKey === VOTE_NEO3_COZ_PUB_KEY ? -1 : 1)) ?? [],
+    [candidatesToVoteQuery.data]
   )
+
+  const filteredCandidates = useMemo(() => {
+    const normalizedSearch = StringHelper.normalizeText(search)
+
+    if (normalizedSearch.length !== 0 && candidates.length !== 0)
+      return candidates.filter(({ name, pubKey, hash, location }) => {
+        if (pubKey === VOTE_NEO3_COZ_PUB_KEY) return true
+
+        return (
+          StringHelper.normalizeText(name).includes(normalizedSearch) ||
+          StringHelper.normalizeText(pubKey).includes(normalizedSearch) ||
+          StringHelper.normalizeText(hash).includes(normalizedSearch) ||
+          StringHelper.normalizeText(location).includes(normalizedSearch)
+        )
+      })
+
+    return candidates
+  }, [candidates, search])
 
   const votesTotal = useMemo(
     () => candidates.reduce((accumulator, candidate) => accumulator + candidate.votes, 0),
@@ -83,7 +92,7 @@ export const VoteNeo3List = ({ neo3Account, voteErrorMessage, canVote }: TProps)
 
   return (
     <div ref={ref} className="flex min-h-0 w-full">
-      {match({ isLoading: candidatesToVoteQuery?.fetchStatus === 'fetching', candidates })
+      {match({ isLoading: candidatesToVoteQuery.isLoading, candidates: filteredCandidates })
         .with({ isLoading: true }, () => <VoteNeo3Skeleton />)
         .with({ candidates: P.when(value => value.length === 0) }, () => <VoteNeo3NotFound />)
         .otherwise(() => (
@@ -139,7 +148,7 @@ export const VoteNeo3List = ({ neo3Account, voteErrorMessage, canVote }: TProps)
             </div>
 
             <ul className="flex min-h-0 w-full flex-col" role="rowgroup">
-              {candidates.map((candidate, index) => (
+              {filteredCandidates.map((candidate, index, array) => (
                 <VoteNeo3ListItem
                   key={candidate.pubKey}
                   index={index}
@@ -149,6 +158,7 @@ export const VoteNeo3List = ({ neo3Account, voteErrorMessage, canVote }: TProps)
                   votesTotal={votesTotal}
                   voteErrorMessage={voteErrorMessage}
                   canVote={canVote}
+                  candidatesLength={array.length}
                 />
               ))}
             </ul>
