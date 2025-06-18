@@ -1,0 +1,217 @@
+{
+  "sidebar": {
+    "portfolio": "投資組合",
+    "wallets": "錢包",
+    "settings": "設定",
+    "logout": "登出",
+    "send": "發送",
+    "receive": "接收",
+    "swap": "兌換",
+    "nfts": "NFT",
+    "buyAndSellTokens": "買賣",
+    "contacts": "聯絡人"
+  },
+  "walletsSelect": {
+    "title": "錢包",
+    "placeholder": "選擇錢包..."
+  },
+  "walletAccordionList": {
+    "noAccounts": "沒有帳戶"
+  },
+  "contacts": {
+    "search": "搜尋",
+    "noContacts": "沒有聯絡人"
+  },
+  "blockchainSelection": {
+    "search": "搜尋..."
+  },
+  "wallets": {
+    "cancelButtonLabel": "取消",
+    "saveButtonLabel": "儲存"
+  },
+  "tokenBalance": {
+    "token": "代幣",
+    "quantity": "數量",
+    "price": "價格"
+  },
+  "tokensTable": {
+    "ticker": "代號",
+    "token": "代幣",
+    "holdings": "持有量",
+    "price": "價格",
+    "value": "價值",
+    "hash": "雜湊值",
+    "empty": "沒有可顯示的代幣",
+    "hideTokenLabel": "隱藏代幣",
+    "showTokenLabel": "顯示代幣"
+  },
+  "blockchainDataPanel": {
+    "tabs": {
+      "tokens": "代幣",
+      "nfts": "NFT",
+      "transactions": "交易"
+    },
+    "title": "所有帳戶"
+  },
+  "balanceChart": {
+    "othersTokens": "其他",
+    "noAssets": "沒有資產",
+    "holdings": "持有量",
+    "balance": "餘額"
+  },
+  "transactionsTableEmpty": {
+    "title": "您的錢包目前是空的，何不新增一些資產或連接 dApp？",
+    "subtitle": "您的錢包支援 Neo、Gas 和 Ethereum 資產",
+    "connectDappLabel": "連接 dApp",
+    "importAccountLabel": "匯入帳戶"
+  },
+  "contactAddressTable": {
+    "blockchain": "區塊鏈",
+    "address": "地址",
+    "sendAssets": "發送資產"
+  },
+  "blockchainSelect": {
+    "placeholder": "選擇區塊鏈..."
+  },
+  "connectionsTable": {
+    "name": "名稱",
+    "connected": "已連接",
+    "chain": "鏈",
+    "account": "帳戶",
+    "disconnect": "斷開連接",
+    "emptyList": "沒有 dApp 連接"
+  },
+  "migrateSteps": {
+    "inNeon2": {
+      "label": "在 NEON 2",
+      "step1": "匯出您的 NEON 2 錢包"
+    },
+    "inNeon3": {
+      "label": "在 NEON 3",
+      "step2": "匯入您的 NEON 2 帳戶",
+      "step3": "選擇要遷移的帳戶",
+      "step4": "輸入您的帳戶密碼"
+    }
+  },
+  "passwordStrength": {
+    "label": "密碼強度",
+    "none": "-",
+    "tooShort": "太短",
+    "weak": "弱",
+    "good": "良好",
+    "strong": "強"
+  },
+  "claimGasButton": {
+    "buttonLabel": "領取 GAS",
+    "claimAmount": "領取 {{amount}} {{symbol}}",
+    "youHaveUnclaimed": "您有未領取的 {{symbol}}！",
+    "youDoNotHaveUnclaimed": "您沒有未領取的 {{symbol}}！",
+    "feeToClaim": "領取手續費：{{fee}} {{symbol}}",
+    "balanceLessFee": "無法領取，餘額不足以支付網絡手續費！",
+    "unclaimedLessFee": "可領取金額不足以支付網絡手續費，無法領取！",
+    "errorToGetUnclaimed": "無法獲取未領取金額"
+  },
+  "dappPermissionContextualMessage": {
+    "messageLabel": "情境訊息"
+  },
+  "chartCardList": {
+    "title": "代幣價格"
+  },
+  "chartCard": {
+    "unableToFetchData": "無法獲取資料",
+    "holdings": "持有量：",
+    "variation": "{{variationType}}{{variation}}%",
+    "24h": "（24小時）"
+  },
+  "temporaryLimitsBox": {
+    "description": "使用此登入方式會限制部分主要功能：",
+    "limits": ["備份與還原", "錢包自訂", "匯入/匯出功能", "建立新錢包", "以及其他功能..."]
+  },
+  "mnemonicOrKeyAccountSelection": {
+    "noAccountsToImport": "未找到帳戶或帳戶已存在，請檢查您的輸入並稍後再試。",
+    "accountsLength": "找到 {{length}} 個地址",
+    "alreadyExists": "已存在"
+  },
+  "greyAccountSelect": {
+    "placeholder": "選擇帳戶...",
+    "empty": "沒有帳戶"
+  },
+  "greyTokenSelect": {
+    "placeholder": "選擇代幣...",
+    "empty": "沒有代幣"
+  },
+  "greyAmountInput": {
+    "placeholder": "0.00000000"
+  },
+  "transactionFeeActionStep": {
+    "title": "交易手續費"
+  },
+  "connectHardwareWalletButton": {
+    "connect": "連接"
+  },
+  "fieldActionsMenu": {
+    "cut": "剪下",
+    "copy": "複製",
+    "paste": "貼上",
+    "messages": {
+      "copied": "已複製",
+      "error": "執行此操作時發生錯誤"
+    }
+  },
+  "commonScreenActions": {
+    "searchButtonLabel": "搜尋…",
+    "notificationButtonLabel": "通知",
+    "unreadNotificationsIconLabel": "您有未讀通知",
+    "helpButtonLabel": "幫助",
+    "chatWithUsButtonLabel": "聯絡我們",
+    "importButtonLabel": "匯入",
+    "newWalletButtonLabel": "新錢包",
+    "connectButtonLabel": "連接",
+    "toolsButtonLabel": "工具"
+  },
+  "refreshAction": {
+    "refreshLabel": "重新整理",
+    "lastUpdated": "最後更新：{{ date }}",
+    "emptyDate": "--:--",
+    "dateFormat": "HH:mm"
+  },
+  "transactionActivityList": {
+    "notFoundTitle": "沒有可顯示的交易",
+    "notFoundDescription": "進行一筆交易後會顯示在這裡",
+    "item": {
+      "notificationCountLabel": "通知",
+      "invocationCountLabel": "調用",
+      "blockLabel": "區塊：{{ block }}",
+      "networkFeeAmountLabel": "網絡手續費：{{ networkFeeAmount }}",
+      "systemFeeAmountLabel": "系統手續費：{{ systemFeeAmount }}",
+      "txIdLabel": "交易 ID",
+      "copyTxIdLabel": "複製交易 ID",
+      "pendingDataLabel": "處理中…",
+      "pendingTooltipLabel": "此交易正在處理中，請稍候",
+      "formatHourMinutes": "HH:mm",
+      "formatFullDateTime": "yyyy年MM月dd日（HH:mm）"
+    },
+    "event": {
+      "nftImageAltWithNameLabel": "NFT 圖片：{{ name }}",
+      "nftImageAltLabel": "NFT 圖片",
+      "columns": {
+        "fromLabel": "發送方",
+        "toLabel": "接收方",
+        "hashLabel": "雜湊值",
+        "methodNameLabel": "方法",
+        "tokenLabel": "代幣",
+        "tokenIdLabel": "代幣 ID",
+        "amountLabel": "數量",
+        "collectionNameLabel": "收藏",
+        "nameLabel": "名稱"
+      }
+    },
+    "dateRange": {
+      "formatExtendedDate": "yyyy年MM月dd日"
+    }
+  },
+  "calendar": {
+    "previousYearButtonLabel": "前往前 {{years}} 年",
+    "nextYearButtonLabel": "前往後 {{years}} 年"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "welcomeWithTabs": {
+    "welcomeTo": "歡迎使用 Neon 錢包",
+    "tabs": {
+      "password": "Neon 帳戶",
+      "hardware": "硬體錢包",
+      "key": "地址或金鑰"
+    }
+  }
+}

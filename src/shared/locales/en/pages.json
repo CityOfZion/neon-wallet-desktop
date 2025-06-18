@@ -20,11 +20,7 @@
     },
     "securitySetup": {
       "title": "Securing your new wallet",
-      "steps": [
-        "Create Password",
-        "Confirm Password",
-        "Complete"
-      ],
+      "steps": ["Create Password", "Confirm Password", "Complete"],
       "step1": {
         "formTitle": "Please create a password to secure your wallet",
         "passwordPlaceholder": "Create a password...",
@@ -42,13 +38,7 @@
     },
     "importWallet": {
       "title": "Import a wallet",
-      "steps": [
-        "Create Password",
-        "Confirm Password",
-        "Add details or locate file",
-        "Import",
-        "Complete"
-      ],
+      "steps": ["Create Password", "Confirm Password", "Add details or locate file", "Import", "Complete"],
       "migrationLabel": "Locate your migration file",
       "step3": {
         "formTitle": "Enter an address, encrypted key, private key, mnemonic or locate backup file",
@@ -347,6 +337,9 @@
     },
     "settingsCurrency": {
       "title": "Currency"
+    },
+    "settingsLanguage": {
+      "title": "Language"
     }
   },
   "receive": {
@@ -591,7 +584,7 @@
     "searchLabel": "Search",
     "searchPlaceholder": "Search for a candidate…",
     "voteErrorMessages": {
-      "thereIsNoNeoLabel":  "Your Neo 3 account should have NEO",
+      "thereIsNoNeoLabel": "Your Neo 3 account should have NEO",
       "shouldUseMainnetLabel": "You should use a Mainnet network to vote",
       "accountCanNotBeWatchLabel": "Your Neo 3 account is in watch mode",
       "shouldHaveEnoughGasToPayFeeLabel": "You don't have enough GAS to pay the fee",

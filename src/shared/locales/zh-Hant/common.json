@@ -1,0 +1,91 @@
+{
+  "general": {
+    "continue": "繼續",
+    "next": "下一步",
+    "save": "儲存",
+    "edit": "編輯",
+    "cancel": "取消",
+    "reset": "重設",
+    "successfullyCopied": "已成功複製到剪貼簿",
+    "receive": "接收",
+    "send": "發送",
+    "passwordNEONQRCode": "二維碼",
+    "downloadQRCodePassword": "下載密碼二維碼",
+    "default": "預設",
+    "remove": "移除",
+    "copy": "複製到剪貼簿",
+    "swap": "兌換",
+    "buyAndSellTokens": "買賣",
+    "migrate": "遷移",
+    "migrationNeo3": "遷移",
+    "logo": "Neon Wallet 標誌",
+    "pasteFromClipboard": "從剪貼簿貼上",
+    "pasteFromClipboardError": "從剪貼簿貼上失敗",
+    "emptyColumn": "--"
+  },
+  "walletConnect": {
+    "name": "Neon 錢包",
+    "description": "建立和管理錢包，或輕鬆導入現有錢包，透過 Neon 的簡潔介面安全管理和轉移您的資產。"
+  },
+  "wallet": {
+    "importedName": "已導入錢包",
+    "encryptedName": "加密錢包",
+    "ledgerName": "{{blockchain}} Ledger 錢包",
+    "watchAccount": "觀察帳戶",
+    "mnemonicWalletName": "助記詞錢包",
+    "firstWalletName": "我的第一個錢包",
+    "migratedWalletName": "已遷移錢包"
+  },
+  "account": {
+    "defaultName": "帳戶 {{accountNumber}}"
+  },
+  "blockchain": {
+    "neo3": "Neo N3",
+    "neoLegacy": "Neo 傳統版",
+    "ethereum": "以太坊",
+    "neox": "NeoX",
+    "polygon": "Polygon",
+    "base": "Base",
+    "arbitrum": "Arbitrum"
+  },
+  "networkTypeLabel": {
+    "mainnet": "主網",
+    "testnet": "測試網"
+  },
+  "ledger": {
+    "requestingPermission": "請在您的 Ledger 裝置上確認"
+  },
+  "errors": {
+    "noEncryptedKey": "此帳戶沒有加密金鑰：{{address}}",
+    "blockchainIsNotClaimable": "此帳戶區塊鏈無法申領：{{address}} {{blockchain}}",
+    "loginSessionIsNotDefined": "未知錯誤。登入會話未定義。"
+  },
+  "synonyms": {
+    "view": ["查看", "觀看", "觀察", "監視"],
+    "transfer": ["轉移", "傳送", "運送", "更改", "受讓人", "轉讓", "運輸"],
+    "trade": ["交易", "交換", "易貨", "商品", "商業", "買賣"],
+    "swap": ["交換", "兌換"],
+    "send": ["傳送", "運送", "遞送", "提交"],
+    "sell": ["銷售", "買賣"],
+    "secure": ["確保", "保證", "安全", "不可侵犯", "無懼", "投保", "保護"],
+    "save": ["保存", "保留", "儲存", "節省"],
+    "restore": ["重建", "再生"],
+    "recover": ["恢復", "取回", "檢索", "復原"],
+    "purchase": ["購買", "取得"],
+    "pair": ["配對", "匹配", "雙胞胎"],
+    "lock": ["鎖定", "固定", "關閉"],
+    "load": ["加載", "載入", "填充"],
+    "list": ["列舉", "目錄", "清單"],
+    "liquidate": ["清算", "償還", "浪費"],
+    "link": ["連接", "聯結", "關聯"],
+    "generate": ["產生", "創建", "產出"],
+    "exchange": ["交易", "交換", "兌換", "更改"],
+    "create": ["創建", "建立", "製作", "生成"],
+    "connection": ["連接", "關聯", "關係"],
+    "connect": ["連接", "聯結", "結合", "關聯"],
+    "buy": ["購買", "取得"],
+    "add": ["添加", "包含", "增加", "總和"],
+    "acquire": ["獲得", "取得"],
+    "crypto": ["代幣", "代幣"]
+  }
+}

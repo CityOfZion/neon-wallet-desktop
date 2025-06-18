@@ -58,6 +58,14 @@ export const useCurrencySelector = () => {
   }
 }
 
+export const useLanguageSelector = () => {
+  const { ref, value } = useAppSelector(state => state.settings.data.language)
+  return {
+    language: value,
+    languageRef: ref,
+  }
+}
+
 export const useLoginControlSelector = () => {
   const { ref, value } = useAppSelector(state => state.settings.data.encryptedLoginControl)
   return {

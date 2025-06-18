@@ -95,7 +95,7 @@ export const CommonScreenActions = ({ children, className, ...props }: TProps) =
         <ActionPopover.Trigger asChild>
           <IconButton
             icon={<MdMoreVert aria-hidden />}
-            text="Tools"
+            text={t('toolsButtonLabel')}
             size="md"
             fullHeight
             className="w-16"

@@ -22,7 +22,7 @@ export const TransactionActivityListDateRange = ({
   const { t } = useTranslation('components', { keyPrefix: 'transactionActivityList.dateRange' })
 
   return (
-    <div className="flex h-9 w-56 min-w-56 max-w-56 items-center justify-center gap-x-0.5 rounded bg-asphalt px-2">
+    <div className="flex h-9 min-w-56 max-w-72 items-center justify-center gap-x-0.5 rounded bg-asphalt px-2">
       <MdCalendarMonth aria-hidden={true} className="mr-0.5 h-3 max-h-3 min-h-3 w-3 min-w-3 max-w-3 text-gray-100" />
 
       <DatePicker.Root>

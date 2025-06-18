@@ -1,0 +1,73 @@
+{
+  "useImportAction": {
+    "errors": {
+      "invalid": "無效的文本或已存在",
+      "empty": "請輸入一些文本",
+      "allAddressesAlreadyImported": "所有地址已導入",
+      "mnemonicIncomplete": "助記詞不完整"
+    }
+  },
+  "useBackupOrMigrate": {
+    "neon3BackupFileDetected": "偵測到 NEON3 備份檔案",
+    "neon2MigrateFileDetected": "偵測到 NEON2 遷移檔案",
+    "filterName": "Neon 備份或遷移檔案",
+    "error": "無法識別的檔案",
+    "defaultAccountLabel": "已遷移帳戶",
+    "defaultContactName": "已遷移聯絡人"
+  },
+  "DappConnection": {
+    "pleaseLogin": "請登入以繼續。",
+    "selectAccountModal": {
+      "title": "選擇一個帳戶連接到 dapp。",
+      "selectSourceAccount": "選擇帳戶"
+    }
+  },
+  "useLogin": {
+    "controlIsNotSet": "意外錯誤。登入控制未設置。",
+    "controlIsNotValid": "意外錯誤。登入控制無效。"
+  },
+  "useOverTheAirUpdate": {
+    "downloading": "發現新版本。正在下載... <1>或在</1> <2>我們的 GitHub</2> 手動下載",
+    "downloaded": "新版本已下載。應用程式將重新啟動以套用更新。",
+    "error": "下載更新時發生錯誤。請稍後重新啟動應用程式再試一次。",
+    "installError": "無法安裝更新。請檢查應用程式權限並手動下載更新。"
+  },
+  "useNeonBackup": {
+    "errors": {
+      "unexpectedError": "意外錯誤。請重新啟動應用程式。",
+      "backupError": "備份時發生錯誤。請再試一次。"
+    }
+  },
+  "useNeonImportBackup": {
+    "errors": {
+      "wrongPassword": "密碼錯誤。請再試一次。",
+      "wrongVersion": "備份檔案版本不支援。請嘗試在最新 NEON 版本中產生新的備份。",
+      "importData": "匯入資料時發生錯誤（可能已部分匯入）。"
+    }
+  },
+  "useUnclaimedMutation": {
+    "errors": {
+      "claimError": "領取時發生錯誤。請再試一次。"
+    },
+    "successNotification": {
+      "title": "領取成功",
+      "previewBody": "您已成功領取未領取的代幣。"
+    },
+    "failureNotification": {
+      "title": "領取錯誤",
+      "previewBody": "我們無法驗證您的領取是否完成"
+    }
+  },
+  "useMigrationNeo3Notification": {
+    "notificationTitle": "您有可遷移的代幣！",
+    "notificationDescription": "可從 Neo Legacy 遷移至 Neo N3！"
+  },
+  "useHardwareWalletByUsb": {
+    "errors": {
+      "noDevice": "沒有連接任何裝置"
+    }
+  },
+  "useGetFullTransactions": {
+    "formatExtendedDate": "yyyy年MM月dd日"
+  }
+}

@@ -1,0 +1,844 @@
+{
+  "import": {
+    "title": "導入",
+    "subtitle": "導入",
+    "description": "要導入您的錢包，請輸入地址、加密金鑰、私鑰或助記詞：",
+    "inputPlaceholder": "請輸入地址或金鑰...",
+    "buttonContinueLabel": "下一步",
+    "errors": {
+      "allAddressesAlreadyImported": "所有地址已導入",
+      "mnemonicAlreadyExist": "助記詞已存在"
+    },
+    "success": {
+      "mnemonic": "助記詞完成！",
+      "key": "私鑰完成！",
+      "encrypted": "加密金鑰完成！",
+      "address": "地址完成！"
+    },
+    "importEncryptedDescription": "為您的新帳戶選擇所需的區塊鏈",
+    "addressAlreadyExist": "地址已存在",
+    "successEncryptKey": "加密金鑰成功導入！"
+  },
+  "importWatchAccounts": {
+    "title": "新增觀察帳戶",
+    "description": "輸入您想要觀察的地址：",
+    "inputPlaceholder": "請輸入地址",
+    "information": "您將無法使用此帳戶中的資產！",
+    "willBeAdded": "此帳戶將被新增：",
+    "buttonAdd": "新增觀察帳戶",
+    "errors": {
+      "invalid": "地址無效或已存在",
+      "empty": "請輸入內容"
+    }
+  },
+  "editWallet": {
+    "title": "編輯錢包",
+    "inputPlaceholder": "輸入您的錢包名稱...",
+    "saveButtonLabel": "儲存",
+    "cancelButtonLabel": "取消",
+    "nameLengthError": "名稱至少需 1 個字元",
+    "deleteWalletTitle": "刪除錢包",
+    "deleteWalletSubtext": "這將移除您的錢包及所有交易紀錄",
+    "selectSkinLabel": "選擇主題",
+    "noSkinsUnlocked": "尚未解鎖任何主題"
+  },
+  "persistAccount": {
+    "titleEdit": "編輯帳戶",
+    "titleCreate": "建立新帳戶",
+    "subtitleCreate": "建立帳戶很簡單，只需給它命名並選擇顏色即可完成！",
+    "inputLabel": "帳戶名稱",
+    "inputPlaceholder": "輸入您的帳戶名稱...",
+    "inputSubtitle": "建議以用途（如「投資」或「交易」）為帳戶命名，方便辨識。",
+    "selectBlockchainDescription": "請選擇您想要用於此帳戶的區塊鏈。",
+    "skinSelectorLabel": "選擇帳戶主題",
+    "saveButtonLabel": "儲存",
+    "nextButtonLabel": "下一步",
+    "cancelButtonLabel": "取消",
+    "deleteAccountTitle": "刪除帳戶",
+    "deleteAccountSubtext": "刪除包含資產的帳戶將導致這些資產無法存取！",
+    "nameLengthError": "名稱至少需 1 個字元",
+    "useNftButtonLabel": "使用 NFT 圖片"
+  },
+  "createWallet": {
+    "title": "建立新錢包",
+    "heading": "正在建立您的新 BIP39 錢包",
+    "step1Header": "產生安全短語",
+    "step1Description": "這組秘密詞語可輕鬆備份與還原您的帳戶，讓您的錢包更安全",
+    "step2Header": "確認安全短語",
+    "step2Description": "正確記住短語很重要，我們會協助您確認。如果您趕時間，也可以稍後再做。",
+    "step3Header": "為新錢包命名",
+    "step3Description": "給您的錢包取個容易記住的名字。",
+    "step4Header": "選擇區塊鏈",
+    "step4Description": "選擇您想要用於此錢包的區塊鏈，即可開始！",
+    "step1": {
+      "title": "產生安全短語",
+      "step1of4": "1 / 4",
+      "description": "請將這組短語寫在紙上或安全的數位筆記中。您也可以下載備份，請務必妥善保管。",
+      "copyButtonLabel": "複製",
+      "printButtonLabel": "列印",
+      "backButtonLabel": "返回",
+      "nextButtonLabel": "下一步",
+      "warning": "擁有這組短語的人將能存取您的資產，且無法追回！"
+    },
+    "step2": {
+      "title": "確認安全短語",
+      "step2of4": "2 / 4",
+      "description": "請依正確順序選擇每個詞語，以確認您記憶無誤：",
+      "backButtonLabel": "返回",
+      "nextButtonLabel": "下一步",
+      "warning": "如果忘記安全短語，別擔心，您可以在錢包「設定」中找到。",
+      "tryAgain": "請再試一次以確認備份"
+    },
+    "step3": {
+      "title": "為新錢包命名與設置密碼",
+      "step3of4": "3 / 4",
+      "description": "給您的錢包取個容易記住的名字，建議以用途（如「投資」或「交易錢包」）命名。",
+      "inputLabel": "錢包名稱",
+      "inputPlaceholder": "輸入您的錢包名稱...",
+      "backButtonLabel": "返回",
+      "nextButtonLabel": "下一步",
+      "nameLengthError": "名稱至少需 1 個字元"
+    },
+    "step4": {
+      "title": "選擇網路",
+      "step4of4": "4 / 4",
+      "backButtonLabel": "返回",
+      "createWalletButtonLabel": "建立錢包",
+      "description": "請選擇您想要用於此錢包的區塊鏈。"
+    },
+    "step5": {
+      "title": "恭喜，您現在擁有全新錢包！",
+      "description": "請妥善保管您的秘密短語，建議多重備份。如需查詢錢包短語，可至設定頁面。",
+      "viewWalletButtonLabel": "查看錢包"
+    }
+  },
+  "persistContactModal": {
+    "addContact": "新增聯絡人",
+    "editContact": "編輯聯絡人",
+    "invalidName": "名稱無效",
+    "emptyAddresses": "尚未新增地址",
+    "noAddressesFound": "找不到地址",
+    "addAddress": "新增地址",
+    "saveContact": "儲存聯絡人",
+    "name": "名稱",
+    "enterAName": "請輸入名稱...",
+    "addresses": "地址",
+    "deleteContact": {
+      "title": "刪除聯絡人",
+      "warningText": "確定要刪除此聯絡人？",
+      "warningDescription": "所有已儲存的地址將與此聯絡人解除連結",
+      "buttonDeleteLabel": "刪除此聯絡人"
+    },
+    "deleteAddress": {
+      "title": "刪除地址",
+      "warningText": "確定要刪除此地址？",
+      "warningDescription": "此地址將與下列聯絡人解除連結",
+      "buttonDeleteLabel": "刪除此地址"
+    }
+  },
+  "addAddress": {
+    "title": "新增地址",
+    "editTitle": "編輯地址",
+    "name": "名稱",
+    "blockchain": "區塊鏈",
+    "addressOrDomain": "地址或 NS 網域",
+    "errorNoBlockchainSelected": "尚未選擇區塊鏈",
+    "addressComplete": "地址完成！",
+    "nnsComplete": "已找到 NS 網域！",
+    "invalidAddress": "地址或 NS 網域無效",
+    "saveAddress": "儲存地址"
+  },
+  "importAccountsSelection": {
+    "title": "導入",
+    "description": "請選擇您要導入的地址：",
+    "importButtonLabel": "導入"
+  },
+  "dappDisconnection": {
+    "title": "連線詳情",
+    "disconnectAllApps": "要中斷所有應用程式的連線嗎？",
+    "disconnectApp": "要中斷此應用程式的連線嗎？",
+    "totalDapps": "{{totalDapps}} 個應用程式",
+    "willRemove": "將被永久移除",
+    "warning": "確定要繼續嗎？",
+    "disconnect": "中斷連線",
+    "cancel": "取消"
+  },
+  "dappConnection": {
+    "title": "連接 dApp",
+    "description": "所有由已連接 dApp 發起的交易都<strong>需要您的許可</strong>才會廣播到區塊鏈。",
+    "disclaimer": "dApp 發起的任何操作都不會在未經您直接批准的情況下執行。",
+    "inputPlaceholder": "請貼上您的網址...",
+    "buttonConnectLabel": "連接",
+    "errors": {
+      "errorToConnect": "哎呀！發生錯誤。請重新產生 URI 並再試一次。"
+    }
+  },
+  "dappConnectionDetails": {
+    "title": "此應用程式想要連接！",
+    "description": "{{name}} 想要連接您的錢包",
+    "connectionDetailsTitle": "連線詳情",
+    "successModal": {
+      "title": "連接 dApp",
+      "subtitle": "新的 dApp 已成功連接！",
+      "buttonReturnLabel": "返回"
+    },
+    "errorModal": {
+      "title": "連接 dApp",
+      "subtitle": "哎呀！發生錯誤",
+      "subtitle2": "dApp 尚未連接",
+      "subtitle3": "請稍後再試。",
+      "buttonReturnLabel": "返回",
+      "accountProposalError": "dApp 嘗試連接的區塊鏈與所選帳戶的區塊鏈不同。",
+      "differentNetworkError": "dApp 嘗試連接的網路與您目前連接的網路不同。請切換網路以連接此 dApp。"
+    }
+  },
+  "dappConnectionAccountSelection": {
+    "title": "連接帳戶",
+    "description": "您想連接哪個帳戶？"
+  },
+  "dappConnectionListModal": {
+    "title": "已連接的 dApp",
+    "inputPlaceholder": "搜尋 dApp...",
+    "listTitle": "您的已連接 dApp",
+    "emptyList": "尚無 dApp 連線",
+    "buttonLabel": "新增連線"
+  },
+  "selectContact": {
+    "title": "選擇聯絡人",
+    "selectRecipient": "選擇收件人"
+  },
+  "blockchainSelectionModal": {
+    "buttonContinueLabel": "下一步"
+  },
+  "decryptKeyModal": {
+    "title": "導入",
+    "description": "請輸入您的加密金鑰密碼：",
+    "inputPlaceholder": "請輸入密碼...",
+    "buttonContinueLabel": "導入"
+  },
+  "selectAccount": {
+    "title": "選擇帳戶",
+    "yourAccounts": "您的帳戶：",
+    "placeholder": "選擇錢包...",
+    "noAccounts": "沒有帳戶"
+  },
+  "networkSelection": {
+    "title": "網路",
+    "selectNetwork": "選擇網路",
+    "addCustomNetworkButtonLabel": "新增自訂網路",
+    "editCustomNetworkButtonLabel": "編輯自訂網路"
+  },
+  "dappPermission": {
+    "unsupportedMethodError": "不支援的方法 {{method}}",
+    "cancelled": "請求已取消",
+    "errorModal": {
+      "heading": "Dapp 請求",
+      "subtitle": "請求失敗",
+      "text": "很抱歉，您的請求無法處理。",
+      "errorMessageLabel": "錯誤訊息"
+    },
+    "requests": {
+      "neo3": {
+        "contractInvocation": {
+          "subtitle": "請確認您要繼續",
+          "overrideFeeInfo": "dApp 已覆寫手續費",
+          "feeError": "計算手續費時發生錯誤。請求已取消。",
+          "feeLabel": "手續費",
+          "hashLabel": "雜湊",
+          "amountLabel": "金額",
+          "signatureScopeTitle": "簽章範圍",
+          "acceptButtonLabel": "確認",
+          "cancelButtonLabel": "取消"
+        },
+        "invokeFunction": {
+          "title": "此應用程式需要您的許可來執行此交易",
+          "successModal": {
+            "heading": "Dapp 請求",
+            "subtitle": "交易已成功發送！",
+            "text": "交易確認後，將顯示於您的活動記錄中。"
+          }
+        },
+        "signTransaction": {
+          "title": "此應用程式需要您的許可來簽署此交易",
+          "successModal": {
+            "heading": "Dapp 請求",
+            "subtitle": "交易已成功簽署！"
+          }
+        },
+        "signMessage": {
+          "title": "此應用程式請求驗證",
+          "messageLabel": "訊息",
+          "acceptButtonLabel": "驗證",
+          "cancelButtonLabel": "拒絕",
+          "successModal": {
+            "heading": "Dapp 請求",
+            "subtitle": "訊息已成功簽署！"
+          }
+        },
+        "verifyMessage": {
+          "title": "此應用程式請求驗證",
+          "messageLabel": "已簽署訊息",
+          "acceptButtonLabel": "驗證",
+          "cancelButtonLabel": "拒絕",
+          "successModal": {
+            "heading": "Dapp 請求",
+            "subtitle": "錢包已驗證！"
+          }
+        },
+        "encrypt": {
+          "title": "此應用程式請求加密",
+          "messageLabel": "訊息",
+          "acceptButtonLabel": "加密",
+          "cancelButtonLabel": "拒絕",
+          "successModal": {
+            "heading": "Dapp 請求",
+            "subtitle": "訊息已成功加密！"
+          }
+        },
+        "decrypt": {
+          "title": "此應用程式請求解密",
+          "messageLabel": "訊息",
+          "acceptButtonLabel": "解密",
+          "cancelButtonLabel": "拒絕",
+          "successModal": {
+            "heading": "Dapp 請求",
+            "subtitle": "訊息已成功解密！"
+          }
+        }
+      },
+      "ethereum": {
+        "signMessage": {
+          "title": "此應用程式請求驗證",
+          "messageLabel": "訊息",
+          "acceptButtonLabel": "驗證",
+          "cancelButtonLabel": "拒絕",
+          "successModal": {
+            "heading": "Dapp 請求",
+            "subtitle": "訊息已成功簽署！"
+          }
+        },
+        "rawJson": {
+          "dataLabel": "資料",
+          "acceptButtonLabel": "接受",
+          "cancelButtonLabel": "拒絕"
+        },
+        "signTransaction": {
+          "title": "此應用程式需要您的許可來簽署此交易",
+          "successModal": {
+            "heading": "Dapp 請求",
+            "subtitle": "交易已成功簽署！"
+          }
+        },
+        "sendTransaction": {
+          "title": "此應用程式需要您的許可來執行此交易",
+          "successModal": {
+            "heading": "Dapp 請求",
+            "subtitle": "交易已成功發送！",
+            "text": "交易確認後，將顯示於您的活動記錄中。"
+          }
+        },
+        "signTypedData": {
+          "title": "此應用程式請求驗證",
+          "successModal": {
+            "heading": "Dapp 請求",
+            "subtitle": "訊息已成功簽署！"
+          }
+        },
+        "fee": {
+          "label": "手續費",
+          "fee": "{{fee}} ETH",
+          "feeError": "計算手續費時發生錯誤。請求已取消。"
+        }
+      }
+    }
+  },
+  "dappPermissionSignatureScopeModal": {
+    "scopes": {
+      "None": "您的簽章僅適用於手續費支付。",
+      "CalledByEntry": "您的簽章僅可由呼叫合約且僅限本次交易使用。",
+      "Global": "您的簽章可不受限制地用於任何合約。",
+      "CustomContracts": "您的簽章可用於上方列出的合約。",
+      "CustomGroups": "您的簽章可用於上方列出的群組。",
+      "WitnessRules": "您的簽章僅對符合指定規則與條件的交易有效，例如目前的 script hash、群組或呼叫 script hash。這可用於更複雜的簽章範圍設定，以防止重入攻擊等特殊情境。"
+    }
+  },
+  "dappPermissionContractDetails": {
+    "title": "調用詳情",
+    "detailsLabel": "詳情",
+    "hashLabel": "雜湊",
+    "parametersLabel": "請求參數",
+    "methodNotFoundError": "合約中找不到方法"
+  },
+  "deleteAccount": {
+    "title": "編輯帳戶",
+    "deleteAccount": "刪除帳戶？",
+    "subtitle": "請確保您已將資產轉移至新帳戶，以保障資產安全",
+    "alert": "刪除包含資產的帳戶將導致這些資產無法存取！",
+    "warning": "確定要繼續嗎？",
+    "delete": "刪除帳戶",
+    "cancel": "取消",
+    "deleteLastAccountError": "若要移除錢包中的最後一個帳戶，您需要刪除整個錢包"
+  },
+  "exportKey": {
+    "title": "匯出金鑰",
+    "subtitle": "使用您的金鑰備份帳戶或在錢包間轉移資產",
+    "keyDetailsTitle": "金鑰詳情",
+    "copyButtonLabel": "複製",
+    "printButtonLabel": "列印",
+    "warningDescription": "請妥善保管您的金鑰！金鑰可完全控制您的錢包與資產"
+  },
+  "confirmPasswordExport": {
+    "description": "為保護您的資產，請確認密碼",
+    "inputPlaceholder": "輸入密碼...",
+    "error": "密碼不正確！",
+    "buttonContinueLabel": "繼續"
+  },
+  "exportMnemonic": {
+    "title": "匯出錢包",
+    "description": "請將這組短語寫在紙上或安全的數位筆記中。您也可以下載備份，請務必妥善保管。",
+    "yourMnemonic": "您的助記詞",
+    "copyButtonLabel": "複製",
+    "printButtonLabel": "列印",
+    "warning": "擁有這組短語的人將能存取您的資產，且無法追回！"
+  },
+  "deleteWallet": {
+    "title": "編輯錢包",
+    "deleteWallet": "刪除錢包？",
+    "subtitle": "請確保您已將資產轉移至新錢包，以保障資產安全",
+    "alert": "刪除包含資產的錢包將導致這些資產無法存取！",
+    "warning": "確定要繼續嗎？",
+    "delete": "刪除錢包",
+    "cancel": "取消",
+    "deleteLastWalletError": "必須至少保留一個錢包"
+  },
+  "confirmPasswordBackup": {
+    "title": "備份 NEON",
+    "description": "為了建立備份檔案，請輸入您的 NEON 密碼：",
+    "subtitle": "目前的 NEON 密碼",
+    "inputPlaceholder": "輸入您的密碼...",
+    "buttonContinueLabel": "立即備份",
+    "error": "密碼不正確！",
+    "warning": "您需要此密碼來還原錢包。",
+    "warningHighlighted": "請妥善保管！",
+    "modalDescription": "備份建立成功！",
+    "errorBackup": "備份時發生錯誤，請再試一次。",
+    "returnSettings": "返回設定"
+  },
+  "confirmPasswordRecover": {
+    "title": "導入 NEON 備份",
+    "description": "為了導入備份檔案，請輸入您建立備份時使用的密碼：",
+    "subtitle": "備份密碼",
+    "inputPlaceholder": "輸入您的密碼...",
+    "buttonContinueLabel": "導入此 NEON 備份",
+    "error": "密碼不正確！",
+    "modalDescription": "備份導入成功！",
+    "returnSettings": "返回設定"
+  },
+  "migrateWallets": {
+    "title": "從 NEON 2 遷移",
+    "instructionTitle": "操作說明",
+    "step2": {
+      "title": "導入您的 NEON 2 帳戶",
+      "description": "為了完成 NEON 2 遷移流程，請選擇您的 NEON 2 錢包遷移檔案：",
+      "inputLabel": "選擇您的 NEON 2 遷移檔案",
+      "buttonBrowseLabel": "瀏覽...",
+      "buttonImportLabel": "導入"
+    },
+    "step3": {
+      "title": "選擇要遷移的帳戶",
+      "selectTitle": "選擇您要導入的帳戶",
+      "selectLabel": "帳戶",
+      "selectAllButtonLabel": "全選",
+      "selectedQuantity": "已選擇 {{selected}} / {{total}} 個帳戶",
+      "alreadyImportedLabel": "已導入",
+      "buttonLabel": "選擇所選帳戶"
+    },
+    "step4": {
+      "title": "輸入您的帳戶密碼",
+      "description": "請為每個要導入的帳戶輸入密碼",
+      "inputLabel": "密碼",
+      "inputPlaceholder": "輸入帳戶密碼...",
+      "buttonLabel": "遷移帳戶",
+      "passwordError": "密碼不正確！",
+      "migrateError": "遷移時發生錯誤，請再試一次。",
+      "success": {
+        "subtitle": "您的 NEON 2 帳戶已成功遷移！",
+        "buttonLabel": "查看您的資產組合"
+      }
+    }
+  },
+  "autoUpdate": {
+    "completed": {
+      "title": "您的錢包已更新！",
+      "description": "Neon 更新為您的錢包帶來全新且更安全的功能，並修復現有問題，例如錯誤和閃退",
+      "buttonPatchNotesLabel": "更新說明",
+      "buttonContinueLabel": "開始使用您的錢包"
+    },
+    "mobile": {
+      "title": "您的錢包也可在行動裝置上使用！",
+      "description": "安全儲存、查看並管理所有數位資產與多個錢包於一處。善用裝置的額外安全選項，保障您的資產安全",
+      "downloadForIOS": "下載 iOS 版",
+      "downloadForAndroid": "下載 Android 版",
+      "buttonContinueLabel": "繼續使用您的錢包"
+    },
+    "notes": {
+      "title": "您的錢包變得更強大了！",
+      "subtitle": "版本說明",
+      "buttonLearnMoreLabel": "了解更多",
+      "buttonContinueLabel": "開始使用您的錢包"
+    }
+  },
+  "networkNodeSelection": {
+    "title": "節點選擇",
+    "description": "如果您遇到效能問題，請嘗試選擇下方的自訂節點",
+    "listLabel": "節點列表",
+    "refreshButtonLabel": "重新整理",
+    "selectAutomaticallyLabel": "自動選擇",
+    "blockHeight": "區塊高度：{{height}}",
+    "latency": "{{latency}}毫秒"
+  },
+  "addCustomNetwork": {
+    "title": "新增自訂網路",
+    "namePlaceholder": "輸入網路名稱",
+    "nameLabel": "網路名稱",
+    "urlPlaceholder": "範例：'http://127.0.0.1:50012",
+    "urlLabel": "RPC 網址",
+    "successUrl": "成功連接至節點",
+    "deleteButtonLabel": "刪除網路",
+    "errors": {
+      "invalidURL": "無效的網址",
+      "notConnect": "無法連接此節點",
+      "networkNameIsRequired": "必須輸入網路名稱",
+      "networkNameIsTooLong": "網路名稱過長"
+    }
+  },
+  "addNetworkProfileModal": {
+    "title": "新增網路設定檔",
+    "inputLabel": "設定檔名稱",
+    "deleteButtonLabel": "刪除設定檔",
+    "errors": {
+      "profileNameIsRequired": "必須輸入設定檔名稱",
+      "profileNameIsTooLong": "設定檔名稱過長"
+    }
+  },
+  "nftSelection": {
+    "title": "以 NFT 圖片作為主題",
+    "description": "請選擇您想用於此帳戶卡片的圖片。",
+    "selectTitle": "選擇 NFT",
+    "emptyList": "找不到 NFT"
+  },
+  "connectHardwareWallet": {
+    "title": "連接您的硬體錢包",
+    "description": "連接後，您的 Ledger 錢包將新增至錢包列表",
+    "searchingLabel": "搜尋中",
+    "notConnectedMessage": "找不到硬體錢包！請檢查連線並重新搜尋",
+    "connectedMessage": "已偵測到您的硬體錢包！正在開啟錢包...",
+    "searchAgainButtonLabel": "重新搜尋"
+  },
+  "swapDetails": {
+    "title": "您的兌換",
+    "swapErrorMessage": "哎呀！發生錯誤 - 兌換失敗",
+    "transferErrorMessage": "哎呀！發生錯誤 - 轉帳失敗",
+    "subtitle": "您的兌換詳情",
+    "refundedSubtitle": "您已獲得退款",
+    "detailsHeaderLabel": "詳情",
+    "detailsHeaderDescription": "我們目標在 7 分鐘內完成兌換",
+    "statusPanelLabel": "狀態",
+    "statusPanelSteps": ["確認", "兌換", "完成"],
+    "routingPanelLabel": "路由",
+    "routingPanelTransactionFromLabel": "交易來源",
+    "routingPanelTransactionToLabel": "交易目標",
+    "routingPanelTransactionToLabelPending": "處理中...",
+    "routingPanelTransactionFeeLabel": "交易手續費",
+    "sentPanelLabel": "您已發送",
+    "sentPanelTokenLabel": "代幣",
+    "sentPanelAddressLabel": "發送地址",
+    "receivePanelLabel": "您將收到",
+    "receivePanelTokenLabel": "代幣",
+    "receivePanelAddressLabel": "接收地址",
+    "extraIdToLabel": "目標標籤/備註",
+    "helpButtonLabel": "需要協助？與我們聯絡",
+    "swapLog": "兌換紀錄"
+  },
+  "swapDetailsLog": {
+    "title": "兌換紀錄",
+    "copySwapLog": "複製兌換紀錄到剪貼簿",
+    "thereIsNoLog": "沒有兌換紀錄"
+  },
+  "aboutExtraIdToReceiveModal": {
+    "title": "關於目標標籤/備註",
+    "what": {
+      "title": "什麼是目標標籤或備註？",
+      "description": "目標標籤或備註是一組唯一識別碼，可確保加密貨幣存款正確歸屬於收件人。當您將資金發送至使用共用錢包地址的服務或交易所時，通常需要填寫。"
+    },
+    "why": {
+      "title": "為什麼需要？",
+      "description": "此代幣需要額外的識別資訊才能正確收款。請務必提供，以確保兌換成功。"
+    },
+    "where": {
+      "title": "在哪裡可以找到目標標籤/備註？",
+      "description": "通常是一組唯一的字串，可在收件人帳戶資訊中找到。"
+    }
+  },
+  "sellTokensDeposit": {
+    "title": "進行存款",
+    "description": "為了繼續出售您的數位資產，您需要將資產轉移至我們的 off-ramp 服務商。",
+    "observation": "當交易確認後，您可以返回「出售代幣」流程。",
+    "form": {
+      "title": "您的存款詳情",
+      "source": {
+        "label": "來源帳戶"
+      },
+      "receive": {
+        "label": "存款收件人"
+      },
+      "token": {
+        "label": "發送代幣"
+      },
+      "address": {
+        "label": "存款地址",
+        "placeholder": "輸入存款地址…"
+      },
+      "amount": {
+        "label": "金額"
+      }
+    },
+    "labels": {
+      "fiat": "法幣價值（約 {{currencyLabel}}）",
+      "fee": "總手續費"
+    },
+    "buttons": {
+      "submit": "發送代幣"
+    },
+    "messages": {
+      "feeError": "計算手續費時發生錯誤",
+      "insufficientFunds": "資金不足",
+      "invalidAddress": "無效的地址",
+      "hardwareWalletShouldBeValidError": "請確保您的硬體錢包已解鎖以繼續操作"
+    },
+    "success": {
+      "subtitle": "您的存款已成功",
+      "details": "交易詳情",
+      "section": "交易",
+      "recipient": "收件人",
+      "amount": "金額",
+      "transactionHash": "交易雜湊",
+      "labels": {
+        "copyAddress": "複製地址",
+        "copyTransactionHash": "複製交易雜湊"
+      }
+    },
+    "error": {
+      "subtitle": "交易失敗",
+      "text": "很抱歉，您的交易無法處理。",
+      "label": "錯誤訊息",
+      "default": "未知錯誤"
+    },
+    "successNotification": {
+      "title": "出售完成",
+      "previewBody": "您的出售轉帳已完成"
+    },
+    "failureNotification": {
+      "title": "出售失敗",
+      "previewBody": "我們無法確認您的出售轉帳已完成"
+    }
+  },
+  "buyAndSellTokensLeaveAlert": {
+    "title": "您確定要離開此畫面嗎？",
+    "description": "切換畫面時，表單資料將會被重設。",
+    "buttons": {
+      "close": "不，我想留下",
+      "continue": "是的，繼續"
+    }
+  },
+  "buyAndSellTokensAboutData": {
+    "title": "關於您的資料",
+    "description": "我們的 on/off ramp 合作夥伴僅保留您的資料 ID 參考，並使用您提供的電子郵件來通知您的買賣進度。",
+    "alert": "COZ 不會儲存您的任何資料！",
+    "sumbsub": {
+      "title": "您的 KYC 資料已加密並由我們的 KYC 合作夥伴處理：",
+      "link": "關於 Sumsub 的服務"
+    },
+    "unlimit": {
+      "title": "所有其他資料由我們的 on/off ramp 合作夥伴處理：",
+      "link": "關於 Unlimit 的服務"
+    }
+  },
+  "notifications": {
+    "title": "通知",
+    "clearAllButtonLabel": "全部清除",
+    "emptyListTitle": "這裡沒有內容",
+    "emptyListBody": "您已全部處理完畢！",
+    "notification": {
+      "dateFormat": "yy 年 MM 月 dd 日 | hh:mm",
+      "markAsReadButtonLabel": "標記為已讀",
+      "markAsUnreadButtonLabel": "標記為未讀",
+      "viewButtonLabel": "查看",
+      "relatedAddressLabel": "地址",
+      "relatedAccountLabel": "帳戶"
+    },
+    "errors": {
+      "accountNotFound": "無法執行此操作。找不到帳戶"
+    }
+  },
+  "prepareHardwareWalletMigrationNeo3": {
+    "title": "硬體錢包",
+    "alert": "請確保您的硬體錢包在整個過程中保持解鎖！",
+    "connectAndSelectNeo3Step": {
+      "subtitle": "您的裝置已連接！",
+      "title": "前往 NEO N3 應用程式",
+      "description": "為了準備 Neo Legacy 到 Neo N3 的遷移，Neon 需要一個 Neo N3 地址作為遷移代幣的目標。",
+      "tip": "為了取得此地址，Neon 需要您在硬體錢包上<1>切換到 Neo N3 應用程式</1>。",
+      "searchHardwareWalletLabel": "等待使用者開啟 Neo N3 應用程式…",
+      "selectLabel": "您的地址：",
+      "addAccountButtonLabel": "新增帳戶",
+      "addNeo3AccountError": "新增 Neo 3 帳戶時發生問題。請確認您的硬體錢包已連接並解鎖",
+      "continueButtonLabel": "繼續"
+    },
+    "confirmAndCompleteStep": {
+      "title": "確認",
+      "sourceAddressTitle": "您的 <1>Neo Legacy</1> 代幣將從這裡轉出：",
+      "sourceAddressLabel": "來源地址",
+      "receiverAddressLabel": "接收地址",
+      "receiverAddressTitle": "您的遷移 <1>Neo N3</1> 代幣將存入這裡：",
+      "tip": "請切換回硬體錢包上的 Neo Legacy 應用程式以進行下一步。",
+      "continueButtonLabel": "確認並繼續",
+      "searchHardwareWalletLabel": "等待 Neo Legacy 應用程式…"
+    },
+    "statusConnection": {
+      "connectedMessage": "您的裝置已連接！",
+      "notFoundMessage": "找不到硬體錢包或應用程式！請檢查連線",
+      "searchAgainButtonLabel": "重新搜尋"
+    },
+    "steps": ["連接硬體錢包", "開啟 Neo N3 應用程式", "選擇地址", "確認", "完成"],
+    "closeIconButtonAriaLabel": "關閉"
+  },
+  "migrationNeo3Status": {
+    "title": "遷移代幣",
+    "subtitles": {
+      "done": "您的遷移已完成！",
+      "pending": "您的遷移正在處理中！",
+      "failure": "您的遷移花費時間較長，請稍後再檢查狀態，或聯絡我們的支援。",
+      "failure-neo3": "您的遷移花費時間較長，請稍後再檢查狀態，或聯絡我們的支援。"
+    },
+    "detailsHeaderLabel": "遷移狀態",
+    "detailsPanelLabel": "交易",
+    "detailsDestinationAddressLabel": "Neo N3 目標地址",
+    "detailsMigrationFeeLabel": "遷移手續費",
+    "detailsTransactionHashLabel": "交易雜湊",
+    "detailsAmountSentLabel": "發送金額",
+    "detailsAmountReceiveLabel": {
+      "done": "已收到金額",
+      "pending": "您將收到的金額",
+      "failure": "您本應收到的金額",
+      "failure-neo3": "您本應收到的金額"
+    },
+    "viewStatusButtonLabel": "查看狀態",
+    "revalidateMigrationButtonLabel": "重新驗證遷移"
+  },
+  "migrationNeo3ClaimAlert": {
+    "title": "您嘗試遷移時有未領取的 {{tokenSymbol}}",
+    "description": "請在帳戶總覽畫面領取您的 {{tokenSymbol}}，然後再試一次。",
+    "buttons": {
+      "understood": "我了解了"
+    }
+  },
+  "search": {
+    "title": "搜尋 Neon",
+    "closeButtonLabel": "關閉",
+    "inputPlaceholder": "輸入您的搜尋內容…",
+    "idleResultDescription": "正在找什麼嗎？",
+    "emptyResultDescription": "找不到任何內容！",
+    "resultDescription": "您可能對以下主題有興趣：",
+    "errors": {
+      "noFunction": "此項目沒有可用的操作。如有疑問，請聯絡我們的支援。",
+      "errorToExecute": "執行操作時發生錯誤。請聯絡我們的支援。"
+    }
+  },
+  "exportFullTransactions": {
+    "title": "匯出 CSV",
+    "filenameDateFormat": "yyyyMMdd",
+    "info": {
+      "addressPlaceholder": "選擇一個地址",
+      "datePickerStepFormat": "yyyy 年 MM 月 dd 日",
+      "datePickerStepTip": "最長 12 個月期間",
+      "allTransactionsStepLabel": "所有交易"
+    },
+    "form": {
+      "description": "將 CSV 檔案儲存到您的電腦，讓您可以檢視指定期間內的活動紀錄。",
+      "infoLabel": "要匯出的帳戶",
+      "browseButtonLabel": "瀏覽…",
+      "exportButtonLabel": "匯出您的 CSV",
+      "selectedFolderPathInputLabel": "您想將 csv 檔案儲存在哪裡？",
+      "errorMessage": "匯出 CSV 時發生錯誤。請再試一次。"
+    },
+    "exported": {
+      "description": "您的 CSV 檔案已成功儲存！",
+      "selectedFolderPathInputLabel": "您的檔案已儲存於：",
+      "infoLabel": "匯出資料",
+      "returnButtonLabel": "返回您的活動紀錄"
+    }
+  },
+  "voteNeo3SupportUs": {
+    "title": "願意支持我們嗎？",
+    "cozLogoAlt": "COZ 標誌",
+    "hiLabel": "您好！",
+    "aboutNeonWalletDescription": "作為 Neon Wallet 用戶及代幣持有者，您可以影響重要協議決策，讓網路發展方向符合您的利益。",
+    "importantThingsLabel": "詳細的提案研究與明智的投票行為非常重要。",
+    "youCanSupportUsLabel": "如果您喜歡使用 Neon 或我們的其他產品，歡迎用您的投票支持我們的發展。",
+    "scanOurWebsite": "如果您還不認識我們，請花點時間瀏覽<1>我們的網站</1>。",
+    "thankYouLabel": "感謝您！",
+    "cozTeamLabel": "COZ 團隊",
+    "voteForCozButtonLabel": "投票支持 COZ",
+    "skipButtonLabel": "略過",
+    "dontShowAgainLabel": "不再顯示"
+  },
+  "voteNeo3CandidateDetails": {
+    "title": "候選人資訊",
+    "positionLabel": "目前職位",
+    "nameLabel": "候選人",
+    "pubKeyLabel": "公鑰",
+    "votesLabel": "總票數",
+    "descriptionLabel": "描述",
+    "castVoteButtonLabel": "投票給此候選人",
+    "voteAlreadyCastButtonLabel": "已投票",
+    "insufficientGasTitle": "您的 GAS 餘額不足以支付投票手續費。",
+    "insufficientGasDescription": "請將 GAS 轉入此帳戶或更換帳戶以繼續。",
+    "thereIsNoNeoTitle": "此 Neo 3 帳戶中沒有 NEO",
+    "selectNeo3AccountTitle": "請選擇 Neo 3 帳戶以繼續",
+    "accountCanNotBeWatchTitle": "請使用非觀察模式的 Neo 3 帳戶"
+  },
+  "voteNeo3Confirmation": {
+    "title": "審查並確認您的投票",
+    "importanceLabel": "作為代幣持有者，您可以影響重要協議決策，讓網路發展方向符合社群利益。",
+    "contributeLabel": "詳細的提案研究與明智的投票行為非常重要。系統採用可靠的驗證與明確流程，讓個人能有意義地促進 NEO 生態系統的成長與發展。",
+    "detailsLabel": "投票詳情",
+    "accountNameLabel": "帳戶名稱",
+    "addressLabel": "地址",
+    "candidateLabel": "候選人",
+    "pubKeyLabel": "公鑰",
+    "votesLabel": "投票數",
+    "feeLabel": "總手續費",
+    "confirmationButtonLabel": "確認您的投票",
+    "voteErrorMessages": {
+      "noNeoLabel": "此 Neo 3 帳戶沒有足夠的 NEO 可用於投票",
+      "watchAccountLabel": "您的 Neo 3 帳戶為觀察模式",
+      "canNotPayGasFeeLabel": "您無法支付 GAS 手續費"
+    },
+    "messages": {
+      "invalidHardwareWallet": "請確保您的硬體錢包已解鎖以繼續操作",
+      "voteSuccess": "投票成功，請至交易頁面查看待處理的投票",
+      "voteError": "投票時發生錯誤，請再試一次"
+    },
+    "notifications": {
+      "voteSuccessNotification": {
+        "title": "投票完成",
+        "previewBody": "您的投票已成功完成"
+      },
+      "voteFailureNotification": {
+        "title": "投票失敗",
+        "previewBody": "我們無法確認您的投票已完成"
+      }
+    }
+  }
+}
