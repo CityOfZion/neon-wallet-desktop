@@ -1,6 +1,7 @@
 import { ConfirmPasswordExportModal } from '@renderer/routes/modals/ConfirmPasswordExport'
 import { ExportKeyModal } from '@renderer/routes/modals/ExportKey'
 import { SwapDetailsLogModal } from '@renderer/routes/modals/SwapDetailsLog'
+import { VoteNeo3ConfirmationModal } from '@renderer/routes/modals/VoteNeo3Confirmation'
 import { TRoute } from '@shared/@types/modal'
 
 import { AboutExtraIdToReceiveModal } from './modals/AboutExtraIdToReceiveModal'
@@ -154,5 +155,11 @@ export const modalsRouter: TRoute[] = [
     type: 'side',
     size: 'sm',
     element: <VoteNeo3CandidateDetailsModal />,
+  },
+  {
+    name: 'vote-neo3-confirmation',
+    type: 'center',
+    size: 'sm',
+    element: <VoteNeo3ConfirmationModal />,
   },
 ]

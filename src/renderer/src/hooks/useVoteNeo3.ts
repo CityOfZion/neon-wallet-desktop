@@ -7,6 +7,7 @@ import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useSelectedNetworkByBlockchainSelector } from '@renderer/hooks/useSettingsSelector'
 import { bsAggregator } from '@renderer/libs/blockchainService'
+import { TNetwork } from '@shared/@types/blockchain'
 import { TUseBalanceResult } from '@shared/@types/query'
 import { IAccountState } from '@shared/@types/store'
 import { useQuery } from '@tanstack/react-query'
@@ -19,6 +20,23 @@ type TCalculateVoteFeeParams = {
 type TValidationsParams = {
   balanceQuery: TUseBalanceResult
   gasFee?: string
+}
+
+type TBuildVoteNeo3GetVoteDetailsByAddressQueryKeyParams = {
+  neo3Network: TNetwork<'neo3'>
+  address?: string
+}
+
+export const buildVoteNeo3GetVoteDetailsByAddressQueryKey = ({
+  neo3Network,
+  address,
+}: TBuildVoteNeo3GetVoteDetailsByAddressQueryKeyParams) => {
+  const key: any[] = ['vote-neo3-get-vote-details-by-address']
+
+  if (neo3Network) key.push(neo3Network)
+  if (address) key.push(address)
+
+  return key
 }
 
 export const useVoteNeo3GetCandidatesToVote = () => {
@@ -43,7 +61,7 @@ export const useVoteNeo3GetVoteDetailsByAddress = (address?: string) => {
   const blockchainService = bsAggregator.blockchainServicesByName.neo3 as BSNeo3
 
   return useQuery({
-    queryKey: ['vote-neo3-get-vote-details-by-address', neo3Network, address],
+    queryKey: buildVoteNeo3GetVoteDetailsByAddressQueryKey({ neo3Network, address }),
     queryFn: () => blockchainService.voteService.getVoteDetailsByAddress(address!),
     enabled: !!address && NetworkHelper.isMainnet('neo3', neo3Network),
   })

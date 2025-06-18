@@ -28,7 +28,7 @@ type TLocationState = {
 
 export const VoteNeo3CandidateDetailsModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'voteNeo3CandidateDetails' })
-  const { modalErase } = useModalNavigate()
+  const { modalNavigate } = useModalNavigate()
   const { neo3Account, candidate, candidateVotePercentage } = useModalState<TLocationState>()
 
   const { position, name, description, votes, pubKey, logoUrl } = candidate
@@ -58,11 +58,13 @@ export const VoteNeo3CandidateDetailsModal = () => {
     ))
     .otherwise(() => undefined)
 
-  // TODO: implement this method
   const handleGoToVoteNeo3ConfirmationModal = () => {
     if (isDisabled) return
 
-    modalErase('center')
+    modalNavigate('vote-neo3-confirmation', {
+      replace: true,
+      state: { neo3Account, candidate },
+    })
   }
 
   return (

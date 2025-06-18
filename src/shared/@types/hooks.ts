@@ -48,12 +48,13 @@ export type TUseTransactionsTransfer = {
   account: IAccountState
   toAccount?: IAccountState
   fromAccount?: IAccountState
+  methodName?: string
   isPending?: boolean
   isClaim?: boolean
   isMigrate?: boolean
   amount: string
-  to: string
-  from: string
+  to?: string
+  from?: string
   asset: string
   assetHash: string
   token?: Token

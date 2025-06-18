@@ -3,6 +3,7 @@ import {
   buildGetFullTransactionsAggregatedQueryKey,
   buildGetFullTransactionsQueryKey,
 } from '@renderer/hooks/useGetFullTransactions'
+import { buildVoteNeo3GetVoteDetailsByAddressQueryKey } from '@renderer/hooks/useVoteNeo3'
 import { queryClient } from '@renderer/libs/query'
 import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
 import { IAccountState } from '@shared/@types/store'
@@ -25,6 +26,11 @@ export class ReactQueryHelper {
 
     queryClient.removeQueries({
       queryKey: buildQueryKeyBalance(account.address, account.blockchain, network),
+      refetchType: 'all',
+    })
+
+    queryClient.removeQueries({
+      queryKey: buildVoteNeo3GetVoteDetailsByAddressQueryKey({ neo3Network: network, address: account.address }),
       refetchType: 'all',
     })
 

@@ -258,15 +258,15 @@ export const useGetFullTransactions = ({ accounts, dateFrom, dateTo }: TProps) =
         hash: assetHash,
         eventType: 'token',
         amount: transfer.amount,
-        methodName: 'transfer',
+        methodName: transfer.methodName || 'transfer',
         hashUrl: contractTemplateUrl?.replace('{hash}', assetHash),
         tokenType: 'generic',
         token,
         from,
-        fromUrl: addressTemplateUrl?.replace('{address}', from),
+        fromUrl: from ? addressTemplateUrl?.replace('{address}', from) : undefined,
         fromAccount: transfer.fromAccount,
         to,
-        toUrl: addressTemplateUrl?.replace('{address}', to),
+        toUrl: to ? addressTemplateUrl?.replace('{address}', to) : undefined,
         toAccount: transfer.toAccount,
       }
 

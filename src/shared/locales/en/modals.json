@@ -817,5 +817,38 @@
     "thereIsNoNeoTitle":  "There isn't NEO in this Neo 3 account",
     "selectNeo3AccountTitle": "Select a Neo 3 account to continue",
     "accountCanNotBeWatchTitle": "Use a non-watch Neo 3 account"
+  },
+  "voteNeo3Confirmation": {
+    "title": "Review and confirm your vote",
+    "importanceLabel": "As a token holder, you can influence important protocol decisions so the network has a development path that matches community interests.",
+    "contributeLabel": "Detailed proposal research and smart voting practices matter greatly. The system uses reliable verification and clear processes that let individuals meaningfully contribute to the NEO ecosystem’s growth and development.",
+    "detailsLabel": "Voting details",
+    "accountNameLabel": "Account name",
+    "addressLabel": "Address",
+    "candidateLabel": "Candidate",
+    "pubKeyLabel": "Public key",
+    "votesLabel": "N. of votes",
+    "feeLabel": "Total fee",
+    "confirmationButtonLabel": "Confirm your vote",
+    "voteErrorMessages": {
+      "noNeoLabel":  "You don't have enough NEO to vote with this Neo 3 account",
+      "watchAccountLabel": "Your Neo 3 account is in watching mode",
+      "canNotPayGasFeeLabel": "You can't pay the GAS fee"
+    },
+    "messages": {
+      "invalidHardwareWallet": "To proceed with this operation, please make sure your hardware wallet is unlocked",
+      "voteSuccess": "Voted successfully, go to transactions page to see the pending vote",
+      "voteError": "There was an error to vote, try again, please"
+    },
+    "notifications": {
+      "voteSuccessNotification": {
+        "title": "Vote completed",
+        "previewBody": "Your vote has been completed successfully"
+      },
+      "voteFailureNotification": {
+        "title": "Vote failed",
+        "previewBody": "We couldn't verify the completion of your vote"
+      }
+    }
   }
 }

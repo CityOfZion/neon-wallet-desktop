@@ -1,15 +1,22 @@
 import { Trans, useTranslation } from 'react-i18next'
 import { TbCheckbox, TbHeartHandshake } from 'react-icons/tb'
-import { useDispatch } from 'react-redux'
 import CozLogo from '@renderer/assets/images/coz-logo.svg?react'
 import { Button } from '@renderer/components/Button'
 import { Checkbox } from '@renderer/components/Checkbox'
 import { Link } from '@renderer/components/Link'
 import { COZ_WEBSITE_URL } from '@renderer/constants/urls'
 import { useActions } from '@renderer/hooks/useActions'
-import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
+import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
 import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
+import { TVoteNeo3Candidate } from '@shared/@types/query'
+import { IAccountState } from '@shared/@types/store'
+
+type TLocationState = {
+  neo3Account: IAccountState
+  cozCandidate: TVoteNeo3Candidate
+}
 
 type TActionsData = {
   dontShowAgain: boolean
@@ -17,17 +24,14 @@ type TActionsData = {
 
 export const VoteNeo3SupportUsModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'voteNeo3SupportUs' })
-  const { modalErase } = useModalNavigate()
-  const dispatch = useDispatch()
+  const { modalEraseWrapper, modalNavigate } = useModalNavigate()
+  const { neo3Account, cozCandidate } = useModalState<TLocationState>()
+  const dispatch = useAppDispatch()
 
   const {
     actionData: { dontShowAgain },
     setData,
   } = useActions<TActionsData>({ dontShowAgain: false })
-
-  const handleClose = () => {
-    modalErase('center')
-  }
 
   const handleOnClose = () => {
     if (dontShowAgain) dispatch(settingsReducerActions.dontShowVoteNeo3SupportUsModalAgain())
@@ -37,9 +41,11 @@ export const VoteNeo3SupportUsModal = () => {
     setData({ dontShowAgain: checked })
   }
 
-  // TODO: redirect to modal of confirm vote
   const handleGoToVoteNeo3ConfirmationModalForCoz = () => {
-    handleClose()
+    modalNavigate('vote-neo3-confirmation', {
+      replace: true,
+      state: { neo3Account, candidate: cozCandidate },
+    })
   }
 
   return (
@@ -84,7 +90,13 @@ export const VoteNeo3SupportUsModal = () => {
             onClick={handleGoToVoteNeo3ConfirmationModalForCoz}
           />
 
-          <Button label={t('skipButtonLabel')} variant="card" colorSchema="gray" wide onClick={handleClose} />
+          <Button
+            label={t('skipButtonLabel')}
+            variant="card"
+            colorSchema="gray"
+            wide
+            onClick={modalEraseWrapper('center')}
+          />
         </div>
 
         <div className="mt-2 flex items-center justify-center font-normal">
