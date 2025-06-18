@@ -1,7 +1,3 @@
-import { ConfirmPasswordExportModal } from '@renderer/routes/modals/ConfirmPasswordExport'
-import { ExportKeyModal } from '@renderer/routes/modals/ExportKey'
-import { SwapDetailsLogModal } from '@renderer/routes/modals/SwapDetailsLog'
-import { VoteNeo3ConfirmationModal } from '@renderer/routes/modals/VoteNeo3Confirmation'
 import { TRoute } from '@shared/@types/modal'
 
 import { AboutExtraIdToReceiveModal } from './modals/AboutExtraIdToReceiveModal'
@@ -15,6 +11,7 @@ import { BlockchainSelectionModal } from './modals/BlockchainSelection'
 import { BuyAndSellTokensAboutDataModal } from './modals/BuyAndSellTokensAboutData'
 import { BuyAndSellTokensLeaveAlertModal } from './modals/BuyAndSellTokensLeaveAlert'
 import { ConfirmPasswordBackupModal } from './modals/ConfirmPasswordBackup'
+import { ConfirmPasswordExportModal } from './modals/ConfirmPasswordExport'
 import { ConfirmPasswordRecoverModal } from './modals/ConfirmPasswordRecover'
 import { ConnectHardwareWalletModal } from './modals/ConnectHardwareWallet'
 import { CreateWalletStep1Modal } from './modals/CreateWallet/CreateWalletStep1Modal'
@@ -34,6 +31,7 @@ import { DeleteWalletModal } from './modals/DeleteWallet'
 import { EditWalletModal } from './modals/EditWallet'
 import { ErrorModal } from './modals/Error'
 import { ExportFullTransactionsModal } from './modals/ExportFullTransactions'
+import { ExportKeyModal } from './modals/ExportKey'
 import { ExportMnemonic } from './modals/ExportMnemonic'
 import { ImportModal } from './modals/Import'
 import { ImportAccountsSelectionModal } from './modals/Import/ImportAccountsSelectionModal'
@@ -57,7 +55,10 @@ import { SelectContact } from './modals/SelectContact'
 import { SellTokensDepositModal } from './modals/SellTokensDeposit/SellTokensDepositModal'
 import { SuccessModal } from './modals/Success'
 import { SwapDetailsModal } from './modals/SwapDetails'
+import { SwapDetailsLogModal } from './modals/SwapDetailsLog'
 import { VoteNeo3CandidateDetailsModal } from './modals/VoteNeo3CandidateDetails'
+import { VoteNeo3ConfirmationModal } from './modals/VoteNeo3Confirmation'
+import { VoteNeo3SuccessModal } from './modals/VoteNeo3Success'
 import { VoteNeo3SupportUsModal } from './modals/VoteNeo3SupportUs'
 
 export const modalsRouter: TRoute[] = [
@@ -161,5 +162,11 @@ export const modalsRouter: TRoute[] = [
     type: 'center',
     size: 'sm',
     element: <VoteNeo3ConfirmationModal />,
+  },
+  {
+    name: 'vote-neo3-success',
+    type: 'center',
+    size: 'sm',
+    element: <VoteNeo3SuccessModal />,
   },
 ]

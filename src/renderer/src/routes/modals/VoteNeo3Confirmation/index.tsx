@@ -48,7 +48,7 @@ export const VoteNeo3ConfirmationModal = () => {
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const { isConnectedAndUnlockedHardwareWallet } = useHardwareWalletActions()
   const { currency } = useCurrencySelector()
-  const { modalErase } = useModalNavigate()
+  const { modalNavigate } = useModalNavigate()
   const { actionState, handleAct } = useActions({})
   const dispatch = useAppDispatch()
 
@@ -145,9 +145,7 @@ export const VoteNeo3ConfirmationModal = () => {
         })
       )
 
-      // TODO: redirect to success modal
-      ToastHelper.success({ message: t('messages.voteSuccess'), duration: 8000 })
-      modalErase('center')
+      modalNavigate('vote-neo3-success', { replace: true, state: { neo3Account, candidate } })
     } catch (error) {
       console.error(error)
       ToastHelper.error({ message: t('messages.voteError'), duration: 8000 })
