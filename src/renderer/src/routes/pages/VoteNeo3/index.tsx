@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbChartBarPopular } from 'react-icons/tb'
 import { Location, useLocation, useNavigate } from 'react-router-dom'
@@ -69,6 +69,11 @@ export const VoteNeo3Page = () => {
   const balanceQuery = useBalance(neo3Account)
   const { hasEnoughGasToPayFee } = useVoteNeo3Validations({ balanceQuery, gasFee: calculateVoteFeeQuery.data })
 
+  const cozCandidate = useMemo(
+    () => candidatesToVoteQuery.data?.find(candidate => candidate.pubKey === VOTE_NEO3_COZ_PUB_KEY),
+    [candidatesToVoteQuery.data]
+  )
+
   const isLoading =
     calculateVoteFeeQuery.isLoading ||
     candidatesToVoteQuery.isLoading ||
@@ -105,6 +110,7 @@ export const VoteNeo3Page = () => {
   useMount(
     () => {
       if (
+        !cozCandidate ||
         !canOpenVoteNeo3SupportUsModalRef.current ||
         !canShowVoteNeo3SupportUsModalRef.current ||
         voteDetailsByAddressQuery.isLoading ||
@@ -115,10 +121,10 @@ export const VoteNeo3Page = () => {
 
       canOpenVoteNeo3SupportUsModalRef.current = false
 
-      modalNavigate('vote-neo3-support-us')
+      modalNavigate('vote-neo3-support-us', { state: { neo3Account: defaultNeo3Account, cozCandidate } })
     },
-    [voteDetailsByAddressQuery.isLoading, voteDetailsByAddressQuery.data, defaultNeo3Account],
-    750
+    [voteDetailsByAddressQuery.isLoading, voteDetailsByAddressQuery.data, cozCandidate, defaultNeo3Account],
+    500
   )
 
   return (

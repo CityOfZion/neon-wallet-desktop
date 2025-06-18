@@ -124,7 +124,12 @@ export const VoteNeo3List = ({ neo3Account, voteErrorMessage, canVote }: TProps)
                 {t('castVoteColumnLabel')}
 
                 {!!voteErrorMessage && (
-                  <Tooltip title={voteErrorMessage} delayDuration={0} contentProps={{ className: 'max-w-32' }}>
+                  <Tooltip
+                    title={voteErrorMessage}
+                    variant="black"
+                    delayDuration={0}
+                    contentProps={{ className: 'max-w-32' }}
+                  >
                     <span>
                       <TbAlertTriangleFilled aria-hidden={true} className="h-5 w-5 text-pink" />
                     </span>

@@ -38,7 +38,7 @@ export const VoteNeo3ListItem = ({
 }: TProps) => {
   const { t } = useTranslation('pages', { keyPrefix: 'voteNeo3.listItem' })
   const queryClient = useQueryClient()
-  const modalNavigate = useModalNavigate()
+  const { modalNavigate } = useModalNavigate()
   const ref = useRef<HTMLLIElement>(null)
 
   const {
@@ -58,6 +58,7 @@ export const VoteNeo3ListItem = ({
   const isCozCandidate = VOTE_NEO3_COZ_PUB_KEY === currentCandidatePubKey
   const isCurrentVote = pubKey === currentCandidatePubKey
   const isVoteDisabled = isCurrentVote || !canVote || isVoteDetailsByAddressLoading
+  const icon = candidate.type === 'consensus' ? <TbPackages className="h-5 w-5" /> : <MdCircle className="h-3 w-3" />
 
   const votePercentage = useMemo(() => {
     const percentage = Math.min(100, Number(((votes * 100) / votesTotal).toFixed(2)))
@@ -66,15 +67,15 @@ export const VoteNeo3ListItem = ({
   }, [votes, votesTotal])
 
   const handleGoToVoteNeo3CandidateDetailsModal = () => {
-    modalNavigate.modalNavigate('vote-neo3-candidate-details', {
+    modalNavigate('vote-neo3-candidate-details', {
       state: { neo3Account, candidate, candidateVotePercentage: votePercentage },
     })
   }
 
   const handleGoToVoteNeo3ConfirmationModal = () => {
-    // TODO: implement this method
-
     if (isVoteDisabled) return
+
+    modalNavigate('vote-neo3-confirmation', { state: { neo3Account, candidate } })
   }
 
   useEffect(() => {
@@ -132,24 +133,21 @@ export const VoteNeo3ListItem = ({
           aria-labelledby="column-position"
         >
           <span className="flex w-5 min-w-5 max-w-5 items-center justify-center">
-            {cloneElement(
-              candidate.type === 'consensus' ? <TbPackages className="h-5 w-5" /> : <MdCircle className="h-3 w-3" />,
-              {
-                'aria-hidden': true,
-                className: StyleHelper.mergeStyles('text-lemon', {
-                  'text-neon': position === 1,
-                  'text-green-100': position === 2,
-                  'text-green': position === 3,
-                  'text-blue': position === 4,
-                  'text-magenta-700': position === 5,
-                  'text-purple': position === 6,
-                  'text-magenta': position === 7,
-                  'text-pink': position === 8,
-                  'text-orange': position === 9,
-                  'text-yellow': position === 10,
-                }),
-              }
-            )}
+            {cloneElement(icon, {
+              'aria-hidden': true,
+              className: StyleHelper.mergeStyles('text-lemon', icon.props.className, {
+                'text-neon': position === 1,
+                'text-green-100': position === 2,
+                'text-green': position === 3,
+                'text-blue': position === 4,
+                'text-magenta-700': position === 5,
+                'text-purple': position === 6,
+                'text-magenta': position === 7,
+                'text-pink': position === 8,
+                'text-orange': position === 9,
+                'text-yellow': position === 10,
+              }),
+            })}
           </span>
           {position}.
         </p>

@@ -41,7 +41,7 @@ export const SellTokensDepositSuccessContent = ({ transaction }: TProps) => {
                 size="sm"
                 compacted
                 icon={<MdOutlineContentCopy aria-hidden={true} className="text-neon" />}
-                onClick={UtilsHelper.copyToClipboard.bind(null, to)}
+                onClick={UtilsHelper.copyToClipboard.bind(null, to!)}
               />
             </Tooltip>
           </div>

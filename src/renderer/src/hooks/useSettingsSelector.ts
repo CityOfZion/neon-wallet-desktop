@@ -1,5 +1,4 @@
 import { useCallback } from 'react'
-import { useDispatch } from 'react-redux'
 import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
 import { LOGIN_CONTROL_VALUE } from '@renderer/constants/password'
 import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
@@ -117,7 +116,7 @@ export const useNetworkActions = () => {
 }
 
 export const useSettingsActions = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const setHasPassword = useCallback(
     async (password: string, isAlreadyEncrypted?: boolean) => {

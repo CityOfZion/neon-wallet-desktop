@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next'
 import { TbCube3dSphere } from 'react-icons/tb'
-import { useDispatch } from 'react-redux'
 import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
@@ -9,6 +8,7 @@ import { CUSTOM_NETWORK_ID } from '@renderer/constants/networks'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
+import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
@@ -31,7 +31,7 @@ export const AddCustomNetwork = () => {
   const { t: commonGeneral } = useTranslation('common', { keyPrefix: 'general' })
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
   const { blockchain, network: networkToEdit } = useModalState<TState>()
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const { actionData, actionState, setDataFromEventWrapper, setData, handleAct, setError, clearErrors } =
     useActions<TActionData>({

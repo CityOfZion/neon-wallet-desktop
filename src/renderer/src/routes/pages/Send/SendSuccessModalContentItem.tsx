@@ -22,7 +22,7 @@ export const SendSuccessModalContentItem = ({ order, transaction }: TProps) => {
 
   const contact = contacts.find(contact =>
     contact.addresses.some(
-      SharedAccountHelper.predicate({ address: transaction.to, blockchain: transaction.account.blockchain })
+      SharedAccountHelper.predicate({ address: transaction.to!, blockchain: transaction.account.blockchain })
     )
   )
 
@@ -42,7 +42,7 @@ export const SendSuccessModalContentItem = ({ order, transaction }: TProps) => {
             <IconButton
               icon={<MdOutlineContentCopy className="text-neon" />}
               size="md"
-              onClick={() => UtilsHelper.copyToClipboard(transaction.to)}
+              onClick={() => UtilsHelper.copyToClipboard(transaction.to!)}
               compacted
             />
           )}
