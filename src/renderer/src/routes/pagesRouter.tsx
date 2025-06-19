@@ -26,6 +26,7 @@ import { ChangePasswordStep2 } from './pages/Settings/SettingsChangePassword/Cha
 import { ChangePasswordStep3 } from './pages/Settings/SettingsChangePassword/ChangePasswordStep3'
 import { SettingsCurrency } from './pages/Settings/SettingsCurrency'
 import { SettingsEncryptKeyPage } from './pages/Settings/SettingsEncryptKey'
+import { SettingsLanguage } from './pages/Settings/SettingsLanguage'
 import { SettingsMigrateWalletsPage } from './pages/Settings/SettingsMigrateWallets'
 import { SettingsMobileApp } from './pages/Settings/SettingsMobileApp'
 import { SettingsNetwork } from './pages/Settings/SettingsNetwork'
@@ -161,6 +162,10 @@ export const pagesRouter = routeHandler([
                   {
                     path: 'mobile-app',
                     element: <SettingsMobileApp />,
+                  },
+                  {
+                    path: 'language',
+                    element: <SettingsLanguage />,
                   },
                 ],
               },

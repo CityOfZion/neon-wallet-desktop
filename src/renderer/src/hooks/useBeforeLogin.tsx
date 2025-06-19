@@ -10,10 +10,12 @@ import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 import { compareVersions } from 'compare-versions'
+import i18next from 'i18next'
 
 import { useCurrentLoginSessionSelector } from './useAuthSelector'
 import { useAppDispatch } from './useRedux'
 import {
+  useLanguageSelector,
   useOverTheAirInfoSelector,
   useSelectedNetworkByBlockchainSelector,
   useSelectedNetworkProfileSelector,
@@ -175,7 +177,16 @@ const useRemoveTemporaryApplicationData = () => {
   }, [currentLoginSession, dispatch])
 }
 
+const useLanguageChange = () => {
+  const { language } = useLanguageSelector()
+
+  useLayoutEffect(() => {
+    i18next.changeLanguage(language.value)
+  }, [language])
+}
+
 export const useBeforeLogin = () => {
+  useLanguageChange()
   useOverTheAirUpdate()
   useNetworkChange()
   useDeeplinkListeners()

@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { availableCurrencies } from '@renderer/constants/currency'
+import { defaultLanguage } from '@renderer/constants/language'
 import { DEFAULT_NETWORK_BY__BLOCKCHAIN, DEFAULT_NETWORK_PROFILE } from '@renderer/constants/networks'
 import { ISettingsState } from '@shared/@types/store'
 import { createMigrate, PersistConfig, PURGE } from 'redux-persist'
@@ -16,6 +17,7 @@ const settingsReducerInitialState: ISettingsReducer = {
     hasPassword: false,
     isFirstTime: true,
     currency: availableCurrencies[0],
+    language: defaultLanguage,
     overTheAirInfo: {
       shouldUpdate: true,
     },
@@ -161,12 +163,19 @@ const settingsReducerMigrations = {
       canShowVoteNeo3SupportUsModal: true,
     },
   }),
+  7: (state: any) => ({
+    ...state,
+    data: {
+      ...state.data,
+      language: defaultLanguage,
+    },
+  }),
 }
 
 export const settingsReducerConfig: PersistConfig<ISettingsReducer> = {
   key: 'settingsReducer',
   storage: storage,
-  version: 6,
+  version: 7,
   migrate: createMigrate(settingsReducerMigrations),
 }
 

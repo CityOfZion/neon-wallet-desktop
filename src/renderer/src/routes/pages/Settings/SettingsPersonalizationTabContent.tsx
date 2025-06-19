@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { BsCash } from 'react-icons/bs'
 import { MdOutlineListAlt } from 'react-icons/md'
-import { TbCube3dSphere, TbDeviceMobile } from 'react-icons/tb'
+import { TbCube3dSphere, TbDeviceMobile, TbMessage } from 'react-icons/tb'
 import { useMatch } from 'react-router-dom'
 
 import { SettingsSidebarLink } from './SettingsSidebarLink'
@@ -20,6 +20,11 @@ export const SettingsPersonalizationTabContent = () => {
           icon={<TbCube3dSphere aria-hidden={true} />}
           to="/app/settings/personalisation/network-configuration"
           match={!!matchRootNetworkConfiguration || !!matchRootSettings}
+        />
+        <SettingsSidebarLink
+          title={t('personalisationOption.language')}
+          icon={<TbMessage />}
+          to="/app/settings/personalisation/language"
         />
         <SettingsSidebarLink
           title={t('personalisationOption.currency')}

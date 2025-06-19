@@ -56,6 +56,12 @@ export type TLoginSession = {
   encryptedPassword: string
 }
 
+export type TAvailableLanguages = 'English' | '简体中文' | '繁體中文'
+export type TLanguage = {
+  value: string
+  label: TAvailableLanguages
+}
+
 export type TAvailableCurrency = 'USD' | 'BRL' | 'EUR' | 'GBP' | 'CNY'
 export type TCurrency = {
   symbol: string
@@ -84,6 +90,7 @@ export interface ISettingsState {
   isFirstTime: boolean
   hasPassword: boolean
   currency: TCurrency
+  language: TLanguage
   overTheAirInfo: TOverTheAirInfo
   customNetworks: TCustomNetwork
   selectedNetworkByBlockchain: TSelectedNetworks

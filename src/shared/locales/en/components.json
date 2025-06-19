@@ -172,7 +172,8 @@
     "chatWithUsButtonLabel": "Chat with us",
     "importButtonLabel": "Import",
     "newWalletButtonLabel": "New Wallet",
-    "connectButtonLabel": "Connect"
+    "connectButtonLabel": "Connect",
+    "toolsButtonLabel": "Tools"
   },
   "refreshAction": {
     "refreshLabel": "Refresh",

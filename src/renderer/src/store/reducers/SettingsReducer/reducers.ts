@@ -1,7 +1,7 @@
 import { CaseReducer, PayloadAction } from '@reduxjs/toolkit'
 import { DEFAULT_NETWORK_BY__BLOCKCHAIN, DEFAULT_NETWORK_PROFILE } from '@renderer/constants/networks'
 import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
-import { TCurrency, TNetworkProfile, TOverTheAirInfo } from '@shared/@types/store'
+import { TCurrency, TLanguage, TNetworkProfile, TOverTheAirInfo } from '@shared/@types/store'
 import { cloneDeep } from 'lodash'
 
 import { ISettingsReducer } from './index'
@@ -20,6 +20,10 @@ const setHasPassword: CaseReducer<ISettingsReducer, PayloadAction<boolean>> = (s
 
 const setCurrency: CaseReducer<ISettingsReducer, PayloadAction<TCurrency>> = (state, action) => {
   state.data.currency = action.payload
+}
+
+const setLanguage: CaseReducer<ISettingsReducer, PayloadAction<TLanguage>> = (state, action) => {
+  state.data.language = action.payload
 }
 
 const setOverTheAirInfo: CaseReducer<ISettingsReducer, PayloadAction<Partial<TOverTheAirInfo>>> = (state, action) => {
@@ -137,6 +141,7 @@ export const settingsSliceReducers = {
   setIsFirstTime,
   setHasPassword,
   setCurrency,
+  setLanguage,
   setOverTheAirInfo,
   setSelectNetwork,
   setSelectedNetworkUrl,

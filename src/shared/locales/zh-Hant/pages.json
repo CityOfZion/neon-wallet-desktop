@@ -1,0 +1,623 @@
+{
+  "welcome": {
+    "title": "歡迎使用 Neon 錢包",
+    "continue": "繼續",
+    "card1": {
+      "title": "直觀",
+      "description": "輕鬆儲存、發送和接收您的數位資產，支持多個錢包"
+    },
+    "card2": {
+      "title": "連接",
+      "description": "Neon 使用開源的 WalletConnect 協議，安全地將您的錢包連接到越來越多的 dApp"
+    },
+    "card3": {
+      "title": "靈活",
+      "description": "使用 Neon 桌面和行動（Android 和 iOS）應用程式，數位資產管理從未如此簡單"
+    },
+    "card4": {
+      "title": "整合",
+      "description": "只需連接您的 Ledger 硬體錢包，即可用最高安全標準管理您的以太坊和 Neo 資產"
+    },
+    "securitySetup": {
+      "title": "保護您的新錢包",
+      "steps": ["建立密碼", "確認密碼", "完成"],
+      "step1": {
+        "formTitle": "請建立密碼以保護您的錢包",
+        "passwordPlaceholder": "建立密碼...",
+        "passwordError": "密碼至少需 {{length}} 個字元"
+      },
+      "step2": {
+        "formTitle": "請確認您的密碼",
+        "confirmPasswordPlaceholder": "確認您的密碼...",
+        "confirmPasswordError": "密碼不一致"
+      },
+      "step3": {
+        "title": "密碼建立成功！",
+        "buttonContinueLabel": "開啟您的錢包"
+      }
+    },
+    "importWallet": {
+      "title": "匯入錢包",
+      "steps": ["建立密碼", "確認密碼", "新增細節或選擇檔案", "匯入", "完成"],
+      "migrationLabel": "選擇您的遷移檔案",
+      "step3": {
+        "formTitle": "輸入地址、加密金鑰、私鑰、助記詞或選擇備份檔案",
+        "migrationFormTitle": "在您的電腦中尋找遷移檔案",
+        "inputPlaceholder": "輸入地址、金鑰或助記詞...",
+        "importEncryptedDescription": "選擇新帳戶所屬的區塊鏈",
+        "importEncryptedTitle": "匯入錢包",
+        "importEncryptedSubtitle": "已識別您的加密金鑰，請完成下方欄位以繼續。",
+        "invalidAddress": "無效的地址",
+        "unexpectedError": "發生未知錯誤",
+        "locateFileButtonLabel": "選擇檔案...",
+        "neon2Warning": "此檔案於 Neon 2 錢包遷移過程中產生。請在 Neon 2 開始遷移以建立檔案。",
+        "importSuccess": "已識別相容檔案！",
+        "importError": "未識別相容檔案"
+      },
+      "step4": {
+        "title": "請稍候，我們正在為您設置錢包"
+      },
+      "step5": {
+        "title": "錢包匯入成功！",
+        "openWalletButtonLabel": "開啟您的錢包"
+      }
+    }
+  },
+  "portfolio": {
+    "title": "投資組合",
+    "allAccounts": "所有帳戶",
+    "overview": "總覽",
+    "allActivity": "所有活動",
+    "allConnections": "所有連線",
+    "portfolioActivity": {
+      "allActivity": "所有活動",
+      "walletsAndAccounts": "{{wallets}} 個錢包 / {{accounts}} 個帳戶",
+      "balance": "餘額"
+    },
+    "portfolioOverview": {
+      "overview": "總覽",
+      "walletsAndAccounts": "{{wallets}} 個錢包 / {{accounts}} 個帳戶",
+      "balance": "餘額"
+    },
+    "portfolioConnections": {
+      "title": "所有連線",
+      "walletsAndAccounts": "{{wallets}} 個錢包 / {{accounts}} 個帳戶",
+      "disconnectAllButtonLabel": "全部斷開",
+      "totalConnections": "{{connections}} 個連線"
+    }
+  },
+  "forgottenPassword": {
+    "title": "忘記密碼",
+    "text": "如果您忘記了密碼，您需要重設 Neon。",
+    "alertCard": {
+      "text": "此操作將刪除您的儲存資料，您必須重新匯入錢包"
+    },
+    "links": {
+      "continue": "繼續"
+    }
+  },
+  "forgottenPasswordConfirm": {
+    "title": "忘記密碼",
+    "text": "您確定嗎？",
+    "alertCard": {
+      "text": "在繼續之前，請確保您擁有私鑰或助記詞以恢復錢包"
+    },
+    "auxiliarText": "滑動以確認...",
+    "swipe": {
+      "text": "重設 Neon 並刪除我的資料",
+      "buttonAriaLabel": "重設並刪除資料"
+    },
+    "success": "資料已成功清除"
+  },
+  "forgottenPasswordSuccess": {
+    "title": "成功！",
+    "text": "您已重設 Neon",
+    "description": "所有本地應用資料已刪除，您現在可以重新開始",
+    "goToWelcome": "前往歡迎頁"
+  },
+  "send": {
+    "title": "發送代幣",
+    "subtitle": "您想發送哪些代幣？",
+    "sourceAccountLabel": "來源帳戶",
+    "recipient": {
+      "title": "收件人 {{order}}",
+      "addressPlaceholder": "輸入收件人名稱或地址...",
+      "myAccountButtonLabel": "我的帳戶",
+      "tokenToSendLabel": "發送代幣",
+      "amountLabel": "金額",
+      "fiatLabel": "法幣價值（約 {{currency}}）",
+      "max": "最大",
+      "errors": {
+        "invalidAddress": "無效的地址"
+      }
+    },
+    "addRecipientButtonLabel": "新增收件人",
+    "separatelyTransferWarning": "{{blockchain}} 不支援單筆多收件人，將分別發送，這會大幅增加手續費。",
+    "successNotification": {
+      "title": "轉帳完成",
+      "previewBody": "您的轉帳已成功完成"
+    },
+    "failureNotification": {
+      "title": "轉帳失敗",
+      "previewBody": "我們無法確認您的轉帳是否完成"
+    },
+    "sendFail": {
+      "title": "糟糕！發生錯誤。",
+      "subtitle": "請稍後再試"
+    },
+    "sendSuccess": {
+      "title": "您的代幣已成功發送！",
+      "detailsTitle": "交易詳情",
+      "transactionNumber": "交易 {{order}}",
+      "recipientLabel": "收件人",
+      "saveContactButtonLabel": "儲存聯絡人",
+      "amountLabel": "金額",
+      "transactionHashLabel": "交易雜湊",
+      "viewStatusButtonLabel": "查看狀態"
+    },
+    "errors": {
+      "feeError": "計算手續費時發生錯誤",
+      "insufficientFunds": "餘額不足",
+      "calculateMaxAmount": "計算最大金額時發生錯誤",
+      "amountIsLessOrEqualZero": "金額必須大於零",
+      "hardwareWalletShouldBeValid": "請確保您的硬體錢包已解鎖以繼續操作"
+    }
+  },
+  "wallets": {
+    "title": "錢包",
+    "addAccountButtonLabel": "新增帳戶",
+    "editWalletButtonLabel": "編輯",
+    "editAccountButton": "編輯帳戶",
+    "exportButtonLabel": "匯出",
+    "exportKeyButton": "匯出金鑰",
+    "voteNeo3Button": "投票",
+    "importButtonLabel": "匯入",
+    "newWalletButtonLabel": "新錢包",
+    "address": "地址",
+    "accounts": "帳戶",
+    "hardwareWalletConnectBadge": "已連接硬體錢包",
+    "accountNftList": {
+      "title": "NFT",
+      "empty": "沒有可顯示的 NFT",
+      "total": "{{length}} 項",
+      "listLabel": "列表顯示",
+      "gridLabel": "網格顯示"
+    },
+    "accountOverview": {
+      "title": "帳戶總覽"
+    },
+    "accountTokensList": {
+      "title": "代幣",
+      "balance": "餘額",
+      "tabs": {
+        "active": "啟用",
+        "hidden": "隱藏"
+      }
+    },
+    "accountTransactionsList": {
+      "title": "交易",
+      "exportCSVButtonLabel": "匯出 CSV"
+    },
+    "accountConnections": {
+      "title": "連線",
+      "totalConnections": "{{connections}} 個連線",
+      "newConnection": "新增連線",
+      "disconnectAll": "全部斷開"
+    },
+    "exportKeyTitle": "匯出金鑰",
+    "exportWalletTitle": "匯出錢包",
+    "tooltips": {
+      "migrateRules": "您需要至少 0.1 GAS 或 2 NEO 才能在主網將代幣遷移到 Neo3。所有 {{claimTokenSymbol}} 必須已領取。如果您已經遷移代幣，請等待其到達您的 Neo 3 帳戶。"
+    }
+  },
+  "contacts": {
+    "title": "聯絡人",
+    "listTitle": "所有聯絡人",
+    "buttonAddContactLabel": "新增聯絡人",
+    "contactList": {
+      "contacts": "聯絡人",
+      "myAccounts": "我的帳戶",
+      "notFound": "找不到聯絡人"
+    },
+    "addresses": "地址"
+  },
+  "settings": {
+    "title": "設定",
+    "sidebarOption": {
+      "personalisation": "個人化",
+      "security": "安全性"
+    },
+    "personalisationOption": {
+      "networkConfiguration": "網路設定",
+      "currency": "貨幣",
+      "language": "語言",
+      "theme": "主題",
+      "releaseNotes": "版本資訊",
+      "mobileApp": "行動應用程式"
+    },
+    "securityOption": {
+      "changePassword": "更改密碼",
+      "encryptKey": "加密金鑰",
+      "recoverWallet": "匯入 NEON 備份",
+      "backupWallet": "備份 NEON",
+      "migrateWallets": "從 NEON 2.0 遷移"
+    },
+    "encryptKey": {
+      "subtitle": "選擇密語來加密現有金鑰：",
+      "titleInput1": "您要加密的私鑰",
+      "inputPrivateKeyPlaceholder": "輸入您的私鑰…",
+      "titleInput2": "密語",
+      "inputPassphrasePlaceholder": "輸入您的密語…",
+      "titleInput3": "確認密語",
+      "inputConfirmPassphrasePlaceholder": "輸入您的確認密語…",
+      "buttonGenerate": "產生加密金鑰",
+      "error": {
+        "privateKey": "無效的私鑰",
+        "privateKeyNotFound": "無法驗證私鑰",
+        "passphraseIsInvalid": "密語至少需 {{ chars }} 個字元",
+        "confirmationPassphraseIsInvalid": "確認密語至少需 {{ chars }} 個字元",
+        "passphraseIsDifferent": "密語與確認密語不一致",
+        "confirmationPassphraseIsDifferent": "確認密語與密語不一致",
+        "errorToEncryptKey": "加密金鑰時發生錯誤"
+      },
+      "successModal": {
+        "title": "加密金鑰",
+        "subtitle": "私鑰加密成功！",
+        "description": "這是您的加密金鑰："
+      }
+    },
+    "settingsNetwork": {
+      "title": "網路設定",
+      "youAreConnectedNeoAndEth": "您已連接至 Neo 和以太坊網路",
+      "currentNetwork": "目前網路",
+      "nodeSelection": "節點選擇",
+      "selectProfilePlaceholder": "選擇設定檔...",
+      "updateProfileButtonLabel": "更新設定檔",
+      "createProfileButtonLabel": "建立設定檔",
+      "editProfileButtonLabel": "編輯設定檔",
+      "resetProfileButtonLabel": "重設設定檔"
+    },
+    "settingsReleaseNotes": {
+      "title": "版本資訊",
+      "button": {
+        "learnMore": "了解更多"
+      }
+    },
+    "settingsMobileApp": {
+      "title": "行動應用程式",
+      "subtitle": "您的錢包也可在行動裝置上使用！",
+      "descriptionLine1": "安全地儲存、查看和管理您的所有數位資產及多個錢包於同一處。",
+      "descriptionLine2": "利用您裝置上的額外安全選項，確保您的資產安全。"
+    },
+    "settingsBackupWallet": {
+      "title": "備份 NEON",
+      "description": "將備份檔案儲存到您的電腦，若您遺失存取權或裝置損壞時可恢復錢包。",
+      "saveBackupLabel": "您想將備份儲存在哪裡？",
+      "browse": "瀏覽...",
+      "backup": "備份",
+      "warning": "注意：此操作將備份您的整個錢包"
+    },
+    "settingsRecoverWallet": {
+      "title": "匯入 NEON 備份",
+      "description": "若您遺失錢包存取權，可從本地備份檔案匯入。只需找到您的本地備份檔案並輸入建立備份時使用的密碼，即可恢復存取權。",
+      "saveBackupLabel": "尋找您的備份檔案",
+      "browse": "瀏覽...",
+      "backup": "匯入備份",
+      "nameExtension": "NEON 備份檔案"
+    },
+    "settingsMigrateWallets": {
+      "title": "從 NEON 2.0 遷移",
+      "subtitleWhy": "為什麼要遷移到 NEON 3？",
+      "descriptionWhy": "遷移您的 NEON 2 錢包將讓您存取更多支援資產，並享受更流暢、改進的用戶體驗，讓資產管理更輕鬆！",
+      "subtitleHow": "如何從 Neon 2 遷移？",
+      "importButtonLabel": "匯入您的 NEON 2 錢包",
+      "startProcessButtonLabel": "在 NEON 2 開始流程"
+    },
+    "changePassword": {
+      "title": "更改密碼",
+      "step1": {
+        "subtitle": "若您想建立新密碼，只需在此更改並以目前密碼確認即可！",
+        "titleInput1": "新密碼",
+        "inputNewPasswordPlaceholder": "輸入新密碼...",
+        "titleInput2": "目前 Neon 密碼",
+        "inputCurrentPasswordPlaceholder": "輸入目前密碼...",
+        "generatePassword": "產生密碼",
+        "buttonContinue": "繼續",
+        "error": "密碼不正確！"
+      },
+      "step2": {
+        "subtitle": "如果您遺失密碼，將無法找回。",
+        "description": "要完成密碼更改，您需要備份新密碼。點擊下方按鈕取得可下載的 QR 碼並妥善保存。",
+        "buttonDownload": "下載 QR 並儲存變更",
+        "error": "儲存變更時發生問題"
+      },
+      "step3": {
+        "subtitle": "您的 NEON 3 密碼已成功更改！"
+      }
+    },
+    "settingsCurrency": {
+      "title": "貨幣"
+    },
+    "settingsLanguage": {
+      "title": "語言"
+    }
+  },
+  "receive": {
+    "title": "接收代幣",
+    "sendQRCode": "發送 QR 碼",
+    "yourAddressTabTitle": "您的地址",
+    "requestTokenTabTitle": "請求代幣",
+    "receivingAccountTitle": "接收帳戶",
+    "yourReceivingAddress": "您的接收帳戶",
+    "selectAccountToGenerateCode": "請選擇帳戶以產生 QR 碼！",
+    "addressInputHint": "您的接收地址將顯示於此...",
+    "downloadQRCode": "下載 QR 碼"
+  },
+  "loginPassword": {
+    "formContent": {
+      "text": "登入您的錢包",
+      "passwordPlaceholder": "輸入您的密碼...",
+      "buttonLoginLabel": "登入",
+      "invalidPassword": "密碼無效",
+      "forgotPassword": "忘記密碼？"
+    },
+    "welcomeContent": {
+      "text": "您想在 Neon 做什麼？",
+      "cardLinks": {
+        "createNewWallet": {
+          "title": "建立新錢包",
+          "text": "我想<1>建立新</1>密碼保護的帳戶，讓我的資料可持續保存"
+        },
+        "importExternalWallet": {
+          "title": "匯入外部錢包",
+          "text": "我想<1>匯入</1>錢包並以密碼保護我的資料以確保其持續性"
+        },
+        "migrateFromNeon2": {
+          "title": "從 Neon 2 遷移",
+          "text": "我想<1>遷移</1>我的 Neon 2 錢包"
+        }
+      }
+    }
+  },
+  "loginHardware": {
+    "title": "連接您的硬體錢包",
+    "searchingLabel": "搜尋中",
+    "notConnectedMessage": "找不到硬體錢包！請檢查連線",
+    "connectedMessage": "已偵測到裝置！正在開啟您的錢包...",
+    "searchAgainButtonLabel": "再次搜尋"
+  },
+  "loginKey": {
+    "description": "輸入地址、金鑰或助記詞：",
+    "inputPlaceholder": "輸入地址、金鑰或助記詞..."
+  },
+  "loginKeySelectAccountPage": {
+    "title": "匯入地址",
+    "description": "您想匯入哪些地址？",
+    "importAllButtonLabel": "全部匯入",
+    "importSelectedButtonLabel": "匯入所選"
+  },
+  "swap": {
+    "title": "兌換代幣",
+    "explanation": {
+      "title": "如何運作？",
+      "description1": "跨鏈兌換代幣，無需使用交易所。",
+      "description2": " 直接且即時在 NEON 兌換代幣，方便又可節省時間與手續費。",
+      "useTitle": "Neon 錢包使用："
+    },
+    "form": {
+      "title": "您想兌換哪些代幣？",
+      "restart": "重新開始",
+      "assets": "資產",
+      "source": "帳戶詳情",
+      "amounts": "金額",
+      "balanceLabel": "餘額",
+      "balancePlaceholder": "0.00",
+      "max": "最大",
+      "tokenToUseTitle": "兌換此代幣",
+      "accountToUseTitle": "從這裡發送",
+      "amountToUseTitle": "金額",
+      "tooltipTitle": "兌換金額越高，匯率越優惠！",
+      "minimumAmountToUseLabel": "最小 {{amount}}",
+      "minimumAmountToUsePlaceholder": "0.00000000",
+      "tokenToReceiveTitle": "接收此代幣",
+      "receiveHere": "接收於此",
+      "addressToReceivePlaceholder": "輸入地址…",
+      "myAccountsButtonLabel": "帳戶…",
+      "extraIdToReceive": "目的標籤/備註",
+      "extraIdToReceivePlaceholder": "輸入標籤/備註...",
+      "openAboutExtraIdToReceiveModal": "開啟目的標籤/備註說明",
+      "amountToReceiveTitle": "您將收到的金額",
+      "amountToReceiveTitleComplement": "（扣除手續費後）",
+      "submitLabel": "立即兌換",
+      "sendError": {
+        "subtitle": "糟糕！發生錯誤。",
+        "description": "請稍後再試"
+      },
+      "sendSuccess": {
+        "subtitle": "您的兌換已成功啟動！",
+        "detailsTitle": "兌換詳情",
+        "statusLabel": "狀態",
+        "transactionFromLabel": "發送交易",
+        "transactionToLabel": "接收交易",
+        "transactionAux": "輔助交易",
+        "amountTo": "接收金額",
+        "amountFrom": "發送金額",
+        "recipientLabel": "收件人",
+        "feeLabel": "發送交易手續費"
+      },
+      "errors": {
+        "invalidAddress": "無效的地址",
+        "invalidExtraIdToReceive": "無效的目的標籤/備註",
+        "amountMin": "金額過低。最小金額為 {{amount}}",
+        "amountMax": "金額過高。最大金額為 {{amount}}",
+        "insufficientFunds": "餘額不足",
+        "insufficientFundsFee": "餘額不足以支付手續費",
+        "hardwareWalletNotConnectedOrLocked": "硬體錢包未連接或已鎖定，請檢查裝置後再試"
+      },
+      "hints": {
+        "enterValidAddress": "請輸入有效地址"
+      }
+    }
+  },
+  "buyAndSellTokens": {
+    "title": "買賣代幣",
+    "notConfigured": "買賣代幣尚未設定",
+    "buyAndSellTokensLayout": {
+      "howWorks": {
+        "title": "如何運作？",
+        "description": "無需依賴交易所即可買賣代幣！Neon 提供輕鬆且安全的方式，讓您使用法幣買賣數位資產。"
+      },
+      "processes": {
+        "all": {
+          "observation": "轉帳完成後，您的新代幣將在幾分鐘內到達。"
+        },
+        "buyTokens": {
+          "text": "<1>此流程使用內嵌小工具。</1> 購買代幣時，可能會要求您提供部分個人資料以進行 KYC 驗證。<1>金額較大的交易需要更多 KYC 資料。</1>",
+          "kyc": "<1>KYC 驗證完成後：</1> 您需要提供代幣的接收地址。請從「錢包與帳戶」面板複製您想要的 Neon 帳戶地址。",
+          "alert": "請確保您選擇的帳戶與所購買代幣的網路相容！"
+        },
+        "sellTokens": {
+          "text": "<1>此流程使用內嵌小工具。</1> 賣出代幣時，可能會要求您提供部分個人資料以進行 KYC 驗證。<2>金額較大的交易需要更多 KYC 資料。</2>",
+          "kyc": "<1>KYC 驗證完成後：</1> 您需要使用「存款」按鈕將代幣發送到存款地址。請確保您轉帳的代幣數量正確！您也可以從「錢包與帳戶」面板複製您想要的 Neon 帳戶地址。",
+          "alert": "存款交易必須從<1>與小工具中相同的地址</1>發送！"
+        }
+      },
+      "tabs": {
+        "buyTokens": "購買代幣",
+        "sellTokens": "賣出代幣"
+      },
+      "buttons": {
+        "help": "需要協助？與我們聯絡",
+        "walletsAndAccounts": "錢包與帳戶",
+        "aboutData": "關於您的資料"
+      },
+      "labels": {
+        "walletsAndAccounts": {
+          "opened": "錢包與帳戶已開啟",
+          "closed": "錢包與帳戶已關閉"
+        }
+      }
+    },
+    "buyAndSellTokensAccordionAccounts": {
+      "title": "您的錢包與帳戶",
+      "labels": {
+        "copyAddress": "複製地址"
+      }
+    },
+    "buyTokensContent": {
+      "buttons": {
+        "restart": "重新開始"
+      }
+    },
+    "sellTokensContent": {
+      "error": "賣出代幣時發生錯誤，請再試一次",
+      "buttons": {
+        "deposit": "進行存款",
+        "restart": "重新開始"
+      }
+    }
+  },
+  "migrationNeo3": {
+    "title": "遷移舊版代幣",
+    "subtitle": "遷移您的舊版代幣",
+    "labels": {
+      "assets": "您的資產",
+      "address": "地址詳情",
+      "amounts": "金額",
+      "migrate": "遷移",
+      "receive": "接收",
+      "amountYouGet": "您將收到的金額<1>（扣除手續費後）</1>",
+      "fee": "遷移手續費",
+      "notFound": "未找到"
+    },
+    "buttons": {
+      "migrate": "立即遷移"
+    },
+    "messages": {
+      "migrationSuccess": "遷移成功，請等待代幣到帳",
+      "migrationError": "遷移時發生問題，請聯絡客服並重試",
+      "generateNeo3AccountError": "建立 Neo 3 帳戶時發生問題",
+      "getKeyError": "取得金鑰時發生問題",
+      "generateAccountError": "建立帳戶時發生問題",
+      "calculateValuesError": "計算手續費和金額時發生問題",
+      "hardwareWalletNotConnectedOrLocked": "硬體錢包未連接或已鎖定，請檢查裝置後再試",
+      "migrationNotAvailableError": "此帳戶無法進行遷移",
+      "accountIsNotNeoLegacy": "該帳戶不是 Neo Legacy 帳戶，無法遷移"
+    },
+    "sideBar": {
+      "title": "如何運作？",
+      "steps": [
+        "Neon 將使用您的現有私鑰建立新的 Neo N3 帳戶並新增至您的錢包",
+        "確認詳情後，我們將處理交易",
+        "遷移通常在 30 秒內完成。您可在帳戶「活動」分頁查看狀態"
+      ],
+      "fee": "遷移手續費約為 1%（四捨五入，並包含少量 GAS 以支援新網路上的交易）。最低需 0.1 GAS 或 2 NEO。",
+      "alert": "此遷移工具僅會移動您的 NEO 和 GAS，不會移動其他 NEP-5 代幣。如需遷移其他代幣，請聯絡相關專案。",
+      "buttons": {
+        "help": "需要協助？與我們聯絡"
+      }
+    },
+    "successNotification": {
+      "title": "遷移完成",
+      "previewBody": "您的遷移已成功完成"
+    },
+    "failureNeoLegacyNotification": {
+      "title": "遷移失敗 - Neo Legacy",
+      "previewBody": "我們無法確認您在 Neo Legacy 上的遷移轉帳是否完成"
+    },
+    "failureNeo3Notification": {
+      "title": "遷移失敗 - Neo 3",
+      "previewBody": "我們無法確認您的 Neo 3 帳戶有任何遷移轉帳"
+    },
+    "failureNotification": {
+      "title": "遷移失敗",
+      "previewBody": "我們無法確認您的遷移轉帳是否完成"
+    }
+  },
+  "voteNeo3": {
+    "title": "投票",
+    "subtitle": "選擇候選人",
+    "noAccountSelectedLabel": "未選擇帳戶",
+    "changeNeo3AccountLabel": "更改",
+    "selectNeo3AccountLabel": "選擇",
+    "createNeo3AccountLabel": "尚無 Neo 3 帳戶，請建立一個",
+    "searchLabel": "搜尋",
+    "searchPlaceholder": "搜尋候選人…",
+    "voteErrorMessages": {
+      "thereIsNoNeoLabel": "您的 Neo 3 帳戶必須持有 NEO",
+      "shouldUseMainnetLabel": "您必須使用主網才能投票",
+      "accountCanNotBeWatchLabel": "您的 Neo 3 帳戶為觀察模式",
+      "shouldHaveEnoughGasToPayFeeLabel": "您的 GAS 餘額不足以支付手續費",
+      "selectNeo3AccountLabel": "請選擇 Neo 3 帳戶"
+    },
+    "availableVotes": {
+      "availableVotesLabel": "可用票數",
+      "noAvailableVotesLabel": "無可用票數"
+    },
+    "sideBar": {
+      "title": "如何運作？",
+      "aboutNeoLabel": "您持有的 NEO 數量等於您可投給候選人的票數。",
+      "whyVoteTitle": "為什麼要投票？",
+      "whyVoteDescription": "投票即積極參與 NEO 生態系統，並有資格獲得 GAS 作為持有者福利。",
+      "noteLabel": "注意：未投票將無法獲得此福利。",
+      "sellNeoAlert": "如果您出售 NEO，您的票數將減少，GAS 獎勵也會相應減少"
+    },
+    "list": {
+      "positionColumnLabel": "排名",
+      "nameColumnLabel": "候選人",
+      "pubKeyColumnLabel": "公鑰",
+      "votesColumnLabel": "總票數",
+      "actionsColumnLabel": "操作",
+      "castVoteColumnLabel": "投票"
+    },
+    "listItem": {
+      "detailsButtonLabel": "候選人資訊",
+      "castVoteButtonLabel": "投票",
+      "yourVoteButtonLabel": "您的票"
+    },
+    "notFound": {
+      "title": "無可顯示候選人",
+      "text": "沒有可投票的候選人或取得資料時發生問題。請檢查您的 Neo 3 網路，然後重試。"
+    }
+  }
+}
