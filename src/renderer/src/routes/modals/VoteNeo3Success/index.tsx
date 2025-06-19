@@ -1,0 +1,96 @@
+import { useTranslation } from 'react-i18next'
+import { TbChartBarPopular, TbEye, TbRosetteDiscountCheck } from 'react-icons/tb'
+import { Link } from '@renderer/components/Link'
+import { Tooltip } from '@renderer/components/Tooltip'
+import { NEO3_NEO_TOKEN } from '@renderer/constants/tokens'
+import { StringHelper } from '@renderer/helpers/StringHelper'
+import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
+import { useVoteNeo3GetVoteDetailsByAddress } from '@renderer/hooks/useVoteNeo3'
+import { CenterModalLayout } from '@renderer/layouts/CenterModal'
+import { TVoteNeo3Candidate } from '@shared/@types/query'
+import { IAccountState } from '@shared/@types/store'
+
+type TLocationState = {
+  neo3Account: IAccountState
+  candidate: TVoteNeo3Candidate
+}
+
+export const VoteNeo3SuccessModal = () => {
+  const { t } = useTranslation('modals', { keyPrefix: 'voteNeo3Success' })
+  const { modalEraseWrapper } = useModalNavigate()
+  const { neo3Account, candidate } = useModalState<TLocationState>()
+  const voteDetailsByAddressQuery = useVoteNeo3GetVoteDetailsByAddress(neo3Account.address)
+
+  const neoAmount = voteDetailsByAddressQuery.data?.neoBalance ?? 0
+
+  return (
+    <CenterModalLayout
+      heading={t('title')}
+      headerClassName="pt-3"
+      headingIcon={<TbChartBarPopular aria-hidden={true} />}
+      className="overflow-y-auto"
+      contentClassName="pb-0 px-4 pt-8 my-0 flex flex-col text-sm text-white"
+      withCloseButton={false}
+    >
+      <div className="flex h-full flex-col gap-y-3">
+        <TbRosetteDiscountCheck
+          aria-hidden={true}
+          className="mx-auto h-24 max-h-24 min-h-24 w-24 min-w-24 max-w-24 rounded-full bg-asphalt stroke-1 p-1 text-blue"
+        />
+
+        <h3 className="mt-2 text-center text-lg font-medium">{t('subtitle')}</h3>
+
+        {!!neoAmount && (
+          <>
+            <strong className="mt-4 font-semibold uppercase text-gray-100">{t('listLabel')}</strong>
+
+            <ul className="flex flex-col gap-y-3 rounded bg-gray-700/60 px-4 py-3">
+              <li className="flex items-center gap-x-3 border-b border-gray-300/30 pb-3">
+                <span className="text-blue">{t('accountLabel')}</span>
+                <span className="w-full max-w-72 truncate">{neo3Account.name}</span>
+              </li>
+              <li className="flex items-center gap-x-3 border-b border-gray-300/30 pb-3">
+                <span className="text-blue">{t('addressLabel')}</span>
+                <span className="w-full max-w-72 truncate">{neo3Account.address}</span>
+              </li>
+              <li className="flex items-center gap-x-3 border-b border-gray-300/30 pb-3">
+                <span className="text-blue">{t('nameLabel')}</span>
+                <span className="w-full max-w-72 truncate">{candidate.name}</span>
+              </li>
+              <li className="flex items-center gap-x-3 border-b border-gray-300/30 pb-3">
+                <span className="text-blue">{t('publicKeyLabel')}</span>
+                <Tooltip
+                  title={candidate.pubKey}
+                  variant="black"
+                  delayDuration={0}
+                  contentProps={{ className: 'max-w-56' }}
+                >
+                  <span>{StringHelper.truncateStringMiddle(candidate.pubKey, 28)}</span>
+                </Tooltip>
+              </li>
+              <li className="flex items-center gap-x-3">
+                <span className="text-blue">{t('votesLabel')}</span>
+                <span className="w-full max-w-72 truncate">
+                  {neoAmount} {NEO3_NEO_TOKEN.symbol}
+                </span>
+              </li>
+            </ul>
+
+            <div className="mb-8 flex flex-grow items-end">
+              <Link
+                label={t('viewTransactionButtonLabel')}
+                to={`/app/wallets/${neo3Account.id}/transactions`}
+                className="mx-auto mt-6 w-full max-w-64"
+                flat
+                wide
+                iconsOnEdge={false}
+                rightIcon={<TbEye aria-hidden={true} />}
+                onClick={modalEraseWrapper('center')}
+              />
+            </div>
+          </>
+        )}
+      </div>
+    </CenterModalLayout>
+  )
+}

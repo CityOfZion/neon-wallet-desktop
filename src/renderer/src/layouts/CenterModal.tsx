@@ -15,6 +15,7 @@ type TProps = {
   heading?: JSX.Element | string
   onClose?: () => void
   onBack?: () => void
+  withCloseButton?: boolean
 } & ComponentProps<'div'>
 
 export const CenterModalLayout = ({
@@ -27,6 +28,7 @@ export const CenterModalLayout = ({
   headerClassName,
   heading,
   headingIcon,
+  withCloseButton = true,
   ...props
 }: TProps) => {
   const { modalNavigate, modalErase } = useModalNavigate()
@@ -78,13 +80,15 @@ export const CenterModalLayout = ({
             )}
           </div>
 
-          <IconButton
-            icon={<MdClose aria-hidden={true} className="text-gray-100" />}
-            size="md"
-            compacted
-            onClick={handleClose}
-            {...TestHelper.buildTestObject('center-modal-close-button')}
-          />
+          {withCloseButton && (
+            <IconButton
+              icon={<MdClose aria-hidden={true} className="text-gray-100" />}
+              size="md"
+              compacted
+              onClick={handleClose}
+              {...TestHelper.buildTestObject('center-modal-close-button')}
+            />
+          )}
         </header>
       )}
 

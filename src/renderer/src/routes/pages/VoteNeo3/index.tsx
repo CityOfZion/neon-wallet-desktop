@@ -85,6 +85,7 @@ export const VoteNeo3Page = () => {
 
   const hasNeo3Accounts = neo3Accounts.length > 0
   const isAccountSelectionDisabled = isLoading || !hasNeo3Accounts || !isMainnet
+  const isSearchDisabled = candidatesToVoteQuery.isLoading || !hasNeo3Accounts || !isMainnet
   const isWatchAccount = neo3Account?.type === 'watch'
   const neoAmount = voteDetailsByAddressQuery.data?.neoBalance ?? 0
   const hasNeoAmount = neoAmount > 0
@@ -193,6 +194,7 @@ export const VoteNeo3Page = () => {
               clearable
               maxLength={100}
               value={search}
+              disabled={isSearchDisabled}
               leftIcon={<TbSearch aria-hidden className="h-5 max-h-5 min-h-5 w-5 min-w-5 max-w-5 text-neon" />}
               onChange={setDataFromEventWrapper('search')}
             />
