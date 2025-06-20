@@ -827,7 +827,6 @@
     },
     "messages": {
       "invalidHardwareWallet": "请确保您的硬件钱包已解锁以继续操作",
-      "voteSuccess": "投票成功，可在交易页面查看待处理投票",
       "voteError": "投票时发生错误，请重试"
     },
     "notifications": {
@@ -840,5 +839,16 @@
         "previewBody": "我们无法确认您的投票已完成"
       }
     }
+  },
+  "voteNeo3Success": {
+    "title": "审核并确认您的投票",
+    "subtitle": "您的投票已成功提交！",
+    "listLabel": "您的投票",
+    "accountLabel": "账户名称",
+    "addressLabel": "地址",
+    "nameLabel": "候选人",
+    "publicKeyLabel": "公钥",
+    "votesLabel": "投票数量",
+    "viewTransactionButtonLabel": "查看交易"
   }
 }
