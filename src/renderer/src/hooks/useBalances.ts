@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
+import { BSTokenHelper } from '@cityofzion/blockchain-service'
 import { ExchangeHelper } from '@renderer/helpers/ExchangeHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useCurrencyRatio } from '@renderer/hooks/useCurrencyRatio'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
@@ -65,7 +65,7 @@ const fetchBalance = async (
         const amountNumber = NumberHelper.number(balance.amount)
         const exchangeAmount = amountNumber * exchangeConvertedPrice
 
-        tokensBalancesMap.set(UtilsHelper.normalizeHash(balance.token.hash), {
+        tokensBalancesMap.set(BSTokenHelper.normalizeHash(balance.token.hash), {
           ...balance,
           blockchain: param.blockchain,
           amount: balance.amount,
@@ -103,13 +103,13 @@ const fixBalanceResult = (
   match(showType)
     .with('active', () => {
       hiddenTokens?.forEach(tokenHash => {
-        tokenBalancesMapClone.delete(UtilsHelper.normalizeHash(tokenHash))
+        tokenBalancesMapClone.delete(BSTokenHelper.normalizeHash(tokenHash))
       })
       tokensBalances = Array.from(tokenBalancesMapClone.values())
     })
     .otherwise(() => {
       hiddenTokens?.forEach(tokenHash => {
-        const tokenBalance = tokenBalancesMapClone.get(UtilsHelper.normalizeHash(tokenHash))
+        const tokenBalance = tokenBalancesMapClone.get(BSTokenHelper.normalizeHash(tokenHash))
         if (!tokenBalance) return
         tokensBalances.push(tokenBalance)
       })

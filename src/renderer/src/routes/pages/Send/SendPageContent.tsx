@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdArrowForward } from 'react-icons/md'
 import { TbPlus, TbStepOut } from 'react-icons/tb'
-import { IntentTransferParam, isCalculableFee } from '@cityofzion/blockchain-service'
+import { BSTokenHelper, IntentTransferParam, isCalculableFee } from '@cityofzion/blockchain-service'
 import { ActionStep } from '@renderer/components/ActionStep'
 import { ActionStepSeparator } from '@renderer/components/ActionStepSeparator'
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
@@ -133,9 +133,9 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
       }
 
       const amountNumber = NumberHelper.number(recipient.amount)
-      const tokenHash = UtilsHelper.normalizeHash(recipient.token?.token?.hash ?? '')
+      const tokenHash = BSTokenHelper.normalizeHash(recipient.token?.token?.hash ?? '')
       const tokenBalance = balance.data?.tokensBalances?.find(
-        tokenBalance => UtilsHelper.normalizeHash(tokenBalance.token.hash) === tokenHash
+        tokenBalance => BSTokenHelper.normalizeHash(tokenBalance.token.hash) === tokenHash
       )
 
       if (!tokenBalance || amountNumber > tokenBalance.amountNumber) {
@@ -200,7 +200,8 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
       return
 
     if (
-      UtilsHelper.normalizeHash(recipient.token.token?.hash ?? '') !== UtilsHelper.normalizeHash(service.feeToken.hash)
+      BSTokenHelper.normalizeHash(recipient.token.token?.hash ?? '') !==
+      BSTokenHelper.normalizeHash(service.feeToken.hash)
     ) {
       handleUpdateRecipientAmount(recipient.id, recipient.token.amountNumber, decimals)
 
@@ -362,17 +363,17 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
 
         let totalFeeAmount = NumberHelper.number(fee)
 
+        const normalizedFeeToken = BSTokenHelper.normalizeToken(fields.service.feeToken)
+
         fields.intents.forEach(intent => {
-          if (UtilsHelper.normalizeHash(intent.tokenHash) !== UtilsHelper.normalizeHash(fields.service.feeToken.hash))
-            return
+          if (BSTokenHelper.normalizeHash(intent.tokenHash) !== normalizedFeeToken.hash) return
 
           totalFeeAmount += NumberHelper.number(intent.amount)
         })
 
         const feeBalanceNumber =
           balance.data?.tokensBalances.find(
-            ({ token }) =>
-              UtilsHelper.normalizeHash(token.hash) === UtilsHelper.normalizeHash(fields.service.feeToken.hash)
+            ({ token }) => BSTokenHelper.normalizeHash(token.hash) === normalizedFeeToken.hash
           )?.amountNumber ?? 0
 
         if (totalFeeAmount > feeBalanceNumber) {

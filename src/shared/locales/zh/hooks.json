@@ -69,5 +69,9 @@
   },
   "useGetFullTransactions": {
     "formatExtendedDate": "yyyy年MM月dd日"
+  },
+  "useVotingNeo3Notification": {
+    "notificationTitle": "你正在错过免费的 GAS！",
+    "notificationDescription": "点击这里，立即投票"
   }
 }

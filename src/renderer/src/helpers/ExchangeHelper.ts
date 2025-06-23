@@ -1,7 +1,6 @@
+import { BSTokenHelper } from '@cityofzion/blockchain-service'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TExchange } from '@shared/@types/query'
-
-import { UtilsHelper } from './UtilsHelper'
 
 export class ExchangeHelper {
   static getExchangeConvertedPrice(
@@ -16,7 +15,7 @@ export class ExchangeHelper {
     const blockchainExchange = multiExchange[blockchain]
     if (!blockchainExchange) return 0
 
-    const exchange = blockchainExchange.get(UtilsHelper.normalizeHash(hash))
+    const exchange = blockchainExchange.get(BSTokenHelper.normalizeHash(hash))
 
     return exchange?.convertedPrice ?? 0
   }

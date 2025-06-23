@@ -2,7 +2,7 @@ import { ChangeEvent, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbStepInto, TbUsers, TbWallet } from 'react-icons/tb'
 import { VscCircleFilled } from 'react-icons/vsc'
-import { Token } from '@cityofzion/blockchain-service'
+import { BSTokenHelper, Token } from '@cityofzion/blockchain-service'
 import { ActionStep } from '@renderer/components/ActionStep'
 import { Button } from '@renderer/components/Button'
 import { GreyAccountSelect } from '@renderer/components/GreyAccountSelect'
@@ -82,9 +82,9 @@ export const SendRecipient = ({
   }
 
   const handleSelectToken = (token: Token) => {
-    const tokenHash = UtilsHelper.normalizeHash(token.hash)
+    const tokenHash = BSTokenHelper.normalizeHash(token.hash)
     const tokenBalance = balance?.data?.tokensBalances.find(
-      tokenBalance => UtilsHelper.normalizeHash(tokenBalance.token.hash) === tokenHash
+      tokenBalance => BSTokenHelper.normalizeHash(tokenBalance.token.hash) === tokenHash
     )
 
     onUpdateRecipient({ token: tokenBalance, amount: undefined })

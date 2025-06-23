@@ -54,7 +54,8 @@ export const Notification = ({ notification }: TProps) => {
 
   const icon = iconsByPriority[notification.priority ?? 'low']
 
-  const handleToggleRead = () => {
+  const handleToggleRead = event => {
+    event.preventDefault()
     dispatch(
       authReducerActions.saveNotification({
         ...notification,
@@ -75,6 +76,13 @@ export const Notification = ({ notification }: TProps) => {
         pageNavigate,
         notificationAction: notification.action,
       })
+
+      dispatch(
+        authReducerActions.saveNotification({
+          ...notification,
+          read: true,
+        })
+      )
     } catch (error: any) {
       console.error(error)
       ToastHelper.error({ message: error.message })

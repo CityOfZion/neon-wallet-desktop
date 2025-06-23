@@ -1,4 +1,5 @@
 import { getI18n } from 'react-i18next'
+import { BSTokenHelper } from '@cityofzion/blockchain-service'
 import { AVAILABLE_RANDOM_COLORS, MANDATORY_TOKEN_COLORS } from '@renderer/constants/colors'
 import { ACCOUNT_COLOR_SKINS } from '@renderer/constants/skins'
 import { TColorSkin } from '@shared/@types/store'
@@ -158,14 +159,10 @@ export class UtilsHelper {
     img.src = `data:image/svg+xml;base64,${btoa(svgData)}`
   }
 
-  static normalizeHash(hash: string) {
-    return hash.replace('0x', '').toLowerCase()
-  }
-
   static generateTokenColor(hash: string) {
     if (hash.length === 0) throw new Error('Invalid hash')
 
-    const normalizedHash = this.normalizeHash(hash)
+    const normalizedHash = BSTokenHelper.normalizeHash(hash)
 
     if (MANDATORY_TOKEN_COLORS[normalizedHash]) return MANDATORY_TOKEN_COLORS[normalizedHash]
 
