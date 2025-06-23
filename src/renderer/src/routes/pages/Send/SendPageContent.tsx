@@ -298,8 +298,14 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
         dispatch(
           thunks.waitTransaction({
             transaction,
-            successNotification: t('successNotification', { returnObjects: true }),
-            failureNotification: t('failureNotification', { returnObjects: true }),
+            successNotification: {
+              title: 'pages.send.successNotification.title',
+              previewBody: 'pages.send.successNotification.previewBody',
+            },
+            failureNotification: {
+              title: 'pages.send.failureNotification.title',
+              previewBody: 'pages.send.failureNotification.previewBody',
+            },
           })
         )
 

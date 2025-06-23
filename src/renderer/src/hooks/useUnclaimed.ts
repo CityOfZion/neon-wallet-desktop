@@ -140,8 +140,14 @@ export const useUnclaimedMutation = () => {
       dispatch(
         thunks.waitTransaction({
           transaction,
-          successNotification: t('hooks:useUnclaimedMutation.successNotification', { returnObjects: true }),
-          failureNotification: t('hooks:useUnclaimedMutation.failureNotification', { returnObjects: true }),
+          successNotification: {
+            title: 'hooks:useUnclaimedMutation.successNotification.title',
+            previewBody: 'hooks:useUnclaimedMutation.successNotification.previewBody',
+          },
+          failureNotification: {
+            title: 'hooks:useUnclaimedMutation.failureNotification.title',
+            previewBody: 'hooks:useUnclaimedMutation.failureNotification.previewBody',
+          },
         })
       )
     },

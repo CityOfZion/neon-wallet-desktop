@@ -211,8 +211,14 @@ export const SellTokensDepositModal = () => {
       dispatch(
         thunks.waitTransaction({
           transaction,
-          successNotification: t('successNotification', { returnObjects: true }),
-          failureNotification: t('failureNotification', { returnObjects: true }),
+          successNotification: {
+            title: 'modals:sellTokensDeposit.successNotification.title',
+            previewBody: 'modals:sellTokensDeposit.successNotification.previewBody',
+          },
+          failureNotification: {
+            title: 'modals:sellTokensDeposit.failureNotification.title',
+            previewBody: 'modals:sellTokensDeposit.failureNotification.previewBody',
+          },
         })
       )
 

@@ -271,8 +271,8 @@ const useMigrationNeo3Notification = () => {
 
       dispatch(
         authReducerActions.saveNotification({
-          title: t('notificationTitle'),
-          previewBody: t('notificationDescription'),
+          title: 'hooks:useMigrationNeo3Notification.notificationTitle',
+          previewBody: 'hooks:useMigrationNeo3Notification.notificationDescription',
           action: {
             type: 'navigate',
             payload: {
