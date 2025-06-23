@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from 'react'
+import { BSBigNumberHelper } from '@cityofzion/blockchain-service'
 import defaultTokenLogo from '@renderer/assets/images/default-token-logo.png'
-import { NumberHelper } from '@renderer/helpers/NumberHelper'
 
 import { Tooltip } from '../Tooltip'
 
@@ -36,7 +36,7 @@ export const GreyTokenSelectItem = ({ token }: TProps) => {
       </Tooltip>
 
       {token.amount && (
-        <span className="text-1xs text-neon">{NumberHelper.formatString(token.amount, { decimals: 12 })}</span>
+        <span className="text-1xs text-neon">{BSBigNumberHelper.format(token.amount, { decimals: 12 })}</span>
       )}
     </Fragment>
   )

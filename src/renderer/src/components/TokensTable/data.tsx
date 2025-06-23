@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { NumberHelper } from '@renderer/helpers/NumberHelper'
+import { BSBigNumberHelper } from '@cityofzion/blockchain-service'
 import { useBalances } from '@renderer/hooks/useBalances'
 import { TTokenBalance, TUseBalanceOptionShowType } from '@shared/@types/query'
 import { IAccountState } from '@shared/@types/store'
@@ -24,7 +24,7 @@ export const useData = (accounts: IAccountState[], showType: TUseBalanceOptionSh
         }
 
         groupedToken.amountNumber += tokenBalance.amountNumber
-        groupedToken.amount = NumberHelper.formatString(groupedToken.amountNumber, {
+        groupedToken.amount = BSBigNumberHelper.format(groupedToken.amountNumber, {
           decimals: tokenBalance.token.decimals,
         })
         groupedToken.exchangeAmount += tokenBalance.exchangeAmount

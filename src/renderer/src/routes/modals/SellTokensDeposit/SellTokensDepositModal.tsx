@@ -1,9 +1,10 @@
-import { ChangeEvent, Dispatch, useCallback, useEffect, useMemo } from 'react'
+import { ChangeEvent, Dispatch, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbStepInto, TbStepOut } from 'react-icons/tb'
 import { VscCircleFilled } from 'react-icons/vsc'
 import {
   BlockchainService,
+  BSBigNumberHelper,
   BSCalculableFee,
   BSTokenHelper,
   IntentTransferParam,
@@ -29,6 +30,7 @@ import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useBalance } from '@renderer/hooks/useBalances'
+import { useDebounceFunction } from '@renderer/hooks/useDebounceFunction'
 import { useHardwareWalletActions } from '@renderer/hooks/useHardwareWallet'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
@@ -39,8 +41,6 @@ import { TDepositActionsData } from '@renderer/routes/pages/BuyAndSellTokens'
 import { thunks } from '@renderer/store/thunks'
 import { TUseTransactionsTransfer } from '@shared/@types/hooks'
 import { IAccountState } from '@shared/@types/store'
-import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
-import { debounce } from 'lodash'
 
 import { SellTokensDepositErrorContent } from './SellTokensDepositErrorContent'
 import { SellTokensDepositSuccessContent } from './SellTokensDepositSuccessContent'
@@ -60,10 +60,13 @@ export const SellTokensDepositModal = () => {
   const { isConnectedAndUnlockedHardwareWallet } = useHardwareWalletActions()
   const { account, depositActionsData, setDepositActionsData } = useModalState<TLocationState>()
   const dispatch = useAppDispatch()
+  const debounceAddress = useDebounceFunction()
+  const debounceAmount = useDebounceFunction()
 
   const { actionData, actionState, setData, setError, clearErrors, handleAct, reset } = useActions<TDepositActionsData>(
     depositActionsData ?? {
       amount: '',
+      isAmountLoading: false,
       address: '',
       account,
       isFeeLoading: false,
@@ -87,26 +90,12 @@ export const SellTokensDepositModal = () => {
     !service ||
     !!actionState.errors.address
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const validateAddress = useCallback(
-    debounce(({ address, account }: { address: string; account?: IAccountState }) => {
-      if (!address || !account || service!.validateAddress(address)) {
-        clearErrors('address')
-
-        return
-      }
-
-      setError('address', t('messages.invalidAddress'))
-    }, 1500),
-    [service]
-  )
-
-  const getServiceTransferParams = async () => {
-    const { account, address } = actionData
+  const getServiceTransferParams = () => {
+    const { account, address, isAmountLoading } = actionData
     const token = actionData.token?.token
     const encryptedPassword = currentLoginSessionRef.current?.encryptedPassword
 
-    if (!encryptedPassword || isInvalidForm || !account) return
+    if (!encryptedPassword || isInvalidForm || !account || isAmountLoading) return
 
     const intent: IntentTransferParam = {
       amount: actionData.amount,
@@ -115,7 +104,7 @@ export const SellTokensDepositModal = () => {
       tokenDecimals: token!.decimals,
     }
 
-    const key = await window.api.sendAsync('decryptBasedEncryptedSecret', {
+    const key = window.api.sendSync('decryptBasedEncryptedSecretSync', {
       value: account.encryptedKey!,
       encryptedSecret: encryptedPassword,
     })
@@ -142,12 +131,17 @@ export const SellTokensDepositModal = () => {
   const handleChangeAmount = (value: string) => {
     try {
       setData({
-        amount: NumberHelper.formatString(value, {
-          decimals: actionData.token?.token?.decimals,
-          max: 24,
-          removeTrailingZero: false,
-          throwWhenNaN: true,
-        }),
+        amount: value,
+        isAmountLoading: true,
+      })
+
+      debounceAmount(() => {
+        setData({
+          amount: BSBigNumberHelper.format(value, {
+            decimals: actionData.token?.token?.decimals,
+          }),
+          isAmountLoading: false,
+        })
       })
     } catch (error) {
       console.error(error)
@@ -170,7 +164,7 @@ export const SellTokensDepositModal = () => {
   }
 
   const handleSubmit = async () => {
-    const transferParams = await getServiceTransferParams()
+    const transferParams = getServiceTransferParams()
     const { address, amount, token, account } = actionData
 
     if (!transferParams || actionData.isFeeLoading || isInvalidForm) return
@@ -251,7 +245,15 @@ export const SellTokensDepositModal = () => {
   }
 
   useEffect(() => {
-    validateAddress({ address: actionData.address, account: actionData.account })
+    debounceAddress(() => {
+      if (!actionData.address || !actionData.account || !service || service.validateAddress(actionData.address)) {
+        clearErrors('address')
+
+        return
+      }
+
+      setError('address', t('messages.invalidAddress'))
+    })
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [actionData.address, actionData.account])
@@ -259,19 +261,11 @@ export const SellTokensDepositModal = () => {
   useEffect(() => {
     if (isBalanceLoading) return
 
-    const abortController = new AbortController()
-
     const handleCalculateFee = async () => {
       try {
-        await SharedUtilsHelper.sleep(1500)
-
-        if (abortController.signal.aborted) return
-
-        const transferParams = await getServiceTransferParams()
-
+        const transferParams = getServiceTransferParams()
         if (!transferParams || !isServiceCalculableFee || isInvalidForm) {
           setData({ fee: undefined })
-
           return
         }
 
@@ -315,12 +309,15 @@ export const SellTokensDepositModal = () => {
 
     handleCalculateFee()
 
-    return () => {
-      abortController.abort()
-    }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [actionData.account, actionData.amount, actionData.address, actionData.token, balanceData])
+  }, [
+    actionData.account,
+    actionData.amount,
+    actionData.isAmountLoading,
+    actionData.address,
+    actionData.token,
+    balanceData,
+  ])
 
   return (
     <SideModalLayout

@@ -1,6 +1,6 @@
 import { ReactNode, useMemo } from 'react'
 import { Fragment } from 'react/jsx-runtime'
-import { NumberHelper } from '@renderer/helpers/NumberHelper'
+import { BSBigNumberHelper } from '@cityofzion/blockchain-service'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { TTokenBalance, TUseBalancesResult } from '@shared/@types/query'
 import { IAccountState } from '@shared/@types/store'
@@ -39,7 +39,7 @@ export const OverviewCharts = ({
       if (repeated) {
         repeated.amountNumber += balance.amountNumber
         repeated.exchangeAmount += balance.exchangeAmount
-        repeated.amount = NumberHelper.formatString(repeated.amountNumber)
+        repeated.amount = BSBigNumberHelper.format(repeated.amountNumber)
         return
       }
 

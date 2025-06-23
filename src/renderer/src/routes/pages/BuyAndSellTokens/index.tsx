@@ -26,6 +26,7 @@ export enum BuyAndSellTokensScreenType {
 
 export type TDepositActionsData = {
   amount: string
+  isAmountLoading: boolean
   address: string
   isFeeLoading: boolean
   fee?: string
