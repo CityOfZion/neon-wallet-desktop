@@ -140,8 +140,14 @@ export const VoteNeo3ConfirmationModal = () => {
       dispatch(
         thunks.waitTransaction({
           transaction,
-          successNotification: t('notifications.voteSuccessNotification', { returnObjects: true }),
-          failureNotification: t('notifications.voteFailureNotification', { returnObjects: true }),
+          successNotification: {
+            title: 'modals:voteNeo3Confirmation.notifications.voteSuccessNotification.title',
+            previewBody: 'modals:voteNeo3Confirmation.notifications.voteSuccessNotification.previewBody',
+          },
+          failureNotification: {
+            title: 'modals:voteNeo3Confirmation.notifications.voteFailureNotification.title',
+            previewBody: 'modals:voteNeo3Confirmation.notifications.voteFailureNotification.previewBody',
+          },
         })
       )
 
