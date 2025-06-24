@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
@@ -24,7 +24,8 @@ import { useModalHistories, useModalNavigate } from './useModalRouter'
 import { useMountUnsafe } from './useMount'
 import { useAppDispatch } from './useRedux'
 import { useSelectedNetworkByBlockchainSelector } from './useSettingsSelector'
-import { useMigrationNeo3AccountsSelector, useUnlockedSkinIdsSelector } from './useUtilitySelector'
+import { useUnlockedSkinIdsSelector } from './useUtilitySelector'
+import { useVoteNeo3GetVoteDetailsByAddresses } from './useVoteNeo3'
 import { useWalletsSelector } from './useWalletSelector'
 
 const useRegisterWalletConnectListeners = () => {
@@ -239,10 +240,15 @@ const useUnlockSkins = () => {
 }
 
 const useMigrationNeo3Notification = () => {
-  const { migrationNeo3Accounts } = useMigrationNeo3AccountsSelector()
+  const { ownAccounts } = useOwnAccountsSelector()
   const { unreadNotificationsRef } = useUnreadNotificationsSelector()
   const dispatch = useAppDispatch()
   const { t } = useTranslation('hooks', { keyPrefix: 'useMigrationNeo3Notification' })
+
+  const migrationNeo3Accounts = useMemo(
+    () => ownAccounts.filter(account => account.blockchain === 'neoLegacy'),
+    [ownAccounts]
+  )
 
   const alreadyNotifiedRef = useRef(false)
 
@@ -291,6 +297,57 @@ const useMigrationNeo3Notification = () => {
   }, [balanceQuery.data, balanceQuery.isLoading, dispatch, t, unreadNotificationsRef])
 }
 
+const useVotingNeo3Notification = () => {
+  const { ownAccounts } = useOwnAccountsSelector()
+  const { unreadNotificationsRef } = useUnreadNotificationsSelector()
+  const dispatch = useAppDispatch()
+  const { t } = useTranslation('hooks', { keyPrefix: 'useVotingNeo3Notification' })
+
+  const voteNeo3Accounts = useMemo(() => ownAccounts.filter(account => account.blockchain === 'neo3'), [ownAccounts])
+
+  const voteDetailsQuery = useVoteNeo3GetVoteDetailsByAddresses(voteNeo3Accounts)
+
+  const alreadyNotifiedRef = useRef(false)
+
+  useEffect(() => {
+    if (voteDetailsQuery.isLoading || alreadyNotifiedRef.current) return
+
+    alreadyNotifiedRef.current = true
+
+    voteDetailsQuery.data.forEach(voteDetails => {
+      if (voteDetails.candidatePubKey || voteDetails.neoBalance <= 0) return
+
+      const hasUnreadNotification = unreadNotificationsRef.current.some(
+        notification =>
+          notification.action?.type === 'navigate' &&
+          notification.action.payload.to === 'vote-neo3' &&
+          notification.action.payload?.blockchain === 'neo3' &&
+          notification.action.payload?.address === voteDetails.address
+      )
+      if (hasUnreadNotification) return
+
+      dispatch(
+        authReducerActions.saveNotification({
+          title: 'hooks:useVotingNeo3Notification.notificationTitle',
+          previewBody: 'hooks:useVotingNeo3Notification.notificationDescription',
+          action: {
+            type: 'navigate',
+            payload: {
+              to: 'vote-neo3',
+              address: voteDetails.address,
+              blockchain: 'neo3',
+            },
+          },
+          related: {
+            blockchain: 'neo3',
+            address: voteDetails.address,
+          },
+        })
+      )
+    })
+  }, [dispatch, t, unreadNotificationsRef, voteDetailsQuery.data, voteDetailsQuery.isLoading])
+}
+
 const useRegisterHotKeys = () => {
   const { modalNavigate } = useModalNavigate()
   const { historiesRef } = useModalHistories()
@@ -319,4 +376,5 @@ export const useAfterLogin = () => {
   useRegisterDeeplinkListeners()
   useUnlockSkins()
   useRegisterHotKeys()
+  useVotingNeo3Notification()
 }

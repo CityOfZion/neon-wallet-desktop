@@ -5,6 +5,7 @@ import { VscCircleFilled } from 'react-icons/vsc'
 import {
   BlockchainService,
   BSCalculableFee,
+  BSTokenHelper,
   IntentTransferParam,
   isCalculableFee,
   Token,
@@ -160,9 +161,9 @@ export const SellTokensDepositModal = () => {
   }
 
   const handleChangeToken = (token: Token) => {
-    const tokenHash = UtilsHelper.normalizeHash(token.hash)
+    const tokenHash = BSTokenHelper.normalizeHash(token.hash)
     const tokenBalance = balanceData?.tokensBalances.find(
-      tokenBalance => UtilsHelper.normalizeHash(tokenBalance.token.hash) === tokenHash
+      tokenBalance => BSTokenHelper.normalizeHash(tokenBalance.token.hash) === tokenHash
     )
 
     setData({ token: tokenBalance, amount: '' })
@@ -277,7 +278,7 @@ export const SellTokensDepositModal = () => {
         setData({ isFeeLoading: true })
 
         const { intent } = transferParams
-        const feeTokenHash = UtilsHelper.normalizeHash(service.feeToken.hash)
+        const feeTokenHash = BSTokenHelper.normalizeHash(service.feeToken.hash)
 
         const fee = await (service as BlockchainService & BSCalculableFee).calculateTransferFee({
           senderAccount: transferParams.serviceAccount,
@@ -288,10 +289,11 @@ export const SellTokensDepositModal = () => {
 
         let totalFee = NumberHelper.number(fee)
 
-        if (UtilsHelper.normalizeHash(intent.tokenHash) === feeTokenHash) totalFee += NumberHelper.number(intent.amount)
+        if (BSTokenHelper.normalizeHash(intent.tokenHash) === feeTokenHash)
+          totalFee += NumberHelper.number(intent.amount)
 
         const feeBalance =
-          balanceData?.tokensBalances?.find(({ token }) => UtilsHelper.normalizeHash(token.hash) === feeTokenHash)
+          balanceData?.tokensBalances?.find(({ token }) => BSTokenHelper.normalizeHash(token.hash) === feeTokenHash)
             ?.amountNumber ?? 0
 
         totalFee > feeBalance ? setError('fee', t('messages.insufficientFunds')) : clearErrors('fee')

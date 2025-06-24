@@ -4,6 +4,7 @@ import { MdContentPasteGo, MdInfoOutline, MdRestartAlt } from 'react-icons/md'
 import { TbCoin, TbDiamond, TbHelp, TbReplace, TbUsers, TbWallet, TbWand } from 'react-icons/tb'
 import { VscCircleFilled } from 'react-icons/vsc'
 import {
+  BSTokenHelper,
   isCalculableFee,
   SwapServiceLoadableValue,
   SwapServiceMinMaxAmount,
@@ -174,10 +175,10 @@ export const SwapPageContent = ({ account }: TProps) => {
   const selectedTokenBalance = useMemo(() => {
     if (!service || !balanceQuery.data || !actionData.selectedTokenToUse.value) return
 
-    const tokenHash = UtilsHelper.normalizeHash(actionData.selectedTokenToUse.value!.hash!)
+    const tokenHash = BSTokenHelper.normalizeHash(actionData.selectedTokenToUse.value!.hash!)
 
     return balanceQuery.data?.tokensBalances.find(
-      tokenBalance => UtilsHelper.normalizeHash(tokenBalance.token.hash) === tokenHash
+      tokenBalance => BSTokenHelper.normalizeHash(tokenBalance.token.hash) === tokenHash
     )
   }, [actionData.selectedTokenToUse.value, balanceQuery.data, service])
 
@@ -416,16 +417,15 @@ export const SwapPageContent = ({ account }: TProps) => {
 
         let totalFeeAmount = NumberHelper.number(fee)
 
-        if (
-          UtilsHelper.normalizeHash(actionData.selectedTokenToUse.value?.hash) ===
-          UtilsHelper.normalizeHash(service.feeToken.hash)
-        ) {
+        const normalizedFeeToken = BSTokenHelper.normalizeToken(service.feeToken)
+
+        if (BSTokenHelper.normalizeHash(actionData.selectedTokenToUse.value.hash) === normalizedFeeToken.hash) {
           totalFeeAmount += NumberHelper.number(actionData.selectedAmountToUse.value)
         }
 
         const feeBalanceNumber =
           balanceQuery.data?.tokensBalances.find(
-            ({ token }) => UtilsHelper.normalizeHash(token.hash) === UtilsHelper.normalizeHash(service.feeToken.hash)
+            ({ token }) => BSTokenHelper.normalizeHash(token.hash) === normalizedFeeToken.hash
           )?.amountNumber ?? 0
 
         if (totalFeeAmount > feeBalanceNumber) {

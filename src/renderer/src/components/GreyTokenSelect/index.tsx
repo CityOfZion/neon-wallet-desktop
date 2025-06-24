@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { RemoveScroll } from 'react-remove-scroll'
+import { BSTokenHelper } from '@cityofzion/blockchain-service'
 import { Loader } from '@renderer/components/Loader'
 import { Popover } from '@renderer/components/Popover'
 import { Separator } from '@renderer/components/Separator'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TBalance } from '@shared/@types/query'
 import { useVirtualizer } from '@tanstack/react-virtual'
@@ -61,9 +61,9 @@ export const GreyTokenSelect = <T extends TGreyTokenSelectToken>({
 
     if (balance) {
       filtered = filtered.map(token => {
-        const tokenHash = UtilsHelper.normalizeHash(token.hash!)
+        const tokenHash = BSTokenHelper.normalizeHash(token.hash!)
         const tokenBalance = balance.tokensBalances.find(
-          tokenBalance => UtilsHelper.normalizeHash(tokenBalance.token.hash) === tokenHash
+          tokenBalance => BSTokenHelper.normalizeHash(tokenBalance.token.hash) === tokenHash
         )
 
         return {

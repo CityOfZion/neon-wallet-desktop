@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { SelectorHelper } from '@renderer/helpers/SelectorHelper'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TAccountHelperPredicateParams } from '@shared/@types/helpers'
-import { TAccountWithWallet } from '@shared/@types/store'
+import { IAccountState, TAccountWithWallet } from '@shared/@types/store'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 
 import { createAppSelector, TRootState, useAppSelector } from './useRedux'
@@ -39,9 +39,17 @@ export const selectAccount = (params: TAccountHelperPredicateParams) =>
 const selectOwnAccounts = createAppSelector(
   [state => state.auth.data.applicationDataByLoginType, state => state.auth.inMemoryData.currentLoginSession],
   (applicationDataByLoginType, currentLoginSession) => {
-    return applicationDataByLoginType[currentLoginSession?.type ?? 'password'].wallets
-      .flatMap(wallet => wallet.accounts)
-      .filter(account => account.type !== 'watch')
+    const accounts: IAccountState[] = []
+
+    applicationDataByLoginType[currentLoginSession?.type ?? 'password'].wallets.forEach(wallet =>
+      wallet.accounts.forEach(account => {
+        if (account.type === 'watch' && wallet.type !== 'hardware') return
+
+        accounts.push(account)
+      })
+    )
+
+    return accounts
   }
 )
 

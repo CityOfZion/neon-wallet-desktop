@@ -1,9 +1,9 @@
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbEye, TbEyeOff } from 'react-icons/tb'
+import { BSTokenHelper } from '@cityofzion/blockchain-service'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 import { bsAggregator } from '@renderer/libs/blockchainService'
@@ -72,9 +72,9 @@ export const useColumns = (showType: TUseBalanceOptionShowType) => {
           const value = info.row.original
 
           const service = bsAggregator.blockchainServicesByName[value.blockchain]
-          const normalizedHash = UtilsHelper.normalizeHash(value.token.hash)
+          const normalizedHash = BSTokenHelper.normalizeHash(value.token.hash)
           const isNativeToken = service.nativeTokens.some(
-            token => UtilsHelper.normalizeHash(token.hash) === normalizedHash
+            token => BSTokenHelper.normalizeHash(token.hash) === normalizedHash
           )
 
           const isHidden = showType === 'hidden'

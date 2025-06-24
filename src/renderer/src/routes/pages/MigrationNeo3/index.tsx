@@ -3,7 +3,7 @@ import { MdContentCopy } from 'react-icons/md'
 import { TbArrowsExchange, TbCoin, TbDiamond, TbReceipt, TbStepOut, TbWallet } from 'react-icons/tb'
 import { VscCircleFilled } from 'react-icons/vsc'
 import { Location, useLocation, useNavigate } from 'react-router-dom'
-import { Account } from '@cityofzion/blockchain-service'
+import { Account, BSTokenHelper } from '@cityofzion/blockchain-service'
 import {
   CalculateNeo3MigrationAmountsResponse,
   CalculateNeoLegacyMigrationAmountsResponse,
@@ -129,7 +129,7 @@ export const MigrationNeo3Page = () => {
       }
 
       const pendingMigrationNeo3: TMigrationNeo3 = {
-        hash: UtilsHelper.normalizeHash(transactionHash),
+        hash: BSTokenHelper.normalizeHash(transactionHash),
         neoLegacyAccount,
         neo3Address: actionData.neo3ServiceAccount.address,
         status: 'pending',

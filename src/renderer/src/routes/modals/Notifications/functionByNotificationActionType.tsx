@@ -53,6 +53,12 @@ export const functionByNotificationActionType: TFunctionByNotificationActionType
         modalActions.modalErase('side')
         pageNavigate('/app/migration-neo3', { state: { neoLegacyAccount: account } })
       })
+      .with({ to: 'vote-neo3' }, payload => {
+        const account = getAccount(payload)
+
+        modalActions.modalErase('side')
+        pageNavigate('/app/vote-neo3', { state: { defaultNeo3Account: account } })
+      })
       .exhaustive()
   },
 }

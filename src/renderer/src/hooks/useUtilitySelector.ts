@@ -1,4 +1,4 @@
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+import { BSTokenHelper } from '@cityofzion/blockchain-service'
 import { IAccountState } from '@shared/@types/store'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 
@@ -17,25 +17,6 @@ const selectHasMigratePendingTransaction = (account: IAccountState) =>
       transaction => !!transaction.isMigrate && SharedAccountHelper.predicate(account)(transaction.account)
     )
   })
-
-const selectMigrationNeo3Accounts = createAppSelector(
-  [state => state.auth.data.applicationDataByLoginType, state => state.auth.inMemoryData.currentLoginSession],
-  (applicationDataByLoginType, currentLoginSession) => {
-    const accounts: IAccountState[] = []
-
-    applicationDataByLoginType[currentLoginSession?.type ?? 'password'].wallets.forEach(wallet =>
-      wallet.accounts.forEach(account => {
-        if (account.blockchain !== 'neoLegacy') return
-
-        if (account.type === 'watch' && wallet.type !== 'hardware') return
-
-        accounts.push(account)
-      })
-    )
-
-    return accounts
-  }
-)
 
 export const usePendingTransactionsSelector = () => {
   const { ref, value } = useAppSelector(state => state.utility.inMemoryData.pendingTransactions)
@@ -73,10 +54,10 @@ export const useSwapRecordsSelector = () => {
 }
 
 export const useSwapRecordSelector = (hash: string) => {
-  const normalizedHash = UtilsHelper.normalizeHash(hash)
+  const normalizedHash = BSTokenHelper.normalizeHash(hash)
 
   const { value: swapRecord, ref: swapRecordRef } = useAppSelector(({ utility }) =>
-    utility.data.swapRecords.find(({ txFrom }) => !!txFrom && UtilsHelper.normalizeHash(txFrom) === normalizedHash)
+    utility.data.swapRecords.find(({ txFrom }) => !!txFrom && BSTokenHelper.normalizeHash(txFrom) === normalizedHash)
   )
 
   return { swapRecord, swapRecordRef }
@@ -108,7 +89,7 @@ export const useMigrationsNeo3Selector = () => {
 
 export const useMigrationNeo3Selector = (hash: string) => {
   const { value: migrationNeo3, ref: migrationNeo3Ref } = useAppSelector(
-    ({ utility }) => utility.data.migrationsNeo3[UtilsHelper.normalizeHash(hash)]
+    ({ utility }) => utility.data.migrationsNeo3[BSTokenHelper.normalizeHash(hash)]
   )
 
   return { migrationNeo3, migrationNeo3Ref }
@@ -120,14 +101,5 @@ export const useUnlockedSkinIdsSelector = () => {
   return {
     unlockedSkinIds: value,
     unlockedSkinIdsRef: ref,
-  }
-}
-
-export const useMigrationNeo3AccountsSelector = () => {
-  const { value: migrationNeo3Accounts, ref: migrationNeo3AccountsRef } = useAppSelector(selectMigrationNeo3Accounts)
-
-  return {
-    migrationNeo3Accounts,
-    migrationNeo3AccountsRef,
   }
 }

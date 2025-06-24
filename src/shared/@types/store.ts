@@ -153,6 +153,11 @@ export type TNotificationNavigateAction = {
         address: string
         blockchain: TBlockchainServiceKey
       }
+    | {
+        to: 'vote-neo3'
+        address: string
+        blockchain: TBlockchainServiceKey
+      }
 }
 
 export type TNotificationAction = TNotificationNavigateAction

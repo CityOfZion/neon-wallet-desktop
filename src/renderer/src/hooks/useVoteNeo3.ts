@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
-import { normalizeHash } from '@cityofzion/blockchain-service'
-import { BSNeo3 } from '@cityofzion/bs-neo3'
+import { BSTokenHelper } from '@cityofzion/blockchain-service'
+import { BSNeo3, GetVoteDetailsByAddressResponse } from '@cityofzion/bs-neo3'
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { NetworkHelper } from '@renderer/helpers/NetworkHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
@@ -10,7 +10,7 @@ import { bsAggregator } from '@renderer/libs/blockchainService'
 import { TNetwork } from '@shared/@types/blockchain'
 import { TUseBalanceResult } from '@shared/@types/query'
 import { IAccountState } from '@shared/@types/store'
-import { useQuery } from '@tanstack/react-query'
+import { useQueries, useQuery } from '@tanstack/react-query'
 
 type TCalculateVoteFeeParams = {
   neo3Account?: IAccountState
@@ -36,6 +36,8 @@ type TBuildVoteNeo3CalculateVoteFeeQueryKeyParams = {
   candidatePubKey: string
   neo3Account?: IAccountState
 }
+
+type TUseVoteNeo3GetVoteDetailsByAddressesParam = { address: string }
 
 const buildVoteNeo3GetCandidatesToVoteQueryKey = ({
   neo3Network,
@@ -93,6 +95,42 @@ export const useVoteNeo3GetVoteDetailsByAddress = (address?: string) => {
   })
 }
 
+export const useVoteNeo3GetVoteDetailsByAddresses = (addresses: TUseVoteNeo3GetVoteDetailsByAddressesParam[]) => {
+  const {
+    networkByBlockchain: { neo3: neo3Network },
+  } = useSelectedNetworkByBlockchainSelector()
+
+  const blockchainService = bsAggregator.blockchainServicesByName.neo3 as BSNeo3
+
+  const queries = useQueries({
+    queries: addresses.map(({ address }) => ({
+      queryKey: buildVoteNeo3GetVoteDetailsByAddressQueryKey({ neo3Network, address }),
+      queryFn: () => blockchainService.voteService.getVoteDetailsByAddress(address),
+      enabled: NetworkHelper.isMainnet('neo3', neo3Network),
+    })),
+    combine: results => {
+      const isLoading = results.some(result => result.isLoading)
+      const data: GetVoteDetailsByAddressResponse[] = []
+
+      if (!isLoading) {
+        results.forEach(result => {
+          if (!result.data) {
+            return
+          }
+          data.push(result.data)
+        })
+      }
+
+      return {
+        isLoading,
+        data,
+      }
+    },
+  })
+
+  return queries
+}
+
 export const useVoteNeo3CalculateVoteFee = ({ neo3Account, candidatePubKey }: TCalculateVoteFeeParams) => {
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
 
@@ -125,10 +163,10 @@ export const useVoteNeo3Validations = ({ balanceQuery, gasFee }: TValidationsPar
   const service = bsAggregator.blockchainServicesByName.neo3
 
   const hasEnoughGasToPayFee = useMemo(() => {
-    const normalizedFeeTokenHash = normalizeHash(service.feeToken.hash)
+    const normalizedFeeTokenHash = BSTokenHelper.normalizeHash(service.feeToken.hash)
 
     const gasAmountNumber = balanceQuery.data?.tokensBalances?.find(
-      ({ token }) => normalizeHash(token.hash) === normalizedFeeTokenHash
+      ({ token }) => BSTokenHelper.normalizeHash(token.hash) === normalizedFeeTokenHash
     )?.amountNumber
 
     if (gasAmountNumber === undefined || gasFee === undefined) return undefined

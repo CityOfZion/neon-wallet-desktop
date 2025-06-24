@@ -69,5 +69,9 @@
   },
   "useGetFullTransactions": {
     "formatExtendedDate": "dd MMM yyyy"
+  },
+  "useVotingNeo3Notification": {
+    "notificationTitle": "You're missing out on free GAS!",
+    "notificationDescription": "Simply tap here and cast your vote today"
   }
 }
