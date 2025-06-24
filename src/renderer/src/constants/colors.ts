@@ -82,8 +82,8 @@ export const AVAILABLE_RANDOM_COLORS = [
 ]
 
 export const MANDATORY_TOKEN_COLORS: Record<string, string> = {
-  ef4073a0f2b305a38ec4050e4d3d28bc40ea63f5: '#56f33f',
-  d2a4cff31913016155e38e474a2c06d08be276cf: '#02c797',
-  '602c79718b16e442de58778e148d0b1084e3b2dffd5de6b7b16cee7969282de7': '#02c797',
-  c56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b: '#56f33f',
+  '0xef4073a0f2b305a38ec4050e4d3d28bc40ea63f5': '#56f33f',
+  '0xd2a4cff31913016155e38e474a2c06d08be276cf': '#02c797',
+  '0x602c79718b16e442de58778e148d0b1084e3b2dffd5de6b7b16cee7969282de7': '#02c797',
+  '0xc56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b': '#56f33f',
 }
