@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdArrowForward } from 'react-icons/md'
 import { TbPlus, TbStepOut } from 'react-icons/tb'
-import { BSTokenHelper, IntentTransferParam, isCalculableFee } from '@cityofzion/blockchain-service'
+import { BSBigNumberHelper, BSTokenHelper, IntentTransferParam, isCalculableFee } from '@cityofzion/blockchain-service'
 import { ActionStep } from '@renderer/components/ActionStep'
 import { ActionStepSeparator } from '@renderer/components/ActionStepSeparator'
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
@@ -28,7 +28,6 @@ import { bsAggregator } from '@renderer/libs/blockchainService'
 import { thunks } from '@renderer/store/thunks'
 import { TUseTransactionsTransfer } from '@shared/@types/hooks'
 import { IAccountState } from '@shared/@types/store'
-import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 import { AnimatePresence } from 'framer-motion'
 import { lte } from 'lodash'
 
@@ -81,14 +80,15 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
     [actionData.selectedAccount]
   )
 
-  const getSendFields = async () => {
+  const getSendFields = () => {
     if (
       !currentLoginSessionRef.current ||
       !actionData.selectedAccount ||
       !actionData.selectedAccount.encryptedKey ||
       !service ||
       actionState.errors.recipients !== undefined ||
-      !actionState.changed.recipients
+      !actionState.changed.recipients ||
+      actionData.recipients.some(recipient => !!recipient.isAmountLoading)
     )
       return
 
@@ -98,8 +98,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
       tokenHash: recipient.token!.token.hash,
       tokenDecimals: recipient.token!.token.decimals,
     }))
-
-    const key = await window.api.sendAsync('decryptBasedEncryptedSecret', {
+    const key = window.api.sendSync('decryptBasedEncryptedSecretSync', {
       value: actionData.selectedAccount.encryptedKey,
       encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
     })
@@ -169,7 +168,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
     else {
       try {
         handleUpdateRecipient(id, {
-          amount: NumberHelper.formatString(amount, { decimals, removeTrailingZero: false, throwWhenNaN: true }),
+          amount: BSBigNumberHelper.format(amount, { decimals }),
         })
       } catch (error) {
         console.error(error)
@@ -254,7 +253,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
   }
 
   const handleSubmit = async () => {
-    const fields = await getSendFields()
+    const fields = getSendFields()
 
     if (!fields || isCalculatingForm) return
 
@@ -341,20 +340,12 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
   useEffect(() => {
     if (balance.isLoading) return
 
-    const abortController = new AbortController()
-
     const handleCalculateFee = async () => {
       try {
-        // It works as a debounce
-        await SharedUtilsHelper.sleep(1500)
-
-        if (abortController.signal.aborted) return
-
-        const fields = await getSendFields()
+        const fields = getSendFields()
 
         if (!fields || !isCalculableFee(fields.service)) {
           setData({ fee: undefined })
-
           return
         }
 
@@ -400,9 +391,6 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
 
     handleCalculateFee()
 
-    return () => {
-      abortController.abort()
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [actionData.recipients, balance.data])
 

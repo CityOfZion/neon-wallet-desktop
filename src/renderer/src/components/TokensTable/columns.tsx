@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbEye, TbEyeOff } from 'react-icons/tb'
-import { BSTokenHelper } from '@cityofzion/blockchain-service'
+import { BSBigNumberHelper, BSTokenHelper } from '@cityofzion/blockchain-service'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
@@ -53,7 +53,7 @@ export const useColumns = (showType: TUseBalanceOptionShowType) => {
         cell: info => info.getValue(),
         header: t('token'),
       }),
-      columnHelper.accessor(row => NumberHelper.formatString(row.amount, { decimals: row.token.decimals }), {
+      columnHelper.accessor(row => BSBigNumberHelper.format(row.amount, { decimals: row.token.decimals }), {
         cell: info => info.getValue(),
         id: 'holdings',
         header: t('holdings'),

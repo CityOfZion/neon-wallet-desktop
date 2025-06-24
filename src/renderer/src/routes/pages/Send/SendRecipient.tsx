@@ -2,7 +2,7 @@ import { ChangeEvent, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TbStepInto, TbUsers, TbWallet } from 'react-icons/tb'
 import { VscCircleFilled } from 'react-icons/vsc'
-import { BSTokenHelper, Token } from '@cityofzion/blockchain-service'
+import { BSBigNumberHelper, BSTokenHelper, Token } from '@cityofzion/blockchain-service'
 import { ActionStep } from '@renderer/components/ActionStep'
 import { Button } from '@renderer/components/Button'
 import { GreyAccountSelect } from '@renderer/components/GreyAccountSelect'
@@ -14,6 +14,7 @@ import { Separator } from '@renderer/components/Separator'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+import { useDebounceFunction } from '@renderer/hooks/useDebounceFunction'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useNameService } from '@renderer/hooks/useNameService'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
@@ -25,6 +26,7 @@ export type TSendRecipient = {
   id: string
   token?: TTokenBalance
   amount?: string
+  isAmountLoading?: boolean
   address?: string
   addressInput?: string
 }
@@ -59,6 +61,7 @@ export const SendRecipient = ({
   const { modalNavigateWrapper } = useModalNavigate()
   const { currency } = useCurrencySelector()
   const isPresent = useIsPresent()
+  const debounce = useDebounceFunction()
 
   const {
     isNameService,
@@ -93,12 +96,15 @@ export const SendRecipient = ({
   const handleChangeAmount = (value: string) => {
     try {
       onUpdateRecipient({
-        amount: NumberHelper.formatString(value, {
-          decimals: recipient.token?.token?.decimals,
-          max: 24,
-          removeTrailingZero: false,
-          throwWhenNaN: true,
-        }),
+        amount: value,
+        isAmountLoading: true,
+      })
+
+      debounce(() => {
+        onUpdateRecipient({
+          amount: BSBigNumberHelper.format(value, { decimals: recipient.token?.token?.decimals }),
+          isAmountLoading: false,
+        })
       })
     } catch (error) {
       console.error(error)
