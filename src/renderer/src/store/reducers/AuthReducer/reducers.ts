@@ -2,9 +2,12 @@ import { CaseReducer, PayloadAction } from '@reduxjs/toolkit'
 import { DateHelper } from '@renderer/helpers/DateHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { IAccountState, IWalletState, TLoginSession, TNotification, TSaveNotification } from '@shared/@types/store'
+import { getI18next } from '@shared/libs/i18next'
 import { cloneDeep } from 'lodash'
 
 import { IAuthReducer } from '.'
+
+const { t } = getI18next()
 
 const setCurrentLoginSession: CaseReducer<IAuthReducer, PayloadAction<TLoginSession | undefined>> = (state, action) => {
   state.inMemoryData.currentLoginSession = action.payload
@@ -128,8 +131,8 @@ const saveNotification: CaseReducer<IAuthReducer, PayloadAction<TSaveNotificatio
   if (findIndex < 0) {
     applicationData.notifications = [...applicationData.notifications, notification]
 
-    new window.Notification(notification.title, {
-      body: notification.previewBody,
+    new window.Notification(t(notification.title, { defaultValue: notification.title }), {
+      body: t(notification.previewBody, { defaultValue: notification.previewBody }),
     })
 
     return
