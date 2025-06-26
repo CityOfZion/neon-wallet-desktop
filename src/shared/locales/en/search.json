@@ -132,7 +132,8 @@
         "node",
         "member",
         "consensus",
-        "council"
+        "council",
+        "governance"
       ],
       "label": "Vote (Neo 3)"
     },
