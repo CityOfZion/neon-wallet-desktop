@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   win: circleci/windows@5.0.0
+  python: circleci/python@2.0.3
   node: circleci/node@5.1.0
 
 references:
@@ -20,7 +21,7 @@ commands:
       - restore_cache:
           key: nwd-dependency-cache-{{ checksum "package.json" }}
       - run: sudo apt-get -y update
-      - run: sudo apt-get -y install libusb-1.0-0-dev libudev-dev
+      - run: sudo apt-get -y install libusb-1.0-0-dev libudev-dev python3 python3-pip
       - run: npm ci --timeout 1500000
       - save_cache:
           key: nwd-dependency-cache-{{ checksum "package-lock.json" }}
