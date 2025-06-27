@@ -1,5 +1,5 @@
 import { mainApi } from '@shared/api/main'
-import { app, dialog } from 'electron'
+import { app, dialog, shell } from 'electron'
 import { readFile, writeFile } from 'fs/promises'
 
 export function registerWindowHandlers() {
@@ -26,6 +26,12 @@ export function registerWindowHandlers() {
   mainApi.listenAsync('saveFile', async ({ args }) => {
     const buff = Buffer.from(args.content, 'utf-8')
     await writeFile(args.path, buff)
+  })
+
+  mainApi.listenAsync('openFile', async ({ args }) => {
+    const error = await shell.openPath(args)
+
+    if (error) throw new Error(error)
   })
 
   mainApi.listenAsync('setTitleBarOverlay', ({ args, window }) => {

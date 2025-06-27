@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { MdLaunch } from 'react-icons/md'
 import { TbDeviceFloppy, TbFileExport } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '@renderer/components/Button'
@@ -26,6 +27,8 @@ export type TExportFullTransactionsActionData = {
   from: Date
   selectedFolderPath?: string
   exported: boolean
+  filePath: string
+  isOpeningFilePath: boolean
 }
 
 export const ExportFullTransactionsModal = () => {
@@ -42,6 +45,8 @@ export const ExportFullTransactionsModal = () => {
     to: modalState.to ?? today,
     exported: false,
     selectedFolderPath: undefined,
+    filePath: '',
+    isOpeningFilePath: false,
   })
 
   const isDisabled = !actionData.account || !actionData.selectedFolderPath
@@ -71,13 +76,14 @@ export const ExportFullTransactionsModal = () => {
       const formattedDateFrom = dateFns.format(actionData.from, t('filenameDateFormat'))
       const formattedDateTo = dateFns.format(actionData.to, t('filenameDateFormat'))
       const filename = `NEON3-ACTV-${account.address}-${account.blockchain}-${formattedDateFrom}-${formattedDateTo}.csv`
+      const filePath = `${actionData.selectedFolderPath}/${filename}`
 
       await window.api.sendAsync('saveFile', {
-        path: `${actionData.selectedFolderPath}/${filename}`,
+        path: filePath,
         content: result,
       })
 
-      setData({ exported: true })
+      setData({ exported: true, filePath })
     } catch (error) {
       console.error(error)
       ToastHelper.error({ message: t('form.errorMessage') })
@@ -115,6 +121,21 @@ export const ExportFullTransactionsModal = () => {
     navigate(`/app/wallets/${actionData.account!.id}/transactions`)
   }
 
+  const handleOpenExport = async () => {
+    if (!actionData.filePath || actionData.isOpeningFilePath) return
+
+    setData({ isOpeningFilePath: true })
+
+    try {
+      await window.api.sendAsync('openFile', actionData.filePath)
+    } catch (error) {
+      console.error(error)
+      ToastHelper.error({ message: t('messages.openExportError'), duration: 6000 })
+    } finally {
+      setData({ isOpeningFilePath: false })
+    }
+  }
+
   return (
     <CenterModalLayout
       heading={t('title')}
@@ -147,14 +168,29 @@ export const ExportFullTransactionsModal = () => {
             />
           </div>
 
-          <Button
-            className="mt-9"
-            colorSchema="gray"
-            wide
-            label={t('exported.returnButtonLabel')}
-            onClick={handleReturn}
-            type="button"
-          />
+          <div className="mt-9 flex w-full items-center justify-center gap-x-3">
+            <Button
+              colorSchema="gray"
+              className="w-48"
+              label={t('exported.returnButtonLabel')}
+              onClick={handleReturn}
+              type="button"
+            />
+
+            {!!actionData.filePath && (
+              <Button
+                label={t('exported.openExportButtonLabel')}
+                type="button"
+                colorSchema="neon"
+                className="w-48"
+                wide
+                loading={actionData.isOpeningFilePath}
+                textClassName="flex-grow-0"
+                leftIcon={<MdLaunch aria-hidden={true} />}
+                onClick={handleOpenExport}
+              />
+            )}
+          </div>
         </div>
       ) : (
         <div className="flex h-full flex-col">

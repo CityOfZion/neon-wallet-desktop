@@ -786,7 +786,11 @@
       "description": "Your CSV file has been saved successfully!",
       "selectedFolderPathInputLabel": "Your file was saved here:",
       "infoLabel": "Exported data",
-      "returnButtonLabel": "Return to your activity"
+      "returnButtonLabel": "Return to your activity",
+      "openExportButtonLabel": "Open export"
+    },
+    "messages": {
+      "openExportError": "There was a problem to open the file, verify the path and try again, please"
     }
   },
   "voteNeo3SupportUs": {
