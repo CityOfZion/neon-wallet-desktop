@@ -776,7 +776,11 @@
       "description": "您的 CSV 檔案已成功儲存！",
       "selectedFolderPathInputLabel": "您的檔案已儲存於：",
       "infoLabel": "匯出資料",
-      "returnButtonLabel": "返回您的活動紀錄"
+      "returnButtonLabel": "返回您的活動紀錄",
+      "openExportButtonLabel": "打開匯出"
+    },
+    "messages": {
+      "openExportError": "打開檔案時出現問題，請檢查路徑並重試。"
     }
   },
   "voteNeo3SupportUs": {

@@ -31,6 +31,7 @@ export type TMainApiListenersAsync = {
   openDialog: TIpcMainAsyncListener<OpenDialogOptions, string[]>
   readFile: TIpcMainAsyncListener<string, string>
   saveFile: TIpcMainAsyncListener<{ path: string; content: string }, void>
+  openFile: TIpcMainAsyncListener<string, void>
   setTitleBarOverlay: TIpcMainAsyncListener<Electron.TitleBarOverlay, void>
   setWindowButtonPosition: TIpcMainAsyncListener<Electron.Point, void>
   checkForUpdates: TIpcMainAsyncListener<undefined, boolean>
