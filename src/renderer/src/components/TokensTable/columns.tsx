@@ -4,6 +4,7 @@ import { TbEye, TbEyeOff } from 'react-icons/tb'
 import { BSBigNumberHelper, BSTokenHelper } from '@cityofzion/blockchain-service'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
+import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 import { bsAggregator } from '@renderer/libs/blockchainService'
@@ -39,11 +40,13 @@ export const useColumns = (showType: TUseBalanceOptionShowType) => {
       }),
       columnHelper.accessor('token.hash', {
         cell: info => {
-          const value = info.getValue()
+          const hash = info.getValue()
+          const isValidHash = UtilsHelper.isValidTokenHash(hash)
+          const hashText = UtilsHelper.fallbackTokenHash(hash)
 
           return (
-            <Tooltip title={value}>
-              <span>{StringHelper.truncateStringMiddle(value, 12)}</span>
+            <Tooltip title={isValidHash ? hash : ''}>
+              <span>{isValidHash ? StringHelper.truncateStringMiddle(hashText, 12) : hashText}</span>
             </Tooltip>
           )
         },

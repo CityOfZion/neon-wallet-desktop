@@ -237,4 +237,14 @@ export class UtilsHelper {
   static generateColorSkin(colorIndex?: number): TColorSkin {
     return { id: UtilsHelper.getSkinColor(colorIndex), type: 'color' }
   }
+
+  static isValidTokenHash(hash: string) {
+    const trimmedHash = hash.trim()
+
+    return !!trimmedHash && trimmedHash.toLowerCase() !== '0x'
+  }
+
+  static fallbackTokenHash(hash: string) {
+    return UtilsHelper.isValidTokenHash(hash) ? hash : '--'
+  }
 }
