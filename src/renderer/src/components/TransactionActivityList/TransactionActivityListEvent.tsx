@@ -1,6 +1,7 @@
 import { Fragment } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StringHelper } from '@renderer/helpers/StringHelper'
+import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { TFullTransactionAssetEvent, TFullTransactionEvent, TFullTransactionNftEvent } from '@shared/@types/hooks'
 import { match } from 'ts-pattern'
 
@@ -23,7 +24,7 @@ export const TransactionActivityListEvent = ({ event }: TProps) => {
 
   return (
     <div className="ml-20 flex h-13 max-h-13 min-h-13 flex-grow items-center gap-x-2 overflow-x-auto overflow-y-hidden whitespace-nowrap pl-4 pr-2">
-      {!!hash && (
+      {UtilsHelper.isValidTokenHash(hash) && (
         <TransactionActivityListEventColumn
           label={t('columns.hashLabel')}
           url={hashUrl}
