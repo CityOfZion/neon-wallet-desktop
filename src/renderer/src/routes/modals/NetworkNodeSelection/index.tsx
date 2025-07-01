@@ -25,7 +25,7 @@ export const NetworkNodeSelection = () => {
   const { blockchain } = useModalState<TState>()
   const { network } = useSelectedNetworkSelector(blockchain)
   const { setNetworkNode } = useNetworkActions()
-  const { data: nodes, ...query } = useNodes(blockchain)
+  const nodesQuery = useNodes(blockchain)
 
   const [selectedUrl, setSelectedUrl] = useState<string>(network.url)
   const [isAutomatic, setIsAutomatic] = useState<boolean>(network.isAutomatic ?? false)
@@ -36,7 +36,7 @@ export const NetworkNodeSelection = () => {
   }
 
   const handleIsAutomaticallyChange = (value: boolean) => {
-    const firstNode = nodes?.find(node => node.height !== undefined && node.latency !== undefined)
+    const firstNode = nodesQuery.data?.nodes.find(node => node.height !== undefined && node.latency !== undefined)
     if (firstNode) setSelectedUrl(firstNode.url)
 
     setIsAutomatic(value)
@@ -64,7 +64,7 @@ export const NetworkNodeSelection = () => {
           variant="text-slim"
           flat
           colorSchema="white"
-          onClick={() => query.refetch()}
+          onClick={() => nodesQuery.refetch()}
         />
 
         <div className="flex gap-2.5">
@@ -75,17 +75,17 @@ export const NetworkNodeSelection = () => {
             id="automatically"
             checked={isAutomatic}
             onCheckedChange={handleIsAutomaticallyChange}
-            disabled={query.isLoading}
+            disabled={nodesQuery.isLoading}
           />
         </div>
       </div>
 
       <div className="my-3.5 flex-grow overflow-auto">
-        {query.isLoading ? (
+        {nodesQuery.isLoading ? (
           <Loader />
         ) : (
           <RadioGroup.Group value={selectedUrl} onValueChange={handleSelectRadioItem}>
-            {nodes?.map(node => (
+            {nodesQuery.data?.nodes.map(node => (
               <RadioGroup.Item key={node.url} value={node.url} className="h-15 text-xs">
                 <div className="flex min-w-0 flex-grow items-center gap-4">
                   <div className="flex flex-col items-center justify-center gap-0.5">
