@@ -2,7 +2,7 @@
   "versionLabel": "Version v{{version}}",
   "notes": [
     {
-      "version": "3.8.0-rc.2",
+      "version": "3.8.0",
       "date": "30 Jun 2025",
       "changes": [
         "New Feature: Neo Governance Voting",
@@ -10,7 +10,7 @@
         "Multi-language Support: Chinese",
         "Minor Bugfixes"
       ],
-      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.8.0-rc.2"
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.8.0"
     },
     {
       "version": "3.7.1",
