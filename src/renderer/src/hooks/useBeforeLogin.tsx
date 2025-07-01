@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect } from 'react'
+import { useEffect, useLayoutEffect, useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Link } from '@renderer/components/Link'
 import { LATEST_GITHUB_RELEASE_LINK } from '@renderer/constants/urls'
@@ -13,6 +13,8 @@ import { compareVersions } from 'compare-versions'
 import i18next from 'i18next'
 
 import { useCurrentLoginSessionSelector } from './useAuthSelector'
+import { useMount } from './useMount'
+import { useAllNodes } from './useNodes'
 import { useAppDispatch } from './useRedux'
 import {
   useLanguageSelector,
@@ -150,6 +152,9 @@ const useNetworkChange = () => {
   const { selectedNetworkProfile } = useSelectedNetworkProfileSelector()
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
   const dispatch = useAppDispatch()
+  const nodesQuery = useAllNodes()
+
+  const nodesAlreadyChecked = useRef(false)
 
   useLayoutEffect(() => {
     Object.values(bsAggregator.blockchainServicesByName).forEach(service => {
@@ -163,6 +168,47 @@ const useNetworkChange = () => {
       dispatch(settingsReducerActions.setSelectNetwork({ blockchain: blockchain as TBlockchainServiceKey, network }))
     })
   }, [dispatch, selectedNetworkProfile.networkByBlockchain])
+
+  useMount(async () => {
+    if (nodesQuery.isLoading || !nodesQuery.data || nodesAlreadyChecked.current) return
+
+    nodesAlreadyChecked.current = true
+
+    const allNodes = nodesQuery.data
+
+    const services = Object.values(bsAggregator.blockchainServicesByName)
+
+    const promises = services.map(async service => {
+      const currentNetwork = networkByBlockchain[service.name]
+
+      try {
+        await service.testNetwork(currentNetwork)
+        return
+      } catch {
+        /* empty */
+      }
+
+      const newNode = allNodes[service.name].find(node => node.latency && node.height)
+      if (!newNode) return
+
+      dispatch(settingsReducerActions.setSelectedNetworkUrl({ blockchain: service.name, url: newNode.url }))
+
+      dispatch(
+        settingsReducerActions.saveNetworkProfile({
+          ...selectedNetworkProfile,
+          networkByBlockchain: {
+            ...selectedNetworkProfile.networkByBlockchain,
+            [service.name]: {
+              ...currentNetwork,
+              url: newNode.url,
+            },
+          },
+        })
+      )
+    })
+
+    await Promise.allSettled(promises)
+  }, [nodesQuery.isLoading, nodesQuery.data])
 }
 
 const useRemoveTemporaryApplicationData = () => {
