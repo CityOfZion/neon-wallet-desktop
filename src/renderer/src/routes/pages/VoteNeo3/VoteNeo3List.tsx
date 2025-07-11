@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TbAlertTriangleFilled } from 'react-icons/tb'
+import TbAlertTriangleFilled from '@renderer/assets/images/tb-filled-alert-triangle.svg?react'
 import { Tooltip } from '@renderer/components/Tooltip'
 import { VOTE_NEO3_COZ_PUB_KEY } from '@renderer/constants/public-keys'
 import { StringHelper } from '@renderer/helpers/StringHelper'

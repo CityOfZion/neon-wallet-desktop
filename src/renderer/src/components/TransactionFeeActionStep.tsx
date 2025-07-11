@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
-import { TbReceipt } from 'react-icons/tb'
 import { BlockchainService } from '@cityofzion/blockchain-service'
+import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
 import { Loader } from '@renderer/components/Loader'
 import { ExchangeHelper } from '@renderer/helpers/ExchangeHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'

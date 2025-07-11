@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { MdLooks4 } from 'react-icons/md'
+import MdLooks4 from '@renderer/assets/images/md-looks-4.svg?react'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { Button } from '@renderer/components/Button'
 import { Checkbox } from '@renderer/components/Checkbox'

@@ -1,8 +1,5 @@
 import { ChangeEvent, Fragment, useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { MdContentPasteGo, MdInfoOutline, MdRestartAlt } from 'react-icons/md'
-import { TbCoin, TbDiamond, TbHelp, TbReplace, TbUsers, TbWallet, TbWand } from 'react-icons/tb'
-import { VscCircleFilled } from 'react-icons/vsc'
 import {
   BSTokenHelper,
   isCalculableFee,
@@ -12,6 +9,17 @@ import {
   SwapServiceValidateValue,
 } from '@cityofzion/blockchain-service'
 import { SimpleSwapService } from '@cityofzion/bs-swap'
+import MdContentPasteGo from '@renderer/assets/images/md-content-paste-go.svg?react'
+import MdInfoOutline from '@renderer/assets/images/md-info-outline.svg?react'
+import MdRestartAlt from '@renderer/assets/images/md-restart-alt.svg?react'
+import TbCoin from '@renderer/assets/images/tb-coin.svg?react'
+import TbDiamond from '@renderer/assets/images/tb-diamond.svg?react'
+import TbHelp from '@renderer/assets/images/tb-help.svg?react'
+import TbReplace from '@renderer/assets/images/tb-replace.svg?react'
+import TbUsers from '@renderer/assets/images/tb-users.svg?react'
+import TbWallet from '@renderer/assets/images/tb-wallet.svg?react'
+import TbWand from '@renderer/assets/images/tb-wand.svg?react'
+import VscCircleFilled from '@renderer/assets/images/vsc-circle-filled.svg?react'
 import { ActionStep } from '@renderer/components/ActionStep'
 import { ActionStepSeparator } from '@renderer/components/ActionStepSeparator'
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'

@@ -1,6 +1,6 @@
 import { ChangeEvent } from 'react'
 import { useTranslation } from 'react-i18next'
-import { MdOutlineKey } from 'react-icons/md'
+import MdOutlineKey from '@renderer/assets/images/md-outline-key.svg?react'
 import { Button } from '@renderer/components/Button'
 import { PasswordHelper } from '@renderer/helpers/PasswordHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'

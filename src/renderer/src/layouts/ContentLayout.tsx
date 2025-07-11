@@ -1,7 +1,7 @@
 import { ComponentProps, ReactNode } from 'react'
 import { cloneElement } from 'react'
-import { TbArrowLeft } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
+import TbArrowLeft from '@renderer/assets/images/tb-arrow-left.svg?react'
 import { IconButton } from '@renderer/components/IconButton'
 import { Separator } from '@renderer/components/Separator'
 import { DEFAULT_NETWORK_PROFILE } from '@renderer/constants/networks'

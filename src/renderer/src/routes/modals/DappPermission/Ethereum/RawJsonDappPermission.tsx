@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { MdContentCopy } from 'react-icons/md'
+import MdContentCopy from '@renderer/assets/images/md-content-copy.svg?react'
 import { Button } from '@renderer/components/Button'
 import { DappPermissionHeader } from '@renderer/components/DappPermissionHeader'
 import { IconButton } from '@renderer/components/IconButton'

@@ -1,4 +1,4 @@
-import { MdChevronRight } from 'react-icons/md'
+import MdChevronRight from '@renderer/assets/images/md-chevron-right.svg?react'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 type TProps = {

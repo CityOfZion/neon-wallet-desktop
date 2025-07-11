@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { DayPicker, type DayPickerProps, labelNext, labelPrevious, useDayPicker } from 'react-day-picker'
 import { useTranslation } from 'react-i18next'
-import { TbChevronLeft, TbChevronRight } from 'react-icons/tb'
+import TbChevronLeft from '@renderer/assets/images/tb-chevron-left.svg?react'
+import TbChevronRight from '@renderer/assets/images/tb-chevron-right.svg?react'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { differenceInCalendarDays } from 'date-fns'
 

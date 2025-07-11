@@ -1,5 +1,7 @@
 import { cloneElement, ReactNode } from 'react'
-import { MdCheckCircleOutline, MdClose, MdErrorOutline } from 'react-icons/md'
+import MdCheckCircleOutline from '@renderer/assets/images/md-check-circle-outline.svg?react'
+import MdClose from '@renderer/assets/images/md-close.svg?react'
+import MdErrorOutline from '@renderer/assets/images/md-error-outline.svg?react'
 import { Loader } from '@renderer/components/Loader'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'

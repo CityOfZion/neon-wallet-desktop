@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { TbRefresh } from 'react-icons/tb'
+import TbRefresh from '@renderer/assets/images/tb-refresh.svg?react'
 import { IconButton } from '@renderer/components/IconButton'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { useLastUpdated, useRefetch } from '@renderer/hooks/useQuery'

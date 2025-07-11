@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TbPencil, TbPlus } from 'react-icons/tb'
+import TbPencil from '@renderer/assets/images/tb-pencil.svg?react'
+import TbPlus from '@renderer/assets/images/tb-plus.svg?react'
 import { ActionPopover } from '@renderer/components/ActionPopover'
 import { Button } from '@renderer/components/Button'
 import { CommonScreenActions } from '@renderer/components/CommonScreenActions'

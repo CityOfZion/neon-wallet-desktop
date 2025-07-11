@@ -1,6 +1,7 @@
 import { Trans, useTranslation } from 'react-i18next'
-import { TbCheckbox, TbHeartHandshake } from 'react-icons/tb'
 import CozLogo from '@renderer/assets/images/coz-logo.svg?react'
+import TbCheckbox from '@renderer/assets/images/tb-checkbox.svg?react'
+import TbHeartHandshake from '@renderer/assets/images/tb-heart-handshake.svg?react'
 import { Button } from '@renderer/components/Button'
 import { Checkbox } from '@renderer/components/Checkbox'
 import { Link } from '@renderer/components/Link'

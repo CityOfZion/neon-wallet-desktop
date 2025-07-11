@@ -1,6 +1,7 @@
 import { ChangeEventHandler, forwardRef, useCallback, useEffect, useImperativeHandle, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { MdCancel, MdContentPasteGo } from 'react-icons/md'
+import MdCancel from '@renderer/assets/images/md-cancel.svg?react'
+import MdContentPasteGo from '@renderer/assets/images/md-content-paste-go.svg?react'
 import { FieldActionsMenu } from '@renderer/components/FieldActionsMenu'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 

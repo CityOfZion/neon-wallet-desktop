@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
-import { MdOutlineAutoAwesome } from 'react-icons/md'
-import { TbRosetteDiscountCheck } from 'react-icons/tb'
+import MdOutlineAutoAwesome from '@renderer/assets/images/md-outline-auto-awesome.svg?react'
+import TbRosetteDiscountCheck from '@renderer/assets/images/tb-rosette-discount-check.svg?react'
 import { Link } from '@renderer/components/Link'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 

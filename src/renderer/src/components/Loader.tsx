@@ -1,4 +1,4 @@
-import { TbLoader2 } from 'react-icons/tb'
+import TbLoader2 from '@renderer/assets/images/tb-loader-2.svg?react'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 type TProps = {

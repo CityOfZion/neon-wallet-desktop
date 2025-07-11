@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
-import { TbFileImport } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
+import TbFileImport from '@renderer/assets/images/tb-file-import.svg?react'
 import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
 import { Textarea } from '@renderer/components/Textarea'

@@ -1,6 +1,7 @@
 import { ComponentProps, Dispatch, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { MdChevronRight, MdRestartAlt } from 'react-icons/md'
+import MdChevronRight from '@renderer/assets/images/md-chevron-right.svg?react'
+import MdRestartAlt from '@renderer/assets/images/md-restart-alt.svg?react'
 import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'
 import { sellTokensIframeUrl } from '@renderer/constants/buy-and-sell-tokens'

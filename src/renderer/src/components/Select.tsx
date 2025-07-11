@@ -1,6 +1,8 @@
 import { ComponentPropsWithoutRef, ElementRef, forwardRef, Fragment } from 'react'
-import { MdCheck, MdExpandLess, MdExpandMore } from 'react-icons/md'
 import * as SelectPrimitive from '@radix-ui/react-select'
+import MdCheck from '@renderer/assets/images/md-check.svg?react'
+import MdExpandLess from '@renderer/assets/images/md-expand-less.svg?react'
+import MdExpandMore from '@renderer/assets/images/md-expand-more.svg?react'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 const Root = SelectPrimitive.Root

@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
-import { TbFileExport } from 'react-icons/tb'
 import { useOutletContext } from 'react-router-dom'
+import TbFileExport from '@renderer/assets/images/tb-file-export.svg?react'
 import { Button } from '@renderer/components/Button'
 import { TransactionActivityList } from '@renderer/components/TransactionActivityList'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'

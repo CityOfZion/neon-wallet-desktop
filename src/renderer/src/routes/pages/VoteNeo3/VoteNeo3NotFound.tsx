@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { TbList } from 'react-icons/tb'
+import TbList from '@renderer/assets/images/tb-list.svg?react'
 
 export const VoteNeo3NotFound = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'voteNeo3.notFound' })

@@ -1,4 +1,4 @@
-import { TbSearch } from 'react-icons/tb'
+import TbSearch from '@renderer/assets/images/tb-search.svg?react'
 
 import { Input, TInputProps } from './Input'
 

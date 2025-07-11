@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { MdLaunch } from 'react-icons/md'
+import MdLaunch from '@renderer/assets/images/md-launch.svg?react'
 import { Button } from '@renderer/components/Button'
 import { MigrateSteps } from '@renderer/components/MigrateSteps'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'

@@ -1,13 +1,18 @@
 import { Trans, useTranslation } from 'react-i18next'
-import { MdContentCopy } from 'react-icons/md'
-import { TbArrowsExchange, TbCoin, TbDiamond, TbReceipt, TbStepOut, TbWallet } from 'react-icons/tb'
-import { VscCircleFilled } from 'react-icons/vsc'
 import { Location, useLocation, useNavigate } from 'react-router-dom'
 import { Account, BSTokenHelper } from '@cityofzion/blockchain-service'
 import {
   CalculateNeo3MigrationAmountsResponse,
   CalculateNeoLegacyMigrationAmountsResponse,
 } from '@cityofzion/bs-neo-legacy'
+import MdContentCopy from '@renderer/assets/images/md-content-copy.svg?react'
+import TbArrowsExchange from '@renderer/assets/images/tb-arrows-exchange.svg?react'
+import TbCoin from '@renderer/assets/images/tb-coin.svg?react'
+import TbDiamond from '@renderer/assets/images/tb-diamond.svg?react'
+import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
+import TbStepOut from '@renderer/assets/images/tb-step-out.svg?react'
+import TbWallet from '@renderer/assets/images/tb-wallet.svg?react'
+import VscCircleFilled from '@renderer/assets/images/vsc-circle-filled.svg?react'
 import { ActionCard } from '@renderer/components/ActionCard'
 import { ActionStep } from '@renderer/components/ActionStep'
 import { ActionStepSeparator } from '@renderer/components/ActionStepSeparator'

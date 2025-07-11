@@ -1,6 +1,6 @@
 import { forwardRef } from 'react'
-import { FiCheck } from 'react-icons/fi'
 import * as RadixCheckbox from '@radix-ui/react-checkbox'
+import FiCheck from '@renderer/assets/images/fi-check.svg?react'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 export type TCheckboxProps = Omit<RadixCheckbox.CheckboxProps, 'onCheckedChange'> & {

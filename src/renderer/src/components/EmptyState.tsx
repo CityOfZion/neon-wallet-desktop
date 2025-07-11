@@ -1,5 +1,7 @@
 import { useTranslation } from 'react-i18next'
-import { TbDiamondOff, TbFileImport, TbPlug } from 'react-icons/tb'
+import TbDiamondOff from '@renderer/assets/images/tb-diamond-off.svg?react'
+import TbFileImport from '@renderer/assets/images/tb-file-import.svg?react'
+import TbPlug from '@renderer/assets/images/tb-plug.svg?react'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { IAccountState } from '@shared/@types/store'

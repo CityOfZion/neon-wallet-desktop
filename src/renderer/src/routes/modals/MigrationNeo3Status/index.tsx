@@ -1,13 +1,11 @@
 import { useTranslation } from 'react-i18next'
-import { MdRefresh } from 'react-icons/md'
-import {
-  TbArrowsExchange,
-  TbClockExclamation,
-  TbEye,
-  TbHourglass,
-  TbReceipt,
-  TbRosetteDiscountCheck,
-} from 'react-icons/tb'
+import MdRefresh from '@renderer/assets/images/md-refresh.svg?react'
+import TbArrowsExchange from '@renderer/assets/images/tb-arrows-exchange.svg?react'
+import TbClockExclamation from '@renderer/assets/images/tb-clock-exclamation.svg?react'
+import TbEye from '@renderer/assets/images/tb-eye.svg?react'
+import TbHourglass from '@renderer/assets/images/tb-hourglass.svg?react'
+import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
+import TbRosetteDiscountCheck from '@renderer/assets/images/tb-rosette-discount-check.svg?react'
 import { Details } from '@renderer/components/Details'
 import { IconButton } from '@renderer/components/IconButton'
 import { Link } from '@renderer/components/Link'

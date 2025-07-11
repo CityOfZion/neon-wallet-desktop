@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { MdAdd } from 'react-icons/md'
 import { Account } from '@cityofzion/blockchain-service'
+import MdAdd from '@renderer/assets/images/md-add.svg?react'
 import { Button } from '@renderer/components/Button'
 import { RadioGroup } from '@renderer/components/RadioGroup'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'

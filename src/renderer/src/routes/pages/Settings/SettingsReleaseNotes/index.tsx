@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { MdLaunch } from 'react-icons/md'
+import MdLaunch from '@renderer/assets/images/md-launch.svg?react'
 import { Link } from '@renderer/components/Link'
 import { SettingsLayout } from '@renderer/layouts/Settings'
 

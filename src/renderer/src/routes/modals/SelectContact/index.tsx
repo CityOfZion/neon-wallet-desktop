@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TbStepOut } from 'react-icons/tb'
+import TbStepOut from '@renderer/assets/images/tb-step-out.svg?react'
 import { Button } from '@renderer/components/Button'
 import { ContactList } from '@renderer/components/ContactList'
 import { useContactsSelector } from '@renderer/hooks/useContactSelector'

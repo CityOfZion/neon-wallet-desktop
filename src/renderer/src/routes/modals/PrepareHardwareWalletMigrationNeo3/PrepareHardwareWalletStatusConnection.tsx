@@ -1,5 +1,7 @@
 import { useTranslation } from 'react-i18next'
-import { TbDeviceUsb, TbHourglass, TbX } from 'react-icons/tb'
+import TbDeviceUsb from '@renderer/assets/images/tb-device-usb.svg?react'
+import TbHourglass from '@renderer/assets/images/tb-hourglass.svg?react'
+import TbX from '@renderer/assets/images/tb-x.svg?react'
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { AlertSuccessBanner } from '@renderer/components/AlertSuccessBanner'
 import { SearchingLoader } from '@renderer/components/SearchingLoader'

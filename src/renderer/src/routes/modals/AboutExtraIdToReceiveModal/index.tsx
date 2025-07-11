@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { TbHelp } from 'react-icons/tb'
+import TbHelp from '@renderer/assets/images/tb-help.svg?react'
 import { Separator } from '@renderer/components/Separator'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 

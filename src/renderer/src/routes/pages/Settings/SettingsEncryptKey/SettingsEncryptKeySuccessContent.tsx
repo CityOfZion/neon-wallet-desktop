@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { MdLock } from 'react-icons/md'
+import MdLock from '@renderer/assets/images/md-lock.svg?react'
 import { Input } from '@renderer/components/Input'
 
 type TProps = {

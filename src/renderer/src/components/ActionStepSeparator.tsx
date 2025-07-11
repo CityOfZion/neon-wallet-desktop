@@ -1,4 +1,4 @@
-import { TbArrowDown } from 'react-icons/tb'
+import TbArrowDown from '@renderer/assets/images/tb-arrow-down.svg?react'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 type TProps = { className?: string }

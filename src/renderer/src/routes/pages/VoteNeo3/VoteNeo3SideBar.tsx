@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { MdInfoOutline } from 'react-icons/md'
+import MdInfoOutline from '@renderer/assets/images/md-info-outline.svg?react'
 import { Banner } from '@renderer/components/Banner'
 import { Separator } from '@renderer/components/Separator'
 

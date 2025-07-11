@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next'
-import { MdChevronRight } from 'react-icons/md'
-import { TbCube3dSphere } from 'react-icons/tb'
 import { tx } from '@cityofzion/neon-core'
 import { Signer as ContractSigner, TSession } from '@cityofzion/wallet-connect-sdk-wallet-react'
+import MdChevronRight from '@renderer/assets/images/md-chevron-right.svg?react'
+import TbCube3dSphere from '@renderer/assets/images/tb-cube-3d-sphere.svg?react'
 import { IconButton } from '@renderer/components/IconButton'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 

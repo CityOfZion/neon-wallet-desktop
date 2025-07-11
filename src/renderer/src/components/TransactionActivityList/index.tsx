@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TbAlertTriangle } from 'react-icons/tb'
+import TbAlertTriangle from '@renderer/assets/images/tb-alert-triangle.svg?react'
 import { Separator } from '@renderer/components/Separator'
 import { TransactionActivityListProvider } from '@renderer/contexts/TransactionActivityListContext'
 import { useActions } from '@renderer/hooks/useActions'

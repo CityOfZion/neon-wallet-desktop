@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
-import { MdLaunch, MdOutlineAutoAwesome } from 'react-icons/md'
+import MdLaunch from '@renderer/assets/images/md-launch.svg?react'
+import MdOutlineAutoAwesome from '@renderer/assets/images/md-outline-auto-awesome.svg?react'
 import NeonWalletLogo from '@renderer/assets/images/neon-wallet-full.svg?react'
 import { Button } from '@renderer/components/Button'
 import { Link } from '@renderer/components/Link'

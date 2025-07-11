@@ -1,19 +1,16 @@
 import { useTranslation } from 'react-i18next'
-import {
-  TbDoorExit,
-  TbHome2,
-  TbReplace,
-  TbSettings,
-  TbShoppingBag,
-  TbStepInto,
-  TbStepOut,
-  TbUsers,
-} from 'react-icons/tb'
+import NeonLogoIcon from '@renderer/assets/images/neon-wallet-compact.svg?react'
+import TbDoorExit from '@renderer/assets/images/tb-door-exit.svg?react'
+import TbHome2 from '@renderer/assets/images/tb-home-2.svg?react'
+import TbReplace from '@renderer/assets/images/tb-replace.svg?react'
+import TbSettings from '@renderer/assets/images/tb-settings.svg?react'
+import TbShoppingBag from '@renderer/assets/images/tb-shopping-bag.svg?react'
+import TbStepInto from '@renderer/assets/images/tb-step-into.svg?react'
+import TbStepOut from '@renderer/assets/images/tb-step-out.svg?react'
+import TbUsers from '@renderer/assets/images/tb-users.svg?react'
+import WalletIcon from '@renderer/assets/images/wallet-icon.svg?react'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 import { useLogin } from '@renderer/hooks/useLogin'
-
-import NeonLogoIcon from '../../assets/images/neon-wallet-compact.svg?react'
-import WalletIcon from '../../assets/images/wallet-icon.svg?react'
 
 import { SidebarButton } from './SidebarButton'
 import { SidebarLink } from './SidebarLink'

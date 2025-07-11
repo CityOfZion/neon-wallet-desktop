@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { MdSearch } from 'react-icons/md'
+import MdSearch from '@renderer/assets/images/md-search.svg?react'
 import { Button, TButtonProps } from '@renderer/components/Button'
 
 export const PrepareHardwareWalletSearchAgainButton = (props: TButtonProps) => {

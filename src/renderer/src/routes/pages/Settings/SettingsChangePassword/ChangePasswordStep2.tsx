@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TbDownload } from 'react-icons/tb'
 import { Location, useLocation, useNavigate } from 'react-router-dom'
+import TbDownload from '@renderer/assets/images/tb-download.svg?react'
 import { ButtonDownloadPasswordQRCode } from '@renderer/components/ButtonDownloadPasswordQRCode'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'

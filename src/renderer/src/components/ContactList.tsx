@@ -1,6 +1,7 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TbCheck, TbChevronUp } from 'react-icons/tb'
+import TbCheck from '@renderer/assets/images/tb-check.svg?react'
+import TbChevronUp from '@renderer/assets/images/tb-chevron-up.svg?react'
 import { SearchInput } from '@renderer/components/SearchInput'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'

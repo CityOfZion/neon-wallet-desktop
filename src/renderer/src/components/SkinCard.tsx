@@ -1,5 +1,5 @@
 import { cloneElement } from 'react'
-import { MdCheckCircle } from 'react-icons/md'
+import MdCheckCircle from '@renderer/assets/images/md-check-circle.svg?react'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { match, P } from 'ts-pattern'
 
