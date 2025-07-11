@@ -1,7 +1,10 @@
 import { cloneElement, ComponentProps, ReactNode } from 'react'
-import { MdInfoOutline, MdVerified } from 'react-icons/md'
-import { PiWarningDiamondFill } from 'react-icons/pi'
-import { TbAlertHexagonFilled, TbAlertSmall, TbAlertTriangle } from 'react-icons/tb'
+import MdInfoOutline from '@renderer/assets/images/md-info-outline.svg?react'
+import MdVerified from '@renderer/assets/images/md-verified.svg?react'
+import PiWarningDiamondFill from '@renderer/assets/images/pi-warning-diamond-fill.svg?react'
+import TbAlertSmall from '@renderer/assets/images/tb-alert-small.svg?react'
+import TbAlertTriangle from '@renderer/assets/images/tb-alert-triangle.svg?react'
+import TbAlertHexagonFilled from '@renderer/assets/images/tb-filled-alert-hexagon.svg?react'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 export type TBannerType = 'info' | 'error' | 'success' | 'warning' | 'warningOrange' | 'alert'

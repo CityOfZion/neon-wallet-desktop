@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { MdOutlineSave } from 'react-icons/md'
+import MdOutlineSave from '@renderer/assets/images/md-outline-save.svg?react'
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'

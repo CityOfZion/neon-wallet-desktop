@@ -1,9 +1,8 @@
 import { cloneElement } from 'react'
+import WalletIconHardware from '@renderer/assets/images/wallet-icon-hardware.svg?react'
+import WalletIconStandard from '@renderer/assets/images/wallet-icon-standard.svg?react'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { IWalletState, TWalletType } from '@shared/@types/store'
-
-import WalletIconHardware from '../assets/images/wallet-icon-hardware.svg?react'
-import WalletIconStandard from '../assets/images/wallet-icon-standard.svg?react'
 
 type TProps = {
   wallet: IWalletState

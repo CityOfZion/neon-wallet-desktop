@@ -1,5 +1,6 @@
 import { cloneElement, ComponentProps, useMemo } from 'react'
-import { MdClose, MdKeyboardBackspace } from 'react-icons/md'
+import MdClose from '@renderer/assets/images/md-close.svg?react'
+import MdKeyboardBackspace from '@renderer/assets/images/md-keyboard-backspace.svg?react'
 import { IconButton } from '@renderer/components/IconButton'
 import { Separator } from '@renderer/components/Separator'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'

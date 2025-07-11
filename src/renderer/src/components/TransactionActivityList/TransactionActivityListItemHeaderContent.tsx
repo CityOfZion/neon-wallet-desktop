@@ -1,16 +1,15 @@
 import React, { MouseEvent } from 'react'
 import { useTranslation } from 'react-i18next'
-import { MdCoffee, MdOutlineContentCopy } from 'react-icons/md'
-import {
-  TbArrowsExchange,
-  TbBell,
-  TbChevronRight,
-  TbClock,
-  TbCodeCircle,
-  TbCoin,
-  TbCube,
-  TbTransform,
-} from 'react-icons/tb'
+import MdCoffee from '@renderer/assets/images/md-coffee.svg?react'
+import MdOutlineContentCopy from '@renderer/assets/images/md-outline-content-copy.svg?react'
+import TbArrowsExchange from '@renderer/assets/images/tb-arrows-exchange.svg?react'
+import TbBell from '@renderer/assets/images/tb-bell.svg?react'
+import TbChevronRight from '@renderer/assets/images/tb-chevron-right.svg?react'
+import TbClock from '@renderer/assets/images/tb-clock.svg?react'
+import TbCodeCircle from '@renderer/assets/images/tb-code-circle.svg?react'
+import TbCoin from '@renderer/assets/images/tb-coin.svg?react'
+import TbCube from '@renderer/assets/images/tb-cube.svg?react'
+import TbTransform from '@renderer/assets/images/tb-transform.svg?react'
 import { IconButton } from '@renderer/components/IconButton'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'

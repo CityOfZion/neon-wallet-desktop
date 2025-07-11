@@ -1,6 +1,6 @@
 import { ComponentProps } from 'react'
-import { MdArrowBack } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
+import MdArrowBack from '@renderer/assets/images/md-arrow-back.svg?react'
 import { IconButton } from '@renderer/components/IconButton'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 

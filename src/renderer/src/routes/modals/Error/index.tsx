@@ -1,4 +1,4 @@
-import { MdCancel } from 'react-icons/md'
+import MdCancel from '@renderer/assets/images/md-cancel.svg?react'
 import { useModalState } from '@renderer/hooks/useModalRouter'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 

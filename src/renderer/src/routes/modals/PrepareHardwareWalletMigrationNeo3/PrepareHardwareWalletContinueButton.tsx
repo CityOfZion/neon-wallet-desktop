@@ -1,4 +1,4 @@
-import { TbArrowRight } from 'react-icons/tb'
+import TbArrowRight from '@renderer/assets/images/tb-arrow-right.svg?react'
 import { Button, TButtonProps } from '@renderer/components/Button'
 
 export const PrepareHardwareWalletContinueButton = (props: TButtonProps) => {

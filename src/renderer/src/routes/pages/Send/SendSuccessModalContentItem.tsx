@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
-import { MdOutlineContentCopy } from 'react-icons/md'
-import { TbUsers } from 'react-icons/tb'
+import MdOutlineContentCopy from '@renderer/assets/images/md-outline-content-copy.svg?react'
+import TbUsers from '@renderer/assets/images/tb-users.svg?react'
 import { Button } from '@renderer/components/Button'
 import { IconButton } from '@renderer/components/IconButton'
 import { Separator } from '@renderer/components/Separator'

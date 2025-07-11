@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
-import { MdLooksTwo } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
+import MdLooksTwo from '@renderer/assets/images/md-looks-two.svg?react'
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'

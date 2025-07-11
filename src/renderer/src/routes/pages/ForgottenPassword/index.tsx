@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { TbArrowRight } from 'react-icons/tb'
+import TbArrowRight from '@renderer/assets/images/tb-arrow-right.svg?react'
 import { Banner } from '@renderer/components/Banner'
 import { Link } from '@renderer/components/Link'
 import { TestHelper } from '@renderer/helpers/TestHelper'

@@ -28,7 +28,8 @@
     "playwright": "npm run build && npx playwright test",
     "playwright:headless": "npx playwright test",
     "playwright:ui": "npm run playwright -- --ui",
-    "playwright:report": "npx playwright show-report"
+    "playwright:report": "npx playwright show-report",
+    "icon": "svg-icons"
   },
   "dependencies": {
     "@cityofzion/blockchain-service": "1.19.1",
@@ -84,7 +85,6 @@
     "react-day-picker": "^9.7.0",
     "react-hotkeys-hook": "^5.0.1",
     "react-i18next": "^15.4.0",
-    "react-icons": "^5.4.0",
     "react-photo-album": "^3.0.2",
     "react-redux": "^9.2.0",
     "react-remove-scroll": "^2.6.3",
@@ -107,6 +107,7 @@
     "@electron-toolkit/eslint-config-ts": "^2.0.0",
     "@electron-toolkit/tsconfig": "^1.0.1",
     "@playwright/test": "^1.50.0",
+    "@raulduartep/svg-icons": "1.3.0",
     "@tanstack/eslint-plugin-query": "5.64.2",
     "@types/node": "^20.14.8",
     "@types/react": "^18.3.3",

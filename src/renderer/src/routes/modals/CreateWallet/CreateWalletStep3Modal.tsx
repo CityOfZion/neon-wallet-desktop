@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { MdLooks3 } from 'react-icons/md'
+import MdLooks3 from '@renderer/assets/images/md-looks-3.svg?react'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'

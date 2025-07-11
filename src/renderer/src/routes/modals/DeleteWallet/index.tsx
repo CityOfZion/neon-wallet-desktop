@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
-import { TbPencil, TbTrash } from 'react-icons/tb'
+import TbPencil from '@renderer/assets/images/tb-pencil.svg?react'
+import TbTrash from '@renderer/assets/images/tb-trash.svg?react'
 import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'

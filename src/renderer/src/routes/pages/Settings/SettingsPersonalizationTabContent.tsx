@@ -1,8 +1,10 @@
 import { useTranslation } from 'react-i18next'
-import { BsCash } from 'react-icons/bs'
-import { MdOutlineListAlt } from 'react-icons/md'
-import { TbCube3dSphere, TbDeviceMobile, TbMessage } from 'react-icons/tb'
 import { useMatch } from 'react-router-dom'
+import BsCash from '@renderer/assets/images/bs-cash.svg?react'
+import MdOutlineListAlt from '@renderer/assets/images/md-outline-list-alt.svg?react'
+import TbCube3dSphere from '@renderer/assets/images/tb-cube-3d-sphere.svg?react'
+import TbDeviceMobile from '@renderer/assets/images/tb-device-mobile.svg?react'
+import TbMessage from '@renderer/assets/images/tb-message.svg?react'
 
 import { SettingsSidebarLink } from './SettingsSidebarLink'
 

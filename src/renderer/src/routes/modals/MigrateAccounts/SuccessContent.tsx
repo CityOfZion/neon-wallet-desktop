@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
-import { MdCheck, MdOutlineRemoveRedEye } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
+import MdCheck from '@renderer/assets/images/md-check.svg?react'
+import MdOutlineRemoveRedEye from '@renderer/assets/images/md-outline-remove-red-eye.svg?react'
 import { Button } from '@renderer/components/Button'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { IAccountState } from '@shared/@types/store'

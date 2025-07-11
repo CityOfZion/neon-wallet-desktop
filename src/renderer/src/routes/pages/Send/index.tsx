@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
-import { TbStepOut } from 'react-icons/tb'
 import { Location, useLocation } from 'react-router-dom'
+import TbStepOut from '@renderer/assets/images/tb-step-out.svg?react'
 import { CommonScreenActions } from '@renderer/components/CommonScreenActions'
 import { ContentLayout } from '@renderer/layouts/ContentLayout'
 import { MainLayout } from '@renderer/layouts/Main'

@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
-import { MdDeleteForever } from 'react-icons/md'
-import { TbPencil } from 'react-icons/tb'
+import MdDeleteForever from '@renderer/assets/images/md-delete-forever.svg?react'
+import TbPencil from '@renderer/assets/images/tb-pencil.svg?react'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'

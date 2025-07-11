@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
-import { TbChevronRight } from 'react-icons/tb'
 import { hasExplorerService, NftResponse } from '@cityofzion/blockchain-service'
+import TbChevronRight from '@renderer/assets/images/tb-chevron-right.svg?react'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { IAccountState } from '@shared/@types/store'

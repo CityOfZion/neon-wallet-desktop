@@ -1,5 +1,7 @@
 import { Trans, useTranslation } from 'react-i18next'
-import { TbFileImport, TbPackageExport, TbWallet } from 'react-icons/tb'
+import TbFileImport from '@renderer/assets/images/tb-file-import.svg?react'
+import TbPackageExport from '@renderer/assets/images/tb-package-export.svg?react'
+import TbWallet from '@renderer/assets/images/tb-wallet.svg?react'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 
 import { LoginPasswordCardLink } from './LoginPasswordCardLink'

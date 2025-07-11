@@ -1,5 +1,7 @@
 import { useTranslation } from 'react-i18next'
-import { TbChartBarPopular, TbEye, TbRosetteDiscountCheck } from 'react-icons/tb'
+import TbChartBarPopular from '@renderer/assets/images/tb-chart-bar-popular.svg?react'
+import TbEye from '@renderer/assets/images/tb-eye.svg?react'
+import TbRosetteDiscountCheck from '@renderer/assets/images/tb-rosette-discount-check.svg?react'
 import { Link } from '@renderer/components/Link'
 import { Tooltip } from '@renderer/components/Tooltip'
 import { NEO3_NEO_TOKEN } from '@renderer/constants/tokens'

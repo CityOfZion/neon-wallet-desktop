@@ -1,7 +1,9 @@
 import { ComponentProps, Dispatch, Fragment, ReactNode, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { IoChevronDown, IoChevronUp } from 'react-icons/io5'
-import { MdInfoOutline, MdLaunch } from 'react-icons/md'
+import MdInfoOutline from '@renderer/assets/images/md-info-outline.svg?react'
+import MdLaunch from '@renderer/assets/images/md-launch.svg?react'
+import TbChevronDown from '@renderer/assets/images/tb-chevron-down.svg?react'
+import TbChevronUp from '@renderer/assets/images/tb-chevron-up.svg?react'
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Button } from '@renderer/components/Button'
 import { Link } from '@renderer/components/Link'
@@ -210,9 +212,9 @@ export const BuyAndSellTokensLayout = ({
                 disabled={isLoading}
                 rightIcon={
                   isAccordionAccountsOpened ? (
-                    <IoChevronUp aria-hidden={true} className="h-5 min-h-5 w-5 min-w-5" />
+                    <TbChevronUp aria-hidden={true} className="h-5 min-h-5 w-5 min-w-5" />
                   ) : (
-                    <IoChevronDown aria-hidden={true} className="h-5 min-h-5 w-5 min-w-5" />
+                    <TbChevronDown aria-hidden={true} className="h-5 min-h-5 w-5 min-w-5" />
                   )
                 }
                 onClick={toggleAccordionAccounts}

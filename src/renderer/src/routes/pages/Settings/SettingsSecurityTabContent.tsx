@@ -1,7 +1,10 @@
 import { useTranslation } from 'react-i18next'
-import { MdOutlineKey, MdOutlineLock, MdOutlineSave } from 'react-icons/md'
-import { TbPackageImport, TbReload } from 'react-icons/tb'
 import { useMatch } from 'react-router-dom'
+import MdOutlineKey from '@renderer/assets/images/md-outline-key.svg?react'
+import MdOutlineLock from '@renderer/assets/images/md-outline-lock.svg?react'
+import MdOutlineSave from '@renderer/assets/images/md-outline-save.svg?react'
+import TbPackageImport from '@renderer/assets/images/tb-package-import.svg?react'
+import TbReload from '@renderer/assets/images/tb-reload.svg?react'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 

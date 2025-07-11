@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from 'react'
-import { FiSend } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
+import FiSend from '@renderer/assets/images/fi-send.svg?react'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 import { TContactAddress } from '@shared/@types/store'

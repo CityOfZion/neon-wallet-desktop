@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { MdOutlineContentCopy } from 'react-icons/md'
+import MdOutlineContentCopy from '@renderer/assets/images/md-outline-content-copy.svg?react'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { IconButton } from '@renderer/components/IconButton'
 import { Loader } from '@renderer/components/Loader'

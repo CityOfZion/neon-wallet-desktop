@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TbTransform } from 'react-icons/tb'
 import { BlockchainService, BSClaimable } from '@cityofzion/blockchain-service'
+import TbTransform from '@renderer/assets/images/tb-transform.svg?react'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { Button } from '@renderer/components/Button'
 import { Loader } from '@renderer/components/Loader'

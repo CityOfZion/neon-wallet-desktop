@@ -1,6 +1,8 @@
 import React, { ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react'
-import { TbCheck, TbChevronRight, TbCircleFilled } from 'react-icons/tb'
 import * as ContextMenuPrimitive from '@radix-ui/react-context-menu'
+import TbCheck from '@renderer/assets/images/tb-check.svg?react'
+import TbChevronRight from '@renderer/assets/images/tb-chevron-right.svg?react'
+import TbCircleFilled from '@renderer/assets/images/tb-filled-circle.svg?react'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 const Root = ContextMenuPrimitive.Root

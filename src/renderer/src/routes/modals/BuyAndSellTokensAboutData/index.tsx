@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import { MdInfoOutline, MdLaunch } from 'react-icons/md'
+import MdInfoOutline from '@renderer/assets/images/md-info-outline.svg?react'
+import MdLaunch from '@renderer/assets/images/md-launch.svg?react'
 import SumsubLogo from '@renderer/assets/images/sumsub-logo.svg?react'
 import UnlimitLogo from '@renderer/assets/images/unlimit-logo.svg?react'
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'

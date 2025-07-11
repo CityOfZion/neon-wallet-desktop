@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { MdContentCopy } from 'react-icons/md'
+import MdContentCopy from '@renderer/assets/images/md-content-copy.svg?react'
 import { Button } from '@renderer/components/Button'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'

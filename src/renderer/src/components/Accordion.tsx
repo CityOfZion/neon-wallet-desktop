@@ -1,6 +1,6 @@
 import { ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react'
-import { MdExpandMore } from 'react-icons/md'
 import * as AccordionPrimitive from '@radix-ui/react-accordion'
+import MdExpandMore from '@renderer/assets/images/md-expand-more.svg?react'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 const Root = AccordionPrimitive.Root

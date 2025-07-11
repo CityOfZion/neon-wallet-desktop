@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
-import { TbPlug, TbPlugX } from 'react-icons/tb'
 import { TSession, useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
+import TbPlug from '@renderer/assets/images/tb-plug.svg?react'
+import TbPlugX from '@renderer/assets/images/tb-plug-x.svg?react'
 import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'

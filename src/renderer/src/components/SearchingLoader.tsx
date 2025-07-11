@@ -1,5 +1,5 @@
 import { cloneElement } from 'react'
-import { TbEyeSearch } from 'react-icons/tb'
+import TbEyeSearch from '@renderer/assets/images/tb-eye-search.svg?react'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 type TProps = {

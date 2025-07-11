@@ -1,6 +1,9 @@
 import { cloneElement, ComponentProps } from 'react'
 import { useTranslation } from 'react-i18next'
-import { MdLooks3, MdLooks4, MdLooksOne, MdLooksTwo } from 'react-icons/md'
+import MdLooks3 from '@renderer/assets/images/md-looks-3.svg?react'
+import MdLooks4 from '@renderer/assets/images/md-looks-4.svg?react'
+import MdLooksOne from '@renderer/assets/images/md-looks-one.svg?react'
+import MdLooksTwo from '@renderer/assets/images/md-looks-two.svg?react'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 type TProps = ComponentProps<'div'> & {

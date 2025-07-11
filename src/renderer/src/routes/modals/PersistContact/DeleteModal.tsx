@@ -1,5 +1,5 @@
-import { MdDeleteForever } from 'react-icons/md'
-import { PiWarningLight } from 'react-icons/pi'
+import MdDeleteForever from '@renderer/assets/images/md-delete-forever.svg?react'
+import PiWarningLight from '@renderer/assets/images/pi-warning-light.svg?react'
 import { Button } from '@renderer/components/Button'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'

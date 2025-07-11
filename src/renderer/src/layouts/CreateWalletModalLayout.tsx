@@ -1,6 +1,9 @@
 import { useTranslation } from 'react-i18next'
-import { MdLooks3, MdLooks4, MdLooksOne, MdLooksTwo } from 'react-icons/md'
-import { TbPlus } from 'react-icons/tb'
+import MdLooks3 from '@renderer/assets/images/md-looks-3.svg?react'
+import MdLooks4 from '@renderer/assets/images/md-looks-4.svg?react'
+import MdLooksOne from '@renderer/assets/images/md-looks-one.svg?react'
+import MdLooksTwo from '@renderer/assets/images/md-looks-two.svg?react'
+import TbPlus from '@renderer/assets/images/tb-plus.svg?react'
 import { Separator } from '@renderer/components/Separator'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 

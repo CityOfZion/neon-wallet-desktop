@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { TbArrowRight } from 'react-icons/tb'
+import TbArrowRight from '@renderer/assets/images/tb-arrow-right.svg?react'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 type TProps = {

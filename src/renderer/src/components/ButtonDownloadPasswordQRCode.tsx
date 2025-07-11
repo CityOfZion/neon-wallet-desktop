@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { MdDownload } from 'react-icons/md'
+import MdDownload from '@renderer/assets/images/md-download.svg?react'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { QRCodeSVG } from 'qrcode.react'

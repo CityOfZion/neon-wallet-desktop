@@ -1,6 +1,6 @@
 import { cloneElement } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TbPackageImport } from 'react-icons/tb'
+import TbPackageImport from '@renderer/assets/images/tb-package-import.svg?react'
 import { MigrateSteps } from '@renderer/components/MigrateSteps'
 import { Separator } from '@renderer/components/Separator'
 

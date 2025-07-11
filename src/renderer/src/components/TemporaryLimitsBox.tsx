@@ -1,6 +1,6 @@
 import { ComponentProps } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TbX } from 'react-icons/tb'
+import TbX from '@renderer/assets/images/tb-x.svg?react'
 
 type TProps = ComponentProps<'div'>
 

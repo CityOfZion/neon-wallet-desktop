@@ -1,4 +1,4 @@
-import { PiSealCheck } from 'react-icons/pi'
+import PiSealCheck from '@renderer/assets/images/pi-seal-check.svg?react'
 import { useModalState } from '@renderer/hooks/useModalRouter'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 

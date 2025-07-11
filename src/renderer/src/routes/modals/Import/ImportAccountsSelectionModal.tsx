@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TbFileImport } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
+import TbFileImport from '@renderer/assets/images/tb-file-import.svg?react'
 import { Button } from '@renderer/components/Button'
 import {
   MnemonicOrKeyAccountSelection,

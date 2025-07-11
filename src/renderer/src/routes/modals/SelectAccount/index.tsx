@@ -1,6 +1,6 @@
 import { Fragment, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { MdCheck } from 'react-icons/md'
+import MdCheck from '@renderer/assets/images/md-check.svg?react'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { Button } from '@renderer/components/Button'
 import { Select } from '@renderer/components/Select'

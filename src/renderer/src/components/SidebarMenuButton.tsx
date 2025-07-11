@@ -1,5 +1,5 @@
-import { MdChevronRight } from 'react-icons/md'
 import { NavLink } from 'react-router-dom'
+import MdChevronRight from '@renderer/assets/images/md-chevron-right.svg?react'
 import { Separator } from '@renderer/components/Separator'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 

@@ -1,7 +1,5 @@
 import { ChangeEvent, Dispatch, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TbStepInto, TbStepOut } from 'react-icons/tb'
-import { VscCircleFilled } from 'react-icons/vsc'
 import {
   BlockchainService,
   BSBigNumberHelper,
@@ -11,6 +9,9 @@ import {
   isCalculableFee,
   Token,
 } from '@cityofzion/blockchain-service'
+import TbStepInto from '@renderer/assets/images/tb-step-into.svg?react'
+import TbStepOut from '@renderer/assets/images/tb-step-out.svg?react'
+import VscCircleFilled from '@renderer/assets/images/vsc-circle-filled.svg?react'
 import { ActionStep } from '@renderer/components/ActionStep'
 import { ActionStepSeparator } from '@renderer/components/ActionStepSeparator'
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'

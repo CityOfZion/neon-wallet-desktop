@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { PiSealCheck } from 'react-icons/pi'
+import PiSealCheck from '@renderer/assets/images/pi-seal-check.svg?react'
 
 export const ChangePasswordStep3 = (): JSX.Element => {
   const { t } = useTranslation('pages', { keyPrefix: 'settings.changePassword.step3' })

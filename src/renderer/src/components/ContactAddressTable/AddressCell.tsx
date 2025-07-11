@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { MdOutlineContentCopy } from 'react-icons/md'
+import MdOutlineContentCopy from '@renderer/assets/images/md-outline-content-copy.svg?react'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useNameService } from '@renderer/hooks/useNameService'

@@ -1,5 +1,5 @@
 import { ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react'
-import { MdSearch } from 'react-icons/md'
+import MdSearch from '@renderer/assets/images/md-search.svg?react'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { Command as CommandPrimitive } from 'cmdk'
 

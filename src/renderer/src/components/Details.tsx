@@ -1,5 +1,5 @@
 import { cloneElement, ComponentProps } from 'react'
-import { MdOutlineContentCopy } from 'react-icons/md'
+import MdOutlineContentCopy from '@renderer/assets/images/md-outline-content-copy.svg?react'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 

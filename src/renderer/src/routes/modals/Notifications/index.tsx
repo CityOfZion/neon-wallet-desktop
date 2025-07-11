@@ -1,6 +1,6 @@
 import { Fragment } from 'react/jsx-runtime'
 import { useTranslation } from 'react-i18next'
-import { TbBell } from 'react-icons/tb'
+import TbBell from '@renderer/assets/images/tb-bell.svg?react'
 import { Separator } from '@renderer/components/Separator'
 import { useNotificationsSelector } from '@renderer/hooks/useAuthSelector'
 import { SideModalLayout } from '@renderer/layouts/SideModal'

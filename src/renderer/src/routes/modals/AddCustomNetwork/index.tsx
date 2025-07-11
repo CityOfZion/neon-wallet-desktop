@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { TbCube3dSphere } from 'react-icons/tb'
+import TbCube3dSphere from '@renderer/assets/images/tb-cube-3d-sphere.svg?react'
 import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'

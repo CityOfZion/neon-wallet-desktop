@@ -1,7 +1,7 @@
 import { Dispatch, Fragment, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TbShoppingBag } from 'react-icons/tb'
 import { Location, useBlocker, useLocation, useNavigate } from 'react-router-dom'
+import TbShoppingBag from '@renderer/assets/images/tb-shopping-bag.svg?react'
 import { CommonScreenActions } from '@renderer/components/CommonScreenActions'
 import { isConfigured } from '@renderer/constants/buy-and-sell-tokens'
 import { TestHelper } from '@renderer/helpers/TestHelper'

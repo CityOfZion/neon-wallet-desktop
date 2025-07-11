@@ -1,5 +1,6 @@
 import { forwardRef, HTMLAttributes, TdHTMLAttributes, ThHTMLAttributes } from 'react'
-import { TbCaretDownFilled, TbCaretUpFilled } from 'react-icons/tb'
+import TbCaretDownFilled from '@renderer/assets/images/tb-filled-caret-down.svg?react'
+import TbCaretUpFilled from '@renderer/assets/images/tb-filled-caret-up.svg?react'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 const Root = forwardRef<HTMLTableElement, HTMLAttributes<HTMLTableElement>>(({ className, ...props }, ref) => (

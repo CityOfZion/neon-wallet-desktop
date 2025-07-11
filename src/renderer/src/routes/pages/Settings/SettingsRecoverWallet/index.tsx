@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
-import { TbReload } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
+import TbReload from '@renderer/assets/images/tb-reload.svg?react'
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'

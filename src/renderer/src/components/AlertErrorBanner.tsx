@@ -1,5 +1,5 @@
 import { cloneElement, ComponentProps } from 'react'
-import { TbAlertTriangle } from 'react-icons/tb'
+import TbAlertTriangle from '@renderer/assets/images/tb-alert-triangle.svg?react'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 export type TAlertErrorBanner = {

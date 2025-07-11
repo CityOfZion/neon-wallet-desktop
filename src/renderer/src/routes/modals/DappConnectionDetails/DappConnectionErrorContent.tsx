@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { MdArrowBack } from 'react-icons/md'
+import MdArrowBack from '@renderer/assets/images/md-arrow-back.svg?react'
 import { Button } from '@renderer/components/Button'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 

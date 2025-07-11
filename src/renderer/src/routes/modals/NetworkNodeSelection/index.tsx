@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TbCube3dSphere, TbRefresh } from 'react-icons/tb'
+import TbCube3dSphere from '@renderer/assets/images/tb-cube-3d-sphere.svg?react'
+import TbRefresh from '@renderer/assets/images/tb-refresh.svg?react'
 import { Button } from '@renderer/components/Button'
 import { Checkbox } from '@renderer/components/Checkbox'
 import { Loader } from '@renderer/components/Loader'

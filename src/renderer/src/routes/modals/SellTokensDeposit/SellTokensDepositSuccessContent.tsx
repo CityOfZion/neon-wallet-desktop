@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
-import { MdOutlineContentCopy } from 'react-icons/md'
-import { TbReceipt } from 'react-icons/tb'
+import MdOutlineContentCopy from '@renderer/assets/images/md-outline-content-copy.svg?react'
+import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
 import { IconButton } from '@renderer/components/IconButton'
 import { Separator } from '@renderer/components/Separator'
 import { Tooltip } from '@renderer/components/Tooltip'
