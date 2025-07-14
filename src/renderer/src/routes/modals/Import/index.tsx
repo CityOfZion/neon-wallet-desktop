@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import TbFileImport from '@renderer/assets/images/tb-file-import.svg?react'
@@ -7,13 +8,20 @@ import { Textarea } from '@renderer/components/Textarea'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { useAccountUtils } from '@renderer/hooks/useAccountSelector'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
+import { useDebounceFunction } from '@renderer/hooks/useDebounceFunction'
 import { useImportAction } from '@renderer/hooks/useImportAction'
-import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
+import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
+
+type TModalState = {
+  text: string
+}
 
 export const ImportModal = () => {
   const { modalNavigate } = useModalNavigate()
+  const modalState = useModalState<TModalState>()
   const { t } = useTranslation('modals', { keyPrefix: 'import' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'wallet' })
   const { doesAccountExist } = useAccountUtils()
@@ -62,12 +70,28 @@ export const ImportModal = () => {
     modalNavigate('import-watch-accounts', { state: { address } })
   }
 
-  const { actionData, actionState, handleAct, handleChange, handleSubmit } = useImportAction({
+  const { actionData, actionDataRef, actionState, handleAct, handleChange, handleSubmit } = useImportAction({
     key: submitKey,
     mnemonic: submitMnemonic,
     encrypted: submitEncrypted,
     address: submitAddress,
   })
+
+  const debounceModalState = useDebounceFunction()
+
+  useEffect(() => {
+    debounceModalState(async () => {
+      if (!modalState.text) return
+
+      handleChange(modalState.text)
+
+      await SharedUtilsHelper.sleep(500)
+
+      handleSubmit(actionDataRef.current)
+    }, 250)
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [modalState.text])
 
   return (
     <SideModalLayout
