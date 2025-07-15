@@ -1,4 +1,4 @@
-import { ChangeEventHandler, forwardRef, useCallback, useEffect, useImperativeHandle, useRef } from 'react'
+import { ChangeEventHandler, forwardRef, useEffect, useImperativeHandle, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import MdCancel from '@renderer/assets/images/md-cancel.svg?react'
 import MdContentPasteGo from '@renderer/assets/images/md-content-paste-go.svg?react'
@@ -55,18 +55,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TProps>(
 
     const clear = () => {
       setValue('')
-      calcHeight()
     }
-
-    const calcHeight = useCallback(() => {
-      if (!internalRef.current) return
-
-      internalRef.current.style.height = '0px'
-
-      const scrollHeight = internalRef.current.scrollHeight
-
-      internalRef.current.style.height = scrollHeight + 'px'
-    }, [])
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
       if (event.key === 'Enter') {
@@ -76,15 +65,20 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TProps>(
     }
 
     const handleChange: ChangeEventHandler<HTMLTextAreaElement> = event => {
-      calcHeight()
       onChange?.(event)
     }
 
     useImperativeHandle(ref, () => internalRef.current!, [])
 
     useEffect(() => {
-      calcHeight()
-    }, [multiline, calcHeight])
+      if (!internalRef.current) return
+
+      internalRef.current.style.height = '0px'
+
+      const scrollHeight = internalRef.current.scrollHeight
+
+      internalRef.current.style.height = scrollHeight + 'px'
+    }, [multiline, props.value])
 
     return (
       <div className={StyleHelper.mergeStyles('w-full', containerClassName)}>

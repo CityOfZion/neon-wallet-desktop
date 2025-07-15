@@ -147,9 +147,18 @@ const useRegisterDeeplinkListeners = () => {
 
       window.api.sendAsync('resetInitialDeeplink')
 
-      if (uri === 'neon3://migration') {
+      const [_prefix, path] = uri.split('://')
+
+      if (path.startsWith('migration')) {
         navigate('/app/settings/security/migrate-accounts')
         modalNavigate('migrate-accounts-step-2')
+        return
+      }
+
+      if (path.startsWith('import?mnemonic')) {
+        let [, mnemonic] = path.split('=')
+        mnemonic = atob(mnemonic)
+        modalNavigate('import', { state: { text: mnemonic } })
         return
       }
 

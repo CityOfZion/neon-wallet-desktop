@@ -31,11 +31,13 @@ export type TUseActionsActionState<T> = {
 
 export type TUseActionsReturn<T> = {
   actionData: T
+  actionDataRef: React.MutableRefObject<T>
   setData: (values: Partial<T> | ((prev: T) => Partial<T>)) => void
   setError: (key: keyof T, error: string) => void
   setDataFromEventWrapper: (key: keyof T) => (event: any) => void
   clearErrors: (key?: keyof T | (keyof T)[]) => void
   actionState: TUseActionsActionState<T>
+  actionStateRef: React.MutableRefObject<TUseActionsActionState<T>>
   handleAct: (callback: (data: T) => void | Promise<void>) => (event: FormEvent | MouseEvent) => Promise<void>
   reset: () => void
 }

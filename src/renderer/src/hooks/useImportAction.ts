@@ -26,9 +26,8 @@ export const useImportAction = (
   const { verifyIfAddressAlreadyExists = true } = options
   const { t } = useTranslation('hooks', { keyPrefix: 'useImportAction' })
   const { doesAccountExist } = useAccountUtils()
-  const { handleAct, setError, actionState, actionData, setData, clearErrors, reset } = useActions<TFormData>({
-    text: '',
-  })
+  const { handleAct, setError, actionState, actionData, actionDataRef, actionStateRef, setData, clearErrors, reset } =
+    useActions<TFormData>({ text: '' })
 
   const validateMnemonic = (value: string) => {
     const isValid = MnemonicHelper.isValidMnemonic(value)
@@ -44,8 +43,8 @@ export const useImportAction = (
       return true
     })
 
-  const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    const value = UtilsHelper.removeSpecialCharacters(event.target.value)
+  const handleChange = (data: ChangeEvent<HTMLTextAreaElement> | string) => {
+    const value = UtilsHelper.removeSpecialCharacters(typeof data === 'string' ? data : data.target.value)
     setData({ text: value, inputType: undefined })
 
     try {
@@ -102,5 +101,5 @@ export const useImportAction = (
     }
   }
 
-  return { actionData, actionState, handleAct, handleChange, handleSubmit, reset }
+  return { actionData, actionDataRef, actionState, actionStateRef, handleAct, handleChange, handleSubmit, reset }
 }

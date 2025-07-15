@@ -168,11 +168,13 @@ export const useActions = <T extends TUseActionsData>(
 
   return {
     actionData,
+    actionDataRef,
     setData,
     setError,
     setDataFromEventWrapper,
     clearErrors,
     actionState,
+    actionStateRef,
     handleAct,
     reset,
   }
