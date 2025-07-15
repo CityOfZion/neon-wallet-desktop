@@ -30,7 +30,7 @@ export function buildQueryKeyBalance(
   network: TNetwork<TBlockchainServiceKey>,
   currency?: TCurrency
 ) {
-  const key: any[] = ['balance', address, blockchain, network.id]
+  const key: any[] = ['balance', address, blockchain, network]
 
   if (currency) {
     key.push(currency)
@@ -96,7 +96,6 @@ const fixBalanceResult = (
   hiddenTokensByBlockchain: THiddenTokenByBlockchain
 ): TBalance => {
   const tokenBalancesMapClone = cloneDeep(result.tokensBalancesMap)
-
   const hiddenTokens = hiddenTokensByBlockchain[result.blockchain]
   let tokensBalances: TTokenBalance[] = []
 

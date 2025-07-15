@@ -18,13 +18,11 @@ const fetchNodes = async (blockchain: TBlockchainServiceKey, selectedNetwork: TN
 export const useNodes = (blockchain: TBlockchainServiceKey) => {
   const { network } = useSelectedNetworkSelector(blockchain)
 
-  const query = useQuery({
-    queryKey: ['nodes', blockchain, network.id],
+  return useQuery({
+    queryKey: ['nodes', blockchain, network],
     queryFn: fetchNodes.bind(null, blockchain, network),
     staleTime: 0,
   })
-
-  return query
 }
 
 export const useAllNodes = () => {
@@ -33,7 +31,7 @@ export const useAllNodes = () => {
   return useQueries({
     queries: Object.entries(networkByBlockchain).map(([blockchain, network]) => {
       return {
-        queryKey: ['nodes', blockchain, network.id],
+        queryKey: ['nodes', blockchain, network],
         queryFn: fetchNodes.bind(null, blockchain as TBlockchainServiceKey, network),
         staleTime: 0,
       }

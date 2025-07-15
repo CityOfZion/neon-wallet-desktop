@@ -21,7 +21,7 @@ const { t } = getI18next()
 const buildQueryKeyUnclaimed = (account: IAccountState, network: TNetwork<TBlockchainServiceKey>) => [
   'claim',
   account.address,
-  network.id,
+  network,
 ]
 
 const getUnclaimedInfos = async (

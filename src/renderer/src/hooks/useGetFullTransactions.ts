@@ -60,7 +60,7 @@ export const buildGetFullTransactionsQueryKey = ({
   dateTo,
   page,
 }: TBuildGetFullTransactionsQueryKeyParams) => {
-  const queryKey: any[] = ['get-full-transactions-by-address', address, blockchain, network.id]
+  const queryKey: any[] = ['get-full-transactions-by-address', address, blockchain, network]
 
   if (dateFrom) queryKey.push(formatDateString(dateFrom))
   if (dateTo) queryKey.push(formatDateString(dateTo))
