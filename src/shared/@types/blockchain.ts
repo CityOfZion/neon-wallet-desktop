@@ -2,6 +2,7 @@ import { Network } from '@cityofzion/blockchain-service'
 import { BSEthereumNetworkId } from '@cityofzion/bs-ethereum'
 import { BSNeoLegacyNetworkId } from '@cityofzion/bs-neo-legacy'
 import { BSNeo3NetworkId } from '@cityofzion/bs-neo3'
+import { BSNeoXNetworkId } from '@cityofzion/bs-neox'
 
 import { IAccountState, IWalletState, TAccountType, TSkin, TWalletType } from './store'
 
@@ -49,7 +50,7 @@ type TNetworkIdsByBlockchain = {
   neo3: BSNeo3NetworkId
   neoLegacy: BSNeoLegacyNetworkId
   ethereum: BSEthereumNetworkId
-  neox: BSEthereumNetworkId
+  neox: BSNeoXNetworkId
   polygon: BSEthereumNetworkId
   base: BSEthereumNetworkId
   arbitrum: BSEthereumNetworkId

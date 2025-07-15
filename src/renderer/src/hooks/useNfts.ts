@@ -10,18 +10,16 @@ export const useNfts = (account: IAccountState) => {
   const { network } = useSelectedNetworkSelector(account.blockchain)
 
   const query = useInfiniteQuery({
-    queryKey: ['nfts', account.id, network.id],
+    queryKey: ['nfts', account.id, network],
     queryFn: async ({ pageParam }) => {
       const blockchainService = bsAggregator.blockchainServicesByName[account.blockchain]
 
       if (!hasNft(blockchainService)) return { items: [] }
 
-      const response = await blockchainService.nftDataService.getNftsByAddress({
+      return await blockchainService.nftDataService.getNftsByAddress({
         address: account.address,
         cursor: pageParam,
       })
-
-      return response
     },
     initialPageParam: undefined as string | undefined,
     getNextPageParam: lastPage => lastPage.nextCursor,
