@@ -1,7 +1,6 @@
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { hasExplorerService } from '@cityofzion/blockchain-service'
-import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
 import {
@@ -11,6 +10,7 @@ import {
   TFullTransactionsItem,
 } from '@shared/@types/hooks'
 import { IAccountState, TSelectedNetworks } from '@shared/@types/store'
+import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 import { Query, QueryClient, useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
 import * as dateFns from 'date-fns'
 import { cloneDeep } from 'lodash'
@@ -163,8 +163,10 @@ const getFullTransactions = async ({
             ...event,
             from,
             to,
-            fromAccount: from ? allAccounts.find(AccountHelper.predicate({ address: from, blockchain })) : undefined,
-            toAccount: to ? allAccounts.find(AccountHelper.predicate({ address: to, blockchain })) : undefined,
+            fromAccount: from
+              ? allAccounts.find(SharedAccountHelper.predicate({ address: from, blockchain }))
+              : undefined,
+            toAccount: to ? allAccounts.find(SharedAccountHelper.predicate({ address: to, blockchain })) : undefined,
           })),
         })
       })
@@ -236,7 +238,7 @@ export const useGetFullTransactions = ({ accounts, dateFrom, dateTo }: TProps) =
 
     pendingTransactions.forEach(({ hash, time, account, to, from, assetHash, token, ...transfer }) => {
       if (
-        !accounts.some(AccountHelper.predicate(account)) ||
+        !accounts.some(SharedAccountHelper.predicate(account)) ||
         !dateFns.isWithinInterval(createNewDateByTime(time), { start: dateFrom, end: dateTo })
       )
         return

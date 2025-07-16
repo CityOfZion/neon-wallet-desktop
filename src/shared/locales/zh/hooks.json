@@ -62,6 +62,10 @@
     "notificationTitle": "您有可迁移的代币！",
     "notificationDescription": "Neo Legacy 到 Neo N3 可迁移！"
   },
+  "useFraudulentTokensNotification": {
+    "notificationTitle": "您的账户中存在欺诈性代币！",
+    "notificationDescription": "我们发现您的账户中存在被社区标记为欺诈的代币，建议您将其隐藏，并避免与其进行任何形式的交互。"
+  },
   "useHardwareWalletByUsb": {
     "errors": {
       "noDevice": "未连接设备"

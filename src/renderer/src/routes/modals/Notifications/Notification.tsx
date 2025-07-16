@@ -105,7 +105,7 @@ export const Notification = ({ notification }: TProps) => {
     >
       {cloneElement(icon, {
         'aria-hidden': true,
-        className: StyleHelper.mergeStyles(icon.props?.className, 'w-5 h-5 mt-[22px]', {
+        className: StyleHelper.mergeStyles(icon.props?.className, 'h-5 max-h-5 min-h-5 w-5 min-w-5 mt-[22px]', {
           'text-gray-300': notification.read,
         }),
       })}

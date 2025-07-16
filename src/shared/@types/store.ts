@@ -149,6 +149,11 @@ export type TNotificationNavigateAction = {
         blockchain: TBlockchainServiceKey
       }
     | {
+        to: 'account-tokens'
+        address: string
+        blockchain: TBlockchainServiceKey
+      }
+    | {
         to: 'migration-neo3'
         address: string
         blockchain: TBlockchainServiceKey
