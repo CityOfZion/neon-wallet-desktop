@@ -1,7 +1,6 @@
 import { Account, BlockchainService, hasLedger } from '@cityofzion/blockchain-service'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { TAccountHelperPredicateParams } from '@shared/@types/helpers'
 import { IAccountState } from '@shared/@types/store'
 
 type TGetServiceAccountParams = {
@@ -10,14 +9,6 @@ type TGetServiceAccountParams = {
 }
 
 export class AccountHelper {
-  static predicate({ address, blockchain }: TAccountHelperPredicateParams) {
-    return (account: TAccountHelperPredicateParams) => address === account.address && blockchain === account.blockchain
-  }
-
-  static predicateNot({ address, blockchain }: TAccountHelperPredicateParams) {
-    return (account: TAccountHelperPredicateParams) => address !== account.address || blockchain !== account.blockchain
-  }
-
   static getNextOrderOrMissing(accounts: IAccountState[], blockchain: TBlockchainServiceKey) {
     const orders = accounts.filter(account => account.blockchain === blockchain).map(({ order }) => order)
 

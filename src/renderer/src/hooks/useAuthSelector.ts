@@ -12,7 +12,7 @@ const priorityOrder: Record<TNotificationPriority, number> = {
 const orderNotifications = <T extends TNotification>(notifications: T[]): T[] => {
   return lodash.orderBy(
     [...notifications],
-    [item => !!item.read, item => priorityOrder[item.priority], 'date'],
+    [item => item.read, item => priorityOrder[item.priority], 'date'],
     ['asc', 'asc', 'desc']
   )
 }

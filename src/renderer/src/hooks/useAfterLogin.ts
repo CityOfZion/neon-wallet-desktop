@@ -2,9 +2,10 @@ import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { hasNft } from '@cityofzion/blockchain-service'
+import { BSTokenHelper, hasNft } from '@cityofzion/blockchain-service'
 import { BSNeoLegacy } from '@cityofzion/bs-neo-legacy'
 import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
+import { FRAUDULENT_TOKEN_HASHES_BY_BLOCKCHAIN } from '@renderer/constants/fraudulent-tokens'
 import { LOCAL_SKINS } from '@renderer/constants/skins'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
@@ -21,7 +22,7 @@ import { useCurrentLoginSessionSelector, useUnreadNotificationsSelector } from '
 import { useBalances } from './useBalances'
 import { useBlockchainActions } from './useBlockchainActions'
 import { useModalHistories, useModalNavigate } from './useModalRouter'
-import { useMountUnsafe } from './useMount'
+import { useMount, useMountUnsafe } from './useMount'
 import { useAppDispatch } from './useRedux'
 import { useSelectedNetworkByBlockchainSelector } from './useSettingsSelector'
 import { useUnlockedSkinIdsSelector } from './useUtilitySelector'
@@ -306,6 +307,74 @@ const useMigrationNeo3Notification = () => {
   }, [balanceQuery.data, balanceQuery.isLoading, dispatch, t, unreadNotificationsRef])
 }
 
+const useFraudulentTokensNotification = () => {
+  const { accounts } = useAccountsSelector()
+  const { unreadNotificationsRef } = useUnreadNotificationsSelector()
+  const dispatch = useAppDispatch()
+
+  const hasAlreadyNotifiedRef = useRef(false)
+
+  const balancesQuery = useBalances(accounts, {
+    showType: 'active',
+    queryOptions: { gcTime: Infinity, staleTime: Infinity },
+  })
+
+  useMount(
+    () => {
+      if (balancesQuery.isLoading || hasAlreadyNotifiedRef.current) return
+
+      hasAlreadyNotifiedRef.current = true
+
+      balancesQuery.data.forEach(balance => {
+        if (
+          !balance.tokensBalances.some(
+            tokenBalance =>
+              !!FRAUDULENT_TOKEN_HASHES_BY_BLOCKCHAIN[balance.blockchain]?.has(
+                BSTokenHelper.normalizeHash(tokenBalance.token.hash)
+              )
+          )
+        )
+          return
+
+        const hasUnreadNotification = unreadNotificationsRef.current.some(
+          ({ action }) =>
+            !!action &&
+            action.type === 'navigate' &&
+            action.payload.to === 'account-tokens' &&
+            SharedAccountHelper.predicate(balance)({
+              address: action.payload.address,
+              blockchain: action.payload.blockchain,
+            })
+        )
+
+        if (hasUnreadNotification) return
+
+        dispatch(
+          authReducerActions.saveNotification({
+            title: 'hooks:useFraudulentTokensNotification.notificationTitle',
+            previewBody: 'hooks:useFraudulentTokensNotification.notificationDescription',
+            priority: 'high',
+            action: {
+              type: 'navigate',
+              payload: {
+                to: 'account-tokens',
+                address: balance.address,
+                blockchain: balance.blockchain,
+              },
+            },
+            related: {
+              address: balance.address,
+              blockchain: balance.blockchain,
+            },
+          })
+        )
+      })
+    },
+    [balancesQuery.data, balancesQuery.isLoading, dispatch, unreadNotificationsRef],
+    2000
+  )
+}
+
 const useVotingNeo3Notification = () => {
   const { ownAccounts } = useOwnAccountsSelector()
   const { unreadNotificationsRef } = useUnreadNotificationsSelector()
@@ -380,6 +449,7 @@ const useRegisterHotKeys = () => {
 
 export const useAfterLogin = () => {
   useMigrationNeo3Notification()
+  useFraudulentTokensNotification()
   useRegisterWalletConnectListeners()
   useRegisterHardwareWalletListeners()
   useRegisterDeeplinkListeners()

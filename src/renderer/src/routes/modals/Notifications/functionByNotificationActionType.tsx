@@ -47,6 +47,12 @@ export const functionByNotificationActionType: TFunctionByNotificationActionType
         modalActions.modalErase('side')
         pageNavigate(`/app/wallets/${account.id}/transactions`)
       })
+      .with({ to: 'account-tokens' }, payload => {
+        const account = getAccount(payload)
+
+        modalActions.modalErase('side')
+        pageNavigate(`/app/wallets/${account.id}/tokens`)
+      })
       .with({ to: 'migration-neo3' }, payload => {
         const account = getAccount(payload)
 
