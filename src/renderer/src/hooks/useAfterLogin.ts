@@ -326,48 +326,55 @@ const useFraudulentTokensNotification = () => {
       hasAlreadyNotifiedRef.current = true
 
       balancesQuery.data.forEach(balance => {
-        if (
-          !balance.tokensBalances.some(
-            tokenBalance =>
-              !!FRAUDULENT_TOKEN_HASHES_BY_BLOCKCHAIN[balance.blockchain]?.has(
-                BSTokenHelper.normalizeHash(tokenBalance.token.hash)
-              )
+        const fraudulentTokenBalances = balance.tokensBalances.filter(
+          tokenBalance =>
+            !!FRAUDULENT_TOKEN_HASHES_BY_BLOCKCHAIN[balance.blockchain]?.has(
+              BSTokenHelper.normalizeHash(tokenBalance.token.hash)
+            )
+        )
+
+        if (fraudulentTokenBalances.length === 0) return
+
+        const tokenNames = fraudulentTokenBalances.map(({ token }) => token.name)
+
+        tokenNames.forEach(tokenName => {
+          const hasUnreadNotification = unreadNotificationsRef.current.some(
+            ({ titleValue, previewBodyValue, action }) =>
+              !!action &&
+              action.type === 'navigate' &&
+              action.payload.to === 'account-tokens' &&
+              titleValue === tokenName &&
+              previewBodyValue === tokenName &&
+              SharedAccountHelper.predicate(balance)({
+                address: action.payload.address,
+                blockchain: action.payload.blockchain,
+              })
           )
-        )
-          return
 
-        const hasUnreadNotification = unreadNotificationsRef.current.some(
-          ({ action }) =>
-            !!action &&
-            action.type === 'navigate' &&
-            action.payload.to === 'account-tokens' &&
-            SharedAccountHelper.predicate(balance)({
-              address: action.payload.address,
-              blockchain: action.payload.blockchain,
-            })
-        )
+          if (hasUnreadNotification) return
 
-        if (hasUnreadNotification) return
-
-        dispatch(
-          authReducerActions.saveNotification({
-            title: 'hooks:useFraudulentTokensNotification.notificationTitle',
-            previewBody: 'hooks:useFraudulentTokensNotification.notificationDescription',
-            priority: 'high',
-            action: {
-              type: 'navigate',
-              payload: {
-                to: 'account-tokens',
+          dispatch(
+            authReducerActions.saveNotification({
+              title: 'hooks:useFraudulentTokensNotification.notificationTitle',
+              titleValue: tokenName,
+              previewBody: 'hooks:useFraudulentTokensNotification.notificationDescription',
+              previewBodyValue: tokenName,
+              priority: 'high',
+              action: {
+                type: 'navigate',
+                payload: {
+                  to: 'account-tokens',
+                  address: balance.address,
+                  blockchain: balance.blockchain,
+                },
+              },
+              related: {
                 address: balance.address,
                 blockchain: balance.blockchain,
               },
-            },
-            related: {
-              address: balance.address,
-              blockchain: balance.blockchain,
-            },
-          })
-        )
+            })
+          )
+        })
       })
     },
     [balancesQuery.data, balancesQuery.isLoading, dispatch, unreadNotificationsRef],
