@@ -746,13 +746,6 @@
     "viewStatusButtonLabel": "View status",
     "revalidateMigrationButtonLabel": "Revalidate migration"
   },
-  "migrationNeo3ClaimAlert": {
-    "title": "You're trying to migrate while having unclaimed {{tokenSymbol}}",
-    "description": "Claim your {{tokenSymbol}} in the Account Overview screen, and try again.",
-    "buttons": {
-      "understood": "I understand"
-    }
-  },
   "search": {
     "title": "Search Neon",
     "closeButtonLabel": "Close",

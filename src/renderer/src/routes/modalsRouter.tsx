@@ -39,7 +39,6 @@ import { ImportWatchAccountsModal } from './modals/Import/ImportWatchAccountsMod
 import { MigrateAccountsStep2Modal } from './modals/MigrateAccounts/MigrateAccountsStep2'
 import { MigrateAccountsStep3Modal } from './modals/MigrateAccounts/MigrateAccountsStep3'
 import { MigrateAccountsStep4Modal } from './modals/MigrateAccounts/MigrateAccountsStep4'
-import { MigrationNeo3ClaimAlertModal } from './modals/MigrationNeo3ClaimAlert'
 import { MigrationNeo3StatusModal } from './modals/MigrationNeo3Status'
 import { NetworkNodeSelection } from './modals/NetworkNodeSelection'
 import { NetworkSelection } from './modals/NetworkSelection'
@@ -140,7 +139,6 @@ export const modalsRouter: TRoute[] = [
     element: <PrepareHardwareWalletMigrationNeo3Modal />,
   },
   { name: 'migration-neo3-status', type: 'side', size: 'md', element: <MigrationNeo3StatusModal /> },
-  { name: 'migration-neo3-claim-alert', type: 'center', size: 'xs', element: <MigrationNeo3ClaimAlertModal /> },
   { name: 'search', type: 'center', size: 'sm', element: <SearchModal />, closeOnEsc: true, closeOnClickOutside: true },
   { name: 'export-full-transactions', type: 'center', size: 'sm', element: <ExportFullTransactionsModal /> },
   {

@@ -207,7 +207,7 @@
     "exportKeyTitle": "匯出金鑰",
     "exportWalletTitle": "匯出錢包",
     "tooltips": {
-      "migrateRules": "您需要至少 0.1 GAS 或 2 NEO 才能在主網將代幣遷移到 Neo3。所有 {{claimTokenSymbol}} 必須已領取。如果您已經遷移代幣，請等待其到達您的 Neo 3 帳戶。"
+      "migrateRules": "您需要至少 0.1 GAS 或 2 NEO 才能在主網將代幣遷移到 Neo3。如果您已經遷移代幣，請等待其到達您的 Neo 3 帳戶。"
     }
   },
   "contacts": {
