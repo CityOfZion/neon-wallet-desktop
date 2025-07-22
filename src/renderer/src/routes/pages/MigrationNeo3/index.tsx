@@ -36,7 +36,6 @@ import { useMigrationNeo3Validations } from '@renderer/hooks/useMigrationNeo3Val
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useMount } from '@renderer/hooks/useMount'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
-import { useUnclaimed } from '@renderer/hooks/useUnclaimed'
 import { useWalletByIdSelector } from '@renderer/hooks/useWalletSelector'
 import { ContentLayout } from '@renderer/layouts/ContentLayout'
 import { bsAggregator } from '@renderer/libs/blockchainService'
@@ -81,9 +80,7 @@ export const MigrationNeo3Page = () => {
 
   const { wallet } = useWalletByIdSelector(neoLegacyAccount.idWallet)
   const balanceQuery = useBalance(neoLegacyAccount)
-  const unclaimedQuery = useUnclaimed(neoLegacyAccount)
-  const { canMigrateToNeo3, neoLegacyService, shouldClaimBeforeMigrateToNeo3 } =
-    useMigrationNeo3Validations(neoLegacyAccount)
+  const { canMigrateToNeo3, neoLegacyService } = useMigrationNeo3Validations(neoLegacyAccount)
 
   const { actionData, actionState, setData, handleAct } = useActions<TActionsData>({})
 
@@ -166,19 +163,12 @@ export const MigrationNeo3Page = () => {
           throw new Error(t('messages.accountIsNotNeoLegacy'))
         }
 
-        // When these queries are loading, we need to wait for them to finish
-        if (balanceQuery.isLoading || unclaimedQuery.isLoading) {
-          return
-        }
-
-        if (!!unclaimedQuery.data && shouldClaimBeforeMigrateToNeo3(unclaimedQuery.data)) {
-          modalNavigate('migration-neo3-claim-alert', { state: { neoLegacyAccount } })
-          return
-        }
+        // When this query is loading, we need to wait for it to finish
+        if (balanceQuery.isLoading) return
 
         const tokenBalances = balanceQuery.data?.tokensBalances ?? []
-        const unclaimedResult = unclaimedQuery.data
-        if (!canMigrateToNeo3({ tokenBalances, unclaimedResult })) {
+
+        if (!canMigrateToNeo3({ tokenBalances })) {
           throw new Error(t('messages.migrationNotAvailableError'))
         }
 
@@ -237,7 +227,7 @@ export const MigrationNeo3Page = () => {
         handleGoBack()
       }
     },
-    [balanceQuery.isLoading, unclaimedQuery.isLoading, location.state],
+    [balanceQuery.isLoading, location.state],
     1000
   )
 

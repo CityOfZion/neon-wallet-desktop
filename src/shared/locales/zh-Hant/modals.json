@@ -736,13 +736,6 @@
     "viewStatusButtonLabel": "查看狀態",
     "revalidateMigrationButtonLabel": "重新驗證遷移"
   },
-  "migrationNeo3ClaimAlert": {
-    "title": "您嘗試遷移時有未領取的 {{tokenSymbol}}",
-    "description": "請在帳戶總覽畫面領取您的 {{tokenSymbol}}，然後再試一次。",
-    "buttons": {
-      "understood": "我了解了"
-    }
-  },
   "search": {
     "title": "搜尋 Neon",
     "closeButtonLabel": "關閉",

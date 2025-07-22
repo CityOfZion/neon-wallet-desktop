@@ -1,7 +1,6 @@
 import { ComponentProps } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { isClaimable } from '@cityofzion/blockchain-service'
 import TbArrowsExchange from '@renderer/assets/images/tb-arrows-exchange.svg?react'
 import TbCancel from '@renderer/assets/images/tb-cancel.svg?react'
 import TbReplace from '@renderer/assets/images/tb-replace.svg?react'
@@ -15,8 +14,6 @@ import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { useBalance } from '@renderer/hooks/useBalances'
 import { useMigrationNeo3Validations } from '@renderer/hooks/useMigrationNeo3Validations'
 import { useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
-import { useUnclaimed } from '@renderer/hooks/useUnclaimed'
-import { bsAggregator } from '@renderer/libs/blockchainService'
 import { IAccountState } from '@shared/@types/store'
 
 type TProps = {
@@ -29,16 +26,11 @@ export const CommonAccountActions = ({ account, children, className, ...props }:
   const { t } = useTranslation('common', { keyPrefix: 'general' })
   const { t: tWallets } = useTranslation('pages', { keyPrefix: 'wallets' })
   const balanceQuery = useBalance(account)
-  const unclaimedQuery = useUnclaimed(account)
   const { canMigrateToNeo3 } = useMigrationNeo3Validations(account)
 
-  const service = bsAggregator.blockchainServicesByName[account.blockchain]
-
   const tokenBalances = balanceQuery.data?.tokensBalances ?? []
-  const unclaimedResult = unclaimedQuery.data
 
-  const isDisabledMigrationNeo3 =
-    balanceQuery.isLoading || unclaimedQuery.isLoading || !canMigrateToNeo3({ tokenBalances, unclaimedResult })
+  const isDisabledMigrationNeo3 = balanceQuery.isLoading || !canMigrateToNeo3({ tokenBalances })
 
   const isSwapAvailable = !!SWAP_NETWORK_BY_BLOCKCHAIN_AND_NETWORK_ID[account.blockchain][network.id]?.length
 
@@ -56,14 +48,10 @@ export const CommonAccountActions = ({ account, children, className, ...props }:
 
       {account.blockchain === 'neoLegacy' && (
         <Tooltip
-          title={
-            isDisabledMigrationNeo3
-              ? tWallets('tooltips.migrateRules', {
-                  claimTokenSymbol: (isClaimable(service) ? service.claimToken.symbol : '') || 'token',
-                })
-              : ''
-          }
-          contentProps={{ className: 'text-center w-72' }}
+          title={isDisabledMigrationNeo3 ? tWallets('tooltips.migrateRules') : ''}
+          variant="black"
+          delayDuration={0}
+          contentProps={{ className: 'text-center w-72 flex items-center justify-center' }}
           icon={<TbCancel aria-hidden className="h-6 min-h-6 w-6 min-w-6 text-pink" />}
         >
           <Button

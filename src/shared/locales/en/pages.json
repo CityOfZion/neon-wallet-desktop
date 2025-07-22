@@ -207,7 +207,7 @@
     "exportKeyTitle": "Export Key",
     "exportWalletTitle": "Export Wallet",
     "tooltips": {
-      "migrateRules": "You need to have at least 0.1 GAS or 2 NEO to migrate tokens to Neo3 on Mainnet. All {{claimTokenSymbol}} must be claimed. If you've already migrated the tokens, wait for them to arrive in your Neo 3 account."
+      "migrateRules": "You need to have at least 0.1 GAS or 2 NEO to migrate tokens to Neo3 on Mainnet. If you've already migrated the tokens, wait for them to arrive in your Neo 3 account."
     }
   },
   "contacts": {
