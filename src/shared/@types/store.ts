@@ -172,7 +172,9 @@ export type TNotificationPriority = 'low' | 'medium' | 'high'
 export type TNotification = {
   id: string
   title: string
+  titleValue?: string
   previewBody: string
+  previewBodyValue?: string
   date: number
   body?: string
   read: boolean

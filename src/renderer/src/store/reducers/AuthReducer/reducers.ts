@@ -131,9 +131,15 @@ const saveNotification: CaseReducer<IAuthReducer, PayloadAction<TSaveNotificatio
   if (findIndex < 0) {
     applicationData.notifications = [...applicationData.notifications, notification]
 
-    new window.Notification(t(notification.title, { defaultValue: notification.title }), {
-      body: t(notification.previewBody, { defaultValue: notification.previewBody }),
-    })
+    new window.Notification(
+      t(notification.title, { defaultValue: notification.title, value: notification.titleValue }),
+      {
+        body: t(notification.previewBody, {
+          defaultValue: notification.previewBody,
+          value: notification.previewBodyValue,
+        }),
+      }
+    )
 
     return
   }

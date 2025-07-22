@@ -133,22 +133,25 @@ export const Notification = ({ notification }: TProps) => {
             'text-gray-300': notification.read,
           })}
         >
-          {globalT(notification.title, { defaultValue: notification.title })}
+          {globalT(notification.title, { defaultValue: notification.title, value: notification.titleValue })}
         </p>
 
         <p
-          className={StyleHelper.mergeStyles('truncate text-1xs text-gray-100', {
+          className={StyleHelper.mergeStyles('text-1xs text-gray-100', {
             'text-gray-300': notification.read,
           })}
         >
-          {globalT(notification.previewBody, { defaultValue: notification.previewBody })}
+          {globalT(notification.previewBody, {
+            defaultValue: notification.previewBody,
+            value: notification.previewBodyValue,
+          })}
         </p>
 
         {notification.related?.address && (
           <div className="flex gap-2.5">
             {account && (
-              <span className="text-1xs capitalize text-gray-300">
-                {`${t('relatedAccountLabel')}: ${StringHelper.truncateString(account?.name, 10)}`}
+              <span className="w-full max-w-[50%] truncate text-1xs capitalize text-gray-300">
+                {`${t('relatedAccountLabel')}: ${account?.name}`}
               </span>
             )}
 

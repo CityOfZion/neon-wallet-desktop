@@ -63,8 +63,8 @@
     "notificationDescription": "Neo Legacy to Neo N3 migration available!"
   },
   "useFraudulentTokensNotification": {
-    "notificationTitle": "You have fraudulent token(s) in your account!",
-    "notificationDescription": "We've identified token(s) that has been flagged as fraudulent by the community in your account, we suggest hiding it and avoiding any other kind of interaction with it"
+    "notificationTitle": "{{ value }} is a fraudulent token!",
+    "notificationDescription": "We've identified {{ value }} that has been flagged as fraudulent token by the community, we suggest hiding it and avoiding any other kind of interaction with it."
   },
   "useHardwareWalletByUsb": {
     "errors": {

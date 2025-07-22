@@ -15,7 +15,7 @@ export const NotificationsModal = () => {
     <SideModalLayout
       heading={t('title')}
       headingIcon={<TbBell aria-hidden />}
-      contentClassName="flex flex-col items-center px-0"
+      contentClassName="flex flex-col items-center p-0"
     >
       {notifications.length === 0 ? (
         <Fragment>
