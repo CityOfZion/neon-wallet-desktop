@@ -129,7 +129,7 @@ export const Notification = ({ notification }: TProps) => {
         </div>
 
         <p
-          className={StyleHelper.mergeStyles('truncate text-xs font-bold text-white', {
+          className={StyleHelper.mergeStyles('text-xs font-bold text-white', {
             'text-gray-300': notification.read,
           })}
         >
