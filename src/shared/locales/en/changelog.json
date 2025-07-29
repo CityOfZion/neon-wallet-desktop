@@ -2,10 +2,15 @@
   "versionLabel": "Version v{{version}}",
   "notes": [
     {
-      "version": "3.8.1-rc.0",
-      "date": "23 Jul 2025",
-      "changes": [],
-      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.8.1-rc.0"
+      "version": "3.8.1",
+      "date": "29 Jul 2025",
+      "changes": [
+        "Support for 24 word mnemonic",
+        "New Notification: Malicious Token Identified",
+        "Removal of 'claim gas' requirement before enabling Neo Legacy > Neo N3 Migration",
+        "New Feature: Import Mnemonic through deeplinks"
+      ],
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.8.1"
     },
     {
       "version": "3.8.0",
