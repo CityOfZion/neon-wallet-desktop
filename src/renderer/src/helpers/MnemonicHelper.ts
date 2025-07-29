@@ -8,7 +8,7 @@ export class MnemonicHelper {
   static isValidMnemonic(word: string | string[]) {
     const wordArray = Array.isArray(word) ? word : word.trim().split(' ')
 
-    return wordArray.length === 12
+    return wordArray.length === 12 || wordArray.length === 24
   }
 
   static extractIndexFromPath(bip44Path: string): number {
