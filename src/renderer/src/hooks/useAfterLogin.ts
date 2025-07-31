@@ -156,7 +156,7 @@ const useRegisterDeeplinkListeners = () => {
         return
       }
 
-      if (path.startsWith('import?mnemonic')) {
+      if (path.startsWith('import?mnemonic') || path.startsWith('import/?mnemonic')) {
         let [, mnemonic] = path.split('=')
         mnemonic = atob(mnemonic)
         modalNavigate('import', { state: { text: mnemonic } })
