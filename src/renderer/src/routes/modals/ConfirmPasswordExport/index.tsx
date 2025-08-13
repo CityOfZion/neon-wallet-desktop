@@ -35,6 +35,7 @@ export const ConfirmPasswordExportModal = () => {
       'decryptBasedOS',
       currentLoginSessionRef.current?.encryptedPassword
     )
+
     if (password.length === 0 || password !== decryptedPassword) {
       setError('password', t('error'))
       return

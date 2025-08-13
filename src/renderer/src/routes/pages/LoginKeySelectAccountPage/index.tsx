@@ -55,7 +55,7 @@ export const LoginKeySelectAccountPage = () => {
       <p className="mt-10 text-sm text-white">{t('description')}</p>
 
       <MnemonicOrKeyAccountSelection
-        className="mb-3 mt-6 flex-grow scrollbar-overlay"
+        className="my-6 flex-grow scrollbar-overlay"
         mnemonicOrKey={mnemonicOrKey}
         selectedAccounts={selectedAccounts}
         onSelect={setSelectedAccounts}

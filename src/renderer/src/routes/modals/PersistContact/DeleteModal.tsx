@@ -46,7 +46,7 @@ export const DeleteModal = () => {
   return (
     <SideModalLayout heading={modalTitle} headingIcon={<MdDeleteForever aria-hidden={true} className="text-pink" />}>
       <div className="flex h-full flex-col justify-between">
-        <div className="ga´p-y-6 flex flex-col items-center text-center text-lg">
+        <div className="flex flex-col items-center gap-y-3 text-center text-lg">
           <div className="flex h-[9.25rem] w-[9.25rem] items-center justify-center rounded-full bg-asphalt">
             <PiWarningLight aria-hidden={true} className="h-28 w-28 px-1 text-pink" />
           </div>

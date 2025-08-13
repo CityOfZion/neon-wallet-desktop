@@ -78,13 +78,13 @@ const Head = forwardRef<HTMLTableCellElement, ThHTMLAttributes<HTMLTableCellElem
           <div className="relative">
             <TbCaretUpFilled
               aria-hidden={true}
-              className={StyleHelper.mergeStyles('-mb-1.5 opacity-30', {
+              className={StyleHelper.mergeStyles('-mb-1.5 size-3 opacity-30', {
                 'text-white opacity-100': sortedBy === 'asc',
               })}
             />
             <TbCaretDownFilled
               aria-hidden={true}
-              className={StyleHelper.mergeStyles('-mt-1.5 opacity-30', {
+              className={StyleHelper.mergeStyles('-mt-1.5 size-3 opacity-30', {
                 'text-white opacity-100': sortedBy === 'desc',
               })}
             />
