@@ -21,6 +21,7 @@ import { TestHelper } from '@renderer/helpers/TestHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { useAccountsSelector, useHasHardwareAccountSelector } from '@renderer/hooks/useAccountSelector'
+import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
 import { MainLayout } from '@renderer/layouts/Main'
@@ -41,6 +42,7 @@ export const WalletsPage = () => {
   const { accounts } = useAccountsSelector()
   const { hasHardwareAccount } = useHasHardwareAccountSelector()
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
+  const { currentLoginSession } = useCurrentLoginSessionSelector()
   const navigate = useNavigate()
   const { id } = useParams<TParams>()
 
@@ -50,6 +52,7 @@ export const WalletsPage = () => {
   )
 
   const service = selectedAccount ? bsAggregator.blockchainServicesByName[selectedAccount.blockchain] : undefined
+  const isKeyLoginSession = currentLoginSession?.type === 'key'
 
   const handleSelectAccount = (selected: IAccountState) => {
     navigate(`/app/wallets/${selected.id}/overview`)
@@ -147,7 +150,7 @@ export const WalletsPage = () => {
 
           <ActionPopover.Separator />
 
-          {selectedWallet?.type === 'standard' && selectedWallet?.encryptedMnemonic && (
+          {selectedWallet?.type === 'standard' && selectedWallet?.encryptedMnemonic && !isKeyLoginSession && (
             <ActionPopover.Item
               actionPopoverItemType="button"
               leftIcon={<TbFileExport aria-hidden className="text-neon" />}
@@ -223,14 +226,17 @@ export const WalletsPage = () => {
                       label={t('editAccountButton')}
                       textClassName="text-start text-white"
                     />
-                    {selectedAccount?.type !== 'watch' && selectedAccount?.type !== 'hardware' && (
-                      <ActionPopover.Item
-                        leftIcon={<TbUpload aria-hidden={true} />}
-                        onClick={handleExportKey}
-                        label={t('exportKeyButton')}
-                        textClassName="text-start text-white"
-                      />
-                    )}
+
+                    {selectedAccount?.type !== 'watch' &&
+                      selectedAccount?.type !== 'hardware' &&
+                      !isKeyLoginSession && (
+                        <ActionPopover.Item
+                          leftIcon={<TbUpload aria-hidden={true} />}
+                          onClick={handleExportKey}
+                          label={t('exportKeyButton')}
+                          textClassName="text-start text-white"
+                        />
+                      )}
 
                     {selectedAccount?.blockchain === 'neo3' && (
                       <ActionPopover.Item
