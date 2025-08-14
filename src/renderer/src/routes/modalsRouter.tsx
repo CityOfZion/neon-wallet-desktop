@@ -33,6 +33,7 @@ import { ErrorModal } from './modals/Error'
 import { ExportFullTransactionsModal } from './modals/ExportFullTransactions'
 import { ExportKeyModal } from './modals/ExportKey'
 import { ExportMnemonic } from './modals/ExportMnemonic'
+import { HideFraudulentTokenModal } from './modals/HideFraudulentToken'
 import { ImportModal } from './modals/Import'
 import { ImportAccountsSelectionModal } from './modals/Import/ImportAccountsSelectionModal'
 import { ImportWatchAccountsModal } from './modals/Import/ImportWatchAccountsModal'
@@ -166,5 +167,11 @@ export const modalsRouter: TRoute[] = [
     type: 'center',
     size: 'sm',
     element: <VoteNeo3SuccessModal />,
+  },
+  {
+    name: 'hide-fraudulent-token',
+    type: 'center',
+    size: 'xs',
+    element: <HideFraudulentTokenModal />,
   },
 ]

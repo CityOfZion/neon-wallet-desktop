@@ -1,10 +1,16 @@
 import { CaseReducer, PayloadAction } from '@reduxjs/toolkit'
+import { TokensHelper } from '@renderer/helpers/TokensHelper'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TUseTransactionsTransfer } from '@shared/@types/hooks'
 import { TMigrationNeo3, TMigrationsNeo3, TSwapRecord } from '@shared/@types/store'
 import { cloneDeep } from 'lodash'
 
 import { IUtilityReducer } from './index'
+
+type THiddenTokenParams = {
+  hash: string
+  blockchain: TBlockchainServiceKey
+}
 
 // Pending Transaction Reducers
 const addPendingTransaction: CaseReducer<IUtilityReducer, PayloadAction<TUseTransactionsTransfer>> = (
@@ -57,21 +63,20 @@ const saveLastIndexByWallet: CaseReducer<
 
 // Unlocked Skins Reducers
 const setUnlockedSkinIds: CaseReducer<IUtilityReducer, PayloadAction<string[]>> = (state, action) => {
-  const skinIds = action.payload
+  const { payload: skinIds } = action
 
   state.data.unlockedSkinIds = skinIds
 }
 
 // Hidden Tokens Reducers
-const toggleHiddenToken: CaseReducer<
-  IUtilityReducer,
-  PayloadAction<{ blockchain: TBlockchainServiceKey; hash: string }>
-> = (state, action) => {
-  const { blockchain, hash } = action.payload
+const toggleHiddenToken: CaseReducer<IUtilityReducer, PayloadAction<THiddenTokenParams>> = (state, action) => {
+  const { hash, blockchain } = action.payload
+
+  if (TokensHelper.isNativeToken(hash, blockchain)) throw new Error("The native token can't be hidden")
 
   const hiddenTokens = cloneDeep(state.data.hiddenTokensByBlockchain[blockchain] ?? [])
+  const index = hiddenTokens.findIndex(tokenHash => tokenHash === hash)
 
-  const index = hiddenTokens.findIndex(it => it === hash)
   if (index < 0) {
     hiddenTokens.push(hash)
   } else {

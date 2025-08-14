@@ -857,5 +857,17 @@
     "publicKeyLabel": "Public key",
     "votesLabel": "N. of votes",
     "viewTransactionButtonLabel": "View transaction"
+  },
+  "hideFraudulentToken": {
+    "title": "Hide this fraudulent token?",
+    "text": "If you hide a token, it will only be removed from your wallet's view. No on-chain action is executed.",
+    "details": "Details:",
+    "tokenHashLabel": "Hash:",
+    "tokenNameLabel": "Name:",
+    "blockchainLabel": "Blockchain:",
+    "amountLabel": "Amount:",
+    "hideTokenButtonLabel": "Hide token",
+    "hideErrorMessage": "There is an error to hide fraudulent token, try again later, please",
+    "notFoundTokenLabel": "The token wasn't found"
   }
 }

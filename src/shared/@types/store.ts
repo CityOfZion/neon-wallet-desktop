@@ -27,6 +27,7 @@ export type TLocalSkin = {
 }
 
 export type TSkin = TColorSkin | TLocalSkin | TNftSkin
+
 export interface IAccountState {
   id: string
   address: string
@@ -38,6 +39,7 @@ export interface IAccountState {
   order: number
   skin: TSkin
 }
+
 export interface IWalletState {
   id: string
   name: string
@@ -51,18 +53,21 @@ export type TAccountWithWallet = IAccountState & {
 }
 
 export type TLoginSessionType = 'password' | 'hardware' | 'key'
+
 export type TLoginSession = {
   type: TLoginSessionType
   encryptedPassword: string
 }
 
 export type TAvailableLanguages = 'English' | '简体中文' | '繁體中文'
+
 export type TLanguage = {
   value: string
   label: TAvailableLanguages
 }
 
 export type TAvailableCurrency = 'USD' | 'BRL' | 'EUR' | 'GBP' | 'CNY'
+
 export type TCurrency = {
   symbol: string
   label: TAvailableCurrency
@@ -86,6 +91,7 @@ export type TOverTheAirInfo = {
   hasUpdated?: boolean
   shouldUpdate: boolean
 }
+
 export interface ISettingsState {
   isFirstTime: boolean
   hasPassword: boolean
@@ -135,6 +141,13 @@ export type TSwapRecord = {
 
 export type TLastIndexesByWallet = Partial<Record<TBlockchainServiceKey, Record<string, number>>>
 
+export type TNotificationNavigateActionHideFraudulentTokenPayload = {
+  to: 'hide-fraudulent-token'
+  address: string
+  blockchain: TBlockchainServiceKey
+  tokenHash?: string
+}
+
 export type TNotificationNavigateAction = {
   type: 'navigate'
   payload:
@@ -153,6 +166,7 @@ export type TNotificationNavigateAction = {
         address: string
         blockchain: TBlockchainServiceKey
       }
+    | TNotificationNavigateActionHideFraudulentTokenPayload
     | {
         to: 'migration-neo3'
         address: string
@@ -204,4 +218,5 @@ export type TMigrationNeo3 = {
 export type TMigrationsNeo3 = {
   [hash: string]: TMigrationNeo3
 }
+
 export type THiddenTokenByBlockchain = Partial<Record<TBlockchainServiceKey, string[]>>

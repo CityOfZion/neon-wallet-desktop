@@ -60,16 +60,18 @@ const utilityReducerMigrations = {
   1: (state: any) => {
     const migrationsNeo3 = Object.entries(state.data.migrationsNeo3).reduce((previous, actual) => {
       const key = BSTokenHelper.normalizeHash(actual[0])
-      const value = actual[1]
-      previous[key] = value
+
+      previous[key] = actual[1]
+
       return previous
     }, {})
 
     const hiddenTokensByBlockchain = Object.entries(state.data.hiddenTokensByBlockchain).reduce((previous, actual) => {
       const blockchain = actual[0]
       const tokens = actual[1] as string[] | undefined
-      const fixedTokens = tokens?.map(token => BSTokenHelper.normalizeHash(token)) ?? []
-      previous[blockchain] = fixedTokens
+
+      previous[blockchain] = tokens?.map(token => BSTokenHelper.normalizeHash(token)) ?? []
+
       return previous
     }, {})
 
@@ -93,6 +95,7 @@ export const utilityReducerConfig: PersistConfig<IUtilityReducer> = {
   migrate: createMigrate(utilityReducerMigrations),
   getStoredState: async (config: any) => {
     const storedState = await config.storage.getItem(`persist:${config.key}`)
+
     if (storedState) {
       return (await getStoredState(config)) as PersistedState
     }

@@ -124,8 +124,8 @@ const saveNotification: CaseReducer<IAuthReducer, PayloadAction<TSaveNotificatio
     provider: 'system',
     ...action.payload,
   }
-  const applicationData = state.data.applicationDataByLoginType[loginSessionType]
 
+  const applicationData = state.data.applicationDataByLoginType[loginSessionType]
   const findIndex = applicationData.notifications.findIndex(item => item.id === notification.id)
 
   if (findIndex < 0) {

@@ -1,14 +1,14 @@
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { BSBigNumberHelper, BSTokenHelper } from '@cityofzion/blockchain-service'
+import { BSBigNumberHelper } from '@cityofzion/blockchain-service'
 import TbEye from '@renderer/assets/images/tb-eye.svg?react'
 import TbEyeOff from '@renderer/assets/images/tb-eye-off.svg?react'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
+import { TokensHelper } from '@renderer/helpers/TokensHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
-import { bsAggregator } from '@renderer/libs/blockchainService'
 import { utilityReducerActions } from '@renderer/store/reducers/UtilityReducer'
 import { TTokenBalance, TUseBalanceOptionShowType } from '@shared/@types/query'
 import { createColumnHelper } from '@tanstack/react-table'
@@ -74,13 +74,7 @@ export const useColumns = (showType: TUseBalanceOptionShowType) => {
         id: 'actions',
         cell: info => {
           const value = info.row.original
-
-          const service = bsAggregator.blockchainServicesByName[value.blockchain]
-          const normalizedHash = BSTokenHelper.normalizeHash(value.token.hash)
-          const isNativeToken = service.nativeTokens.some(
-            token => BSTokenHelper.normalizeHash(token.hash) === normalizedHash
-          )
-
+          const isNativeToken = TokensHelper.isNativeToken(value.token.hash, value.blockchain)
           const isHidden = showType === 'hidden'
           const label = isHidden ? t('showTokenLabel') : t('hideTokenLabel')
           let tooltipTitle = ''
@@ -101,10 +95,7 @@ export const useColumns = (showType: TUseBalanceOptionShowType) => {
                     if (isNativeToken) return
 
                     dispatch(
-                      utilityReducerActions.toggleHiddenToken({
-                        blockchain: info.row.original.blockchain,
-                        hash: info.row.original.token.hash,
-                      })
+                      utilityReducerActions.toggleHiddenToken({ hash: value.token.hash, blockchain: value.blockchain })
                     )
                   }}
                 />

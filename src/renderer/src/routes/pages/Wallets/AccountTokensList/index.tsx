@@ -19,7 +19,6 @@ type TOutletContext = {
 
 export const AccountTokensList = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'wallets.accountTokensList' })
-
   const { account } = useOutletContext<TOutletContext>()
   const { currency } = useCurrencySelector()
 
