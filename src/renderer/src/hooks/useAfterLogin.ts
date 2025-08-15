@@ -13,7 +13,7 @@ import { bsAggregator } from '@renderer/libs/blockchainService'
 import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
 import { utilityReducerActions } from '@renderer/store/reducers/UtilityReducer'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { IAccountState } from '@shared/@types/store'
+import { IAccountState, TNotificationNavigateActionHideFraudulentTokenPayload } from '@shared/@types/store'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 
@@ -335,14 +335,15 @@ const useFraudulentTokensNotification = () => {
 
         if (fraudulentTokenBalances.length === 0) return
 
-        const tokenNames = fraudulentTokenBalances.map(({ token }) => token.name)
+        const tokens = fraudulentTokenBalances.map(({ token }) => token)
 
-        tokenNames.forEach(tokenName => {
-          const hasUnreadNotification = unreadNotificationsRef.current.some(
+        tokens.forEach(token => {
+          const tokenName = token.name
+          const unreadNotification = unreadNotificationsRef.current.find(
             ({ titleValue, previewBodyValue, action }) =>
               !!action &&
               action.type === 'navigate' &&
-              action.payload.to === 'account-tokens' &&
+              action.payload.to === 'hide-fraudulent-token' &&
               titleValue === tokenName &&
               previewBodyValue === tokenName &&
               SharedAccountHelper.predicate(balance)({
@@ -351,10 +352,14 @@ const useFraudulentTokensNotification = () => {
               })
           )
 
-          if (hasUnreadNotification) return
+          const payload = unreadNotification?.action?.payload as TNotificationNavigateActionHideFraudulentTokenPayload
+          const tokenHash = payload?.tokenHash
+
+          if (tokenHash) return
 
           dispatch(
             authReducerActions.saveNotification({
+              ...unreadNotification,
               title: 'hooks:useFraudulentTokensNotification.notificationTitle',
               titleValue: tokenName,
               previewBody: 'hooks:useFraudulentTokensNotification.notificationDescription',
@@ -363,9 +368,10 @@ const useFraudulentTokensNotification = () => {
               action: {
                 type: 'navigate',
                 payload: {
-                  to: 'account-tokens',
+                  to: 'hide-fraudulent-token',
                   address: balance.address,
                   blockchain: balance.blockchain,
+                  tokenHash: token.hash,
                 },
               },
               related: {

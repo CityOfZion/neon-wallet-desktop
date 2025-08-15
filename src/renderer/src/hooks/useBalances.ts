@@ -51,7 +51,6 @@ const fetchBalance = async (
     const balance = await service.blockchainDataService.getBalance(param.address)
     const tokens = balance.map(balance => balance.token)
     const exchange = await fetchExchange(param.blockchain, tokens, network, queryClient, currency, currencyRatio)
-
     const tokensBalancesMap: Map<string, TTokenBalance> = new Map()
 
     await Promise.allSettled(
@@ -147,13 +146,13 @@ export function useBalances(params: TUseBalancesParams[], options?: TUseBalances
     })),
     combine: results => {
       const isLoading = isCurrencyRatioLoading || results.some(result => result.isLoading)
-
       const data: TBalance[] = []
       let exchangeTotal = 0
 
       if (!isLoading) {
         results.forEach(result => {
           if (!result.data) return
+
           data.push(fixBalanceResult(result.data, showType, hiddenTokensByBlockchain))
         })
 
@@ -198,6 +197,7 @@ export function useBalance(
 
   const data = useMemo(() => {
     if (!query.data) return undefined
+
     return fixBalanceResult(query.data, showType, hiddenTokensByBlockchain)
   }, [showType, hiddenTokensByBlockchain, query.data])
 

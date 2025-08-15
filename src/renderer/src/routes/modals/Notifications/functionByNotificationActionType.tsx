@@ -47,11 +47,27 @@ export const functionByNotificationActionType: TFunctionByNotificationActionType
         modalActions.modalErase('side')
         pageNavigate(`/app/wallets/${account.id}/transactions`)
       })
-      .with({ to: 'account-tokens' }, payload => {
-        const account = getAccount(payload)
+      .with({ to: 'account-tokens' }, ({ address, blockchain }) => {
+        const account = getAccount({ address, blockchain })
 
         modalActions.modalErase('side')
-        pageNavigate(`/app/wallets/${account.id}/tokens`)
+
+        setTimeout(() => {
+          pageNavigate(`/app/wallets/${account.id}/tokens`)
+        }, 500)
+      })
+      .with({ to: 'hide-fraudulent-token' }, ({ address, blockchain, tokenHash }) => {
+        const account = getAccount({ address, blockchain })
+
+        modalActions.modalErase('side')
+
+        setTimeout(() => {
+          if (tokenHash) {
+            modalActions.modalNavigate('hide-fraudulent-token', { state: { account, hash: tokenHash } })
+          } else {
+            pageNavigate(`/app/wallets/${account.id}/tokens`)
+          }
+        }, 500)
       })
       .with({ to: 'migration-neo3' }, payload => {
         const account = getAccount(payload)

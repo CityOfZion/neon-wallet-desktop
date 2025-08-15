@@ -250,7 +250,7 @@ export const MigrationNeo3Page = () => {
           </div>
 
           {isMounting ? (
-            <Loader containerClassName="flex-grow items-center " className="h-12 w-12 text-white" />
+            <Loader containerClassName="flex-grow items-center" className="h-12 w-12 text-white" />
           ) : actionData.neo3MigrationAmounts &&
             actionData.neoLegacyMigrationAmounts &&
             actionData.neo3ServiceAccount &&

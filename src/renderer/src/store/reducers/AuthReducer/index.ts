@@ -121,17 +121,49 @@ const authReducerMigrations = {
       },
     }
   },
+  3: (state: any) => {
+    const currentApplicationDataByLoginType = state.data.applicationDataByLoginType
+    const applicationDataByLoginType = Object.keys(currentApplicationDataByLoginType).reduce((accumulator, key) => {
+      const loginType = key as TLoginSessionType
+      const applicationData = currentApplicationDataByLoginType[loginType]
+
+      accumulator[loginType] = {
+        ...applicationData,
+        notifications: applicationData.notifications.map((notification: any) => {
+          const action = notification?.action
+          const payload = action?.payload
+
+          if (action?.type === 'navigate' && payload?.to === 'account-tokens') {
+            return { ...notification, action: { ...action, payload: { ...payload, to: 'hide-fraudulent-token' } } }
+          }
+
+          return notification
+        }),
+      }
+
+      return accumulator
+    }, {} as TApplicationDataByLoginType)
+
+    return {
+      ...state,
+      data: {
+        ...state.data,
+        applicationDataByLoginType,
+      },
+    }
+  },
 }
 
 export const authReducerConfig: PersistConfig<IAuthReducer> = {
   key: 'authReducer',
   storage: storage,
   blacklist: ['inMemoryData'],
-  version: 2,
+  version: 3,
   migrate: createMigrate(authReducerMigrations),
   // It is necessary to check if the stored state is empty, because the redux-persist library does not call the migrate function when the state is empty
   getStoredState: async config => {
     const storedState = await config.storage.getItem('persist:authReducer')
+
     if (storedState) {
       return (await getStoredState(config)) as PersistedState
     }

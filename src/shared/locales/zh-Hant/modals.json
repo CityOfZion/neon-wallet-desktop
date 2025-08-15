@@ -847,5 +847,17 @@
     "publicKeyLabel": "公鑰",
     "votesLabel": "投票數",
     "viewTransactionButtonLabel": "查看交易"
+  },
+  "hideFraudulentToken": {
+    "title": "隱藏這個欺詐代幣？",
+    "text": "如果您隱藏代幣，它只會從您的錢包視圖中移除。不會執行任何鏈上操作。",
+    "details": "詳情：",
+    "tokenHashLabel": "哈希值：",
+    "tokenNameLabel": "名稱：",
+    "blockchainLabel": "區塊鏈：",
+    "amountLabel": "數量：",
+    "hideTokenButtonLabel": "隱藏代幣",
+    "hideErrorMessage": "隱藏欺詐代幣時出現錯誤，請稍後重試",
+    "notFoundTokenLabel": "未找到權杖"
   }
 }

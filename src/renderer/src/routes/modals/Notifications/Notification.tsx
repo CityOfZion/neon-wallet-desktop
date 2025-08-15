@@ -97,9 +97,10 @@ export const Notification = ({ notification }: TProps) => {
 
   return (
     <div
-      className={StyleHelper.mergeStyles('flex w-full gap-2.5 px-4 py-2.5', {
+      className={StyleHelper.mergeStyles('flex w-full cursor-auto gap-2.5 px-4 py-2.5', {
         'cursor-pointer hover:bg-gray-700/60': notification.action && !notification.read,
       })}
+      aria-disabled={notification.read}
       onClick={handleClick}
       role="button"
     >
@@ -167,7 +168,7 @@ export const Notification = ({ notification }: TProps) => {
           <ActionPopover.Trigger asChild>
             <IconButton
               compacted
-              icon={<MdMoreVert aria-hidden className="h-5 min-h-5 w-5 min-w-5 text-gray-300" />}
+              icon={<MdMoreVert aria-hidden className="h-6 min-h-6 w-6 min-w-6 text-gray-300" />}
               onClick={handleStopPropagation}
             />
           </ActionPopover.Trigger>
