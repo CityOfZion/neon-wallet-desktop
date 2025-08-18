@@ -1,3 +1,4 @@
+import { BSTokenHelper } from '@cityofzion/blockchain-service'
 import { CaseReducer, PayloadAction } from '@reduxjs/toolkit'
 import { TokensHelper } from '@renderer/helpers/TokensHelper'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
@@ -74,11 +75,12 @@ const toggleHiddenToken: CaseReducer<IUtilityReducer, PayloadAction<THiddenToken
 
   if (TokensHelper.isNativeToken(hash, blockchain)) throw new Error("The native token can't be hidden")
 
+  const normalizedHash = BSTokenHelper.normalizeHash(hash)
   const hiddenTokens = cloneDeep(state.data.hiddenTokensByBlockchain[blockchain] ?? [])
-  const index = hiddenTokens.findIndex(tokenHash => tokenHash === hash)
+  const index = hiddenTokens.findIndex(tokenHash => BSTokenHelper.normalizeHash(tokenHash) === normalizedHash)
 
   if (index < 0) {
-    hiddenTokens.push(hash)
+    hiddenTokens.push(normalizedHash)
   } else {
     hiddenTokens.splice(index, 1)
   }
