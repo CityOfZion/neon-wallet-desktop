@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { hasExplorerService } from '@cityofzion/blockchain-service'
+import { BSTokenHelper, hasExplorerService } from '@cityofzion/blockchain-service'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
 import {
@@ -318,7 +318,7 @@ export const useGetFullTransactions = ({ accounts, dateFrom, dateTo }: TProps) =
 
       const filteredEvents =
         !!hiddenTokens && hiddenTokens.length > 0
-          ? item.events.filter(({ hash }) => !hiddenTokens.includes(hash))
+          ? item.events.filter(({ hash }) => !hiddenTokens.includes(BSTokenHelper.normalizeHash(hash)))
           : null
 
       if (filteredEvents) item.events = filteredEvents

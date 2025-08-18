@@ -6,7 +6,7 @@ import { Button } from '@renderer/components/Button'
 import { Loader } from '@renderer/components/Loader'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { TokensHelper } from '@renderer/helpers/TokensHelper'
-import { useBalances } from '@renderer/hooks/useBalances'
+import { useBalance } from '@renderer/hooks/useBalances'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
@@ -24,19 +24,19 @@ export const HideFraudulentTokenModal = () => {
   const { t: tCommonBlockchain } = useTranslation('common', { keyPrefix: 'blockchain' })
   const { modalErase } = useModalNavigate()
   const { account, hash } = useModalState<TModalStateParams>()
-  const balancesQuery = useBalances([account], { showType: 'active' })
+  const balanceQuery = useBalance(account, { showType: 'active' })
   const dispatch = useAppDispatch()
   const [isHiding, startHidingTransition] = useTransition()
 
   const tokenBalance = useMemo(() => {
-    if (balancesQuery.isLoading) return undefined
+    if (balanceQuery.isLoading) return undefined
 
     const normalizedHash = BSTokenHelper.normalizeHash(hash)
 
-    return balancesQuery.data?.[0]?.tokensBalances?.find(
+    return balanceQuery.data?.tokensBalances?.find(
       ({ token }) => BSTokenHelper.normalizeHash(token.hash) === normalizedHash
     )
-  }, [balancesQuery.data, balancesQuery.isLoading, hash])
+  }, [balanceQuery.data, balanceQuery.isLoading, hash])
 
   const isNativeToken = useMemo(() => TokensHelper.isNativeToken(hash, account.blockchain), [hash, account])
 
@@ -64,7 +64,7 @@ export const HideFraudulentTokenModal = () => {
       <p className="mt-4 w-full text-left text-xs font-bold uppercase text-gray-300">{t('details')}</p>
 
       <div className="w-full items-center justify-center rounded border border-gray-600 bg-gray-900 p-3 text-sm">
-        {match({ isLoading: balancesQuery.isLoading, tokenBalance })
+        {match({ isLoading: balanceQuery.isLoading, tokenBalance })
           .with({ isLoading: true }, () => <Loader containerClassName="my-4" className="size-8" />)
           .with({ tokenBalance: P.when(value => !value) }, () => (
             <p className="w-full px-2 py-4 text-center font-semibold">{t('notFoundTokenLabel')}</p>
