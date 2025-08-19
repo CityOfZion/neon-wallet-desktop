@@ -544,7 +544,11 @@
     "detailsHeaderLabel": "详情",
     "detailsHeaderDescription": "我们力争在7分钟内完成兑换",
     "statusPanelLabel": "状态",
-    "statusPanelSteps": ["确认", "兑换", "完成"],
+    "statusPanelSteps": [
+      "确认",
+      "兑换",
+      "完成"
+    ],
     "routingPanelLabel": "路由",
     "routingPanelTransactionFromLabel": "交易发起自",
     "routingPanelTransactionToLabel": "交易接收至",
@@ -710,7 +714,13 @@
       "notFoundMessage": "未找到硬件钱包或应用！请检查连接",
       "searchAgainButtonLabel": "重新搜索"
     },
-    "steps": ["连接硬件", "打开Neo N3应用", "选择地址", "确认", "完成"],
+    "steps": [
+      "连接硬件",
+      "打开Neo N3应用",
+      "选择地址",
+      "确认",
+      "完成"
+    ],
     "closeIconButtonAriaLabel": "关闭"
   },
   "migrationNeo3Status": {
@@ -859,5 +869,44 @@
     "hideTokenButtonLabel": "隐藏代币",
     "hideErrorMessage": "隐藏欺诈代币时出现错误，请稍后重试",
     "notFoundTokenLabel": "未找到令牌"
+  },
+  "neo3NeoxBridgeConfirmation": {
+    "title": "Confirm your bridge",
+    "description": "Please review the details below and confirm that you’d like to proceed",
+    "transactionDetailsHeaderLabel": "Transaction details",
+    "bridgeDetailsItemLabel": "You want to bridge",
+    "fromDetailsPanelLabel": "Bridge from",
+    "fromAddressDetailsItemLabel": "Sending address",
+    "fromTokenDetailsItemLabel": "Token",
+    "toDetailsPanelLabel": "Bridge to",
+    "toAddressDetailsItemLabel": "Receiving address",
+    "toTokenDetailsItemLabel": "Token",
+    "feesDetailsPanelLabel": "Fees",
+    "feeDetailsItemLabel": "Total fee"
+  },
+  "neo3NeoxBridgeDetails": {
+    "title": "Your bridge",
+    "description": "Your bridge details",
+    "detailsHeaderLabel": "Details",
+    "statusPanelLabel": "Status",
+    "statusPanelSteps": [
+      "Send",
+      "Complete"
+    ],
+    "fromDetailsPanelLabel": "From",
+    "fromAddressDetailsItemLabel": "Sending address",
+    "fromTokenDetailsItemLabel": "Token",
+    "toDetailsPanelLabel": "To",
+    "toAddressDetailsItemLabel": "Receiving address",
+    "toTokenDetailsItemLabel": "Token",
+    "helpButtonLabel": "Need help? Chat with us",
+    "errorsByCode": {
+      "FAILED_TO_GET_NONCE": "Failed to get nonce for that transaction",
+      "INVALID_TRANSACTION": "Transaction was not successfully confirmed by the network",
+      "NONCE_NOT_FOUND": "Nonce not found for the transaction",
+      "TXID_NOT_FOUND": "Transaction ID not found",
+      "FAILED_TO_GET_TRANSACTION_BY_NONCE": "Failed to get transaction by nonce",
+      "UNEXPECTED_ERROR": "Unexpected error occurred. Please contact support if the issue persists."
+    }
   }
 }

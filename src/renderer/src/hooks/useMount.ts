@@ -57,10 +57,14 @@ export const useMountUnsafe = (effect: TEffect, delay: number = 0) => {
       // StrictMode make the effect to run twice and we don't want to unmount the effect on the first render because it's not the real unmount
       if (numberOfRender.current > 1) {
         clearTimeout(timeoutRef.current)
+        numberOfRender.current = 0
 
         if (unmountEffectRef.current && typeof unmountEffectRef.current === 'function') {
           unmountEffectRef.current()
         }
+
+        unmountEffectRef.current = undefined
+        timeoutRef.current = undefined
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

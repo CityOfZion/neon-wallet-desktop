@@ -100,4 +100,8 @@ export const functionsByActionId: TFunctionsByActionId = {
     modalActions.modalErase('center')
     pageNavigate('/app/vote-neo3')
   },
+  neo3NeoXBridge: async ({ modalActions, pageNavigate }) => {
+    modalActions.modalErase('center')
+    pageNavigate('/app/neo3-neox-bridge')
+  },
 }

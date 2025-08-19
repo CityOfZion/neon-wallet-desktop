@@ -13,6 +13,8 @@ type TProps = {
 export const GreyTokenSelectItem = ({ token }: TProps) => {
   const [img, setImg] = useState(token.imageUrl ?? defaultTokenLogo)
 
+  const network = token.network || token.blockchain
+
   useEffect(() => {
     setImg(token.imageUrl ?? defaultTokenLogo)
   }, [token])
@@ -28,10 +30,10 @@ export const GreyTokenSelectItem = ({ token }: TProps) => {
         }}
         alt={token.symbol}
       />
-      <Tooltip title={token.network ? `${token.symbol} | ${token.network}` : ''}>
+      <Tooltip title={network ? `${token.symbol} | ${network}` : ''}>
         <span className="flex min-w-0 flex-grow items-center gap-1">
           <span className="text-left text-sm uppercase text-white">{token.symbol}</span>
-          {token.network && <span className="truncate text-sm uppercase text-gray-100">{` | ${token.network}`}</span>}
+          {network && <span className="truncate text-sm uppercase text-gray-100">{` | ${network}`}</span>}
         </span>
       </Tooltip>
 

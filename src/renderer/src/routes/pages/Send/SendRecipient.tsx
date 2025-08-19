@@ -232,18 +232,16 @@ export const SendRecipient = ({
           title={t('amountLabel')}
           leftIcon={<VscCircleFilled aria-hidden={true} className="h-2 w-2 text-gray-300" />}
         >
-          <GreyAmountInput value={recipient.amount ?? ''} onChange={handleChangeAmount} disabled={isAmountDisabled}>
-            <Button
-              label={t('max')}
-              flat
-              variant="text"
-              colorSchema="neon"
-              className="w-15 rounded-r bg-asphalt"
-              loading={isLoadingMaxAmount}
-              disabled={isAmountDisabled}
-              onClick={() => onMaxAmount(recipient)}
-            />
-          </GreyAmountInput>
+          <GreyAmountInput
+            value={recipient.amount ?? ''}
+            onChangeValue={handleChangeAmount}
+            disabled={isAmountDisabled}
+            maxButtonProps={{
+              loading: isLoadingMaxAmount,
+              disabled: isAmountDisabled,
+              onClick: () => onMaxAmount(recipient),
+            }}
+          />
         </ActionStep>
 
         <div className="flex w-full justify-between pb-3 pl-8">

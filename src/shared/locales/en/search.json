@@ -266,6 +266,24 @@
         "activity",
         "activities"
       ]
+    },
+    {
+      "id": "neo3NeoXBridge",
+      "label": "Bridge Neo3 & NeoX",
+      "verbs": [
+        "bridge",
+        "exchange",
+        "receive"
+      ],
+      "nonVerbs": [
+        "neox",
+        "neo3",
+        "n3",
+        "bridge",
+        "swap",
+        "token",
+        "crypto"
+      ]
     }
   ]
 }

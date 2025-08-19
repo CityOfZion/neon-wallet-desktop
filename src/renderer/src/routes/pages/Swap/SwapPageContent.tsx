@@ -3,12 +3,12 @@ import { useTranslation } from 'react-i18next'
 import {
   BSTokenHelper,
   isCalculableFee,
-  SwapServiceLoadableValue,
-  SwapServiceMinMaxAmount,
-  SwapServiceToken,
-  SwapServiceValidateValue,
+  TSwapLoadableValue,
+  TSwapMinMaxAmount,
+  TSwapToken,
+  TSwapValidateValue,
 } from '@cityofzion/blockchain-service'
-import { SimpleSwapService } from '@cityofzion/bs-swap'
+import { SimpleSwapOrchestrator } from '@cityofzion/bs-multichain'
 import MdContentPasteGo from '@renderer/assets/images/md-content-paste-go.svg?react'
 import MdInfoOutline from '@renderer/assets/images/md-info-outline.svg?react'
 import MdRestartAlt from '@renderer/assets/images/md-restart-alt.svg?react'
@@ -56,16 +56,16 @@ import { IAccountState, TContactAddress, TSwapRecord } from '@shared/@types/stor
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 
 type TActionsData = {
-  availableTokensToUse: SwapServiceLoadableValue<SwapServiceToken<TBlockchainServiceKey>[]>
-  selectedTokenToUse: SwapServiceLoadableValue<SwapServiceToken<TBlockchainServiceKey>>
-  selectedAccountToUse: SwapServiceValidateValue<IAccountState>
-  selectedAmountToUse: SwapServiceLoadableValue<string>
-  availableTokensToReceive: SwapServiceLoadableValue<SwapServiceToken<TBlockchainServiceKey>[]>
-  selectedTokenToReceive: SwapServiceLoadableValue<SwapServiceToken<TBlockchainServiceKey>>
-  selectedAmountToReceive: SwapServiceLoadableValue<string>
-  selectedAddressToReceive: SwapServiceValidateValue<string>
-  selectedExtraIdToReceive: SwapServiceValidateValue<string>
-  selectAmountToUseMinMax: SwapServiceLoadableValue<SwapServiceMinMaxAmount>
+  availableTokensToUse: TSwapLoadableValue<TSwapToken<TBlockchainServiceKey>[]>
+  selectedTokenToUse: TSwapLoadableValue<TSwapToken<TBlockchainServiceKey>>
+  selectedAccountToUse: TSwapValidateValue<IAccountState>
+  selectedAmountToUse: TSwapLoadableValue<string>
+  availableTokensToReceive: TSwapLoadableValue<TSwapToken<TBlockchainServiceKey>[]>
+  selectedTokenToReceive: TSwapLoadableValue<TSwapToken<TBlockchainServiceKey>>
+  selectedAmountToReceive: TSwapLoadableValue<string>
+  selectedAddressToReceive: TSwapValidateValue<string>
+  selectedExtraIdToReceive: TSwapValidateValue<string>
+  selectAmountToUseMinMax: TSwapLoadableValue<TSwapMinMaxAmount>
   fee?: string
   isCalculatingFee: boolean
 }
@@ -102,7 +102,7 @@ export const SwapPageContent = ({ account }: TProps) => {
     return chainsByServiceName
   }, [networkByBlockchain])
 
-  const swapServiceRef = useRef<SimpleSwapService<TBlockchainServiceKey>>()
+  const swapOrchestratorRef = useRef<SimpleSwapOrchestrator<TBlockchainServiceKey>>()
 
   const { actionData, actionState, setData, setError, clearErrors, reset, handleAct } = useActions<TActionsData>(
     {
@@ -193,7 +193,7 @@ export const SwapPageContent = ({ account }: TProps) => {
   const initializeOrRestartSwapService = () => {
     reset()
 
-    const swapService = new SimpleSwapService({
+    const swapService = new SimpleSwapOrchestrator({
       blockchainServicesByName: bsAggregator.blockchainServicesByName,
       chainsByServiceName: swapChainsByServiceName,
     })
@@ -250,22 +250,22 @@ export const SwapPageContent = ({ account }: TProps) => {
       ToastHelper.error({ message: error, duration: 6000 })
     })
 
-    swapServiceRef.current = swapService
+    swapOrchestratorRef.current = swapService
 
     swapService.init()
   }
 
   const removeSwapServiceListeners = () => {
-    swapServiceRef.current?.eventEmitter.removeAllListeners()
+    swapOrchestratorRef.current?.eventEmitter.removeAllListeners()
   }
 
-  const handleSelectTokenToUse = (token: SwapServiceToken<TBlockchainServiceKey>) => {
-    swapServiceRef.current?.setAmountToUse(null)
-    swapServiceRef.current?.setTokenToUse(token)
+  const handleSelectTokenToUse = (token: TSwapToken<TBlockchainServiceKey>) => {
+    swapOrchestratorRef.current?.setAmountToUse(null)
+    swapOrchestratorRef.current?.setTokenToUse(token)
   }
 
-  const handleSelectTokenToReceive = (token: SwapServiceToken<TBlockchainServiceKey>) => {
-    swapServiceRef.current?.setTokenToReceive(token)
+  const handleSelectTokenToReceive = (token: TSwapToken<TBlockchainServiceKey>) => {
+    swapOrchestratorRef.current?.setTokenToReceive(token)
   }
 
   const handleSelectAccountToUse = async (account: IAccountState) => {
@@ -278,32 +278,32 @@ export const SwapPageContent = ({ account }: TProps) => {
 
     const serviceAccount = AccountHelper.getServiceAccount({ account, key })
 
-    swapServiceRef.current?.setAccountToUse(serviceAccount)
+    swapOrchestratorRef.current?.setAccountToUse(serviceAccount)
   }
 
   const handleSelectContactToReceive = (address: TContactAddress) => {
-    swapServiceRef.current?.setAddressToReceive(address.address)
+    swapOrchestratorRef.current?.setAddressToReceive(address.address)
   }
 
   const handleSelectAccountToReceive = (account: IAccountState) => {
-    swapServiceRef.current?.setAddressToReceive(account.address)
+    swapOrchestratorRef.current?.setAddressToReceive(account.address)
   }
 
   const handleChangeAddressToReceive = (event: ChangeEvent<HTMLInputElement>) => {
-    swapServiceRef.current?.setAddressToReceive(
+    swapOrchestratorRef.current?.setAddressToReceive(
       UtilsHelper.removeSpecialCharacters(event.target.value, { allowSpaces: false })
     )
   }
 
   const handleChangeExtraIdToReceive = (event: ChangeEvent<HTMLInputElement>) => {
-    swapServiceRef.current?.setExtraIdToReceive(event.target.value)
+    swapOrchestratorRef.current?.setExtraIdToReceive(event.target.value)
   }
 
   const handlePasteAddressToReceive = async () => {
     try {
       const text = await navigator.clipboard.readText()
 
-      await swapServiceRef.current!.setAddressToReceive(text)
+      await swapOrchestratorRef.current!.setAddressToReceive(text)
     } catch (error) {
       ToastHelper.error({ message: tCommonGeneral('pasteFromClipboardError') })
       console.error(error)
@@ -312,7 +312,7 @@ export const SwapPageContent = ({ account }: TProps) => {
 
   const handleChangeAmountToUse = (value: string) => {
     try {
-      swapServiceRef.current?.setAmountToUse(value)
+      swapOrchestratorRef.current?.setAmountToUse(value)
     } catch (error) {
       console.error(error)
     }
@@ -322,7 +322,7 @@ export const SwapPageContent = ({ account }: TProps) => {
     const account = actionData.selectedAccountToUse.value
 
     if (
-      !swapServiceRef.current ||
+      !swapOrchestratorRef.current ||
       !service ||
       !actionData.selectedTokenToUse.value ||
       !actionData.selectedTokenToUse.value.hash ||
@@ -364,7 +364,7 @@ export const SwapPageContent = ({ account }: TProps) => {
     }
 
     try {
-      const swapResponse = await swapServiceRef.current.swap()
+      const swapResponse = await swapOrchestratorRef.current.swap()
 
       swapRecord.swapId = swapResponse.id
       swapRecord.txFrom = swapResponse.txFrom
@@ -392,7 +392,7 @@ export const SwapPageContent = ({ account }: TProps) => {
     const handleCalculateFee = async () => {
       try {
         if (
-          !swapServiceRef.current ||
+          !swapOrchestratorRef.current ||
           !service ||
           !actionData.selectedTokenToUse.value ||
           !actionData.selectedTokenToUse.value.hash ||
@@ -412,7 +412,7 @@ export const SwapPageContent = ({ account }: TProps) => {
 
         setData({ isCalculatingFee: true })
 
-        const fee = await swapServiceRef.current.calculateFee()
+        const fee = await swapOrchestratorRef.current.calculateFee()
 
         setData({ fee })
 
@@ -567,20 +567,13 @@ export const SwapPageContent = ({ account }: TProps) => {
         <div className="flex min-h-0 w-full flex-grow flex-col items-center overflow-auto py-2">
           <div className="mx-auto flex w-full max-w-[36rem] flex-col items-center px-4 pb-8 pt-2">
             <div className="flex w-full flex-col items-center rounded bg-gray-700/60 px-4">
-              <ActionStep
-                title={t('form.assets')}
-                leftIcon={<TbDiamond aria-hidden={true} className="h-6 min-h-6 w-6 min-w-6" />}
-                className="font-bold"
-                titleClassName="text-md"
-                headerClassName="gap-4"
-              />
+              <ActionStep title={t('form.assets')} leftIcon={<TbDiamond aria-hidden={true} />} className="font-bold" />
 
               <Separator />
 
               <ActionStep
                 title={t('form.tokenToUseTitle')}
                 leftIcon={<VscCircleFilled aria-hidden={true} className="h-2 w-2 text-gray-300" />}
-                headerClassName="gap-4"
               >
                 <GreyTokenSelect
                   tokens={actionData.availableTokensToUse.value ?? []}
@@ -598,7 +591,6 @@ export const SwapPageContent = ({ account }: TProps) => {
                 title={t('form.tokenToReceiveTitle')}
                 leftIcon={<VscCircleFilled aria-hidden={true} className="h-2 w-2 text-gray-300" />}
                 className="mb-2"
-                headerClassName="gap-4"
               >
                 <GreyTokenSelect
                   tokens={actionData.availableTokensToReceive.value ?? []}
@@ -617,8 +609,6 @@ export const SwapPageContent = ({ account }: TProps) => {
                 title={t('form.source')}
                 leftIcon={<TbWallet aria-hidden={true} className="h-6 min-h-6 w-6 min-w-6" />}
                 className="font-bold"
-                titleClassName="text-md"
-                headerClassName="gap-4"
               />
 
               <Separator />
@@ -626,7 +616,6 @@ export const SwapPageContent = ({ account }: TProps) => {
               <ActionStep
                 title={t('form.accountToUseTitle')}
                 leftIcon={<VscCircleFilled aria-hidden={true} className="h-2 w-2 text-gray-300" />}
-                headerClassName="gap-4"
               >
                 <GreyAccountSelect
                   selectedAccount={actionData.selectedAccountToUse.value}
@@ -644,20 +633,14 @@ export const SwapPageContent = ({ account }: TProps) => {
 
               <ActionStep
                 title={t('form.receiveHere')}
-                titleClassName="!whitespace-nowrap !overflow-visible !text-ellipsis"
-                className="gap-3"
-                headerClassName="gap-4"
                 leftIcon={<VscCircleFilled aria-hidden={true} className="h-2 w-2 text-gray-300" />}
               >
-                <div className="my-3 flex w-full items-start gap-3">
+                <div className="flex flex-grow gap-3">
                   <Input
                     value={actionData.selectedAddressToReceive.value ?? ''}
                     onChange={handleChangeAddressToReceive}
                     compacted
-                    className="w-full"
-                    containerClassName="max-w-[70%] mr-0 ml-auto"
-                    contentClassName="px-3 h-9"
-                    actionsClassName="gap-x-1"
+                    containerClassName="w-auto flex-grow"
                     placeholder={t('form.addressToReceivePlaceholder')}
                     clearable={false}
                     rightElement={
@@ -731,7 +714,6 @@ export const SwapPageContent = ({ account }: TProps) => {
                   <Separator />
 
                   <ActionStep
-                    headerClassName="gap-4"
                     title={
                       <div className="flex items-center gap-2">
                         <p>{t('form.extraIdToReceive')}</p>
@@ -772,8 +754,6 @@ export const SwapPageContent = ({ account }: TProps) => {
               <ActionStep
                 title={t('form.amounts')}
                 className="font-bold"
-                titleClassName="text-md"
-                headerClassName="gap-4"
                 leftIcon={<TbCoin aria-hidden={true} className="h-6 min-h-6 w-6 min-w-6" />}
               />
 
@@ -781,7 +761,6 @@ export const SwapPageContent = ({ account }: TProps) => {
 
               <ActionStep
                 title={t('form.amountToUseTitle')}
-                headerClassName="gap-4"
                 leftIcon={<VscCircleFilled aria-hidden={true} className="h-2 w-2 text-gray-300" />}
               >
                 <div className="flex items-center gap-2.5">
@@ -792,6 +771,7 @@ export const SwapPageContent = ({ account }: TProps) => {
                         t('form.minimumAmountToUsePlaceholder'),
                     })}
                   </span>
+
                   <Tooltip
                     title={t('form.tooltipTitle')}
                     icon={<TbWand aria-hidden className="h-6 w-6 text-blue" />}
@@ -801,7 +781,7 @@ export const SwapPageContent = ({ account }: TProps) => {
                     <GreyAmountInput
                       ref={amountInputRef}
                       value={actionData.selectedAmountToUse.value ?? ''}
-                      onChange={handleChangeAmountToUse}
+                      onChangeValue={handleChangeAmountToUse}
                       disabled={isAmountsDisabled}
                       loading={actionData.selectedAmountToUse.loading}
                     />
@@ -820,19 +800,17 @@ export const SwapPageContent = ({ account }: TProps) => {
 
               <ActionStep
                 title={
-                  <Fragment>
+                  <p className="text-sm text-white">
                     {t('form.amountToReceiveTitle')}
                     <span className="text-gray-100">{` ${t('form.amountToReceiveTitleComplement')}`}</span>
-                  </Fragment>
+                  </p>
                 }
                 leftIcon={<VscCircleFilled aria-hidden={true} className="h-2 w-2 text-gray-300" />}
-                headerClassName="gap-4"
               >
                 <GreyAmountInput
                   disabled={isAmountsDisabled}
                   readOnly
                   className="bg-transparent"
-                  inputClassName="px-0"
                   value={actionData.selectedAmountToReceive.value ?? ''}
                   loading={actionData.selectedAmountToReceive.loading}
                 />

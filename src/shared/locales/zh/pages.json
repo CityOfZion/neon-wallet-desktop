@@ -20,7 +20,11 @@
     },
     "securitySetup": {
       "title": "保护您的新钱包",
-      "steps": ["创建密码", "确认密码", "完成"],
+      "steps": [
+        "创建密码",
+        "确认密码",
+        "完成"
+      ],
       "step1": {
         "formTitle": "请创建密码以保护您的钱包",
         "passwordPlaceholder": "创建密码...",
@@ -38,7 +42,13 @@
     },
     "importWallet": {
       "title": "导入钱包",
-      "steps": ["创建密码", "确认密码", "添加信息或定位文件", "导入", "完成"],
+      "steps": [
+        "创建密码",
+        "确认密码",
+        "添加信息或定位文件",
+        "导入",
+        "完成"
+      ],
       "migrationLabel": "定位您的迁移文件",
       "step3": {
         "formTitle": "输入地址、加密密钥、私钥、助记词或定位备份文件",
@@ -169,8 +179,9 @@
     "editWalletButtonLabel": "编辑",
     "editAccountButton": "编辑账户",
     "exportButtonLabel": "导出",
-    "exportKeyButton": "导出密钥",
-    "voteNeo3Button": "投票",
+    "exportKeyButtonLabel": "导出密钥",
+    "voteNeo3ButtonLabel": "投票",
+    "neo3NeoXBridgeButtonLabel": "跨链",
     "importButtonLabel": "导入",
     "newWalletButtonLabel": "新钱包",
     "address": "地址",
@@ -618,6 +629,51 @@
     "notFound": {
       "title": "暂无候选人",
       "text": "没有可投票的候选人或获取候选人时出现问题。请检查您的Neo 3网络并重试。"
+    }
+  },
+  "neo3NeoXBridge": {
+    "title": "跨链",
+    "explanation": {
+      "title": "它是如何工作的？",
+      "description1": "轻松地在不同网络之间跨链您的加密资产，而无需离开您的钱包。",
+      "description2": "区块链是彼此独立的，无法相互交互——这就是跨链桥的作用。它类似于在不同国家旅行时兑换货币，跨链桥允许您在不同区块链之间转移资产。",
+      "description3": "在 NEON 中直接且即时跨链代币既方便又能节省时间和支付更低的费用。",
+      "alert": "COZ 不是此跨链过程的维护方 —— Neo Global Development 才是维护方。"
+    },
+    "form": {
+      "title": "您想跨链哪些代币？",
+      "restartButtonLabel": "重新开始",
+      "assetsStepTitle": "资产",
+      "tokenToUseStepTitle": "从这里跨链",
+      "switchTokensButtonLabel": "切换代币",
+      "tokenToReceiveStepTitle": "跨链到这里",
+      "accountDetailsStepTitle": "账户详情",
+      "accountToUseStepTitle": "从这里跨链",
+      "addressToReceiveStepTitle": "接收地址",
+      "addressToReceiveInputPlaceholder": "输入地址…",
+      "addressToReceiveContactButtonLabel": "我的联系人",
+      "addressToReceiveMyAccountButtonLabel": "我的账户…",
+      "amountsStepTitle": "数量",
+      "amountToUseStepTitle": "数量",
+      "amountToUseMinimumLabel": "最小值 {{amount}}",
+      "amountToUseMinimumPlaceholder": "0.00000000",
+      "amountToUseMaxButtonLabel": "最大",
+      "tokenToUseBalanceStepTitle": "余额",
+      "tokenToUseBalancePlaceholder": "0.00",
+      "amountToReceiveStepTitle": "您将获得的数量 <1>(扣除费用后)</1>",
+      "amountToReceivePlaceholder": "0.00000000",
+      "bridgeButtonLabel": "立即跨链"
+    },
+    "errorsByCode": {
+      "UNEXPECTED_ERROR": "发生意外错误，请重试",
+      "NO_AVAILABLE_TOKENS": "没有可跨链的代币",
+      "TOKEN_NOT_AVAILABLE": "所选代币不可跨链",
+      "PAIR_TOKEN_NOT_FOUND": "未找到配对代币",
+      "ACCOUNT_NOT_COMPATIBLE_WITH_TOKEN": "所选账户与所选代币不兼容",
+      "AMOUNT_BELOW_MINIMUM": "数量低于最小值",
+      "AMOUNT_ABOVE_MAXIMUM": "数量超过最大值",
+      "INSUFFICIENT_FEE_TOKEN_BALANCE": "余额不足以支付跨链费用",
+      "BRIDGE_NOT_READY": "跨链尚未准备好，请填写所有字段"
     }
   }
 }

@@ -58,7 +58,8 @@
   "errors": {
     "noEncryptedKey": "There is not encrypted key for this account: {{address}}",
     "blockchainIsNotClaimable": "The account blockchain is not claimable: {{address}} {{blockchain}}",
-    "loginSessionIsNotDefined": "Unknown error. Login session is not defined."
+    "loginSessionIsNotDefined": "Unknown error. Login session is not defined.",
+    "hardwareWalletNotConnectedOrLocked": "Hardware wallet isn't connected or is locked, verify your device and try again"
   },
   "synonyms": {
     "view": [

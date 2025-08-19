@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SimpleSwapServiceHelper } from '@cityofzion/bs-swap'
+import { SimpleSwapService } from '@cityofzion/bs-multichain'
 import MdLaunch from '@renderer/assets/images/md-launch.svg?react'
 import MdRefresh from '@renderer/assets/images/md-refresh.svg?react'
 import TbCircleX from '@renderer/assets/images/tb-circle-x.svg?react'
@@ -29,7 +29,7 @@ type TState = {
   swapRecord: TSwapRecord
 }
 
-const swapServiceHelper = new SimpleSwapServiceHelper()
+const swapService = new SimpleSwapService()
 
 const stepsByStatus: Record<TSwapRecord['swapStatus'], number> = {
   confirming: 2,
@@ -60,7 +60,7 @@ export const SwapDetailsModal = () => {
       if (!swapRecord.swapId || !['confirming', 'exchanging'].includes(swapRecord.swapStatus)) return
 
       try {
-        const response = await swapServiceHelper.getStatus(swapRecord.swapId)
+        const response = await swapService.getStatus(swapRecord.swapId)
         const { status, log } = response
         let { txFrom, txTo } = response
 

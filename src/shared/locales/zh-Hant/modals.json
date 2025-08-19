@@ -544,7 +544,11 @@
     "detailsHeaderLabel": "詳情",
     "detailsHeaderDescription": "我們目標在 7 分鐘內完成兌換",
     "statusPanelLabel": "狀態",
-    "statusPanelSteps": ["確認", "兌換", "完成"],
+    "statusPanelSteps": [
+      "確認",
+      "兌換",
+      "完成"
+    ],
     "routingPanelLabel": "路由",
     "routingPanelTransactionFromLabel": "交易來源",
     "routingPanelTransactionToLabel": "交易目標",
@@ -710,7 +714,13 @@
       "notFoundMessage": "找不到硬體錢包或應用程式！請檢查連線",
       "searchAgainButtonLabel": "重新搜尋"
     },
-    "steps": ["連接硬體錢包", "開啟 Neo N3 應用程式", "選擇地址", "確認", "完成"],
+    "steps": [
+      "連接硬體錢包",
+      "開啟 Neo N3 應用程式",
+      "選擇地址",
+      "確認",
+      "完成"
+    ],
     "closeIconButtonAriaLabel": "關閉"
   },
   "migrationNeo3Status": {
@@ -859,5 +869,44 @@
     "hideTokenButtonLabel": "隱藏代幣",
     "hideErrorMessage": "隱藏欺詐代幣時出現錯誤，請稍後重試",
     "notFoundTokenLabel": "未找到權杖"
+  },
+  "neo3NeoxBridgeConfirmation": {
+    "title": "確認您的跨鏈",
+    "description": "請查看以下詳細資訊並確認是否繼續",
+    "transactionDetailsHeaderLabel": "交易詳情",
+    "bridgeDetailsItemLabel": "您想要跨鏈",
+    "fromDetailsPanelLabel": "跨鏈來源",
+    "fromAddressDetailsItemLabel": "發送地址",
+    "fromTokenDetailsItemLabel": "代幣",
+    "toDetailsPanelLabel": "跨鏈目標",
+    "toAddressDetailsItemLabel": "接收地址",
+    "toTokenDetailsItemLabel": "代幣",
+    "feesDetailsPanelLabel": "費用",
+    "feeDetailsItemLabel": "總費用"
+  },
+  "neo3NeoxBridgeDetails": {
+    "title": "您的跨鏈",
+    "description": "您的跨鏈詳情",
+    "detailsHeaderLabel": "詳情",
+    "statusPanelLabel": "狀態",
+    "statusPanelSteps": [
+      "發送",
+      "完成"
+    ],
+    "fromDetailsPanelLabel": "來源",
+    "fromAddressDetailsItemLabel": "發送地址",
+    "fromTokenDetailsItemLabel": "代幣",
+    "toDetailsPanelLabel": "目標",
+    "toAddressDetailsItemLabel": "接收地址",
+    "toTokenDetailsItemLabel": "代幣",
+    "helpButtonLabel": "需要幫助？與我們聊天",
+    "errorsByCode": {
+      "FAILED_TO_GET_NONCE": "取得該交易的 nonce 失敗",
+      "INVALID_TRANSACTION": "交易未被網路成功確認",
+      "NONCE_NOT_FOUND": "找不到該交易的 nonce",
+      "TXID_NOT_FOUND": "找不到交易 ID",
+      "FAILED_TO_GET_TRANSACTION_BY_NONCE": "透過 nonce 取得交易失敗",
+      "UNEXPECTED_ERROR": "發生意外錯誤。如問題持續，請聯繫支援。"
+    }
   }
 }

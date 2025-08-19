@@ -1,6 +1,7 @@
-import { Account, BSAggregator } from '@cityofzion/blockchain-service'
+import { Account } from '@cityofzion/blockchain-service'
 import { exposeApiToRenderer } from '@cityofzion/bs-electron/dist/main'
 import { BSEthereum } from '@cityofzion/bs-ethereum'
+import { BSAggregator } from '@cityofzion/bs-multichain'
 import { BSNeoLegacy } from '@cityofzion/bs-neo-legacy'
 import { BSNeo3 } from '@cityofzion/bs-neo3'
 import { BSNeoX } from '@cityofzion/bs-neox'

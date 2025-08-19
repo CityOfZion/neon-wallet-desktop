@@ -13,7 +13,7 @@ import { ActionStep } from './ActionStep'
 
 type TProps = {
   fee?: string
-  isCalculatingFee: boolean
+  isCalculatingFee?: boolean
   service?: BlockchainService<TBlockchainServiceKey>
   className?: string
   title?: string
@@ -49,7 +49,7 @@ export const TransactionFeeActionStep = ({
       title={title ?? t('title')}
       leftIcon={<TbReceipt aria-hidden={true} className="h-6 min-h-6 w-6 min-w-6" />}
       className={StyleHelper.mergeStyles('mt-2 min-h-11 rounded bg-gray-700/60 px-4 font-bold', className)}
-      titleClassName={StyleHelper.mergeStyles('text-md whitespace-nowrap mr-3 !overflow-visible', titleClassName)}
+      titleClassName={StyleHelper.mergeStyles('whitespace-nowrap mr-3 !overflow-visible', titleClassName)}
       headerClassName="gap-4"
     >
       {isCalculatingFee ? (

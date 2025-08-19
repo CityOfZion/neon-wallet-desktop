@@ -20,7 +20,11 @@
     },
     "securitySetup": {
       "title": "Securing your new wallet",
-      "steps": ["Create Password", "Confirm Password", "Complete"],
+      "steps": [
+        "Create Password",
+        "Confirm Password",
+        "Complete"
+      ],
       "step1": {
         "formTitle": "Please create a password to secure your wallet",
         "passwordPlaceholder": "Create a password...",
@@ -38,7 +42,13 @@
     },
     "importWallet": {
       "title": "Import a wallet",
-      "steps": ["Create Password", "Confirm Password", "Add details or locate file", "Import", "Complete"],
+      "steps": [
+        "Create Password",
+        "Confirm Password",
+        "Add details or locate file",
+        "Import",
+        "Complete"
+      ],
       "migrationLabel": "Locate your migration file",
       "step3": {
         "formTitle": "Enter an address, encrypted key, private key, mnemonic or locate backup file",
@@ -169,8 +179,9 @@
     "editWalletButtonLabel": "Edit",
     "editAccountButton": "Edit account",
     "exportButtonLabel": "Export",
-    "exportKeyButton": "Export key",
-    "voteNeo3Button": "Vote",
+    "exportKeyButtonLabel": "Export key",
+    "voteNeo3ButtonLabel": "Vote",
+    "neo3NeoXBridgeButtonLabel": "Bridge",
     "importButtonLabel": "Import",
     "newWalletButtonLabel": "New Wallet",
     "address": "Address",
@@ -618,6 +629,51 @@
     "notFound": {
       "title": "No candidates to display",
       "text": "There are no candidates to vote for or there was a problem obtaining them. Verify your Neo 3 network, and please, try again."
+    }
+  },
+  "neo3NeoXBridge": {
+    "title": "Bridge",
+    "explanation": {
+      "title": "How does it work?",
+      "description1": "Easily bridge your crypto assets between networks, without ever leaving your wallet.",
+      "description2": "Blockchains are independent of each other, and can’t interact with each other - That's where bridges come in. It’s similar in principle to exchanging money while traveling to different countries, a bridge allows you to transfer assets across various blockchains.",
+      "description3": "Directly and immediately bridging tokens in NEON is convenient and allows you to save time and pay lower fees.",
+      "alert": "COZ are not maintainers of this bridging process - Neo Global Development is the maintainer."
+    },
+    "form": {
+      "title": "What tokens do you want to bridge?",
+      "restartButtonLabel": "Restart",
+      "assetsStepTitle": "Assets",
+      "tokenToUseStepTitle": "Bridge from this",
+      "switchTokensButtonLabel": "Switch tokens",
+      "tokenToReceiveStepTitle": "Bridge to this",
+      "accountDetailsStepTitle": "Account details",
+      "accountToUseStepTitle": "Bridge from here",
+      "addressToReceiveStepTitle": "Receive here",
+      "addressToReceiveInputPlaceholder": "Enter address…",
+      "addressToReceiveContactButtonLabel": "My contacts",
+      "addressToReceiveMyAccountButtonLabel": "Accounts…",
+      "amountsStepTitle": "Amounts",
+      "amountToUseStepTitle": "Amount",
+      "amountToUseMinimumLabel": "Minimum {{amount}}",
+      "amountToUseMinimumPlaceholder": "0.00000000",
+      "amountToUseMaxButtonLabel": "Max",
+      "tokenToUseBalanceStepTitle": "Balance",
+      "tokenToUseBalancePlaceholder": "0.00",
+      "amountToReceiveStepTitle": "Amount you’ll get <1>(after fees)</1>",
+      "amountToReceivePlaceholder": "0.00000000",
+      "bridgeButtonLabel": "Bridge now"
+    },
+    "errorsByCode": {
+      "UNEXPECTED_ERROR": "Unexpected error, please try again",
+      "NO_AVAILABLE_TOKENS": "No available tokens to bridge",
+      "TOKEN_NOT_AVAILABLE": "The selected token is not available to bridge",
+      "PAIR_TOKEN_NOT_FOUND": "The pair token was not found",
+      "ACCOUNT_NOT_COMPATIBLE_WITH_TOKEN": "The selected account is not compatible with the selected token",
+      "AMOUNT_BELOW_MINIMUM": "The amount is below the minimum",
+      "AMOUNT_ABOVE_MAXIMUM": "The amount is above the maximum",
+      "INSUFFICIENT_FEE_TOKEN_BALANCE": "Insufficient balance to cover the bridge fee",
+      "BRIDGE_NOT_READY": "The bridge is not ready yet, please fill all the fields"
     }
   }
 }

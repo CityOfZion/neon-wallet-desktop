@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { BSTokenHelper } from '@cityofzion/blockchain-service'
 import { ExchangeHelper } from '@renderer/helpers/ExchangeHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
@@ -204,5 +204,34 @@ export function useBalance(
   return {
     ...query,
     data,
+  }
+}
+
+export function useLazyBalance() {
+  const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
+  const queryClient = useQueryClient()
+  const { currency } = useCurrencySelector()
+  const currentRatioQuery = useCurrencyRatio()
+  const { hiddenTokensByBlockchain } = useHiddenTokensByBlockchainSelector()
+
+  const getBalance = useCallback(
+    async (params: TUseBalancesParams, options?: TUseBalancesOptions) => {
+      const { showType = 'active', queryOptions } = options ?? {}
+
+      const network = networkByBlockchain[params.blockchain]
+
+      const data = await queryClient.ensureQueryData({
+        queryKey: buildQueryKeyBalance(params.address, params.blockchain, network, currency),
+        queryFn: fetchBalance.bind(null, params, network, queryClient, currency, currentRatioQuery.data ?? 0),
+        ...queryOptions,
+      })
+
+      return fixBalanceResult(data, showType, hiddenTokensByBlockchain)
+    },
+    [currency, currentRatioQuery.data, hiddenTokensByBlockchain, networkByBlockchain, queryClient]
+  )
+
+  return {
+    getBalance,
   }
 }

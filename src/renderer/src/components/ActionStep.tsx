@@ -1,8 +1,9 @@
-import { cloneElement, ReactNode } from 'react'
+import { cloneElement, ReactNode, useLayoutEffect, useRef, useState } from 'react'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
-type TAccountParams = {
+type TProps = {
   title: ReactNode
+  footer?: ReactNode
   disabled?: boolean
   leftIcon?: JSX.Element
   leftIconContainerClassName?: string
@@ -21,37 +22,81 @@ export const ActionStep = ({
   headerClassName,
   leftIconContainerClassName,
   children,
-}: TAccountParams) => {
-  return (
-    <div className={StyleHelper.mergeStyles('flex min-h-14 w-full items-center justify-between gap-3', className)}>
-      <div
-        className={StyleHelper.mergeStyles(
-          'flex min-w-0 flex-grow items-center gap-3',
-          {
-            'opacity-50': disabled,
-          },
-          headerClassName
-        )}
-      >
-        {leftIcon && (
-          <div
-            className={StyleHelper.mergeStyles('flex h-5 w-5 items-center justify-center', leftIconContainerClassName)}
-          >
-            {cloneElement(leftIcon, {
-              ...leftIcon.props,
-              className: StyleHelper.mergeStyles('text-blue w-full h-full', leftIcon.props.className),
-            })}
-          </div>
-        )}
+  footer,
+}: TProps) => {
+  const [height, setHeight] = useState<number>()
+  const [titleLeftPosition, setTileLeftPosition] = useState<number>()
 
-        {typeof title === 'string' ? (
-          <span className={StyleHelper.mergeStyles('truncate text-sm text-white', titleClassName)}>{title}</span>
-        ) : (
-          title
-        )}
+  const titleRef = useRef<HTMLSpanElement>(null)
+  const contentRef = useRef<HTMLDivElement>(null)
+
+  useLayoutEffect(() => {
+    if (contentRef.current) {
+      const contentHeight = contentRef.current.getBoundingClientRect().height
+      setHeight(contentHeight)
+    }
+
+    if (titleRef.current) {
+      const titleLeft = titleRef.current.getBoundingClientRect().left
+      const parentLeft = titleRef.current.parentElement?.getBoundingClientRect().left || 0
+      const leftPosition = titleLeft - parentLeft
+      setTileLeftPosition(leftPosition)
+    }
+  }, [])
+
+  return (
+    <div className={StyleHelper.mergeStyles('flex w-full flex-col gap-2.5 py-3', className)}>
+      <div className="flex w-full justify-between gap-6">
+        <div
+          className={StyleHelper.mergeStyles(
+            'flex h-min min-w-0 items-center gap-2.5',
+            {
+              'opacity-50': disabled,
+            },
+            headerClassName
+          )}
+          style={{ height: height ? `${height}px` : 'auto' }}
+        >
+          {leftIcon && (
+            <div
+              className={StyleHelper.mergeStyles(
+                'flex h-6 min-h-6 w-6 min-w-6 items-center justify-center',
+                leftIconContainerClassName
+              )}
+            >
+              {cloneElement(leftIcon, {
+                ...leftIcon.props,
+                className: StyleHelper.mergeStyles('text-blue w-full h-full', leftIcon.props.className),
+              })}
+            </div>
+          )}
+
+          {typeof title === 'string' ? (
+            <span
+              ref={titleRef}
+              className={StyleHelper.mergeStyles('whitespace-nowrap text-sm text-white', titleClassName)}
+            >
+              {title}
+            </span>
+          ) : (
+            title
+          )}
+        </div>
+
+        <div className="flex items-center" ref={contentRef}>
+          {children}
+        </div>
       </div>
 
-      {children}
+      {footer && (
+        <div
+          style={{
+            marginLeft: titleLeftPosition,
+          }}
+        >
+          {footer}
+        </div>
+      )}
     </div>
   )
 }

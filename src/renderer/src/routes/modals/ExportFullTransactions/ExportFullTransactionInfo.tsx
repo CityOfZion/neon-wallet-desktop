@@ -71,7 +71,6 @@ export const ExportFullTransactionInfo = ({
                 <TbWallet aria-hidden />
               )
             }
-            className="min-h-12"
             titleClassName="text-xs"
             leftIconContainerClassName="h-5 w-5"
           >
@@ -151,7 +150,6 @@ export const ExportFullTransactionInfo = ({
             title={t('allTransactionsStepLabel')}
             leftIcon={<TbPackages aria-hidden />}
             headerClassName="gap-5"
-            className="min-h-12"
             titleClassName="text-xs"
             leftIconContainerClassName="h-5 w-5"
           />

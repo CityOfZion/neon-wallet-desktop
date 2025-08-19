@@ -1,4 +1,4 @@
-import { SwapServiceStatusResponse, SwapServiceToken } from '@cityofzion/blockchain-service'
+import { TSwapServiceStatusResponse, TSwapToken } from '@cityofzion/blockchain-service'
 import {
   CalculateNeo3MigrationAmountsResponse,
   CalculateNeoLegacyMigrationAmountsResponse,
@@ -128,9 +128,9 @@ export type TSwapRecord = {
   txTo?: string
   swapProvider: 'simpleswap'
   swapId?: string
-  swapStatus: SwapServiceStatusResponse['status']
-  tokenFrom: SwapServiceToken<TBlockchainServiceKey>
-  tokenTo: SwapServiceToken<TBlockchainServiceKey>
+  swapStatus: TSwapServiceStatusResponse['status']
+  tokenFrom: TSwapToken<TBlockchainServiceKey>
+  tokenTo: TSwapToken<TBlockchainServiceKey>
   amountFrom: string
   amountTo: string
   addressTo: string

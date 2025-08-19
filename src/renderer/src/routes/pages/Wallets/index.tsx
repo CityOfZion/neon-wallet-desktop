@@ -1,13 +1,14 @@
 import { Fragment, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
-import { hasNft } from '@cityofzion/blockchain-service'
+import { hasNeo3NeoXBridge, hasNft } from '@cityofzion/blockchain-service'
 import MdAdd from '@renderer/assets/images/md-add.svg?react'
 import MdOutlineContentCopy from '@renderer/assets/images/md-outline-content-copy.svg?react'
 import TbChartBarPopular from '@renderer/assets/images/tb-chart-bar-popular.svg?react'
 import TbDotsVertical from '@renderer/assets/images/tb-dots-vertical.svg?react'
 import TbFileExport from '@renderer/assets/images/tb-file-export.svg?react'
 import TbPencil from '@renderer/assets/images/tb-pencil.svg?react'
+import TbReplace from '@renderer/assets/images/tb-replace.svg?react'
 import TbUpload from '@renderer/assets/images/tb-upload.svg?react'
 import { ActionPopover } from '@renderer/components/ActionPopover'
 import { Button } from '@renderer/components/Button'
@@ -102,6 +103,10 @@ export const WalletsPage = () => {
     navigate('/app/vote-neo3', { state: { defaultNeo3Account: selectedAccount } })
   }
 
+  const handleNeo3NeoXBridge = () => {
+    navigate('/app/neo3-neoX-bridge', { state: { account: selectedAccount } })
+  }
+
   useLayoutEffect(() => {
     const navigateToFirstAccount = () => {
       const [wallet] = wallets
@@ -164,7 +169,7 @@ export const WalletsPage = () => {
       contentClassName="flex-row gap-x-3"
       {...TestHelper.buildTestObject('wallets-screen')}
     >
-      {selectedWallet && selectedAccount && (
+      {selectedWallet && selectedAccount && service && (
         <Fragment>
           <section className="flex w-full min-w-[11.625rem] max-w-[11.625rem] flex-col rounded bg-gray-800 drop-shadow-lg">
             <header className="flex h-fit items-center justify-between gap-x-1 px-4 py-3">
@@ -233,14 +238,23 @@ export const WalletsPage = () => {
                         <ActionPopover.Item
                           leftIcon={<TbUpload aria-hidden={true} />}
                           onClick={handleExportKey}
-                          label={t('exportKeyButton')}
+                          label={t('exportKeyButtonLabel')}
                           textClassName="text-start text-white"
                         />
                       )}
 
+                    {hasNeo3NeoXBridge(service) && (
+                      <ActionPopover.Item
+                        label={t('neo3NeoXBridgeButtonLabel')}
+                        textClassName="text-start text-white"
+                        leftIcon={<TbReplace aria-hidden={true} />}
+                        onClick={handleNeo3NeoXBridge}
+                      />
+                    )}
+
                     {selectedAccount?.blockchain === 'neo3' && (
                       <ActionPopover.Item
-                        label={t('voteNeo3Button')}
+                        label={t('voteNeo3ButtonLabel')}
                         textClassName="text-start text-white"
                         leftIcon={<TbChartBarPopular aria-hidden={true} />}
                         onClick={handleGoToVoteNeo3}
