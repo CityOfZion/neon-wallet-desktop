@@ -160,6 +160,8 @@ export const modalsRouter: TRoute[] = [
     name: 'vote-neo3-confirmation',
     type: 'center',
     size: 'sm',
+    closeOnEsc: true,
+    closeOnClickOutside: true,
     element: <VoteNeo3ConfirmationModal />,
   },
   {
