@@ -184,7 +184,14 @@ const settingsSlice = createSlice({
   initialState: settingsReducerInitialState,
   reducers: settingsSliceReducers,
   extraReducers: builder => {
-    builder.addCase(PURGE, () => settingsReducerInitialState)
+    builder.addCase(PURGE, state => ({
+      ...settingsReducerInitialState,
+      data: {
+        ...settingsReducerInitialState.data,
+        isFirstTime: state.data.isFirstTime,
+        language: state.data.language,
+      },
+    }))
   },
 })
 
