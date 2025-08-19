@@ -3,20 +3,16 @@ import { useNavigate } from 'react-router-dom'
 import { Banner } from '@renderer/components/Banner'
 import { Swipe } from '@renderer/components/Swipe'
 import { TestHelper } from '@renderer/helpers/TestHelper'
-import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { WelcomeLayout } from '@renderer/layouts/Welcome'
-import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
 import { RootStore } from '@renderer/store/RootStore'
 
 export const ForgottenPasswordConfirmPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'forgottenPasswordConfirm' })
   const navigate = useNavigate()
-  const dispatch = useAppDispatch()
 
   const clearData = async () => {
     await RootStore.persistor.purge()
 
-    dispatch(settingsReducerActions.setIsFirstTime(false))
     navigate('/forgotten-password-success')
   }
 
