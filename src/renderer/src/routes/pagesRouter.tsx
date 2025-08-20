@@ -11,6 +11,7 @@ import { LoginKeyPage } from './pages/LoginKey'
 import { LoginKeySelectAccountPage } from './pages/LoginKeySelectAccountPage'
 import { LoginPasswordPage } from './pages/LoginPassword'
 import { MigrationNeo3Page } from './pages/MigrationNeo3'
+import { Neo3NeoXBridgePage } from './pages/Neo3NeoXBridge'
 import { PortfolioPage } from './pages/Portfolio'
 import { PortfolioActivityPage } from './pages/Portfolio/Activity'
 import { PortfolioConnectionsPage } from './pages/Portfolio/Connections'
@@ -135,6 +136,10 @@ export const pagesRouter = routeHandler([
           {
             path: 'vote-neo3',
             element: <VoteNeo3Page />,
+          },
+          {
+            path: 'neo3-neox-bridge',
+            element: <Neo3NeoXBridgePage />,
           },
           {
             path: 'contacts',

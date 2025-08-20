@@ -385,21 +385,17 @@ export const SellTokensDepositModal = () => {
                 titleClassName="text-xs"
                 leftIcon={<VscCircleFilled aria-hidden={true} className="h-2 w-2 text-gray-300" />}
               >
-                <div className="my-3 flex w-full max-w-[62%] flex-col">
-                  <div className="flex w-full items-start gap-3">
-                    <Input
-                      aria-label={t('form.address.label')}
-                      placeholder={t('form.address.placeholder')}
-                      className="w-full"
-                      compacted
-                      pastable
-                      value={actionData.address ?? ''}
-                      disabled={isRecipientDisabled}
-                      errorMessage={actionState.errors.address}
-                      onChange={handleChangeAddress}
-                    />
-                  </div>
-                </div>
+                <Input
+                  aria-label={t('form.address.label')}
+                  placeholder={t('form.address.placeholder')}
+                  className="w-full"
+                  compacted
+                  pastable
+                  value={actionData.address ?? ''}
+                  disabled={isRecipientDisabled}
+                  errorMessage={actionState.errors.address}
+                  onChange={handleChangeAddress}
+                />
               </ActionStep>
 
               <Separator />
@@ -408,26 +404,28 @@ export const SellTokensDepositModal = () => {
                 title={t('form.amount.label')}
                 titleClassName="text-xs"
                 leftIcon={<VscCircleFilled aria-hidden={true} className="h-2 w-2 text-gray-300" />}
+                footer={
+                  <div className="flex w-full justify-between text-xs italic text-gray-100">
+                    <p>{t('labels.fiat', { currencyLabel: currency.label })}</p>
+
+                    <p>
+                      {NumberHelper.currency(
+                        actionData.amount && actionData.token
+                          ? NumberHelper.number(actionData.amount) * actionData.token.exchangeConvertedPrice
+                          : 0,
+                        currency.label,
+                        { maximumFractionDigits: 6 }
+                      )}
+                    </p>
+                  </div>
+                }
               >
                 <GreyAmountInput
                   value={actionData.amount}
                   disabled={isRecipientDisabled || !actionData.token}
-                  onChange={handleChangeAmount}
+                  onChangeValue={handleChangeAmount}
                 />
               </ActionStep>
-
-              <div className="flex w-full justify-between pb-4 pl-8 text-xs italic text-gray-100">
-                <p>{t('labels.fiat', { currencyLabel: currency.label })}</p>
-                <p>
-                  {NumberHelper.currency(
-                    actionData.amount && actionData.token
-                      ? NumberHelper.number(actionData.amount) * actionData.token.exchangeConvertedPrice
-                      : 0,
-                    currency.label,
-                    { maximumFractionDigits: 6 }
-                  )}
-                </p>
-              </div>
             </div>
           </div>
         </div>

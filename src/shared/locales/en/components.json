@@ -147,7 +147,8 @@
     "empty": "No tokens"
   },
   "greyAmountInput": {
-    "placeholder": "0.00000000"
+    "placeholder": "0.00000000",
+    "maxButtonLabel": "Max"
   },
   "transactionFeeActionStep": {
     "title": "Transaction Fee"

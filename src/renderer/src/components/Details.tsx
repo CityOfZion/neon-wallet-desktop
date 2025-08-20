@@ -1,4 +1,4 @@
-import { cloneElement, ComponentProps } from 'react'
+import { cloneElement, ComponentProps, ReactNode } from 'react'
 import MdOutlineContentCopy from '@renderer/assets/images/md-outline-content-copy.svg?react'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
@@ -37,31 +37,31 @@ const Header = ({ label, icon, children, ...props }: THeaderProps) => {
         {children}
       </div>
 
-      <Separator className="mb-5 mt-2.5" />
+      <Separator className="mt-2.5" />
     </div>
   )
 }
 type TBodyProps = ComponentProps<'div'>
 const Body = ({ className, children, ...props }: TBodyProps) => {
   return (
-    <div className={StyleHelper.mergeStyles('flex flex-col gap-5', className)} {...props}>
+    <div className={StyleHelper.mergeStyles('flex flex-col', className)} {...props}>
       {children}
     </div>
   )
 }
 
-type TPanelProps = { label: string } & ComponentProps<'div'>
+type TPanelProps = { label?: string } & ComponentProps<'div'>
 const Panel = ({ className, children, label, ...props }: TPanelProps) => {
   return (
     <div className={StyleHelper.mergeStyles('flex flex-col', className)} {...props}>
-      <div className="bg-gray-300/15 px-3.5 py-1.5 text-xs text-blue">{label}</div>
+      {label && <div className="bg-gray-300/15 px-3.5 py-1.5 text-xs text-blue">{label}</div>}
 
       {children}
     </div>
   )
 }
 
-type TItemProps = { label: string; copyable?: string; contentClassName?: string } & ComponentProps<'div'>
+type TItemProps = { label?: ReactNode; copyable?: string; contentClassName?: string } & ComponentProps<'div'>
 
 const Item = ({ label, children, copyable, className, contentClassName, ...props }: TItemProps) => {
   const handleCopy = () => {
@@ -69,9 +69,9 @@ const Item = ({ label, children, copyable, className, contentClassName, ...props
   }
 
   return (
-    <div className={StyleHelper.mergeStyles('group flex flex-col', className)}>
-      <div className="flex flex-col gap-2.5 px-3 py-4" {...props}>
-        <span className="text-xs uppercase text-gray-100">{label}</span>
+    <div className="group flex flex-col">
+      <div className={StyleHelper.mergeStyles('flex flex-col gap-2.5 px-3 py-4', className)} {...props}>
+        {typeof label === 'string' ? <span className="text-xs uppercase text-gray-100">{label}</span> : label}
 
         <div className={StyleHelper.mergeStyles('flex items-center gap-2.5', contentClassName)}>
           {typeof children === 'string' ? <span className="break-all text-sm text-white">{children}</span> : children}

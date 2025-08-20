@@ -24,7 +24,7 @@ const Outline = ({ className, ...props }: TClickableProps) => {
   return (
     <Base
       className={StyleHelper.mergeStyles(
-        'group flex cursor-pointer items-center justify-center gap-x-2.5 rounded border py-3 text-center transition-colors',
+        'group flex cursor-pointer items-center justify-center rounded border py-3 text-center transition-colors',
         'group-aria-[disabled=true]:border-gray-100/50 group-aria-[disabled=true]:text-gray-100/50 group-aria-[disabled=true]:opacity-100',
         'group-aria-expanded:bg-gray-300/15 group-aria-selected:bg-gray-300/15 group-aria-[disabled=false]:hover:bg-gray-300/15',
         {
@@ -46,7 +46,7 @@ const Contained = ({ className, ...props }: TClickableProps) => {
   return (
     <Base
       className={StyleHelper.mergeStyles(
-        'flex min-w-0 items-center justify-center gap-x-2.5 rounded py-3 text-center transition-colors',
+        'flex min-w-0 items-center justify-center rounded py-3 text-center transition-colors',
         'group-aria-[disabled=true]:bg-gray-300/30 group-aria-[disabled=true]:text-gray-100/50 group-aria-[disabled=true]:opacity-100',
         'group-aria-[disabled=false]:bg-gradient-to-t group-aria-[disabled=false]:from-gray-800 group-aria-[disabled=false]:to-gray-600 group-aria-[disabled=false]:shadow-[4px_8px_20px_0px_rgba(18,21,23,0.40),inset_1px_1px_0px_0px_rgba(214,210,210,0.14),inset_-1px_-1px_0px_0px_rgba(0,0,0,0.32)] group-aria-[disabled=false]:hover:from-gray-600 group-aria-[disabled=false]:hover:to-gray-600',
         'group-aria-[disabled=false]:group-aria-expanded:from-gray-600 group-aria-[disabled=false]:group-aria-expanded:to-gray-600 group-aria-[disabled=false]:group-aria-selected:from-gray-600 group-aria-[disabled=false]:group-aria-selected:to-gray-600',
@@ -61,7 +61,7 @@ const Text = ({ className, ...props }: TClickableProps) => {
   return (
     <Base
       className={StyleHelper.mergeStyles(
-        'flex min-w-0 items-center justify-center gap-x-2.5 rounded text-center transition-colors group-aria-expanded:bg-gray-300/15 group-aria-selected:bg-gray-300/15 group-aria-[disabled=false]:hover:bg-gray-300/15',
+        'flex min-w-0 items-center justify-center rounded text-center transition-colors group-aria-expanded:bg-gray-300/15 group-aria-selected:bg-gray-300/15 group-aria-[disabled=false]:hover:bg-gray-300/15',
         className
       )}
       {...props}
@@ -85,9 +85,9 @@ const Card = ({ className, ...props }: TClickableProps) => {
   return (
     <Base
       className={StyleHelper.mergeStyles(
-        'flex min-w-0 items-center justify-center gap-x-2.5 rounded py-3 text-center transition-colors',
+        'flex min-w-0 items-center justify-center rounded py-3 text-center transition-colors',
         'group-aria-[disabled=true]:bg-gray-300/30 group-aria-[disabled=true]:text-gray-100/50 group-aria-[disabled=true]:opacity-100',
-        'group-aria-[disabled=false]:hover: group-aria-expanded:bg-gray-300/30 group-aria-selected:bg-gray-300/30 group-aria-[disabled=false]:bg-gray-300/15',
+        'group-aria-expanded:bg-gray-300/30 group-aria-selected:bg-gray-300/30 group-aria-[disabled=false]:bg-gray-300/15 group-aria-[disabled=false]:hover:bg-gray-300/30',
         className
       )}
       {...props}
@@ -125,11 +125,11 @@ const Base = ({
   return (
     <div
       className={StyleHelper.mergeStyles(
-        'w-full group-aria-[disabled=false]:cursor-pointer group-aria-[disabled=true]:cursor-not-allowed group-aria-[disabled=true]:opacity-50',
+        'w-full gap-x-2.5 group-aria-[disabled=false]:cursor-pointer group-aria-[disabled=true]:cursor-not-allowed group-aria-[disabled=true]:opacity-50',
         {
           'px-7': wide,
           'h-12 text-sm': !flat,
-          'h-8.5 text-xs': flat,
+          'h-8.5 gap-x-1.5 text-xs': flat,
           'px-4': !flat && !wide,
           'px-2': flat && !wide,
           'text-neon': colorSchema === 'neon',
@@ -139,7 +139,6 @@ const Base = ({
           'text-blue': colorSchema === 'blue',
           'text-yellow': colorSchema === 'yellow',
         },
-
         props.className
       )}
     >
@@ -198,15 +197,11 @@ export const Clickable = ({
 }: TClickableProps) => {
   const props = { ...rest, wide, variant, colorSchema, disabled, loading, flat, iconsOnEdge }
 
-  return props.variant === 'outlined' ? (
-    <Outline {...props} />
-  ) : props.variant === 'text' ? (
-    <Text {...props} />
-  ) : props.variant === 'text-slim' ? (
-    <TextSlim {...props} />
-  ) : props.variant === 'contained' ? (
-    <Contained {...props} />
-  ) : (
-    <Card {...props} />
-  )
+  return match(props.variant)
+    .with('outlined', () => <Outline {...props} />)
+    .with('contained', () => <Contained {...props} />)
+    .with('text', () => <Text {...props} />)
+    .with('text-slim', () => <TextSlim {...props} />)
+    .with('card', () => <Card {...props} />)
+    .exhaustive()
 }

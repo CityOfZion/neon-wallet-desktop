@@ -6,23 +6,23 @@ import { ContentLayout } from '@renderer/layouts/ContentLayout'
 import { MainLayout } from '@renderer/layouts/Main'
 import { IAccountState } from '@shared/@types/store'
 
-import { SwapPageContent } from './SwapPageContent'
+import { Neo3NeoXBridgeContent } from './Neo3NeoXBridgeContent'
 
 type TLocationState = {
   account?: IAccountState
 }
 
-export const SwapPage = () => {
+export const Neo3NeoXBridgePage = () => {
   const { state } = useLocation() as Location<TLocationState>
-  const { t } = useTranslation('pages', { keyPrefix: 'swap' })
+  const { t } = useTranslation('pages', { keyPrefix: 'neo3NeoXBridge' })
 
   return state?.account ? (
     <ContentLayout title={t('title')} titleIcon={<TbReplace aria-hidden />} rightComponent={<CommonScreenActions />}>
-      <SwapPageContent account={state?.account} />
+      <Neo3NeoXBridgeContent account={state?.account} />
     </ContentLayout>
   ) : (
     <MainLayout heading={t('title')} rightComponent={<CommonScreenActions />}>
-      <SwapPageContent />
+      <Neo3NeoXBridgeContent />
     </MainLayout>
   )
 }

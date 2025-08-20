@@ -2,7 +2,6 @@ import { BlockchainService } from '@cityofzion/blockchain-service'
 import { exposeApiToRenderer } from '@cityofzion/bs-electron/dist/main'
 import { BSEthereum } from '@cityofzion/bs-ethereum'
 import { BSNeo3 } from '@cityofzion/bs-neo3'
-import * as NeonJs from '@cityofzion/neon-js'
 import {
   AbstractWalletConnectEIP155Adapter,
   AbstractWalletConnectNeonAdapter,
@@ -56,7 +55,7 @@ class WalletConnectNeonAdapter extends AbstractWalletConnectNeonAdapter {
     return networkByBlockchain.neo3.url
   }
 
-  async getSigningCallback(param: TAdapterMethodParam): Promise<NeonJs.api.SigningFunction | undefined> {
+  async getSigningCallback(param: TAdapterMethodParam) {
     const { account, encryptedPassword } = await getStoreAccountFromWCSession(param)
     if (!account) throw new Error('Account not found')
 

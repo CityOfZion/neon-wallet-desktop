@@ -70,7 +70,7 @@ export const GreyAccountSelect = ({
         <Select.Trigger
           disabled={isDisabled}
           className={StyleHelper.mergeStyles(
-            'min-w-36 max-w-36 bg-asphalt aria-expanded:bg-asphalt aria-[disabled=false]:hover:bg-asphalt/60',
+            'h-8.5 min-w-36 max-w-36 bg-asphalt aria-expanded:bg-asphalt aria-[disabled=false]:hover:bg-asphalt/60',
             {
               'aria-[disabled=false]:hover:bg-asphalt/60': !selectedAccount && !open && !isDisabled,
               'bg-gray-300/15 aria-[disabled=false]:hover:bg-gray-300/30': !isDisabled && !open && selectedAccount,

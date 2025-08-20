@@ -125,7 +125,13 @@
   },
   "temporaryLimitsBox": {
     "description": "使用此登入方式會限制部分主要功能：",
-    "limits": ["備份與還原", "錢包自訂", "匯入/匯出功能", "建立新錢包", "以及其他功能..."]
+    "limits": [
+      "備份與還原",
+      "錢包自訂",
+      "匯入/匯出功能",
+      "建立新錢包",
+      "以及其他功能..."
+    ]
   },
   "mnemonicOrKeyAccountSelection": {
     "noAccountsToImport": "未找到帳戶或帳戶已存在，請檢查您的輸入並稍後再試。",
@@ -141,7 +147,8 @@
     "empty": "沒有代幣"
   },
   "greyAmountInput": {
-    "placeholder": "0.00000000"
+    "placeholder": "0.00000000",
+    "maxButtonLabel": "最大"
   },
   "transactionFeeActionStep": {
     "title": "交易手續費"

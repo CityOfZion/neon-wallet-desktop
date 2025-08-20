@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SimpleSwapServiceHelper } from '@cityofzion/bs-swap'
+import { SimpleSwapService } from '@cityofzion/bs-multichain'
 import MdOutlineContentCopy from '@renderer/assets/images/md-outline-content-copy.svg?react'
 import TbList from '@renderer/assets/images/tb-list.svg?react'
 import { IconButton } from '@renderer/components/IconButton'
@@ -16,7 +16,7 @@ type TState = {
   swapRecord: TSwapRecord
 }
 
-const swapServiceHelper = new SimpleSwapServiceHelper()
+const swapService = new SimpleSwapService()
 
 export const SwapDetailsLogModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'swapDetailsLog' })
@@ -33,7 +33,7 @@ export const SwapDetailsLogModal = () => {
       let finalLog = swapRecord.log
 
       if (!finalLog) {
-        const response = await swapServiceHelper.getStatus(swapId!)
+        const response = await swapService.getStatus(swapId!)
         if (response.log) finalLog = response.log
       }
 

@@ -1,55 +1,50 @@
-import { forwardRef, PropsWithChildren } from 'react'
+import { forwardRef, ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FieldActionsMenu } from '@renderer/components/FieldActionsMenu'
-import { Loader } from '@renderer/components/Loader'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
-type TProps = PropsWithChildren<{
-  value?: string
-  onChange?: (value: string) => void
-  disabled?: boolean
-  readOnly?: boolean
-  loading?: boolean
-  className?: string
-  inputClassName?: string
-}>
+import { Button, TButtonProps } from './Button'
+import { Input, TInputProps } from './Input'
+
+type TProps = {
+  children?: ReactNode
+  maxButtonProps?: TButtonProps
+} & TInputProps
 
 export const GreyAmountInput = forwardRef<HTMLInputElement, TProps>(
-  ({ onChange, value, disabled, loading, className, inputClassName, readOnly, children }, ref) => {
+  ({ className, containerClassName, contentClassName, maxButtonProps, ...props }, ref) => {
     const { t } = useTranslation('components', { keyPrefix: 'greyAmountInput' })
-    const isDisabled = loading || disabled
 
     return (
-      <div
-        className={StyleHelper.mergeStyles(
-          'flex h-8.5 w-36 items-center justify-center rounded bg-gray-300/15 text-sm aria-disabled:cursor-not-allowed aria-disabled:opacity-50',
-          className
-        )}
-        aria-disabled={isDisabled}
-      >
-        {loading ? (
-          <Loader />
-        ) : (
-          <>
-            <FieldActionsMenu value={value ?? ''} disabled={isDisabled} readOnly={readOnly} onChange={onChange}>
-              <input
-                className={StyleHelper.mergeStyles(
-                  'h-full w-full bg-transparent px-2 text-center text-neon outline-none [appearance:textfield] disabled:cursor-not-allowed',
-                  inputClassName
-                )}
-                ref={ref}
-                onChange={event => onChange?.(event.target.value)}
-                value={value}
-                disabled={isDisabled}
-                placeholder={t('placeholder')}
-                readOnly={readOnly}
-              />
-            </FieldActionsMenu>
-
-            {children}
-          </>
-        )}
-      </div>
+      <Input
+        ref={ref}
+        className={className}
+        containerClassName={StyleHelper.mergeStyles('w-36', containerClassName)}
+        contentClassName={StyleHelper.mergeStyles('bg-gray-300/15 pr-0 pl-3 text-sm', contentClassName)}
+        compacted
+        disabled
+        placeholder={t('placeholder')}
+        rightElement={
+          maxButtonProps ? (
+            <Button
+              {...maxButtonProps}
+              label={t('maxButtonLabel')}
+              flat
+              colorSchema="neon"
+              variant="card"
+              disabled={props.disabled || maxButtonProps.disabled}
+              className={StyleHelper.mergeStyles('w-12', maxButtonProps?.className)}
+              clickableProps={{
+                className: StyleHelper.mergeStyles(
+                  'group-aria-[disabled=false]:bg-asphalt group-aria-[disabled=false]:hover:bg-asphalt/60 rounded-l-none',
+                  maxButtonProps?.clickableProps?.className
+                ),
+                ...maxButtonProps?.clickableProps,
+              }}
+            />
+          ) : undefined
+        }
+        {...props}
+      />
     )
   }
 )

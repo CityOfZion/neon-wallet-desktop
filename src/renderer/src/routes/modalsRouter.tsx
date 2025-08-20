@@ -41,6 +41,8 @@ import { MigrateAccountsStep2Modal } from './modals/MigrateAccounts/MigrateAccou
 import { MigrateAccountsStep3Modal } from './modals/MigrateAccounts/MigrateAccountsStep3'
 import { MigrateAccountsStep4Modal } from './modals/MigrateAccounts/MigrateAccountsStep4'
 import { MigrationNeo3StatusModal } from './modals/MigrationNeo3Status'
+import { Neo3NeoxBridgeConfirmationModal } from './modals/Neo3NeoxBridgeConfirmation'
+import { Neo3NeoxBridgeDetailsModal } from './modals/Neo3NeoxBridgeDetails'
 import { NetworkNodeSelection } from './modals/NetworkNodeSelection'
 import { NetworkSelection } from './modals/NetworkSelection'
 import { NFTSelectionModal } from './modals/NftSelection'
@@ -63,8 +65,8 @@ import { VoteNeo3SupportUsModal } from './modals/VoteNeo3SupportUs'
 
 export const modalsRouter: TRoute[] = [
   { name: 'import', type: 'side', element: <ImportModal /> },
-  { name: 'import-accounts-selection', type: 'side', element: <ImportAccountsSelectionModal /> },
-  { name: 'import-watch-accounts', type: 'side', element: <ImportWatchAccountsModal /> },
+  { name: 'import-accounts-selection', type: 'side', size: 'md', element: <ImportAccountsSelectionModal /> },
+  { name: 'import-watch-accounts', type: 'side', size: 'md', element: <ImportWatchAccountsModal /> },
   { name: 'confirm-password-backup', type: 'side', element: <ConfirmPasswordBackupModal /> },
   { name: 'edit-wallet', type: 'side', element: <EditWalletModal /> },
   { name: 'confirm-password-recover', type: 'side', element: <ConfirmPasswordRecoverModal /> },
@@ -175,5 +177,17 @@ export const modalsRouter: TRoute[] = [
     type: 'center',
     size: 'xs',
     element: <HideFraudulentTokenModal />,
+  },
+  {
+    name: 'neo3-neox-bridge-confirmation',
+    type: 'side',
+    size: 'lg',
+    element: <Neo3NeoxBridgeConfirmationModal />,
+  },
+  {
+    name: 'neo3-neox-bridge-details',
+    type: 'side',
+    size: 'lg',
+    element: <Neo3NeoxBridgeDetailsModal />,
   },
 ]

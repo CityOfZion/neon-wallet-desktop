@@ -1,4 +1,4 @@
-import { cloneElement, forwardRef, MouseEvent, useImperativeHandle, useRef, useState } from 'react'
+import { ChangeEvent, cloneElement, forwardRef, MouseEvent, useImperativeHandle, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import MdCancel from '@renderer/assets/images/md-cancel.svg?react'
 import MdContentCopy from '@renderer/assets/images/md-content-copy.svg?react'
@@ -31,6 +31,7 @@ export type TInputProps = Omit<React.ComponentProps<'input'>, 'type' | 'ref'> & 
   loading?: boolean
   label?: string
   testId?: string
+  onChangeValue?: (value: string) => void
 }
 
 export const Input = forwardRef<HTMLInputElement, TInputProps>(
@@ -54,6 +55,9 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
       label,
       testId,
       rightElement,
+      onChangeValue,
+      onChange,
+      disabled,
       ...props
     },
     ref
@@ -63,6 +67,8 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
     const internalRef = useRef<HTMLInputElement>(null)
     const [hidden, setHidden] = useState(isTypePassword)
     const realType = isTypePassword ? (hidden ? 'password' : 'text') : type
+
+    const isDisabled = disabled || loading
 
     const toggleHidden: React.MouseEventHandler<HTMLButtonElement> = event => {
       event.stopPropagation()
@@ -114,6 +120,11 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
       props.onMouseDown?.(event)
     }
 
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+      onChangeValue?.(event.target.value)
+      onChange?.(event)
+    }
+
     useImperativeHandle(ref, () => internalRef.current!, [])
 
     return (
@@ -121,7 +132,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
         {label && <label className="mb-2 block text-xs font-bold uppercase text-gray-100">{label}</label>}
 
         <div
-          aria-disabled={props.disabled}
+          aria-disabled={isDisabled}
           className={StyleHelper.mergeStyles(
             'flex w-full cursor-text items-center gap-x-1.5 rounded bg-asphalt px-5 font-medium text-white outline-none ring-2 ring-transparent transition-colors placeholder:text-white/50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50',
             {
@@ -151,7 +162,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
 
           <FieldActionsMenu
             value={['string', 'number'].includes(typeof props.value) ? props.value!.toString() : ''}
-            disabled={props.disabled}
+            disabled={isDisabled}
             readOnly={readOnly}
             onChange={setValue}
           >
@@ -163,10 +174,12 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
               )}
               onMouseDown={handleMouseDown}
               onClick={handleClick}
+              onChange={handleChange}
               type={realType}
               spellCheck="false"
               autoComplete="off"
               readOnly={readOnly}
+              disabled={isDisabled}
               {...props}
               {...TestHelper.buildTestObject(testId)}
             />
@@ -181,7 +194,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
                   icon={hidden ? <MdVisibility aria-hidden={true} /> : <MdVisibilityOff aria-hidden={true} />}
                   onClick={toggleHidden}
                   type="button"
-                  disabled={props.disabled}
+                  disabled={isDisabled}
                   compacted
                 />
               )}
@@ -193,7 +206,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
                   onClick={handlePaste}
                   colorSchema="neon"
                   type="button"
-                  disabled={props.disabled}
+                  disabled={isDisabled}
                   compacted
                 />
               )}
@@ -205,7 +218,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
                   colorSchema="neon"
                   type="button"
                   compacted
-                  disabled={props.disabled}
+                  disabled={isDisabled}
                 />
               )}
 
@@ -215,7 +228,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
                   type="button"
                   onClick={clear}
                   compacted
-                  disabled={props.disabled}
+                  disabled={isDisabled}
                 />
               )}
 
@@ -226,12 +239,12 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
 
         {match({ errorMessage, hint })
           .with({ errorMessage: P.when(value => !!value && typeof value === 'string') }, () => (
-            <span className="mt-1 block text-xs text-pink" {...TestHelper.buildTestObject(testId, 'error')}>
+            <span className="mt-1 block truncate text-xs text-pink" {...TestHelper.buildTestObject(testId, 'error')}>
               {errorMessage}
             </span>
           ))
           .with({ hint: P.when(value => !!value && typeof value === 'string') }, () => (
-            <span className="mt-1 block text-xs text-gray-300" {...TestHelper.buildTestObject(testId, 'hint')}>
+            <span className="mt-1 block truncate text-xs text-gray-300" {...TestHelper.buildTestObject(testId, 'hint')}>
               {hint}
             </span>
           ))

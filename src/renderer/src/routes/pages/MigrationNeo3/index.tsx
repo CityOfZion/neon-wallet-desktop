@@ -261,8 +261,6 @@ export const MigrationNeo3Page = () => {
                   <ActionStep
                     title={t('labels.assets')}
                     className="font-bold"
-                    titleClassName="text-md"
-                    headerClassName="gap-4"
                     leftIcon={<TbDiamond aria-hidden={true} className="h-6 min-h-6 w-6 min-w-6" />}
                   />
 
@@ -270,7 +268,6 @@ export const MigrationNeo3Page = () => {
 
                   <ActionStep
                     title={t('labels.migrate')}
-                    headerClassName="gap-4"
                     leftIcon={<VscCircleFilled aria-hidden={true} className="h-2 w-2 text-gray-100" />}
                   >
                     <MigrationNeo3AssetText
@@ -285,7 +282,6 @@ export const MigrationNeo3Page = () => {
 
                   <ActionStep
                     title={t('labels.receive')}
-                    headerClassName="gap-4"
                     leftIcon={<VscCircleFilled aria-hidden={true} className="h-2 w-2 text-gray-100" />}
                   >
                     <MigrationNeo3AssetText
@@ -303,8 +299,6 @@ export const MigrationNeo3Page = () => {
                   <ActionStep
                     title={t('labels.address')}
                     className="font-bold"
-                    titleClassName="text-md"
-                    headerClassName="gap-4"
                     leftIcon={<TbWallet aria-hidden={true} className="h-6 min-h-6 w-6 min-w-6" />}
                   />
 
@@ -312,7 +306,6 @@ export const MigrationNeo3Page = () => {
 
                   <ActionStep
                     title={tBlockchain(neoLegacyAccount.blockchain)}
-                    headerClassName="gap-4"
                     leftIcon={<VscCircleFilled aria-hidden={true} className="h-2 w-2 text-gray-100" />}
                   >
                     <p className="pr-2 text-sm text-gray-100">{neoLegacyAccount.address}</p>
@@ -345,8 +338,6 @@ export const MigrationNeo3Page = () => {
                   <ActionStep
                     title={t('labels.amounts')}
                     className="font-bold"
-                    titleClassName="text-md"
-                    headerClassName="gap-4"
                     leftIcon={<TbCoin aria-hidden={true} className="h-6 min-h-6 w-6 min-w-6" />}
                   />
 
@@ -362,10 +353,10 @@ export const MigrationNeo3Page = () => {
                       </p>
                     }
                     className="items-start"
-                    headerClassName="gap-4 py-5"
+                    headerClassName="gap-4"
                     leftIcon={<VscCircleFilled aria-hidden={true} className="h-2 w-2 text-gray-100" />}
                   >
-                    <ul className="flex flex-col gap-y-2 self-center py-5 pr-2 text-sm">
+                    <ul className="flex flex-col gap-y-2 self-center pr-2 text-sm">
                       <MigrationNeo3ListItemAmount
                         amount={actionData.neo3MigrationAmounts.neoMigrationReceiveAmount}
                         symbol={NEO3_NEO_TOKEN.symbol}
@@ -383,12 +374,10 @@ export const MigrationNeo3Page = () => {
                   <ActionStep
                     title={t('labels.fee')}
                     className="items-start font-bold"
-                    titleClassName="text-md"
-                    headerClassName="gap-4 py-5"
                     leftIcon={<TbReceipt aria-hidden={true} className="h-6 min-h-6 w-6 min-w-6" />}
                   >
                     <div className="flex self-center pr-2 text-sm font-normal">
-                      <ul className="flex flex-col gap-y-2 py-5">
+                      <ul className="flex flex-col gap-y-2">
                         {actionData.neo3MigrationAmounts.neoMigrationTotalFees && (
                           <MigrationNeo3ListItemFee
                             fee={actionData.neo3MigrationAmounts.neoMigrationTotalFees}

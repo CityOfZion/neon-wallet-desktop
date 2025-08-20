@@ -33,6 +33,7 @@ type TProps<T extends TGreyTokenSelectToken> = {
   balance?: TBalance
   disabled?: boolean
   blockchain?: TBlockchainServiceKey
+  triggerClassName?: string
 }
 
 export const GreyTokenSelect = <T extends TGreyTokenSelectToken>({
@@ -43,6 +44,7 @@ export const GreyTokenSelect = <T extends TGreyTokenSelectToken>({
   balance,
   disabled = false,
   blockchain,
+  triggerClassName,
 }: TProps<T>) => {
   const [filter, setFilter] = useState('')
   const [open, setOpen] = useState(false)
@@ -120,16 +122,17 @@ export const GreyTokenSelect = <T extends TGreyTokenSelectToken>({
           'flex h-8.5 w-32 min-w-3 items-center gap-2 rounded bg-asphalt px-2 aria-expanded:bg-asphalt',
           {
             'aria-[disabled=false]:hover:bg-asphalt/60': !selectedToken && !isDisabled,
-            'bg-gray-300/15 aria-[disabled=false]:hover:bg-gray-300/30': !isDisabled && selectedToken,
+            'bg-gray-300/15 aria-[disabled=false]:hover:bg-gray-300/30': selectedToken,
             'opacity-50': isDisabled,
-          }
+          },
+          triggerClassName
         )}
       >
         {match({ loading, isTokenSelected: !!selectedToken })
           .with({ loading: true }, () => <Loader />)
           .with({ isTokenSelected: true }, () => <GreyTokenSelectItem token={selectedToken!} />)
           .otherwise(() => (
-            <span className="w-full text-center font-medium text-neon">{t('placeholder')}</span>
+            <span className="w-full text-center text-sm font-medium text-neon">{t('placeholder')}</span>
           ))}
       </Popover.Trigger>
 
