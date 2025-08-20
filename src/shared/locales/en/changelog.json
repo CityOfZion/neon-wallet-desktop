@@ -2,14 +2,16 @@
   "versionLabel": "Version v{{version}}",
   "notes": [
     {
-      "version": "3.8.2-rc.0",
-      "date": "18 Aug 2025",
+      "version": "3.8.2-rc.1",
+      "date": "20 Aug 2025",
       "changes": [
         "Improvement to Legacy Migration Efficiency",
         "Improved notification for malicious tokens",
+        "Neo N3 and NeoX Bridge feature",
+        "Fix to unclaimed Neo Legacy GAS",
         "Small Bugfixes"
       ],
-      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.8.2-rc.0"
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.8.2-rc.1"
     },
     {
       "version": "3.8.1",
