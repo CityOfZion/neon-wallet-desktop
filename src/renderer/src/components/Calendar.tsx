@@ -290,9 +290,9 @@ export const Calendar = ({
         range_middle:
           'bg-gray-100/10 !text-white [&>button]:!bg-transparent [&>button]:!text-white [&>button]:hover:!bg-transparent [&>button]:hover:!text-white',
         range_end: 'day-range-end rounded bg-neon [&>button]:bg-neon [&>button]:hover:neon [&>button]:hover:neon',
-        selected: '[&>button]:!bg-neon [&>button]:!text-asphalt',
+        selected: '[&>button]:!bg-neon [&>button]:!text-white',
         today:
-          '[&>button]:bg-gray-300/10 [&>button]:data-[selected=true]:bg-neon [&>button]:data-[selected=true]:[not(:disabled)]:text-asphalt',
+          '[&>button]:bg-gray-300/10 [&>button]:data-[selected=true]:bg-neon [&>button]:data-[selected=true]:[not(:disabled)]:text-white',
         outside: 'day-outside opacity-50',
         disabled: '[&>button]:text-gray-300 !opacity-30',
         hidden: 'invisible flex-1',

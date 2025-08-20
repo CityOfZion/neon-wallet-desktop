@@ -40,12 +40,12 @@ export const Stepper = ({
                 className={StyleHelper.mergeStyles(
                   'flex h-6 w-6 items-center justify-center rounded-full text-sm font-bold transition-colors',
                   {
-                    'bg-blue text-asphalt': isPastStep && isDefaultTheme,
+                    'bg-blue text-black': isPastStep && isDefaultTheme,
                     'bg-gray-900 text-gray-300': isFutureStep && isDefaultTheme,
-                    'bg-neon text-asphalt': isPastStep && isNeonTheme,
-                    'bg-gray-300 text-asphalt': isFutureStep && isNeonTheme,
-                    'bg-white text-asphalt': isCurrentStep && isSuccessState,
-                    'bg-pink text-asphalt': isCurrentStep && isErrorState,
+                    'bg-neon text-white': isPastStep && isNeonTheme,
+                    'bg-gray-300 text-black': isFutureStep && isNeonTheme,
+                    'bg-white text-black': isCurrentStep && isSuccessState,
+                    'bg-pink text-black': isCurrentStep && isErrorState,
                   }
                 )}
               >

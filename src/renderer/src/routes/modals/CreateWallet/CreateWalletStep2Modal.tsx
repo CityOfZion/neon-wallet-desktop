@@ -72,7 +72,7 @@ export const CreateWalletStep2Modal = () => {
             {shuffledWords.map((word, index) => (
               <Button
                 clickableProps={{
-                  className: isActive(index) ? 'bg-gray-100 text-asphalt border-none hover:bg-gray-100' : '',
+                  className: isActive(index) ? 'bg-gray-100 text-black border-none hover:bg-gray-100' : '',
                 }}
                 key={`${word}-${index}`}
                 label={word}

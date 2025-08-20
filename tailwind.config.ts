@@ -10,13 +10,13 @@ export default {
     colors: {
       transparent: 'transparent',
       asphalt: {
-        DEFAULT: '#1A2026',
+        DEFAULT: '#FFFFFF',
       },
       black: {
         DEFAULT: '#000',
       },
       neon: {
-        DEFAULT: '#4CFFB3',
+        DEFAULT: '#314AF7',
       },
       green: {
         DEFAULT: '#2EBE81',

@@ -177,7 +177,7 @@ export const DappPermissionContractDetailsModal = () => {
                     <div className="flex items-center gap-5">
                       <p className="capitalize text-gray-100">{param.name}</p>
                       <div
-                        className="rounded-full px-3.5 py-1 text-xs text-asphalt"
+                        className="rounded-full px-3.5 py-1 text-xs text-black"
                         style={{
                           backgroundColor: COLORS_BY_TYPE[param.type].color,
                           color: COLORS_BY_TYPE[param.type].textColor === 'dark' ? 'black' : 'white',
