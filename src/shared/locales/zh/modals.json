@@ -871,42 +871,42 @@
     "notFoundTokenLabel": "未找到令牌"
   },
   "neo3NeoxBridgeConfirmation": {
-    "title": "Confirm your bridge",
-    "description": "Please review the details below and confirm that you’d like to proceed",
-    "transactionDetailsHeaderLabel": "Transaction details",
-    "bridgeDetailsItemLabel": "You want to bridge",
-    "fromDetailsPanelLabel": "Bridge from",
-    "fromAddressDetailsItemLabel": "Sending address",
-    "fromTokenDetailsItemLabel": "Token",
-    "toDetailsPanelLabel": "Bridge to",
-    "toAddressDetailsItemLabel": "Receiving address",
-    "toTokenDetailsItemLabel": "Token",
-    "feesDetailsPanelLabel": "Fees",
-    "feeDetailsItemLabel": "Total fee"
+    "title": "确认您的跨链",
+    "description": "请查看以下详细信息并确认是否继续",
+    "transactionDetailsHeaderLabel": "交易详情",
+    "bridgeDetailsItemLabel": "您想要跨链",
+    "fromDetailsPanelLabel": "跨链来源",
+    "fromAddressDetailsItemLabel": "发送地址",
+    "fromTokenDetailsItemLabel": "代币",
+    "toDetailsPanelLabel": "跨链目标",
+    "toAddressDetailsItemLabel": "接收地址",
+    "toTokenDetailsItemLabel": "代币",
+    "feesDetailsPanelLabel": "费用",
+    "feeDetailsItemLabel": "总费用"
   },
   "neo3NeoxBridgeDetails": {
-    "title": "Your bridge",
-    "description": "Your bridge details",
-    "detailsHeaderLabel": "Details",
-    "statusPanelLabel": "Status",
+    "title": "您的跨链",
+    "description": "您的跨链详情",
+    "detailsHeaderLabel": "详情",
+    "statusPanelLabel": "状态",
     "statusPanelSteps": [
-      "Send",
-      "Complete"
+      "发送",
+      "完成"
     ],
-    "fromDetailsPanelLabel": "From",
-    "fromAddressDetailsItemLabel": "Sending address",
-    "fromTokenDetailsItemLabel": "Token",
-    "toDetailsPanelLabel": "To",
-    "toAddressDetailsItemLabel": "Receiving address",
-    "toTokenDetailsItemLabel": "Token",
-    "helpButtonLabel": "Need help? Chat with us",
+    "fromDetailsPanelLabel": "来源",
+    "fromAddressDetailsItemLabel": "发送地址",
+    "fromTokenDetailsItemLabel": "代币",
+    "toDetailsPanelLabel": "目标",
+    "toAddressDetailsItemLabel": "接收地址",
+    "toTokenDetailsItemLabel": "代币",
+    "helpButtonLabel": "需要帮助？与我们聊天",
     "errorsByCode": {
-      "FAILED_TO_GET_NONCE": "Failed to get nonce for that transaction",
-      "INVALID_TRANSACTION": "Transaction was not successfully confirmed by the network",
-      "NONCE_NOT_FOUND": "Nonce not found for the transaction",
-      "TXID_NOT_FOUND": "Transaction ID not found",
-      "FAILED_TO_GET_TRANSACTION_BY_NONCE": "Failed to get transaction by nonce",
-      "UNEXPECTED_ERROR": "Unexpected error occurred. Please contact support if the issue persists."
+      "FAILED_TO_GET_NONCE": "获取该交易的 nonce 失败",
+      "INVALID_TRANSACTION": "交易未被网络成功确认",
+      "NONCE_NOT_FOUND": "未找到该交易的 nonce",
+      "TXID_NOT_FOUND": "未找到交易 ID",
+      "FAILED_TO_GET_TRANSACTION_BY_NONCE": "通过 nonce 获取交易失败",
+      "UNEXPECTED_ERROR": "发生意外错误。如问题持续，请联系支持。"
     }
   }
 }
