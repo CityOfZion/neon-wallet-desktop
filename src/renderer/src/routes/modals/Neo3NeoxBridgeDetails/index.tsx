@@ -124,7 +124,7 @@ export const Neo3NeoxBridgeDetailsModal = () => {
       <Details.Root className="mt-2.5">
         <Details.Body>
           <Details.Panel label={t('fromDetailsPanelLabel')}>
-            <Details.Item label="Token">
+            <Details.Item label={t('fromTokenDetailsItemLabel')}>
               <TokenDetails symbol={tokenToUse.symbol} blockchain={tokenToUse.blockchain} amount={amountToUse} />
             </Details.Item>
 

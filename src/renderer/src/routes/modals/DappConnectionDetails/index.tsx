@@ -167,14 +167,14 @@ export const DappConnectionDetailsModal = () => {
 
           <div className="mt-4 flex w-full items-end gap-x-2.5">
             <Button
-              label="Decline"
+              label={t('declineButtonLabel')}
               colorSchema="gray"
               className="min-w-[7.5rem]"
               onClick={handleDecline}
               disabled={loading}
             />
 
-            <Button label="Accept" className="flex-grow" onClick={handleAccept} loading={loading} />
+            <Button label={t('acceptButtonLabel')} className="flex-grow" onClick={handleAccept} loading={loading} />
           </div>
         </Fragment>
       ) : (

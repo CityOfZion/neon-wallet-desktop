@@ -59,7 +59,7 @@
         "importEncryptedSubtitle": "已識別您的加密金鑰，請完成下方欄位以繼續。",
         "invalidAddress": "無效的地址",
         "unexpectedError": "發生未知錯誤",
-        "locateFileButtonLabel": "選擇檔案...",
+        "locateFileButtonLabel": "選擇檔案",
         "neon2Warning": "此檔案於 Neon 2 錢包遷移過程中產生。請在 Neon 2 開始遷移以建立檔案。",
         "importSuccess": "已識別相容檔案！",
         "importError": "未識別相容檔案"

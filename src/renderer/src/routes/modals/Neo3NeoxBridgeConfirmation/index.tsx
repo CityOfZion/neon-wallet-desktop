@@ -66,7 +66,7 @@ export const Neo3NeoxBridgeConfirmationModal = () => {
           <Details.Panel label={t('fromDetailsPanelLabel')}>
             <Details.Item label={t('fromAddressDetailsItemLabel')}>{accountToUse.address}</Details.Item>
 
-            <Details.Item label="Token">
+            <Details.Item label={t('fromTokenDetailsItemLabel')}>
               <TokenDetails symbol={tokenToUse.symbol} blockchain={tokenToUse.blockchain} amount={amountToUse} />
             </Details.Item>
           </Details.Panel>
@@ -100,7 +100,7 @@ export const Neo3NeoxBridgeConfirmationModal = () => {
         className="mt-9 px-5"
         leftIcon={<MdCheck aria-hidden />}
         iconsOnEdge={false}
-        label="Confirm"
+        label={t('confirmButtonLabel')}
         loading={isPressing}
         onClick={handlePressOnce(onConfirm)}
       />
