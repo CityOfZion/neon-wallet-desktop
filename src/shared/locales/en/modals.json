@@ -40,7 +40,8 @@
     "deleteWalletTitle": "Delete Wallet",
     "deleteWalletSubtext": "This will remove your wallet and all transaction history",
     "selectSkinLabel": "Select a skin",
-    "noSkinsUnlocked": "No skins unlocked"
+    "noSkinsUnlocked": "No skins unlocked",
+    "deleteWalletButtonLabel": "Delete wallet"
   },
   "persistAccount": {
     "titleEdit": "Edit Account",
@@ -177,6 +178,8 @@
     "title": "This app wants to connect!",
     "description": "{{name}} wants to connect to your wallet",
     "connectionDetailsTitle": "Connection details",
+    "declineButtonLabel": "Decline",
+    "acceptButtonLabel": "Accept",
     "successModal": {
       "title": "Connect a dApp",
       "subtitle": "A new dApp has been connected!",
@@ -882,7 +885,8 @@
     "toAddressDetailsItemLabel": "Receiving address",
     "toTokenDetailsItemLabel": "Token",
     "feesDetailsPanelLabel": "Fees",
-    "feeDetailsItemLabel": "Total fee"
+    "feeDetailsItemLabel": "Total fee",
+    "confirmButtonLabel": "Confirm"
   },
   "neo3NeoxBridgeDetails": {
     "title": "Your bridge",

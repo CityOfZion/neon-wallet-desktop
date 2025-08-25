@@ -40,7 +40,8 @@
     "deleteWalletTitle": "删除钱包",
     "deleteWalletSubtext": "这将移除您的钱包和所有交易记录",
     "selectSkinLabel": "选择皮肤",
-    "noSkinsUnlocked": "没有解锁的皮肤"
+    "noSkinsUnlocked": "没有解锁的皮肤",
+    "deleteWalletButtonLabel": "删除钱包"
   },
   "persistAccount": {
     "titleEdit": "编辑账户",
@@ -177,6 +178,8 @@
     "title": "此应用请求连接！",
     "description": "{{name}} 想要连接您的钱包",
     "connectionDetailsTitle": "连接详情",
+    "declineButtonLabel": "拒绝",
+    "acceptButtonLabel": "接受",
     "successModal": {
       "title": "连接dApp",
       "subtitle": "新dApp已连接！",
@@ -882,7 +885,8 @@
     "toAddressDetailsItemLabel": "接收地址",
     "toTokenDetailsItemLabel": "代币",
     "feesDetailsPanelLabel": "费用",
-    "feeDetailsItemLabel": "总费用"
+    "feeDetailsItemLabel": "总费用",
+    "confirmButtonLabel": "确认"
   },
   "neo3NeoxBridgeDetails": {
     "title": "您的跨链",

@@ -83,7 +83,7 @@ export const EditWalletModal = () => {
         <span className="mt-2 text-xs text-white">{t('deleteWalletSubtext')}</span>
 
         <Button
-          label="Delete Wallet"
+          label={t('deleteWalletButtonLabel')}
           type="button"
           leftIcon={<MdDeleteForever aria-hidden={true} />}
           className="mt-7"

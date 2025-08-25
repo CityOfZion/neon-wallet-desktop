@@ -40,7 +40,8 @@
     "deleteWalletTitle": "刪除錢包",
     "deleteWalletSubtext": "這將移除您的錢包及所有交易紀錄",
     "selectSkinLabel": "選擇主題",
-    "noSkinsUnlocked": "尚未解鎖任何主題"
+    "noSkinsUnlocked": "尚未解鎖任何主題",
+    "deleteWalletButtonLabel": "刪除錢包"
   },
   "persistAccount": {
     "titleEdit": "編輯帳戶",
@@ -177,6 +178,8 @@
     "title": "此應用程式想要連接！",
     "description": "{{name}} 想要連接您的錢包",
     "connectionDetailsTitle": "連線詳情",
+    "declineButtonLabel": "拒絕",
+    "acceptButtonLabel": "接受",
     "successModal": {
       "title": "連接 dApp",
       "subtitle": "新的 dApp 已成功連接！",
@@ -882,7 +885,8 @@
     "toAddressDetailsItemLabel": "接收地址",
     "toTokenDetailsItemLabel": "代幣",
     "feesDetailsPanelLabel": "費用",
-    "feeDetailsItemLabel": "總費用"
+    "feeDetailsItemLabel": "總費用",
+    "confirmButtonLabel": "確認"
   },
   "neo3NeoxBridgeDetails": {
     "title": "您的跨鏈",

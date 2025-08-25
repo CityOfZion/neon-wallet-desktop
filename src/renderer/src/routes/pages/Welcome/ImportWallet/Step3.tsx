@@ -200,7 +200,7 @@ export const WelcomeImportWalletStep3Page = () => {
         )}
 
         <Button
-          label="Locate file"
+          label={t('locateFileButtonLabel')}
           type="button"
           className="w-64"
           variant="outlined"

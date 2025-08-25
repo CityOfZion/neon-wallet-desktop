@@ -59,7 +59,7 @@
         "importEncryptedSubtitle": "已识别您的加密密钥，请完成以下字段以继续。",
         "invalidAddress": "无效地址",
         "unexpectedError": "意外错误",
-        "locateFileButtonLabel": "定位文件...",
+        "locateFileButtonLabel": "定位文件",
         "neon2Warning": "此文件在Neon 2钱包迁移过程中创建。请在Neon 2中启动迁移以生成文件。",
         "importSuccess": "已识别兼容文件！",
         "importError": "未识别兼容文件"
