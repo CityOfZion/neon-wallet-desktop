@@ -217,7 +217,11 @@
     "title": "导入",
     "description": "请输入加密密钥的密码：",
     "inputPlaceholder": "输入密码...",
-    "buttonContinueLabel": "导入"
+    "buttonContinueLabel": "导入",
+    "errors": {
+      "noEncryptionInterfaceError": "此区块链无法解密密钥",
+      "decryptError": "解密密钥时出现问题"
+    }
   },
   "selectAccount": {
     "title": "选择账户",

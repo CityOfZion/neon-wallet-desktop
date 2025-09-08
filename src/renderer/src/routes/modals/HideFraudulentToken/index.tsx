@@ -1,15 +1,15 @@
 import { useMemo, useTransition } from 'react'
 import { useTranslation } from 'react-i18next'
-import { BSTokenHelper } from '@cityofzion/blockchain-service'
 import TbEyeOff from '@renderer/assets/images/tb-eye-off.svg?react'
 import { Button } from '@renderer/components/Button'
 import { Loader } from '@renderer/components/Loader'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
-import { TokensHelper } from '@renderer/helpers/TokensHelper'
+import { TokenHelper } from '@renderer/helpers/TokenHelper'
 import { useBalance } from '@renderer/hooks/useBalances'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
+import { bsAggregator } from '@renderer/libs/blockchainService'
 import { utilityReducerActions } from '@renderer/store/reducers/UtilityReducer'
 import { IAccountState } from '@shared/@types/store'
 import { match, P } from 'ts-pattern'
@@ -29,16 +29,16 @@ export const HideFraudulentTokenModal = () => {
   const [isHiding, startHidingTransition] = useTransition()
 
   const tokenBalance = useMemo(() => {
-    if (balanceQuery.isLoading) return undefined
+    const blockchain = balanceQuery.data?.blockchain
 
-    const normalizedHash = BSTokenHelper.normalizeHash(hash)
+    if (balanceQuery.isLoading || !blockchain) return undefined
 
-    return balanceQuery.data?.tokensBalances?.find(
-      ({ token }) => BSTokenHelper.normalizeHash(token.hash) === normalizedHash
-    )
+    const service = bsAggregator.blockchainServicesByName[blockchain]
+
+    return balanceQuery.data?.tokensBalances?.find(({ token }) => service.tokenService.predicateByHash(hash, token))
   }, [balanceQuery.data, balanceQuery.isLoading, hash])
 
-  const isNativeToken = useMemo(() => TokensHelper.isNativeToken(hash, account.blockchain), [hash, account])
+  const isNativeToken = useMemo(() => TokenHelper.isNativeToken(hash, account.blockchain), [hash, account])
 
   const isDisabled = isHiding || isNativeToken || !tokenBalance
 

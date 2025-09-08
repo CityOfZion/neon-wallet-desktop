@@ -36,6 +36,7 @@ export const PrepareHardwareWalletConfirmAndCompleteStep = ({ neoLegacyAccount, 
     const accounts = await connect({ blockchain: 'neoLegacy' })
 
     const neoLegacyAccountExist = accounts.some(SharedAccountHelper.predicate(neoLegacyAccount))
+
     if (!neoLegacyAccountExist) {
       setStatus('not-connected')
       await window.api.sendAsync('hardwareWallet:disconnect')

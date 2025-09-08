@@ -1,7 +1,7 @@
 import { Fragment, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
-import { hasNeo3NeoXBridge, hasNft } from '@cityofzion/blockchain-service'
+import { hasNft } from '@cityofzion/blockchain-service'
 import MdAdd from '@renderer/assets/images/md-add.svg?react'
 import MdOutlineContentCopy from '@renderer/assets/images/md-outline-content-copy.svg?react'
 import TbChartBarPopular from '@renderer/assets/images/tb-chart-bar-popular.svg?react'
@@ -23,6 +23,7 @@ import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { useAccountsSelector, useHasHardwareAccountSelector } from '@renderer/hooks/useAccountSelector'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
+import { useBridgeNeo3NeoXValidations } from '@renderer/hooks/useBridgeNeo3NeoXValidations'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
 import { MainLayout } from '@renderer/layouts/Main'
@@ -51,6 +52,8 @@ export const WalletsPage = () => {
   const [selectedAccount, setSelectedAccount] = useState<IAccountState | undefined>(
     accounts.find(account => account.idWallet === selectedWallet?.id)
   )
+
+  const { canAccountBridge } = useBridgeNeo3NeoXValidations(selectedAccount)
 
   const service = selectedAccount ? bsAggregator.blockchainServicesByName[selectedAccount.blockchain] : undefined
   const isKeyLoginSession = currentLoginSession?.type === 'key'
@@ -243,7 +246,7 @@ export const WalletsPage = () => {
                         />
                       )}
 
-                    {hasNeo3NeoXBridge(service) && (
+                    {canAccountBridge && (
                       <ActionPopover.Item
                         label={t('neo3NeoXBridgeButtonLabel')}
                         textClassName="text-start text-white"

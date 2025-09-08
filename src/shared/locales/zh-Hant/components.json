@@ -207,7 +207,7 @@
         "hashLabel": "雜湊值",
         "methodNameLabel": "方法",
         "tokenLabel": "代幣",
-        "tokenIdLabel": "代幣 ID",
+        "tokenHashLabel": "代幣哈希",
         "amountLabel": "數量",
         "collectionNameLabel": "收藏",
         "nameLabel": "名稱"

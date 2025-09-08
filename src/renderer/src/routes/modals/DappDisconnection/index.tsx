@@ -69,7 +69,7 @@ export const DappDisconnectionModal = () => {
                 className="w-full"
                 variant="outlined"
                 label={t('disconnect')}
-                leftIcon={<TbPlugX />}
+                leftIcon={<TbPlugX aria-hidden={true} />}
                 colorSchema="error"
                 flat
                 onClick={() => handleDisconnect(sessions[0])}
@@ -79,7 +79,7 @@ export const DappDisconnectionModal = () => {
                 className="w-full"
                 variant="outlined"
                 label={t('disconnect')}
-                leftIcon={<TbPlugX />}
+                leftIcon={<TbPlugX aria-hidden={true} />}
                 colorSchema="error"
                 flat
                 onClick={() => handleDisconnectAll()}

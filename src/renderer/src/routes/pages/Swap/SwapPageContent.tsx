@@ -1,7 +1,6 @@
 import { ChangeEvent, Fragment, useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
-  BSTokenHelper,
   isCalculableFee,
   TSwapLoadableValue,
   TSwapMinMaxAmount,
@@ -183,10 +182,8 @@ export const SwapPageContent = ({ account }: TProps) => {
   const selectedTokenBalance = useMemo(() => {
     if (!service || !balanceQuery.data || !actionData.selectedTokenToUse.value) return
 
-    const tokenHash = BSTokenHelper.normalizeHash(actionData.selectedTokenToUse.value!.hash!)
-
-    return balanceQuery.data?.tokensBalances.find(
-      tokenBalance => BSTokenHelper.normalizeHash(tokenBalance.token.hash) === tokenHash
+    return balanceQuery.data?.tokensBalances?.find(tokenBalance =>
+      service.tokenService.predicateByHash(actionData.selectedTokenToUse.value!.hash!, tokenBalance.token)
     )
   }, [actionData.selectedTokenToUse.value, balanceQuery.data, service])
 
@@ -418,15 +415,13 @@ export const SwapPageContent = ({ account }: TProps) => {
 
         let totalFeeAmount = NumberHelper.number(fee)
 
-        const normalizedFeeToken = BSTokenHelper.normalizeToken(service.feeToken)
-
-        if (BSTokenHelper.normalizeHash(actionData.selectedTokenToUse.value.hash) === normalizedFeeToken.hash) {
+        if (service.tokenService.predicateByHash(service.feeToken, actionData.selectedTokenToUse.value.hash)) {
           totalFeeAmount += NumberHelper.number(actionData.selectedAmountToUse.value)
         }
 
         const feeBalanceNumber =
-          balanceQuery.data?.tokensBalances.find(
-            ({ token }) => BSTokenHelper.normalizeHash(token.hash) === normalizedFeeToken.hash
+          balanceQuery.data?.tokensBalances?.find(({ token }) =>
+            service.tokenService.predicateByHash(service.feeToken, token.hash)
           )?.amountNumber ?? 0
 
         if (totalFeeAmount > feeBalanceNumber) {

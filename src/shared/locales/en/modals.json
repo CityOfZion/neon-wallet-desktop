@@ -217,7 +217,11 @@
     "title": "Import",
     "description": "Enter a pass phrase for your encrypted key:",
     "inputPlaceholder": "Enter your pass phrase...",
-    "buttonContinueLabel": "Import"
+    "buttonContinueLabel": "Import",
+    "errors": {
+      "noEncryptionInterfaceError": "This blockchain can't decrypt the key",
+      "decryptError": "There was a problem to decrypt the key"
+    }
   },
   "selectAccount": {
     "title": "Select account",

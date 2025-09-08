@@ -207,7 +207,7 @@
         "hashLabel": "Hash",
         "methodNameLabel": "Method",
         "tokenLabel": "Token",
-        "tokenIdLabel": "Token ID",
+        "tokenHashLabel": "Token hash",
         "amountLabel": "Amount",
         "collectionNameLabel": "Collection",
         "nameLabel": "Name"

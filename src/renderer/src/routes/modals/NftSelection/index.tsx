@@ -47,16 +47,16 @@ export const NFTSelectionModal = () => {
         ) : (
           <ul className="flex flex-col overflow-auto">
             {query.aggregatedData.map((nft, index) => (
-              <li key={nft.id}>
+              <li key={nft.hash}>
                 <button
                   className="flex w-full items-center gap-5 transition-opacity hover:opacity-85"
                   onClick={() => setSelectedNft(nft)}
                   type="button"
                 >
-                  <SkinCard showCheck={selectedNft?.id === nft.id} image={nft.image} />
+                  <SkinCard showCheck={selectedNft?.hash === nft.hash} image={nft.image} />
 
                   <div className="flex min-w-0 flex-col text-left">
-                    <span className="truncate text-blue">{nft.id}</span>
+                    <span className="truncate text-blue">{nft.hash}</span>
                     <span className="truncate text-sm capitalize text-white">{nft.name}</span>
                   </div>
                 </button>

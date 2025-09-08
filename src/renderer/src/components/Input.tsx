@@ -104,7 +104,10 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
       if (readOnly) return
 
       internalRef.current?.focus()
-      internalRef.current?.setSelectionRange(internalRef.current?.value.length, internalRef.current?.value.length)
+
+      if (!!internalRef.current && internalRef.current.type !== 'number') {
+        internalRef.current.setSelectionRange(internalRef.current.value.length, internalRef.current.value.length)
+      }
     }
 
     const handleClick = (event: MouseEvent<HTMLInputElement>) => {

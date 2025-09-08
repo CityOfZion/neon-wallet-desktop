@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { BSTokenHelper, hasExplorerService } from '@cityofzion/blockchain-service'
+import { hasExplorerService } from '@cityofzion/blockchain-service'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
 import {
@@ -157,6 +157,7 @@ const getFullTransactions = async ({
       response.data.forEach(({ events, ...item }) => {
         queryData.data.set(item.txId, {
           ...item,
+          account,
           blockchain,
           isPending: false,
           events: events.map(({ from, to, ...event }) => ({
@@ -257,11 +258,11 @@ export const useGetFullTransactions = ({ accounts, dateFrom, dateTo }: TProps) =
       }
 
       const event: TFullTransactionAssetEvent = {
-        hash: assetHash,
+        contractHash: assetHash,
         eventType: 'token',
         amount: transfer.amount,
         methodName: transfer.methodName || 'transfer',
-        hashUrl: contractTemplateUrl?.replace('{hash}', assetHash),
+        contractHashUrl: contractTemplateUrl?.replace('{hash}', assetHash),
         tokenType: 'generic',
         token,
         from,
@@ -291,8 +292,10 @@ export const useGetFullTransactions = ({ accounts, dateFrom, dateTo }: TProps) =
         notificationCount: 0,
         networkFeeAmount: undefined,
         systemFeeAmount: undefined,
+        account,
         blockchain,
         isPending: true,
+        type: 'default',
         events: [event],
       })
 
@@ -315,10 +318,15 @@ export const useGetFullTransactions = ({ accounts, dateFrom, dateTo }: TProps) =
 
     items.forEach(item => {
       const hiddenTokens = hiddenTokensByBlockchain[item.blockchain]
+      const service = bsAggregator.blockchainServicesByName[item.blockchain]
 
       const filteredEvents =
         !!hiddenTokens && hiddenTokens.length > 0
-          ? item.events.filter(({ hash }) => !hiddenTokens.includes(BSTokenHelper.normalizeHash(hash)))
+          ? item.events.filter(event => {
+              if (event.eventType === 'nft') return true
+
+              return !hiddenTokens.includes(service.tokenService.normalizeHash(event.contractHash))
+            })
           : null
 
       if (filteredEvents) item.events = filteredEvents

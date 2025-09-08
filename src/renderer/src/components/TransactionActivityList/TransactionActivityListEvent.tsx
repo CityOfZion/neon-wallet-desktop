@@ -17,7 +17,12 @@ export const TransactionActivityListEvent = ({ event }: TProps) => {
   const { t } = useTranslation('components', { keyPrefix: 'transactionActivityList.event' })
   const { t: tCommonGeneral } = useTranslation('common', { keyPrefix: 'general' })
 
-  const { eventType, amount, methodName, to, toUrl, toAccount, from, fromUrl, fromAccount, hash, hashUrl } = event
+  const { eventType, amount, methodName, to, toUrl, toAccount, from, fromUrl, fromAccount } = event
+
+  const isNft = eventType === 'nft'
+
+  const hash = isNft ? event.collectionHash : event.contractHash
+  const hashUrl = isNft ? event.collectionHashUrl : event.contractHashUrl
 
   const toName = toAccount?.name
   const fromName = fromAccount?.name
@@ -86,12 +91,14 @@ export const TransactionActivityListEvent = ({ event }: TProps) => {
 
       {match(eventType)
         .with('nft', () => {
-          const { tokenId, nftImageUrl, nftUrl, name, collectionName } = event as TFullTransactionNftEvent
+          const { tokenHash, nftImageUrl, nftUrl, name, collectionName } = event as TFullTransactionNftEvent
           const nftImageLabel = name ? t('nftImageAltWithNameLabel', { name }) : t('nftImageAltLabel')
 
           return (
             <Fragment>
-              {!!tokenId && <TransactionActivityListEventColumn label={t('columns.tokenIdLabel')} data={tokenId} />}
+              {!!tokenHash && (
+                <TransactionActivityListEventColumn label={t('columns.tokenHashLabel')} data={tokenHash} />
+              )}
 
               {!!collectionName && (
                 <TransactionActivityListEventColumn label={t('columns.collectionNameLabel')} data={collectionName} />

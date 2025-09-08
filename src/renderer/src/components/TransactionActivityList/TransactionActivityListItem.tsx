@@ -32,7 +32,7 @@ export const TransactionActivityListItem = ({ item }: TProps) => {
         <ul className="flex w-full flex-col">
           {events.map((event, index, array) => (
             <li
-              key={`${event.eventType}-${event.methodName}-${event.hash}-${blockchain}-${index}`}
+              key={`${event.eventType}-${event.methodName}-${event.eventType === 'nft' ? event.collectionHash : event.contractHash}-${blockchain}-${index}`}
               className="flex h-[3.3125rem] max-h-[3.3125rem] min-h-[3.3125rem] w-full flex-col justify-center"
             >
               <TransactionActivityListEvent event={event} />

@@ -1,5 +1,6 @@
 import { ChangeEvent } from 'react'
 import { useTranslation } from 'react-i18next'
+import { hasEncryption } from '@cityofzion/blockchain-service'
 import MdOutlineKey from '@renderer/assets/images/md-outline-key.svg?react'
 import { Button } from '@renderer/components/Button'
 import { PasswordHelper } from '@renderer/helpers/PasswordHelper'
@@ -73,6 +74,13 @@ export const SettingsEncryptKeyPage = (): JSX.Element => {
 
     try {
       const service = bsAggregator.blockchainServicesByName[blockchain]
+
+      if (!hasEncryption(service)) {
+        ToastHelper.error({ message: t('encryptKey.error.blockchainCanNotEncryptKey') })
+
+        return
+      }
+
       const encryptedKey = await service.encrypt(actionData.privateKey, actionData.passphrase)
 
       modalNavigate('success', {
@@ -85,7 +93,9 @@ export const SettingsEncryptKeyPage = (): JSX.Element => {
       })
 
       reset()
-    } catch {
+    } catch (error) {
+      console.error(error)
+
       ToastHelper.error({ message: t('encryptKey.error.errorToEncryptKey') })
     }
   }

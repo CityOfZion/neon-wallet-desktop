@@ -269,7 +269,8 @@
         "confirmationPassphraseIsInvalid": "Confirmation passphrase must be at least {{ chars }} characters",
         "passphraseIsDifferent": "Passphrase is different from confirmation passphrase",
         "confirmationPassphraseIsDifferent": "Confirmation passphrase is different from passphrase",
-        "errorToEncryptKey": "Error to encrypt key"
+        "errorToEncryptKey": "Error to encrypt key",
+        "blockchainCanNotEncryptKey": "This blockchain can't encrypt the key"
       },
       "successModal": {
         "title": "Encrypted Key",
@@ -674,6 +675,9 @@
       "AMOUNT_ABOVE_MAXIMUM": "The amount is above the maximum",
       "INSUFFICIENT_FEE_TOKEN_BALANCE": "Insufficient balance to cover the bridge fee",
       "BRIDGE_NOT_READY": "The bridge is not ready yet, please fill all the fields"
+    },
+    "messages": {
+      "networksShouldBeMainnet": "Neo 3 and Neo X bridge should use Mainnet"
     }
   }
 }

@@ -18,8 +18,8 @@ export const NftList = ({ account, nfts }: TProps) => {
       const service = bsAggregator.blockchainServicesByName[account.blockchain]
       if (hasExplorerService(service)) {
         return service.explorerService.buildNftUrl({
-          contractHash: nft.contractHash,
-          tokenId: nft.id,
+          tokenHash: nft.hash,
+          collectionHash: nft.collection.hash,
         })
       }
     } catch {
@@ -43,9 +43,9 @@ export const NftList = ({ account, nfts }: TProps) => {
               <span className="truncate capitalize">{nft.name}</span>
 
               <div className="flex items-center gap-1.5">
-                {nft.collectionImage && (
+                {nft.collection?.image && (
                   <div className="h-[1rem] min-h-[1rem] w-[1rem] min-w-[1rem] overflow-hidden rounded-full bg-gray-300/30">
-                    <img className="h-full w-full object-cover" src={nft.collectionImage} alt={nft.collectionName} />
+                    <img className="h-full w-full object-cover" src={nft.collection.image} alt={nft.collection.name} />
                   </div>
                 )}
 
@@ -57,7 +57,7 @@ export const NftList = ({ account, nfts }: TProps) => {
 
             <div className="flex items-center gap-5">
               <div className="flex flex-col items-end gap-2.5">
-                <span className="text-blue">{nft.id}</span>
+                <span className="text-blue">{nft.hash}</span>
 
                 <div className="flex items-center gap-1.5">
                   <BlockchainIcon blockchain={account.blockchain} type="gray" className="h-3 w-3 opacity-60" />
@@ -71,7 +71,7 @@ export const NftList = ({ account, nfts }: TProps) => {
         )
 
         return (
-          <li key={`${nft.contractHash}-${nft.id}`} className="w-full">
+          <li key={`${nft.hash}-${nft.collection.hash}`} className="w-full">
             {link ? (
               <a
                 href={link}
