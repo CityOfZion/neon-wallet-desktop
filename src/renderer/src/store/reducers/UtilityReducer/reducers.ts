@@ -1,6 +1,6 @@
-import { BSTokenHelper } from '@cityofzion/blockchain-service'
 import { CaseReducer, PayloadAction } from '@reduxjs/toolkit'
-import { TokensHelper } from '@renderer/helpers/TokensHelper'
+import { TokenHelper } from '@renderer/helpers/TokenHelper'
+import { bsAggregator } from '@renderer/libs/blockchainService'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TUseTransactionsTransfer } from '@shared/@types/hooks'
 import { TMigrationNeo3, TMigrationsNeo3, TSwapRecord } from '@shared/@types/store'
@@ -73,11 +73,12 @@ const setUnlockedSkinIds: CaseReducer<IUtilityReducer, PayloadAction<string[]>> 
 const toggleHiddenToken: CaseReducer<IUtilityReducer, PayloadAction<THiddenTokenParams>> = (state, action) => {
   const { hash, blockchain } = action.payload
 
-  if (TokensHelper.isNativeToken(hash, blockchain)) throw new Error("The native token can't be hidden")
+  if (TokenHelper.isNativeToken(hash, blockchain)) throw new Error("The native token can't be hidden")
 
-  const normalizedHash = BSTokenHelper.normalizeHash(hash)
+  const service = bsAggregator.blockchainServicesByName[blockchain]
+  const normalizedHash = service.tokenService.normalizeHash(hash)
   const hiddenTokens = cloneDeep(state.data.hiddenTokensByBlockchain[blockchain] ?? [])
-  const index = hiddenTokens.findIndex(tokenHash => BSTokenHelper.normalizeHash(tokenHash) === normalizedHash)
+  const index = hiddenTokens.findIndex(tokenHash => service.tokenService.predicateByHash(normalizedHash, tokenHash))
 
   if (index < 0) {
     hiddenTokens.push(normalizedHash)
@@ -94,11 +95,13 @@ const toggleHiddenToken: CaseReducer<IUtilityReducer, PayloadAction<THiddenToken
 // Migration Neo3 Reducers
 const saveMigrationNeo3: CaseReducer<IUtilityReducer, PayloadAction<TMigrationNeo3>> = (state, action) => {
   const migrationNeo3 = cloneDeep(action.payload)
+
   state.data.migrationsNeo3[migrationNeo3.hash] = migrationNeo3
 }
 
 const mergeMigrationsNeo3: CaseReducer<IUtilityReducer, PayloadAction<TMigrationsNeo3>> = (state, action) => {
   const migrationsNeo3 = cloneDeep(action.payload)
+
   state.data.migrationsNeo3 = { ...state.data.migrationsNeo3, ...migrationsNeo3 }
 }
 

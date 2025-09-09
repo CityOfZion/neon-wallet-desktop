@@ -1,7 +1,8 @@
 import { getI18n } from 'react-i18next'
-import { BSTokenHelper } from '@cityofzion/blockchain-service'
 import { AVAILABLE_RANDOM_COLORS, MANDATORY_TOKEN_COLORS } from '@renderer/constants/colors'
 import { ACCOUNT_COLOR_SKINS } from '@renderer/constants/skins'
+import { bsAggregator } from '@renderer/libs/blockchainService'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TColorSkin } from '@shared/@types/store'
 import _ from 'lodash'
 import * as uuid from 'uuid'
@@ -159,19 +160,23 @@ export class UtilsHelper {
     img.src = `data:image/svg+xml;base64,${btoa(svgData)}`
   }
 
-  static generateTokenColor(hash: string) {
+  static generateTokenColor(hash: string, blockchain: TBlockchainServiceKey) {
     if (hash.length === 0) throw new Error('Invalid hash')
 
-    const normalizedHash = BSTokenHelper.normalizeHash(hash)
+    const service = bsAggregator.blockchainServicesByName[blockchain]
+    const normalizedHash = service.tokenService.normalizeHash(hash)
+    const mandatoryTokenColor = MANDATORY_TOKEN_COLORS[normalizedHash]
 
-    if (MANDATORY_TOKEN_COLORS[normalizedHash]) return MANDATORY_TOKEN_COLORS[normalizedHash]
+    if (mandatoryTokenColor) return mandatoryTokenColor
 
     let sum = 0
+
     for (let i = 0; i < hash.length; i++) {
       sum += hash.charCodeAt(i)
     }
 
     const randomColorIndex = sum % AVAILABLE_RANDOM_COLORS.length
+
     return AVAILABLE_RANDOM_COLORS[randomColorIndex]
   }
 

@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { BSBigNumberHelper, BSTokenHelper, Token } from '@cityofzion/blockchain-service'
+import { BSBigNumberHelper, Token } from '@cityofzion/blockchain-service'
 import TbStepInto from '@renderer/assets/images/tb-step-into.svg?react'
 import TbUsers from '@renderer/assets/images/tb-users.svg?react'
 import TbWallet from '@renderer/assets/images/tb-wallet.svg?react'
@@ -20,6 +20,7 @@ import { useDebounceFunction } from '@renderer/hooks/useDebounceFunction'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useNameService } from '@renderer/hooks/useNameService'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
+import { bsAggregator } from '@renderer/libs/blockchainService'
 import { TTokenBalance, TUseBalanceResult } from '@shared/@types/query'
 import { IAccountState, TContactAddress } from '@shared/@types/store'
 import { motion, useIsPresent } from 'framer-motion'
@@ -87,9 +88,14 @@ export const SendRecipient = ({
   }
 
   const handleSelectToken = (token: Token) => {
-    const tokenHash = BSTokenHelper.normalizeHash(token.hash)
-    const tokenBalance = balance?.data?.tokensBalances.find(
-      tokenBalance => BSTokenHelper.normalizeHash(tokenBalance.token.hash) === tokenHash
+    const blockchain = balance?.data?.blockchain
+
+    if (!blockchain) return
+
+    const service = bsAggregator.blockchainServicesByName[blockchain]
+
+    const tokenBalance = balance.data?.tokensBalances?.find(tokenBalance =>
+      service.tokenService.predicateByHash(token, tokenBalance.token)
     )
 
     onUpdateRecipient({ token: tokenBalance, amount: undefined })

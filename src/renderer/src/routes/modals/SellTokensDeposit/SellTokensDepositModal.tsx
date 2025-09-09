@@ -4,7 +4,6 @@ import {
   BlockchainService,
   BSBigNumberHelper,
   BSCalculableFee,
-  BSTokenHelper,
   IntentTransferParam,
   isCalculableFee,
   Token,
@@ -156,9 +155,10 @@ export const SellTokensDepositModal = () => {
   }
 
   const handleChangeToken = (token: Token) => {
-    const tokenHash = BSTokenHelper.normalizeHash(token.hash)
-    const tokenBalance = balanceData?.tokensBalances.find(
-      tokenBalance => BSTokenHelper.normalizeHash(tokenBalance.token.hash) === tokenHash
+    if (!service) return
+
+    const tokenBalance = balanceData?.tokensBalances?.find(tokenBalance =>
+      service.tokenService.predicateByHash(token, tokenBalance.token)
     )
 
     setData({ token: tokenBalance, amount: '' })
@@ -273,7 +273,6 @@ export const SellTokensDepositModal = () => {
         setData({ isFeeLoading: true })
 
         const { intent } = transferParams
-        const feeTokenHash = BSTokenHelper.normalizeHash(service.feeToken.hash)
 
         const fee = await (service as BlockchainService & BSCalculableFee).calculateTransferFee({
           senderAccount: transferParams.serviceAccount,
@@ -284,12 +283,13 @@ export const SellTokensDepositModal = () => {
 
         let totalFee = NumberHelper.number(fee)
 
-        if (BSTokenHelper.normalizeHash(intent.tokenHash) === feeTokenHash)
+        if (service.tokenService.predicateByHash(service.feeToken, intent.tokenHash))
           totalFee += NumberHelper.number(intent.amount)
 
         const feeBalance =
-          balanceData?.tokensBalances?.find(({ token }) => BSTokenHelper.normalizeHash(token.hash) === feeTokenHash)
-            ?.amountNumber ?? 0
+          balanceData?.tokensBalances?.find(({ token }) =>
+            service.tokenService.predicateByHash(service.feeToken, token)
+          )?.amountNumber ?? 0
 
         totalFee > feeBalance ? setError('fee', t('messages.insufficientFunds')) : clearErrors('fee')
       } catch (error) {

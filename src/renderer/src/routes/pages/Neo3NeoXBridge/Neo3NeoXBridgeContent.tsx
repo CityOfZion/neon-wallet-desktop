@@ -1,5 +1,6 @@
-import { ChangeEvent, useRef } from 'react'
+import { ChangeEvent, useEffect, useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 import { BalanceResponse, TBridgeToken, TBridgeValidateValue, TBridgeValue } from '@cityofzion/blockchain-service'
 import { Neo3NeoXBridgeOrchestrator } from '@cityofzion/bs-multichain'
 import { BSNeo3 } from '@cityofzion/bs-neo3'
@@ -27,6 +28,7 @@ import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
 import { TransactionFeeActionStep } from '@renderer/components/TransactionFeeActionStep'
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
+import { NetworkHelper } from '@renderer/helpers/NetworkHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useAccountMapSelector } from '@renderer/hooks/useAccountSelector'
@@ -36,6 +38,7 @@ import { useLazyBalance } from '@renderer/hooks/useBalances'
 import { useHardwareWalletActions } from '@renderer/hooks/useHardwareWallet'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useMountUnsafe } from '@renderer/hooks/useMount'
+import { useSelectedNetworkByBlockchainSelector } from '@renderer/hooks/useSettingsSelector'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { IAccountState, TContactAddress } from '@shared/@types/store'
@@ -68,9 +71,12 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
   const { t } = useTranslation('pages', { keyPrefix: 'neo3NeoXBridge' })
   const { accountsMapRef } = useAccountMapSelector()
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
+  const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
   const { getBalance } = useLazyBalance()
   const { isConnectedAndUnlockedHardwareWallet } = useHardwareWalletActions()
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
+  const navigate = useNavigate()
+  const isGoingBack = useRef(false)
 
   const { actionData, actionState, setData, reset, handleAct } = useActions<TActionsData>({
     availableTokensToUse: { value: null, error: null, loading: false },
@@ -87,6 +93,8 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
   })
 
   const bridgeOrchestratorRef = useRef({} as Neo3NeoXBridgeOrchestrator<TBlockchainServiceKey>)
+
+  const fromService = bridgeOrchestratorRef.current?.fromService
 
   const isAddressesDisabled =
     !actionData.tokenToUse.value ||
@@ -120,6 +128,7 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
   const errorMessage = errorCode ? t(`errorsByCode.${errorCode}`, t('errorsByCode.UNEXPECTED_ERROR')) : undefined
 
   const isBridgeValid =
+    !isAmountsDisabled &&
     isBridgeValueValid(actionData.availableTokensToUse) &&
     isBridgeValueValid(actionData.tokenToUse) &&
     isBridgeValueValid(actionData.tokenToUseBalance) &&
@@ -257,7 +266,7 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
         amountToUse: actionData.amountToUse.value,
         amountToReceive: actionData.amountToReceive.value,
         bridgeFee: actionData.bridgeFee.value,
-        fromService: bridgeOrchestratorRef.current.fromService,
+        fromService,
         onConfirm: async () => {
           const account = actionData.accountToUse.value!
 
@@ -279,6 +288,7 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
             console.error(error)
           } finally {
             modalNavigate('neo3-neox-bridge-details', {
+              replace: true,
               state: {
                 tokenToUse: actionData.tokenToUse.value,
                 tokenToReceive: actionData.tokenToReceive.value,
@@ -286,7 +296,7 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
                 addressToReceive: actionData.addressToReceive.value,
                 amountToUse: actionData.amountToUse.value,
                 amountToReceive: actionData.amountToReceive.value,
-                transactionHash: transactionHash,
+                transactionHash,
                 confirmed: !transactionHash ? false : undefined,
               },
             })
@@ -305,6 +315,25 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
       bridgeOrchestratorRef.current?.eventEmitter?.removeAllListeners()
     }
   })
+
+  useEffect(() => {
+    if (
+      isGoingBack.current ||
+      (NetworkHelper.isMainnet('neo3', networkByBlockchain.neo3) &&
+        NetworkHelper.isMainnet('neox', networkByBlockchain.neox))
+    )
+      return
+
+    isGoingBack.current = true
+
+    ToastHelper.info({
+      id: 'bridge-neo3-neox-mainnet-info',
+      message: t('messages.networksShouldBeMainnet'),
+      duration: 8000,
+    })
+
+    navigate(-1)
+  }, [navigate, networkByBlockchain, t])
 
   return (
     <section className="flex h-full w-full rounded bg-gray-800">
@@ -545,7 +574,7 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
             <TransactionFeeActionStep
               fee={actionData.bridgeFee?.value ?? undefined}
               isCalculatingFee={actionData.bridgeFee?.loading}
-              service={bridgeOrchestratorRef.current.fromService}
+              service={fromService}
               className="mt-2.5"
             />
 

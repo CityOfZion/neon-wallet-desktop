@@ -102,7 +102,7 @@ export const WelcomeImportWalletStep3Page = () => {
     modalNavigate('blockchain-selection', {
       state: {
         heading: t('importEncryptedTitle'),
-        headingIcon: <TbFileImport />,
+        headingIcon: <TbFileImport aria-hidden={true} />,
         description: t('importEncryptedDescription'),
         subtitle: t('importEncryptedSubtitle'),
         withBackButton: false,

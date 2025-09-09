@@ -269,7 +269,8 @@
         "confirmationPassphraseIsInvalid": "确认密码短语至少为{{ chars }}个字符",
         "passphraseIsDifferent": "密码短语与确认密码短语不一致",
         "confirmationPassphraseIsDifferent": "确认密码短语与密码短语不一致",
-        "errorToEncryptKey": "加密密钥时出错"
+        "errorToEncryptKey": "加密密钥时出错",
+        "blockchainCanNotEncryptKey": "此区块链无法加密密钥"
       },
       "successModal": {
         "title": "加密密钥",
@@ -674,6 +675,9 @@
       "AMOUNT_ABOVE_MAXIMUM": "数量超过最大值",
       "INSUFFICIENT_FEE_TOKEN_BALANCE": "余额不足以支付跨链费用",
       "BRIDGE_NOT_READY": "跨链尚未准备好，请填写所有字段"
+    },
+    "messages": {
+      "networksShouldBeMainnet": "Neo 3 和 Neo X 桥接应该使用主网"
     }
   }
 }

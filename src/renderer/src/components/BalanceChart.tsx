@@ -32,7 +32,7 @@ export const BalanceChart = ({ balances, sortedBalances, className }: TProps) =>
       ]
 
     const firstFourBars = sortedBalances.slice(0, 4).map<TBar>(tokenBalance => {
-      const color = UtilsHelper.generateTokenColor(tokenBalance.token.hash)
+      const color = UtilsHelper.generateTokenColor(tokenBalance.token.hash, tokenBalance.blockchain)
       const widthPercent = (tokenBalance.exchangeAmount * 100) / balances.exchangeTotal
 
       return {

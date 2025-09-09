@@ -1,6 +1,6 @@
 import { Trans, useTranslation } from 'react-i18next'
 import { Location, useLocation, useNavigate } from 'react-router-dom'
-import { Account, BSTokenHelper } from '@cityofzion/blockchain-service'
+import { Account } from '@cityofzion/blockchain-service'
 import {
   CalculateNeo3MigrationAmountsResponse,
   CalculateNeoLegacyMigrationAmountsResponse,
@@ -131,7 +131,7 @@ export const MigrationNeo3Page = () => {
       }
 
       const pendingMigrationNeo3: TMigrationNeo3 = {
-        hash: BSTokenHelper.normalizeHash(transactionHash),
+        hash: neoLegacyService.tokenService.normalizeHash(transactionHash),
         neoLegacyAccount,
         neo3Address: actionData.neo3ServiceAccount.address,
         status: 'pending',

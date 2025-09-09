@@ -217,7 +217,11 @@
     "title": "導入",
     "description": "請輸入您的加密金鑰密碼：",
     "inputPlaceholder": "請輸入密碼...",
-    "buttonContinueLabel": "導入"
+    "buttonContinueLabel": "導入",
+    "errors": {
+      "noEncryptionInterfaceError": "此區塊鏈無法解密密鑰",
+      "decryptError": "解密密鑰時出現問題"
+    }
   },
   "selectAccount": {
     "title": "選擇帳戶",

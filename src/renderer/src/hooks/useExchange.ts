@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { BSTokenHelper, Token, TokenPricesResponse } from '@cityofzion/blockchain-service'
+import { Token, TokenPricesResponse } from '@cityofzion/blockchain-service'
 import { useCurrencyRatio } from '@renderer/hooks/useCurrencyRatio'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
@@ -18,7 +18,11 @@ function buildQueryKey(
 ) {
   const queryKey = ['exchange', blockchain, network, currency]
 
-  if (token) queryKey.push(BSTokenHelper.normalizeHash(token.hash))
+  if (token) {
+    const service = bsAggregator.blockchainServicesByName[blockchain]
+
+    queryKey.push(service.tokenService.normalizeHash(token.hash))
+  }
 
   return queryKey
 }
@@ -40,6 +44,7 @@ export async function fetchExchange(
   currencyRatio: number
 ) {
   const queryCache = queryClient.getQueryCache()
+  const service = bsAggregator.blockchainServicesByName[blockchain]
 
   const tokensToFetch = tokens.filter(token => {
     const queryKey = buildQueryKey(blockchain, network, currency, token)
@@ -52,7 +57,6 @@ export async function fetchExchange(
 
   if (tokensToFetch.length > 0) {
     try {
-      const service = bsAggregator.blockchainServicesByName[blockchain]
       const newTokenPrices = await service.exchangeDataService.getTokenPrices({ tokens: tokensToFetch })
 
       tokenPrices = lodash.uniqBy(newTokenPrices, 'token.hash')
@@ -63,8 +67,7 @@ export async function fetchExchange(
 
   tokensToFetch.forEach(token => {
     const queryKey = buildQueryKey(blockchain, network, currency, token)
-    const normalizedHash = BSTokenHelper.normalizeHash(token.hash)
-    const tokenPrice = tokenPrices.find(price => BSTokenHelper.normalizeHash(price.token.hash) === normalizedHash)
+    const tokenPrice = tokenPrices.find(price => service.tokenService.predicateByHash(token, price.token))
     const currentQuery = queryCache.find<TExchange>({ queryKey, exact: true })
     const currentUsdPrice = currentQuery?.state?.data?.usdPrice
     let nextUsdPrice = tokenPrice?.usdPrice

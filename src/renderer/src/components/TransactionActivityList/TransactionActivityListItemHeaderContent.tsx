@@ -1,5 +1,6 @@
 import React, { MouseEvent } from 'react'
 import { useTranslation } from 'react-i18next'
+import { FullTransactionsItemBridgeNeo3NeoX, hasNeo3NeoXBridge } from '@cityofzion/blockchain-service'
 import MdCoffee from '@renderer/assets/images/md-coffee.svg?react'
 import MdOutlineContentCopy from '@renderer/assets/images/md-outline-content-copy.svg?react'
 import TbArrowsExchange from '@renderer/assets/images/tb-arrows-exchange.svg?react'
@@ -9,6 +10,7 @@ import TbClock from '@renderer/assets/images/tb-clock.svg?react'
 import TbCodeCircle from '@renderer/assets/images/tb-code-circle.svg?react'
 import TbCoin from '@renderer/assets/images/tb-coin.svg?react'
 import TbCube from '@renderer/assets/images/tb-cube.svg?react'
+import TbReplace from '@renderer/assets/images/tb-replace.svg?react'
 import TbTransform from '@renderer/assets/images/tb-transform.svg?react'
 import { IconButton } from '@renderer/components/IconButton'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
@@ -16,6 +18,7 @@ import { StringHelper } from '@renderer/helpers/StringHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useSwapRecordSelector } from '@renderer/hooks/useUtilitySelector'
+import { bsAggregator } from '@renderer/libs/blockchainService'
 import { TFullTransactionsItem } from '@shared/@types/hooks'
 import { TMigrationNeo3 } from '@shared/@types/store'
 import { format } from 'date-fns'
@@ -28,8 +31,8 @@ type TProps = {
   migrationNeo3?: TMigrationNeo3
 }
 
-export const TransactionActivityListItemHeaderContent = ({
-  item: {
+export const TransactionActivityListItemHeaderContent = ({ item, migrationNeo3 }: TProps) => {
+  const {
     txId,
     txIdUrl,
     date,
@@ -38,14 +41,18 @@ export const TransactionActivityListItemHeaderContent = ({
     block,
     networkFeeAmount,
     systemFeeAmount,
+    account,
+    blockchain,
     isPending,
-  },
-  migrationNeo3,
-}: TProps) => {
+    type,
+  } = item
+
   const { t } = useTranslation('components', { keyPrefix: 'transactionActivityList.item' })
   const { t: tCommonGeneral } = useTranslation('common', { keyPrefix: 'general' })
   const { swapRecord } = useSwapRecordSelector(txId)
   const { modalNavigate } = useModalNavigate()
+
+  const isBridgeNeo3NeoX = type === 'bridgeNeo3NeoX'
 
   const handleCancelBubbleEvent = (event: MouseEvent<HTMLDivElement>) => {
     event.preventDefault()
@@ -58,6 +65,35 @@ export const TransactionActivityListItemHeaderContent = ({
 
   const handleGoToSwapDetails = () => {
     modalNavigate('swap-details', { state: { swapRecord } })
+  }
+
+  const handleGoToBridgeNeo3NeoXDetails = () => {
+    if (!isBridgeNeo3NeoX) return
+
+    const toService = bsAggregator.blockchainServicesByName[blockchain === 'neo3' ? 'neox' : 'neo3']
+
+    if (!hasNeo3NeoXBridge(toService)) return
+
+    const { data } = item as TFullTransactionsItem & FullTransactionsItemBridgeNeo3NeoX
+
+    const tokenToReceive = toService.neo3NeoXBridgeService.tokens.find(
+      token => token.multichainId === data.token.multichainId
+    )
+
+    if (!tokenToReceive) return
+
+    modalNavigate('neo3-neox-bridge-details', {
+      state: {
+        tokenToUse: data.token,
+        tokenToReceive,
+        accountToUse: account,
+        addressToReceive: data.receiverAddress,
+        amountToUse: data.amount,
+        amountToReceive: data.amount,
+        transactionHash: txId,
+        confirmed: true,
+      },
+    })
   }
 
   const handleKeyDownWrapper = (callback: () => void) => {
@@ -138,7 +174,7 @@ export const TransactionActivityListItemHeaderContent = ({
       </div>
 
       <div className="flex items-center gap-x-2 truncate whitespace-nowrap">
-        {(migrationNeo3 || swapRecord) && (
+        {(migrationNeo3 || swapRecord || isBridgeNeo3NeoX) && (
           <div className="flex items-center gap-x-2" onClick={handleCancelBubbleEvent}>
             {migrationNeo3 && (
               <TransactionActivityListItemHeaderDetails
@@ -161,6 +197,18 @@ export const TransactionActivityListItemHeaderContent = ({
                 icon={<TbTransform aria-hidden={true} className="text-blue" />}
                 onKeyDown={handleKeyDownWrapper(handleGoToSwapDetails)}
                 onClick={handleGoToSwapDetails}
+              />
+            )}
+
+            {isBridgeNeo3NeoX && (
+              <TransactionActivityListItemHeaderDetails
+                role="button"
+                tabIndex={0}
+                className="h-6 max-h-6 min-h-6 rounded border border-neon px-1.5 py-0 hover:opacity-90 focus:opacity-90 active:opacity-80"
+                data={<p className="text-neon">{tCommonGeneral('bridgeNeo3NeoX')}</p>}
+                icon={<TbReplace aria-hidden={true} className="text-neon" />}
+                onKeyDown={handleKeyDownWrapper(handleGoToBridgeNeo3NeoXDetails)}
+                onClick={handleGoToBridgeNeo3NeoXDetails}
               />
             )}
           </div>

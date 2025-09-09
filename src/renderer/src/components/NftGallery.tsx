@@ -18,7 +18,7 @@ export const NftGallery = ({ account, nfts }: TProps) => {
   const photos = useMemo(
     () =>
       nfts.map(nft => ({
-        key: `${nft.contractHash}-${nft.id}`,
+        key: `${nft.hash}-${nft.collection.hash}`,
         title: nft.name,
         src: nft.image ?? '',
         width: 1,
@@ -37,8 +37,8 @@ export const NftGallery = ({ account, nfts }: TProps) => {
 
     try {
       explorerUrl = service.explorerService.buildNftUrl({
-        contractHash: nft.contractHash,
-        tokenId: nft.id,
+        tokenHash: nft.hash,
+        collectionHash: nft.collection.hash,
       })
     } catch (error) {
       console.error(error)
@@ -94,17 +94,17 @@ export const NftGallery = ({ account, nfts }: TProps) => {
               </div>
 
               <div className="flex items-center gap-2">
-                {photo.nft.collectionImage && (
+                {photo.nft.collection?.image && (
                   <div className="h-[1rem] min-h-[1rem] w-[1rem] min-w-[1rem] overflow-hidden rounded-full bg-gray-300/30">
                     <img
                       className="h-full w-full object-cover"
-                      src={photo.nft.collectionImage}
-                      alt={photo.nft.collectionName || photo.nft.creator?.name || photo.nft.name || photo.nft.symbol}
+                      src={photo.nft.collection.image}
+                      alt={photo.nft.collection.name}
                     />
                   </div>
                 )}
 
-                <span className="w-20 truncate text-xs capitalize text-blue 2xl:w-32">{photo.nft.id}</span>
+                <span className="w-20 truncate text-xs capitalize text-blue 2xl:w-32">{photo.nft.hash}</span>
               </div>
             </div>
           )

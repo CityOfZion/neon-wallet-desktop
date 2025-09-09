@@ -38,7 +38,7 @@ export const AccountConnections = () => {
           <Button
             variant="text"
             label={t('newConnection')}
-            leftIcon={<TbPlus />}
+            leftIcon={<TbPlus aria-hidden={true} />}
             flat
             onClick={modalNavigateWrapper('dapp-connection', { state: { account } })}
           />
@@ -46,7 +46,7 @@ export const AccountConnections = () => {
           <Button
             variant="text"
             label={t('disconnectAll')}
-            leftIcon={<TbPlugX />}
+            leftIcon={<TbPlugX aria-hidden={true} />}
             flat
             colorSchema="error"
             disabled={filteredSessions.length === 0}

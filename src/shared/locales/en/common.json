@@ -15,6 +15,7 @@
     "remove": "Remove",
     "copy": "Copy to clipboard",
     "swap": "Swap",
+    "bridgeNeo3NeoX": "Bridge",
     "buyAndSellTokens": "Buy + Sell",
     "migrate": "Migrate",
     "migrationNeo3": "Migration",

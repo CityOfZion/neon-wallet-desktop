@@ -1,5 +1,4 @@
 import { useMemo } from 'react'
-import { BSTokenHelper } from '@cityofzion/blockchain-service'
 import { BSNeo3, GetVoteDetailsByAddressResponse } from '@cityofzion/bs-neo3'
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { NetworkHelper } from '@renderer/helpers/NetworkHelper'
@@ -102,7 +101,7 @@ export const useVoteNeo3GetVoteDetailsByAddresses = (addresses: TUseVoteNeo3GetV
 
   const blockchainService = bsAggregator.blockchainServicesByName.neo3 as BSNeo3
 
-  const queries = useQueries({
+  return useQueries({
     queries: addresses.map(({ address }) => ({
       queryKey: buildVoteNeo3GetVoteDetailsByAddressQueryKey({ neo3Network, address }),
       queryFn: () => blockchainService.voteService.getVoteDetailsByAddress(address),
@@ -127,8 +126,6 @@ export const useVoteNeo3GetVoteDetailsByAddresses = (addresses: TUseVoteNeo3GetV
       }
     },
   })
-
-  return queries
 }
 
 export const useVoteNeo3CalculateVoteFee = ({ neo3Account, candidatePubKey }: TCalculateVoteFeeParams) => {
@@ -163,10 +160,8 @@ export const useVoteNeo3Validations = ({ balanceQuery, gasFee }: TValidationsPar
   const service = bsAggregator.blockchainServicesByName.neo3
 
   const hasEnoughGasToPayFee = useMemo(() => {
-    const normalizedFeeTokenHash = BSTokenHelper.normalizeHash(service.feeToken.hash)
-
-    const gasAmountNumber = balanceQuery.data?.tokensBalances?.find(
-      ({ token }) => BSTokenHelper.normalizeHash(token.hash) === normalizedFeeTokenHash
+    const gasAmountNumber = balanceQuery.data?.tokensBalances?.find(({ token }) =>
+      service.tokenService.predicateByHash(service.feeToken, token)
     )?.amountNumber
 
     if (gasAmountNumber === undefined || gasFee === undefined) return undefined

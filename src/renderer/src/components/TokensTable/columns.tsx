@@ -5,7 +5,7 @@ import TbEye from '@renderer/assets/images/tb-eye.svg?react'
 import TbEyeOff from '@renderer/assets/images/tb-eye-off.svg?react'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
-import { TokensHelper } from '@renderer/helpers/TokensHelper'
+import { TokenHelper } from '@renderer/helpers/TokenHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
@@ -74,7 +74,7 @@ export const useColumns = (showType: TUseBalanceOptionShowType) => {
         id: 'actions',
         cell: info => {
           const value = info.row.original
-          const isNativeToken = TokensHelper.isNativeToken(value.token.hash, value.blockchain)
+          const isNativeToken = TokenHelper.isNativeToken(value.token.hash, value.blockchain)
           const isHidden = showType === 'hidden'
           const label = isHidden ? t('showTokenLabel') : t('hideTokenLabel')
           let tooltipTitle = ''

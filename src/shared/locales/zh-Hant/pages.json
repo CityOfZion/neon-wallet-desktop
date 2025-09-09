@@ -269,7 +269,8 @@
         "confirmationPassphraseIsInvalid": "確認密語至少需 {{ chars }} 個字元",
         "passphraseIsDifferent": "密語與確認密語不一致",
         "confirmationPassphraseIsDifferent": "確認密語與密語不一致",
-        "errorToEncryptKey": "加密金鑰時發生錯誤"
+        "errorToEncryptKey": "加密金鑰時發生錯誤",
+        "blockchainCanNotEncryptKey": "此區塊鏈無法加密密鑰"
       },
       "successModal": {
         "title": "加密金鑰",
@@ -674,6 +675,9 @@
       "AMOUNT_ABOVE_MAXIMUM": "數量超過最大值",
       "INSUFFICIENT_FEE_TOKEN_BALANCE": "餘額不足以支付跨鏈費用",
       "BRIDGE_NOT_READY": "跨鏈尚未準備好，請填寫所有欄位"
+    },
+    "messages": {
+      "networksShouldBeMainnet": "Neo 3 和 Neo X 橋接應該使用主網"
     }
   }
 }

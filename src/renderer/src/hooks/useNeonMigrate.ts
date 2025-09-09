@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { hasNameService } from '@cityofzion/blockchain-service'
+import { hasEncryption, hasNameService } from '@cityofzion/blockchain-service'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { TAccountsToImport, TBlockchainServiceKey, TWalletToCreate } from '@shared/@types/blockchain'
@@ -115,9 +115,13 @@ export const useNeonImportMigrate = () => {
   const handleTryDecryptAccount = async (
     accountToMigrate: TUseNeonMigrateAccountsSchema,
     password: string
-  ): Promise<TUseNeonMigrateDecryptedAccountSchema> => {
+  ): Promise<TUseNeonMigrateDecryptedAccountSchema | undefined> => {
     const service = bsAggregator.blockchainServicesByName[accountToMigrate.blockchain]
+
+    if (!hasEncryption(service)) return undefined
+
     const decryptedAccount = await service.decrypt(accountToMigrate.key, password)
+
     return {
       ...accountToMigrate,
       decryptedKey: decryptedAccount.key,

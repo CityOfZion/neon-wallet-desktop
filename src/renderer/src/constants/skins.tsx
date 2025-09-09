@@ -9,9 +9,9 @@ type TAccountColorSkin = {
 
 type TLocalSkin = {
   id: string
-  component: JSX.Element
   blockchain: TBlockchainServiceKey
-  unlockedContractHash: string
+  collectionHash: string
+  component: JSX.Element
 }
 
 export const ACCOUNT_COLOR_SKINS: TAccountColorSkin[] = [
@@ -28,14 +28,14 @@ export const ACCOUNT_LOCAL_SKINS: TLocalSkin[] = [
   {
     id: 'coz-face-december-2024',
     blockchain: 'neo3',
+    collectionHash: '0x76a8f8a7a901b29a33013b469949f4b08db15756',
     component: <img src={CozFaceDecember2024} alt="" />,
-    unlockedContractHash: '0x76a8f8a7a901b29a33013b469949f4b08db15756',
   },
   {
     id: 'neo-christmas-2024',
     blockchain: 'neox',
+    collectionHash: '0x6e8789d940928e656ea47941ed93b0596dd40056',
     component: <img src={NeoChristmas2024} alt="" />,
-    unlockedContractHash: '0x6e8789d940928e656ea47941ed93b0596dd40056',
   },
 ]
 

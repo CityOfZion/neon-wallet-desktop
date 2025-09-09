@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { BSTokenHelper, hasNft } from '@cityofzion/blockchain-service'
+import { hasNft } from '@cityofzion/blockchain-service'
 import { BSNeoLegacy } from '@cityofzion/bs-neo-legacy'
 import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
 import { FRAUDULENT_TOKEN_HASHES_BY_BLOCKCHAIN } from '@renderer/constants/fraudulent-tokens'
@@ -221,7 +221,7 @@ const useUnlockSkins = () => {
 
             const hasToken = await service.nftDataService.hasToken({
               address: account.address,
-              contractHash: skin.unlockedContractHash,
+              collectionHash: skin.collectionHash,
             })
 
             if (!hasToken) continue
@@ -326,10 +326,13 @@ const useFraudulentTokensNotification = () => {
       hasAlreadyNotifiedRef.current = true
 
       balancesQuery.data.forEach(balance => {
+        const blockchain = balance.blockchain
+        const service = bsAggregator.blockchainServicesByName[blockchain]
+
         const fraudulentTokenBalances = balance.tokensBalances.filter(
           tokenBalance =>
-            !!FRAUDULENT_TOKEN_HASHES_BY_BLOCKCHAIN[balance.blockchain]?.has(
-              BSTokenHelper.normalizeHash(tokenBalance.token.hash)
+            !!FRAUDULENT_TOKEN_HASHES_BY_BLOCKCHAIN[blockchain]?.has(
+              service.tokenService.normalizeHash(tokenBalance.token.hash)
             )
         )
 
