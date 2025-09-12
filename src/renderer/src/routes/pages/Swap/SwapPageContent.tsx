@@ -125,7 +125,7 @@ export const SwapPageContent = ({ account }: TProps) => {
 
   const { hasContactsByBlockchain } = useHasContactsByBlockchain(tokenToReceiveBlockchain)
 
-  const isRestartDisabled = actionData.availableTokensToUse.loading || actionState.hasChanged
+  const isRestartDisabled = actionData.availableTokensToUse.loading
 
   const isAddressesDisabled =
     !actionData.selectedTokenToUse.value ||

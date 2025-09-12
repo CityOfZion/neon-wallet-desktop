@@ -68,8 +68,6 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
     const [hidden, setHidden] = useState(isTypePassword)
     const realType = isTypePassword ? (hidden ? 'password' : 'text') : type
 
-    const isDisabled = disabled || loading
-
     const toggleHidden: React.MouseEventHandler<HTMLButtonElement> = event => {
       event.stopPropagation()
       setHidden(prev => !prev)
@@ -135,7 +133,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
         {label && <label className="mb-2 block text-xs font-bold uppercase text-gray-100">{label}</label>}
 
         <div
-          aria-disabled={isDisabled}
+          aria-disabled={disabled}
           className={StyleHelper.mergeStyles(
             'flex w-full cursor-text items-center gap-x-1.5 rounded bg-asphalt px-5 font-medium text-white outline-none ring-2 ring-transparent transition-colors placeholder:text-white/50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50',
             {
@@ -165,7 +163,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
 
           <FieldActionsMenu
             value={['string', 'number'].includes(typeof props.value) ? props.value!.toString() : ''}
-            disabled={isDisabled}
+            disabled={disabled}
             readOnly={readOnly}
             onChange={setValue}
           >
@@ -182,7 +180,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
               spellCheck="false"
               autoComplete="off"
               readOnly={readOnly}
-              disabled={isDisabled}
+              disabled={disabled}
               {...props}
               {...TestHelper.buildTestObject(testId)}
             />
@@ -197,7 +195,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
                   icon={hidden ? <MdVisibility aria-hidden={true} /> : <MdVisibilityOff aria-hidden={true} />}
                   onClick={toggleHidden}
                   type="button"
-                  disabled={isDisabled}
+                  disabled={disabled}
                   compacted
                 />
               )}
@@ -209,7 +207,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
                   onClick={handlePaste}
                   colorSchema="neon"
                   type="button"
-                  disabled={isDisabled}
+                  disabled={disabled}
                   compacted
                 />
               )}
@@ -221,7 +219,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
                   colorSchema="neon"
                   type="button"
                   compacted
-                  disabled={isDisabled}
+                  disabled={disabled}
                 />
               )}
 
@@ -231,7 +229,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
                   type="button"
                   onClick={clear}
                   compacted
-                  disabled={isDisabled}
+                  disabled={disabled}
                 />
               )}
 

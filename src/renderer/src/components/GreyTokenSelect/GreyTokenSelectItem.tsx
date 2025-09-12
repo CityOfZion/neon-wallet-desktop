@@ -30,15 +30,16 @@ export const GreyTokenSelectItem = ({ token }: TProps) => {
         }}
         alt={token.symbol}
       />
-      <Tooltip title={network ? `${token.symbol} | ${network}` : ''}>
-        <span className="flex min-w-0 flex-grow items-center gap-1">
+
+      <Tooltip title={network ? `${token.symbol} | ${network}` : ''} contentProps={{ className: 'uppercase' }}>
+        <span className="flex w-fit min-w-0 items-center gap-1">
           <span className="text-left text-sm uppercase text-white">{token.symbol}</span>
           {network && <span className="truncate text-sm uppercase text-gray-100">{` | ${network}`}</span>}
         </span>
       </Tooltip>
 
       {token.amount && (
-        <span className="text-1xs text-neon">{BSBigNumberHelper.format(token.amount, { decimals: 12 })}</span>
+        <span className="ml-auto text-1xs text-neon">{BSBigNumberHelper.format(token.amount, { decimals: 6 })}</span>
       )}
     </Fragment>
   )
