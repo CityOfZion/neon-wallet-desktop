@@ -100,8 +100,8 @@ export const PersistContactModal = () => {
       heading={contact ? t('editContact') : t('addContact')}
       headingIcon={contact ? <TbPencil aria-hidden={true} /> : <TbPlus aria-hidden={true} />}
     >
-      <form onSubmit={handleAct(handleSubmit)} className="flex h-full flex-col justify-between">
-        <div className="flex flex-col gap-y-6">
+      <form onSubmit={handleAct(handleSubmit)} className="flex h-full min-h-0 flex-col justify-between">
+        <div className="flex min-h-0 flex-col gap-y-6">
           <div>
             <div className="pb-2 font-bold text-gray-100">{t('name')}</div>
             <Input
@@ -115,14 +115,14 @@ export const PersistContactModal = () => {
             />
           </div>
 
-          <div className="flex flex-col">
+          <div className="flex min-h-0 flex-col">
             <div className="pb-4 font-bold text-gray-100">{t('addresses')}</div>
 
-            <div>
+            <div className="min-h-0 overflow-y-auto">
               {actionData.addresses.map((address, index) => (
                 <div
                   key={index}
-                  className="mb-5 flex h-8.5 w-full items-center justify-between rounded bg-asphalt pl-3 pr-2"
+                  className="mb-4 flex h-8.5 w-full items-center justify-between rounded bg-asphalt pl-3 pr-2"
                 >
                   <div className="flex min-w-0 flex-grow items-center gap-x-3">
                     <BlockchainIcon blockchain={address.blockchain} type="white" className="h-3 min-h-3 w-3 min-w-3" />
@@ -161,7 +161,7 @@ export const PersistContactModal = () => {
               ))}
             </div>
 
-            <div className="flex flex-col gap-y-8">
+            <div className="flex flex-col gap-y-6">
               {actionData.addresses.length <= 0 && (
                 <Banner
                   type="error"
@@ -187,7 +187,7 @@ export const PersistContactModal = () => {
                   variant="outlined"
                   disabled={!actionData.name}
                   onClick={() => openAddAddressModal()}
-                  className="w-[17.125rem]"
+                  className="w-full"
                   flat
                   iconsOnEdge={false}
                   {...TestHelper.buildTestObject('add-more-contact-button')}
@@ -199,7 +199,7 @@ export const PersistContactModal = () => {
 
         <div className="flex flex-col gap-y-4">
           {contact && (
-            <div className="flex flex-col gap-y-4 pt-2">
+            <div className="flex flex-col gap-y-4 pt-4">
               <Separator />
               <Button
                 label={t('deleteContact.title')}
