@@ -98,7 +98,7 @@ export const SellTokensContent = ({
         ) : (
           <iframe
             src={`${url}&redirectUrl=${url}&confirmRedirectUrl${url}&reloadId=${iframeId}`}
-            allow="clipboard-read; clipboard-write"
+            allow="clipboard-read; clipboard-write; payment"
             onLoad={handleLoad}
             onError={handleError}
           />
