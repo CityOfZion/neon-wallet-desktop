@@ -188,7 +188,7 @@ const useNetworkChange = () => {
         /* empty */
       }
 
-      const newNode = allNodes[service.name].find(node => node.latency && node.height)
+      const newNode = allNodes[service.name].find(node => node.latency !== undefined && node.height !== undefined)
       if (!newNode) return
 
       dispatch(settingsReducerActions.setSelectedNetworkUrl({ blockchain: service.name, url: newNode.url }))

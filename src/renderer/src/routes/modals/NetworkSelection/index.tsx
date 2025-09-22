@@ -15,7 +15,7 @@ import {
   useSelectedNetworkSelector,
 } from '@renderer/hooks/useSettingsSelector'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
-import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 
 type TState = {
   blockchain: TBlockchainServiceKey
@@ -30,15 +30,17 @@ export const NetworkSelection = () => {
   const { network } = useSelectedNetworkSelector(blockchain)
   const { customNetworks } = useCustomNetworksSelector()
 
-  const [selectedNetwork, setSelectedNetwork] = useState<TNetwork<TBlockchainServiceKey>>(network)
-
   const options = NETWORK_OPTIONS_BY_BLOCKCHAIN[blockchain].all.concat(...customNetworks[blockchain])
+
+  const [selectedNetworkId, setSelectedNetworkId] = useState(network.id)
+
+  const selectedNetwork = options.find(option => option.id === selectedNetworkId) ?? options[0]
 
   const onSelectRadioItem = (selectedValue: string) => {
     const network = options.find(network => network.id === selectedValue)
     if (!network) return
 
-    setSelectedNetwork(network)
+    setSelectedNetworkId(network.id)
   }
 
   const handleSave = async () => {
@@ -47,7 +49,7 @@ export const NetworkSelection = () => {
   }
 
   useEffect(() => {
-    if (network.id !== selectedNetwork.id) setSelectedNetwork(network)
+    if (network) setSelectedNetworkId(network.id)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [network])
 
@@ -60,7 +62,7 @@ export const NetworkSelection = () => {
       <div className="min-h-0 flex-grow overflow-auto">
         <span className="mb-5 block px-4 text-gray-300">{t('selectNetwork')}</span>
 
-        <RadioGroup.Group value={selectedNetwork.id} onValueChange={onSelectRadioItem}>
+        <RadioGroup.Group value={selectedNetworkId} onValueChange={onSelectRadioItem}>
           {options.map(network => (
             <RadioGroup.Item key={network.id} value={network.id}>
               <div className="flex items-center gap-4">
@@ -87,7 +89,9 @@ export const NetworkSelection = () => {
               colorSchema="gray"
               variant="outlined"
               iconsOnEdge={false}
-              onClick={modalNavigateWrapper('add-custom-network', { state: { blockchain, network: selectedNetwork } })}
+              onClick={modalNavigateWrapper('add-custom-network', {
+                state: { blockchain, network: selectedNetwork },
+              })}
             />
           )}
 

@@ -73,6 +73,12 @@ const saveCustomNetwork = <T extends TBlockchainServiceKey>(
   cloneNetworks[blockchain][findIndex] = network
 
   state.data.customNetworks = cloneNetworks
+
+  const profileNetworkByBlockchain = state.data.selectedNetworkProfile.networkByBlockchain
+
+  if (profileNetworkByBlockchain[blockchain].id === network.id) {
+    profileNetworkByBlockchain[blockchain] = network
+  }
 }
 
 const deleteCustomNetwork = <T extends TBlockchainServiceKey>(
@@ -92,8 +98,15 @@ const deleteCustomNetwork = <T extends TBlockchainServiceKey>(
   state.data.customNetworks = cloneNetworks
 
   if (cloneSelectedNetwork[blockchain].id === network.id) {
-    cloneSelectedNetwork[blockchain] = DEFAULT_NETWORK_BY__BLOCKCHAIN[blockchain]
+    const defaultNetwork = DEFAULT_NETWORK_BY__BLOCKCHAIN[blockchain]
+    const profileNetworkByBlockchain = state.data.selectedNetworkProfile.networkByBlockchain
+
+    cloneSelectedNetwork[blockchain] = defaultNetwork
     state.data.selectedNetworkByBlockchain = cloneSelectedNetwork
+
+    if (profileNetworkByBlockchain[blockchain].id === network.id) {
+      profileNetworkByBlockchain[blockchain] = defaultNetwork
+    }
   }
 }
 
@@ -103,13 +116,13 @@ const saveNetworkProfile: CaseReducer<ISettingsReducer, PayloadAction<TNetworkPr
   const findIndex = state.data.networkProfiles.findIndex(it => it.id === profile.id)
   if (findIndex < 0) {
     state.data.networkProfiles = [...state.data.networkProfiles, profile]
-  }
+  } else {
+    state.data.networkProfiles[findIndex] = profile
 
-  state.data.networkProfiles[findIndex] = profile
-
-  if (state.data.selectedNetworkProfile.id === profile.id) {
-    state.data.selectedNetworkProfile = profile
-    state.data.selectedNetworkByBlockchain = profile.networkByBlockchain
+    if (state.data.selectedNetworkProfile.id === profile.id) {
+      state.data.selectedNetworkProfile = profile
+      state.data.selectedNetworkByBlockchain = profile.networkByBlockchain
+    }
   }
 }
 
