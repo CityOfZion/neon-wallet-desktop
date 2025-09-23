@@ -41,6 +41,11 @@ export const AddCustomNetwork = () => {
       isValid: !!networkToEdit,
     })
 
+  const trimmedName = actionData.name.trim()
+  const isNameEmpty = trimmedName.length === 0
+  const isNameTooLong = trimmedName.length > 10
+  const isDisabled = isNameEmpty || isNameTooLong || !actionData.isValid
+
   const handleUrlBlur = async () => {
     setData({ isValid: false })
 
@@ -69,16 +74,17 @@ export const AddCustomNetwork = () => {
     if (!networkToEdit) return
 
     dispatch(settingsReducerActions.deleteCustomNetwork({ blockchain, network: networkToEdit }))
+
     modalNavigate(-1)
   }
 
   const handleSubmit = (data: TActionData) => {
-    if (data.name.length === 0) {
+    if (isNameEmpty) {
       setError('name', t('errors.networkNameIsRequired'))
       return
     }
 
-    if (data.name.length > 10) {
+    if (isNameTooLong) {
       setError('name', t('errors.networkNameIsTooLong'))
       return
     }
@@ -87,7 +93,7 @@ export const AddCustomNetwork = () => {
       settingsReducerActions.saveCustomNetwork({
         blockchain,
         network: {
-          name: data.name,
+          name: trimmedName,
           url: data.url,
           id: networkToEdit?.id ?? `${CUSTOM_NETWORK_ID}-${UtilsHelper.uuid()}`,
         },
@@ -149,12 +155,7 @@ export const AddCustomNetwork = () => {
               colorSchema="gray"
             />
 
-            <Button
-              className="w-full"
-              label={commonGeneral('save')}
-              flat
-              disabled={!actionState.isValid && !actionData.isValid}
-            />
+            <Button className="w-full" type="submit" label={commonGeneral('save')} flat disabled={isDisabled} />
           </div>
         </div>
       </form>
