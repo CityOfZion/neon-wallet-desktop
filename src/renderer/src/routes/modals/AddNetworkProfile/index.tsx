@@ -31,8 +31,10 @@ export const AddNetworkProfileModal = () => {
     name: profile?.name ?? '',
   })
 
+  const isDisabled = actionData.name.trim().length === 0
+
   const handleSubmit = (data: TActionData) => {
-    if (data.name.length === 0) {
+    if (isDisabled) {
       setError('name', t('errors.profileNameIsRequired'))
       return
     }
@@ -81,7 +83,7 @@ export const AddNetworkProfileModal = () => {
             colorSchema="gray"
           />
 
-          <Button className="w-full" type="submit" label={tCommon('save')} flat />
+          <Button className="w-full" type="submit" label={tCommon('save')} flat disabled={isDisabled} />
         </div>
       </form>
 
