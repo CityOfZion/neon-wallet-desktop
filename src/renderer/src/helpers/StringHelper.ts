@@ -25,4 +25,17 @@ export class StringHelper {
   static normalizeText(text: string) {
     return text.trim().toLowerCase()
   }
+
+  static validateValue(value: string, maxLength: number = 30) {
+    const trimmedValue = value.trim()
+    const isEmpty = trimmedValue.length === 0
+    const isTooLong = trimmedValue.length > maxLength
+
+    return {
+      trimmedValue,
+      isEmpty,
+      isTooLong,
+      isValid: !isEmpty && !isTooLong,
+    }
+  }
 }

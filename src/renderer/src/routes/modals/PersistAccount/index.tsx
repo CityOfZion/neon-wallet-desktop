@@ -5,6 +5,7 @@ import TbPlus from '@renderer/assets/images/tb-plus.svg?react'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
+import { StringHelper } from '@renderer/helpers/StringHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useActions } from '@renderer/hooks/useActions'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
@@ -43,28 +44,26 @@ export const PersistAccountModal = () => {
     skin: account ? account.skin : UtilsHelper.generateColorSkin(0),
   })
 
-  const trimmedName = actionData.name.trim()
-  const isNameEmpty = trimmedName.length === 0
-  const isNameTooLong = trimmedName.length > MAX_NAME_LENGTH
-  const isDisabled = isNameEmpty || isNameTooLong || !actionState.isValid || actionState.isActing
+  const nameValidation = StringHelper.validateValue(actionData.name, MAX_NAME_LENGTH)
+  const isDisabled = !nameValidation.isValid || actionState.isActing
 
   const handleSelectColorSkin = (skin: TSkin) => {
     setData({ skin })
   }
 
   const handleSubmit = async ({ skin }: TFormData) => {
-    if (isNameEmpty) {
+    if (nameValidation.isEmpty) {
       setError('name', t('errors.accountNameIsTooShort'))
       return
     }
 
-    if (isNameTooLong) {
+    if (nameValidation.isTooLong) {
       setError('name', t('errors.accountNameIsTooLong', { amount: MAX_NAME_LENGTH }))
       return
     }
 
     if (account) {
-      dispatch(authReducerActions.saveAccount({ ...account, name: trimmedName, skin }))
+      dispatch(authReducerActions.saveAccount({ ...account, name: nameValidation.trimmedValue, skin }))
       modalNavigate(-1)
 
       return
@@ -82,7 +81,7 @@ export const PersistAccountModal = () => {
             await createStandardAccount({
               wallet,
               blockchain: blockchain,
-              name: trimmedName,
+              name: nameValidation.trimmedValue,
               skin: skin,
             })
             modalNavigate(-2)
@@ -93,7 +92,7 @@ export const PersistAccountModal = () => {
       return
     }
 
-    addNewHardwareAccount(wallet, trimmedName)
+    addNewHardwareAccount(wallet, nameValidation.trimmedValue)
     modalNavigate(-1)
   }
 

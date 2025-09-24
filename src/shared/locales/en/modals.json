@@ -36,12 +36,15 @@
     "inputPlaceholder": "Enter your wallet name...",
     "saveButtonLabel": "Save",
     "cancelButtonLabel": "Cancel",
-    "nameLengthError": "Name must be at least 1 character long",
     "deleteWalletTitle": "Delete Wallet",
     "deleteWalletSubtext": "This will remove your wallet and all transaction history",
     "selectSkinLabel": "Select a skin",
     "noSkinsUnlocked": "No skins unlocked",
-    "deleteWalletButtonLabel": "Delete wallet"
+    "deleteWalletButtonLabel": "Delete wallet",
+    "errors": {
+      "walletNameIsTooShort": "Wallet name must be at least 1 character long",
+      "walletNameIsTooLong": "Wallet name must be at most {{amount}} characters long"
+    }
   },
   "persistAccount": {
     "titleEdit": "Edit Account",
@@ -59,8 +62,8 @@
     "deleteAccountSubtext": "Deleting an account that contains assets will cause these assets to become inaccessible after deletion!",
     "useNftButtonLabel": "Use an NFT image",
     "errors": {
-      "accountNameIsTooShort": "Name must be at least 1 character long",
-      "accountNameIsTooLong": "Name must be at most {{amount}} characters long"
+      "accountNameIsTooShort": "Account name must be at least 1 character long",
+      "accountNameIsTooLong": "Account name must be at most {{amount}} characters long"
     }
   },
   "createWallet": {
@@ -101,7 +104,10 @@
       "inputPlaceholder": "Enter your wallet name...",
       "backButtonLabel": "Back",
       "nextButtonLabel": "Next",
-      "nameLengthError": "Name must be at least 1 character long"
+      "errors": {
+        "walletNameIsTooShort": "Wallet name must be at least 1 character long",
+        "walletNameIsTooLong": "Wallet name must be at most {{amount}} characters long"
+      }
     },
     "step4": {
       "title": "Select network",
