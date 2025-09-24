@@ -57,8 +57,11 @@
     "cancelButtonLabel": "Cancel",
     "deleteAccountTitle": "Delete Account",
     "deleteAccountSubtext": "Deleting an account that contains assets will cause these assets to become inaccessible after deletion!",
-    "nameLengthError": "Name must be at least 1 character long",
-    "useNftButtonLabel": "Use an NFT image"
+    "useNftButtonLabel": "Use an NFT image",
+    "errors": {
+      "accountNameIsTooShort": "Name must be at least 1 character long",
+      "accountNameIsTooLong": "Name must be at most {{amount}} characters long"
+    }
   },
   "createWallet": {
     "title": "Create new wallet",
@@ -551,11 +554,7 @@
     "detailsHeaderLabel": "Details",
     "detailsHeaderDescription": " We aim to complete swaps in under 7 minutes",
     "statusPanelLabel": "Status",
-    "statusPanelSteps": [
-      "Confirm",
-      "Exchange",
-      "Complete"
-    ],
+    "statusPanelSteps": ["Confirm", "Exchange", "Complete"],
     "routingPanelLabel": "Routing",
     "routingPanelTransactionFromLabel": "Transaction from",
     "routingPanelTransactionToLabel": "Transaction to",
@@ -721,13 +720,7 @@
       "notFoundMessage": "No hardware wallet or app found! Please check your connection",
       "searchAgainButtonLabel": "Search again"
     },
-    "steps": [
-      "Connect hardware",
-      "Open Neo N3 app",
-      "Select address",
-      "Confirmation",
-      "Complete"
-    ],
+    "steps": ["Connect hardware", "Open Neo N3 app", "Select address", "Confirmation", "Complete"],
     "closeIconButtonAriaLabel": "Close"
   },
   "migrationNeo3Status": {
@@ -897,10 +890,7 @@
     "description": "Your bridge details",
     "detailsHeaderLabel": "Details",
     "statusPanelLabel": "Status",
-    "statusPanelSteps": [
-      "Send",
-      "Complete"
-    ],
+    "statusPanelSteps": ["Send", "Complete"],
     "fromDetailsPanelLabel": "From",
     "fromAddressDetailsItemLabel": "Sending address",
     "fromTokenDetailsItemLabel": "Token",

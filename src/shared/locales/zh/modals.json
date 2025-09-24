@@ -57,8 +57,11 @@
     "cancelButtonLabel": "取消",
     "deleteAccountTitle": "删除账户",
     "deleteAccountSubtext": "删除包含资产的账户将导致这些资产无法访问！",
-    "nameLengthError": "名称至少为1个字符",
-    "useNftButtonLabel": "使用NFT图片"
+    "useNftButtonLabel": "使用NFT图片",
+    "errors": {
+      "accountNameIsTooShort": "名称至少为1个字符",
+      "accountNameIsTooLong": "名称最多为{{amount}}个字符"
+    }
   },
   "createWallet": {
     "title": "创建新钱包",
@@ -551,11 +554,7 @@
     "detailsHeaderLabel": "详情",
     "detailsHeaderDescription": "我们力争在7分钟内完成兑换",
     "statusPanelLabel": "状态",
-    "statusPanelSteps": [
-      "确认",
-      "兑换",
-      "完成"
-    ],
+    "statusPanelSteps": ["确认", "兑换", "完成"],
     "routingPanelLabel": "路由",
     "routingPanelTransactionFromLabel": "交易发起自",
     "routingPanelTransactionToLabel": "交易接收至",
@@ -721,13 +720,7 @@
       "notFoundMessage": "未找到硬件钱包或应用！请检查连接",
       "searchAgainButtonLabel": "重新搜索"
     },
-    "steps": [
-      "连接硬件",
-      "打开Neo N3应用",
-      "选择地址",
-      "确认",
-      "完成"
-    ],
+    "steps": ["连接硬件", "打开Neo N3应用", "选择地址", "确认", "完成"],
     "closeIconButtonAriaLabel": "关闭"
   },
   "migrationNeo3Status": {
@@ -897,10 +890,7 @@
     "description": "您的跨链详情",
     "detailsHeaderLabel": "详情",
     "statusPanelLabel": "状态",
-    "statusPanelSteps": [
-      "发送",
-      "完成"
-    ],
+    "statusPanelSteps": ["发送", "完成"],
     "fromDetailsPanelLabel": "来源",
     "fromAddressDetailsItemLabel": "发送地址",
     "fromTokenDetailsItemLabel": "代币",
