@@ -34,6 +34,7 @@ export const PersistAccountModal = () => {
   const { account, wallet } = useModalState<TLocationState>()
   const { createStandardAccount } = useBlockchainActions()
   const { addNewHardwareAccount } = useHardwareWalletActions()
+  const MAX_NAME_LENGTH = 50
 
   const dispatch = useAppDispatch()
 
@@ -42,19 +43,28 @@ export const PersistAccountModal = () => {
     skin: account ? account.skin : UtilsHelper.generateColorSkin(0),
   })
 
+  const trimmedName = actionData.name.trim()
+  const isNameEmpty = trimmedName.length === 0
+  const isNameTooLong = trimmedName.length > MAX_NAME_LENGTH
+  const isDisabled = isNameEmpty || isNameTooLong || !actionState.isValid || actionState.isActing
+
   const handleSelectColorSkin = (skin: TSkin) => {
     setData({ skin })
   }
 
-  const handleSubmit = async ({ name, skin }: TFormData) => {
-    const nameTrimmed = name.trim()
-    if (nameTrimmed.length === 0) {
-      setError('name', t('nameLengthError'))
+  const handleSubmit = async ({ skin }: TFormData) => {
+    if (isNameEmpty) {
+      setError('name', t('errors.accountNameIsTooShort'))
+      return
+    }
+
+    if (isNameTooLong) {
+      setError('name', t('errors.accountNameIsTooLong', { amount: MAX_NAME_LENGTH }))
       return
     }
 
     if (account) {
-      dispatch(authReducerActions.saveAccount({ ...account, name: nameTrimmed, skin }))
+      dispatch(authReducerActions.saveAccount({ ...account, name: trimmedName, skin }))
       modalNavigate(-1)
 
       return
@@ -72,7 +82,7 @@ export const PersistAccountModal = () => {
             await createStandardAccount({
               wallet,
               blockchain: blockchain,
-              name: nameTrimmed,
+              name: trimmedName,
               skin: skin,
             })
             modalNavigate(-2)
@@ -83,7 +93,7 @@ export const PersistAccountModal = () => {
       return
     }
 
-    addNewHardwareAccount(wallet, nameTrimmed)
+    addNewHardwareAccount(wallet, trimmedName)
     modalNavigate(-1)
   }
 
@@ -106,6 +116,7 @@ export const PersistAccountModal = () => {
             value={actionData.name}
             onChange={setDataFromEventWrapper('name')}
             errorMessage={actionState.errors.name}
+            maxLength={MAX_NAME_LENGTH}
             clearable
           />
 
@@ -127,7 +138,7 @@ export const PersistAccountModal = () => {
           type="submit"
           label={account ? t('saveButtonLabel') : t('nextButtonLabel')}
           flat
-          disabled={!actionState.isValid || actionState.isActing}
+          disabled={isDisabled}
         />
       </form>
 

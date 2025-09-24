@@ -57,8 +57,11 @@
     "cancelButtonLabel": "取消",
     "deleteAccountTitle": "刪除帳戶",
     "deleteAccountSubtext": "刪除包含資產的帳戶將導致這些資產無法存取！",
-    "nameLengthError": "名稱至少需 1 個字元",
-    "useNftButtonLabel": "使用 NFT 圖片"
+    "useNftButtonLabel": "使用 NFT 圖片",
+    "errors": {
+      "accountNameIsTooShort": "名稱至少需 1 個字元",
+      "accountNameIsTooLong": "名稱最多需 {{amount}} 個字元"
+    }
   },
   "createWallet": {
     "title": "建立新錢包",
@@ -551,11 +554,7 @@
     "detailsHeaderLabel": "詳情",
     "detailsHeaderDescription": "我們目標在 7 分鐘內完成兌換",
     "statusPanelLabel": "狀態",
-    "statusPanelSteps": [
-      "確認",
-      "兌換",
-      "完成"
-    ],
+    "statusPanelSteps": ["確認", "兌換", "完成"],
     "routingPanelLabel": "路由",
     "routingPanelTransactionFromLabel": "交易來源",
     "routingPanelTransactionToLabel": "交易目標",
@@ -721,13 +720,7 @@
       "notFoundMessage": "找不到硬體錢包或應用程式！請檢查連線",
       "searchAgainButtonLabel": "重新搜尋"
     },
-    "steps": [
-      "連接硬體錢包",
-      "開啟 Neo N3 應用程式",
-      "選擇地址",
-      "確認",
-      "完成"
-    ],
+    "steps": ["連接硬體錢包", "開啟 Neo N3 應用程式", "選擇地址", "確認", "完成"],
     "closeIconButtonAriaLabel": "關閉"
   },
   "migrationNeo3Status": {
@@ -897,10 +890,7 @@
     "description": "您的跨鏈詳情",
     "detailsHeaderLabel": "詳情",
     "statusPanelLabel": "狀態",
-    "statusPanelSteps": [
-      "發送",
-      "完成"
-    ],
+    "statusPanelSteps": ["發送", "完成"],
     "fromDetailsPanelLabel": "來源",
     "fromAddressDetailsItemLabel": "發送地址",
     "fromTokenDetailsItemLabel": "代幣",
