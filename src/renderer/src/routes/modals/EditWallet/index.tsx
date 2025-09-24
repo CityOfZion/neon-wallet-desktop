@@ -4,6 +4,7 @@ import TbPencil from '@renderer/assets/images/tb-pencil.svg?react'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
+import { StringHelper } from '@renderer/helpers/StringHelper'
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
@@ -23,24 +24,33 @@ export const EditWalletModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'editWallet' })
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
   const { wallet } = useModalState<TLocationState>()
+  const MAX_NAME_LENGTH = 30
 
   const dispatch = useAppDispatch()
 
-  const form = useActions<TFormData>({
+  const { setData, setError, actionState, actionData, handleAct } = useActions<TFormData>({
     name: wallet.name,
   })
 
+  const nameValidation = StringHelper.validateValue(actionData.name, MAX_NAME_LENGTH)
+  const isDisabled = !nameValidation.isValid || actionState.isActing
+
   const handleChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    form.setData({ name: event.target.value })
+    setData({ name: event.target.value })
   }
 
-  const handleSubmit = ({ name }: TFormData) => {
-    const nameTrimmed = name.trim()
-    if (nameTrimmed.length <= 0) {
-      form.setError('name', t('nameLengthError'))
+  const handleSubmit = () => {
+    if (nameValidation.isEmpty) {
+      setError('name', t('errors.walletNameIsTooShort'))
       return
     }
-    dispatch(authReducerActions.saveWallet({ ...wallet, name: nameTrimmed }))
+
+    if (nameValidation.isTooLong) {
+      setError('name', t('errors.walletNameIsTooLong', { amount: MAX_NAME_LENGTH }))
+      return
+    }
+
+    dispatch(authReducerActions.saveWallet({ ...wallet, name: nameValidation.trimmedValue }))
     modalNavigate(-1)
   }
 
@@ -50,13 +60,14 @@ export const EditWalletModal = () => {
       headingIcon={<TbPencil aria-hidden={true} />}
       contentClassName="flex flex-col"
     >
-      <form onSubmit={form.handleAct(handleSubmit)} className="flex flex-grow flex-col">
+      <form onSubmit={handleAct(handleSubmit)} className="flex flex-grow flex-col">
         <Input
           placeholder={t('inputPlaceholder')}
-          errorMessage={form.actionState.errors.name}
-          value={form.actionData.name}
+          errorMessage={actionState.errors.name}
+          value={actionData.name}
           onChange={handleChangeName}
           clearable
+          maxLength={MAX_NAME_LENGTH}
           compacted
         />
 
@@ -72,7 +83,7 @@ export const EditWalletModal = () => {
             colorSchema="gray"
           />
 
-          <Button className="w-full" type="submit" label={t('saveButtonLabel')} flat />
+          <Button className="w-full" type="submit" label={t('saveButtonLabel')} disabled={isDisabled} flat />
         </div>
       </form>
 

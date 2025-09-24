@@ -36,12 +36,15 @@
     "inputPlaceholder": "輸入您的錢包名稱...",
     "saveButtonLabel": "儲存",
     "cancelButtonLabel": "取消",
-    "nameLengthError": "名稱至少需 1 個字元",
     "deleteWalletTitle": "刪除錢包",
     "deleteWalletSubtext": "這將移除您的錢包及所有交易紀錄",
     "selectSkinLabel": "選擇主題",
     "noSkinsUnlocked": "尚未解鎖任何主題",
-    "deleteWalletButtonLabel": "刪除錢包"
+    "deleteWalletButtonLabel": "刪除錢包",
+    "errors": {
+      "walletNameIsTooShort": "錢包名稱至少需 1 個字元",
+      "walletNameIsTooLong": "錢包名稱最多需 {{amount}} 個字元"
+    }
   },
   "persistAccount": {
     "titleEdit": "編輯帳戶",
@@ -59,8 +62,8 @@
     "deleteAccountSubtext": "刪除包含資產的帳戶將導致這些資產無法存取！",
     "useNftButtonLabel": "使用 NFT 圖片",
     "errors": {
-      "accountNameIsTooShort": "名稱至少需 1 個字元",
-      "accountNameIsTooLong": "名稱最多需 {{amount}} 個字元"
+      "accountNameIsTooShort": "帳戶名稱至少需 1 個字元",
+      "accountNameIsTooLong": "帳戶名稱最多需 {{amount}} 個字元"
     }
   },
   "createWallet": {
@@ -101,7 +104,10 @@
       "inputPlaceholder": "輸入您的錢包名稱...",
       "backButtonLabel": "返回",
       "nextButtonLabel": "下一步",
-      "nameLengthError": "名稱至少需 1 個字元"
+      "errors": {
+        "walletNameIsTooShort": "錢包名稱至少需 1 個字元",
+        "walletNameIsTooLong": "錢包名稱最多需 {{amount}} 個字元"
+      }
     },
     "step4": {
       "title": "選擇網路",
