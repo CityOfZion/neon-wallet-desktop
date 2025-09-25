@@ -393,7 +393,7 @@ export const SwapPageContent = ({ account }: TProps) => {
           !service ||
           !actionData.selectedTokenToUse.value ||
           !actionData.selectedTokenToUse.value.hash ||
-          !actionData.selectedTokenToUse.value.decimals === undefined ||
+          actionData.selectedTokenToUse.value.decimals === undefined ||
           !actionData.selectedTokenToReceive.value ||
           !actionData.selectedAmountToUse.value ||
           !actionData.selectedAmountToReceive.value ||
