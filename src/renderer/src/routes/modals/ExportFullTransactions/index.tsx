@@ -42,8 +42,8 @@ export const ExportFullTransactionsModal = () => {
 
   const { actionData, actionState, setData, handleAct } = useActions<TExportFullTransactionsActionData>({
     account: modalState.account,
-    from: modalState.from ?? dateFns.sub(today, { weeks: 1 }),
-    to: modalState.to ?? today,
+    from: dateFns.startOfDay(modalState.from ?? dateFns.sub(today, { weeks: 1 })),
+    to: !!modalState.to && !dateFns.isSameDay(today, modalState.to) ? dateFns.endOfDay(modalState.to) : today,
     exported: false,
     selectedFolderPath: undefined,
     filePath: '',
@@ -70,8 +70,8 @@ export const ExportFullTransactionsModal = () => {
 
       const result = await service.blockchainDataService.exportFullTransactionsByAddress({
         address: account.address,
-        dateFrom: actionData.from.toISOString(),
-        dateTo: actionData.to.toISOString(),
+        dateFrom: actionData.from.toJSON(),
+        dateTo: (dateFns.isSameDay(today, actionData.to) ? today : actionData.to).toJSON(),
       })
 
       const formattedDateFrom = dateFns.format(actionData.from, t('filenameDateFormat'))
@@ -92,28 +92,38 @@ export const ExportFullTransactionsModal = () => {
   }
 
   const handleSelectDateFrom = (date: Date) => {
-    setData({ from: date })
+    const from = dateFns.startOfDay(date)
 
-    if (actionData.to && dateFns.isAfter(date, actionData.to)) {
-      setData({ to: dateFns.min([today, dateFns.add(date, { weeks: 1 })]) })
+    setData({ from })
+
+    if (actionData.to && dateFns.isAfter(from, actionData.to)) {
+      const to = dateFns.endOfDay(dateFns.min([today, dateFns.add(from, { weeks: 1 })]))
+
+      setData({ to: dateFns.isSameDay(today, to) ? today : to })
+
       return
     }
 
-    if (actionData.to && dateFns.differenceInYears(actionData.to, date) > 0) {
-      setData({ to: dateFns.add(date, { years: 1, days: -1 }) })
+    if (actionData.to && dateFns.differenceInYears(actionData.to, from) > 0) {
+      const to = dateFns.endOfDay(dateFns.add(from, { years: 1, days: -1 }))
+
+      setData({ to: dateFns.isSameDay(today, to) ? today : to })
     }
   }
 
   const handleSelectDateTo = (date: Date) => {
-    setData({ to: date })
+    const to = dateFns.isSameDay(today, date) ? today : dateFns.endOfDay(date)
 
-    if (actionData.from && dateFns.isBefore(date, actionData.from)) {
-      setData({ from: dateFns.sub(date, { weeks: 1 }) })
+    setData({ to })
+
+    if (actionData.from && dateFns.isBefore(to, actionData.from)) {
+      setData({ from: dateFns.startOfDay(dateFns.sub(to, { weeks: 1 })) })
+
       return
     }
 
-    if (actionData.from && dateFns.differenceInYears(date, actionData.from) > 0) {
-      setData({ from: dateFns.sub(date, { years: 1, days: -1 }) })
+    if (actionData.from && dateFns.differenceInYears(to, actionData.from) > 0) {
+      setData({ from: dateFns.startOfDay(dateFns.sub(to, { years: 1, days: -1 })) })
     }
   }
 
@@ -145,7 +155,7 @@ export const ExportFullTransactionsModal = () => {
     >
       {actionData.exported ? (
         <div className="flex flex-col items-center">
-          <SuccessIcon className="mt-0" />
+          <SuccessIcon aria-hidden className="mt-0" />
 
           <p className="mt-8 text-lg text-white">{t('exported.description')}</p>
 
