@@ -2,12 +2,6 @@
   "versionLabel": "Version v{{version}}",
   "notes": [
     {
-      "version": "3.8.2-rc.5",
-      "date": "29 Sep 2025",
-      "changes": [],
-      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.8.2-rc.5"
-    },
-    {
       "version": "3.8.1",
       "date": "29 Jul 2025",
       "changes": [
