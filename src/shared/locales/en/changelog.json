@@ -4,7 +4,11 @@
     {
       "version": "3.8.2-rc.4",
       "date": "30 Sep 2025",
-      "changes": [],
+      "changes": [
+        "Migration improvements",
+        "Bridge Neo 3 and Neo X feature",
+        "Bug fixes"
+      ],
       "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.8.2-rc.4"
     },
     {
