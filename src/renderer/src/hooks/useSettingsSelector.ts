@@ -9,7 +9,7 @@ import { TSelectedNetworks } from '@shared/@types/store'
 import { useAppDispatch, useAppSelector } from './useRedux'
 
 export const useSelectedNetworkByBlockchainSelector = () => {
-  const { ref, value } = useAppSelector(state => state.settings.data.selectedNetworkByBlockchain)
+  const { ref, value } = useAppSelector(state => state.settings.data.selectedNetworkProfile.networkByBlockchain)
   return {
     networkByBlockchain: value,
     networkByBlockchainRef: ref,
@@ -18,7 +18,7 @@ export const useSelectedNetworkByBlockchainSelector = () => {
 
 export const useSelectedNetworkSelector = <T extends TBlockchainServiceKey>(blockchain: T) => {
   const { ref, value } = useAppSelector(
-    state => state.settings.data.selectedNetworkByBlockchain[blockchain] as TSelectedNetworks[T]
+    state => state.settings.data.selectedNetworkProfile.networkByBlockchain[blockchain] as TSelectedNetworks[T]
   )
   return {
     network: value,
@@ -101,20 +101,42 @@ export const useOverTheAirInfoSelector = () => {
 export const useNetworkActions = () => {
   const dispatch = useAppDispatch()
   const { sessions, disconnect } = useWalletConnectWallet()
+  const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
+  const { selectedNetworkProfile } = useSelectedNetworkProfileSelector()
 
   const setNetwork = useCallback(
     async (blockchain: TBlockchainServiceKey, network: TNetwork<TBlockchainServiceKey>) => {
       await Promise.allSettled(sessions.map(session => disconnect(session)))
-      dispatch(settingsReducerActions.setSelectNetwork({ blockchain, network }))
+      dispatch(
+        settingsReducerActions.saveNetworkProfile({
+          ...selectedNetworkProfile,
+          networkByBlockchain: {
+            ...networkByBlockchain,
+            [blockchain]: network,
+          },
+        })
+      )
     },
-    [disconnect, dispatch, sessions]
+    [disconnect, dispatch, networkByBlockchain, selectedNetworkProfile, sessions]
   ) as <T extends TBlockchainServiceKey>(blockchain: T, network: TNetwork<T>) => Promise<void>
 
   const setNetworkNode = useCallback(
     (blockchain: TBlockchainServiceKey, url: string, isAutomatic?: boolean) => {
-      dispatch(settingsReducerActions.setSelectedNetworkUrl({ blockchain, url, isAutomatic }))
+      dispatch(
+        settingsReducerActions.saveNetworkProfile({
+          ...selectedNetworkProfile,
+          networkByBlockchain: {
+            ...networkByBlockchain,
+            [blockchain]: {
+              ...networkByBlockchain[blockchain],
+              url,
+              isAutomatic,
+            },
+          },
+        })
+      )
     },
-    [dispatch]
+    [dispatch, networkByBlockchain, selectedNetworkProfile]
   )
 
   return {

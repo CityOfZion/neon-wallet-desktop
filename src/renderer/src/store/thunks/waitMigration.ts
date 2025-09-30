@@ -14,7 +14,8 @@ export const waitMigration = createAsyncThunk<void, TMigrationNeo3>(
   'waitMigration',
   async (pendingMigrationNeo3, { getState, dispatch }) => {
     const state = getState() as TRootState
-    const network = state.settings.data.selectedNetworkByBlockchain[pendingMigrationNeo3.neoLegacyAccount.blockchain]
+    const network =
+      state.settings.data.selectedNetworkProfile.networkByBlockchain[pendingMigrationNeo3.neoLegacyAccount.blockchain]
 
     let status: TMigrationNeo3Status = 'pending'
     const notification: TSaveNotification = {

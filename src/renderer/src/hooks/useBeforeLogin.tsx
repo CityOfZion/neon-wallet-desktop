@@ -7,7 +7,6 @@ import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
 import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 import { compareVersions } from 'compare-versions'
 import i18next from 'i18next'
@@ -163,12 +162,6 @@ const useNetworkChange = () => {
     })
   }, [networkByBlockchain])
 
-  useLayoutEffect(() => {
-    Object.entries(selectedNetworkProfile.networkByBlockchain).forEach(([blockchain, network]) => {
-      dispatch(settingsReducerActions.setSelectNetwork({ blockchain: blockchain as TBlockchainServiceKey, network }))
-    })
-  }, [dispatch, selectedNetworkProfile.networkByBlockchain])
-
   useMount(async () => {
     if (nodesQuery.isLoading || !nodesQuery.data || nodesAlreadyChecked.current) return
 
@@ -190,8 +183,6 @@ const useNetworkChange = () => {
 
       const newNode = allNodes[service.name].find(node => node.latency !== undefined && node.height !== undefined)
       if (!newNode) return
-
-      dispatch(settingsReducerActions.setSelectedNetworkUrl({ blockchain: service.name, url: newNode.url }))
 
       dispatch(
         settingsReducerActions.saveNetworkProfile({

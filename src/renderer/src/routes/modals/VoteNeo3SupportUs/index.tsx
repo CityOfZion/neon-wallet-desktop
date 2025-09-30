@@ -35,7 +35,7 @@ export const VoteNeo3SupportUsModal = () => {
   } = useActions<TActionsData>({ dontShowAgain: false })
 
   const handleOnClose = () => {
-    if (dontShowAgain) dispatch(settingsReducerActions.dontShowVoteNeo3SupportUsModalAgain())
+    if (dontShowAgain) dispatch(settingsReducerActions.setCanShowVoteNeo3SupportUsModalAgain(false))
   }
 
   const handleChangeDontShowAgain = (checked: boolean) => {

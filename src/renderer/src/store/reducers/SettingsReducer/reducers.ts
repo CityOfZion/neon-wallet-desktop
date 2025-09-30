@@ -30,31 +30,6 @@ const setOverTheAirInfo: CaseReducer<ISettingsReducer, PayloadAction<Partial<TOv
   state.data.overTheAirInfo = { ...state.data.overTheAirInfo, ...action.payload }
 }
 
-const setSelectNetwork = <T extends TBlockchainServiceKey>(
-  state: ISettingsReducer,
-  action: PayloadAction<{ blockchain: T; network: TNetwork<T> }>
-) => {
-  const { blockchain, network } = action.payload
-
-  const cloneSelectedNetworkByBlockchain = cloneDeep(state.data.selectedNetworkByBlockchain)
-  cloneSelectedNetworkByBlockchain[blockchain] = network as any
-
-  state.data.selectedNetworkByBlockchain = cloneSelectedNetworkByBlockchain
-}
-
-const setSelectedNetworkUrl: CaseReducer<
-  ISettingsReducer,
-  PayloadAction<{ blockchain: TBlockchainServiceKey; url: string; isAutomatic?: boolean }>
-> = (state, action) => {
-  const { blockchain, url, isAutomatic } = action.payload
-
-  const cloneSelectedNetworkByBlockchain = cloneDeep(state.data.selectedNetworkByBlockchain)
-  cloneSelectedNetworkByBlockchain[blockchain].url = url
-  cloneSelectedNetworkByBlockchain[blockchain].isAutomatic = isAutomatic
-
-  state.data.selectedNetworkByBlockchain = cloneSelectedNetworkByBlockchain
-}
-
 const saveCustomNetwork = <T extends TBlockchainServiceKey>(
   state: ISettingsReducer,
   action: PayloadAction<{
@@ -68,9 +43,9 @@ const saveCustomNetwork = <T extends TBlockchainServiceKey>(
   const findIndex = cloneNetworks[blockchain].findIndex(it => it.id === network.id)
   if (findIndex < 0) {
     cloneNetworks[blockchain].push(network)
+  } else {
+    cloneNetworks[blockchain][findIndex] = network
   }
-
-  cloneNetworks[blockchain][findIndex] = network
 
   state.data.customNetworks = cloneNetworks
 
@@ -91,22 +66,15 @@ const deleteCustomNetwork = <T extends TBlockchainServiceKey>(
   const { network, blockchain } = action.payload
 
   const cloneNetworks = cloneDeep(state.data.customNetworks)
-  const cloneSelectedNetwork = cloneDeep(state.data.selectedNetworkByBlockchain)
 
-  const filteredNetworks = cloneNetworks[blockchain].filter(({ id }) => id !== network.id)
-  cloneNetworks[blockchain] = filteredNetworks as any
+  cloneNetworks[blockchain] = cloneNetworks[blockchain].filter(({ id }) => id !== network.id)
   state.data.customNetworks = cloneNetworks
 
-  if (cloneSelectedNetwork[blockchain].id === network.id) {
+  const selectedNetwork = state.data.selectedNetworkProfile.networkByBlockchain[blockchain]
+
+  if (selectedNetwork.id === network.id) {
     const defaultNetwork = DEFAULT_NETWORK_BY__BLOCKCHAIN[blockchain]
-    const profileNetworkByBlockchain = state.data.selectedNetworkProfile.networkByBlockchain
-
-    cloneSelectedNetwork[blockchain] = defaultNetwork
-    state.data.selectedNetworkByBlockchain = cloneSelectedNetwork
-
-    if (profileNetworkByBlockchain[blockchain].id === network.id) {
-      profileNetworkByBlockchain[blockchain] = defaultNetwork
-    }
+    state.data.selectedNetworkProfile.networkByBlockchain[blockchain] = defaultNetwork
   }
 }
 
@@ -118,11 +86,10 @@ const saveNetworkProfile: CaseReducer<ISettingsReducer, PayloadAction<TNetworkPr
     state.data.networkProfiles = [...state.data.networkProfiles, profile]
   } else {
     state.data.networkProfiles[findIndex] = profile
+  }
 
-    if (state.data.selectedNetworkProfile.id === profile.id) {
-      state.data.selectedNetworkProfile = profile
-      state.data.selectedNetworkByBlockchain = profile.networkByBlockchain
-    }
+  if (state.data.selectedNetworkProfile.id === profile.id) {
+    state.data.selectedNetworkProfile = profile
   }
 }
 
@@ -142,11 +109,13 @@ const setSelectNetworkProfile: CaseReducer<ISettingsReducer, PayloadAction<strin
   if (!profile) return
 
   state.data.selectedNetworkProfile = profile
-  state.data.selectedNetworkByBlockchain = profile.networkByBlockchain
 }
 
-const dontShowVoteNeo3SupportUsModalAgain: CaseReducer<ISettingsReducer> = ({ data }) => {
-  data.canShowVoteNeo3SupportUsModal = false
+const setCanShowVoteNeo3SupportUsModalAgain: CaseReducer<ISettingsReducer, PayloadAction<boolean>> = (
+  state,
+  action
+) => {
+  state.data.canShowVoteNeo3SupportUsModal = action.payload
 }
 
 export const settingsSliceReducers = {
@@ -156,12 +125,10 @@ export const settingsSliceReducers = {
   setCurrency,
   setLanguage,
   setOverTheAirInfo,
-  setSelectNetwork,
-  setSelectedNetworkUrl,
   saveCustomNetwork,
   deleteCustomNetwork,
   saveNetworkProfile,
   deleteNetworkProfile,
   setSelectNetworkProfile,
-  dontShowVoteNeo3SupportUsModalAgain,
+  setCanShowVoteNeo3SupportUsModalAgain,
 }
