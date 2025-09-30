@@ -284,7 +284,6 @@
       "currentNetwork": "Current Network",
       "nodeSelection": "Node Selection",
       "selectProfilePlaceholder": "Select a profile...",
-      "updateProfileButtonLabel": "Update profile",
       "createProfileButtonLabel": "Create profile",
       "editProfileButtonLabel": "Edit profile",
       "resetProfileButtonLabel": "Reset profile"

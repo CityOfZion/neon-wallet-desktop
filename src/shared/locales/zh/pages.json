@@ -284,7 +284,6 @@
       "currentNetwork": "当前网络",
       "nodeSelection": "节点选择",
       "selectProfilePlaceholder": "选择配置文件...",
-      "updateProfileButtonLabel": "更新配置文件",
       "createProfileButtonLabel": "创建配置文件",
       "editProfileButtonLabel": "编辑配置文件",
       "resetProfileButtonLabel": "重置配置文件"
