@@ -3,7 +3,7 @@ import { BlockchainService, TBridgeToken } from '@cityofzion/blockchain-service'
 import MdCheck from '@renderer/assets/images/md-check.svg?react'
 import TbArrowRight from '@renderer/assets/images/tb-arrow-right.svg?react'
 import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
-import TbReplace from '@renderer/assets/images/tb-replace.svg?react'
+import TbReplace2 from '@renderer/assets/images/tb-replace-2.svg?react'
 import { Button } from '@renderer/components/Button'
 import { Details } from '@renderer/components/Details'
 import { TokenDetails } from '@renderer/components/TokenDetails'
@@ -44,7 +44,7 @@ export const Neo3NeoxBridgeConfirmationModal = () => {
   return (
     <SideModalLayout
       heading={t('title')}
-      headingIcon={<TbReplace aria-hidden />}
+      headingIcon={<TbReplace2 aria-hidden />}
       contentClassName="flex flex-col overflow-y-auto"
     >
       <p className="text-xs text-white">{t('description')}</p>

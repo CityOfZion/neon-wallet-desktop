@@ -7,7 +7,7 @@ import { BSNeoX } from '@cityofzion/bs-neox'
 import MdLaunch from '@renderer/assets/images/md-launch.svg?react'
 import MdRefresh from '@renderer/assets/images/md-refresh.svg?react'
 import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
-import TbReplace from '@renderer/assets/images/tb-replace.svg?react'
+import TbReplace2 from '@renderer/assets/images/tb-replace-2.svg?react'
 import TbRosetteDiscountCheck from '@renderer/assets/images/tb-rosette-discount-check.svg?react'
 import { Details } from '@renderer/components/Details'
 import { Link } from '@renderer/components/Link'
@@ -92,7 +92,7 @@ export const Neo3NeoxBridgeDetailsModal = () => {
   return (
     <SideModalLayout
       heading={t('title')}
-      headingIcon={<TbReplace aria-hidden />}
+      headingIcon={<TbReplace2 aria-hidden />}
       contentClassName="flex flex-col items-center overflow-auto"
     >
       <TbRosetteDiscountCheck aria-hidden className="min-h-28 min-w-28 stroke-1 text-blue" />

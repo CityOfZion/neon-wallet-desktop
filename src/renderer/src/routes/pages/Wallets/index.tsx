@@ -8,7 +8,7 @@ import TbChartBarPopular from '@renderer/assets/images/tb-chart-bar-popular.svg?
 import TbDotsVertical from '@renderer/assets/images/tb-dots-vertical.svg?react'
 import TbFileExport from '@renderer/assets/images/tb-file-export.svg?react'
 import TbPencil from '@renderer/assets/images/tb-pencil.svg?react'
-import TbReplace from '@renderer/assets/images/tb-replace.svg?react'
+import TbReplace2 from '@renderer/assets/images/tb-replace-2.svg?react'
 import TbUpload from '@renderer/assets/images/tb-upload.svg?react'
 import { ActionPopover } from '@renderer/components/ActionPopover'
 import { Button } from '@renderer/components/Button'
@@ -250,7 +250,7 @@ export const WalletsPage = () => {
                       <ActionPopover.Item
                         label={t('neo3NeoXBridgeButtonLabel')}
                         textClassName="text-start text-white"
-                        leftIcon={<TbReplace aria-hidden={true} />}
+                        leftIcon={<TbReplace2 aria-hidden={true} />}
                         onClick={handleNeo3NeoXBridge}
                       />
                     )}

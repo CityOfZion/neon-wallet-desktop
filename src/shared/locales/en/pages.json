@@ -483,7 +483,7 @@
           "observation": "After the transfer has been completed, your new tokens will take a few moments to arrive."
         },
         "buyTokens": {
-          "text": "<1>This process uses an embedded widget.</1> When buying tokens, some personal data might be requested for KYC purposes. <1>Larger sales require a greater amount of KYC data.</1>",
+          "text": "<1>This process uses an embedded widget.</1> When buying tokens, some personal data might be requested for KYC purposes. <2>Larger sales require a greater amount of KYC data.</2>",
           "kyc": "<1>Once the KYC process is complete:</1> You will need to provide a destination address for your tokens. From the 'Wallets & Accounts' panel, copy the destination address of your desired Neon account.",
           "alert": "Ensure that the account you select is compatible with the network of your purchased token!"
         },
