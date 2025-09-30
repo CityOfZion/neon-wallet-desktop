@@ -99,7 +99,6 @@ export interface ISettingsState {
   language: TLanguage
   overTheAirInfo: TOverTheAirInfo
   customNetworks: TCustomNetwork
-  selectedNetworkByBlockchain: TSelectedNetworks
   networkProfiles: TNetworkProfile[]
   selectedNetworkProfile: TNetworkProfile
   canShowVoteNeo3SupportUsModal: boolean

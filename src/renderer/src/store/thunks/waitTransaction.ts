@@ -21,7 +21,7 @@ export const waitTransaction = createAsyncThunk<void, TWaitTransactionParams>(
     const { transaction, successNotification, failureNotification } = params
 
     const state = getState() as TRootState
-    const network = state.settings.data.selectedNetworkByBlockchain[transaction.account.blockchain]
+    const network = state.settings.data.selectedNetworkProfile.networkByBlockchain[transaction.account.blockchain]
 
     const notification: TSaveNotification = {
       title: failureNotification.title,
