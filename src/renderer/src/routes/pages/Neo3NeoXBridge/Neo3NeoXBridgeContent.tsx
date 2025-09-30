@@ -11,7 +11,7 @@ import TbArrowsSort from '@renderer/assets/images/tb-arrows-sort.svg?react'
 import TbCoin from '@renderer/assets/images/tb-coin.svg?react'
 import TbDiamond from '@renderer/assets/images/tb-diamond.svg?react'
 import TbLock from '@renderer/assets/images/tb-lock.svg?react'
-import TbReplace from '@renderer/assets/images/tb-replace.svg?react'
+import TbReplace2 from '@renderer/assets/images/tb-replace-2.svg?react'
 import TbUsers from '@renderer/assets/images/tb-users.svg?react'
 import TbWallet from '@renderer/assets/images/tb-wallet.svg?react'
 import VscCircleFilled from '@renderer/assets/images/vsc-circle-filled.svg?react'
@@ -584,7 +584,7 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
               onClick={handleAct(handleSubmit)}
               label={t('form.bridgeButtonLabel')}
               loading={actionState.isActing}
-              leftIcon={<TbReplace aria-hidden />}
+              leftIcon={<TbReplace2 aria-hidden />}
               disabled={!isBridgeValid || actionState.isActing}
             />
           </div>

@@ -10,7 +10,7 @@ import TbClock from '@renderer/assets/images/tb-clock.svg?react'
 import TbCodeCircle from '@renderer/assets/images/tb-code-circle.svg?react'
 import TbCoin from '@renderer/assets/images/tb-coin.svg?react'
 import TbCube from '@renderer/assets/images/tb-cube.svg?react'
-import TbReplace from '@renderer/assets/images/tb-replace.svg?react'
+import TbReplace2 from '@renderer/assets/images/tb-replace-2.svg?react'
 import TbTransform from '@renderer/assets/images/tb-transform.svg?react'
 import { IconButton } from '@renderer/components/IconButton'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
@@ -206,7 +206,7 @@ export const TransactionActivityListItemHeaderContent = ({ item, migrationNeo3 }
                 tabIndex={0}
                 className="h-6 max-h-6 min-h-6 rounded border border-neon px-1.5 py-0 hover:opacity-90 focus:opacity-90 active:opacity-80"
                 data={<p className="text-neon">{tCommonGeneral('bridgeNeo3NeoX')}</p>}
-                icon={<TbReplace aria-hidden={true} className="text-neon" />}
+                icon={<TbReplace2 aria-hidden={true} className="text-neon" />}
                 onKeyDown={handleKeyDownWrapper(handleGoToBridgeNeo3NeoXDetails)}
                 onClick={handleGoToBridgeNeo3NeoXDetails}
               />
