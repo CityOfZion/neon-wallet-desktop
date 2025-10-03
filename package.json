@@ -1,6 +1,6 @@
 {
   "name": "neon3",
-  "version": "3.8.2-rc.5",
+  "version": "3.8.2",
   "description": "Everything a self-custodial wallet should be with everything you need to explore and make transactions in the Neo N3, Neo Legacy, Neo X, Ethereum, and other networks.",
   "homepage": "https://github.com/CityOfZion/neon-wallet-desktop",
   "author": "Coz (https://github.com/CityOfZion)",
