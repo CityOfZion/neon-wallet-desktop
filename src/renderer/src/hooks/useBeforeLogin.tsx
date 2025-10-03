@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Link } from '@renderer/components/Link'
-import { LATEST_GITHUB_RELEASE_LINK } from '@renderer/constants/urls'
+import { LATEST_RELEASE_URL } from '@renderer/constants/urls'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { bsAggregator } from '@renderer/libs/blockchainService'
@@ -67,7 +67,7 @@ const useOverTheAirUpdate = () => {
             start
             <span className="inline-block">middle</span>
             <Link
-              to={LATEST_GITHUB_RELEASE_LINK}
+              to={LATEST_RELEASE_URL}
               target="_blank"
               colorSchema="white"
               variant="text-slim"
