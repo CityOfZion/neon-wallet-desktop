@@ -34,7 +34,7 @@ export const LoginPasswordFormContent = () => {
   const handleSubmit = async (data: TFormData) => {
     try {
       await loginWithPassword(data.password)
-      navigate('/app/portfolio/overview')
+      navigate('/app/wallets')
     } catch {
       setError('password', t('invalidPassword'))
     }
