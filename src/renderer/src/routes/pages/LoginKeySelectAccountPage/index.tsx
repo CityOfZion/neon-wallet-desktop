@@ -42,7 +42,7 @@ export const LoginKeySelectAccountPage = () => {
     // It improves the user experience
     await SharedUtilsHelper.sleep(1000)
 
-    navigate('/app/portfolio')
+    navigate('/app/wallets')
   }
 
   const { handleAct: handleActSelected, isActing: isActingSelected } = useLoadingActions(() =>

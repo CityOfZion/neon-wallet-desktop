@@ -36,7 +36,7 @@ export const LoginKeyPage = () => {
       name: commonT('wallet.watchAccount'),
       type: 'standard',
     })
-    navigate('/app/portfolio')
+    navigate('/app/wallets')
   }
 
   const { actionData, actionState, handleAct, handleChange, handleSubmit } = useImportAction(

@@ -23,7 +23,7 @@ export const LoginHardwarePage = () => {
     const accounts = await connect()
 
     await loginWithHardwareWallet(accounts)
-    navigate('/app/portfolio')
+    navigate('/app/wallets')
   }
 
   useMountUnsafe(() => {
