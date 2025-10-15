@@ -66,6 +66,10 @@
     "notificationTitle": "\"{{ value }}\" 是一個詐騙代幣！",
     "notificationDescription": "我們發現 \"{{ value }}\" 被社群標記為詐騙代幣，建議將其隱藏，並避免與其進行任何其他互動。"
   },
+  "useBackupReminderNotification": {
+    "notificationTitle": "建立新的備份檔案！",
+    "notificationDescription": "我們建議在\"設定 > 安全性 > 備份 NEON\"中建立新的備份檔案以保護您的錢包。為了增強安全性，您還可以在\"錢包 > 三點（工具）> 匯出\"中手動匯出助記詞，並在\"錢包 > 三點 > 匯出金鑰\"中匯出私密金鑰。"
+  },
   "useHardwareWalletByUsb": {
     "errors": {
       "noDevice": "沒有連接任何裝置"

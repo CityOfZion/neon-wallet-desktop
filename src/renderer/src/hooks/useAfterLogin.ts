@@ -442,6 +442,38 @@ const useVotingNeo3Notification = () => {
   }, [dispatch, t, unreadNotificationsRef, voteDetailsQuery.data, voteDetailsQuery.isLoading])
 }
 
+const useBackupReminderNotification = () => {
+  const dispatch = useAppDispatch()
+  const { walletsRef } = useWalletsSelector()
+  const { unreadNotificationsRef } = useUnreadNotificationsSelector()
+
+  useMountUnsafe(() => {
+    const hasWalletsWithoutBackup = walletsRef.current.some(wallet => wallet.backupStatus !== 'successful')
+
+    if (!hasWalletsWithoutBackup) return
+
+    const hasUnreadNotification = !!unreadNotificationsRef.current.find(
+      ({ action }) => !!action && action.type === 'navigate' && action.payload.to === 'backup-wallet'
+    )
+
+    if (hasUnreadNotification) return
+
+    setTimeout(() => {
+      dispatch(
+        authReducerActions.saveNotification({
+          title: 'hooks:useBackupReminderNotification.notificationTitle',
+          previewBody: 'hooks:useBackupReminderNotification.notificationDescription',
+          priority: 'high',
+          action: {
+            type: 'navigate',
+            payload: { to: 'backup-wallet' },
+          },
+        })
+      )
+    }, 4000)
+  }, 0)
+}
+
 const useRegisterHotKeys = () => {
   const { modalNavigate } = useModalNavigate()
   const { historiesRef } = useModalHistories()
@@ -472,4 +504,5 @@ export const useAfterLogin = () => {
   useUnlockSkins()
   useRegisterHotKeys()
   useVotingNeo3Notification()
+  useBackupReminderNotification()
 }

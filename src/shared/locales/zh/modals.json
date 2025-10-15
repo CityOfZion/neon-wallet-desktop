@@ -687,6 +687,7 @@
     "emptyListBody": "您已全部查看！",
     "notification": {
       "dateFormat": "yy年MM月dd日 | hh:mm",
+      "actionsButtonLabel": "操作",
       "markAsReadButtonLabel": "标为已读",
       "markAsUnreadButtonLabel": "标为未读",
       "viewButtonLabel": "查看",

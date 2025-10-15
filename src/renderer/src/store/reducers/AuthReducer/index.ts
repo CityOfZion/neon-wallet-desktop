@@ -152,13 +152,30 @@ const authReducerMigrations = {
       },
     }
   },
+  4: (state: any) => ({
+    ...state,
+    data: {
+      ...state.data,
+      applicationDataByLoginType: {
+        ...state.data.applicationDataByLoginType,
+        password: {
+          ...state.data.applicationDataByLoginType.password,
+          wallets: state.data.applicationDataByLoginType.password.wallets.map((wallet: any) => {
+            wallet.backupStatus = 'unsuccessful'
+
+            return wallet
+          }),
+        },
+      },
+    },
+  }),
 }
 
 export const authReducerConfig: PersistConfig<IAuthReducer> = {
   key: 'authReducer',
   storage: storage,
   blacklist: ['inMemoryData'],
-  version: 3,
+  version: 4,
   migrate: createMigrate(authReducerMigrations),
   // It is necessary to check if the stored state is empty, because the redux-persist library does not call the migrate function when the state is empty
   getStoredState: async config => {

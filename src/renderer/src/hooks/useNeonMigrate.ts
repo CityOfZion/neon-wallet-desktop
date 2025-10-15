@@ -133,7 +133,7 @@ export const useNeonImportMigrate = () => {
     decryptedAccounts: TUseNeonMigrateDecryptedAccountSchema[]
   ): TUseNeonMigrateGeneratedData => {
     const contactsToCreate: IContactState[] = []
-    const walletToCreate: TWalletToCreate = { name: commonT('migratedWalletName') }
+    const walletToCreate: TWalletToCreate = { name: commonT('migratedWalletName'), backupStatus: 'successful' }
     const accountsToCreate: TAccountsToImport = []
 
     decryptedAccounts.map(({ address, blockchain, decryptedKey, label }) => {

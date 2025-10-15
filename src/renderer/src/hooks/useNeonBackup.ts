@@ -153,8 +153,9 @@ const fixAccountProperties = (
   const type: TAccountType =
     backupAccount.type === 'ledger' || backupAccount.type === 'hardware' ? 'watch' : backupAccount.type
 
-  if (!backupAccount.skin || UtilsHelper.isHexadecimal(backupAccount.skin.id))
+  if (!backupAccount.skin || UtilsHelper.isHexadecimal(backupAccount.skin.id)) {
     backupAccount.skin = UtilsHelper.generateColorSkin()
+  }
 
   return {
     address: backupAccount.address,
@@ -170,7 +171,7 @@ const fixAccountProperties = (
 
 const fixWalletProperties = (
   backupWallet: zod.infer<typeof backupWalletSchema>
-): Omit<IWalletState, 'accounts' | 'encryptedMnemonic'> => {
+): Omit<IWalletState, 'accounts' | 'encryptedMnemonic' | 'backupStatus'> => {
   const type = backupWallet.type === 'ledger' ? 'hardware' : backupWallet.type
 
   return {
@@ -188,6 +189,7 @@ export const useNeonCreateBackup = () => {
   const { accounts } = useAccountsSelector()
   const { contacts } = useContactsSelector()
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
+  const { editWallet } = useBlockchainActions()
 
   const handleCreateBackupFormat = async () => {
     if (!currentLoginSessionRef.current) {
@@ -252,6 +254,7 @@ export const useNeonCreateBackup = () => {
       }
 
       const walletAccounts = backupAccountsByWalletId.get(backupAccount.idWallet) ?? []
+
       backupAccountsByWalletId.set(backupAccount.idWallet, [...walletAccounts, backupAccount])
     })
 
@@ -260,11 +263,12 @@ export const useNeonCreateBackup = () => {
     const promises = wallets.map(async wallet => {
       let mnemonic: string | undefined
 
-      if (wallet.encryptedMnemonic)
+      if (wallet.encryptedMnemonic) {
         mnemonic = await window.api.sendAsync('decryptBasedEncryptedSecret', {
           value: wallet.encryptedMnemonic,
           encryptedSecret: encryptedPassword,
         })
+      }
 
       const walletAccounts = backupAccountsByWalletId.get(wallet.id) ?? []
 
@@ -297,6 +301,12 @@ export const useNeonCreateBackup = () => {
         version: BACKUP_VERSION,
         data: backupFileDataStringEncrypted,
       }
+
+      backupFileData.wallets.forEach(({ id }) => {
+        const wallet = wallets.find(wallet => wallet.id === id)
+
+        if (wallet) editWallet({ wallet, data: { backupStatus: 'successful' } })
+      })
 
       await window.api.sendAsync('saveFile', {
         path: `${selectedFilePath}/Neon-Backup-${DateHelper.getNowUnix()}.${BACKUP_FILE_EXTENSION}`,
@@ -350,6 +360,7 @@ export const useNeonImportBackup = () => {
   ): Promise<TUseNeonBackupDataSchema> => {
     try {
       let decrypted: string
+
       if (data.type === 'backup-deprecated') {
         decrypted = await window.api.sendAsync('decryptBasedSecret', { value: data.content, secret: password })
       } else {
@@ -395,7 +406,7 @@ export const useNeonImportBackup = () => {
       })
     })
 
-    if (data.migrationsNeo3)
+    if (data.migrationsNeo3) {
       Object.assign(
         migrationsNeo3ToCreate,
         Object.values(data.migrationsNeo3).reduce((migrationsNeo3, migrationNeo3) => {
@@ -412,12 +423,14 @@ export const useNeonImportBackup = () => {
           }
         }, {})
       )
+    }
 
     data.contacts.forEach(contact => {
       const addresses: TContactAddress[] = []
 
       contact.addresses.forEach(address => {
         if (!doesBlockchainSupported(address.blockchain)) return
+
         addresses.push({ address: address.address, blockchain: address.blockchain })
       })
 
@@ -433,6 +446,7 @@ export const useNeonImportBackup = () => {
 
       backupWallet.accounts.forEach(backupAccount => {
         const fixedAccount = fixAccountProperties(backupAccount)
+
         if (!fixedAccount || doesAccountExist(fixedAccount)) return
 
         accountsToImport.push({ ...fixedAccount, key: backupAccount.key })
@@ -444,6 +458,7 @@ export const useNeonImportBackup = () => {
 
       walletsToCreate.push({
         ...fixedWallet,
+        backupStatus: 'successful',
         mnemonic: backupWallet.mnemonic,
         accounts: accountsToImport,
       })
@@ -463,8 +478,9 @@ export const useNeonImportBackup = () => {
         dispatch(utilityReducerActions.persistSwapRecord(swap))
       })
 
-      if (generatedData.migrationsNeo3)
+      if (generatedData.migrationsNeo3) {
         dispatch(utilityReducerActions.mergeMigrationsNeo3(generatedData.migrationsNeo3))
+      }
 
       generatedData.contacts?.forEach(contact => {
         dispatch(contactReducerActions.saveContact(contact))
@@ -472,6 +488,7 @@ export const useNeonImportBackup = () => {
 
       const promises = generatedData.wallets.map(async walletData => {
         const newWallet = createWallet(walletData)
+
         await importAccounts({ wallet: newWallet, accounts: walletData.accounts })
       })
 
