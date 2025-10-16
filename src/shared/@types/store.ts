@@ -9,6 +9,7 @@ import { Optional } from './global'
 
 export type TAccountType = 'standard' | 'watch' | 'hardware'
 export type TWalletType = 'standard' | 'hardware'
+export type TWalletBackupStatus = 'successful' | 'unsuccessful'
 
 export type TNftSkin = {
   id: string
@@ -46,6 +47,7 @@ export interface IWalletState {
   type: TWalletType
   encryptedMnemonic?: string
   accounts: IAccountState[]
+  backupStatus: TWalletBackupStatus
 }
 
 export type TAccountWithWallet = IAccountState & {
@@ -175,6 +177,9 @@ export type TNotificationNavigateAction = {
         to: 'vote-neo3'
         address: string
         blockchain: TBlockchainServiceKey
+      }
+    | {
+        to: 'backup-wallet'
       }
 }
 

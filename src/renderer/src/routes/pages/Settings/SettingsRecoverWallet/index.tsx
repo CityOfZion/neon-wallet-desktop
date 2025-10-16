@@ -48,7 +48,7 @@ export const SettingsRecoverWallet = () => {
         <div className="flex justify-center">
           <Button
             label={t('backup')}
-            leftIcon={<TbReload />}
+            leftIcon={<TbReload aria-hidden />}
             iconsOnEdge={false}
             className="w-52"
             disabled={!actionData.path}

@@ -37,7 +37,7 @@ export const SettingsBackupWallet = () => {
       <div className="flex justify-center">
         <Button
           label={t('backup')}
-          leftIcon={<MdOutlineSave />}
+          leftIcon={<MdOutlineSave aria-hidden />}
           iconsOnEdge={false}
           disabled={!selectedFilePath}
           onClick={modalNavigateWrapper('confirm-password-backup', { state: { selectedFilePath } })}

@@ -81,6 +81,10 @@ export const functionByNotificationActionType: TFunctionByNotificationActionType
         modalActions.modalErase('side')
         pageNavigate('/app/vote-neo3', { state: { defaultNeo3Account: account } })
       })
+      .with({ to: 'backup-wallet' }, () => {
+        modalActions.modalErase('side')
+        pageNavigate('/app/settings/security/backup-wallet')
+      })
       .exhaustive()
   },
 }

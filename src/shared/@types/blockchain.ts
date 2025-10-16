@@ -4,7 +4,7 @@ import { BSNeoLegacyNetworkId } from '@cityofzion/bs-neo-legacy'
 import { BSNeo3NetworkId } from '@cityofzion/bs-neo3'
 import { BSNeoXNetworkId } from '@cityofzion/bs-neox'
 
-import { IAccountState, IWalletState, TAccountType, TSkin, TWalletType } from './store'
+import { IAccountState, IWalletState, TAccountType, TSkin, TWalletBackupStatus, TWalletType } from './store'
 
 export type TBlockchainServiceKey = 'neo3' | 'neoLegacy' | 'ethereum' | 'neox' | 'polygon' | 'base' | 'arbitrum'
 export type TBlockchainImageColor = 'default' | 'white' | 'gray' | 'blue' | 'green'
@@ -44,6 +44,7 @@ export type TWalletToCreate = {
   mnemonic?: string
   id?: string
   type?: TWalletType
+  backupStatus?: TWalletBackupStatus
 }
 
 type TNetworkIdsByBlockchain = {

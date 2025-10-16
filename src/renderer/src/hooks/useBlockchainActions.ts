@@ -32,7 +32,7 @@ export function useBlockchainActions() {
     contacts.forEach(contact => dispatch(contactReducerActions.saveContact(contact)))
 
   const createWallet = useCallback(
-    ({ name, mnemonic, id, type = 'standard' }: TWalletToCreate) => {
+    ({ name, mnemonic, id, type, backupStatus }: TWalletToCreate) => {
       if (!currentLoginSessionRef.current) {
         throw new Error('Login session not defined')
       }
@@ -50,8 +50,9 @@ export function useBlockchainActions() {
         name,
         id: id ?? UtilsHelper.uuid(),
         encryptedMnemonic,
-        type,
+        type: type || 'standard',
         accounts: [],
+        backupStatus: backupStatus || 'unsuccessful',
       }
 
       dispatch(authReducerActions.saveWallet(newWallet))

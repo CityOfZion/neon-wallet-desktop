@@ -687,6 +687,7 @@
     "emptyListBody": "You’re caught up!",
     "notification": {
       "dateFormat": "dd MMM yy | hh:mm",
+      "actionsButtonLabel": "Actions",
       "markAsReadButtonLabel": "Mark as read",
       "markAsUnreadButtonLabel": "Mark as unread",
       "viewButtonLabel": "View",

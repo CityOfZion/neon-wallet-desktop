@@ -49,8 +49,8 @@ export const WelcomeImportWalletStep4Page = () => {
 
       setProgress(progress => progress + progressByStep)
 
-      for (const { name, mnemonic, type, id, accounts } of wallets) {
-        const wallet = createWallet({ name, mnemonic, type, id })
+      for (const { accounts, ...currentWallet } of wallets) {
+        const wallet = createWallet(currentWallet)
 
         await importAccounts({ accounts, wallet })
 

@@ -39,7 +39,18 @@ export const SettingsPage = () => {
   }
 
   useEffect(() => {
-    if (pathname === '/app/settings') handlePersonalisationClick()
+    if (pathname === '/app/settings') {
+      handlePersonalisationClick()
+
+      return
+    }
+
+    if (pathname.startsWith('/app/settings/security/')) {
+      setTabValue(ESettingsOptions.SECURITY)
+
+      return
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname])
 

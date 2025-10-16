@@ -65,7 +65,7 @@ export const ConfirmPasswordBackupModal = () => {
       modalNavigate('success', {
         state: {
           heading: t('title'),
-          headingIcon: <MdOutlineSave className="text-neon" />,
+          headingIcon: <MdOutlineSave aria-hidden className="text-neon" />,
           subtitle: t('modalDescription'),
           footer: <SuccessFooter />,
         },

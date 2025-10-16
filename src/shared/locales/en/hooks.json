@@ -66,6 +66,10 @@
     "notificationTitle": "\"{{ value }}\" is a fraudulent token!",
     "notificationDescription": "We've identified \"{{ value }}\" that has been flagged as fraudulent token by the community, we suggest hiding it and avoiding any other kind of interaction with it."
   },
+  "useBackupReminderNotification": {
+    "notificationTitle": "Create a new backup file!",
+    "notificationDescription": "We recommend creating a new backup file in \"Settings > Security > Backup NEON\" to protect your wallets. For additional security, you can also export manually your mnemonics in \"Wallets > 3 dots (Tools) > Export\" and private keys in \"Wallets > 3 dots > Export key.\""
+  },
   "useHardwareWalletByUsb": {
     "errors": {
       "noDevice": "There is no device connected"

@@ -687,6 +687,7 @@
     "emptyListBody": "您已全部處理完畢！",
     "notification": {
       "dateFormat": "yy 年 MM 月 dd 日 | hh:mm",
+      "actionsButtonLabel": "操作",
       "markAsReadButtonLabel": "標記為已讀",
       "markAsUnreadButtonLabel": "標記為未讀",
       "viewButtonLabel": "查看",

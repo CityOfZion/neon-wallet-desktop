@@ -40,7 +40,7 @@ export const ImportModal = () => {
     modalNavigate('blockchain-selection', {
       state: {
         heading: t('title'),
-        headingIcon: <TbFileImport />,
+        headingIcon: <TbFileImport aria-hidden />,
         description: t('importEncryptedDescription'),
         onSelect: (blockchain: TBlockchainServiceKey) => {
           modalNavigate('decrypt-key', {
