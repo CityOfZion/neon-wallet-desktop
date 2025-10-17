@@ -1,17 +1,22 @@
 import { useTranslation } from 'react-i18next'
-import MdLaunch from '@renderer/assets/images/md-launch.svg?react'
-import MdOutlineAutoAwesome from '@renderer/assets/images/md-outline-auto-awesome.svg?react'
-import NeonWalletLogo from '@renderer/assets/images/neon-wallet-full.svg?react'
+
 import { Button } from '@renderer/components/Button'
 import { Link } from '@renderer/components/Link'
 import { Separator } from '@renderer/components/Separator'
-import { LATEST_RELEASE_URL } from '@renderer/constants/urls'
+
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
+
+import MdLaunch from '@renderer/assets/images/md-launch.svg?react'
+import MdOutlineAutoAwesome from '@renderer/assets/images/md-outline-auto-awesome.svg?react'
+import NeonWalletLogo from '@renderer/assets/images/neon-wallet-full.svg?react'
+
+import { LATEST_RELEASE_URL } from '@renderer/constants/urls'
 
 import 'github-markdown-css/github-markdown.css'
 
-export const AutoUpdateNotes = () => {
+const AutoUpdateNotes = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'autoUpdate.notes' })
   const { t: changelogT } = useTranslation('changelog')
   const { modalNavigateWrapper } = useModalNavigate()
@@ -21,8 +26,8 @@ export const AutoUpdateNotes = () => {
 
   return (
     <CenterModalLayout contentClassName="flex flex-col w-full items-center justify-between">
-      <div className="flex min-h-0 w-full flex-grow flex-col items-center">
-        <NeonWalletLogo aria-hidden={true} className="h-min w-56" />
+      <div className="flex min-h-0 w-full grow flex-col items-center">
+        <NeonWalletLogo aria-hidden className="h-min w-56" />
 
         <h2 className="mt-11 text-2xl text-white">{t('title')}</h2>
 
@@ -68,3 +73,5 @@ export const AutoUpdateNotes = () => {
     </CenterModalLayout>
   )
 }
+
+export default AutoUpdateNotes

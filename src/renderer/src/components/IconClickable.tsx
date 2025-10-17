@@ -1,6 +1,8 @@
-import { cloneElement, ComponentProps } from 'react'
-import { StyleHelper } from '@renderer/helpers/StyleHelper'
+import { cloneElement, ComponentProps, type JSX } from 'react'
+
 import { match } from 'ts-pattern'
+
+import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 export type TCustomIconClickableProps = {
   icon: JSX.Element
@@ -28,7 +30,7 @@ const Contained = ({ className, colorSchema, ...props }: TProps) => {
           'bg-yellow': colorSchema === 'yellow',
           'bg-pink': colorSchema === 'error',
         },
-        'group-aria-expanded:opacity-75 group-aria-expanded:hover:opacity-50 group-aria-selected:opacity-75 group-aria-selected:hover:opacity-50 group-aria-[disabled=true]:cursor-not-allowed group-aria-[disabled=true]:opacity-30 group-aria-[disabled=false]:group-hover:opacity-75',
+        'group-aria-disabled:cursor-not-allowed group-aria-disabled:opacity-30 group-aria-expanded:opacity-75 group-aria-selected:opacity-75 group-hover:group-aria-[disabled=false]:opacity-75 hover:group-aria-expanded:opacity-50 hover:group-aria-selected:opacity-50',
         className
       )}
       colorSchema={colorSchema}
@@ -48,7 +50,7 @@ const Ghost = ({ className, colorSchema, ...props }: TProps) => {
           'text-yellow': colorSchema === 'yellow',
           'text-pink': colorSchema === 'error',
         },
-        'group-aria-expanded:bg-gray-300/15 group-aria-expanded:hover:bg-gray-300/30 group-aria-selected:bg-gray-300/15 group-aria-selected:hover:bg-gray-300/30 group-aria-[disabled=true]:cursor-not-allowed group-aria-[disabled=true]:opacity-30 group-aria-[disabled=false]:group-hover:bg-gray-300/15',
+        'group-aria-disabled:cursor-not-allowed group-aria-disabled:opacity-30 group-aria-expanded:bg-gray-300/15 group-aria-selected:bg-gray-300/15 group-hover:group-aria-[disabled=false]:bg-gray-300/15 hover:group-aria-expanded:bg-gray-300/30 hover:group-aria-selected:bg-gray-300/30',
         className
       )}
       colorSchema={colorSchema}
@@ -69,7 +71,7 @@ const Outline = ({ className, colorSchema, ...props }: TProps) => {
           'border-yellow text-yellow': colorSchema === 'yellow',
           'border-pink text-pink': colorSchema === 'error',
         },
-        'group-aria-expanded:bg-gray-300/15 group-aria-expanded:hover:bg-gray-300/30 group-aria-selected:bg-gray-300/15 group-aria-selected:hover:bg-gray-300/30 group-aria-[disabled=true]:cursor-not-allowed group-aria-[disabled=true]:opacity-30 group-aria-[disabled=false]:group-hover:bg-gray-300/15',
+        'group-aria-disabled:cursor-not-allowed group-aria-disabled:opacity-30 group-aria-expanded:bg-gray-300/15 group-aria-selected:bg-gray-300/15 group-hover:group-aria-[disabled=false]:bg-gray-300/15 hover:group-aria-expanded:bg-gray-300/30 hover:group-aria-selected:bg-gray-300/30',
         className
       )}
       colorSchema={colorSchema}
@@ -93,7 +95,7 @@ const Base = ({
     <div
       {...props}
       className={StyleHelper.mergeStyles(
-        'flex h-fit flex-grow-0 flex-col items-center justify-center rounded transition-all',
+        'flex h-fit grow-0 flex-col items-center justify-center rounded-sm transition-all',
         {
           'gap-y-0.5 px-2 py-1': (size === 'sm' || size === 'xs') && !compacted,
           'gap-y-0.5 p-1': (size === 'sm' || size === 'xs') && compacted,
@@ -119,7 +121,7 @@ const Base = ({
         ),
       })}
 
-      {text && <span className="whitespace-nowrap text-1xs">{text}</span>}
+      {text && <span className="text-1xs whitespace-nowrap">{text}</span>}
     </div>
   )
 }

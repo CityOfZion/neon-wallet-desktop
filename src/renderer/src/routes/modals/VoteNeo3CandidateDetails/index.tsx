@@ -1,13 +1,15 @@
 import { cloneElement } from 'react'
+
+import type { TVoteServiceCandidate } from '@cityofzion/bs-neo3'
 import { useTranslation } from 'react-i18next'
-import CozLogo from '@renderer/assets/images/coz-logo.svg?react'
-import MdInfoOutline from '@renderer/assets/images/md-info-outline.svg?react'
-import TbCheckbox from '@renderer/assets/images/tb-checkbox.svg?react'
+import { match, P } from 'ts-pattern'
+
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'
-import { VOTE_NEO3_COZ_PUB_KEY } from '@renderer/constants/public-keys'
+
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
+
 import { useBalance } from '@renderer/hooks/useBalances'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import {
@@ -15,18 +17,23 @@ import {
   useVoteNeo3GetVoteDetailsByAddress,
   useVoteNeo3Validations,
 } from '@renderer/hooks/useVoteNeo3'
+
 import { SideModalLayout } from '@renderer/layouts/SideModal'
-import { TVoteNeo3Candidate } from '@shared/@types/query'
+
+import CozLogo from '@renderer/assets/images/coz-logo.svg?react'
+import MdInfoOutline from '@renderer/assets/images/md-info-outline.svg?react'
+import TbCheckbox from '@renderer/assets/images/tb-checkbox.svg?react'
+
+import { VOTE_NEO3_COZ_PUB_KEY } from '@renderer/constants/public-keys'
 import { IAccountState } from '@shared/@types/store'
-import { match, P } from 'ts-pattern'
 
 type TLocationState = {
   neo3Account: IAccountState
-  candidate: TVoteNeo3Candidate
+  candidate: TVoteServiceCandidate
   candidateVotePercentage: string
 }
 
-export const VoteNeo3CandidateDetailsModal = () => {
+const VoteNeo3CandidateDetailsModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'voteNeo3CandidateDetails' })
   const { modalNavigate } = useModalNavigate()
   const { neo3Account, candidate, candidateVotePercentage } = useModalState<TLocationState>()
@@ -70,10 +77,10 @@ export const VoteNeo3CandidateDetailsModal = () => {
   return (
     <SideModalLayout
       heading={t('title')}
-      headingIcon={<MdInfoOutline aria-hidden={true} />}
+      headingIcon={<MdInfoOutline aria-hidden />}
       contentClassName="py-0 overflow-y-auto flex flex-col"
     >
-      <div className="mb-8 mt-6 flex flex-grow flex-col items-center gap-y-5 text-white">
+      <div className="mt-6 mb-8 flex grow flex-col items-center gap-y-5 text-white">
         {(logoUrl || isCozCandidate) && (
           <div className="flex h-12 w-full max-w-52 items-center justify-center rounded-full bg-gray-700">
             {cloneElement(
@@ -83,36 +90,36 @@ export const VoteNeo3CandidateDetailsModal = () => {
           </div>
         )}
 
-        <ul className="flex flex-col gap-y-2 break-all rounded bg-asphalt p-4 text-xs">
+        <ul className="bg-asphalt flex flex-col gap-y-2 rounded-sm p-4 text-xs break-all">
           <li className="flex flex-col">
-            <strong className="font-semibold uppercase text-gray-100">{t('positionLabel')}</strong>
+            <strong className="font-semibold text-gray-100 uppercase">{t('positionLabel')}</strong>
             <p className="mt-0.5">{position}</p>
             <Separator containerClassName="mt-2" />
           </li>
           <li className="flex flex-col">
-            <strong className="font-semibold uppercase text-gray-100">{t('nameLabel')}</strong>
+            <strong className="font-semibold text-gray-100 uppercase">{t('nameLabel')}</strong>
             <p className="mt-0.5">{name}</p>
             <Separator containerClassName="mt-2" />
           </li>
           <li className="flex flex-col">
-            <strong className="font-semibold uppercase text-gray-100">{t('pubKeyLabel')}</strong>
+            <strong className="font-semibold text-gray-100 uppercase">{t('pubKeyLabel')}</strong>
             <p className="mt-0.5">{pubKey}</p>
             <Separator containerClassName="mt-2" />
           </li>
           <li className="flex flex-col">
-            <strong className="font-semibold uppercase text-gray-100">{t('votesLabel')}</strong>
+            <strong className="font-semibold text-gray-100 uppercase">{t('votesLabel')}</strong>
             <p className="mt-0.5">
               {NumberHelper.localeNumber(votes)} ({candidateVotePercentage})
             </p>
           </li>
         </ul>
 
-        <div className="flex w-full flex-grow flex-col gap-y-1">
+        <div className="flex w-full grow flex-col gap-y-1">
           {description && (
             <>
               <Separator containerClassName="mb-4" />
 
-              <strong className="w-full text-xs font-semibold uppercase text-gray-100">{t('descriptionLabel')}</strong>
+              <strong className="w-full text-xs font-semibold text-gray-100 uppercase">{t('descriptionLabel')}</strong>
 
               <p className="w-full text-xs">{description}</p>
             </>
@@ -121,7 +128,7 @@ export const VoteNeo3CandidateDetailsModal = () => {
 
         <div className="mt-4 flex w-full flex-col items-center gap-y-5">
           {!isLoading && !isCurrentVote && !!errorMessage && (
-            <AlertErrorBanner className="w-full gap-3 bg-magenta-700 p-3" message={errorMessage} />
+            <AlertErrorBanner className="bg-magenta-700 w-full gap-3 p-3" message={errorMessage} />
           )}
 
           <Button
@@ -132,7 +139,7 @@ export const VoteNeo3CandidateDetailsModal = () => {
             loading={isLoading}
             disabled={isDisabled}
             className="w-full max-w-60"
-            leftIcon={<TbCheckbox aria-hidden={true} />}
+            leftIcon={<TbCheckbox aria-hidden />}
             onClick={handleGoToVoteNeo3ConfirmationModal}
           />
         </div>
@@ -140,3 +147,5 @@ export const VoteNeo3CandidateDetailsModal = () => {
     </SideModalLayout>
   )
 }
+
+export default VoteNeo3CandidateDetailsModal

@@ -1,19 +1,22 @@
+import { hasExplorerService, TNftResponse } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
-import { hasExplorerService, NftResponse } from '@cityofzion/blockchain-service'
-import TbChevronRight from '@renderer/assets/images/tb-chevron-right.svg?react'
+
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
-import { bsAggregator } from '@renderer/libs/blockchainService'
+
+import TbChevronRight from '@renderer/assets/images/tb-chevron-right.svg?react'
+
+import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { IAccountState } from '@shared/@types/store'
 
 type TProps = {
-  nfts: NftResponse[]
+  nfts: TNftResponse[]
   account: IAccountState
 }
 
 export const NftList = ({ account, nfts }: TProps) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'blockchain' })
 
-  const getHref = (nft: NftResponse) => {
+  const getHref = (nft: TNftResponse) => {
     try {
       const service = bsAggregator.blockchainServicesByName[account.blockchain]
       if (hasExplorerService(service)) {
@@ -35,21 +38,21 @@ export const NftList = ({ account, nfts }: TProps) => {
         const link = getHref(nft)
         const content = (
           <>
-            <div className="mi-h-[3.5rem] h-[3.5rem] w-[5rem] min-w-[5rem] overflow-hidden rounded bg-gray-300/30">
+            <div className="mi-h-[3.5rem] h-14 w-20 min-w-20 overflow-hidden rounded-sm bg-gray-300/30">
               <img className="h-full w-full object-cover" src={nft.image} alt={nft.name} />
             </div>
 
-            <div className="flex min-w-0 flex-grow flex-col gap-2.5">
+            <div className="flex min-w-0 grow flex-col gap-2.5">
               <span className="truncate capitalize">{nft.name}</span>
 
               <div className="flex items-center gap-1.5">
                 {nft.collection?.image && (
-                  <div className="h-[1rem] min-h-[1rem] w-[1rem] min-w-[1rem] overflow-hidden rounded-full bg-gray-300/30">
+                  <div className="h-4 min-h-4 w-4 min-w-4 overflow-hidden rounded-full bg-gray-300/30">
                     <img className="h-full w-full object-cover" src={nft.collection.image} alt={nft.collection.name} />
                   </div>
                 )}
 
-                <span className="-mt-0.5 truncate text-xs capitalize text-gray-300">
+                <span className="-mt-0.5 truncate text-xs text-gray-300 capitalize">
                   {nft.creator.name ?? nft.creator.address}
                 </span>
               </div>
@@ -65,7 +68,7 @@ export const NftList = ({ account, nfts }: TProps) => {
                 </div>
               </div>
 
-              {link && <TbChevronRight aria-hidden={true} className="h-6 w-6 text-gray-300" />}
+              {link && <TbChevronRight aria-hidden className="h-6 w-6 text-gray-300" />}
             </div>
           </>
         )

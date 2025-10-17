@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
+
+import { differenceInCalendarDays } from 'date-fns'
 import { DayPicker, type DayPickerProps, labelNext, labelPrevious, useDayPicker } from 'react-day-picker'
 import { useTranslation } from 'react-i18next'
+
+import { StyleHelper } from '@renderer/helpers/StyleHelper'
+
 import TbChevronLeft from '@renderer/assets/images/tb-chevron-left.svg?react'
 import TbChevronRight from '@renderer/assets/images/tb-chevron-right.svg?react'
-import { StyleHelper } from '@renderer/helpers/StyleHelper'
-import { differenceInCalendarDays } from 'date-fns'
 
 import { Button } from './Button'
 import { IconButton } from './IconButton'
@@ -132,7 +135,7 @@ const Nav = ({
         size="xs"
         tabIndex={isPreviousDisabled ? undefined : -1}
         disabled={isPreviousDisabled}
-        icon={<TbChevronLeft aria-hidden={true} />}
+        icon={<TbChevronLeft aria-hidden />}
         onClick={handlePreviousClick}
       />
 
@@ -148,7 +151,7 @@ const Nav = ({
         size="xs"
         tabIndex={isNextDisabled ? undefined : -1}
         disabled={isNextDisabled}
-        icon={<TbChevronRight aria-hidden={true} />}
+        icon={<TbChevronRight aria-hidden />}
         onClick={handleNextClick}
       />
     </nav>
@@ -285,16 +288,17 @@ export const Calendar = ({
         week: 'mt-2 flex w-max items-start',
         day: 'flex size-9 flex-1 items-center justify-center p-0 text-sm',
         day_button:
-          'text-white enabled:hover:bg-gray-300/15 size-8 rounded p-0 font-normal transition-none aria-selected:opacity-100',
-        range_start: 'day-range-start rounded bg-neon [&>button]:bg-neon [&>button]:hover:neon [&>button]:hover:neon',
+          'text-white enabled:hover:bg-gray-300/15 size-8 rounded-sm p-0 font-normal transition-none aria-selected:opacity-100',
+        range_start:
+          'day-range-start rounded-sm bg-neon [&>button]:bg-neon [&>button]:hover:neon [&>button]:hover:neon',
         range_middle:
-          'bg-gray-100/10 !text-white [&>button]:!bg-transparent [&>button]:!text-white [&>button]:hover:!bg-transparent [&>button]:hover:!text-white',
-        range_end: 'day-range-end rounded bg-neon [&>button]:bg-neon [&>button]:hover:neon [&>button]:hover:neon',
-        selected: '[&>button]:!bg-neon [&>button]:!text-asphalt',
+          'bg-gray-100/10 text-white! [&>button]:bg-transparent! [&>button]:text-white! hover:[&>button]:bg-transparent! hover:[&>button]:text-white!',
+        range_end: 'day-range-end rounded-sm bg-neon [&>button]:bg-neon [&>button]:hover:neon [&>button]:hover:neon',
+        selected: '[&>button]:bg-neon! [&>button]:text-asphalt!',
         today:
-          '[&>button]:bg-gray-300/10 [&>button]:data-[selected=true]:bg-neon [&>button]:data-[selected=true]:[not(:disabled)]:text-asphalt',
+          '[&>button]:bg-gray-300/10 data-[selected=true]:[&>button]:bg-neon [not(:disabled)]:data-[selected=true]:[&>button]:text-asphalt',
         outside: 'day-outside opacity-50',
-        disabled: '[&>button]:text-gray-300 !opacity-30',
+        disabled: '[&>button]:text-gray-300 opacity-30!',
         hidden: 'invisible flex-1',
       }}
       components={{

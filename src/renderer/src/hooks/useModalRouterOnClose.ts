@@ -1,6 +1,8 @@
 import { useContext, useEffect } from 'react'
-import { ModalRouterCurrentHistoryContext } from '@renderer/contexts/ModalRouterCurrentHistoryContext'
+
 import { useModalHistories } from '@renderer/hooks/useModalRouter'
+
+import { ModalRouterCurrentHistoryContext } from '@renderer/contexts/ModalRouterCurrentHistoryContext'
 
 export const useModalRouterOnClose = (callback?: () => void) => {
   const currentHistory = useContext(ModalRouterCurrentHistoryContext)

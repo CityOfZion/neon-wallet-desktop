@@ -1,21 +1,19 @@
 import { useMemo } from 'react'
-import { Token, TokenPricesResponse } from '@cityofzion/blockchain-service'
-import { useCurrencyRatio } from '@renderer/hooks/useCurrencyRatio'
-import { bsAggregator } from '@renderer/libs/blockchainService'
-import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
-import { TExchange, TMultiExchange, TUseExchangeParams, TUseExchangeResult } from '@shared/@types/query'
-import { TCurrency } from '@shared/@types/store'
+
+import { TBSToken, TTokenPricesResponse } from '@cityofzion/blockchain-service'
 import { Query, QueryClient, useQueries, useQueryClient } from '@tanstack/react-query'
 import lodash from 'lodash'
 
+import { useCurrencyRatio } from '@renderer/hooks/useCurrencyRatio'
+
+import { bsAggregator } from '@renderer/libs/blockchain-service'
+import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
+import { TExchange, TMultiExchange, TUseExchangeParams, TUseExchangeResult } from '@shared/@types/query'
+import { TCurrency } from '@shared/@types/store'
+
 import { useCurrencySelector, useSelectedNetworkByBlockchainSelector } from './useSettingsSelector'
 
-function buildQueryKey(
-  blockchain: TBlockchainServiceKey,
-  network: TNetwork<TBlockchainServiceKey>,
-  currency: TCurrency,
-  token?: Token
-) {
+function buildQueryKey(blockchain: TBlockchainServiceKey, network: TNetwork, currency: TCurrency, token?: TBSToken) {
   const queryKey = ['exchange', blockchain, network, currency]
 
   if (token) {
@@ -27,18 +25,14 @@ function buildQueryKey(
   return queryKey
 }
 
-function buildExchangeByBlockchainQueryKey(
-  blockchain: TBlockchainServiceKey,
-  network: TNetwork<TBlockchainServiceKey>,
-  currency: TCurrency
-) {
+function buildExchangeByBlockchainQueryKey(blockchain: TBlockchainServiceKey, network: TNetwork, currency: TCurrency) {
   return ['exchange-by-blockchain', blockchain, network, currency]
 }
 
 export async function fetchExchange(
   blockchain: TBlockchainServiceKey,
-  tokens: Token[],
-  network: TNetwork<TBlockchainServiceKey>,
+  tokens: TBSToken[],
+  network: TNetwork,
   queryClient: QueryClient,
   currency: TCurrency,
   currencyRatio: number
@@ -53,7 +47,7 @@ export async function fetchExchange(
     return !query
   })
 
-  let tokenPrices: TokenPricesResponse[] = []
+  let tokenPrices: TTokenPricesResponse[] = []
 
   if (tokensToFetch.length > 0) {
     try {
@@ -127,7 +121,7 @@ export function useExchange(params: TUseExchangeParams[]): TUseExchangeResult {
 
         return acc
       },
-      {} as Record<TBlockchainServiceKey, Token[]>
+      {} as Record<TBlockchainServiceKey, TBSToken[]>
     )
   }, [params])
 

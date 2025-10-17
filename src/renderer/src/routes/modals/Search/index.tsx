@@ -1,29 +1,35 @@
 import { ChangeEvent, useCallback, useMemo } from 'react'
+
+import { search } from 'fast-fuzzy'
+import { debounce, orderBy } from 'lodash'
 import { Fragment } from 'react/jsx-runtime'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
-import MdChevronRight from '@renderer/assets/images/md-chevron-right.svg?react'
-import MdClose from '@renderer/assets/images/md-close.svg?react'
-import MdSearch from '@renderer/assets/images/md-search.svg?react'
-import TbHelp from '@renderer/assets/images/tb-help.svg?react'
-import TbSearch from '@renderer/assets/images/tb-search.svg?react'
+import { useNavigate } from 'react-router'
+import { removeStopwords } from 'stopword'
+import { match } from 'ts-pattern'
+import winkWebModel from 'wink-eng-lite-web-model'
+import WinkNLP from 'wink-nlp'
+
 import { Button } from '@renderer/components/Button'
 import { IconButton } from '@renderer/components/IconButton'
 import { Input } from '@renderer/components/Input'
 import { Loader } from '@renderer/components/Loader'
 import { Separator } from '@renderer/components/Separator'
+
 import { SynonymsHelper } from '@renderer/helpers/SynonymsHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
+
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
-import { search } from 'fast-fuzzy'
-import { debounce, orderBy } from 'lodash'
-import { removeStopwords } from 'stopword'
-import { match } from 'ts-pattern'
-import winkWebModel from 'wink-eng-lite-web-model'
-import WinkNLP from 'wink-nlp'
+
+import MdChevronRight from '@renderer/assets/images/md-chevron-right.svg?react'
+import MdClose from '@renderer/assets/images/md-close.svg?react'
+import MdSearch from '@renderer/assets/images/md-search.svg?react'
+import TbHelp from '@renderer/assets/images/tb-help.svg?react'
+import TbSearch from '@renderer/assets/images/tb-search.svg?react'
 
 import { functionsByActionId } from './functionByActionId'
 
@@ -48,7 +54,7 @@ type TSearchAction = {
   id: string
 }
 
-export const SearchModal = () => {
+const SearchModal = () => {
   const { modalEraseWrapper } = useModalNavigate()
   const { t } = useTranslation('modals', { keyPrefix: 'search' })
   const { t: tSearch } = useTranslation('search')
@@ -124,7 +130,7 @@ export const SearchModal = () => {
             ({ action }) => action
           ),
         })
-      } catch (error) {
+      } catch {
         setData({ foundActions: [] })
       } finally {
         setData({ isSearching: false })
@@ -166,9 +172,9 @@ export const SearchModal = () => {
       contentClassName="px-0 pt-7 flex flex-col pb-2"
       headerComponent={
         <Fragment>
-          <header className="flex items-center justify-between pb-2.5 pt-6">
+          <header className="flex items-center justify-between pt-6 pb-2.5">
             <div className="flex items-center gap-2.5">
-              <MdSearch aria-hidden className="h-6 w-6 text-neon" />
+              <MdSearch aria-hidden className="text-neon h-6 w-6" />
 
               <h1 className="text-sm text-white">{t('title')}</h1>
             </div>
@@ -192,7 +198,7 @@ export const SearchModal = () => {
         className="placeholder:text-gray-100"
         contentClassName="bg-gray-300/30 mb-7"
         containerClassName="w-full"
-        rightElement={<TbSearch aria-hidden className="h-6 w-6 text-neon" />}
+        rightElement={<TbSearch aria-hidden className="text-neon h-6 w-6" />}
         onChange={handleChange}
         value={actionData.search}
         clearable
@@ -203,24 +209,24 @@ export const SearchModal = () => {
 
       {match(actionData)
         .with({ isSearching: true }, () => (
-          <Loader containerClassName="flex-grow items-center" className="h-10 w-10 text-gray-300" />
+          <Loader containerClassName="grow items-center" className="h-10 w-10 text-gray-300" />
         ))
         .with({ foundActions: undefined }, () => (
-          <div className="mb-8 flex flex-grow items-center justify-center gap-2.5">
+          <div className="mb-8 flex grow items-center justify-center gap-2.5">
             <TbSearch aria-hidden className="h-10 w-10 text-gray-300" />
             <h2 className="text-2xl text-gray-300">{t('idleResultDescription')}</h2>
           </div>
         ))
         .with({ foundActions: [] }, () => (
-          <div className="flex flex-grow items-center justify-center">
+          <div className="flex grow items-center justify-center">
             <h2 className="text-2xl text-gray-300">{t('emptyResultDescription')}</h2>
           </div>
         ))
         .otherwise(({ foundActions }) => (
-          <div className="flex min-h-0 flex-grow flex-col">
+          <div className="flex min-h-0 grow flex-col">
             <h2 className="py-2.5 text-sm text-gray-100">{t('resultDescription')}</h2>
 
-            <ul className="flex min-h-0 flex-grow flex-col overflow-auto">
+            <ul className="flex min-h-0 grow flex-col overflow-auto">
               {foundActions!.map((action, index) => (
                 <li key={`search-action-${index}`} className="w-full">
                   <Button
@@ -230,7 +236,7 @@ export const SearchModal = () => {
                     textClassName="text-left"
                     label={action.label}
                     colorSchema="white"
-                    leftIcon={<TbHelp aria-hidden className="h-5 w-5 text-blue" />}
+                    leftIcon={<TbHelp aria-hidden className="text-blue h-5 w-5" />}
                     rightIcon={<MdChevronRight aria-hidden className="h-5 w-5 text-white" />}
                     {...TestHelper.buildTestObject(`search-item-${index}`)}
                   />
@@ -242,3 +248,5 @@ export const SearchModal = () => {
     </CenterModalLayout>
   )
 }
+
+export default SearchModal

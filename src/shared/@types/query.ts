@@ -1,12 +1,17 @@
-import { BalanceResponse, Token, TokenPricesResponse } from '@cityofzion/blockchain-service'
-import { Candidate } from '@cityofzion/bs-neo3'
+import {
+  TBalanceResponse,
+  TBSToken,
+  type TPingNetworkResponse,
+  TTokenPricesResponse,
+} from '@cityofzion/blockchain-service'
 import { QueryKey, UseQueryOptions } from '@tanstack/react-query'
 
 import { TBlockchainServiceKey } from './blockchain'
+import type { Optional } from './global'
 
 export type TBaseOptions<T = unknown> = Omit<UseQueryOptions<T, unknown, T, QueryKey>, 'queryKey' | 'queryFn'>
 
-export type TExchange = TokenPricesResponse & {
+export type TExchange = TTokenPricesResponse & {
   convertedPrice: number
 }
 export type TMultiExchange = Record<TBlockchainServiceKey, Map<string, TExchange>>
@@ -20,7 +25,7 @@ export type TUseCurrencyRatioResult = {
   isLoading: boolean
 }
 
-export type TTokenBalance = BalanceResponse & {
+export type TTokenBalance = TBalanceResponse & {
   blockchain: TBlockchainServiceKey
   amountNumber: number
   exchangeConvertedPrice: number
@@ -30,6 +35,7 @@ export type TBalance = {
   address: string
   blockchain: TBlockchainServiceKey
   tokensBalances: TTokenBalance[]
+  tokensBalancesMap: Map<string, TTokenBalance>
   exchangeTotal: number
 }
 
@@ -41,6 +47,7 @@ export type TUseBalancesFetchResult = {
 
 export type TUseBalancesResult = {
   data: TBalance[]
+  groupedTokenBalances: TTokenBalance[]
   isLoading: boolean
   exchangeTotal: number
 }
@@ -76,7 +83,7 @@ export type TUsePriceHistoryResult = {
 }
 
 export type TUseExchangeParams = {
-  tokens: Token[]
+  tokens: TBSToken[]
   blockchain: TBlockchainServiceKey
 }
 
@@ -87,10 +94,4 @@ export type TUseUnclaimedResult = {
   feeNumber: number
 }
 
-export type TNode = {
-  latency?: number
-  url: string
-  height?: number
-}
-
-export type TVoteNeo3Candidate = Candidate
+export type TNode = Optional<TPingNetworkResponse, 'height' | 'latency'>

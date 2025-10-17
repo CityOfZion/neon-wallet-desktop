@@ -15,22 +15,9 @@
     "defaultAccountLabel": "已迁移账户",
     "defaultContactName": "已迁移联系人"
   },
-  "DappConnection": {
-    "pleaseLogin": "请登录以继续。",
-    "selectAccountModal": {
-      "title": "选择一个账户连接到 dapp。",
-      "selectSourceAccount": "选择账户"
-    }
-  },
   "useLogin": {
     "controlIsNotSet": "意外错误。登录控件未设置。",
     "controlIsNotValid": "意外错误。登录控件无效。"
-  },
-  "useOverTheAirUpdate": {
-    "downloading": "发现新版本。正在下载... <1>或在</1> <2>我们的 GitHub</2> 手动下载",
-    "downloaded": "新版本已下载。应用将重启以应用更新。",
-    "error": "下载更新时出错。请稍后重启应用重试。",
-    "installError": "无法安装更新。请检查应用权限并手动下载更新。"
   },
   "useNeonBackup": {
     "errors": {
@@ -58,14 +45,6 @@
       "previewBody": "我们无法确认您的领取是否完成"
     }
   },
-  "useFraudulentTokensNotification": {
-    "notificationTitle": "\"{{ value }}\" 是一个欺诈代币！",
-    "notificationDescription": "我们发现 \"{{ value }}\" 被社区标记为欺诈代币，建议将其隐藏，并避免与其进行任何其他交互。"
-  },
-  "useBackupReminderNotification": {
-    "notificationTitle": "创建新的备份文件！",
-    "notificationDescription": "我们建议在\"设置 > 安全 > 备份 NEON\"中创建新的备份文件以保护您的钱包。为了增强安全性，您还可以在\"钱包 > 三点（工具）> 导出\"中手动导出助记词，并在\"钱包 > 三点 > 导出密钥\"中导出私钥。"
-  },
   "useHardwareWalletByUsb": {
     "errors": {
       "noDevice": "未连接设备"
@@ -73,9 +52,5 @@
   },
   "useGetFullTransactions": {
     "formatExtendedDate": "yyyy年MM月dd日"
-  },
-  "useVotingNeo3Notification": {
-    "notificationTitle": "你正在错过免费的 GAS！",
-    "notificationDescription": "点击这里，立即投票"
   }
 }

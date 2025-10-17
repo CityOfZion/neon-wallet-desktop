@@ -1,7 +1,8 @@
-import type { CSSProperties } from 'react'
 import { useEffect, useRef } from 'react'
+
 import type { ECharts, EChartsOption, SetOptionOpts } from 'echarts'
 import { init } from 'echarts'
+import type { CSSProperties, JSX } from 'react'
 
 export interface ReactEChartsProps {
   option: EChartsOption
@@ -11,7 +12,7 @@ export interface ReactEChartsProps {
 
 export function EChart({ option, style, settings }: ReactEChartsProps): JSX.Element {
   const containerRef = useRef<HTMLDivElement>(null)
-  const chartRef = useRef<ECharts>()
+  const chartRef = useRef<ECharts>(null)
 
   useEffect(() => {
     if (containerRef.current !== null) {

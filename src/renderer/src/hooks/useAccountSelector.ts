@@ -1,12 +1,16 @@
 import { MutableRefObject, useCallback, useRef } from 'react'
+
 import { useSelector } from 'react-redux'
+
 import { SelectorHelper } from '@renderer/helpers/SelectorHelper'
+
+import type { TRootState } from '@renderer/types/redux'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TAccountHelperPredicateParams } from '@shared/@types/helpers'
 import { IAccountState, TAccountWithWallet } from '@shared/@types/store'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 
-import { createAppSelector, TRootState, useAppSelector } from './useRedux'
+import { createAppSelector, useAppSelector } from './useRedux'
 
 export const selectAccounts = createAppSelector(
   [state => state.auth.data.applicationDataByLoginType, state => state.auth.inMemoryData.currentLoginSession],
@@ -146,11 +150,11 @@ export const useHasHardwareAccountSelector = () => {
 }
 
 export const useAccountMapSelector = () => {
-  const accountsMapRef = useRef<Map<string, TAccountWithWallet>>() as MutableRefObject<Map<string, TAccountWithWallet>>
+  const accountsMapRef = useRef(new Map<string, TAccountWithWallet>())
 
   useSelector((state: TRootState) => {
     const result = selectAccountsWithWallet(state)
-    accountsMapRef.current = new Map<string, TAccountWithWallet>()
+    accountsMapRef.current.clear()
     result.forEach(account => {
       accountsMapRef.current.set(SharedAccountHelper.buildAccountKey(account), account)
     })

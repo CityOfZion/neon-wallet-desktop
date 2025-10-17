@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+
 import { PasswordHelper } from '@renderer/helpers/PasswordHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
@@ -14,7 +15,7 @@ type TProps = {
 const PasswordStrengthBar = ({ ariaLabel, className }: TBarProps) => (
   <span
     aria-label={ariaLabel}
-    className={StyleHelper.mergeStyles('block h-1 w-1/3 rounded bg-gray-300/70', className)}
+    className={StyleHelper.mergeStyles('block h-1 w-1/3 rounded-sm bg-gray-300/70', className)}
   />
 )
 

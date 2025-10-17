@@ -53,9 +53,6 @@
     "mainnet": "主網",
     "testnet": "測試網"
   },
-  "ledger": {
-    "requestingPermission": "請在您的 Ledger 裝置上確認"
-  },
   "errors": {
     "noEncryptedKey": "此帳戶沒有加密金鑰：{{address}}",
     "blockchainIsNotClaimable": "此帳戶區塊鏈無法申領：{{address}} {{blockchain}}",

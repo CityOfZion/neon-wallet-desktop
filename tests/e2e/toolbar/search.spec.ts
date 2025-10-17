@@ -24,7 +24,11 @@ test.describe('Search button', () => {
   })
 
   test('Should be able to open the search modal by hotkey', async () => {
+    await window.waitForTimeout(1000)
+
     await window.keyboard.press('Control+F')
+
+    await window.waitForTimeout(1000)
 
     const searchModal = window.getByTestId('search-modal')
 

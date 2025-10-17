@@ -1,6 +1,7 @@
 import { defineConfig, devices } from '@playwright/test'
+import dotenv from 'dotenv'
 
-require('dotenv').config({ path: '.env.test' })
+dotenv.config({ path: '.env.test' })
 
 export default defineConfig({
   timeout: 40000,

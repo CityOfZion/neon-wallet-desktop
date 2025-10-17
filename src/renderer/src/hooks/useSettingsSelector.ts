@@ -1,9 +1,9 @@
 import { useCallback } from 'react'
-import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
+
 import { LOGIN_CONTROL_VALUE } from '@renderer/constants/password'
-import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
-import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
-import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
+import { authReducerActions } from '@renderer/store/reducers/auth'
+import { settingsReducerActions } from '@renderer/store/reducers/settings'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TSelectedNetworks } from '@shared/@types/store'
 
 import { useAppDispatch, useAppSelector } from './useRedux'
@@ -95,53 +95,6 @@ export const useOverTheAirInfoSelector = () => {
   return {
     overTheAirInfo: value,
     overTheAirInfoRef: ref,
-  }
-}
-
-export const useNetworkActions = () => {
-  const dispatch = useAppDispatch()
-  const { sessions, disconnect } = useWalletConnectWallet()
-  const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
-  const { selectedNetworkProfile } = useSelectedNetworkProfileSelector()
-
-  const setNetwork = useCallback(
-    async (blockchain: TBlockchainServiceKey, network: TNetwork<TBlockchainServiceKey>) => {
-      await Promise.allSettled(sessions.map(session => disconnect(session)))
-      dispatch(
-        settingsReducerActions.saveNetworkProfile({
-          ...selectedNetworkProfile,
-          networkByBlockchain: {
-            ...networkByBlockchain,
-            [blockchain]: network,
-          },
-        })
-      )
-    },
-    [disconnect, dispatch, networkByBlockchain, selectedNetworkProfile, sessions]
-  ) as <T extends TBlockchainServiceKey>(blockchain: T, network: TNetwork<T>) => Promise<void>
-
-  const setNetworkNode = useCallback(
-    (blockchain: TBlockchainServiceKey, url: string, isAutomatic?: boolean) => {
-      dispatch(
-        settingsReducerActions.saveNetworkProfile({
-          ...selectedNetworkProfile,
-          networkByBlockchain: {
-            ...networkByBlockchain,
-            [blockchain]: {
-              ...networkByBlockchain[blockchain],
-              url,
-              isAutomatic,
-            },
-          },
-        })
-      )
-    },
-    [dispatch, networkByBlockchain, selectedNetworkProfile]
-  )
-
-  return {
-    setNetwork,
-    setNetworkNode,
   }
 }
 

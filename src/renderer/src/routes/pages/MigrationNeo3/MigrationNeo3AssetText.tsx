@@ -1,10 +1,11 @@
+import { TNeo3NeoLegacyMigrationNeoLegacyAmounts } from '@cityofzion/bs-neo-legacy'
 import { useTranslation } from 'react-i18next'
-import { CalculateNeoLegacyMigrationAmountsResponse } from '@cityofzion/bs-neo-legacy'
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { match } from 'ts-pattern'
 
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
+
 type TProps = {
-  neoLegacyMigrationAmounts: CalculateNeoLegacyMigrationAmountsResponse
+  neoLegacyMigrationAmounts: TNeo3NeoLegacyMigrationNeoLegacyAmounts
   blockchain: TBlockchainServiceKey
   neoTokenSymbol: string
   gasTokenSymbol: string

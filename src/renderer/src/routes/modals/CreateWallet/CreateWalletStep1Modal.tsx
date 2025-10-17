@@ -1,19 +1,25 @@
 import { useMemo, useRef } from 'react'
+
+import { BSKeychainHelper } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
 import { useReactToPrint } from 'react-to-print'
-import { generateMnemonic } from '@cityofzion/bs-asteroid-sdk'
-import MdContentCopy from '@renderer/assets/images/md-content-copy.svg?react'
-import MdLooksOne from '@renderer/assets/images/md-looks-one.svg?react'
-import PiPrinter from '@renderer/assets/images/pi-printer.svg?react'
+
 import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'
+
 import { TestHelper } from '@renderer/helpers/TestHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+
 import { CreateWalletModalLayout } from '@renderer/layouts/CreateWalletModalLayout'
 
-export const CreateWalletStep1Modal = () => {
+import MdContentCopy from '@renderer/assets/images/md-content-copy.svg?react'
+import MdLooksOne from '@renderer/assets/images/md-looks-one.svg?react'
+import PiPrinter from '@renderer/assets/images/pi-printer.svg?react'
+
+const CreateWalletStep1Modal = () => {
   const ref = useRef<HTMLDivElement>(null)
 
   const handlePrint = useReactToPrint({ contentRef: ref, bodyClass: 'print-agreement' })
@@ -21,25 +27,25 @@ export const CreateWalletStep1Modal = () => {
   const { modalNavigate } = useModalNavigate()
 
   const words = useMemo(() => {
-    return generateMnemonic()
+    return BSKeychainHelper.generateMnemonic().split(' ')
   }, [])
 
   return (
     <CreateWalletModalLayout {...TestHelper.buildTestObject('create-wallet-step1-modal')}>
       <header className="flex items-center justify-between py-2.5 print:hidden">
         <div className="flex items-center gap-x-2.5">
-          <MdLooksOne aria-hidden={true} className="h-4.5 w-4.5 text-blue" />
+          <MdLooksOne aria-hidden className="text-blue h-4.5 w-4.5" />
           <h2 className="text-sm">{t('title')}</h2>
         </div>
-        <div className="text-sm text-blue">{t('step1of4')}</div>
+        <div className="text-blue text-sm">{t('step1of4')}</div>
       </header>
 
-      <Separator className="mb-9 min-h-[0.0625rem]" />
+      <Separator className="mb-9 min-h-0.25" />
 
       <div className="flex h-[84%] w-full flex-col items-center justify-between">
         <div className="flex w-full flex-col gap-6" ref={ref}>
           <div className="text-xs text-gray-100 print:hidden">{t('description')}</div>
-          <div className="mx-5 flex min-h-[6rem] flex-wrap justify-center gap-x-4 gap-y-2 rounded bg-asphalt px-10 py-5">
+          <div className="bg-asphalt mx-5 flex min-h-24 flex-wrap justify-center gap-x-4 gap-y-2 rounded-sm px-10 py-5">
             {words.map((word, index) => (
               <span className="text-lg text-white" key={word}>
                 {index + 1}. {word}
@@ -51,7 +57,7 @@ export const CreateWalletStep1Modal = () => {
             <Button
               iconsOnEdge={false}
               variant="text"
-              leftIcon={<MdContentCopy aria-hidden={true} />}
+              leftIcon={<MdContentCopy aria-hidden />}
               label={t('copyButtonLabel')}
               onClick={() => UtilsHelper.copyToClipboard(words.join(' '))}
               flat
@@ -60,7 +66,7 @@ export const CreateWalletStep1Modal = () => {
             <Button
               iconsOnEdge={false}
               variant="text"
-              leftIcon={<PiPrinter aria-hidden={true} />}
+              leftIcon={<PiPrinter aria-hidden />}
               label={t('printButtonLabel')}
               flat
               onClick={() => handlePrint()}
@@ -83,3 +89,5 @@ export const CreateWalletStep1Modal = () => {
     </CreateWalletModalLayout>
   )
 }
+
+export default CreateWalletStep1Modal

@@ -1,9 +1,12 @@
 import { Fragment } from 'react'
+
 import { useTranslation } from 'react-i18next'
+import { match } from 'ts-pattern'
+
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+
 import { TFullTransactionAssetEvent, TFullTransactionEvent, TFullTransactionNftEvent } from '@shared/@types/hooks'
-import { match } from 'ts-pattern'
 
 import { TransactionActivityListEventColumn } from './TransactionActivityListEventColumn'
 import { TransactionActivityListEventColumnDataAddress } from './TransactionActivityListEventColumnDataAddress'
@@ -28,7 +31,7 @@ export const TransactionActivityListEvent = ({ event }: TProps) => {
   const fromName = fromAccount?.name
 
   return (
-    <div className="ml-20 flex h-13 max-h-13 min-h-13 flex-grow items-center gap-x-2 overflow-x-auto overflow-y-hidden whitespace-nowrap pl-4 pr-2">
+    <div className="ml-20 flex h-13 max-h-13 min-h-13 grow items-center gap-x-2 overflow-x-auto overflow-y-hidden pr-2 pl-4 whitespace-nowrap">
       {UtilsHelper.isValidTokenHash(hash) && (
         <TransactionActivityListEventColumn
           label={t('columns.hashLabel')}
@@ -108,12 +111,12 @@ export const TransactionActivityListEvent = ({ event }: TProps) => {
 
               {!!nftImageUrl && (
                 <TransactionActivityListEventColumn
-                  className="mb-0 ml-auto mr-0 mt-0.5 flex flex-grow items-end justify-center"
+                  className="mt-0.5 mr-0 mb-0 ml-auto flex grow items-end justify-center"
                   data={
                     <TransactionActivityListTooltip data={nftImageLabel}>
                       <div>
                         <img
-                          className="pointer-events-none max-h-8 w-full max-w-16 select-none rounded"
+                          className="pointer-events-none max-h-8 w-full max-w-16 rounded-sm select-none"
                           src={nftImageUrl}
                           alt={nftImageLabel}
                         />

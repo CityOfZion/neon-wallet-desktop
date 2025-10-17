@@ -1,19 +1,22 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+
+import { useVirtualizer } from '@tanstack/react-virtual'
 import { useTranslation } from 'react-i18next'
 import { RemoveScroll } from 'react-remove-scroll'
+import { match } from 'ts-pattern'
+
 import { Loader } from '@renderer/components/Loader'
 import { Popover } from '@renderer/components/Popover'
 import { Separator } from '@renderer/components/Separator'
+
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
-import { bsAggregator } from '@renderer/libs/blockchainService'
+
+import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TBalance } from '@shared/@types/query'
-import { useVirtualizer } from '@tanstack/react-virtual'
-import { match } from 'ts-pattern'
 
 import { Command } from '../Command'
-
 import { GreyTokenSelectItem } from './GreyTokenSelectItem'
 
 export type TGreyTokenSelectToken = {
@@ -120,7 +123,7 @@ export const GreyTokenSelect = <T extends TGreyTokenSelectToken>({
         disabled={isDisabled}
         aria-disabled={isDisabled}
         className={StyleHelper.mergeStyles(
-          'flex h-8.5 w-32 min-w-3 items-center gap-2 rounded bg-asphalt px-2 aria-expanded:bg-asphalt',
+          'bg-asphalt aria-expanded:bg-asphalt flex h-8.5 w-32 min-w-3 items-center gap-2 rounded-sm px-2',
           {
             'aria-[disabled=false]:hover:bg-asphalt/60': !selectedToken && !isDisabled,
             'bg-gray-300/15 aria-[disabled=false]:hover:bg-gray-300/30': selectedToken,
@@ -133,7 +136,7 @@ export const GreyTokenSelect = <T extends TGreyTokenSelectToken>({
           .with({ loading: true }, () => <Loader />)
           .with({ isTokenSelected: true }, () => <GreyTokenSelectItem token={selectedToken!} />)
           .otherwise(() => (
-            <span className="w-full text-center text-sm font-medium text-neon">{t('placeholder')}</span>
+            <span className="text-neon w-full text-center text-sm font-medium">{t('placeholder')}</span>
           ))}
       </Popover.Trigger>
 
@@ -161,7 +164,7 @@ export const GreyTokenSelect = <T extends TGreyTokenSelectToken>({
                       key={virtualItem.key}
                       value={value}
                       onSelect={() => handleClickToken(row)}
-                      className="absolute left-0 top-0 h-10 w-full flex-col"
+                      className="absolute top-0 left-0 h-10 w-full flex-col"
                       style={{
                         height: `${virtualItem.size}px`,
                         transform: `translateY(${virtualItem.start}px)`,

@@ -1,9 +1,13 @@
 import { useTranslation } from 'react-i18next'
-import { Location, useLocation } from 'react-router-dom'
-import TbReplace2 from '@renderer/assets/images/tb-replace-2.svg?react'
+import { Location, useLocation } from 'react-router'
+
 import { CommonScreenActions } from '@renderer/components/CommonScreenActions'
+
 import { ContentLayout } from '@renderer/layouts/ContentLayout'
 import { MainLayout } from '@renderer/layouts/Main'
+
+import TbReplace2 from '@renderer/assets/images/tb-replace-2.svg?react'
+
 import { IAccountState } from '@shared/@types/store'
 
 import { Neo3NeoXBridgeContent } from './Neo3NeoXBridgeContent'
@@ -12,7 +16,7 @@ type TLocationState = {
   account?: IAccountState
 }
 
-export const Neo3NeoXBridgePage = () => {
+const Neo3NeoXBridgePage = () => {
   const { state } = useLocation() as Location<TLocationState>
   const { t } = useTranslation('pages', { keyPrefix: 'neo3NeoXBridge' })
 
@@ -26,3 +30,5 @@ export const Neo3NeoXBridgePage = () => {
     </MainLayout>
   )
 }
+
+export default Neo3NeoXBridgePage

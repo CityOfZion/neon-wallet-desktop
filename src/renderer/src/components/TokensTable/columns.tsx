@@ -1,17 +1,22 @@
 import { useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
+
 import { BSBigNumberHelper } from '@cityofzion/blockchain-service'
-import TbEye from '@renderer/assets/images/tb-eye.svg?react'
-import TbEyeOff from '@renderer/assets/images/tb-eye-off.svg?react'
+import { createColumnHelper } from '@tanstack/react-table'
+import { useTranslation } from 'react-i18next'
+
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { TokenHelper } from '@renderer/helpers/TokenHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
-import { utilityReducerActions } from '@renderer/store/reducers/UtilityReducer'
+
+import TbEye from '@renderer/assets/images/tb-eye.svg?react'
+import TbEyeOff from '@renderer/assets/images/tb-eye-off.svg?react'
+
+import { utilityReducerActions } from '@renderer/store/reducers/utility'
 import { TTokenBalance, TUseBalanceOptionShowType } from '@shared/@types/query'
-import { createColumnHelper } from '@tanstack/react-table'
 
 import { BlockchainIcon } from '../BlockchainIcon'
 import { IconButton } from '../IconButton'
@@ -30,7 +35,7 @@ export const useColumns = (showType: TUseBalanceOptionShowType) => {
         cell: info => {
           return (
             <div className="flex gap-2">
-              <div className="flex h-4.5 w-4.5 min-w-[1.125rem] items-center justify-center rounded-full bg-gray-300">
+              <div className="flex h-4.5 w-4.5 min-w-4.5 items-center justify-center rounded-full bg-gray-300">
                 <BlockchainIcon blockchain={info.row.original.blockchain} type="white" className="h-2.5 w-2.5" />
               </div>
               <span>{info.getValue()}</span>

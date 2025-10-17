@@ -1,25 +1,32 @@
 import { useMemo, useTransition } from 'react'
+
 import { useTranslation } from 'react-i18next'
-import TbEyeOff from '@renderer/assets/images/tb-eye-off.svg?react'
+import { match, P } from 'ts-pattern'
+
 import { Button } from '@renderer/components/Button'
 import { Loader } from '@renderer/components/Loader'
+
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { TokenHelper } from '@renderer/helpers/TokenHelper'
+
 import { useBalance } from '@renderer/hooks/useBalances'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
+
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
-import { bsAggregator } from '@renderer/libs/blockchainService'
-import { utilityReducerActions } from '@renderer/store/reducers/UtilityReducer'
+
+import TbEyeOff from '@renderer/assets/images/tb-eye-off.svg?react'
+
+import { bsAggregator } from '@renderer/libs/blockchain-service'
+import { utilityReducerActions } from '@renderer/store/reducers/utility'
 import { IAccountState } from '@shared/@types/store'
-import { match, P } from 'ts-pattern'
 
 type TModalStateParams = {
   account: IAccountState
   hash: string
 }
 
-export const HideFraudulentTokenModal = () => {
+const HideFraudulentTokenModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'hideFraudulentToken' })
   const { t: tCommonBlockchain } = useTranslation('common', { keyPrefix: 'blockchain' })
   const { modalErase } = useModalNavigate()
@@ -49,7 +56,7 @@ export const HideFraudulentTokenModal = () => {
       try {
         dispatch(utilityReducerActions.toggleHiddenToken({ hash, blockchain: account.blockchain }))
         modalErase('center')
-      } catch (error) {
+      } catch {
         ToastHelper.error({ message: t('hideErrorMessage') })
       }
     })
@@ -61,9 +68,9 @@ export const HideFraudulentTokenModal = () => {
 
       <p className="text-center text-sm text-gray-100">{t('text')}</p>
 
-      <p className="mt-4 w-full text-left text-xs font-bold uppercase text-gray-300">{t('details')}</p>
+      <p className="mt-4 w-full text-left text-xs font-bold text-gray-300 uppercase">{t('details')}</p>
 
-      <div className="w-full items-center justify-center rounded border border-gray-600 bg-gray-900 p-3 text-sm">
+      <div className="w-full items-center justify-center rounded-sm border border-gray-600 bg-gray-900 p-3 text-sm">
         {match({ isLoading: balanceQuery.isLoading, tokenBalance })
           .with({ isLoading: true }, () => <Loader containerClassName="my-4" className="size-8" />)
           .with({ tokenBalance: P.when(value => !value) }, () => (
@@ -71,7 +78,7 @@ export const HideFraudulentTokenModal = () => {
           ))
           .otherwise(() => (
             <ul className="flex flex-col gap-y-2">
-              <li className="break-all border-b border-gray-600 pb-2">
+              <li className="border-b border-gray-600 pb-2 break-all">
                 <strong className="font-semibold">{t('tokenHashLabel')}</strong> {hash}
               </li>
               <li className="border-b border-gray-600 pb-2">
@@ -103,3 +110,5 @@ export const HideFraudulentTokenModal = () => {
     </CenterModalLayout>
   )
 }
+
+export default HideFraudulentTokenModal

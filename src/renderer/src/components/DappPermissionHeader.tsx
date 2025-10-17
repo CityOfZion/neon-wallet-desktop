@@ -1,4 +1,5 @@
 import { TSession } from '@cityofzion/wallet-connect-sdk-wallet-react'
+
 import dappFallbackIcon from '@renderer/assets/images/dapp-fallback-icon.png'
 import NeonWalletLogo from '@renderer/assets/images/neon-wallet-full.svg?react'
 import WalletConnectLogo from '@renderer/assets/images/wallet-connect.svg?react'
@@ -13,16 +14,16 @@ export const DappPermissionHeader = ({ session }: TProps) => {
   return (
     <div className="flex flex-col items-center">
       <div className="flex w-full items-center gap-x-12 px-8">
-        <NeonWalletLogo aria-hidden={true} className="h-min w-full" />
+        <NeonWalletLogo aria-hidden className="h-min w-full" />
 
-        <WalletConnectLogo aria-hidden={true} className="h-min w-full opacity-60" />
+        <WalletConnectLogo aria-hidden className="h-min w-full opacity-60" />
       </div>
 
       <ImageWithFallback
         src={session.peer.metadata.icons[0]}
         alt={session.peer.metadata.name}
         fallbackSrc={dappFallbackIcon}
-        className="mt-9 max-h-[2.25rem] max-w-[4rem] rounded-sm bg-asphalt object-contain"
+        className="bg-asphalt mt-9 max-h-9 max-w-16 rounded-xs object-contain"
       />
     </div>
   )

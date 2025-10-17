@@ -1,9 +1,12 @@
 import { useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
+
 import { TSession, TSessionRequest } from '@cityofzion/wallet-connect-sdk-wallet-react'
-import { Loader } from '@renderer/components/Loader'
-import { walletConnectEIP155Adapter } from '@renderer/libs/walletConnectSDK'
 import { useQuery } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
+
+import { Loader } from '@renderer/components/Loader'
+
+import { walletConnectEIP155Adapter } from '@renderer/libs/walletConnectSDK'
 
 type TProps = {
   request: TSessionRequest
@@ -35,7 +38,7 @@ export const Fee = ({ request, session, onReject }: TProps) => {
     <div className="flex flex-col gap-1">
       <span className="text-xs font-bold">{t('label')}</span>
 
-      <div className="min-w-0 gap-3 rounded bg-asphalt py-2.5 pl-5 pr-4">
+      <div className="bg-asphalt min-w-0 gap-3 rounded-sm py-2.5 pr-4 pl-5">
         {feeIsLoading ? <Loader className="h-4 w-4" /> : <p>{t('fee', { fee: fee })}</p>}
       </div>
     </div>

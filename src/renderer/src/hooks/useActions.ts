@@ -1,4 +1,7 @@
 import { FormEvent, MouseEvent, useCallback, useMemo, useRef, useState } from 'react'
+
+import { cloneDeep } from 'lodash'
+
 import {
   TUseActionsActionState,
   TUseActionsChanged,
@@ -7,7 +10,6 @@ import {
   TUseActionsOptions,
   TUseActionsReturn,
 } from '@shared/@types/hooks'
-import { cloneDeep } from 'lodash'
 
 const resolveOptions = (options?: TUseActionsOptions) => {
   return Object.assign({ clearErrorsOnChange: true }, options)

@@ -1,27 +1,34 @@
 import { Fragment, useEffect, useRef, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+
 import { SimpleSwapService } from '@cityofzion/bs-multichain'
-import MdLaunch from '@renderer/assets/images/md-launch.svg?react'
-import MdRefresh from '@renderer/assets/images/md-refresh.svg?react'
-import TbCircleX from '@renderer/assets/images/tb-circle-x.svg?react'
-import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
-import TbReplace from '@renderer/assets/images/tb-replace.svg?react'
-import TbRosetteDiscountCheck from '@renderer/assets/images/tb-rosette-discount-check.svg?react'
+import { useTranslation } from 'react-i18next'
+import { match, P } from 'ts-pattern'
+
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { Button } from '@renderer/components/Button'
 import { Details } from '@renderer/components/Details'
 import { Link } from '@renderer/components/Link'
 import { Separator } from '@renderer/components/Separator'
 import { Stepper, TStepperCurrentState } from '@renderer/components/Stepper'
-import { DISCORD_LINK } from '@renderer/constants/urls'
+
 import { StringHelper } from '@renderer/helpers/StringHelper'
+
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
+
 import { SideModalLayout } from '@renderer/layouts/SideModal'
-import { bsAggregator } from '@renderer/libs/blockchainService'
-import { utilityReducerActions } from '@renderer/store/reducers/UtilityReducer'
+
+import MdLaunch from '@renderer/assets/images/md-launch.svg?react'
+import MdRefresh from '@renderer/assets/images/md-refresh.svg?react'
+import TbCircleX from '@renderer/assets/images/tb-circle-x.svg?react'
+import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
+import TbReplace from '@renderer/assets/images/tb-replace.svg?react'
+import TbRosetteDiscountCheck from '@renderer/assets/images/tb-rosette-discount-check.svg?react'
+
+import { DISCORD_LINK } from '@renderer/constants/urls'
+import { bsAggregator } from '@renderer/libs/blockchain-service'
+import { utilityReducerActions } from '@renderer/store/reducers/utility'
 import { TSwapRecord } from '@shared/@types/store'
-import { match, P } from 'ts-pattern'
 
 import { SwapDetailsModalTokenDetails } from './SwapDetailsModalTokenDetails'
 
@@ -39,7 +46,7 @@ const stepsByStatus: Record<TSwapRecord['swapStatus'], number> = {
   refunded: 2,
 }
 
-export const SwapDetailsModal = () => {
+const SwapDetailsModal = () => {
   const modalState = useModalState<TState>()
   const dispatch = useAppDispatch()
   const { t } = useTranslation('modals', { keyPrefix: 'swapDetails' })
@@ -47,7 +54,7 @@ export const SwapDetailsModal = () => {
 
   const [swapRecord, setSwapRecord] = useState<TSwapRecord>(modalState.swapRecord)
 
-  const timeoutRef = useRef<NodeJS.Timeout>()
+  const timeoutRef = useRef<NodeJS.Timeout>(undefined)
 
   const service = bsAggregator.blockchainServicesByName[swapRecord.account.blockchain]
 
@@ -95,14 +102,14 @@ export const SwapDetailsModal = () => {
   return (
     <SideModalLayout
       heading={t('title')}
-      headingIcon={<TbReplace aria-hidden={true} />}
+      headingIcon={<TbReplace aria-hidden />}
       contentClassName="flex flex-col items-center overflow-auto"
     >
-      <div className="flex h-28 w-28 items-center rounded-full bg-asphalt p-2">
+      <div className="bg-asphalt flex h-28 w-28 items-center rounded-full p-2">
         {swapRecord.swapStatus === 'failed' || swapRecord.swapStatus === 'refunded' ? (
-          <TbCircleX aria-hidden={true} className="h-28 w-28 stroke-1 text-pink" />
+          <TbCircleX aria-hidden className="text-pink h-28 w-28 stroke-1" />
         ) : (
-          <TbRosetteDiscountCheck aria-hidden={true} className="h-28 w-28 stroke-1 text-blue" />
+          <TbRosetteDiscountCheck aria-hidden className="text-blue h-28 w-28 stroke-1" />
         )}
       </div>
 
@@ -125,11 +132,11 @@ export const SwapDetailsModal = () => {
         </p>
       </div>
 
-      <Separator className="mb-8 mt-6" />
+      <Separator className="mt-6 mb-8" />
 
       <Details.Root>
         <Details.Header label={t('detailsHeaderLabel')} icon={<TbReceipt />}>
-          <span className="tet-sm flex-grow text-end italic text-orange">{t('detailsHeaderDescription')}</span>
+          <span className="tet-sm text-orange grow text-end italic">{t('detailsHeaderDescription')}</span>
         </Details.Header>
 
         <Details.Body>
@@ -195,10 +202,10 @@ export const SwapDetailsModal = () => {
                       </div>
                     ))
                     .otherwise(() => (
-                      <div className="flex items-center gap-1.5 text-orange">
+                      <div className="text-orange flex items-center gap-1.5">
                         <span className="text-sm">{t('routingPanelTransactionToLabelPending')}</span>
 
-                        <MdRefresh aria-hidden={true} className="h-6 w-6 animate-spin" />
+                        <MdRefresh aria-hidden className="h-6 w-6 animate-spin" />
                       </div>
                     ))}
                 </Details.Item>
@@ -287,15 +294,17 @@ export const SwapDetailsModal = () => {
 
         <Link
           label={t('helpButtonLabel')}
-          className="flex-grow"
+          className="grow"
           target="_blank"
           to={DISCORD_LINK}
           flat
           wide
           iconsOnEdge={false}
-          rightIcon={<MdLaunch aria-hidden={true} />}
+          rightIcon={<MdLaunch aria-hidden />}
         />
       </div>
     </SideModalLayout>
   )
 }
+
+export default SwapDetailsModal

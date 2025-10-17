@@ -1,14 +1,17 @@
 import { useTranslation } from 'react-i18next'
-import MdArrowBack from '@renderer/assets/images/md-arrow-back.svg?react'
+
 import { Button } from '@renderer/components/Button'
+
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+
+import MdArrowBack from '@renderer/assets/images/md-arrow-back.svg?react'
 
 export const DappConnectionSuccessContent = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'dappConnectionDetails.successModal' })
   const { modalNavigateWrapper } = useModalNavigate()
 
   return (
-    <div className="flex w-full flex-grow items-end justify-center">
+    <div className="flex w-full grow items-end justify-center">
       <Button
         label={t('buttonReturnLabel')}
         className="w-full px-14"

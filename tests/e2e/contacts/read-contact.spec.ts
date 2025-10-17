@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-import { createContact, createNewWallet, launch } from '../index'
+import { createContact, createNewWallet, launch, sleep } from '../index'
 
 test.describe('Read contact', () => {
   test('Should read a selected contact', async () => {
@@ -30,6 +30,8 @@ test.describe('Read contact', () => {
 
     await window.getByTestId('contact-list-item').click()
     await window.getByTestId('copy-address-button').click()
+
+    await sleep(1)
 
     const copiedAddress = await window.evaluate(() => navigator.clipboard.readText())
 

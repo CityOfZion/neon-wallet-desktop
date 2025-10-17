@@ -1,19 +1,21 @@
 import { useTranslation } from 'react-i18next'
-import { useMatch } from 'react-router-dom'
+
+import { TestHelper } from '@renderer/helpers/TestHelper'
+
+import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
+
 import MdOutlineKey from '@renderer/assets/images/md-outline-key.svg?react'
 import MdOutlineLock from '@renderer/assets/images/md-outline-lock.svg?react'
 import MdOutlineSave from '@renderer/assets/images/md-outline-save.svg?react'
 import TbPackageImport from '@renderer/assets/images/tb-package-import.svg?react'
 import TbReload from '@renderer/assets/images/tb-reload.svg?react'
-import { TestHelper } from '@renderer/helpers/TestHelper'
-import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 
 import { SettingsSidebarLink } from './SettingsSidebarLink'
 
 export const SettingsSecurityTabContent = () => {
   const { currentLoginSession } = useCurrentLoginSessionSelector()
   const { t } = useTranslation('pages', { keyPrefix: 'settings' })
-  const matchRootEncryptKey = useMatch('app/settings/security')
+
   const disabled = currentLoginSession?.type !== 'password'
 
   return (
@@ -21,35 +23,34 @@ export const SettingsSecurityTabContent = () => {
       <ul className="w-full max-w-full">
         <SettingsSidebarLink
           title={t('securityOption.changePassword')}
-          icon={<MdOutlineLock aria-hidden={true} />}
-          to="/app/settings/security/change-password"
-          match={!!matchRootEncryptKey}
+          icon={<MdOutlineLock aria-hidden />}
+          to="/settings/security/change-password"
           disabled={disabled}
           {...TestHelper.buildTestObject('settings-change-password-button')}
         />
         <SettingsSidebarLink
           title={t('securityOption.encryptKey')}
           icon={<MdOutlineKey />}
-          to="/app/settings/security/encrypt-key"
+          to="/settings/security/encrypt-key"
         />
         <SettingsSidebarLink
           title={t('securityOption.recoverWallet')}
           icon={<TbReload />}
-          to="/app/settings/security/recover-wallet"
+          to="/settings/security/recover-wallet"
           disabled={disabled}
           {...TestHelper.buildTestObject('settings-recover-wallet-button')}
         />
         <SettingsSidebarLink
           title={t('securityOption.backupWallet')}
           icon={<MdOutlineSave />}
-          to="/app/settings/security/backup-wallet"
+          to="/settings/security/backup-wallet"
           disabled={disabled}
           {...TestHelper.buildTestObject('settings-backup-wallet-button')}
         />
         <SettingsSidebarLink
           title={t('securityOption.migrateWallets')}
           icon={<TbPackageImport />}
-          to="/app/settings/security/migrate-accounts"
+          to="/settings/security/migrate-accounts"
           colorSchema="neon"
           disabled={disabled}
           {...TestHelper.buildTestObject('settings-migrate-wallet-button')}

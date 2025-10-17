@@ -1,21 +1,28 @@
 import { useEffect, useState } from 'react'
+
 import { useTranslation } from 'react-i18next'
-import TbPencil from '@renderer/assets/images/tb-pencil.svg?react'
-import TbPlus from '@renderer/assets/images/tb-plus.svg?react'
+
 import { ActionPopover } from '@renderer/components/ActionPopover'
 import { Button } from '@renderer/components/Button'
 import { CommonScreenActions } from '@renderer/components/CommonScreenActions'
 import { ContactAddressTable } from '@renderer/components/ContactAddressTable'
 import { ContactList } from '@renderer/components/ContactList'
 import { Separator } from '@renderer/components/Separator'
+
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
+
 import { useContactsSelector } from '@renderer/hooks/useContactSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+
 import { MainLayout } from '@renderer/layouts/Main'
+
+import TbPencil from '@renderer/assets/images/tb-pencil.svg?react'
+import TbPlus from '@renderer/assets/images/tb-plus.svg?react'
+
 import { IContactState } from '@shared/@types/store'
 
-export const ContactsPage = () => {
+const ContactsPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'contacts' })
   const { t: commonGeneral } = useTranslation('common', { keyPrefix: 'general' })
   const { modalNavigateWrapper } = useModalNavigate()
@@ -48,9 +55,9 @@ export const ContactsPage = () => {
         </CommonScreenActions>
       }
     >
-      <section className="flex h-full w-full rounded bg-gray-800">
+      <section className="flex h-full w-full rounded-sm bg-gray-800">
         <div className="flex w-full max-w-[17.188rem] flex-col items-center border-r border-gray-300/15 px-4">
-          <div className="h-[3.25rem]a mb-9 mt-2 flex w-full flex-col gap-y-1">
+          <div className="h-[3.25rem]a mt-2 mb-9 flex w-full flex-col gap-y-1">
             <span className="flex h-10 w-full items-center justify-between text-sm">{t('listTitle')}</span>
             <Separator />
           </div>
@@ -60,7 +67,7 @@ export const ContactsPage = () => {
 
         {selectedContact && (
           <div className="w-full px-4">
-            <div className="mb-5 mt-2 flex h-[3.25rem] flex-col gap-y-1">
+            <div className="mt-2 mb-5 flex h-13 flex-col gap-y-1">
               <div
                 className="flex h-10 w-full items-center justify-between"
                 {...TestHelper.buildTestObject('contact-name-title')}
@@ -87,3 +94,5 @@ export const ContactsPage = () => {
     </MainLayout>
   )
 }
+
+export default ContactsPage

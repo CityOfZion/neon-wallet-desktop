@@ -1,15 +1,22 @@
 import { ChangeEvent } from 'react'
-import { useTranslation } from 'react-i18next'
+
 import { hasEncryption } from '@cityofzion/blockchain-service'
-import MdOutlineKey from '@renderer/assets/images/md-outline-key.svg?react'
+import { useTranslation } from 'react-i18next'
+
 import { Button } from '@renderer/components/Button'
+
 import { PasswordHelper } from '@renderer/helpers/PasswordHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+
 import { SettingsLayout } from '@renderer/layouts/Settings'
-import { bsAggregator } from '@renderer/libs/blockchainService'
+
+import MdOutlineKey from '@renderer/assets/images/md-outline-key.svg?react'
+
+import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 
 import { SettingsEncryptInputStep } from './SettingsEncryptInputStep'
@@ -23,7 +30,7 @@ type TFormData = {
   confirmationPassphrase: string
 }
 
-export const SettingsEncryptKeyPage = (): JSX.Element => {
+const SettingsEncryptKeyPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'settings' })
   const { modalNavigate } = useModalNavigate()
 
@@ -86,7 +93,7 @@ export const SettingsEncryptKeyPage = (): JSX.Element => {
       modalNavigate('success', {
         state: {
           heading: t('encryptKey.successModal.title'),
-          headingIcon: <MdOutlineKey aria-hidden={true} />,
+          headingIcon: <MdOutlineKey aria-hidden />,
           content: <SettingsEncryptKeySuccessContent encryptedKey={encryptedKey} />,
           subtitle: t('encryptKey.successModal.subtitle'),
         },
@@ -104,7 +111,7 @@ export const SettingsEncryptKeyPage = (): JSX.Element => {
     modalNavigate('blockchain-selection', {
       state: {
         heading: t('encryptKey.successModal.title'),
-        headingIcon: <MdOutlineKey aria-hidden={true} />,
+        headingIcon: <MdOutlineKey aria-hidden />,
         withBackButton: false,
         onSelect: handleSelect,
       },
@@ -113,8 +120,8 @@ export const SettingsEncryptKeyPage = (): JSX.Element => {
 
   return (
     <SettingsLayout title={t('securityOption.encryptKey')}>
-      <form className="flex flex-grow flex-col items-center text-xs" onSubmit={handleAct(handleSubmit)}>
-        <div className="flex w-full max-w-[24rem] flex-grow flex-col">
+      <form className="flex grow flex-col items-center text-xs" onSubmit={handleAct(handleSubmit)}>
+        <div className="flex w-full max-w-[24rem] grow flex-col">
           <h2 className="mb-6 text-center text-gray-100">{t('encryptKey.subtitle')}</h2>
 
           <div className="flex flex-col gap-4">
@@ -152,14 +159,16 @@ export const SettingsEncryptKeyPage = (): JSX.Element => {
         </div>
 
         <Button
-          className="w-full max-w-[15.625rem]"
+          className="w-full max-w-62.5"
           type="submit"
           label={t('encryptKey.buttonGenerate')}
           loading={actionState.isActing}
           disabled={!actionState.isValid}
-          leftIcon={<MdOutlineKey aria-hidden={true} />}
+          leftIcon={<MdOutlineKey aria-hidden />}
         />
       </form>
     </SettingsLayout>
   )
 }
+
+export default SettingsEncryptKeyPage

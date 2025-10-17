@@ -1,11 +1,13 @@
-import { useTranslation } from 'react-i18next'
 import { hasEncryption, hasNameService } from '@cityofzion/blockchain-service'
+import { useTranslation } from 'react-i18next'
+import zod from 'zod'
+
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
-import { bsAggregator } from '@renderer/libs/blockchainService'
+
+import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { TAccountsToImport, TBlockchainServiceKey, TWalletToCreate } from '@shared/@types/blockchain'
 import { IContactState, TContactAddress } from '@shared/@types/store'
 import { getI18next } from '@shared/libs/i18next'
-import zod from 'zod'
 
 import { useBlockchainActions } from './useBlockchainActions'
 import { useContactsSelector } from './useContactSelector'

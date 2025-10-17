@@ -1,8 +1,14 @@
-import { createContext, useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react'
+import { createContext, type JSX, useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react'
+
+import { AnimatePresence } from 'motion/react'
+
 import { CenterModal } from '@renderer/components/Modal/CenterModal'
 import { SideModal } from '@renderer/components/Modal/SideModal'
+
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+
 import { useDelayedState } from '@renderer/hooks/useDelayedState'
+
 import {
   THistory,
   TModalRouterContextNavigateOptions,
@@ -10,7 +16,6 @@ import {
   TModalRouterProviderProps,
   TRouteType,
 } from '@shared/@types/modal'
-import { AnimatePresence } from 'framer-motion'
 
 const modalByRouteType: Record<TRouteType, (...props: any[]) => JSX.Element> = {
   side: SideModal,

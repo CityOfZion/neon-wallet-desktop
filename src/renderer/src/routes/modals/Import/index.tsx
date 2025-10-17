@@ -1,17 +1,24 @@
 import { useEffect } from 'react'
+
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
-import TbFileImport from '@renderer/assets/images/tb-file-import.svg?react'
+import { useNavigate } from 'react-router'
+
 import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
 import { Textarea } from '@renderer/components/Textarea'
+
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
+
 import { useAccountUtils } from '@renderer/hooks/useAccountSelector'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useDebounceFunction } from '@renderer/hooks/useDebounceFunction'
 import { useImportAction } from '@renderer/hooks/useImportAction'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
+
 import { SideModalLayout } from '@renderer/layouts/SideModal'
+
+import TbFileImport from '@renderer/assets/images/tb-file-import.svg?react'
+
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 
@@ -19,7 +26,7 @@ type TModalState = {
   text: string
 }
 
-export const ImportModal = () => {
+const ImportModal = () => {
   const { modalNavigate } = useModalNavigate()
   const modalState = useModalState<TModalState>()
   const { t } = useTranslation('modals', { keyPrefix: 'import' })
@@ -57,7 +64,7 @@ export const ImportModal = () => {
 
                 ToastHelper.success({ message: t('successEncryptKey') })
                 modalNavigate(-3)
-                navigate(`/app/wallets/${account.id}/overview`)
+                navigate(`/wallets/${account.id}/overview`)
               },
             },
           })
@@ -94,14 +101,10 @@ export const ImportModal = () => {
   }, [modalState.text])
 
   return (
-    <SideModalLayout
-      heading={t('title')}
-      headingIcon={<TbFileImport aria-hidden={true} />}
-      contentClassName="flex flex-col"
-    >
+    <SideModalLayout heading={t('title')} headingIcon={<TbFileImport aria-hidden />} contentClassName="flex flex-col">
       <p className="text-xs">{t('description')}</p>
 
-      <form className="mt-10 flex flex-grow flex-col justify-between" onSubmit={handleAct(handleSubmit)}>
+      <form className="mt-10 flex grow flex-col justify-between" onSubmit={handleAct(handleSubmit)}>
         <div>
           <Textarea
             placeholder={t('inputPlaceholder')}
@@ -136,3 +139,5 @@ export const ImportModal = () => {
     </SideModalLayout>
   )
 }
+
+export default ImportModal

@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+
 import { Loader } from '@renderer/components/Loader'
 
 type TProps = {
@@ -13,7 +14,7 @@ export const Fee = ({ fee, loading }: TProps) => {
     <div className="flex flex-col gap-1">
       <span className="text-xs font-bold">{t('feeLabel')}</span>
 
-      <div className="min-w-0 gap-3 rounded bg-gray-700/60 py-2.5 pl-5 pr-4">
+      <div className="min-w-0 gap-3 rounded-sm bg-gray-700/60 py-2.5 pr-4 pl-5">
         {loading ? <Loader className="h-4 w-4" /> : <p>{`${fee} GAS`}</p>}
       </div>
     </div>

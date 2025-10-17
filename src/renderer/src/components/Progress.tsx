@@ -1,5 +1,7 @@
 import * as React from 'react'
+
 import * as ProgressPrimitive from '@radix-ui/react-progress'
+
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 const Progress = React.forwardRef<
@@ -8,11 +10,11 @@ const Progress = React.forwardRef<
 >(({ className, value, ...props }, ref) => (
   <ProgressPrimitive.Root
     ref={ref}
-    className={StyleHelper.mergeStyles('flex h-3 w-full items-center rounded-full bg-asphalt p-[0.188rem]', className)}
+    className={StyleHelper.mergeStyles('bg-asphalt flex h-3 w-full items-center rounded-full p-[0.188rem]', className)}
     {...props}
   >
     <ProgressPrimitive.Indicator
-      className="h-full rounded-full bg-blue shadow-[0px_0px_9px_0px_theme(colors.blue.DEFAULT)] transition-all"
+      className="bg-blue h-full rounded-full shadow-[0px_0px_9px_0px_var(--color-blue)] transition-all"
       style={{ width: `${Math.min(value ?? 0, 100)}%` }}
     />
   </ProgressPrimitive.Root>

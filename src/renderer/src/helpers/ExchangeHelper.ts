@@ -1,4 +1,4 @@
-import { bsAggregator } from '@renderer/libs/blockchainService'
+import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TExchange } from '@shared/@types/query'
 

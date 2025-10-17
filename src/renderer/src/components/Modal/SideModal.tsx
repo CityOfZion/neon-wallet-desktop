@@ -1,11 +1,16 @@
-import { useLayoutEffect, useMemo, useState } from 'react'
-import { FocusScope } from '@radix-ui/react-focus-scope'
-import { ModalRouterCurrentHistoryProvider } from '@renderer/contexts/ModalRouterCurrentHistoryContext'
-import { StyleHelper } from '@renderer/helpers/StyleHelper'
-import { useModalHistories } from '@renderer/hooks/useModalRouter'
-import { THistory, TRouterSize } from '@shared/@types/modal'
-import { motion, useAnimate, usePresence } from 'framer-motion'
+import { Suspense, useLayoutEffect, useMemo, useState } from 'react'
 
+import { FocusScope } from '@radix-ui/react-focus-scope'
+import { motion, useAnimate, usePresence } from 'motion/react'
+
+import { StyleHelper } from '@renderer/helpers/StyleHelper'
+
+import { useModalHistories } from '@renderer/hooks/useModalRouter'
+
+import { ModalRouterCurrentHistoryProvider } from '@renderer/contexts/ModalRouterCurrentHistoryContext'
+import { THistory, TRouterSize } from '@shared/@types/modal'
+
+import { ScreenLoader } from '../ScreenLoader'
 import { ModalContainer } from './ModalContainer'
 
 const widthBySizes: Partial<Record<TRouterSize, string>> = {
@@ -57,7 +62,7 @@ export const SideModal = () => {
 
   return (
     <ModalContainer className="flex justify-end">
-      <motion.div className="relative h-full" ref={scope} initial={{ width: 0 }}>
+      <motion.div className="relative h-full bg-gray-800" ref={scope} initial={{ width: 0 }}>
         {lastSideHistoryWidth &&
           sideHistories.map((history, index) => (
             <FocusScope
@@ -68,7 +73,9 @@ export const SideModal = () => {
               })}
             >
               <ModalRouterCurrentHistoryProvider value={history}>
-                {history.route.element}
+                <Suspense fallback={<ScreenLoader />}>
+                  <history.route.element />
+                </Suspense>
               </ModalRouterCurrentHistoryProvider>
             </FocusScope>
           ))}

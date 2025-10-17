@@ -1,10 +1,14 @@
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
+
+import { IconButton } from '@renderer/components/IconButton'
+
+import { StyleHelper } from '@renderer/helpers/StyleHelper'
+
+import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+
 import MdClose from '@renderer/assets/images/md-close.svg?react'
 import TbAlertTriangle from '@renderer/assets/images/tb-alert-triangle.svg?react'
-import { IconButton } from '@renderer/components/IconButton'
-import { StyleHelper } from '@renderer/helpers/StyleHelper'
-import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 
 import { EPrepareHardwareWalletMigrationStep } from './EPrepareHardwareWalletMigrationStep'
 
@@ -32,8 +36,8 @@ export const PrepareHardwareWalletModalHeader = ({ currentStep }: TProps) => {
       })}
     >
       {currentStep === EPrepareHardwareWalletMigrationStep.CONFIRM && (
-        <p className="flex max-w-[256px] items-center gap-x-3 text-xs text-orange">
-          <TbAlertTriangle aria-hidden={true} className="h-5 min-h-5 w-5 min-w-5" />
+        <p className="text-orange flex max-w-[256px] items-center gap-x-3 text-xs">
+          <TbAlertTriangle aria-hidden className="h-5 min-h-5 w-5 min-w-5" />
 
           {t('alert')}
         </p>
@@ -41,7 +45,7 @@ export const PrepareHardwareWalletModalHeader = ({ currentStep }: TProps) => {
 
       <IconButton
         aria-label={t('closeIconButtonAriaLabel')}
-        icon={<MdClose aria-hidden={true} className="fill-white" />}
+        icon={<MdClose aria-hidden className="fill-white" />}
         size="md"
         compacted
         onClick={handleClose}

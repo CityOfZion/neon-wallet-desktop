@@ -1,18 +1,11 @@
-import { Trans, useTranslation } from 'react-i18next'
-import { Location, useLocation, useNavigate } from 'react-router-dom'
-import { Account } from '@cityofzion/blockchain-service'
-import {
-  CalculateNeo3MigrationAmountsResponse,
-  CalculateNeoLegacyMigrationAmountsResponse,
+import { TBSAccount } from '@cityofzion/blockchain-service'
+import type {
+  TNeo3NeoLegacyMigrationNeo3Amounts,
+  TNeo3NeoLegacyMigrationNeoLegacyAmounts,
 } from '@cityofzion/bs-neo-legacy'
-import MdContentCopy from '@renderer/assets/images/md-content-copy.svg?react'
-import TbArrowsExchange from '@renderer/assets/images/tb-arrows-exchange.svg?react'
-import TbCoin from '@renderer/assets/images/tb-coin.svg?react'
-import TbDiamond from '@renderer/assets/images/tb-diamond.svg?react'
-import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
-import TbStepOut from '@renderer/assets/images/tb-step-out.svg?react'
-import TbWallet from '@renderer/assets/images/tb-wallet.svg?react'
-import VscCircleFilled from '@renderer/assets/images/vsc-circle-filled.svg?react'
+import { Trans, useTranslation } from 'react-i18next'
+import { Location, useLocation, useNavigate } from 'react-router'
+
 import { ActionCard } from '@renderer/components/ActionCard'
 import { ActionStep } from '@renderer/components/ActionStep'
 import { ActionStepSeparator } from '@renderer/components/ActionStepSeparator'
@@ -21,11 +14,12 @@ import { CommonScreenActions } from '@renderer/components/CommonScreenActions'
 import { IconButton } from '@renderer/components/IconButton'
 import { Loader } from '@renderer/components/Loader'
 import { Separator } from '@renderer/components/Separator'
-import { NEO_LEGACY_GAS_TOKEN, NEO_LEGACY_NEO_TOKEN, NEO3_GAS_TOKEN, NEO3_NEO_TOKEN } from '@renderer/constants/tokens'
+
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { DateHelper } from '@renderer/helpers/DateHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+
 import { useAccountSelector, useAccountUtils } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
@@ -37,8 +31,20 @@ import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useMount } from '@renderer/hooks/useMount'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useWalletByIdSelector } from '@renderer/hooks/useWalletSelector'
+
 import { ContentLayout } from '@renderer/layouts/ContentLayout'
-import { bsAggregator } from '@renderer/libs/blockchainService'
+
+import MdContentCopy from '@renderer/assets/images/md-content-copy.svg?react'
+import TbArrowsExchange from '@renderer/assets/images/tb-arrows-exchange.svg?react'
+import TbCoin from '@renderer/assets/images/tb-coin.svg?react'
+import TbDiamond from '@renderer/assets/images/tb-diamond.svg?react'
+import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
+import TbStepOut from '@renderer/assets/images/tb-step-out.svg?react'
+import TbWallet from '@renderer/assets/images/tb-wallet.svg?react'
+import VscCircleFilled from '@renderer/assets/images/vsc-circle-filled.svg?react'
+
+import { NEO_LEGACY_GAS_TOKEN, NEO_LEGACY_NEO_TOKEN, NEO3_GAS_TOKEN, NEO3_NEO_TOKEN } from '@renderer/constants/tokens'
+import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { thunks } from '@renderer/store/thunks'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { IAccountState, TMigrationNeo3 } from '@shared/@types/store'
@@ -50,18 +56,18 @@ import { MigrationNeo3ListItemFee } from './MigrationNeo3ListItemFee'
 import { MigrationNeo3SideBar } from './MigrationNeo3SideBar'
 
 type TActionsData = {
-  neoLegacyServiceAccount?: Account<TBlockchainServiceKey>
-  neo3ServiceAccount?: Account<TBlockchainServiceKey>
-  neo3MigrationAmounts?: CalculateNeo3MigrationAmountsResponse
-  neoLegacyMigrationAmounts?: CalculateNeoLegacyMigrationAmountsResponse
+  neoLegacyServiceAccount?: TBSAccount<TBlockchainServiceKey>
+  neo3ServiceAccount?: TBSAccount<TBlockchainServiceKey>
+  neo3MigrationAmounts?: TNeo3NeoLegacyMigrationNeo3Amounts
+  neoLegacyMigrationAmounts?: TNeo3NeoLegacyMigrationNeoLegacyAmounts
 }
 
 type TLocationState = {
   neoLegacyAccount: IAccountState
-  neo3HardwareServiceAccount?: Account<TBlockchainServiceKey>
+  neo3HardwareServiceAccount?: TBSAccount<TBlockchainServiceKey>
 }
 
-export const MigrationNeo3Page = () => {
+const MigrationNeo3Page = () => {
   const location = useLocation() as Location<TLocationState>
   const { neo3HardwareServiceAccount } = location.state
 
@@ -85,7 +91,7 @@ export const MigrationNeo3Page = () => {
   const { actionData, actionState, setData, handleAct } = useActions<TActionsData>({})
 
   const handleGoBack = () => {
-    navigate(`/app/wallets/${neoLegacyAccount.id}/overview`)
+    navigate(`/wallets/${neoLegacyAccount.id}/overview`)
   }
 
   const handleMigrateToNeo3 = async () => {
@@ -111,7 +117,7 @@ export const MigrationNeo3Page = () => {
     }
 
     try {
-      const transactionHash = await neoLegacyService.migrate({
+      const transactionHash = await neoLegacyService.neo3NeoLegacyMigrationService.migrate({
         account: actionData.neoLegacyServiceAccount,
         neo3Address: actionData.neo3ServiceAccount.address,
         neoLegacyMigrationAmounts: actionData.neoLegacyMigrationAmounts,
@@ -142,7 +148,7 @@ export const MigrationNeo3Page = () => {
 
       dispatch(thunks.waitMigration(pendingMigrationNeo3))
 
-      navigate(`/app/wallets/${neoLegacyAccount.id}/transactions`)
+      navigate(`/wallets/${neoLegacyAccount.id}/transactions`)
 
       await SharedUtilsHelper.sleep(100)
 
@@ -180,11 +186,13 @@ export const MigrationNeo3Page = () => {
           return
         }
 
-        let neo3MigrationAmounts: CalculateNeo3MigrationAmountsResponse
-        let neoLegacyMigrationAmounts: CalculateNeoLegacyMigrationAmountsResponse
+        let neo3MigrationAmounts: TNeo3NeoLegacyMigrationNeo3Amounts
+        let neoLegacyMigrationAmounts: TNeo3NeoLegacyMigrationNeoLegacyAmounts
         try {
-          neoLegacyMigrationAmounts = neoLegacyService.calculateNeoLegacyMigrationAmounts(tokenBalances)
-          neo3MigrationAmounts = neoLegacyService.calculateNeo3MigrationAmounts(neoLegacyMigrationAmounts)
+          neoLegacyMigrationAmounts =
+            neoLegacyService.neo3NeoLegacyMigrationService.calculateNeoLegacyMigrationAmounts(tokenBalances)
+          neo3MigrationAmounts =
+            neoLegacyService.neo3NeoLegacyMigrationService.calculateNeo3MigrationAmounts(neoLegacyMigrationAmounts)
         } catch {
           throw new Error(t('messages.calculateValuesError'))
         }
@@ -199,7 +207,7 @@ export const MigrationNeo3Page = () => {
           throw new Error(t('messages.getKeyError'))
         }
 
-        let neoLegacyServiceAccount: Account<TBlockchainServiceKey>
+        let neoLegacyServiceAccount: TBSAccount<TBlockchainServiceKey>
         try {
           neoLegacyServiceAccount = AccountHelper.getServiceAccount({ account: neoLegacyAccount, key })
         } catch (error) {
@@ -208,7 +216,7 @@ export const MigrationNeo3Page = () => {
           throw new Error(t('messages.generateAccountError'))
         }
 
-        let neo3ServiceAccount: Account<TBlockchainServiceKey>
+        let neo3ServiceAccount: TBSAccount<TBlockchainServiceKey>
         if (isHardwareAccount) {
           // We are using non-null assertion operator here because we validate in the beginning if this value exist when is hardware account
           neo3ServiceAccount = neo3HardwareServiceAccount!
@@ -234,13 +242,13 @@ export const MigrationNeo3Page = () => {
   return (
     <ContentLayout
       title={t('title')}
-      titleIcon={<TbArrowsExchange aria-hidden={true} />}
+      titleIcon={<TbArrowsExchange aria-hidden />}
       rightComponent={<CommonScreenActions />}
     >
-      <section className="flex min-h-0 flex-grow rounded bg-gray-800">
+      <section className="flex min-h-0 grow rounded-sm bg-gray-800">
         <MigrationNeo3SideBar />
 
-        <div className="flex min-h-0 flex-grow flex-col items-center px-4">
+        <div className="flex min-h-0 grow flex-col items-center px-4">
           <div className="flex w-full flex-col">
             <div className="flex h-12 w-full items-center">
               <h2 className="text-sm text-white">{t('subtitle')}</h2>
@@ -250,25 +258,25 @@ export const MigrationNeo3Page = () => {
           </div>
 
           {isMounting ? (
-            <Loader containerClassName="flex-grow items-center" className="h-12 w-12 text-white" />
+            <Loader containerClassName="grow items-center" className="h-12 w-12 text-white" />
           ) : actionData.neo3MigrationAmounts &&
             actionData.neoLegacyMigrationAmounts &&
             actionData.neo3ServiceAccount &&
             actionData.neoLegacyServiceAccount ? (
             <div className="w-full overflow-y-auto">
-              <div className="mx-auto mb-12 mt-6 flex w-full max-w-[572px] flex-col gap-y-1">
+              <div className="mx-auto mt-6 mb-12 flex w-full max-w-[572px] flex-col gap-y-1">
                 <ActionCard>
                   <ActionStep
                     title={t('labels.assets')}
                     className="font-bold"
-                    leftIcon={<TbDiamond aria-hidden={true} className="h-6 min-h-6 w-6 min-w-6" />}
+                    leftIcon={<TbDiamond aria-hidden className="h-6 min-h-6 w-6 min-w-6" />}
                   />
 
                   <Separator />
 
                   <ActionStep
                     title={t('labels.migrate')}
-                    leftIcon={<VscCircleFilled aria-hidden={true} className="h-2 w-2 text-gray-100" />}
+                    leftIcon={<VscCircleFilled aria-hidden className="h-2 w-2 text-gray-100" />}
                   >
                     <MigrationNeo3AssetText
                       neoLegacyMigrationAmounts={actionData.neoLegacyMigrationAmounts}
@@ -282,7 +290,7 @@ export const MigrationNeo3Page = () => {
 
                   <ActionStep
                     title={t('labels.receive')}
-                    leftIcon={<VscCircleFilled aria-hidden={true} className="h-2 w-2 text-gray-100" />}
+                    leftIcon={<VscCircleFilled aria-hidden className="h-2 w-2 text-gray-100" />}
                   >
                     <MigrationNeo3AssetText
                       neoLegacyMigrationAmounts={actionData.neoLegacyMigrationAmounts}
@@ -299,14 +307,14 @@ export const MigrationNeo3Page = () => {
                   <ActionStep
                     title={t('labels.address')}
                     className="font-bold"
-                    leftIcon={<TbWallet aria-hidden={true} className="h-6 min-h-6 w-6 min-w-6" />}
+                    leftIcon={<TbWallet aria-hidden className="h-6 min-h-6 w-6 min-w-6" />}
                   />
 
                   <Separator />
 
                   <ActionStep
                     title={tBlockchain(neoLegacyAccount.blockchain)}
-                    leftIcon={<VscCircleFilled aria-hidden={true} className="h-2 w-2 text-gray-100" />}
+                    leftIcon={<VscCircleFilled aria-hidden className="h-2 w-2 text-gray-100" />}
                   >
                     <p className="pr-2 text-sm text-gray-100">{neoLegacyAccount.address}</p>
                   </ActionStep>
@@ -317,13 +325,13 @@ export const MigrationNeo3Page = () => {
                     title={tBlockchain('neo3')}
                     className="mb-4"
                     headerClassName="gap-4"
-                    leftIcon={<VscCircleFilled aria-hidden={true} className="h-2 w-2 text-gray-100" />}
+                    leftIcon={<VscCircleFilled aria-hidden className="h-2 w-2 text-gray-100" />}
                   >
-                    <div className="flex items-center gap-x-2 rounded bg-asphalt px-4 py-2">
+                    <div className="bg-asphalt flex items-center gap-x-2 rounded-sm px-4 py-2">
                       <p className="text-sm text-gray-100">{actionData.neo3ServiceAccount.address}</p>
 
                       <IconButton
-                        icon={<MdContentCopy aria-hidden={true} className="text-neon" />}
+                        icon={<MdContentCopy aria-hidden className="text-neon" />}
                         className="-mr-1"
                         compacted
                         onClick={UtilsHelper.copyToClipboard.bind(null, actionData.neo3ServiceAccount.address)}
@@ -338,7 +346,7 @@ export const MigrationNeo3Page = () => {
                   <ActionStep
                     title={t('labels.amounts')}
                     className="font-bold"
-                    leftIcon={<TbCoin aria-hidden={true} className="h-6 min-h-6 w-6 min-w-6" />}
+                    leftIcon={<TbCoin aria-hidden className="h-6 min-h-6 w-6 min-w-6" />}
                   />
 
                   <Separator />
@@ -354,7 +362,7 @@ export const MigrationNeo3Page = () => {
                     }
                     className="items-start"
                     headerClassName="gap-4"
-                    leftIcon={<VscCircleFilled aria-hidden={true} className="h-2 w-2 text-gray-100" />}
+                    leftIcon={<VscCircleFilled aria-hidden className="h-2 w-2 text-gray-100" />}
                   >
                     <ul className="flex flex-col gap-y-2 self-center pr-2 text-sm">
                       <MigrationNeo3ListItemAmount
@@ -374,7 +382,7 @@ export const MigrationNeo3Page = () => {
                   <ActionStep
                     title={t('labels.fee')}
                     className="items-start font-bold"
-                    leftIcon={<TbReceipt aria-hidden={true} className="h-6 min-h-6 w-6 min-w-6" />}
+                    leftIcon={<TbReceipt aria-hidden className="h-6 min-h-6 w-6 min-w-6" />}
                   >
                     <div className="flex self-center pr-2 text-sm font-normal">
                       <ul className="flex flex-col gap-y-2">
@@ -405,7 +413,7 @@ export const MigrationNeo3Page = () => {
                   iconsOnEdge={false}
                   loading={actionState.isActing}
                   disabled={actionState.isActing || !actionState.isValid}
-                  leftIcon={<TbStepOut aria-hidden={true} />}
+                  leftIcon={<TbStepOut aria-hidden />}
                   onClick={handleAct(handleMigrateToNeo3)}
                 />
               </div>
@@ -416,3 +424,5 @@ export const MigrationNeo3Page = () => {
     </ContentLayout>
   )
 }
+
+export default MigrationNeo3Page

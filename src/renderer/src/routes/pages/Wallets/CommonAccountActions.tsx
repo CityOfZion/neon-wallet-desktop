@@ -1,14 +1,20 @@
 import { ComponentProps } from 'react'
+
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
+
+import { Button } from '@renderer/components/Button'
+
+import { StyleHelper } from '@renderer/helpers/StyleHelper'
+
+import { useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
+
 import TbReplace from '@renderer/assets/images/tb-replace.svg?react'
 import TbShoppingBag from '@renderer/assets/images/tb-shopping-bag.svg?react'
 import TbStepInto from '@renderer/assets/images/tb-step-into.svg?react'
 import TbStepOut from '@renderer/assets/images/tb-step-out.svg?react'
-import { Button } from '@renderer/components/Button'
+
 import { SWAP_NETWORK_BY_BLOCKCHAIN_AND_NETWORK_ID } from '@renderer/constants/swap'
-import { StyleHelper } from '@renderer/helpers/StyleHelper'
-import { useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
 import { IAccountState } from '@shared/@types/store'
 
 type TProps = {
@@ -37,43 +43,43 @@ export const CommonAccountActions = ({ account, children, className, ...props }:
         colorSchema="neon"
         flat
         clickableProps={{ className: 'text-xs' }}
-        leftIcon={<TbShoppingBag aria-hidden={true} />}
-        onClick={() => navigate('/app/buy-and-sell-tokens', { state: { account } })}
+        leftIcon={<TbShoppingBag aria-hidden />}
+        onClick={() => navigate('/buy-and-sell-tokens', { state: { account } })}
       />
 
       {isSwapAvailable && (
         <Button
-          leftIcon={<TbReplace aria-hidden={true} />}
+          leftIcon={<TbReplace aria-hidden />}
           label={t('swap')}
           className="h-9 w-fit"
           variant="text"
           flat
           colorSchema="neon"
           clickableProps={{ className: 'text-xs' }}
-          onClick={() => navigate('/app/swap', { state: { account } })}
+          onClick={() => navigate('/swap', { state: { account } })}
         />
       )}
 
       <Button
-        leftIcon={<TbStepInto aria-hidden={true} />}
+        leftIcon={<TbStepInto aria-hidden />}
         label={t('receive')}
         className="h-9 w-fit"
         variant="text"
         colorSchema="neon"
         flat
         clickableProps={{ className: 'text-xs' }}
-        onClick={() => navigate('/app/receive', { state: { account } })}
+        onClick={() => navigate('/receive', { state: { account } })}
       />
 
       <Button
-        leftIcon={<TbStepOut aria-hidden={true} />}
+        leftIcon={<TbStepOut aria-hidden />}
         label={t('send')}
         className="h-9 w-fit"
         variant="text"
         flat
         colorSchema="neon"
         clickableProps={{ className: 'text-xs' }}
-        onClick={() => navigate('/app/send', { state: { account } })}
+        onClick={() => navigate('/send', { state: { account } })}
       />
     </div>
   )

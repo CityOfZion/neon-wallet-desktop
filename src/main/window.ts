@@ -1,8 +1,9 @@
-import { mainApi } from '@shared/api/main'
 import { app, dialog, shell } from 'electron'
 import { readFile, writeFile } from 'fs/promises'
 
-export function registerWindowHandlers() {
+import { mainApi } from '@shared/api/main'
+
+export function setupWindowHandlers() {
   mainApi.listenSync('restore', ({ window }) => {
     if (window.isMinimized()) {
       window.restore()

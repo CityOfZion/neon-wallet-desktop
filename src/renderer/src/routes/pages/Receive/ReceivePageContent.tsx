@@ -1,18 +1,23 @@
 import { useState } from 'react'
+
+import { QRCodeSVG } from 'qrcode.react'
 import { useTranslation } from 'react-i18next'
-import TbCopy from '@renderer/assets/images/tb-copy.svg?react'
-import TbQrcode from '@renderer/assets/images/tb-qrcode.svg?react'
-import TbSend from '@renderer/assets/images/tb-send.svg?react'
-import TbStepInto from '@renderer/assets/images/tb-step-into.svg?react'
+
 import { ActionStep } from '@renderer/components/ActionStep'
 import { Button } from '@renderer/components/Button'
 import { GreyAccountSelect } from '@renderer/components/GreyAccountSelect'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
+
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+
+import TbCopy from '@renderer/assets/images/tb-copy.svg?react'
+import TbQrcode from '@renderer/assets/images/tb-qrcode.svg?react'
+import TbSend from '@renderer/assets/images/tb-send.svg?react'
+import TbStepInto from '@renderer/assets/images/tb-step-into.svg?react'
+
 import { IAccountState } from '@shared/@types/store'
-import { QRCodeSVG } from 'qrcode.react'
 
 type TProps = {
   account?: IAccountState
@@ -28,20 +33,20 @@ export const ReceivePageContent = ({ account }: TProps) => {
   }
 
   return (
-    <section className="flex w-full flex-grow flex-col items-center rounded bg-gray-800 py-10 text-xs">
-      <div className="flex w-full max-w-[32rem] flex-grow flex-col items-center">
+    <section className="flex w-full grow flex-col items-center rounded-sm bg-gray-800 py-10 text-xs">
+      <div className="flex w-full max-w-lg grow flex-col items-center">
         <ActionStep
-          className="rounded bg-gray-700/60 px-4"
+          className="rounded-sm bg-gray-700/60 px-4"
           title={t('receivingAccountTitle')}
-          leftIcon={<TbStepInto aria-hidden={true} />}
+          leftIcon={<TbStepInto aria-hidden />}
         >
           <GreyAccountSelect onSelect={setSelectedAccount} selectedAccount={selectedAccount} />
         </ActionStep>
 
-        <div className="mt-2 flex w-full flex-col items-center rounded bg-gray-700/60 px-3">
+        <div className="mt-2 flex w-full flex-col items-center rounded-sm bg-gray-700/60 px-3">
           <div className="my-2.5 flex w-full justify-between">
             <div className="flex items-center gap-3">
-              <TbStepInto aria-hidden={true} className="h-5 w-5 text-blue" />
+              <TbStepInto aria-hidden className="text-blue h-5 w-5" />
               <span className="font-bold">{t('yourReceivingAddress')}</span>
             </div>
 
@@ -64,7 +69,7 @@ export const ReceivePageContent = ({ account }: TProps) => {
           />
 
           <div
-            className={StyleHelper.mergeStyles('my-6 rounded border-4', {
+            className={StyleHelper.mergeStyles('my-6 rounded-sm border-4', {
               'border-white': selectedAccount?.address,
               'border-gray-700 bg-gray-800 p-4': !selectedAccount?.address,
             })}
@@ -72,7 +77,7 @@ export const ReceivePageContent = ({ account }: TProps) => {
             {selectedAccount?.address ? (
               <QRCodeSVG id="QRCode" size={172} value={selectedAccount?.address} includeMargin />
             ) : (
-              <TbQrcode aria-hidden={true} className="h-[140px] w-[140px] text-green-700" />
+              <TbQrcode aria-hidden className="size-35 text-green-700" />
             )}
           </div>
         </div>

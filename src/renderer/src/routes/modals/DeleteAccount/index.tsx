@@ -1,22 +1,28 @@
 import { useTranslation } from 'react-i18next'
-import TbPencil from '@renderer/assets/images/tb-pencil.svg?react'
-import TbTrash from '@renderer/assets/images/tb-trash.svg?react'
+
 import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'
+
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
+
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
+
 import { SideModalLayout } from '@renderer/layouts/SideModal'
+
+import TbPencil from '@renderer/assets/images/tb-pencil.svg?react'
+import TbTrash from '@renderer/assets/images/tb-trash.svg?react'
+
 import { IAccountState } from '@shared/@types/store'
 
 type TLocationState = {
   account: IAccountState
 }
 
-export const DeleteAccountModal = () => {
+const DeleteAccountModal = () => {
   const { account } = useModalState<TLocationState>()
   const { accounts } = useAccountsSelector()
   const { t } = useTranslation('modals', { keyPrefix: 'deleteAccount' })
@@ -38,15 +44,15 @@ export const DeleteAccountModal = () => {
   }
 
   return (
-    <SideModalLayout heading={t('title')} headingIcon={<TbPencil aria-hidden={true} className="text-neon" />}>
-      <div className="flex h-full w-full flex-col items-center justify-between rounded bg-gray-800 px-4 text-xs">
+    <SideModalLayout heading={t('title')} headingIcon={<TbPencil aria-hidden className="text-neon" />}>
+      <div className="flex h-full w-full flex-col items-center justify-between rounded-sm bg-gray-800 px-4 text-xs">
         <div className="flex flex-col items-center">
-          <div className="flex h-36 w-36 items-center justify-center rounded-full bg-asphalt">
-            <TbTrash aria-hidden={true} className="h-[5rem] w-[5rem] text-pink" />
+          <div className="bg-asphalt flex h-36 w-36 items-center justify-center rounded-full">
+            <TbTrash aria-hidden className="text-pink h-20 w-20" />
           </div>
           <p className="pt-7 text-lg text-white">{t('deleteAccount')}</p>
 
-          <div className="mt-3 flex min-h-[2rem] w-full items-center justify-center rounded bg-gray-300/15 px-3">
+          <div className="mt-3 flex min-h-8 w-full items-center justify-center rounded-sm bg-gray-300/15 px-3">
             <p className="p-2 text-center text-xs">{StringHelper.truncateStringMiddle(account.name, 45)}</p>
           </div>
 
@@ -81,3 +87,5 @@ export const DeleteAccountModal = () => {
     </SideModalLayout>
   )
 }
+
+export default DeleteAccountModal

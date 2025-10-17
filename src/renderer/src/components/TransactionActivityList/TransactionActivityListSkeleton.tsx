@@ -12,9 +12,9 @@ export const TransactionActivityListSkeleton = () => (
         </div>
 
         <div className="ml-20 flex flex-col gap-y-2 pl-2">
-          <Skeleton className="h-[3.3125rem]" />
-          <Skeleton className="h-[3.3125rem]" />
-          <Skeleton className="h-[3.3125rem]" />
+          <Skeleton className="h-13.25" />
+          <Skeleton className="h-13.25" />
+          <Skeleton className="h-13.25" />
         </div>
       </div>
     ))}

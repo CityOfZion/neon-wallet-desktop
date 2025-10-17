@@ -1,10 +1,13 @@
 import { useTranslation } from 'react-i18next'
-import AppStore from '@renderer/assets/images/appstore.svg?react'
-import PlayStore from '@renderer/assets/images/playstore.png'
-import { MOBILE_APP_APPSTORE_LINK, MOBILE_APP_PLAYSTORE_LINK } from '@renderer/constants/urls'
+
 import { SettingsLayout } from '@renderer/layouts/Settings'
 
-export const SettingsMobileApp = () => {
+import AppStore from '@renderer/assets/images/appstore.svg?react'
+import PlayStore from '@renderer/assets/images/playstore.png'
+
+import { MOBILE_APP_APPSTORE_LINK, MOBILE_APP_PLAYSTORE_LINK } from '@renderer/constants/urls'
+
+const SettingsMobileApp = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'settings.settingsMobileApp' })
 
   const appstoreClick = () => {
@@ -24,13 +27,15 @@ export const SettingsMobileApp = () => {
           <span>{t('descriptionLine2')}</span>
         </div>
         <div className="flex items-center">
-          <AppStore className="h-[3rem] w-[10rem] cursor-pointer" onClick={appstoreClick} />
+          <AppStore className="h-12 w-40 cursor-pointer" onClick={appstoreClick} />
           <div className="mx-5 flex h-12 w-5 justify-center">
             <div className="h-full w-px bg-gray-300/30" />
           </div>
-          <img src={PlayStore} className="w-[11rem] cursor-pointer" onClick={playstoreClick} />
+          <img src={PlayStore} className="w-44 cursor-pointer" onClick={playstoreClick} />
         </div>
       </div>
     </SettingsLayout>
   )
 }
+
+export default SettingsMobileApp

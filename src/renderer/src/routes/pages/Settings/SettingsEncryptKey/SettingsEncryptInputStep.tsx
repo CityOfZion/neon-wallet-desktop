@@ -10,10 +10,10 @@ export const SettingsEncryptInputStep = ({ step, description, withLine = true, .
   return (
     <div className="flex flex-col gap-4">
       <div className="flex gap-4">
-        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-blue text-1xs text-gray-900">
+        <span className="bg-blue text-1xs flex h-5 w-5 items-center justify-center rounded-full text-gray-900">
           {step}
         </span>
-        <span className="text-red-500 text-xs">{description}</span>
+        <span className="text-xs text-red-500">{description}</span>
       </div>
 
       <div className="flex gap-4">

@@ -1,13 +1,17 @@
 import { ComponentProps } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
-import MdArrowBack from '@renderer/assets/images/md-arrow-back.svg?react'
-import NeonWalletFull from '@renderer/assets/images/neon-wallet-full.svg?react'
+
+import { useLocation, useNavigate } from 'react-router'
+
 import { IconButton } from '@renderer/components/IconButton'
+
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
-type Props = { bigger?: boolean; heading: string; withBackButton?: boolean } & ComponentProps<'div'>
+import MdArrowBack from '@renderer/assets/images/md-arrow-back.svg?react'
+import NeonWalletFull from '@renderer/assets/images/neon-wallet-full.svg?react'
 
-export const WelcomeLayout = ({ bigger, children, heading, withBackButton, className, ...props }: Props) => {
+type Props = { heading: string; withBackButton?: boolean } & ComponentProps<'div'>
+
+export const WelcomeLayout = ({ children, heading, withBackButton, className, ...props }: Props) => {
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -16,27 +20,27 @@ export const WelcomeLayout = ({ bigger, children, heading, withBackButton, class
   }
 
   return (
-    <div className="flex h-screen-minus-drag-region w-screen items-center justify-center bg-asphalt">
-      <div
-        className={StyleHelper.mergeStyles(
-          'relative flex h-full max-h-[38.375rem] w-full flex-col items-center rounded bg-gray-800 px-16 pb-10 pt-11',
-          { 'max-w-[58.125rem]': bigger, 'max-w-[32rem]': !bigger },
-          className
-        )}
-        {...props}
-      >
-        {withBackButton && location.key !== 'default' && (
-          <IconButton
-            icon={<MdArrowBack aria-hidden={true} />}
-            className="absolute left-5 top-5"
-            size="md"
-            onClick={handleBack}
-          />
-        )}
-        <NeonWalletFull />
-        <h1 className="mt-6 text-2xl text-white">{heading}</h1>
-        {children}
-      </div>
+    <div
+      className={StyleHelper.mergeStyles(
+        'flex h-full w-full max-w-lg flex-col items-center overflow-y-auto px-16 py-10',
+        className
+      )}
+      {...props}
+    >
+      {withBackButton && location.key !== 'default' && (
+        <IconButton
+          icon={<MdArrowBack aria-hidden />}
+          className="absolute top-5 left-5"
+          size="md"
+          onClick={handleBack}
+        />
+      )}
+
+      <NeonWalletFull className="min-h-14" />
+
+      <h1 className="mt-6 text-2xl text-white">{heading}</h1>
+
+      {children}
     </div>
   )
 }

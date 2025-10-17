@@ -1,9 +1,12 @@
 import { ComponentProps, ReactNode } from 'react'
 import { createPortal } from 'react-dom'
+
+import { motion } from 'motion/react'
 import { useHotkeys } from 'react-hotkeys-hook'
+
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+
 import { useModalHistories, useModalNavigate } from '@renderer/hooks/useModalRouter'
-import { motion } from 'framer-motion'
 
 export type TModalContainerProps = {
   children: ReactNode
@@ -24,12 +27,12 @@ export const ModalContent = ({ children, className }: TModalContainerProps) => {
   return (
     <div
       className={StyleHelper.mergeStyles(
-        'fixed left-0 top-drag-region z-[1000] h-screen-minus-drag-region w-screen overflow-hidden',
+        'fixed top-[var(--drag-region-height)] left-0 z-1000 h-[var(--height-screen-minus-drag-region)] w-full overflow-hidden',
         className
       )}
     >
       <motion.div
-        className="absolute left-0 top-0 h-full w-full bg-gray-900/50 backdrop-blur-sm"
+        className="absolute top-0 left-0 h-full w-full bg-gray-900/50 backdrop-blur-xs"
         initial={{ opacity: 0 }}
         transition={{ duration: 0.1 }}
         animate={{ opacity: 1 }}

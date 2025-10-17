@@ -1,9 +1,13 @@
 import { useLayoutEffect } from 'react'
+
+import { motion, useAnimate } from 'motion/react'
 import { useTranslation } from 'react-i18next'
+
 import { Accordion } from '@renderer/components/Accordion'
+
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
+
 import { IAccountState } from '@shared/@types/store'
-import { motion, useAnimate } from 'framer-motion'
 
 import { BuyAndSellTokensAccordionWalletItem } from './BuyAndSellTokensAccordionWalletItem'
 
@@ -44,7 +48,7 @@ export const BuyAndSellTokensAccordionAccounts = ({ isOpened, account }: TProps)
       ref={scope}
       className="absolute right-0 -mr-4 h-full w-full overflow-y-auto border-l border-gray-300/15 bg-gray-900 p-4 shadow-[-5px_0px_35px_0px_rgba(26,32,38,0.4)]"
     >
-      <h3 className="text-xs uppercase text-gray-300">{t('title')}</h3>
+      <h3 className="text-xs text-gray-300 uppercase">{t('title')}</h3>
 
       <Accordion.Root
         className="mt-3 flex flex-col gap-3"

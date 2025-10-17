@@ -1,16 +1,23 @@
-import { Fragment, useMemo, useState } from 'react'
+import { Fragment, type JSX, useMemo, useState } from 'react'
+
 import { useTranslation } from 'react-i18next'
-import MdCheck from '@renderer/assets/images/md-check.svg?react'
+
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { Button } from '@renderer/components/Button'
 import { Select } from '@renderer/components/Select'
 import { Separator } from '@renderer/components/Separator'
+
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
+
 import { SideModalLayout } from '@renderer/layouts/SideModal'
+
+import MdCheck from '@renderer/assets/images/md-check.svg?react'
+
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { IAccountState, IWalletState } from '@shared/@types/store'
 
@@ -22,7 +29,7 @@ type TLocationState = {
   blockchain?: TBlockchainServiceKey
 }
 
-export const SelectAccountModal = () => {
+const SelectAccountModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'selectAccount' })
   const { t: tCommon } = useTranslation('common')
 
@@ -107,10 +114,10 @@ export const SelectAccountModal = () => {
       </Select.Root>
 
       {selectedWallet && (
-        <section className="mt-5 flex min-h-0 w-full flex-grow flex-col items-center text-sm">
+        <section className="mt-5 flex min-h-0 w-full grow flex-col items-center text-sm">
           <p className="w-full pl-[0.2em] text-left">{t('yourAccounts')}</p>
 
-          <ul className="mb-5 mt-2 flex h-full min-h-0 w-full flex-col overflow-y-auto">
+          <ul className="mt-2 mb-5 flex h-full min-h-0 w-full flex-col overflow-y-auto">
             {selectedWalletAccounts.length <= 0 ? (
               <p className="mt-5 text-gray-300">{t('noAccounts')}</p>
             ) : (
@@ -118,15 +125,11 @@ export const SelectAccountModal = () => {
                 <li key={account.id}>
                   <button
                     aria-selected={selectedAccount?.id === account.id}
-                    className="flex w-full cursor-pointer items-center justify-between gap-x-4 border-l-2 border-transparent p-2.5 pl-4 transition-colors hover:border-l-neon hover:bg-asphalt aria-selected:border-l-neon aria-selected:bg-asphalt"
+                    className="hover:border-l-neon hover:bg-asphalt aria-selected:border-l-neon aria-selected:bg-asphalt flex w-full cursor-pointer items-center justify-between gap-x-4 border-l-2 border-transparent p-2.5 pl-4 transition-colors"
                     onClick={handleSelectAccount.bind(null, account)}
                   >
                     <div className="flex min-w-0 items-center gap-x-4">
-                      <BlockchainIcon
-                        blockchain={account.blockchain}
-                        type="gray"
-                        className="min-h-[1rem] min-w-[1rem]"
-                      />
+                      <BlockchainIcon blockchain={account.blockchain} type="gray" className="min-h-4 min-w-4" />
                       <div className="flex flex-col text-left">
                         <span className="truncate text-sm text-white">{account.name}</span>
                         <span className="truncate text-xs text-gray-300">
@@ -136,7 +139,7 @@ export const SelectAccountModal = () => {
                     </div>
 
                     {selectedAccount?.id === account.id && (
-                      <MdCheck aria-hidden={true} className="h-5 min-h-[1.25rem] w-5 min-w-[1.25rem] text-neon" />
+                      <MdCheck aria-hidden className="text-neon h-5 min-h-5 w-5 min-w-5" />
                     )}
                   </button>
 
@@ -158,3 +161,5 @@ export const SelectAccountModal = () => {
     </SideModalLayout>
   )
 }
+
+export default SelectAccountModal

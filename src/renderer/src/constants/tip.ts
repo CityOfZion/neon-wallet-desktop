@@ -1,12 +1,13 @@
 import { BSBigNumberHelper } from '@cityofzion/blockchain-service'
-import { Token } from '@cityofzion/blockchain-service'
+import { TBSToken } from '@cityofzion/blockchain-service'
 import { BSNeoLegacyConstants } from '@cityofzion/bs-neo-legacy'
 import { BSNeo3Constants } from '@cityofzion/bs-neo3'
+
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 
 type TTipConfigBlockchainData = {
   address: string
-  token: Token
+  token: TBSToken
   minBn: BigNumber
 }
 

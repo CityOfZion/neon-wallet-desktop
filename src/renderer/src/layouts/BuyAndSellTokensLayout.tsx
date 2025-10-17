@@ -1,20 +1,26 @@
 import { ComponentProps, Dispatch, Fragment, ReactNode, useState } from 'react'
+
 import { Trans, useTranslation } from 'react-i18next'
-import MdInfoOutline from '@renderer/assets/images/md-info-outline.svg?react'
-import MdLaunch from '@renderer/assets/images/md-launch.svg?react'
-import TbChevronDown from '@renderer/assets/images/tb-chevron-down.svg?react'
-import TbChevronUp from '@renderer/assets/images/tb-chevron-up.svg?react'
+import { match } from 'ts-pattern'
+
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Button } from '@renderer/components/Button'
 import { Link } from '@renderer/components/Link'
 import { Loader } from '@renderer/components/Loader'
 import { Separator } from '@renderer/components/Separator'
 import { Tabs } from '@renderer/components/Tabs'
-import { DISCORD_LINK } from '@renderer/constants/urls'
+
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+
+import MdInfoOutline from '@renderer/assets/images/md-info-outline.svg?react'
+import MdLaunch from '@renderer/assets/images/md-launch.svg?react'
+import TbChevronDown from '@renderer/assets/images/tb-chevron-down.svg?react'
+import TbChevronUp from '@renderer/assets/images/tb-chevron-up.svg?react'
+
+import { DISCORD_LINK } from '@renderer/constants/urls'
 import { IAccountState } from '@shared/@types/store'
-import { match } from 'ts-pattern'
 
 import { BuyAndSellTokensScreenType } from '../routes/pages/BuyAndSellTokens'
 import { BuyAndSellTokensAccordionAccounts } from '../routes/pages/BuyAndSellTokens/BuyAndSellTokensAccordionAccounts'
@@ -72,19 +78,19 @@ export const BuyAndSellTokensLayout = ({
 
   return (
     <section
-      className={StyleHelper.mergeStyles('flex min-h-0 flex-grow rounded bg-gray-800', { hidden: hidden })}
+      className={StyleHelper.mergeStyles('flex min-h-0 grow rounded-sm bg-gray-800', { hidden: hidden })}
       {...props}
     >
-      <div className="flex w-[27%] max-w-[22rem] flex-col border-r border-gray-300/15 bg-gray-900/50 px-4">
+      <div className="flex w-[27%] max-w-88 flex-col border-r border-gray-300/15 bg-gray-900/50 px-4">
         <div className="flex h-12 items-center gap-2.5">
-          <MdInfoOutline aria-hidden={true} className="h-6 w-6 text-green" />
+          <MdInfoOutline aria-hidden className="text-green size-6" />
 
           <h2 className="my-3 text-sm text-white">{t('howWorks.title')}</h2>
         </div>
 
         <Separator />
 
-        <p className="mb-5 mt-7 text-xs font-semibold text-white">{t('howWorks.description')}</p>
+        <p className="mt-7 mb-5 text-xs font-semibold text-white">{t('howWorks.description')}</p>
 
         <Separator containerClassName="mb-5" />
 
@@ -110,7 +116,7 @@ export const BuyAndSellTokensLayout = ({
               </p>
 
               <AlertErrorBanner
-                className="mt-6 gap-3 bg-magenta-700/50 p-3"
+                className="bg-magenta-700/50 mt-6 gap-3 p-3"
                 message={t('processes.buyTokens.alert')}
                 messageClassName="font-normal text-xs leading-4"
                 iconClassName="self-start"
@@ -138,7 +144,7 @@ export const BuyAndSellTokensLayout = ({
               </p>
 
               <AlertErrorBanner
-                className="mt-6 gap-3 bg-magenta-700/50 p-3"
+                className="bg-magenta-700/50 mt-6 gap-3 p-3"
                 message={
                   <Trans t={t} i18nKey="processes.sellTokens.alert">
                     start
@@ -155,7 +161,7 @@ export const BuyAndSellTokensLayout = ({
 
         <p className="mt-5 text-xs text-white">{t('processes.all.observation')}</p>
 
-        <div className="mt-7 flex w-full flex-grow items-end">
+        <div className="mt-7 flex w-full grow items-end">
           <Link
             label={t('buttons.help')}
             to={DISCORD_LINK}
@@ -167,12 +173,12 @@ export const BuyAndSellTokensLayout = ({
             flat
             wide
             iconsOnEdge={false}
-            rightIcon={<MdLaunch aria-hidden={true} />}
+            rightIcon={<MdLaunch aria-hidden />}
           />
         </div>
       </div>
 
-      <div className="flex min-h-0 flex-grow flex-col items-center px-4">
+      <div className="flex min-h-0 grow flex-col items-center px-4">
         <div className="flex w-full flex-col">
           <div className="flex h-12 w-full justify-between gap-x-4">
             <div className="flex w-72 items-center gap-x-2">{leftActions}</div>
@@ -203,7 +209,7 @@ export const BuyAndSellTokensLayout = ({
                 aria-expanded={isAccordionAccountsOpened}
                 aria-controls="buy-and-sell-tokens-accordion-accounts"
                 aria-label={t(`labels.walletsAndAccounts.${isAccordionAccountsOpened ? 'opened' : 'closed'}`)}
-                className={StyleHelper.mergeStyles('rounded px-3 py-1.5 transition-colors', {
+                className={StyleHelper.mergeStyles('rounded-sm px-3 py-1.5 transition-colors', {
                   'bg-gray-300/15': !isLoading && isAccordionAccountsOpened,
                 })}
                 textClassName="font-normal"
@@ -212,9 +218,9 @@ export const BuyAndSellTokensLayout = ({
                 disabled={isLoading}
                 rightIcon={
                   isAccordionAccountsOpened ? (
-                    <TbChevronUp aria-hidden={true} className="h-5 min-h-5 w-5 min-w-5" />
+                    <TbChevronUp aria-hidden className="h-5 min-h-5 w-5 min-w-5" />
                   ) : (
-                    <TbChevronDown aria-hidden={true} className="h-5 min-h-5 w-5 min-w-5" />
+                    <TbChevronDown aria-hidden className="h-5 min-h-5 w-5 min-w-5" />
                   )
                 }
                 onClick={toggleAccordionAccounts}
@@ -225,10 +231,10 @@ export const BuyAndSellTokensLayout = ({
           <Separator />
         </div>
 
-        {isLoading && <Loader className="mt-6 h-14 w-14 text-neon" />}
+        {isLoading && <Loader className="text-neon mt-6 h-14 w-14" />}
 
         <div
-          className={StyleHelper.mergeStyles('relative flex min-h-0 w-full flex-grow justify-between', {
+          className={StyleHelper.mergeStyles('relative flex min-h-0 w-full grow justify-between', {
             hidden: isLoading,
           })}
         >

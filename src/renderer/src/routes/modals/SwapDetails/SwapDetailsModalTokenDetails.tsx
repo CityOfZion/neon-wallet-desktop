@@ -1,5 +1,7 @@
 import { useTranslation } from 'react-i18next'
+
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
+
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 
 type TProps = {
@@ -19,7 +21,7 @@ export const SwapDetailsModalTokenDetails = ({ amount, blockchain, symbol }: TPr
         {blockchain && <span className="text-gray-100"> | {commonT(`blockchain.${blockchain}`)}</span>}
       </span>
 
-      <span className="flex-grow text-end">{amount}</span>
+      <span className="grow text-end">{amount}</span>
     </div>
   )
 }

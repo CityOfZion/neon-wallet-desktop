@@ -1,13 +1,19 @@
-import { useTranslation } from 'react-i18next'
-import { useOutletContext } from 'react-router-dom'
 import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
-import TbPlugX from '@renderer/assets/images/tb-plug-x.svg?react'
-import TbPlus from '@renderer/assets/images/tb-plus.svg?react'
+import { useTranslation } from 'react-i18next'
+import { useOutletContext } from 'react-router'
+
 import { Button } from '@renderer/components/Button'
 import { ConnectionsTable } from '@renderer/components/ConnectionsTable'
+
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
+
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+
 import { AccountDetailsLayout } from '@renderer/layouts/AccountDetailsLayout'
+
+import TbPlugX from '@renderer/assets/images/tb-plug-x.svg?react'
+import TbPlus from '@renderer/assets/images/tb-plus.svg?react'
+
 import { IAccountState } from '@shared/@types/store'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 
@@ -15,7 +21,7 @@ type TOutletContext = {
   account: IAccountState
 }
 
-export const AccountConnections = () => {
+const AccountConnections = () => {
   const { sessions } = useWalletConnectWallet()
   const { modalNavigateWrapper } = useModalNavigate()
 
@@ -38,7 +44,7 @@ export const AccountConnections = () => {
           <Button
             variant="text"
             label={t('newConnection')}
-            leftIcon={<TbPlus aria-hidden={true} />}
+            leftIcon={<TbPlus aria-hidden />}
             flat
             onClick={modalNavigateWrapper('dapp-connection', { state: { account } })}
           />
@@ -46,7 +52,7 @@ export const AccountConnections = () => {
           <Button
             variant="text"
             label={t('disconnectAll')}
-            leftIcon={<TbPlugX aria-hidden={true} />}
+            leftIcon={<TbPlugX aria-hidden />}
             flat
             colorSchema="error"
             disabled={filteredSessions.length === 0}
@@ -60,3 +66,5 @@ export const AccountConnections = () => {
     </AccountDetailsLayout>
   )
 }
+
+export default AccountConnections

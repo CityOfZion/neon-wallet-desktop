@@ -1,9 +1,12 @@
 import { forwardRef } from 'react'
-import { useTranslation } from 'react-i18next'
+
 import { TSession } from '@cityofzion/wallet-connect-sdk-wallet-react'
-import { Table } from '@renderer/components/Table'
-import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
+import { useTranslation } from 'react-i18next'
+
+import { Table } from '@renderer/components/Table'
+
+import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import { useColumns } from './columns'
 
@@ -30,7 +33,7 @@ export const ConnectionsTable = forwardRef<HTMLDivElement, TConnectionsTableProp
       <div
         ref={ref}
         className={StyleHelper.mergeStyles(
-          'flex min-h-0 w-full min-w-0 flex-grow flex-col overflow-auto pr-1 text-xs',
+          'flex min-h-0 w-full min-w-0 grow flex-col overflow-auto pr-1 text-xs',
           className
         )}
       >

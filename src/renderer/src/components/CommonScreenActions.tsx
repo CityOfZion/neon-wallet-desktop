@@ -1,5 +1,13 @@
 import { ComponentProps } from 'react'
+
 import { useTranslation } from 'react-i18next'
+
+import { StyleHelper } from '@renderer/helpers/StyleHelper'
+import { TestHelper } from '@renderer/helpers/TestHelper'
+
+import { useCurrentLoginSessionSelector, useHasNewNotificationsSelector } from '@renderer/hooks/useAuthSelector'
+import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+
 import MdMoreVert from '@renderer/assets/images/md-more-vert.svg?react'
 import TbBell from '@renderer/assets/images/tb-bell.svg?react'
 import TbDeviceUsb from '@renderer/assets/images/tb-device-usb.svg?react'
@@ -8,11 +16,8 @@ import TbHelp from '@renderer/assets/images/tb-help.svg?react'
 import TbMessage from '@renderer/assets/images/tb-message.svg?react'
 import TbPlus from '@renderer/assets/images/tb-plus.svg?react'
 import TbSearch from '@renderer/assets/images/tb-search.svg?react'
+
 import { DISCORD_LINK } from '@renderer/constants/urls'
-import { StyleHelper } from '@renderer/helpers/StyleHelper'
-import { TestHelper } from '@renderer/helpers/TestHelper'
-import { useCurrentLoginSessionSelector, useHasNewNotificationsSelector } from '@renderer/hooks/useAuthSelector'
-import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 
 import { ActionPopover } from './ActionPopover'
 import { Button } from './Button'
@@ -54,7 +59,7 @@ export const CommonScreenActions = ({ children, className, ...props }: TProps) =
               {hasNewNotifications && (
                 <div
                   aria-label={t('unreadNotificationsIconLabel')}
-                  className="absolute right-0.5 top-0.5 box-content h-1 w-1 rounded-full border-2 border-asphalt bg-pink"
+                  className="border-asphalt bg-pink absolute top-0.5 right-0.5 box-content h-1 w-1 rounded-full border-2"
                 />
               )}
             </div>
@@ -66,7 +71,7 @@ export const CommonScreenActions = ({ children, className, ...props }: TProps) =
           <ActionPopover.Trigger asChild>
             <IconButton
               text={t('helpButtonLabel')}
-              className="min-w-16 hover:bg-yellow/15 hover:enabled:bg-yellow/15 aria-expanded:bg-yellow/15 aria-expanded:hover:bg-yellow/15 aria-selected:bg-yellow/15 aria-selected:hover:bg-yellow/15"
+              className="hover:bg-yellow/15 hover:enabled:bg-yellow/15 aria-expanded:bg-yellow/15 aria-expanded:hover:bg-yellow/15 aria-selected:bg-yellow/15 aria-selected:hover:bg-yellow/15 min-w-16"
               colorSchema="yellow"
               size="md"
               fullHeight
@@ -79,7 +84,7 @@ export const CommonScreenActions = ({ children, className, ...props }: TProps) =
             side="bottom"
             color="yellow"
             sideOffset={-10}
-            contentClassName="bg-gray-900/60 backdrop-blur-sm"
+            contentClassName="bg-gray-900/60 backdrop-blur-xs"
             {...TestHelper.buildTestObject('help-content')}
           >
             <ActionPopover.Item
@@ -138,7 +143,7 @@ export const CommonScreenActions = ({ children, className, ...props }: TProps) =
 
           <ActionPopover.Item
             actionPopoverItemType="button"
-            leftIcon={<TbDeviceUsb aria-hidden className="rotate-45 text-neon" />}
+            leftIcon={<TbDeviceUsb aria-hidden className="text-neon rotate-45" />}
             label={t('connectButtonLabel')}
             colorSchema="white"
             onClick={modalNavigateWrapper('connect-hardware-wallet')}

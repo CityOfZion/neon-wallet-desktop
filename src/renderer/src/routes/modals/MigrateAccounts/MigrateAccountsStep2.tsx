@@ -1,14 +1,18 @@
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
-import MdLooksTwo from '@renderer/assets/images/md-looks-two.svg?react'
+import { useNavigate } from 'react-router'
+
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
+
 import { TUseBackupOrMigrateActionsData, useBackupOrMigrate } from '@renderer/hooks/useBackupOrMigrate'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+
 import { MigrateAccountsModalLayout } from '@renderer/layouts/MigrateAccountsModalLayout'
 
-export const MigrateAccountsStep2Modal = () => {
+import MdLooksTwo from '@renderer/assets/images/md-looks-two.svg?react'
+
+const MigrateAccountsStep2Modal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'migrateWallets.step2' })
   const { actionData, actionState, handleAct, handleBrowse } = useBackupOrMigrate()
   const navigate = useNavigate()
@@ -22,14 +26,14 @@ export const MigrateAccountsStep2Modal = () => {
       return
     }
 
-    navigate('/app/settings/security/recover-wallet')
+    navigate('/settings/security/recover-wallet')
     modalNavigate('confirm-password-recover', { state: { data }, replace: true })
   }
 
   return (
-    <MigrateAccountsModalLayout currentStep={2} stepIcon={<MdLooksTwo aria-hidden={true} />} stepTitle={t('title')}>
+    <MigrateAccountsModalLayout currentStep={2} stepIcon={<MdLooksTwo aria-hidden />} stepTitle={t('title')}>
       <form className="flex h-full w-full flex-col" onSubmit={handleAct(handleSubmit)}>
-        <div className="flex flex-grow flex-col items-center">
+        <div className="flex grow flex-col items-center">
           <p>{t('description')}</p>
 
           <Input compacted label={t('inputLabel')} value={actionData.path ?? ''} readOnly containerClassName="mt-5" />
@@ -44,3 +48,5 @@ export const MigrateAccountsStep2Modal = () => {
     </MigrateAccountsModalLayout>
   )
 }
+
+export default MigrateAccountsStep2Modal

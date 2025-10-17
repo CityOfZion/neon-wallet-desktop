@@ -2,7 +2,6 @@ import { useTranslation } from 'react-i18next'
 
 import { SuccessModalContent } from '../SuccessModalContent'
 import { TDappPermissionComponentProps } from '..'
-
 import { Fee } from './Fee'
 import { EthereumRawJsonDappPermission } from './RawJsonDappPermission'
 

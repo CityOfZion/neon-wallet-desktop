@@ -1,10 +1,14 @@
+import type { JSX } from 'react'
 import { useTranslation } from 'react-i18next'
+
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
+
 import { useActions } from '@renderer/hooks/useActions'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useModalState } from '@renderer/hooks/useModalRouter'
+
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 type TFormData = {
@@ -17,7 +21,7 @@ type TLocationState = {
   onSubmitPassword: () => void
 }
 
-export const ConfirmPasswordExportModal = () => {
+const ConfirmPasswordExportModal = () => {
   const { onSubmitPassword, title, icon } = useModalState<TLocationState>()
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const { t } = useTranslation('modals', { keyPrefix: 'confirmPasswordExport' })
@@ -48,7 +52,7 @@ export const ConfirmPasswordExportModal = () => {
     <SideModalLayout heading={title} headingIcon={icon} contentClassName="flex flex-col">
       <p className="mb-5 text-xs">{t('description')}</p>
 
-      <form className="flex flex-grow flex-col justify-between" onSubmit={handleAct(handleSubmit)}>
+      <form className="flex grow flex-col justify-between" onSubmit={handleAct(handleSubmit)}>
         <div>
           <Input
             placeholder={t('inputPlaceholder')}
@@ -77,3 +81,5 @@ export const ConfirmPasswordExportModal = () => {
     </SideModalLayout>
   )
 }
+
+export default ConfirmPasswordExportModal

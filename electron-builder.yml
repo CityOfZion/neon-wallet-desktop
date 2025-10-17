@@ -13,13 +13,16 @@ asarUnpack:
   - resources/**
 win:
   artifactName: NeonWallet-${version}-win.${ext}
-  publisherName:
-    - 'COZ, Inc.'
+
   target:
     - target: nsis
       arch:
         - x64
-  sign: './customSign.js'
+  signtoolOptions:
+    publisherName:
+    - 'COZ, Inc.'
+    sign: './customSign.js'
+
 nsis:
   shortcutName: ${productName}
   uninstallDisplayName: ${productName}

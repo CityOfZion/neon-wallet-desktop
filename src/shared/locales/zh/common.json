@@ -53,9 +53,6 @@
     "mainnet": "主网",
     "testnet": "测试网"
   },
-  "ledger": {
-    "requestingPermission": "请在您的 Ledger 设备上确认"
-  },
   "errors": {
     "noEncryptedKey": "此账户没有加密密钥: {{address}}",
     "blockchainIsNotClaimable": "该账户区块链不可领取: {{address}} {{blockchain}}",

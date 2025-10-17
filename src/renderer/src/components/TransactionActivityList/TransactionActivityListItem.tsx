@@ -1,7 +1,9 @@
 import { Separator } from '@renderer/components/Separator'
+
 import { useMountUnsafe } from '@renderer/hooks/useMount'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useMigrationNeo3Selector } from '@renderer/hooks/useUtilitySelector'
+
 import { thunks } from '@renderer/store/thunks'
 import { TFullTransactionsItem } from '@shared/@types/hooks'
 
@@ -33,7 +35,7 @@ export const TransactionActivityListItem = ({ item }: TProps) => {
           {events.map((event, index, array) => (
             <li
               key={`${event.eventType}-${event.methodName}-${event.eventType === 'nft' ? event.collectionHash : event.contractHash}-${blockchain}-${index}`}
-              className="flex h-[3.3125rem] max-h-[3.3125rem] min-h-[3.3125rem] w-full flex-col justify-center"
+              className="flex h-13.25 max-h-13.25 min-h-13.25 w-full flex-col justify-center"
             >
               <TransactionActivityListEvent event={event} />
 

@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useRef } from 'react'
+
+import { BSBigNumberHelper, isCalculableFee, TIntentTransferParam } from '@cityofzion/blockchain-service'
+import { lte } from 'lodash'
+import { AnimatePresence } from 'motion/react'
 import { useTranslation } from 'react-i18next'
-import { BSBigNumberHelper, IntentTransferParam, isCalculableFee } from '@cityofzion/blockchain-service'
-import MdArrowForward from '@renderer/assets/images/md-arrow-forward.svg?react'
-import TbPlus from '@renderer/assets/images/tb-plus.svg?react'
-import TbStepOut from '@renderer/assets/images/tb-step-out.svg?react'
+
 import { ActionStep } from '@renderer/components/ActionStep'
 import { ActionStepSeparator } from '@renderer/components/ActionStepSeparator'
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
@@ -12,13 +13,13 @@ import { Button } from '@renderer/components/Button'
 import { GreyAccountSelect } from '@renderer/components/GreyAccountSelect'
 import { Separator } from '@renderer/components/Separator'
 import { TransactionFeeActionStep } from '@renderer/components/TransactionFeeActionStep'
-import { TIP_CONFIG } from '@renderer/constants/tip'
+
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { DateHelper } from '@renderer/helpers/DateHelper'
 import { ExchangeHelper } from '@renderer/helpers/ExchangeHelper'
-import { NetworkHelper } from '@renderer/helpers/NetworkHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
@@ -28,13 +29,18 @@ import { useHardwareWalletActions } from '@renderer/hooks/useHardwareWallet'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useSelectedNetworkByBlockchainSelector } from '@renderer/hooks/useSettingsSelector'
-import { bsAggregator } from '@renderer/libs/blockchainService'
+
 import { SendTip } from '@renderer/routes/pages/Send/SendTip'
+
+import MdArrowForward from '@renderer/assets/images/md-arrow-forward.svg?react'
+import TbPlus from '@renderer/assets/images/tb-plus.svg?react'
+import TbStepOut from '@renderer/assets/images/tb-step-out.svg?react'
+
+import { TIP_CONFIG } from '@renderer/constants/tip'
+import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { thunks } from '@renderer/store/thunks'
 import { TUseTransactionsTransfer } from '@shared/@types/hooks'
 import { IAccountState } from '@shared/@types/store'
-import { AnimatePresence } from 'framer-motion'
-import { lte } from 'lodash'
 
 import { SendErrorModalContent } from './SendErrorModalContent'
 import { SendRecipient, TSendRecipient } from './SendRecipient'
@@ -97,7 +103,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
     service && tipConfig ? [{ blockchain: service.name, tokens: [tipConfig.token] }] : []
   )
 
-  const isMainnetNetwork = service ? NetworkHelper.isMainnet(service.name, networkByBlockchain[service.name]) : false
+  const isMainnetNetwork = service ? networkByBlockchain[service.name].type === 'mainnet' : false
   const isFeeInvalid = service ? isCalculableFee(service) && (!actionData.fee || !!actionState.errors.fee) : false
   const isCalculatingMaxAmount = isDisabledMaxAmountRef.current || actionData.isLoadingMaxAmount
   const isCalculatingForm = isCalculatingMaxAmount || actionData.isCalculatingFee
@@ -116,7 +122,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
     )
       return
 
-    const intents: IntentTransferParam[] = actionData.recipients.map(recipient => ({
+    const intents: TIntentTransferParam[] = actionData.recipients.map(recipient => ({
       amount: recipient.amount!,
       receiverAddress: recipient.address!,
       tokenHash: recipient.token!.token.hash,
@@ -267,7 +273,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
 
           return { receiverAddress, tokenHash, amount, tokenDecimals: currentRecipient.token!.token.decimals }
         })
-        .filter(recipient => recipient !== null) as IntentTransferParam[]
+        .filter(recipient => recipient !== null) as TIntentTransferParam[]
 
       const key = await window.api.sendAsync('decryptBasedEncryptedSecret', {
         value: encryptedKey,
@@ -365,7 +371,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
       modalNavigate('success', {
         state: {
           heading: t('title'),
-          headingIcon: <TbStepOut aria-hidden={true} />,
+          headingIcon: <TbStepOut aria-hidden />,
           subtitle: t('sendSuccess.title'),
           content: <SendSuccessModalContent transactions={transactions} selectedAccount={fields.selectedAccount} />,
         },
@@ -375,7 +381,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
       modalNavigate('error', {
         state: {
           heading: t('title'),
-          headingIcon: <TbStepOut aria-hidden={true} />,
+          headingIcon: <TbStepOut aria-hidden />,
           subtitle: t('sendFail.title'),
           description: t('sendFail.subtitle'),
           content: <SendErrorModalContent error={error.message} />,
@@ -563,16 +569,16 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
   }, [account])
 
   return (
-    <section className="flex min-h-0 w-full flex-grow flex-col items-center rounded bg-gray-800 px-4 text-sm">
-      <h2 className="mb-3 mt-4 w-full text-left text-white">{t('subtitle')}</h2>
+    <section className="flex min-h-0 w-full grow flex-col items-center rounded-sm bg-gray-800 px-4 text-sm">
+      <h2 className="mt-4 mb-3 w-full text-left text-white">{t('subtitle')}</h2>
 
       <Separator />
 
-      <div className="my-2 flex min-h-0 w-full max-w-[33.25rem] flex-grow flex-col items-center overflow-auto px-5 py-8">
+      <div className="my-2 flex min-h-0 w-full max-w-133 grow flex-col items-center overflow-auto px-5 py-8">
         <ActionStep
-          className="rounded bg-gray-700/60 px-4"
+          className="rounded-sm bg-gray-700/60 px-4"
           title={t('sourceAccountLabel')}
-          leftIcon={<TbStepOut aria-hidden={true} />}
+          leftIcon={<TbStepOut aria-hidden />}
         >
           <GreyAccountSelect
             onSelect={handleSelectAccount}
@@ -604,7 +610,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
         </div>
 
         <Button
-          leftIcon={<TbPlus aria-hidden={true} />}
+          leftIcon={<TbPlus aria-hidden />}
           label={t('addRecipientButtonLabel')}
           flat
           variant="text"
@@ -615,17 +621,15 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
           onClick={handleAddRecipient}
         />
 
-        {actionData.selectedAccount &&
-          NetworkHelper.isBlockchainEthereumOrBasedOnEthereum(actionData.selectedAccount.blockchain) &&
-          actionData.recipients.length > 1 && (
-            <Banner
-              type="warning"
-              className="mt-2 w-full"
-              message={t('separatelyTransferWarning', {
-                blockchain: commonT(`blockchain.${actionData.selectedAccount.blockchain}`),
-              })}
-            />
-          )}
+        {actionData.selectedAccount && !service?.isMultiTransferSupported && actionData.recipients.length > 1 && (
+          <Banner
+            type="warning"
+            className="mt-2 w-full"
+            message={t('separatelyTransferWarning', {
+              blockchain: commonT(`blockchain.${actionData.selectedAccount.blockchain}`),
+            })}
+          />
+        )}
 
         {(!service || (service && isCalculableFee(service))) && (
           <TransactionFeeActionStep
@@ -657,7 +661,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
 
         <Button
           label={commonT('general.continue')}
-          className="mb-4 mt-6 w-full max-w-[16rem]"
+          className="mt-6 mb-4 w-full max-w-[16rem]"
           iconsOnEdge={false}
           loading={actionState.isActing}
           disabled={
@@ -668,7 +672,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
             isCalculatingForm ||
             isFeeInvalid
           }
-          rightIcon={<MdArrowForward aria-hidden={true} />}
+          rightIcon={<MdArrowForward aria-hidden />}
           onClick={handleAct(handleSubmit)}
         />
       </div>

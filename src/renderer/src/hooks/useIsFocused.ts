@@ -19,7 +19,7 @@ export const useIsFocused = <T extends HTMLElement>() => {
 
     return () => {
       element?.removeEventListener('focus', handleFocus)
-      element?.removeEventListener('blur', handleBlur)
+      element?.removeEventListener('blur-sm', handleBlur)
     }
   })
 

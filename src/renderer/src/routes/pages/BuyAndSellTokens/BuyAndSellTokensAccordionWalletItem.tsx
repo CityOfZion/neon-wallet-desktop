@@ -1,11 +1,15 @@
-import WalletIcon from '@renderer/assets/images/wallet-icon.svg?react'
 import { Accordion } from '@renderer/components/Accordion'
 import { Loader } from '@renderer/components/Loader'
 import { Separator } from '@renderer/components/Separator'
 import { Tooltip } from '@renderer/components/Tooltip'
+
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
+
 import { useBalances } from '@renderer/hooks/useBalances'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
+
+import WalletIcon from '@renderer/assets/images/wallet-icon.svg?react'
+
 import { IWalletState } from '@shared/@types/store'
 
 import { BuyAndSellTokensAccordionAccountItem } from './BuyAndSellTokensAccordionAccountItem'
@@ -25,20 +29,20 @@ export const BuyAndSellTokensAccordionWalletItem = ({ wallet }: TProps) => {
   return (
     <Accordion.Item value={id} className="w-full">
       <Accordion.Trigger
-        className="flex items-center justify-between gap-x-2 rounded border-none bg-gray-300/20"
+        className="flex items-center justify-between gap-x-2 rounded-sm border-none bg-gray-300/20"
         iconClassName="text-white"
       >
         <div>
-          <WalletIcon aria-hidden={true} className="stroke-blue" />
+          <WalletIcon aria-hidden className="stroke-blue" />
         </div>
 
-        <h4 className="flex-grow text-left text-xs font-semibold text-white">{wallet.name}</h4>
+        <h4 className="grow text-left text-xs font-semibold text-white">{wallet.name}</h4>
 
         {balances.isLoading ? (
           <Loader className="h-4 w-4 text-gray-300" containerClassName="w-fit" />
         ) : (
           <Tooltip title={total}>
-            <span className="max-w-[100px] truncate whitespace-nowrap text-right text-xs uppercase text-gray-300">
+            <span className="max-w-[100px] truncate text-right text-xs whitespace-nowrap text-gray-300 uppercase">
               {total}
             </span>
           </Tooltip>

@@ -1,4 +1,4 @@
-import { Account } from '@cityofzion/blockchain-service'
+import { TBSAccount } from '@cityofzion/blockchain-service'
 import { TSession } from '@cityofzion/wallet-connect-sdk-wallet-react'
 import { OpenDialogOptions } from 'electron'
 
@@ -53,16 +53,16 @@ export type TMainApiListenersAsync = {
   >
   'hardwareWallet:addAccount': TIpcMainAsyncListener<
     TGetAccountHardwareWalletGenericParams,
-    Account<TBlockchainServiceKey>
+    TBSAccount<TBlockchainServiceKey>
   >
   'hardwareWallet:getAccount': TIpcMainAsyncListener<
     TGetAccountHardwareWalletGenericParams,
-    Account<TBlockchainServiceKey>
+    TBSAccount<TBlockchainServiceKey>
   >
 
   'hardwareWalletByUsb:connect': TIpcMainAsyncListener<
     TConnectHardwareWalletByUsbParams,
-    Account<TBlockchainServiceKey>[]
+    TBSAccount<TBlockchainServiceKey>[]
   >
 }
 

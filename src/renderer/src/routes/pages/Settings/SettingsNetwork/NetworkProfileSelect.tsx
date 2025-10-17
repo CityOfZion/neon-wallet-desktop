@@ -1,10 +1,13 @@
 import { Fragment } from 'react'
+
 import { useTranslation } from 'react-i18next'
+
 import { Select } from '@renderer/components/Select'
-import { StyleHelper } from '@renderer/helpers/StyleHelper'
+
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useNetworkProfilesSelector, useSelectedNetworkProfileSelector } from '@renderer/hooks/useSettingsSelector'
-import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
+
+import { settingsReducerActions } from '@renderer/store/reducers/settings'
 
 export const NetworkProfileSelect = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'settings.settingsNetwork' })
@@ -18,7 +21,7 @@ export const NetworkProfileSelect = () => {
 
   return (
     <Select.Root value={selectedNetworkProfile.id} onValueChange={handleSelect}>
-      <Select.Trigger className={StyleHelper.mergeStyles('max-w-[11.625rem] bg-asphalt')}>
+      <Select.Trigger className="bg-asphalt max-w-46.5">
         <Select.Value placeholder={t('selectProfilePlaceholder')} />
 
         <Select.Icon className="text-neon" />

@@ -1,3 +1,6 @@
+import { safeStorage } from 'electron'
+import crypto from 'node:crypto'
+
 import {
   TDecryptBasedEncryptedSecretParams,
   TDecryptBasedSecretParams,
@@ -5,12 +8,10 @@ import {
   TEncryptBasedSecretParams,
 } from '@shared/@types/ipc'
 import { mainApi } from '@shared/api/main'
-import { safeStorage } from 'electron'
-import crypto from 'node:crypto'
 
 const ALGORITHM = 'aes-192-cbc'
 
-export const encryptBasedOS = (value: string) => {
+function encryptBasedOS(value: string) {
   // When running Playwright on Linux, encryption is not available, which ensures that there will be a key to encrypt
   if (process.platform === 'linux' && !safeStorage.isEncryptionAvailable()) safeStorage.setUsePlainTextEncryption(true)
 
@@ -18,12 +19,12 @@ export const encryptBasedOS = (value: string) => {
   return buffer.toString('base64')
 }
 
-export const decryptBasedOS = (value: string) => {
+function decryptBasedOS(value: string) {
   const buffer = Buffer.from(value, 'base64')
   return safeStorage.decryptString(buffer)
 }
 
-export const encryptBasedSecret = ({ secret, value, options }: TEncryptBasedSecretParams) => {
+function encryptBasedSecret({ secret, value, options }: TEncryptBasedSecretParams) {
   const iv = crypto.randomBytes(16)
 
   let key: Buffer
@@ -38,7 +39,7 @@ export const encryptBasedSecret = ({ secret, value, options }: TEncryptBasedSecr
   return iv.toString('hex') + encrypted
 }
 
-export const decryptBasedSecret = ({ secret, value, options }: TDecryptBasedSecretParams) => {
+function decryptBasedSecret({ secret, value, options }: TDecryptBasedSecretParams) {
   const iv = Buffer.from(value.slice(0, 32), 'hex')
 
   let key: Buffer
@@ -52,11 +53,7 @@ export const decryptBasedSecret = ({ secret, value, options }: TDecryptBasedSecr
   return decipher.update(value.slice(32), 'hex', 'utf8') + decipher.final('utf8')
 }
 
-export const encryptBasedEncryptedSecret = ({
-  value,
-  encryptedSecret,
-  options,
-}: TEncryptBasedEncryptedSecretParams) => {
+function encryptBasedEncryptedSecret({ value, encryptedSecret, options }: TEncryptBasedEncryptedSecretParams) {
   if (!encryptedSecret) {
     return encryptBasedOS(value)
   }
@@ -66,11 +63,7 @@ export const encryptBasedEncryptedSecret = ({
   return encryptBasedOS(encryptedBySecretValue)
 }
 
-export const decryptBasedEncryptedSecret = ({
-  value,
-  encryptedSecret,
-  options,
-}: TDecryptBasedEncryptedSecretParams) => {
+export function decryptBasedEncryptedSecret({ value, encryptedSecret, options }: TDecryptBasedEncryptedSecretParams) {
   if (!encryptedSecret) {
     return decryptBasedOS(value)
   }
@@ -80,9 +73,11 @@ export const decryptBasedEncryptedSecret = ({
   return decryptBasedSecret({ secret, value: decryptedByOSValue, options })
 }
 
-const generateRandomHex = (bytes = 32) => crypto.randomBytes(bytes).toString('hex')
+function generateRandomHex(bytes = 32) {
+  return crypto.randomBytes(bytes).toString('hex')
+}
 
-export function registerEncryptionHandlers() {
+export function setupEncryptionHandlers() {
   mainApi.listenAsync('encryptBasedOS', ({ args }) => {
     return encryptBasedOS(args)
   })

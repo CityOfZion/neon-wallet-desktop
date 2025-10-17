@@ -1,16 +1,23 @@
 import { Fragment } from 'react'
-import { useTranslation } from 'react-i18next'
+
 import { SimpleSwapService } from '@cityofzion/bs-multichain'
-import MdOutlineContentCopy from '@renderer/assets/images/md-outline-content-copy.svg?react'
-import TbList from '@renderer/assets/images/tb-list.svg?react'
+import { useQuery } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
+import { match, P } from 'ts-pattern'
+
 import { IconButton } from '@renderer/components/IconButton'
 import { Loader } from '@renderer/components/Loader'
+
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+
 import { useModalState } from '@renderer/hooks/useModalRouter'
+
 import { SideModalLayout } from '@renderer/layouts/SideModal'
+
+import MdOutlineContentCopy from '@renderer/assets/images/md-outline-content-copy.svg?react'
+import TbList from '@renderer/assets/images/tb-list.svg?react'
+
 import { TSwapRecord } from '@shared/@types/store'
-import { useQuery } from '@tanstack/react-query'
-import { match, P } from 'ts-pattern'
 
 type TState = {
   swapRecord: TSwapRecord
@@ -18,7 +25,7 @@ type TState = {
 
 const swapService = new SimpleSwapService()
 
-export const SwapDetailsLogModal = () => {
+const SwapDetailsLogModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'swapDetailsLog' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'general' })
   const modalState = useModalState<TState>()
@@ -47,11 +54,7 @@ export const SwapDetailsLogModal = () => {
   }
 
   return (
-    <SideModalLayout
-      heading={t('title')}
-      headingIcon={<TbList aria-hidden={true} />}
-      contentClassName="flex flex-col pt-6"
-    >
+    <SideModalLayout heading={t('title')} headingIcon={<TbList aria-hidden />} contentClassName="flex flex-col pt-6">
       {match({ isLoading, log })
         .with({ isLoading: true }, () => <Loader className="h-8 w-8" />)
         .with({ log: P.when(value => !!value && typeof value === 'string') }, () => (
@@ -63,12 +66,12 @@ export const SwapDetailsLogModal = () => {
                 aria-label={tCommon('copy')}
                 size="sm"
                 compacted
-                icon={<MdOutlineContentCopy aria-hidden={true} className="text-neon" />}
+                icon={<MdOutlineContentCopy aria-hidden className="text-neon" />}
                 onClick={handleCopyLogToClipboard}
               />
             </div>
 
-            <div className="mt-4 w-full flex-grow overflow-y-auto whitespace-pre-wrap break-words rounded bg-gray-900/75 p-4">
+            <div className="mt-4 w-full grow overflow-y-auto rounded-sm bg-gray-900/75 p-4 wrap-break-word whitespace-pre-wrap">
               <p className="text-sm text-white">{log}</p>
             </div>
           </Fragment>
@@ -79,3 +82,5 @@ export const SwapDetailsLogModal = () => {
     </SideModalLayout>
   )
 }
+
+export default SwapDetailsLogModal

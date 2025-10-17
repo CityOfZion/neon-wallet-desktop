@@ -1,16 +1,19 @@
 import { forwardRef } from 'react'
-import { StyleHelper } from '@renderer/helpers/StyleHelper'
-import { TUseBalanceOptionShowType } from '@shared/@types/query'
-import { IAccountState } from '@shared/@types/store'
-import { getI18next } from '@shared/libs/i18next'
+
 import { flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
 import { match, P } from 'ts-pattern'
 
+import { StyleHelper } from '@renderer/helpers/StyleHelper'
+
+import { useBalances } from '@renderer/hooks/useBalances'
+
+import { TUseBalanceOptionShowType } from '@shared/@types/query'
+import { IAccountState } from '@shared/@types/store'
+import { getI18next } from '@shared/libs/i18next'
+
 import { Loader } from '../Loader'
 import { Table } from '../Table'
-
 import { useColumns } from './columns'
-import { useData } from './data'
 
 type TProps = {
   accounts: IAccountState[]
@@ -24,10 +27,10 @@ const { t } = getI18next()
 export const TokensTable = forwardRef<HTMLDivElement, TProps>(
   ({ accounts, className, containerClassName, showType = 'active' }, ref) => {
     const columns = useColumns(showType)
-    const { data, isLoading } = useData(accounts, showType)
+    const { groupedTokenBalances, isLoading } = useBalances(accounts, { showType })
 
     const table = useReactTable({
-      data,
+      data: groupedTokenBalances,
       columns,
       getCoreRowModel: getCoreRowModel(),
     })
@@ -35,14 +38,14 @@ export const TokensTable = forwardRef<HTMLDivElement, TProps>(
     return (
       <section
         className={StyleHelper.mergeStyles(
-          'mt-4 flex min-h-0 w-full min-w-0 flex-grow flex-col overflow-auto',
+          'mt-4 flex min-h-0 w-full min-w-0 grow flex-col overflow-auto',
           containerClassName
         )}
         ref={ref}
       >
-        {match({ isLoading, data })
-          .with({ isLoading: true }, () => <Loader containerClassName="mt-4 flex-grow items-center" />)
-          .with({ data: P.when(it => it.length === 0) }, () => (
+        {match({ isLoading, groupedTokenBalances })
+          .with({ isLoading: true }, () => <Loader containerClassName="mt-4 grow items-center" />)
+          .with({ groupedTokenBalances: P.when(it => it.length === 0) }, () => (
             <div className="mt-4 flex justify-center">
               <p className="text-gray-300">{t('components:tokensTable.empty')}</p>
             </div>

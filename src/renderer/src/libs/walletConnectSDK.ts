@@ -1,11 +1,12 @@
-import { bindApiFromMain } from '@cityofzion/bs-electron/dist/renderer'
 import {
   AbstractWalletConnectEIP155Adapter,
   type AbstractWalletConnectNeonAdapter,
   type TInitOptions,
 } from '@cityofzion/wallet-connect-sdk-wallet-react'
-import { COZ_WEBSITE_URL } from '@renderer/constants/urls'
 import i18n from 'i18next'
+
+import { bindApiFromMain } from '@cityofzion/bs-electron/dist/renderer'
+import { COZ_WEBSITE_URL } from '@renderer/constants/urls'
 
 export const walletConnectNeonAdapter = bindApiFromMain<AbstractWalletConnectNeonAdapter>('WalletConnectNeonAdapter')
 

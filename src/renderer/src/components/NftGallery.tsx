@@ -1,8 +1,11 @@
 import { useMemo } from 'react'
+
+import { hasExplorerService, TNftResponse } from '@cityofzion/blockchain-service'
 import { MasonryPhotoAlbum } from 'react-photo-album'
-import { hasExplorerService, NftResponse } from '@cityofzion/blockchain-service'
+
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
-import { bsAggregator } from '@renderer/libs/blockchainService'
+
+import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { IAccountState } from '@shared/@types/store'
 
 import { BlockchainIcon } from './BlockchainIcon'
@@ -10,7 +13,7 @@ import { BlockchainIcon } from './BlockchainIcon'
 import 'react-photo-album/masonry.css'
 
 type TProps = {
-  nfts: NftResponse[]
+  nfts: TNftResponse[]
   account: IAccountState
 }
 
@@ -28,7 +31,7 @@ export const NftGallery = ({ account, nfts }: TProps) => {
     [nfts]
   )
 
-  const getExplorerUrl = (nft: NftResponse) => {
+  const getExplorerUrl = (nft: TNftResponse) => {
     const service = bsAggregator.blockchainServicesByName[account.blockchain]
 
     if (!hasExplorerService(service)) return
@@ -75,7 +78,7 @@ export const NftGallery = ({ account, nfts }: TProps) => {
               })}
               onClick={explorerUrl ? handleClick.bind(null, explorerUrl) : undefined}
             >
-              <div className="overflow-hidden rounded bg-gray-300/30">
+              <div className="overflow-hidden rounded-sm bg-gray-300/30">
                 <img
                   loading="lazy"
                   decoding="async"
@@ -95,7 +98,7 @@ export const NftGallery = ({ account, nfts }: TProps) => {
 
               <div className="flex items-center gap-2">
                 {photo.nft.collection?.image && (
-                  <div className="h-[1rem] min-h-[1rem] w-[1rem] min-w-[1rem] overflow-hidden rounded-full bg-gray-300/30">
+                  <div className="h-4 min-h-4 w-4 min-w-4 overflow-hidden rounded-full bg-gray-300/30">
                     <img
                       className="h-full w-full object-cover"
                       src={photo.nft.collection.image}
@@ -104,7 +107,7 @@ export const NftGallery = ({ account, nfts }: TProps) => {
                   </div>
                 )}
 
-                <span className="w-20 truncate text-xs capitalize text-blue 2xl:w-32">{photo.nft.hash}</span>
+                <span className="text-blue w-20 truncate text-xs capitalize 2xl:w-32">{photo.nft.hash}</span>
               </div>
             </div>
           )

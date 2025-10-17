@@ -1,11 +1,15 @@
-import { cloneElement, ComponentProps, useMemo } from 'react'
-import MdClose from '@renderer/assets/images/md-close.svg?react'
-import MdKeyboardBackspace from '@renderer/assets/images/md-keyboard-backspace.svg?react'
+import { cloneElement, ComponentProps, type JSX, useMemo } from 'react'
+
 import { IconButton } from '@renderer/components/IconButton'
 import { Separator } from '@renderer/components/Separator'
+
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+
 import { useModalHistories, useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useModalRouterOnClose } from '@renderer/hooks/useModalRouterOnClose'
+
+import MdClose from '@renderer/assets/images/md-close.svg?react'
+import MdKeyboardBackspace from '@renderer/assets/images/md-keyboard-backspace.svg?react'
 
 export type TSideModalProps = {
   heading?: JSX.Element | string
@@ -33,15 +37,12 @@ export const SideModalLayout = ({
   }, [histories])
 
   return (
-    <div
-      className={StyleHelper.mergeStyles('flex h-full flex-col bg-gray-800 text-xs text-white', className)}
-      {...props}
-    >
+    <div className={StyleHelper.mergeStyles('flex h-full flex-col text-xs text-white', className)} {...props}>
       <header className="flex flex-col px-4">
         <div className="flex items-center justify-between py-2.5">
           {withBackButton && (
             <IconButton
-              icon={<MdKeyboardBackspace aria-hidden={true} className="fill-gray-200" />}
+              icon={<MdKeyboardBackspace aria-hidden className="fill-gray-200" />}
               size="md"
               compacted
               onClick={modalNavigateWrapper(-1)}
@@ -57,7 +58,7 @@ export const SideModalLayout = ({
           </div>
 
           <IconButton
-            icon={<MdClose aria-hidden={true} className="fill-white" />}
+            icon={<MdClose aria-hidden className="fill-white" />}
             size="md"
             compacted
             onClick={modalEraseWrapper('side')}
@@ -67,9 +68,7 @@ export const SideModalLayout = ({
         <Separator />
       </header>
 
-      <main className={StyleHelper.mergeStyles('min-h-0 min-w-0 flex-grow px-4 py-8', contentClassName)}>
-        {children}
-      </main>
+      <main className={StyleHelper.mergeStyles('min-h-0 min-w-0 grow px-4 py-8', contentClassName)}>{children}</main>
     </div>
   )
 }

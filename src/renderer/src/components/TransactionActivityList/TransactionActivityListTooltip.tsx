@@ -1,5 +1,7 @@
 import { ReactNode } from 'react'
+
 import { Tooltip } from '@renderer/components/Tooltip'
+
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 type TProps = {
@@ -13,7 +15,7 @@ export const TransactionActivityListTooltip = ({ data, className, children }: TP
     title={data.toString()}
     delayDuration={0}
     contentProps={{
-      className: StyleHelper.mergeStyles('text-center inline-block max-w-44 break-words bg-gray-900', className),
+      className: StyleHelper.mergeStyles('text-center inline-block max-w-44 wrap-break-word bg-gray-900', className),
     }}
     arrowProps={{ className: 'fill-gray-900' }}
   >

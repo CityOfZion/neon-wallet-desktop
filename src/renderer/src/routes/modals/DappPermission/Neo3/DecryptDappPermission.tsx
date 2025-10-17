@@ -1,6 +1,8 @@
 import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
+
 import { EncryptedPayload } from '@cityofzion/wallet-connect-sdk-wallet-react'
+import { useTranslation } from 'react-i18next'
+
 import { Button } from '@renderer/components/Button'
 import { DappPermissionContextualMessage } from '@renderer/components/DappPermissionContextualMessage'
 import { DappPermissionHeader } from '@renderer/components/DappPermissionHeader'
@@ -22,20 +24,20 @@ export const Neo3DecryptDappPermission = ({ request, session, onAccept, onReject
   }
 
   return (
-    <div className="flex min-h-0 flex-grow flex-col overflow-y-auto pl-5 pr-2">
+    <div className="flex min-h-0 grow flex-col overflow-y-auto pr-2 pl-5">
       <DappPermissionHeader session={session} />
 
       <div className="flex flex-col items-center">
         <p className="mt-9 text-center text-2xl text-white">{t('title')}</p>
       </div>
 
-      <div className="mt-8 flex flex-grow flex-col gap-2 text-sm text-gray-100">
+      <div className="mt-8 flex grow flex-col gap-2 text-sm text-gray-100">
         {Object.entries(params).map(([key, value]) => (
           <div className="flex flex-col gap-1" key={key}>
             <span className="text-xs font-bold">{key}</span>
 
-            <div className="flex min-w-0 justify-between gap-3 rounded bg-asphalt px-5 py-2.5">
-              <p className="min-w-0 break-words">{value}</p>
+            <div className="bg-asphalt flex min-w-0 justify-between gap-3 rounded-sm px-5 py-2.5">
+              <p className="min-w-0 wrap-break-word">{value}</p>
             </div>
           </div>
         ))}
@@ -50,7 +52,7 @@ export const Neo3DecryptDappPermission = ({ request, session, onAccept, onReject
 
         <Button
           label={t('acceptButtonLabel')}
-          className="flex-grow"
+          className="grow"
           onClick={handleAccept}
           loading={isApproving}
           disabled={isApproving}

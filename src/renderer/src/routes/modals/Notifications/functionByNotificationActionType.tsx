@@ -1,12 +1,14 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
+import { match } from 'ts-pattern'
+
 import { selectAccounts } from '@renderer/hooks/useAccountSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+
 import { RootStore } from '@renderer/store/RootStore'
 import { TAccountHelperPredicateParams } from '@shared/@types/helpers'
 import { TNotificationAction } from '@shared/@types/store'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 import { getI18next } from '@shared/libs/i18next'
-import { match } from 'ts-pattern'
 
 type TFunctionParams<T> = {
   modalActions: ReturnType<typeof useModalNavigate>
@@ -39,13 +41,13 @@ export const functionByNotificationActionType: TFunctionByNotificationActionType
         const account = getAccount(payload)
 
         modalActions.modalErase('side')
-        pageNavigate(`/app/wallets/${account.id}`)
+        pageNavigate(`/wallets/${account.id}/overview`)
       })
       .with({ to: 'account-transaction' }, payload => {
         const account = getAccount(payload)
 
         modalActions.modalErase('side')
-        pageNavigate(`/app/wallets/${account.id}/transactions`)
+        pageNavigate(`/wallets/${account.id}/transactions`)
       })
       .with({ to: 'account-tokens' }, ({ address, blockchain }) => {
         const account = getAccount({ address, blockchain })
@@ -53,7 +55,7 @@ export const functionByNotificationActionType: TFunctionByNotificationActionType
         modalActions.modalErase('side')
 
         setTimeout(() => {
-          pageNavigate(`/app/wallets/${account.id}/tokens`)
+          pageNavigate(`/wallets/${account.id}/tokens`)
         }, 500)
       })
       .with({ to: 'hide-fraudulent-token' }, ({ address, blockchain, tokenHash }) => {
@@ -65,7 +67,7 @@ export const functionByNotificationActionType: TFunctionByNotificationActionType
           if (tokenHash) {
             modalActions.modalNavigate('hide-fraudulent-token', { state: { account, hash: tokenHash } })
           } else {
-            pageNavigate(`/app/wallets/${account.id}/tokens`)
+            pageNavigate(`/wallets/${account.id}/tokens`)
           }
         }, 500)
       })
@@ -73,11 +75,11 @@ export const functionByNotificationActionType: TFunctionByNotificationActionType
         const account = getAccount(payload)
 
         modalActions.modalErase('side')
-        pageNavigate('/app/vote-neo3', { state: { defaultNeo3Account: account } })
+        pageNavigate('/vote-neo3', { state: { defaultNeo3Account: account } })
       })
       .with({ to: 'backup-wallet' }, () => {
         modalActions.modalErase('side')
-        pageNavigate('/app/settings/security/backup-wallet')
+        pageNavigate('/settings/security/backup-wallet')
       })
       .otherwise(() => {
         // No action needed for unhandled navigation types

@@ -1,17 +1,22 @@
 import { useTranslation } from 'react-i18next'
-import MdOutlineSave from '@renderer/assets/images/md-outline-save.svg?react'
+
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
 import { ButtonDownloadPasswordQRCode } from '@renderer/components/ButtonDownloadPasswordQRCode'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
+
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
+
 import { useActions } from '@renderer/hooks/useActions'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useNeonCreateBackup } from '@renderer/hooks/useNeonBackup'
+
 import { SideModalLayout } from '@renderer/layouts/SideModal'
+
+import MdOutlineSave from '@renderer/assets/images/md-outline-save.svg?react'
 
 type TFormData = {
   password: string
@@ -26,7 +31,7 @@ const SuccessFooter = () => {
   const { modalNavigateWrapper } = useModalNavigate()
 
   return (
-    <div className="flex w-full flex-grow flex-col items-center justify-end gap-7">
+    <div className="flex w-full grow flex-col items-center justify-end gap-7">
       <ButtonDownloadPasswordQRCode />
       <Separator />
       <Button label={t('returnSettings')} onClick={modalNavigateWrapper(-1)} className="w-full px-9" />
@@ -34,7 +39,7 @@ const SuccessFooter = () => {
   )
 }
 
-export const ConfirmPasswordBackupModal = () => {
+const ConfirmPasswordBackupModal = () => {
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const { t } = useTranslation('modals', { keyPrefix: 'confirmPasswordBackup' })
   const { selectedFilePath } = useModalState<TLocationState>()
@@ -79,13 +84,13 @@ export const ConfirmPasswordBackupModal = () => {
   return (
     <SideModalLayout
       heading={t('title')}
-      headingIcon={<MdOutlineSave aria-hidden={true} className="text-neon" />}
+      headingIcon={<MdOutlineSave aria-hidden className="text-neon" />}
       contentClassName="flex flex-col"
     >
       <p className="mb-5 text-xs">{t('description')}</p>
-      <p className="mb-3.5 font-bold uppercase text-gray-300">{t('subtitle')}</p>
+      <p className="mb-3.5 font-bold text-gray-300 uppercase">{t('subtitle')}</p>
 
-      <form className="flex flex-grow flex-col justify-between" onSubmit={handleAct(handleSubmit)}>
+      <form className="flex grow flex-col justify-between" onSubmit={handleAct(handleSubmit)}>
         <div>
           <Input
             placeholder={t('inputPlaceholder')}
@@ -107,7 +112,7 @@ export const ConfirmPasswordBackupModal = () => {
             message={
               <span>
                 {t('warning')}
-                <span className="pl-0.75 text-orange">{t('warningHighlighted')}</span>
+                <span className="text-orange pl-0.75">{t('warningHighlighted')}</span>
               </span>
             }
           />
@@ -124,3 +129,5 @@ export const ConfirmPasswordBackupModal = () => {
     </SideModalLayout>
   )
 }
+
+export default ConfirmPasswordBackupModal

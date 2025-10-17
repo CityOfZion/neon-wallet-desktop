@@ -1,6 +1,9 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
+
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+
 import { BuyAndSellTokensScreenType } from '@renderer/routes/pages/BuyAndSellTokens'
+
 import { IAccountState } from '@shared/@types/store'
 
 type TFunctionParams = {
@@ -15,7 +18,7 @@ type TFunctionsByActionId = {
 export const functionsByActionId: TFunctionsByActionId = {
   transfer: async ({ pageNavigate, modalActions }) => {
     modalActions.modalErase('center')
-    pageNavigate('/app/send')
+    pageNavigate('/send')
   },
   connect: async ({ modalActions }) => {
     modalActions.modalNavigate('select-account', {
@@ -28,28 +31,28 @@ export const functionsByActionId: TFunctionsByActionId = {
     })
   },
   createContact: async ({ modalActions, pageNavigate }) => {
-    pageNavigate('/app/contacts')
+    pageNavigate('/contacts')
     modalActions.modalNavigate('persist-contact', { replace: true })
   },
   viewContacts: async ({ pageNavigate, modalActions }) => {
     modalActions.modalErase('center')
-    pageNavigate('/app/contacts')
+    pageNavigate('/contacts')
   },
   swap: async ({ pageNavigate, modalActions }) => {
     modalActions.modalErase('center')
-    pageNavigate('/app/swap')
+    pageNavigate('/swap')
   },
   buy: async ({ pageNavigate, modalActions }) => {
     modalActions.modalErase('center')
-    pageNavigate('/app/buy-and-sell-tokens', { state: { screenType: BuyAndSellTokensScreenType.BUY_TOKENS } })
+    pageNavigate('/buy-and-sell-tokens', { state: { screenType: BuyAndSellTokensScreenType.BUY_TOKENS } })
   },
   sell: async ({ pageNavigate, modalActions }) => {
     modalActions.modalErase('center')
-    pageNavigate('/app/buy-and-sell-tokens', { state: { screenType: BuyAndSellTokensScreenType.SELL_TOKENS } })
+    pageNavigate('/buy-and-sell-tokens', { state: { screenType: BuyAndSellTokensScreenType.SELL_TOKENS } })
   },
   receive: async ({ pageNavigate, modalActions }) => {
     modalActions.modalErase('center')
-    pageNavigate('/app/receive')
+    pageNavigate('/receive')
   },
   createWallet: async ({ modalActions }) => {
     modalActions.modalNavigate('create-wallet-step-1', {
@@ -58,11 +61,11 @@ export const functionsByActionId: TFunctionsByActionId = {
   },
   encrypt: async ({ pageNavigate, modalActions }) => {
     modalActions.modalErase('center')
-    pageNavigate('/app/settings/security/encrypt-key')
+    pageNavigate('/settings/security/encrypt-key')
   },
   createBackup: async ({ pageNavigate, modalActions }) => {
     modalActions.modalErase('center')
-    pageNavigate('/app/settings/security/backup-wallet')
+    pageNavigate('/settings/security/backup-wallet')
   },
   import: async ({ modalActions }) => {
     modalActions.modalNavigate('import', {
@@ -71,7 +74,7 @@ export const functionsByActionId: TFunctionsByActionId = {
   },
   restoreBackup: async ({ pageNavigate, modalActions }) => {
     modalActions.modalErase('center')
-    pageNavigate('/app/settings/security/recover-wallet')
+    pageNavigate('/settings/security/recover-wallet')
   },
   connectHardwareWallet: async ({ modalActions }) => {
     modalActions.modalNavigate('connect-hardware-wallet', {
@@ -80,17 +83,17 @@ export const functionsByActionId: TFunctionsByActionId = {
   },
   allActivity: async ({ modalActions, pageNavigate }) => {
     modalActions.modalErase('center')
-    pageNavigate('/app/portfolio/activity')
+    pageNavigate('/portfolio/activity')
   },
   exportFullTransactions: async ({ modalActions }) => {
     modalActions.modalNavigate('export-full-transactions', { replace: true })
   },
   voteNeo3: async ({ modalActions, pageNavigate }) => {
     modalActions.modalErase('center')
-    pageNavigate('/app/vote-neo3')
+    pageNavigate('/vote-neo3')
   },
   neo3NeoXBridge: async ({ modalActions, pageNavigate }) => {
     modalActions.modalErase('center')
-    pageNavigate('/app/neo3-neox-bridge')
+    pageNavigate('/neo3-neox-bridge')
   },
 }

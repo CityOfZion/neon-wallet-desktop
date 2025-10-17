@@ -1,6 +1,9 @@
 import { Fragment } from 'react'
+
 import { useTranslation } from 'react-i18next'
+
 import { Select } from '@renderer/components/Select'
+
 import { IWalletState } from '@shared/@types/store'
 
 import { WalletSelectItem } from './WalletSelectItem'
@@ -23,7 +26,7 @@ export const WalletsSelect = ({ wallets, value, onSelect }: TProps) => {
 
   return (
     <Select.Root value={value?.id} onValueChange={handleValueChange}>
-      <Select.Trigger className="max-w-[11.625rem] py-1.5">
+      <Select.Trigger className="max-w-46.5 py-1.5">
         <div className="flex min-w-0 flex-col [&>span]:w-full [&>span]:truncate">
           <span className="text-left text-xs text-gray-300">{t('title')}</span>
           <Select.Value aria-label={value?.name} placeholder={t('placeholder')}>

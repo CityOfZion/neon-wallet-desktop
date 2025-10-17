@@ -1,9 +1,13 @@
 import { useMemo } from 'react'
+
 import { useTranslation } from 'react-i18next'
+
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
+
 import { TTokenBalance, TUseBalancesResult } from '@shared/@types/query'
 
 import { Tooltip } from './Tooltip'
@@ -62,7 +66,7 @@ export const BalanceChart = ({ balances, sortedBalances, className }: TProps) =>
 
   return (
     <div className={StyleHelper.mergeStyles('w-full py-9', className)}>
-      <div className="mb-9 mr-2 flex w-full items-center justify-end gap-2 text-xl">
+      <div className="mr-2 mb-9 flex w-full items-center justify-end gap-2 text-xl">
         <span className="text-gray-300">{t('balance')}</span>
 
         <span className="text-white">{exchangeTotalFormatted}</span>
@@ -75,7 +79,7 @@ export const BalanceChart = ({ balances, sortedBalances, className }: TProps) =>
           {bars.map((bar, index) => (
             <li
               key={`${bar.name}-${bar.color}-${index}`}
-              className="mx-2 flex min-w-[5rem] flex-col"
+              className="mx-2 flex min-w-20 flex-col"
               style={{
                 width: `${bar.widthPercent}%`,
               }}
@@ -89,7 +93,7 @@ export const BalanceChart = ({ balances, sortedBalances, className }: TProps) =>
 
               <div className="mt-5 flex min-w-0 items-start gap-2">
                 <div
-                  className="mt-1 h-2 w-2 min-w-[0.5rem] rounded-full"
+                  className="mt-1 h-2 w-2 min-w-2 rounded-full"
                   style={{
                     backgroundColor: bar.color,
                   }}

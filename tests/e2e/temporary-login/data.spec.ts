@@ -6,12 +6,13 @@ test.describe('Temporary data', () => {
   test('Should be able to remove all temporary data when logout', async () => {
     const window = await launch()
 
-    const address = process.env.TEST_NEO3_ADDRESS
-    if (!address) throw new Error('TEST_NEO3_ADDRESS is not defined')
+    const address = 'NenPXJNsJoVHT9XH78QVCMZiUmx7HetkXY'
 
     await loginWithKey(window, address)
 
     await logout(window)
+
+    await window.waitForTimeout(1000)
 
     const authReducerJson = await window.evaluate(() => localStorage.getItem('persist:authReducer'))
 
@@ -27,8 +28,7 @@ test.describe('Temporary data', () => {
   test('Should be able to remove all temporary data when app starts', async () => {
     const window = await launch()
 
-    const address = process.env.TEST_NEO3_ADDRESS
-    if (!address) throw new Error('TEST_NEO3_ADDRESS is not defined')
+    const address = 'NenPXJNsJoVHT9XH78QVCMZiUmx7HetkXY'
 
     await loginWithKey(window, address)
 

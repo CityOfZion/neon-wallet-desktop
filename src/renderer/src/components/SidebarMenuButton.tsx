@@ -1,31 +1,34 @@
-import { NavLink } from 'react-router-dom'
-import MdChevronRight from '@renderer/assets/images/md-chevron-right.svg?react'
+import type { JSX } from 'react'
+import { NavLink } from 'react-router'
+
 import { Separator } from '@renderer/components/Separator'
+
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+
+import MdChevronRight from '@renderer/assets/images/md-chevron-right.svg?react'
 
 type TProps = {
   title: string
   to?: string
-  match?: boolean
 }
 
-const buildClassName = (isActive: boolean, match?: boolean) => {
+const buildClassName = (isActive: boolean) => {
   return StyleHelper.mergeStyles(
     'px-4 w-full flex border-l-[0.1875rem] justify-between py-3.5 items-center transition-colors',
     {
-      'border-l-neon bg-asphalt stroke-neon': isActive || match,
+      'border-l-neon bg-asphalt stroke-neon': isActive,
       'border-l-transparent cursor-pointer opacity-60 hover:border-l-neon hover:bg-asphalt hover:opacity-100 hover:stroke-neon hover:text-neon':
-        !isActive && !match,
+        !isActive,
     }
   )
 }
 
-export const SidebarMenuButton = ({ title, to, match }: TProps): JSX.Element => {
+export const SidebarMenuButton = ({ title, to }: TProps): JSX.Element => {
   return (
     <li>
-      <NavLink to={to ?? ''} className={({ isActive }) => buildClassName(isActive, match)}>
+      <NavLink to={to ?? ''} className={({ isActive }) => buildClassName(isActive)}>
         <span className="text-xs text-white">{title}</span>
-        <MdChevronRight aria-hidden={true} className="h-6 w-6 text-gray-100" />
+        <MdChevronRight aria-hidden className="h-6 w-6 text-gray-100" />
       </NavLink>
       <div className="px-4">
         <Separator />

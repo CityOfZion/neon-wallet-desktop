@@ -1,11 +1,15 @@
 import { useState } from 'react'
+
+import { BSKeychainHelper } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
-import { MnemonicHelper } from '@renderer/helpers/MnemonicHelper'
+
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+
 import { useMount } from '@renderer/hooks/useMount'
 import { useLastIndexesByWallet } from '@renderer/hooks/useUtilitySelector'
-import { bsAggregator } from '@renderer/libs/blockchainService'
+
+import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 
@@ -65,15 +69,15 @@ const MnemonicOrKeyAccountSelectionAccordion = ({
   return (
     <Accordion.Root className="flex flex-col gap-2.5" type="multiple">
       {mnemonicAccounts.map(([blockchain, accounts]) => (
-        <Accordion.Item key={blockchain} value={blockchain} className="rounded bg-asphalt">
+        <Accordion.Item key={blockchain} value={blockchain} className="bg-asphalt rounded-sm">
           <Accordion.Trigger className="border-none">
-            <div className="flex flex-grow items-center justify-between">
+            <div className="flex grow items-center justify-between">
               <div className="flex items-center gap-x-2.5 px-2 text-sm text-white">
                 <BlockchainIcon blockchain={blockchain} type="white" />
                 {commonT(`blockchain.${blockchain}`)}
               </div>
 
-              <span className="mr-2 text-right text-1xs uppercase text-gray-300">
+              <span className="text-1xs mr-2 text-right text-gray-300 uppercase">
                 {t('accountsLength', { length: accounts.length })}
               </span>
             </div>
@@ -138,7 +142,7 @@ export const MnemonicOrKeyAccountSelection = ({
     const selectedAccounts: TMnemonicOrKeyAccountWithBlockchain[] = []
     let mnemonicAccountsArray: TMnemonicAccounts = []
 
-    if (MnemonicHelper.isValidMnemonic(mnemonicOrKey)) {
+    if (BSKeychainHelper.isValidMnemonic(mnemonicOrKey)) {
       const accountFromMnemonicMap = await bsAggregator.generateAccountsFromMnemonic(mnemonicOrKey, lastIndexesByWallet)
 
       mnemonicAccountsArray = Array.from(accountFromMnemonicMap.entries())

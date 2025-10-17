@@ -15,22 +15,9 @@
     "defaultAccountLabel": "Migrated account",
     "defaultContactName": "Migrated contact"
   },
-  "DappConnection": {
-    "pleaseLogin": "Please login to continue.",
-    "selectAccountModal": {
-      "title": "Select an account to connect to the dapp.",
-      "selectSourceAccount": "Select account"
-    }
-  },
   "useLogin": {
     "controlIsNotSet": "Unexpected error. Login control is not set.",
     "controlIsNotValid": "Unexpected error. Login control is not valid."
-  },
-  "useOverTheAirUpdate": {
-    "downloading": "New version found. Downloading... <1>Or download it manually on</1> <2>our GitHub</2>",
-    "downloaded": "New version downloaded. The app will restart to apply update.",
-    "error": "Error downloading update. Please try again later restarting the app.",
-    "installError": "It was not possible to install the update. Please verify the app permissions and download the update manually."
   },
   "useNeonBackup": {
     "errors": {
@@ -58,14 +45,6 @@
       "previewBody": "We couldn't verify the completion of your claim"
     }
   },
-  "useFraudulentTokensNotification": {
-    "notificationTitle": "\"{{ value }}\" is a fraudulent token!",
-    "notificationDescription": "We've identified \"{{ value }}\" that has been flagged as fraudulent token by the community, we suggest hiding it and avoiding any other kind of interaction with it."
-  },
-  "useBackupReminderNotification": {
-    "notificationTitle": "Create a new backup file!",
-    "notificationDescription": "We recommend creating a new backup file in \"Settings > Security > Backup NEON\" to protect your wallets. For additional security, you can also export manually your mnemonics in \"Wallets > 3 dots (Tools) > Export\" and private keys in \"Wallets > 3 dots > Export key\"."
-  },
   "useHardwareWalletByUsb": {
     "errors": {
       "noDevice": "There is no device connected"
@@ -73,9 +52,5 @@
   },
   "useGetFullTransactions": {
     "formatExtendedDate": "dd MMM yyyy"
-  },
-  "useVotingNeo3Notification": {
-    "notificationTitle": "You're missing out on free GAS!",
-    "notificationDescription": "Simply tap here and cast your vote today"
   }
 }

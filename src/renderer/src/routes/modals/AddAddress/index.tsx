@@ -1,17 +1,23 @@
 import { ChangeEvent, Fragment } from 'react'
+
 import { useTranslation } from 'react-i18next'
+
 import { Banner } from '@renderer/components/Banner'
 import { BlockchainSelect } from '@renderer/components/BlockchainSelect'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
+
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useNameService } from '@renderer/hooks/useNameService'
+
 import { SideModalLayout } from '@renderer/layouts/SideModal'
+
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TContactAddress } from '@shared/@types/store'
 
@@ -27,7 +33,7 @@ type TActionData = {
   blockchain?: TBlockchainServiceKey
 }
 
-export const AddAddressModal = () => {
+const AddAddressModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'addAddress' })
   const { contactName, address, index, handleAddAddress } = useModalState<TLocationState>()
   const { modalNavigate } = useModalNavigate()
@@ -78,7 +84,7 @@ export const AddAddressModal = () => {
 
           <Separator />
 
-          <p aria-labelledby="blockchainSelect" className="font-bold uppercase text-gray-100">
+          <p aria-labelledby="blockchainSelect" className="font-bold text-gray-100 uppercase">
             {t('blockchain')}
           </p>
 
@@ -88,7 +94,7 @@ export const AddAddressModal = () => {
             testId="contact-blockchain-select"
           />
 
-          <p aria-labelledby="addressOrDomain" className="font-bold uppercase text-gray-100">
+          <p aria-labelledby="addressOrDomain" className="font-bold text-gray-100 uppercase">
             {t('addressOrDomain')}
           </p>
 
@@ -137,3 +143,5 @@ export const AddAddressModal = () => {
     </SideModalLayout>
   )
 }
+
+export default AddAddressModal

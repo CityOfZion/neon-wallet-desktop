@@ -1,15 +1,21 @@
 import { useTranslation } from 'react-i18next'
-import MdDeleteForever from '@renderer/assets/images/md-delete-forever.svg?react'
-import TbPencil from '@renderer/assets/images/tb-pencil.svg?react'
+
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
+
 import { StringHelper } from '@renderer/helpers/StringHelper'
+
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
+
 import { SideModalLayout } from '@renderer/layouts/SideModal'
-import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
+
+import MdDeleteForever from '@renderer/assets/images/md-delete-forever.svg?react'
+import TbPencil from '@renderer/assets/images/tb-pencil.svg?react'
+
+import { authReducerActions } from '@renderer/store/reducers/auth'
 import { IWalletState } from '@shared/@types/store'
 
 type TFormData = {
@@ -20,7 +26,7 @@ type TLocationState = {
   wallet: IWalletState
 }
 
-export const EditWalletModal = () => {
+const EditWalletModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'editWallet' })
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
   const { wallet } = useModalState<TLocationState>()
@@ -55,12 +61,8 @@ export const EditWalletModal = () => {
   }
 
   return (
-    <SideModalLayout
-      heading={t('title')}
-      headingIcon={<TbPencil aria-hidden={true} />}
-      contentClassName="flex flex-col"
-    >
-      <form onSubmit={handleAct(handleSubmit)} className="flex flex-grow flex-col">
+    <SideModalLayout heading={t('title')} headingIcon={<TbPencil aria-hidden />} contentClassName="flex flex-col">
+      <form onSubmit={handleAct(handleSubmit)} className="flex grow flex-col">
         <Input
           placeholder={t('inputPlaceholder')}
           errorMessage={actionState.errors.name}
@@ -73,7 +75,7 @@ export const EditWalletModal = () => {
 
         <Separator className="my-4" />
 
-        <div className="mb-4 mt-auto flex gap-x-3">
+        <div className="mt-auto mb-4 flex gap-x-3">
           <Button
             className="w-full"
             type="button"
@@ -90,13 +92,13 @@ export const EditWalletModal = () => {
       <div className="flex flex-col">
         <Separator />
 
-        <p className="mt-4 text-xs font-bold uppercase text-gray-300">{t('deleteWalletTitle')}</p>
+        <p className="mt-4 text-xs font-bold text-gray-300 uppercase">{t('deleteWalletTitle')}</p>
         <span className="mt-2 text-xs text-white">{t('deleteWalletSubtext')}</span>
 
         <Button
           label={t('deleteWalletButtonLabel')}
           type="button"
-          leftIcon={<MdDeleteForever aria-hidden={true} />}
+          leftIcon={<MdDeleteForever aria-hidden />}
           className="mt-7"
           variant="outlined"
           onClick={() => modalNavigate('delete-wallet', { state: { wallet } })}
@@ -108,3 +110,5 @@ export const EditWalletModal = () => {
     </SideModalLayout>
   )
 }
+
+export default EditWalletModal

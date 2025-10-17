@@ -1,20 +1,27 @@
 import { Fragment } from 'react'
-import { useTranslation } from 'react-i18next'
+
 import { hasExplorerService } from '@cityofzion/blockchain-service'
 import { TSession } from '@cityofzion/wallet-connect-sdk-wallet-react'
-import MdContentCopy from '@renderer/assets/images/md-content-copy.svg?react'
-import MdLaunch from '@renderer/assets/images/md-launch.svg?react'
-import TbArrowsSort from '@renderer/assets/images/tb-arrows-sort.svg?react'
+import { useTranslation } from 'react-i18next'
+
 import { DappPermissionHeader } from '@renderer/components/DappPermissionHeader'
 import { IconButton } from '@renderer/components/IconButton'
 import { Loader } from '@renderer/components/Loader'
 import { Separator } from '@renderer/components/Separator'
+
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+
 import { useContract } from '@renderer/hooks/useContract'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
+
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
-import { bsAggregator } from '@renderer/libs/blockchainService'
+
+import MdContentCopy from '@renderer/assets/images/md-content-copy.svg?react'
+import MdLaunch from '@renderer/assets/images/md-launch.svg?react'
+import TbArrowsSort from '@renderer/assets/images/tb-arrows-sort.svg?react'
+
+import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 
 type TModalState = {
@@ -88,7 +95,7 @@ const COLORS_BY_TYPE = {
   },
 }
 
-export const DappPermissionContractDetailsModal = () => {
+const DappPermissionContractDetailsModal = () => {
   const { session, operation, hash, blockchain, values } = useModalState<TModalState>()
   const { data, isLoading } = useContract({ blockchain, hash })
   const { modalNavigate } = useModalNavigate()
@@ -126,10 +133,10 @@ export const DappPermissionContractDetailsModal = () => {
 
   return (
     <CenterModalLayout contentClassName="px-0 flex flex-col pb-5 min-h-0">
-      <div className="flex min-h-0 flex-col overflow-y-auto pl-5 pr-2">
+      <div className="flex min-h-0 flex-col overflow-y-auto pr-2 pl-5">
         <DappPermissionHeader session={session} />
 
-        <p className="mb-6 mt-9 text-center text-2xl text-white">{t('title')}</p>
+        <p className="mt-9 mb-6 text-center text-2xl text-white">{t('title')}</p>
 
         {isLoading || !data ? (
           <Loader className="text-gray-600" />
@@ -138,27 +145,27 @@ export const DappPermissionContractDetailsModal = () => {
             <div className="flex flex-col gap-2">
               <span className="text-xs font-bold text-gray-100">{t('detailsLabel')}</span>
 
-              <div className="w-full rounded bg-asphalt/50 px-4 pb-5 pt-3 text-sm text-gray-100">
+              <div className="bg-asphalt/50 w-full rounded-sm px-4 pt-3 pb-5 text-sm text-gray-100">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2.5">
-                    <TbArrowsSort aria-hidden={true} className="h-6 w-6 rotate-90 text-blue" />
-                    <p className="capitalize text-white">{operation}</p>
+                    <TbArrowsSort aria-hidden className="text-blue h-6 w-6 rotate-90" />
+                    <p className="text-white capitalize">{operation}</p>
                   </div>
 
                   <p className="capitalize">{data.name}</p>
                 </div>
 
-                <Separator className="mb-4 mt-2.5" />
+                <Separator className="mt-2.5 mb-4" />
 
                 <div className="flex flex-col gap-1">
                   <span className="text-xs font-bold">{t('hashLabel')}</span>
 
-                  <div className="flex min-w-0 justify-between gap-3 rounded bg-gray-700/60 py-2.5 pl-5 pr-4">
+                  <div className="flex min-w-0 justify-between gap-3 rounded-sm bg-gray-700/60 py-2.5 pr-4 pl-5">
                     <p className="truncate">{hash}</p>
 
                     {explorerUrl && (
                       <IconButton
-                        icon={<MdLaunch aria-hidden={true} className="text-neon" />}
+                        icon={<MdLaunch aria-hidden className="text-neon" />}
                         compacted
                         onClick={handleHashClick}
                       />
@@ -173,11 +180,11 @@ export const DappPermissionContractDetailsModal = () => {
 
               <div className="flex flex-col gap-2.5">
                 {params.map(param => (
-                  <div className="w-full rounded bg-asphalt px-4 pb-5 pt-3 text-sm text-gray-100" key={param.name}>
+                  <div className="bg-asphalt w-full rounded-sm px-4 pt-3 pb-5 text-sm text-gray-100" key={param.name}>
                     <div className="flex items-center gap-5">
-                      <p className="capitalize text-gray-100">{param.name}</p>
+                      <p className="text-gray-100 capitalize">{param.name}</p>
                       <div
-                        className="rounded-full px-3.5 py-1 text-xs text-asphalt"
+                        className="text-asphalt rounded-full px-3.5 py-1 text-xs"
                         style={{
                           backgroundColor: COLORS_BY_TYPE[param.type].color,
                           color: COLORS_BY_TYPE[param.type].textColor === 'dark' ? 'black' : 'white',
@@ -187,12 +194,12 @@ export const DappPermissionContractDetailsModal = () => {
                       </div>
                     </div>
 
-                    <Separator className="mb-4 mt-2.5" />
+                    <Separator className="mt-2.5 mb-4" />
 
-                    <div className="flex min-w-0 justify-between gap-3 rounded bg-gray-700/60 px-4 py-2.5">
-                      <p className="min-w-0 whitespace-pre-wrap break-words">{param.value}</p>
+                    <div className="flex min-w-0 justify-between gap-3 rounded-sm bg-gray-700/60 px-4 py-2.5">
+                      <p className="min-w-0 wrap-break-word whitespace-pre-wrap">{param.value}</p>
                       <IconButton
-                        icon={<MdContentCopy aria-hidden={true} className="fill-neon" />}
+                        icon={<MdContentCopy aria-hidden className="fill-neon" />}
                         compacted
                         onClick={UtilsHelper.copyToClipboard.bind(null, param.value)}
                       />
@@ -207,3 +214,5 @@ export const DappPermissionContractDetailsModal = () => {
     </CenterModalLayout>
   )
 }
+
+export default DappPermissionContractDetailsModal

@@ -1,4 +1,5 @@
 import { useLayoutEffect } from 'react'
+
 import { IS_LINUX, IS_MAC } from '@renderer/constants/platform'
 
 const DRAG_REGION_HEIGHT = IS_LINUX ? 0 : 32
@@ -23,7 +24,7 @@ export const DragRegion = () => {
 
   return (
     <div
-      className="relative z-[2000] h-drag-region min-h-drag-region w-screen bg-gray-800 shadow shadow-asphalt"
+      className="shadow-asphalt relative z-2000 h-[var(--drag-region-height)] min-h-[var(--drag-region-height)] w-screen bg-gray-800 shadow-sm"
       style={{
         // @ts-ignore This property is not in the types
         WebkitAppRegion: 'drag',

@@ -1,13 +1,17 @@
 import { Fragment } from 'react/jsx-runtime'
 import { useTranslation } from 'react-i18next'
-import TbBell from '@renderer/assets/images/tb-bell.svg?react'
+
 import { Separator } from '@renderer/components/Separator'
+
 import { useNotificationsSelector } from '@renderer/hooks/useAuthSelector'
+
 import { SideModalLayout } from '@renderer/layouts/SideModal'
+
+import TbBell from '@renderer/assets/images/tb-bell.svg?react'
 
 import { Notification } from './Notification'
 
-export const NotificationsModal = () => {
+const NotificationsModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'notifications' })
   const { notifications } = useNotificationsSelector()
 
@@ -24,7 +28,7 @@ export const NotificationsModal = () => {
           <p className="font-sans-regular mt-3.5 text-sm text-gray-100">{t('emptyListBody')}</p>
         </Fragment>
       ) : (
-        <ul className="w-full flex-grow overflow-auto">
+        <ul className="w-full grow overflow-auto">
           {notifications.map((notification, index) => (
             <li key={notification.id}>
               <Notification notification={notification} />
@@ -36,3 +40,5 @@ export const NotificationsModal = () => {
     </SideModalLayout>
   )
 }
+
+export default NotificationsModal

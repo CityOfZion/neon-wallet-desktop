@@ -1,12 +1,18 @@
-import { ComponentProps, ReactNode } from 'react'
+import { ComponentProps, type JSX, ReactNode } from 'react'
 import { cloneElement } from 'react'
-import { useNavigate } from 'react-router-dom'
-import TbArrowLeft from '@renderer/assets/images/tb-arrow-left.svg?react'
+
+import { useNavigate } from 'react-router'
+
 import { IconButton } from '@renderer/components/IconButton'
 import { Separator } from '@renderer/components/Separator'
-import { DEFAULT_NETWORK_PROFILE } from '@renderer/constants/networks'
+
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+
 import { useSelectedNetworkProfileSelector } from '@renderer/hooks/useSettingsSelector'
+
+import TbArrowLeft from '@renderer/assets/images/tb-arrow-left.svg?react'
+
+import { DEFAULT_NETWORK_PROFILE_ID } from '@renderer/constants/networks'
 
 export type TMainLayoutProps = {
   children?: ReactNode
@@ -36,7 +42,7 @@ export const ContentLayout = ({
 
   const { selectedNetworkProfile } = useSelectedNetworkProfileSelector()
 
-  const hasCustomProfile = selectedNetworkProfile.id !== DEFAULT_NETWORK_PROFILE.id
+  const hasCustomProfile = selectedNetworkProfile.id !== DEFAULT_NETWORK_PROFILE_ID
 
   const handleBackClick = () => {
     if (onBackClick) {
@@ -49,10 +55,10 @@ export const ContentLayout = ({
   }
 
   return (
-    <div className={StyleHelper.mergeStyles('flex h-screen-minus-drag-region', className)} {...props}>
+    <div className={StyleHelper.mergeStyles('flex h-full', className)} {...props}>
       <div
         className={StyleHelper.mergeStyles(
-          'flex h-full min-h-0 w-full min-w-0 flex-col bg-asphalt px-14 pb-4 text-white',
+          'bg-asphalt flex h-full min-h-0 w-full min-w-0 flex-col px-14 pb-4 text-white',
           {
             'pt-10': hasCustomProfile,
           }
@@ -65,7 +71,7 @@ export const ContentLayout = ({
 
           <div
             className={StyleHelper.mergeStyles(
-              'absolute left-1/2 top-1/2 mx-auto flex -translate-x-1/2 -translate-y-1/2 items-center gap-x-2',
+              'absolute top-1/2 left-1/2 mx-auto flex -translate-x-1/2 -translate-y-1/2 items-center gap-x-2',
               {
                 'pr-6': !rightComponent,
               }
@@ -85,7 +91,7 @@ export const ContentLayout = ({
 
         {withSeparator && <Separator />}
 
-        <main className={StyleHelper.mergeStyles('mt-4 flex min-h-0 w-full flex-grow flex-col', contentClassName)}>
+        <main className={StyleHelper.mergeStyles('mt-4 flex min-h-0 w-full grow flex-col', contentClassName)}>
           {children}
         </main>
       </div>

@@ -1,16 +1,19 @@
-import { Fragment, useEffect, useMemo, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { Fragment, type JSX, useEffect, useMemo, useState } from 'react'
+
 import { ContractInvocationMulti } from '@cityofzion/wallet-connect-sdk-wallet-core'
+import { useQuery } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
+
 import { Button } from '@renderer/components/Button'
 import { DappPermissionContextualMessage } from '@renderer/components/DappPermissionContextualMessage'
 import { DappPermissionHeader } from '@renderer/components/DappPermissionHeader'
 import { Separator } from '@renderer/components/Separator'
+
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
+
 import { walletConnectNeonAdapter } from '@renderer/libs/walletConnectSDK'
-import { useQuery } from '@tanstack/react-query'
 
 import { TDappPermissionComponentProps } from '../../index'
-
 import { Fee } from './Fee'
 import { Invocation } from './Invocation'
 import { Signer } from './Signer'
@@ -73,7 +76,7 @@ export const Neo3ContractInvocationDappPermission = ({
   }, [t, params])
 
   return (
-    <div className="flex min-h-0 flex-col overflow-y-auto pl-5 pr-2">
+    <div className="flex min-h-0 flex-col overflow-y-auto pr-2 pl-5">
       <DappPermissionHeader session={session} />
 
       <div className="flex flex-col items-center">
@@ -89,7 +92,7 @@ export const Neo3ContractInvocationDappPermission = ({
           ))}
         </ul>
 
-        <div className="mt-2.5 w-full rounded bg-asphalt px-4 pb-5 pt-3 text-sm text-gray-100">
+        <div className="bg-asphalt mt-2.5 w-full rounded-sm px-4 pt-3 pb-5 text-sm text-gray-100">
           {params.signers && (
             <Fragment>
               <ul className="flex flex-col gap-2">
@@ -99,7 +102,7 @@ export const Neo3ContractInvocationDappPermission = ({
                   </li>
                 ))}
               </ul>
-              <Separator className="mb-4 mt-3" />
+              <Separator className="mt-3 mb-4" />
             </Fragment>
           )}
 
@@ -115,7 +118,7 @@ export const Neo3ContractInvocationDappPermission = ({
         <Button label={t('cancelButtonLabel')} colorSchema="gray" onClick={() => onReject()} />
         <Button
           label={t('acceptButtonLabel')}
-          className="flex-grow"
+          className="grow"
           onClick={handleAccept}
           loading={isApproving}
           disabled={feeIsLoading || isApproving}

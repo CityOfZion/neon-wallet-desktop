@@ -1,6 +1,6 @@
-import { enResources } from '@shared/locales/en'
-
 import 'i18next'
+
+import { enResources } from '@shared/locales/en'
 
 declare module 'i18next' {
   interface CustomTypeOptions {

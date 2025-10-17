@@ -1,24 +1,29 @@
 import { ChangeEvent, useState } from 'react'
+
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
-import TbArrowRight from '@renderer/assets/images/tb-arrow-right.svg?react'
-import TbReload from '@renderer/assets/images/tb-reload.svg?react'
+import { useNavigate } from 'react-router'
+
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { PasswordStrength } from '@renderer/components/PasswordStrength'
 import { Separator } from '@renderer/components/Separator'
+
 import { PasswordHelper } from '@renderer/helpers/PasswordHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+
 import { useActions } from '@renderer/hooks/useActions'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
+
+import TbArrowRight from '@renderer/assets/images/tb-arrow-right.svg?react'
+import TbReload from '@renderer/assets/images/tb-reload.svg?react'
 
 type TFormData = {
   newPassword: string
   currentPassword: string
 }
 
-export const ChangePasswordStep1 = (): JSX.Element => {
+const ChangePasswordStep1 = () => {
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const { t } = useTranslation('pages', { keyPrefix: 'settings.changePassword.step1' })
   const navigate = useNavigate()
@@ -45,7 +50,7 @@ export const ChangePasswordStep1 = (): JSX.Element => {
       return
     }
 
-    navigate('/app/settings/security/change-password/step-2', { state: { encryptedNewPassword } })
+    navigate('/settings/security/change-password/2', { state: { encryptedNewPassword } })
 
     reset()
   }
@@ -64,19 +69,19 @@ export const ChangePasswordStep1 = (): JSX.Element => {
 
   return (
     <div className="flex h-full w-full flex-col items-center px-5">
-      <form className="flex flex-grow flex-col items-center justify-between" onSubmit={handleAct(handleSubmit)}>
+      <form className="flex grow flex-col items-center justify-between" onSubmit={handleAct(handleSubmit)}>
         <div className="mb-6 text-center">
           <span className="text-xs">{t('subtitle')}</span>
         </div>
-        <div className="flex flex-grow flex-col justify-between">
-          <div className="w-[27rem]">
+        <div className="flex grow flex-col justify-between">
+          <div className="w-108">
             <div className="mb-2 flex w-full items-center justify-between">
-              <span className="text-xs font-bold uppercase text-gray-100">{t('titleInput1')}</span>
+              <span className="text-xs font-bold text-gray-100 uppercase">{t('titleInput1')}</span>
               <Button
                 variant="text"
                 flat
                 type="button"
-                leftIcon={<TbReload aria-hidden={true} />}
+                leftIcon={<TbReload aria-hidden />}
                 label={t('generatePassword')}
                 onClick={handleGeneratePassword}
               />
@@ -92,8 +97,8 @@ export const ChangePasswordStep1 = (): JSX.Element => {
               <PasswordStrength password={actionData.newPassword} />
             </div>
             <Separator />
-            <div className="mb-2 mt-5 flex w-full">
-              <span className="text-xs font-bold uppercase text-gray-100">{t('titleInput2')}</span>
+            <div className="mt-5 mb-2 flex w-full">
+              <span className="text-xs font-bold text-gray-100 uppercase">{t('titleInput2')}</span>
             </div>
             <div className="mb-5 flex flex-col items-center">
               <Input
@@ -126,3 +131,5 @@ export const ChangePasswordStep1 = (): JSX.Element => {
     </div>
   )
 }
+
+export default ChangePasswordStep1

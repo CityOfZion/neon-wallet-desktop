@@ -1,4 +1,5 @@
-import { cloneElement, ComponentProps } from 'react'
+import { cloneElement, ComponentProps, type JSX } from 'react'
+
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 type TProps = {
@@ -10,7 +11,7 @@ export const AlertSuccessBanner = ({ message, className, icon, ...props }: TProp
   return (
     <div
       className={StyleHelper.mergeStyles(
-        'flex items-center gap-5 rounded bg-green-700 px-5 py-2.5 text-xs text-white',
+        'flex items-center gap-5 rounded-sm bg-green-700 px-5 py-2.5 text-xs text-white',
         className
       )}
       {...props}

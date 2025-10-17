@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 
 import { BlockchainIcon } from './BlockchainIcon'
@@ -22,7 +23,7 @@ const Root = ({ blockchain, children }: TRootProps) => {
   const { t: blockchainT } = useTranslation('common', { keyPrefix: 'blockchain' })
 
   return (
-    <div className="gap-y-4 rounded bg-asphalt p-2">
+    <div className="bg-asphalt gap-y-4 rounded-sm p-2">
       <div className="flex items-center gap-x-2 p-2">
         <BlockchainIcon blockchain={blockchain} type="white" />
         {blockchainT(blockchain)}

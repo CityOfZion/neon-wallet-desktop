@@ -1,18 +1,23 @@
 import { useEffect } from 'react'
+
+import { useVirtualizer } from '@tanstack/react-virtual'
+import * as dateFns from 'date-fns'
 import { useTranslation } from 'react-i18next'
-import TbAlertTriangle from '@renderer/assets/images/tb-alert-triangle.svg?react'
+import { match, P } from 'ts-pattern'
+
 import { Separator } from '@renderer/components/Separator'
-import { TransactionActivityListProvider } from '@renderer/contexts/TransactionActivityListContext'
+
 import { useActions } from '@renderer/hooks/useActions'
 import { useGetFullTransactions } from '@renderer/hooks/useGetFullTransactions'
 import { useInfiniteScroll } from '@renderer/hooks/useInfiniteScroll'
 import { useTransactionActivityList } from '@renderer/hooks/useTransactionActivityList'
+
+import TbAlertTriangle from '@renderer/assets/images/tb-alert-triangle.svg?react'
+
+import { TransactionActivityListProvider } from '@renderer/contexts/TransactionActivityListContext'
 import { TTransactionActivityListEventColumnSize } from '@shared/@types/modal'
 import { IAccountState } from '@shared/@types/store'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
-import { useVirtualizer } from '@tanstack/react-virtual'
-import * as dateFns from 'date-fns'
-import { match, P } from 'ts-pattern'
 
 import { TransactionActivityListDateRange } from './TransactionActivityListDateRange'
 import { TransactionActivityListItem } from './TransactionActivityListItem'
@@ -203,13 +208,13 @@ const Content = ({ defaultAccounts }: TProps) => {
         .with({ isLoading: true }, () => <TransactionActivityListSkeleton />)
         .with({ data: [] }, () => (
           <section className="mt-16 flex flex-col items-center text-center">
-            <TbAlertTriangle aria-hidden={true} className="mb-2 h-16 w-16 text-blue" />
+            <TbAlertTriangle aria-hidden className="text-blue mb-2 h-16 w-16" />
             <h3 className="text-lg text-white">{t('notFoundTitle')}</h3>
             <p className="text-gray-300">{t('notFoundDescription')}</p>
           </section>
         ))
         .otherwise(() => (
-          <div className="min-h-0 w-full overflow-y-auto overflow-x-hidden" ref={scrollRef} onScroll={handleScroll}>
+          <div className="min-h-0 w-full overflow-x-hidden overflow-y-auto" ref={scrollRef} onScroll={handleScroll}>
             <ul className="relative flex w-full flex-col" style={{ height: `${virtualizer.getTotalSize()}px` }}>
               {virtualizer.getVirtualItems().map(virtualItem => {
                 const { date, items } = data[virtualItem.index]
@@ -217,7 +222,7 @@ const Content = ({ defaultAccounts }: TProps) => {
                 return (
                   <li
                     key={virtualItem.key}
-                    className="absolute left-0 top-0 flex w-full flex-col"
+                    className="absolute top-0 left-0 flex w-full flex-col"
                     style={{
                       height: `${virtualItem.size}px`,
                       transform: `translateY(${virtualItem.start}px)`,

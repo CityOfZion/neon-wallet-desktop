@@ -1,14 +1,19 @@
 import { useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
+
 import { TSession } from '@cityofzion/wallet-connect-sdk-wallet-core'
-import dappFallbackIcon from '@renderer/assets/images/dapp-fallback-icon.png'
-import TbPlugX from '@renderer/assets/images/tb-plug-x.svg?react'
+import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
+import { useTranslation } from 'react-i18next'
+
 import { DateHelper } from '@renderer/helpers/DateHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
+
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+
+import dappFallbackIcon from '@renderer/assets/images/dapp-fallback-icon.png'
+import TbPlugX from '@renderer/assets/images/tb-plug-x.svg?react'
+
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
-import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 
 import { BlockchainIcon } from '../BlockchainIcon'
 import { Button } from '../Button'
@@ -35,7 +40,7 @@ export const useColumns = (withAddress: boolean) => {
                 src={value.icons[0]}
                 alt={value.name}
                 fallbackSrc={dappFallbackIcon}
-                className="h-5 w-5 min-w-[1.25rem] overflow-hidden rounded-full bg-gray-300/30 object-contain"
+                className="h-5 w-5 min-w-5 overflow-hidden rounded-full bg-gray-300/30 object-contain"
               />
               <span className="truncate">{value.name}</span>
             </div>

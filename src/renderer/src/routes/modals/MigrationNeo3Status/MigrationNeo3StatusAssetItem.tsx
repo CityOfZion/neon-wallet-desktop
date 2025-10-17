@@ -1,15 +1,18 @@
+import { TBSToken } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
-import { Token } from '@cityofzion/blockchain-service'
+
 import { ExchangeHelper } from '@renderer/helpers/ExchangeHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
+
 import { useExchange } from '@renderer/hooks/useExchange'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
-import { bsAggregator } from '@renderer/libs/blockchainService'
+
+import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 
 type TProps = {
   amount: string
-  token: Token
+  token: TBSToken
   blockchain: TBlockchainServiceKey
 }
 
@@ -28,7 +31,7 @@ export const MigrationNeo3StatusAssetItem = ({ amount, token, blockchain }: TPro
 
   return (
     <p className="flex w-full items-center gap-x-2 uppercase">
-      <span className="flex-grow text-white">
+      <span className="grow text-white">
         {amount} {token.symbol} <span className="text-gray-100">| {tBlockchain(blockchain)}</span>
       </span>
 

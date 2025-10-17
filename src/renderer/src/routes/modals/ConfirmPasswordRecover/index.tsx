@@ -1,9 +1,10 @@
 import { useTranslation } from 'react-i18next'
-import TbReload from '@renderer/assets/images/tb-reload.svg?react'
+
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
+
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import {
@@ -12,7 +13,11 @@ import {
   TUseNeonBackupGeneratedData,
   useNeonImportBackup,
 } from '@renderer/hooks/useNeonBackup'
+
 import { SideModalLayout } from '@renderer/layouts/SideModal'
+
+import TbReload from '@renderer/assets/images/tb-reload.svg?react'
+
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 
 type TFormData = {
@@ -29,14 +34,14 @@ const SuccessFooter = () => {
   const { modalNavigateWrapper } = useModalNavigate()
 
   return (
-    <div className="flex w-full flex-grow flex-col items-center justify-end gap-7">
+    <div className="flex w-full grow flex-col items-center justify-end gap-7">
       <Separator />
       <Button label={t('returnSettings')} onClick={modalNavigateWrapper(-1)} className="w-full px-9" />
     </div>
   )
 }
 
-export const ConfirmPasswordRecoverModal = () => {
+const ConfirmPasswordRecoverModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'confirmPasswordRecover' })
   const { data, onDecrypt } = useModalState<TLocationState>()
   const { modalNavigate } = useModalNavigate()
@@ -87,9 +92,9 @@ export const ConfirmPasswordRecoverModal = () => {
       contentClassName="flex flex-col"
     >
       <p className="mb-5 text-xs">{t('description')}</p>
-      <p className="mb-3.5 font-bold uppercase text-gray-300">{t('subtitle')}</p>
+      <p className="mb-3.5 font-bold text-gray-300 uppercase">{t('subtitle')}</p>
 
-      <form className="flex flex-grow flex-col justify-between" onSubmit={handleAct(handleSubmit)}>
+      <form className="flex grow flex-col justify-between" onSubmit={handleAct(handleSubmit)}>
         <div>
           <Input
             placeholder={t('inputPlaceholder')}
@@ -113,3 +118,5 @@ export const ConfirmPasswordRecoverModal = () => {
     </SideModalLayout>
   )
 }
+
+export default ConfirmPasswordRecoverModal

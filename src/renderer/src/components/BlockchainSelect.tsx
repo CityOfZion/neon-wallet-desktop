@@ -1,8 +1,11 @@
 import { Fragment } from 'react'
+
 import { useTranslation } from 'react-i18next'
+
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
-import { bsAggregator } from '@renderer/libs/blockchainService'
+
+import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 
 import { BlockchainIcon } from './BlockchainIcon'

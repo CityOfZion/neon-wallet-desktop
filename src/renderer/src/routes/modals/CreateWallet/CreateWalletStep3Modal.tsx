@@ -1,12 +1,17 @@
 import { useTranslation } from 'react-i18next'
-import MdLooks3 from '@renderer/assets/images/md-looks-3.svg?react'
+
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
+
 import { StringHelper } from '@renderer/helpers/StringHelper'
+
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
+
 import { CreateWalletModalLayout } from '@renderer/layouts/CreateWalletModalLayout'
+
+import MdLooks3 from '@renderer/assets/images/md-looks-3.svg?react'
 
 type TLocationState = {
   words: string[]
@@ -16,7 +21,7 @@ type TFormData = {
   name: string
 }
 
-export const CreateWalletStep3Modal = () => {
+const CreateWalletStep3Modal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'createWallet.step3' })
   const { words } = useModalState<TLocationState>()
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
@@ -51,18 +56,18 @@ export const CreateWalletStep3Modal = () => {
     <CreateWalletModalLayout>
       <header className="flex items-center justify-between py-2.5">
         <div className="flex items-center gap-x-2.5">
-          <MdLooks3 aria-hidden={true} className="h-4.5 w-4.5 text-blue" />
+          <MdLooks3 aria-hidden className="text-blue h-4.5 w-4.5" />
           <h2 className="text-sm">{t('title')}</h2>
         </div>
-        <div className="text-sm text-blue">{t('step3of4')}</div>
+        <div className="text-blue text-sm">{t('step3of4')}</div>
       </header>
-      <Separator className="mb-9 min-h-[0.0625rem]" />
-      <form onSubmit={handleAct(handleSubmit)} className="flex w-full flex-grow flex-col items-center justify-between">
+      <Separator className="mb-9 min-h-0.25" />
+      <form onSubmit={handleAct(handleSubmit)} className="flex w-full grow flex-col items-center justify-between">
         <div className="flex w-full flex-col gap-8">
           <div className="text-xs text-gray-100">{t('description')}</div>
           <Separator />
           <div className="flex flex-col gap-2.5 px-28">
-            <div className="text-xs font-bold uppercase text-gray-300">{t('inputLabel')}</div>
+            <div className="text-xs font-bold text-gray-300 uppercase">{t('inputLabel')}</div>
             <Input
               placeholder={t('inputPlaceholder')}
               errorMessage={actionState.errors.name}
@@ -84,3 +89,5 @@ export const CreateWalletStep3Modal = () => {
     </CreateWalletModalLayout>
   )
 }
+
+export default CreateWalletStep3Modal

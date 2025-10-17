@@ -2,16 +2,16 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Electron</title>
+    <title>Neon Wallet</title>
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src * data:; script-src 'self'  https://browser.sentry-cdn.com https://js.sentry-cdn.com; style-src 'self' 'unsafe-inline'"
+      content="default-src * sentry-ipc://* data:; script-src 'self' https://browser.sentry-cdn.com https://js.sentry-cdn.com sentry-ipc://*; style-src 'self' 'unsafe-inline'"
     />
   </head>
 
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <script type="module" src="src/main.tsx"></script>
   </body>
 </html>

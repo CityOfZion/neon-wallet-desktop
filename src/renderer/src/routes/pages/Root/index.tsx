@@ -1,42 +1,81 @@
-import { useEffect } from 'react'
-import { Provider as StoreProvider } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { lazy, Suspense, useState } from 'react'
+
 import { WalletConnectWalletProvider } from '@cityofzion/wallet-connect-sdk-wallet-react'
-import { DragRegion } from '@renderer/components/DragRegion'
-import { ModalRouterProvider } from '@renderer/contexts/ModalRouterContext'
-import { queryClient } from '@renderer/libs/query'
-import { ToastProvider } from '@renderer/libs/sonner'
-import { walletConnectOptions } from '@renderer/libs/walletConnectSDK'
-import { modalsRouter } from '@renderer/routes/modalsRouter'
-import { RootStore } from '@renderer/store/RootStore'
-import * as Sentry from '@sentry/react'
 import { QueryClientProvider } from '@tanstack/react-query'
-import { PersistGate } from 'redux-persist/integration/react'
+import { Provider as StoreProvider } from 'react-redux'
+import { Outlet, useNavigate } from 'react-router'
 
-import { Child } from './Child'
+import { ScreenLoader } from '@renderer/components/ScreenLoader'
 
-export const RootPage = () => {
+import { LazyHelper } from '@renderer/helpers/LazyHelper'
+
+import { useMountUnsafe } from '@renderer/hooks/useMount'
+
+import { modalsRouter } from '@renderer/routes/modalsRouter'
+
+import { ModalRouterProvider } from '@renderer/contexts/ModalRouterContext'
+import { setupBSAggregator } from '@renderer/libs/blockchain-service'
+import { queryClient } from '@renderer/libs/query'
+import { walletConnectOptions } from '@renderer/libs/walletConnectSDK'
+import { RootStore } from '@renderer/store/RootStore'
+import * as Sentry from '@sentry/electron/renderer'
+import { setupI18next } from '@shared/libs/i18next'
+
+const ToastProvider = lazy(() => import('@renderer/libs/sonner'))
+const DeeplinkManagerSetup = LazyHelper.delayedLazy(() => import('./DeeplinkManagerSetup'), 1000)
+const OverTheAirManagerSetup = LazyHelper.delayedLazy(() => import('./OverTheAirManagerSetup'), 5000)
+
+const RootPage = () => {
   const navigate = useNavigate()
 
-  useEffect(() => {
-    navigate('/login-password')
-  }, [navigate])
+  const [ready, setReady] = useState(false)
+
+  useMountUnsafe(async () => {
+    try {
+      setupI18next()
+      setupBSAggregator()
+      RootStore.setupStore()
+      await RootStore.waitForBootstrap()
+
+      const state = RootStore.store.getState()
+      if (state.settings.data.isFirstTime) {
+        navigate('/welcome')
+        return
+      }
+
+      navigate('/login/password')
+    } catch (error) {
+      console.error('Error during app initialization:', error)
+      Sentry.captureException(error)
+    } finally {
+      setReady(true)
+    }
+  })
+
+  if (!ready) {
+    return <ScreenLoader />
+  }
 
   return (
-    <Sentry.ErrorBoundary>
-      <StoreProvider store={RootStore.store}>
-        <PersistGate persistor={RootStore.persistor}>
-          <WalletConnectWalletProvider options={walletConnectOptions}>
-            <QueryClientProvider client={queryClient}>
-              <ModalRouterProvider routes={modalsRouter}>
-                <DragRegion />
-                <Child />
-                <ToastProvider />
-              </ModalRouterProvider>
-            </QueryClientProvider>
-          </WalletConnectWalletProvider>
-        </PersistGate>
-      </StoreProvider>
-    </Sentry.ErrorBoundary>
+    <StoreProvider store={RootStore.store}>
+      <WalletConnectWalletProvider options={walletConnectOptions}>
+        <QueryClientProvider client={queryClient}>
+          <ModalRouterProvider routes={modalsRouter}>
+            <Outlet />
+
+            <Suspense fallback={null}>
+              <OverTheAirManagerSetup />
+              <DeeplinkManagerSetup />
+            </Suspense>
+
+            <Suspense fallback={null}>
+              <ToastProvider />
+            </Suspense>
+          </ModalRouterProvider>
+        </QueryClientProvider>
+      </WalletConnectWalletProvider>
+    </StoreProvider>
   )
 }
+
+export default RootPage

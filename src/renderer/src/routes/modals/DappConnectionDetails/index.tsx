@@ -1,21 +1,28 @@
 import { Fragment, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+
 import { TSessionProposal } from '@cityofzion/wallet-connect-sdk-wallet-core'
 import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
-import dappFallbackIcon from '@renderer/assets/images/dapp-fallback-icon.png'
-import NeonWalletLogo from '@renderer/assets/images/neon-wallet-full.svg?react'
-import TbPlug from '@renderer/assets/images/tb-plug.svg?react'
-import WalletConnectLogo from '@renderer/assets/images/wallet-connect.svg?react'
+import { useTranslation } from 'react-i18next'
+
 import { Button } from '@renderer/components/Button'
 import { ImageWithFallback } from '@renderer/components/ImageWithFallback'
 import { Loader } from '@renderer/components/Loader'
 import { Separator } from '@renderer/components/Separator'
+
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
+
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useMountUnsafe } from '@renderer/hooks/useMount'
 import { useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
+
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
+
+import dappFallbackIcon from '@renderer/assets/images/dapp-fallback-icon.png'
+import NeonWalletLogo from '@renderer/assets/images/neon-wallet-full.svg?react'
+import TbPlug from '@renderer/assets/images/tb-plug.svg?react'
+import WalletConnectLogo from '@renderer/assets/images/wallet-connect.svg?react'
+
 import { TWalletConnectHelperProposalInformation } from '@shared/@types/helpers'
 import { IAccountState } from '@shared/@types/store'
 
@@ -27,7 +34,7 @@ type TModalState = {
   account: IAccountState
 }
 
-export const DappConnectionDetailsModal = () => {
+const DappConnectionDetailsModal = () => {
   const { proposal, account } = useModalState<TModalState>()
   const { rejectProposal, approveProposal } = useWalletConnectWallet()
   const { modalNavigate } = useModalNavigate()
@@ -63,7 +70,7 @@ export const DappConnectionDetailsModal = () => {
       modalNavigate('success', {
         state: {
           heading: t('successModal.title'),
-          headingIcon: <TbPlug aria-hidden={true} />,
+          headingIcon: <TbPlug aria-hidden />,
           subtitle: t('successModal.subtitle'),
           content: <DappConnectionSuccessContent />,
         },
@@ -83,7 +90,7 @@ export const DappConnectionDetailsModal = () => {
       modalNavigate('error', {
         state: {
           heading: t('errorModal.title'),
-          headingIcon: <TbPlug aria-hidden={true} />,
+          headingIcon: <TbPlug aria-hidden />,
           subtitle: t('errorModal.subtitle'),
           content: <DappConnectionErrorContent />,
         },
@@ -118,16 +125,16 @@ export const DappConnectionDetailsModal = () => {
       {proposalInformation ? (
         <Fragment>
           <div className="flex w-full items-center gap-x-12">
-            <NeonWalletLogo aria-hidden={true} className="h-min w-full" />
+            <NeonWalletLogo aria-hidden className="h-min w-full" />
 
-            <WalletConnectLogo aria-hidden={true} className="h-min w-full opacity-60" />
+            <WalletConnectLogo aria-hidden className="h-min w-full opacity-60" />
           </div>
 
           <ImageWithFallback
             src={proposal.params.proposer.metadata.icons[0]}
             alt={`${proposal.params.proposer.metadata.name} icon`}
             fallbackSrc={dappFallbackIcon}
-            className="mt-5 max-h-[2.25rem] max-w-[4rem] rounded-sm object-contain"
+            className="mt-5 max-h-9 max-w-16 rounded-xs object-contain"
           />
 
           <p className="mt-9 text-2xl text-white">{t('title')}</p>
@@ -136,15 +143,15 @@ export const DappConnectionDetailsModal = () => {
             {t('description', { name: proposal.params.proposer.metadata.name })}
           </p>
 
-          <ul className="mt-2 flex w-full flex-grow flex-col gap-2 overflow-y-auto">
+          <ul className="mt-2 flex w-full grow flex-col gap-2 overflow-y-auto">
             {proposalInformation && (
               <li
                 key={proposalInformation.blockchain}
-                className="flex w-full flex-col rounded bg-gray-900 px-4 py-2.5 text-white"
+                className="flex w-full flex-col rounded-sm bg-gray-900 px-4 py-2.5 text-white"
               >
                 <div className="flex items-center justify-between text-sm">
                   <div className="flex items-center gap-x-2.5">
-                    <TbPlug aria-hidden={true} className="h-6 w-6 stroke-blue" />
+                    <TbPlug aria-hidden className="stroke-blue h-6 w-6" />
 
                     <span>{t('connectionDetailsTitle')}</span>
                   </div>
@@ -154,7 +161,7 @@ export const DappConnectionDetailsModal = () => {
 
                 <Separator className="my-2.5" />
 
-                <ul className="grid max-h-[10rem] grid-cols-2 overflow-y-scroll text-xs">
+                <ul className="grid max-h-40 grid-cols-2 overflow-y-scroll text-xs">
                   {proposalInformation.methods.map(method => (
                     <li key={method} className="mx-4 w-1/2 list-disc">
                       {method}
@@ -169,12 +176,12 @@ export const DappConnectionDetailsModal = () => {
             <Button
               label={t('declineButtonLabel')}
               colorSchema="gray"
-              className="min-w-[7.5rem]"
+              className="min-w-30"
               onClick={handleDecline}
               disabled={loading}
             />
 
-            <Button label={t('acceptButtonLabel')} className="flex-grow" onClick={handleAccept} loading={loading} />
+            <Button label={t('acceptButtonLabel')} className="grow" onClick={handleAccept} loading={loading} />
           </div>
         </Fragment>
       ) : (
@@ -183,3 +190,5 @@ export const DappConnectionDetailsModal = () => {
     </CenterModalLayout>
   )
 }
+
+export default DappConnectionDetailsModal

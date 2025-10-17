@@ -1,14 +1,19 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
+
+import { cloneDeep } from 'lodash'
 import { useTranslation } from 'react-i18next'
-import TbCheck from '@renderer/assets/images/tb-check.svg?react'
-import TbChevronUp from '@renderer/assets/images/tb-chevron-up.svg?react'
+
 import { SearchInput } from '@renderer/components/SearchInput'
+
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
+
+import TbCheck from '@renderer/assets/images/tb-check.svg?react'
+import TbChevronUp from '@renderer/assets/images/tb-chevron-up.svg?react'
+
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { IContactState, TContactAddress } from '@shared/@types/store'
-import { cloneDeep } from 'lodash'
 
 import { BlockchainIcon } from './BlockchainIcon'
 import { Separator } from './Separator'
@@ -131,11 +136,11 @@ export const ContactList = ({
 
         <section
           {...TestHelper.buildTestObject('contacts-list')}
-          className="flex w-full flex-grow basis-0 flex-col gap-y-5 overflow-y-auto text-xs"
+          className="flex w-full grow basis-0 flex-col gap-y-5 overflow-y-auto text-xs"
         >
           {groupContactsByFirstLetter.map(([letter, letterContacts]) => (
             <div key={letter}>
-              <div className="flex h-6 items-center bg-asphalt/50 pl-4 font-bold text-blue">{letter}</div>
+              <div className="bg-asphalt/50 text-blue flex h-6 items-center pl-4 font-bold">{letter}</div>
 
               {letterContacts.map((contact, index) => {
                 const isContactSelected = selectedContact?.id === contact.id
@@ -145,7 +150,7 @@ export const ContactList = ({
                     <button
                       onClick={handleContactSelected.bind(null, contact)}
                       className={StyleHelper.mergeStyles(
-                        'flex h-10 w-full items-center justify-between border-l-4 border-transparent py-4 pl-2 hover:border-neon hover:bg-gray-900',
+                        'hover:border-neon flex h-10 w-full items-center justify-between border-l-4 border-transparent py-4 pl-2 hover:bg-gray-900',
                         {
                           'border-neon bg-gray-900': isContactSelected,
                         }
@@ -170,7 +175,7 @@ export const ContactList = ({
                       </div>
 
                       {showSelectedAddress && isContactSelected && (
-                        <TbChevronUp aria-hidden={true} className="mr-3 h-4 w-4 text-gray-300" />
+                        <TbChevronUp aria-hidden className="mr-3 h-4 w-4 text-gray-300" />
                       )}
                     </button>
 
@@ -210,12 +215,12 @@ export const ContactList = ({
                                   </div>
                                 </div>
 
-                                {isAddressSelected && <TbCheck aria-hidden={true} className="mr-3 h-5 w-5 text-neon" />}
+                                {isAddressSelected && <TbCheck aria-hidden className="text-neon mr-3 h-5 w-5" />}
                               </div>
                             </button>
 
                             {addressIndex !== filteredSelectedContactAddresses.length - 1 && (
-                              <div className="pl-[4.5rem]">
+                              <div className="pl-18">
                                 <Separator />
                               </div>
                             )}

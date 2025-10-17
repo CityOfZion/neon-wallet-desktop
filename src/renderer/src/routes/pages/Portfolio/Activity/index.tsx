@@ -1,15 +1,19 @@
 import { Fragment } from 'react'
+
 import { useTranslation } from 'react-i18next'
+
 import { RefreshAction } from '@renderer/components/RefreshAction'
 import { Separator } from '@renderer/components/Separator'
 import { TransactionActivityList } from '@renderer/components/TransactionActivityList'
+
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
+
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useBalances } from '@renderer/hooks/useBalances'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
 
-export const PortfolioActivityPage = () => {
+const PortfolioActivityPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'portfolio.portfolioActivity' })
   const { accounts } = useAccountsSelector()
   const { wallets } = useWalletsSelector()
@@ -17,7 +21,7 @@ export const PortfolioActivityPage = () => {
   const balances = useBalances(accounts)
 
   return (
-    <section className="flex h-full w-full min-w-0 flex-col rounded bg-gray-800 px-4 py-3 shadow-lg">
+    <Fragment>
       <div className="mb-3 flex h-5 max-h-5 min-h-5 items-center justify-between gap-x-4 text-sm">
         <h1 className="text-white">{t('allActivity')}</h1>
 
@@ -44,6 +48,8 @@ export const PortfolioActivityPage = () => {
       </div>
 
       <TransactionActivityList defaultAccounts={accounts} />
-    </section>
+    </Fragment>
   )
 }
+
+export default PortfolioActivityPage

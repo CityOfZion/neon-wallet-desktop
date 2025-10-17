@@ -1,11 +1,15 @@
 import { useTranslation } from 'react-i18next'
-import MdLaunch from '@renderer/assets/images/md-launch.svg?react'
+
 import { Button } from '@renderer/components/Button'
 import { MigrateSteps } from '@renderer/components/MigrateSteps'
+
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+
 import { SettingsLayout } from '@renderer/layouts/Settings'
 
-export const SettingsMigrateWalletsPage = () => {
+import MdLaunch from '@renderer/assets/images/md-launch.svg?react'
+
+const SettingsMigrateWalletsPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'settings.settingsMigrateWallets' })
   const { modalNavigateWrapper } = useModalNavigate()
 
@@ -15,11 +19,11 @@ export const SettingsMigrateWalletsPage = () => {
 
   return (
     <SettingsLayout title={t('title')} contentClassName="items-center">
-      <div className="flex max-w-[33rem] flex-grow flex-col">
-        <h2 className="text-xs font-bold uppercase text-gray-100">{t('subtitleWhy')}</h2>
+      <div className="flex max-w-132 grow flex-col">
+        <h2 className="text-xs font-bold text-gray-100 uppercase">{t('subtitleWhy')}</h2>
         <p className="mt-3 text-xs text-gray-100">{t('descriptionWhy')}</p>
 
-        <h2 className="mt-8 text-xs font-bold uppercase text-gray-100">{t('subtitleHow')}</h2>
+        <h2 className="mt-8 text-xs font-bold text-gray-100 uppercase">{t('subtitleHow')}</h2>
 
         <MigrateSteps className="mt-5" />
       </div>
@@ -44,3 +48,5 @@ export const SettingsMigrateWalletsPage = () => {
     </SettingsLayout>
   )
 }
+
+export default SettingsMigrateWalletsPage

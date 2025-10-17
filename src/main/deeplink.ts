@@ -1,10 +1,11 @@
-import { mainApi } from '@shared/api/main'
 import { app } from 'electron'
 import path from 'path'
 
+import { mainApi } from '@shared/api/main'
+
 let initialDeepLinkUri: string | undefined = undefined
 
-export function registerDeeplinkProtocol() {
+export function setupDeeplinkProtocol() {
   if (process.defaultApp) {
     if (process.argv.length >= 2) {
       app.setAsDefaultProtocolClient('neon', process.execPath, [path.resolve(process.argv[1])])
@@ -16,19 +17,16 @@ export function registerDeeplinkProtocol() {
   }
 }
 
-export function setInitialDeeplink(deeplinkUrl: string | undefined) {
+export function setInitialDeeplink(deeplinkUrl?: string) {
   initialDeepLinkUri = deeplinkUrl
 }
 
-export function registerOpenUrlListener() {
+export function setupDeeplinkHandler() {
   app.on('open-url', (_event, url) => {
     initialDeepLinkUri = url
-
     mainApi.send('deeplink', url)
   })
-}
 
-export function registerDeeplinkHandler() {
   mainApi.listenAsync('getInitialDeepLinkUri', () => {
     return initialDeepLinkUri
   })

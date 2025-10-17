@@ -1,10 +1,12 @@
 import { Fragment } from 'react'
+
 import { useTranslation } from 'react-i18next'
-import MdLooks4 from '@renderer/assets/images/md-looks-4.svg?react'
-import TbPackageImport from '@renderer/assets/images/tb-package-import.svg?react'
+
 import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'
+
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
+
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import {
@@ -14,7 +16,11 @@ import {
   TUseNeonMigrateSchema,
   useNeonImportMigrate,
 } from '@renderer/hooks/useNeonMigrate'
+
 import { MigrateAccountsModalLayout } from '@renderer/layouts/MigrateAccountsModalLayout'
+
+import MdLooks4 from '@renderer/assets/images/md-looks-4.svg?react'
+import TbPackageImport from '@renderer/assets/images/tb-package-import.svg?react'
 
 import { MigrateAccountsStep4Password } from './MigrateAccountsStep4Password'
 import { SuccessContent } from './SuccessContent'
@@ -29,7 +35,7 @@ type TActionData = {
   decryptedAccounts: TUseNeonMigrateDecryptedAccountSchema[]
 }
 
-export const MigrateAccountsStep4Modal = () => {
+const MigrateAccountsStep4Modal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'migrateWallets' })
   const { selectedAccountsToMigrate, content, onDecrypt } = useModalState<TState>()
   const { modalNavigate } = useModalNavigate()
@@ -76,13 +82,13 @@ export const MigrateAccountsStep4Modal = () => {
   return (
     <MigrateAccountsModalLayout
       currentStep={4}
-      stepIcon={<MdLooks4 aria-hidden={true} />}
+      stepIcon={<MdLooks4 aria-hidden />}
       stepTitle={t('title')}
       withBackButton
     >
       <p>{t('step4.description')}</p>
 
-      <div className="mb-3 mt-1 flex min-h-0 w-full flex-grow flex-col overflow-y-auto pr-2">
+      <div className="mt-1 mb-3 flex min-h-0 w-full grow flex-col overflow-y-auto pr-2">
         {selectedAccountsToMigrate.map((accountToMigrate, index) => (
           <Fragment key={accountToMigrate.address}>
             <MigrateAccountsStep4Password accountToMigrate={accountToMigrate} onSubmit={handlePasswordSubmit} />
@@ -105,3 +111,5 @@ export const MigrateAccountsStep4Modal = () => {
     </MigrateAccountsModalLayout>
   )
 }
+
+export default MigrateAccountsStep4Modal

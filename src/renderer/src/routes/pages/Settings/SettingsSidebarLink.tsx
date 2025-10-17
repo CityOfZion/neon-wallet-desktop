@@ -1,12 +1,13 @@
-import { cloneElement, ComponentProps } from 'react'
-import { NavLink } from 'react-router-dom'
+import { cloneElement, ComponentProps, type JSX } from 'react'
+
+import { NavLink } from 'react-router'
+
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 type TProps = {
   icon: JSX.Element
   title: string
   to: string
-  match?: boolean
   colorSchema?: 'neon' | 'gray'
   disabled?: boolean
 } & ComponentProps<'a'>
@@ -15,7 +16,6 @@ export const SettingsSidebarLink = ({
   icon,
   title,
   to,
-  match,
   colorSchema = 'gray',
   disabled = false,
   ...props
@@ -30,7 +30,7 @@ export const SettingsSidebarLink = ({
     <li className="my-3">
       <NavLink
         to={to}
-        className={({ isActive }) => `group ${isActive || match ? 'active' : ''}`}
+        className={({ isActive }) => `group ${isActive ? 'active' : ''}`}
         aria-disabled={disabled}
         onClick={handleClick}
         {...props}
@@ -38,13 +38,13 @@ export const SettingsSidebarLink = ({
         <div
           className={StyleHelper.mergeStyles(
             'justify-content-end flex w-full gap-3 border-l-3 border-transparent px-3 py-2 transition-colors',
-            'group-[.active]:border-neon group-[.active]:bg-asphalt group-aria-[disabled=false]:cursor-pointer group-aria-[disabled=false]:group-hover:border-neon group-aria-[disabled=false]:group-hover:bg-asphalt',
-            'group-aria-[disabled=true]:cursor-default group-aria-[disabled=true]:opacity-50'
+            'group-[.active]:border-neon group-[.active]:bg-asphalt group-hover:group-aria-[disabled=false]:border-neon group-hover:group-aria-[disabled=false]:bg-asphalt group-aria-[disabled=false]:cursor-pointer',
+            'group-aria-disabled:cursor-default group-aria-disabled:opacity-50'
           )}
         >
           {cloneElement(icon, {
             className: StyleHelper.mergeStyles(
-              'w-5 h-5 object-contain group-[.active]:text-neon group-aria-[disabled=false]:group-hover:text-neon transition-colors',
+              'w-5 h-5 object-contain group-[.active]:text-neon group-hover:group-aria-[disabled=false]:text-neon transition-colors',
               {
                 'text-neon': colorSchema === 'neon',
                 'text-gray-300': colorSchema === 'gray',
@@ -55,7 +55,7 @@ export const SettingsSidebarLink = ({
           <span
             className={StyleHelper.mergeStyles('leading-5 transition-colors', {
               'text-neon': colorSchema === 'neon',
-              'text-gray-300 group-[.active]:text-white group-aria-[disabled=false]:group-hover:text-white':
+              'text-gray-300 group-hover:group-aria-[disabled=false]:text-white group-[.active]:text-white':
                 colorSchema === 'gray',
             })}
           >

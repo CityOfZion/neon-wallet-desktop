@@ -1,14 +1,21 @@
 import { ChangeEvent } from 'react'
-import { useTranslation } from 'react-i18next'
+
 import { hasEncryption } from '@cityofzion/blockchain-service'
-import TbFileImport from '@renderer/assets/images/tb-file-import.svg?react'
+import { useTranslation } from 'react-i18next'
+
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
+
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
+
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalState } from '@renderer/hooks/useModalRouter'
+
 import { SideModalLayout } from '@renderer/layouts/SideModal'
-import { bsAggregator } from '@renderer/libs/blockchainService'
+
+import TbFileImport from '@renderer/assets/images/tb-file-import.svg?react'
+
+import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 
 type TLocation = {
@@ -21,7 +28,7 @@ type TFormData = {
   password: string
 }
 
-export const DecryptKeyModal = () => {
+const DecryptKeyModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'decryptKeyModal' })
   const { blockchain, encryptedKey, onDecrypt } = useModalState<TLocation>()
 
@@ -56,14 +63,10 @@ export const DecryptKeyModal = () => {
   }
 
   return (
-    <SideModalLayout
-      heading={t('title')}
-      headingIcon={<TbFileImport aria-hidden={true} />}
-      contentClassName="flex flex-col"
-    >
+    <SideModalLayout heading={t('title')} headingIcon={<TbFileImport aria-hidden />} contentClassName="flex flex-col">
       <p>{t('description')}</p>
 
-      <form className="mt-6 flex flex-grow flex-col justify-between" onSubmit={handleAct(handleSubmit)}>
+      <form className="mt-6 flex grow flex-col justify-between" onSubmit={handleAct(handleSubmit)}>
         <Input
           compacted
           clearable
@@ -85,3 +88,5 @@ export const DecryptKeyModal = () => {
     </SideModalLayout>
   )
 }
+
+export default DecryptKeyModal

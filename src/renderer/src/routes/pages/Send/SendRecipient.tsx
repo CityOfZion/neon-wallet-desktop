@@ -1,10 +1,9 @@
 import { ChangeEvent, useEffect } from 'react'
+
+import { BSBigNumberHelper, TBSToken } from '@cityofzion/blockchain-service'
+import { motion, useIsPresent } from 'motion/react'
 import { useTranslation } from 'react-i18next'
-import { BSBigNumberHelper, Token } from '@cityofzion/blockchain-service'
-import TbStepInto from '@renderer/assets/images/tb-step-into.svg?react'
-import TbUsers from '@renderer/assets/images/tb-users.svg?react'
-import TbWallet from '@renderer/assets/images/tb-wallet.svg?react'
-import VscCircleFilled from '@renderer/assets/images/vsc-circle-filled.svg?react'
+
 import { ActionStep } from '@renderer/components/ActionStep'
 import { Button } from '@renderer/components/Button'
 import { GreyAccountSelect } from '@renderer/components/GreyAccountSelect'
@@ -13,17 +12,24 @@ import { GreyTokenSelect } from '@renderer/components/GreyTokenSelect'
 import { IconButton } from '@renderer/components/IconButton'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
+
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+
 import { useDebounceFunction } from '@renderer/hooks/useDebounceFunction'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useNameService } from '@renderer/hooks/useNameService'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
-import { bsAggregator } from '@renderer/libs/blockchainService'
+
+import TbStepInto from '@renderer/assets/images/tb-step-into.svg?react'
+import TbUsers from '@renderer/assets/images/tb-users.svg?react'
+import TbWallet from '@renderer/assets/images/tb-wallet.svg?react'
+import VscCircleFilled from '@renderer/assets/images/vsc-circle-filled.svg?react'
+
+import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { TTokenBalance, TUseBalanceResult } from '@shared/@types/query'
 import { IAccountState, TContactAddress } from '@shared/@types/store'
-import { motion, useIsPresent } from 'framer-motion'
 
 export type TSendRecipient = {
   id: string
@@ -87,7 +93,7 @@ export const SendRecipient = ({
     onUpdateRecipient({ addressInput: address.address, address: undefined })
   }
 
-  const handleSelectToken = (token: Token) => {
+  const handleSelectToken = (token: TBSToken) => {
     const blockchain = balance?.data?.blockchain
 
     if (!blockchain) return
@@ -144,13 +150,13 @@ export const SendRecipient = ({
         zIndex: !isPresent ? 0 : 1,
       }}
       transition={{ type: 'spring', stiffness: 900, damping: 40, opacity: { duration: 0.05 } }}
-      className={StyleHelper.mergeStyles('w-full rounded bg-gray-800', {
+      className={StyleHelper.mergeStyles('w-full rounded-sm bg-gray-800', {
         static: isPresent,
         absolute: !isPresent,
       })}
     >
-      <div className="flex w-full flex-col items-center rounded bg-gray-700/60 px-3.5">
-        <ActionStep className="px-0" title={t('title', { order })} leftIcon={<TbStepInto aria-hidden={true} />}>
+      <div className="flex w-full flex-col items-center rounded-sm bg-gray-700/60 px-3.5">
+        <ActionStep className="px-0" title={t('title', { order })} leftIcon={<TbStepInto aria-hidden />}>
           {removable && (
             <Button
               label={commonT('general.remove')}
@@ -178,7 +184,7 @@ export const SendRecipient = ({
               pastable
               rightElement={
                 <IconButton
-                  icon={<TbUsers aria-hidden={true} />}
+                  icon={<TbUsers aria-hidden />}
                   type="button"
                   onClick={modalNavigateWrapper('select-contact', {
                     state: {
@@ -205,13 +211,13 @@ export const SendRecipient = ({
                 disabled={isDisabled}
                 variant="text"
                 label={t('myAccountButtonLabel')}
-                leftIcon={<TbWallet aria-hidden={true} />}
+                leftIcon={<TbWallet aria-hidden />}
                 flat
               />
             </GreyAccountSelect>
           </div>
 
-          {isNameService && <span className="mt-1 block text-xs text-neon">{validatedAddress}</span>}
+          {isNameService && <span className="text-neon mt-1 block text-xs">{validatedAddress}</span>}
         </div>
 
         <Separator />
@@ -219,7 +225,7 @@ export const SendRecipient = ({
         <ActionStep
           className="px-0"
           title={t('tokenToSendLabel')}
-          leftIcon={<VscCircleFilled aria-hidden={true} className="h-2 w-2 text-gray-300" />}
+          leftIcon={<VscCircleFilled aria-hidden className="h-2 w-2 text-gray-300" />}
         >
           <GreyTokenSelect
             tokens={balance?.data?.tokensBalances.map(tokenBalance => tokenBalance.token) ?? []}
@@ -236,7 +242,7 @@ export const SendRecipient = ({
         <ActionStep
           className="px-0"
           title={t('amountLabel')}
-          leftIcon={<VscCircleFilled aria-hidden={true} className="h-2 w-2 text-gray-300" />}
+          leftIcon={<VscCircleFilled aria-hidden className="h-2 w-2 text-gray-300" />}
         >
           <GreyAmountInput
             value={recipient.amount ?? ''}
@@ -251,10 +257,10 @@ export const SendRecipient = ({
         </ActionStep>
 
         <div className="flex w-full justify-between gap-x-4 pb-3 pl-8">
-          <span className="whitespace-nowrap text-xs italic text-gray-200">
+          <span className="text-xs whitespace-nowrap text-gray-200 italic">
             {t('fiatLabel', { currency: currency.label })}
           </span>
-          <span className="truncate text-xs italic text-gray-100">
+          <span className="truncate text-xs text-gray-100 italic">
             {NumberHelper.currency(
               recipient.amount && recipient.token
                 ? BSBigNumberHelper.fromNumber(recipient.amount)

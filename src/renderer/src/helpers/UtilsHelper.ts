@@ -1,11 +1,12 @@
+import _ from 'lodash'
 import { getI18n } from 'react-i18next'
+import * as uuid from 'uuid'
+
 import { AVAILABLE_RANDOM_COLORS, MANDATORY_TOKEN_COLORS } from '@renderer/constants/colors'
 import { ACCOUNT_COLOR_SKINS } from '@renderer/constants/skins'
-import { bsAggregator } from '@renderer/libs/blockchainService'
+import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TColorSkin } from '@shared/@types/store'
-import _ from 'lodash'
-import * as uuid from 'uuid'
 
 import { DateHelper } from './DateHelper'
 

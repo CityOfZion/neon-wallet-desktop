@@ -1,11 +1,13 @@
-import { cloneElement, ComponentProps, ReactNode } from 'react'
+import { cloneElement, ComponentProps, type JSX, ReactNode } from 'react'
+
+import { StyleHelper } from '@renderer/helpers/StyleHelper'
+
 import MdInfoOutline from '@renderer/assets/images/md-info-outline.svg?react'
 import MdVerified from '@renderer/assets/images/md-verified.svg?react'
 import PiWarningDiamondFill from '@renderer/assets/images/pi-warning-diamond-fill.svg?react'
 import TbAlertSmall from '@renderer/assets/images/tb-alert-small.svg?react'
 import TbAlertTriangle from '@renderer/assets/images/tb-alert-triangle.svg?react'
 import TbAlertHexagonFilled from '@renderer/assets/images/tb-filled-alert-hexagon.svg?react'
-import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 export type TBannerType = 'info' | 'error' | 'success' | 'warning' | 'warningOrange' | 'alert'
 
@@ -19,25 +21,25 @@ export type TBanner = {
 type TProps = TBanner & ComponentProps<'div'>
 
 const iconByType: Record<TBannerType, JSX.Element> = {
-  error: <TbAlertHexagonFilled aria-hidden={true} className="h-6 w-6 text-pink" />,
-  info: <MdInfoOutline aria-hidden={true} className="h-6 w-6 text-blue" />,
-  success: <MdVerified aria-hidden={true} className="h-6 w-6 text-green" />,
-  warning: <TbAlertTriangle aria-hidden={true} className="h-6 w-6 text-yellow" />,
+  error: <TbAlertHexagonFilled aria-hidden className="text-pink h-6 w-6" />,
+  info: <MdInfoOutline aria-hidden className="text-blue h-6 w-6" />,
+  success: <MdVerified aria-hidden className="text-green h-6 w-6" />,
+  warning: <TbAlertTriangle aria-hidden className="text-yellow h-6 w-6" />,
   warningOrange: (
     <div className="relative flex h-full items-center justify-center">
-      <TbAlertSmall aria-hidden={true} className="h-6 w-6 text-orange" />
+      <TbAlertSmall aria-hidden className="text-orange h-6 w-6" />
 
-      <div className="absolute h-4 w-4 rotate-45 rounded-sm border-2 border-orange" />
+      <div className="border-orange absolute h-4 w-4 rotate-45 rounded-xs border-2" />
     </div>
   ),
-  alert: <PiWarningDiamondFill aria-hidden={true} className="h-6 w-6 text-pink" />,
+  alert: <PiWarningDiamondFill aria-hidden className="text-pink h-6 w-6" />,
 }
 
 export const Banner = ({ message, type, className, textClassName, iconClassName, ...props }: TProps) => {
   const icon = iconByType[type]
 
   return (
-    <div className={StyleHelper.mergeStyles('flex items-center rounded bg-gray-300/15', className)} {...props}>
+    <div className={StyleHelper.mergeStyles('flex items-center rounded-sm bg-gray-300/15', className)} {...props}>
       <div className="flex h-full items-center justify-center rounded-l bg-gray-300/30 px-4 py-3">
         {cloneElement(icon, { className: StyleHelper.mergeStyles(icon.props.className, iconClassName) })}
       </div>

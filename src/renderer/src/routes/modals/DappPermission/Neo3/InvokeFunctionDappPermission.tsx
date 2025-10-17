@@ -2,7 +2,6 @@ import { useTranslation } from 'react-i18next'
 
 import { TDappPermissionComponentProps } from '../index'
 import { SuccessModalContent } from '../SuccessModalContent'
-
 import { Neo3ContractInvocationDappPermission } from './ContractInvocationDappPermission'
 
 export const Neo3InvokeFunctionDappPermission = (props: TDappPermissionComponentProps) => {

@@ -1,4 +1,5 @@
-import React, { cloneElement, ComponentProps } from 'react'
+import React, { cloneElement, ComponentProps, type JSX } from 'react'
+
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 type Props = {
@@ -14,10 +15,10 @@ export const SidebarButton = ({ icon, title, onClick, disabled, ...props }: Prop
       <button
         onClick={onClick}
         className={StyleHelper.mergeStyles(
-          'relative flex w-full flex-col items-center justify-center gap-1 py-2.5 text-1xs text-white transition-colors',
+          'text-1xs relative flex w-full flex-col items-center justify-center gap-1 py-2.5 text-white transition-colors',
           {
             'cursor-not-allowed bg-transparent': disabled,
-            'hover:shadow-inner-md cursor-pointer bg-transparent hover:border-l-3 hover:border-l-neon hover:bg-asphalt hover:pr-[0.188rem]':
+            'hover:shadow-inner-md hover:border-l-neon hover:bg-asphalt cursor-pointer bg-transparent hover:border-l-3 hover:pr-[0.188rem]':
               !disabled,
           }
         )}

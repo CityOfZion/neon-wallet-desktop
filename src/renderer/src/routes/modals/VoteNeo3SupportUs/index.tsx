@@ -1,29 +1,34 @@
+import type { TVoteServiceCandidate } from '@cityofzion/bs-neo3'
 import { Trans, useTranslation } from 'react-i18next'
-import CozLogo from '@renderer/assets/images/coz-logo.svg?react'
-import TbCheckbox from '@renderer/assets/images/tb-checkbox.svg?react'
-import TbHeartHandshake from '@renderer/assets/images/tb-heart-handshake.svg?react'
+
 import { Button } from '@renderer/components/Button'
 import { Checkbox } from '@renderer/components/Checkbox'
 import { Link } from '@renderer/components/Link'
-import { COZ_WEBSITE_URL } from '@renderer/constants/urls'
+
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
+
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
-import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
-import { TVoteNeo3Candidate } from '@shared/@types/query'
+
+import CozLogo from '@renderer/assets/images/coz-logo.svg?react'
+import TbCheckbox from '@renderer/assets/images/tb-checkbox.svg?react'
+import TbHeartHandshake from '@renderer/assets/images/tb-heart-handshake.svg?react'
+
+import { COZ_WEBSITE_URL } from '@renderer/constants/urls'
+import { settingsReducerActions } from '@renderer/store/reducers/settings'
 import { IAccountState } from '@shared/@types/store'
 
 type TLocationState = {
   neo3Account: IAccountState
-  cozCandidate: TVoteNeo3Candidate
+  cozCandidate: TVoteServiceCandidate
 }
 
 type TActionsData = {
   dontShowAgain: boolean
 }
 
-export const VoteNeo3SupportUsModal = () => {
+const VoteNeo3SupportUsModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'voteNeo3SupportUs' })
   const { modalEraseWrapper, modalNavigate } = useModalNavigate()
   const { neo3Account, cozCandidate } = useModalState<TLocationState>()
@@ -53,7 +58,7 @@ export const VoteNeo3SupportUsModal = () => {
     <CenterModalLayout
       heading={t('title')}
       headerClassName="pt-3"
-      headingIcon={<TbHeartHandshake aria-hidden={true} />}
+      headingIcon={<TbHeartHandshake aria-hidden />}
       contentClassName="px-8 pb-0 pt-8 my-0 flex flex-col font-light text-sm text-white"
       onClose={handleOnClose}
     >
@@ -87,7 +92,7 @@ export const VoteNeo3SupportUsModal = () => {
             variant="contained"
             iconsOnEdge={false}
             wide
-            leftIcon={<TbCheckbox aria-hidden={true} />}
+            leftIcon={<TbCheckbox aria-hidden />}
             onClick={handleGoToVoteNeo3ConfirmationModalForCoz}
           />
 
@@ -103,7 +108,7 @@ export const VoteNeo3SupportUsModal = () => {
         <div className="mt-2 flex items-center justify-center font-normal">
           <Checkbox id="dontShowAgainCheckbox" checked={dontShowAgain} onCheckedChange={handleChangeDontShowAgain} />
 
-          <label htmlFor="dontShowAgainCheckbox" className="cursor-pointer select-none pl-2">
+          <label htmlFor="dontShowAgainCheckbox" className="cursor-pointer pl-2 select-none">
             {t('dontShowAgainLabel')}
           </label>
         </div>
@@ -111,3 +116,5 @@ export const VoteNeo3SupportUsModal = () => {
     </CenterModalLayout>
   )
 }
+
+export default VoteNeo3SupportUsModal

@@ -1,5 +1,7 @@
 import { forwardRef, ReactNode } from 'react'
+
 import { useTranslation } from 'react-i18next'
+
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import { Button, TButtonProps } from './Button'
@@ -35,7 +37,7 @@ export const GreyAmountInput = forwardRef<HTMLInputElement, TProps>(
               className={StyleHelper.mergeStyles('w-12', maxButtonProps?.className)}
               clickableProps={{
                 className: StyleHelper.mergeStyles(
-                  'group-aria-[disabled=false]:bg-asphalt group-aria-[disabled=false]:hover:bg-asphalt/60 rounded-l-none',
+                  'group-aria-[disabled=false]:bg-asphalt hover:group-aria-[disabled=false]:bg-asphalt/60 rounded-l-none',
                   maxButtonProps?.clickableProps?.className
                 ),
                 ...maxButtonProps?.clickableProps,

@@ -1,6 +1,8 @@
-import { cloneElement, ComponentProps } from 'react'
-import TbAlertTriangle from '@renderer/assets/images/tb-alert-triangle.svg?react'
+import { cloneElement, ComponentProps, type JSX } from 'react'
+
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+
+import TbAlertTriangle from '@renderer/assets/images/tb-alert-triangle.svg?react'
 
 export type TAlertErrorBanner = {
   message: string | JSX.Element
@@ -15,7 +17,7 @@ export const AlertErrorBanner = ({ className, message, messageClassName, icon, i
   return (
     <div
       className={StyleHelper.mergeStyles(
-        'flex items-center gap-5 rounded bg-magenta-700 px-5 py-2.5 text-xs text-white',
+        'bg-magenta-700 flex items-center gap-5 rounded-sm px-5 py-2.5 text-xs text-white',
         className
       )}
       {...props}
@@ -26,8 +28,8 @@ export const AlertErrorBanner = ({ className, message, messageClassName, icon, i
         })
       ) : (
         <TbAlertTriangle
-          aria-hidden={true}
-          className={StyleHelper.mergeStyles('h-6 min-h-6 w-6 min-w-6 text-magenta', iconClassName)}
+          aria-hidden
+          className={StyleHelper.mergeStyles('text-magenta h-6 min-h-6 w-6 min-w-6', iconClassName)}
         />
       )}
       <span className={messageClassName}>{message}</span>

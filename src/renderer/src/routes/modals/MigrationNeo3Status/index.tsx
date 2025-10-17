@@ -1,4 +1,17 @@
 import { useTranslation } from 'react-i18next'
+
+import { Details } from '@renderer/components/Details'
+import { IconButton } from '@renderer/components/IconButton'
+import { Link } from '@renderer/components/Link'
+import { Tooltip } from '@renderer/components/Tooltip'
+
+import { useAccountSelector } from '@renderer/hooks/useAccountSelector'
+import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
+import { useAppDispatch } from '@renderer/hooks/useRedux'
+import { useMigrationNeo3Selector } from '@renderer/hooks/useUtilitySelector'
+
+import { SideModalLayout } from '@renderer/layouts/SideModal'
+
 import MdRefresh from '@renderer/assets/images/md-refresh.svg?react'
 import TbArrowsExchange from '@renderer/assets/images/tb-arrows-exchange.svg?react'
 import TbClockExclamation from '@renderer/assets/images/tb-clock-exclamation.svg?react'
@@ -6,16 +19,8 @@ import TbEye from '@renderer/assets/images/tb-eye.svg?react'
 import TbHourglass from '@renderer/assets/images/tb-hourglass.svg?react'
 import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
 import TbRosetteDiscountCheck from '@renderer/assets/images/tb-rosette-discount-check.svg?react'
-import { Details } from '@renderer/components/Details'
-import { IconButton } from '@renderer/components/IconButton'
-import { Link } from '@renderer/components/Link'
-import { Tooltip } from '@renderer/components/Tooltip'
+
 import { NEO_LEGACY_GAS_TOKEN, NEO_LEGACY_NEO_TOKEN, NEO3_GAS_TOKEN, NEO3_NEO_TOKEN } from '@renderer/constants/tokens'
-import { useAccountSelector } from '@renderer/hooks/useAccountSelector'
-import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
-import { useAppDispatch } from '@renderer/hooks/useRedux'
-import { useMigrationNeo3Selector } from '@renderer/hooks/useUtilitySelector'
-import { SideModalLayout } from '@renderer/layouts/SideModal'
 import { thunks } from '@renderer/store/thunks'
 
 import { MigrationNeo3StatusAssetItem } from './MigrationNeo3StatusAssetItem'
@@ -25,18 +30,18 @@ type TState = {
 }
 
 const iconsByStatus = {
-  failure: <TbClockExclamation aria-hidden className="h-4/5 w-4/5 stroke-1 text-orange" />,
-  'failure-neo3': <TbClockExclamation aria-hidden className="h-4/5 w-4/5 stroke-1 text-orange" />,
-  done: <TbRosetteDiscountCheck aria-hidden className="h-full w-full stroke-1 text-blue" />,
+  failure: <TbClockExclamation aria-hidden className="text-orange h-4/5 w-4/5 stroke-1" />,
+  'failure-neo3': <TbClockExclamation aria-hidden className="text-orange h-4/5 w-4/5 stroke-1" />,
+  done: <TbRosetteDiscountCheck aria-hidden className="text-blue h-full w-full stroke-1" />,
   pending: (
     <TbHourglass
       aria-hidden
-      className="h-full w-full animate-[wiggle_2s_ease-in-out_infinite] stroke-1 p-1 text-blue"
+      className="text-blue h-full w-full animate-[wiggle_2s_ease-in-out_infinite] stroke-1 p-1"
     />
   ),
 }
 
-export const MigrationNeo3StatusModal = () => {
+const MigrationNeo3StatusModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'migrationNeo3Status' })
   const { modalEraseWrapper } = useModalNavigate()
   const { hash } = useModalState<TState>()
@@ -56,18 +61,18 @@ export const MigrationNeo3StatusModal = () => {
     <SideModalLayout
       heading={t('title')}
       contentClassName="flex flex-col items-center overflow-auto gap-y-6"
-      headingIcon={<TbArrowsExchange aria-hidden={true} />}
+      headingIcon={<TbArrowsExchange aria-hidden />}
     >
-      <div className="flex min-h-30 min-w-30 items-center justify-center rounded-full bg-asphalt p-1">
+      <div className="bg-asphalt flex min-h-30 min-w-30 items-center justify-center rounded-full p-1">
         {iconsByStatus[migrationNeo3.status]}
       </div>
 
       <h2 className="text-center text-xl text-white">{t(`subtitles.${migrationNeo3.status}`)}</h2>
 
       <Details.Root>
-        <Details.Header label={t('detailsHeaderLabel')} icon={<TbReceipt aria-hidden={true} />}>
+        <Details.Header label={t('detailsHeaderLabel')} icon={<TbReceipt aria-hidden />}>
           {isCheckFailure && (
-            <div className="flex flex-grow flex-row items-center justify-end">
+            <div className="flex grow flex-row items-center justify-end">
               <Tooltip title={t('revalidateMigrationButtonLabel')} delayDuration={0}>
                 <IconButton
                   aria-label={t('revalidateMigrationButtonLabel')}
@@ -160,14 +165,16 @@ export const MigrationNeo3StatusModal = () => {
         <Link
           label={t('viewStatusButtonLabel')}
           className="mx-auto w-full max-w-64"
-          to={`/app/wallets/${updatedNeoLegacyAccount.id}/transactions`}
+          to={`/wallets/${updatedNeoLegacyAccount.id}/transactions`}
           flat
           wide
           iconsOnEdge={false}
-          rightIcon={<TbEye aria-hidden={true} />}
+          rightIcon={<TbEye aria-hidden />}
           onClick={modalEraseWrapper('side')}
         />
       )}
     </SideModalLayout>
   )
 }
+
+export default MigrationNeo3StatusModal
