@@ -68,7 +68,7 @@
   },
   "useBackupReminderNotification": {
     "notificationTitle": "Create a new backup file!",
-    "notificationDescription": "We recommend creating a new backup file in \"Settings > Security > Backup NEON\" to protect your wallets. For additional security, you can also export manually your mnemonics in \"Wallets > 3 dots (Tools) > Export\" and private keys in \"Wallets > 3 dots > Export key.\""
+    "notificationDescription": "We recommend creating a new backup file in \"Settings > Security > Backup NEON\" to protect your wallets. For additional security, you can also export manually your mnemonics in \"Wallets > 3 dots (Tools) > Export\" and private keys in \"Wallets > 3 dots > Export key\"."
   },
   "useHardwareWalletByUsb": {
     "errors": {

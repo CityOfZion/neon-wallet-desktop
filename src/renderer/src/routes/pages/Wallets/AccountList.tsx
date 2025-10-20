@@ -40,7 +40,9 @@ const AccountItem = ({ account, onClick, active }: TAccountItemProps) => {
           <p className="truncate text-left text-xs text-white">{account.name}</p>
 
           <Tooltip title={totalExchangeFormatted}>
-            <span className="block truncate text-left text-xs text-gray-100">{totalExchangeFormatted}</span>
+            <span className="inline-block w-fit max-w-24 truncate text-left text-xs text-gray-100">
+              {totalExchangeFormatted}
+            </span>
           </Tooltip>
         </div>
       </button>

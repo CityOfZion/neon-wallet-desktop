@@ -20,11 +20,7 @@
     },
     "securitySetup": {
       "title": "Securing your new wallet",
-      "steps": [
-        "Create Password",
-        "Confirm Password",
-        "Complete"
-      ],
+      "steps": ["Create Password", "Confirm Password", "Complete"],
       "step1": {
         "formTitle": "Please create a password to secure your wallet",
         "passwordPlaceholder": "Create a password...",
@@ -42,13 +38,7 @@
     },
     "importWallet": {
       "title": "Import a wallet",
-      "steps": [
-        "Create Password",
-        "Confirm Password",
-        "Add details or locate file",
-        "Import",
-        "Complete"
-      ],
+      "steps": ["Create Password", "Confirm Password", "Add details or locate file", "Import", "Complete"],
       "migrationLabel": "Locate your migration file",
       "step3": {
         "formTitle": "Enter an address, encrypted key, private key, mnemonic or locate backup file",
@@ -129,6 +119,8 @@
     "title": "Send Tokens",
     "subtitle": "What tokens do you want to send?",
     "sourceAccountLabel": "Source account",
+    "addRecipientButtonLabel": "Add recipient",
+    "separatelyTransferWarning": "{{blockchain}} does not support more than one send per transaction, so we will send each transfer separately which will drastically increase the fee.",
     "recipient": {
       "title": "Recipient {{order}}",
       "addressPlaceholder": "Enter recipient name or address...",
@@ -141,8 +133,6 @@
         "invalidAddress": "Invalid address"
       }
     },
-    "addRecipientButtonLabel": "Add recipient",
-    "separatelyTransferWarning": "{{blockchain}} does not support more than one send per transaction, so we will send each transfer separately which will drastically increase the fee.",
     "successNotification": {
       "title": "Transfer completed",
       "previewBody": "Your transfer has been completed successfully"
@@ -165,12 +155,19 @@
       "transactionHashLabel": "Transaction hash",
       "viewStatusButtonLabel": "View status"
     },
+    "sendTip": {
+      "supportLabel": "I want to support COZ with a tip of",
+      "optionalLabel": "*Optional"
+    },
     "errors": {
       "feeError": "Error to calculate fee",
       "insufficientFunds": "Insufficient funds",
       "calculateMaxAmount": "Error to calculate the maximum amount",
       "amountIsLessOrEqualZero": "The amount is less than or equal to zero",
-      "hardwareWalletShouldBeValid": "To proceed with this operation, please make sure your hardware wallet is unlocked"
+      "hardwareWalletShouldBeValid": "To proceed with this operation, please make sure your hardware wallet is unlocked",
+      "noTokenToTip": "No token to pay the tip",
+      "noAmountToTip": "No enough amount to pay the tip",
+      "noFiatPriceToTip": "Fiat price not found to the tip"
     }
   },
   "wallets": {
