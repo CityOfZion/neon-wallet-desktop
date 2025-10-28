@@ -137,25 +137,6 @@
       "label": "投票（Neo 3）"
     },
     {
-      "id": "migrationNeo3",
-      "verbs": [
-        "代幣",
-        "加密貨幣",
-        "遷移",
-        "轉換"
-      ],
-      "nonVerbs": [
-        "代幣",
-        "加密貨幣",
-        "遷移",
-        "舊版",
-        "NEO",
-        "N3",
-        "移動"
-      ],
-      "label": "將 Neo Legacy 遷移至 Neo 3"
-    },
-    {
       "id": "receive",
       "verbs": [
         "地址",

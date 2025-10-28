@@ -58,10 +58,6 @@
       "previewBody": "我們無法驗證您的領取是否完成"
     }
   },
-  "useMigrationNeo3Notification": {
-    "notificationTitle": "您有可遷移的代幣！",
-    "notificationDescription": "可從 Neo Legacy 遷移至 Neo N3！"
-  },
   "useFraudulentTokensNotification": {
     "notificationTitle": "\"{{ value }}\" 是一個詐騙代幣！",
     "notificationDescription": "我們發現 \"{{ value }}\" 被社群標記為詐騙代幣，建議將其隱藏，並避免與其進行任何其他互動。"

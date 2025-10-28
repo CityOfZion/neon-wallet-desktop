@@ -85,17 +85,6 @@ export const functionsByActionId: TFunctionsByActionId = {
   exportFullTransactions: async ({ modalActions }) => {
     modalActions.modalNavigate('export-full-transactions', { replace: true })
   },
-  migrationNeo3: async ({ pageNavigate, modalActions }) => {
-    modalActions.modalNavigate('select-account', {
-      state: {
-        blockchain: 'neoLegacy',
-        onSelectAccount: (account: IAccountState) => {
-          pageNavigate('/app/migration-neo3', { state: { neoLegacyAccount: account } })
-        },
-      },
-      replace: true,
-    })
-  },
   voteNeo3: async ({ modalActions, pageNavigate }) => {
     modalActions.modalErase('center')
     pageNavigate('/app/vote-neo3')

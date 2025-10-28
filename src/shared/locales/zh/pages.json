@@ -216,10 +216,7 @@
       "disconnectAll": "全部断开"
     },
     "exportKeyTitle": "导出密钥",
-    "exportWalletTitle": "导出钱包",
-    "tooltips": {
-      "migrateRules": "您需要至少0.1 GAS或2 NEO才能在主网上迁移代币到Neo3。如果您已迁移代币，请等待其到达您的Neo 3账户。"
-    }
+    "exportWalletTitle": "导出钱包"
   },
   "contacts": {
     "title": "联系人",
