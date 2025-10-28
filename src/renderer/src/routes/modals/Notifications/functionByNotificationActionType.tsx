@@ -69,12 +69,6 @@ export const functionByNotificationActionType: TFunctionByNotificationActionType
           }
         }, 500)
       })
-      .with({ to: 'migration-neo3' }, payload => {
-        const account = getAccount(payload)
-
-        modalActions.modalErase('side')
-        pageNavigate('/app/migration-neo3', { state: { neoLegacyAccount: account } })
-      })
       .with({ to: 'vote-neo3' }, payload => {
         const account = getAccount(payload)
 
@@ -85,6 +79,8 @@ export const functionByNotificationActionType: TFunctionByNotificationActionType
         modalActions.modalErase('side')
         pageNavigate('/app/settings/security/backup-wallet')
       })
-      .exhaustive()
+      .otherwise(() => {
+        // No action needed for unhandled navigation types
+      })
   },
 }

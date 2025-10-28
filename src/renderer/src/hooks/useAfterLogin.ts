@@ -3,7 +3,6 @@ import { useHotkeys } from 'react-hotkeys-hook'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { hasNft } from '@cityofzion/blockchain-service'
-import { BSNeoLegacy } from '@cityofzion/bs-neo-legacy'
 import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
 import { FRAUDULENT_TOKEN_HASHES_BY_BLOCKCHAIN } from '@renderer/constants/fraudulent-tokens'
 import { LOCAL_SKINS } from '@renderer/constants/skins'
@@ -12,7 +11,6 @@ import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { bsAggregator } from '@renderer/libs/blockchainService'
 import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
 import { utilityReducerActions } from '@renderer/store/reducers/UtilityReducer'
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { IAccountState, TNotificationNavigateActionHideFraudulentTokenPayload } from '@shared/@types/store'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
@@ -249,64 +247,6 @@ const useUnlockSkins = () => {
   }, [])
 }
 
-const useMigrationNeo3Notification = () => {
-  const { ownAccounts } = useOwnAccountsSelector()
-  const { unreadNotificationsRef } = useUnreadNotificationsSelector()
-  const dispatch = useAppDispatch()
-  const { t } = useTranslation('hooks', { keyPrefix: 'useMigrationNeo3Notification' })
-
-  const migrationNeo3Accounts = useMemo(
-    () => ownAccounts.filter(account => account.blockchain === 'neoLegacy'),
-    [ownAccounts]
-  )
-
-  const alreadyNotifiedRef = useRef(false)
-
-  const balanceQuery = useBalances(migrationNeo3Accounts, {
-    queryOptions: { gcTime: Infinity, staleTime: Infinity },
-  })
-
-  useEffect(() => {
-    if (balanceQuery.isLoading || alreadyNotifiedRef.current) return
-
-    alreadyNotifiedRef.current = true
-
-    const neoLegacyService = bsAggregator.blockchainServicesByName.neoLegacy as BSNeoLegacy<TBlockchainServiceKey>
-    balanceQuery.data.forEach(balance => {
-      const neoLegacyMigrationAmounts = neoLegacyService.calculateNeoLegacyMigrationAmounts(balance.tokensBalances)
-      if (!neoLegacyMigrationAmounts.hasEnoughGasBalance && !neoLegacyMigrationAmounts.hasEnoughNeoBalance) return
-
-      const hasUnreadNotification = unreadNotificationsRef.current.some(
-        notification =>
-          notification.action?.type === 'navigate' &&
-          notification.action.payload.to === 'migration-neo3' &&
-          notification.action.payload?.blockchain === balance.blockchain &&
-          notification.action.payload?.address === balance.address
-      )
-      if (hasUnreadNotification) return
-
-      dispatch(
-        authReducerActions.saveNotification({
-          title: 'hooks:useMigrationNeo3Notification.notificationTitle',
-          previewBody: 'hooks:useMigrationNeo3Notification.notificationDescription',
-          action: {
-            type: 'navigate',
-            payload: {
-              to: 'migration-neo3',
-              address: balance.address,
-              blockchain: balance.blockchain,
-            },
-          },
-          related: {
-            blockchain: balance.blockchain,
-            address: balance.address,
-          },
-        })
-      )
-    })
-  }, [balanceQuery.data, balanceQuery.isLoading, dispatch, t, unreadNotificationsRef])
-}
-
 const useFraudulentTokensNotification = () => {
   const { accounts } = useAccountsSelector()
   const { unreadNotificationsRef } = useUnreadNotificationsSelector()
@@ -496,7 +436,6 @@ const useRegisterHotKeys = () => {
 }
 
 export const useAfterLogin = () => {
-  useMigrationNeo3Notification()
   useFraudulentTokensNotification()
   useRegisterWalletConnectListeners()
   useRegisterHardwareWalletListeners()
