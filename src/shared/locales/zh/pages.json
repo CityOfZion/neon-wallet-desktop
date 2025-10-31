@@ -20,11 +20,7 @@
     },
     "securitySetup": {
       "title": "保护您的新钱包",
-      "steps": [
-        "创建密码",
-        "确认密码",
-        "完成"
-      ],
+      "steps": ["创建密码", "确认密码", "完成"],
       "step1": {
         "formTitle": "请创建密码以保护您的钱包",
         "passwordPlaceholder": "创建密码...",
@@ -42,13 +38,7 @@
     },
     "importWallet": {
       "title": "导入钱包",
-      "steps": [
-        "创建密码",
-        "确认密码",
-        "添加信息或定位文件",
-        "导入",
-        "完成"
-      ],
+      "steps": ["创建密码", "确认密码", "添加信息或定位文件", "导入", "完成"],
       "migrationLabel": "定位您的迁移文件",
       "step3": {
         "formTitle": "输入地址、加密密钥、私钥、助记词或定位备份文件",
@@ -129,6 +119,8 @@
     "title": "发送代币",
     "subtitle": "您想发送哪些代币？",
     "sourceAccountLabel": "源账户",
+    "addRecipientButtonLabel": "添加收款人",
+    "separatelyTransferWarning": "{{blockchain}} 不支持每笔交易发送多个转账，因此我们将分别发送每笔转账，这将大幅增加手续费。",
     "recipient": {
       "title": "收款人 {{order}}",
       "addressPlaceholder": "输入收款人姓名或地址...",
@@ -141,8 +133,6 @@
         "invalidAddress": "无效地址"
       }
     },
-    "addRecipientButtonLabel": "添加收款人",
-    "separatelyTransferWarning": "{{blockchain}} 不支持每笔交易发送多个转账，因此我们将分别发送每笔转账，这将大幅增加手续费。",
     "successNotification": {
       "title": "转账完成",
       "previewBody": "您的转账已成功完成"
@@ -165,12 +155,19 @@
       "transactionHashLabel": "交易哈希",
       "viewStatusButtonLabel": "查看状态"
     },
+    "sendTip": {
+      "supportLabel": "我想通过小费支持 COZ，金额为",
+      "optionalLabel": "*可选"
+    },
     "errors": {
       "feeError": "手续费计算错误",
       "insufficientFunds": "余额不足",
       "calculateMaxAmount": "计算最大金额时出错",
       "amountIsLessOrEqualZero": "金额小于或等于零",
-      "hardwareWalletShouldBeValid": "请确保您的硬件钱包已解锁以继续操作"
+      "hardwareWalletShouldBeValid": "请确保您的硬件钱包已解锁以继续操作",
+      "noTokenToTip": "没有代币支付小费",
+      "noAmountToTip": "金额不足以支付小费",
+      "noFiatPriceToTip": "未找到法定货币价格以进行打赏"
     }
   },
   "wallets": {

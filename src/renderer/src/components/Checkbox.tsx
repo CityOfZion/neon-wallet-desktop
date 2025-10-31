@@ -3,12 +3,12 @@ import * as RadixCheckbox from '@radix-ui/react-checkbox'
 import FiCheck from '@renderer/assets/images/fi-check.svg?react'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
-export type TCheckboxProps = Omit<RadixCheckbox.CheckboxProps, 'onCheckedChange'> & {
+type TProps = Omit<RadixCheckbox.CheckboxProps, 'onCheckedChange'> & {
   onCheckedChange?(checked: boolean): void
 }
 
-export const Checkbox = forwardRef<HTMLButtonElement, TCheckboxProps>(
-  ({ className, onCheckedChange, ...props }, ref) => {
+export const Checkbox = forwardRef<HTMLButtonElement, TProps>(
+  ({ className, disabled, onCheckedChange, ...props }, ref) => {
     const handleCheckedChange = (value: RadixCheckbox.CheckedState) => {
       if (value === 'indeterminate') {
         onCheckedChange?.(false)
@@ -21,13 +21,14 @@ export const Checkbox = forwardRef<HTMLButtonElement, TCheckboxProps>(
       <RadixCheckbox.Root
         ref={ref}
         className={StyleHelper.mergeStyles(
-          'flex max-h-[1.125rem] min-h-[1.125rem] min-w-[1.125rem] max-w-[1.125rem] items-center justify-center rounded-sm border-2',
+          'flex h-4.5 max-h-4.5 min-h-4.5 w-4.5 min-w-4.5 max-w-4.5 items-center justify-center rounded-sm border-2 data-[state=unchecked]:bg-transparent',
           {
-            'cursor-not-allowed border-gray-300': props.disabled,
-            'border-neon data-[state=checked]:bg-neon data-[state=unchecked]:bg-transparent': !props.disabled,
+            'cursor-not-allowed border-gray-300 data-[state=checked]:bg-gray-300': disabled,
+            'border-neon data-[state=checked]:bg-neon': !disabled,
           },
           className
         )}
+        disabled={disabled}
         onCheckedChange={handleCheckedChange}
         {...props}
       >

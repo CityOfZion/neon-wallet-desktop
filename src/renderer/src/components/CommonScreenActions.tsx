@@ -36,6 +36,7 @@ export const CommonScreenActions = ({ children, className, ...props }: TProps) =
           variant="card"
           leftIcon={<TbSearch aria-hidden />}
           label={t('searchButtonLabel')}
+          className="my-auto h-fit"
           colorSchema="neon"
           onClick={modalNavigateWrapper('search')}
           {...TestHelper.buildTestObject('search-button')}

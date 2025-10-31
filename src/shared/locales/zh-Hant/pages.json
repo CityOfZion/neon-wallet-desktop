@@ -20,11 +20,7 @@
     },
     "securitySetup": {
       "title": "保護您的新錢包",
-      "steps": [
-        "建立密碼",
-        "確認密碼",
-        "完成"
-      ],
+      "steps": ["建立密碼", "確認密碼", "完成"],
       "step1": {
         "formTitle": "請建立密碼以保護您的錢包",
         "passwordPlaceholder": "建立密碼...",
@@ -42,13 +38,7 @@
     },
     "importWallet": {
       "title": "匯入錢包",
-      "steps": [
-        "建立密碼",
-        "確認密碼",
-        "新增細節或選擇檔案",
-        "匯入",
-        "完成"
-      ],
+      "steps": ["建立密碼", "確認密碼", "新增細節或選擇檔案", "匯入", "完成"],
       "migrationLabel": "選擇您的遷移檔案",
       "step3": {
         "formTitle": "輸入地址、加密金鑰、私鑰、助記詞或選擇備份檔案",
@@ -129,6 +119,8 @@
     "title": "發送代幣",
     "subtitle": "您想發送哪些代幣？",
     "sourceAccountLabel": "來源帳戶",
+    "addRecipientButtonLabel": "新增收件人",
+    "separatelyTransferWarning": "{{blockchain}} 不支援單筆多收件人，將分別發送，這會大幅增加手續費。",
     "recipient": {
       "title": "收件人 {{order}}",
       "addressPlaceholder": "輸入收件人名稱或地址...",
@@ -141,8 +133,6 @@
         "invalidAddress": "無效的地址"
       }
     },
-    "addRecipientButtonLabel": "新增收件人",
-    "separatelyTransferWarning": "{{blockchain}} 不支援單筆多收件人，將分別發送，這會大幅增加手續費。",
     "successNotification": {
       "title": "轉帳完成",
       "previewBody": "您的轉帳已成功完成"
@@ -165,12 +155,19 @@
       "transactionHashLabel": "交易雜湊",
       "viewStatusButtonLabel": "查看狀態"
     },
+    "sendTip": {
+      "supportLabel": "我想透過小費支持 COZ，金額為",
+      "optionalLabel": "*可選"
+    },
     "errors": {
       "feeError": "計算手續費時發生錯誤",
       "insufficientFunds": "餘額不足",
       "calculateMaxAmount": "計算最大金額時發生錯誤",
       "amountIsLessOrEqualZero": "金額必須大於零",
-      "hardwareWalletShouldBeValid": "請確保您的硬體錢包已解鎖以繼續操作"
+      "hardwareWalletShouldBeValid": "請確保您的硬體錢包已解鎖以繼續操作",
+      "noTokenToTip": "沒有代幣支付小費",
+      "noAmountToTip": "金額不足以支付小費",
+      "noFiatPriceToTip": "未找到法定貨幣價格以進行打賞"
     }
   },
   "wallets": {

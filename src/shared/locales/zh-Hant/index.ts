@@ -1,4 +1,5 @@
-import zhHantChangelog from './changelog.json'
+import enChangelog from '../en/changelog.json'
+
 import zhHantCommon from './common.json'
 import zhHantComponents from './components.json'
 import zhHantHooks from './hooks.json'
@@ -14,6 +15,6 @@ export const zhHantResources = {
   modals: zhHantModals,
   hooks: zhHantHooks,
   layouts: zhHantLayouts,
-  changelog: zhHantChangelog,
+  changelog: enChangelog,
   search: zhHantSearch,
 }

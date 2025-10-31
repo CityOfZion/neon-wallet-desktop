@@ -250,12 +250,16 @@ export const SendRecipient = ({
           />
         </ActionStep>
 
-        <div className="flex w-full justify-between pb-3 pl-8">
-          <span className="text-xs italic text-gray-200">{t('fiatLabel', { currency: currency.label })}</span>
-          <span className="text-xs italic text-gray-100">
+        <div className="flex w-full justify-between gap-x-4 pb-3 pl-8">
+          <span className="whitespace-nowrap text-xs italic text-gray-200">
+            {t('fiatLabel', { currency: currency.label })}
+          </span>
+          <span className="truncate text-xs italic text-gray-100">
             {NumberHelper.currency(
               recipient.amount && recipient.token
-                ? NumberHelper.number(recipient.amount) * recipient.token.exchangeConvertedPrice
+                ? BSBigNumberHelper.fromNumber(recipient.amount)
+                    .multipliedBy(recipient.token.exchangeConvertedPrice)
+                    .toFixed()
                 : 0,
               currency.label,
               { maximumFractionDigits: 6 }

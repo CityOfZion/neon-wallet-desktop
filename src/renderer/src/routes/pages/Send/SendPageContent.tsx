@@ -12,20 +12,24 @@ import { Button } from '@renderer/components/Button'
 import { GreyAccountSelect } from '@renderer/components/GreyAccountSelect'
 import { Separator } from '@renderer/components/Separator'
 import { TransactionFeeActionStep } from '@renderer/components/TransactionFeeActionStep'
+import { TIP_CONFIG } from '@renderer/constants/tip'
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { DateHelper } from '@renderer/helpers/DateHelper'
+import { ExchangeHelper } from '@renderer/helpers/ExchangeHelper'
 import { NetworkHelper } from '@renderer/helpers/NetworkHelper'
-import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useBalance } from '@renderer/hooks/useBalances'
+import { useExchange } from '@renderer/hooks/useExchange'
 import { useHardwareWalletActions } from '@renderer/hooks/useHardwareWallet'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
+import { useSelectedNetworkByBlockchainSelector } from '@renderer/hooks/useSettingsSelector'
 import { bsAggregator } from '@renderer/libs/blockchainService'
+import { SendTip } from '@renderer/routes/pages/Send/SendTip'
 import { thunks } from '@renderer/store/thunks'
 import { TUseTransactionsTransfer } from '@shared/@types/hooks'
 import { IAccountState } from '@shared/@types/store'
@@ -43,6 +47,11 @@ type TActionsData = {
   isCalculatingFee: boolean
   isLoadingMaxAmount?: boolean
   maxAmountRecipientId?: string
+  isTipChecked: boolean
+  isTipDisabled: boolean
+  tipAmountBn?: BigNumber
+  tipFiatPriceBn?: BigNumber
+  tipError?: string
 }
 
 type TProps = {
@@ -53,25 +62,26 @@ type TProps = {
 export const SendPageContent = ({ account, recipientAddress }: TProps) => {
   const { t } = useTranslation('pages', { keyPrefix: 'send' })
   const { t: commonT } = useTranslation('common')
+  const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const { accountsRef } = useAccountsSelector()
   const { modalNavigate } = useModalNavigate()
   const { isConnectedAndUnlockedHardwareWallet } = useHardwareWalletActions()
+  const dispatch = useAppDispatch()
+
   const currentRecipientAddress = useRef(recipientAddress)
   const isDisabledMaxAmountRef = useRef(false)
-  const dispatch = useAppDispatch()
 
   const { actionData, actionState, setData, setError, clearErrors, handleAct, reset } = useActions<TActionsData>({
     selectedAccount: undefined,
     recipients: [],
     isCalculatingFee: false,
     fee: undefined,
+    isTipChecked: false,
+    isTipDisabled: true,
   })
 
-  const isCalculatingMaxAmount = isDisabledMaxAmountRef.current || actionData.isLoadingMaxAmount
-  const isCalculatingForm = isCalculatingMaxAmount || actionData.isCalculatingFee
-  const isAccountDisabled = !actionData.selectedAccount || isCalculatingForm
-  const balance = useBalance(actionData.selectedAccount)
+  const balanceQuery = useBalance(actionData.selectedAccount)
 
   const service = useMemo(
     () =>
@@ -81,6 +91,19 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
     [actionData.selectedAccount]
   )
 
+  const tipConfig = useMemo(() => (service ? TIP_CONFIG.blockchains[service.name] : undefined), [service])
+
+  const exchangeQuery = useExchange(
+    service && tipConfig ? [{ blockchain: service.name, tokens: [tipConfig.token] }] : []
+  )
+
+  const isMainnetNetwork = service ? NetworkHelper.isMainnet(service.name, networkByBlockchain[service.name]) : false
+  const isFeeInvalid = service ? isCalculableFee(service) && (!actionData.fee || !!actionState.errors.fee) : false
+  const isCalculatingMaxAmount = isDisabledMaxAmountRef.current || actionData.isLoadingMaxAmount
+  const isCalculatingForm = isCalculatingMaxAmount || actionData.isCalculatingFee
+  const isAccountDisabled = !actionData.selectedAccount || isCalculatingForm
+  const isAmountsLoading = actionData.recipients.some(recipient => !!recipient.isAmountLoading)
+
   const getSendFields = () => {
     if (
       !currentLoginSessionRef.current ||
@@ -89,7 +112,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
       !service ||
       actionState.errors.recipients !== undefined ||
       !actionState.changed.recipients ||
-      actionData.recipients.some(recipient => !!recipient.isAmountLoading)
+      isAmountsLoading
     )
       return
 
@@ -105,16 +128,28 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
     })
 
     const serviceAccount = AccountHelper.getServiceAccount({ account: actionData.selectedAccount, key })
+    const { isTipChecked, isTipDisabled, tipAmountBn, tipFiatPriceBn } = actionData
 
     return {
       service,
       serviceAccount,
       selectedAccount: actionData.selectedAccount,
       intents,
+      tipIntent:
+        isTipChecked && !isTipDisabled && tipAmountBn && tipFiatPriceBn && tipConfig
+          ? {
+              amount: tipAmountBn.toFixed(),
+              receiverAddress: tipConfig.address,
+              tokenHash: tipConfig.token.hash,
+              tokenDecimals: tipConfig.token.decimals,
+            }
+          : undefined,
     }
   }
 
   const handleSetRecipients = (setRecipients: (prevRecipients: TSendRecipient[]) => TSendRecipient[]) => {
+    setData({ isTipChecked: false })
+
     let recipients: TSendRecipient[] = []
 
     setData(state => {
@@ -132,13 +167,13 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
         return
       }
 
-      const amountNumber = NumberHelper.number(recipient.amount)
+      const amountBn = BSBigNumberHelper.fromNumber(recipient.amount)
 
-      const tokenBalance = balance.data?.tokensBalances?.find(tokenBalance =>
-        service?.tokenService?.predicateByHash(recipient.token!.token, tokenBalance.token)
+      const tokenBalance = balanceQuery.data?.tokensBalances?.find(tokenBalance =>
+        service?.tokenService?.predicateByHash(recipient.token?.token?.hash ?? '', tokenBalance.token)
       )
 
-      if (!tokenBalance || amountNumber > tokenBalance.amountNumber) {
+      if (!tokenBalance || amountBn.isGreaterThan(tokenBalance.amount)) {
         setError('selectedAccount', t('errors.insufficientFunds'))
 
         return
@@ -209,7 +244,9 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
     if (!isCalculableFee(service)) {
       handleUpdateRecipientAmount(
         recipient.id,
-        recipient.token.amountNumber - NumberHelper.number(actionData.fee ?? '0'),
+        BSBigNumberHelper.fromNumber(recipient.token.amount)
+          .minus(actionData.fee ?? '0')
+          .toNumber(),
         decimals
       )
 
@@ -217,7 +254,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
     }
 
     isDisabledMaxAmountRef.current = true
-    setData({ isLoadingMaxAmount: true, maxAmountRecipientId: recipient.id })
+    setData({ isLoadingMaxAmount: true, maxAmountRecipientId: recipient.id, isTipChecked: false })
 
     try {
       const intents = actionData.recipients
@@ -239,9 +276,13 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
 
       const senderAccount = AccountHelper.getServiceAccount({ account: selectedAccount, key })
 
-      const fee = await service.calculateTransferFee({ intents, senderAccount })
+      const fee = await service.calculateTransferFee({ senderAccount, intents })
 
-      handleUpdateRecipientAmount(recipient.id, recipient.token.amountNumber - NumberHelper.number(fee), decimals)
+      handleUpdateRecipientAmount(
+        recipient.id,
+        BSBigNumberHelper.fromNumber(recipient.token.amount).minus(fee).toNumber(),
+        decimals
+      )
     } catch (error) {
       console.error(error)
       ToastHelper.error({ message: t('errors.calculateMaxAmount') })
@@ -251,10 +292,20 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
     }
   }
 
+  const handleToggleTip = (isTipChecked: boolean) => {
+    if (isTipChecked && actionData.tipError) {
+      ToastHelper.error({ id: 'send-tip-error', message: actionData.tipError })
+
+      return
+    }
+
+    setData({ isTipChecked })
+  }
+
   const handleSubmit = async () => {
     const fields = getSendFields()
 
-    if (!fields || isCalculatingForm) return
+    if (!fields || isCalculatingForm || actionState.isActing || isFeeInvalid) return
 
     if (fields.selectedAccount?.type === 'hardware') {
       const isConnectedAndUnlocked = await isConnectedAndUnlockedHardwareWallet(fields.selectedAccount)
@@ -270,6 +321,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
       const transactionHashes = await fields.service.transfer({
         senderAccount: fields.serviceAccount,
         intents: fields.intents,
+        tipIntent: fields.tipIntent,
       })
 
       const transactions = transactionHashes.map((hash, index) => {
@@ -337,7 +389,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
   }
 
   useEffect(() => {
-    if (balance.isLoading) return
+    if (balanceQuery.isLoading || isAmountsLoading) return
 
     const handleCalculateFee = async () => {
       try {
@@ -351,26 +403,27 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
         setData({ isCalculatingFee: true })
 
         const fee = await fields.service.calculateTransferFee({
-          intents: fields.intents,
           senderAccount: fields.serviceAccount,
+          intents: fields.intents,
+          tipIntent: fields.tipIntent,
         })
 
         setData({ fee })
 
-        let totalFeeAmount = NumberHelper.number(fee)
+        let totalFeeAmountBn = BSBigNumberHelper.fromNumber(fee)
 
         fields.intents.forEach(intent => {
           if (!fields.service.tokenService.predicateByHash(fields.service.feeToken, intent.tokenHash)) return
 
-          totalFeeAmount += NumberHelper.number(intent.amount)
+          totalFeeAmountBn = totalFeeAmountBn.plus(intent.amount)
         })
 
-        const feeBalanceNumber =
-          balance.data?.tokensBalances?.find(({ token }) =>
+        const feeBalance =
+          balanceQuery.data?.tokensBalances?.find(({ token }) =>
             fields.service.tokenService.predicateByHash(fields.service.feeToken, token)
-          )?.amountNumber ?? 0
+          )?.amount ?? '0'
 
-        if (totalFeeAmount > feeBalanceNumber) {
+        if (totalFeeAmountBn.isGreaterThan(feeBalance)) {
           setError('fee', t('errors.insufficientFunds'))
         } else {
           clearErrors('fee')
@@ -389,10 +442,123 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
     handleCalculateFee()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [actionData.recipients, balance.data])
+  }, [actionData.recipients, balanceQuery.data, actionData.isTipChecked])
+
+  useEffect(() => {
+    if (!service || !isMainnetNetwork || !tipConfig) {
+      setData({
+        isTipChecked: false,
+        isTipDisabled: true,
+        tipAmountBn: undefined,
+        tipFiatPriceBn: undefined,
+        tipError: undefined,
+      })
+
+      return
+    }
+
+    if (exchangeQuery.isLoading || isAmountsLoading || isCalculatingForm || actionState.isActing) {
+      setData({ isTipDisabled: true, tipError: undefined })
+
+      return
+    }
+
+    let totalFiatPricesBn = BSBigNumberHelper.fromNumber('0')
+    let totalAmountsBn = BSBigNumberHelper.fromNumber(
+      actionData.fee && service.tokenService.predicateByHash(service.feeToken, tipConfig.token) ? actionData.fee : '0'
+    )
+
+    actionData.recipients.forEach(recipient => {
+      const amount = recipient.amount
+      const tokenBalance = recipient.token
+      const token = tokenBalance?.token
+
+      if (!amount || !token) return
+
+      const amountBn = BSBigNumberHelper.fromNumber(BSBigNumberHelper.format(amount, { decimals: token.decimals }))
+
+      totalFiatPricesBn = totalFiatPricesBn.plus(amountBn.multipliedBy(tokenBalance.exchangeConvertedPrice))
+
+      if (service.tokenService.predicateByHash(token, tipConfig.token)) {
+        totalAmountsBn = totalAmountsBn.plus(amountBn)
+      }
+    })
+
+    const isTipDisabled = isFeeInvalid || !actionState.isValid || !!actionState.errors.recipients
+
+    if (totalFiatPricesBn.isLessThanOrEqualTo('0')) {
+      setData({
+        isTipChecked: false,
+        isTipDisabled,
+        tipAmountBn: undefined,
+        tipFiatPriceBn: undefined,
+        tipError: t('errors.noFiatPriceToTip'),
+      })
+
+      return
+    }
+
+    const tipTokenBalance = balanceQuery.data?.tokensBalances?.find(tokenBalance =>
+      service.tokenService.predicateByHash(tokenBalance.token, tipConfig.token)
+    )
+
+    if (!tipTokenBalance) {
+      setData({
+        isTipChecked: false,
+        isTipDisabled,
+        tipAmountBn: undefined,
+        tipFiatPriceBn: undefined,
+        tipError: t('errors.noTokenToTip'),
+      })
+
+      return
+    }
+
+    const tokenFiatPrice = ExchangeHelper.getExchangeConvertedPrice(
+      tipConfig.token.hash,
+      service.name,
+      exchangeQuery.data
+    )
+
+    let tipFiatPriceBn = totalFiatPricesBn.multipliedBy(TIP_CONFIG.percentageBn)
+    let tipAmountBn = tipFiatPriceBn.div(tokenFiatPrice)
+
+    if (tipAmountBn.isLessThan(tipConfig.minBn)) {
+      tipFiatPriceBn = tipConfig.minBn.multipliedBy(tokenFiatPrice)
+      tipAmountBn = tipConfig.minBn
+    }
+
+    totalAmountsBn = totalAmountsBn.plus(tipAmountBn)
+
+    if (totalAmountsBn.isGreaterThan(tipTokenBalance.amount)) {
+      setData({ isTipChecked: false, isTipDisabled, tipAmountBn, tipFiatPriceBn, tipError: t('errors.noAmountToTip') })
+
+      return
+    }
+
+    setData({ isTipDisabled, tipAmountBn, tipFiatPriceBn, tipError: undefined })
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    actionData.fee,
+    actionData.recipients,
+    actionState.errors.recipients,
+    actionState.isActing,
+    actionState.isValid,
+    balanceQuery.data?.tokensBalances,
+    exchangeQuery.data,
+    exchangeQuery.isLoading,
+    isAmountsLoading,
+    isCalculatingForm,
+    isFeeInvalid,
+    isMainnetNetwork,
+    service,
+    tipConfig,
+  ])
 
   useEffect(() => {
     handleSelectAccount(account)
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account])
 
@@ -428,7 +594,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
                 selectedAccount={actionData.selectedAccount}
                 recipient={recipient}
                 removable={actionData.recipients.length > 1}
-                balance={balance}
+                balance={balanceQuery}
                 isLoadingMaxAmount={actionData.maxAmountRecipientId === recipient.id}
                 isDisabledMaxAmount={isCalculatingForm}
                 onMaxAmount={handleMaxAmount}
@@ -469,6 +635,19 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
           />
         )}
 
+        {isMainnetNetwork && tipConfig && actionData.tipAmountBn && actionData.tipFiatPriceBn && (
+          <SendTip
+            className="mt-2"
+            amountBn={actionData.tipAmountBn}
+            fiatPriceBn={actionData.tipFiatPriceBn}
+            token={tipConfig.token}
+            isChecked={actionData.isTipChecked}
+            isDisabled={actionData.isTipDisabled}
+            isLoading={exchangeQuery.isLoading}
+            onChange={handleToggleTip}
+          />
+        )}
+
         {(actionState.errors.fee || actionState.errors.selectedAccount) && (
           <AlertErrorBanner
             className="mt-2 w-full"
@@ -477,21 +656,20 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
         )}
 
         <Button
-          className="mt-4 w-full max-w-[16rem]"
-          iconsOnEdge={false}
-          onClick={handleAct(handleSubmit)}
           label={commonT('general.continue')}
+          className="mb-4 mt-6 w-full max-w-[16rem]"
+          iconsOnEdge={false}
           loading={actionState.isActing}
-          rightIcon={<MdArrowForward aria-hidden={true} />}
           disabled={
             !actionState.isValid ||
             !actionData.selectedAccount ||
-            !!actionState.errors.fee ||
             !!actionState.errors.recipients ||
             !service ||
             isCalculatingForm ||
-            (isCalculableFee(service) && !actionData.fee)
+            isFeeInvalid
           }
+          rightIcon={<MdArrowForward aria-hidden={true} />}
+          onClick={handleAct(handleSubmit)}
         />
       </div>
     </section>

@@ -44,7 +44,7 @@ export const ChartCard = ({ priceHistory }: TProps) => {
 
       <div className="flex flex-col">
         <span className="text-lg">
-          {NumberHelper.currency(priceHistory.todayPrice, currency.label, { maximumFractionDigits: 5 })}
+          {NumberHelper.currency(priceHistory.todayPrice, currency.label, { maximumFractionDigits: 4 })}
         </span>
         <div className="space-x-1">
           <span
