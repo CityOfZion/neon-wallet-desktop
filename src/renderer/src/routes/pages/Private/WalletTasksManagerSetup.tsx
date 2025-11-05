@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 
-import { useUnreadNotificationsSelector } from '@renderer/hooks/useAuthSelector'
+import { useCurrentLoginSessionSelector, useUnreadNotificationsSelector } from '@renderer/hooks/useAuthSelector'
 import { useMount } from '@renderer/hooks/useMount'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
@@ -11,6 +11,8 @@ import type { IWalletState, TNotification } from '@shared/types/store'
 
 const useBackupReminderNotificationProcess = () => {
   const dispatch = useAppDispatch()
+
+  const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
 
   const hasUnreadNotification = useRef(false)
   const hasWalletWithoutBackup = useRef(false)
@@ -33,7 +35,12 @@ const useBackupReminderNotificationProcess = () => {
 
   const processWallet = (wallet: IWalletState) => {
     try {
-      if (hasUnreadNotification.current || hasWalletWithoutBackup.current || wallet.backupStatus === 'successful')
+      if (
+        hasUnreadNotification.current ||
+        hasWalletWithoutBackup.current ||
+        wallet.backupStatus === 'successful' ||
+        currentLoginSessionRef.current?.type !== 'password'
+      )
         return
 
       hasWalletWithoutBackup.current = true
