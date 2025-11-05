@@ -26,8 +26,8 @@ import TbReplace2 from '@renderer/assets/images/tb-replace-2.svg?react'
 import TbTransform from '@renderer/assets/images/tb-transform.svg?react'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { TFullTransactionsItem } from '@shared/@types/hooks'
-import { TMigrationNeo3 } from '@shared/@types/store'
+import { TFullTransactionsItem } from '@shared/types/hooks'
+import { TMigrationNeo3 } from '@shared/types/store'
 
 import { TransactionActivityListItemHeaderDetails } from './TransactionActivityListItemHeaderDetails'
 import { TransactionActivityListTooltip } from './TransactionActivityListTooltip'

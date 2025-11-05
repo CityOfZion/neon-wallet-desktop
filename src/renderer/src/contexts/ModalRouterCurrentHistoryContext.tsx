@@ -1,6 +1,6 @@
 import { createContext } from 'react'
 
-import { TModalRouterCurrentHistoryContextValue, TModalRouterCurrentHistoryProviderProps } from '@shared/@types/modal'
+import { TModalRouterCurrentHistoryContextValue, TModalRouterCurrentHistoryProviderProps } from '@shared/types/modal'
 
 export const ModalRouterCurrentHistoryContext = createContext<TModalRouterCurrentHistoryContextValue>(
   {} as TModalRouterCurrentHistoryContextValue

@@ -15,7 +15,7 @@ import { SideModalLayout } from '@renderer/layouts/SideModal'
 import MdDeleteForever from '@renderer/assets/images/md-delete-forever.svg?react'
 
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
-import { TNetworkProfile } from '@shared/@types/store'
+import { TNetworkProfile } from '@shared/types/store'
 
 type TModalState = {
   profile?: TNetworkProfile

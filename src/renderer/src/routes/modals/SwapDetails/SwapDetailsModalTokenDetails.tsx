@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 type TProps = {
   blockchain?: TBlockchainServiceKey

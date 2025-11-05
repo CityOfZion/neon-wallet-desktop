@@ -1,6 +1,6 @@
 import { ContactsHelper } from '@renderer/helpers/ContactsHelper'
 
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 import { createAppSelector, useAppSelector } from './useRedux'
 

@@ -12,7 +12,7 @@ import { useVoteNeo3GetCandidatesToVote } from '@renderer/hooks/useVoteNeo3'
 import TbAlertTriangleFilled from '@renderer/assets/images/tb-filled-alert-triangle.svg?react'
 
 import { VOTE_NEO3_COZ_PUB_KEY } from '@renderer/constants/public-keys'
-import { IAccountState } from '@shared/@types/store'
+import { IAccountState } from '@shared/types/store'
 
 import { VoteNeo3ListItem } from './VoteNeo3ListItem'
 import { VoteNeo3NotFound } from './VoteNeo3NotFound'

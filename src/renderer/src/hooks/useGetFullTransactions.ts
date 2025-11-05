@@ -7,15 +7,15 @@ import { cloneDeep } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { TNetwork } from '@shared/@types/blockchain'
+import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
+import { TNetwork } from '@shared/types/blockchain'
 import {
   TFullTransactionAssetEvent,
   TFullTransactionsByAddressResponse,
   TFullTransactionsGroupedDataByDate,
   TFullTransactionsItem,
-} from '@shared/@types/hooks'
-import { IAccountState, TSelectedNetworks } from '@shared/@types/store'
-import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
+} from '@shared/types/hooks'
+import { IAccountState, TSelectedNetworks } from '@shared/types/store'
 
 import { useAccountsSelector } from './useAccountSelector'
 import { useSelectedNetworkByBlockchainSelector } from './useSettingsSelector'

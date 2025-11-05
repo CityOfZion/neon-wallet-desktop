@@ -5,10 +5,10 @@ import { selectAccounts } from '@renderer/hooks/useAccountSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 
 import { RootStore } from '@renderer/store/RootStore'
-import { TAccountHelperPredicateParams } from '@shared/@types/helpers'
-import { TNotificationAction } from '@shared/@types/store'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 import { getI18next } from '@shared/libs/i18next'
+import { TAccountHelperPredicateParams } from '@shared/types/helpers'
+import { TNotificationAction } from '@shared/types/store'
 
 type TFunctionParams<T> = {
   modalActions: ReturnType<typeof useModalNavigate>

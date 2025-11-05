@@ -8,7 +8,7 @@ import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 
-import { TTokenBalance, TUseBalancesResult } from '@shared/@types/query'
+import { TTokenBalance, TUseBalancesResult } from '@shared/types/query'
 
 import { Tooltip } from './Tooltip'
 

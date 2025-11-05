@@ -15,8 +15,8 @@ import { useUnclaimed, useUnclaimedMutation } from '@renderer/hooks/useUnclaimed
 
 import TbTransform from '@renderer/assets/images/tb-transform.svg?react'
 
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { IAccountState } from '@shared/@types/store'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
+import { IAccountState } from '@shared/types/store'
 
 type TProps = {
   account: IAccountState

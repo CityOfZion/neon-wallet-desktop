@@ -8,7 +8,7 @@ import { MainLayout } from '@renderer/layouts/Main'
 
 import TbReplace2 from '@renderer/assets/images/tb-replace-2.svg?react'
 
-import { IAccountState } from '@shared/@types/store'
+import { IAccountState } from '@shared/types/store'
 
 import { Neo3NeoXBridgeContent } from './Neo3NeoXBridgeContent'
 

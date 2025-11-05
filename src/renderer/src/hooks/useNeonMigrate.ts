@@ -5,9 +5,9 @@ import zod from 'zod'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { TAccountsToImport, TBlockchainServiceKey, TWalletToCreate } from '@shared/@types/blockchain'
-import { IContactState, TContactAddress } from '@shared/@types/store'
 import { getI18next } from '@shared/libs/i18next'
+import { TAccountsToImport, TBlockchainServiceKey, TWalletToCreate } from '@shared/types/blockchain'
+import { IContactState, TContactAddress } from '@shared/types/store'
 
 import { useBlockchainActions } from './useBlockchainActions'
 import { useContactsSelector } from './useContactSelector'

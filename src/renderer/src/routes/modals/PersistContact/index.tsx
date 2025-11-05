@@ -23,7 +23,7 @@ import TbPencil from '@renderer/assets/images/tb-pencil.svg?react'
 import TbPlus from '@renderer/assets/images/tb-plus.svg?react'
 
 import { contactReducerActions } from '@renderer/store/reducers/contact'
-import { IContactState, TContactAddress } from '@shared/@types/store'
+import { IContactState, TContactAddress } from '@shared/types/store'
 
 type TFormData = {
   name: string

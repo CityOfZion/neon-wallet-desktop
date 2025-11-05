@@ -4,7 +4,7 @@ import storage from 'redux-persist/lib/storage'
 
 import { ContactsHelper } from '@renderer/helpers/ContactsHelper'
 
-import { IContactState, TContactEncryptedAddress } from '@shared/@types/store'
+import { IContactState, TContactEncryptedAddress } from '@shared/types/store'
 
 import { contactSliceReducers } from './reducers'
 

@@ -14,8 +14,8 @@ import { AccountDetailsLayout } from '@renderer/layouts/AccountDetailsLayout'
 import TbPlugX from '@renderer/assets/images/tb-plug-x.svg?react'
 import TbPlus from '@renderer/assets/images/tb-plus.svg?react'
 
-import { IAccountState } from '@shared/@types/store'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
+import { IAccountState } from '@shared/types/store'
 
 type TOutletContext = {
   account: IAccountState

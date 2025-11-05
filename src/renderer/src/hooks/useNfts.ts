@@ -4,7 +4,7 @@ import { hasNft } from '@cityofzion/blockchain-service'
 import { useInfiniteQuery } from '@tanstack/react-query'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { IAccountState } from '@shared/@types/store'
+import { IAccountState } from '@shared/types/store'
 
 import { useSelectedNetworkSelector } from './useSettingsSelector'
 

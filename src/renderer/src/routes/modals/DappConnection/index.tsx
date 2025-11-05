@@ -18,7 +18,7 @@ import NeonWalletLogo from '@renderer/assets/images/neon-wallet-full.svg?react'
 import TbLink from '@renderer/assets/images/tb-link.svg?react'
 import WalletConnectLogo from '@renderer/assets/images/wallet-connect.svg?react'
 
-import { IAccountState } from '@shared/@types/store'
+import { IAccountState } from '@shared/types/store'
 
 type TFormData = {
   url: string

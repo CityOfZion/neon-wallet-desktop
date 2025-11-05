@@ -18,8 +18,8 @@ import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 import MdCheck from '@renderer/assets/images/md-check.svg?react'
 
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { IAccountState, IWalletState } from '@shared/@types/store'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
+import { IAccountState, IWalletState } from '@shared/types/store'
 
 type TLocationState = {
   onSelectAccount: (contact: IAccountState) => void

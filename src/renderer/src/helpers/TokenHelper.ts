@@ -1,5 +1,5 @@
 import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 export class TokenHelper {
   static isNativeToken(hash: string, blockchain: TBlockchainServiceKey): boolean {

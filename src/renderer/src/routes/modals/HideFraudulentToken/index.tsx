@@ -19,7 +19,7 @@ import TbEyeOff from '@renderer/assets/images/tb-eye-off.svg?react'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { utilityReducerActions } from '@renderer/store/reducers/utility'
-import { IAccountState } from '@shared/@types/store'
+import { IAccountState } from '@shared/types/store'
 
 type TModalStateParams = {
   account: IAccountState

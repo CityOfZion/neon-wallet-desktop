@@ -1,13 +1,13 @@
 import { safeStorage } from 'electron'
 import crypto from 'node:crypto'
 
+import { mainApi } from '@shared/api/main'
 import {
   TDecryptBasedEncryptedSecretParams,
   TDecryptBasedSecretParams,
   TEncryptBasedEncryptedSecretParams,
   TEncryptBasedSecretParams,
-} from '@shared/@types/ipc'
-import { mainApi } from '@shared/api/main'
+} from '@shared/types/ipc'
 
 const ALGORITHM = 'aes-192-cbc'
 

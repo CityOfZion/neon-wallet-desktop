@@ -10,7 +10,7 @@ import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 
-import { TPriceHistory } from '@shared/@types/query'
+import { TPriceHistory } from '@shared/types/query'
 
 type TProps = {
   priceHistory: TPriceHistory

@@ -32,7 +32,7 @@ import TbChartBarPopular from '@renderer/assets/images/tb-chart-bar-popular.svg?
 import TbSearch from '@renderer/assets/images/tb-search.svg?react'
 
 import { VOTE_NEO3_COZ_PUB_KEY } from '@renderer/constants/public-keys'
-import { IAccountState } from '@shared/@types/store'
+import { IAccountState } from '@shared/types/store'
 
 import { VoteNeo3AvailableVotes } from './VoteNeo3AvailableVotes'
 import { VoteNeo3List } from './VoteNeo3List'

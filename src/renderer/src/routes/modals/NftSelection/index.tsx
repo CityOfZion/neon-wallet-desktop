@@ -13,7 +13,7 @@ import { useNfts } from '@renderer/hooks/useNfts'
 
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 
-import { IAccountState } from '@shared/@types/store'
+import { IAccountState } from '@shared/types/store'
 
 type TState = {
   account: IAccountState

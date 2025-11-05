@@ -15,8 +15,8 @@ import { MainLayout } from '@renderer/layouts/Main'
 import TbShoppingBag from '@renderer/assets/images/tb-shopping-bag.svg?react'
 
 import { isConfigured } from '@renderer/constants/buy-and-sell-tokens'
-import { TTokenBalance } from '@shared/@types/query'
-import { IAccountState } from '@shared/@types/store'
+import { TTokenBalance } from '@shared/types/query'
+import { IAccountState } from '@shared/types/store'
 
 import { BuyTokensContent } from './BuyTokensContent'
 import { SellTokensContent } from './SellTokensContent'

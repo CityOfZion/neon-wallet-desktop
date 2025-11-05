@@ -7,7 +7,7 @@ import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
 
 import { authReducerActions } from '@renderer/store/reducers/auth'
 import * as Sentry from '@sentry/electron/renderer'
-import type { IWalletState, TNotification } from '@shared/@types/store'
+import type { IWalletState, TNotification } from '@shared/types/store'
 
 const useBackupReminderNotificationProcess = () => {
   const dispatch = useAppDispatch()

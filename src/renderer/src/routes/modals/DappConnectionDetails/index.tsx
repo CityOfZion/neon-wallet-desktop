@@ -23,8 +23,8 @@ import NeonWalletLogo from '@renderer/assets/images/neon-wallet-full.svg?react'
 import TbPlug from '@renderer/assets/images/tb-plug.svg?react'
 import WalletConnectLogo from '@renderer/assets/images/wallet-connect.svg?react'
 
-import { TWalletConnectHelperProposalInformation } from '@shared/@types/helpers'
-import { IAccountState } from '@shared/@types/store'
+import { TWalletConnectHelperProposalInformation } from '@shared/types/helpers'
+import { IAccountState } from '@shared/types/store'
 
 import { DappConnectionErrorContent } from './DappConnectionErrorContent'
 import { DappConnectionSuccessContent } from './DappConnectionSuccessContent'

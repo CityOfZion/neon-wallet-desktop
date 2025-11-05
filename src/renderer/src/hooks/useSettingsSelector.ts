@@ -3,8 +3,8 @@ import { useCallback } from 'react'
 import { LOGIN_CONTROL_VALUE } from '@renderer/constants/password'
 import { authReducerActions } from '@renderer/store/reducers/auth'
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { TSelectedNetworks } from '@shared/@types/store'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
+import { TSelectedNetworks } from '@shared/types/store'
 
 import { useAppDispatch, useAppSelector } from './useRedux'
 

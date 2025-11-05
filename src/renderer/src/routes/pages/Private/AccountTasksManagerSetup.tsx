@@ -19,8 +19,8 @@ import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { authReducerActions } from '@renderer/store/reducers/auth'
 import { utilityReducerActions } from '@renderer/store/reducers/utility'
 import * as Sentry from '@sentry/electron/renderer'
-import type { TBalance } from '@shared/@types/query'
-import type { IAccountState, TNotification } from '@shared/@types/store'
+import type { TBalance } from '@shared/types/query'
+import type { IAccountState, TNotification } from '@shared/types/store'
 
 const useFraudulentTokensNotificationProcess = () => {
   const dispatch = useAppDispatch()

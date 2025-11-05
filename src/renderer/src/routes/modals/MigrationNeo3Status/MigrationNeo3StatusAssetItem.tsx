@@ -8,7 +8,7 @@ import { useExchange } from '@renderer/hooks/useExchange'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 type TProps = {
   amount: string

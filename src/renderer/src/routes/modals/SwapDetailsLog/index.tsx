@@ -17,7 +17,7 @@ import { SideModalLayout } from '@renderer/layouts/SideModal'
 import MdOutlineContentCopy from '@renderer/assets/images/md-outline-content-copy.svg?react'
 import TbList from '@renderer/assets/images/tb-list.svg?react'
 
-import { TSwapRecord } from '@shared/@types/store'
+import { TSwapRecord } from '@shared/types/store'
 
 type TState = {
   swapRecord: TSwapRecord

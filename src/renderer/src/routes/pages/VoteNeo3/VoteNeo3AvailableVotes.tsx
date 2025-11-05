@@ -7,7 +7,7 @@ import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import { useVoteNeo3GetVoteDetailsByAddress } from '@renderer/hooks/useVoteNeo3'
 
-import { IAccountState } from '@shared/@types/store'
+import { IAccountState } from '@shared/types/store'
 
 type TProps = {
   neoAmount: number

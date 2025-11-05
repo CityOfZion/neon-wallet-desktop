@@ -15,7 +15,7 @@ import TbStepInto from '@renderer/assets/images/tb-step-into.svg?react'
 import TbStepOut from '@renderer/assets/images/tb-step-out.svg?react'
 
 import { SWAP_NETWORK_BY_BLOCKCHAIN_AND_NETWORK_ID } from '@renderer/constants/swap'
-import { IAccountState } from '@shared/@types/store'
+import { IAccountState } from '@shared/types/store'
 
 type TProps = {
   account: IAccountState

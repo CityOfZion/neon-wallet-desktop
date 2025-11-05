@@ -4,7 +4,7 @@ import {
   TTransactionActivityListContextValue,
   TTransactionActivityListEventColumnSize,
   TTransactionActivityListProviderProps,
-} from '@shared/@types/modal'
+} from '@shared/types/modal'
 
 export const TransactionActivityListContext = createContext<TTransactionActivityListContextValue>(
   {} as TTransactionActivityListContextValue

@@ -1,5 +1,5 @@
 import { hideBrand, lang, merchantId, theme } from '@renderer/constants/buy-and-sell-tokens'
-import { IAccountState, TAvailableCurrency, TCurrency } from '@shared/@types/store'
+import { IAccountState, TAvailableCurrency, TCurrency } from '@shared/types/store'
 
 type TGetMountedUrlParams = {
   domainUrl: string

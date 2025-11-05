@@ -1,4 +1,4 @@
-import { TAccountHelperPredicateParams } from '../@types/helpers'
+import { TAccountHelperPredicateParams } from '../types/helpers'
 
 export class SharedAccountHelper {
   static predicate({ address, blockchain }: TAccountHelperPredicateParams) {

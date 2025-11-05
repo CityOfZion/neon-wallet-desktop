@@ -9,7 +9,7 @@ import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import MdOutlineContentCopy from '@renderer/assets/images/md-outline-content-copy.svg?react'
 import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
 
-import { TUseTransactionsTransfer } from '@shared/@types/hooks'
+import { TUseTransactionsTransfer } from '@shared/types/hooks'
 
 type TProps = {
   transaction: TUseTransactionsTransfer

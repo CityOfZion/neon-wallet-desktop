@@ -5,10 +5,10 @@ import { useSelector } from 'react-redux'
 import { SelectorHelper } from '@renderer/helpers/SelectorHelper'
 
 import type { TRootState } from '@renderer/types/redux'
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { TAccountHelperPredicateParams } from '@shared/@types/helpers'
-import { IAccountState, TAccountWithWallet } from '@shared/@types/store'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
+import { TAccountHelperPredicateParams } from '@shared/types/helpers'
+import { IAccountState, TAccountWithWallet } from '@shared/types/store'
 
 import { createAppSelector, useAppSelector } from './useRedux'
 

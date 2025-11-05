@@ -19,7 +19,7 @@ import PiPrinter from '@renderer/assets/images/pi-printer.svg?react'
 import TbCircleKey from '@renderer/assets/images/tb-circle-key.svg?react'
 import TbUpload from '@renderer/assets/images/tb-upload.svg?react'
 
-import { IWalletState } from '@shared/@types/store'
+import { IWalletState } from '@shared/types/store'
 
 type TLocationState = {
   wallet: IWalletState

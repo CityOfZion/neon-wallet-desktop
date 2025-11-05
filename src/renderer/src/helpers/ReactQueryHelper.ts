@@ -6,8 +6,8 @@ import {
 import { buildVoteNeo3GetVoteDetailsByAddressQueryKey } from '@renderer/hooks/useVoteNeo3'
 
 import { queryClient } from '@renderer/libs/query'
-import { TNetwork } from '@shared/@types/blockchain'
-import { IAccountState } from '@shared/@types/store'
+import { TNetwork } from '@shared/types/blockchain'
+import { IAccountState } from '@shared/types/store'
 
 export class ReactQueryHelper {
   static invalidateTransactionQueries = (account: IAccountState, network: TNetwork, toAccount?: IAccountState) => {

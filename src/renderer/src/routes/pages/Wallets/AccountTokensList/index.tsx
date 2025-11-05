@@ -14,8 +14,8 @@ import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 
 import { AccountDetailsLayout } from '@renderer/layouts/AccountDetailsLayout'
 
-import { TUseBalanceOptionShowType } from '@shared/@types/query'
-import { IAccountState } from '@shared/@types/store'
+import { TUseBalanceOptionShowType } from '@shared/types/query'
+import { IAccountState } from '@shared/types/store'
 
 import { CommonAccountActions } from '../CommonAccountActions'
 

@@ -47,8 +47,8 @@ import VscCircleFilled from '@renderer/assets/images/vsc-circle-filled.svg?react
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { thunks } from '@renderer/store/thunks'
-import { TUseTransactionsTransfer } from '@shared/@types/hooks'
-import { IAccountState } from '@shared/@types/store'
+import { TUseTransactionsTransfer } from '@shared/types/hooks'
+import { IAccountState } from '@shared/types/store'
 
 import { SellTokensDepositErrorContent } from './SellTokensDepositErrorContent'
 import { SellTokensDepositSuccessContent } from './SellTokensDepositSuccessContent'

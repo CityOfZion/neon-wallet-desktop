@@ -3,8 +3,8 @@ import { Link } from 'react-router'
 
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 
-import { TFullTransactionsItem } from '@shared/@types/hooks'
-import { TMigrationNeo3 } from '@shared/@types/store'
+import { TFullTransactionsItem } from '@shared/types/hooks'
+import { TMigrationNeo3 } from '@shared/types/store'
 
 import { TransactionActivityListItemHeaderContent } from './TransactionActivityListItemHeaderContent'
 import { TransactionActivityListTooltip } from './TransactionActivityListTooltip'

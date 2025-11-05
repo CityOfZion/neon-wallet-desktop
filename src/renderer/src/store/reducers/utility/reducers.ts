@@ -4,9 +4,9 @@ import { cloneDeep } from 'lodash'
 import { TokenHelper } from '@renderer/helpers/TokenHelper'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { TUseTransactionsTransfer } from '@shared/@types/hooks'
-import { TMigrationNeo3, TMigrationsNeo3, TSwapRecord } from '@shared/@types/store'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
+import { TUseTransactionsTransfer } from '@shared/types/hooks'
+import { TMigrationNeo3, TMigrationsNeo3, TSwapRecord } from '@shared/types/store'
 
 import { IUtilityReducer } from './index'
 

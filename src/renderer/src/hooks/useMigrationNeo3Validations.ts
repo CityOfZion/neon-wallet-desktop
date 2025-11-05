@@ -3,9 +3,9 @@ import { BSNeoLegacy } from '@cityofzion/bs-neo-legacy'
 import { useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { TTokenBalance } from '@shared/@types/query'
-import { IAccountState } from '@shared/@types/store'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
+import { TTokenBalance } from '@shared/types/query'
+import { IAccountState } from '@shared/types/store'
 
 import { useHasMigratePendingTransactionSelector } from './useUtilitySelector'
 

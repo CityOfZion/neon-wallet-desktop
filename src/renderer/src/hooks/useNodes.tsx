@@ -4,8 +4,8 @@ import { TBSNetworkId } from '@cityofzion/blockchain-service'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
-import type { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import type { TBaseOptions, TNode } from '@shared/@types/query'
+import type { TBlockchainServiceKey } from '@shared/types/blockchain'
+import type { TBaseOptions, TNode } from '@shared/types/query'
 
 import { useSelectedNetworkByBlockchainSelector, useSelectedNetworkSelector } from './useSettingsSelector'
 

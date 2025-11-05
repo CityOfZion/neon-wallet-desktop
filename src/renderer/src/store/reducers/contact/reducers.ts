@@ -3,7 +3,7 @@ import { cloneDeep } from 'lodash'
 
 import { ContactsHelper } from '@renderer/helpers/ContactsHelper'
 
-import { IContactState, TContactEncryptedAddress } from '@shared/@types/store'
+import { IContactState, TContactEncryptedAddress } from '@shared/types/store'
 
 import { IContactReducer } from '.'
 

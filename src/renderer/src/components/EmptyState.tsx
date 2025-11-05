@@ -8,7 +8,7 @@ import TbDiamondOff from '@renderer/assets/images/tb-diamond-off.svg?react'
 import TbFileImport from '@renderer/assets/images/tb-file-import.svg?react'
 import TbPlug from '@renderer/assets/images/tb-plug.svg?react'
 
-import { IAccountState } from '@shared/@types/store'
+import { IAccountState } from '@shared/types/store'
 
 import { BlockchainIcon } from './BlockchainIcon'
 import { Button } from './Button'

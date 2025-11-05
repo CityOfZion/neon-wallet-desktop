@@ -17,7 +17,7 @@ import TbHeartHandshake from '@renderer/assets/images/tb-heart-handshake.svg?rea
 
 import { COZ_WEBSITE_URL } from '@renderer/constants/urls'
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
-import { IAccountState } from '@shared/@types/store'
+import { IAccountState } from '@shared/types/store'
 
 type TLocationState = {
   neo3Account: IAccountState

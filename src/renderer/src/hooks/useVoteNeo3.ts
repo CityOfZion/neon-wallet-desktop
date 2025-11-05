@@ -10,9 +10,9 @@ import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useSelectedNetworkByBlockchainSelector } from '@renderer/hooks/useSettingsSelector'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { TNetwork } from '@shared/@types/blockchain'
-import { TUseBalanceResult } from '@shared/@types/query'
-import { IAccountState } from '@shared/@types/store'
+import { TNetwork } from '@shared/types/blockchain'
+import { TUseBalanceResult } from '@shared/types/query'
+import { IAccountState } from '@shared/types/store'
 
 type TCalculateVoteFeeParams = {
   neo3Account?: IAccountState

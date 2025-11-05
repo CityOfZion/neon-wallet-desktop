@@ -16,7 +16,7 @@ import MdDeleteForever from '@renderer/assets/images/md-delete-forever.svg?react
 import TbPencil from '@renderer/assets/images/tb-pencil.svg?react'
 
 import { authReducerActions } from '@renderer/store/reducers/auth'
-import { IWalletState } from '@shared/@types/store'
+import { IWalletState } from '@shared/types/store'
 
 type TFormData = {
   name: string

@@ -2,7 +2,7 @@ import { CaseReducerActions, createSlice } from '@reduxjs/toolkit'
 import { createMigrate, getStoredState, PersistConfig, PersistedState, persistReducer, PURGE } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
-import { IWalletState, TLoginSession, TLoginSessionType, TNotification } from '@shared/@types/store'
+import { IWalletState, TLoginSession, TLoginSessionType, TNotification } from '@shared/types/store'
 
 import { authSliceReducers } from './reducers'
 

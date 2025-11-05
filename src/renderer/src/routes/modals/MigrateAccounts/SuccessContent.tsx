@@ -8,7 +8,7 @@ import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import MdCheck from '@renderer/assets/images/md-check.svg?react'
 import MdOutlineRemoveRedEye from '@renderer/assets/images/md-outline-remove-red-eye.svg?react'
 
-import { IAccountState } from '@shared/@types/store'
+import { IAccountState } from '@shared/types/store'
 
 type TProps = {
   accounts: IAccountState[]

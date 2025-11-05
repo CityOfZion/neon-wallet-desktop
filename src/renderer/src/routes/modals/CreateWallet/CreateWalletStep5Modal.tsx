@@ -9,7 +9,7 @@ import { CreateWalletModalLayout } from '@renderer/layouts/CreateWalletModalLayo
 
 import NeonWalletIcon3D from '@renderer/assets/images/neon-wallet-icon-3d.svg?react'
 
-import { IAccountState } from '@shared/@types/store'
+import { IAccountState } from '@shared/types/store'
 
 type TLocationState = {
   accounts: IAccountState

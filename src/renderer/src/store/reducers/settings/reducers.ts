@@ -3,9 +3,9 @@ import cloneDeep from 'lodash/cloneDeep'
 import merge from 'lodash/merge'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
-import type { DeepPartial } from '@shared/@types/global'
-import { TCurrency, TLanguage, TNetworkProfile, TOverTheAirInfo } from '@shared/@types/store'
+import { TBlockchainServiceKey, TNetwork } from '@shared/types/blockchain'
+import type { DeepPartial } from '@shared/types/global'
+import { TCurrency, TLanguage, TNetworkProfile, TOverTheAirInfo } from '@shared/types/store'
 
 import { ISettingsReducer } from './index'
 

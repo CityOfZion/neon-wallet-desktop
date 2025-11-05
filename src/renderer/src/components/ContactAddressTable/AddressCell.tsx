@@ -7,7 +7,7 @@ import { useNameService } from '@renderer/hooks/useNameService'
 
 import MdOutlineContentCopy from '@renderer/assets/images/md-outline-content-copy.svg?react'
 
-import { TContactAddress } from '@shared/@types/store'
+import { TContactAddress } from '@shared/types/store'
 
 import { IconButton } from '../IconButton'
 import { Loader } from '../Loader'

@@ -19,8 +19,8 @@ import {
   TImportAccountsParam,
   TWalletToCreate,
   TWalletToEdit,
-} from '@shared/@types/blockchain'
-import { IAccountState, IContactState, IWalletState } from '@shared/@types/store'
+} from '@shared/types/blockchain'
+import { IAccountState, IContactState, IWalletState } from '@shared/types/store'
 
 import { useCurrentLoginSessionSelector } from './useAuthSelector'
 import { useAppDispatch } from './useRedux'

@@ -17,8 +17,8 @@ import { useLogin } from '@renderer/hooks/useLogin'
 
 import { WelcomeLayout } from '@renderer/layouts/Welcome'
 
-import { TAccountsToImport } from '@shared/@types/blockchain'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
+import { TAccountsToImport } from '@shared/types/blockchain'
 
 type TState = {
   mnemonicOrKey: string

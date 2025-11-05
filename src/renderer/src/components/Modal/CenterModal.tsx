@@ -8,7 +8,7 @@ import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { useModalHistories } from '@renderer/hooks/useModalRouter'
 
 import { ModalRouterCurrentHistoryProvider } from '@renderer/contexts/ModalRouterCurrentHistoryContext'
-import { THistory, TRouterSize } from '@shared/@types/modal'
+import { THistory, TRouterSize } from '@shared/types/modal'
 
 import { ScreenLoader } from '../ScreenLoader'
 import { ModalContainer } from './ModalContainer'

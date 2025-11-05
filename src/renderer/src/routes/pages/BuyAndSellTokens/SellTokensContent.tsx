@@ -17,8 +17,8 @@ import MdChevronRight from '@renderer/assets/images/md-chevron-right.svg?react'
 import MdRestartAlt from '@renderer/assets/images/md-restart-alt.svg?react'
 
 import { sellTokensIframeUrl } from '@renderer/constants/buy-and-sell-tokens'
-import { IAccountState } from '@shared/@types/store'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
+import { IAccountState } from '@shared/types/store'
 
 import { BuyAndSellTokensScreenType, TDepositActionsData } from './index'
 

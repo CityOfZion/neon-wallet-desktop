@@ -12,8 +12,8 @@ import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import MdOutlineContentCopy from '@renderer/assets/images/md-outline-content-copy.svg?react'
 import TbUsers from '@renderer/assets/images/tb-users.svg?react'
 
-import { TUseTransactionsTransfer } from '@shared/@types/hooks'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
+import { TUseTransactionsTransfer } from '@shared/types/hooks'
 
 type TProps = {
   transaction: TUseTransactionsTransfer

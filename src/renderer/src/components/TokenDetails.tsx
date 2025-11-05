@@ -6,7 +6,7 @@ import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 type TProps = {
   blockchain?: TBlockchainServiceKey

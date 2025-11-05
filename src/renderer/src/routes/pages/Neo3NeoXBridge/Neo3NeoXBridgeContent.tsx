@@ -45,9 +45,9 @@ import TbWallet from '@renderer/assets/images/tb-wallet.svg?react'
 import VscCircleFilled from '@renderer/assets/images/vsc-circle-filled.svg?react'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { IAccountState, TContactAddress } from '@shared/@types/store'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
+import { IAccountState, TContactAddress } from '@shared/types/store'
 
 type TProps = {
   account?: IAccountState

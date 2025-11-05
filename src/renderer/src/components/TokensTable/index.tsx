@@ -7,9 +7,9 @@ import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import { useBalances } from '@renderer/hooks/useBalances'
 
-import { TUseBalanceOptionShowType } from '@shared/@types/query'
-import { IAccountState } from '@shared/@types/store'
 import { getI18next } from '@shared/libs/i18next'
+import { TUseBalanceOptionShowType } from '@shared/types/query'
+import { IAccountState } from '@shared/types/store'
 
 import { Loader } from '../Loader'
 import { Table } from '../Table'

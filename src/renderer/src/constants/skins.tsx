@@ -3,7 +3,7 @@ import type { JSX } from 'react'
 import CozFaceDecember2024 from '@renderer/assets/skins/coz-face-december-2024.png'
 import NeoChristmas2024 from '@renderer/assets/skins/neo-christmas-2024.png'
 
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 type TAccountColorSkin = {
   id: string

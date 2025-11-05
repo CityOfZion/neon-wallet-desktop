@@ -3,7 +3,7 @@ import { TBSToken } from '@cityofzion/blockchain-service'
 import { BSNeoLegacyConstants } from '@cityofzion/bs-neo-legacy'
 import { BSNeo3Constants } from '@cityofzion/bs-neo3'
 
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 type TTipConfigBlockchainData = {
   address: string

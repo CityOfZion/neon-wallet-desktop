@@ -21,7 +21,7 @@ import TbPlus from '@renderer/assets/images/tb-plus.svg?react'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 type TState = {
   blockchain: TBlockchainServiceKey

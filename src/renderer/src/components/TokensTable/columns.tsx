@@ -16,7 +16,7 @@ import TbEye from '@renderer/assets/images/tb-eye.svg?react'
 import TbEyeOff from '@renderer/assets/images/tb-eye-off.svg?react'
 
 import { utilityReducerActions } from '@renderer/store/reducers/utility'
-import { TTokenBalance, TUseBalanceOptionShowType } from '@shared/@types/query'
+import { TTokenBalance, TUseBalanceOptionShowType } from '@shared/types/query'
 
 import { BlockchainIcon } from '../BlockchainIcon'
 import { IconButton } from '../IconButton'

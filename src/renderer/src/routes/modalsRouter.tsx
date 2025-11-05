@@ -1,6 +1,6 @@
 import { lazy } from 'react'
 
-import { TRoute } from '@shared/@types/modal'
+import { TRoute } from '@shared/types/modal'
 
 const AboutExtraIdToReceiveModal = lazy(() => import('./modals/AboutExtraIdToReceiveModal'))
 const AddAddressModal = lazy(() => import('./modals/AddAddress'))

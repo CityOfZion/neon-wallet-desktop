@@ -20,8 +20,8 @@ import TbAlertSquare from '@renderer/assets/images/tb-alert-square.svg?react'
 import TbAlertTriangle from '@renderer/assets/images/tb-alert-triangle.svg?react'
 
 import { authReducerActions } from '@renderer/store/reducers/auth'
-import { TNotification, TNotificationPriority } from '@shared/@types/store'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
+import { TNotification, TNotificationPriority } from '@shared/types/store'
 
 import { functionByNotificationActionType } from './functionByNotificationActionType'
 

@@ -1,8 +1,8 @@
 import { hasLedger, IBlockchainService, TBSAccount } from '@cityofzion/blockchain-service'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { IAccountState } from '@shared/@types/store'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
+import { IAccountState } from '@shared/types/store'
 
 type TGetServiceAccountParams = {
   account: IAccountState

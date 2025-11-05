@@ -1,6 +1,6 @@
 import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { TExchange } from '@shared/@types/query'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
+import { TExchange } from '@shared/types/query'
 
 export class ExchangeHelper {
   static getExchangeConvertedPrice(

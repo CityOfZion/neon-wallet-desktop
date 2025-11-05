@@ -1,8 +1,8 @@
 import { cloneElement } from 'react'
 
 import { ACCOUNT_COLOR_SKINS, ACCOUNT_LOCAL_SKINS } from '@renderer/constants/skins'
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { IAccountState, TNftSkin } from '@shared/@types/store'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
+import { IAccountState, TNftSkin } from '@shared/types/store'
 
 import { BlockchainIcon } from './BlockchainIcon'
 type TProps = {

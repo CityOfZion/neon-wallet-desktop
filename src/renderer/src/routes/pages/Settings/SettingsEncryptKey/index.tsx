@@ -17,7 +17,7 @@ import { SettingsLayout } from '@renderer/layouts/Settings'
 import MdOutlineKey from '@renderer/assets/images/md-outline-key.svg?react'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 import { SettingsEncryptInputStep } from './SettingsEncryptInputStep'
 import { SettingsEncryptKeySuccessContent } from './SettingsEncryptKeySuccessContent'

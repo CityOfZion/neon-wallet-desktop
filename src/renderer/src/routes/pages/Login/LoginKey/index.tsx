@@ -13,7 +13,7 @@ import { useImportAction } from '@renderer/hooks/useImportAction'
 import { useLogin } from '@renderer/hooks/useLogin'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { TAccountsToImport } from '@shared/@types/blockchain'
+import { TAccountsToImport } from '@shared/types/blockchain'
 
 const LoginKeyPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'loginKey' })

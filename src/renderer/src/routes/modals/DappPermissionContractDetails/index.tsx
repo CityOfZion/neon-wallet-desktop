@@ -22,7 +22,7 @@ import MdLaunch from '@renderer/assets/images/md-launch.svg?react'
 import TbArrowsSort from '@renderer/assets/images/tb-arrows-sort.svg?react'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 type TModalState = {
   session: TSession

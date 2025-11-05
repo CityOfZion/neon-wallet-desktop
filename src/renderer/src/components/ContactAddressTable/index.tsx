@@ -16,8 +16,8 @@ import { TestHelper } from '@renderer/helpers/TestHelper'
 
 import FiSend from '@renderer/assets/images/fi-send.svg?react'
 
-import { TContactAddress } from '@shared/@types/store'
 import { getI18next } from '@shared/libs/i18next'
+import { TContactAddress } from '@shared/types/store'
 
 import { Button } from '../Button'
 import { Table } from '../Table'

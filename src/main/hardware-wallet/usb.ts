@@ -3,9 +3,9 @@ import { ledgerUSBVendorId } from '@ledgerhq/devices'
 import NodeHidTransport, { getDevices } from '@ledgerhq/hw-transport-node-hid-noevents'
 import { usb } from 'usb'
 
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { TConnectHardwareWalletByUsbParams } from '@shared/@types/ipc'
 import { mainApi } from '@shared/api/main'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
+import { TConnectHardwareWalletByUsbParams } from '@shared/types/ipc'
 
 import { HardwareWalletGeneric } from '.'
 

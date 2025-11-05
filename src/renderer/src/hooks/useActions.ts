@@ -9,7 +9,7 @@ import {
   TUseActionsErrors,
   TUseActionsOptions,
   TUseActionsReturn,
-} from '@shared/@types/hooks'
+} from '@shared/types/hooks'
 
 const resolveOptions = (options?: TUseActionsOptions) => {
   return Object.assign({ clearErrorsOnChange: true }, options)

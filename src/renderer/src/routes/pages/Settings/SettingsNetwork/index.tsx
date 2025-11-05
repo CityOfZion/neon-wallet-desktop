@@ -5,7 +5,7 @@ import { Accordion } from '@renderer/components/Accordion'
 import { SettingsLayout } from '@renderer/layouts/Settings'
 
 import { getBlockchainNames } from '@renderer/libs/blockchain-service'
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 import { BlockchainNetworkAccordion } from './BlockchainNetworkAccordion'
 import { NetworkProfileActions } from './NetworkProfileActions'

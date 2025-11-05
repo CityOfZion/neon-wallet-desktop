@@ -16,7 +16,7 @@ import { SideModalLayout } from '@renderer/layouts/SideModal'
 import TbPencil from '@renderer/assets/images/tb-pencil.svg?react'
 import TbTrash from '@renderer/assets/images/tb-trash.svg?react'
 
-import { IAccountState } from '@shared/@types/store'
+import { IAccountState } from '@shared/types/store'
 
 type TLocationState = {
   account: IAccountState

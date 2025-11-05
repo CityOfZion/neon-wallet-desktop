@@ -8,10 +8,10 @@ import {
 import type { TAdapterMethodParam, TCustomSigner, WalletInfo } from '@cityofzion/wallet-connect-sdk-wallet-react'
 
 import { exposeApiToRenderer } from '@cityofzion/bs-electron/dist/main'
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { TGetStoreFromWCSession } from '@shared/@types/ipc'
-import { IAccountState } from '@shared/@types/store'
 import { mainApi } from '@shared/api/main'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
+import { TGetStoreFromWCSession } from '@shared/types/ipc'
+import { IAccountState } from '@shared/types/store'
 
 import { bsAggregator, getHardwareWalletTransport } from './blockchain-service'
 import { decryptBasedEncryptedSecret } from './encryption'

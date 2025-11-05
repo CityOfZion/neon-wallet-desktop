@@ -21,7 +21,7 @@ import MdOutlinePrint from '@renderer/assets/images/md-outline-print.svg?react'
 import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
 import TbUpload from '@renderer/assets/images/tb-upload.svg?react'
 
-import { IAccountState } from '@shared/@types/store'
+import { IAccountState } from '@shared/types/store'
 
 type TLocationState = {
   account: IAccountState

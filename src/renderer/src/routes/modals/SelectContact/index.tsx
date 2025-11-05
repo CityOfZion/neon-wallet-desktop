@@ -12,8 +12,8 @@ import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 import TbStepOut from '@renderer/assets/images/tb-step-out.svg?react'
 
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { IContactState, TContactAddress } from '@shared/@types/store'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
+import { IContactState, TContactAddress } from '@shared/types/store'
 
 type TLocationState = {
   blockchain?: TBlockchainServiceKey
