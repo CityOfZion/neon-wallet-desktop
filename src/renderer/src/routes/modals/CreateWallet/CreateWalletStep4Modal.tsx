@@ -98,7 +98,7 @@ const CreateWalletStep4Modal = () => {
                 <div className="flex grow items-center justify-between">
                   <label className="flex w-full items-center gap-2.5">
                     <BlockchainIcon blockchain={blockchain.name} type="gray" />
-                    <div className="grow">{commonT(`blockchain.${blockchain.name}`)}</div>
+                    <span className="flex grow">{commonT(`blockchain.${blockchain.name}`)}</span>
                     <Checkbox
                       value={blockchain.name}
                       onCheckedChange={handleSelectedBlockchain.bind(null, index)}

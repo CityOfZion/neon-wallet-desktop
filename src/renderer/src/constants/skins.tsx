@@ -1,8 +1,6 @@
 import type { JSX } from 'react'
 
-import CozFaceDecember2024 from '@renderer/assets/skins/coz-face-december-2024.png'
-import NeoChristmas2024 from '@renderer/assets/skins/neo-christmas-2024.png'
-
+import { NEON_ICONS_URL } from '@renderer/constants/urls'
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 type TAccountColorSkin = {
@@ -32,7 +30,7 @@ export const ACCOUNT_LOCAL_SKINS: Map<string, TLocalSkin> = new Map([
     {
       blockchain: 'neo3',
       collectionHash: '0x76a8f8a7a901b29a33013b469949f4b08db15756',
-      component: <img src={CozFaceDecember2024} alt="" />,
+      component: <img src={`${NEON_ICONS_URL}/skins/coz-face-december-2024.png`} alt="" />,
     },
   ],
   [
@@ -40,7 +38,7 @@ export const ACCOUNT_LOCAL_SKINS: Map<string, TLocalSkin> = new Map([
     {
       blockchain: 'neox',
       collectionHash: '0x6e8789d940928e656ea47941ed93b0596dd40056',
-      component: <img src={NeoChristmas2024} alt="" />,
+      component: <img src={`${NEON_ICONS_URL}/skins/neo-christmas-2024.png`} alt="" />,
     },
   ],
 ])

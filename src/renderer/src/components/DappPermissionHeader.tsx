@@ -1,8 +1,9 @@
 import { TSession } from '@cityofzion/wallet-connect-sdk-wallet-react'
 
-import dappFallbackIcon from '@renderer/assets/images/dapp-fallback-icon.png'
 import NeonWalletLogo from '@renderer/assets/images/neon-wallet-full.svg?react'
 import WalletConnectLogo from '@renderer/assets/images/wallet-connect.svg?react'
+
+import { NEON_ICONS_URL } from '@renderer/constants/urls'
 
 import { ImageWithFallback } from './ImageWithFallback'
 
@@ -22,8 +23,9 @@ export const DappPermissionHeader = ({ session }: TProps) => {
       <ImageWithFallback
         src={session.peer.metadata.icons[0]}
         alt={session.peer.metadata.name}
-        fallbackSrc={dappFallbackIcon}
-        className="bg-asphalt mt-9 max-h-9 max-w-16 rounded-xs object-contain"
+        fallbackSrc={`${NEON_ICONS_URL}/dapps/default-dapp.png`}
+        imgClassName="rounded-md"
+        className="mt-9 max-h-16 max-w-16 object-contain"
       />
     </div>
   )

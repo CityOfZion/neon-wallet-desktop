@@ -4,6 +4,8 @@ import { BSBigNumberHelper } from '@cityofzion/blockchain-service'
 import { createColumnHelper } from '@tanstack/react-table'
 import { useTranslation } from 'react-i18next'
 
+import { ImageWithFallback } from '@renderer/components/ImageWithFallback'
+
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { TokenHelper } from '@renderer/helpers/TokenHelper'
@@ -15,10 +17,10 @@ import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 import TbEye from '@renderer/assets/images/tb-eye.svg?react'
 import TbEyeOff from '@renderer/assets/images/tb-eye-off.svg?react'
 
+import { NEON_ICONS_URL } from '@renderer/constants/urls'
 import { utilityReducerActions } from '@renderer/store/reducers/utility'
 import { TTokenBalance, TUseBalanceOptionShowType } from '@shared/types/query'
 
-import { BlockchainIcon } from '../BlockchainIcon'
 import { IconButton } from '../IconButton'
 import { Tooltip } from '../Tooltip'
 
@@ -33,12 +35,20 @@ export const useColumns = (showType: TUseBalanceOptionShowType) => {
     () => [
       columnHelper.accessor('token.symbol', {
         cell: info => {
+          const tokenBalance = info.row.original
+          const { token } = tokenBalance
+
           return (
-            <div className="flex gap-2">
-              <div className="flex h-4.5 w-4.5 min-w-4.5 items-center justify-center rounded-full bg-gray-300">
-                <BlockchainIcon blockchain={info.row.original.blockchain} type="white" className="h-2.5 w-2.5" />
-              </div>
-              <span>{info.getValue()}</span>
+            <div className="flex items-center gap-2">
+              <ImageWithFallback
+                src={`${NEON_ICONS_URL}/tokens/${tokenBalance.blockchain}/${token.hash}.png`}
+                alt={token.name || token.symbol}
+                fallbackSrc={`${NEON_ICONS_URL}/tokens/default-token.png`}
+                imgClassName="h-4.5 max-h-4.5 min-h-4.5 w-4.5 max-w-4.5 min-w-4.5 rounded-full"
+                className="h-6 max-h-6 min-h-6 w-6 max-w-6 min-w-6 rounded-full bg-gray-600/50"
+              />
+
+              {info.getValue()}
             </div>
           )
         },
