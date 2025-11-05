@@ -1,0 +1,56 @@
+{
+  "useImportAction": {
+    "errors": {
+      "invalid": "Ungültiger Text oder existiert bereits",
+      "empty": "Bitte geben Sie einen Text ein",
+      "allAddressesAlreadyImported": "Alle Adressen sind bereits importiert",
+      "mnemonicIncomplete": "Mnemonic unvollständig"
+    }
+  },
+  "useBackupOrMigrate": {
+    "neon3BackupFileDetected": "NEON3-Sicherungsdatei erkannt",
+    "neon2MigrateFileDetected": "NEON2-Migrationsdatei erkannt",
+    "filterName": "Neon-Sicherungs- oder Migrationsdatei",
+    "error": "Datei nicht erkannt",
+    "defaultAccountLabel": "Migriertes Konto",
+    "defaultContactName": "Migrierter Kontakt"
+  },
+  "useLogin": {
+    "controlIsNotSet": "Unerwarteter Fehler. Login-Steuerung ist nicht gesetzt.",
+    "controlIsNotValid": "Unerwarteter Fehler. Login-Steuerung ist nicht gültig."
+  },
+  "useNeonBackup": {
+    "errors": {
+      "unexpectedError": "Unerwarteter Fehler. Starten Sie die Anwendung neu.",
+      "backupError": "Es gab einen Fehler beim Versuch, die Sicherung zu erstellen. Bitte versuchen Sie es erneut."
+    }
+  },
+  "useNeonImportBackup": {
+    "errors": {
+      "wrongPassword": "Das Passwort ist falsch. Bitte versuchen Sie es erneut.",
+      "wrongVersion": "Die Sicherungsdateiversion wird nicht unterstützt. Bitte versuchen Sie, eine neue Sicherung in der neuesten NEON-Version zu erstellen.",
+      "importData": "Es gab einen Fehler beim Importieren der Daten (möglicherweise teilweise importiert)."
+    }
+  },
+  "useUnclaimedMutation": {
+    "errors": {
+      "claimError": "Es gab einen Fehler beim Versuch abzurufen. Bitte versuchen Sie es erneut."
+    },
+    "successNotification": {
+      "title": "Abruf erfolgreich",
+      "previewBody": "Sie haben Ihre nicht abgerufenen Token erfolgreich abgerufen."
+    },
+    "failureNotification": {
+      "title": "Abruffehler",
+      "previewBody": "Wir konnten den Abschluss Ihres Abrufs nicht überprüfen"
+    }
+  },
+  "useHardwareWalletByUsb": {
+    "errors": {
+      "noDevice": "Es ist kein Gerät angeschlossen"
+    }
+  },
+  "useGetFullTransactions": {
+    "formatExtendedDate": "dd.MM.yyyy"
+  }
+}

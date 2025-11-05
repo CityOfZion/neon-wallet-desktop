@@ -1,0 +1,732 @@
+{
+  "root": {
+    "overTheAirManagerSetup": {
+      "downloading": "Neue Version gefunden. Wird heruntergeladen… <1>Oder laden Sie sie manuell herunter auf</1> <2>unserem GitHub</2>",
+      "downloaded": "Neue Version heruntergeladen. Die App wird neu gestartet, um das Update anzuwenden.",
+      "error": "Fehler beim Herunterladen des Updates. Bitte versuchen Sie es später erneut, indem Sie die App neu starten.",
+      "installError": "Das Update konnte nicht installiert werden. Bitte überprüfen Sie die App-Berechtigungen und laden Sie das Update manuell herunter."
+    },
+    "deeplinkManagerSetup": {
+      "pleaseLogin": "Bitte melden Sie sich an, um fortzufahren."
+    }
+  },
+  "private": {
+    "deeplinkManagerSetup": {
+      "selectAccountModal": {
+        "title": "Wählen Sie ein Konto aus, um sich mit der dApp zu verbinden.",
+        "selectSourceAccount": "Konto auswählen"
+      }
+    },
+    "hardwareWalletManagerSetup": {
+      "requestingPermission": "Bitte bestätigen Sie auf Ihrem Ledger-Gerät"
+    },
+    "accountTasksManagerSetup": {
+      "useFraudulentTokensNotificationProcess": {
+        "notificationTitle": "\"{{ value }}\" ist ein betrügerischer Token!",
+        "notificationDescription": "Wir haben \"{{ value }}\" identifiziert, der von der Community als betrügerischer Token gekennzeichnet wurde. Wir empfehlen, ihn auszublenden und jede weitere Interaktion damit zu vermeiden."
+      },
+      "useVotingNeo3NotificationProcess": {
+        "notificationTitle": "Sie verpassen kostenloses GAS!",
+        "notificationDescription": "Tippen Sie einfach hier und geben Sie noch heute Ihre Stimme ab"
+      },
+      "useMigrationNeoLegacyNotificationProcess": {
+        "notificationTitle": "Sie haben Token zur Migration verfügbar!",
+        "notificationDescription": "Migration von Neo Legacy zu Neo N3 verfügbar!"
+      }
+    },
+    "walletTasksManagerSetup": {
+      "useBackupReminderNotificationProcess": {
+        "notificationTitle": "Erstellen Sie eine neue Sicherungsdatei!",
+        "notificationDescription": "Wir empfehlen, eine neue Sicherungsdatei unter \"Einstellungen > Sicherheit > NEON sichern\" zu erstellen, um Ihre Wallets zu schützen. Für zusätzliche Sicherheit können Sie auch Ihre Mnemonics manuell unter \"Wallets > 3 Punkte (Tools) > Exportieren\" und private Schlüssel unter \"Wallets > 3 Punkte > Schlüssel exportieren\" exportieren."
+      }
+    }
+  },
+  "welcome": {
+    "title": "Willkommen bei Neon Wallet",
+    "continue": "Weiter",
+    "card1": {
+      "title": "Intuitiv",
+      "description": "Speichern, senden und empfangen Sie Ihre digitalen Assets einfach über mehrere Wallets hinweg"
+    },
+    "card2": {
+      "title": "Verbunden",
+      "description": "Neon nutzt das Open-Source-WalletConnect-Protokoll, um Ihr Wallet sicher mit einem wachsenden Katalog von dApps zu verbinden"
+    },
+    "card3": {
+      "title": "Flexibel",
+      "description": "Die Verwaltung digitaler Assets war noch nie so einfach mit den Neon Desktop- und Mobile-Apps (Android und iOS)"
+    },
+    "card4": {
+      "title": "Integriert",
+      "description": "Verbinden Sie sich einfach mit Ihrem Ledger Hardware Wallet, um Ihre Ethereum- und Neo-Assets mit höchsten Sicherheitsstandards zu verwalten"
+    },
+    "securitySetup": {
+      "title": "Sichern Sie Ihr neues Wallet",
+      "steps": ["Passwort erstellen", "Passwort bestätigen", "Abschließen"],
+      "step1": {
+        "formTitle": "Bitte erstellen Sie ein Passwort, um Ihr Wallet zu sichern",
+        "passwordPlaceholder": "Passwort erstellen…",
+        "passwordError": "Passwort muss mindestens {{length}} Zeichen lang sein"
+      },
+      "step2": {
+        "formTitle": "Bitte bestätigen Sie Ihr Passwort",
+        "confirmPasswordPlaceholder": "Passwort bestätigen…",
+        "confirmPasswordError": "Passwörter stimmen nicht überein"
+      },
+      "step3": {
+        "title": "Passwort erfolgreich erstellt!",
+        "buttonContinueLabel": "Wallet öffnen"
+      }
+    },
+    "importWallet": {
+      "title": "Wallet importieren",
+      "steps": [
+        "Passwort erstellen",
+        "Passwort bestätigen",
+        "Details hinzufügen oder Datei suchen",
+        "Importieren",
+        "Abschließen"
+      ],
+      "migrationLabel": "Migrationsdatei suchen",
+      "step3": {
+        "formTitle": "Geben Sie eine Adresse, einen verschlüsselten Schlüssel, einen privaten Schlüssel oder Mnemonic ein oder suchen Sie eine Sicherungsdatei",
+        "migrationFormTitle": "Durchsuchen Sie Ihren Computer, um eine Migrationsdatei zu finden",
+        "inputPlaceholder": "Adresse, Schlüssel oder Mnemonic eingeben…",
+        "importEncryptedDescription": "Wählen Sie die gewünschte Blockchain für Ihr neues Konto aus",
+        "importEncryptedTitle": "Wallet importieren",
+        "importEncryptedSubtitle": "Ihr verschlüsselter Schlüssel wurde erkannt. Bitte füllen Sie die folgenden Felder aus, um fortzufahren.",
+        "invalidAddress": "Ungültige Adresse",
+        "unexpectedError": "Unerwarteter Fehler",
+        "locateFileButtonLabel": "Datei suchen",
+        "neon2Warning": "Diese Datei wird während des Migrationsprozesses in Ihrem Neon 2 Wallet erstellt. Starten Sie den Prozess in Neon 2, um die Datei zu erstellen.",
+        "importSuccess": "Kompatible Datei identifiziert!",
+        "importError": "Kompatible Datei nicht erkannt"
+      },
+      "step4": {
+        "title": "Bitte haben Sie Geduld, wir richten jetzt Ihr Wallet ein"
+      },
+      "step5": {
+        "title": "Wallet erfolgreich importiert!",
+        "openWalletButtonLabel": "Wallet öffnen"
+      }
+    }
+  },
+  "portfolio": {
+    "title": "Portfolio",
+    "allAccounts": "Alle Konten",
+    "overview": "Übersicht",
+    "allActivity": "Alle Aktivitäten",
+    "allConnections": "Alle Verbindungen",
+    "portfolioActivity": {
+      "allActivity": "Alle Aktivitäten",
+      "walletsAndAccounts": "{{wallets}} Wallets / {{accounts}} Konten",
+      "balance": "Guthaben"
+    },
+    "portfolioOverview": {
+      "overview": "Übersicht",
+      "walletsAndAccounts": "{{wallets}} Wallets / {{accounts}} Konten",
+      "balance": "Guthaben"
+    },
+    "portfolioConnections": {
+      "title": "Alle Verbindungen",
+      "walletsAndAccounts": "{{wallets}} Wallets / {{accounts}} Konten",
+      "disconnectAllButtonLabel": "Alle trennen",
+      "totalConnections": "{{connections}} Verbindungen"
+    }
+  },
+  "forgottenPassword": {
+    "title": "Passwort vergessen",
+    "text": "Wenn Sie Ihr Passwort vergessen haben, müssen Sie Neon zurücksetzen.",
+    "alertCard": {
+      "text": "Dieser Vorgang löscht Ihre gespeicherten Daten und Sie müssen Ihre Wallets erneut importieren"
+    },
+    "links": {
+      "continue": "Weiter"
+    }
+  },
+  "forgottenPasswordConfirm": {
+    "title": "Passwort vergessen",
+    "text": "Sind Sie sicher?",
+    "alertCard": {
+      "text": "Bevor Sie fortfahren, ist es wichtig, dass Sie Zugriff auf Ihre privaten Schlüssel oder Mnemonic haben, um Ihr Wallet wiederherzustellen"
+    },
+    "auxiliarText": "Zum Bestätigen wischen…",
+    "swipe": {
+      "text": "Neon zurücksetzen und meine Daten löschen",
+      "buttonAriaLabel": "Zurücksetzen und Daten löschen"
+    },
+    "success": "Daten erfolgreich gelöscht"
+  },
+  "forgottenPasswordSuccess": {
+    "title": "Erfolg!",
+    "text": "Sie haben Neon zurückgesetzt",
+    "description": "Alle lokalen App-Daten wurden entfernt und Sie können jetzt von vorne beginnen",
+    "goToWelcome": "Zum Willkommensbildschirm"
+  },
+  "send": {
+    "title": "Token senden",
+    "subtitle": "Welche Token möchten Sie senden?",
+    "sourceAccountLabel": "Quellkonto",
+    "addRecipientButtonLabel": "Empfänger hinzufügen",
+    "separatelyTransferWarning": "{{blockchain}} unterstützt nicht mehr als eine Sendung pro Transaktion, daher werden wir jede Überweisung separat senden, was die Gebühr drastisch erhöht.",
+    "recipient": {
+      "title": "Empfänger {{order}}",
+      "addressPlaceholder": "Empfängername oder -adresse eingeben…",
+      "myAccountButtonLabel": "Mein Konto",
+      "tokenToSendLabel": "Zu sendender Token",
+      "amountLabel": "Betrag",
+      "fiatLabel": "Fiat-Wert ({{currency}} geschätzt)",
+      "max": "Max",
+      "errors": {
+        "invalidAddress": "Ungültige Adresse"
+      }
+    },
+    "successNotification": {
+      "title": "Überweisung abgeschlossen",
+      "previewBody": "Ihre Überweisung wurde erfolgreich abgeschlossen"
+    },
+    "failureNotification": {
+      "title": "Überweisung fehlgeschlagen",
+      "previewBody": "Wir konnten den Abschluss Ihrer Überweisung nicht überprüfen"
+    },
+    "sendFail": {
+      "title": "Hoppla! Wir sind auf einen Fehler gestoßen.",
+      "subtitle": "Bitte versuchen Sie es später erneut"
+    },
+    "sendSuccess": {
+      "title": "Ihre Token wurden erfolgreich gesendet!",
+      "detailsTitle": "Transaktionsdetails",
+      "transactionNumber": "Transaktion {{order}}",
+      "recipientLabel": "Empfänger",
+      "saveContactButtonLabel": "Kontakt speichern",
+      "amountLabel": "Betrag",
+      "transactionHashLabel": "Transaktions-Hash",
+      "viewStatusButtonLabel": "Status anzeigen"
+    },
+    "sendTip": {
+      "supportLabel": "Ich möchte COZ mit einem Trinkgeld unterstützen von",
+      "optionalLabel": "*Optional"
+    },
+    "errors": {
+      "feeError": "Fehler bei der Berechnung der Gebühr",
+      "insufficientFunds": "Unzureichendes Guthaben",
+      "calculateMaxAmount": "Fehler bei der Berechnung des Maximalbetrags",
+      "amountIsLessOrEqualZero": "Der Betrag ist kleiner oder gleich Null",
+      "hardwareWalletShouldBeValid": "Um mit diesem Vorgang fortzufahren, stellen Sie bitte sicher, dass Ihr Hardware Wallet entsperrt ist",
+      "noTokenToTip": "Kein Token zum Bezahlen des Trinkgelds",
+      "noAmountToTip": "Nicht genug Betrag zum Bezahlen des Trinkgelds",
+      "noFiatPriceToTip": "Fiat-Preis für das Trinkgeld nicht gefunden"
+    }
+  },
+  "wallets": {
+    "title": "Wallets",
+    "addAccountButtonLabel": "Konto hinzufügen",
+    "editWalletButtonLabel": "Bearbeiten",
+    "editAccountButton": "Konto bearbeiten",
+    "exportButtonLabel": "Exportieren",
+    "exportKeyButtonLabel": "Schlüssel exportieren",
+    "voteNeo3ButtonLabel": "Abstimmen",
+    "neo3NeoXBridgeButtonLabel": "Bridge",
+    "importButtonLabel": "Importieren",
+    "newWalletButtonLabel": "Neues Wallet",
+    "address": "Adresse",
+    "accounts": "Konten",
+    "hardwareWalletConnectBadge": "Hardware Wallet verbunden",
+    "accountNftList": {
+      "title": "NFTs",
+      "empty": "Keine NFTs zum Anzeigen",
+      "total": "{{length}} Elemente",
+      "listLabel": "Als Liste anzeigen",
+      "gridLabel": "Als Raster anzeigen"
+    },
+    "accountOverview": {
+      "title": "Kontoübersicht"
+    },
+    "accountTokensList": {
+      "title": "Token",
+      "balance": "Guthaben",
+      "tabs": {
+        "active": "Aktiv",
+        "hidden": "Versteckt"
+      }
+    },
+    "accountTransactionsList": {
+      "title": "Transaktionen",
+      "exportCSVButtonLabel": "CSV exportieren"
+    },
+    "accountConnections": {
+      "title": "Verbindungen",
+      "totalConnections": "{{connections}} Verbindungen",
+      "newConnection": "Neue Verbindung",
+      "disconnectAll": "Alle trennen"
+    },
+    "exportKeyTitle": "Schlüssel exportieren",
+    "exportWalletTitle": "Wallet exportieren"
+  },
+  "contacts": {
+    "title": "Kontakte",
+    "listTitle": "Alle Kontakte",
+    "buttonAddContactLabel": "Kontakt hinzufügen",
+    "contactList": {
+      "contacts": "KONTAKTE",
+      "myAccounts": "MEINE KONTEN",
+      "notFound": "Keine Kontakte gefunden"
+    },
+    "addresses": "Adressen"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "sidebarOption": {
+      "personalisation": "PERSONALISIERUNG",
+      "security": "SICHERHEIT"
+    },
+    "personalisationOption": {
+      "networkConfiguration": "Netzwerkkonfiguration",
+      "currency": "Währung",
+      "language": "Sprache",
+      "theme": "Design",
+      "releaseNotes": "Versionshinweise",
+      "mobileApp": "Mobile App"
+    },
+    "securityOption": {
+      "changePassword": "Passwort ändern",
+      "encryptKey": "Schlüssel verschlüsseln",
+      "recoverWallet": "NEON-Backup importieren",
+      "backupWallet": "NEON sichern",
+      "migrateWallets": "Von NEON 2.0 migrieren"
+    },
+    "encryptKey": {
+      "subtitle": "Wählen Sie eine Passphrase, um einen vorhandenen Schlüssel zu verschlüsseln:",
+      "titleInput1": "Privater Schlüssel, den Sie verschlüsseln möchten",
+      "inputPrivateKeyPlaceholder": "Geben Sie Ihren privaten Schlüssel ein…",
+      "titleInput2": "Passphrase",
+      "inputPassphrasePlaceholder": "Geben Sie Ihre Passphrase ein…",
+      "titleInput3": "Passphrase bestätigen",
+      "inputConfirmPassphrasePlaceholder": "Geben Sie Ihre Bestätigungs-Passphrase ein…",
+      "buttonGenerate": "Verschlüsselten Schlüssel generieren",
+      "error": {
+        "privateKey": "Ungültiger privater Schlüssel",
+        "privateKeyNotFound": "Privaten Schlüssel konnte nicht validiert werden",
+        "passphraseIsInvalid": "Passphrase muss mindestens {{ chars }} Zeichen lang sein",
+        "confirmationPassphraseIsInvalid": "Bestätigungs-Passphrase muss mindestens {{ chars }} Zeichen lang sein",
+        "passphraseIsDifferent": "Passphrase unterscheidet sich von Bestätigungs-Passphrase",
+        "confirmationPassphraseIsDifferent": "Bestätigungs-Passphrase unterscheidet sich von Passphrase",
+        "errorToEncryptKey": "Fehler beim Verschlüsseln des Schlüssels",
+        "blockchainCanNotEncryptKey": "Diese Blockchain kann den Schlüssel nicht verschlüsseln"
+      },
+      "successModal": {
+        "title": "Verschlüsselter Schlüssel",
+        "subtitle": "Privater Schlüssel erfolgreich verschlüsselt!",
+        "description": "Hier ist Ihr verschlüsselter Schlüssel:"
+      }
+    },
+    "settingsNetwork": {
+      "title": "Netzwerkkonfiguration",
+      "youAreConnectedNeoAndEth": "Sie sind sowohl mit dem Neo- als auch mit dem Ethereum-Netzwerk verbunden",
+      "currentNetwork": "Aktuelles Netzwerk",
+      "nodeSelection": "Knotenauswahl",
+      "selectProfilePlaceholder": "Profil auswählen…",
+      "createProfileButtonLabel": "Profil erstellen",
+      "editProfileButtonLabel": "Profil bearbeiten",
+      "resetProfileButtonLabel": "Profil zurücksetzen"
+    },
+    "settingsReleaseNotes": {
+      "title": "Versionshinweise",
+      "button": {
+        "learnMore": "Mehr erfahren"
+      }
+    },
+    "settingsMobileApp": {
+      "title": "Mobile App",
+      "subtitle": "Ihr Wallet ist auch auf dem Handy verfügbar!",
+      "descriptionLine1": "Speichern, betrachten und verwalten Sie sicher alle Ihre digitalen Assets und mehrere Wallets an einem Ort.",
+      "descriptionLine2": "Nutzen Sie die zusätzlichen Sicherheitsoptionen auf Ihrem Gerät, um Ihre Assets sicher zu halten."
+    },
+    "settingsBackupWallet": {
+      "title": "NEON sichern",
+      "description": "Speichern Sie eine Sicherungsdatei auf Ihrem Computer, mit der Sie Ihr Wallet wiederherstellen können, falls Sie den Zugriff verlieren oder Ihr Gerät beschädigen.",
+      "saveBackupLabel": "Wo möchten Sie Ihre Sicherung speichern?",
+      "browse": "Durchsuchen…",
+      "backup": "Sichern",
+      "warning": "Hinweis: Dieser Vorgang sichert Ihr gesamtes Wallet"
+    },
+    "settingsRecoverWallet": {
+      "title": "NEON-Backup importieren",
+      "description": "Falls Sie den Zugriff auf Ihr Wallet verlieren, können Sie es aus einer lokalen Sicherungsdatei importieren. Suchen Sie einfach Ihre lokale Sicherungsdatei und geben Sie das Passwort ein, das Sie beim Erstellen der Sicherungsdatei verwendet haben, und Ihr Zugriff wird wiederhergestellt.",
+      "saveBackupLabel": "Sicherungsdatei suchen",
+      "browse": "Durchsuchen…",
+      "backup": "Backup importieren",
+      "nameExtension": "NEON-Sicherungsdateien"
+    },
+    "settingsMigrateWallets": {
+      "title": "Von NEON 2.0 migrieren",
+      "subtitleWhy": "Warum zu NEON 3 migrieren?",
+      "descriptionWhy": "Die Migration Ihres NEON 2 Wallets gibt Ihnen Zugriff auf eine breitere Palette unterstützter Assets und eine elegantere, verbesserte Benutzererfahrung, die die Verwaltung Ihrer Assets zum Kinderspiel macht!",
+      "subtitleHow": "Wie migriere ich von Neon 2?",
+      "importButtonLabel": "NEON 2 Wallet importieren",
+      "startProcessButtonLabel": "Prozess in NEON 2 starten"
+    },
+    "changePassword": {
+      "title": "Passwort ändern",
+      "step1": {
+        "subtitle": "Wenn Sie ein neues Passwort erstellen möchten, ändern Sie es einfach hier und bestätigen Sie die Änderung mit Ihrem aktuellen Passwort!",
+        "titleInput1": "Neues Passwort",
+        "inputNewPasswordPlaceholder": "Neues Passwort eingeben…",
+        "titleInput2": "Aktuelles Neon-Passwort",
+        "inputCurrentPasswordPlaceholder": "Aktuelles Passwort eingeben…",
+        "generatePassword": "Passwort generieren",
+        "buttonContinue": "Weiter",
+        "error": "Passwort nicht erkannt!"
+      },
+      "step2": {
+        "subtitle": "Wenn Sie Ihr Passwort verlieren, kann es nicht wiederhergestellt werden.",
+        "description": "Um Ihre Passwortänderung abzuschließen, müssen Sie eine Sicherung Ihres neuen Passworts erstellen. Tippen Sie auf die Schaltfläche unten, um einen QR-Code zu erhalten, den Sie herunterladen und sicher aufbewahren können.",
+        "buttonDownload": "QR herunterladen und Änderungen speichern",
+        "error": "Es gab ein Problem beim Speichern der Änderungen"
+      },
+      "step3": {
+        "subtitle": "Ihr NEON 3 Passwort wurde erfolgreich geändert!"
+      }
+    },
+    "settingsCurrency": {
+      "title": "Währung"
+    },
+    "settingsLanguage": {
+      "title": "Sprache"
+    }
+  },
+  "receive": {
+    "title": "Token empfangen",
+    "sendQRCode": "QR-Code senden",
+    "yourAddressTabTitle": "IHRE ADRESSE",
+    "requestTokenTabTitle": "TOKEN ANFORDERN",
+    "receivingAccountTitle": "Empfangskonto",
+    "yourReceivingAddress": "Ihr Empfangskonto",
+    "selectAccountToGenerateCode": "Wählen Sie ein Konto aus, um einen Code zu generieren!",
+    "addressInputHint": "Ihre Empfangsadresse wird hier sein…",
+    "downloadQRCode": "QR-Code herunterladen"
+  },
+  "login": {
+    "title": "Willkommen bei Neon Wallet",
+    "tabs": {
+      "password": "Neon-Konto",
+      "hardware": "Hardware Wallet",
+      "key": "Adresse oder Schlüssel"
+    }
+  },
+  "loginPassword": {
+    "formContent": {
+      "text": "Bei Ihrem Wallet anmelden",
+      "passwordPlaceholder": "Passwort eingeben…",
+      "buttonLoginLabel": "Anmelden",
+      "invalidPassword": "Ungültiges Passwort",
+      "forgotPassword": "Passwort vergessen?"
+    },
+    "welcomeContent": {
+      "text": "Was möchten Sie mit Neon tun?",
+      "cardLinks": {
+        "createNewWallet": {
+          "title": "Neues Wallet erstellen",
+          "text": "Ich möchte ein <1>neues</1> passwortgeschütztes Konto erstellen, damit meine Daten persistent sind"
+        },
+        "importExternalWallet": {
+          "title": "Externes Wallet importieren",
+          "text": "Ich möchte ein Wallet <1>importieren</1> und meine Daten passwortgeschützt machen, um sicherzustellen, dass sie persistent sind"
+        },
+        "migrateFromNeon2": {
+          "title": "Von Neon 2 migrieren",
+          "text": "Ich möchte mein Neon 2 Wallet <1>migrieren</1>"
+        }
+      }
+    }
+  },
+  "loginHardware": {
+    "title": "Verbinden Sie Ihr Hardware Wallet",
+    "searchingLabel": "Suche läuft",
+    "notConnectedMessage": "Kein Hardware Wallet gefunden! Überprüfen Sie Ihre Verbindung",
+    "connectedMessage": "Gerät erkannt! Öffne Ihr Wallet…",
+    "searchAgainButtonLabel": "Erneut suchen"
+  },
+  "loginKey": {
+    "description": "Geben Sie eine Adresse, einen Schlüssel oder Mnemonic-Wörter ein:",
+    "inputPlaceholder": "Adresse, Schlüssel oder Mnemonic eingeben…"
+  },
+  "loginKeySelectAccountPage": {
+    "title": "Adressen importieren",
+    "description": "Welche Adressen möchten Sie importieren?",
+    "importAllButtonLabel": "Alle importieren",
+    "importSelectedButtonLabel": "Ausgewählte importieren"
+  },
+  "swap": {
+    "title": "Token tauschen",
+    "explanation": {
+      "title": "Wie funktioniert es?",
+      "description1": "Tauschen Sie Token gegen andere Token, über Chains hinweg, ohne eine Börse zu nutzen.",
+      "description2": " Das direkte und sofortige Tauschen von Token in NEON ist bequem und ermöglicht es Ihnen, Zeit zu sparen und niedrigere Gebühren zu zahlen.",
+      "useTitle": "Neon Wallet nutzt:"
+    },
+    "form": {
+      "title": "Welche Token möchten Sie tauschen?",
+      "restart": "Neu starten",
+      "assets": "Assets",
+      "source": "Kontodetails",
+      "amounts": "Beträge",
+      "balanceLabel": "Guthaben",
+      "balancePlaceholder": "0,00",
+      "max": "Max",
+      "tokenToUseTitle": "Dies tauschen",
+      "accountToUseTitle": "Von hier senden",
+      "amountToUseTitle": "Betrag",
+      "tooltipTitle": "Wechselkurse werden mit höheren Tauschbeträgen besser!",
+      "minimumAmountToUseLabel": "Minimum {{amount}}",
+      "minimumAmountToUsePlaceholder": "0,00000000",
+      "tokenToReceiveTitle": "Dies erhalten",
+      "receiveHere": "Hier empfangen",
+      "addressToReceivePlaceholder": "Adresse eingeben…",
+      "myAccountsButtonLabel": "Konten…",
+      "extraIdToReceive": "Ziel-Tag/Memo",
+      "extraIdToReceivePlaceholder": "Tag/Memo eingeben…",
+      "openAboutExtraIdToReceiveModal": "Info-Modal für Ziel-Tag/Memo öffnen",
+      "amountToReceiveTitle": "Betrag, den Sie erhalten",
+      "amountToReceiveTitleComplement": "(nach Gebühren)",
+      "submitLabel": "Jetzt tauschen",
+      "sendError": {
+        "subtitle": "Hoppla! Wir sind auf einen Fehler gestoßen.",
+        "description": "Bitte versuchen Sie es später erneut"
+      },
+      "sendSuccess": {
+        "subtitle": "Ihr Tausch wurde erfolgreich initiiert!",
+        "detailsTitle": "Tauschdetails",
+        "statusLabel": "Status",
+        "transactionFromLabel": "Transaktion von",
+        "transactionToLabel": "Transaktion an",
+        "transactionAux": "Hilfstransaktion",
+        "amountTo": "Betrag an",
+        "amountFrom": "Betrag von",
+        "recipientLabel": "Empfänger",
+        "feeLabel": "Gebühr für Transaktion von"
+      },
+      "errors": {
+        "invalidAddress": "Ungültige Adresse",
+        "invalidExtraIdToReceive": "Ungültiger Ziel-Tag/Memo",
+        "amountMin": "Betrag ist zu niedrig. Mindestbetrag ist {{amount}}",
+        "amountMax": "Betrag ist zu hoch. Maximalbetrag ist {{amount}}",
+        "insufficientFunds": "Sie haben nicht genügend Guthaben",
+        "insufficientFundsFee": "Sie haben nicht genügend Guthaben, um die Gebühr zu bezahlen",
+        "hardwareWalletNotConnectedOrLocked": "Hardware Wallet ist nicht verbunden oder gesperrt, überprüfen Sie Ihr Gerät und versuchen Sie es erneut"
+      },
+      "hints": {
+        "enterValidAddress": "Gültige Adresse eingeben"
+      }
+    }
+  },
+  "buyAndSellTokens": {
+    "title": "Token kaufen & verkaufen",
+    "notConfigured": "Kauf & Verkauf von Token ist nicht konfiguriert",
+    "buyAndSellTokensLayout": {
+      "howWorks": {
+        "title": "Wie funktioniert es?",
+        "description": "Kaufen und verkaufen Sie Token ohne Börse! Neon bietet eine mühelose und sichere Möglichkeit, digitale Assets mit Fiat-Geld zu kaufen und zu verkaufen."
+      },
+      "processes": {
+        "all": {
+          "observation": "Nach Abschluss der Überweisung dauert es einige Momente, bis Ihre neuen Token ankommen."
+        },
+        "buyTokens": {
+          "text": "<1>Dieser Prozess verwendet ein eingebettetes Widget.</1> Beim Kauf von Token können einige persönliche Daten für KYC-Zwecke angefordert werden. <2>Größere Verkäufe erfordern mehr KYC-Daten.</2>",
+          "kyc": "<1>Nach Abschluss des KYC-Prozesses:</1> Sie müssen eine Zieladresse für Ihre Token angeben. Kopieren Sie aus dem Panel 'Wallets & Konten' die Zieladresse Ihres gewünschten Neon-Kontos.",
+          "alert": "Stellen Sie sicher, dass das ausgewählte Konto mit dem Netzwerk Ihres gekauften Tokens kompatibel ist!"
+        },
+        "sellTokens": {
+          "text": "<1>Dieser Prozess verwendet ein eingebettetes Widget.</1> Beim Verkauf von Token können einige persönliche Daten für KYC-Zwecke angefordert werden. <2>Größere Verkäufe erfordern mehr KYC-Daten.</2>",
+          "kyc": "<1>Nach Abschluss des KYC-Prozesses:</1> Sie müssen Ihre Token mit der Schaltfläche 'Einzahlung tätigen' an die Einzahlungsadresse senden. Bitte stellen Sie sicher, dass Sie die richtige Menge an Token an die Einzahlungsadresse überweisen! Sie können auch eine Zieladresse Ihres gewünschten Neon-Kontos aus dem Panel 'Wallets & Konten' kopieren.",
+          "alert": "Einzahlungstransaktionen müssen von derselben Adresse gesendet werden, die im Widget verwendet wird!"
+        }
+      },
+      "tabs": {
+        "buyTokens": "Token kaufen",
+        "sellTokens": "Token verkaufen"
+      },
+      "buttons": {
+        "help": "Brauchen Sie Hilfe? Chatten Sie mit uns",
+        "walletsAndAccounts": "Wallets & Konten",
+        "aboutData": "Über Ihre Daten"
+      },
+      "labels": {
+        "walletsAndAccounts": {
+          "opened": "Wallets & Konten sind geöffnet",
+          "closed": "Wallets & Konten sind geschlossen"
+        }
+      }
+    },
+    "buyAndSellTokensAccordionAccounts": {
+      "title": "Ihre Wallet(s) & Konto(en)",
+      "labels": {
+        "copyAddress": "Adresse kopieren"
+      }
+    },
+    "buyTokensContent": {
+      "buttons": {
+        "restart": "Neu starten"
+      }
+    },
+    "sellTokensContent": {
+      "error": "Es gibt einen Fehler beim Verkauf von Token, bitte versuchen Sie es erneut",
+      "buttons": {
+        "deposit": "Einzahlung tätigen",
+        "restart": "Neu starten"
+      }
+    }
+  },
+  "migrationNeo3": {
+    "title": "Legacy-Token migrieren",
+    "subtitle": "Migrieren Sie Ihre Legacy-Token",
+    "labels": {
+      "assets": "Ihre Assets",
+      "address": "Adressdetails",
+      "amounts": "Beträge",
+      "migrate": "Migrieren",
+      "receive": "Empfangen",
+      "amountYouGet": "Betrag, den Sie erhalten <1>(nach Gebühren)</1>",
+      "fee": "Migrationsgebühr",
+      "notFound": "Nicht gefunden"
+    },
+    "buttons": {
+      "migrate": "Jetzt migrieren"
+    },
+    "messages": {
+      "migrationSuccess": "Erfolgreiche Migration, warten Sie auf das Eintreffen der Token",
+      "migrationError": "Es gab ein Problem mit der Migration, bitte kontaktieren Sie den Support und versuchen Sie es erneut",
+      "generateNeo3AccountError": "Es gab ein Problem bei der Generierung des Neo 3 Kontos",
+      "getKeyError": "Es gab ein Problem beim Abrufen des Schlüssels",
+      "generateAccountError": "Es gab ein Problem bei der Generierung des Kontos",
+      "calculateValuesError": "Es gab ein Problem bei der Berechnung der Werte für Gebühr und Betrag",
+      "hardwareWalletNotConnectedOrLocked": "Hardware Wallet ist nicht verbunden oder gesperrt, bitte überprüfen Sie Ihr Gerät und versuchen Sie es erneut",
+      "migrationNotAvailableError": "Migration ist für dieses Konto nicht verfügbar",
+      "accountIsNotNeoLegacy": "Das Konto ist kein Neo Legacy Konto und kann nicht migriert werden"
+    },
+    "sideBar": {
+      "title": "Wie funktioniert es?",
+      "steps": [
+        "Neon erstellt ein neues Neo N3 Konto mit Ihrem vorhandenen privaten Schlüssel und fügt es Ihrem Wallet hinzu",
+        "Wir verarbeiten die Transaktion, sobald Sie die Details bestätigt haben",
+        "Migrationen dauern normalerweise weniger als 30 Sekunden. Sie können den Status im Tab 'Aktivität' des Kontos überprüfen"
+      ],
+      "fee": "Migrationsgebühren betragen etwa 1% (aufgerundet und beinhalten eine kleine Menge GAS zur Unterstützung von Transaktionen im neuen Netzwerk). Minimum von 0,1 GAS oder 2 NEO.",
+      "alert": "Dieses Migrationstool verschiebt nur Ihre NEO und GAS. Es verschiebt nicht Ihre anderen NEP-5 Token. Sie müssen diese Projekte kontaktieren, um zu erfahren, wie Sie deren Token migrieren können",
+      "buttons": {
+        "help": "Brauchen Sie Hilfe? Chatten Sie mit uns"
+      }
+    },
+    "successNotification": {
+      "title": "Migration abgeschlossen",
+      "previewBody": "Ihre Migration wurde erfolgreich abgeschlossen"
+    },
+    "failureNeoLegacyNotification": {
+      "title": "Migration fehlgeschlagen - Neo Legacy",
+      "previewBody": "Wir konnten den Abschluss Ihrer Migrationsüberweisung auf Neo Legacy nicht überprüfen"
+    },
+    "failureNeo3Notification": {
+      "title": "Migration fehlgeschlagen - Neo 3",
+      "previewBody": "Wir konnten keine Migrationsüberweisung auf Ihr Neo 3 Konto überprüfen"
+    },
+    "failureNotification": {
+      "title": "Migration fehlgeschlagen",
+      "previewBody": "Wir konnten den Abschluss Ihrer Migrationsüberweisung nicht überprüfen"
+    }
+  },
+  "voteNeo3": {
+    "title": "Abstimmung",
+    "subtitle": "Kandidaten auswählen",
+    "noAccountSelectedLabel": "Kein Konto ausgewählt",
+    "changeNeo3AccountLabel": "Ändern",
+    "selectNeo3AccountLabel": "Auswählen",
+    "createNeo3AccountLabel": "Es gibt kein Neo 3 Konto, bitte erstellen Sie eines",
+    "searchLabel": "Suchen",
+    "searchPlaceholder": "Nach Kandidaten suchen…",
+    "voteErrorMessages": {
+      "thereIsNoNeoLabel": "Ihr Neo 3 Konto sollte NEO haben",
+      "shouldUseMainnetLabel": "Sie sollten ein Mainnet-Netzwerk verwenden, um abzustimmen",
+      "accountCanNotBeWatchLabel": "Ihr Neo 3 Konto befindet sich im Ansichtsmodus",
+      "shouldHaveEnoughGasToPayFeeLabel": "Sie haben nicht genügend GAS, um die Gebühr zu bezahlen",
+      "selectNeo3AccountLabel": "Neo 3 Konto auswählen"
+    },
+    "availableVotes": {
+      "availableVotesLabel": "Verfügbare Stimmen",
+      "noAvailableVotesLabel": "Keine Stimmen"
+    },
+    "sideBar": {
+      "title": "Wie funktioniert es?",
+      "aboutNeoLabel": "Die Anzahl der NEO, die Sie halten, entspricht der Anzahl der Stimmen, die Sie für einen Kandidaten abgeben können.",
+      "whyVoteTitle": "Warum abstimmen?",
+      "whyVoteDescription": "Durch die Abstimmung nehmen Sie aktiv am NEO-Ökosystem teil und sind berechtigt, GAS als Inhabervorteil zu erhalten.",
+      "noteLabel": "Hinweis: Wenn Sie nicht abstimmen, verpassen Sie diesen Vorteil.",
+      "sellNeoAlert": "Wenn Sie Ihre NEO verkaufen, werden Ihre Stimmen um die Anzahl reduziert, die Sie verkauft haben, und Ihre GAS-Belohnung wird proportional sinken"
+    },
+    "list": {
+      "positionColumnLabel": "Position",
+      "nameColumnLabel": "Kandidat",
+      "pubKeyColumnLabel": "Öffentlicher Schlüssel",
+      "votesColumnLabel": "Gesamtstimmen",
+      "actionsColumnLabel": "Aktionen",
+      "castVoteColumnLabel": "Abstimmen"
+    },
+    "listItem": {
+      "detailsButtonLabel": "Kandidateninformationen",
+      "castVoteButtonLabel": "Stimme abgeben",
+      "yourVoteButtonLabel": "Ihre Stimme"
+    },
+    "notFound": {
+      "title": "Keine Kandidaten zum Anzeigen",
+      "text": "Es gibt keine Kandidaten, für die Sie abstimmen können, oder es gab ein Problem beim Abrufen. Überprüfen Sie Ihr Neo 3 Netzwerk und versuchen Sie es bitte erneut."
+    }
+  },
+  "neo3NeoXBridge": {
+    "title": "Bridge",
+    "explanation": {
+      "title": "Wie funktioniert es?",
+      "description1": "Verbinden Sie Ihre Krypto-Assets einfach zwischen Netzwerken, ohne jemals Ihr Wallet zu verlassen.",
+      "description2": "Blockchains sind unabhängig voneinander und können nicht miteinander interagieren - hier kommen Bridges ins Spiel. Es ist im Prinzip ähnlich wie der Geldwechsel beim Reisen in verschiedene Länder, eine Bridge ermöglicht es Ihnen, Assets über verschiedene Blockchains zu übertragen.",
+      "description3": "Das direkte und sofortige Verbinden von Token in NEON ist bequem und ermöglicht es Ihnen, Zeit zu sparen und niedrigere Gebühren zu zahlen.",
+      "alert": "COZ ist nicht der Betreuer dieses Bridge-Prozesses - Neo Global Development ist der Betreuer."
+    },
+    "form": {
+      "title": "Welche Token möchten Sie verbinden?",
+      "restartButtonLabel": "Neu starten",
+      "assetsStepTitle": "Assets",
+      "tokenToUseStepTitle": "Von hier verbinden",
+      "switchTokensButtonLabel": "Token wechseln",
+      "tokenToReceiveStepTitle": "Hierhin verbinden",
+      "accountDetailsStepTitle": "Kontodetails",
+      "accountToUseStepTitle": "Von hier verbinden",
+      "addressToReceiveStepTitle": "Hier empfangen",
+      "addressToReceiveInputPlaceholder": "Adresse eingeben…",
+      "addressToReceiveContactButtonLabel": "Meine Kontakte",
+      "addressToReceiveMyAccountButtonLabel": "Konten…",
+      "amountsStepTitle": "Beträge",
+      "amountToUseStepTitle": "Betrag",
+      "amountToUseMinimumLabel": "Minimum {{amount}}",
+      "amountToUseMinimumPlaceholder": "0,00000000",
+      "amountToUseMaxButtonLabel": "Max",
+      "tokenToUseBalanceStepTitle": "Guthaben",
+      "tokenToUseBalancePlaceholder": "0,00",
+      "amountToReceiveStepTitle": "Betrag, den Sie erhalten <1>(nach Gebühren)</1>",
+      "amountToReceivePlaceholder": "0,00000000",
+      "bridgeButtonLabel": "Jetzt verbinden"
+    },
+    "errorsByCode": {
+      "UNEXPECTED_ERROR": "Unerwarteter Fehler, bitte versuchen Sie es erneut",
+      "NO_AVAILABLE_TOKENS": "Keine verfügbaren Token zum Verbinden",
+      "TOKEN_NOT_AVAILABLE": "Der ausgewählte Token ist nicht zum Verbinden verfügbar",
+      "PAIR_TOKEN_NOT_FOUND": "Das Paar-Token wurde nicht gefunden",
+      "ACCOUNT_NOT_COMPATIBLE_WITH_TOKEN": "Das ausgewählte Konto ist nicht mit dem ausgewählten Token kompatibel",
+      "AMOUNT_BELOW_MINIMUM": "Der Betrag liegt unter dem Minimum",
+      "AMOUNT_ABOVE_MAXIMUM": "Der Betrag liegt über dem Maximum",
+      "INSUFFICIENT_FEE_TOKEN_BALANCE": "Unzureichendes Guthaben zur Deckung der Bridge-Gebühr",
+      "BRIDGE_NOT_READY": "Die Bridge ist noch nicht bereit, bitte füllen Sie alle Felder aus"
+    },
+    "messages": {
+      "networksShouldBeMainnet": "Neo 3 und Neo X Bridge sollten Mainnet verwenden"
+    }
+  }
+}
