@@ -1,13 +1,20 @@
 import { Dispatch, Fragment, useRef, useState } from 'react'
+
 import { useTranslation } from 'react-i18next'
-import { Location, useBlocker, useLocation, useNavigate } from 'react-router-dom'
-import TbShoppingBag from '@renderer/assets/images/tb-shopping-bag.svg?react'
+import { Location, useBlocker, useLocation, useNavigate } from 'react-router'
+
 import { CommonScreenActions } from '@renderer/components/CommonScreenActions'
-import { isConfigured } from '@renderer/constants/buy-and-sell-tokens'
+
 import { TestHelper } from '@renderer/helpers/TestHelper'
+
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+
 import { ContentLayout } from '@renderer/layouts/ContentLayout'
 import { MainLayout } from '@renderer/layouts/Main'
+
+import TbShoppingBag from '@renderer/assets/images/tb-shopping-bag.svg?react'
+
+import { isConfigured } from '@renderer/constants/buy-and-sell-tokens'
 import { TTokenBalance } from '@shared/@types/query'
 import { IAccountState } from '@shared/@types/store'
 
@@ -52,7 +59,9 @@ const BuyAndSellTokensContent = ({
   const { t } = useTranslation('pages', { keyPrefix: 'buyAndSellTokens' })
 
   if (!isConfigured)
-    return <h2 className="rounded bg-gray-700/60 px-4 py-14 text-center text-2xl text-white">{t('notConfigured')}</h2>
+    return (
+      <h2 className="rounded-sm bg-gray-700/60 px-4 py-14 text-center text-2xl text-white">{t('notConfigured')}</h2>
+    )
 
   return (
     <Fragment>
@@ -75,7 +84,7 @@ const BuyAndSellTokensContent = ({
   )
 }
 
-export const BuyAndSellTokensPage = () => {
+const BuyAndSellTokensPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'buyAndSellTokens' })
   const { state } = useLocation() as Location<TLocationState>
   const navigate = useNavigate()
@@ -91,13 +100,13 @@ export const BuyAndSellTokensPage = () => {
   }
 
   const handleBackClick = () => {
-    navigate(`/app/wallets/${account!.id}/overview`)
+    navigate(`/wallets/${account!.id}/overview`)
   }
 
   useBlocker(({ nextLocation }) => {
     const nextUrl = nextLocation.pathname
 
-    if (canNavigateRef.current || nextUrl === '/app/buy-and-sell-tokens') return false
+    if (canNavigateRef.current || nextUrl === '/buy-and-sell-tokens') return false
 
     modalNavigate('buy-and-sell-tokens-leave-alert', { state: { nextUrl, setCanNavigate } })
 
@@ -107,7 +116,7 @@ export const BuyAndSellTokensPage = () => {
   return account ? (
     <ContentLayout
       title={t('title')}
-      titleIcon={<TbShoppingBag aria-hidden={true} />}
+      titleIcon={<TbShoppingBag aria-hidden />}
       rightComponent={<CommonScreenActions />}
       onBackClick={handleBackClick}
     >
@@ -130,3 +139,5 @@ export const BuyAndSellTokensPage = () => {
     </MainLayout>
   )
 }
+
+export default BuyAndSellTokensPage

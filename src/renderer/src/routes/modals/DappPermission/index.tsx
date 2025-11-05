@@ -1,13 +1,19 @@
-import { Fragment, useCallback, useLayoutEffect } from 'react'
-import { useTranslation } from 'react-i18next'
+import { Fragment, type JSX, useCallback, useLayoutEffect } from 'react'
+
 import { ResponseErrorCode } from '@cityofzion/wallet-connect-sdk-wallet-core'
 import { TSession, TSessionRequest, useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
-import TbPlug from '@renderer/assets/images/tb-plug.svg?react'
+import { useTranslation } from 'react-i18next'
+
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
+
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
+
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
+
+import TbPlug from '@renderer/assets/images/tb-plug.svg?react'
+
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TWalletConnectHelperSessionInformation } from '@shared/@types/helpers'
 import { IAccountState } from '@shared/@types/store'
@@ -109,7 +115,7 @@ const componentsByBlockchain: Partial<
   },
 }
 
-export const DappPermissionModal = () => {
+const DappPermissionModal = () => {
   const { session, request } = useModalState<TModalState>()
   const { modalNavigate } = useModalNavigate()
   const { rejectRequest, approveRequest } = useWalletConnectWallet()
@@ -196,3 +202,5 @@ export const DappPermissionModal = () => {
     </CenterModalLayout>
   )
 }
+
+export default DappPermissionModal

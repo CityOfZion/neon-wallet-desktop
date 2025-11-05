@@ -1,7 +1,11 @@
 import { TSession, TSessionProposal, WalletConnectTypes } from '@cityofzion/wallet-connect-sdk-wallet-react'
-import { NETWORK_OPTIONS_BY_BLOCKCHAIN } from '@renderer/constants/networks'
+
+import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { TWalletConnectHelperProposalInformation, TWalletConnectHelperSessionInformation } from '@shared/@types/helpers'
+import type {
+  TWalletConnectHelperProposalInformation,
+  TWalletConnectHelperSessionInformation,
+} from '@shared/@types/helpers'
 import { IAccountState } from '@shared/@types/store'
 
 export abstract class WalletConnectHelper {
@@ -14,16 +18,18 @@ export abstract class WalletConnectHelper {
     arbitrum: 'eip155',
   }
 
-  static supportedChainIds = Object.keys(this.supportedBlockchains as TBlockchainServiceKey[]).reduce(
-    (acc, key) => {
-      const networks = NETWORK_OPTIONS_BY_BLOCKCHAIN[key].all
+  static get supportedChainIds() {
+    return (Object.keys(this.supportedBlockchains) as TBlockchainServiceKey[]).reduce(
+      (acc, key) => {
+        const service = bsAggregator.blockchainServicesByName[key]
 
-      acc[key] = networks.map(({ id }) => `${this.supportedBlockchains[key]}:${id}`)
+        acc[key] = service.availableNetworks.map(({ id }) => `${this.supportedBlockchains[key]}:${id}`)
 
-      return acc
-    },
-    {} as Partial<Record<TBlockchainServiceKey, string[]>>
-  )
+        return acc
+      },
+      {} as Partial<Record<TBlockchainServiceKey, string[]>>
+    )
+  }
 
   static getAccountInformationFromSession(session: TSession): TWalletConnectHelperSessionInformation {
     const accounts = Object.values(session.namespaces)[0].accounts

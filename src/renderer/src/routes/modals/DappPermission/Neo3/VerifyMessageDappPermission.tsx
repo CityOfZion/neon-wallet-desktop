@@ -1,5 +1,7 @@
 import { useState } from 'react'
+
 import { useTranslation } from 'react-i18next'
+
 import { Button } from '@renderer/components/Button'
 import { DappPermissionContextualMessage } from '@renderer/components/DappPermissionContextualMessage'
 import { DappPermissionHeader } from '@renderer/components/DappPermissionHeader'
@@ -26,16 +28,16 @@ export const Neo3VerifyMessageDappPermission = ({
   }
 
   return (
-    <div className="flex min-h-0 flex-grow flex-col overflow-y-auto pl-5 pr-2">
+    <div className="flex min-h-0 grow flex-col overflow-y-auto pr-2 pl-5">
       <DappPermissionHeader session={session} />
 
       <div className="flex flex-col items-center">
         <p className="mt-9 text-center text-2xl text-white">{t('title')}</p>
       </div>
 
-      <div className="mt-8 flex w-full flex-grow flex-col gap-1 text-xs text-gray-100">
+      <div className="mt-8 flex w-full grow flex-col gap-1 text-xs text-gray-100">
         <span className="font-bold">{t('messageLabel')}</span>
-        <p className="max-h-48 w-full overflow-y-auto whitespace-pre-wrap break-words rounded bg-asphalt p-2">
+        <p className="bg-asphalt max-h-48 w-full overflow-y-auto rounded-sm p-2 wrap-break-word whitespace-pre-wrap">
           {params}
         </p>
       </div>
@@ -49,7 +51,7 @@ export const Neo3VerifyMessageDappPermission = ({
 
         <Button
           label={t('acceptButtonLabel')}
-          className="flex-grow"
+          className="grow"
           onClick={handleAccept}
           loading={isApproving}
           disabled={isApproving}

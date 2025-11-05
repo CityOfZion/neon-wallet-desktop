@@ -1,8 +1,12 @@
 import { ComponentProps, ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react'
+
 import * as RadixPopover from '@radix-ui/react-popover'
-import ActionPopoverArrow from '@renderer/assets/images/action-popover-arrow.svg?react'
+
 import { Link } from '@renderer/components/Link'
+
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+
+import ActionPopoverArrow from '@renderer/assets/images/action-popover-arrow.svg?react'
 
 import { Button } from './Button'
 import { Separator } from './Separator'
@@ -29,14 +33,14 @@ const Content = forwardRef<ElementRef<typeof RadixPopover.Content>, TContentProp
       <RadixPopover.Portal>
         <RadixPopover.Content
           ref={ref}
-          className={StyleHelper.mergeStyles('group relative z-[1010]', className)}
+          className={StyleHelper.mergeStyles('group relative z-1010', className)}
           side={side}
           align={align}
           {...props}
         >
           <div
             className={StyleHelper.mergeStyles(
-              'flex flex-col overflow-hidden rounded bg-gray-900/50 backdrop-blur-md',
+              'flex flex-col overflow-hidden rounded-sm bg-gray-900/50 backdrop-blur-md',
               {
                 'border-r-4': isRightSide,
                 'border-l-4': isLeftSide,

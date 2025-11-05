@@ -1,13 +1,19 @@
 import { useState } from 'react'
+
 import { useTranslation } from 'react-i18next'
-import { useOutletContext } from 'react-router-dom'
+import { useOutletContext } from 'react-router'
+
 import { Loader } from '@renderer/components/Loader'
 import { Tabs } from '@renderer/components/Tabs'
 import { TokensTable } from '@renderer/components/TokensTable'
+
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
+
 import { useBalances } from '@renderer/hooks/useBalances'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
+
 import { AccountDetailsLayout } from '@renderer/layouts/AccountDetailsLayout'
+
 import { TUseBalanceOptionShowType } from '@shared/@types/query'
 import { IAccountState } from '@shared/@types/store'
 
@@ -17,7 +23,7 @@ type TOutletContext = {
   account: IAccountState
 }
 
-export const AccountTokensList = () => {
+const AccountTokensList = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'wallets.accountTokensList' })
   const { account } = useOutletContext<TOutletContext>()
   const { currency } = useCurrencySelector()
@@ -36,7 +42,7 @@ export const AccountTokensList = () => {
           <Tabs.Trigger value="active">{t('tabs.active')}</Tabs.Trigger>
           <Tabs.Trigger value="hidden">{t('tabs.hidden')}</Tabs.Trigger>
 
-          <div className="absolute right-0 top-1/2 flex -translate-y-1/2 items-center gap-2">
+          <div className="absolute top-1/2 right-0 flex -translate-y-1/2 items-center gap-2">
             <p className="text-sm text-gray-300">{t('balance')}</p>
 
             {balances.isLoading ? (
@@ -54,3 +60,5 @@ export const AccountTokensList = () => {
     </AccountDetailsLayout>
   )
 }
+
+export default AccountTokensList

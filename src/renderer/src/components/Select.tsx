@@ -1,9 +1,12 @@
 import { ComponentPropsWithoutRef, ElementRef, forwardRef, Fragment } from 'react'
+
 import * as SelectPrimitive from '@radix-ui/react-select'
+
+import { StyleHelper } from '@renderer/helpers/StyleHelper'
+
 import MdCheck from '@renderer/assets/images/md-check.svg?react'
 import MdExpandLess from '@renderer/assets/images/md-expand-less.svg?react'
 import MdExpandMore from '@renderer/assets/images/md-expand-more.svg?react'
-import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 const Root = SelectPrimitive.Root
 
@@ -19,8 +22,8 @@ const Trigger = forwardRef<
     ref={ref}
     aria-disabled={disabled}
     className={StyleHelper.mergeStyles(
-      'group flex min-h-8.5 w-full min-w-[11.625rem] items-center justify-between rounded px-2.5 text-sm transition-colors [&>span]:truncate',
-      'aria-expanded:bg-gray-300/15 aria-[disabled=true]:cursor-not-allowed aria-[disabled=true]:opacity-50 aria-[disabled=false]:hover:bg-gray-300/15',
+      'group flex min-h-8.5 w-full min-w-46.5 items-center justify-between rounded-sm px-2.5 text-sm transition-colors [&>span]:truncate',
+      'aria-disabled:cursor-not-allowed aria-disabled:opacity-50 aria-expanded:bg-gray-300/15 aria-[disabled=false]:hover:bg-gray-300/15',
       className
     )}
     disabled={disabled}
@@ -34,20 +37,14 @@ const Icon = forwardRef<ElementRef<typeof SelectPrimitive.Icon>, ComponentPropsW
   ({ className, ...props }, ref) => (
     <SelectPrimitive.Icon
       ref={ref}
-      className={StyleHelper.mergeStyles(
-        'max-h-[1.5rem] min-h-[1.5rem] min-w-[1.5rem] max-w-[1.5rem] text-white',
-        className
-      )}
+      className={StyleHelper.mergeStyles('max-h-6 min-h-6 max-w-6 min-w-6 text-white', className)}
       {...props}
     >
       <Fragment>
-        <MdExpandMore
-          aria-hidden={true}
-          className={StyleHelper.mergeStyles('h-full w-full group-aria-expanded:hidden')}
-        />
+        <MdExpandMore aria-hidden className={StyleHelper.mergeStyles('h-full w-full group-aria-expanded:hidden')} />
 
         <MdExpandLess
-          aria-hidden={true}
+          aria-hidden
           className={StyleHelper.mergeStyles('hidden h-full w-full group-aria-expanded:block')}
         />
       </Fragment>
@@ -65,7 +62,7 @@ const Content = forwardRef<ElementRef<typeof SelectPrimitive.Content>, TContentP
       <SelectPrimitive.Content
         ref={ref}
         className={StyleHelper.mergeStyles(
-          'relative z-[1010] max-h-96 min-w-[11.625rem] overflow-hidden rounded bg-gray-900 text-white shadow-xl data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
+          'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 relative z-1010 max-h-96 min-w-46.5 overflow-hidden rounded-sm bg-gray-900 text-white shadow-xl',
           {
             'data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1':
               position === 'popper',
@@ -78,9 +75,8 @@ const Content = forwardRef<ElementRef<typeof SelectPrimitive.Content>, TContentP
       >
         <SelectPrimitive.Viewport
           className={StyleHelper.mergeStyles({
-            'h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]':
-              position === 'popper',
-            'max-w-[var(--radix-select-trigger-width)]': position === 'popper' && isTriggerWidth,
+            'h-(--radix-select-trigger-height) w-full min-w-(--radix-select-trigger-width)': position === 'popper',
+            'max-w-(--radix-select-trigger-width)': position === 'popper' && isTriggerWidth,
           })}
         >
           {children}
@@ -95,7 +91,7 @@ const Item = forwardRef<ElementRef<typeof SelectPrimitive.Item>, ComponentPropsW
     <SelectPrimitive.Item
       ref={ref}
       className={StyleHelper.mergeStyles(
-        'relative flex w-full min-w-0 cursor-default select-none items-center justify-between gap-4 rounded-sm px-3 py-2 text-xs outline-none transition-colors hover:bg-gray-800 focus:bg-gray-800 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&>span]:truncate',
+        'relative flex w-full min-w-0 cursor-default items-center justify-between gap-4 rounded-xs px-3 py-2 text-xs outline-hidden transition-colors select-none hover:bg-gray-800 focus:bg-gray-800 data-disabled:pointer-events-none data-disabled:opacity-50 [&>span]:truncate',
         className
       )}
       {...props}
@@ -110,7 +106,7 @@ const ItemIndicator = forwardRef<
   ComponentPropsWithoutRef<typeof SelectPrimitive.ItemIndicator>
 >((props, ref) => (
   <SelectPrimitive.ItemIndicator ref={ref} asChild {...props}>
-    <MdCheck aria-hidden={true} className="max-h-[1rem] min-h-[1rem] min-w-[1rem] max-w-[1rem]" />
+    <MdCheck aria-hidden className="max-h-4 min-h-4 max-w-4 min-w-4" />
   </SelectPrimitive.ItemIndicator>
 ))
 
@@ -118,12 +114,12 @@ const ItemRadialIndicator = forwardRef<
   ElementRef<typeof SelectPrimitive.ItemIndicator>,
   ComponentPropsWithoutRef<typeof SelectPrimitive.ItemIndicator>
 >((props, ref) => (
-  <div className="h-[1rem] min-h-[1rem] w-[1rem] min-w-[1rem] rounded-full border-2 bg-transparent outline-none group-data-[state=checked]:border-neon group-data-[state=unchecked]:border-gray-300">
+  <div className="group-data-[state=checked]:border-neon h-4 min-h-4 w-4 min-w-4 rounded-full border-2 bg-transparent outline-hidden group-data-[state=unchecked]:border-gray-300">
     <SelectPrimitive.ItemIndicator
       ref={ref}
       {...props}
       className={StyleHelper.mergeStyles(
-        "relative flex h-full w-full items-center justify-center after:block after:h-2 after:w-2 after:rounded-[50%] after:bg-neon after:content-['']",
+        "after:bg-neon relative flex h-full w-full items-center justify-center after:block after:h-2 after:w-2 after:rounded-[50%] after:content-['']",
         props.className
       )}
     />

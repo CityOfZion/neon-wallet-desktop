@@ -1,11 +1,15 @@
 import { Fragment } from 'react'
+
 import { Trans, useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
-import TbStepInto from '@renderer/assets/images/tb-step-into.svg?react'
-import TbStepOut from '@renderer/assets/images/tb-step-out.svg?react'
+import { useNavigate } from 'react-router'
+
 import { useHardwareWalletActions, useHardwareWalletByUsb } from '@renderer/hooks/useHardwareWallet'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useMountUnsafe } from '@renderer/hooks/useMount'
+
+import TbStepInto from '@renderer/assets/images/tb-step-into.svg?react'
+import TbStepOut from '@renderer/assets/images/tb-step-out.svg?react'
+
 import { IAccountState } from '@shared/@types/store'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
@@ -55,7 +59,7 @@ export const PrepareHardwareWalletConfirmAndCompleteStep = ({ neoLegacyAccount, 
 
     await SharedUtilsHelper.sleep(200)
 
-    navigate('/app/migration-neo3', {
+    navigate('/migration-neo3', {
       replace: true,
       state: {
         neoLegacyAccount,
@@ -70,7 +74,7 @@ export const PrepareHardwareWalletConfirmAndCompleteStep = ({ neoLegacyAccount, 
 
   return (
     <Fragment>
-      <h2 className="mb-2 text-1xl leading-8 text-white">{t('title')}</h2>
+      <h2 className="text-1xl mb-2 leading-8 text-white">{t('title')}</h2>
 
       <div className="mx-auto flex w-full max-w-[480px] flex-col items-center gap-y-6">
         <PrepareHardwareWalletAddressItem

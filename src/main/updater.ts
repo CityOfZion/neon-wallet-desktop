@@ -1,7 +1,8 @@
-import { mainApi } from '@shared/api/main'
 import { autoUpdater } from 'electron-updater'
 
-export function registerUpdaterHandler() {
+import { mainApi } from '@shared/api/main'
+
+export function setupUpdaterHandler() {
   autoUpdater.on('update-downloaded', () => {
     mainApi.send('updateCompleted')
   })

@@ -1,8 +1,5 @@
 import { TSwapServiceStatusResponse, TSwapToken } from '@cityofzion/blockchain-service'
-import {
-  CalculateNeo3MigrationAmountsResponse,
-  CalculateNeoLegacyMigrationAmountsResponse,
-} from '@cityofzion/bs-neo-legacy'
+import { TNeo3NeoLegacyMigrationNeo3Amounts, TNeo3NeoLegacyMigrationNeoLegacyAmounts } from '@cityofzion/bs-neo-legacy'
 
 import { TBlockchainServiceKey, TNetwork } from './blockchain'
 import { Optional } from './global'
@@ -75,11 +72,11 @@ export type TCurrency = {
   label: TAvailableCurrency
 }
 export type TCustomNetwork = {
-  [K in TBlockchainServiceKey]: TNetwork<K>[]
+  [K in TBlockchainServiceKey]: TNetwork[]
 }
 
 export type TSelectedNetworks = {
-  [K in TBlockchainServiceKey]: TNetwork<K>
+  [K in TBlockchainServiceKey]: TNetwork
 }
 
 export type TNetworkProfile = {
@@ -214,8 +211,8 @@ export type TMigrationNeo3 = {
   neoLegacyAccount: IAccountState
   neo3Address: string
   status: TMigrationNeo3Status
-  neo3MigrationAmounts: CalculateNeo3MigrationAmountsResponse
-  neoLegacyMigrationAmounts: CalculateNeoLegacyMigrationAmountsResponse
+  neo3MigrationAmounts: TNeo3NeoLegacyMigrationNeo3Amounts
+  neoLegacyMigrationAmounts: TNeo3NeoLegacyMigrationNeoLegacyAmounts
   time: number
 }
 

@@ -5,8 +5,7 @@ import { launch, loginWithKey } from '../index'
 test.describe('Temporary Login', () => {
   test('Should be able to login using an address', async () => {
     const window = await launch()
-    const address = process.env.TEST_NEO3_ADDRESS
-    if (!address) throw new Error('TEST_NEO3_ADDRESS is not defined')
+    const address = 'NenPXJNsJoVHT9XH78QVCMZiUmx7HetkXY'
 
     await loginWithKey(window, address)
 
@@ -18,7 +17,10 @@ test.describe('Temporary Login', () => {
   test('Should be able to login using a private key', async () => {
     const window = await launch()
     const key = process.env.TEST_NEO3_KEY
-    if (!key) throw new Error('TEST_NEO3_KEY is not defined')
+    if (!key) {
+      console.warn('TEST_NEO3_KEY is not defined')
+      return
+    }
 
     await loginWithKey(window, key)
 
@@ -35,7 +37,10 @@ test.describe('Temporary Login', () => {
     const window = await launch()
 
     const mnemonic = process.env.TEST_MNEMONIC
-    if (!mnemonic) throw new Error('TEST_NEO3_KEY is not defined')
+    if (!mnemonic) {
+      console.warn('TEST_MNEMONIC is not defined')
+      return
+    }
 
     await loginWithKey(window, mnemonic)
 
@@ -65,8 +70,7 @@ test.describe('Temporary Login', () => {
 
   test('Should not be able to access non temporary features', async () => {
     const window = await launch()
-    const address = process.env.TEST_NEO3_ADDRESS
-    if (!address) throw new Error('TEST_NEO3_ADDRESS is not defined')
+    const address = 'NenPXJNsJoVHT9XH78QVCMZiUmx7HetkXY'
 
     await loginWithKey(window, address)
 

@@ -1,8 +1,4 @@
-import { Network } from '@cityofzion/blockchain-service'
-import { BSEthereumNetworkId } from '@cityofzion/bs-ethereum'
-import { BSNeoLegacyNetworkId } from '@cityofzion/bs-neo-legacy'
-import { BSNeo3NetworkId } from '@cityofzion/bs-neo3'
-import { BSNeoXNetworkId } from '@cityofzion/bs-neox'
+import type { TBSNetwork } from '@cityofzion/blockchain-service'
 
 import { IAccountState, IWalletState, TAccountType, TSkin, TWalletBackupStatus, TWalletType } from './store'
 
@@ -47,21 +43,9 @@ export type TWalletToCreate = {
   backupStatus?: TWalletBackupStatus
 }
 
-type TNetworkIdsByBlockchain = {
-  neo3: BSNeo3NetworkId
-  neoLegacy: BSNeoLegacyNetworkId
-  ethereum: BSEthereumNetworkId
-  neox: BSNeoXNetworkId
-  polygon: BSEthereumNetworkId
-  base: BSEthereumNetworkId
-  arbitrum: BSEthereumNetworkId
-}
-
-export type TNetworkIds<K extends TBlockchainServiceKey> = TNetworkIdsByBlockchain[K]
-
-export type TNetwork<K extends TBlockchainServiceKey> = {
+export type TNetwork = {
   isAutomatic?: boolean
-} & Network<TNetworkIds<K>>
+} & TBSNetwork
 
 export type TAccountToEdit = {
   account: IAccountState

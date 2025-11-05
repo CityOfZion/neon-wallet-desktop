@@ -1,19 +1,25 @@
-import { cloneElement, useMemo } from 'react'
+import { cloneElement, type JSX, useMemo } from 'react'
+
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
-import MdMoreVert from '@renderer/assets/images/md-more-vert.svg?react'
-import TbAlertSquare from '@renderer/assets/images/tb-alert-square.svg?react'
-import TbAlertTriangle from '@renderer/assets/images/tb-alert-triangle.svg?react'
+import { useNavigate } from 'react-router'
+
 import { ActionPopover } from '@renderer/components/ActionPopover'
 import { IconButton } from '@renderer/components/IconButton'
+
 import { DateHelper } from '@renderer/helpers/DateHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
+
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
-import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
+
+import MdMoreVert from '@renderer/assets/images/md-more-vert.svg?react'
+import TbAlertSquare from '@renderer/assets/images/tb-alert-square.svg?react'
+import TbAlertTriangle from '@renderer/assets/images/tb-alert-triangle.svg?react'
+
+import { authReducerActions } from '@renderer/store/reducers/auth'
 import { TNotification, TNotificationPriority } from '@shared/@types/store'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 
@@ -27,8 +33,8 @@ const iconsByPriority: Record<TNotificationPriority, JSX.Element> = {
   high: <TbAlertTriangle className="text-pink" />,
   medium: <TbAlertSquare className="text-blue" />,
   low: (
-    <div className="flex items-center justify-center text-neon">
-      <div className="h-1.5 w-1.5 rounded-full bg-[currentcolor]" />
+    <div className="text-neon flex items-center justify-center">
+      <div className="h-1.5 w-1.5 rounded-full bg-current" />
     </div>
   ),
 }
@@ -41,18 +47,16 @@ export const Notification = ({ notification }: TProps) => {
   const pageNavigate = useNavigate()
   const { accounts } = useAccountsSelector()
 
-  const account = useMemo(
-    () =>
-      notification.related?.address
-        ? accounts.find(
-            SharedAccountHelper.predicate({
-              address: notification.related.address!,
-              blockchain: notification.related.blockchain,
-            })
-          )
-        : undefined,
-    [accounts, notification.related?.address, notification.related?.blockchain]
-  )
+  const account = useMemo(() => {
+    return notification.related?.address
+      ? accounts.find(
+          SharedAccountHelper.predicate({
+            address: notification.related.address!,
+            blockchain: notification.related.blockchain,
+          })
+        )
+      : undefined
+  }, [accounts, notification.related?.address, notification.related?.blockchain])
 
   const icon = iconsByPriority[notification.priority ?? 'low']
 
@@ -111,14 +115,14 @@ export const Notification = ({ notification }: TProps) => {
         }),
       })}
 
-      <div className="flex min-w-0 flex-grow flex-col gap-0.5">
+      <div className="flex min-w-0 grow flex-col gap-0.5">
         <div className="flex items-center gap-2.5">
           <span className="text-1xs text-gray-300">{DateHelper.format(notification.date, t('dateFormat'))}</span>
 
           {notification.provider && (
             <span
               className={StyleHelper.mergeStyles(
-                'rounded-full bg-asphalt px-2 py-0.5 text-1xs capitalize text-gray-300',
+                'bg-asphalt text-1xs rounded-full px-2 py-0.5 text-gray-300 capitalize',
                 {
                   'bg-gray-300/15 text-gray-100/50': notification.read,
                 }
@@ -151,12 +155,12 @@ export const Notification = ({ notification }: TProps) => {
         {notification.related?.address && (
           <div className="flex gap-2.5">
             {account && (
-              <span className="w-full max-w-[50%] truncate text-1xs capitalize text-gray-300">
+              <span className="text-1xs w-full max-w-[50%] truncate text-gray-300 capitalize">
                 {`${t('relatedAccountLabel')}: ${account?.name}`}
               </span>
             )}
 
-            <span className="text-1xs capitalize text-gray-300">
+            <span className="text-1xs text-gray-300 capitalize">
               {`${t('relatedAddressLabel')}: ${StringHelper.truncateStringStart(notification.related.address, 10)}`}
             </span>
           </div>

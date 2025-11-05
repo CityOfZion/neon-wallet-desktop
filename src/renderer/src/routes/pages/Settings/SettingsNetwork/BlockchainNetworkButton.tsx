@@ -1,5 +1,6 @@
-import MdChevronRight from '@renderer/assets/images/md-chevron-right.svg?react'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+
+import MdChevronRight from '@renderer/assets/images/md-chevron-right.svg?react'
 
 type TProps = {
   label: string
@@ -15,7 +16,7 @@ export const BlockchainNetworkButton = ({ label, subLabel, onClick, className, d
       aria-disabled={disabled}
       disabled={disabled}
       className={StyleHelper.mergeStyles(
-        'flex h-fit w-full items-center justify-between border-b border-gray-300/30 px-1 py-2.5 text-xs aria-[disabled=false]:text-gray-300 aria-[disabled=true]:opacity-50 aria-[disabled=false]:hover:opacity-75',
+        'flex h-fit w-full items-center justify-between border-b border-gray-300/30 px-1 py-2.5 text-xs aria-disabled:opacity-50 aria-[disabled=false]:text-gray-300 aria-[disabled=false]:hover:opacity-75',
         className
       )}
       onClick={onClick}
@@ -30,7 +31,7 @@ export const BlockchainNetworkButton = ({ label, subLabel, onClick, className, d
 
       <div className="flex items-center gap-5">
         <span className="text-xs text-gray-300">{subLabel}</span>
-        <MdChevronRight className="h-6 w-6 text-neon" />
+        <MdChevronRight className="text-neon size-6" />
       </div>
     </button>
   )

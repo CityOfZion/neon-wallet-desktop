@@ -1,8 +1,11 @@
 import { useTranslation } from 'react-i18next'
-import MdContentCopy from '@renderer/assets/images/md-content-copy.svg?react'
+
 import { Button } from '@renderer/components/Button'
+
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+
+import MdContentCopy from '@renderer/assets/images/md-content-copy.svg?react'
 
 type TProps = {
   result: string
@@ -11,7 +14,7 @@ type TProps = {
 export const SuccessModalContent = ({ result }: TProps) => {
   const { t } = useTranslation('modals', { keyPrefix: 'dappPermission.requests.neo3.invokeFunction' })
   return (
-    <div className="flex w-full min-w-0 flex-grow flex-col items-center">
+    <div className="flex w-full min-w-0 grow flex-col items-center">
       <p className="mt-4 px-9 text-center text-sm">{t('successModal.text')}</p>
 
       <Button

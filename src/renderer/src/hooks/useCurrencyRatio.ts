@@ -1,9 +1,11 @@
+import { useQuery } from '@tanstack/react-query'
+
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
-import { bsAggregator } from '@renderer/libs/blockchainService'
+
+import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TUseCurrencyRatioResult } from '@shared/@types/query'
 import { TCurrency } from '@shared/@types/store'
-import { useQuery } from '@tanstack/react-query'
 
 // There is no need to fetch currency ratio from multiple blockchains
 const blockchain: TBlockchainServiceKey = 'neo3'

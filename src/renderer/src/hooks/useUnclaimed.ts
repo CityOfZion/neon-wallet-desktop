@@ -1,15 +1,17 @@
 import { isCalculableFee, isClaimable } from '@cityofzion/blockchain-service'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { DateHelper } from '@renderer/helpers/DateHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
-import { bsAggregator } from '@renderer/libs/blockchainService'
+
+import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { thunks } from '@renderer/store/thunks'
-import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
+import { TNetwork } from '@shared/@types/blockchain'
 import { TUseTransactionsTransfer } from '@shared/@types/hooks'
 import { TUseUnclaimedResult } from '@shared/@types/query'
 import { IAccountState } from '@shared/@types/store'
 import { getI18next } from '@shared/libs/i18next'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 import { useCurrentLoginSessionSelector } from './useAuthSelector'
 import { useAppDispatch } from './useRedux'
@@ -18,11 +20,7 @@ import { useHasClaimPendingTransactionSelector } from './useUtilitySelector'
 
 const { t } = getI18next()
 
-const buildQueryKeyUnclaimed = (account: IAccountState, network: TNetwork<TBlockchainServiceKey>) => [
-  'claim',
-  account.address,
-  network,
-]
+const buildQueryKeyUnclaimed = (account: IAccountState, network: TNetwork) => ['claim', account.address, network]
 
 const getUnclaimedInfos = async (
   account: IAccountState,
@@ -41,7 +39,7 @@ const getUnclaimedInfos = async (
   let unclaimed = '0'
 
   if (!hasClaimPendingTransaction) {
-    unclaimed = await blockchainService.blockchainDataService.getUnclaimed(account.address)
+    unclaimed = await blockchainService.claimDataService.getUnclaimed(account.address)
   }
 
   const unclaimedNumber = parseFloat(unclaimed)

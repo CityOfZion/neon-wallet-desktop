@@ -13,7 +13,10 @@ test.describe('Focus lock', () => {
     await window.getByTestId('more-button').click()
     await window.getByTestId('connect-hardware-wallet-button').click()
 
-    await window.press('html', 'Tab')
+    await window.waitForTimeout(1000)
+
+    await window.keyboard.press('Tab')
+
     await window.waitForTimeout(1000)
 
     const focusedElement = await window.evaluateHandle(() => document.activeElement)

@@ -1,6 +1,8 @@
-import { cloneElement } from 'react'
-import TbEyeSearch from '@renderer/assets/images/tb-eye-search.svg?react'
+import { cloneElement, type JSX } from 'react'
+
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+
+import TbEyeSearch from '@renderer/assets/images/tb-eye-search.svg?react'
 
 type TProps = {
   label: string
@@ -22,7 +24,7 @@ export const SearchingLoader = ({ label, className, contentClassName, icon }: TP
     >
       <div
         className={StyleHelper.mergeStyles(
-          'relative z-[1] flex items-center gap-2.5 rounded-full bg-gray-800 px-6 py-3 text-sm text-blue',
+          'text-blue relative z-1 flex items-center gap-2.5 rounded-full bg-gray-800 px-6 py-3 text-sm',
           contentClassName
         )}
       >

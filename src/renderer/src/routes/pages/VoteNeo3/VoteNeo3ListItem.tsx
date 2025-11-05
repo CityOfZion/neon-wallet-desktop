@@ -1,25 +1,31 @@
 import { cloneElement, useEffect, useMemo, useRef } from 'react'
+
+import type { TVoteServiceCandidate } from '@cityofzion/bs-neo3'
 import { useTranslation } from 'react-i18next'
-import MdCircle from '@renderer/assets/images/md-circle.svg?react'
-import MdInfoOutline from '@renderer/assets/images/md-info-outline.svg?react'
-import TbPackages from '@renderer/assets/images/tb-packages.svg?react'
+
 import { Button } from '@renderer/components/Button'
 import { DashedSeparator } from '@renderer/components/DashedSeparator'
 import { IconButton } from '@renderer/components/IconButton'
 import { Tooltip } from '@renderer/components/Tooltip'
-import { VOTE_NEO3_COZ_PUB_KEY } from '@renderer/constants/public-keys'
+
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useVoteNeo3GetVoteDetailsByAddress } from '@renderer/hooks/useVoteNeo3'
-import { TVoteNeo3Candidate } from '@shared/@types/query'
+
+import MdCircle from '@renderer/assets/images/md-circle.svg?react'
+import MdInfoOutline from '@renderer/assets/images/md-info-outline.svg?react'
+import TbPackages from '@renderer/assets/images/tb-packages.svg?react'
+
+import { VOTE_NEO3_COZ_PUB_KEY } from '@renderer/constants/public-keys'
 import { IAccountState } from '@shared/@types/store'
 
 type TProps = {
   index: number
   neo3Account?: IAccountState
-  candidate: TVoteNeo3Candidate
+  candidate: TVoteServiceCandidate
   pubKeySize: number
   votesTotal: number
   voteErrorMessage?: string
@@ -81,13 +87,13 @@ export const VoteNeo3ListItem = ({
     <li ref={ref} className="flex w-full flex-col text-sm text-white" role="row">
       <div className="relative flex h-12 max-h-12 min-h-12 w-full items-center">
         <div
-          className="pointer-events-none absolute bottom-0 left-0 top-0 h-full select-none"
+          className="pointer-events-none absolute top-0 bottom-0 left-0 h-full select-none"
           style={{
             width: votePercentage,
           }}
         >
           <div
-            className={StyleHelper.mergeStyles('h-full w-full bg-lemon opacity-5', {
+            className={StyleHelper.mergeStyles('bg-lemon h-full w-full opacity-5', {
               'bg-neon': position === 1,
               'bg-green-100': position === 2,
               'bg-green': position === 3,
@@ -102,7 +108,7 @@ export const VoteNeo3ListItem = ({
           />
 
           <div
-            className={StyleHelper.mergeStyles('absolute bottom-0 left-0 h-auto w-full border-b-2 border-lemon', {
+            className={StyleHelper.mergeStyles('border-lemon absolute bottom-0 left-0 h-auto w-full border-b-2', {
               'border-neon': position === 1,
               'border-green-100': position === 2,
               'border-green': position === 3,
@@ -118,11 +124,11 @@ export const VoteNeo3ListItem = ({
         </div>
 
         <p
-          className="flex h-full w-32 min-w-32 max-w-32 items-center gap-x-2 truncate whitespace-nowrap border-b-2 border-gray-300/15 pl-1 pr-2"
+          className="flex h-full w-32 max-w-32 min-w-32 items-center gap-x-2 truncate border-b-2 border-gray-300/15 pr-2 pl-1 whitespace-nowrap"
           role="cell"
           aria-labelledby="column-position"
         >
-          <span className="flex w-5 min-w-5 max-w-5 items-center justify-center">
+          <span className="flex w-5 max-w-5 min-w-5 items-center justify-center">
             {cloneElement(icon, {
               'aria-hidden': true,
               className: StyleHelper.mergeStyles('text-lemon', icon.props.className, {
@@ -143,7 +149,7 @@ export const VoteNeo3ListItem = ({
         </p>
 
         <p
-          className="flex h-full w-44 min-w-44 max-w-44 items-center border-b-2 border-gray-300/15 pr-2"
+          className="flex h-full w-44 max-w-44 min-w-44 items-center border-b-2 border-gray-300/15 pr-2"
           role="cell"
           aria-labelledby="column-name"
         >
@@ -151,7 +157,7 @@ export const VoteNeo3ListItem = ({
         </p>
 
         <p
-          className="flex h-full flex-grow items-center whitespace-nowrap border-b-2 border-gray-300/15 pr-2"
+          className="flex h-full grow items-center border-b-2 border-gray-300/15 pr-2 whitespace-nowrap"
           role="cell"
           aria-labelledby="column-pub-key"
         >
@@ -161,7 +167,7 @@ export const VoteNeo3ListItem = ({
         </p>
 
         <p
-          className="flex h-full w-36 min-w-36 max-w-36 items-center border-b-2 border-gray-300/15 pr-2"
+          className="flex h-full w-36 max-w-36 min-w-36 items-center border-b-2 border-gray-300/15 pr-2"
           role="cell"
           aria-labelledby="column-votes"
         >
@@ -171,7 +177,7 @@ export const VoteNeo3ListItem = ({
         </p>
 
         <div
-          className="flex h-full w-10 min-w-10 max-w-10 items-center justify-center border-b-2 border-gray-300/15"
+          className="flex h-full w-10 max-w-10 min-w-10 items-center justify-center border-b-2 border-gray-300/15"
           role="cell"
           aria-labelledby="column-actions"
         >
@@ -186,14 +192,14 @@ export const VoteNeo3ListItem = ({
               size="sm"
               compacted
               disabled={voteDetailsByAddressQuery.isLoading}
-              icon={<MdInfoOutline aria-hidden={true} className="text-neon" />}
+              icon={<MdInfoOutline aria-hidden className="text-neon" />}
               onClick={handleGoToVoteNeo3CandidateDetailsModal}
             />
           </Tooltip>
         </div>
 
         <div
-          className="flex h-full w-24 min-w-24 max-w-24 items-center pl-2 pr-1"
+          className="flex h-full w-24 max-w-24 min-w-24 items-center pr-1 pl-2"
           role="cell"
           aria-labelledby="column-cast-vote"
         >

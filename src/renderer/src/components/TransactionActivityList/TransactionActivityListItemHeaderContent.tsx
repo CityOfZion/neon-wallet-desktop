@@ -1,6 +1,18 @@
 import React, { MouseEvent } from 'react'
+
+import { hasNeo3NeoXBridge, TFullTransactionsItemBridgeNeo3NeoX } from '@cityofzion/blockchain-service'
+import { format } from 'date-fns'
 import { useTranslation } from 'react-i18next'
-import { FullTransactionsItemBridgeNeo3NeoX, hasNeo3NeoXBridge } from '@cityofzion/blockchain-service'
+
+import { IconButton } from '@renderer/components/IconButton'
+
+import { NumberHelper } from '@renderer/helpers/NumberHelper'
+import { StringHelper } from '@renderer/helpers/StringHelper'
+import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+
+import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+import { useSwapRecordSelector } from '@renderer/hooks/useUtilitySelector'
+
 import MdCoffee from '@renderer/assets/images/md-coffee.svg?react'
 import MdOutlineContentCopy from '@renderer/assets/images/md-outline-content-copy.svg?react'
 import TbArrowsExchange from '@renderer/assets/images/tb-arrows-exchange.svg?react'
@@ -12,16 +24,10 @@ import TbCoin from '@renderer/assets/images/tb-coin.svg?react'
 import TbCube from '@renderer/assets/images/tb-cube.svg?react'
 import TbReplace2 from '@renderer/assets/images/tb-replace-2.svg?react'
 import TbTransform from '@renderer/assets/images/tb-transform.svg?react'
-import { IconButton } from '@renderer/components/IconButton'
-import { NumberHelper } from '@renderer/helpers/NumberHelper'
-import { StringHelper } from '@renderer/helpers/StringHelper'
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
-import { useModalNavigate } from '@renderer/hooks/useModalRouter'
-import { useSwapRecordSelector } from '@renderer/hooks/useUtilitySelector'
-import { bsAggregator } from '@renderer/libs/blockchainService'
+
+import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { TFullTransactionsItem } from '@shared/@types/hooks'
 import { TMigrationNeo3 } from '@shared/@types/store'
-import { format } from 'date-fns'
 
 import { TransactionActivityListItemHeaderDetails } from './TransactionActivityListItemHeaderDetails'
 import { TransactionActivityListTooltip } from './TransactionActivityListTooltip'
@@ -74,9 +80,9 @@ export const TransactionActivityListItemHeaderContent = ({ item, migrationNeo3 }
 
     if (!hasNeo3NeoXBridge(toService)) return
 
-    const { data } = item as TFullTransactionsItem & FullTransactionsItemBridgeNeo3NeoX
+    const { data } = item as TFullTransactionsItem & TFullTransactionsItemBridgeNeo3NeoX
 
-    const tokenToReceive = toService.neo3NeoXBridgeService.tokens.find(
+    const tokenToReceive = [toService.neo3NeoXBridgeService.gasToken, toService.neo3NeoXBridgeService.neoToken].find(
       token => token.multichainId === data.token.multichainId
     )
 
@@ -109,19 +115,19 @@ export const TransactionActivityListItemHeaderContent = ({ item, migrationNeo3 }
   }
 
   return (
-    <div className="flex h-full w-full items-center justify-between gap-x-2 rounded bg-asphalt px-1">
+    <div className="bg-asphalt flex h-full w-full items-center justify-between gap-x-2 rounded-sm px-1">
       <div className="flex items-center gap-x-2 truncate whitespace-nowrap" onClick={handleCancelBubbleEvent}>
         <TransactionActivityListItemHeaderDetails
           label={format(date, t('formatFullDateTime'))}
           data={format(date, t('formatHourMinutes'))}
-          icon={<TbClock aria-hidden={true} />}
+          icon={<TbClock aria-hidden />}
         />
 
         {!!notificationCount && (
           <TransactionActivityListItemHeaderDetails
             label={t('notificationCountLabel')}
             data={notificationCount}
-            icon={<TbBell aria-hidden={true} />}
+            icon={<TbBell aria-hidden />}
           />
         )}
 
@@ -129,7 +135,7 @@ export const TransactionActivityListItemHeaderContent = ({ item, migrationNeo3 }
           <TransactionActivityListItemHeaderDetails
             label={t('invocationCountLabel')}
             data={invocationCount}
-            icon={<TbCodeCircle aria-hidden={true} />}
+            icon={<TbCodeCircle aria-hidden />}
           />
         )}
 
@@ -137,7 +143,7 @@ export const TransactionActivityListItemHeaderContent = ({ item, migrationNeo3 }
           <TransactionActivityListItemHeaderDetails
             label={t('blockLabel', { block })}
             data={StringHelper.truncateStringMiddle(block.toString(), 10)}
-            icon={<TbCube aria-hidden={true} />}
+            icon={<TbCube aria-hidden />}
           />
         )}
 
@@ -156,7 +162,7 @@ export const TransactionActivityListItemHeaderContent = ({ item, migrationNeo3 }
                 )}
               </div>
             }
-            icon={<TbCoin aria-hidden={true} />}
+            icon={<TbCoin aria-hidden />}
           />
         )}
 
@@ -168,7 +174,7 @@ export const TransactionActivityListItemHeaderContent = ({ item, migrationNeo3 }
                 <span className="text-orange">{t('pendingDataLabel')}</span>
               </TransactionActivityListTooltip>
             }
-            icon={<MdCoffee aria-hidden={true} className="text-orange" />}
+            icon={<MdCoffee aria-hidden className="text-orange" />}
           />
         )}
       </div>
@@ -182,7 +188,7 @@ export const TransactionActivityListItemHeaderContent = ({ item, migrationNeo3 }
                 tabIndex={0}
                 className="hover:opacity-90 focus:opacity-90 active:opacity-80"
                 data={<p className="text-yellow">{tCommonGeneral('migrationNeo3')}</p>}
-                icon={<TbArrowsExchange aria-hidden={true} className="text-yellow" />}
+                icon={<TbArrowsExchange aria-hidden className="text-yellow" />}
                 onKeyDown={handleKeyDownWrapper(handleGoToMigrationNeo3Status)}
                 onClick={handleGoToMigrationNeo3Status}
               />
@@ -194,7 +200,7 @@ export const TransactionActivityListItemHeaderContent = ({ item, migrationNeo3 }
                 tabIndex={0}
                 className="hover:opacity-90 focus:opacity-90 active:opacity-80"
                 data={<p className="text-blue">{tCommonGeneral('swap')}</p>}
-                icon={<TbTransform aria-hidden={true} className="text-blue" />}
+                icon={<TbTransform aria-hidden className="text-blue" />}
                 onKeyDown={handleKeyDownWrapper(handleGoToSwapDetails)}
                 onClick={handleGoToSwapDetails}
               />
@@ -204,9 +210,9 @@ export const TransactionActivityListItemHeaderContent = ({ item, migrationNeo3 }
               <TransactionActivityListItemHeaderDetails
                 role="button"
                 tabIndex={0}
-                className="h-6 max-h-6 min-h-6 rounded border border-neon px-1.5 py-0 hover:opacity-90 focus:opacity-90 active:opacity-80"
+                className="border-neon h-6 max-h-6 min-h-6 rounded-sm border px-1.5 py-0 hover:opacity-90 focus:opacity-90 active:opacity-80"
                 data={<p className="text-neon">{tCommonGeneral('bridgeNeo3NeoX')}</p>}
-                icon={<TbReplace2 aria-hidden={true} className="text-neon" />}
+                icon={<TbReplace2 aria-hidden className="text-neon" />}
                 onKeyDown={handleKeyDownWrapper(handleGoToBridgeNeo3NeoXDetails)}
                 onClick={handleGoToBridgeNeo3NeoXDetails}
               />
@@ -226,14 +232,14 @@ export const TransactionActivityListItemHeaderContent = ({ item, migrationNeo3 }
               aria-label={t('copyTxIdLabel')}
               size="xs"
               compacted
-              icon={<MdOutlineContentCopy aria-hidden={true} className="text-neon" />}
+              icon={<MdOutlineContentCopy aria-hidden className="text-neon" />}
               onClick={handleCopyTxId}
             />
           </TransactionActivityListTooltip>
         </div>
 
         {!!txIdUrl && (
-          <TbChevronRight aria-hidden className="-ml-1 h-4 max-h-4 min-h-4 w-4 min-w-4 max-w-4 text-neon" />
+          <TbChevronRight aria-hidden className="text-neon -ml-1 h-4 max-h-4 min-h-4 w-4 max-w-4 min-w-4" />
         )}
       </div>
     </div>

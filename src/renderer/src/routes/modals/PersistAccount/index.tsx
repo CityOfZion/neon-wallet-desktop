@@ -1,19 +1,25 @@
 import { useTranslation } from 'react-i18next'
-import MdDeleteForever from '@renderer/assets/images/md-delete-forever.svg?react'
-import TbPencil from '@renderer/assets/images/tb-pencil.svg?react'
-import TbPlus from '@renderer/assets/images/tb-plus.svg?react'
+
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
+
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+
 import { useActions } from '@renderer/hooks/useActions'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useHardwareWalletActions } from '@renderer/hooks/useHardwareWallet'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
+
 import { SideModalLayout } from '@renderer/layouts/SideModal'
-import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
+
+import MdDeleteForever from '@renderer/assets/images/md-delete-forever.svg?react'
+import TbPencil from '@renderer/assets/images/tb-pencil.svg?react'
+import TbPlus from '@renderer/assets/images/tb-plus.svg?react'
+
+import { authReducerActions } from '@renderer/store/reducers/auth'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { IAccountState, IWalletState, TSkin } from '@shared/@types/store'
 
@@ -29,7 +35,7 @@ type TLocationState = {
   wallet?: IWalletState
 }
 
-export const PersistAccountModal = () => {
+const PersistAccountModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'persistAccount' })
   const { modalNavigate } = useModalNavigate()
   const { account, wallet } = useModalState<TLocationState>()
@@ -99,7 +105,7 @@ export const PersistAccountModal = () => {
   return (
     <SideModalLayout
       heading={account ? t('titleEdit') : t('titleCreate')}
-      headingIcon={account ? <TbPencil aria-hidden={true} /> : <TbPlus aria-hidden={true} className="text-neon" />}
+      headingIcon={account ? <TbPencil aria-hidden /> : <TbPlus aria-hidden className="text-neon" />}
       contentClassName="flex flex-col justify-between"
     >
       <form onSubmit={handleAct(handleSubmit)} className="flex h-full flex-col justify-between">
@@ -119,8 +125,8 @@ export const PersistAccountModal = () => {
             clearable
           />
 
-          <div className="flex flex-col gap-6 pb-2 pt-4">
-            {!account && <p className="text-xs italic text-gray-300">{t('inputSubtitle')}</p>}
+          <div className="flex flex-col gap-6 pt-4 pb-2">
+            {!account && <p className="text-xs text-gray-300 italic">{t('inputSubtitle')}</p>}
             <Separator />
           </div>
 
@@ -145,7 +151,7 @@ export const PersistAccountModal = () => {
         <div className="mt-8 flex flex-col">
           <>
             <Separator />
-            <p className="mt-4 text-xs font-bold uppercase text-gray-300">{t('deleteAccountTitle')}</p>
+            <p className="mt-4 text-xs font-bold text-gray-300 uppercase">{t('deleteAccountTitle')}</p>
             <span className="mt-2 text-xs text-white">{t('deleteAccountSubtext')}</span>
             <Button
               label={t('deleteAccountTitle')}
@@ -163,3 +169,5 @@ export const PersistAccountModal = () => {
     </SideModalLayout>
   )
 }
+
+export default PersistAccountModal

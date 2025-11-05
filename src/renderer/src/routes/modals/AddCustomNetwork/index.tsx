@@ -1,22 +1,27 @@
 import { useTranslation } from 'react-i18next'
-import TbCube3dSphere from '@renderer/assets/images/tb-cube-3d-sphere.svg?react'
+
 import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
-import { CUSTOM_NETWORK_ID } from '@renderer/constants/networks'
+
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
+
 import { SideModalLayout } from '@renderer/layouts/SideModal'
-import { bsAggregator } from '@renderer/libs/blockchainService'
-import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
+
+import TbCube3dSphere from '@renderer/assets/images/tb-cube-3d-sphere.svg?react'
+
+import { bsAggregator } from '@renderer/libs/blockchain-service'
+import { settingsReducerActions } from '@renderer/store/reducers/settings'
 import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
 
 type TState = {
   blockchain: TBlockchainServiceKey
-  network?: TNetwork<TBlockchainServiceKey>
+  network?: TNetwork
 }
 
 type TActionData = {
@@ -26,7 +31,7 @@ type TActionData = {
   isValid: boolean
 }
 
-export const AddCustomNetwork = () => {
+const AddCustomNetwork = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'addCustomNetwork' })
   const { t: commonGeneral } = useTranslation('common', { keyPrefix: 'general' })
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
@@ -59,7 +64,7 @@ export const AddCustomNetwork = () => {
     try {
       const service = bsAggregator.blockchainServicesByName[blockchain]
 
-      await service.testNetwork({ id: CUSTOM_NETWORK_ID, name: actionData.name, url: actionData.url })
+      await service.pingNode(actionData.url)
 
       clearErrors('url')
       setData({ isValid: true })
@@ -95,7 +100,8 @@ export const AddCustomNetwork = () => {
         network: {
           name: trimmedName,
           url: data.url,
-          id: networkToEdit?.id ?? `${CUSTOM_NETWORK_ID}-${UtilsHelper.uuid()}`,
+          id: networkToEdit?.id ?? UtilsHelper.uuid(),
+          type: 'custom',
         },
       })
     )
@@ -104,8 +110,8 @@ export const AddCustomNetwork = () => {
 
   return (
     <SideModalLayout heading={t('title')} headingIcon={<TbCube3dSphere />} contentClassName="flex flex-col">
-      <form className="flex flex-grow flex-col" onSubmit={handleAct(handleSubmit)}>
-        <div className="flex flex-grow flex-col gap-6">
+      <form className="flex grow flex-col" onSubmit={handleAct(handleSubmit)}>
+        <div className="flex grow flex-col gap-6">
           <Input
             compacted
             placeholder={t('namePlaceholder')}
@@ -162,3 +168,5 @@ export const AddCustomNetwork = () => {
     </SideModalLayout>
   )
 }
+
+export default AddCustomNetwork

@@ -1,5 +1,7 @@
 import React from 'react'
+
 import * as RadixTooltip from '@radix-ui/react-tooltip'
+
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 type TProps = {
@@ -30,10 +32,10 @@ export const Tooltip = ({ children, title, icon, open, delayDuration, variant = 
           <RadixTooltip.Content
             side="bottom"
             className={StyleHelper.mergeStyles(
-              'z-[1010] flex items-center gap-2 rounded p-2 text-xs font-bold text-white shadow-lg',
+              'z-1010 flex items-center gap-2 rounded-sm p-2 text-xs font-bold text-white shadow-lg',
               {
                 'bg-gray-700': isDefaultVariant,
-                'inline-block break-words bg-gray-900 text-center': isBlackVariant,
+                'inline-block bg-gray-900 text-center wrap-break-word': isBlackVariant,
               },
               contentClassName
             )}

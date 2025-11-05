@@ -1,12 +1,16 @@
 import { Fragment } from 'react'
+
 import { useTranslation } from 'react-i18next'
+
+import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
+import { Input } from '@renderer/components/Input'
+
+import { useActions } from '@renderer/hooks/useActions'
+import { TUseNeonMigrateAccountsSchema } from '@renderer/hooks/useNeonMigrate'
+
 import MdCheck from '@renderer/assets/images/md-check.svg?react'
 import MdChevronRight from '@renderer/assets/images/md-chevron-right.svg?react'
 import TbAlertTriangle from '@renderer/assets/images/tb-alert-triangle.svg?react'
-import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
-import { Input } from '@renderer/components/Input'
-import { useActions } from '@renderer/hooks/useActions'
-import { TUseNeonMigrateAccountsSchema } from '@renderer/hooks/useNeonMigrate'
 
 type TProps = {
   accountToMigrate: TUseNeonMigrateAccountsSchema
@@ -35,10 +39,10 @@ export const MigrateAccountsStep4Password = ({ accountToMigrate, onSubmit }: TPr
   return (
     <div className="flex w-full min-w-0 items-center justify-between gap-2.5 py-4">
       <div className="flex h-full w-6 items-start">
-        <MdChevronRight aria-hidden={true} className="h-6 w-full text-blue" />
+        <MdChevronRight aria-hidden className="text-blue h-6 w-full" />
       </div>
 
-      <div className="flex min-w-0 flex-grow flex-col gap-1">
+      <div className="flex min-w-0 grow flex-col gap-1">
         <span className="text-sm text-white">{accountToMigrate.label}</span>
         <span className="truncate text-xs text-gray-300">{accountToMigrate.address}</span>
 
@@ -63,9 +67,9 @@ export const MigrateAccountsStep4Password = ({ accountToMigrate, onSubmit }: TPr
         {actionState.hasActed && (
           <Fragment>
             {actionState.isValid ? (
-              <MdCheck aria-hidden={true} className="h-6 w-6 text-green" />
+              <MdCheck aria-hidden className="text-green h-6 w-6" />
             ) : (
-              <TbAlertTriangle aria-hidden={true} className="h-6 w-6 text-pink" />
+              <TbAlertTriangle aria-hidden className="text-pink h-6 w-6" />
             )}
           </Fragment>
         )}

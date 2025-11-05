@@ -1,15 +1,28 @@
-import { ChangeEvent, cloneElement, forwardRef, MouseEvent, useImperativeHandle, useRef, useState } from 'react'
+import {
+  ChangeEvent,
+  cloneElement,
+  forwardRef,
+  type JSX,
+  MouseEvent,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react'
+
 import { useTranslation } from 'react-i18next'
+import { match, P } from 'ts-pattern'
+
+import { FieldActionsMenu } from '@renderer/components/FieldActionsMenu'
+
+import { StyleHelper } from '@renderer/helpers/StyleHelper'
+import { TestHelper } from '@renderer/helpers/TestHelper'
+import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+
 import MdCancel from '@renderer/assets/images/md-cancel.svg?react'
 import MdContentCopy from '@renderer/assets/images/md-content-copy.svg?react'
 import MdContentPasteGo from '@renderer/assets/images/md-content-paste-go.svg?react'
 import MdVisibility from '@renderer/assets/images/md-visibility.svg?react'
 import MdVisibilityOff from '@renderer/assets/images/md-visibility-off.svg?react'
-import { FieldActionsMenu } from '@renderer/components/FieldActionsMenu'
-import { StyleHelper } from '@renderer/helpers/StyleHelper'
-import { TestHelper } from '@renderer/helpers/TestHelper'
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
-import { match, P } from 'ts-pattern'
 
 import { IconButton } from './IconButton'
 import { Loader } from './Loader'
@@ -130,12 +143,12 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
 
     return (
       <div className={StyleHelper.mergeStyles('relative w-full', containerClassName)}>
-        {label && <label className="mb-2 block text-xs font-bold uppercase text-gray-100">{label}</label>}
+        {label && <label className="mb-2 block text-xs font-bold text-gray-100 uppercase">{label}</label>}
 
         <div
           aria-disabled={disabled}
           className={StyleHelper.mergeStyles(
-            'flex w-full cursor-text items-center gap-x-1.5 rounded bg-asphalt px-5 font-medium text-white outline-none ring-2 ring-transparent transition-colors placeholder:text-white/50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50',
+            'bg-asphalt flex w-full cursor-text items-center gap-x-1.5 rounded-sm px-5 font-medium text-white ring-2 ring-transparent outline-hidden transition-colors placeholder:text-white/50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50',
             {
               'h-8.5 py-1.5 text-xs': compacted,
               'h-12 py-2 text-sm': !compacted,
@@ -154,8 +167,8 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
               className: StyleHelper.mergeStyles(
                 'text-gray-300 pointer-events-none',
                 {
-                  'min-w-[1.25rem] min-h-[1.25rem] max-w-[1.25rem] max-h-[1.25rem]': compacted,
-                  'min-w-[1.5rem] min-h-[1.5rem] max-w-[1.5rem] max-h-[1.5rem]': !compacted,
+                  'min-w-5 min-h-5 max-w-5 max-h-5': compacted,
+                  'min-w-6 min-h-6 max-w-6 max-h-6': !compacted,
                 },
                 leftIcon.props.className
               ),
@@ -170,7 +183,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
             <input
               ref={internalRef}
               className={StyleHelper.mergeStyles(
-                'w-full flex-grow bg-transparent outline-none [appearance:textfield] disabled:cursor-not-allowed [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none',
+                'w-full grow [appearance:textfield] bg-transparent outline-hidden disabled:cursor-not-allowed [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none',
                 className
               )}
               onMouseDown={handleMouseDown}
@@ -192,7 +205,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
 
               {isTypePassword && (
                 <IconButton
-                  icon={hidden ? <MdVisibility aria-hidden={true} /> : <MdVisibilityOff aria-hidden={true} />}
+                  icon={hidden ? <MdVisibility aria-hidden /> : <MdVisibilityOff aria-hidden />}
                   onClick={toggleHidden}
                   type="button"
                   disabled={disabled}
@@ -203,7 +216,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
               {pastable && (
                 <IconButton
                   aria-label={tCommonGeneral('pasteFromClipboard')}
-                  icon={<MdContentPasteGo aria-hidden={true} />}
+                  icon={<MdContentPasteGo aria-hidden />}
                   onClick={handlePaste}
                   colorSchema="neon"
                   type="button"
@@ -214,7 +227,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
 
               {copyable && (
                 <IconButton
-                  icon={<MdContentCopy aria-hidden={true} />}
+                  icon={<MdContentCopy aria-hidden />}
                   onClick={handleCopyInput}
                   colorSchema="neon"
                   type="button"
@@ -225,7 +238,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
 
               {clearable && (
                 <IconButton
-                  icon={<MdCancel aria-hidden={true} />}
+                  icon={<MdCancel aria-hidden />}
                   type="button"
                   onClick={clear}
                   compacted
@@ -240,7 +253,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
 
         {match({ errorMessage, hint })
           .with({ errorMessage: P.when(value => !!value && typeof value === 'string') }, () => (
-            <span className="mt-1 block truncate text-xs text-pink" {...TestHelper.buildTestObject(testId, 'error')}>
+            <span className="text-pink mt-1 block truncate text-xs" {...TestHelper.buildTestObject(testId, 'error')}>
               {errorMessage}
             </span>
           ))

@@ -1,8 +1,12 @@
 import { useEffect } from 'react'
-import MdOutlineContentCopy from '@renderer/assets/images/md-outline-content-copy.svg?react'
+
 import { TestHelper } from '@renderer/helpers/TestHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+
 import { useNameService } from '@renderer/hooks/useNameService'
+
+import MdOutlineContentCopy from '@renderer/assets/images/md-outline-content-copy.svg?react'
+
 import { TContactAddress } from '@shared/@types/store'
 
 import { IconButton } from '../IconButton'

@@ -1,35 +1,46 @@
 import { useState } from 'react'
+
 import { useTranslation } from 'react-i18next'
-import TbCube3dSphere from '@renderer/assets/images/tb-cube-3d-sphere.svg?react'
-import TbRefresh from '@renderer/assets/images/tb-refresh.svg?react'
+import { match, P } from 'ts-pattern'
+
 import { Button } from '@renderer/components/Button'
 import { Checkbox } from '@renderer/components/Checkbox'
 import { Loader } from '@renderer/components/Loader'
 import { RadioGroup } from '@renderer/components/RadioGroup'
 import { Separator } from '@renderer/components/Separator'
+
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
-import { useNodes } from '@renderer/hooks/useNodes'
-import { useNetworkActions, useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
+import { usePingNodes } from '@renderer/hooks/useNodes'
+import { useAppDispatch } from '@renderer/hooks/useRedux'
+import { useSelectedNetworkProfileSelector } from '@renderer/hooks/useSettingsSelector'
+
 import { SideModalLayout } from '@renderer/layouts/SideModal'
+
+import TbCube3dSphere from '@renderer/assets/images/tb-cube-3d-sphere.svg?react'
+import TbRefresh from '@renderer/assets/images/tb-refresh.svg?react'
+
+import { settingsReducerActions } from '@renderer/store/reducers/settings'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { match, P } from 'ts-pattern'
 
 type TState = {
   blockchain: TBlockchainServiceKey
 }
 
-export const NetworkNodeSelection = () => {
+const NetworkNodeSelection = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'networkNodeSelection' })
   const { t: commonGeneral } = useTranslation('common', { keyPrefix: 'general' })
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
   const { blockchain } = useModalState<TState>()
-  const { network } = useSelectedNetworkSelector(blockchain)
-  const { setNetworkNode } = useNetworkActions()
-  const nodesQuery = useNodes(blockchain)
+  const { selectedNetworkProfile } = useSelectedNetworkProfileSelector()
+  const pingNodesQuery = usePingNodes(blockchain)
+  const dispatch = useAppDispatch()
 
-  const [selectedUrl, setSelectedUrl] = useState<string>(network.url)
-  const [isAutomatic, setIsAutomatic] = useState<boolean>(network.isAutomatic ?? false)
+  const [selectedUrl, setSelectedUrl] = useState(selectedNetworkProfile.networkByBlockchain[blockchain].url)
+  const [isAutomatic, setIsAutomatic] = useState(
+    selectedNetworkProfile.networkByBlockchain[blockchain].isAutomatic ?? false
+  )
 
   const handleSelectRadioItem = (selectedValue: string) => {
     setIsAutomatic(false)
@@ -37,35 +48,42 @@ export const NetworkNodeSelection = () => {
   }
 
   const handleIsAutomaticallyChange = (value: boolean) => {
-    const firstNode = nodesQuery.data?.nodes.find(node => node.height !== undefined && node.latency !== undefined)
-    if (firstNode) setSelectedUrl(firstNode.url)
+    const firstNode = pingNodesQuery.data?.[0]
+    if (firstNode) {
+      setSelectedUrl(firstNode.url)
+    }
 
     setIsAutomatic(value)
   }
 
   const handleSave = async () => {
     modalNavigate(-1)
-    setNetworkNode(blockchain, selectedUrl, isAutomatic)
+    dispatch(
+      settingsReducerActions.editNetworkProfile({
+        id: selectedNetworkProfile.id,
+        networkByBlockchain: { [blockchain]: { url: selectedUrl, isAutomatic } },
+      })
+    )
   }
 
   return (
     <SideModalLayout
       heading={t('title')}
-      headingIcon={<TbCube3dSphere aria-hidden={true} />}
+      headingIcon={<TbCube3dSphere aria-hidden />}
       contentClassName="px-0 flex flex-col"
     >
       <p className="px-4 text-xs text-white">{t('description')}</p>
 
       <span className="mt-6 block px-4 font-bold text-gray-100">{t('listLabel')}</span>
 
-      <div className="mt-4 flex justify-between bg-asphalt px-4 py-3.5">
+      <div className="bg-asphalt mt-4 flex justify-between px-4 py-3.5">
         <Button
           label={t('refreshButtonLabel')}
-          leftIcon={<TbRefresh aria-hidden={true} className="text-neon" />}
+          leftIcon={<TbRefresh aria-hidden className="text-neon" />}
           variant="text-slim"
           flat
           colorSchema="white"
-          onClick={() => nodesQuery.refetch()}
+          onClick={() => pingNodesQuery.refetch()}
         />
 
         <div className="flex gap-2.5">
@@ -76,24 +94,24 @@ export const NetworkNodeSelection = () => {
             id="automatically"
             checked={isAutomatic}
             onCheckedChange={handleIsAutomaticallyChange}
-            disabled={nodesQuery.isLoading}
+            disabled={pingNodesQuery.isLoading}
           />
         </div>
       </div>
 
-      <div className="my-3.5 flex-grow overflow-auto">
-        {nodesQuery.isLoading ? (
+      <div className="my-3.5 grow overflow-auto">
+        {pingNodesQuery.isLoading ? (
           <Loader />
         ) : (
           <RadioGroup.Group value={selectedUrl} onValueChange={handleSelectRadioItem}>
-            {nodesQuery.data?.nodes.map(node => (
+            {pingNodesQuery.data?.map(node => (
               <RadioGroup.Item key={node.url} value={node.url} className="h-15 text-xs">
-                <div className="flex min-w-0 flex-grow items-center gap-4">
+                <div className="flex min-w-0 grow items-center gap-4">
                   <div className="flex flex-col items-center justify-center gap-0.5">
                     <div className="flex h-4 w-4 items-center justify-center">
                       <div
                         className={StyleHelper.mergeStyles(
-                          'h-[0.375rem] min-h-[0.375rem] w-[0.375rem] min-w-[0.375rem] rounded-full',
+                          'h-1.5 min-h-1.5 w-1.5 min-w-1.5 rounded-full',
                           match(node.latency)
                             .with(undefined, () => 'bg-gray-300')
                             .with(
@@ -109,12 +127,12 @@ export const NetworkNodeSelection = () => {
                       />
                     </div>
 
-                    <span className="min-w-[48px] text-gray-300">
+                    <span className="min-w-12 text-gray-300">
                       {typeof node.latency === 'number' ? t('latency', { latency: node.latency }) : '--'}
                     </span>
                   </div>
 
-                  <div className="flex-start flex min-w-0 flex-grow flex-col gap-0.5">
+                  <div className="flex-start flex min-w-0 grow flex-col gap-0.5">
                     <span className="block w-full truncate text-left">{node.url}</span>
 
                     <span className="text-left text-gray-300">{t('blockHeight', { height: node.height ?? '--' })}</span>
@@ -147,3 +165,5 @@ export const NetworkNodeSelection = () => {
     </SideModalLayout>
   )
 }
+
+export default NetworkNodeSelection

@@ -1,13 +1,17 @@
 import { useCallback } from 'react'
-import { useTranslation } from 'react-i18next'
+
 import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
+import { cloneDeep } from 'lodash'
+import { useTranslation } from 'react-i18next'
+
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
-import { bsAggregator } from '@renderer/libs/blockchainService'
-import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
-import { contactReducerActions } from '@renderer/store/reducers/ContactReducer'
-import { utilityReducerActions } from '@renderer/store/reducers/UtilityReducer'
+
+import { bsAggregator } from '@renderer/libs/blockchain-service'
+import { authReducerActions } from '@renderer/store/reducers/auth'
+import { contactReducerActions } from '@renderer/store/reducers/contact'
+import { utilityReducerActions } from '@renderer/store/reducers/utility'
 import {
   TAccountToCreate,
   TAccountToEdit,
@@ -17,7 +21,6 @@ import {
   TWalletToEdit,
 } from '@shared/@types/blockchain'
 import { IAccountState, IContactState, IWalletState } from '@shared/@types/store'
-import { cloneDeep } from 'lodash'
 
 import { useCurrentLoginSessionSelector } from './useAuthSelector'
 import { useAppDispatch } from './useRedux'

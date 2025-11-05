@@ -1,5 +1,7 @@
-import { ComponentProps, ReactNode } from 'react'
+import { ComponentProps, type JSX, ReactNode } from 'react'
+
 import { Sidebar } from '@renderer/components/Sidebar'
+
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 export type TMainLayoutProps = {
@@ -20,13 +22,13 @@ export const MainLayout = ({
   ...props
 }: TMainLayoutProps): JSX.Element => {
   return (
-    <div className={StyleHelper.mergeStyles('flex h-screen-minus-drag-region w-screen', className)} {...props}>
+    <div className={StyleHelper.mergeStyles('flex h-full', className)} {...props}>
       <Sidebar />
 
-      <div className="flex h-full min-h-0 w-full min-w-0 flex-col bg-asphalt px-7 pb-4 text-white">
+      <div className="bg-asphalt flex h-full min-h-0 w-full min-w-0 flex-col px-7 pb-4 text-white">
         <header
           className={StyleHelper.mergeStyles(
-            'flex h-[4.0625rem] min-h-[4.0625rem] items-center justify-between border-b border-b-gray-300/30',
+            'flex h-16.25 min-h-16.25 items-center justify-between border-b border-b-gray-300/30',
             headerClassName
           )}
         >
@@ -35,7 +37,7 @@ export const MainLayout = ({
           {rightComponent}
         </header>
 
-        <main className={StyleHelper.mergeStyles('flex min-h-0 w-full flex-grow flex-col pt-5', contentClassName)}>
+        <main className={StyleHelper.mergeStyles('flex min-h-0 w-full grow flex-col pt-5', contentClassName)}>
           {children}
         </main>
       </div>

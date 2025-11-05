@@ -1,7 +1,10 @@
 import { ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react'
+
 import * as AccordionPrimitive from '@radix-ui/react-accordion'
-import MdExpandMore from '@renderer/assets/images/md-expand-more.svg?react'
+
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+
+import MdExpandMore from '@renderer/assets/images/md-expand-more.svg?react'
 
 const Root = AccordionPrimitive.Root
 
@@ -28,7 +31,7 @@ const Trigger = forwardRef<ElementRef<typeof AccordionPrimitive.Trigger>, TTrigg
         {children}
 
         <MdExpandMore
-          aria-hidden={true}
+          aria-hidden
           className={StyleHelper.mergeStyles(
             'h-6 w-6 shrink-0 text-gray-100 transition-transform duration-200',
             iconClassName
@@ -45,10 +48,10 @@ const Content = forwardRef<
 >(({ className, children, ...props }, ref) => (
   <AccordionPrimitive.Content
     ref={ref}
-    className="overflow-hidden text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
+    className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden text-sm"
     {...props}
   >
-    <div className={StyleHelper.mergeStyles('pb-1.5 pt-0', className)}>{children}</div>
+    <div className={StyleHelper.mergeStyles('pt-0 pb-1.5', className)}>{children}</div>
   </AccordionPrimitive.Content>
 ))
 

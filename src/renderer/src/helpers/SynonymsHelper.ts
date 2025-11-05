@@ -13,7 +13,7 @@ export class SynonymsHelper {
       // @ts-expect-error Word is a string and the typescript does not recognize it
       const synonyms = t(`common:synonyms.${word}`, { returnObjects: true }) as string[]
       this.#synonymsMap.set(word, synonyms)
-    } catch (error) {
+    } catch {
       this.#synonymsMap.set(word, [])
     }
 

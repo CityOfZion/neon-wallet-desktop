@@ -1,16 +1,16 @@
-import { TBlockchainServiceKey, TNetworkIds } from './blockchain'
+import { TBlockchainServiceKey } from './blockchain'
 
 export type TWalletConnectHelperSessionInformation<T extends TBlockchainServiceKey = TBlockchainServiceKey> = {
   address: string
   blockchain: T
-  network: TNetworkIds<T>
+  network: string
 }
 
 export type TWalletConnectHelperProposalInformation<T extends TBlockchainServiceKey = TBlockchainServiceKey> = {
   chain: string
   methods: string[]
   blockchain: T
-  network: TNetworkIds<T>
+  network: string
   proposalBlockchain: string
 }
 

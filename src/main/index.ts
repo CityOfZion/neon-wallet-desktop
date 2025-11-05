@@ -1,30 +1,26 @@
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
-import { mainApi } from '@shared/api/main'
 import { app, BrowserWindow, shell } from 'electron'
 import { join } from 'path'
 
+import { mainApi } from '@shared/api/main'
+import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
+
 import * as packageJson from '../../package.json'
 import icon from '../../resources/icon.png?asset'
-
-import { registerHardwareWalletUsbHandler } from './hardwareWallet/usb'
-import { exposeBsAggregatorToRenderer } from './bsAggregator'
-import {
-  registerDeeplinkHandler,
-  registerDeeplinkProtocol,
-  registerOpenUrlListener,
-  setInitialDeeplink,
-} from './deeplink'
-import { registerEncryptionHandlers } from './encryption'
-import { registerHardwareWalletHandler } from './hardwareWallet'
+import { setupHardwareWalletUsbHandler } from './hardware-wallet/usb'
+import { setupBsAggregator } from './blockchain-service'
+import { setInitialDeeplink, setupDeeplinkHandler, setupDeeplinkProtocol } from './deeplink'
+import { setupEncryptionHandlers } from './encryption'
+import { setupHardwareWalletHandler } from './hardware-wallet'
 import { setupSentry } from './sentry'
-import { registerUpdaterHandler } from './updater'
-import { exposeWalletConnectAdaptersToRenderer } from './walletConnect'
-import { registerWindowHandlers } from './window'
+import { setupUpdaterHandler } from './updater'
+import { setupWalletConnectAdapters } from './wallet-connect'
+import { setupWindowHandlers } from './window'
 
-const gotTheLock = app.requestSingleInstanceLock()
 let mainWindow: BrowserWindow | null = null
 
-registerDeeplinkProtocol()
+setupSentry()
+setupDeeplinkProtocol()
 
 function createWindow(): void {
   const isLinux = process.platform === 'linux'
@@ -38,6 +34,7 @@ function createWindow(): void {
     titleBarStyle: isLinux ? 'default' : 'hidden',
     titleBarOverlay: true,
     show: false,
+    backgroundColor: '#1a2026',
     ...(isLinux ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
@@ -46,16 +43,13 @@ function createWindow(): void {
     autoHideMenuBar: true,
   })
 
-  mainWindow.on('ready-to-show', () => {
+  mainWindow.on('ready-to-show', async () => {
+    await SharedUtilsHelper.sleep(500)
     mainWindow?.show()
   })
 
   mainWindow.on('page-title-updated', function (e) {
     e.preventDefault()
-  })
-
-  mainWindow.webContents.on('will-navigate', (event, url) => {
-    if (!url.startsWith('file://')) event.preventDefault()
   })
 
   mainWindow.webContents.setWindowOpenHandler(details => {
@@ -74,44 +68,33 @@ function createWindow(): void {
   }
 }
 
-if (!gotTheLock) {
-  app.quit()
-} else {
-  setupSentry()
+async function initialize() {
+  electronApp.setAppUserModelId('com.electron.neon3')
+
+  const gotTheLock = app.requestSingleInstanceLock()
+  if (!gotTheLock) {
+    app.quit()
+    return
+  }
 
   app.on('second-instance', (_event, commandLine) => {
     // The commandLine is an array of strings, where the last element is the deep link URL.
     const deeplinkUrl = commandLine.pop()
-    if (mainWindow) {
-      if (mainWindow.isMinimized()) mainWindow.restore()
-      mainWindow.focus()
 
-      if (deeplinkUrl) {
-        mainApi.send('deeplink', deeplinkUrl)
-      }
-    } else {
+    if (!mainWindow) {
       setInitialDeeplink(deeplinkUrl)
+      return
     }
-  })
 
-  app.whenReady().then(() => {
-    // Set app user model id for windows
-    electronApp.setAppUserModelId('com.electron.neon3')
+    if (mainWindow.isMinimized()) {
+      mainWindow.restore()
+    }
 
-    // Default open or close DevTools by F12 in development
-    // and ignore CommandOrControl + R in production.
-    // see https://github.com/alex8088/electron-toolkit/tree/master/packages/utils
-    app.on('browser-window-created', (_, window) => {
-      optimizer.watchWindowShortcuts(window)
-    })
+    mainWindow.focus()
 
-    createWindow()
-
-    app.on('activate', function () {
-      // On macOS it's common to re-create a window in the app when the
-      // dock icon is clicked and there are no other windows open.
-      if (BrowserWindow.getAllWindows().length === 0) createWindow()
-    })
+    if (deeplinkUrl) {
+      mainApi.send('deeplink', deeplinkUrl)
+    }
   })
 
   app.on('window-all-closed', () => {
@@ -120,13 +103,29 @@ if (!gotTheLock) {
     }
   })
 
-  registerOpenUrlListener()
-  exposeBsAggregatorToRenderer()
-  exposeWalletConnectAdaptersToRenderer()
-  registerUpdaterHandler()
-  registerWindowHandlers()
-  registerEncryptionHandlers()
-  registerHardwareWalletHandler()
-  registerHardwareWalletUsbHandler()
-  registerDeeplinkHandler()
+  app.on('activate', function () {
+    // On macOS it's common to re-create a window in the app when the
+    // dock icon is clicked and there are no other windows open.
+    if (BrowserWindow.getAllWindows().length === 0) createWindow()
+  })
+
+  app.on('browser-window-created', (_, window) => {
+    optimizer.watchWindowShortcuts(window)
+  })
+
+  setupDeeplinkHandler()
+  setupWindowHandlers()
+  setupEncryptionHandlers()
+  setupUpdaterHandler()
+
+  await app.whenReady()
+
+  await setupBsAggregator()
+  setupWalletConnectAdapters()
+  setupHardwareWalletUsbHandler()
+  setupHardwareWalletHandler()
+
+  createWindow()
 }
+
+initialize()

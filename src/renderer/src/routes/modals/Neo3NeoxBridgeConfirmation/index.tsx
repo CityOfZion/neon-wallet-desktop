@@ -1,15 +1,20 @@
+import { IBlockchainService, TBridgeToken } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
-import { BlockchainService, TBridgeToken } from '@cityofzion/blockchain-service'
+
+import { Button } from '@renderer/components/Button'
+import { Details } from '@renderer/components/Details'
+import { TokenDetails } from '@renderer/components/TokenDetails'
+
+import { useModalState } from '@renderer/hooks/useModalRouter'
+import { usePressOnce } from '@renderer/hooks/usePressOnce'
+
+import { SideModalLayout } from '@renderer/layouts/SideModal'
+
 import MdCheck from '@renderer/assets/images/md-check.svg?react'
 import TbArrowRight from '@renderer/assets/images/tb-arrow-right.svg?react'
 import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
 import TbReplace2 from '@renderer/assets/images/tb-replace-2.svg?react'
-import { Button } from '@renderer/components/Button'
-import { Details } from '@renderer/components/Details'
-import { TokenDetails } from '@renderer/components/TokenDetails'
-import { useModalState } from '@renderer/hooks/useModalRouter'
-import { usePressOnce } from '@renderer/hooks/usePressOnce'
-import { SideModalLayout } from '@renderer/layouts/SideModal'
+
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { IAccountState } from '@shared/@types/store'
 
@@ -22,10 +27,10 @@ type TState = {
   amountToReceive: string
   addressToReceive: string
   bridgeFee: string
-  fromService: BlockchainService<TBlockchainServiceKey>
+  fromService: IBlockchainService<TBlockchainServiceKey>
 }
 
-export const Neo3NeoxBridgeConfirmationModal = () => {
+const Neo3NeoxBridgeConfirmationModal = () => {
   const {
     accountToUse,
     addressToReceive,
@@ -57,7 +62,7 @@ export const Neo3NeoxBridgeConfirmationModal = () => {
             <Details.Item label={t('bridgeDetailsItemLabel')}>
               <TokenDetails symbol={tokenToUse.symbol} blockchain={tokenToUse.blockchain} className="w-fit" />
 
-              <TbArrowRight aria-hidden className="min-h-6 min-w-6 text-orange" />
+              <TbArrowRight aria-hidden className="text-orange min-h-6 min-w-6" />
 
               <TokenDetails symbol={tokenToReceive.symbol} blockchain={tokenToReceive.blockchain} className="w-fit" />
             </Details.Item>
@@ -107,3 +112,5 @@ export const Neo3NeoxBridgeConfirmationModal = () => {
     </SideModalLayout>
   )
 }
+
+export default Neo3NeoxBridgeConfirmationModal

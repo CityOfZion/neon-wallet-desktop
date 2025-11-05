@@ -1,9 +1,11 @@
 import { useCallback, useState } from 'react'
+
 import { hasNameService } from '@cityofzion/blockchain-service'
-import { bsAggregator } from '@renderer/libs/blockchainService'
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { Query, QueryClient, useQueryClient } from '@tanstack/react-query'
 import { debounce } from 'lodash'
+
+import { bsAggregator } from '@renderer/libs/blockchain-service'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 
 function buildQueryKey(blockchain: TBlockchainServiceKey, domain: string) {
   return ['nameService', blockchain, domain]

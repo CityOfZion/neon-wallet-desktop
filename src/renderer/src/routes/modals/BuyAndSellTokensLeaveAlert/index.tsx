@@ -1,8 +1,12 @@
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
+
 import { Button } from '@renderer/components/Button'
+
 import { TestHelper } from '@renderer/helpers/TestHelper'
+
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
+
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
 
 type TLocationState = {
@@ -10,7 +14,7 @@ type TLocationState = {
   setCanNavigate(canNavigate: boolean): void
 }
 
-export const BuyAndSellTokensLeaveAlertModal = () => {
+const BuyAndSellTokensLeaveAlertModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'buyAndSellTokensLeaveAlert' })
   const navigate = useNavigate()
   const { modalErase } = useModalNavigate()
@@ -28,12 +32,12 @@ export const BuyAndSellTokensLeaveAlertModal = () => {
 
   return (
     <CenterModalLayout
-      contentClassName="flex flex-col items-center px-4 pt-4 pb-8 gap-y-8 flex-grow-0"
+      contentClassName="flex flex-col items-center px-4 pt-4 pb-8 gap-y-8 grow-0"
       {...TestHelper.buildTestObject('buy-and-sell-tokens-leave-alert-modal')}
     >
       <h2 className="text-center text-xl font-semibold text-white">{t('title')}</h2>
 
-      <p className="text-center text-md leading-5 text-white">{t('description')}</p>
+      <p className="text-center text-base leading-5 text-white">{t('description')}</p>
 
       <div className="mt-8 flex w-full items-center gap-x-4">
         <Button
@@ -57,3 +61,5 @@ export const BuyAndSellTokensLeaveAlertModal = () => {
     </CenterModalLayout>
   )
 }
+
+export default BuyAndSellTokensLeaveAlertModal

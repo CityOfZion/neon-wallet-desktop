@@ -1,18 +1,24 @@
+import * as dateFns from 'date-fns'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
-import MdLaunch from '@renderer/assets/images/md-launch.svg?react'
-import TbDeviceFloppy from '@renderer/assets/images/tb-device-floppy.svg?react'
-import TbFileExport from '@renderer/assets/images/tb-file-export.svg?react'
+import { useNavigate } from 'react-router'
+
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { SuccessIcon } from '@renderer/components/SuccessIcon'
+
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
+
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
+
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
-import { bsAggregator } from '@renderer/libs/blockchainService'
+
+import MdLaunch from '@renderer/assets/images/md-launch.svg?react'
+import TbDeviceFloppy from '@renderer/assets/images/tb-device-floppy.svg?react'
+import TbFileExport from '@renderer/assets/images/tb-file-export.svg?react'
+
+import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { IAccountState } from '@shared/@types/store'
-import * as dateFns from 'date-fns'
 
 import { ExportFullTransactionInfo } from './ExportFullTransactionInfo'
 
@@ -32,7 +38,7 @@ export type TExportFullTransactionsActionData = {
   isOpeningFilePath: boolean
 }
 
-export const ExportFullTransactionsModal = () => {
+const ExportFullTransactionsModal = () => {
   const modalState = useModalState<TModalState>()
   const { t } = useTranslation('modals', { keyPrefix: 'exportFullTransactions' })
   const { modalErase } = useModalNavigate()
@@ -129,7 +135,7 @@ export const ExportFullTransactionsModal = () => {
 
   const handleReturn = () => {
     modalErase('center')
-    navigate(`/app/wallets/${actionData.account!.id}/transactions`)
+    navigate(`/wallets/${actionData.account!.id}/transactions`)
   }
 
   const handleOpenExport = async () => {
@@ -165,7 +171,7 @@ export const ExportFullTransactionsModal = () => {
           </div>
 
           <div className="flex w-full flex-col">
-            <p className="mt-7 text-xs font-bold uppercase text-gray-100">{t('exported.infoLabel')}</p>
+            <p className="mt-7 text-xs font-bold text-gray-100 uppercase">{t('exported.infoLabel')}</p>
 
             <ExportFullTransactionInfo
               account={actionData.account}
@@ -196,8 +202,8 @@ export const ExportFullTransactionsModal = () => {
                 className="w-48"
                 wide
                 loading={actionData.isOpeningFilePath}
-                textClassName="flex-grow-0"
-                leftIcon={<MdLaunch aria-hidden={true} />}
+                textClassName="grow-0"
+                leftIcon={<MdLaunch aria-hidden />}
                 onClick={handleOpenExport}
               />
             )}
@@ -207,9 +213,9 @@ export const ExportFullTransactionsModal = () => {
         <div className="flex h-full flex-col">
           <p className="text-xs text-white">{t('form.description')}</p>
 
-          <p className="mt-7 text-xs font-bold uppercase text-gray-100">{t('form.infoLabel')}</p>
+          <p className="mt-7 text-xs font-bold text-gray-100 uppercase">{t('form.infoLabel')}</p>
 
-          <form onSubmit={handleAct(handleExport)} className="flex flex-grow flex-col">
+          <form onSubmit={handleAct(handleExport)} className="flex grow flex-col">
             <ExportFullTransactionInfo
               account={actionData.account}
               today={today}
@@ -246,3 +252,5 @@ export const ExportFullTransactionsModal = () => {
     </CenterModalLayout>
   )
 }
+
+export default ExportFullTransactionsModal

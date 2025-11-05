@@ -1,23 +1,29 @@
+import type { TVoteServiceCandidate } from '@cityofzion/bs-neo3'
 import { useTranslation } from 'react-i18next'
+
+import { Link } from '@renderer/components/Link'
+import { Tooltip } from '@renderer/components/Tooltip'
+
+import { StringHelper } from '@renderer/helpers/StringHelper'
+
+import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
+import { useVoteNeo3GetVoteDetailsByAddress } from '@renderer/hooks/useVoteNeo3'
+
+import { CenterModalLayout } from '@renderer/layouts/CenterModal'
+
 import TbChartBarPopular from '@renderer/assets/images/tb-chart-bar-popular.svg?react'
 import TbEye from '@renderer/assets/images/tb-eye.svg?react'
 import TbRosetteDiscountCheck from '@renderer/assets/images/tb-rosette-discount-check.svg?react'
-import { Link } from '@renderer/components/Link'
-import { Tooltip } from '@renderer/components/Tooltip'
+
 import { NEO3_NEO_TOKEN } from '@renderer/constants/tokens'
-import { StringHelper } from '@renderer/helpers/StringHelper'
-import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
-import { useVoteNeo3GetVoteDetailsByAddress } from '@renderer/hooks/useVoteNeo3'
-import { CenterModalLayout } from '@renderer/layouts/CenterModal'
-import { TVoteNeo3Candidate } from '@shared/@types/query'
 import { IAccountState } from '@shared/@types/store'
 
 type TLocationState = {
   neo3Account: IAccountState
-  candidate: TVoteNeo3Candidate
+  candidate: TVoteServiceCandidate
 }
 
-export const VoteNeo3SuccessModal = () => {
+const VoteNeo3SuccessModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'voteNeo3Success' })
   const { modalEraseWrapper } = useModalNavigate()
   const { neo3Account, candidate } = useModalState<TLocationState>()
@@ -29,24 +35,24 @@ export const VoteNeo3SuccessModal = () => {
     <CenterModalLayout
       heading={t('title')}
       headerClassName="pt-3"
-      headingIcon={<TbChartBarPopular aria-hidden={true} />}
+      headingIcon={<TbChartBarPopular aria-hidden />}
       className="overflow-y-auto"
       contentClassName="pb-0 px-4 pt-8 my-0 flex flex-col text-sm text-white"
       withCloseButton={false}
     >
       <div className="flex h-full flex-col gap-y-3">
         <TbRosetteDiscountCheck
-          aria-hidden={true}
-          className="mx-auto h-24 max-h-24 min-h-24 w-24 min-w-24 max-w-24 rounded-full bg-asphalt stroke-1 p-1 text-blue"
+          aria-hidden
+          className="bg-asphalt text-blue mx-auto h-24 max-h-24 min-h-24 w-24 max-w-24 min-w-24 rounded-full stroke-1 p-1"
         />
 
         <h3 className="mt-2 text-center text-lg font-medium">{t('subtitle')}</h3>
 
         {!!neoAmount && (
           <>
-            <strong className="mt-4 font-semibold uppercase text-gray-100">{t('listLabel')}</strong>
+            <strong className="mt-4 font-semibold text-gray-100 uppercase">{t('listLabel')}</strong>
 
-            <ul className="flex flex-col gap-y-3 rounded bg-gray-700/60 px-4 py-3">
+            <ul className="flex flex-col gap-y-3 rounded-sm bg-gray-700/60 px-4 py-3">
               <li className="flex items-center gap-x-3 border-b border-gray-300/30 pb-3">
                 <span className="text-blue">{t('accountLabel')}</span>
                 <span className="w-full max-w-72 truncate">{neo3Account.name}</span>
@@ -78,15 +84,15 @@ export const VoteNeo3SuccessModal = () => {
               </li>
             </ul>
 
-            <div className="mb-8 flex flex-grow items-end">
+            <div className="mb-8 flex grow items-end">
               <Link
                 label={t('viewTransactionButtonLabel')}
-                to={`/app/wallets/${neo3Account.id}/transactions`}
+                to={`/wallets/${neo3Account.id}/transactions`}
                 className="mx-auto mt-6 w-full max-w-64"
                 flat
                 wide
                 iconsOnEdge={false}
-                rightIcon={<TbEye aria-hidden={true} />}
+                rightIcon={<TbEye aria-hidden />}
                 onClick={modalEraseWrapper('center')}
               />
             </div>
@@ -96,3 +102,5 @@ export const VoteNeo3SuccessModal = () => {
     </CenterModalLayout>
   )
 }
+
+export default VoteNeo3SuccessModal

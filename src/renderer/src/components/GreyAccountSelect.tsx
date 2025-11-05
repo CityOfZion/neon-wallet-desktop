@@ -1,12 +1,17 @@
-import { Fragment, useMemo, useState } from 'react'
+import { Fragment, type JSX, useMemo, useState } from 'react'
+
 import { useTranslation } from 'react-i18next'
+import { match } from 'ts-pattern'
+
 import { Loader } from '@renderer/components/Loader'
+
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+
 import { useAccountsWithWalletSelector } from '@renderer/hooks/useAccountSelector'
+
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { IAccountState, TAccountType } from '@shared/@types/store'
-import { match } from 'ts-pattern'
 
 import { BlockchainIcon } from './BlockchainIcon'
 import { Select } from './Select'
@@ -70,7 +75,7 @@ export const GreyAccountSelect = ({
         <Select.Trigger
           disabled={isDisabled}
           className={StyleHelper.mergeStyles(
-            'h-8.5 min-w-36 max-w-36 bg-asphalt aria-expanded:bg-asphalt aria-[disabled=false]:hover:bg-asphalt/60',
+            'bg-asphalt aria-expanded:bg-asphalt aria-[disabled=false]:hover:bg-asphalt/60 h-8.5 max-w-36 min-w-36',
             {
               'aria-[disabled=false]:hover:bg-asphalt/60': !selectedAccount && !open && !isDisabled,
               'bg-gray-300/15 aria-[disabled=false]:hover:bg-gray-300/30': !isDisabled && !open && selectedAccount,
@@ -91,7 +96,7 @@ export const GreyAccountSelect = ({
               </div>
             ))
             .otherwise(() => (
-              <span className="w-full text-center font-medium text-neon">{t('placeholder')}</span>
+              <span className="text-neon w-full text-center font-medium">{t('placeholder')}</span>
             ))}
         </Select.Trigger>
       )}
@@ -105,10 +110,10 @@ export const GreyAccountSelect = ({
                 <Select.Item value={account.id} className="justify-start gap-2.5">
                   <BlockchainIcon className="h-4 min-h-4 w-4 min-w-4" blockchain={account.blockchain} type="gray" />
 
-                  <div className="flex min-w-0 flex-grow flex-col gap-0.5">
+                  <div className="flex min-w-0 grow flex-col gap-0.5">
                     <Select.ItemText>{StringHelper.truncateStringMiddle(account.address, 8)}</Select.ItemText>
 
-                    <span className="truncate text-left text-1xs text-gray-100">
+                    <span className="text-1xs truncate text-left text-gray-100">
                       {`${account.name} | ${account.wallet.name}`}
                     </span>
                   </div>

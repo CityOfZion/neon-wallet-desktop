@@ -1,7 +1,8 @@
 import { BSNeoLegacy } from '@cityofzion/bs-neo-legacy'
-import { NetworkHelper } from '@renderer/helpers/NetworkHelper'
+
 import { useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
-import { bsAggregator } from '@renderer/libs/blockchainService'
+
+import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TTokenBalance } from '@shared/@types/query'
 import { IAccountState } from '@shared/@types/store'
@@ -25,12 +26,12 @@ export const useMigrationNeo3Validations = (account: IAccountState) => {
       !tokenBalances ||
       hasMigratePendingTransactionRef.current ||
       neoLegacyService.name !== 'neoLegacy' ||
-      !NetworkHelper.isMainnet(neoLegacyService.name, networkRef.current)
+      networkRef.current.type !== 'mainnet'
     )
       return false
 
     const { hasEnoughGasBalance, hasEnoughNeoBalance } =
-      neoLegacyService.calculateNeoLegacyMigrationAmounts(tokenBalances)
+      neoLegacyService.neo3NeoLegacyMigrationService.calculateNeoLegacyMigrationAmounts(tokenBalances)
 
     return hasEnoughGasBalance || hasEnoughNeoBalance
   }

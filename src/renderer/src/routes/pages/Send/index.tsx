@@ -1,9 +1,13 @@
 import { useTranslation } from 'react-i18next'
-import { Location, useLocation } from 'react-router-dom'
-import TbStepOut from '@renderer/assets/images/tb-step-out.svg?react'
+import { Location, useLocation } from 'react-router'
+
 import { CommonScreenActions } from '@renderer/components/CommonScreenActions'
+
 import { ContentLayout } from '@renderer/layouts/ContentLayout'
 import { MainLayout } from '@renderer/layouts/Main'
+
+import TbStepOut from '@renderer/assets/images/tb-step-out.svg?react'
+
 import { IAccountState } from '@shared/@types/store'
 
 import { SendPageContent } from './SendPageContent'
@@ -13,7 +17,7 @@ type TLocationState = {
   recipient?: string
 }
 
-export const SendPage = () => {
+const SendPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'send' })
   const { state } = useLocation() as Location<TLocationState>
 
@@ -27,3 +31,5 @@ export const SendPage = () => {
     </MainLayout>
   )
 }
+
+export default SendPage

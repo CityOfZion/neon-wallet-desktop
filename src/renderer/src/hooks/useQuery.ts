@@ -1,4 +1,5 @@
 import { useCallback, useSyncExternalStore } from 'react'
+
 import { notifyManager, QueryFilters, useIsFetching, useQueryClient } from '@tanstack/react-query'
 
 export function useRefetch(filters?: QueryFilters) {
@@ -6,7 +7,7 @@ export function useRefetch(filters?: QueryFilters) {
   const isRefetching = !!useIsFetching({ ...filters, predicate: query => query.state.status !== 'pending' })
 
   const refetch = useCallback(async () => {
-    await queryClient.invalidateQueries({ ...filters, refetchType: 'all' })
+    await queryClient.invalidateQueries({ ...filters, type: 'all' })
   }, [queryClient, filters])
 
   return { refetch, isRefetching }

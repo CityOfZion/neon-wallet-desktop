@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next'
 
 import { TDappPermissionComponentProps } from '..'
-
 import { EthereumRawJsonDappPermission } from './RawJsonDappPermission'
 
 export const EthereumSignTransactionDappPermission = (props: TDappPermissionComponentProps) => {

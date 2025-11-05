@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next'
 
 import { TDappPermissionComponentProps } from '../index'
-
 import { Neo3ContractInvocationDappPermission } from './ContractInvocationDappPermission'
 
 export const Neo3SignTransactionDappPermission = (props: TDappPermissionComponentProps) => {

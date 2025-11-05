@@ -1,4 +1,5 @@
 import { Fragment } from 'react'
+
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 export type TStepperCurrentState = 'success' | 'error'
@@ -43,8 +44,8 @@ export const Stepper = ({
                     'bg-blue text-asphalt': isPastStep && isDefaultTheme,
                     'bg-gray-900 text-gray-300': isFutureStep && isDefaultTheme,
                     'bg-neon text-asphalt': isPastStep && isNeonTheme,
-                    'bg-gray-300 text-asphalt': isFutureStep && isNeonTheme,
-                    'bg-white text-asphalt': isCurrentStep && isSuccessState,
+                    'text-asphalt bg-gray-300': isFutureStep && isNeonTheme,
+                    'text-asphalt bg-white': isCurrentStep && isSuccessState,
                     'bg-pink text-asphalt': isCurrentStep && isErrorState,
                   }
                 )}
@@ -54,7 +55,7 @@ export const Stepper = ({
 
               <span
                 className={StyleHelper.mergeStyles(
-                  'absolute left-1/2 top-8 w-20 -translate-x-1/2 text-center text-xs transition-colors',
+                  'absolute top-8 left-1/2 w-20 -translate-x-1/2 text-center text-xs transition-colors',
                   {
                     'text-blue': isPastStep && isDefaultTheme,
                     'text-neon': isPastStep && isNeonTheme,

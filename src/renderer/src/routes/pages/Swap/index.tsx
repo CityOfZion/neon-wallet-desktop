@@ -1,9 +1,13 @@
 import { useTranslation } from 'react-i18next'
-import { Location, useLocation } from 'react-router-dom'
-import TbReplace from '@renderer/assets/images/tb-replace.svg?react'
+import { Location, useLocation } from 'react-router'
+
 import { CommonScreenActions } from '@renderer/components/CommonScreenActions'
+
 import { ContentLayout } from '@renderer/layouts/ContentLayout'
 import { MainLayout } from '@renderer/layouts/Main'
+
+import TbReplace from '@renderer/assets/images/tb-replace.svg?react'
+
 import { IAccountState } from '@shared/@types/store'
 
 import { SwapPageContent } from './SwapPageContent'
@@ -12,7 +16,7 @@ type TLocationState = {
   account?: IAccountState
 }
 
-export const SwapPage = () => {
+const SwapPage = () => {
   const { state } = useLocation() as Location<TLocationState>
   const { t } = useTranslation('pages', { keyPrefix: 'swap' })
 
@@ -26,3 +30,5 @@ export const SwapPage = () => {
     </MainLayout>
   )
 }
+
+export default SwapPage

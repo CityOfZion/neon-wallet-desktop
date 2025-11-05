@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+
+import { BSKeychainHelper, TBSAccount } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
-import { Account } from '@cityofzion/blockchain-service'
+
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
-import { MnemonicHelper } from '@renderer/helpers/MnemonicHelper'
-import { utilityReducerActions } from '@renderer/store/reducers/UtilityReducer'
+
+import { utilityReducerActions } from '@renderer/store/reducers/utility'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { TUseHardwareWalletByUsbStatus } from '@shared/@types/hooks'
 import { TConnectHardwareWalletByUsbParams } from '@shared/@types/ipc'
@@ -25,7 +27,7 @@ export const useHardwareWalletByUsb = () => {
 
   const [status, setStatus] = useState<TUseHardwareWalletByUsbStatus>('searching')
 
-  const abortControllerRef = useRef<AbortController>()
+  const abortControllerRef = useRef<AbortController>(null)
 
   const connect = async (params?: Omit<TConnectHardwareWalletByUsbParams, 'lastIndexesByWallet'>) => {
     abortControllerRef.current = new AbortController()
@@ -88,7 +90,7 @@ export const useHardwareWalletActions = () => {
   const { accountsMapRef } = useAccountMapSelector()
 
   const createHardwareWallet = useCallback(
-    async (accounts: Account<TBlockchainServiceKey>[]) => {
+    async (accounts: TBSAccount<TBlockchainServiceKey>[]) => {
       if (!currentLoginSessionRef.current) {
         throw new Error('Login session not defined')
       }
@@ -98,7 +100,7 @@ export const useHardwareWalletActions = () => {
         TBlockchainServiceKey,
         {
           existentAccount?: IAccountState
-          account: Account<TBlockchainServiceKey>
+          account: TBSAccount<TBlockchainServiceKey>
         }[]
       >()
 
@@ -158,7 +160,7 @@ export const useHardwareWalletActions = () => {
               type: 'hardware',
               key: info.account.key,
               wallet,
-              order: MnemonicHelper.extractIndexFromPath(info.account.bip44Path!),
+              order: BSKeychainHelper.extractIndexFromPath(info.account.bip44Path!),
             })
           }
 

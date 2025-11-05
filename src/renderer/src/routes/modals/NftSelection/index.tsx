@@ -1,28 +1,33 @@
 import { useState } from 'react'
+
+import { TNftResponse } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
-import { NftResponse } from '@cityofzion/blockchain-service'
+
 import { Button } from '@renderer/components/Button'
 import { Loader } from '@renderer/components/Loader'
 import { Separator } from '@renderer/components/Separator'
 import { SkinCard } from '@renderer/components/SkinCard'
+
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useNfts } from '@renderer/hooks/useNfts'
+
 import { SideModalLayout } from '@renderer/layouts/SideModal'
+
 import { IAccountState } from '@shared/@types/store'
 
 type TState = {
   account: IAccountState
-  onSelect: (nft: NftResponse) => void
+  onSelect: (nft: TNftResponse) => void
 }
 
-export const NFTSelectionModal = () => {
+const NFTSelectionModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'nftSelection' })
   const { t: commonT } = useTranslation('common')
   const { account, onSelect } = useModalState<TState>()
   const { modalNavigate } = useModalNavigate()
   const query = useNfts(account)
 
-  const [selectedNft, setSelectedNft] = useState<NftResponse>()
+  const [selectedNft, setSelectedNft] = useState<TNftResponse>()
 
   const handleSave = () => {
     if (!selectedNft) return
@@ -37,7 +42,7 @@ export const NFTSelectionModal = () => {
 
       <Separator />
 
-      <div className="mt-7 flex min-h-0 flex-grow flex-col gap-3.5">
+      <div className="mt-7 flex min-h-0 grow flex-col gap-3.5">
         <span className="font-bold uppercase">{t('selectTitle')}</span>
 
         {query.isLoading ? (
@@ -56,8 +61,8 @@ export const NFTSelectionModal = () => {
                   <SkinCard showCheck={selectedNft?.hash === nft.hash} image={nft.image} />
 
                   <div className="flex min-w-0 flex-col text-left">
-                    <span className="truncate text-blue">{nft.hash}</span>
-                    <span className="truncate text-sm capitalize text-white">{nft.name}</span>
+                    <span className="text-blue truncate">{nft.hash}</span>
+                    <span className="truncate text-sm text-white capitalize">{nft.name}</span>
                   </div>
                 </button>
 
@@ -79,3 +84,5 @@ export const NFTSelectionModal = () => {
     </SideModalLayout>
   )
 }
+
+export default NFTSelectionModal

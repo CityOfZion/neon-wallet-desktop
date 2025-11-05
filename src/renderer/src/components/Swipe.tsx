@@ -1,6 +1,8 @@
 import { ComponentProps } from 'react'
+
+import { animate, motion, useMotionValue } from 'motion/react'
+
 import ArrowRightBoldOutlineIcon from '@renderer/assets/images/arrow-right-bold-outline-icon.svg?react'
-import { animate, motion, useMotionValue } from 'framer-motion'
 
 type TProps = {
   text: string
@@ -37,7 +39,7 @@ export const Swipe = ({ text, buttonAriaLabel, onComplete, ...props }: TProps) =
   return (
     <div
       style={{ width: `${WIDTH}px` }}
-      className="relative h-[48px] overflow-hidden rounded bg-gray-300/30 text-sm text-white"
+      className="relative h-[48px] overflow-hidden rounded-sm bg-gray-300/30 text-sm text-white"
     >
       <motion.div
         style={{
@@ -45,7 +47,7 @@ export const Swipe = ({ text, buttonAriaLabel, onComplete, ...props }: TProps) =
           touchAction: 'none',
           boxShadow: '4px 8px 20px 0px #12151766, 1px 1px 0px 0px #D6D2D223 inset, -1px -1px 0px 0px #00000051 inset',
         }}
-        className="relative z-[1] flex h-[inherit] w-full justify-end rounded bg-pink"
+        className="bg-pink relative z-1 flex h-[inherit] w-full justify-end rounded-sm"
         tabIndex={0}
         role="button"
         aria-label={buttonAriaLabel}
@@ -62,7 +64,7 @@ export const Swipe = ({ text, buttonAriaLabel, onComplete, ...props }: TProps) =
           style={{ width: `${DRAG_WIDTH}px` }}
           className="flex h-[inherit] cursor-pointer items-center justify-center"
         >
-          <ArrowRightBoldOutlineIcon aria-hidden={true} className="pointer-events-none h-6 w-6" />
+          <ArrowRightBoldOutlineIcon aria-hidden className="pointer-events-none size-6" />
         </div>
       </motion.div>
       <p

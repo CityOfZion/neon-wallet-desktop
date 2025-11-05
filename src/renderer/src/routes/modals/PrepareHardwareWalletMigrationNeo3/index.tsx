@@ -1,12 +1,16 @@
+import { TBSAccount } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
-import { Account } from '@cityofzion/blockchain-service'
+import { match, P } from 'ts-pattern'
+
 import { Stepper } from '@renderer/components/Stepper'
+
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalState } from '@renderer/hooks/useModalRouter'
+
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
+
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { IAccountState } from '@shared/@types/store'
-import { match, P } from 'ts-pattern'
 
 import { EPrepareHardwareWalletMigrationStep } from './EPrepareHardwareWalletMigrationStep'
 import { PrepareHardwareWalletConfirmAndCompleteStep } from './PrepareHardwareWalletConfirmAndCompleteStep'
@@ -19,15 +23,15 @@ type TLocationState = {
 
 export type TPrepareHardwareWalletMigrationActionsData = {
   currentStep: EPrepareHardwareWalletMigrationStep
-  selectedNeo3HardwareServiceAccount?: Account<TBlockchainServiceKey>
-  neo3HardwareAccounts?: Account<TBlockchainServiceKey>[]
+  selectedNeo3HardwareServiceAccount?: TBSAccount<TBlockchainServiceKey>
+  neo3HardwareAccounts?: TBSAccount<TBlockchainServiceKey>[]
 }
 
 export type TTPrepareHardwareWalletMigrationSetData = ReturnType<
   typeof useActions<TPrepareHardwareWalletMigrationActionsData>
 >['setData']
 
-export const PrepareHardwareWalletMigrationNeo3Modal = () => {
+const PrepareHardwareWalletMigrationNeo3Modal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'prepareHardwareWalletMigrationNeo3' })
   const { neoLegacyAccount } = useModalState<TLocationState>()
 
@@ -45,7 +49,7 @@ export const PrepareHardwareWalletMigrationNeo3Modal = () => {
         <p className="rounded-full bg-black px-6 py-2 text-center font-light text-gray-100">{t('title')}</p>
 
         <Stepper
-          className="mb-14 mt-4 w-full max-w-[460px]"
+          className="mt-4 mb-14 w-full max-w-[460px]"
           textClassName="w-16"
           currentStep={actionData.currentStep}
           steps={t('steps', { returnObjects: true })}
@@ -74,3 +78,5 @@ export const PrepareHardwareWalletMigrationNeo3Modal = () => {
     </CenterModalLayout>
   )
 }
+
+export default PrepareHardwareWalletMigrationNeo3Modal

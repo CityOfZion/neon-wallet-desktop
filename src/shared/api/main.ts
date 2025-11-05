@@ -1,5 +1,6 @@
-import { TMainApiListenersAsync, TMainApiListenersSync, TMainApiSend } from '@shared/@types/api'
 import { BrowserWindow, ipcMain } from 'electron'
+
+import { TMainApiListenersAsync, TMainApiListenersSync, TMainApiSend } from '@shared/@types/api'
 
 function listenSync<
   K extends keyof TMainApiListenersSync = keyof TMainApiListenersSync,

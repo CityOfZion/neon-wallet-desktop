@@ -1,4 +1,46 @@
 {
+  "root": {
+    "overTheAirManagerSetup": {
+      "downloading": "发现新版本。正在下载... <1>或在</1> <2>我们的 GitHub</2> 手动下载",
+      "downloaded": "新版本已下载。应用将重启以应用更新。",
+      "error": "下载更新时出错。请稍后重启应用重试。",
+      "installError": "无法安装更新。请检查应用权限并手动下载更新。"
+    },
+    "deeplinkManagerSetup": {
+      "pleaseLogin": "请登录以继续。"
+    }
+  },
+  "private": {
+    "deeplinkManagerSetup": {
+      "selectAccountModal": {
+        "title": "选择一个账户连接到 dapp。",
+        "selectSourceAccount": "选择账户"
+      }
+    },
+    "hardwareWalletManagerSetup": {
+      "requestingPermission": "请在您的 Ledger 设备上确认"
+    },
+    "accountTasksManagerSetup": {
+      "useFraudulentTokensNotificationProcess": {
+        "notificationTitle": "\"{{ value }}\" 是一个欺诈代币！",
+        "notificationDescription": "我们发现 \"{{ value }}\" 被社区标记为欺诈代币，建议将其隐藏，并避免与其进行任何其他交互。"
+      },
+      "useVotingNeo3NotificationProcess": {
+        "notificationTitle": "你正在错过免费的 GAS！",
+        "notificationDescription": "点击这里，立即投票"
+      },
+      "useMigrationNeoLegacyNotificationProcess": {
+        "notificationTitle": "您有可迁移的代币！",
+        "notificationDescription": "Neo Legacy 到 Neo N3 可迁移！"
+      }
+    },
+    "walletTasksManagerSetup": {
+      "useBackupReminderNotificationProcess": {
+        "notificationTitle": "创建新的备份文件！",
+        "notificationDescription": "我们建议在\"设置 > 安全 > 备份 NEON\"中创建新的备份文件以保护您的钱包。为了增强安全性，您还可以在\"钱包 > 三点（工具）> 导出\"中手动导出助记词，并在\"钱包 > 三点 > 导出密钥\"中导出私钥。"
+      }
+    }
+  },
   "welcome": {
     "title": "欢迎使用Neon钱包",
     "continue": "继续",
@@ -357,6 +399,14 @@
     "selectAccountToGenerateCode": "请选择账户以生成二维码！",
     "addressInputHint": "您的接收地址将在此显示...",
     "downloadQRCode": "下载二维码"
+  },
+  "login": {
+    "title": "欢迎使用Neon钱包",
+    "tabs": {
+      "password": "Neon账户",
+      "hardware": "硬件钱包",
+      "key": "地址或密钥"
+    }
   },
   "loginPassword": {
     "formContent": {

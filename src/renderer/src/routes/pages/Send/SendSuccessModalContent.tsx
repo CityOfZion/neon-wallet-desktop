@@ -1,11 +1,16 @@
 import { Fragment } from 'react'
+
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
-import TbEye from '@renderer/assets/images/tb-eye.svg?react'
-import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
+import { useNavigate } from 'react-router'
+
 import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'
+
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+
+import TbEye from '@renderer/assets/images/tb-eye.svg?react'
+import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
+
 import { TUseTransactionsTransfer } from '@shared/@types/hooks'
 import { IAccountState } from '@shared/@types/store'
 
@@ -22,11 +27,11 @@ export const SendSuccessModalContent = ({ transactions, selectedAccount }: TProp
   const { modalNavigate } = useModalNavigate()
 
   return (
-    <div className="flex min-h-0 w-full flex-grow flex-col items-center justify-between gap-8">
-      <div className="fle-grow mt-6 flex min-h-0 flex-col rounded bg-asphalt py-1.5">
-        <div className="flex min-h-0 w-full flex-grow flex-col overflow-auto px-4 py-1.5">
+    <div className="flex min-h-0 w-full grow flex-col items-center justify-between gap-8">
+      <div className="fle-grow bg-asphalt mt-6 flex min-h-0 flex-col rounded-sm py-1.5">
+        <div className="flex min-h-0 w-full grow flex-col overflow-auto px-4 py-1.5">
           <div className="flex items-center gap-2.5 text-sm text-white">
-            <TbReceipt aria-hidden={true} className="h-6 w-6 text-blue" />
+            <TbReceipt aria-hidden className="text-blue h-6 w-6" />
             <span>{t('detailsTitle')}</span>
           </div>
 
@@ -43,13 +48,13 @@ export const SendSuccessModalContent = ({ transactions, selectedAccount }: TProp
       </div>
 
       <Button
-        className="w-full max-w-[15.625rem]"
+        className="w-full max-w-62.5"
         label={t('viewStatusButtonLabel')}
         rightIcon={<TbEye />}
         iconsOnEdge={false}
         onClick={() => {
           modalNavigate(-1)
-          navigate(`/app/wallets/${selectedAccount.id}/transactions`)
+          navigate(`/wallets/${selectedAccount.id}/transactions`)
         }}
       />
     </div>

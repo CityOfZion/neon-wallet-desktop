@@ -1,19 +1,26 @@
 import { useEffect } from 'react'
+
 import { useTranslation } from 'react-i18next'
+
+import { Link } from '@renderer/components/Link'
+
+import { TestHelper } from '@renderer/helpers/TestHelper'
+
+import { useAppDispatch } from '@renderer/hooks/useRedux'
+
+import { WelcomeLayout } from '@renderer/layouts/Welcome'
+
 import GetAppImage from '@renderer/assets/images/get-app-image.svg?react'
 import LedgerLogo from '@renderer/assets/images/ledger-logo.svg?react'
 import NeonPageImage from '@renderer/assets/images/neon-page-image.svg?react'
 import TbArrowRight from '@renderer/assets/images/tb-arrow-right.svg?react'
 import WalletConnectLogo from '@renderer/assets/images/wallet-connect-logo.svg?react'
-import { Link } from '@renderer/components/Link'
-import { TestHelper } from '@renderer/helpers/TestHelper'
-import { useAppDispatch } from '@renderer/hooks/useRedux'
-import { WelcomeLayout } from '@renderer/layouts/Welcome'
-import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
+
+import { settingsReducerActions } from '@renderer/store/reducers/settings'
 
 import { WelcomeCard } from './WelcomeCard'
 
-export const WelcomePage = () => {
+const WelcomePage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'welcome' })
   const dispatch = useAppDispatch()
 
@@ -22,15 +29,15 @@ export const WelcomePage = () => {
   }, [dispatch])
 
   return (
-    <WelcomeLayout heading={t('title')} bigger className="relative">
-      <ul className="mt-14 flex flex-grow gap-x-12">
+    <WelcomeLayout heading={t('title')} className="relative max-w-none px-10">
+      <ul className="mt-14 flex grow gap-x-12">
         <li>
           <WelcomeCard image={<NeonPageImage />} title={t('card1.title')} description={t('card1.description')} />
         </li>
 
         <li>
           <WelcomeCard
-            image={<WalletConnectLogo aria-hidden={true} />}
+            image={<WalletConnectLogo aria-hidden />}
             title={t('card2.title')}
             description={t('card2.description')}
           />
@@ -47,15 +54,17 @@ export const WelcomePage = () => {
 
       <div className="flex gap-x-2.5">
         <Link
-          to="/login-password"
+          to="/login/password"
           label={t('continue')}
           variant="contained"
           className="mt-10 w-[230px]"
           iconsOnEdge={false}
-          rightIcon={<TbArrowRight aria-hidden={true} />}
+          rightIcon={<TbArrowRight aria-hidden />}
           {...TestHelper.buildTestObject('welcome-continue')}
         />
       </div>
     </WelcomeLayout>
   )
 }
+
+export default WelcomePage

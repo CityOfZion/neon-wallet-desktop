@@ -1,20 +1,12 @@
 import { ChangeEvent, useEffect, useRef } from 'react'
-import { Trans, useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
-import { BalanceResponse, TBridgeToken, TBridgeValidateValue, TBridgeValue } from '@cityofzion/blockchain-service'
+
+import { TBalanceResponse, TBridgeToken, TBridgeValidateValue, TBridgeValue } from '@cityofzion/blockchain-service'
 import { Neo3NeoXBridgeOrchestrator } from '@cityofzion/bs-multichain'
 import { BSNeo3 } from '@cityofzion/bs-neo3'
 import { BSNeoX } from '@cityofzion/bs-neox'
-import MdInfoOutline from '@renderer/assets/images/md-info-outline.svg?react'
-import MdRestartAlt from '@renderer/assets/images/md-restart-alt.svg?react'
-import TbArrowsSort from '@renderer/assets/images/tb-arrows-sort.svg?react'
-import TbCoin from '@renderer/assets/images/tb-coin.svg?react'
-import TbDiamond from '@renderer/assets/images/tb-diamond.svg?react'
-import TbLock from '@renderer/assets/images/tb-lock.svg?react'
-import TbReplace2 from '@renderer/assets/images/tb-replace-2.svg?react'
-import TbUsers from '@renderer/assets/images/tb-users.svg?react'
-import TbWallet from '@renderer/assets/images/tb-wallet.svg?react'
-import VscCircleFilled from '@renderer/assets/images/vsc-circle-filled.svg?react'
+import { Trans, useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router'
+
 import { ActionStep } from '@renderer/components/ActionStep'
 import { ActionStepSeparator } from '@renderer/components/ActionStepSeparator'
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
@@ -27,10 +19,11 @@ import { IconButton } from '@renderer/components/IconButton'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
 import { TransactionFeeActionStep } from '@renderer/components/TransactionFeeActionStep'
+
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
-import { NetworkHelper } from '@renderer/helpers/NetworkHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+
 import { useAccountMapSelector } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
@@ -39,7 +32,19 @@ import { useHardwareWalletActions } from '@renderer/hooks/useHardwareWallet'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useMountUnsafe } from '@renderer/hooks/useMount'
 import { useSelectedNetworkByBlockchainSelector } from '@renderer/hooks/useSettingsSelector'
-import { bsAggregator } from '@renderer/libs/blockchainService'
+
+import MdInfoOutline from '@renderer/assets/images/md-info-outline.svg?react'
+import MdRestartAlt from '@renderer/assets/images/md-restart-alt.svg?react'
+import TbArrowsSort from '@renderer/assets/images/tb-arrows-sort.svg?react'
+import TbCoin from '@renderer/assets/images/tb-coin.svg?react'
+import TbDiamond from '@renderer/assets/images/tb-diamond.svg?react'
+import TbLock from '@renderer/assets/images/tb-lock.svg?react'
+import TbReplace2 from '@renderer/assets/images/tb-replace-2.svg?react'
+import TbUsers from '@renderer/assets/images/tb-users.svg?react'
+import TbWallet from '@renderer/assets/images/tb-wallet.svg?react'
+import VscCircleFilled from '@renderer/assets/images/vsc-circle-filled.svg?react'
+
+import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { IAccountState, TContactAddress } from '@shared/@types/store'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
@@ -51,7 +56,7 @@ type TProps = {
 type TActionsData = {
   availableTokensToUse: TBridgeValue<TBridgeToken<TBlockchainServiceKey>[]>
   tokenToUse: TBridgeValue<TBridgeToken<TBlockchainServiceKey>>
-  tokenToUseBalance: TBridgeValue<BalanceResponse | undefined>
+  tokenToUseBalance: TBridgeValue<TBalanceResponse | undefined>
   accountToUse: TBridgeValue<IAccountState>
   amountToUse: TBridgeValidateValue<string>
   amountToUseMin: TBridgeValue<string>
@@ -317,12 +322,8 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
   })
 
   useEffect(() => {
-    if (
-      isGoingBack.current ||
-      (NetworkHelper.isMainnet('neo3', networkByBlockchain.neo3) &&
-        NetworkHelper.isMainnet('neox', networkByBlockchain.neox))
-    )
-      return
+    if (isGoingBack.current) return
+    if (networkByBlockchain.neo3.type === 'mainnet' && networkByBlockchain.neox.type === 'mainnet') return
 
     isGoingBack.current = true
 
@@ -336,10 +337,10 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
   }, [navigate, networkByBlockchain, t])
 
   return (
-    <section className="flex h-full w-full rounded bg-gray-800">
-      <div className="flex w-72 min-w-72 max-w-72 flex-col border-r border-gray-300/15 bg-gray-900/50 px-4 pb-6 pt-1">
+    <section className="flex h-full w-full rounded-sm bg-gray-800">
+      <div className="flex w-72 max-w-72 min-w-72 flex-col border-r border-gray-300/15 bg-gray-900/50 px-4 pt-1 pb-6">
         <div className="flex h-12 items-center gap-x-2">
-          <MdInfoOutline aria-hidden className="h-6 w-6 text-green" />
+          <MdInfoOutline aria-hidden className="text-green h-6 w-6" />
           <h2 className="text-sm text-white">{t('explanation.title')}</h2>
         </div>
 
@@ -347,7 +348,7 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
 
         <p className="mt-8 text-xs font-bold text-white">{t('explanation.description1')}</p>
         <p className="mt-6 text-xs text-white">{t('explanation.description2')}</p>
-        <p className="mt-6 flex-grow text-xs italic text-white">{t('explanation.description3')}</p>
+        <p className="mt-6 grow text-xs text-white italic">{t('explanation.description3')}</p>
         <Banner type="warningOrange" message={t('explanation.alert')} className="mt-12" textClassName="py-3" />
       </div>
 
@@ -367,9 +368,9 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
 
         <Separator />
 
-        <div className="flex min-h-0 w-full flex-grow flex-col items-center overflow-auto py-2">
-          <div className="mx-auto flex w-full max-w-[36rem] flex-col items-center px-4 pb-8 pt-2">
-            <div className="flex w-full flex-col items-center rounded bg-gray-700/60 px-4">
+        <div className="flex min-h-0 w-full grow flex-col items-center overflow-auto py-2">
+          <div className="mx-auto flex w-full max-w-xl flex-col items-center px-4 pt-2 pb-8">
+            <div className="flex w-full flex-col items-center rounded-sm bg-gray-700/60 px-4">
               <ActionStep
                 title={t('form.assetsStepTitle')}
                 leftIcon={<TbDiamond aria-hidden />}
@@ -399,7 +400,7 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
                   compacted
                   rounded
                   size="sm"
-                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
                   icon={<TbArrowsSort aria-hidden />}
                 />
 
@@ -421,7 +422,7 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
 
             <ActionStepSeparator />
 
-            <div className="mt-2 flex w-full flex-col items-center rounded bg-gray-700/60 px-4 pb-2">
+            <div className="mt-2 flex w-full flex-col items-center rounded-sm bg-gray-700/60 px-4 pb-2">
               <ActionStep
                 title={t('form.accountDetailsStepTitle')}
                 leftIcon={<TbWallet aria-hidden />}
@@ -448,12 +449,12 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
                 title={t('form.addressToReceiveStepTitle')}
                 leftIcon={<VscCircleFilled aria-hidden className="h-2 w-2 text-gray-300" />}
               >
-                <div className="flex flex-grow items-start gap-3">
+                <div className="flex grow items-start gap-3">
                   <Input
                     value={actionData.addressToReceive.value ?? ''}
                     onChange={handleChangeAddressToReceive}
                     compacted
-                    containerClassName="w-auto flex-grow"
+                    containerClassName="w-auto grow"
                     placeholder={t('form.addressToReceiveInputPlaceholder')}
                     disabled={isAddressesDisabled || !actionData.tokenToReceive.value}
                     clearable={false}
@@ -499,7 +500,7 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
 
             <ActionStepSeparator />
 
-            <div className="mt-2 flex w-full flex-col items-center rounded bg-gray-700/60 px-4">
+            <div className="mt-2 flex w-full flex-col items-center rounded-sm bg-gray-700/60 px-4">
               <ActionStep title={t('form.amountsStepTitle')} leftIcon={<TbCoin aria-hidden />} className="font-bold" />
 
               <Separator />
@@ -509,8 +510,8 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
                 leftIcon={<VscCircleFilled aria-hidden className="h-2 w-2 text-gray-300" />}
                 footer={
                   <div className="flex w-full justify-between">
-                    <span className="text-xs italic text-gray-200">{t('form.tokenToUseBalanceStepTitle')}</span>
-                    <span className="text-xs italic text-gray-100">
+                    <span className="text-xs text-gray-200 italic">{t('form.tokenToUseBalanceStepTitle')}</span>
+                    <span className="text-xs text-gray-100 italic">
                       {actionData.tokenToUseBalance.value?.amount ?? t('form.tokenToUseBalancePlaceholder')}
                     </span>
                   </div>

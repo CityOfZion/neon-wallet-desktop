@@ -1,9 +1,13 @@
 import { ChangeEvent } from 'react'
+
+import { BSKeychainHelper } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
-import { MnemonicHelper } from '@renderer/helpers/MnemonicHelper'
+
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+
 import { useAccountUtils } from '@renderer/hooks/useAccountSelector'
-import { bsAggregator } from '@renderer/libs/blockchainService'
+
+import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { TUseImportActionInputType } from '@shared/@types/hooks'
 
 import { useActions } from './useActions'
@@ -30,7 +34,7 @@ export const useImportAction = (
     useActions<TFormData>({ text: '' })
 
   const validateMnemonic = (value: string) => {
-    const isValid = MnemonicHelper.isValidMnemonic(value)
+    const isValid = BSKeychainHelper.isValidMnemonic(value)
 
     if (!isValid) throw new Error(t('errors.mnemonicIncomplete'))
   }
@@ -50,7 +54,7 @@ export const useImportAction = (
     try {
       const checkFunctionsByInputType: Record<TUseImportActionInputType, (value: string) => boolean> = {
         key: bsAggregator.validateKeyAllBlockchains.bind(bsAggregator),
-        mnemonic: MnemonicHelper.isMnemonic,
+        mnemonic: BSKeychainHelper.isMnemonic,
         encrypted: bsAggregator.validateEncryptedAllBlockchains.bind(bsAggregator),
         address: isValidAddress,
       }

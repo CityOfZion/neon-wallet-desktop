@@ -1,13 +1,18 @@
 import { useState } from 'react'
+
 import { useTranslation } from 'react-i18next'
-import MdOutlineSave from '@renderer/assets/images/md-outline-save.svg?react'
+
 import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
+
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+
 import { SettingsLayout } from '@renderer/layouts/Settings'
 
-export const SettingsBackupWallet = () => {
+import MdOutlineSave from '@renderer/assets/images/md-outline-save.svg?react'
+
+const SettingsBackupWallet = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'settings.settingsBackupWallet' })
   const { modalNavigateWrapper } = useModalNavigate()
 
@@ -22,11 +27,11 @@ export const SettingsBackupWallet = () => {
     <SettingsLayout title={t('title')}>
       <p className="mb-7 text-xs">{t('description')}</p>
 
-      <p className="mb-3.5 text-xs font-bold uppercase text-gray-100">{t('saveBackupLabel')}</p>
+      <p className="mb-3.5 text-xs font-bold text-gray-100 uppercase">{t('saveBackupLabel')}</p>
 
-      <div className="flex flex-grow flex-col gap-y-10">
+      <div className="flex grow flex-col gap-y-10">
         <div className="flex gap-2.5">
-          <Input value={selectedFilePath} compacted readOnly containerClassName="max-w-[17rem]" />
+          <Input value={selectedFilePath} compacted readOnly containerClassName="max-w-68" />
 
           <Button flat label={t('browse')} onClick={handlePathSelectionButton} className="w-36" />
         </div>
@@ -47,3 +52,5 @@ export const SettingsBackupWallet = () => {
     </SettingsLayout>
   )
 }
+
+export default SettingsBackupWallet

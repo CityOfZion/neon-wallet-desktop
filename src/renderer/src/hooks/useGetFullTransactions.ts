@@ -1,8 +1,13 @@
 import { useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
+
 import { hasExplorerService } from '@cityofzion/blockchain-service'
-import { bsAggregator } from '@renderer/libs/blockchainService'
-import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
+import { Query, QueryClient, useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
+import * as dateFns from 'date-fns'
+import { cloneDeep } from 'lodash'
+import { useTranslation } from 'react-i18next'
+
+import { bsAggregator } from '@renderer/libs/blockchain-service'
+import { TNetwork } from '@shared/@types/blockchain'
 import {
   TFullTransactionAssetEvent,
   TFullTransactionsByAddressResponse,
@@ -11,9 +16,6 @@ import {
 } from '@shared/@types/hooks'
 import { IAccountState, TSelectedNetworks } from '@shared/@types/store'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
-import { Query, QueryClient, useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
-import * as dateFns from 'date-fns'
-import { cloneDeep } from 'lodash'
 
 import { useAccountsSelector } from './useAccountSelector'
 import { useSelectedNetworkByBlockchainSelector } from './useSettingsSelector'
@@ -21,7 +23,7 @@ import { useHiddenTokensByBlockchainSelector, usePendingTransactionsSelector } f
 
 type TBuildGetFullTransactionsQueryKeyParams = {
   account: IAccountState
-  network: TNetwork<TBlockchainServiceKey>
+  network: TNetwork
   dateFrom?: Date
   dateTo?: Date
   page?: number

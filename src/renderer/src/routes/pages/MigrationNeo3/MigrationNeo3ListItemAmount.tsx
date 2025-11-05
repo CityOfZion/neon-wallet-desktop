@@ -11,7 +11,7 @@ export const MigrationNeo3ListItemAmount = ({ amount, symbol }: TProps) => {
   if (!amount) return null
 
   return (
-    <li className="text-right uppercase text-white">
+    <li className="text-right text-white uppercase">
       {amount} {symbol} <span className="text-gray-100">| {tBlockchain('neo3')}</span>
     </li>
   )

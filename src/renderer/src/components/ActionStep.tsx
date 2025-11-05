@@ -1,4 +1,5 @@
-import { cloneElement, ReactNode, useLayoutEffect, useRef, useState } from 'react'
+import { cloneElement, type JSX, ReactNode, useLayoutEffect, useRef, useState } from 'react'
+
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 type TProps = {
@@ -74,7 +75,7 @@ export const ActionStep = ({
           {typeof title === 'string' ? (
             <span
               ref={titleRef}
-              className={StyleHelper.mergeStyles('whitespace-nowrap text-sm text-white', titleClassName)}
+              className={StyleHelper.mergeStyles('text-sm whitespace-nowrap text-white', titleClassName)}
             >
               {title}
             </span>

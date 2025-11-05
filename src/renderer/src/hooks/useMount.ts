@@ -5,7 +5,7 @@ type TEffect = () => void | Promise<void> | (() => void | Promise<void>)
 export const useMount = (effect: TEffect, changingStateVars?: DependencyList, delay: number = 500) => {
   const [isMounting, setIsMounting] = useState(true)
 
-  const timeoutRef = useRef<NodeJS.Timeout>()
+  const timeoutRef = useRef<NodeJS.Timeout>(undefined)
 
   useEffect(() => {
     setIsMounting(true)
@@ -36,8 +36,8 @@ export const useMountUnsafe = (effect: TEffect, delay: number = 0) => {
   const [isMounting, setIsMounting] = useState(true)
 
   const numberOfRender = useRef(0)
-  const unmountEffectRef = useRef<ReturnType<TEffect>>()
-  const timeoutRef = useRef<NodeJS.Timeout>()
+  const unmountEffectRef = useRef<ReturnType<TEffect>>(undefined)
+  const timeoutRef = useRef<NodeJS.Timeout>(undefined)
 
   useEffect(() => {
     numberOfRender.current += 1

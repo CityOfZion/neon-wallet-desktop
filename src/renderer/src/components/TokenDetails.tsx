@@ -1,7 +1,11 @@
 import { ComponentProps } from 'react'
+
 import { useTranslation } from 'react-i18next'
+
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
+
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 
 type TProps = {
@@ -21,7 +25,7 @@ export const TokenDetails = ({ amount, blockchain, symbol, className, ...props }
         {blockchain && <span className="text-gray-100"> | {commonT(`blockchain.${blockchain}`)}</span>}
       </span>
 
-      {amount && <span className="flex-grow text-end">{amount}</span>}
+      {amount && <span className="grow text-end">{amount}</span>}
     </div>
   )
 }

@@ -1,4 +1,5 @@
 import * as RadioSwitch from '@radix-ui/react-switch'
+
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 type TProps = {
@@ -17,7 +18,7 @@ export const Switch = ({ label, name, checked, className, labelClassName, onChan
     <div className={StyleHelper.mergeStyles('flex items-center gap-x-1.5', className)}>
       <RadioSwitch.Root
         id={id}
-        className="relative box-content h-5 w-9 cursor-pointer rounded-full bg-asphalt px-0.5 shadow-lg data-[state=checked]:bg-green"
+        className="bg-asphalt data-[state=checked]:bg-green relative box-content h-5 w-9 cursor-pointer rounded-full px-0.5 shadow-lg"
         checked={checked}
         onCheckedChange={onChange}
       >
@@ -26,7 +27,7 @@ export const Switch = ({ label, name, checked, className, labelClassName, onChan
       <label
         htmlFor={id}
         className={StyleHelper.mergeStyles(
-          'cursor-pointer select-none text-xs font-normal text-gray-100',
+          'cursor-pointer text-xs font-normal text-gray-100 select-none',
           labelClassName
         )}
       >

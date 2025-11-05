@@ -1,20 +1,26 @@
 import { Fragment, useEffect, useMemo } from 'react'
+
+import { IBlockchainService, IBSWithClaim } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
-import { BlockchainService, BSClaimable } from '@cityofzion/blockchain-service'
-import TbTransform from '@renderer/assets/images/tb-transform.svg?react'
+import { match } from 'ts-pattern'
+
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { Button } from '@renderer/components/Button'
 import { Loader } from '@renderer/components/Loader'
+
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
+
 import { useBalance } from '@renderer/hooks/useBalances'
 import { useUnclaimed, useUnclaimedMutation } from '@renderer/hooks/useUnclaimed'
+
+import TbTransform from '@renderer/assets/images/tb-transform.svg?react'
+
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { IAccountState } from '@shared/@types/store'
-import { match } from 'ts-pattern'
 
 type TProps = {
   account: IAccountState
-  blockchainService: BlockchainService<TBlockchainServiceKey> & BSClaimable
+  blockchainService: IBlockchainService<TBlockchainServiceKey> & IBSWithClaim
 }
 
 export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
@@ -48,7 +54,7 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
   }, [t, unclaimedQuery.error])
 
   return (
-    <div className="mb-5 flex h-[55px] w-full items-center justify-center rounded bg-asphalt text-sm">
+    <div className="bg-asphalt mb-5 flex h-[55px] w-full items-center justify-center rounded-sm text-sm">
       {unclaimedQuery.isLoading || balance.isLoading ? (
         <Loader />
       ) : (
@@ -107,7 +113,7 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
             <Button
               label={t('buttonLabel')}
               className="w-28"
-              leftIcon={<TbTransform aria-hidden={true} />}
+              leftIcon={<TbTransform aria-hidden />}
               disabled={
                 !feeIsLessThanBalance ||
                 !feeIsLessThanUnclaimed ||

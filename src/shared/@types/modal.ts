@@ -1,10 +1,10 @@
-import { Dispatch, ReactNode, SetStateAction } from 'react'
+import { type ComponentType, Dispatch, ReactNode, SetStateAction } from 'react'
 
 export type TRouteType = 'side' | 'center'
 export type TRouterSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '1xl'
 
 export type TRoute = {
-  element: JSX.Element
+  element: ComponentType<any>
   name: string
   type: TRouteType
   size?: TRouterSize

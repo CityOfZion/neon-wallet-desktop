@@ -1,15 +1,18 @@
-import { useMemo } from 'react'
-import { BSNeo3, GetVoteDetailsByAddressResponse } from '@cityofzion/bs-neo3'
+import { useCallback, useMemo } from 'react'
+
+import { BSNeo3 } from '@cityofzion/bs-neo3'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
-import { NetworkHelper } from '@renderer/helpers/NetworkHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
+
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useSelectedNetworkByBlockchainSelector } from '@renderer/hooks/useSettingsSelector'
-import { bsAggregator } from '@renderer/libs/blockchainService'
+
+import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { TNetwork } from '@shared/@types/blockchain'
 import { TUseBalanceResult } from '@shared/@types/query'
 import { IAccountState } from '@shared/@types/store'
-import { useQueries, useQuery } from '@tanstack/react-query'
 
 type TCalculateVoteFeeParams = {
   neo3Account?: IAccountState
@@ -22,21 +25,19 @@ type TValidationsParams = {
 }
 
 type TBuildVoteNeo3GetCandidatesToVoteQueryKeyParams = {
-  neo3Network: TNetwork<'neo3'>
+  neo3Network: TNetwork
 }
 
 type TBuildVoteNeo3GetVoteDetailsByAddressQueryKeyParams = {
-  neo3Network: TNetwork<'neo3'>
+  neo3Network: TNetwork
   address?: string
 }
 
 type TBuildVoteNeo3CalculateVoteFeeQueryKeyParams = {
-  neo3Network: TNetwork<'neo3'>
+  neo3Network: TNetwork
   candidatePubKey: string
   neo3Account?: IAccountState
 }
-
-type TUseVoteNeo3GetVoteDetailsByAddressesParam = { address: string }
 
 const buildVoteNeo3GetCandidatesToVoteQueryKey = ({
   neo3Network,
@@ -76,7 +77,7 @@ export const useVoteNeo3GetCandidatesToVote = () => {
   return useQuery({
     queryKey: buildVoteNeo3GetCandidatesToVoteQueryKey({ neo3Network }),
     queryFn: () => blockchainService.voteService.getCandidatesToVote(),
-    enabled: NetworkHelper.isMainnet('neo3', neo3Network),
+    enabled: neo3Network.type === 'mainnet',
   })
 }
 
@@ -90,42 +91,32 @@ export const useVoteNeo3GetVoteDetailsByAddress = (address?: string) => {
   return useQuery({
     queryKey: buildVoteNeo3GetVoteDetailsByAddressQueryKey({ neo3Network, address }),
     queryFn: () => blockchainService.voteService.getVoteDetailsByAddress(address!),
-    enabled: !!address && NetworkHelper.isMainnet('neo3', neo3Network),
+    enabled: !!address && neo3Network.type === 'mainnet',
   })
 }
 
-export const useVoteNeo3GetVoteDetailsByAddresses = (addresses: TUseVoteNeo3GetVoteDetailsByAddressesParam[]) => {
-  const {
-    networkByBlockchain: { neo3: neo3Network },
-  } = useSelectedNetworkByBlockchainSelector()
+export const useLazyVoteNeo3GetVoteDetailsByAddress = () => {
+  const queryClient = useQueryClient()
+  const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
 
-  const blockchainService = bsAggregator.blockchainServicesByName.neo3 as BSNeo3
+  const getVoteDetails = useCallback(
+    async (address: string) => {
+      const neo3Network = networkByBlockchain.neo3
+      if (neo3Network.type !== 'mainnet') return
 
-  return useQueries({
-    queries: addresses.map(({ address }) => ({
-      queryKey: buildVoteNeo3GetVoteDetailsByAddressQueryKey({ neo3Network, address }),
-      queryFn: () => blockchainService.voteService.getVoteDetailsByAddress(address),
-      enabled: NetworkHelper.isMainnet('neo3', neo3Network),
-    })),
-    combine: results => {
-      const isLoading = results.some(result => result.isLoading)
-      const data: GetVoteDetailsByAddressResponse[] = []
+      const blockchainService = bsAggregator.blockchainServicesByName.neo3 as BSNeo3
 
-      if (!isLoading) {
-        results.forEach(result => {
-          if (!result.data) {
-            return
-          }
-          data.push(result.data)
-        })
-      }
+      const data = await queryClient.ensureQueryData({
+        queryKey: buildVoteNeo3GetVoteDetailsByAddressQueryKey({ neo3Network, address }),
+        queryFn: () => blockchainService.voteService.getVoteDetailsByAddress(address),
+      })
 
-      return {
-        isLoading,
-        data,
-      }
+      return data
     },
-  })
+    [networkByBlockchain, queryClient]
+  )
+
+  return { getVoteDetails }
 }
 
 export const useVoteNeo3CalculateVoteFee = ({ neo3Account, candidatePubKey }: TCalculateVoteFeeParams) => {
@@ -149,8 +140,7 @@ export const useVoteNeo3CalculateVoteFee = ({ neo3Account, candidatePubKey }: TC
 
       return await blockchainService.voteService.calculateVoteFee({ account, candidatePubKey })
     },
-    enabled:
-      neo3Account && neo3Account.type !== 'watch' && !!candidatePubKey && NetworkHelper.isMainnet('neo3', neo3Network),
+    enabled: neo3Account && neo3Account.type !== 'watch' && !!candidatePubKey && neo3Network.type === 'mainnet',
     staleTime: 0,
     gcTime: 0,
   })

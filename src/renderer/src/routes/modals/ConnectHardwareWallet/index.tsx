@@ -1,18 +1,22 @@
 import { useTranslation } from 'react-i18next'
-import { useLocation, useNavigate } from 'react-router-dom'
-import NeonWalletFullImage from '@renderer/assets/images/neon-wallet-full.svg?react'
-import TbDeviceUsb from '@renderer/assets/images/tb-device-usb.svg?react'
-import TbX from '@renderer/assets/images/tb-x.svg?react'
+import { useLocation, useNavigate } from 'react-router'
+
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { AlertSuccessBanner } from '@renderer/components/AlertSuccessBanner'
 import { Button } from '@renderer/components/Button'
 import { SearchingLoader } from '@renderer/components/SearchingLoader'
+
 import { useHardwareWalletActions, useHardwareWalletByUsb } from '@renderer/hooks/useHardwareWallet'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useMountUnsafe } from '@renderer/hooks/useMount'
+
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
 
-export const ConnectHardwareWalletModal = () => {
+import NeonWalletFullImage from '@renderer/assets/images/neon-wallet-full.svg?react'
+import TbDeviceUsb from '@renderer/assets/images/tb-device-usb.svg?react'
+import TbX from '@renderer/assets/images/tb-x.svg?react'
+
+const ConnectHardwareWalletModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'connectHardwareWallet' })
   const navigate = useNavigate()
   const { modalErase } = useModalNavigate()
@@ -26,7 +30,7 @@ export const ConnectHardwareWalletModal = () => {
 
     const [firstAccount] = await createHardwareWallet(accounts)
 
-    if (pathname.startsWith('/app/wallets/')) navigate(`/app/wallets/${firstAccount.id}/overview`)
+    if (pathname.startsWith('/wallets/')) navigate(`/wallets/${firstAccount.id}/overview`)
 
     modalErase('center')
   }
@@ -38,7 +42,7 @@ export const ConnectHardwareWalletModal = () => {
   return (
     <CenterModalLayout contentClassName="flex flex-col items-center justify-between">
       <div className="flex flex-col items-center">
-        <NeonWalletFullImage aria-hidden={true} />
+        <NeonWalletFullImage aria-hidden />
 
         <p className="mt-12 text-center text-2xl text-white">{t('title')}</p>
 
@@ -51,7 +55,7 @@ export const ConnectHardwareWalletModal = () => {
         <AlertErrorBanner
           className="py-5s gap-2.5 text-sm"
           message={t('notConnectedMessage')}
-          icon={<TbX aria-hidden={true} />}
+          icon={<TbX aria-hidden />}
         />
       )}
 
@@ -59,7 +63,7 @@ export const ConnectHardwareWalletModal = () => {
         <AlertSuccessBanner
           className="gap-2.5 py-5 text-sm"
           message={t('connectedMessage')}
-          icon={<TbDeviceUsb aria-hidden={true} className="rotate-45" />}
+          icon={<TbDeviceUsb aria-hidden className="rotate-45" />}
         />
       )}
 
@@ -72,3 +76,5 @@ export const ConnectHardwareWalletModal = () => {
     </CenterModalLayout>
   )
 }
+
+export default ConnectHardwareWalletModal

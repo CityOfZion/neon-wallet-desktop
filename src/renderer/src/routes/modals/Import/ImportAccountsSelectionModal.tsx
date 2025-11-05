@@ -1,25 +1,31 @@
 import { useState } from 'react'
+
+import { BSKeychainHelper } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
-import TbFileImport from '@renderer/assets/images/tb-file-import.svg?react'
+import { useNavigate } from 'react-router'
+
 import { Button } from '@renderer/components/Button'
 import {
   MnemonicOrKeyAccountSelection,
   TMnemonicOrKeyAccountWithBlockchain,
 } from '@renderer/components/MnemonicOrKeyAccountSelection'
-import { MnemonicHelper } from '@renderer/helpers/MnemonicHelper'
+
 import { useAccountUtils } from '@renderer/hooks/useAccountSelector'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useLoadingActions } from '@renderer/hooks/useLoadingActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
+
 import { SideModalLayout } from '@renderer/layouts/SideModal'
+
+import TbFileImport from '@renderer/assets/images/tb-file-import.svg?react'
+
 import { TAccountsToImport } from '@shared/@types/blockchain'
 
 type TLocation = {
   mnemonicOrKey: string
 }
 
-export const ImportAccountsSelectionModal = () => {
+const ImportAccountsSelectionModal = () => {
   const { mnemonicOrKey } = useModalState<TLocation>()
   const blockchainActions = useBlockchainActions()
   const { t: commonT } = useTranslation('common')
@@ -31,7 +37,7 @@ export const ImportAccountsSelectionModal = () => {
   const [selectedAccounts, setSelectedAccounts] = useState<TMnemonicOrKeyAccountWithBlockchain[]>([])
 
   const { handleAct, isActing } = useLoadingActions(async () => {
-    const isMnemonic = MnemonicHelper.isValidMnemonic(mnemonicOrKey)
+    const isMnemonic = BSKeychainHelper.isValidMnemonic(mnemonicOrKey)
 
     const wallet = blockchainActions.createWallet({
       name: isMnemonic ? commonT('wallet.mnemonicWalletName') : commonT('wallet.importedName'),
@@ -51,19 +57,19 @@ export const ImportAccountsSelectionModal = () => {
     })
 
     modalNavigate(-2)
-    navigate(`/app/wallets/${accounts[0].id}/overview`)
+    navigate(`/wallets/${accounts[0].id}/overview`)
   })
 
   return (
     <SideModalLayout
       heading={t('title')}
-      headingIcon={<TbFileImport aria-hidden={true} />}
+      headingIcon={<TbFileImport aria-hidden />}
       contentClassName="flex flex-col min-h-0"
     >
       <p className="text-center text-sm">{t('description')}</p>
 
       <MnemonicOrKeyAccountSelection
-        className="mb-3 mt-6 flex-grow"
+        className="mt-6 mb-3 grow"
         mnemonicOrKey={mnemonicOrKey}
         selectedAccounts={selectedAccounts}
         onSelect={setSelectedAccounts}
@@ -75,7 +81,7 @@ export const ImportAccountsSelectionModal = () => {
         type="button"
         onClick={handleAct}
         label={t('importButtonLabel')}
-        leftIcon={<TbFileImport aria-hidden={true} />}
+        leftIcon={<TbFileImport aria-hidden />}
         loading={isActing}
         disabled={selectedAccounts.length === 0}
         flat
@@ -83,3 +89,5 @@ export const ImportAccountsSelectionModal = () => {
     </SideModalLayout>
   )
 }
+
+export default ImportAccountsSelectionModal

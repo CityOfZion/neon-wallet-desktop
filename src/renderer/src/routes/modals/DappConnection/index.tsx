@@ -1,16 +1,23 @@
 import { ChangeEvent, useEffect } from 'react'
-import { Trans, useTranslation } from 'react-i18next'
+
 import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
+import { Trans, useTranslation } from 'react-i18next'
+
+import { Button } from '@renderer/components/Button'
+import { Input } from '@renderer/components/Input'
+
+import { ToastHelper } from '@renderer/helpers/ToastHelper'
+import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
+
+import { useActions } from '@renderer/hooks/useActions'
+import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
+
+import { CenterModalLayout } from '@renderer/layouts/CenterModal'
+
 import NeonWalletLogo from '@renderer/assets/images/neon-wallet-full.svg?react'
 import TbLink from '@renderer/assets/images/tb-link.svg?react'
 import WalletConnectLogo from '@renderer/assets/images/wallet-connect.svg?react'
-import { Button } from '@renderer/components/Button'
-import { Input } from '@renderer/components/Input'
-import { ToastHelper } from '@renderer/helpers/ToastHelper'
-import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
-import { useActions } from '@renderer/hooks/useActions'
-import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
-import { CenterModalLayout } from '@renderer/layouts/CenterModal'
+
 import { IAccountState } from '@shared/@types/store'
 
 type TFormData = {
@@ -23,7 +30,7 @@ type TLocationState = {
   uri?: string
 }
 
-export const DappConnectionModal = () => {
+const DappConnectionModal = () => {
   const { connect, proposals } = useWalletConnectWallet()
   const { modalNavigate } = useModalNavigate()
   const { t } = useTranslation('modals', { keyPrefix: 'dappConnection' })
@@ -63,9 +70,9 @@ export const DappConnectionModal = () => {
   return (
     <CenterModalLayout contentClassName="flex flex-col">
       <div className="flex w-full items-center gap-x-12">
-        <NeonWalletLogo aria-hidden={true} className="h-min w-full" />
+        <NeonWalletLogo aria-hidden className="h-min w-full" />
 
-        <WalletConnectLogo aria-hidden={true} className="h-min w-full opacity-60" />
+        <WalletConnectLogo aria-hidden className="h-min w-full opacity-60" />
       </div>
 
       <div>
@@ -76,11 +83,11 @@ export const DappConnectionModal = () => {
             <Trans t={t} i18nKey="description" />
           </p>
 
-          <p className="mt-2 text-xs italic leading-5 text-blue">{t('disclaimer')}</p>
+          <p className="text-blue mt-2 text-xs leading-5 italic">{t('disclaimer')}</p>
         </div>
       </div>
 
-      <form className="mt-6 flex flex-grow flex-col items-center justify-between" onSubmit={handleAct(handleSubmit)}>
+      <form className="mt-6 flex grow flex-col items-center justify-between" onSubmit={handleAct(handleSubmit)}>
         <Input
           placeholder={t('inputPlaceholder')}
           clearable
@@ -92,10 +99,12 @@ export const DappConnectionModal = () => {
         <Button
           label={t('buttonConnectLabel')}
           leftIcon={<TbLink />}
-          className="w-full max-w-[15.625rem]"
+          className="w-full max-w-62.5"
           loading={actionState.isActing || actionData.isConnecting}
         />
       </form>
     </CenterModalLayout>
   )
 }
+
+export default DappConnectionModal

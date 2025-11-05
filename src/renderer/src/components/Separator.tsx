@@ -1,4 +1,5 @@
 import { ComponentProps } from 'react'
+
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 type TProps = ComponentProps<'div'> & {
@@ -18,15 +19,9 @@ export const Separator = ({ className, containerClassName, type = 'horizontal', 
       )}
     >
       {type === 'horizontal' ? (
-        <div
-          className={StyleHelper.mergeStyles('h-px min-h-[0.0625rem] w-full bg-gray-300/15', className)}
-          {...props}
-        />
+        <div className={StyleHelper.mergeStyles('h-px min-h-0.25 w-full bg-gray-300/15', className)} {...props} />
       ) : (
-        <div
-          className={StyleHelper.mergeStyles('h-full w-px min-w-[0.0625rem] bg-gray-300/15', className)}
-          {...props}
-        />
+        <div className={StyleHelper.mergeStyles('h-full w-px min-w-0.25 bg-gray-300/15', className)} {...props} />
       )}
     </div>
   )

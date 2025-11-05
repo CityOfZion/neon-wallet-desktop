@@ -1,17 +1,23 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
+
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
-import MdAdd from '@renderer/assets/images/md-add.svg?react'
-import TbEyePlus from '@renderer/assets/images/tb-eye-plus.svg?react'
+import { useNavigate } from 'react-router'
+
 import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
+
 import { useAccountUtils } from '@renderer/hooks/useAccountSelector'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
+
 import { SideModalLayout } from '@renderer/layouts/SideModal'
-import { bsAggregator } from '@renderer/libs/blockchainService'
+
+import MdAdd from '@renderer/assets/images/md-add.svg?react'
+import TbEyePlus from '@renderer/assets/images/tb-eye-plus.svg?react'
+
+import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { TAccountsToImport, TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { IWalletState } from '@shared/@types/store'
 
@@ -28,7 +34,7 @@ type TValidatedAddress = {
   blockchain: TBlockchainServiceKey
 }
 
-export const ImportWatchAccountsModal = () => {
+const ImportWatchAccountsModal = () => {
   const { modalNavigate } = useModalNavigate()
   const blockchainActions = useBlockchainActions()
   const { t } = useTranslation('modals', { keyPrefix: 'importWatchAccounts' })
@@ -65,7 +71,7 @@ export const ImportWatchAccountsModal = () => {
       if (onAddWallet) onAddWallet(wallet)
       else {
         modalNavigate(-2)
-        navigate(`/app/wallets/${accounts[0].id}/overview`)
+        navigate(`/wallets/${accounts[0].id}/overview`)
       }
     } catch (error: any) {
       setError(error.message)
@@ -120,26 +126,22 @@ export const ImportWatchAccountsModal = () => {
   }, [addressModalState])
 
   return (
-    <SideModalLayout
-      heading={t('title')}
-      headingIcon={<TbEyePlus aria-hidden={true} />}
-      contentClassName="flex flex-col"
-    >
+    <SideModalLayout heading={t('title')} headingIcon={<TbEyePlus aria-hidden />} contentClassName="flex flex-col">
       <p className="text-xs">{t('description')}</p>
 
-      <form className="mt-6 flex min-h-0 flex-grow flex-col" onSubmit={handleSubmit}>
+      <form className="mt-6 flex min-h-0 grow flex-col" onSubmit={handleSubmit}>
         <Input value={address} onChange={handleChange} placeholder={t('inputPlaceholder')} errorMessage={error} />
 
         <Banner className="mt-5" message={t('information')} type="info" />
 
-        <div className="flex min-h-0 flex-grow flex-col">
+        <div className="flex min-h-0 grow flex-col">
           <Separator className="mt-6" />
 
           <p className="mt-6 text-xs">{t('willBeAdded')}</p>
 
-          <ul className="mt-5 flex min-h-0 flex-grow flex-col gap-2 overflow-auto">
+          <ul className="mt-5 flex min-h-0 grow flex-col gap-2 overflow-auto">
             {validatedAddresses.map((validatedAddress, index) => (
-              <li className="rounded-md bg-asphalt" key={index}>
+              <li className="bg-asphalt rounded-md" key={index}>
                 <div className="flex overflow-hidden p-4">
                   <BlockchainIcon
                     blockchain={validatedAddress.blockchain}
@@ -149,7 +151,7 @@ export const ImportWatchAccountsModal = () => {
 
                   <p className="ml-4 text-xs capitalize">{validatedAddress.blockchain}</p>
                 </div>
-                <Separator className="w-9/10 mx-4" />
+                <Separator className="mx-4 w-9/10" />
                 <p className="p-4 pt-3 text-xs">{validatedAddress.abbreviatedAddress}</p>
               </li>
             ))}
@@ -160,7 +162,7 @@ export const ImportWatchAccountsModal = () => {
               className="mt-8 w-full px-5"
               type="submit"
               label={t('buttonAdd')}
-              leftIcon={<MdAdd aria-hidden={true} />}
+              leftIcon={<MdAdd aria-hidden />}
               disabled={validatedAddresses.length === 0}
               loading={isLoading}
               flat
@@ -171,3 +173,5 @@ export const ImportWatchAccountsModal = () => {
     </SideModalLayout>
   )
 }
+
+export default ImportWatchAccountsModal

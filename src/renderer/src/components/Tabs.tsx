@@ -1,5 +1,7 @@
 import { ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react'
+
 import * as TabsPrimitive from '@radix-ui/react-tabs'
+
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 const Root = TabsPrimitive.Root
@@ -23,7 +25,7 @@ const Trigger = forwardRef<
   <TabsPrimitive.Trigger
     ref={ref}
     className={StyleHelper.mergeStyles(
-      'h-full justify-center whitespace-nowrap border-b-2 border-transparent px-4 py-3 text-1xs uppercase transition-all focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 data-[state=active]:border-white data-[state=active]:text-white',
+      'text-1xs h-full justify-center border-b-2 border-transparent px-4 py-3 whitespace-nowrap uppercase transition-all focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50 data-[state=active]:border-white data-[state=active]:text-white',
       className
     )}
     {...props}
@@ -37,7 +39,7 @@ const Content = forwardRef<
   <TabsPrimitive.Content
     ref={ref}
     className={StyleHelper.mergeStyles(
-      'ring-offset-background focus-visible:ring-ring mt-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
+      'ring-offset-background focus-visible:ring-ring mt-2 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-hidden',
       className
     )}
     {...props}

@@ -1,8 +1,13 @@
 import { Fragment } from 'react'
+
 import { useTranslation } from 'react-i18next'
+
 import { Loader } from '@renderer/components/Loader'
+
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+
 import { usePriceHistory } from '@renderer/hooks/usePriceHistory'
+
 import { TTokenBalance } from '@shared/@types/query'
 
 import { ChartCard } from './ChartCard'

@@ -1,17 +1,21 @@
+import * as dateFns from 'date-fns'
 import { useTranslation } from 'react-i18next'
-import MdDateRange from '@renderer/assets/images/md-date-range.svg?react'
-import TbChevronRight from '@renderer/assets/images/tb-chevron-right.svg?react'
-import TbFileExport from '@renderer/assets/images/tb-file-export.svg?react'
-import TbPackages from '@renderer/assets/images/tb-packages.svg?react'
-import TbWallet from '@renderer/assets/images/tb-wallet.svg?react'
+
 import { ActionStep } from '@renderer/components/ActionStep'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { Button } from '@renderer/components/Button'
 import { DatePicker } from '@renderer/components/DatePicker'
 import { Separator } from '@renderer/components/Separator'
+
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+
+import MdDateRange from '@renderer/assets/images/md-date-range.svg?react'
+import TbChevronRight from '@renderer/assets/images/tb-chevron-right.svg?react'
+import TbFileExport from '@renderer/assets/images/tb-file-export.svg?react'
+import TbPackages from '@renderer/assets/images/tb-packages.svg?react'
+import TbWallet from '@renderer/assets/images/tb-wallet.svg?react'
+
 import { IAccountState } from '@shared/@types/store'
-import * as dateFns from 'date-fns'
 
 type TProps = {
   account?: IAccountState
@@ -43,8 +47,8 @@ export const ExportFullTransactionInfo = ({
 
   return (
     <div className="relative mt-2 flex w-full flex-col gap-3">
-      <div className="w-full rounded bg-gray-800">
-        <div className="flex w-full flex-col items-center rounded bg-gray-700/60 px-3.5">
+      <div className="w-full rounded-sm bg-gray-800">
+        <div className="flex w-full flex-col items-center rounded-sm bg-gray-700/60 px-3.5">
           <ActionStep
             title={
               readOnly ? (
@@ -75,7 +79,7 @@ export const ExportFullTransactionInfo = ({
             leftIconContainerClassName="h-5 w-5"
           >
             {account && (
-              <span className="whitespace-nowrap text-xs text-gray-100">
+              <span className="text-xs whitespace-nowrap text-gray-100">
                 {commonT(`blockchain.${account.blockchain}`)}
               </span>
             )}
@@ -109,7 +113,7 @@ export const ExportFullTransactionInfo = ({
                   </DatePicker.Root>
                 )}
 
-                <TbChevronRight className="h-4 w-4 text-blue" aria-hidden />
+                <TbChevronRight className="text-blue h-4 w-4" aria-hidden />
 
                 {readOnly ? (
                   <p className="px-2 text-xs text-white">{formattedDateTo}</p>

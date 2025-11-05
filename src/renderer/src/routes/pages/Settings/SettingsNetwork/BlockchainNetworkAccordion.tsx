@@ -1,10 +1,13 @@
 import { useTranslation } from 'react-i18next'
+
 import { Accordion } from '@renderer/components/Accordion'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
-import { DEFAULT_NETWORK_PROFILE } from '@renderer/constants/networks'
-import { NetworkHelper } from '@renderer/helpers/NetworkHelper'
+
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useSelectedNetworkProfileSelector, useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
+
+import { DEFAULT_NETWORK_PROFILE_ID } from '@renderer/constants/networks'
+import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 
 import { BlockchainNetworkButton } from './BlockchainNetworkButton'
@@ -20,7 +23,9 @@ export const BlockchainNetworkAccordion = ({ blockchain }: TProps) => {
   const { network } = useSelectedNetworkSelector(blockchain)
   const { selectedNetworkProfile } = useSelectedNetworkProfileSelector()
 
-  const isDefaultSelected = selectedNetworkProfile.id === DEFAULT_NETWORK_PROFILE.id
+  const isDefaultSelected = selectedNetworkProfile.id === DEFAULT_NETWORK_PROFILE_ID
+
+  const service = bsAggregator.blockchainServicesByName[blockchain]
 
   return (
     <Accordion.Item value={blockchain}>
@@ -37,11 +42,7 @@ export const BlockchainNetworkAccordion = ({ blockchain }: TProps) => {
         <BlockchainNetworkButton
           label={t('currentNetwork')}
           subLabel={network.name}
-          onClick={modalNavigateWrapper('network-selection', {
-            state: {
-              blockchain,
-            },
-          })}
+          onClick={modalNavigateWrapper('network-selection', { state: { blockchain } })}
           disabled={isDefaultSelected}
         />
 
@@ -49,12 +50,8 @@ export const BlockchainNetworkAccordion = ({ blockchain }: TProps) => {
           className="border-none"
           label={t('nodeSelection')}
           subLabel={network.url}
-          onClick={modalNavigateWrapper('network-node-selection', {
-            state: {
-              blockchain,
-            },
-          })}
-          disabled={NetworkHelper.isCustom(blockchain, network)}
+          onClick={modalNavigateWrapper('network-node-selection', { state: { blockchain } })}
+          disabled={service.availableNetworkURLs.length <= 1}
         />
       </Accordion.Content>
     </Accordion.Item>

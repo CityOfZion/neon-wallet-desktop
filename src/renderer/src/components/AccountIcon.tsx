@@ -1,4 +1,5 @@
 import { cloneElement } from 'react'
+
 import { ACCOUNT_COLOR_SKINS, ACCOUNT_LOCAL_SKINS } from '@renderer/constants/skins'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { IAccountState, TNftSkin } from '@shared/@types/store'
@@ -14,7 +15,7 @@ type TAccountBlockchainCircleProps = {
 
 const AccountBlockchainCircle = ({ blockchain }: TAccountBlockchainCircleProps) => (
   <div className="relative flex h-4.5 w-4.5 items-center justify-center">
-    <div className="absolute h-full w-full rounded-full bg-asphalt mix-blend-overlay" />
+    <div className="bg-asphalt absolute h-full w-full rounded-full mix-blend-overlay" />
 
     <BlockchainIcon blockchain={blockchain} type="white" className="h-2.5 w-2.5" />
   </div>
@@ -39,7 +40,7 @@ const AccountIconNFT = ({ account }: TProps) => {
 
   return (
     <div className="relative flex h-full w-full items-center justify-center bg-gray-300/30">
-      <img aria-hidden={true} src={imgUrl} alt="" className="absolute inset-0 m-auto h-full w-full object-cover" />
+      <img aria-hidden src={imgUrl} alt="" className="absolute inset-0 m-auto h-full w-full object-cover" />
 
       <AccountBlockchainCircle blockchain={account.blockchain} />
     </div>
@@ -47,8 +48,7 @@ const AccountIconNFT = ({ account }: TProps) => {
 }
 
 const AccountIconLocal = ({ account }: TProps) => {
-  const component = ACCOUNT_LOCAL_SKINS.find(({ id }) => id === account.skin.id)?.component
-
+  const component = ACCOUNT_LOCAL_SKINS.get(account.skin.id)?.component
   if (!component) return null
 
   return (
@@ -65,7 +65,7 @@ const AccountIconLocal = ({ account }: TProps) => {
 
 export const AccountIcon = ({ account }: TProps) => {
   return (
-    <div className="h-6 max-h-6 min-h-6 w-10 min-w-10 overflow-hidden rounded-sm shadow-sm">
+    <div className="h-6 max-h-6 min-h-6 w-10 min-w-10 overflow-hidden rounded-xs shadow-xs">
       {account.skin.type === 'nft' ? (
         <AccountIconNFT account={account} />
       ) : account.skin.type === 'local' ? (

@@ -1,10 +1,13 @@
-import { useTranslation } from 'react-i18next'
 import { tx } from '@cityofzion/neon-core'
 import { Signer as ContractSigner, TSession } from '@cityofzion/wallet-connect-sdk-wallet-react'
+import { useTranslation } from 'react-i18next'
+
+import { IconButton } from '@renderer/components/IconButton'
+
+import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+
 import MdChevronRight from '@renderer/assets/images/md-chevron-right.svg?react'
 import TbCube3dSphere from '@renderer/assets/images/tb-cube-3d-sphere.svg?react'
-import { IconButton } from '@renderer/components/IconButton'
-import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 
 type TProps = {
   signer: ContractSigner
@@ -41,7 +44,7 @@ export const Signer = ({ signer, session }: TProps) => {
   return (
     <div className="flex items-center justify-between text-gray-100">
       <div className="flex items-center gap-2.5">
-        <TbCube3dSphere aria-hidden={true} className="h-6 w-6" />
+        <TbCube3dSphere aria-hidden className="h-6 w-6" />
         <p className="text-white">{t('signatureScopeTitle')}</p>
       </div>
 

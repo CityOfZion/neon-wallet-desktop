@@ -1,11 +1,15 @@
 import React from 'react'
+
 import { useTranslation } from 'react-i18next'
+
 import { Link } from '@renderer/components/Link'
 import { SuccessIcon } from '@renderer/components/SuccessIcon'
+
 import { TestHelper } from '@renderer/helpers/TestHelper'
+
 import { WelcomeLayout } from '@renderer/layouts/Welcome'
 
-export const ForgottenPasswordSuccessPage: React.FC = () => {
+const ForgottenPasswordSuccessPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'forgottenPasswordSuccess' })
 
   return (
@@ -14,10 +18,10 @@ export const ForgottenPasswordSuccessPage: React.FC = () => {
         <SuccessIcon />
 
         <p className="text-xl text-white">{t('text')}</p>
-        <p className="flex-grow text-sm text-gray-300">{t('description')}</p>
+        <p className="grow text-sm text-gray-300">{t('description')}</p>
 
         <Link
-          to="/login-password"
+          to="/login/password"
           label={t('goToWelcome')}
           colorSchema="neon"
           variant="contained"
@@ -28,3 +32,5 @@ export const ForgottenPasswordSuccessPage: React.FC = () => {
     </WelcomeLayout>
   )
 }
+
+export default ForgottenPasswordSuccessPage

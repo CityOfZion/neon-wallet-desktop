@@ -1,4 +1,46 @@
 {
+  "root": {
+    "overTheAirManagerSetup": {
+      "downloading": "New version found. Downloading... <1>Or download it manually on</1> <2>our GitHub</2>",
+      "downloaded": "New version downloaded. The app will restart to apply update.",
+      "error": "Error downloading update. Please try again later restarting the app.",
+      "installError": "It was not possible to install the update. Please verify the app permissions and download the update manually."
+    },
+    "deeplinkManagerSetup": {
+      "pleaseLogin": "Please login to continue."
+    }
+  },
+  "private": {
+    "deeplinkManagerSetup": {
+      "selectAccountModal": {
+        "title": "Select an account to connect to the dapp.",
+        "selectSourceAccount": "Select account"
+      }
+    },
+    "hardwareWalletManagerSetup": {
+      "requestingPermission": "Please confirm on your Ledger device"
+    },
+    "accountTasksManagerSetup": {
+      "useFraudulentTokensNotificationProcess": {
+        "notificationTitle": "\"{{ value }}\" is a fraudulent token!",
+        "notificationDescription": "We've identified \"{{ value }}\" that has been flagged as fraudulent token by the community, we suggest hiding it and avoiding any other kind of interaction with it."
+      },
+      "useVotingNeo3NotificationProcess": {
+        "notificationTitle": "You're missing out on free GAS!",
+        "notificationDescription": "Simply tap here and cast your vote today"
+      },
+      "useMigrationNeoLegacyNotificationProcess": {
+        "notificationTitle": "You have tokens available to migrate!",
+        "notificationDescription": "Neo Legacy to Neo N3 migration available!"
+      }
+    },
+    "walletTasksManagerSetup": {
+      "useBackupReminderNotificationProcess": {
+        "notificationTitle": "Create a new backup file!",
+        "notificationDescription": "We recommend creating a new backup file in \"Settings > Security > Backup NEON\" to protect your wallets. For additional security, you can also export manually your mnemonics in \"Wallets > 3 dots (Tools) > Export\" and private keys in \"Wallets > 3 dots > Export key\"."
+      }
+    }
+  },
   "welcome": {
     "title": "Welcome to Neon Wallet",
     "continue": "Continue",
@@ -20,7 +62,11 @@
     },
     "securitySetup": {
       "title": "Securing your new wallet",
-      "steps": ["Create Password", "Confirm Password", "Complete"],
+      "steps": [
+        "Create Password",
+        "Confirm Password",
+        "Complete"
+      ],
       "step1": {
         "formTitle": "Please create a password to secure your wallet",
         "passwordPlaceholder": "Create a password...",
@@ -38,7 +84,13 @@
     },
     "importWallet": {
       "title": "Import a wallet",
-      "steps": ["Create Password", "Confirm Password", "Add details or locate file", "Import", "Complete"],
+      "steps": [
+        "Create Password",
+        "Confirm Password",
+        "Add details or locate file",
+        "Import",
+        "Complete"
+      ],
       "migrationLabel": "Locate your migration file",
       "step3": {
         "formTitle": "Enter an address, encrypted key, private key, mnemonic or locate backup file",
@@ -357,6 +409,14 @@
     "selectAccountToGenerateCode": "Select an account to generate a code!",
     "addressInputHint": "Your receiving address will be here...",
     "downloadQRCode": "Download QR Code"
+  },
+  "login": {
+    "title": "Welcome to Neon Wallet",
+    "tabs": {
+      "password": "Neon Account",
+      "hardware": "Hardware Wallet",
+      "key": "Address or key"
+    }
   },
   "loginPassword": {
     "formContent": {

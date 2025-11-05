@@ -1,11 +1,14 @@
 import { Select } from '@renderer/components/Select'
 import { Tooltip } from '@renderer/components/Tooltip'
 import { WalletIcon } from '@renderer/components/WalletIcon'
+
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+
 import { useAccountsByWalletIdSelector } from '@renderer/hooks/useAccountSelector'
 import { useBalances } from '@renderer/hooks/useBalances'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
+
 import { IWalletState } from '@shared/@types/store'
 
 type TProps = {
@@ -23,12 +26,12 @@ export const WalletSelectItem = ({ wallet }: TProps) => {
   return (
     <Select.Item
       value={wallet.id}
-      className="cursor-pointer border-l-4 border-l-transparent pl-4 transition-colors hover:border-l-neon data-[state=checked]:border-l-neon"
+      className="hover:border-l-neon data-[state=checked]:border-l-neon cursor-pointer border-l-4 border-l-transparent pl-4 transition-colors"
     >
       <div className={StyleHelper.mergeStyles('flex min-w-0 items-center gap-x-1')}>
         <WalletIcon wallet={wallet} />
 
-        <div className="flex min-w-0 flex-grow flex-col gap-x-2">
+        <div className="flex min-w-0 grow flex-col gap-x-2">
           <p className="truncate text-xs text-gray-100">{wallet.name}</p>
 
           <Tooltip title={exchangeTotalFormatted}>

@@ -1,38 +1,47 @@
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useLayoutEffect, useState } from 'react'
+
+import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
 import { useTranslation } from 'react-i18next'
-import TbCube3dSphere from '@renderer/assets/images/tb-cube-3d-sphere.svg?react'
-import TbPencil from '@renderer/assets/images/tb-pencil.svg?react'
-import TbPlus from '@renderer/assets/images/tb-plus.svg?react'
+
 import { Button } from '@renderer/components/Button'
 import { RadioGroup } from '@renderer/components/RadioGroup'
 import { Separator } from '@renderer/components/Separator'
-import { BLOCKCHAIN_WITH_CUSTOM_NETWORK, NETWORK_OPTIONS_BY_BLOCKCHAIN } from '@renderer/constants/networks'
-import { NetworkHelper } from '@renderer/helpers/NetworkHelper'
+
+import { StyleHelper } from '@renderer/helpers/StyleHelper'
+
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
-import {
-  useCustomNetworksSelector,
-  useNetworkActions,
-  useSelectedNetworkSelector,
-} from '@renderer/hooks/useSettingsSelector'
+import { useAppDispatch } from '@renderer/hooks/useRedux'
+import { useCustomNetworksSelector, useSelectedNetworkProfileSelector } from '@renderer/hooks/useSettingsSelector'
+
 import { SideModalLayout } from '@renderer/layouts/SideModal'
+
+import TbCube3dSphere from '@renderer/assets/images/tb-cube-3d-sphere.svg?react'
+import TbPencil from '@renderer/assets/images/tb-pencil.svg?react'
+import TbPlus from '@renderer/assets/images/tb-plus.svg?react'
+
+import { bsAggregator } from '@renderer/libs/blockchain-service'
+import { settingsReducerActions } from '@renderer/store/reducers/settings'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 
 type TState = {
   blockchain: TBlockchainServiceKey
 }
 
-export const NetworkSelection = () => {
+const NetworkSelection = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'networkSelection' })
   const { t: commonGeneral } = useTranslation('common', { keyPrefix: 'general' })
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
   const { blockchain } = useModalState<TState>()
-  const { setNetwork } = useNetworkActions()
-  const { network } = useSelectedNetworkSelector(blockchain)
+  const { selectedNetworkProfile } = useSelectedNetworkProfileSelector()
   const { customNetworks } = useCustomNetworksSelector()
+  const { sessions, disconnect } = useWalletConnectWallet()
+  const dispatch = useAppDispatch()
 
-  const options = NETWORK_OPTIONS_BY_BLOCKCHAIN[blockchain].all.concat(...customNetworks[blockchain])
+  const [selectedNetworkId, setSelectedNetworkId] = useState<string>()
 
-  const [selectedNetworkId, setSelectedNetworkId] = useState(network.id)
+  const service = bsAggregator.blockchainServicesByName[blockchain]
+
+  const options = service.availableNetworks.concat(...customNetworks[blockchain])
 
   const selectedNetwork = options.find(option => option.id === selectedNetworkId) ?? options[0]
 
@@ -45,21 +54,28 @@ export const NetworkSelection = () => {
 
   const handleSave = async () => {
     modalNavigate(-1)
-    setNetwork(blockchain, selectedNetwork)
+    await Promise.allSettled(sessions.map(session => disconnect(session)))
+    dispatch(
+      settingsReducerActions.editNetworkProfile({
+        id: selectedNetworkProfile.id,
+        networkByBlockchain: {
+          [blockchain]: selectedNetwork,
+        },
+      })
+    )
   }
 
-  useEffect(() => {
-    if (network) setSelectedNetworkId(network.id)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [network])
+  useLayoutEffect(() => {
+    setSelectedNetworkId(selectedNetworkProfile.networkByBlockchain[blockchain].id)
+  }, [blockchain, selectedNetworkProfile.networkByBlockchain])
 
   return (
     <SideModalLayout
       heading={t('title')}
-      headingIcon={<TbCube3dSphere aria-hidden={true} />}
+      headingIcon={<TbCube3dSphere aria-hidden />}
       contentClassName="px-0 flex flex-col"
     >
-      <div className="min-h-0 flex-grow overflow-auto">
+      <div className="min-h-0 grow overflow-auto">
         <span className="mb-5 block px-4 text-gray-300">{t('selectNetwork')}</span>
 
         <RadioGroup.Group value={selectedNetworkId} onValueChange={onSelectRadioItem}>
@@ -67,7 +83,11 @@ export const NetworkSelection = () => {
             <RadioGroup.Item key={network.id} value={network.id}>
               <div className="flex items-center gap-4">
                 <div
-                  className={`h-[0.375rem] min-h-[0.375rem] w-[0.375rem] min-w-[0.375rem] rounded-full ${NetworkHelper.getColorByNetwork(network, blockchain)}`}
+                  className={StyleHelper.mergeStyles('h-1.5 min-h-1.5 w-1.5 min-w-1.5 rounded-full', {
+                    'bg-neon': network.type === 'mainnet',
+                    'bg-magenta': network.type === 'testnet',
+                    'bg-pink': network.type === 'custom',
+                  })}
                 />
                 <label>{network.name}</label>
               </div>
@@ -78,12 +98,12 @@ export const NetworkSelection = () => {
         </RadioGroup.Group>
       </div>
 
-      {BLOCKCHAIN_WITH_CUSTOM_NETWORK.includes(blockchain) && (
+      {service.isCustomNetworkSupported && (
         <Fragment>
-          {NetworkHelper.isCustom(blockchain, selectedNetwork) && (
+          {selectedNetwork.type === 'custom' && (
             <Button
               label={t('editCustomNetworkButtonLabel')}
-              rightIcon={<TbPencil aria-hidden={true} />}
+              rightIcon={<TbPencil aria-hidden />}
               className="mb-2.5 px-4"
               flat
               colorSchema="gray"
@@ -97,7 +117,7 @@ export const NetworkSelection = () => {
 
           <Button
             label={t('addCustomNetworkButtonLabel')}
-            rightIcon={<TbPlus aria-hidden={true} />}
+            rightIcon={<TbPlus aria-hidden />}
             className="mb-2.5 px-4"
             flat
             variant="outlined"
@@ -126,3 +146,5 @@ export const NetworkSelection = () => {
     </SideModalLayout>
   )
 }
+
+export default NetworkSelection

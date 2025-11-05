@@ -1,14 +1,20 @@
 import { Fragment } from 'react'
+
+import { TBSAccount } from '@cityofzion/blockchain-service'
 import { Trans, useTranslation } from 'react-i18next'
-import { Account } from '@cityofzion/blockchain-service'
-import MdAdd from '@renderer/assets/images/md-add.svg?react'
+
 import { Button } from '@renderer/components/Button'
 import { RadioGroup } from '@renderer/components/RadioGroup'
+
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
+
 import { useAccountMapSelector } from '@renderer/hooks/useAccountSelector'
 import { useHardwareWalletActions, useHardwareWalletByUsb } from '@renderer/hooks/useHardwareWallet'
 import { useLoadingActions } from '@renderer/hooks/useLoadingActions'
 import { useMountUnsafe } from '@renderer/hooks/useMount'
+
+import MdAdd from '@renderer/assets/images/md-add.svg?react'
+
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 
@@ -44,7 +50,7 @@ export const PrepareHardwareWalletConnectAndSelectNeo3Step = ({ actionData, setD
       setData({
         neo3HardwareAccounts: [...actionData.neo3HardwareAccounts, serviceAccount],
       })
-    } catch (error) {
+    } catch {
       ToastHelper.error({ message: t('addNeo3AccountError'), duration: 8000 })
     }
   })
@@ -60,7 +66,7 @@ export const PrepareHardwareWalletConnectAndSelectNeo3Step = ({ actionData, setD
     })
   }
 
-  const handleSelectAccount = (account: Account<TBlockchainServiceKey>) => {
+  const handleSelectAccount = (account: TBSAccount<TBlockchainServiceKey>) => {
     setData({
       selectedNeo3HardwareServiceAccount: account,
     })
@@ -79,7 +85,7 @@ export const PrepareHardwareWalletConnectAndSelectNeo3Step = ({ actionData, setD
       <div className="mx-auto flex w-full max-w-[420px] flex-col items-center gap-y-4">
         <p className="text-lg leading-4 text-gray-100">{t('subtitle')}</p>
 
-        <h2 className="mb-2 text-1xl leading-8 text-white">{t('title')}</h2>
+        <h2 className="text-1xl mb-2 leading-8 text-white">{t('title')}</h2>
 
         <p className="w-full text-center text-sm font-light text-gray-100">{t('description')}</p>
 
@@ -98,8 +104,8 @@ export const PrepareHardwareWalletConnectAndSelectNeo3Step = ({ actionData, setD
       ) : (
         <div className="mx-auto mb-4 flex flex-col items-center gap-y-2.5">
           {actionData.neo3HardwareAccounts && (
-            <div className="flex min-h-0 flex-grow flex-col gap-y-2">
-              <h3 className="text-xs uppercase text-gray-100">{t('selectLabel')}</h3>
+            <div className="flex min-h-0 grow flex-col gap-y-2">
+              <h3 className="text-xs text-gray-100 uppercase">{t('selectLabel')}</h3>
 
               <RadioGroup.Group
                 value={actionData.selectedNeo3HardwareServiceAccount?.address}
@@ -109,7 +115,7 @@ export const PrepareHardwareWalletConnectAndSelectNeo3Step = ({ actionData, setD
                   <RadioGroup.Item
                     key={account.address}
                     value={account.address}
-                    className="h-10 min-h-10 bg-asphalt"
+                    className="bg-asphalt h-10 min-h-10"
                     separatorClassName="px-0"
                     onClick={handleSelectAccount.bind(null, account)}
                   >
@@ -129,7 +135,7 @@ export const PrepareHardwareWalletConnectAndSelectNeo3Step = ({ actionData, setD
             variant="card"
             loading={addAccountAction.isActing}
             iconsOnEdge={false}
-            leftIcon={<MdAdd aria-hidden={true} className="text-neon" />}
+            leftIcon={<MdAdd aria-hidden className="text-neon" />}
             onClick={addAccountAction.handleAct}
           />
         </div>

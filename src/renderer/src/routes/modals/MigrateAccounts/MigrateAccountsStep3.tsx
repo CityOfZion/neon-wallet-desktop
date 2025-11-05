@@ -1,10 +1,12 @@
 import { Fragment, useState } from 'react'
+
 import { useTranslation } from 'react-i18next'
-import MdLooks3 from '@renderer/assets/images/md-looks-3.svg?react'
+
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { Button } from '@renderer/components/Button'
 import { Checkbox } from '@renderer/components/Checkbox'
 import { Separator } from '@renderer/components/Separator'
+
 import { useAccountUtils } from '@renderer/hooks/useAccountSelector'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import {
@@ -12,14 +14,17 @@ import {
   TUseNeonMigrateGeneratedData,
   TUseNeonMigrateSchema,
 } from '@renderer/hooks/useNeonMigrate'
+
 import { MigrateAccountsModalLayout } from '@renderer/layouts/MigrateAccountsModalLayout'
+
+import MdLooks3 from '@renderer/assets/images/md-looks-3.svg?react'
 
 type TState = {
   content: TUseNeonMigrateSchema
   onDecrypt?: (generatedData: TUseNeonMigrateGeneratedData) => void
 }
 
-export const MigrateAccountsStep3Modal = () => {
+const MigrateAccountsStep3Modal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'migrateWallets.step3' })
   const { content, onDecrypt } = useModalState<TState>()
   const { modalNavigateWrapper } = useModalNavigate()
@@ -52,12 +57,12 @@ export const MigrateAccountsStep3Modal = () => {
       <p className="text-white">{t('selectTitle')}</p>
 
       <div className="mt-8 flex justify-between">
-        <span className="uppercase text-gray-100">{t('selectLabel')}</span>
+        <span className="text-gray-100 uppercase">{t('selectLabel')}</span>
 
         <Button label={t('selectAllButtonLabel')} variant="text-slim" flat onClick={handleSelectAll} />
       </div>
 
-      <div className="mt-1 flex min-h-0 w-full flex-grow flex-col overflow-y-auto pr-2">
+      <div className="mt-1 flex min-h-0 w-full grow flex-col overflow-y-auto pr-2">
         {content.accounts.map((account, index) => {
           const isAccountExist = doesAccountExist(account)
 
@@ -70,7 +75,7 @@ export const MigrateAccountsStep3Modal = () => {
                   <div className="flex flex-col gap-1">
                     <div className="flex gap-2">
                       <span className="text-sm text-white">{account.label}</span>
-                      {isAccountExist && <span className="text-sm italic text-green">{t('alreadyImportedLabel')}</span>}
+                      {isAccountExist && <span className="text-green text-sm italic">{t('alreadyImportedLabel')}</span>}
                     </div>
                     <span className="text-xs text-gray-300">{account.address}</span>
                   </div>
@@ -92,7 +97,7 @@ export const MigrateAccountsStep3Modal = () => {
         })}
       </div>
 
-      <span className="my-3.5 text-center text-blue">
+      <span className="text-blue my-3.5 text-center">
         {t('selectedQuantity', { selected: selectedAccountsToMigrate.length, total: content.accounts.length })}
       </span>
 
@@ -108,3 +113,5 @@ export const MigrateAccountsStep3Modal = () => {
     </MigrateAccountsModalLayout>
   )
 }
+
+export default MigrateAccountsStep3Modal

@@ -1,7 +1,7 @@
-import { TBlockchainServiceKey, TNetworkIds } from '@shared/@types/blockchain'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 
 export const SWAP_NETWORK_BY_BLOCKCHAIN_AND_NETWORK_ID: {
-  [K in TBlockchainServiceKey]: Partial<Record<TNetworkIds<K>, string[]>>
+  [K in TBlockchainServiceKey]: Record<string, string[]>
 } = {
   neo3: {
     mainnet: ['neo3'],

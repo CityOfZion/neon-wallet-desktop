@@ -1,8 +1,10 @@
 import { useMemo } from 'react'
+
 import { hasNeo3NeoXBridge } from '@cityofzion/blockchain-service'
-import { NetworkHelper } from '@renderer/helpers/NetworkHelper'
+
 import { useSelectedNetworkByBlockchainSelector } from '@renderer/hooks/useSettingsSelector'
-import { bsAggregator } from '@renderer/libs/blockchainService'
+
+import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { IAccountState } from '@shared/@types/store'
 
 export const useBridgeNeo3NeoXValidations = (account?: IAccountState) => {
@@ -11,11 +13,7 @@ export const useBridgeNeo3NeoXValidations = (account?: IAccountState) => {
   const canAccountBridge = useMemo(() => {
     const service = account ? bsAggregator.blockchainServicesByName[account.blockchain] : null
 
-    return (
-      !!service &&
-      NetworkHelper.isMainnet(account!.blockchain, networkByBlockchain[account!.blockchain]) &&
-      hasNeo3NeoXBridge(service)
-    )
+    return !!service && networkByBlockchain[account!.blockchain].type === 'mainnet' && hasNeo3NeoXBridge(service)
   }, [account, networkByBlockchain])
 
   return { canAccountBridge }

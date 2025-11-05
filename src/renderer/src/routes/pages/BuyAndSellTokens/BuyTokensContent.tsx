@@ -1,17 +1,24 @@
 import { ComponentProps, Dispatch, useRef, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+
 import fingerprint from '@fingerprintjs/fingerprintjs'
 import { GateFiDisplayModeEnum, GateFiEventTypes, GateFiSDK } from '@gatefi/js-sdk'
-import MdRestartAlt from '@renderer/assets/images/md-restart-alt.svg?react'
+import { useTranslation } from 'react-i18next'
+
 import { Button } from '@renderer/components/Button'
-import { buyTokensIframeUrl, hideBrand, lang, merchantId, theme } from '@renderer/constants/buy-and-sell-tokens'
+
 import { BuyAndSellTokensHelper } from '@renderer/helpers/BuyAndSellTokensHelper'
+
 import { useMountUnsafe } from '@renderer/hooks/useMount'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
+import { useTheme } from '@renderer/hooks/useTheme'
+
 import { BuyAndSellTokensLayout } from '@renderer/layouts/BuyAndSellTokensLayout'
+
+import MdRestartAlt from '@renderer/assets/images/md-restart-alt.svg?react'
+
+import { buyTokensIframeUrl, hideBrand, lang, merchantId, theme } from '@renderer/constants/buy-and-sell-tokens'
 import { IAccountState } from '@shared/@types/store'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
-import { theme as tailwindTheme } from '@shared/libs/theme'
 
 import { BuyAndSellTokensScreenType } from './index'
 
@@ -21,14 +28,15 @@ type TProps = {
   account?: IAccountState
 } & ComponentProps<'section'>
 
-const NEON_COLOR = tailwindTheme.colors.neon.DEFAULT
-const ASPHALT_COLOR = tailwindTheme.colors.asphalt.DEFAULT
-
 export const BuyTokensContent = ({ hidden, account, setScreenType, ...props }: TProps) => {
   const { t } = useTranslation('pages', { keyPrefix: 'buyAndSellTokens.buyTokensContent' })
   const { currency } = useCurrencySelector()
+
+  const [colorNeon, colorAsphalt] = useTheme('color-neon', 'color-asphalt')
+
   const [isIframeLoading, setIsIframeLoading] = useState(true)
-  const iframeInstanceRef = useRef<GateFiSDK>()
+
+  const iframeInstanceRef = useRef<GateFiSDK>(undefined)
 
   const iframeId = 'buy-tokens-iframe'
 
@@ -59,11 +67,11 @@ export const BuyTokensContent = ({ hidden, account, setScreenType, ...props }: T
       walletAddress: account?.address,
       styles: {
         type: theme,
-        primaryColor: NEON_COLOR,
-        primaryBackground: ASPHALT_COLOR,
-        primaryTextColor: ASPHALT_COLOR,
-        secondaryColor: NEON_COLOR,
-        secondaryBackground: ASPHALT_COLOR,
+        primaryColor: colorNeon,
+        primaryBackground: colorAsphalt,
+        primaryTextColor: colorAsphalt,
+        secondaryColor: colorNeon,
+        secondaryBackground: colorAsphalt,
       },
     })
 
@@ -96,13 +104,16 @@ export const BuyTokensContent = ({ hidden, account, setScreenType, ...props }: T
           textClassName="font-normal"
           colorSchema={isIframeLoading ? 'gray' : 'neon'}
           disabled={isIframeLoading}
-          leftIcon={<MdRestartAlt aria-hidden={true} className="h-5 min-h-5 w-5 min-w-5" />}
+          leftIcon={<MdRestartAlt aria-hidden className="h-5 min-h-5 w-5 min-w-5" />}
           onClick={handleRestart}
         />
       }
       {...props}
     >
-      <div id={iframeId} className="mx-auto my-4 buy-and-sell-tokens-iframe-container" />
+      <div
+        id={iframeId}
+        className="mx-auto my-4 overflow-x-hidden overflow-y-auto [&>iframe]:h-[680px]! [&>iframe]:w-[420px]! [&>iframe]:rounded-lg [&>iframe]:border-0!"
+      />
     </BuyAndSellTokensLayout>
   )
 }

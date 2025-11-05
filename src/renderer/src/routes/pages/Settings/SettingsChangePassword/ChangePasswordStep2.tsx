@@ -1,22 +1,28 @@
 import { useRef } from 'react'
+
+import { cloneDeep } from 'lodash'
 import { useTranslation } from 'react-i18next'
-import { Location, useLocation, useNavigate } from 'react-router-dom'
-import TbDownload from '@renderer/assets/images/tb-download.svg?react'
+import { Location, useLocation, useNavigate } from 'react-router'
+
 import { ButtonDownloadPasswordQRCode } from '@renderer/components/ButtonDownloadPasswordQRCode'
+
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
+
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useSettingsActions } from '@renderer/hooks/useSettingsSelector'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
-import { authReducerActions } from '@renderer/store/reducers/AuthReducer'
-import { cloneDeep } from 'lodash'
+
+import TbDownload from '@renderer/assets/images/tb-download.svg?react'
+
+import { authReducerActions } from '@renderer/store/reducers/auth'
 
 type TLocationState = {
   encryptedNewPassword: string
 }
 
-export const ChangePasswordStep2 = (): JSX.Element => {
+const ChangePasswordStep2 = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'settings.changePassword.step2' })
   const { wallets } = useWalletsSelector()
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
@@ -85,7 +91,7 @@ export const ChangePasswordStep2 = (): JSX.Element => {
 
       await setHasPassword(encryptedNewPassword, true)
 
-      navigate('/app/settings/security/change-password/step-3')
+      navigate('/settings/security/change-password/3')
     } catch (error) {
       console.error(error)
       ToastHelper.error({ message: t('error') })
@@ -97,11 +103,11 @@ export const ChangePasswordStep2 = (): JSX.Element => {
   return (
     <div className="flex h-full w-full flex-col items-center justify-between px-5 pb-10">
       <div className="flex flex-col items-center gap-5 pt-20">
-        <div className="flex h-36 w-36 items-center justify-center rounded-full bg-asphalt">
-          <TbDownload aria-hidden={true} className="h-[7rem] w-[7rem] text-blue" />
+        <div className="bg-asphalt flex h-36 w-36 items-center justify-center rounded-full">
+          <TbDownload aria-hidden className="text-blue h-28 w-28" />
         </div>
         <span className="text-lg">{t('subtitle')}</span>
-        <span className="w-[30rem] text-center text-xs text-gray-100">{t('description')}</span>
+        <span className="w-120 text-center text-xs text-gray-100">{t('description')}</span>
       </div>
 
       <ButtonDownloadPasswordQRCode
@@ -117,3 +123,5 @@ export const ChangePasswordStep2 = (): JSX.Element => {
     </div>
   )
 }
+
+export default ChangePasswordStep2

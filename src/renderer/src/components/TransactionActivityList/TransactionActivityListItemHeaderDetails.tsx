@@ -1,4 +1,5 @@
-import { cloneElement, ComponentProps, ReactNode } from 'react'
+import { cloneElement, ComponentProps, type JSX, ReactNode } from 'react'
+
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import { TransactionActivityListTooltip } from './TransactionActivityListTooltip'

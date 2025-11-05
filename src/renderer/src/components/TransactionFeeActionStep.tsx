@@ -1,12 +1,17 @@
+import { IBlockchainService } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
-import { BlockchainService } from '@cityofzion/blockchain-service'
-import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
+
 import { Loader } from '@renderer/components/Loader'
+
 import { ExchangeHelper } from '@renderer/helpers/ExchangeHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+
 import { useExchange } from '@renderer/hooks/useExchange'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
+
+import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
+
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 
 import { ActionStep } from './ActionStep'
@@ -14,7 +19,7 @@ import { ActionStep } from './ActionStep'
 type TProps = {
   fee?: string
   isCalculatingFee?: boolean
-  service?: BlockchainService<TBlockchainServiceKey>
+  service?: IBlockchainService<TBlockchainServiceKey>
   className?: string
   title?: string
   titleClassName?: string
@@ -47,16 +52,16 @@ export const TransactionFeeActionStep = ({
   return (
     <ActionStep
       title={title ?? t('title')}
-      leftIcon={<TbReceipt aria-hidden={true} className="h-6 min-h-6 w-6 min-w-6" />}
-      className={StyleHelper.mergeStyles('mt-2 min-h-11 rounded bg-gray-700/60 px-4 font-bold', className)}
-      titleClassName={StyleHelper.mergeStyles('whitespace-nowrap mr-3 !overflow-visible', titleClassName)}
+      leftIcon={<TbReceipt aria-hidden className="h-6 min-h-6 w-6 min-w-6" />}
+      className={StyleHelper.mergeStyles('mt-2 min-h-11 rounded-sm bg-gray-700/60 px-4 font-bold', className)}
+      titleClassName={StyleHelper.mergeStyles('whitespace-nowrap mr-3 overflow-visible!', titleClassName)}
       headerClassName="gap-4"
     >
       {isCalculatingFee ? (
         <Loader className="h-4 w-4" containerClassName="w-min items-center" />
       ) : (
         <div className={StyleHelper.mergeStyles('flex items-center gap-3 text-sm', textClassName)}>
-          <span className="mt-0.5 text-right font-normal uppercase leading-4">
+          <span className="mt-0.5 text-right leading-4 font-normal uppercase">
             {(!service ? '' : fee) ?? '0.00'} {service?.feeToken.symbol}{' '}
             {service ? <span className="text-gray-100">| {service.name}</span> : null}
           </span>

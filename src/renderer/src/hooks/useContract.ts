@@ -1,6 +1,7 @@
-import { bsAggregator } from '@renderer/libs/blockchainService'
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { useQuery } from '@tanstack/react-query'
+
+import { bsAggregator } from '@renderer/libs/blockchain-service'
+import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 
 import { useSelectedNetworkSelector } from './useSettingsSelector'
 

@@ -1,10 +1,12 @@
-import { ReactNode, useMemo } from 'react'
+import { ReactNode } from 'react'
+
+import orderBy from 'lodash/orderBy'
 import { Fragment } from 'react/jsx-runtime'
-import { BSBigNumberHelper } from '@cityofzion/blockchain-service'
+
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
-import { TTokenBalance, TUseBalancesResult } from '@shared/@types/query'
+
+import { TUseBalancesResult } from '@shared/@types/query'
 import { IAccountState } from '@shared/@types/store'
-import { cloneDeep } from 'lodash'
 
 import { BalanceChart } from './BalanceChart'
 import { ChartCardList } from './ChartCardList'
@@ -27,30 +29,10 @@ export const OverviewCharts = ({
   balanceChartClassName,
   chartCardListClassName,
 }: TProps) => {
-  const sortedBalances = useMemo(() => {
-    const tokensBalances = balances.data.map(balance => balance.tokensBalances).flat()
-
-    const map = new Map<string, TTokenBalance>()
-
-    tokensBalances.forEach(balance => {
-      if (balance.exchangeAmount <= 0) return
-
-      const repeated = map.get(balance.token.hash)
-      if (repeated) {
-        repeated.amountNumber += balance.amountNumber
-        repeated.exchangeAmount += balance.exchangeAmount
-        repeated.amount = BSBigNumberHelper.format(repeated.amountNumber)
-        return
-      }
-
-      map.set(balance.token.hash, cloneDeep(balance))
-    })
-
-    return Array.from(map.values()).sort((token1, token2) => token2.exchangeAmount - token1.exchangeAmount)
-  }, [balances])
+  const sortedBalances = orderBy(balances.groupedTokenBalances, ['exchangeAmount'], ['desc'])
 
   return (
-    <div className="flex w-full flex-grow flex-col">
+    <div className="flex w-full grow flex-col">
       {balances.isLoading ? (
         <Loader className="h-10 w-10" containerClassName="mt-12" />
       ) : balances.exchangeTotal !== 0 ? (

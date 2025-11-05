@@ -1,5 +1,7 @@
 import { ComponentProps, JSX, ReactNode } from 'react'
+
 import { Separator } from '@renderer/components/Separator'
+
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 type TProps = {
@@ -10,7 +12,7 @@ type TProps = {
 export const AccountDetailsLayout = ({ heading, actions, children, className, ...props }: TProps): JSX.Element => {
   return (
     <div
-      className={StyleHelper.mergeStyles('flex min-h-0 w-full min-w-0 flex-grow flex-col px-4 py-3', className)}
+      className={StyleHelper.mergeStyles('flex min-h-0 w-full min-w-0 grow flex-col px-4 py-3', className)}
       {...props}
     >
       <div className="mb-3 flex h-7 max-h-7 min-h-7 items-center justify-between text-sm">
@@ -21,7 +23,7 @@ export const AccountDetailsLayout = ({ heading, actions, children, className, ..
 
       <Separator />
 
-      <div className="flex w-full flex-grow flex-col overflow-y-auto">{children}</div>
+      <div className="flex w-full grow flex-col overflow-y-auto">{children}</div>
     </div>
   )
 }

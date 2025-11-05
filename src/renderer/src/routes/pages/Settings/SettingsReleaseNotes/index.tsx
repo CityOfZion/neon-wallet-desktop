@@ -1,11 +1,14 @@
 import { useTranslation } from 'react-i18next'
-import MdLaunch from '@renderer/assets/images/md-launch.svg?react'
+
 import { Link } from '@renderer/components/Link'
+
 import { SettingsLayout } from '@renderer/layouts/Settings'
+
+import MdLaunch from '@renderer/assets/images/md-launch.svg?react'
 
 import 'github-markdown-css/github-markdown.css'
 
-export const SettingsReleaseNotesPage = () => {
+const SettingsReleaseNotesPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'settings.settingsReleaseNotes' })
   const { t: changelogT } = useTranslation('changelog')
 
@@ -47,3 +50,5 @@ export const SettingsReleaseNotesPage = () => {
     </SettingsLayout>
   )
 }
+
+export default SettingsReleaseNotesPage

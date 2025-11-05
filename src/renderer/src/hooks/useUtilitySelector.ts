@@ -1,4 +1,4 @@
-import { bsAggregator } from '@renderer/libs/blockchainService'
+import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { IAccountState } from '@shared/@types/store'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 

@@ -1,24 +1,30 @@
 import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
+
 import { BSError, TBridgeToken } from '@cityofzion/blockchain-service'
 import { Neo3NeoXBridgeOrchestrator } from '@cityofzion/bs-multichain'
 import { BSNeo3 } from '@cityofzion/bs-neo3'
 import { BSNeoX } from '@cityofzion/bs-neox'
-import MdLaunch from '@renderer/assets/images/md-launch.svg?react'
-import MdRefresh from '@renderer/assets/images/md-refresh.svg?react'
-import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
-import TbReplace2 from '@renderer/assets/images/tb-replace-2.svg?react'
-import TbRosetteDiscountCheck from '@renderer/assets/images/tb-rosette-discount-check.svg?react'
+import { useTranslation } from 'react-i18next'
+
 import { Details } from '@renderer/components/Details'
 import { Link } from '@renderer/components/Link'
 import { Separator } from '@renderer/components/Separator'
 import { Stepper } from '@renderer/components/Stepper'
 import { TokenDetails } from '@renderer/components/TokenDetails'
-import { DISCORD_LINK } from '@renderer/constants/urls'
+
 import { useModalState } from '@renderer/hooks/useModalRouter'
 import { useMountUnsafe } from '@renderer/hooks/useMount'
+
 import { SideModalLayout } from '@renderer/layouts/SideModal'
-import { bsAggregator } from '@renderer/libs/blockchainService'
+
+import MdLaunch from '@renderer/assets/images/md-launch.svg?react'
+import MdRefresh from '@renderer/assets/images/md-refresh.svg?react'
+import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
+import TbReplace2 from '@renderer/assets/images/tb-replace-2.svg?react'
+import TbRosetteDiscountCheck from '@renderer/assets/images/tb-rosette-discount-check.svg?react'
+
+import { DISCORD_LINK } from '@renderer/constants/urls'
+import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { IAccountState } from '@shared/@types/store'
 
@@ -41,7 +47,7 @@ const stepsByStatus: Record<TBridgeStatus, number> = {
   error: 2,
 }
 
-export const Neo3NeoxBridgeDetailsModal = () => {
+const Neo3NeoxBridgeDetailsModal = () => {
   const {
     accountToUse,
     addressToReceive,
@@ -95,28 +101,28 @@ export const Neo3NeoxBridgeDetailsModal = () => {
       headingIcon={<TbReplace2 aria-hidden />}
       contentClassName="flex flex-col items-center overflow-auto"
     >
-      <TbRosetteDiscountCheck aria-hidden className="min-h-28 min-w-28 stroke-1 text-blue" />
+      <TbRosetteDiscountCheck aria-hidden className="text-blue min-h-28 min-w-28 stroke-1" />
 
       <p className="mt-9 text-xl text-white">{t('description')}</p>
 
-      <Separator className="mb-8 mt-6" />
+      <Separator className="mt-6 mb-8" />
 
       <Details.Root>
         <Details.Header label={t('detailsHeaderLabel')} icon={<TbReceipt aria-hidden />}>
-          {status === 'confirming' && <MdRefresh aria-hidden className="h-6 w-6 animate-spin text-orange" />}
+          {status === 'confirming' && <MdRefresh aria-hidden className="text-orange h-6 w-6 animate-spin" />}
         </Details.Header>
 
         <Details.Body>
           <Details.Panel label={t('statusPanelLabel')}>
             <Stepper
-              className="mb-10 mt-4 px-14"
+              className="mt-4 mb-10 px-14"
               steps={t('statusPanelSteps', { returnObjects: true })}
               currentStep={stepsByStatus[status]}
               currentState={status == 'error' ? 'error' : 'success'}
               theme="neon"
             />
 
-            {errorMessage && <p className="text-center text-xs text-pink">{errorMessage}</p>}
+            {errorMessage && <p className="text-pink text-center text-xs">{errorMessage}</p>}
           </Details.Panel>
         </Details.Body>
       </Details.Root>
@@ -148,7 +154,7 @@ export const Neo3NeoxBridgeDetailsModal = () => {
       <div className="mt-8 flex w-full items-center gap-2 px-4">
         <Link
           label={t('helpButtonLabel')}
-          className="flex-grow"
+          className="grow"
           target="_blank"
           to={DISCORD_LINK}
           flat
@@ -160,3 +166,5 @@ export const Neo3NeoxBridgeDetailsModal = () => {
     </SideModalLayout>
   )
 }
+
+export default Neo3NeoxBridgeDetailsModal

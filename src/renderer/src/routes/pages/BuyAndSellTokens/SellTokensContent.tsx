@@ -1,15 +1,22 @@
 import { ComponentProps, Dispatch, useState } from 'react'
+
 import { useTranslation } from 'react-i18next'
-import MdChevronRight from '@renderer/assets/images/md-chevron-right.svg?react'
-import MdRestartAlt from '@renderer/assets/images/md-restart-alt.svg?react'
+
 import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'
-import { sellTokensIframeUrl } from '@renderer/constants/buy-and-sell-tokens'
+
 import { BuyAndSellTokensHelper } from '@renderer/helpers/BuyAndSellTokensHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
+
 import { BuyAndSellTokensLayout } from '@renderer/layouts/BuyAndSellTokensLayout'
+
+import MdChevronRight from '@renderer/assets/images/md-chevron-right.svg?react'
+import MdRestartAlt from '@renderer/assets/images/md-restart-alt.svg?react'
+
+import { sellTokensIframeUrl } from '@renderer/constants/buy-and-sell-tokens'
 import { IAccountState } from '@shared/@types/store'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 
@@ -71,7 +78,7 @@ export const SellTokensContent = ({
             textClassName="font-normal"
             colorSchema={isIframeLoading ? 'gray' : 'neon'}
             disabled={isIframeLoading}
-            leftIcon={<MdRestartAlt aria-hidden={true} className="h-5 min-h-5 w-5 min-w-5" />}
+            leftIcon={<MdRestartAlt aria-hidden className="h-5 min-h-5 w-5 min-w-5" />}
             onClick={handleRestart}
           />
 
@@ -83,7 +90,7 @@ export const SellTokensContent = ({
             variant="text-slim"
             colorSchema={isIframeLoading ? 'gray' : 'neon'}
             disabled={isIframeLoading}
-            rightIcon={<MdChevronRight aria-hidden={true} className="h-5 min-h-5 w-5 min-w-5" />}
+            rightIcon={<MdChevronRight aria-hidden className="h-5 min-h-5 w-5 min-w-5" />}
             onClick={modalNavigateWrapper('sell-tokens-deposit', {
               state: { account, depositActionsData, setDepositActionsData },
             })}
@@ -92,7 +99,7 @@ export const SellTokensContent = ({
       }
       {...props}
     >
-      <div className="my-4 buy-and-sell-tokens-iframe-container">
+      <div className="mx-auto my-4 overflow-x-hidden overflow-y-auto [&>iframe]:h-[680px]! [&>iframe]:w-[420px]! [&>iframe]:rounded-lg [&>iframe]:border-0!">
         {hasIframeError ? (
           <p className="mx-auto p-4 text-center text-xl text-white">{t('error')}</p>
         ) : (

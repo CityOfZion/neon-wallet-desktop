@@ -1,4 +1,4 @@
-import { Account } from '@cityofzion/blockchain-service'
+import { TBSAccount } from '@cityofzion/blockchain-service'
 import type Transport from '@ledgerhq/hw-transport'
 import type { BrowserWindow, IpcMainEvent, IpcMainInvokeEvent, IpcRendererEvent } from 'electron'
 
@@ -40,7 +40,7 @@ export type TAddHardwareWalletAccountParams = {
 
 export type THardwareWalletInfo = {
   transport: Transport
-  accounts: Account<TBlockchainServiceKey>[]
+  accounts: TBSAccount<TBlockchainServiceKey>[]
 }
 
 export type TConnectHardwareWalletGenericParams = {

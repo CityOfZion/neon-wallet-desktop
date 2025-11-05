@@ -4,7 +4,7 @@ export const HardwareWalletConnectedBadge = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'wallets' })
 
   return (
-    <p className="h-min rounded-full border border-blue/30 px-4 py-1.5 text-xs text-blue">
+    <p className="border-blue/30 text-blue h-min rounded-full border px-4 py-1.5 text-xs">
       {t('hardwareWalletConnectBadge')}
     </p>
   )

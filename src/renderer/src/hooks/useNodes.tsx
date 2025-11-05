@@ -1,64 +1,73 @@
-import { bsAggregator } from '@renderer/libs/blockchainService'
-import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
-import { TNode } from '@shared/@types/query'
-import { useQueries, useQuery } from '@tanstack/react-query'
+import { useCallback } from 'react'
+
+import { TBSNetworkId } from '@cityofzion/blockchain-service'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+
+import { bsAggregator } from '@renderer/libs/blockchain-service'
+import type { TBlockchainServiceKey } from '@shared/@types/blockchain'
+import type { TBaseOptions, TNode } from '@shared/@types/query'
 
 import { useSelectedNetworkByBlockchainSelector, useSelectedNetworkSelector } from './useSettingsSelector'
 
-const fetchNodes = async (blockchain: TBlockchainServiceKey, selectedNetwork: TNetwork<TBlockchainServiceKey>) => {
-  const service = bsAggregator.blockchainServicesByName[blockchain]
-  const nodes = (await service.blockchainDataService.getRpcList()) as TNode[]
-  if (!nodes.find(({ url }) => url === selectedNetwork.url)) nodes.unshift({ url: selectedNetwork.url })
-  return {
-    nodes,
-    blockchain,
-  }
+const buildNodesQueryKey = (blockchain: TBlockchainServiceKey, id: TBSNetworkId) => {
+  return ['nodes', blockchain, id]
 }
 
-export const useNodes = (blockchain: TBlockchainServiceKey) => {
+const pingNodes = async (blockchain: TBlockchainServiceKey): Promise<TNode[]> => {
+  const service = bsAggregator.blockchainServicesByName[blockchain]
+
+  const promises = service.availableNetworkURLs.map(async url => {
+    try {
+      return await service.pingNode(url)
+    } catch {
+      return { height: undefined, latency: undefined, url }
+    }
+  })
+
+  const data = await Promise.all(promises)
+
+  return data.sort((a, b) => {
+    // Prioritize successful requests over failed ones
+    if (a && !b) return -1
+    if (!a && b) return 1
+
+    // If both failed, maintain original order
+    if (!a && !b) return 0
+
+    // Both successful - sort by latency (ascending)
+    const latencyA = a?.latency ?? Infinity
+    const latencyB = b?.latency ?? Infinity
+
+    return latencyA - latencyB
+  })
+}
+
+export const usePingNodes = (blockchain: TBlockchainServiceKey, queryOptions?: TBaseOptions<TNode[]>) => {
   const { network } = useSelectedNetworkSelector(blockchain)
 
   return useQuery({
-    queryKey: ['nodes', blockchain, network],
-    queryFn: fetchNodes.bind(null, blockchain, network),
-    staleTime: 0,
+    queryKey: buildNodesQueryKey(blockchain, network.id),
+    queryFn: pingNodes.bind(null, blockchain),
+    ...queryOptions,
   })
 }
 
-export const useAllNodes = () => {
-  const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
+export const useLazyPingNodes = () => {
+  const queryClient = useQueryClient()
+  const { networkByBlockchainRef } = useSelectedNetworkByBlockchainSelector()
 
-  return useQueries({
-    queries: Object.entries(networkByBlockchain).map(([blockchain, network]) => {
-      return {
-        queryKey: ['nodes', blockchain, network],
-        queryFn: fetchNodes.bind(null, blockchain as TBlockchainServiceKey, network),
+  const getPingNodes = useCallback(
+    async (blockchain: TBlockchainServiceKey) => {
+      const selectedNetwork = networkByBlockchainRef.current[blockchain]
+
+      return await queryClient.ensureQueryData({
+        queryKey: buildNodesQueryKey(blockchain, selectedNetwork.id),
+        queryFn: pingNodes.bind(null, blockchain),
         staleTime: 0,
-      }
-    }),
-    combine: results => {
-      const isLoading = results.some(result => result.isLoading)
-
-      let data: Record<TBlockchainServiceKey, TNode[]> | undefined
-
-      if (!isLoading) {
-        data = results.reduce(
-          (acc, result) => {
-            if (result.data) {
-              const { nodes, blockchain } = result.data
-              acc[blockchain] = nodes
-            }
-
-            return acc
-          },
-          {} as Record<TBlockchainServiceKey, TNode[]>
-        )
-      }
-
-      return {
-        isLoading,
-        data,
-      }
+      })
     },
-  })
+    [queryClient, networkByBlockchainRef]
+  )
+
+  return { getPingNodes }
 }

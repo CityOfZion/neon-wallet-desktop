@@ -1,15 +1,19 @@
 import { cloneElement } from 'react'
+
 import { useTranslation } from 'react-i18next'
+import { match } from 'ts-pattern'
+
+import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
+import { Link } from '@renderer/components/Link'
+import { Separator } from '@renderer/components/Separator'
+
 import MdInfoOutline from '@renderer/assets/images/md-info-outline.svg?react'
 import MdLaunch from '@renderer/assets/images/md-launch.svg?react'
 import MdLooks3 from '@renderer/assets/images/md-looks-3.svg?react'
 import MdLooksOne from '@renderer/assets/images/md-looks-one.svg?react'
 import MdLooksTwo from '@renderer/assets/images/md-looks-two.svg?react'
-import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
-import { Link } from '@renderer/components/Link'
-import { Separator } from '@renderer/components/Separator'
+
 import { DISCORD_LINK } from '@renderer/constants/urls'
-import { match } from 'ts-pattern'
 
 export const MigrationNeo3SideBar = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'migrationNeo3.sideBar' })
@@ -19,7 +23,7 @@ export const MigrationNeo3SideBar = () => {
   return (
     <div className="flex w-[26%] max-w-[24rem] flex-col border-r border-gray-300/15 bg-gray-900/50 px-4">
       <div className="flex h-12 items-center gap-2.5">
-        <MdInfoOutline aria-hidden={true} className="h-6 w-6 text-green" />
+        <MdInfoOutline aria-hidden className="text-green h-6 w-6" />
 
         <h2 className="text-sm text-white">{t('title')}</h2>
       </div>
@@ -50,18 +54,18 @@ export const MigrationNeo3SideBar = () => {
         )
       })}
 
-      <div className="mt-8 flex w-full flex-grow items-end">
-        <p className="text-xs italic text-gray-100">{t('fee')}</p>
+      <div className="mt-8 flex w-full grow items-end">
+        <p className="text-xs text-gray-100 italic">{t('fee')}</p>
       </div>
 
       <AlertErrorBanner
         message={t('alert')}
-        className="mt-8 gap-3 bg-magenta-700/50 p-3"
+        className="bg-magenta-700/50 mt-8 gap-3 p-3"
         messageClassName="font-normal text-xs leading-4"
         iconClassName="self-start"
       />
 
-      <div className="mb-8 mt-12 flex w-full">
+      <div className="mt-12 mb-8 flex w-full">
         <Link
           label={t('buttons.help')}
           to={DISCORD_LINK}
@@ -73,7 +77,7 @@ export const MigrationNeo3SideBar = () => {
           flat
           wide
           iconsOnEdge={false}
-          rightIcon={<MdLaunch aria-hidden={true} />}
+          rightIcon={<MdLaunch aria-hidden />}
         />
       </div>
     </div>

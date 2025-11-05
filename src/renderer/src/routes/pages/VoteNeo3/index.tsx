@@ -1,16 +1,17 @@
 import { useMemo, useRef } from 'react'
+
 import { useTranslation } from 'react-i18next'
-import { Location, useLocation, useNavigate } from 'react-router-dom'
-import TbChartBarPopular from '@renderer/assets/images/tb-chart-bar-popular.svg?react'
-import TbSearch from '@renderer/assets/images/tb-search.svg?react'
+import { Location, useLocation, useNavigate } from 'react-router'
+import { match, P } from 'ts-pattern'
+
 import { Button } from '@renderer/components/Button'
 import { GreyAccountSelect } from '@renderer/components/GreyAccountSelect'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
 import { Tooltip } from '@renderer/components/Tooltip'
-import { VOTE_NEO3_COZ_PUB_KEY } from '@renderer/constants/public-keys'
-import { NetworkHelper } from '@renderer/helpers/NetworkHelper'
+
 import { StringHelper } from '@renderer/helpers/StringHelper'
+
 import { useAccountsByBlockchainsSelector, useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
 import { useBalance } from '@renderer/hooks/useBalances'
@@ -24,9 +25,14 @@ import {
   useVoteNeo3GetVoteDetailsByAddress,
   useVoteNeo3Validations,
 } from '@renderer/hooks/useVoteNeo3'
+
 import { ContentLayout } from '@renderer/layouts/ContentLayout'
+
+import TbChartBarPopular from '@renderer/assets/images/tb-chart-bar-popular.svg?react'
+import TbSearch from '@renderer/assets/images/tb-search.svg?react'
+
+import { VOTE_NEO3_COZ_PUB_KEY } from '@renderer/constants/public-keys'
 import { IAccountState } from '@shared/@types/store'
-import { match, P } from 'ts-pattern'
 
 import { VoteNeo3AvailableVotes } from './VoteNeo3AvailableVotes'
 import { VoteNeo3List } from './VoteNeo3List'
@@ -41,7 +47,7 @@ type TActionsData = {
   search: string
 }
 
-export const VoteNeo3Page = () => {
+const VoteNeo3Page = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'voteNeo3' })
   const { accounts } = useAccountsSelector()
   const { accountsByBlockchains: neo3Accounts } = useAccountsByBlockchainsSelector(['neo3'])
@@ -57,7 +63,7 @@ export const VoteNeo3Page = () => {
 
   const canOpenVoteNeo3SupportUsModalRef = useRef(true)
 
-  const isMainnet = NetworkHelper.isMainnet('neo3', neo3Network)
+  const isMainnet = neo3Network.type === 'mainnet'
   const defaultNeo3Account = location.state?.defaultNeo3Account
 
   const {
@@ -103,7 +109,7 @@ export const VoteNeo3Page = () => {
   const handleGoBack = () => {
     const accountId = defaultNeo3Account?.id || neo3Account?.id || neo3Accounts[0]?.id || accounts[0].id
 
-    navigate(`/app/wallets/${accountId}/overview`)
+    navigate(`/wallets/${accountId}/overview`)
   }
 
   const handleChangeNeo3Account = (neo3Account: IAccountState) => {
@@ -137,7 +143,7 @@ export const VoteNeo3Page = () => {
       title={t('title')}
       contentClassName="mt-0"
       withSeparator={false}
-      titleIcon={<TbChartBarPopular aria-hidden={true} />}
+      titleIcon={<TbChartBarPopular aria-hidden />}
       rightComponent={
         <div className="flex items-center gap-x-2">
           <p className="text-sm text-white">
@@ -175,10 +181,10 @@ export const VoteNeo3Page = () => {
       }
       onBackClick={handleGoBack}
     >
-      <section className="flex h-full min-h-0 w-full rounded bg-gray-800">
+      <section className="flex h-full min-h-0 w-full rounded-sm bg-gray-800">
         <VoteNeo3SideBar />
 
-        <div className="flex h-full min-h-0 w-full flex-col gap-y-6 px-4 pb-6 pt-1">
+        <div className="flex h-full min-h-0 w-full flex-col gap-y-6 px-4 pt-1 pb-6">
           <div className="flex w-full flex-col">
             <h2 className="flex h-12 w-full items-center text-sm text-white">{t('subtitle')}</h2>
 
@@ -196,7 +202,7 @@ export const VoteNeo3Page = () => {
               maxLength={100}
               value={search}
               disabled={isSearchDisabled}
-              leftIcon={<TbSearch aria-hidden className="h-5 max-h-5 min-h-5 w-5 min-w-5 max-w-5 text-neon" />}
+              leftIcon={<TbSearch aria-hidden className="text-neon h-5 max-h-5 min-h-5 w-5 max-w-5 min-w-5" />}
               onChange={setDataFromEventWrapper('search')}
             />
 
@@ -219,3 +225,5 @@ export const VoteNeo3Page = () => {
     </ContentLayout>
   )
 }
+
+export default VoteNeo3Page

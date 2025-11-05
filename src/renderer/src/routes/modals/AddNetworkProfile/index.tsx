@@ -1,14 +1,20 @@
 import { useTranslation } from 'react-i18next'
-import MdDeleteForever from '@renderer/assets/images/md-delete-forever.svg?react'
+
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
+
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useSelectedNetworkByBlockchainSelector } from '@renderer/hooks/useSettingsSelector'
+
 import { SideModalLayout } from '@renderer/layouts/SideModal'
-import { settingsReducerActions } from '@renderer/store/reducers/SettingsReducer'
+
+import MdDeleteForever from '@renderer/assets/images/md-delete-forever.svg?react'
+
+import { settingsReducerActions } from '@renderer/store/reducers/settings'
 import { TNetworkProfile } from '@shared/@types/store'
 
 type TModalState = {
@@ -19,7 +25,7 @@ type TActionData = {
   name: string
 }
 
-export const AddNetworkProfileModal = () => {
+const AddNetworkProfileModal = () => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'general' })
   const { t } = useTranslation('modals', { keyPrefix: 'addNetworkProfileModal' })
   const { profile } = useModalState<TModalState>()
@@ -63,7 +69,7 @@ export const AddNetworkProfileModal = () => {
 
   return (
     <SideModalLayout heading={t('title')} contentClassName="flex flex-col">
-      <form className="flex flex-grow flex-col gap-y-5" onSubmit={handleAct(handleSubmit)}>
+      <form className="flex grow flex-col gap-y-5" onSubmit={handleAct(handleSubmit)}>
         <Input
           label={t('inputLabel')}
           value={actionData.name}
@@ -103,3 +109,5 @@ export const AddNetworkProfileModal = () => {
     </SideModalLayout>
   )
 }
+
+export default AddNetworkProfileModal

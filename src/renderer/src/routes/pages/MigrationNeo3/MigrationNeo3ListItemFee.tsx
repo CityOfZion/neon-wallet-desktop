@@ -1,14 +1,16 @@
+import { TBSToken } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
-import { Token } from '@cityofzion/blockchain-service'
+
 import { ExchangeHelper } from '@renderer/helpers/ExchangeHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
+
 import { useExchange } from '@renderer/hooks/useExchange'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 
 type TProps = {
   fee: string
   hasAmount: boolean
-  neo3Token: Token
+  neo3Token: TBSToken
 }
 
 export const MigrationNeo3ListItemFee = ({ fee, hasAmount, neo3Token }: TProps) => {
@@ -22,7 +24,7 @@ export const MigrationNeo3ListItemFee = ({ fee, hasAmount, neo3Token }: TProps) 
   if (!fee) return null
 
   return (
-    <li className="text-right uppercase text-white">
+    <li className="text-right text-white uppercase">
       {fee} {neo3Token.symbol} <span className="text-gray-100">| {tBlockchain('neo3')}</span>{' '}
       <span className="ml-2 font-semibold text-white">{NumberHelper.currency(fiatFee, currency.label)}</span>
     </li>

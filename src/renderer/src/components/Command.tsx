@@ -1,7 +1,10 @@
 import { ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react'
-import MdSearch from '@renderer/assets/images/md-search.svg?react'
-import { StyleHelper } from '@renderer/helpers/StyleHelper'
+
 import { Command as CommandPrimitive } from 'cmdk'
+
+import { StyleHelper } from '@renderer/helpers/StyleHelper'
+
+import MdSearch from '@renderer/assets/images/md-search.svg?react'
 
 const Root = forwardRef<ElementRef<typeof CommandPrimitive>, ComponentPropsWithoutRef<typeof CommandPrimitive>>(
   ({ className, ...props }, ref) => (
@@ -18,12 +21,12 @@ const Input = forwardRef<
   ComponentPropsWithoutRef<typeof CommandPrimitive.Input>
 >(({ className, ...props }, ref) => (
   // eslint-disable-next-line react/no-unknown-property
-  <div className="flex h-8.5 items-center rounded bg-asphalt px-2" cmdk-input-wrapper="">
-    <MdSearch aria-hidden={true} className="mr-2 h-6 w-6 shrink-0 text-gray-300" />
+  <div className="bg-asphalt flex h-8.5 items-center rounded-sm px-2" cmdk-input-wrapper="">
+    <MdSearch aria-hidden className="mr-2 h-6 w-6 shrink-0 text-gray-300" />
     <CommandPrimitive.Input
       ref={ref}
       className={StyleHelper.mergeStyles(
-        'flex h-full w-full bg-transparent text-sm outline-none placeholder:text-gray-300 disabled:cursor-not-allowed disabled:opacity-50',
+        'flex h-full w-full bg-transparent text-sm outline-hidden placeholder:text-gray-300 disabled:cursor-not-allowed disabled:opacity-50',
         className
       )}
       {...props}
@@ -38,7 +41,7 @@ const List = forwardRef<
   <CommandPrimitive.List
     ref={ref}
     className={StyleHelper.mergeStyles(
-      'mt-0.5 max-h-96 overflow-y-auto overflow-x-hidden rounded bg-gray-900 [scrollbar-width:none]',
+      'mt-0.5 max-h-96 overflow-x-hidden overflow-y-auto rounded-sm bg-gray-900 [scrollbar-width:none]',
       className
     )}
     {...props}
@@ -57,7 +60,7 @@ const Group = forwardRef<
   <CommandPrimitive.Group
     ref={ref}
     className={StyleHelper.mergeStyles(
-      'overflow-hidden text-white [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-gray-300',
+      'overflow-hidden text-white **:[&_[cmdk-group-heading]]:px-2 **:[&_[cmdk-group-heading]]:py-1.5 **:[&_[cmdk-group-heading]]:text-xs **:[&_[cmdk-group-heading]]:font-medium **:[&_[cmdk-group-heading]]:text-gray-300',
       className
     )}
     {...props}
@@ -71,7 +74,7 @@ const Item = forwardRef<
   <CommandPrimitive.Item
     ref={ref}
     className={StyleHelper.mergeStyles(
-      "relative flex cursor-default select-none items-center px-2 text-sm outline-none data-[disabled=true]:pointer-events-none data-[selected='true']:bg-gray-800 data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+      "relative flex cursor-default items-center px-2 text-sm outline-hidden select-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 data-[selected='true']:bg-gray-800 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
       className
     )}
     {...props}

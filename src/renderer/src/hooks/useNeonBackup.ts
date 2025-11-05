@@ -1,10 +1,14 @@
+import { cloneDeep } from 'lodash'
 import { useTranslation } from 'react-i18next'
-import { BACKUP_FILE_EXTENSION, BACKUP_VERSION, DEPRECATED_BACKUP_FILE_EXTENSION } from '@renderer/constants/backup'
+import zod from 'zod'
+
 import { DateHelper } from '@renderer/helpers/DateHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
-import { doesBlockchainSupported } from '@renderer/libs/blockchainService'
-import { contactReducerActions } from '@renderer/store/reducers/ContactReducer'
-import { utilityReducerActions } from '@renderer/store/reducers/UtilityReducer'
+
+import { BACKUP_FILE_EXTENSION, BACKUP_VERSION, DEPRECATED_BACKUP_FILE_EXTENSION } from '@renderer/constants/backup'
+import { doesBlockchainSupported } from '@renderer/libs/blockchain-service'
+import { contactReducerActions } from '@renderer/store/reducers/contact'
+import { utilityReducerActions } from '@renderer/store/reducers/utility'
 import { TAccountsToImport, TCreateWalletAndAccountParam } from '@shared/@types/blockchain'
 import {
   IAccountState,
@@ -16,8 +20,6 @@ import {
   TSkin,
   TSwapRecord,
 } from '@shared/@types/store'
-import { cloneDeep } from 'lodash'
-import zod from 'zod'
 
 import { useAccountsSelector, useAccountUtils } from './useAccountSelector'
 import { useCurrentLoginSessionSelector } from './useAuthSelector'

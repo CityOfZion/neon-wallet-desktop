@@ -1,21 +1,28 @@
 import { ChangeEvent } from 'react'
+
 import { useTranslation } from 'react-i18next'
-import MdDeleteForever from '@renderer/assets/images/md-delete-forever.svg?react'
-import TbPencil from '@renderer/assets/images/tb-pencil.svg?react'
-import TbPlus from '@renderer/assets/images/tb-plus.svg?react'
+
 import { Banner } from '@renderer/components/Banner'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { Button } from '@renderer/components/Button'
 import { IconButton } from '@renderer/components/IconButton'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
+
 import { TestHelper } from '@renderer/helpers/TestHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
+
 import { SideModalLayout } from '@renderer/layouts/SideModal'
-import { contactReducerActions } from '@renderer/store/reducers/ContactReducer'
+
+import MdDeleteForever from '@renderer/assets/images/md-delete-forever.svg?react'
+import TbPencil from '@renderer/assets/images/tb-pencil.svg?react'
+import TbPlus from '@renderer/assets/images/tb-plus.svg?react'
+
+import { contactReducerActions } from '@renderer/store/reducers/contact'
 import { IContactState, TContactAddress } from '@shared/@types/store'
 
 type TFormData = {
@@ -28,7 +35,7 @@ type TLocationState = {
   addresses?: TContactAddress[]
 }
 
-export const PersistContactModal = () => {
+const PersistContactModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'persistContactModal' })
   const { t: commonT } = useTranslation('common', { keyPrefix: 'general' })
 
@@ -98,7 +105,7 @@ export const PersistContactModal = () => {
   return (
     <SideModalLayout
       heading={contact ? t('editContact') : t('addContact')}
-      headingIcon={contact ? <TbPencil aria-hidden={true} /> : <TbPlus aria-hidden={true} />}
+      headingIcon={contact ? <TbPencil aria-hidden /> : <TbPlus aria-hidden />}
     >
       <form onSubmit={handleAct(handleSubmit)} className="flex h-full min-h-0 flex-col justify-between">
         <div className="flex min-h-0 flex-col gap-y-6">
@@ -122,16 +129,16 @@ export const PersistContactModal = () => {
               {actionData.addresses.map((address, index) => (
                 <div
                   key={index}
-                  className="mb-4 flex h-8.5 w-full items-center justify-between rounded bg-asphalt pl-3 pr-2"
+                  className="bg-asphalt mb-4 flex h-8.5 w-full items-center justify-between rounded-sm pr-2 pl-3"
                 >
-                  <div className="flex min-w-0 flex-grow items-center gap-x-3">
+                  <div className="flex min-w-0 grow items-center gap-x-3">
                     <BlockchainIcon blockchain={address.blockchain} type="white" className="h-3 min-h-3 w-3 min-w-3" />
                     <span {...TestHelper.buildTestObject('contact-address-text')} className="truncate">
                       {address.address}
                     </span>
                   </div>
                   <IconButton
-                    icon={<TbPencil aria-hidden={true} className="h-5 w-5 text-blue" />}
+                    icon={<TbPencil aria-hidden className="text-blue h-5 w-5" />}
                     compacted
                     type="button"
                     onClick={() => openAddAddressModal(address, index)}
@@ -139,7 +146,7 @@ export const PersistContactModal = () => {
                     {...TestHelper.buildTestObject('edit-contact-address-button')}
                   />
                   <IconButton
-                    icon={<MdDeleteForever aria-hidden={true} className="h-5 w-5 text-pink" />}
+                    icon={<MdDeleteForever aria-hidden className="text-pink h-5 w-5" />}
                     compacted
                     type="button"
                     onClick={modalNavigateWrapper('delete-contact', {
@@ -172,7 +179,7 @@ export const PersistContactModal = () => {
               )}
 
               {actionState.errors.addresses && (
-                <div {...TestHelper.buildTestObject('error-message-contact-address')} className="py-1 text-pink">
+                <div {...TestHelper.buildTestObject('error-message-contact-address')} className="text-pink py-1">
                   {actionState.errors.addresses}
                 </div>
               )}
@@ -237,3 +244,5 @@ export const PersistContactModal = () => {
     </SideModalLayout>
   )
 }
+
+export default PersistContactModal

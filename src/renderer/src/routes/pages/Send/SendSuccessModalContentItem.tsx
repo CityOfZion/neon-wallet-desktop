@@ -1,12 +1,17 @@
 import { useTranslation } from 'react-i18next'
-import MdOutlineContentCopy from '@renderer/assets/images/md-outline-content-copy.svg?react'
-import TbUsers from '@renderer/assets/images/tb-users.svg?react'
+
 import { Button } from '@renderer/components/Button'
 import { IconButton } from '@renderer/components/IconButton'
 import { Separator } from '@renderer/components/Separator'
+
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+
 import { useContactsSelector } from '@renderer/hooks/useContactSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+
+import MdOutlineContentCopy from '@renderer/assets/images/md-outline-content-copy.svg?react'
+import TbUsers from '@renderer/assets/images/tb-users.svg?react'
+
 import { TUseTransactionsTransfer } from '@shared/@types/hooks'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 
@@ -28,13 +33,13 @@ export const SendSuccessModalContentItem = ({ order, transaction }: TProps) => {
 
   return (
     <li>
-      <div className="bg-gray-300/15 px-3.5 py-1.5 text-xs text-blue">{t('transactionNumber', { order })}</div>
+      <div className="text-blue bg-gray-300/15 px-3.5 py-1.5 text-xs">{t('transactionNumber', { order })}</div>
 
       <div className="flex flex-col gap-2.5 px-3 py-4">
-        <span className="text-xs uppercase text-gray-100">{t('recipientLabel')}</span>
+        <span className="text-xs text-gray-100 uppercase">{t('recipientLabel')}</span>
 
         <div className="flex w-full gap-6">
-          <span className="flex-grow break-all text-sm text-white">
+          <span className="grow text-sm break-all text-white">
             {contact?.name ?? transaction.toAccount?.name ?? transaction.to}
           </span>
 
@@ -54,7 +59,7 @@ export const SendSuccessModalContentItem = ({ order, transaction }: TProps) => {
             className="-ml-2 w-min"
             variant="text"
             flat
-            leftIcon={<TbUsers aria-hidden={true} />}
+            leftIcon={<TbUsers aria-hidden />}
             iconsOnEdge={false}
             onClick={modalNavigateWrapper('persist-contact', {
               state: {
@@ -68,9 +73,9 @@ export const SendSuccessModalContentItem = ({ order, transaction }: TProps) => {
       <Separator />
 
       <div className="flex flex-col gap-2.5 px-3 py-4">
-        <span className="text-xs uppercase text-gray-100">{t('amountLabel')}</span>
+        <span className="text-xs text-gray-100 uppercase">{t('amountLabel')}</span>
 
-        <span className="break-all text-sm text-white">
+        <span className="text-sm break-all text-white">
           {transaction.amount} <span className="text-gray-100">{transaction.asset}</span>
         </span>
       </div>
@@ -78,12 +83,12 @@ export const SendSuccessModalContentItem = ({ order, transaction }: TProps) => {
       <Separator />
 
       <div className="flex flex-col gap-2.5 px-3 py-4">
-        <span className="text-xs uppercase text-gray-100">{t('transactionHashLabel')}</span>
+        <span className="text-xs text-gray-100 uppercase">{t('transactionHashLabel')}</span>
 
         <div className="flex gap-6">
-          <span className="break-all text-sm text-white">{transaction.hash}</span>
+          <span className="text-sm break-all text-white">{transaction.hash}</span>
           <IconButton
-            icon={<MdOutlineContentCopy aria-hidden={true} className="text-neon" />}
+            icon={<MdOutlineContentCopy aria-hidden className="text-neon" />}
             size="md"
             onClick={() => UtilsHelper.copyToClipboard(transaction.hash)}
             compacted

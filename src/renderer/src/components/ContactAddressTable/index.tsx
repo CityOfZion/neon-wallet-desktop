@@ -1,10 +1,5 @@
 import { useMemo, useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import FiSend from '@renderer/assets/images/fi-send.svg?react'
-import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
-import { TestHelper } from '@renderer/helpers/TestHelper'
-import { TContactAddress } from '@shared/@types/store'
-import { getI18next } from '@shared/libs/i18next'
+
 import {
   createColumnHelper,
   flexRender,
@@ -13,10 +8,19 @@ import {
   SortingState,
   useReactTable,
 } from '@tanstack/react-table'
+import { useNavigate } from 'react-router'
+
+import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
+
+import { TestHelper } from '@renderer/helpers/TestHelper'
+
+import FiSend from '@renderer/assets/images/fi-send.svg?react'
+
+import { TContactAddress } from '@shared/@types/store'
+import { getI18next } from '@shared/libs/i18next'
 
 import { Button } from '../Button'
 import { Table } from '../Table'
-
 import { AddressCell } from './AddressCell'
 
 type TProps = {
@@ -66,8 +70,8 @@ export const ContactAddressTable = ({ contactAddresses }: TProps) => {
               <Button
                 variant="text"
                 label={t('components:contactAddressTable.sendAssets')}
-                leftIcon={<FiSend aria-hidden={true} />}
-                onClick={() => navigate('/app/send', { state: { recipient: info.row.original.address } })}
+                leftIcon={<FiSend aria-hidden />}
+                onClick={() => navigate('/send', { state: { recipient: info.row.original.address } })}
                 flat
                 {...TestHelper.buildTestObject('send-assets-button')}
               />
@@ -95,7 +99,7 @@ export const ContactAddressTable = ({ contactAddresses }: TProps) => {
   })
 
   return (
-    <section className="mt-4 flex min-h-0 w-full min-w-0 flex-grow flex-col overflow-auto pr-1" ref={scrollRef}>
+    <section className="mt-4 flex min-h-0 w-full min-w-0 grow flex-col overflow-auto pr-1" ref={scrollRef}>
       <Table.Root>
         <Table.Header className="sticky top-0 bg-gray-800">
           {table.getHeaderGroups().map(headerGroup => (

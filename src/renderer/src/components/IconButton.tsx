@@ -1,4 +1,5 @@
 import { ComponentProps, forwardRef } from 'react'
+
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import { IconClickable, TCustomIconClickableProps } from './IconClickable'

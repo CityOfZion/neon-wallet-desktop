@@ -1,5 +1,6 @@
-import { TNotification, TNotificationPriority } from '@shared/@types/store'
 import lodash from 'lodash'
+
+import { TNotification, TNotificationPriority } from '@shared/@types/store'
 
 import { createAppSelector, useAppSelector } from './useRedux'
 

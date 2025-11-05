@@ -1,8 +1,12 @@
 import { useTranslation } from 'react-i18next'
+
 import { Skeleton } from '@renderer/components/Skeleton'
 import { Tooltip } from '@renderer/components/Tooltip'
+
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+
 import { useVoteNeo3GetVoteDetailsByAddress } from '@renderer/hooks/useVoteNeo3'
+
 import { IAccountState } from '@shared/@types/store'
 
 type TProps = {

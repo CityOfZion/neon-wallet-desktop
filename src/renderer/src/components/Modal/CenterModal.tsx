@@ -1,11 +1,16 @@
-import { useLayoutEffect, useState } from 'react'
-import { FocusScope } from '@radix-ui/react-focus-scope'
-import { ModalRouterCurrentHistoryProvider } from '@renderer/contexts/ModalRouterCurrentHistoryContext'
-import { StyleHelper } from '@renderer/helpers/StyleHelper'
-import { useModalHistories } from '@renderer/hooks/useModalRouter'
-import { THistory, TRouterSize } from '@shared/@types/modal'
-import { motion, useAnimate, usePresence } from 'framer-motion'
+import { Suspense, useLayoutEffect, useState } from 'react'
 
+import { FocusScope } from '@radix-ui/react-focus-scope'
+import { motion, useAnimate, usePresence } from 'motion/react'
+
+import { StyleHelper } from '@renderer/helpers/StyleHelper'
+
+import { useModalHistories } from '@renderer/hooks/useModalRouter'
+
+import { ModalRouterCurrentHistoryProvider } from '@renderer/contexts/ModalRouterCurrentHistoryContext'
+import { THistory, TRouterSize } from '@shared/@types/modal'
+
+import { ScreenLoader } from '../ScreenLoader'
 import { ModalContainer } from './ModalContainer'
 
 const widthBySizes: Partial<Record<TRouterSize, string>> = {
@@ -56,7 +61,12 @@ export const CenterModal = () => {
 
   return (
     <ModalContainer className="flex items-center justify-center">
-      <motion.div ref={scope} initial={{ scale: 0.95, opacity: 0 }} className="relative" style={{ width, height }}>
+      <motion.div
+        ref={scope}
+        initial={{ scale: 0.95, opacity: 0 }}
+        className="relative bg-gray-800"
+        style={{ width, height }}
+      >
         {width &&
           centerHistories.map((history, index) => (
             <FocusScope
@@ -67,7 +77,9 @@ export const CenterModal = () => {
               })}
             >
               <ModalRouterCurrentHistoryProvider value={history}>
-                {history.route.element}
+                <Suspense fallback={<ScreenLoader />}>
+                  <history.route.element />
+                </Suspense>
               </ModalRouterCurrentHistoryProvider>
             </FocusScope>
           ))}

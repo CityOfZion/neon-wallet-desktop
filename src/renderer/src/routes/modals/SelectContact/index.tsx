@@ -1,11 +1,17 @@
 import { useState } from 'react'
+
 import { useTranslation } from 'react-i18next'
-import TbStepOut from '@renderer/assets/images/tb-step-out.svg?react'
+
 import { Button } from '@renderer/components/Button'
 import { ContactList } from '@renderer/components/ContactList'
+
 import { useContactsSelector } from '@renderer/hooks/useContactSelector'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
+
 import { SideModalLayout } from '@renderer/layouts/SideModal'
+
+import TbStepOut from '@renderer/assets/images/tb-step-out.svg?react'
+
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { IContactState, TContactAddress } from '@shared/@types/store'
 
@@ -14,7 +20,7 @@ type TLocationState = {
   onSelectContact: (address: TContactAddress) => void
 }
 
-export const SelectContact = () => {
+const SelectContact = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'selectContact' })
   const { modalNavigate } = useModalNavigate()
   const { blockchain, onSelectContact } = useModalState<TLocationState>()
@@ -39,7 +45,7 @@ export const SelectContact = () => {
         contacts={contacts}
         selectedAddress={selectedAddress}
         selectedContact={selectedContact}
-        showSelectedAddress={true}
+        showSelectedAddress
         blockchainFilter={blockchain}
       >
         <Button
@@ -53,3 +59,5 @@ export const SelectContact = () => {
     </SideModalLayout>
   )
 }
+
+export default SelectContact

@@ -1,9 +1,11 @@
+import { format } from 'date-fns'
 import { useTranslation } from 'react-i18next'
-import MdCalendarMonth from '@renderer/assets/images/md-calendar-month.svg?react'
-import MdChevronRight from '@renderer/assets/images/md-chevron-right.svg?react'
+
 import { Button } from '@renderer/components/Button'
 import { DatePicker } from '@renderer/components/DatePicker'
-import { format } from 'date-fns'
+
+import MdCalendarMonth from '@renderer/assets/images/md-calendar-month.svg?react'
+import MdChevronRight from '@renderer/assets/images/md-chevron-right.svg?react'
 
 type TProps = {
   dateFrom: Date
@@ -23,8 +25,8 @@ export const TransactionActivityListDateRange = ({
   const { t } = useTranslation('components', { keyPrefix: 'transactionActivityList.dateRange' })
 
   return (
-    <div className="flex h-9 min-w-56 max-w-72 items-center justify-center gap-x-0.5 rounded bg-asphalt px-2">
-      <MdCalendarMonth aria-hidden={true} className="mr-0.5 h-3 max-h-3 min-h-3 w-3 min-w-3 max-w-3 text-gray-100" />
+    <div className="bg-asphalt flex h-9 max-w-72 min-w-56 items-center justify-center gap-x-0.5 rounded-sm px-2">
+      <MdCalendarMonth aria-hidden className="mr-0.5 h-3 max-h-3 min-h-3 w-3 max-w-3 min-w-3 text-gray-100" />
 
       <DatePicker.Root>
         <DatePicker.Trigger asChild>
@@ -42,13 +44,13 @@ export const TransactionActivityListDateRange = ({
           mode="single"
           selected={dateFrom}
           defaultMonth={dateFrom}
-          required={true}
+          required
           disabled={isDisabled}
           onSelect={onSelectDateFrom}
         />
       </DatePicker.Root>
 
-      <MdChevronRight aria-hidden={true} className="h-4 max-h-4 min-h-4 w-4 min-w-4 max-w-4 text-gray-100" />
+      <MdChevronRight aria-hidden className="h-4 max-h-4 min-h-4 w-4 max-w-4 min-w-4 text-gray-100" />
 
       <DatePicker.Root>
         <DatePicker.Trigger asChild>
@@ -66,7 +68,7 @@ export const TransactionActivityListDateRange = ({
           mode="single"
           selected={dateTo}
           defaultMonth={dateTo}
-          required={true}
+          required
           disabled={isDisabled}
           onSelect={onSelectDateTo}
         />

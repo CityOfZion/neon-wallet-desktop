@@ -1,12 +1,16 @@
+import * as echarts from 'echarts/core'
 import { useTranslation } from 'react-i18next'
+
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { EChart } from '@renderer/components/EChart'
 import { Separator } from '@renderer/components/Separator'
+
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
+
 import { TPriceHistory } from '@shared/@types/query'
-import * as echarts from 'echarts/core'
 
 type TProps = {
   priceHistory: TPriceHistory
@@ -23,7 +27,7 @@ export const ChartCard = ({ priceHistory }: TProps) => {
   const { currency } = useCurrencySelector()
 
   return (
-    <div className="flex h-[205px] w-full grow flex-col gap-y-1.5 overflow-hidden rounded bg-gray-900 px-3 py-2 text-xs">
+    <div className="flex h-[205px] w-full grow flex-col gap-y-1.5 overflow-hidden rounded-sm bg-gray-900 px-3 py-2 text-xs">
       <div className="mb-1.5 flex items-center gap-x-2">
         <div className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-600 p-1.5">
           <BlockchainIcon blockchain={priceHistory.tokenBalance.blockchain} type="white" />

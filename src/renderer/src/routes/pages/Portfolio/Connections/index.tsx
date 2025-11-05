@@ -1,25 +1,29 @@
-import { useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useParams } from 'react-router-dom'
+import { Fragment, useMemo } from 'react'
+
 import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
-import TbPlugX from '@renderer/assets/images/tb-plug-x.svg?react'
+import { useTranslation } from 'react-i18next'
+
 import { Button } from '@renderer/components/Button'
 import { ConnectionsTable } from '@renderer/components/ConnectionsTable'
 import { Separator } from '@renderer/components/Separator'
+
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
+
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
+
+import TbPlugX from '@renderer/assets/images/tb-plug-x.svg?react'
+
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 
-export const PortfolioConnectionsPage = () => {
+const PortfolioConnectionsPage = () => {
   const { sessions } = useWalletConnectWallet()
   const { modalNavigateWrapper } = useModalNavigate()
   const { accounts } = useAccountsSelector()
   const { wallets } = useWalletsSelector()
   const { t } = useTranslation('pages', { keyPrefix: 'portfolio.portfolioConnections' })
-  const { address } = useParams()
 
   const filteredSessions = useMemo(
     () =>
@@ -32,11 +36,7 @@ export const PortfolioConnectionsPage = () => {
   )
 
   return (
-    <div
-      className={StyleHelper.mergeStyles('flex min-h-0 w-full min-w-0 flex-grow flex-col px-4 py-3', {
-        'rounded bg-gray-800 shadow-lg': !address,
-      })}
-    >
+    <Fragment>
       <div className="mb-3 flex justify-between text-sm">
         <p className="text-white">{t('title')}</p>
 
@@ -47,7 +47,7 @@ export const PortfolioConnectionsPage = () => {
 
       <Separator />
 
-      <div className="mt-5 flex min-h-0 flex-grow flex-col">
+      <div className="mt-5 flex min-h-0 grow flex-col">
         <div
           className={StyleHelper.mergeStyles('flex flex-row justify-between', {
             'justify-end': filteredSessions.length === 0,
@@ -67,13 +67,10 @@ export const PortfolioConnectionsPage = () => {
           <p className="text-lg text-gray-300">{t('totalConnections', { connections: filteredSessions.length })}</p>
         </div>
 
-        <ConnectionsTable
-          withAddress={true}
-          sessions={filteredSessions}
-          tableHeaderClassName="bg-gray-800"
-          className="mt-4"
-        />
+        <ConnectionsTable withAddress sessions={filteredSessions} tableHeaderClassName="bg-gray-800" className="mt-4" />
       </div>
-    </div>
+    </Fragment>
   )
 }
+
+export default PortfolioConnectionsPage

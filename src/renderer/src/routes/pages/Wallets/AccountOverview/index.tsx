@@ -1,10 +1,14 @@
-import { useTranslation } from 'react-i18next'
-import { useOutletContext } from 'react-router-dom'
 import { isClaimable } from '@cityofzion/blockchain-service'
+import { useTranslation } from 'react-i18next'
+import { useOutletContext } from 'react-router'
+
 import { OverviewCharts } from '@renderer/components/OverviewCharts'
+
 import { useBalances } from '@renderer/hooks/useBalances'
+
 import { AccountDetailsLayout } from '@renderer/layouts/AccountDetailsLayout'
-import { bsAggregator } from '@renderer/libs/blockchainService'
+
+import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { IAccountState } from '@shared/@types/store'
 
 import { ClaimGasBanner } from '../ClaimGasBanner'
@@ -14,7 +18,7 @@ type TOutletContext = {
   account: IAccountState
 }
 
-export const AccountOverview = () => {
+const AccountOverview = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'wallets.accountOverview' })
   const { account } = useOutletContext<TOutletContext>()
   const balances = useBalances([account])
@@ -26,7 +30,7 @@ export const AccountOverview = () => {
       heading={t('title')}
       actions={account ? <CommonAccountActions account={account} /> : undefined}
     >
-      <div className="flex w-full flex-grow flex-col items-center justify-center">
+      <div className="flex w-full grow flex-col items-center justify-center">
         <OverviewCharts balances={balances} account={account}>
           {balances.exchangeTotal > 0 && isClaimable(blockchainService) && account.type !== 'watch' && (
             <ClaimGasBanner blockchainService={blockchainService} account={account} />
@@ -36,3 +40,5 @@ export const AccountOverview = () => {
     </AccountDetailsLayout>
   )
 }
+
+export default AccountOverview

@@ -1,16 +1,19 @@
+import { BSBigNumberHelper, type TBSToken } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
-import { BSBigNumberHelper, Token } from '@cityofzion/blockchain-service'
+
 import { Checkbox } from '@renderer/components/Checkbox'
 import { Skeleton } from '@renderer/components/Skeleton'
+
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 
 type TProps = {
   className?: string
   amountBn: BigNumber
   fiatPriceBn: BigNumber
-  token: Token
+  token: TBSToken
   isChecked: boolean
   isDisabled: boolean
   isLoading: boolean
@@ -36,7 +39,7 @@ export const SendTip = ({
     <label
       aria-disabled={isInternalDisabled}
       className={StyleHelper.mergeStyles(
-        'flex w-full cursor-pointer select-none items-center gap-x-3 rounded bg-green-700/50 px-3 py-4 text-xs font-medium text-neon aria-disabled:cursor-not-allowed',
+        'text-neon flex w-full cursor-pointer items-center gap-x-3 rounded bg-green-700/50 px-3 py-4 text-xs font-medium select-none aria-disabled:cursor-not-allowed',
         className
       )}
     >
@@ -45,7 +48,7 @@ export const SendTip = ({
       <span className="inline-block w-full">
         {t('supportLabel')}{' '}
         {isLoading ? (
-          <Skeleton className="inline-block h-4 max-h-4 min-h-4 w-24 min-w-24 max-w-24 bg-gray-100 align-bottom" />
+          <Skeleton className="inline-block h-4 max-h-4 min-h-4 w-24 max-w-24 min-w-24 bg-gray-100 align-bottom" />
         ) : (
           <span className="uppercase">
             {BSBigNumberHelper.format(amountBn, { decimals: token.decimals })} {token.symbol} (
@@ -53,7 +56,7 @@ export const SendTip = ({
             {currency.label})
           </span>
         )}{' '}
-        <span className="italic text-gray-100">{t('optionalLabel')}</span>
+        <span className="text-gray-100 italic">{t('optionalLabel')}</span>
       </span>
     </label>
   )

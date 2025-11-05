@@ -1,16 +1,17 @@
 import { useTranslation } from 'react-i18next'
+
 import { Accordion } from '@renderer/components/Accordion'
+
 import { SettingsLayout } from '@renderer/layouts/Settings'
-import { bsAggregator } from '@renderer/libs/blockchainService'
+
+import { getBlockchainNames } from '@renderer/libs/blockchain-service'
 import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 
 import { BlockchainNetworkAccordion } from './BlockchainNetworkAccordion'
 import { NetworkProfileActions } from './NetworkProfileActions'
 import { NetworkProfileSelect } from './NetworkProfileSelect'
 
-const blockchains = Object.keys(bsAggregator.blockchainServicesByName) as TBlockchainServiceKey[]
-
-export const SettingsNetwork = () => {
+const SettingsNetwork = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'settings.settingsNetwork' })
 
   return (
@@ -26,10 +27,12 @@ export const SettingsNetwork = () => {
       <p className="mb-7 text-xs">{t('youAreConnectedNeoAndEth')}</p>
 
       <Accordion.Root type="multiple" defaultValue={['neo3']}>
-        {blockchains.map(blockchain => (
+        {getBlockchainNames().map(blockchain => (
           <BlockchainNetworkAccordion key={`network-${blockchain}`} blockchain={blockchain as TBlockchainServiceKey} />
         ))}
       </Accordion.Root>
     </SettingsLayout>
   )
 }
+
+export default SettingsNetwork

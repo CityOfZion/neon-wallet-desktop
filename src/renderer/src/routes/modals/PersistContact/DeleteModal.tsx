@@ -1,10 +1,14 @@
-import MdDeleteForever from '@renderer/assets/images/md-delete-forever.svg?react'
-import PiWarningLight from '@renderer/assets/images/pi-warning-light.svg?react'
 import { Button } from '@renderer/components/Button'
+
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
+
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
+
 import { SideModalLayout } from '@renderer/layouts/SideModal'
+
+import MdDeleteForever from '@renderer/assets/images/md-delete-forever.svg?react'
+import PiWarningLight from '@renderer/assets/images/pi-warning-light.svg?react'
 
 type TLocationState = {
   modalTitle: string
@@ -17,7 +21,7 @@ type TLocationState = {
   truncateFirstName?: boolean
 }
 
-export const DeleteModal = () => {
+const DeleteModal = () => {
   const {
     modalTitle,
     warningText,
@@ -44,11 +48,11 @@ export const DeleteModal = () => {
   }
 
   return (
-    <SideModalLayout heading={modalTitle} headingIcon={<MdDeleteForever aria-hidden={true} className="text-pink" />}>
+    <SideModalLayout heading={modalTitle} headingIcon={<MdDeleteForever aria-hidden className="text-pink" />}>
       <div className="flex h-full flex-col justify-between">
         <div className="flex flex-col items-center gap-y-3 text-center text-lg">
-          <div className="flex h-[9.25rem] w-[9.25rem] items-center justify-center rounded-full bg-asphalt">
-            <PiWarningLight aria-hidden={true} className="h-28 w-28 px-1 text-pink" />
+          <div className="bg-asphalt flex size-37 items-center justify-center rounded-full">
+            <PiWarningLight aria-hidden className="text-pink size-28 px-1" />
           </div>
           <p>{warningText}</p>
 
@@ -74,3 +78,5 @@ export const DeleteModal = () => {
     </SideModalLayout>
   )
 }
+
+export default DeleteModal

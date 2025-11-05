@@ -1,10 +1,14 @@
-import { useState } from 'react'
+import { type JSX, useState } from 'react'
+
 import { useTranslation } from 'react-i18next'
-import MdContentCopy from '@renderer/assets/images/md-content-copy.svg?react'
+
 import { Button } from '@renderer/components/Button'
 import { DappPermissionHeader } from '@renderer/components/DappPermissionHeader'
 import { IconButton } from '@renderer/components/IconButton'
+
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+
+import MdContentCopy from '@renderer/assets/images/md-content-copy.svg?react'
 
 import { TDappPermissionComponentProps } from '..'
 
@@ -48,21 +52,21 @@ export const EthereumRawJsonDappPermission = ({
   }
 
   return (
-    <div className="flex min-h-0 flex-grow flex-col overflow-y-auto pl-5 pr-2">
+    <div className="flex min-h-0 grow flex-col overflow-y-auto pr-2 pl-5">
       <DappPermissionHeader session={session} />
 
       <div className="flex flex-col items-center">
         <p className="mt-9 text-center text-2xl text-white">{title}</p>
       </div>
 
-      <div className="mt-8 flex w-full flex-grow flex-col gap-2 text-xs text-gray-100">
+      <div className="mt-8 flex w-full grow flex-col gap-2 text-xs text-gray-100">
         <span className="font-bold">{t('dataLabel')}</span>
-        <div className="relative max-h-48 w-full overflow-y-auto whitespace-pre-wrap break-words rounded bg-asphalt p-2">
+        <div className="bg-asphalt relative max-h-48 w-full overflow-y-auto rounded-sm p-2 wrap-break-word whitespace-pre-wrap">
           {json}
 
           <IconButton
-            className="absolute right-2 top-2"
-            icon={<MdContentCopy aria-hidden={true} className="text-neon" />}
+            className="absolute top-2 right-2"
+            icon={<MdContentCopy aria-hidden className="text-neon" />}
             compacted
             onClick={UtilsHelper.copyToClipboard.bind(null, json)}
           />
@@ -76,7 +80,7 @@ export const EthereumRawJsonDappPermission = ({
 
         <Button
           label={t('acceptButtonLabel')}
-          className="flex-grow"
+          className="grow"
           onClick={handleAccept}
           loading={isApproving}
           disabled={isApproving}

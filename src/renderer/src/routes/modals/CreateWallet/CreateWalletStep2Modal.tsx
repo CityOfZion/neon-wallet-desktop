@@ -1,19 +1,25 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+
+import _ from 'lodash'
 import { useTranslation } from 'react-i18next'
-import MdLooksTwo from '@renderer/assets/images/md-looks-two.svg?react'
+
 import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'
+
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
+
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
+
 import { CreateWalletModalLayout } from '@renderer/layouts/CreateWalletModalLayout'
-import _ from 'lodash'
+
+import MdLooksTwo from '@renderer/assets/images/md-looks-two.svg?react'
 
 type TLocationState = {
   words: string[]
 }
 
-export const CreateWalletStep2Modal = () => {
+const CreateWalletStep2Modal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'createWallet.step2' })
   const { words } = useModalState<TLocationState>()
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
@@ -57,18 +63,18 @@ export const CreateWalletStep2Modal = () => {
     <CreateWalletModalLayout>
       <header className="flex items-center justify-between py-2.5">
         <div className="flex items-center gap-x-2.5">
-          <MdLooksTwo aria-hidden={true} className="h-4.5 w-4.5 text-blue" />
+          <MdLooksTwo aria-hidden className="text-blue h-4.5 w-4.5" />
           <h2 className="text-sm">{t('title')}</h2>
         </div>
-        <div className="text-sm text-blue">{t('step2of4')}</div>
+        <div className="text-blue text-sm">{t('step2of4')}</div>
       </header>
 
-      <Separator className="mb-9 min-h-[0.0625rem]" />
+      <Separator className="mb-9 min-h-0.25" />
 
       <div className="flex h-[84%] w-full flex-col items-center justify-between">
         <div className="flex w-full flex-col gap-6">
           <div className="text-xs text-gray-100">{t('description')}</div>
-          <div className="mx-5 grid min-h-[6rem] grid-cols-4 justify-center gap-x-8 gap-y-4 rounded px-5 py-5">
+          <div className="mx-5 grid min-h-24 grid-cols-4 justify-center gap-x-8 gap-y-4 rounded-sm px-5 py-5">
             {shuffledWords.map((word, index) => (
               <Button
                 clickableProps={{
@@ -102,3 +108,5 @@ export const CreateWalletStep2Modal = () => {
     </CreateWalletModalLayout>
   )
 }
+
+export default CreateWalletStep2Modal
