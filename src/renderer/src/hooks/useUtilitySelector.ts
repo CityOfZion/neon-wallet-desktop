@@ -1,6 +1,6 @@
 import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { IAccountState } from '@shared/@types/store'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
+import { IAccountState } from '@shared/types/store'
 
 import { createAppSelector, useAppSelector } from './useRedux'
 

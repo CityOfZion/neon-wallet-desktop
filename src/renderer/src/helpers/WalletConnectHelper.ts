@@ -1,12 +1,12 @@
 import { TSession, TSessionProposal, WalletConnectTypes } from '@cityofzion/wallet-connect-sdk-wallet-react'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import type {
   TWalletConnectHelperProposalInformation,
   TWalletConnectHelperSessionInformation,
-} from '@shared/@types/helpers'
-import { IAccountState } from '@shared/@types/store'
+} from '@shared/types/helpers'
+import { IAccountState } from '@shared/types/store'
 
 export abstract class WalletConnectHelper {
   static supportedBlockchains: Partial<Record<TBlockchainServiceKey, string>> = {

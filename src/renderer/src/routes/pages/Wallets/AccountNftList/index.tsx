@@ -16,7 +16,7 @@ import { AccountDetailsLayout } from '@renderer/layouts/AccountDetailsLayout'
 import MdFormatListBulleted from '@renderer/assets/images/md-format-list-bulleted.svg?react'
 import MdGridView from '@renderer/assets/images/md-grid-view.svg?react'
 
-import { IAccountState } from '@shared/@types/store'
+import { IAccountState } from '@shared/types/store'
 
 enum ENftViewOption {
   LIST,

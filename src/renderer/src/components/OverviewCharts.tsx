@@ -5,8 +5,8 @@ import { Fragment } from 'react/jsx-runtime'
 
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
-import { TUseBalancesResult } from '@shared/@types/query'
-import { IAccountState } from '@shared/@types/store'
+import { TUseBalancesResult } from '@shared/types/query'
+import { IAccountState } from '@shared/types/store'
 
 import { BalanceChart } from './BalanceChart'
 import { ChartCardList } from './ChartCardList'

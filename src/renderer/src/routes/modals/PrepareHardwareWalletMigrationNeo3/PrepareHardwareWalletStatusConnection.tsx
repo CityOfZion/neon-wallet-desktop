@@ -9,7 +9,7 @@ import TbDeviceUsb from '@renderer/assets/images/tb-device-usb.svg?react'
 import TbHourglass from '@renderer/assets/images/tb-hourglass.svg?react'
 import TbX from '@renderer/assets/images/tb-x.svg?react'
 
-import { TUseHardwareWalletByUsbStatus } from '@shared/@types/hooks'
+import { TUseHardwareWalletByUsbStatus } from '@shared/types/hooks'
 
 type TProps = {
   searchLabel: string

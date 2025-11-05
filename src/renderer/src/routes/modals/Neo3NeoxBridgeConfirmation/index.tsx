@@ -15,8 +15,8 @@ import TbArrowRight from '@renderer/assets/images/tb-arrow-right.svg?react'
 import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
 import TbReplace2 from '@renderer/assets/images/tb-replace-2.svg?react'
 
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { IAccountState } from '@shared/@types/store'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
+import { IAccountState } from '@shared/types/store'
 
 type TState = {
   onConfirm(): Promise<void>

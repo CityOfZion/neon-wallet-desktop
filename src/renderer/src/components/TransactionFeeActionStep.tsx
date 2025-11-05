@@ -12,7 +12,7 @@ import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 
 import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
 
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 import { ActionStep } from './ActionStep'
 

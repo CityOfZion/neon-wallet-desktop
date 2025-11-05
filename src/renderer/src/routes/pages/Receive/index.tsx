@@ -8,7 +8,7 @@ import { MainLayout } from '@renderer/layouts/Main'
 
 import TbStepInto from '@renderer/assets/images/tb-step-into.svg?react'
 
-import { IAccountState } from '@shared/@types/store'
+import { IAccountState } from '@shared/types/store'
 
 import { ReceivePageContent } from './ReceivePageContent'
 

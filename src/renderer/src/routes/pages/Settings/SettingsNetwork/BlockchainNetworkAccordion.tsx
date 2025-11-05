@@ -8,7 +8,7 @@ import { useSelectedNetworkProfileSelector, useSelectedNetworkSelector } from '@
 
 import { DEFAULT_NETWORK_PROFILE_ID } from '@renderer/constants/networks'
 import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 import { BlockchainNetworkButton } from './BlockchainNetworkButton'
 

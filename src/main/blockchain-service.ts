@@ -2,8 +2,8 @@ import { TBSAccount } from '@cityofzion/blockchain-service'
 import type { BSAggregator } from '@cityofzion/bs-multichain'
 
 import { exposeApiToRenderer } from '@cityofzion/bs-electron/dist/main'
-import type { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
+import type { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 export const getHardwareWalletTransport = async ({ address, blockchain }: TBSAccount<TBlockchainServiceKey>) => {
   // This import is only to avoid circular dependencies

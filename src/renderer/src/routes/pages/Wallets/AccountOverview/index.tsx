@@ -9,7 +9,7 @@ import { useBalances } from '@renderer/hooks/useBalances'
 import { AccountDetailsLayout } from '@renderer/layouts/AccountDetailsLayout'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { IAccountState } from '@shared/@types/store'
+import { IAccountState } from '@shared/types/store'
 
 import { ClaimGasBanner } from '../ClaimGasBanner'
 import { CommonAccountActions } from '../CommonAccountActions'

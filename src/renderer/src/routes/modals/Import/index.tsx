@@ -19,8 +19,8 @@ import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 import TbFileImport from '@renderer/assets/images/tb-file-import.svg?react'
 
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 type TModalState = {
   text: string

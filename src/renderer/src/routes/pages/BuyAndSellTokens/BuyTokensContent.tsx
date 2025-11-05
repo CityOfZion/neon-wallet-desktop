@@ -17,8 +17,8 @@ import { BuyAndSellTokensLayout } from '@renderer/layouts/BuyAndSellTokensLayout
 import MdRestartAlt from '@renderer/assets/images/md-restart-alt.svg?react'
 
 import { buyTokensIframeUrl, hideBrand, lang, merchantId, theme } from '@renderer/constants/buy-and-sell-tokens'
-import { IAccountState } from '@shared/@types/store'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
+import { IAccountState } from '@shared/types/store'
 
 import { BuyAndSellTokensScreenType } from './index'
 

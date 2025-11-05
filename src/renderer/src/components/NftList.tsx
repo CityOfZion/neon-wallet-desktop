@@ -6,7 +6,7 @@ import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import TbChevronRight from '@renderer/assets/images/tb-chevron-right.svg?react'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { IAccountState } from '@shared/@types/store'
+import { IAccountState } from '@shared/types/store'
 
 type TProps = {
   nfts: TNftResponse[]

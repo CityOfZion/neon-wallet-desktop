@@ -14,7 +14,7 @@ import { CreateWalletModalLayout } from '@renderer/layouts/CreateWalletModalLayo
 import MdLooks4 from '@renderer/assets/images/md-looks-4.svg?react'
 
 import { getBlockchainNames } from '@renderer/libs/blockchain-service'
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 type TLocationState = {
   words: string[]

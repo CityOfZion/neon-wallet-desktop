@@ -10,7 +10,7 @@ import { AccountDetailsLayout } from '@renderer/layouts/AccountDetailsLayout'
 
 import TbFileExport from '@renderer/assets/images/tb-file-export.svg?react'
 
-import { IAccountState } from '@shared/@types/store'
+import { IAccountState } from '@shared/types/store'
 
 import { CommonAccountActions } from '../CommonAccountActions'
 

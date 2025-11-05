@@ -6,7 +6,7 @@ import { MasonryPhotoAlbum } from 'react-photo-album'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { IAccountState } from '@shared/@types/store'
+import { IAccountState } from '@shared/types/store'
 
 import { BlockchainIcon } from './BlockchainIcon'
 

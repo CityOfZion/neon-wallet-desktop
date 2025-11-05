@@ -10,7 +10,7 @@ import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 
 import WalletIcon from '@renderer/assets/images/wallet-icon.svg?react'
 
-import { IWalletState } from '@shared/@types/store'
+import { IWalletState } from '@shared/types/store'
 
 import { BuyAndSellTokensAccordionAccountItem } from './BuyAndSellTokensAccordionAccountItem'
 

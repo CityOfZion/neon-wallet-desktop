@@ -10,8 +10,8 @@ import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import { useAccountsWithWalletSelector } from '@renderer/hooks/useAccountSelector'
 
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { IAccountState, TAccountType } from '@shared/@types/store'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
+import { IAccountState, TAccountType } from '@shared/types/store'
 
 import { BlockchainIcon } from './BlockchainIcon'
 import { Select } from './Select'

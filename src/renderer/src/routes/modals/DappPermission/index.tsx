@@ -14,10 +14,10 @@ import { CenterModalLayout } from '@renderer/layouts/CenterModal'
 
 import TbPlug from '@renderer/assets/images/tb-plug.svg?react'
 
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { TWalletConnectHelperSessionInformation } from '@shared/@types/helpers'
-import { IAccountState } from '@shared/@types/store'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
+import { TWalletConnectHelperSessionInformation } from '@shared/types/helpers'
+import { IAccountState } from '@shared/types/store'
 
 import { EthereumSendTransactionDappPermission } from './Ethereum/SendTransactionDappPermission'
 import { EthereumSignMessageDappPermission } from './Ethereum/SignMessageDappPermission'

@@ -3,8 +3,8 @@ import { CaseReducer, PayloadAction } from '@reduxjs/toolkit'
 import { DateHelper } from '@renderer/helpers/DateHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
-import { IAccountState, IWalletState, TLoginSession, TNotification, TSaveNotification } from '@shared/@types/store'
 import { getI18next } from '@shared/libs/i18next'
+import { IAccountState, IWalletState, TLoginSession, TNotification, TSaveNotification } from '@shared/types/store'
 
 import { IAuthReducer } from '.'
 

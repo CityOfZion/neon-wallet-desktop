@@ -11,7 +11,7 @@ import { useAccountsByWalletIdSelector } from '@renderer/hooks/useAccountSelecto
 import { useBalances } from '@renderer/hooks/useBalances'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 
-import { IAccountState, IWalletState } from '@shared/@types/store'
+import { IAccountState, IWalletState } from '@shared/types/store'
 
 type TProps = {
   onSelect: (account: IAccountState) => void

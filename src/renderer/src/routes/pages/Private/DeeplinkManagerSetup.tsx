@@ -7,7 +7,7 @@ import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 
-import type { IAccountState } from '@shared/@types/store'
+import type { IAccountState } from '@shared/types/store'
 
 const DeeplinkManagerSetup = () => {
   const { modalNavigate } = useModalNavigate()

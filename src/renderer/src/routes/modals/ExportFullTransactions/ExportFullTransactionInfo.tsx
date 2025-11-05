@@ -15,7 +15,7 @@ import TbFileExport from '@renderer/assets/images/tb-file-export.svg?react'
 import TbPackages from '@renderer/assets/images/tb-packages.svg?react'
 import TbWallet from '@renderer/assets/images/tb-wallet.svg?react'
 
-import { IAccountState } from '@shared/@types/store'
+import { IAccountState } from '@shared/types/store'
 
 type TProps = {
   account?: IAccountState

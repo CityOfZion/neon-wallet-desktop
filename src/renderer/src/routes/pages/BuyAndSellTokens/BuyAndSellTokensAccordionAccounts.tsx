@@ -7,7 +7,7 @@ import { Accordion } from '@renderer/components/Accordion'
 
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
 
-import { IAccountState } from '@shared/@types/store'
+import { IAccountState } from '@shared/types/store'
 
 import { BuyAndSellTokensAccordionWalletItem } from './BuyAndSellTokensAccordionWalletItem'
 

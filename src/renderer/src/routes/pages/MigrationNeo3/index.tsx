@@ -46,9 +46,9 @@ import VscCircleFilled from '@renderer/assets/images/vsc-circle-filled.svg?react
 import { NEO_LEGACY_GAS_TOKEN, NEO_LEGACY_NEO_TOKEN, NEO3_GAS_TOKEN, NEO3_NEO_TOKEN } from '@renderer/constants/tokens'
 import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { thunks } from '@renderer/store/thunks'
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { IAccountState, TMigrationNeo3 } from '@shared/@types/store'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
+import { IAccountState, TMigrationNeo3 } from '@shared/types/store'
 
 import { MigrationNeo3AssetText } from './MigrationNeo3AssetText'
 import { MigrationNeo3ListItemAmount } from './MigrationNeo3ListItemAmount'

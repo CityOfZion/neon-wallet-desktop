@@ -18,8 +18,8 @@ import MdAdd from '@renderer/assets/images/md-add.svg?react'
 import TbEyePlus from '@renderer/assets/images/tb-eye-plus.svg?react'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { TAccountsToImport, TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { IWalletState } from '@shared/@types/store'
+import { TAccountsToImport, TBlockchainServiceKey } from '@shared/types/blockchain'
+import { IWalletState } from '@shared/types/store'
 
 import { BlockchainIcon } from '../../../components/BlockchainIcon'
 

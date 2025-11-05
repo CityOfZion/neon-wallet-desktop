@@ -9,7 +9,7 @@ import { BACKUP_FILE_EXTENSION, BACKUP_VERSION, DEPRECATED_BACKUP_FILE_EXTENSION
 import { doesBlockchainSupported } from '@renderer/libs/blockchain-service'
 import { contactReducerActions } from '@renderer/store/reducers/contact'
 import { utilityReducerActions } from '@renderer/store/reducers/utility'
-import { TAccountsToImport, TCreateWalletAndAccountParam } from '@shared/@types/blockchain'
+import { TAccountsToImport, TCreateWalletAndAccountParam } from '@shared/types/blockchain'
 import {
   IAccountState,
   IContactState,
@@ -19,7 +19,7 @@ import {
   TMigrationsNeo3,
   TSkin,
   TSwapRecord,
-} from '@shared/@types/store'
+} from '@shared/types/store'
 
 import { useAccountsSelector, useAccountUtils } from './useAccountSelector'
 import { useCurrentLoginSessionSelector } from './useAuthSelector'

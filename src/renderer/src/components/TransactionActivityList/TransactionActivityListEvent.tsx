@@ -6,7 +6,7 @@ import { match } from 'ts-pattern'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
-import { TFullTransactionAssetEvent, TFullTransactionEvent, TFullTransactionNftEvent } from '@shared/@types/hooks'
+import { TFullTransactionAssetEvent, TFullTransactionEvent, TFullTransactionNftEvent } from '@shared/types/hooks'
 
 import { TransactionActivityListEventColumn } from './TransactionActivityListEventColumn'
 import { TransactionActivityListEventColumnDataAddress } from './TransactionActivityListEventColumnDataAddress'

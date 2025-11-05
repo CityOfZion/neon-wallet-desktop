@@ -35,7 +35,7 @@ import TbReplace2 from '@renderer/assets/images/tb-replace-2.svg?react'
 import TbUpload from '@renderer/assets/images/tb-upload.svg?react'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { IAccountState, IWalletState } from '@shared/@types/store'
+import { IAccountState, IWalletState } from '@shared/types/store'
 
 import { AccountList } from './AccountList'
 import { HardwareWalletConnectedBadge } from './HardwareWalletConnectedBadge'

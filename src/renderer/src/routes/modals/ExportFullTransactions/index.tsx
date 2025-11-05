@@ -18,7 +18,7 @@ import TbDeviceFloppy from '@renderer/assets/images/tb-device-floppy.svg?react'
 import TbFileExport from '@renderer/assets/images/tb-file-export.svg?react'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { IAccountState } from '@shared/@types/store'
+import { IAccountState } from '@shared/types/store'
 
 import { ExportFullTransactionInfo } from './ExportFullTransactionInfo'
 

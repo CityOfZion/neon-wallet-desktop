@@ -18,8 +18,8 @@ import { useNameService } from '@renderer/hooks/useNameService'
 
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { TContactAddress } from '@shared/@types/store'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
+import { TContactAddress } from '@shared/types/store'
 
 type TLocationState = {
   contactName: string

@@ -28,7 +28,7 @@ import TbRosetteDiscountCheck from '@renderer/assets/images/tb-rosette-discount-
 import { DISCORD_LINK } from '@renderer/constants/urls'
 import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { utilityReducerActions } from '@renderer/store/reducers/utility'
-import { TSwapRecord } from '@shared/@types/store'
+import { TSwapRecord } from '@shared/types/store'
 
 import { SwapDetailsModalTokenDetails } from './SwapDetailsModalTokenDetails'
 

@@ -7,9 +7,9 @@ import lodash from 'lodash'
 import { useCurrencyRatio } from '@renderer/hooks/useCurrencyRatio'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
-import { TExchange, TMultiExchange, TUseExchangeParams, TUseExchangeResult } from '@shared/@types/query'
-import { TCurrency } from '@shared/@types/store'
+import { TBlockchainServiceKey, TNetwork } from '@shared/types/blockchain'
+import { TExchange, TMultiExchange, TUseExchangeParams, TUseExchangeResult } from '@shared/types/query'
+import { TCurrency } from '@shared/types/store'
 
 import { useCurrencySelector, useSelectedNetworkByBlockchainSelector } from './useSettingsSelector'
 

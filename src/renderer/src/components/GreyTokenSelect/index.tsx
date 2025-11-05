@@ -13,8 +13,8 @@ import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { TBalance } from '@shared/@types/query'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
+import { TBalance } from '@shared/types/query'
 
 import { Command } from '../Command'
 import { GreyTokenSelectItem } from './GreyTokenSelectItem'

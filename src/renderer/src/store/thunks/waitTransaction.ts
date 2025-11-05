@@ -5,8 +5,8 @@ import { ReactQueryHelper } from '@renderer/helpers/ReactQueryHelper'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
 import type { TRootState } from '@renderer/types/redux'
-import { TUseTransactionsTransfer } from '@shared/@types/hooks'
-import { TNotification, TSaveNotification } from '@shared/@types/store'
+import { TUseTransactionsTransfer } from '@shared/types/hooks'
+import { TNotification, TSaveNotification } from '@shared/types/store'
 
 import { authReducerActions } from '../reducers/auth'
 import { utilityReducerActions } from '../reducers/utility'

@@ -16,7 +16,7 @@ import { SideModalLayout } from '@renderer/layouts/SideModal'
 import TbFileImport from '@renderer/assets/images/tb-file-import.svg?react'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 type TLocation = {
   encryptedKey: string

@@ -11,8 +11,8 @@ import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import TbEye from '@renderer/assets/images/tb-eye.svg?react'
 import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
 
-import { TUseTransactionsTransfer } from '@shared/@types/hooks'
-import { IAccountState } from '@shared/@types/store'
+import { TUseTransactionsTransfer } from '@shared/types/hooks'
+import { IAccountState } from '@shared/types/store'
 
 import { SendSuccessModalContentItem } from './SendSuccessModalContentItem'
 

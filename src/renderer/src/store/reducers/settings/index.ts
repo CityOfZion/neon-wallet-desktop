@@ -6,8 +6,8 @@ import { availableCurrencies } from '@renderer/constants/currency'
 import { defaultLanguage } from '@renderer/constants/language'
 import { DEFAULT_NETWORK_PROFILE_ID } from '@renderer/constants/networks'
 import { bsAggregator, getBlockchainNames } from '@renderer/libs/blockchain-service'
-import { ISettingsState, type TNetworkProfile, type TSelectedNetworks } from '@shared/@types/store'
 import { getI18next } from '@shared/libs/i18next'
+import { ISettingsState, type TNetworkProfile, type TSelectedNetworks } from '@shared/types/store'
 
 import { settingsSliceReducers } from './reducers'
 

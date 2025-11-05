@@ -10,8 +10,8 @@ import { useMount } from '@renderer/hooks/useMount'
 import { useLastIndexesByWallet } from '@renderer/hooks/useUtilitySelector'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 import { Accordion } from './Accordion'
 import { BlockchainIcon } from './BlockchainIcon'

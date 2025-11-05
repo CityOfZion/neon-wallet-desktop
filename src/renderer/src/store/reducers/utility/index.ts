@@ -5,9 +5,9 @@ import getStoredState from 'redux-persist/es/getStoredState'
 import storage from 'redux-persist/lib/storage'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { TUseTransactionsTransfer } from '@shared/@types/hooks'
-import { THiddenTokenByBlockchain, TLastIndexesByWallet, TMigrationsNeo3, TSwapRecord } from '@shared/@types/store'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
+import { TUseTransactionsTransfer } from '@shared/types/hooks'
+import { THiddenTokenByBlockchain, TLastIndexesByWallet, TMigrationsNeo3, TSwapRecord } from '@shared/types/store'
 
 import { utilitySliceReducers } from './reducers'
 

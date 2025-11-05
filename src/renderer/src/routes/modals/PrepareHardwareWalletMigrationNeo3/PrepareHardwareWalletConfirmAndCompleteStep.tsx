@@ -10,9 +10,9 @@ import { useMountUnsafe } from '@renderer/hooks/useMount'
 import TbStepInto from '@renderer/assets/images/tb-step-into.svg?react'
 import TbStepOut from '@renderer/assets/images/tb-step-out.svg?react'
 
-import { IAccountState } from '@shared/@types/store'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
+import { IAccountState } from '@shared/types/store'
 
 import { EPrepareHardwareWalletMigrationStep } from './EPrepareHardwareWalletMigrationStep'
 import { TPrepareHardwareWalletMigrationActionsData, TTPrepareHardwareWalletMigrationSetData } from './index'

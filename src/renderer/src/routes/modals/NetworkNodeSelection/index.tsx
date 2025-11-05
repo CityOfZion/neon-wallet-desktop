@@ -22,7 +22,7 @@ import TbCube3dSphere from '@renderer/assets/images/tb-cube-3d-sphere.svg?react'
 import TbRefresh from '@renderer/assets/images/tb-refresh.svg?react'
 
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 type TState = {
   blockchain: TBlockchainServiceKey

@@ -15,9 +15,9 @@ import { useTransactionActivityList } from '@renderer/hooks/useTransactionActivi
 import TbAlertTriangle from '@renderer/assets/images/tb-alert-triangle.svg?react'
 
 import { TransactionActivityListProvider } from '@renderer/contexts/TransactionActivityListContext'
-import { TTransactionActivityListEventColumnSize } from '@shared/@types/modal'
-import { IAccountState } from '@shared/@types/store'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
+import { TTransactionActivityListEventColumnSize } from '@shared/types/modal'
+import { IAccountState } from '@shared/types/store'
 
 import { TransactionActivityListDateRange } from './TransactionActivityListDateRange'
 import { TransactionActivityListItem } from './TransactionActivityListItem'

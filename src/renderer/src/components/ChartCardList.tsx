@@ -8,7 +8,7 @@ import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import { usePriceHistory } from '@renderer/hooks/usePriceHistory'
 
-import { TTokenBalance } from '@shared/@types/query'
+import { TTokenBalance } from '@shared/types/query'
 
 import { ChartCard } from './ChartCard'
 

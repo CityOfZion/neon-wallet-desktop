@@ -15,8 +15,8 @@ import { useMountUnsafe } from '@renderer/hooks/useMount'
 
 import MdAdd from '@renderer/assets/images/md-add.svg?react'
 
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 import { EPrepareHardwareWalletMigrationStep } from './EPrepareHardwareWalletMigrationStep'
 import { TPrepareHardwareWalletMigrationActionsData, TTPrepareHardwareWalletMigrationSetData } from './index'

@@ -5,8 +5,8 @@ import * as uuid from 'uuid'
 import { AVAILABLE_RANDOM_COLORS, MANDATORY_TOKEN_COLORS } from '@renderer/constants/colors'
 import { ACCOUNT_COLOR_SKINS } from '@renderer/constants/skins'
 import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { TColorSkin } from '@shared/@types/store'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
+import { TColorSkin } from '@shared/types/store'
 
 import { DateHelper } from './DateHelper'
 

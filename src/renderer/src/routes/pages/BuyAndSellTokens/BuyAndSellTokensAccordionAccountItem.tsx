@@ -14,7 +14,7 @@ import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 
 import MdOutlineContentCopy from '@renderer/assets/images/md-outline-content-copy.svg?react'
 
-import { IAccountState } from '@shared/@types/store'
+import { IAccountState } from '@shared/types/store'
 
 type TProps = {
   account: IAccountState

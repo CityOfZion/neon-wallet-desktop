@@ -1,4 +1,4 @@
-import { IContactState, TContactEncryptedAddress } from '@shared/@types/store'
+import { IContactState, TContactEncryptedAddress } from '@shared/types/store'
 
 export class ContactsHelper {
   static encryptContact(contact: IContactState): IContactState<TContactEncryptedAddress> {

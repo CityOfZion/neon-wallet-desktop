@@ -11,7 +11,7 @@ import { SettingsLayout } from '@renderer/layouts/Settings'
 
 import { availableCurrencies } from '@renderer/constants/currency'
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
-import { TCurrency } from '@shared/@types/store'
+import { TCurrency } from '@shared/types/store'
 
 const SettingsCurrency = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'settings.settingsCurrency' })

@@ -9,8 +9,8 @@ import { useModalState } from '@renderer/hooks/useModalRouter'
 
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
 
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { IAccountState } from '@shared/@types/store'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
+import { IAccountState } from '@shared/types/store'
 
 import { EPrepareHardwareWalletMigrationStep } from './EPrepareHardwareWalletMigrationStep'
 import { PrepareHardwareWalletConfirmAndCompleteStep } from './PrepareHardwareWalletConfirmAndCompleteStep'

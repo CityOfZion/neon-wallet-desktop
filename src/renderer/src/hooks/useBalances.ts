@@ -11,7 +11,7 @@ import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { useCurrencyRatio } from '@renderer/hooks/useCurrencyRatio'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { TBlockchainServiceKey, TNetwork } from '@shared/@types/blockchain'
+import { TBlockchainServiceKey, TNetwork } from '@shared/types/blockchain'
 import {
   TBalance,
   TTokenBalance,
@@ -21,8 +21,8 @@ import {
   TUseBalancesOptions,
   TUseBalancesParams,
   TUseBalancesResult,
-} from '@shared/@types/query'
-import { TCurrency, THiddenTokenByBlockchain } from '@shared/@types/store'
+} from '@shared/types/query'
+import { TCurrency, THiddenTokenByBlockchain } from '@shared/types/store'
 
 import { fetchExchange } from './useExchange'
 import { useCurrencySelector, useSelectedNetworkByBlockchainSelector } from './useSettingsSelector'

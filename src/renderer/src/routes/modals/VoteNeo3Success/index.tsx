@@ -16,7 +16,7 @@ import TbEye from '@renderer/assets/images/tb-eye.svg?react'
 import TbRosetteDiscountCheck from '@renderer/assets/images/tb-rosette-discount-check.svg?react'
 
 import { NEO3_NEO_TOKEN } from '@renderer/constants/tokens'
-import { IAccountState } from '@shared/@types/store'
+import { IAccountState } from '@shared/types/store'
 
 type TLocationState = {
   neo3Account: IAccountState

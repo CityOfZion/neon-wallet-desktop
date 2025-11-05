@@ -4,7 +4,7 @@ import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 
 import { BuyAndSellTokensScreenType } from '@renderer/routes/pages/BuyAndSellTokens'
 
-import { IAccountState } from '@shared/@types/store'
+import { IAccountState } from '@shared/types/store'
 
 type TFunctionParams = {
   modalActions: ReturnType<typeof useModalNavigate>

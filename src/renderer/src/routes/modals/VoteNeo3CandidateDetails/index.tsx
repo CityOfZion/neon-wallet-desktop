@@ -25,7 +25,7 @@ import MdInfoOutline from '@renderer/assets/images/md-info-outline.svg?react'
 import TbCheckbox from '@renderer/assets/images/tb-checkbox.svg?react'
 
 import { VOTE_NEO3_COZ_PUB_KEY } from '@renderer/constants/public-keys'
-import { IAccountState } from '@shared/@types/store'
+import { IAccountState } from '@shared/types/store'
 
 type TLocationState = {
   neo3Account: IAccountState

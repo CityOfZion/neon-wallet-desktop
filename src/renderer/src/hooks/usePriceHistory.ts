@@ -3,7 +3,7 @@ import { useQueries } from '@tanstack/react-query'
 import { useCurrencyRatio } from '@renderer/hooks/useCurrencyRatio'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { TPriceHistory, TTokenBalance, TUsePriceHistoryResult } from '@shared/@types/query'
+import { TPriceHistory, TTokenBalance, TUsePriceHistoryResult } from '@shared/types/query'
 
 import { useCurrencySelector } from './useSettingsSelector'
 

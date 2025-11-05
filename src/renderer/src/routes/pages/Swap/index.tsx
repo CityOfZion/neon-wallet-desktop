@@ -8,7 +8,7 @@ import { MainLayout } from '@renderer/layouts/Main'
 
 import TbReplace from '@renderer/assets/images/tb-replace.svg?react'
 
-import { IAccountState } from '@shared/@types/store'
+import { IAccountState } from '@shared/types/store'
 
 import { SwapPageContent } from './SwapPageContent'
 

@@ -3,7 +3,7 @@ import { SkinCard } from '@renderer/components/SkinCard'
 import { useUnlockedSkinIdsSelector } from '@renderer/hooks/useUtilitySelector'
 
 import { ACCOUNT_COLOR_SKINS, ACCOUNT_LOCAL_SKINS } from '@renderer/constants/skins'
-import { IAccountState, TSkin } from '@shared/@types/store'
+import { IAccountState, TSkin } from '@shared/types/store'
 
 type TProps = {
   label: string

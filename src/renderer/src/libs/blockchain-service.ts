@@ -1,7 +1,7 @@
 import { BSAggregator } from '@cityofzion/bs-multichain'
 
 import { bindApiFromMain } from '@cityofzion/bs-electron/dist/renderer'
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 export let bsAggregator: BSAggregator<TBlockchainServiceKey>
 

@@ -19,7 +19,7 @@ import { useLastIndexesByWallet } from '@renderer/hooks/useUtilitySelector'
 import TbFileImport from '@renderer/assets/images/tb-file-import.svg?react'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { TAccountsToImport, TBlockchainServiceKey, TWalletToCreate } from '@shared/@types/blockchain'
+import { TAccountsToImport, TBlockchainServiceKey, TWalletToCreate } from '@shared/types/blockchain'
 
 type TLocationState = {
   password: string

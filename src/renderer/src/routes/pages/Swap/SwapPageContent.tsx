@@ -56,9 +56,9 @@ import VscCircleFilled from '@renderer/assets/images/vsc-circle-filled.svg?react
 import { SWAP_NETWORK_BY_BLOCKCHAIN_AND_NETWORK_ID } from '@renderer/constants/swap'
 import { bsAggregator, doesBlockchainSupported } from '@renderer/libs/blockchain-service'
 import { utilityReducerActions } from '@renderer/store/reducers/utility'
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { IAccountState, TContactAddress, TSwapRecord } from '@shared/@types/store'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
+import { IAccountState, TContactAddress, TSwapRecord } from '@shared/types/store'
 
 type TActionsData = {
   availableTokensToUse: TSwapLoadableValue<TSwapToken<TBlockchainServiceKey>[]>

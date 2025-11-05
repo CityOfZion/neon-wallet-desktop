@@ -5,7 +5,7 @@ import { hasNeo3NeoXBridge } from '@cityofzion/blockchain-service'
 import { useSelectedNetworkByBlockchainSelector } from '@renderer/hooks/useSettingsSelector'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { IAccountState } from '@shared/@types/store'
+import { IAccountState } from '@shared/types/store'
 
 export const useBridgeNeo3NeoXValidations = (account?: IAccountState) => {
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()

@@ -25,8 +25,8 @@ import TbRosetteDiscountCheck from '@renderer/assets/images/tb-rosette-discount-
 
 import { DISCORD_LINK } from '@renderer/constants/urls'
 import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { IAccountState } from '@shared/@types/store'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
+import { IAccountState } from '@shared/types/store'
 
 type TState = {
   tokenToUse: TBridgeToken<TBlockchainServiceKey>

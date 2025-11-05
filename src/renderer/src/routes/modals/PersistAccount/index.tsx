@@ -20,8 +20,8 @@ import TbPencil from '@renderer/assets/images/tb-pencil.svg?react'
 import TbPlus from '@renderer/assets/images/tb-plus.svg?react'
 
 import { authReducerActions } from '@renderer/store/reducers/auth'
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { IAccountState, IWalletState, TSkin } from '@shared/@types/store'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
+import { IAccountState, IWalletState, TSkin } from '@shared/types/store'
 
 import { SkinSelector } from './SkinSelector'
 

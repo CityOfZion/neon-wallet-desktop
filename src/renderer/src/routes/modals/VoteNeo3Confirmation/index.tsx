@@ -37,8 +37,8 @@ import TbCheckbox from '@renderer/assets/images/tb-checkbox.svg?react'
 import { NEO3_NEO_TOKEN } from '@renderer/constants/tokens'
 import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { thunks } from '@renderer/store/thunks'
-import { TUseTransactionsTransfer } from '@shared/@types/hooks'
-import { IAccountState } from '@shared/@types/store'
+import { TUseTransactionsTransfer } from '@shared/types/hooks'
+import { IAccountState } from '@shared/types/store'
 
 import { VoteNeo3ConfirmationSkeleton } from './VoteNeo3ConfirmationSkeleton'
 

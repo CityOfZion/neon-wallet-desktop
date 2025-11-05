@@ -8,7 +8,7 @@ import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { useAccountUtils } from '@renderer/hooks/useAccountSelector'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { TUseImportActionInputType } from '@shared/@types/hooks'
+import { TUseImportActionInputType } from '@shared/types/hooks'
 
 import { useActions } from './useActions'
 

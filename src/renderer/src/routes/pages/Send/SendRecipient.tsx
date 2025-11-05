@@ -28,8 +28,8 @@ import TbWallet from '@renderer/assets/images/tb-wallet.svg?react'
 import VscCircleFilled from '@renderer/assets/images/vsc-circle-filled.svg?react'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { TTokenBalance, TUseBalanceResult } from '@shared/@types/query'
-import { IAccountState, TContactAddress } from '@shared/@types/store'
+import { TTokenBalance, TUseBalanceResult } from '@shared/types/query'
+import { IAccountState, TContactAddress } from '@shared/types/store'
 
 export type TSendRecipient = {
   id: string

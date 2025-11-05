@@ -20,7 +20,7 @@ import { MainLayout } from '@renderer/layouts/Main'
 import TbPencil from '@renderer/assets/images/tb-pencil.svg?react'
 import TbPlus from '@renderer/assets/images/tb-plus.svg?react'
 
-import { IContactState } from '@shared/@types/store'
+import { IContactState } from '@shared/types/store'
 
 const ContactsPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'contacts' })

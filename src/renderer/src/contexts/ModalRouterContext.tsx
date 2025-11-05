@@ -15,7 +15,7 @@ import {
   TModalRouterContextValue,
   TModalRouterProviderProps,
   TRouteType,
-} from '@shared/@types/modal'
+} from '@shared/types/modal'
 
 const modalByRouteType: Record<TRouteType, (...props: any[]) => JSX.Element> = {
   side: SideModal,

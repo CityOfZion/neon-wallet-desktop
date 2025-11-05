@@ -1,14 +1,14 @@
 import { hasLedger, TBSAccount } from '@cityofzion/blockchain-service'
 import { app } from 'electron'
 
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
+import { mainApi } from '@shared/api/main'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import {
   TConnectHardwareWalletGenericParams,
   TGetAccountHardwareWalletGenericParams,
   THardwareWalletInfo,
   TIsConnectedAndUnlockedHardwareWalletGenericParams,
-} from '@shared/@types/ipc'
-import { mainApi } from '@shared/api/main'
+} from '@shared/types/ipc'
 
 import { bsAggregator } from '../blockchain-service'
 

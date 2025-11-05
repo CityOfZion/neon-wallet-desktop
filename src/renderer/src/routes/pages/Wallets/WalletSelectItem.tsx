@@ -9,7 +9,7 @@ import { useAccountsByWalletIdSelector } from '@renderer/hooks/useAccountSelecto
 import { useBalances } from '@renderer/hooks/useBalances'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 
-import { IWalletState } from '@shared/@types/store'
+import { IWalletState } from '@shared/types/store'
 
 type TProps = {
   wallet: IWalletState

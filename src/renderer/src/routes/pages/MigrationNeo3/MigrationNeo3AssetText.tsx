@@ -2,7 +2,7 @@ import { TNeo3NeoLegacyMigrationNeoLegacyAmounts } from '@cityofzion/bs-neo-lega
 import { useTranslation } from 'react-i18next'
 import { match } from 'ts-pattern'
 
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 type TProps = {
   neoLegacyMigrationAmounts: TNeo3NeoLegacyMigrationNeoLegacyAmounts

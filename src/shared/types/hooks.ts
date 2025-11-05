@@ -8,7 +8,7 @@ import {
   TFullTransactionsItem as TBSFullTransactionsItem,
 } from '@cityofzion/blockchain-service'
 
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 import { IAccountState } from './store'
 

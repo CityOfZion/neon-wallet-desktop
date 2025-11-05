@@ -12,8 +12,8 @@ import { TestHelper } from '@renderer/helpers/TestHelper'
 import TbCheck from '@renderer/assets/images/tb-check.svg?react'
 import TbChevronUp from '@renderer/assets/images/tb-chevron-up.svg?react'
 
-import { TBlockchainServiceKey } from '@shared/@types/blockchain'
-import { IContactState, TContactAddress } from '@shared/@types/store'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
+import { IContactState, TContactAddress } from '@shared/types/store'
 
 import { BlockchainIcon } from './BlockchainIcon'
 import { Separator } from './Separator'

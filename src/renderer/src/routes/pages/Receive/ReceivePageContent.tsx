@@ -17,7 +17,7 @@ import TbQrcode from '@renderer/assets/images/tb-qrcode.svg?react'
 import TbSend from '@renderer/assets/images/tb-send.svg?react'
 import TbStepInto from '@renderer/assets/images/tb-step-into.svg?react'
 
-import { IAccountState } from '@shared/@types/store'
+import { IAccountState } from '@shared/types/store'
 
 type TProps = {
   account?: IAccountState

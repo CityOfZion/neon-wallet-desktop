@@ -14,9 +14,9 @@ import { useSettingsActions } from '@renderer/hooks/useSettingsSelector'
 import NeonWalletLogo from '@renderer/assets/images/neon-wallet-compact.svg?react'
 
 import { utilityReducerActions } from '@renderer/store/reducers/utility'
-import { TCreateWalletAndAccountParam } from '@shared/@types/blockchain'
-import { IContactState, TMigrationsNeo3, TSwapRecord } from '@shared/@types/store'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
+import { TCreateWalletAndAccountParam } from '@shared/types/blockchain'
+import { IContactState, TMigrationsNeo3, TSwapRecord } from '@shared/types/store'
 
 type TLocationState = {
   wallets: TCreateWalletAndAccountParam[]

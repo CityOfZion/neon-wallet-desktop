@@ -7,8 +7,8 @@ import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
 import { LOGIN_CONTROL_VALUE } from '@renderer/constants/password'
 import { authReducerActions } from '@renderer/store/reducers/auth'
-import { TAccountsToImport, TBlockchainServiceKey, TWalletToCreate } from '@shared/@types/blockchain'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
+import { TAccountsToImport, TBlockchainServiceKey, TWalletToCreate } from '@shared/types/blockchain'
 
 import { useBlockchainActions } from './useBlockchainActions'
 import { useHardwareWalletActions } from './useHardwareWallet'

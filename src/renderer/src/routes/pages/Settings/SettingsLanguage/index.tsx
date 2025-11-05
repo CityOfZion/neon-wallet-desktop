@@ -11,7 +11,7 @@ import { SettingsLayout } from '@renderer/layouts/Settings'
 
 import { availableLanguages } from '@renderer/constants/language'
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
-import { TAvailableLanguages, TLanguage } from '@shared/@types/store'
+import { TAvailableLanguages, TLanguage } from '@shared/types/store'
 
 const SettingsLanguage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'settings.settingsLanguage' })

@@ -20,7 +20,7 @@ import TbChevronDown from '@renderer/assets/images/tb-chevron-down.svg?react'
 import TbChevronUp from '@renderer/assets/images/tb-chevron-up.svg?react'
 
 import { DISCORD_LINK } from '@renderer/constants/urls'
-import { IAccountState } from '@shared/@types/store'
+import { IAccountState } from '@shared/types/store'
 
 import { BuyAndSellTokensScreenType } from '../routes/pages/BuyAndSellTokens'
 import { BuyAndSellTokensAccordionAccounts } from '../routes/pages/BuyAndSellTokens/BuyAndSellTokensAccordionAccounts'
