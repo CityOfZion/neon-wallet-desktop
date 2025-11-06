@@ -26,7 +26,7 @@ export const CommonAccountActions = ({ account, children, className, ...props }:
   const { network } = useSelectedNetworkSelector(account.blockchain)
   const { t } = useTranslation('common', { keyPrefix: 'general' })
 
-  const isSwapAvailable = !!SWAP_NETWORK_BY_BLOCKCHAIN_AND_NETWORK_ID[account.blockchain][network.id]?.length
+  const isSwapAvailable = !!SWAP_NETWORK_BY_BLOCKCHAIN_AND_NETWORK_ID?.[account.blockchain]?.[network.id]?.length
 
   if (account.type === 'watch') {
     return null
