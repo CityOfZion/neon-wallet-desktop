@@ -6,8 +6,12 @@ import { useTranslation } from 'react-i18next'
 
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
+import { useLanguageSelector } from '@renderer/hooks/useSettingsSelector'
+
 import TbChevronLeft from '@renderer/assets/images/tb-chevron-left.svg?react'
 import TbChevronRight from '@renderer/assets/images/tb-chevron-right.svg?react'
+
+import { DATE_FNS_LOCALE_BY_LANGUAGE_VALUE } from '@renderer/constants/language'
 
 import { Button } from './Button'
 import { IconButton } from './IconButton'
@@ -259,6 +263,7 @@ export const Calendar = ({
   components,
   ...props
 }: TCalendarProps) => {
+  const { language } = useLanguageSelector()
   const [navView, setNavView] = useState<TNavView>('days')
 
   const [displayYears, setDisplayYears] = useState<TDisplayYears>(() => {
@@ -276,6 +281,7 @@ export const Calendar = ({
 
   return (
     <DayPicker
+      locale={DATE_FNS_LOCALE_BY_LANGUAGE_VALUE[language.value]}
       showOutsideDays={showOutsideDays}
       className={StyleHelper.mergeStyles('p-3', className)}
       classNames={{

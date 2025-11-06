@@ -1,4 +1,3 @@
-import * as dateFns from 'date-fns'
 import { useTranslation } from 'react-i18next'
 
 import { ActionStep } from '@renderer/components/ActionStep'
@@ -7,7 +6,10 @@ import { Button } from '@renderer/components/Button'
 import { DatePicker } from '@renderer/components/DatePicker'
 import { Separator } from '@renderer/components/Separator'
 
+import { DateHelper } from '@renderer/helpers/DateHelper'
+
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+import { useLanguageSelector } from '@renderer/hooks/useSettingsSelector'
 
 import MdDateRange from '@renderer/assets/images/md-date-range.svg?react'
 import TbChevronRight from '@renderer/assets/images/tb-chevron-right.svg?react'
@@ -41,9 +43,16 @@ export const ExportFullTransactionInfo = ({
   const { t } = useTranslation('modals', { keyPrefix: 'exportFullTransactions.info' })
   const { t: commonT } = useTranslation('common')
   const { modalNavigateWrapper } = useModalNavigate()
+  const { language } = useLanguageSelector()
 
-  const formattedDateFrom = dateFns.format(from, t('datePickerStepFormat'))
-  const formattedDateTo = dateFns.format(to, t('datePickerStepFormat'))
+  const formattedDateFrom = DateHelper.formatLocalized(from, {
+    format: t('datePickerStepFormat'),
+    language,
+  })
+  const formattedDateTo = DateHelper.formatLocalized(to, {
+    format: t('datePickerStepFormat'),
+    language,
+  })
 
   return (
     <div className="relative mt-2 flex w-full flex-col gap-3">
@@ -145,7 +154,7 @@ export const ExportFullTransactionInfo = ({
             titleClassName="text-xs"
             leftIconContainerClassName="h-5 w-5"
           >
-            <span className="text-xs text-gray-300">{t('datePickerStepTip')}</span>
+            <span className="text-right text-xs text-gray-300">{t('datePickerStepTip')}</span>
           </ActionStep>
 
           <Separator />

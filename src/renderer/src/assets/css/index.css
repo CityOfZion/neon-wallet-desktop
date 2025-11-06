@@ -1,5 +1,5 @@
 @import 'tailwindcss';
-@import "tw-animate-css";
+@import 'tw-animate-css';
 
 @font-face {
   font-family: 'SofiaPro';
@@ -42,7 +42,6 @@
   font-style: normal;
   src: url('../fonts/sofiapro-bold-webfont.woff') format('woff');
 }
-
 
 @theme {
   --color-*: initial;
@@ -97,7 +96,6 @@
   --leading-2: 0.625rem;
 
   @keyframes wiggle {
-
     0%,
     100% {
       transform: rotate(-8deg);
@@ -118,7 +116,6 @@
   color utility to any element that depends on these defaults.
 */
 @layer base {
-
   *,
   ::after,
   ::before,
@@ -144,7 +141,6 @@
   .scrollbar-overlay {
     scrollbar-gutter: stable;
   }
-
 }
 
 /* width */

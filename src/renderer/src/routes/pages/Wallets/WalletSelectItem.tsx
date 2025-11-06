@@ -21,7 +21,7 @@ export const WalletSelectItem = ({ wallet }: TProps) => {
 
   const balances = useBalances(accountsByWalletId)
 
-  const exchangeTotalFormatted = NumberHelper.currency(balances.exchangeTotal, currency.label)
+  const exchangeTotalFormatted = NumberHelper.currency(balances.exchangeTotal, { currency })
 
   return (
     <Select.Item

@@ -51,6 +51,6 @@
     }
   },
   "useGetFullTransactions": {
-    "formatExtendedDate": "yyyy年MM月dd日"
+    "formatExtendedDate": "yyyy MM dd"
   }
 }

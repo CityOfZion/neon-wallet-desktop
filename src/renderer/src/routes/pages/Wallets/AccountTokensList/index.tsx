@@ -48,9 +48,7 @@ const AccountTokensList = () => {
             {balances.isLoading ? (
               <Loader className="h-4 w-4" />
             ) : (
-              <span className="text-sm text-white">
-                {NumberHelper.currency(balances.exchangeTotal, currency.label)}
-              </span>
+              <span className="text-sm text-white">{NumberHelper.currency(balances.exchangeTotal, { currency })}</span>
             )}
           </div>
         </Tabs.List>

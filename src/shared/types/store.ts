@@ -57,7 +57,7 @@ export type TLoginSession = {
   encryptedPassword: string
 }
 
-export type TAvailableLanguages = 'English' | 'Deutsch' | '简体中文' | '繁體中文'
+export type TAvailableLanguages = 'English' | 'Deutsch' | 'Português (BR)' | '简体中文' | '繁體中文'
 
 export type TLanguage = {
   value: string

@@ -2,7 +2,7 @@
   "sidebar": {
     "portfolio": "Portfolio",
     "wallets": "Wallets",
-    "settings": "Einstellungen",
+    "settings": "Einstell.",
     "logout": "Abmelden",
     "send": "Senden",
     "receive": "Empfangen",
@@ -13,7 +13,7 @@
   },
   "walletsSelect": {
     "title": "Wallets",
-    "placeholder": "Wallet auswählen…"
+    "placeholder": "Wallet wählen…"
   },
   "walletAccordionList": {
     "noAccounts": "Keine Konten"
@@ -71,7 +71,7 @@
     "sendAssets": "Assets senden"
   },
   "blockchainSelect": {
-    "placeholder": "Blockchain auswählen…"
+    "placeholder": "Blockchain wählen…"
   },
   "connectionsTable": {
     "name": "Name",
@@ -139,11 +139,11 @@
     "alreadyExists": "Existiert bereits"
   },
   "greyAccountSelect": {
-    "placeholder": "Konto auswählen…",
+    "placeholder": "Konto wählen…",
     "empty": "Keine Konten"
   },
   "greyTokenSelect": {
-    "placeholder": "Token auswählen…",
+    "placeholder": "Token wählen…",
     "empty": "Keine Token"
   },
   "greyAmountInput": {

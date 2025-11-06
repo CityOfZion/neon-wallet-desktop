@@ -1,4 +1,8 @@
+import { LOCALE_BY_CURRENCY_LABEL } from '@renderer/constants/currency'
+import { TCurrency } from '@shared/types/store'
+
 type TCurrencyOptions = {
+  currency: TCurrency
   minimumFractionDigits?: number
   maximumFractionDigits?: number
   showZero?: boolean
@@ -14,8 +18,9 @@ export class NumberHelper {
     return parseFloat(input) || 0
   }
 
-  static currency(input: string | number, currencyName: string, options?: TCurrencyOptions) {
+  static currency(input: string | number, options: TCurrencyOptions) {
     const {
+      currency,
       minimumFractionDigits = 2,
       maximumFractionDigits = 2,
       showZero = true,
@@ -26,9 +31,9 @@ export class NumberHelper {
     let result = '0'
 
     try {
-      result = new Intl.NumberFormat('en-US', {
+      result = new Intl.NumberFormat(LOCALE_BY_CURRENCY_LABEL[currency.label], {
         style: 'currency',
-        currency: currencyName,
+        currency: currency.label,
         minimumFractionDigits,
         maximumFractionDigits,
       })
@@ -50,7 +55,7 @@ export class NumberHelper {
     return NumberHelper.number(value) > 0
   }
 
-  static localeNumber(value: number) {
-    return value.toLocaleString('en-US')
+  static localeNumber(value: number, currency: TCurrency) {
+    return value.toLocaleString(LOCALE_BY_CURRENCY_LABEL[currency.label])
   }
 }

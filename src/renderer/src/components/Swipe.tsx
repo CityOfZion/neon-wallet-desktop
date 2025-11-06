@@ -45,7 +45,7 @@ export const Swipe = ({ text, buttonAriaLabel, isDisabled = false, onComplete, .
   return (
     <div
       style={{ width: `${WIDTH}px` }}
-      className="relative h-[48px] overflow-hidden rounded-sm bg-gray-300/30 text-sm text-white"
+      className="relative h-12 overflow-hidden rounded-sm bg-gray-300/30 text-sm text-white"
     >
       <motion.div
         style={{
@@ -78,7 +78,7 @@ export const Swipe = ({ text, buttonAriaLabel, isDisabled = false, onComplete, .
       </motion.div>
       <p
         style={{ left: `calc(${HALF} + ${HALF_DRAG_WIDTH}px)`, transform: `translate(-${HALF}, -${HALF})`, width: MAX }}
-        className="pointer-events-none absolute top-1/2 text-center"
+        className="pointer-events-none absolute top-1/2 px-4 text-center"
       >
         {text}
       </p>

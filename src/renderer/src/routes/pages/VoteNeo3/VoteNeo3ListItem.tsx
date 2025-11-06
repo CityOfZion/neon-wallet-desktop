@@ -13,6 +13,7 @@ import { StringHelper } from '@renderer/helpers/StringHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 import { useVoteNeo3GetVoteDetailsByAddress } from '@renderer/hooks/useVoteNeo3'
 
 import MdCircle from '@renderer/assets/images/md-circle.svg?react'
@@ -46,6 +47,7 @@ export const VoteNeo3ListItem = ({
   const { t } = useTranslation('pages', { keyPrefix: 'voteNeo3.listItem' })
   const voteDetailsByAddressQuery = useVoteNeo3GetVoteDetailsByAddress(neo3Account?.address)
   const { modalNavigate } = useModalNavigate()
+  const { currency } = useCurrencySelector()
   const ref = useRef<HTMLLIElement>(null)
 
   const { position, pubKey, votes } = candidate
@@ -172,7 +174,7 @@ export const VoteNeo3ListItem = ({
           aria-labelledby="column-votes"
         >
           <span className="truncate">
-            {NumberHelper.localeNumber(votes)} ({votePercentage})
+            {NumberHelper.localeNumber(votes, currency)} ({votePercentage})
           </span>
         </p>
 

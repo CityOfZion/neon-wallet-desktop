@@ -59,7 +59,8 @@ const VoteNeo3SupportUsModal = () => {
       heading={t('title')}
       headerClassName="pt-3"
       headingIcon={<TbHeartHandshake aria-hidden />}
-      contentClassName="px-8 pb-0 pt-8 my-0 flex flex-col font-light text-sm text-white"
+      className="overflow-y-auto"
+      contentClassName="px-8 py-8 my-0 flex flex-col font-light text-sm text-white"
       onClose={handleOnClose}
     >
       <div className="flex flex-col gap-y-3">
@@ -105,7 +106,7 @@ const VoteNeo3SupportUsModal = () => {
           />
         </div>
 
-        <div className="mt-2 flex items-center justify-center font-normal">
+        <div className="mt-2 mb-8 flex items-center justify-center font-normal">
           <Checkbox id="dontShowAgainCheckbox" checked={dontShowAgain} onCheckedChange={handleChangeDontShowAgain} />
 
           <label htmlFor="dontShowAgainCheckbox" className="cursor-pointer pl-2 select-none">

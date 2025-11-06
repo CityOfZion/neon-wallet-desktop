@@ -28,10 +28,11 @@ export const SidebarLink = ({ icon, title, to, disabled, ...props }: Props): JSX
         aria-selected={!!match}
         className={StyleHelper.mergeStyles(
           'group text-1xs relative flex w-full flex-col items-center justify-center gap-1 py-2.5 text-white transition-colors',
+          "before:absolute before:left-0 before:h-full before:border-l-3 before:border-l-transparent before:content-['']",
           {
-            'shadow-inner-md border-l-neon bg-asphalt border-l-3 pr-0.75': match,
+            'shadow-inner-md before:border-l-neon bg-asphalt': match,
             'cursor-not-allowed bg-transparent': !match && disabled,
-            'hover:shadow-inner-md hover:border-l-neon hover:bg-asphalt cursor-pointer bg-transparent hover:border-l-3 hover:pr-0.75':
+            'hover:shadow-inner-md hover:before:border-l-neon hover:bg-asphalt cursor-pointer bg-transparent':
               !match && !disabled,
           }
         )}

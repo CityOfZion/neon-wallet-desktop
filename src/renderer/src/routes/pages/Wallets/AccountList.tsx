@@ -29,7 +29,7 @@ const AccountItem = ({ account, onClick, active }: TAccountItemProps) => {
   const balance = useBalances([account])
   const { currency } = useCurrencySelector()
 
-  const totalExchangeFormatted = NumberHelper.currency(balance.exchangeTotal, currency.label)
+  const totalExchangeFormatted = NumberHelper.currency(balance.exchangeTotal, { currency })
 
   return (
     <li>

@@ -78,11 +78,11 @@ export const useColumns = (showType: TUseBalanceOptionShowType) => {
         header: t('holdings'),
       }),
       columnHelper.accessor('exchangeConvertedPrice', {
-        cell: info => NumberHelper.currency(info.getValue(), currency.label, { maximumFractionDigits: 8 }),
+        cell: info => NumberHelper.currency(info.getValue(), { currency, maximumFractionDigits: 8 }),
         header: t('price'),
       }),
       columnHelper.accessor('exchangeAmount', {
-        cell: info => NumberHelper.currency(info.getValue(), currency.label, { maximumFractionDigits: 8 }),
+        cell: info => NumberHelper.currency(info.getValue(), { currency, maximumFractionDigits: 8 }),
         header: t('value'),
       }),
       columnHelper.display({
