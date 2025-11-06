@@ -73,6 +73,7 @@ export const GreyTokenSelect = <T extends TGreyTokenSelectToken>({
         )
 
         return {
+          blockchain: tokenBalance?.blockchain,
           ...token,
           amount: tokenBalance?.amount,
         }
@@ -157,14 +158,14 @@ export const GreyTokenSelect = <T extends TGreyTokenSelectToken>({
               >
                 {rowVirtualizer.getVirtualItems().map((virtualItem, _, array) => {
                   const row = filteredTokensByText[virtualItem.index]
-                  const value = `${row.symbol}-${row.network}-${virtualItem.key}`
+                  const value = `${row.symbol}-${row.network || row.blockchain}-${virtualItem.key}`
 
                   return (
                     <Command.Item
                       key={virtualItem.key}
                       value={value}
                       onSelect={() => handleClickToken(row)}
-                      className="absolute top-0 left-0 h-10 w-full flex-col"
+                      className="absolute top-0 left-0 h-10 w-full cursor-pointer flex-col"
                       style={{
                         height: `${virtualItem.size}px`,
                         transform: `translateY(${virtualItem.start}px)`,

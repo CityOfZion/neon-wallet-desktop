@@ -10,9 +10,9 @@ import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 
-import dappFallbackIcon from '@renderer/assets/images/dapp-fallback-icon.png'
 import TbPlugX from '@renderer/assets/images/tb-plug-x.svg?react'
 
+import { NEON_ICONS_URL } from '@renderer/constants/urls'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 
 import { BlockchainIcon } from '../BlockchainIcon'
@@ -39,8 +39,9 @@ export const useColumns = (withAddress: boolean) => {
               <ImageWithFallback
                 src={value.icons[0]}
                 alt={value.name}
-                fallbackSrc={dappFallbackIcon}
-                className="h-5 w-5 min-w-5 overflow-hidden rounded-full bg-gray-300/30 object-contain"
+                fallbackSrc={`${NEON_ICONS_URL}/dapps/default-dapp.png`}
+                imgClassName="size-5.5 rounded-full"
+                className="size-7 overflow-hidden rounded-full bg-gray-600/50"
               />
               <span className="truncate">{value.name}</span>
             </div>
@@ -89,7 +90,7 @@ export const useColumns = (withAddress: boolean) => {
           header: t('account'),
           cell: info => {
             const value = info.getValue()
-            return accounts.find(SharedAccountHelper.predicate(value))?.name ?? value.address
+            return accounts.find(SharedAccountHelper.predicate(value))?.name || value.address
           },
         })
       )

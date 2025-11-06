@@ -69,7 +69,7 @@ const BlockchainSelectionModal = () => {
               >
                 <div className="flex items-center gap-4">
                   <BlockchainIcon blockchain={service} type="gray" />
-                  <label>{blockchainT(service)}</label>
+                  <span>{blockchainT(service)}</span>
                 </div>
                 <RadioGroup.Indicator />
               </RadioGroup.Item>

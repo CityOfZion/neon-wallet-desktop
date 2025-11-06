@@ -18,11 +18,11 @@ import { useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
 
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
 
-import dappFallbackIcon from '@renderer/assets/images/dapp-fallback-icon.png'
 import NeonWalletLogo from '@renderer/assets/images/neon-wallet-full.svg?react'
 import TbPlug from '@renderer/assets/images/tb-plug.svg?react'
 import WalletConnectLogo from '@renderer/assets/images/wallet-connect.svg?react'
 
+import { NEON_ICONS_URL } from '@renderer/constants/urls'
 import { TWalletConnectHelperProposalInformation } from '@shared/types/helpers'
 import { IAccountState } from '@shared/types/store'
 
@@ -132,9 +132,10 @@ const DappConnectionDetailsModal = () => {
 
           <ImageWithFallback
             src={proposal.params.proposer.metadata.icons[0]}
-            alt={`${proposal.params.proposer.metadata.name} icon`}
-            fallbackSrc={dappFallbackIcon}
-            className="mt-5 max-h-9 max-w-16 rounded-xs object-contain"
+            alt={proposal.params.proposer.metadata.name}
+            fallbackSrc={`${NEON_ICONS_URL}/dapps/default-dapp.png`}
+            imgClassName="rounded-md"
+            className="mt-6 max-h-16 max-w-16 object-contain"
           />
 
           <p className="mt-9 text-2xl text-white">{t('title')}</p>

@@ -40,7 +40,7 @@ export const EmptyState = ({ account }: TProps) => {
             <Button
               className="w-full"
               label={t('connectDappLabel')}
-              rightIcon={<TbPlug />}
+              rightIcon={<TbPlug aria-hidden />}
               onClick={modalNavigateWrapper('dapp-connection', { state: { account } })}
               clickableProps={{ className: 'h-10 text-sm' }}
             />
@@ -48,7 +48,7 @@ export const EmptyState = ({ account }: TProps) => {
           <Button
             className="w-full"
             label={t('importAccountLabel')}
-            rightIcon={<TbFileImport />}
+            rightIcon={<TbFileImport aria-hidden />}
             onClick={modalNavigateWrapper('import')}
             clickableProps={{ className: 'h-10 text-sm' }}
           />

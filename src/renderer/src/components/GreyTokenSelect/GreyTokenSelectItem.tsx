@@ -1,8 +1,8 @@
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useState } from 'react'
 
 import { BSBigNumberHelper } from '@cityofzion/blockchain-service'
 
-import defaultTokenLogo from '@renderer/assets/images/default-token-logo.png'
+import { NEON_ICONS_URL } from '@renderer/constants/urls'
 
 import { Tooltip } from '../Tooltip'
 import { TGreyTokenSelectToken } from '.'
@@ -11,27 +11,32 @@ type TProps = {
   token: TGreyTokenSelectToken
 }
 
-export const GreyTokenSelectItem = ({ token }: TProps) => {
-  const [img, setImg] = useState(token.imageUrl ?? defaultTokenLogo)
+const defaultTokenImageUrl = `${NEON_ICONS_URL}/tokens/default-token.png`
 
+export const GreyTokenSelectItem = ({ token }: TProps) => {
+  const blockchain = token.blockchain || token.network
   const network = token.network || token.blockchain
 
-  useEffect(() => {
-    setImg(token.imageUrl ?? defaultTokenLogo)
-  }, [token])
+  const [imageUrl, setImageUrl] = useState(`${NEON_ICONS_URL}/tokens/${blockchain}/${token.hash}.png`)
+
+  const handleError = () => {
+    const newImageUrl = token.imageUrl
+
+    if (!!newImageUrl && newImageUrl !== imageUrl) {
+      setImageUrl(newImageUrl)
+
+      return
+    }
+
+    setImageUrl(defaultTokenImageUrl)
+
+    // eslint-disable-next-line react-hooks/immutability
+    token.imageUrl = defaultTokenImageUrl
+  }
 
   return (
     <Fragment>
-      <img
-        src={img}
-        className="h-4 w-4 rounded-full"
-        onError={() => {
-          setImg(defaultTokenLogo)
-          // eslint-disable-next-line react-hooks/immutability
-          token.imageUrl = defaultTokenLogo
-        }}
-        alt={token.symbol}
-      />
+      <img src={imageUrl} className="h-4 w-4 rounded-full" onError={handleError} alt={token.symbol} />
 
       <Tooltip title={network ? `${token.symbol} | ${network}` : ''} contentProps={{ className: 'uppercase' }}>
         <span className="flex w-fit min-w-0 items-center gap-1">

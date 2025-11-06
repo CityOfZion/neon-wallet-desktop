@@ -1,8 +1,8 @@
 import * as echarts from 'echarts/core'
 import { useTranslation } from 'react-i18next'
 
-import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { EChart } from '@renderer/components/EChart'
+import { ImageWithFallback } from '@renderer/components/ImageWithFallback'
 import { Separator } from '@renderer/components/Separator'
 
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
@@ -10,6 +10,7 @@ import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 
+import { NEON_ICONS_URL } from '@renderer/constants/urls'
 import { TPriceHistory } from '@shared/types/query'
 
 type TProps = {
@@ -26,22 +27,29 @@ export const ChartCard = ({ priceHistory }: TProps) => {
   const { t } = useTranslation('components', { keyPrefix: 'chartCard' })
   const { currency } = useCurrencySelector()
 
+  const { tokenBalance } = priceHistory
+  const { token } = tokenBalance
+
   return (
     <div className="flex h-[205px] w-full grow flex-col gap-y-1.5 overflow-hidden rounded-sm bg-gray-900 px-3 py-2 text-xs">
       <div className="mb-1.5 flex items-center gap-x-2">
-        <div className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-600 p-1.5">
-          <BlockchainIcon blockchain={priceHistory.tokenBalance.blockchain} type="white" />
-        </div>
+        <ImageWithFallback
+          src={`${NEON_ICONS_URL}/tokens/${tokenBalance.blockchain}/${token.hash}.png`}
+          alt={token.name || token.symbol}
+          fallbackSrc={`${NEON_ICONS_URL}/tokens/default-token.png`}
+          imgClassName="h-4.5 max-h-4.5 min-h-4.5 w-4.5 max-w-4.5 min-w-4.5 rounded-full"
+          className="h-6 w-6 rounded-full bg-gray-600/50"
+        />
 
-        <div>{priceHistory.tokenBalance.token.name}</div>
-        <div className="text-gray-300">({priceHistory.tokenBalance.token.symbol})</div>
+        <div>{token.name}</div>
+        <div className="text-gray-300">({token.symbol})</div>
       </div>
 
       <Separator />
 
       <div className="flex flex-col">
         <span className="text-gray-300">{t('holdings')}</span>
-        <span>{priceHistory.tokenBalance.amount}</span>
+        <span>{tokenBalance.amount}</span>
       </div>
 
       <Separator />
