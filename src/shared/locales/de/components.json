@@ -1,0 +1,224 @@
+{
+  "sidebar": {
+    "portfolio": "Portfolio",
+    "wallets": "Wallets",
+    "settings": "Einstellungen",
+    "logout": "Abmelden",
+    "send": "Senden",
+    "receive": "Empfangen",
+    "swap": "Tauschen",
+    "nfts": "NFTs",
+    "buyAndSellTokens": "Kaufen + Verkaufen",
+    "contacts": "Kontakte"
+  },
+  "walletsSelect": {
+    "title": "Wallets",
+    "placeholder": "Wallet auswählen…"
+  },
+  "walletAccordionList": {
+    "noAccounts": "Keine Konten"
+  },
+  "contacts": {
+    "search": "Suchen",
+    "noContacts": "Keine Kontakte"
+  },
+  "blockchainSelection": {
+    "search": "Suchen…"
+  },
+  "wallets": {
+    "cancelButtonLabel": "Abbrechen",
+    "saveButtonLabel": "Speichern"
+  },
+  "tokenBalance": {
+    "token": "Token",
+    "quantity": "Menge",
+    "price": "Preis"
+  },
+  "tokensTable": {
+    "ticker": "KÜRZEL",
+    "token": "TOKEN",
+    "holdings": "BESTÄNDE",
+    "price": "PREIS",
+    "value": "WERT",
+    "hash": "HASH",
+    "empty": "Keine Token zum Anzeigen",
+    "hideTokenLabel": "Token ausblenden",
+    "showTokenLabel": "Token anzeigen"
+  },
+  "blockchainDataPanel": {
+    "tabs": {
+      "tokens": "TOKENS",
+      "nfts": "NFTS",
+      "transactions": "TRANSAKTIONEN"
+    },
+    "title": "Alle Konten"
+  },
+  "balanceChart": {
+    "othersTokens": "Sonstige",
+    "noAssets": "Keine Assets",
+    "holdings": "Bestände",
+    "balance": "Guthaben"
+  },
+  "transactionsTableEmpty": {
+    "title": "Ihr Wallet ist derzeit leer. Warum fügen Sie nicht einige Assets hinzu oder verbinden eine dApp?",
+    "subtitle": "Ihr Wallet ist mit Neo-, Gas- und Ethereum-Assets kompatibel",
+    "connectDappLabel": "dApp verbinden",
+    "importAccountLabel": "Konto importieren"
+  },
+  "contactAddressTable": {
+    "blockchain": "BLOCKCHAIN",
+    "address": "ADRESSE",
+    "sendAssets": "Assets senden"
+  },
+  "blockchainSelect": {
+    "placeholder": "Blockchain auswählen…"
+  },
+  "connectionsTable": {
+    "name": "Name",
+    "connected": "Verbunden",
+    "chain": "Chain",
+    "account": "Konto",
+    "disconnect": "Trennen",
+    "emptyList": "Keine dApp-Verbindungen"
+  },
+  "migrateSteps": {
+    "inNeon2": {
+      "label": "In NEON 2",
+      "step1": "Exportieren Sie Ihr NEON 2 Wallet"
+    },
+    "inNeon3": {
+      "label": "In NEON 3",
+      "step2": "Importieren Sie Ihre NEON 2 Konten",
+      "step3": "Wählen Sie die zu migrierenden Konten aus",
+      "step4": "Geben Sie Ihre Kontopasswörter ein"
+    }
+  },
+  "passwordStrength": {
+    "label": "Passwortstärke",
+    "none": "-",
+    "tooShort": "Zu kurz",
+    "weak": "Schwach",
+    "good": "Gut",
+    "strong": "Stark"
+  },
+  "claimGasButton": {
+    "buttonLabel": "GAS abrufen",
+    "claimAmount": "{{amount}} {{symbol}}",
+    "youHaveUnclaimed": "Sie haben nicht abgerufenes {{symbol}}!",
+    "youDoNotHaveUnclaimed": "Sie haben kein nicht abgerufenes {{symbol}}!",
+    "feeToClaim": "Gebühr zum Abrufen: {{fee}} {{symbol}}",
+    "balanceLessFee": "Abrufen nicht möglich, da das Guthaben die Netzwerkgebühren nicht deckt!",
+    "unclaimedLessFee": "Abrufen ist nicht verfügbar, da der abrufbare Betrag die Netzwerkgebühr nicht deckt!",
+    "errorToGetUnclaimed": "Nicht abgerufener Betrag konnte nicht abgerufen werden"
+  },
+  "dappPermissionContextualMessage": {
+    "messageLabel": "Kontextbezogene Nachricht"
+  },
+  "chartCardList": {
+    "title": "Token-Preise"
+  },
+  "chartCard": {
+    "unableToFetchData": "Daten konnten nicht abgerufen werden",
+    "holdings": "Bestände:",
+    "variation": "{{variationType}}{{variation}}%",
+    "24h": "(24h)"
+  },
+  "temporaryLimitsBox": {
+    "description": "Diese Anmeldemethode schränkt den Zugriff auf einige wichtige Funktionen ein:",
+    "limits": [
+      "Sichern und Wiederherstellen",
+      "Wallet-Anpassungen",
+      "Import-/Exportfunktionen",
+      "Neues Wallet erstellen",
+      "Unter anderem…"
+    ]
+  },
+  "mnemonicOrKeyAccountSelection": {
+    "noAccountsToImport": "Keine Konten gefunden oder bereits vorhanden. Bitte überprüfen Sie Ihre Eingabe und versuchen Sie es später erneut.",
+    "accountsLength": "{{length}} Adresse(n) gefunden",
+    "alreadyExists": "Existiert bereits"
+  },
+  "greyAccountSelect": {
+    "placeholder": "Konto auswählen…",
+    "empty": "Keine Konten"
+  },
+  "greyTokenSelect": {
+    "placeholder": "Token auswählen…",
+    "empty": "Keine Token"
+  },
+  "greyAmountInput": {
+    "placeholder": "0,00000000",
+    "maxButtonLabel": "Max"
+  },
+  "transactionFeeActionStep": {
+    "title": "Transaktionsgebühr"
+  },
+  "connectHardwareWalletButton": {
+    "connect": "Verbinden"
+  },
+  "fieldActionsMenu": {
+    "cut": "Ausschneiden",
+    "copy": "Kopieren",
+    "paste": "Einfügen",
+    "messages": {
+      "copied": "Kopiert",
+      "error": "Fehler beim Ausführen dieser Aktion"
+    }
+  },
+  "commonScreenActions": {
+    "searchButtonLabel": "Suchen…",
+    "notificationButtonLabel": "Benachrichtigungen",
+    "unreadNotificationsIconLabel": "Sie haben ungelesene Benachrichtigungen",
+    "helpButtonLabel": "Hilfe",
+    "chatWithUsButtonLabel": "Mit uns chatten",
+    "importButtonLabel": "Importieren",
+    "newWalletButtonLabel": "Neues Wallet",
+    "connectButtonLabel": "Verbinden",
+    "toolsButtonLabel": "Tools"
+  },
+  "refreshAction": {
+    "refreshLabel": "Aktualisieren",
+    "lastUpdated": "Zuletzt aktualisiert: {{ date }}",
+    "emptyDate": "--:--",
+    "dateFormat": "HH:mm"
+  },
+  "transactionActivityList": {
+    "notFoundTitle": "Keine Transaktionen zum Anzeigen",
+    "notFoundDescription": "Führen Sie eine Transaktion durch und sie wird hier angezeigt",
+    "item": {
+      "notificationCountLabel": "Benachrichtigungen",
+      "invocationCountLabel": "Aufrufe",
+      "blockLabel": "Block: {{ block }}",
+      "networkFeeAmountLabel": "Netzwerkgebühr: {{ networkFeeAmount }}",
+      "systemFeeAmountLabel": "Systemgebühr: {{ systemFeeAmount }}",
+      "txIdLabel": "Tx ID",
+      "copyTxIdLabel": "Tx ID kopieren",
+      "pendingDataLabel": "Wird verarbeitet…",
+      "pendingTooltipLabel": "Diese Transaktion wird verarbeitet, bitte warten",
+      "formatHourMinutes": "HH:mm",
+      "formatFullDateTime": "dd.MM.yyyy (HH:mm)"
+    },
+    "event": {
+      "nftImageAltWithNameLabel": "NFT-Bild: {{ name }}",
+      "nftImageAltLabel": "NFT-Bild",
+      "columns": {
+        "fromLabel": "Von",
+        "toLabel": "An",
+        "hashLabel": "Hash",
+        "methodNameLabel": "Methode",
+        "tokenLabel": "Token",
+        "tokenHashLabel": "Token-Hash",
+        "amountLabel": "Betrag",
+        "collectionNameLabel": "Sammlung",
+        "nameLabel": "Name"
+      }
+    },
+    "dateRange": {
+      "formatExtendedDate": "dd.MM.yyyy"
+    }
+  },
+  "calendar": {
+    "previousYearButtonLabel": "Zu den vorherigen {{years}} Jahren gehen",
+    "nextYearButtonLabel": "Zu den nächsten {{years}} Jahren gehen"
+  }
+}

@@ -103,7 +103,7 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
           </div>
 
           <div className="flex items-center gap-x-5">
-            <span>
+            <span className="truncate">
               {t('claimAmount', {
                 amount: unclaimedQuery.data?.unclaimed ?? 0,
                 symbol: blockchainService.claimToken.symbol,

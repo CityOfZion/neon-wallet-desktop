@@ -1,4 +1,4 @@
-import enChangelog from '../en/changelog.json'
+import enChangelog from '../changelog.json'
 import zhHantCommon from './common.json'
 import zhHantComponents from './components.json'
 import zhHantHooks from './hooks.json'
