@@ -1,3 +1,5 @@
+import { useTransition } from 'react'
+
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 
@@ -6,18 +8,41 @@ import { Swipe } from '@renderer/components/Swipe'
 
 import { TestHelper } from '@renderer/helpers/TestHelper'
 
+import { useCurrencySelector, useIsFirstTimeSelector, useLanguageSelector } from '@renderer/hooks/useSettingsSelector'
+
 import { WelcomeLayout } from '@renderer/layouts/Welcome'
 
+import { settingsReducerActions } from '@renderer/store/reducers/settings'
 import { RootStore } from '@renderer/store/RootStore'
 
 const ForgottenPasswordConfirmPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'forgottenPasswordConfirm' })
   const navigate = useNavigate()
+  const { language } = useLanguageSelector()
+  const { currency } = useCurrencySelector()
+  const { isFirstTime } = useIsFirstTimeSelector()
+  const [isCleaningData, startCleaningData] = useTransition()
 
-  const clearData = async () => {
-    await RootStore.persistor.purge()
+  const handleCleanData = async () => {
+    if (isCleaningData) return
 
-    navigate('/forgotten-password/success')
+    startCleaningData(async () => {
+      try {
+        await RootStore.persistor.purge()
+
+        RootStore.setupStore()
+
+        await RootStore.waitForBootstrap()
+
+        RootStore.store.dispatch(settingsReducerActions.setIsFirstTime(isFirstTime))
+        RootStore.store.dispatch(settingsReducerActions.setLanguage(language))
+        RootStore.store.dispatch(settingsReducerActions.setCurrency(currency))
+
+        navigate('/forgotten-password/success')
+      } catch (error) {
+        console.error(error)
+      }
+    })
   }
 
   return (
@@ -34,7 +59,8 @@ const ForgottenPasswordConfirmPage = () => {
         <Swipe
           text={t('swipe.text')}
           buttonAriaLabel={t('swipe.buttonAriaLabel')}
-          onComplete={clearData}
+          isDisabled={isCleaningData}
+          onComplete={handleCleanData}
           {...TestHelper.buildTestObject('forgotten-password-confirm')}
         />
       </div>

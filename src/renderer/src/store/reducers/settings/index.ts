@@ -1,5 +1,5 @@
 import { type CaseReducerActions, createSlice } from '@reduxjs/toolkit'
-import { createMigrate, PersistConfig, persistReducer, PURGE } from 'redux-persist'
+import { createMigrate, PersistConfig, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
 import { availableCurrencies } from '@renderer/constants/currency'
@@ -224,21 +224,9 @@ export function getSettingsReducer() {
     name: settingsReducerConfig.key,
     initialState: settingsReducerInitialState,
     reducers: settingsSliceReducers,
-    extraReducers: builder => {
-      builder.addCase(PURGE, state => ({
-        ...settingsReducerInitialState,
-        data: {
-          ...settingsReducerInitialState.data,
-          isFirstTime: state.data.isFirstTime,
-          language: state.data.language,
-        },
-      }))
-    },
   })
 
   settingsReducerActions = settingsSlice.actions
 
-  const persistedSettingsReducer = persistReducer(settingsReducerConfig, settingsSlice.reducer)
-
-  return persistedSettingsReducer
+  return persistReducer(settingsReducerConfig, settingsSlice.reducer)
 }

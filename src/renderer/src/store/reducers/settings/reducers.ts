@@ -119,8 +119,7 @@ const deleteNetworkProfile: CaseReducer<ISettingsReducer, PayloadAction<string>>
   state.data.networkProfiles = state.data.networkProfiles.filter(profile => profile.id !== profileId)
 
   if (state.data.selectedNetworkProfile.id === profileId) {
-    const defaultProfile = state.data.networkProfiles[0]
-    state.data.selectedNetworkProfile = defaultProfile
+    state.data.selectedNetworkProfile = state.data.networkProfiles[0]
   }
 }
 
@@ -142,10 +141,10 @@ const setCanShowVoteNeo3SupportUsModalAgain: CaseReducer<ISettingsReducer, Paylo
 
 export const settingsSliceReducers = {
   setEncryptedLoginControl,
-  setIsFirstTime,
   setHasPassword,
-  setCurrency,
+  setIsFirstTime,
   setLanguage,
+  setCurrency,
   setOverTheAirInfo,
   saveCustomNetwork,
   deleteCustomNetwork,

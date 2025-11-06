@@ -1,5 +1,5 @@
 import { type CaseReducerActions, createSlice } from '@reduxjs/toolkit'
-import { createMigrate, PersistConfig, persistReducer, PURGE } from 'redux-persist'
+import { createMigrate, PersistConfig, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
 import { ContactsHelper } from '@renderer/helpers/ContactsHelper'
@@ -37,14 +37,9 @@ export function getContactReducer() {
     name: contactReducerConfig.key,
     initialState: contactReducerInitialState,
     reducers: contactSliceReducers,
-    extraReducers: builder => {
-      builder.addCase(PURGE, () => contactReducerInitialState)
-    },
   })
 
   contactReducerActions = contactSlice.actions
 
-  const persistedContactReducer = persistReducer(contactReducerConfig, contactSlice.reducer)
-
-  return persistedContactReducer
+  return persistReducer(contactReducerConfig, contactSlice.reducer)
 }

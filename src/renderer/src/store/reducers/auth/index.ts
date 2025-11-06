@@ -1,5 +1,5 @@
 import { CaseReducerActions, createSlice } from '@reduxjs/toolkit'
-import { createMigrate, getStoredState, PersistConfig, PersistedState, persistReducer, PURGE } from 'redux-persist'
+import { createMigrate, getStoredState, PersistConfig, PersistedState, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
 import { IWalletState, TLoginSession, TLoginSessionType, TNotification } from '@shared/types/store'
@@ -216,14 +216,9 @@ export function getAuthReducer() {
     name: authReducerConfig.key,
     initialState: authReducerInitialState,
     reducers: authSliceReducers,
-    extraReducers: builder => {
-      builder.addCase(PURGE, () => authReducerInitialState)
-    },
   })
 
   authReducerActions = authSlice.actions
 
-  const persistedAuthReducer = persistReducer(authReducerConfig, authSlice.reducer)
-
-  return persistedAuthReducer
+  return persistReducer(authReducerConfig, authSlice.reducer)
 }
