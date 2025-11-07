@@ -49,11 +49,16 @@ const saveCustomNetwork: CaseReducer<
 
   state.data.customNetworks = cloneNetworks
 
-  const profileNetworkByBlockchain = state.data.selectedNetworkProfile.networkByBlockchain
+  const selectedProfile = cloneDeep(state.data.selectedNetworkProfile)
 
-  if (profileNetworkByBlockchain[blockchain].id === network.id) {
-    profileNetworkByBlockchain[blockchain] = network
+  if (selectedProfile.networkByBlockchain[blockchain].id === network.id) {
+    selectedProfile.networkByBlockchain[blockchain] = network
   }
+
+  state.data.selectedNetworkProfile = selectedProfile
+
+  const profileIndex = state.data.networkProfiles.findIndex(it => it.id === selectedProfile.id)
+  state.data.networkProfiles[profileIndex] = selectedProfile
 }
 
 const deleteCustomNetwork: CaseReducer<
@@ -67,17 +72,16 @@ const deleteCustomNetwork: CaseReducer<
   cloneNetworks[blockchain] = cloneNetworks[blockchain].filter(({ id }) => id !== network.id)
   state.data.customNetworks = cloneNetworks
 
-  const selectedNetwork = state.data.selectedNetworkProfile.networkByBlockchain[blockchain]
+  const selectedProfile = cloneDeep(state.data.selectedNetworkProfile)
 
-  if (selectedNetwork.id === network.id) {
-    state.data.selectedNetworkProfile.networkByBlockchain[blockchain] =
-      bsAggregator.blockchainServicesByName[blockchain].defaultNetwork
+  if (selectedProfile.networkByBlockchain[blockchain].id === network.id) {
+    selectedProfile.networkByBlockchain[blockchain] = bsAggregator.blockchainServicesByName[blockchain].defaultNetwork
   }
 
-  const profile = state.data.networkProfiles.find(it => it.id === state.data.selectedNetworkProfile.id)
-  if (profile) {
-    profile.networkByBlockchain[blockchain] = bsAggregator.blockchainServicesByName[blockchain].defaultNetwork
-  }
+  state.data.selectedNetworkProfile = selectedProfile
+
+  const profileIndex = state.data.networkProfiles.findIndex(it => it.id === selectedProfile.id)
+  state.data.networkProfiles[profileIndex] = selectedProfile
 }
 
 const saveNetworkProfile: CaseReducer<ISettingsReducer, PayloadAction<TNetworkProfile>> = (state, action) => {

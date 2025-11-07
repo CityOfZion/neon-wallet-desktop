@@ -5,9 +5,9 @@ import storage from 'redux-persist/lib/storage'
 import { availableCurrencies } from '@renderer/constants/currency'
 import { defaultLanguage } from '@renderer/constants/language'
 import { DEFAULT_NETWORK_PROFILE_ID } from '@renderer/constants/networks'
-import { bsAggregator, getBlockchainNames } from '@renderer/libs/blockchain-service'
+import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { getI18next } from '@shared/libs/i18next'
-import { ISettingsState, type TNetworkProfile, type TSelectedNetworks } from '@shared/types/store'
+import { ISettingsState, type TNetworkProfile } from '@shared/types/store'
 
 import { settingsSliceReducers } from './reducers'
 
@@ -20,25 +20,18 @@ export let settingsReducerActions: CaseReducerActions<typeof settingsSliceReduce
 export function getSettingsReducer() {
   const { t } = getI18next()
 
-  // It is necessary to do that way because bs-electron uses getters that will fail during serialization
-  // So we need to get each property individually to build the default network object
-  const networkByBlockchain = getBlockchainNames().reduce((accumulator, blockchain) => {
-    const network = bsAggregator.blockchainServicesByName[blockchain].defaultNetwork
-
-    accumulator[blockchain] = {
-      id: network.id,
-      name: network.name,
-      type: network.type,
-      url: network.url,
-      isAutomatic: true,
-    }
-    return accumulator
-  }, {} as TSelectedNetworks)
-
   const defaultProfile: TNetworkProfile = {
     id: DEFAULT_NETWORK_PROFILE_ID,
     name: t('common:general.default'),
-    networkByBlockchain,
+    networkByBlockchain: {
+      arbitrum: bsAggregator.blockchainServicesByName.arbitrum.defaultNetwork,
+      base: bsAggregator.blockchainServicesByName.base.defaultNetwork,
+      ethereum: bsAggregator.blockchainServicesByName.ethereum.defaultNetwork,
+      neo3: bsAggregator.blockchainServicesByName.neo3.defaultNetwork,
+      neoLegacy: bsAggregator.blockchainServicesByName.neoLegacy.defaultNetwork,
+      neox: bsAggregator.blockchainServicesByName.neox.defaultNetwork,
+      polygon: bsAggregator.blockchainServicesByName.polygon.defaultNetwork,
+    },
   }
 
   const settingsReducerInitialState: ISettingsReducer = {
