@@ -28,10 +28,6 @@
       "useVotingNeo3NotificationProcess": {
         "notificationTitle": "你正在錯過免費的 GAS！",
         "notificationDescription": "點擊這裡，立即投票"
-      },
-      "useMigrationNeoLegacyNotificationProcess": {
-        "notificationTitle": "您有可遷移的代幣！",
-        "notificationDescription": "可從 Neo Legacy 遷移至 Neo N3！"
       }
     },
     "walletTasksManagerSetup": {
@@ -570,63 +566,6 @@
         "deposit": "進行存款",
         "restart": "重新開始"
       }
-    }
-  },
-  "migrationNeo3": {
-    "title": "遷移舊版代幣",
-    "subtitle": "遷移您的舊版代幣",
-    "labels": {
-      "assets": "您的資產",
-      "address": "地址詳情",
-      "amounts": "金額",
-      "migrate": "遷移",
-      "receive": "接收",
-      "amountYouGet": "您將收到的金額<1>（扣除手續費後）</1>",
-      "fee": "遷移手續費",
-      "notFound": "未找到"
-    },
-    "buttons": {
-      "migrate": "立即遷移"
-    },
-    "messages": {
-      "migrationSuccess": "遷移成功，請等待代幣到帳",
-      "migrationError": "遷移時發生問題，請聯絡客服並重試",
-      "generateNeo3AccountError": "建立 Neo 3 帳戶時發生問題",
-      "getKeyError": "取得金鑰時發生問題",
-      "generateAccountError": "建立帳戶時發生問題",
-      "calculateValuesError": "計算手續費和金額時發生問題",
-      "hardwareWalletNotConnectedOrLocked": "硬體錢包未連接或已鎖定，請檢查裝置後再試",
-      "migrationNotAvailableError": "此帳戶無法進行遷移",
-      "accountIsNotNeoLegacy": "該帳戶不是 Neo Legacy 帳戶，無法遷移"
-    },
-    "sideBar": {
-      "title": "如何運作？",
-      "steps": [
-        "Neon 將使用您的現有私鑰建立新的 Neo N3 帳戶並新增至您的錢包",
-        "確認詳情後，我們將處理交易",
-        "遷移通常在 30 秒內完成。您可在帳戶「活動」分頁查看狀態"
-      ],
-      "fee": "遷移手續費約為 1%（四捨五入，並包含少量 GAS 以支援新網路上的交易）。最低需 0.1 GAS 或 2 NEO。",
-      "alert": "此遷移工具僅會移動您的 NEO 和 GAS，不會移動其他 NEP-5 代幣。如需遷移其他代幣，請聯絡相關專案。",
-      "buttons": {
-        "help": "需要協助？與我們聯絡"
-      }
-    },
-    "successNotification": {
-      "title": "遷移完成",
-      "previewBody": "您的遷移已成功完成"
-    },
-    "failureNeoLegacyNotification": {
-      "title": "遷移失敗 - Neo Legacy",
-      "previewBody": "我們無法確認您在 Neo Legacy 上的遷移轉帳是否完成"
-    },
-    "failureNeo3Notification": {
-      "title": "遷移失敗 - Neo 3",
-      "previewBody": "我們無法確認您的 Neo 3 帳戶有任何遷移轉帳"
-    },
-    "failureNotification": {
-      "title": "遷移失敗",
-      "previewBody": "我們無法確認您的遷移轉帳是否完成"
     }
   },
   "voteNeo3": {

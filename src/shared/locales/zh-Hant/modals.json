@@ -698,61 +698,6 @@
       "accountNotFound": "無法執行此操作。找不到帳戶"
     }
   },
-  "prepareHardwareWalletMigrationNeo3": {
-    "title": "硬體錢包",
-    "alert": "請確保您的硬體錢包在整個過程中保持解鎖！",
-    "connectAndSelectNeo3Step": {
-      "subtitle": "您的裝置已連接！",
-      "title": "前往 NEO N3 應用程式",
-      "description": "為了準備 Neo Legacy 到 Neo N3 的遷移，Neon 需要一個 Neo N3 地址作為遷移代幣的目標。",
-      "tip": "為了取得此地址，Neon 需要您在硬體錢包上<1>切換到 Neo N3 應用程式</1>。",
-      "searchHardwareWalletLabel": "等待使用者開啟 Neo N3 應用程式…",
-      "selectLabel": "您的地址：",
-      "addAccountButtonLabel": "新增帳戶",
-      "addNeo3AccountError": "新增 Neo 3 帳戶時發生問題。請確認您的硬體錢包已連接並解鎖",
-      "continueButtonLabel": "繼續"
-    },
-    "confirmAndCompleteStep": {
-      "title": "確認",
-      "sourceAddressTitle": "您的 <1>Neo Legacy</1> 代幣將從這裡轉出：",
-      "sourceAddressLabel": "來源地址",
-      "receiverAddressLabel": "接收地址",
-      "receiverAddressTitle": "您的遷移 <1>Neo N3</1> 代幣將存入這裡：",
-      "tip": "請切換回硬體錢包上的 Neo Legacy 應用程式以進行下一步。",
-      "continueButtonLabel": "確認並繼續",
-      "searchHardwareWalletLabel": "等待 Neo Legacy 應用程式…"
-    },
-    "statusConnection": {
-      "connectedMessage": "您的裝置已連接！",
-      "notFoundMessage": "找不到硬體錢包或應用程式！請檢查連線",
-      "searchAgainButtonLabel": "重新搜尋"
-    },
-    "steps": ["連接硬體錢包", "開啟 Neo N3 應用程式", "選擇地址", "確認", "完成"],
-    "closeIconButtonAriaLabel": "關閉"
-  },
-  "migrationNeo3Status": {
-    "title": "遷移代幣",
-    "subtitles": {
-      "done": "您的遷移已完成！",
-      "pending": "您的遷移正在處理中！",
-      "failure": "您的遷移花費時間較長，請稍後再檢查狀態，或聯絡我們的支援。",
-      "failure-neo3": "您的遷移花費時間較長，請稍後再檢查狀態，或聯絡我們的支援。"
-    },
-    "detailsHeaderLabel": "遷移狀態",
-    "detailsPanelLabel": "交易",
-    "detailsDestinationAddressLabel": "Neo N3 目標地址",
-    "detailsMigrationFeeLabel": "遷移手續費",
-    "detailsTransactionHashLabel": "交易雜湊",
-    "detailsAmountSentLabel": "發送金額",
-    "detailsAmountReceiveLabel": {
-      "done": "已收到金額",
-      "pending": "您將收到的金額",
-      "failure": "您本應收到的金額",
-      "failure-neo3": "您本應收到的金額"
-    },
-    "viewStatusButtonLabel": "查看狀態",
-    "revalidateMigrationButtonLabel": "重新驗證遷移"
-  },
   "search": {
     "title": "搜尋 Neon",
     "closeButtonLabel": "關閉",

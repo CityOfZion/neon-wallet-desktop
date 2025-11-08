@@ -1,6 +1,6 @@
 import { Fragment, useMemo } from 'react'
 
-import { BSNeo3, type TVoteServiceCandidate } from '@cityofzion/bs-neo3'
+import { BSNeo3, BSNeo3Constants, type TVoteServiceCandidate } from '@cityofzion/bs-neo3'
 import { useTranslation } from 'react-i18next'
 import { match } from 'ts-pattern'
 
@@ -34,7 +34,6 @@ import { CenterModalLayout } from '@renderer/layouts/CenterModal'
 import TbChartBarPopular from '@renderer/assets/images/tb-chart-bar-popular.svg?react'
 import TbCheckbox from '@renderer/assets/images/tb-checkbox.svg?react'
 
-import { NEO3_NEO_TOKEN } from '@renderer/constants/tokens'
 import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { thunks } from '@renderer/store/thunks'
 import { TUseTransactionsTransfer } from '@shared/types/hooks'
@@ -136,9 +135,9 @@ const VoteNeo3ConfirmationModal = () => {
         methodName: 'vote',
         account: neo3Account,
         amount: '0',
-        asset: NEO3_NEO_TOKEN.symbol,
-        assetHash: NEO3_NEO_TOKEN.hash,
-        token: NEO3_NEO_TOKEN,
+        asset: BSNeo3Constants.NEO_TOKEN.symbol,
+        assetHash: BSNeo3Constants.NEO_TOKEN.hash,
+        token: BSNeo3Constants.NEO_TOKEN,
         hash: transactionHash,
         time: DateHelper.getNowUnix(),
         isPending: true,
@@ -211,7 +210,7 @@ const VoteNeo3ConfirmationModal = () => {
               <li className="flex items-center gap-x-3">
                 <span className="text-blue">{t('votesLabel')}</span>
                 <span className="w-full max-w-72 truncate">
-                  {neoAmount} {NEO3_NEO_TOKEN.symbol}
+                  {neoAmount} {BSNeo3Constants.NEO_TOKEN.symbol}
                 </span>
               </li>
             </ul>

@@ -698,61 +698,6 @@
       "accountNotFound": "Impossible to perform the action. Account wasn't found"
     }
   },
-  "prepareHardwareWalletMigrationNeo3": {
-    "title": "Hardware Wallet",
-    "alert": "Ensure your hardware wallet remains unlocked for the entire process!",
-    "connectAndSelectNeo3Step": {
-      "subtitle": "Your device was connected!",
-      "title": "Navigate to the NEO N3 app",
-      "description": "To prepare your Neo Legacy to Neo N3 migration, Neon needs a Neo N3 address to serve as destination for your migrated tokens.",
-      "tip": "In order to fetch this address, Neon needs you to <1>switch to your Neo N3 App</1> on your hardware wallet.",
-      "searchHardwareWalletLabel": "Waiting for user to open Neo N3 app…",
-      "selectLabel": "Your addresses:",
-      "addAccountButtonLabel": "Add account",
-      "addNeo3AccountError": "There was a problem on add a new Neo 3 account. Verify if your hardware wallet is connected and unlocked",
-      "continueButtonLabel": "Continue"
-    },
-    "confirmAndCompleteStep": {
-      "title": "Confirmation",
-      "sourceAddressTitle": "Your <1>Neo Legacy</1> tokens will come from here:",
-      "sourceAddressLabel": "Source address",
-      "receiverAddressLabel": "Receive address",
-      "receiverAddressTitle": "Your migrated <1>Neo N3</1> tokens will be deposited here:",
-      "tip": "Switch back to the Neo Legacy App on your hardware wallet to move to the next step.",
-      "continueButtonLabel": "Confirm & Continue",
-      "searchHardwareWalletLabel": "Waiting for Neo Legacy app…"
-    },
-    "statusConnection": {
-      "connectedMessage": "Your device was connected!",
-      "notFoundMessage": "No hardware wallet or app found! Please check your connection",
-      "searchAgainButtonLabel": "Search again"
-    },
-    "steps": ["Connect hardware", "Open Neo N3 app", "Select address", "Confirmation", "Complete"],
-    "closeIconButtonAriaLabel": "Close"
-  },
-  "migrationNeo3Status": {
-    "title": "Migration token(s)",
-    "subtitles": {
-      "done": "Your migration has been done!",
-      "pending": "Your migration is pending!",
-      "failure": "Your migration is taking longer than expected, check the status again later, or contact our support.",
-      "failure-neo3": "Your migration is taking longer than expected, check the status again later, or contact our support."
-    },
-    "detailsHeaderLabel": "Migration status",
-    "detailsPanelLabel": "Transaction",
-    "detailsDestinationAddressLabel": "Neo N3 destination address",
-    "detailsMigrationFeeLabel": "Migration fee",
-    "detailsTransactionHashLabel": "Transaction hash",
-    "detailsAmountSentLabel": "Amount sent",
-    "detailsAmountReceiveLabel": {
-      "done": "Amount received",
-      "pending": "Amount you will receive",
-      "failure": "Amount you would receive",
-      "failure-neo3": "Amount you would receive"
-    },
-    "viewStatusButtonLabel": "View status",
-    "revalidateMigrationButtonLabel": "Revalidate migration"
-  },
   "search": {
     "title": "Search Neon",
     "closeButtonLabel": "Close",

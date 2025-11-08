@@ -11,13 +11,6 @@ const selectHasClaimPendingTransaction = (account: IAccountState) =>
     )
   })
 
-const selectHasMigratePendingTransaction = (account: IAccountState) =>
-  createAppSelector([state => state.utility.inMemoryData.pendingTransactions], pendingTransactions => {
-    return pendingTransactions.some(
-      transaction => !!transaction.isMigrate && SharedAccountHelper.predicate(account)(transaction.account)
-    )
-  })
-
 export const usePendingTransactionsSelector = () => {
   const { ref, value } = useAppSelector(state => state.utility.inMemoryData.pendingTransactions)
 
@@ -33,14 +26,6 @@ export const useHasClaimPendingTransactionSelector = (account: IAccountState) =>
   return {
     hasClaimPendingTransaction: value,
     hasClaimPendingTransactionRef: ref,
-  }
-}
-
-export const useHasMigratePendingTransactionSelector = (account: IAccountState) => {
-  const { ref, value } = useAppSelector(selectHasMigratePendingTransaction(account))
-  return {
-    hasMigratePendingTransaction: value,
-    hasMigratePendingTransactionRef: ref,
   }
 }
 
@@ -81,22 +66,6 @@ export const useHiddenTokensByBlockchainSelector = () => {
     hiddenTokensByBlockchain: value,
     hiddenTokensByBlockchainRef: ref,
   }
-}
-
-export const useMigrationsNeo3Selector = () => {
-  const { value: migrationsNeo3, ref: migrationsNeo3Ref } = useAppSelector(state => state.utility.data.migrationsNeo3)
-
-  return { migrationsNeo3, migrationsNeo3Ref }
-}
-
-export const useMigrationNeo3Selector = (hash: string) => {
-  const neoLegacyService = bsAggregator.blockchainServicesByName.neoLegacy
-
-  const { value: migrationNeo3, ref: migrationNeo3Ref } = useAppSelector(
-    ({ utility }) => utility.data.migrationsNeo3[neoLegacyService.tokenService.normalizeHash(hash)]
-  )
-
-  return { migrationNeo3, migrationNeo3Ref }
 }
 
 export const useUnlockedSkinIdsSelector = () => {

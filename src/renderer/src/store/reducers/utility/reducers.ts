@@ -6,7 +6,7 @@ import { TokenHelper } from '@renderer/helpers/TokenHelper'
 import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import { TUseTransactionsTransfer } from '@shared/types/hooks'
-import { TMigrationNeo3, TMigrationsNeo3, TSwapRecord } from '@shared/types/store'
+import { TSwapRecord } from '@shared/types/store'
 
 import { IUtilityReducer } from './index'
 
@@ -94,26 +94,11 @@ const toggleHiddenToken: CaseReducer<IUtilityReducer, PayloadAction<THiddenToken
   }
 }
 
-// Migration Neo3 Reducers
-const saveMigrationNeo3: CaseReducer<IUtilityReducer, PayloadAction<TMigrationNeo3>> = (state, action) => {
-  const migrationNeo3 = cloneDeep(action.payload)
-
-  state.data.migrationsNeo3[migrationNeo3.hash] = migrationNeo3
-}
-
-const mergeMigrationsNeo3: CaseReducer<IUtilityReducer, PayloadAction<TMigrationsNeo3>> = (state, action) => {
-  const migrationsNeo3 = cloneDeep(action.payload)
-
-  state.data.migrationsNeo3 = { ...state.data.migrationsNeo3, ...migrationsNeo3 }
-}
-
 export const utilitySliceReducers = {
   addPendingTransaction,
   removePendingTransaction,
   persistSwapRecord,
   saveLastIndexByWallet,
   toggleHiddenToken,
-  saveMigrationNeo3,
-  mergeMigrationsNeo3,
   setUnlockedSkinIds,
 }

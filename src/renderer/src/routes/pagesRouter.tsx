@@ -21,7 +21,6 @@ const LoginHardwarePage = lazy(() => import('./pages/Login/LoginHardware'))
 const LoginKeyPage = lazy(() => import('./pages/Login/LoginKey'))
 const LoginKeySelectAccountPage = lazy(() => import('./pages/LoginKeySelectAccount'))
 const LoginPasswordPage = lazy(() => import('./pages/Login/LoginPassword'))
-const MigrationNeo3Page = lazy(() => import('./pages/MigrationNeo3'))
 const Neo3NeoXBridgePage = lazy(() => import('./pages/Neo3NeoXBridge'))
 const PortfolioPage = lazy(() => import('./pages/Portfolio'))
 const PortfolioActivityPage = lazy(() => import('./pages/Portfolio/Activity'))
@@ -203,14 +202,6 @@ export const pagesRouter = createHashRouter([
             element: (
               <PrivatePageSuspense key="swap">
                 <SwapPage />
-              </PrivatePageSuspense>
-            ),
-          },
-          {
-            path: 'migration-neo3',
-            element: (
-              <PrivatePageSuspense key="migration-neo3">
-                <MigrationNeo3Page />
               </PrivatePageSuspense>
             ),
           },

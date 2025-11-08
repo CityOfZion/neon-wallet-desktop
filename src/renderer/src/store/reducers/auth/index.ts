@@ -186,13 +186,37 @@ export function getAuthReducer() {
         },
       },
     }),
+    6: (state: any) => {
+      const currentApplicationDataByLoginType = state.data.applicationDataByLoginType
+      const applicationDataByLoginType = Object.keys(currentApplicationDataByLoginType).reduce((accumulator, key) => {
+        const loginType = key as TLoginSessionType
+        const applicationData = currentApplicationDataByLoginType[loginType]
+
+        accumulator[loginType] = {
+          ...applicationData,
+          notifications: applicationData.notifications.filter(
+            (notification: any) => notification?.action?.payload?.to !== 'migration-neo3'
+          ),
+        }
+
+        return accumulator
+      }, {} as TApplicationDataByLoginType)
+
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          applicationDataByLoginType,
+        },
+      }
+    },
   }
 
   const authReducerConfig: PersistConfig<IAuthReducer> = {
     key: 'authReducer',
     storage: storage,
     blacklist: ['inMemoryData'],
-    version: 5,
+    version: 6,
     migrate: createMigrate(authReducerMigrations),
     // It is necessary to check if the stored state is empty, because the redux-persist library does not call the migrate function when the state is empty
     getStoredState: async config => {
