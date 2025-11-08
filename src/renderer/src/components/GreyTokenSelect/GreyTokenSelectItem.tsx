@@ -1,38 +1,35 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 
 import { BSBigNumberHelper } from '@cityofzion/blockchain-service'
 
 import { NEON_ICONS_URL } from '@renderer/constants/urls'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 import { Tooltip } from '../Tooltip'
 import { TGreyTokenSelectToken } from '.'
 
 type TProps = {
   token: TGreyTokenSelectToken
+  blockchain?: TBlockchainServiceKey
 }
 
 const defaultTokenImageUrl = `${NEON_ICONS_URL}/tokens/default-token.png`
 
-export const GreyTokenSelectItem = ({ token }: TProps) => {
-  const blockchain = token.blockchain || token.network
-  const network = token.network || token.blockchain
+export const GreyTokenSelectItem = ({ token, blockchain }: TProps) => {
+  const network = token.network || blockchain
+  const defaultImageUrl = `${NEON_ICONS_URL}/tokens/${blockchain || token.network}/${token.hash}.png`
 
-  const [imageUrl, setImageUrl] = useState(`${NEON_ICONS_URL}/tokens/${blockchain}/${token.hash}.png`)
+  const [imageUrl, setImageUrl] = useState(defaultImageUrl)
 
   const handleError = () => {
-    const newImageUrl = token.imageUrl
+    const tokenImageUrl = token.imageUrl
 
-    if (!!newImageUrl && newImageUrl !== imageUrl) {
-      setImageUrl(newImageUrl)
-
-      return
-    }
-
-    setImageUrl(defaultTokenImageUrl)
-
-    // eslint-disable-next-line react-hooks/immutability
-    token.imageUrl = defaultTokenImageUrl
+    setImageUrl(!!tokenImageUrl && tokenImageUrl !== imageUrl ? tokenImageUrl : defaultTokenImageUrl)
   }
+
+  useEffect(() => {
+    setImageUrl(defaultImageUrl)
+  }, [defaultImageUrl])
 
   return (
     <Fragment>

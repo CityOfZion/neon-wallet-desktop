@@ -630,6 +630,7 @@
       "feeError": "Fehler bei der Gebührenberechnung",
       "insufficientFunds": "Unzureichendes Guthaben",
       "invalidAddress": "Ungültige Adresse",
+      "invalidAmount": "Ungültiger Betrag",
       "hardwareWalletShouldBeValidError": "Um mit diesem Vorgang fortzufahren, stellen Sie bitte sicher, dass Ihr Hardware Wallet entsperrt ist"
     },
     "success": {
