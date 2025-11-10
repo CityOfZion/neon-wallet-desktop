@@ -90,13 +90,24 @@ const SellTokensDepositModal = () => {
 
   const isServiceCalculableFee = service ? isCalculableFee(service) : false
   const isRecipientDisabled = !actionData.account
+
   const isInvalidForm =
+    !service ||
+    isBalanceLoading ||
     isRecipientDisabled ||
     !actionData.address ||
     !actionData.amount ||
-    !actionData.token ||
-    !service ||
-    !!actionState.errors.address
+    !actionData.token
+
+  const isDisabled =
+    !balanceData ||
+    actionState.isActing ||
+    !actionState.isValid ||
+    actionData.isFeeLoading ||
+    actionData.isAmountLoading ||
+    Object.values(actionState.errors || {}).length > 0 ||
+    isInvalidForm ||
+    (isServiceCalculableFee && !actionData.fee)
 
   const getServiceTransferParams = () => {
     const { account, address, isAmountLoading } = actionData
@@ -126,7 +137,7 @@ const SellTokensDepositModal = () => {
   }
 
   const handleOnClose = () => {
-    setDepositActionsData({ ...actionData, fee: undefined, isFeeLoading: false })
+    setDepositActionsData({ ...actionData, fee: undefined, isFeeLoading: false, isAmountLoading: false })
   }
 
   const handleChangeAccount = (account: IAccountState) => {
@@ -138,16 +149,11 @@ const SellTokensDepositModal = () => {
 
   const handleChangeAmount = (value: string) => {
     try {
-      setData({
-        amount: value,
-        isAmountLoading: true,
-      })
+      setData({ amount: value, isAmountLoading: true })
 
       debounceAmount(() => {
         setData({
-          amount: BSBigNumberHelper.format(value, {
-            decimals: actionData.token?.token?.decimals,
-          }),
+          amount: BSBigNumberHelper.format(value, { decimals: actionData.token?.token?.decimals }),
           isAmountLoading: false,
         })
       })
@@ -173,10 +179,13 @@ const SellTokensDepositModal = () => {
   }
 
   const handleSubmit = async () => {
-    const transferParams = getServiceTransferParams()
-    const { address, amount, token, account } = actionData
+    if (isDisabled) return
 
-    if (!transferParams || actionData.isFeeLoading || isInvalidForm) return
+    const transferParams = getServiceTransferParams()
+
+    if (!transferParams) return
+
+    const { address, amount, token, account } = actionData
 
     if (account?.type === 'hardware') {
       const isConnectedAndUnlocked = await isConnectedAndUnlockedHardwareWallet(account)
@@ -272,9 +281,17 @@ const SellTokensDepositModal = () => {
 
     const handleCalculateFee = async () => {
       try {
-        const transferParams = getServiceTransferParams()
-        if (!transferParams || !isServiceCalculableFee || isInvalidForm) {
+        if (!balanceData || !isServiceCalculableFee || actionData.isAmountLoading || isInvalidForm) {
           setData({ fee: undefined })
+
+          return
+        }
+
+        const transferParams = getServiceTransferParams()
+
+        if (!transferParams) {
+          setData({ fee: undefined })
+
           return
         }
 
@@ -289,17 +306,28 @@ const SellTokensDepositModal = () => {
 
         setData({ fee })
 
-        let totalFee = NumberHelper.number(fee)
+        const amountBn = BSBigNumberHelper.fromNumber(intent.amount || '0')
+        let feeTotalBn = BSBigNumberHelper.fromNumber(fee)
 
-        if (service.tokenService.predicateByHash(service.feeToken, intent.tokenHash))
-          totalFee += NumberHelper.number(intent.amount)
+        if (service.tokenService.predicateByHash(service.feeToken, intent.tokenHash)) {
+          feeTotalBn = feeTotalBn.plus(amountBn)
+        }
 
-        const feeBalance =
+        const feeTokenAmount =
           balanceData?.tokensBalances?.find(({ token }) =>
             service.tokenService.predicateByHash(service.feeToken, token)
-          )?.amountNumber ?? 0
+          )?.amount || '0'
 
-        totalFee > feeBalance ? setError('fee', t('messages.insufficientFunds')) : clearErrors('fee')
+        if (amountBn.isZero() || amountBn.isNegative()) {
+          setError('amount', t('messages.invalidAmount'))
+        } else if (
+          amountBn.isGreaterThan(actionData?.token?.amount || '0') ||
+          feeTotalBn.isGreaterThan(feeTokenAmount)
+        ) {
+          setError('amount', t('messages.insufficientFunds'))
+        } else {
+          clearErrors(['fee', 'amount'])
+        }
       } catch (error) {
         console.error(error)
 
@@ -309,8 +337,6 @@ const SellTokensDepositModal = () => {
 
         setError('fee', errorMessage)
         setData({ fee: undefined })
-
-        throw error
       } finally {
         setData({ isFeeLoading: false })
       }
@@ -450,10 +476,10 @@ const SellTokensDepositModal = () => {
           />
         )}
 
-        {(actionState.errors.fee || actionState.errors.account) && (
+        {(actionState.errors.fee || actionState.errors.amount || actionState.errors.account) && (
           <AlertErrorBanner
             className="mt-2 w-full"
-            message={actionState.errors.fee || actionState.errors.account || ''}
+            message={actionState.errors.fee || actionState.errors.amount || actionState.errors.account || ''}
           />
         )}
 
@@ -464,13 +490,7 @@ const SellTokensDepositModal = () => {
           flat
           type="submit"
           loading={actionState.isActing}
-          disabled={
-            !actionState.isValid ||
-            isInvalidForm ||
-            actionData.isFeeLoading ||
-            !!Object.values(actionState.errors ?? {}).length ||
-            (isServiceCalculableFee && !actionData.fee)
-          }
+          disabled={isDisabled}
           leftIcon={<TbStepOut aria-hidden />}
         />
       </form>

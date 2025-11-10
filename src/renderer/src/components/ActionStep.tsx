@@ -11,6 +11,7 @@ type TProps = {
   className?: string
   titleClassName?: string
   headerClassName?: string
+  defaultHeight?: string
   children?: ReactNode
 }
 
@@ -22,27 +23,32 @@ export const ActionStep = ({
   titleClassName,
   headerClassName,
   leftIconContainerClassName,
+  defaultHeight,
   children,
   footer,
 }: TProps) => {
-  const [height, setHeight] = useState<number>()
+  const [height, setHeight] = useState<string | undefined>(defaultHeight)
   const [titleLeftPosition, setTileLeftPosition] = useState<number>()
 
   const titleRef = useRef<HTMLSpanElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
 
   useLayoutEffect(() => {
-    if (contentRef.current) {
+    if (contentRef.current && height === undefined) {
       const contentHeight = contentRef.current.getBoundingClientRect().height
-      setHeight(contentHeight)
+
+      setHeight(contentHeight ? `${contentHeight}px` : 'auto')
     }
 
     if (titleRef.current) {
       const titleLeft = titleRef.current.getBoundingClientRect().left
       const parentLeft = titleRef.current.parentElement?.getBoundingClientRect().left || 0
       const leftPosition = titleLeft - parentLeft
+
       setTileLeftPosition(leftPosition)
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -56,7 +62,7 @@ export const ActionStep = ({
             },
             headerClassName
           )}
-          style={{ height: height ? `${height}px` : 'auto' }}
+          style={{ height: height || 'auto' }}
         >
           {leftIcon && (
             <div

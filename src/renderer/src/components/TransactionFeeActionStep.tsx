@@ -56,6 +56,7 @@ export const TransactionFeeActionStep = ({
       className={StyleHelper.mergeStyles('mt-2 min-h-11 rounded-sm bg-gray-700/60 px-4 font-bold', className)}
       titleClassName={StyleHelper.mergeStyles('whitespace-nowrap mr-3 overflow-visible!', titleClassName)}
       headerClassName="gap-4"
+      defaultHeight="auto"
     >
       {isCalculatingFee ? (
         <Loader className="h-4 w-4" containerClassName="w-min items-center" />

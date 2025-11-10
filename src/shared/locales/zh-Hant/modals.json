@@ -630,6 +630,7 @@
       "feeError": "計算手續費時發生錯誤",
       "insufficientFunds": "資金不足",
       "invalidAddress": "無效的地址",
+      "invalidAmount": "無效金額",
       "hardwareWalletShouldBeValidError": "請確保您的硬體錢包已解鎖以繼續操作"
     },
     "success": {

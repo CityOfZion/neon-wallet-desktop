@@ -630,6 +630,7 @@
       "feeError": "手续费计算错误",
       "insufficientFunds": "余额不足",
       "invalidAddress": "无效地址",
+      "invalidAmount": "无效金额",
       "hardwareWalletShouldBeValidError": "请确保您的硬件钱包已解锁以继续操作"
     },
     "success": {

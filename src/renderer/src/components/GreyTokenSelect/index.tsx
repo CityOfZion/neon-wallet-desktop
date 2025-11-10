@@ -55,6 +55,7 @@ export const GreyTokenSelect = <T extends TGreyTokenSelectToken>({
 
   const parentRef = useRef<HTMLDivElement>(null)
 
+  const fallbackBlockchain = balance?.blockchain || blockchain
   const isDisabled = loading || disabled
 
   const filteredAndSortedTokens = useMemo(() => {
@@ -73,8 +74,8 @@ export const GreyTokenSelect = <T extends TGreyTokenSelectToken>({
         )
 
         return {
-          blockchain: tokenBalance?.blockchain,
           ...token,
+          blockchain: token.blockchain || tokenBalance?.blockchain || blockchain,
           amount: tokenBalance?.amount,
         }
       })
@@ -135,7 +136,9 @@ export const GreyTokenSelect = <T extends TGreyTokenSelectToken>({
       >
         {match({ loading, isTokenSelected: !!selectedToken })
           .with({ loading: true }, () => <Loader />)
-          .with({ isTokenSelected: true }, () => <GreyTokenSelectItem token={selectedToken!} />)
+          .with({ isTokenSelected: true }, () => (
+            <GreyTokenSelectItem token={selectedToken!} blockchain={selectedToken!.blockchain || fallbackBlockchain} />
+          ))
           .otherwise(() => (
             <span className="text-neon w-full text-center text-sm font-medium">{t('placeholder')}</span>
           ))}
@@ -158,7 +161,7 @@ export const GreyTokenSelect = <T extends TGreyTokenSelectToken>({
               >
                 {rowVirtualizer.getVirtualItems().map((virtualItem, _, array) => {
                   const row = filteredTokensByText[virtualItem.index]
-                  const value = `${row.symbol}-${row.network || row.blockchain}-${virtualItem.key}`
+                  const value = `${row.symbol}-${row.hash}-${virtualItem.key}`
 
                   return (
                     <Command.Item
@@ -172,7 +175,7 @@ export const GreyTokenSelect = <T extends TGreyTokenSelectToken>({
                       }}
                     >
                       <div className="flex h-full w-full items-center gap-2">
-                        <GreyTokenSelectItem token={row} />
+                        <GreyTokenSelectItem token={row} blockchain={row.blockchain || fallbackBlockchain} />
                       </div>
 
                       {virtualItem.index + 1 !== array.length && <Separator />}
