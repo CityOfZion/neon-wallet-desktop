@@ -40,6 +40,7 @@ export function getSettingsReducer() {
     name: t('common:general.default'),
     networkByBlockchain,
   }
+
   const settingsReducerInitialState: ISettingsReducer = {
     data: {
       hasPassword: false,
@@ -211,12 +212,32 @@ export function getSettingsReducer() {
         },
       }
     },
+    10: (state: any) => ({
+      ...state,
+      data: {
+        ...state.data,
+        networkProfiles: state.data.networkProfiles.map((profile: any) => ({
+          ...profile,
+          networkByBlockchain: {
+            ...profile.networkByBlockchain,
+            neoLegacy: bsAggregator.blockchainServicesByName.neoLegacy.defaultNetwork,
+          },
+        })),
+        selectedNetworkProfile: {
+          ...state.data.selectedNetworkProfile,
+          networkByBlockchain: {
+            ...state.data.selectedNetworkProfile.networkByBlockchain,
+            neoLegacy: bsAggregator.blockchainServicesByName.neoLegacy.defaultNetwork,
+          },
+        },
+      },
+    }),
   }
 
   const settingsReducerConfig: PersistConfig<ISettingsReducer> = {
     key: 'settingsReducer',
     storage: storage,
-    version: 9,
+    version: 10,
     migrate: createMigrate(settingsReducerMigrations),
   }
 

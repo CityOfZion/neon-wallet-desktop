@@ -97,7 +97,7 @@ export const SwapPageContent = ({ account }: TProps) => {
     for (const networkBlockchain in networkByBlockchain) {
       const blockchain = networkBlockchain as TBlockchainServiceKey
       const network = networkByBlockchain[blockchain]
-      const swapNetwork = SWAP_NETWORK_BY_BLOCKCHAIN_AND_NETWORK_ID[blockchain][network.id]
+      const swapNetwork = SWAP_NETWORK_BY_BLOCKCHAIN_AND_NETWORK_ID?.[blockchain]?.[network.id]
 
       if (swapNetwork) {
         chainsByServiceName[blockchain] = swapNetwork
