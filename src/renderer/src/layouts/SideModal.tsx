@@ -21,6 +21,7 @@ export type TSideModalLayoutProps = {
   headingIcon?: JSX.Element
   contentClassName?: string
   onErase?: () => Promise<void> | void
+  onBack?: () => Promise<void> | void
   size?: TSideModalSize
   closeOnEsc?: boolean
   closeOnClickOutside?: boolean
@@ -41,13 +42,14 @@ export const SideModalLayout = ({
   headingIcon,
   contentClassName,
   onErase,
+  onBack,
   size = 'sm',
   className,
   closeOnClickOutside = true,
   closeOnEsc = true,
   ...props
 }: TSideModalLayoutProps) => {
-  const { modalNavigateWrapper, modalErase } = useModalNavigate()
+  const { modalErase, modalNavigate } = useModalNavigate()
   const { groupIndex, isFocused, isGroupFocused } = useModalCurrentHistory()
 
   const [scope, animate] = useAnimate<HTMLDivElement>()
@@ -57,6 +59,11 @@ export const SideModalLayout = ({
   const [isErasing, startErase] = usePressOnce(async () => {
     await onErase?.()
     modalErase()
+  })
+
+  const [isGoingBack, startGoingBack] = usePressOnce(async () => {
+    await onBack?.()
+    modalNavigate(-1)
   })
 
   const handleClickContent = (event: MouseEvent<HTMLDivElement>) => {
@@ -101,7 +108,8 @@ export const SideModalLayout = ({
                   icon={<MdKeyboardBackspace aria-hidden className="fill-gray-200" />}
                   size="md"
                   compacted
-                  onClick={modalNavigateWrapper(-1)}
+                  loading={onBack ? isGoingBack : false}
+                  onClick={startGoingBack}
                 />
               )}
 
@@ -117,7 +125,7 @@ export const SideModalLayout = ({
                 icon={<MdClose aria-hidden className="fill-white" />}
                 size="md"
                 compacted
-                loading={isErasing}
+                loading={onErase ? isErasing : false}
                 onClick={startErase}
               />
             </div>

@@ -72,7 +72,7 @@ export const ModalRouterProvider = ({ router, children }: TModalRouterProviderPr
         }
 
         if (options?.replace) {
-          return prevState.map((item, index, array) => (index === array.length - 1 ? newHistory : item))
+          return [...prevState.slice(0, -1), newHistory]
         }
 
         return [...prevState, newHistory]

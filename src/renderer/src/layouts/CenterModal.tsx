@@ -135,7 +135,7 @@ export const CenterModalLayout = ({
                 icon={<MdClose aria-hidden className="text-gray-100" />}
                 size="md"
                 compacted
-                loading={isErasing}
+                loading={onErase ? isErasing : false}
                 onClick={startErase}
                 {...TestHelper.buildTestObject('center-modal-close-button')}
               />

@@ -443,6 +443,13 @@
     "modalDescription": "備份導入成功！",
     "returnSettings": "返回設定"
   },
+  "confirmAction": {
+    "title": "確認您的操作",
+    "description": "要繼續此操作，請確認：",
+    "inputPlaceholder": "輸入密碼…",
+    "passwordError": "密碼不正確！",
+    "confirmButtonLabel": "確認"
+  },
   "migrateWallets": {
     "title": "從 NEON 2 遷移",
     "instructionTitle": "操作說明",

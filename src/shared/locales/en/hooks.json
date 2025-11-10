@@ -52,5 +52,9 @@
   },
   "useGetFullTransactions": {
     "formatExtendedDate": "dd MMM yyyy"
+  },
+  "useConfirmAction": {
+    "unauthorizedAction": "Unauthorized. Please try again or contact support.",
+    "invalidPassword": "Error verifying password. Please try again."
   }
 }

@@ -42,6 +42,11 @@ type TBlockchainSelectionModalState = {
   onSelect?: (blockchain: TBlockchainServiceKey) => void | Promise<void>
 }
 
+type TConfirmActionModalState = {
+  onSuccess: () => void
+  onCancel: () => void
+}
+
 type TConfirmPasswordBackupModalState = {
   selectedFilePath: string
 }
@@ -258,6 +263,7 @@ type TModalRouterSideRouteTypes = {
   'add-network-profile': TAddNetworkProfileModalState | undefined
   'blockchain-selection': TBlockchainSelectionModalState
   'buy-and-sell-tokens-about-data': undefined
+  'confirm-action': TConfirmActionModalState
   'confirm-password-backup': TConfirmPasswordBackupModalState
   'confirm-password-export': TConfirmPasswordExportModalState
   'confirm-password-recover': TConfirmPasswordRecoverModalState

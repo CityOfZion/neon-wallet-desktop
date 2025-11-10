@@ -24,6 +24,7 @@ import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useBalance } from '@renderer/hooks/useBalances'
+import { useConfirmAction } from '@renderer/hooks/useConfirmAction'
 import { useExchange } from '@renderer/hooks/useExchange'
 import { useHardwareWalletActions } from '@renderer/hooks/useHardwareWallet'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
@@ -73,6 +74,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
   const { accountsRef } = useAccountsSelector()
   const { modalNavigate } = useModalNavigate()
   const { isConnectedAndUnlockedHardwareWallet } = useHardwareWalletActions()
+  const { confirmAction } = useConfirmAction()
   const dispatch = useAppDispatch()
 
   const currentRecipientAddress = useRef(recipientAddress)
@@ -313,17 +315,24 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
 
     if (!fields || isCalculatingForm || actionState.isActing || isFeeInvalid) return
 
-    if (fields.selectedAccount?.type === 'hardware') {
-      const isConnectedAndUnlocked = await isConnectedAndUnlockedHardwareWallet(fields.selectedAccount)
+    const account = fields.selectedAccount
 
-      if (!isConnectedAndUnlocked) {
-        ToastHelper.error({ message: t('errors.hardwareWalletShouldBeValid'), duration: 8000 })
-
-        return
-      }
+    try {
+      await confirmAction({ account })
+    } catch {
+      return
     }
 
     try {
+      if (account.type === 'hardware') {
+        const isConnectedAndUnlocked = await isConnectedAndUnlockedHardwareWallet(account)
+
+        if (!isConnectedAndUnlocked) {
+          ToastHelper.error({ message: t('errors.hardwareWalletShouldBeValid'), duration: 8000 })
+          return
+        }
+      }
+
       const transactionHashes = await fields.service.transfer({
         senderAccount: fields.serviceAccount,
         intents: fields.intents,
@@ -368,6 +377,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
 
         return transaction
       })
+
       modalNavigate('success', {
         state: {
           heading: t('title'),
@@ -375,9 +385,11 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
           subtitle: t('sendSuccess.title'),
           content: <SendSuccessModalContent transactions={transactions} selectedAccount={fields.selectedAccount} />,
         },
+        replace: true,
       })
     } catch (error: any) {
       console.error(error)
+
       modalNavigate('error', {
         state: {
           heading: t('title'),

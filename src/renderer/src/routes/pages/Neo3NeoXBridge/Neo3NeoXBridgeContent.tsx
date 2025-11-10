@@ -28,6 +28,7 @@ import { useAccountMapSelector } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useLazyBalance } from '@renderer/hooks/useBalances'
+import { useConfirmAction } from '@renderer/hooks/useConfirmAction'
 import { useHardwareWalletActions } from '@renderer/hooks/useHardwareWallet'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useMountUnsafe } from '@renderer/hooks/useMount'
@@ -80,6 +81,7 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
   const { getBalance } = useLazyBalance()
   const { isConnectedAndUnlockedHardwareWallet } = useHardwareWalletActions()
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
+  const { confirmAction } = useConfirmAction()
   const navigate = useNavigate()
   const isGoingBack = useRef(false)
 
@@ -270,7 +272,14 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
     const amountToReceive = actionData.amountToReceive.value!
     const bridgeFee = actionData.bridgeFee.value!
 
+    try {
+      await confirmAction({ account: actionData.accountToUse.value! })
+    } catch {
+      return
+    }
+
     modalNavigate('neo3-neox-bridge-confirmation', {
+      replace: true,
       state: {
         tokenToUse,
         tokenToReceive,
