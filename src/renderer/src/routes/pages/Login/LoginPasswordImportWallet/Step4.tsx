@@ -16,12 +16,11 @@ import NeonWalletLogo from '@renderer/assets/images/neon-wallet-compact.svg?reac
 import { utilityReducerActions } from '@renderer/store/reducers/utility'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 import { TCreateWalletAndAccountParam } from '@shared/types/blockchain'
-import { IContactState, TMigrationsNeo3, TSwapRecord } from '@shared/types/store'
+import { IContactState, TSwapRecord } from '@shared/types/store'
 
 type TLocationState = {
   wallets: TCreateWalletAndAccountParam[]
   swapRecords?: TSwapRecord[]
-  migrationsNeo3?: TMigrationsNeo3
   contacts?: IContactState[]
   password: string
 }
@@ -40,7 +39,7 @@ const LoginPasswordImportWalletStep4Page = () => {
 
   const handleImport = async () => {
     try {
-      const { wallets, contacts, password, swapRecords, migrationsNeo3 } = state
+      const { wallets, contacts, password, swapRecords } = state
       const progressByStep = 100 / (wallets.length + 3)
 
       await setHasPassword(password)
@@ -48,7 +47,6 @@ const LoginPasswordImportWalletStep4Page = () => {
       setProgress(progress => progress + progressByStep)
 
       if (swapRecords) swapRecords.forEach(swapRecord => dispatch(utilityReducerActions.persistSwapRecord(swapRecord)))
-      if (migrationsNeo3) dispatch(utilityReducerActions.mergeMigrationsNeo3(migrationsNeo3))
       if (contacts) createContacts(contacts)
 
       await SharedUtilsHelper.sleep(250)

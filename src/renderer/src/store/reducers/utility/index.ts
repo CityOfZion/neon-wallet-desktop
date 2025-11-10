@@ -7,7 +7,7 @@ import storage from 'redux-persist/lib/storage'
 import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import { TUseTransactionsTransfer } from '@shared/types/hooks'
-import { THiddenTokenByBlockchain, TLastIndexesByWallet, TMigrationsNeo3, TSwapRecord } from '@shared/types/store'
+import { THiddenTokenByBlockchain, TLastIndexesByWallet, TSwapRecord } from '@shared/types/store'
 
 import { utilitySliceReducers } from './reducers'
 
@@ -20,7 +20,6 @@ export interface IUtilityReducer {
     swapRecords: TSwapRecord[]
     lastIndexesByWallet: TLastIndexesByWallet
     hiddenTokensByBlockchain: THiddenTokenByBlockchain
-    migrationsNeo3: TMigrationsNeo3
   }
 }
 
@@ -36,7 +35,6 @@ export function getUtilityReducer() {
       unlockedSkinIds: [],
       lastIndexesByWallet: {},
       hiddenTokensByBlockchain: {},
-      migrationsNeo3: {},
     },
   }
 
@@ -95,6 +93,11 @@ export function getUtilityReducer() {
         },
       }
     },
+    2: (state: any) => {
+      delete state.data.migrationsNeo3
+
+      return state
+    },
   }
 
   const utilityReducerConfig: PersistConfig<IUtilityReducer> = {
@@ -102,7 +105,7 @@ export function getUtilityReducer() {
     storage,
     timeout: 0,
     blacklist: ['inMemoryData'],
-    version: 1,
+    version: 2,
     migrate: createMigrate(utilityReducerMigrations),
     getStoredState: async (config: any) => {
       const storedState = await config.storage.getItem(`persist:${config.key}`)

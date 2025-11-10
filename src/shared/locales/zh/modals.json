@@ -698,61 +698,6 @@
       "accountNotFound": "无法执行此操作。未找到账户"
     }
   },
-  "prepareHardwareWalletMigrationNeo3": {
-    "title": "硬件钱包",
-    "alert": "请确保您的硬件钱包在整个过程中保持解锁！",
-    "connectAndSelectNeo3Step": {
-      "subtitle": "您的设备已连接！",
-      "title": "进入NEO N3应用",
-      "description": "为准备Neo Legacy到Neo N3的迁移，Neon需要一个Neo N3地址作为迁移代币的接收地址。",
-      "tip": "为获取此地址，Neon需要您在硬件钱包上<1>切换到Neo N3应用</1>。",
-      "searchHardwareWalletLabel": "等待用户打开Neo N3应用…",
-      "selectLabel": "您的地址：",
-      "addAccountButtonLabel": "添加账户",
-      "addNeo3AccountError": "添加新的Neo 3账户时出现问题。请检查您的硬件钱包是否已连接并解锁",
-      "continueButtonLabel": "继续"
-    },
-    "confirmAndCompleteStep": {
-      "title": "确认",
-      "sourceAddressTitle": "您的<1>Neo Legacy</1>代币将从此处转出：",
-      "sourceAddressLabel": "源地址",
-      "receiverAddressLabel": "接收地址",
-      "receiverAddressTitle": "您的迁移<1>Neo N3</1>代币将存入此处：",
-      "tip": "请切换回硬件钱包上的Neo Legacy应用以进行下一步。",
-      "continueButtonLabel": "确认并继续",
-      "searchHardwareWalletLabel": "等待Neo Legacy应用…"
-    },
-    "statusConnection": {
-      "connectedMessage": "您的设备已连接！",
-      "notFoundMessage": "未找到硬件钱包或应用！请检查连接",
-      "searchAgainButtonLabel": "重新搜索"
-    },
-    "steps": ["连接硬件", "打开Neo N3应用", "选择地址", "确认", "完成"],
-    "closeIconButtonAriaLabel": "关闭"
-  },
-  "migrationNeo3Status": {
-    "title": "迁移代币",
-    "subtitles": {
-      "done": "您的迁移已完成！",
-      "pending": "您的迁移正在处理中！",
-      "failure": "您的迁移时间较长，请稍后再次检查状态，或联系我们的支持。",
-      "failure-neo3": "您的迁移时间较长，请稍后再次检查状态，或联系我们的支持。"
-    },
-    "detailsHeaderLabel": "迁移状态",
-    "detailsPanelLabel": "交易",
-    "detailsDestinationAddressLabel": "Neo N3目标地址",
-    "detailsMigrationFeeLabel": "迁移手续费",
-    "detailsTransactionHashLabel": "交易哈希",
-    "detailsAmountSentLabel": "发送数量",
-    "detailsAmountReceiveLabel": {
-      "done": "已接收数量",
-      "pending": "您将收到的数量",
-      "failure": "您本应收到的数量",
-      "failure-neo3": "您本应收到的数量"
-    },
-    "viewStatusButtonLabel": "查看状态",
-    "revalidateMigrationButtonLabel": "重新验证迁移"
-  },
   "search": {
     "title": "搜索Neon",
     "closeButtonLabel": "关闭",

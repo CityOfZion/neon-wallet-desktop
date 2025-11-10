@@ -15,7 +15,6 @@ import { useSwapRecordSelector } from '@renderer/hooks/useUtilitySelector'
 
 import MdCoffee from '@renderer/assets/images/md-coffee.svg?react'
 import MdOutlineContentCopy from '@renderer/assets/images/md-outline-content-copy.svg?react'
-import TbArrowsExchange from '@renderer/assets/images/tb-arrows-exchange.svg?react'
 import TbBell from '@renderer/assets/images/tb-bell.svg?react'
 import TbChevronRight from '@renderer/assets/images/tb-chevron-right.svg?react'
 import TbClock from '@renderer/assets/images/tb-clock.svg?react'
@@ -27,17 +26,15 @@ import TbTransform from '@renderer/assets/images/tb-transform.svg?react'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { TFullTransactionsItem } from '@shared/types/hooks'
-import { TMigrationNeo3 } from '@shared/types/store'
 
 import { TransactionActivityListItemHeaderDetails } from './TransactionActivityListItemHeaderDetails'
 import { TransactionActivityListTooltip } from './TransactionActivityListTooltip'
 
 type TProps = {
   item: TFullTransactionsItem
-  migrationNeo3?: TMigrationNeo3
 }
 
-export const TransactionActivityListItemHeaderContent = ({ item, migrationNeo3 }: TProps) => {
+export const TransactionActivityListItemHeaderContent = ({ item }: TProps) => {
   const {
     txId,
     txIdUrl,
@@ -63,10 +60,6 @@ export const TransactionActivityListItemHeaderContent = ({ item, migrationNeo3 }
   const handleCancelBubbleEvent = (event: MouseEvent<HTMLDivElement>) => {
     event.preventDefault()
     event.stopPropagation()
-  }
-
-  const handleGoToMigrationNeo3Status = () => {
-    modalNavigate('migration-neo3-status', { state: { hash: txId } })
   }
 
   const handleGoToSwapDetails = () => {
@@ -180,20 +173,8 @@ export const TransactionActivityListItemHeaderContent = ({ item, migrationNeo3 }
       </div>
 
       <div className="flex items-center gap-x-2 truncate whitespace-nowrap">
-        {(migrationNeo3 || swapRecord || isBridgeNeo3NeoX) && (
+        {(swapRecord || isBridgeNeo3NeoX) && (
           <div className="flex items-center gap-x-2" onClick={handleCancelBubbleEvent}>
-            {migrationNeo3 && (
-              <TransactionActivityListItemHeaderDetails
-                role="button"
-                tabIndex={0}
-                className="hover:opacity-90 focus:opacity-90 active:opacity-80"
-                data={<p className="text-yellow">{tCommonGeneral('migrationNeo3')}</p>}
-                icon={<TbArrowsExchange aria-hidden className="text-yellow" />}
-                onKeyDown={handleKeyDownWrapper(handleGoToMigrationNeo3Status)}
-                onClick={handleGoToMigrationNeo3Status}
-              />
-            )}
-
             {swapRecord && (
               <TransactionActivityListItemHeaderDetails
                 role="button"

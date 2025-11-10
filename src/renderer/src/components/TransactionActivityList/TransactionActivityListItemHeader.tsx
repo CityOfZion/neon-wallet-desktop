@@ -4,17 +4,15 @@ import { Link } from 'react-router'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 
 import { TFullTransactionsItem } from '@shared/types/hooks'
-import { TMigrationNeo3 } from '@shared/types/store'
 
 import { TransactionActivityListItemHeaderContent } from './TransactionActivityListItemHeaderContent'
 import { TransactionActivityListTooltip } from './TransactionActivityListTooltip'
 
 type TProps = {
   item: TFullTransactionsItem
-  migrationNeo3?: TMigrationNeo3
 }
 
-export const TransactionActivityListItemHeader = ({ item, migrationNeo3 }: TProps) => {
+export const TransactionActivityListItemHeader = ({ item }: TProps) => {
   const { t: tCommonBlockchain } = useTranslation('common', { keyPrefix: 'blockchain' })
 
   const { txIdUrl, blockchain } = item
@@ -31,10 +29,10 @@ export const TransactionActivityListItemHeader = ({ item, migrationNeo3 }: TProp
 
       {txIdUrl ? (
         <Link to={txIdUrl} target="_blank" className="block h-full w-full cursor-pointer">
-          <TransactionActivityListItemHeaderContent item={item} migrationNeo3={migrationNeo3} />
+          <TransactionActivityListItemHeaderContent item={item} />
         </Link>
       ) : (
-        <TransactionActivityListItemHeaderContent item={item} migrationNeo3={migrationNeo3} />
+        <TransactionActivityListItemHeaderContent item={item} />
       )}
     </div>
   )

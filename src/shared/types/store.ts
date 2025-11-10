@@ -1,5 +1,4 @@
 import { TSwapServiceStatusResponse, TSwapToken } from '@cityofzion/blockchain-service'
-import { TNeo3NeoLegacyMigrationNeo3Amounts, TNeo3NeoLegacyMigrationNeoLegacyAmounts } from '@cityofzion/bs-neo-legacy'
 
 import { TBlockchainServiceKey, TNetwork } from './blockchain'
 import { Optional } from './global'
@@ -203,21 +202,5 @@ export type TNotification = {
 }
 
 export type TSaveNotification = Optional<TNotification, 'id' | 'date' | 'provider' | 'read' | 'priority'>
-
-export type TMigrationNeo3Status = 'done' | 'pending' | 'failure' | 'failure-neo3'
-
-export type TMigrationNeo3 = {
-  hash: string
-  neoLegacyAccount: IAccountState
-  neo3Address: string
-  status: TMigrationNeo3Status
-  neo3MigrationAmounts: TNeo3NeoLegacyMigrationNeo3Amounts
-  neoLegacyMigrationAmounts: TNeo3NeoLegacyMigrationNeoLegacyAmounts
-  time: number
-}
-
-export type TMigrationsNeo3 = {
-  [hash: string]: TMigrationNeo3
-}
 
 export type THiddenTokenByBlockchain = Partial<Record<TBlockchainServiceKey, string[]>>

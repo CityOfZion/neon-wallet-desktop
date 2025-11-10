@@ -28,10 +28,6 @@
       "useVotingNeo3NotificationProcess": {
         "notificationTitle": "你正在错过免费的 GAS！",
         "notificationDescription": "点击这里，立即投票"
-      },
-      "useMigrationNeoLegacyNotificationProcess": {
-        "notificationTitle": "您有可迁移的代币！",
-        "notificationDescription": "Neo Legacy 到 Neo N3 可迁移！"
       }
     },
     "walletTasksManagerSetup": {
@@ -570,63 +566,6 @@
         "deposit": "发起存款",
         "restart": "重新开始"
       }
-    }
-  },
-  "migrationNeo3": {
-    "title": "迁移旧版代币",
-    "subtitle": "迁移您的旧版代币",
-    "labels": {
-      "assets": "您的资产",
-      "address": "地址详情",
-      "amounts": "数量",
-      "migrate": "迁移",
-      "receive": "接收",
-      "amountYouGet": "您将获得的数量<1>（扣除手续费后）</1>",
-      "fee": "迁移手续费",
-      "notFound": "未找到"
-    },
-    "buttons": {
-      "migrate": "立即迁移"
-    },
-    "messages": {
-      "migrationSuccess": "迁移成功，请等待代币到账",
-      "migrationError": "迁移过程中出现问题，请联系客服并重试",
-      "generateNeo3AccountError": "生成Neo 3账户时出现问题",
-      "getKeyError": "获取密钥时出现问题",
-      "generateAccountError": "生成账户时出现问题",
-      "calculateValuesError": "计算手续费和数量时出现问题",
-      "hardwareWalletNotConnectedOrLocked": "硬件钱包未连接或已锁定，请检查设备后重试",
-      "migrationNotAvailableError": "此账户无法进行迁移",
-      "accountIsNotNeoLegacy": "该账户不是Neo Legacy账户，无法迁移"
-    },
-    "sideBar": {
-      "title": "它是如何工作的？",
-      "steps": [
-        "Neon将使用您的现有私钥创建一个新的Neo N3账户并添加到您的钱包中",
-        "确认详情后我们将处理交易",
-        "迁移通常在30秒内完成。您可在账户“活动”标签中查看状态"
-      ],
-      "fee": "迁移手续费约为1%（向上取整并包含少量GAS以支持新网络交易）。最低为0.1 GAS或2 NEO。",
-      "alert": "此迁移工具仅迁移您的NEO和GAS，不会迁移其他NEP-5代币。如需迁移其他代币，请联系相关项目方。",
-      "buttons": {
-        "help": "需要帮助？联系我们"
-      }
-    },
-    "successNotification": {
-      "title": "迁移完成",
-      "previewBody": "您的迁移已成功完成"
-    },
-    "failureNeoLegacyNotification": {
-      "title": "迁移失败 - Neo Legacy",
-      "previewBody": "我们无法验证您在Neo Legacy上的迁移转账是否完成"
-    },
-    "failureNeo3Notification": {
-      "title": "迁移失败 - Neo 3",
-      "previewBody": "我们无法验证您的Neo 3账户是否收到迁移转账"
-    },
-    "failureNotification": {
-      "title": "迁移失败",
-      "previewBody": "我们无法验证您的迁移转账是否完成"
     }
   },
   "voteNeo3": {

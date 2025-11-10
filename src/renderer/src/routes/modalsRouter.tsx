@@ -42,7 +42,6 @@ const ImportWatchAccountsModal = lazy(() => import('./modals/Import/ImportWatchA
 const MigrateAccountsStep2Modal = lazy(() => import('./modals/MigrateAccounts/MigrateAccountsStep2'))
 const MigrateAccountsStep3Modal = lazy(() => import('./modals/MigrateAccounts/MigrateAccountsStep3'))
 const MigrateAccountsStep4Modal = lazy(() => import('./modals/MigrateAccounts/MigrateAccountsStep4'))
-const MigrationNeo3StatusModal = lazy(() => import('./modals/MigrationNeo3Status'))
 const Neo3NeoxBridgeConfirmationModal = lazy(() => import('./modals/Neo3NeoxBridgeConfirmation'))
 const Neo3NeoxBridgeDetailsModal = lazy(() => import('./modals/Neo3NeoxBridgeDetails'))
 const NetworkNodeSelection = lazy(() => import('./modals/NetworkNodeSelection'))
@@ -52,7 +51,6 @@ const NotificationsModal = lazy(() => import('./modals/Notifications'))
 const PersistAccountModal = lazy(() => import('./modals/PersistAccount'))
 const PersistContactModal = lazy(() => import('./modals/PersistContact'))
 const DeleteModal = lazy(() => import('./modals/PersistContact/DeleteModal'))
-const PrepareHardwareWalletMigrationNeo3Modal = lazy(() => import('./modals/PrepareHardwareWalletMigrationNeo3'))
 const SearchModal = lazy(() => import('./modals/Search'))
 const SelectAccountModal = lazy(() => import('./modals/SelectAccount'))
 const SelectContact = lazy(() => import('./modals/SelectContact'))
@@ -137,13 +135,6 @@ export const modalsRouter: TRoute[] = [
     element: BuyAndSellTokensAboutDataModal,
   },
   { name: 'notifications', type: 'side', size: 'sm', element: NotificationsModal },
-  {
-    name: 'prepare-hardware-wallet-migration-neo3',
-    type: 'center',
-    size: 'lg',
-    element: PrepareHardwareWalletMigrationNeo3Modal,
-  },
-  { name: 'migration-neo3-status', type: 'side', size: 'md', element: MigrationNeo3StatusModal },
   { name: 'search', type: 'center', size: 'sm', element: SearchModal, closeOnEsc: true, closeOnClickOutside: true },
   { name: 'export-full-transactions', type: 'center', size: 'sm', element: ExportFullTransactionsModal },
   {

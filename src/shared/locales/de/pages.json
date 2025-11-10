@@ -28,10 +28,6 @@
       "useVotingNeo3NotificationProcess": {
         "notificationTitle": "Sie verpassen kostenloses GAS!",
         "notificationDescription": "Tippen Sie einfach hier und geben Sie noch heute Ihre Stimme ab"
-      },
-      "useMigrationNeoLegacyNotificationProcess": {
-        "notificationTitle": "Sie haben Token zur Migration verfügbar!",
-        "notificationDescription": "Migration von Neo Legacy zu Neo N3 verfügbar!"
       }
     },
     "walletTasksManagerSetup": {
@@ -576,63 +572,6 @@
         "deposit": "Einzahlung tätigen",
         "restart": "Neu starten"
       }
-    }
-  },
-  "migrationNeo3": {
-    "title": "Legacy-Token migrieren",
-    "subtitle": "Migrieren Sie Ihre Legacy-Token",
-    "labels": {
-      "assets": "Ihre Assets",
-      "address": "Adressdetails",
-      "amounts": "Beträge",
-      "migrate": "Migrieren",
-      "receive": "Empfangen",
-      "amountYouGet": "Betrag, den Sie erhalten <1>(nach Gebühren)</1>",
-      "fee": "Migrationsgebühr",
-      "notFound": "Nicht gefunden"
-    },
-    "buttons": {
-      "migrate": "Jetzt migrieren"
-    },
-    "messages": {
-      "migrationSuccess": "Erfolgreiche Migration, warten Sie auf das Eintreffen der Token",
-      "migrationError": "Es gab ein Problem mit der Migration, bitte kontaktieren Sie den Support und versuchen Sie es erneut",
-      "generateNeo3AccountError": "Es gab ein Problem bei der Generierung des Neo 3 Kontos",
-      "getKeyError": "Es gab ein Problem beim Abrufen des Schlüssels",
-      "generateAccountError": "Es gab ein Problem bei der Generierung des Kontos",
-      "calculateValuesError": "Es gab ein Problem bei der Berechnung der Werte für Gebühr und Betrag",
-      "hardwareWalletNotConnectedOrLocked": "Hardware Wallet ist nicht verbunden oder gesperrt, bitte überprüfen Sie Ihr Gerät und versuchen Sie es erneut",
-      "migrationNotAvailableError": "Migration ist für dieses Konto nicht verfügbar",
-      "accountIsNotNeoLegacy": "Das Konto ist kein Neo Legacy Konto und kann nicht migriert werden"
-    },
-    "sideBar": {
-      "title": "Wie funktioniert es?",
-      "steps": [
-        "Neon erstellt ein neues Neo N3 Konto mit Ihrem vorhandenen privaten Schlüssel und fügt es Ihrem Wallet hinzu",
-        "Wir verarbeiten die Transaktion, sobald Sie die Details bestätigt haben",
-        "Migrationen dauern normalerweise weniger als 30 Sekunden. Sie können den Status im Tab 'Aktivität' des Kontos überprüfen"
-      ],
-      "fee": "Migrationsgebühren betragen etwa 1% (aufgerundet und beinhalten eine kleine Menge GAS zur Unterstützung von Transaktionen im neuen Netzwerk). Minimum von 0,1 GAS oder 2 NEO.",
-      "alert": "Dieses Migrationstool verschiebt nur Ihre NEO und GAS. Es verschiebt nicht Ihre anderen NEP-5 Token. Sie müssen diese Projekte kontaktieren, um zu erfahren, wie Sie deren Token migrieren können",
-      "buttons": {
-        "help": "Brauchen Sie Hilfe? Chatten Sie mit uns"
-      }
-    },
-    "successNotification": {
-      "title": "Migration abgeschlossen",
-      "previewBody": "Ihre Migration wurde erfolgreich abgeschlossen"
-    },
-    "failureNeoLegacyNotification": {
-      "title": "Migration fehlgeschlagen - Neo Legacy",
-      "previewBody": "Wir konnten den Abschluss Ihrer Migrationsüberweisung auf Neo Legacy nicht überprüfen"
-    },
-    "failureNeo3Notification": {
-      "title": "Migration fehlgeschlagen - Neo 3",
-      "previewBody": "Wir konnten keine Migrationsüberweisung auf Ihr Neo 3 Konto überprüfen"
-    },
-    "failureNotification": {
-      "title": "Migration fehlgeschlagen",
-      "previewBody": "Wir konnten den Abschluss Ihrer Migrationsüberweisung nicht überprüfen"
     }
   },
   "voteNeo3": {

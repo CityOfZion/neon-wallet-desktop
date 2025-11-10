@@ -28,10 +28,6 @@
       "useVotingNeo3NotificationProcess": {
         "notificationTitle": "You're missing out on free GAS!",
         "notificationDescription": "Simply tap here and cast your vote today"
-      },
-      "useMigrationNeoLegacyNotificationProcess": {
-        "notificationTitle": "You have tokens available to migrate!",
-        "notificationDescription": "Neo Legacy to Neo N3 migration available!"
       }
     },
     "walletTasksManagerSetup": {
@@ -62,11 +58,7 @@
     },
     "securitySetup": {
       "title": "Securing your new wallet",
-      "steps": [
-        "Create Password",
-        "Confirm Password",
-        "Complete"
-      ],
+      "steps": ["Create Password", "Confirm Password", "Complete"],
       "step1": {
         "formTitle": "Please create a password to secure your wallet",
         "passwordPlaceholder": "Create a password...",
@@ -84,13 +76,7 @@
     },
     "importWallet": {
       "title": "Import a wallet",
-      "steps": [
-        "Create Password",
-        "Confirm Password",
-        "Add details or locate file",
-        "Import",
-        "Complete"
-      ],
+      "steps": ["Create Password", "Confirm Password", "Add details or locate file", "Import", "Complete"],
       "migrationLabel": "Locate your migration file",
       "step3": {
         "formTitle": "Enter an address, encrypted key, private key, mnemonic or locate backup file",
@@ -580,63 +566,6 @@
         "deposit": "Make deposit",
         "restart": "Restart"
       }
-    }
-  },
-  "migrationNeo3": {
-    "title": "Migrate Legacy Tokens",
-    "subtitle": "Migrate your legacy tokens",
-    "labels": {
-      "assets": "Your assets",
-      "address": "Address details",
-      "amounts": "Amounts",
-      "migrate": "Migrate",
-      "receive": "Receive",
-      "amountYouGet": "Amount you’ll get <1>(after fees)</1>",
-      "fee": "Migration fee",
-      "notFound": "Not found"
-    },
-    "buttons": {
-      "migrate": "Migrate now"
-    },
-    "messages": {
-      "migrationSuccess": "Successful migration, wait for token(s) to arrive",
-      "migrationError": "There was a problem with migration, please contact support and try again",
-      "generateNeo3AccountError": "There was a problem with generation Neo 3 account",
-      "getKeyError": "There was a problem with get key",
-      "generateAccountError": "There was a problem with generation account",
-      "calculateValuesError": "There was a problem with calculated values for fee and amount",
-      "hardwareWalletNotConnectedOrLocked": "Hardware wallet isn't connected or is locked, please, verify your device and try again",
-      "migrationNotAvailableError": "Migration is not available for this account",
-      "accountIsNotNeoLegacy": "The account is not a Neo Legacy account and cannot be migrated"
-    },
-    "sideBar": {
-      "title": "How does it work?",
-      "steps": [
-        "Neon will create a new Neo N3 account using your existing private key and add it to your wallet",
-        "We will process the transaction once you have confirmed the details",
-        "Migrations usually take less than 30 seconds to finish. You can check the status in the Account 'Activity' tab"
-      ],
-      "fee": "Migration fees are around 1% (rounded up and include a small amount of GAS to support transactions on the new network). Minimum of 0.1 GAS or 2 NEO.",
-      "alert": "This migration tool will only move your NEO and GAS. It will not move your other NEP-5 tokens. You will need to contact these projects to learn how to migrate their tokens",
-      "buttons": {
-        "help": "Need help? Chat with us"
-      }
-    },
-    "successNotification": {
-      "title": "Migration completed",
-      "previewBody": "Your migration has been completed successfully"
-    },
-    "failureNeoLegacyNotification": {
-      "title": "Migration failed - Neo Legacy",
-      "previewBody": "We couldn't verify the completion of your migration transfer on Neo Legacy"
-    },
-    "failureNeo3Notification": {
-      "title": "Migration failed - Neo 3",
-      "previewBody": "We couldn't verify any migration transfer to your Neo 3 account"
-    },
-    "failureNotification": {
-      "title": "Migration failed",
-      "previewBody": "We couldn't verify the completion of your migration transfer"
     }
   },
   "voteNeo3": {

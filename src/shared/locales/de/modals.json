@@ -698,61 +698,6 @@
       "accountNotFound": "Aktion kann nicht ausgeführt werden. Konto wurde nicht gefunden"
     }
   },
-  "prepareHardwareWalletMigrationNeo3": {
-    "title": "Hardware Wallet",
-    "alert": "Stellen Sie sicher, dass Ihr Hardware Wallet für den gesamten Prozess entsperrt bleibt!",
-    "connectAndSelectNeo3Step": {
-      "subtitle": "Ihr Gerät wurde verbunden!",
-      "title": "Navigieren Sie zur NEO N3 App",
-      "description": "Um Ihre Neo Legacy zu Neo N3 Migration vorzubereiten, benötigt Neon eine Neo N3 Adresse als Ziel für Ihre migrierten Token.",
-      "tip": "Um diese Adresse abzurufen, müssen Sie auf Ihrem Hardware Wallet <1>zur Neo N3 App wechseln</1>.",
-      "searchHardwareWalletLabel": "Warte darauf, dass der Benutzer die Neo N3 App öffnet…",
-      "selectLabel": "Ihre Adressen:",
-      "addAccountButtonLabel": "Konto hinzufügen",
-      "addNeo3AccountError": "Es gab ein Problem beim Hinzufügen eines neuen Neo 3 Kontos. Überprüfen Sie, ob Ihr Hardware Wallet verbunden und entsperrt ist",
-      "continueButtonLabel": "Weiter"
-    },
-    "confirmAndCompleteStep": {
-      "title": "Bestätigung",
-      "sourceAddressTitle": "Ihre <1>Neo Legacy</1> Token kommen von hier:",
-      "sourceAddressLabel": "Quelladresse",
-      "receiverAddressLabel": "Empfangsadresse",
-      "receiverAddressTitle": "Ihre migrierten <1>Neo N3</1> Token werden hier eingezahlt:",
-      "tip": "Wechseln Sie zurück zur Neo Legacy App auf Ihrem Hardware Wallet, um zum nächsten Schritt zu gelangen.",
-      "continueButtonLabel": "Bestätigen & Weiter",
-      "searchHardwareWalletLabel": "Warte auf Neo Legacy App…"
-    },
-    "statusConnection": {
-      "connectedMessage": "Ihr Gerät wurde verbunden!",
-      "notFoundMessage": "Kein Hardware Wallet oder App gefunden! Bitte überprüfen Sie Ihre Verbindung",
-      "searchAgainButtonLabel": "Erneut suchen"
-    },
-    "steps": ["Hardware verbinden", "Neo N3 App öffnen", "Adresse auswählen", "Bestätigung", "Abschließen"],
-    "closeIconButtonAriaLabel": "Schließen"
-  },
-  "migrationNeo3Status": {
-    "title": "Token migrieren",
-    "subtitles": {
-      "done": "Ihre Migration wurde abgeschlossen!",
-      "pending": "Ihre Migration ist ausstehend!",
-      "failure": "Ihre Migration dauert länger als erwartet, überprüfen Sie den Status später erneut oder kontaktieren Sie unseren Support.",
-      "failure-neo3": "Ihre Migration dauert länger als erwartet, überprüfen Sie den Status später erneut oder kontaktieren Sie unseren Support."
-    },
-    "detailsHeaderLabel": "Migrationsstatus",
-    "detailsPanelLabel": "Transaktion",
-    "detailsDestinationAddressLabel": "Neo N3 Zieladresse",
-    "detailsMigrationFeeLabel": "Migrationsgebühr",
-    "detailsTransactionHashLabel": "Transaktions-Hash",
-    "detailsAmountSentLabel": "Gesendeter Betrag",
-    "detailsAmountReceiveLabel": {
-      "done": "Erhaltener Betrag",
-      "pending": "Betrag, den Sie erhalten werden",
-      "failure": "Betrag, den Sie erhalten würden",
-      "failure-neo3": "Betrag, den Sie erhalten würden"
-    },
-    "viewStatusButtonLabel": "Status anzeigen",
-    "revalidateMigrationButtonLabel": "Migration erneut validieren"
-  },
   "search": {
     "title": "Neon durchsuchen",
     "closeButtonLabel": "Schließen",

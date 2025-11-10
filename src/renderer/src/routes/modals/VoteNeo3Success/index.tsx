@@ -1,4 +1,4 @@
-import type { TVoteServiceCandidate } from '@cityofzion/bs-neo3'
+import { BSNeo3Constants, TVoteServiceCandidate } from '@cityofzion/bs-neo3'
 import { useTranslation } from 'react-i18next'
 
 import { Link } from '@renderer/components/Link'
@@ -15,7 +15,6 @@ import TbChartBarPopular from '@renderer/assets/images/tb-chart-bar-popular.svg?
 import TbEye from '@renderer/assets/images/tb-eye.svg?react'
 import TbRosetteDiscountCheck from '@renderer/assets/images/tb-rosette-discount-check.svg?react'
 
-import { NEO3_NEO_TOKEN } from '@renderer/constants/tokens'
 import { IAccountState } from '@shared/types/store'
 
 type TLocationState = {
@@ -79,7 +78,7 @@ const VoteNeo3SuccessModal = () => {
               <li className="flex items-center gap-x-3">
                 <span className="text-blue">{t('votesLabel')}</span>
                 <span className="w-full max-w-72 truncate">
-                  {neoAmount} {NEO3_NEO_TOKEN.symbol}
+                  {neoAmount} {BSNeo3Constants.NEO_TOKEN.symbol}
                 </span>
               </li>
             </ul>
