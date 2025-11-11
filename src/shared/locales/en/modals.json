@@ -3,7 +3,7 @@
     "title": "Import",
     "subtitle": "IMPORT",
     "description": "To import your wallet, enter an address, encrypted key, private key or mnemonic words:",
-    "inputPlaceholder": "Please enter an address or key...",
+    "inputPlaceholder": "Please enter an address or key…",
     "buttonContinueLabel": "Next",
     "errors": {
       "allAddressesAlreadyImported": "All addresses are already imported",
@@ -33,7 +33,7 @@
   },
   "editWallet": {
     "title": "Edit Wallet",
-    "inputPlaceholder": "Enter your wallet name...",
+    "inputPlaceholder": "Enter your wallet name…",
     "saveButtonLabel": "Save",
     "cancelButtonLabel": "Cancel",
     "deleteWalletTitle": "Delete Wallet",
@@ -51,7 +51,7 @@
     "titleCreate": "Create new account",
     "subtitleCreate": "Creating an account is easy, just give it a name and select a colour below and you're done!",
     "inputLabel": "Account name",
-    "inputPlaceholder": "Enter your account name...",
+    "inputPlaceholder": "Enter your account name…",
     "inputSubtitle": "It could be helpful to name your account with a label related to what you want to use the account for (such as ‘Investments’ or ‘Trading’).",
     "selectBlockchainDescription": "Please select which chain you would like to use for this account.",
     "skinSelectorLabel": "Select an account skin",
@@ -101,7 +101,7 @@
       "step3of4": "3 of 4",
       "description": "Give your wallet a memorable name, it could be helpful to name it with a label related to what you want to use the wallet for (such as ‘Investments’ or ‘Trading Wallet’).",
       "inputLabel": "Wallet name",
-      "inputPlaceholder": "Enter your wallet name...",
+      "inputPlaceholder": "Enter your wallet name…",
       "backButtonLabel": "Back",
       "nextButtonLabel": "Next",
       "errors": {
@@ -131,7 +131,7 @@
     "addAddress": "Add address",
     "saveContact": "Save contact",
     "name": "NAME",
-    "enterAName": "Enter a name...",
+    "enterAName": "Enter a name…",
     "addresses": "ADDRESSES",
     "deleteContact": {
       "title": "Delete contact",
@@ -177,7 +177,7 @@
     "title": "Connect with a dApp",
     "description": "All transactions requested by a connected dApp will <strong>require your permission before being broadcast</strong> to the blockchain.",
     "disclaimer": "No actions that are initiated by the dApp will happen without your direct approval.",
-    "inputPlaceholder": "Paste your URL here...",
+    "inputPlaceholder": "Paste your URL here…",
     "buttonConnectLabel": "Connect",
     "errors": {
       "errorToConnect": "Oops! we’ve encountered an error. Try to generate a new uri and try again."
@@ -210,7 +210,7 @@
   },
   "dappConnectionListModal": {
     "title": "Connected dApps",
-    "inputPlaceholder": "Search for dApp...",
+    "inputPlaceholder": "Search for dApp…",
     "listTitle": "Your connected dApps",
     "emptyList": "No dApp connections",
     "buttonLabel": "Connect new"
@@ -225,7 +225,7 @@
   "decryptKeyModal": {
     "title": "Import",
     "description": "Enter a pass phrase for your encrypted key:",
-    "inputPlaceholder": "Enter your pass phrase...",
+    "inputPlaceholder": "Enter your pass phrase…",
     "buttonContinueLabel": "Import",
     "errors": {
       "noEncryptionInterfaceError": "This blockchain can't decrypt the key",
@@ -235,7 +235,7 @@
   "selectAccount": {
     "title": "Select account",
     "yourAccounts": "Your accounts:",
-    "placeholder": "Select a wallet...",
+    "placeholder": "Select a wallet…",
     "noAccounts": "No accounts"
   },
   "networkSelection": {
@@ -405,7 +405,7 @@
   },
   "confirmPasswordExport": {
     "description": "To protect acess to your assets, please confirm your password",
-    "inputPlaceholder": "Enter password...",
+    "inputPlaceholder": "Enter password…",
     "error": "Password not recognised!",
     "buttonContinueLabel": "Continue"
   },
@@ -431,7 +431,7 @@
     "title": "Backup NEON",
     "description": "In order to create your backup file, please provide your NEON password below:",
     "subtitle": "Current NEON Password",
-    "inputPlaceholder": "Enter your password...",
+    "inputPlaceholder": "Enter your password…",
     "buttonContinueLabel": "Backup Now",
     "error": "Password not recognised!",
     "warning": "You’ll need this password to restore your wallet.",
@@ -444,7 +444,7 @@
     "title": "Import NEON Backup",
     "description": "In order to import your backup file, please provide the password you used to create the backup:",
     "subtitle": "Backup Password",
-    "inputPlaceholder": "Enter your password...",
+    "inputPlaceholder": "Enter your password…",
     "buttonContinueLabel": "Import this NEON backup",
     "error": "Password not recognised!",
     "modalDescription": "Backup imported successfully!",
@@ -457,7 +457,7 @@
       "title": "Import your NEON 2 accounts",
       "description": "In order to complete the NEON 2 migration process,  please locate your NEON 2 wallet migration file:",
       "inputLabel": "Locate your NEON 2 migration file",
-      "buttonBrowseLabel": "Browse...",
+      "buttonBrowseLabel": "Browse…",
       "buttonImportLabel": "Import"
     },
     "step3": {
@@ -473,7 +473,7 @@
       "title": "Enter your account passwords",
       "description": "Enter your passwords for each account you want to import",
       "inputLabel": "Password",
-      "inputPlaceholder": "Enter account password...",
+      "inputPlaceholder": "Enter account password…",
       "buttonLabel": "Migrate accounts",
       "passwordError": "Password not recognised!",
       "migrateError": "There was an error trying to migrate. Please, try again.",
@@ -548,7 +548,7 @@
     "description": "Once connected, your Ledger Wallet will be added to the Wallets list",
     "searchingLabel": "Searching",
     "notConnectedMessage": "No hardware wallet found! Please check your connection and search again",
-    "connectedMessage": "Detected your hardware wallet! Opening your wallet...",
+    "connectedMessage": "Detected your hardware wallet! Opening your wallet…",
     "searchAgainButtonLabel": "Search again"
   },
   "swapDetails": {
@@ -564,7 +564,7 @@
     "routingPanelLabel": "Routing",
     "routingPanelTransactionFromLabel": "Transaction from",
     "routingPanelTransactionToLabel": "Transaction to",
-    "routingPanelTransactionToLabelPending": "Pending...",
+    "routingPanelTransactionToLabelPending": "Pending…",
     "routingPanelTransactionFeeLabel": "Transaction fee",
     "sentPanelLabel": "You sent",
     "sentPanelTokenLabel": "Token",
@@ -693,7 +693,10 @@
       "markAsUnreadButtonLabel": "Mark as unread",
       "viewButtonLabel": "View",
       "relatedAddressLabel": "Address",
-      "relatedAccountLabel": "Account"
+      "relatedAccountLabel": "Account",
+      "providerLabels": {
+        "system": "System"
+      }
     },
     "errors": {
       "accountNotFound": "Impossible to perform the action. Account wasn't found"

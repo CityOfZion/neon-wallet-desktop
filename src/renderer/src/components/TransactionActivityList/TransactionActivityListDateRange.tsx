@@ -1,8 +1,11 @@
-import { format } from 'date-fns'
 import { useTranslation } from 'react-i18next'
 
 import { Button } from '@renderer/components/Button'
 import { DatePicker } from '@renderer/components/DatePicker'
+
+import { DateHelper } from '@renderer/helpers/DateHelper'
+
+import { useLanguageSelector } from '@renderer/hooks/useSettingsSelector'
 
 import MdCalendarMonth from '@renderer/assets/images/md-calendar-month.svg?react'
 import MdChevronRight from '@renderer/assets/images/md-chevron-right.svg?react'
@@ -23,6 +26,7 @@ export const TransactionActivityListDateRange = ({
   onSelectDateTo,
 }: TProps) => {
   const { t } = useTranslation('components', { keyPrefix: 'transactionActivityList.dateRange' })
+  const { language } = useLanguageSelector()
 
   return (
     <div className="bg-asphalt flex h-9 max-w-72 min-w-56 items-center justify-center gap-x-0.5 rounded-sm px-2">
@@ -31,7 +35,10 @@ export const TransactionActivityListDateRange = ({
       <DatePicker.Root>
         <DatePicker.Trigger asChild>
           <Button
-            label={format(dateFrom, t('formatExtendedDate'))}
+            label={DateHelper.formatLocalized(dateFrom, {
+              format: t('formatExtendedDate'),
+              language,
+            })}
             type="button"
             flat
             variant="text"
@@ -55,7 +62,10 @@ export const TransactionActivityListDateRange = ({
       <DatePicker.Root>
         <DatePicker.Trigger asChild>
           <Button
-            label={format(dateTo, t('formatExtendedDate'))}
+            label={DateHelper.formatLocalized(dateTo, {
+              format: t('formatExtendedDate'),
+              language,
+            })}
             type="button"
             flat
             variant="text"

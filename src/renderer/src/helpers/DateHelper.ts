@@ -1,4 +1,13 @@
-import { DateArg, format } from 'date-fns'
+import * as dateFns from 'date-fns'
+
+import { DATE_FNS_LOCALE_BY_LANGUAGE_VALUE } from '@renderer/constants/language'
+import { TLanguage } from '@shared/types/store'
+
+type TFormatLocalizedOptions = {
+  format: string
+  language: TLanguage
+}
+
 export class DateHelper {
   static timeToDate = (unixTime: number): string => {
     const date = new Date(unixTime * 1000)
@@ -26,11 +35,15 @@ export class DateHelper {
     return `${year}${month}${day}`
   }
 
-  static format(date: DateArg<Date>, formatStr: string): string {
-    if (typeof date === 'number') {
-      date = date * 1000
+  static formatLocalized = (date: Date | string | number, options: TFormatLocalizedOptions): string => {
+    if (typeof date === 'string') {
+      date = new Date(date)
+    } else if (typeof date === 'number') {
+      date *= 1000
     }
 
-    return format(date, formatStr)
+    return dateFns.format(date, options.format, {
+      locale: DATE_FNS_LOCALE_BY_LANGUAGE_VALUE[options.language.value],
+    })
   }
 }

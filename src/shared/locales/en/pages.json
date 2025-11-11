@@ -1,7 +1,7 @@
 {
   "root": {
     "overTheAirManagerSetup": {
-      "downloading": "New version found. Downloading... <1>Or download it manually on</1> <2>our GitHub</2>",
+      "downloading": "New version found. Downloading… <1>Or download it manually on</1> <2>our GitHub</2>",
       "downloaded": "New version downloaded. The app will restart to apply update.",
       "error": "Error downloading update. Please try again later restarting the app.",
       "installError": "It was not possible to install the update. Please verify the app permissions and download the update manually."
@@ -61,12 +61,12 @@
       "steps": ["Create Password", "Confirm Password", "Complete"],
       "step1": {
         "formTitle": "Please create a password to secure your wallet",
-        "passwordPlaceholder": "Create a password...",
+        "passwordPlaceholder": "Create a password…",
         "passwordError": "Password must be at least {{length}} characters long"
       },
       "step2": {
         "formTitle": "Please confirm your password",
-        "confirmPasswordPlaceholder": "Confirm your password...",
+        "confirmPasswordPlaceholder": "Confirm your password…",
         "confirmPasswordError": "Passwords do not match"
       },
       "step3": {
@@ -81,7 +81,7 @@
       "step3": {
         "formTitle": "Enter an address, encrypted key, private key, mnemonic or locate backup file",
         "migrationFormTitle": "Browse your computer to find a migration file",
-        "inputPlaceholder": "Enter an address, key or mnemonic...",
+        "inputPlaceholder": "Enter an address, key or mnemonic…",
         "importEncryptedDescription": "Select the desired blockchain for your new account",
         "importEncryptedTitle": "Import a wallet",
         "importEncryptedSubtitle": "Your encrypted key has been recognised, please complete the below fields to continue.",
@@ -140,7 +140,7 @@
     "alertCard": {
       "text": "Before proceeding, it is vital that you have access to your private keys or mnemonic to reinstate your wallet"
     },
-    "auxiliarText": "Swipe to confirm...",
+    "auxiliarText": "Swipe to confirm…",
     "swipe": {
       "text": "Reset Neon and delete my data",
       "buttonAriaLabel": "Reset and delete data"
@@ -161,7 +161,7 @@
     "separatelyTransferWarning": "{{blockchain}} does not support more than one send per transaction, so we will send each transfer separately which will drastically increase the fee.",
     "recipient": {
       "title": "Recipient {{order}}",
-      "addressPlaceholder": "Enter recipient name or address...",
+      "addressPlaceholder": "Enter recipient name or address…",
       "myAccountButtonLabel": "My account",
       "tokenToSendLabel": "Token to send",
       "amountLabel": "Amount",
@@ -315,7 +315,7 @@
       "youAreConnectedNeoAndEth": "You are connected to both the Neo and Ethereum networks",
       "currentNetwork": "Current Network",
       "nodeSelection": "Node Selection",
-      "selectProfilePlaceholder": "Select a profile...",
+      "selectProfilePlaceholder": "Select a profile…",
       "createProfileButtonLabel": "Create profile",
       "editProfileButtonLabel": "Edit profile",
       "resetProfileButtonLabel": "Reset profile"
@@ -336,7 +336,7 @@
       "title": "Backup NEON",
       "description": "Save a backup file to your computer that will allow you to restore your wallet in the event that you lose access or damage your device.",
       "saveBackupLabel": "Where would you like to save your backup?",
-      "browse": "Browse...",
+      "browse": "Browse…",
       "backup": "Backup",
       "warning": "Note: This process will back up your entire wallet"
     },
@@ -344,7 +344,7 @@
       "title": "Import NEON Backup",
       "description": "In the event that you lose access to you wallet, you can import it from a local backup file. Simply locate your local backup file and enter the password you used when you created the backup file and your access will be restored.",
       "saveBackupLabel": "Locate your backup file",
-      "browse": "Browse...",
+      "browse": "Browse…",
       "backup": "Import backup",
       "nameExtension": "NEON Backup Files"
     },
@@ -361,9 +361,9 @@
       "step1": {
         "subtitle": "If you’d like to create a new password, simply change it here and confirm the change with your current password!",
         "titleInput1": "New password",
-        "inputNewPasswordPlaceholder": "Enter a new password...",
+        "inputNewPasswordPlaceholder": "Enter a new password…",
         "titleInput2": "Current Neon password",
-        "inputCurrentPasswordPlaceholder": "Enter your current password...",
+        "inputCurrentPasswordPlaceholder": "Enter your current password…",
         "generatePassword": "Generate password",
         "buttonContinue": "Continue",
         "error": "Password not recognised!"
@@ -393,7 +393,7 @@
     "receivingAccountTitle": "Receiving account",
     "yourReceivingAddress": "Your receiving account",
     "selectAccountToGenerateCode": "Select an account to generate a code!",
-    "addressInputHint": "Your receiving address will be here...",
+    "addressInputHint": "Your receiving address will be here…",
     "downloadQRCode": "Download QR Code"
   },
   "login": {
@@ -407,7 +407,7 @@
   "loginPassword": {
     "formContent": {
       "text": "Login to your wallet",
-      "passwordPlaceholder": "Enter your password...",
+      "passwordPlaceholder": "Enter your password…",
       "buttonLoginLabel": "Login",
       "invalidPassword": "Invalid password",
       "forgotPassword": "Forgot password?"
@@ -434,12 +434,12 @@
     "title": "Connect your hardware wallet",
     "searchingLabel": "Searching",
     "notConnectedMessage": "No hardware wallet found! Check your connection",
-    "connectedMessage": "Device detected! Opening your wallet...",
+    "connectedMessage": "Device detected! Opening your wallet…",
     "searchAgainButtonLabel": "Search again"
   },
   "loginKey": {
     "description": "Enter an address, key or mnemonic words:",
-    "inputPlaceholder": "Enter an address, key or mnemonic..."
+    "inputPlaceholder": "Enter an address, key or mnemonic…"
   },
   "loginKeySelectAccountPage": {
     "title": "Import addresses",
@@ -475,7 +475,7 @@
       "addressToReceivePlaceholder": "Enter address…",
       "myAccountsButtonLabel": "Accounts…",
       "extraIdToReceive": "Destination tag/memo",
-      "extraIdToReceivePlaceholder": "Enter tag/memo...",
+      "extraIdToReceivePlaceholder": "Enter tag/memo…",
       "openAboutExtraIdToReceiveModal": "Open destination tag/memo about modal",
       "amountToReceiveTitle": "Amount you'll get",
       "amountToReceiveTitleComplement": "(after fees)",

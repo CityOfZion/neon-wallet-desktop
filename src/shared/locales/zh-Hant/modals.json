@@ -687,13 +687,16 @@
     "emptyListTitle": "這裡沒有內容",
     "emptyListBody": "您已全部處理完畢！",
     "notification": {
-      "dateFormat": "yy 年 MM 月 dd 日 | hh:mm",
+      "dateFormat": "yyyy年MM月dd日 | hh:mm",
       "actionsButtonLabel": "操作",
       "markAsReadButtonLabel": "標記為已讀",
       "markAsUnreadButtonLabel": "標記為未讀",
       "viewButtonLabel": "查看",
       "relatedAddressLabel": "地址",
-      "relatedAccountLabel": "帳戶"
+      "relatedAccountLabel": "帳戶",
+      "providerLabels": {
+        "system": "系統"
+      }
     },
     "errors": {
       "accountNotFound": "無法執行此操作。找不到帳戶"
@@ -716,7 +719,7 @@
     "filenameDateFormat": "yyyyMMdd",
     "info": {
       "addressPlaceholder": "選擇一個地址",
-      "datePickerStepFormat": "yyyy 年 MM 月 dd 日",
+      "datePickerStepFormat": "yyyy年MM月dd日",
       "datePickerStepTip": "最長 12 個月期間",
       "allTransactionsStepLabel": "所有交易"
     },

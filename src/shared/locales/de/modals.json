@@ -693,7 +693,10 @@
       "markAsUnreadButtonLabel": "Als ungelesen markieren",
       "viewButtonLabel": "Anzeigen",
       "relatedAddressLabel": "Adresse",
-      "relatedAccountLabel": "Konto"
+      "relatedAccountLabel": "Konto",
+      "providerLabels": {
+        "system": "System"
+      }
     },
     "errors": {
       "accountNotFound": "Aktion kann nicht ausgeführt werden. Konto wurde nicht gefunden"

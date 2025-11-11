@@ -93,7 +93,7 @@ const VoteNeo3ConfirmationModal = () => {
           NumberHelper.number(fee) *
           ExchangeHelper.getExchangeConvertedPrice(service.feeToken.hash, 'neo3', exchangeQuery.data)
 
-      return NumberHelper.currency(value, currency.label, { maximumFractionDigits: 3 })
+      return NumberHelper.currency(value, { currency, maximumFractionDigits: 3 })
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [exchangeQuery.data, fee, currency]

@@ -68,7 +68,7 @@ export const TransactionFeeActionStep = ({
           </span>
 
           <span className={StyleHelper.mergeStyles('whitespace-nowrap text-white', fiatClassName)}>
-            {NumberHelper.currency(fiatFee, currency.label)}
+            {NumberHelper.currency(fiatFee, { currency })}
           </span>
         </div>
       )}

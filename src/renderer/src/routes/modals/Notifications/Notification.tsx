@@ -14,6 +14,7 @@ import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
+import { useLanguageSelector } from '@renderer/hooks/useSettingsSelector'
 
 import MdMoreVert from '@renderer/assets/images/md-more-vert.svg?react'
 import TbAlertSquare from '@renderer/assets/images/tb-alert-square.svg?react'
@@ -46,6 +47,7 @@ export const Notification = ({ notification }: TProps) => {
   const modalActions = useModalNavigate()
   const pageNavigate = useNavigate()
   const { accounts } = useAccountsSelector()
+  const { language } = useLanguageSelector()
 
   const account = useMemo(() => {
     return notification.related?.address
@@ -117,7 +119,9 @@ export const Notification = ({ notification }: TProps) => {
 
       <div className="flex min-w-0 grow flex-col gap-0.5">
         <div className="flex items-center gap-2.5">
-          <span className="text-1xs text-gray-300">{DateHelper.format(notification.date, t('dateFormat'))}</span>
+          <span className="text-1xs text-gray-300">
+            {DateHelper.formatLocalized(notification.date, { format: t('dateFormat'), language })}
+          </span>
 
           {notification.provider && (
             <span
@@ -128,7 +132,7 @@ export const Notification = ({ notification }: TProps) => {
                 }
               )}
             >
-              {notification.provider}
+              {t(`providerLabels.${notification.provider}`)}
             </span>
           )}
         </div>

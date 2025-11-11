@@ -32,7 +32,7 @@ export const BalanceChart = ({ balances, sortedBalances, className }: TProps) =>
   const bars = useMemo<TBar[]>(() => {
     if (balances.exchangeTotal === 0)
       return [
-        { color: '#676767', name: t('noAssets'), value: NumberHelper.currency(0, currency.label), widthPercent: 100 },
+        { color: '#676767', name: t('noAssets'), value: NumberHelper.currency(0, { currency }), widthPercent: 100 },
       ]
 
     const firstFourBars = sortedBalances.slice(0, 4).map<TBar>(tokenBalance => {
@@ -41,7 +41,7 @@ export const BalanceChart = ({ balances, sortedBalances, className }: TProps) =>
 
       return {
         name: tokenBalance.token.name,
-        value: NumberHelper.currency(tokenBalance.exchangeAmount, currency.label),
+        value: NumberHelper.currency(tokenBalance.exchangeAmount, { currency }),
         color,
         widthPercent,
       }
@@ -54,7 +54,7 @@ export const BalanceChart = ({ balances, sortedBalances, className }: TProps) =>
     const othersAmount = sortedBalances.slice(4).reduce((acc, balance) => acc + balance.exchangeAmount, 0)
     const otherBar: TBar = {
       color: '#47BEFF',
-      value: NumberHelper.currency(othersAmount, currency.label),
+      value: NumberHelper.currency(othersAmount, { currency }),
       name: t('othersTokens'),
       widthPercent: (othersAmount * 100) / balances.exchangeTotal,
     }
@@ -62,7 +62,7 @@ export const BalanceChart = ({ balances, sortedBalances, className }: TProps) =>
     return [...firstFourBars, otherBar]
   }, [balances, t, currency, sortedBalances])
 
-  const exchangeTotalFormatted = NumberHelper.currency(balances.exchangeTotal, currency.label, { showZero: false })
+  const exchangeTotalFormatted = NumberHelper.currency(balances.exchangeTotal, { currency, showZero: false })
 
   return (
     <div className={StyleHelper.mergeStyles('w-full py-9', className)}>

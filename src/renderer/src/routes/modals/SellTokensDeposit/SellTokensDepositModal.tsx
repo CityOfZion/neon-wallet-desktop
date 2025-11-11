@@ -447,8 +447,7 @@ const SellTokensDepositModal = () => {
                         actionData.amount && actionData.token
                           ? NumberHelper.number(actionData.amount) * actionData.token.exchangeConvertedPrice
                           : 0,
-                        currency.label,
-                        { maximumFractionDigits: 6 }
+                        { currency, maximumFractionDigits: 6 }
                       )}
                     </p>
                   </div>

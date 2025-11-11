@@ -28,7 +28,10 @@ export const Sidebar = ({ className, ...props }: TProps) => {
   const { logout } = useLogin()
 
   return (
-    <aside className={StyleHelper.mergeStyles('flex h-full w-16 min-w-16 flex-col bg-gray-800', className)} {...props}>
+    <aside
+      className={StyleHelper.mergeStyles('flex h-full w-16 max-w-16 min-w-16 flex-col bg-gray-800', className)}
+      {...props}
+    >
       <div className="flex justify-center py-4" {...TestHelper.buildTestObject('neon-wallet-logo')}>
         <NeonLogoIcon title={tCommon('logo')} />
       </div>

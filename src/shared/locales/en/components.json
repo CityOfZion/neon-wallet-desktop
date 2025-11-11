@@ -13,7 +13,7 @@
   },
   "walletsSelect": {
     "title": "Wallets",
-    "placeholder": "Select a wallet..."
+    "placeholder": "Select a wallet…"
   },
   "walletAccordionList": {
     "noAccounts": "No accounts"
@@ -23,7 +23,7 @@
     "noContacts": "No contacts"
   },
   "blockchainSelection": {
-    "search": "Search..."
+    "search": "Search…"
   },
   "wallets": {
     "cancelButtonLabel": "Cancel",
@@ -71,7 +71,7 @@
     "sendAssets": "Send assets"
   },
   "blockchainSelect": {
-    "placeholder": "Select a blockchain..."
+    "placeholder": "Select a blockchain…"
   },
   "connectionsTable": {
     "name": "Name",
@@ -130,7 +130,7 @@
       "Wallet customizations",
       "Import/Export features",
       "Create New Wallet",
-      "Among other features..."
+      "Among other features…"
     ]
   },
   "mnemonicOrKeyAccountSelection": {
@@ -139,11 +139,11 @@
     "alreadyExists": "Already exists"
   },
   "greyAccountSelect": {
-    "placeholder": "Select account...",
+    "placeholder": "Select account…",
     "empty": "No accounts"
   },
   "greyTokenSelect": {
-    "placeholder": "Select token...",
+    "placeholder": "Select token…",
     "empty": "No tokens"
   },
   "greyAmountInput": {

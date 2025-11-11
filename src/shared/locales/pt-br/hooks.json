@@ -1,0 +1,56 @@
+{
+  "useImportAction": {
+    "errors": {
+      "invalid": "Texto inválido ou já existe",
+      "empty": "Por favor, insira algum texto",
+      "allAddressesAlreadyImported": "Todos os endereços já foram importados",
+      "mnemonicIncomplete": "Mnemônico incompleto"
+    }
+  },
+  "useBackupOrMigrate": {
+    "neon3BackupFileDetected": "Arquivo de backup NEON3 detectado",
+    "neon2MigrateFileDetected": "Arquivo de migração NEON2 detectado",
+    "filterName": "Arquivo de backup ou migração Neon",
+    "error": "Arquivo não reconhecido",
+    "defaultAccountLabel": "Conta migrada",
+    "defaultContactName": "Contato migrado"
+  },
+  "useLogin": {
+    "controlIsNotSet": "Erro inesperado. O controle de login não está definido.",
+    "controlIsNotValid": "Erro inesperado. O controle de login não é válido."
+  },
+  "useNeonBackup": {
+    "errors": {
+      "unexpectedError": "Erro inesperado. Reinicie a aplicação.",
+      "backupError": "Ocorreu um erro ao tentar fazer backup. Por favor, tente novamente."
+    }
+  },
+  "useNeonImportBackup": {
+    "errors": {
+      "wrongPassword": "A senha está incorreta. Por favor, tente novamente.",
+      "wrongVersion": "A versão do arquivo de backup não é suportada. Por favor, tente gerar um novo backup na versão mais recente do NEON.",
+      "importData": "Ocorreu um erro ao importar os dados (pode ter sido importado parcialmente)."
+    }
+  },
+  "useUnclaimedMutation": {
+    "errors": {
+      "claimError": "Ocorreu um erro ao tentar reclamar. Por favor, tente novamente."
+    },
+    "successNotification": {
+      "title": "Reclamação bem-sucedida",
+      "previewBody": "Você reclamou com sucesso seus tokens não reclamados."
+    },
+    "failureNotification": {
+      "title": "Erro na reclamação",
+      "previewBody": "Não foi possível verificar a conclusão da sua reclamação"
+    }
+  },
+  "useHardwareWalletByUsb": {
+    "errors": {
+      "noDevice": "Não há dispositivo conectado"
+    }
+  },
+  "useGetFullTransactions": {
+    "formatExtendedDate": "dd MM yyyy"
+  }
+}

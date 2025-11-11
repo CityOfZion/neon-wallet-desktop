@@ -24,7 +24,7 @@ export const BuyAndSellTokensAccordionWalletItem = ({ wallet }: TProps) => {
   const balances = useBalances(accounts)
   const { currency } = useCurrencySelector()
 
-  const total = NumberHelper.currency(balances.exchangeTotal, currency.label)
+  const total = NumberHelper.currency(balances.exchangeTotal, { currency })
 
   return (
     <Accordion.Item value={id} className="w-full">

@@ -7,9 +7,12 @@ import { match, P } from 'ts-pattern'
 
 import { Separator } from '@renderer/components/Separator'
 
+import { DateHelper } from '@renderer/helpers/DateHelper'
+
 import { useActions } from '@renderer/hooks/useActions'
 import { useGetFullTransactions } from '@renderer/hooks/useGetFullTransactions'
 import { useInfiniteScroll } from '@renderer/hooks/useInfiniteScroll'
+import { useLanguageSelector } from '@renderer/hooks/useSettingsSelector'
 import { useTransactionActivityList } from '@renderer/hooks/useTransactionActivityList'
 
 import TbAlertTriangle from '@renderer/assets/images/tb-alert-triangle.svg?react'
@@ -46,6 +49,7 @@ const heights = {
 const Content = ({ defaultAccounts }: TProps) => {
   const { t } = useTranslation('components', { keyPrefix: 'transactionActivityList' })
   const { setEventColumnSize } = useTransactionActivityList()
+  const { language } = useLanguageSelector()
 
   const dateNow = new Date()
 
@@ -228,7 +232,12 @@ const Content = ({ defaultAccounts }: TProps) => {
                       transform: `translateY(${virtualItem.start}px)`,
                     }}
                   >
-                    <h3 className="flex h-10 max-h-10 min-h-10 items-center font-medium text-white">{date}</h3>
+                    <h3 className="flex h-10 max-h-10 min-h-10 items-center font-medium text-white">
+                      {DateHelper.formatLocalized(date, {
+                        format: t('dateRange.formatExtendedDate'),
+                        language,
+                      })}
+                    </h3>
 
                     <Separator className="h-px max-h-px min-h-px" containerClassName="mb-2" />
 

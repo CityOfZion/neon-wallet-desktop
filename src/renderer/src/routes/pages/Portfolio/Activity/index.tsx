@@ -44,7 +44,7 @@ const PortfolioActivityPage = () => {
 
       <div className="flex w-full items-center justify-end gap-x-2 pt-3 text-xl">
         <span className="text-gray-300">{t('balance')}</span>
-        <span className="text-white">{NumberHelper.currency(balances.exchangeTotal, currency.label)}</span>
+        <span className="text-white">{NumberHelper.currency(balances.exchangeTotal, { currency })}</span>
       </div>
 
       <TransactionActivityList defaultAccounts={accounts} />

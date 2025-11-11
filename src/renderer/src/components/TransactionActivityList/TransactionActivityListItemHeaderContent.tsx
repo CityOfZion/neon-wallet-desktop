@@ -6,11 +6,13 @@ import { useTranslation } from 'react-i18next'
 
 import { IconButton } from '@renderer/components/IconButton'
 
+import { DateHelper } from '@renderer/helpers/DateHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+import { useLanguageSelector } from '@renderer/hooks/useSettingsSelector'
 import { useSwapRecordSelector } from '@renderer/hooks/useUtilitySelector'
 
 import MdCoffee from '@renderer/assets/images/md-coffee.svg?react'
@@ -54,6 +56,7 @@ export const TransactionActivityListItemHeaderContent = ({ item }: TProps) => {
   const { t: tCommonGeneral } = useTranslation('common', { keyPrefix: 'general' })
   const { swapRecord } = useSwapRecordSelector(txId)
   const { modalNavigate } = useModalNavigate()
+  const { language } = useLanguageSelector()
 
   const isBridgeNeo3NeoX = type === 'bridgeNeo3NeoX'
 
@@ -111,7 +114,7 @@ export const TransactionActivityListItemHeaderContent = ({ item }: TProps) => {
     <div className="bg-asphalt flex h-full w-full items-center justify-between gap-x-2 rounded-sm px-1">
       <div className="flex items-center gap-x-2 truncate whitespace-nowrap" onClick={handleCancelBubbleEvent}>
         <TransactionActivityListItemHeaderDetails
-          label={format(date, t('formatFullDateTime'))}
+          label={DateHelper.formatLocalized(date, { format: t('formatFullDateTime'), language })}
           data={format(date, t('formatHourMinutes'))}
           icon={<TbClock aria-hidden />}
         />

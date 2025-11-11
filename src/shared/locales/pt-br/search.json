@@ -1,0 +1,112 @@
+{
+  "actions": [
+    {
+      "id": "transfer",
+      "nonVerbs": ["token", "cripto"],
+      "verbs": ["transferir", "enviar", "cripto"],
+      "label": "Transferir tokens"
+    },
+    {
+      "id": "connect",
+      "verbs": ["conectar", "criar", "parear"],
+      "nonVerbs": ["link", "conexão", "wc", "dapp"],
+      "label": "Criar conexão"
+    },
+    {
+      "id": "createContact",
+      "verbs": ["adicionar", "criar", "endereço"],
+      "nonVerbs": ["contato", "endereço"],
+      "label": "Criar contato"
+    },
+    {
+      "id": "viewContacts",
+      "verbs": ["listar", "ver", "endereço"],
+      "nonVerbs": ["contato", "endereço"],
+      "label": "Ver contatos"
+    },
+    {
+      "id": "allActivity",
+      "verbs": ["ver", "listar"],
+      "nonVerbs": ["toda", "transação", "transações", "atividade", "atividades", "transferências"],
+      "label": "Toda atividade (transações)"
+    },
+    {
+      "id": "swap",
+      "verbs": ["trocar", "negociar", "receber", "cripto"],
+      "nonVerbs": ["token", "swap", "cripto"],
+      "label": "Trocar tokens"
+    },
+    {
+      "id": "buy",
+      "verbs": ["comprar", "adquirir", "ramp", "cripto"],
+      "nonVerbs": ["token", "compra", "cripto", "on ramp", "ramps"],
+      "label": "Comprar tokens"
+    },
+    {
+      "id": "sell",
+      "verbs": ["vender", "negociar", "liquidar", "receber", "ramp", "cripto"],
+      "nonVerbs": ["token", "off ramp", "ramps", "cripto"],
+      "label": "Vender tokens"
+    },
+    {
+      "id": "voteNeo3",
+      "verbs": ["votar"],
+      "nonVerbs": ["votação", "neo", "n3", "nó", "membro", "consenso", "conselho", "governança"],
+      "label": "Votar (Neo 3)"
+    },
+    {
+      "id": "receive",
+      "verbs": ["endereço", "transferir", "cripto"],
+      "nonVerbs": ["token", "conta", "endereço", "cripto"],
+      "label": "Receber tokens"
+    },
+    {
+      "id": "createWallet",
+      "verbs": ["criar", "gerar"],
+      "nonVerbs": ["carteira"],
+      "label": "Criar carteira"
+    },
+    {
+      "id": "encrypt",
+      "verbs": ["proteger", "bloquear", "criptografar"],
+      "nonVerbs": ["chave"],
+      "label": "Criptografar chave"
+    },
+    {
+      "id": "createBackup",
+      "verbs": ["salvar", "exportar", "proteger"],
+      "nonVerbs": ["backup"],
+      "label": "Criar backup"
+    },
+    {
+      "id": "import",
+      "verbs": ["endereço", "restaurar", "recuperar", "importar", "restaurar", "carregar", "adicionar", "criar"],
+      "nonVerbs": ["carteira", "conta", "endereço", "chave"],
+      "label": "Importar carteira/conta"
+    },
+    {
+      "id": "restoreBackup",
+      "verbs": ["restaurar", "recuperar", "importar", "restaurar", "carregar"],
+      "nonVerbs": ["backup"],
+      "label": "Restaurar backup"
+    },
+    {
+      "id": "connectHardwareWallet",
+      "verbs": ["conectar", "parear"],
+      "nonVerbs": ["hardware", "usb", "ledger"],
+      "label": "Conectar carteira de hardware"
+    },
+    {
+      "id": "exportFullTransactions",
+      "label": "Exportar transações",
+      "verbs": ["exportar", "baixar"],
+      "nonVerbs": ["transações", "transação", "atividade", "atividades"]
+    },
+    {
+      "id": "neo3NeoXBridge",
+      "label": "Bridge Neo3 & NeoX",
+      "verbs": ["bridge", "trocar", "receber"],
+      "nonVerbs": ["neox", "neo3", "n3", "bridge", "troca", "token", "cripto"]
+    }
+  ]
+}
