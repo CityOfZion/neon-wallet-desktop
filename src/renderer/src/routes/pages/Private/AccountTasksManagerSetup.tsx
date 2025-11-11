@@ -34,6 +34,7 @@ const useFraudulentTokensNotificationProcess = () => {
   const processNotification = (notification: TNotification) => {
     try {
       const payload = notification.action?.payload
+
       if (payload?.to !== 'hide-fraudulent-token' || !payload.tokenHash) return
 
       const key = generateNotificationKey(payload.blockchain, payload.address, payload.tokenHash)
@@ -61,7 +62,7 @@ const useFraudulentTokensNotificationProcess = () => {
 
         if (fraudulentNotificationsSetRef.current.has(notificationKey)) continue
 
-        const notificationPrefix = 'pages:private.accountTasksManagerSetup.useVotingNeo3NotificationProcess'
+        const notificationPrefix = 'pages:private.accountTasksManagerSetup.useFraudulentTokensNotificationProcess'
 
         dispatch(
           authReducerActions.saveNotification({
