@@ -165,11 +165,6 @@ export type TNotificationNavigateAction = {
       }
     | TNotificationNavigateActionHideFraudulentTokenPayload
     | {
-        to: 'migration-neo3'
-        address: string
-        blockchain: TBlockchainServiceKey
-      }
-    | {
         to: 'vote-neo3'
         address: string
         blockchain: TBlockchainServiceKey
