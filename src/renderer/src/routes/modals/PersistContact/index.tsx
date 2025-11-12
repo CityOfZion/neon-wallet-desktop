@@ -23,6 +23,7 @@ import TbPencil from '@renderer/assets/images/tb-pencil.svg?react'
 import TbPlus from '@renderer/assets/images/tb-plus.svg?react'
 
 import { contactReducerActions } from '@renderer/store/reducers/contact'
+import type { TModalState } from '@shared/types/modal'
 import { IContactState, TContactAddress } from '@shared/types/store'
 
 type TFormData = {
@@ -30,22 +31,19 @@ type TFormData = {
   addresses: TContactAddress[]
 }
 
-type TLocationState = {
-  contact?: IContactState
-  addresses?: TContactAddress[]
-}
-
 const PersistContactModal = () => {
-  const { t } = useTranslation('modals', { keyPrefix: 'persistContactModal' })
+  const { t } = useTranslation('modals', { keyPrefix: 'persistContact' })
   const { t: commonT } = useTranslation('common', { keyPrefix: 'general' })
-
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
-  const { contact, addresses } = useModalState<TLocationState>()
+  const modalState = useModalState<TModalState<'persist-contact'>>()
   const dispatch = useAppDispatch()
 
+  const modalStateContact = modalState?.contact
+  const modalStateAddresses = modalState?.addresses
+
   const { actionData, actionState, handleAct, setData, setError } = useActions<TFormData>({
-    name: contact?.name ?? '',
-    addresses: contact?.addresses ?? addresses ?? [],
+    name: modalStateContact?.name ?? '',
+    addresses: modalStateAddresses ?? modalStateContact?.addresses ?? [],
   })
 
   const handleAddAddress = (address: TContactAddress, index?: number) =>
@@ -92,8 +90,10 @@ const PersistContactModal = () => {
       return
     }
 
-    if (contact) {
-      dispatch(contactReducerActions.saveContact({ name: data.name, addresses: data.addresses, id: contact.id }))
+    if (modalStateContact) {
+      dispatch(
+        contactReducerActions.saveContact({ name: data.name, addresses: data.addresses, id: modalStateContact.id })
+      )
     } else {
       const newContact: IContactState = { name: nameTrimmed, addresses: data.addresses, id: UtilsHelper.uuid() }
       dispatch(contactReducerActions.saveContact(newContact))
@@ -104,8 +104,8 @@ const PersistContactModal = () => {
 
   return (
     <SideModalLayout
-      heading={contact ? t('editContact') : t('addContact')}
-      headingIcon={contact ? <TbPencil aria-hidden /> : <TbPlus aria-hidden />}
+      heading={modalStateContact ? t('editContact') : t('addContact')}
+      headingIcon={modalStateContact ? <TbPencil aria-hidden /> : <TbPlus aria-hidden />}
     >
       <form onSubmit={handleAct(handleSubmit)} className="flex h-full min-h-0 flex-col justify-between">
         <div className="flex min-h-0 flex-col gap-y-6">
@@ -152,7 +152,7 @@ const PersistContactModal = () => {
                     onClick={modalNavigateWrapper('delete-contact', {
                       state: {
                         firstName: address.address,
-                        secondName: contact?.name,
+                        secondName: modalStateContact?.name,
                         onButtonClick: () => handleDeleteAddress(index),
                         modalTitle: t('deleteAddress.title'),
                         warningText: t('deleteAddress.warningText'),
@@ -205,7 +205,7 @@ const PersistContactModal = () => {
         </div>
 
         <div className="flex flex-col gap-y-4">
-          {contact && (
+          {modalStateContact && (
             <div className="flex flex-col gap-y-4 pt-4">
               <Separator />
               <Button
@@ -215,8 +215,8 @@ const PersistContactModal = () => {
                 variant="outlined"
                 onClick={modalNavigateWrapper('delete-contact', {
                   state: {
-                    firstName: contact.name,
-                    onButtonClick: () => handleDeleteContact(contact),
+                    firstName: modalStateContact.name,
+                    onButtonClick: () => handleDeleteContact(modalStateContact),
                     modalTitle: t('deleteContact.title'),
                     warningText: t('deleteContact.warningText'),
                     warningDescription: t('deleteContact.warningDescription'),
@@ -232,7 +232,7 @@ const PersistContactModal = () => {
           )}
 
           <Button
-            label={contact ? commonT('save') : t('saveContact')}
+            label={modalStateContact ? commonT('save') : t('saveContact')}
             flat
             disabled={actionData.addresses.length <= 0 || !actionState.isValid || actionState.isActing}
             type="submit"

@@ -19,18 +19,13 @@ import TbEyeOff from '@renderer/assets/images/tb-eye-off.svg?react'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { utilityReducerActions } from '@renderer/store/reducers/utility'
-import { IAccountState } from '@shared/types/store'
-
-type TModalStateParams = {
-  account: IAccountState
-  hash: string
-}
+import type { TModalState } from '@shared/types/modal'
 
 const HideFraudulentTokenModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'hideFraudulentToken' })
   const { t: tCommonBlockchain } = useTranslation('common', { keyPrefix: 'blockchain' })
   const { modalErase } = useModalNavigate()
-  const { account, hash } = useModalState<TModalStateParams>()
+  const { account, hash } = useModalState<TModalState<'hide-fraudulent-token'>>()
   const balanceQuery = useBalance(account, { showType: 'active' })
   const dispatch = useAppDispatch()
   const [isHiding, startHidingTransition] = useTransition()
@@ -55,7 +50,7 @@ const HideFraudulentTokenModal = () => {
     startHidingTransition(() => {
       try {
         dispatch(utilityReducerActions.toggleHiddenToken({ hash, blockchain: account.blockchain }))
-        modalErase('center')
+        modalErase()
       } catch {
         ToastHelper.error({ message: t('hideErrorMessage') })
       }
@@ -63,7 +58,7 @@ const HideFraudulentTokenModal = () => {
   }
 
   return (
-    <CenterModalLayout contentClassName="flex flex-col items-center px-0 gap-y-2 pb-6 m-0 pt-0 text-white">
+    <CenterModalLayout contentClassName="flex flex-col items-center px-0 gap-y-2 pb-6 m-0 pt-0 text-white" size="xs">
       <h2 className="text-center text-xl font-semibold">{t('title')}</h2>
 
       <p className="text-center text-sm text-gray-100">{t('text')}</p>

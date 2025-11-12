@@ -7,10 +7,17 @@ import {
   TFullTransactionsByAddressResponse as TBSFullTransactionsByAddressResponse,
   TFullTransactionsItem as TBSFullTransactionsItem,
 } from '@cityofzion/blockchain-service'
+import zod from 'zod'
 
-import { TBlockchainServiceKey } from '@shared/types/blockchain'
+import type { neonBackupContentSchema, neonBackupDataSchema } from '@shared/schemas/neon-backup'
+import {
+  type TAccountsToImport,
+  TBlockchainServiceKey,
+  type TCreateWalletAndAccountParam,
+  type TWalletToCreate,
+} from '@shared/types/blockchain'
 
-import { IAccountState } from './store'
+import type { IAccountState, IContactState, TSwapRecord } from './store'
 
 export type TUseActionsData = Record<string, any>
 
@@ -92,4 +99,44 @@ export type TFullTransactionsByAddressResponse = Omit<TBSFullTransactionsByAddre
 export type TFullTransactionsGroupedDataByDate = {
   date: string
   items: TFullTransactionsItem[]
+}
+
+export type TUseNeonMigrateAccountsSchema = {
+  address: string
+  label: string
+  key: string
+  blockchain: TBlockchainServiceKey
+}
+
+export type TUseNeonMigrateContactsSchema = {
+  addresses: { address: string; blockchain: TBlockchainServiceKey }[]
+  name: string
+}
+
+export type TUseNeonMigrateParsedContent = {
+  accounts: TUseNeonMigrateAccountsSchema[]
+  contacts: TUseNeonMigrateContactsSchema[]
+}
+
+export type TUseNeonMigrateData = { content: TUseNeonMigrateParsedContent; type: 'migrate' }
+
+export type TUseNeonMigrateDecryptedAccountSchema = TUseNeonMigrateAccountsSchema & {
+  decryptedKey: string
+}
+
+export type TUseNeonMigrateGeneratedData = {
+  walletToCreate: TWalletToCreate
+  accountsToCreate: TAccountsToImport
+  contactsToCreate: IContactState[]
+}
+
+export type TUseNeonBackupContentSchema = zod.infer<typeof neonBackupContentSchema>
+export type TUseNeonBackupDataSchema = zod.infer<typeof neonBackupDataSchema>
+export type TUseNeonBackupData = { content: TUseNeonBackupContentSchema; type: 'backup' }
+export type TUseNeonBackupDeprecatedData = { content: string; type: 'backup-deprecated' }
+
+export type TUseNeonBackupGeneratedData = {
+  wallets: TCreateWalletAndAccountParam[]
+  swapRecords?: TSwapRecord[]
+  contacts?: IContactState[]
 }

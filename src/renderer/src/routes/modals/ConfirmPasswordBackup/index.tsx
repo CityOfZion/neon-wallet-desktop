@@ -18,12 +18,10 @@ import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 import MdOutlineSave from '@renderer/assets/images/md-outline-save.svg?react'
 
+import type { TModalState } from '@shared/types/modal'
+
 type TFormData = {
   password: string
-}
-
-type TLocationState = {
-  selectedFilePath: string
 }
 
 const SuccessFooter = () => {
@@ -42,7 +40,7 @@ const SuccessFooter = () => {
 const ConfirmPasswordBackupModal = () => {
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const { t } = useTranslation('modals', { keyPrefix: 'confirmPasswordBackup' })
-  const { selectedFilePath } = useModalState<TLocationState>()
+  const { selectedFilePath } = useModalState<TModalState<'confirm-password-backup'>>()
   const { modalNavigate } = useModalNavigate()
   const { handleCreateBackup } = useNeonCreateBackup()
 

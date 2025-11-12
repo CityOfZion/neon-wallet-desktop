@@ -21,17 +21,13 @@ import TbPlus from '@renderer/assets/images/tb-plus.svg?react'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
-import { TBlockchainServiceKey } from '@shared/types/blockchain'
+import type { TModalState } from '@shared/types/modal'
 
-type TState = {
-  blockchain: TBlockchainServiceKey
-}
-
-const NetworkSelection = () => {
+const NetworkSelectionModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'networkSelection' })
   const { t: commonGeneral } = useTranslation('common', { keyPrefix: 'general' })
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
-  const { blockchain } = useModalState<TState>()
+  const { blockchain } = useModalState<TModalState<'network-selection'>>()
   const { selectedNetworkProfile } = useSelectedNetworkProfileSelector()
   const { customNetworks } = useCustomNetworksSelector()
   const { sessions, disconnect } = useWalletConnectWallet()
@@ -122,7 +118,9 @@ const NetworkSelection = () => {
             flat
             variant="outlined"
             iconsOnEdge={false}
-            onClick={modalNavigateWrapper('add-custom-network', { state: { blockchain } })}
+            onClick={modalNavigateWrapper('add-custom-network', {
+              state: { blockchain },
+            })}
           />
         </Fragment>
       )}
@@ -147,4 +145,4 @@ const NetworkSelection = () => {
   )
 }
 
-export default NetworkSelection
+export default NetworkSelectionModal

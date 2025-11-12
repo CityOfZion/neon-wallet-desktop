@@ -15,11 +15,7 @@ import { SideModalLayout } from '@renderer/layouts/SideModal'
 import MdDeleteForever from '@renderer/assets/images/md-delete-forever.svg?react'
 
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
-import { TNetworkProfile } from '@shared/types/store'
-
-type TModalState = {
-  profile?: TNetworkProfile
-}
+import type { TModalState } from '@shared/types/modal'
 
 type TActionData = {
   name: string
@@ -27,15 +23,17 @@ type TActionData = {
 
 const AddNetworkProfileModal = () => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'general' })
-  const { t } = useTranslation('modals', { keyPrefix: 'addNetworkProfileModal' })
-  const { profile } = useModalState<TModalState>()
+  const { t } = useTranslation('modals', { keyPrefix: 'addNetworkProfile' })
+  const modalState = useModalState<TModalState<'add-network-profile'>>()
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
   const dispatch = useAppDispatch()
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
 
   const { actionData, actionState, setDataFromEventWrapper, setError, handleAct } = useActions<TActionData>({
-    name: profile?.name ?? '',
+    name: modalState?.profile?.name ?? '',
   })
+
+  const modalStateProfile = modalState?.profile
 
   const isDisabled = actionData.name.trim().length === 0
 
@@ -52,18 +50,18 @@ const AddNetworkProfileModal = () => {
 
     dispatch(
       settingsReducerActions.saveNetworkProfile({
-        id: profile?.id ?? UtilsHelper.uuid(),
+        id: modalStateProfile?.id ?? UtilsHelper.uuid(),
         name: data.name,
-        networkByBlockchain: profile?.networkByBlockchain ?? networkByBlockchain,
+        networkByBlockchain: modalStateProfile?.networkByBlockchain ?? networkByBlockchain,
       })
     )
     modalNavigate(-1)
   }
 
   const handleDelete = () => {
-    if (!profile) return
+    if (!modalStateProfile) return
 
-    dispatch(settingsReducerActions.deleteNetworkProfile(profile.id))
+    dispatch(settingsReducerActions.deleteNetworkProfile(modalStateProfile.id))
     modalNavigate(-1)
   }
 
@@ -93,7 +91,7 @@ const AddNetworkProfileModal = () => {
         </div>
       </form>
 
-      {profile && (
+      {modalStateProfile && (
         <Button
           label={t('deleteButtonLabel')}
           type="button"

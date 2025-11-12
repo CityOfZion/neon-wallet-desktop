@@ -6,6 +6,8 @@
     "edit": "Editar",
     "cancel": "Cancelar",
     "reset": "Redefinir",
+    "back": "Voltar",
+    "close": "Fechar",
     "successfullyCopied": "Copiado com sucesso para a área de transferência",
     "receive": "Receber",
     "send": "Enviar",
@@ -58,31 +60,147 @@
     "hardwareWalletNotConnectedOrLocked": "A carteira de hardware não está conectada ou está bloqueada, verifique seu dispositivo e tente novamente"
   },
   "synonyms": {
-    "view": ["ver", "olhar", "observar", "assistir"],
-    "transfer": ["transpor", "transmitir", "transportar", "mudar", "transferência", "transporte", "transferir"],
-    "trade": ["troca", "câmbio", "alterar", "trocar", "negócio", "transação"],
-    "swap": ["troca", "câmbio"],
-    "send": ["transmitir", "enviar", "mandar", "remeter"],
-    "sell": ["vender", "comercializar"],
-    "secure": ["garantir", "seguro", "proteger", "inviolável", "asseverar", "assegurar", "segurar"],
-    "save": ["preservar", "manter", "armazenar", "economizar"],
-    "restore": ["restaurar", "regenerar"],
-    "recover": ["recuperar", "voltar", "obter", "recobrar"],
-    "purchase": ["comprar", "adquirir"],
-    "pair": ["parear", "combinar", "par"],
-    "lock": ["bloquear", "fixar", "fechar"],
-    "load": ["carregar", "preenchendo", "preencher"],
-    "list": ["enumerar", "lista", "listagem"],
-    "liquidate": ["liquidar", "pagar", "quitar"],
-    "link": ["conectar", "linkar", "associar"],
-    "generate": ["produzir", "criar", "gerar"],
-    "exchange": ["trocar", "permuta", "alternância", "mudar"],
-    "create": ["produzir", "construir", "fazer", "criar"],
-    "connection": ["conexão", "associação", "ligação"],
-    "connect": ["conectar", "juntar", "unir", "associar"],
-    "buy": ["comprar", "adquirir"],
-    "add": ["adicionar", "incluir", "aumentar", "somar"],
-    "acquire": ["obter", "conseguir"],
-    "crypto": ["token", "tokens"]
+    "view": [
+      "ver",
+      "olhar",
+      "observar",
+      "assistir"
+    ],
+    "transfer": [
+      "transpor",
+      "transmitir",
+      "transportar",
+      "mudar",
+      "transferência",
+      "transporte",
+      "transferir"
+    ],
+    "trade": [
+      "troca",
+      "câmbio",
+      "alterar",
+      "trocar",
+      "negócio",
+      "transação"
+    ],
+    "swap": [
+      "troca",
+      "câmbio"
+    ],
+    "send": [
+      "transmitir",
+      "enviar",
+      "mandar",
+      "remeter"
+    ],
+    "sell": [
+      "vender",
+      "comercializar"
+    ],
+    "secure": [
+      "garantir",
+      "seguro",
+      "proteger",
+      "inviolável",
+      "asseverar",
+      "assegurar",
+      "segurar"
+    ],
+    "save": [
+      "preservar",
+      "manter",
+      "armazenar",
+      "economizar"
+    ],
+    "restore": [
+      "restaurar",
+      "regenerar"
+    ],
+    "recover": [
+      "recuperar",
+      "voltar",
+      "obter",
+      "recobrar"
+    ],
+    "purchase": [
+      "comprar",
+      "adquirir"
+    ],
+    "pair": [
+      "parear",
+      "combinar",
+      "par"
+    ],
+    "lock": [
+      "bloquear",
+      "fixar",
+      "fechar"
+    ],
+    "load": [
+      "carregar",
+      "preenchendo",
+      "preencher"
+    ],
+    "list": [
+      "enumerar",
+      "lista",
+      "listagem"
+    ],
+    "liquidate": [
+      "liquidar",
+      "pagar",
+      "quitar"
+    ],
+    "link": [
+      "conectar",
+      "linkar",
+      "associar"
+    ],
+    "generate": [
+      "produzir",
+      "criar",
+      "gerar"
+    ],
+    "exchange": [
+      "trocar",
+      "permuta",
+      "alternância",
+      "mudar"
+    ],
+    "create": [
+      "produzir",
+      "construir",
+      "fazer",
+      "criar"
+    ],
+    "connection": [
+      "conexão",
+      "associação",
+      "ligação"
+    ],
+    "connect": [
+      "conectar",
+      "juntar",
+      "unir",
+      "associar"
+    ],
+    "buy": [
+      "comprar",
+      "adquirir"
+    ],
+    "add": [
+      "adicionar",
+      "incluir",
+      "aumentar",
+      "somar"
+    ],
+    "acquire": [
+      "obter",
+      "conseguir"
+    ],
+    "crypto": [
+      "token",
+      "tokens"
+    ]
   }
 }

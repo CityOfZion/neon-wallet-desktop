@@ -66,14 +66,14 @@ export const VoteNeo3ListItem = ({
 
   const handleGoToVoteNeo3CandidateDetailsModal = () => {
     modalNavigate('vote-neo3-candidate-details', {
-      state: { neo3Account, candidate, candidateVotePercentage: votePercentage },
+      state: { neo3Account: neo3Account!, candidate, candidateVotePercentage: votePercentage },
     })
   }
 
   const handleGoToVoteNeo3ConfirmationModal = () => {
     if (isVoteDisabled) return
 
-    modalNavigate('vote-neo3-confirmation', { state: { neo3Account, candidate } })
+    modalNavigate('vote-neo3-confirmation', { state: { neo3Account: neo3Account!, candidate } })
   }
 
   useEffect(() => {

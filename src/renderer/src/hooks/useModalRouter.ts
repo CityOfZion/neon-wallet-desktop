@@ -2,45 +2,74 @@ import { useCallback, useContext } from 'react'
 
 import { ModalRouterContext } from '@renderer/contexts/ModalRouterContext'
 import { ModalRouterCurrentHistoryContext } from '@renderer/contexts/ModalRouterCurrentHistoryContext'
-import { TModalRouterContextNavigateOptions, TRouteType } from '@shared/types/modal'
+import type { TModalRouterContextNavigateOptions } from '@shared/types/modal'
+import type { TModalRouterRouteTypes } from '@shared/types/modal-router'
+
+export const useModalRouter = () => {
+  const modalRouterContext = useContext(ModalRouterContext)
+
+  if (!modalRouterContext) {
+    throw new Error('useModalEraseHandler must be used within a ModalRouterModalContainerProvider')
+  }
+  return modalRouterContext
+}
+
+export const useModalCurrentHistory = () => {
+  const modalCurrentHistoryContext = useContext(ModalRouterCurrentHistoryContext)
+
+  if (!modalCurrentHistoryContext) {
+    throw new Error('useCurrentModalHistory must be used within a ModalRouterCurrentHistoryProvider')
+  }
+
+  return modalCurrentHistoryContext
+}
 
 export const useModalNavigate = () => {
-  const { navigate: modalNavigate, erase: modalErase } = useContext(ModalRouterContext)
+  const modalRouteContext = useContext(ModalRouterContext)
+  const modalCurrentHistoryContext = useContext(ModalRouterCurrentHistoryContext)
+
+  if (!modalRouteContext) {
+    throw new Error('useModalNavigate must be used within a ModalRouterProvider')
+  }
 
   const modalNavigateWrapper = useCallback(
-    (name: string | number, options?: TModalRouterContextNavigateOptions) => {
+    ((nameOrCount: any, ...args: any) => {
       return () => {
-        modalNavigate(name, options)
+        modalRouteContext.navigate(nameOrCount, ...args)
       }
+    }) as {
+      (goBackCount: number): () => void
+      <T extends keyof TModalRouterRouteTypes>(name: T, ...args: TModalRouterContextNavigateOptions<T>): () => void
     },
-    [modalNavigate]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [modalRouteContext.navigate]
   )
 
-  const modalEraseWrapper = useCallback(
-    (type: TRouteType) => {
-      return () => {
-        modalErase(type)
-      }
-    },
-    [modalErase]
-  )
+  const modalErase = useCallback(() => {
+    modalRouteContext.erase(modalCurrentHistoryContext?.history)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [modalCurrentHistoryContext?.history, modalRouteContext.erase])
+
+  const modalEraseWrapper = useCallback(() => {
+    return () => {
+      modalErase()
+    }
+  }, [modalErase])
 
   return {
-    modalNavigate,
+    modalNavigate: modalRouteContext.navigate,
     modalNavigateWrapper,
     modalErase,
     modalEraseWrapper,
   }
 }
 
-export const useModalState = <T = any>(): T => {
-  const { value } = useContext(ModalRouterCurrentHistoryContext)
+export const useModalState = <T>(): T => {
+  const context = useContext(ModalRouterCurrentHistoryContext)
 
-  return (value?.state ?? {}) as T
-}
+  if (!context) {
+    throw new Error('useModalState must be used within a ModalRouterCurrentHistoryProvider')
+  }
 
-export const useModalHistories = () => {
-  const { histories, historiesRef } = useContext(ModalRouterContext)
-
-  return { histories, historiesRef }
+  return context.history?.state as T
 }

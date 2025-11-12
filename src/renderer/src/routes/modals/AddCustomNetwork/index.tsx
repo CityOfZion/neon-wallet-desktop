@@ -17,12 +17,7 @@ import TbCube3dSphere from '@renderer/assets/images/tb-cube-3d-sphere.svg?react'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
-import { TBlockchainServiceKey, TNetwork } from '@shared/types/blockchain'
-
-type TState = {
-  blockchain: TBlockchainServiceKey
-  network?: TNetwork
-}
+import type { TModalState } from '@shared/types/modal'
 
 type TActionData = {
   name: string
@@ -35,7 +30,7 @@ const AddCustomNetwork = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'addCustomNetwork' })
   const { t: commonGeneral } = useTranslation('common', { keyPrefix: 'general' })
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
-  const { blockchain, network: networkToEdit } = useModalState<TState>()
+  const { blockchain, network: networkToEdit } = useModalState<TModalState<'add-custom-network'>>()
   const dispatch = useAppDispatch()
 
   const { actionData, actionState, setDataFromEventWrapper, setData, handleAct, setError, clearErrors } =

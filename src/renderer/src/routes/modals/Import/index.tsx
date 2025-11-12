@@ -11,7 +11,6 @@ import { ToastHelper } from '@renderer/helpers/ToastHelper'
 
 import { useAccountUtils } from '@renderer/hooks/useAccountSelector'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
-import { useDebounceFunction } from '@renderer/hooks/useDebounceFunction'
 import { useImportAction } from '@renderer/hooks/useImportAction'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 
@@ -21,19 +20,18 @@ import TbFileImport from '@renderer/assets/images/tb-file-import.svg?react'
 
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
-
-type TModalState = {
-  text: string
-}
+import type { TModalState } from '@shared/types/modal'
 
 const ImportModal = () => {
   const { modalNavigate } = useModalNavigate()
-  const modalState = useModalState<TModalState>()
+  const modalState = useModalState<TModalState<'import'>>()
   const { t } = useTranslation('modals', { keyPrefix: 'import' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'wallet' })
   const { doesAccountExist } = useAccountUtils()
   const { createWallet, importAccount } = useBlockchainActions()
   const navigate = useNavigate()
+
+  const modalStateText = modalState?.text
 
   const submitKey = async (key: string) => {
     modalNavigate('import-accounts-selection', { state: { mnemonicOrKey: key } })
@@ -84,21 +82,21 @@ const ImportModal = () => {
     address: submitAddress,
   })
 
-  const debounceModalState = useDebounceFunction()
-
   useEffect(() => {
-    debounceModalState(async () => {
-      if (!modalState.text) return
+    async function handle() {
+      if (!modalStateText) return
 
-      handleChange(modalState.text)
+      handleChange(modalStateText)
 
       await SharedUtilsHelper.sleep(500)
 
       handleSubmit(actionDataRef.current)
-    }, 250)
+    }
+
+    handle()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [modalState.text])
+  }, [modalStateText])
 
   return (
     <SideModalLayout heading={t('title')} headingIcon={<TbFileImport aria-hidden />} contentClassName="flex flex-col">

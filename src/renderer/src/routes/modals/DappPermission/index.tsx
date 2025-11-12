@@ -17,6 +17,7 @@ import TbPlug from '@renderer/assets/images/tb-plug.svg?react'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import { TWalletConnectHelperSessionInformation } from '@shared/types/helpers'
+import type { TModalState } from '@shared/types/modal'
 import { IAccountState } from '@shared/types/store'
 
 import { EthereumSendTransactionDappPermission } from './Ethereum/SendTransactionDappPermission'
@@ -31,11 +32,6 @@ import { Neo3SignMessageDappPermission } from './Neo3/SignMessageDappPermission'
 import { Neo3SignTransactionDappPermission } from './Neo3/SignTransactionDappPermission'
 import { Neo3VerifyMessageDappPermission } from './Neo3/VerifyMessageDappPermission'
 import { ErrorModalContent } from './ErrorModalContent'
-
-type TModalState = {
-  session: TSession
-  request: TSessionRequest
-}
 
 export type TDappPermissionComponentProps = {
   request: TSessionRequest
@@ -116,7 +112,7 @@ const componentsByBlockchain: Partial<
 }
 
 const DappPermissionModal = () => {
-  const { session, request } = useModalState<TModalState>()
+  const { session, request } = useModalState<TModalState<'dapp-permission'>>()
   const { modalNavigate } = useModalNavigate()
   const { rejectRequest, approveRequest } = useWalletConnectWallet()
   const { accounts } = useAccountsSelector()
@@ -190,7 +186,7 @@ const DappPermissionModal = () => {
   }
 
   return (
-    <CenterModalLayout contentClassName="px-0 flex flex-col pb-5 min-h-0" onClose={rejectRequest.bind(null, request)}>
+    <CenterModalLayout contentClassName="px-0 flex flex-col pb-5 min-h-0" onErase={rejectRequest.bind(null, request)}>
       <Component
         request={request}
         session={session}

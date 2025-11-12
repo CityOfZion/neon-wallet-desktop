@@ -12,14 +12,13 @@ import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { TUseBackupOrMigrateActionsData, useBackupOrMigrate } from '@renderer/hooks/useBackupOrMigrate'
 import { useImportAction } from '@renderer/hooks/useImportAction'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
-import { TUseNeonBackupGeneratedData } from '@renderer/hooks/useNeonBackup'
-import { TUseNeonMigrateGeneratedData } from '@renderer/hooks/useNeonMigrate'
 import { useLastIndexesByWallet } from '@renderer/hooks/useUtilitySelector'
 
 import TbFileImport from '@renderer/assets/images/tb-file-import.svg?react'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { TAccountsToImport, TBlockchainServiceKey, TWalletToCreate } from '@shared/types/blockchain'
+import type { TUseNeonBackupGeneratedData, TUseNeonMigrateGeneratedData } from '@shared/types/hooks'
 
 type TLocationState = {
   password: string
@@ -133,7 +132,7 @@ const LoginPasswordImportWalletStep3Page = () => {
         state: {
           content: data.content,
           onDecrypt: ({ accountsToCreate, contactsToCreate, walletToCreate }: TUseNeonMigrateGeneratedData) => {
-            modalErase('side')
+            modalErase()
             navigate('/login-import-wallet-setup/4', {
               state: {
                 wallets: [{ ...walletToCreate, accounts: accountsToCreate }],
@@ -151,7 +150,7 @@ const LoginPasswordImportWalletStep3Page = () => {
       state: {
         data,
         onDecrypt: (data: TUseNeonBackupGeneratedData) => {
-          modalErase('side')
+          modalErase()
           navigate('/login-import-wallet-setup/4', { state: { ...data, password: state.password } })
         },
       },

@@ -7,26 +7,17 @@ import { Separator } from '@renderer/components/Separator'
 
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
-import {
-  TUseNeonBackupData,
-  TUseNeonBackupDeprecatedData,
-  TUseNeonBackupGeneratedData,
-  useNeonImportBackup,
-} from '@renderer/hooks/useNeonBackup'
+import { useNeonImportBackup } from '@renderer/hooks/useNeonBackup'
 
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 import TbReload from '@renderer/assets/images/tb-reload.svg?react'
 
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
+import type { TModalState } from '@shared/types/modal'
 
 type TFormData = {
   password: string
-}
-
-type TLocationState = {
-  data: TUseNeonBackupData | TUseNeonBackupDeprecatedData
-  onDecrypt: (data: TUseNeonBackupGeneratedData) => void
 }
 
 const SuccessFooter = () => {
@@ -43,7 +34,7 @@ const SuccessFooter = () => {
 
 const ConfirmPasswordRecoverModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'confirmPasswordRecover' })
-  const { data, onDecrypt } = useModalState<TLocationState>()
+  const { data, onDecrypt } = useModalState<TModalState<'confirm-password-recover'>>()
   const { modalNavigate } = useModalNavigate()
   const { handleImportBackupData, handleTryDecryptData, handleGenerateData } = useNeonImportBackup()
 

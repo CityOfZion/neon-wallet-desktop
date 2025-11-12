@@ -6,6 +6,8 @@
     "edit": "Bearbeiten",
     "cancel": "Abbrechen",
     "reset": "Zurücksetzen",
+    "back": "Zurück",
+    "close": "Schließen",
     "successfullyCopied": "Erfolgreich in die Zwischenablage kopiert",
     "receive": "Empfangen",
     "send": "Senden",
@@ -58,31 +60,147 @@
     "hardwareWalletNotConnectedOrLocked": "Hardware Wallet ist nicht verbunden oder gesperrt, überprüfen Sie Ihr Gerät und versuchen Sie es erneut"
   },
   "synonyms": {
-    "view": ["sehen", "ansehen", "beobachten", "schauen"],
-    "transfer": ["transponieren", "übertragen", "transportieren", "ändern", "Empfänger", "Übertragung", "Transport"],
-    "trade": ["tauschen", "tauschen", "wechseln", "Ware", "Geschäft", "Geschäft"],
-    "swap": ["tauschen", "wechseln"],
-    "send": ["übertragen", "versenden", "liefern", "übergeben"],
-    "sell": ["vermarkten", "handeln"],
-    "secure": ["sicherstellen", "garantieren", "sicher", "unverletzlich", "furchtlos", "versichern", "schützen"],
-    "save": ["bewahren", "behalten", "speichern", "sparen"],
-    "restore": ["wiederaufbauen", "regenerieren"],
-    "recover": ["wiedererlangen", "zurück", "abrufen", "erholen"],
-    "purchase": ["kaufen", "erwerben"],
-    "pair": ["Paar", "zusammenpassen", "Zwilling"],
-    "lock": ["sichern", "befestigen", "schließen"],
-    "load": ["laden", "Ladung", "füllen"],
-    "list": ["aufzählen", "katalogisieren", "Auflistung"],
-    "liquidate": ["begleichen", "abbezahlen", "verschwenden"],
-    "link": ["verbinden", "verknüpfen", "assoziieren"],
-    "generate": ["produzieren", "erstellen", "erzeugen"],
-    "exchange": ["handeln", "tauschen", "wechseln", "ändern"],
-    "create": ["produzieren", "bauen", "machen", "generieren"],
-    "connection": ["Verbindung", "Assoziation", "Beziehung"],
-    "connect": ["verknüpfen", "verbinden", "vereinen", "assoziieren"],
-    "buy": ["kaufen", "erwerben"],
-    "add": ["anhängen", "einschließen", "erhöhen", "Summe"],
-    "acquire": ["erhalten", "bekommen"],
-    "crypto": ["Token", "Tokens"]
+    "view": [
+      "sehen",
+      "ansehen",
+      "beobachten",
+      "schauen"
+    ],
+    "transfer": [
+      "transponieren",
+      "übertragen",
+      "transportieren",
+      "ändern",
+      "Empfänger",
+      "Übertragung",
+      "Transport"
+    ],
+    "trade": [
+      "tauschen",
+      "tauschen",
+      "wechseln",
+      "Ware",
+      "Geschäft",
+      "Geschäft"
+    ],
+    "swap": [
+      "tauschen",
+      "wechseln"
+    ],
+    "send": [
+      "übertragen",
+      "versenden",
+      "liefern",
+      "übergeben"
+    ],
+    "sell": [
+      "vermarkten",
+      "handeln"
+    ],
+    "secure": [
+      "sicherstellen",
+      "garantieren",
+      "sicher",
+      "unverletzlich",
+      "furchtlos",
+      "versichern",
+      "schützen"
+    ],
+    "save": [
+      "bewahren",
+      "behalten",
+      "speichern",
+      "sparen"
+    ],
+    "restore": [
+      "wiederaufbauen",
+      "regenerieren"
+    ],
+    "recover": [
+      "wiedererlangen",
+      "zurück",
+      "abrufen",
+      "erholen"
+    ],
+    "purchase": [
+      "kaufen",
+      "erwerben"
+    ],
+    "pair": [
+      "Paar",
+      "zusammenpassen",
+      "Zwilling"
+    ],
+    "lock": [
+      "sichern",
+      "befestigen",
+      "schließen"
+    ],
+    "load": [
+      "laden",
+      "Ladung",
+      "füllen"
+    ],
+    "list": [
+      "aufzählen",
+      "katalogisieren",
+      "Auflistung"
+    ],
+    "liquidate": [
+      "begleichen",
+      "abbezahlen",
+      "verschwenden"
+    ],
+    "link": [
+      "verbinden",
+      "verknüpfen",
+      "assoziieren"
+    ],
+    "generate": [
+      "produzieren",
+      "erstellen",
+      "erzeugen"
+    ],
+    "exchange": [
+      "handeln",
+      "tauschen",
+      "wechseln",
+      "ändern"
+    ],
+    "create": [
+      "produzieren",
+      "bauen",
+      "machen",
+      "generieren"
+    ],
+    "connection": [
+      "Verbindung",
+      "Assoziation",
+      "Beziehung"
+    ],
+    "connect": [
+      "verknüpfen",
+      "verbinden",
+      "vereinen",
+      "assoziieren"
+    ],
+    "buy": [
+      "kaufen",
+      "erwerben"
+    ],
+    "add": [
+      "anhängen",
+      "einschließen",
+      "erhöhen",
+      "Summe"
+    ],
+    "acquire": [
+      "erhalten",
+      "bekommen"
+    ],
+    "crypto": [
+      "Token",
+      "Tokens"
+    ]
   }
 }

@@ -18,23 +18,18 @@ import NeonWalletLogo from '@renderer/assets/images/neon-wallet-full.svg?react'
 import TbLink from '@renderer/assets/images/tb-link.svg?react'
 import WalletConnectLogo from '@renderer/assets/images/wallet-connect.svg?react'
 
-import { IAccountState } from '@shared/types/store'
+import type { TModalState } from '@shared/types/modal'
 
 type TFormData = {
   url: string
   isConnecting: boolean
 }
 
-type TLocationState = {
-  account: IAccountState
-  uri?: string
-}
-
 const DappConnectionModal = () => {
   const { connect, proposals } = useWalletConnectWallet()
   const { modalNavigate } = useModalNavigate()
   const { t } = useTranslation('modals', { keyPrefix: 'dappConnection' })
-  const { account, uri } = useModalState<TLocationState>()
+  const { account, uri } = useModalState<TModalState<'dapp-connection'>>()
   const { actionData, setData, actionState, setError, handleAct } = useActions<TFormData>({
     url: uri ?? '',
     isConnecting: false,

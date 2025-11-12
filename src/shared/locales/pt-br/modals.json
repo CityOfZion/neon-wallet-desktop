@@ -122,7 +122,7 @@
       "viewWalletButtonLabel": "Ver carteira"
     }
   },
-  "persistContactModal": {
+  "persistContact": {
     "addContact": "Adicionar Contato",
     "editContact": "Editar Contato",
     "invalidName": "Nome inválido",
@@ -208,21 +208,14 @@
     "title": "Conectar a uma conta",
     "description": "A qual conta você deseja se conectar?"
   },
-  "dappConnectionListModal": {
-    "title": "dApps Conectados",
-    "inputPlaceholder": "Procurar por dApp…",
-    "listTitle": "Seus dApps conectados",
-    "emptyList": "Nenhuma conexão dApp",
-    "buttonLabel": "Conectar novo"
-  },
   "selectContact": {
     "title": "Selecionar um contato",
     "selectRecipient": "Selecionar destinatário"
   },
-  "blockchainSelectionModal": {
+  "blockchainSelection": {
     "buttonContinueLabel": "Próximo"
   },
-  "decryptKeyModal": {
+  "decryptKey": {
     "title": "Importar",
     "description": "Digite uma senha para sua chave criptografada:",
     "inputPlaceholder": "Digite sua senha…",
@@ -368,7 +361,7 @@
       }
     }
   },
-  "dappPermissionSignatureScopeModal": {
+  "dappPermissionSignatureScope": {
     "scopes": {
       "None": "Sua assinatura é válida apenas para pagamentos de taxa.",
       "CalledByEntry": "Sua assinatura só pode ser usada pelo contrato de chamada e apenas para esta transação.",
@@ -528,7 +521,7 @@
       "networkNameIsTooLong": "Nome da rede é muito longo"
     }
   },
-  "addNetworkProfileModal": {
+  "addNetworkProfile": {
     "title": "Adicionar novo perfil de rede",
     "inputLabel": "Nome do perfil",
     "deleteButtonLabel": "Excluir perfil",
@@ -581,7 +574,7 @@
     "copySwapLog": "Copiar registro de swap para a área de transferência",
     "thereIsNoLog": "Não há registro de swap"
   },
-  "aboutExtraIdToReceiveModal": {
+  "aboutExtraIdToReceive": {
     "title": "Sobre uma tag/memo de destino",
     "what": {
       "title": "O que é uma tag ou memo de destino?",

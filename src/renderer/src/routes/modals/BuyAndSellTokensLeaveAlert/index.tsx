@@ -9,30 +9,28 @@ import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
 
-type TLocationState = {
-  nextUrl: string
-  setCanNavigate(canNavigate: boolean): void
-}
+import type { TModalState } from '@shared/types/modal'
 
 const BuyAndSellTokensLeaveAlertModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'buyAndSellTokensLeaveAlert' })
   const navigate = useNavigate()
   const { modalErase } = useModalNavigate()
-  const { nextUrl, setCanNavigate } = useModalState() as TLocationState
+  const { nextUrl, setCanNavigate } = useModalState<TModalState<'buy-and-sell-tokens-leave-alert'>>()
 
   const handleClose = () => {
-    modalErase('center')
+    modalErase()
   }
 
   const handleContinue = () => {
     setCanNavigate(true)
-    modalErase('center')
+    modalErase()
     navigate(nextUrl)
   }
 
   return (
     <CenterModalLayout
       contentClassName="flex flex-col items-center px-4 pt-4 pb-8 gap-y-8 grow-0"
+      size="xs"
       {...TestHelper.buildTestObject('buy-and-sell-tokens-leave-alert-modal')}
     >
       <h2 className="text-center text-xl font-semibold text-white">{t('title')}</h2>

@@ -16,17 +16,13 @@ import { SideModalLayout } from '@renderer/layouts/SideModal'
 import TbPencil from '@renderer/assets/images/tb-pencil.svg?react'
 import TbTrash from '@renderer/assets/images/tb-trash.svg?react'
 
-import { IWalletState } from '@shared/types/store'
-
-type TLocationState = {
-  wallet: IWalletState
-}
+import type { TModalState } from '@shared/types/modal'
 
 const DeleteWalletModal = () => {
-  const { wallet } = useModalState<TLocationState>()
+  const { wallet } = useModalState<TModalState<'delete-wallet'>>()
   const { t } = useTranslation('modals', { keyPrefix: 'deleteWallet' })
   const { wallets } = useWalletsSelector()
-  const { modalNavigate } = useModalNavigate()
+  const { modalNavigateWrapper, modalErase } = useModalNavigate()
   const { deleteWallet } = useBlockchainActions()
 
   const handleDelete = async () => {
@@ -42,11 +38,11 @@ const DeleteWalletModal = () => {
       deleteWallet(wallet.id)
     }
 
-    modalNavigate(-2)
+    modalErase()
   }
 
   return (
-    <SideModalLayout heading={t('title')} headingIcon={<TbPencil aria-hidden className="text-neon" />}>
+    <SideModalLayout heading={t('title')} headingIcon={<TbPencil aria-hidden className="text-neon" />} size="md">
       <div className="flex h-full w-full flex-col items-center justify-between rounded-sm bg-gray-800 px-4 text-xs">
         <div className="flex flex-col items-center">
           <div className="bg-asphalt flex h-36 w-36 items-center justify-center rounded-full">
@@ -70,7 +66,7 @@ const DeleteWalletModal = () => {
               className="w-full"
               variant="contained"
               label={t('cancel')}
-              onClick={() => modalNavigate(-1)}
+              onClick={modalNavigateWrapper(-1)}
               colorSchema="gray"
             />
             <Button

@@ -18,13 +18,7 @@ type Props = {
 
 export const FieldActionsMenu = ({ value, disabled = false, readOnly = false, onChange, children }: Props) => {
   const { t } = useTranslation('components', { keyPrefix: 'fieldActionsMenu' })
-  const pressOnceCut = usePressOnce()
-  const pressOnceCopy = usePressOnce()
-  const pressOncePaste = usePressOnce()
-  const hasValue = value.length > 0
-  const isDisabled = disabled || readOnly
-
-  const handleCut = async () => {
+  const [isCutting, startCut] = usePressOnce(async () => {
     try {
       await navigator.clipboard.writeText(value)
 
@@ -33,9 +27,9 @@ export const FieldActionsMenu = ({ value, disabled = false, readOnly = false, on
       console.error(error)
       ToastHelper.error({ message: t('messages.error') })
     }
-  }
+  })
 
-  const handleCopy = async () => {
+  const [isCopying, startCopy] = usePressOnce(async () => {
     try {
       await navigator.clipboard.writeText(value)
 
@@ -44,9 +38,9 @@ export const FieldActionsMenu = ({ value, disabled = false, readOnly = false, on
       console.error(error)
       ToastHelper.error({ message: t('messages.error') })
     }
-  }
+  })
 
-  const handlePaste = async () => {
+  const [isPasting, startPaste] = usePressOnce(async () => {
     try {
       const text = await navigator.clipboard.readText()
 
@@ -55,28 +49,24 @@ export const FieldActionsMenu = ({ value, disabled = false, readOnly = false, on
       console.error(error)
       ToastHelper.error({ message: t('messages.error') })
     }
-  }
+  })
+
+  const hasValue = value.length > 0
+  const isDisabled = disabled || readOnly
 
   return (
     <ContextMenu.Root>
       <ContextMenu.Trigger disabled={isDisabled}>{children}</ContextMenu.Trigger>
       <ContextMenu.Content>
-        <ContextMenu.Item
-          disabled={pressOnceCut.isPressing || isDisabled || !hasValue}
-          onClick={pressOnceCut.handlePressOnce(handleCut)}
-        >
+        <ContextMenu.Item disabled={isCutting || isDisabled || !hasValue} onClick={startCut}>
           {t('cut')}
         </ContextMenu.Item>
-        <ContextMenu.Item
-          disabled={pressOnceCopy.isPressing || !hasValue}
-          onClick={pressOnceCopy.handlePressOnce(handleCopy)}
-        >
+
+        <ContextMenu.Item disabled={isCopying || !hasValue} onClick={startCopy}>
           {t('copy')}
         </ContextMenu.Item>
-        <ContextMenu.Item
-          disabled={pressOncePaste.isPressing || isDisabled}
-          onClick={pressOncePaste.handlePressOnce(handlePaste)}
-        >
+
+        <ContextMenu.Item disabled={isPasting} onClick={startPaste}>
           {t('paste')}
         </ContextMenu.Item>
       </ContextMenu.Content>

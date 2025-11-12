@@ -1,7 +1,6 @@
 import { Fragment } from 'react'
 
 import { hasExplorerService } from '@cityofzion/blockchain-service'
-import { TSession } from '@cityofzion/wallet-connect-sdk-wallet-react'
 import { useTranslation } from 'react-i18next'
 
 import { DappPermissionHeader } from '@renderer/components/DappPermissionHeader'
@@ -22,15 +21,7 @@ import MdLaunch from '@renderer/assets/images/md-launch.svg?react'
 import TbArrowsSort from '@renderer/assets/images/tb-arrows-sort.svg?react'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { TBlockchainServiceKey } from '@shared/types/blockchain'
-
-type TModalState = {
-  session: TSession
-  hash: string
-  operation: string
-  blockchain: TBlockchainServiceKey
-  values: any[]
-}
+import type { TModalState } from '@shared/types/modal'
 
 const COLORS_BY_TYPE = {
   Signature: {
@@ -96,7 +87,8 @@ const COLORS_BY_TYPE = {
 }
 
 const DappPermissionContractDetailsModal = () => {
-  const { session, operation, hash, blockchain, values } = useModalState<TModalState>()
+  const { session, operation, hash, blockchain, values } =
+    useModalState<TModalState<'dapp-permission-contract-details'>>()
   const { data, isLoading } = useContract({ blockchain, hash })
   const { modalNavigate } = useModalNavigate()
   const { t } = useTranslation('modals', { keyPrefix: 'dappPermissionContractDetails' })

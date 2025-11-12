@@ -19,14 +19,7 @@ import { useNameService } from '@renderer/hooks/useNameService'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
-import { TContactAddress } from '@shared/types/store'
-
-type TLocationState = {
-  contactName: string
-  address?: TContactAddress
-  index?: number
-  handleAddAddress: (contactAddress: TContactAddress, index?: number) => void
-}
+import type { TModalState } from '@shared/types/modal'
 
 type TActionData = {
   address: string
@@ -35,7 +28,7 @@ type TActionData = {
 
 const AddAddressModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'addAddress' })
-  const { contactName, address, index, handleAddAddress } = useModalState<TLocationState>()
+  const { contactName, address, index, handleAddAddress } = useModalState<TModalState<'add-address'>>()
   const { modalNavigate } = useModalNavigate()
 
   const {

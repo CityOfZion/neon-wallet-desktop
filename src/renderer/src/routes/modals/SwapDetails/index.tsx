@@ -28,13 +28,10 @@ import TbRosetteDiscountCheck from '@renderer/assets/images/tb-rosette-discount-
 import { DISCORD_LINK } from '@renderer/constants/urls'
 import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { utilityReducerActions } from '@renderer/store/reducers/utility'
+import type { TModalState } from '@shared/types/modal'
 import { TSwapRecord } from '@shared/types/store'
 
 import { SwapDetailsModalTokenDetails } from './SwapDetailsModalTokenDetails'
-
-type TState = {
-  swapRecord: TSwapRecord
-}
 
 const swapService = new SimpleSwapService()
 
@@ -47,7 +44,7 @@ const stepsByStatus: Record<TSwapRecord['swapStatus'], number> = {
 }
 
 const SwapDetailsModal = () => {
-  const modalState = useModalState<TState>()
+  const modalState = useModalState<TModalState<'swap-details'>>()
   const dispatch = useAppDispatch()
   const { t } = useTranslation('modals', { keyPrefix: 'swapDetails' })
   const { modalNavigate } = useModalNavigate()
@@ -104,6 +101,7 @@ const SwapDetailsModal = () => {
       heading={t('title')}
       headingIcon={<TbReplace aria-hidden />}
       contentClassName="flex flex-col items-center overflow-auto"
+      size="lg"
     >
       <div className="bg-asphalt flex h-28 w-28 items-center rounded-full p-2">
         {swapRecord.swapStatus === 'failed' || swapRecord.swapStatus === 'refunded' ? (

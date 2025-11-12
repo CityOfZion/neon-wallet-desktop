@@ -21,14 +21,10 @@ import MdOutlinePrint from '@renderer/assets/images/md-outline-print.svg?react'
 import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
 import TbUpload from '@renderer/assets/images/tb-upload.svg?react'
 
-import { IAccountState } from '@shared/types/store'
-
-type TLocationState = {
-  account: IAccountState
-}
+import type { TModalState } from '@shared/types/modal'
 
 const ExportKeyModal = () => {
-  const { account } = useModalState<TLocationState>()
+  const { account } = useModalState<TModalState<'export-key'>>()
   const { currentLoginSession } = useCurrentLoginSessionSelector()
   const { t } = useTranslation('modals', { keyPrefix: 'exportKey' })
   const ref = useRef<HTMLDivElement>(null)
@@ -55,6 +51,7 @@ const ExportKeyModal = () => {
       heading={t('title')}
       headingIcon={<TbUpload aria-hidden />}
       contentClassName="flex flex-col items-center"
+      size="md"
     >
       <div className="flex min-h-8 w-full justify-center rounded-sm bg-gray-300/15 px-3">
         <p className="p-2 text-center text-xs">{StringHelper.truncateStringMiddle(account.name, 45)}</p>

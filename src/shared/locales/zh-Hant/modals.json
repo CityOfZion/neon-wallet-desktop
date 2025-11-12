@@ -122,7 +122,7 @@
       "viewWalletButtonLabel": "查看錢包"
     }
   },
-  "persistContactModal": {
+  "persistContact": {
     "addContact": "新增聯絡人",
     "editContact": "編輯聯絡人",
     "invalidName": "名稱無效",
@@ -208,21 +208,14 @@
     "title": "連接帳戶",
     "description": "您想連接哪個帳戶？"
   },
-  "dappConnectionListModal": {
-    "title": "已連接的 dApp",
-    "inputPlaceholder": "搜尋 dApp...",
-    "listTitle": "您的已連接 dApp",
-    "emptyList": "尚無 dApp 連線",
-    "buttonLabel": "新增連線"
-  },
   "selectContact": {
     "title": "選擇聯絡人",
     "selectRecipient": "選擇收件人"
   },
-  "blockchainSelectionModal": {
+  "blockchainSelection": {
     "buttonContinueLabel": "下一步"
   },
-  "decryptKeyModal": {
+  "decryptKey": {
     "title": "導入",
     "description": "請輸入您的加密金鑰密碼：",
     "inputPlaceholder": "請輸入密碼...",
@@ -368,7 +361,7 @@
       }
     }
   },
-  "dappPermissionSignatureScopeModal": {
+  "dappPermissionSignatureScope": {
     "scopes": {
       "None": "您的簽章僅適用於手續費支付。",
       "CalledByEntry": "您的簽章僅可由呼叫合約且僅限本次交易使用。",
@@ -528,7 +521,7 @@
       "networkNameIsTooLong": "網路名稱過長"
     }
   },
-  "addNetworkProfileModal": {
+  "addNetworkProfile": {
     "title": "新增網路設定檔",
     "inputLabel": "設定檔名稱",
     "deleteButtonLabel": "刪除設定檔",
@@ -560,7 +553,11 @@
     "detailsHeaderLabel": "詳情",
     "detailsHeaderDescription": "我們目標在 7 分鐘內完成兌換",
     "statusPanelLabel": "狀態",
-    "statusPanelSteps": ["確認", "兌換", "完成"],
+    "statusPanelSteps": [
+      "確認",
+      "兌換",
+      "完成"
+    ],
     "routingPanelLabel": "路由",
     "routingPanelTransactionFromLabel": "交易來源",
     "routingPanelTransactionToLabel": "交易目標",
@@ -581,7 +578,7 @@
     "copySwapLog": "複製兌換紀錄到剪貼簿",
     "thereIsNoLog": "沒有兌換紀錄"
   },
-  "aboutExtraIdToReceiveModal": {
+  "aboutExtraIdToReceive": {
     "title": "關於目標標籤/備註",
     "what": {
       "title": "什麼是目標標籤或備註？",
@@ -846,7 +843,10 @@
     "description": "您的跨鏈詳情",
     "detailsHeaderLabel": "詳情",
     "statusPanelLabel": "狀態",
-    "statusPanelSteps": ["發送", "完成"],
+    "statusPanelSteps": [
+      "發送",
+      "完成"
+    ],
     "fromDetailsPanelLabel": "來源",
     "fromAddressDetailsItemLabel": "發送地址",
     "fromTokenDetailsItemLabel": "代幣",

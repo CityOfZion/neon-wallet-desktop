@@ -16,20 +16,16 @@ import MdDeleteForever from '@renderer/assets/images/md-delete-forever.svg?react
 import TbPencil from '@renderer/assets/images/tb-pencil.svg?react'
 
 import { authReducerActions } from '@renderer/store/reducers/auth'
-import { IWalletState } from '@shared/types/store'
+import type { TModalState } from '@shared/types/modal'
 
 type TFormData = {
   name: string
 }
 
-type TLocationState = {
-  wallet: IWalletState
-}
-
 const EditWalletModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'editWallet' })
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
-  const { wallet } = useModalState<TLocationState>()
+  const { wallet } = useModalState<TModalState<'edit-wallet'>>()
   const MAX_NAME_LENGTH = 30
 
   const dispatch = useAppDispatch()

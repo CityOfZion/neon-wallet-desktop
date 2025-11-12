@@ -58,7 +58,11 @@
     },
     "securitySetup": {
       "title": "保护您的新钱包",
-      "steps": ["创建密码", "确认密码", "完成"],
+      "steps": [
+        "创建密码",
+        "确认密码",
+        "完成"
+      ],
       "step1": {
         "formTitle": "请创建密码以保护您的钱包",
         "passwordPlaceholder": "创建密码...",
@@ -76,7 +80,13 @@
     },
     "importWallet": {
       "title": "导入钱包",
-      "steps": ["创建密码", "确认密码", "添加信息或定位文件", "导入", "完成"],
+      "steps": [
+        "创建密码",
+        "确认密码",
+        "添加信息或定位文件",
+        "导入",
+        "完成"
+      ],
       "migrationLabel": "定位您的迁移文件",
       "step3": {
         "formTitle": "输入地址、加密密钥、私钥、助记词或定位备份文件",
@@ -476,7 +486,7 @@
       "myAccountsButtonLabel": "账户…",
       "extraIdToReceive": "目标标签/备注",
       "extraIdToReceivePlaceholder": "输入标签/备注...",
-      "openAboutExtraIdToReceiveModal": "打开目标标签/备注说明",
+      "openAboutExtraIdToReceive": "打开目标标签/备注说明",
       "amountToReceiveTitle": "您将获得的数量",
       "amountToReceiveTitleComplement": "（扣除手续费后）",
       "submitLabel": "立即兑换",

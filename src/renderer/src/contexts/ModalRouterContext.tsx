@@ -1,108 +1,149 @@
-import { createContext, type JSX, useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react'
+import { createContext, Suspense, useCallback, useMemo, useState } from 'react'
+import { createPortal } from 'react-dom'
 
-import { AnimatePresence } from 'motion/react'
+import { AnimatePresence, motion } from 'motion/react'
 
-import { CenterModal } from '@renderer/components/Modal/CenterModal'
-import { SideModal } from '@renderer/components/Modal/SideModal'
+import { ScreenLoader } from '@renderer/components/ScreenLoader'
 
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
-import { useDelayedState } from '@renderer/hooks/useDelayedState'
+import type { THistory, TModalRouterContextValue, TModalRouterProviderProps, TRoute } from '@shared/types/modal'
+import type { TModalRouterRouteTypes } from '@shared/types/modal-router'
 
-import {
-  THistory,
-  TModalRouterContextNavigateOptions,
-  TModalRouterContextValue,
-  TModalRouterProviderProps,
-  TRouteType,
-} from '@shared/types/modal'
-
-const modalByRouteType: Record<TRouteType, (...props: any[]) => JSX.Element> = {
-  side: SideModal,
-  center: CenterModal,
-}
+import { ModalRouterCurrentHistoryProvider } from './ModalRouterCurrentHistoryContext'
 
 export const ModalRouterContext = createContext<TModalRouterContextValue>({} as TModalRouterContextValue)
 
-export const ModalRouterProvider = ({ routes, children }: TModalRouterProviderProps) => {
-  const [histories, setHistories] = useDelayedState<THistory[]>([], { shouldCancelBeforeSet: false })
-  const historiesRef = useRef<THistory[]>([])
+export const ModalRouterProvider = ({ router, children }: TModalRouterProviderProps) => {
+  const [histories, setHistories] = useState<THistory[]>([])
 
-  const typesToRender = useMemo<TRouteType[]>(() => {
-    const uniqueTypes = new Set(histories.map(history => history.route.type))
-    return Array.from(uniqueTypes)
+  const routesMap = useMemo(() => {
+    const map = new Map<string, { route: TRoute; group: number }>()
+
+    router.forEach((routes, group) => {
+      routes.forEach(route => {
+        map.set(route.name, { route, group })
+      })
+    })
+
+    return map
+  }, [router])
+
+  const historiesByGroupMap = useMemo(() => {
+    const map = new Map<number, THistory[]>()
+
+    histories.forEach(history => {
+      const groupHistories = map.get(history.group) || []
+      groupHistories.push(history)
+      map.set(history.group, groupHistories)
+    })
+
+    return map
   }, [histories])
 
   const navigate = useCallback(
-    (name: string | number, options?: TModalRouterContextNavigateOptions) => {
-      if (typeof name === 'string') {
-        const routeExist = routes.find(route => route.name === name)
-        if (!routeExist) {
-          throw new Error(`Route not found: ${name}`)
+    (name: keyof TModalRouterRouteTypes | number, options?: any) => {
+      if (typeof name === 'number') {
+        if (name >= 0) {
+          throw new Error('When navigating by index, the value must be negative')
         }
 
-        setHistories(prevState => {
-          const lastItem = prevState.slice(-1)[0]
-          if (lastItem && lastItem.route.name === name) {
-            return prevState.map(item => (item.id === lastItem.id ? { ...item, state: options?.state } : item))
-          }
-
-          const newHistory: THistory = {
-            id: UtilsHelper.uuid(),
-            state: options?.state,
-            route: routeExist,
-            replace: options?.replace ?? false,
-          }
-
-          if (options?.replace && prevState.length > 0) {
-            return prevState.map((item, index, array) => (index === array.length - 1 ? newHistory : item))
-          }
-
-          return [...prevState, newHistory]
-        }, 10)
+        setHistories(prevState => prevState.slice(0, name))
         return
       }
 
-      if (name >= 0) {
-        throw new Error('Number is only allowed to go back in history')
+      const routeExist = routesMap.get(name)
+      if (!routeExist) {
+        throw new Error(`Route not found: ${name}`)
       }
 
-      setHistories(prevState => prevState.slice(0, name), 10)
-    },
+      setHistories(prevState => {
+        const lastItem = prevState.slice(-1)[0]
+        const state = options && 'state' in options ? options.state : undefined
+        if (lastItem && lastItem.route.name === name) {
+          return prevState.map(item => (item.id === lastItem.id ? { ...item, state } : item))
+        }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [routes]
+        const newHistory: THistory = {
+          id: UtilsHelper.uuid(),
+          state,
+          route: routeExist.route,
+          group: routeExist.group,
+        }
+
+        if (options?.replace) {
+          return prevState.map((item, index, array) => (index === array.length - 1 ? newHistory : item))
+        }
+
+        return [...prevState, newHistory]
+      })
+
+      return
+    },
+    [routesMap]
   )
 
-  const erase = useCallback(async (type: TRouteType) => {
-    setHistories(prevState => prevState.filter(history => history.route.type !== type), 10)
+  const erase = useCallback(
+    (history?: THistory) => {
+      if (!history) {
+        setHistories([])
+        return
+      }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+      const routeExist = routesMap.get(history.route.name)
+      if (!routeExist) {
+        throw new Error(`Route not found: ${history.route.name}`)
+      }
 
-  useEffect(() => {
-    const names = routes.map(route => route.name)
-    const uniqueNames = new Set(names)
-    if (names.length !== uniqueNames.size) {
-      throw new Error('Route names must be unique')
-    }
-  }, [routes])
-
-  useLayoutEffect(() => {
-    historiesRef.current = histories
-  }, [histories])
+      setHistories(prevState =>
+        prevState.filter(item => {
+          const itemExist = routesMap.get(item.route.name)
+          return itemExist?.group !== routeExist.group
+        })
+      )
+    },
+    [routesMap]
+  )
 
   return (
-    <ModalRouterContext.Provider value={{ navigate, erase, histories, historiesRef }}>
+    <ModalRouterContext.Provider value={{ navigate, erase, histories }}>
       {children}
 
-      <AnimatePresence>
-        {typesToRender.map(type => {
-          const Component = modalByRouteType[type]
+      {createPortal(
+        <AnimatePresence>
+          {historiesByGroupMap.entries().map(([type, histories], index) => (
+            <div
+              key={type}
+              className="fixed top-[var(--drag-region-height)] left-0 h-[var(--height-screen-minus-drag-region)] w-screen overflow-hidden"
+              style={{ zIndex: 1000 + index }}
+            >
+              <motion.div
+                className="absolute top-0 left-0 h-full w-full bg-gray-900/50 backdrop-blur-sm"
+                initial={{ opacity: 0 }}
+                transition={{ duration: 0.1 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              />
 
-          return <Component key={type} />
-        })}
-      </AnimatePresence>
+              <AnimatePresence propagate>
+                {histories.map((history, index) => (
+                  <ModalRouterCurrentHistoryProvider
+                    history={history}
+                    isFocused={index === histories.length - 1}
+                    index={index}
+                    key={history.id}
+                  >
+                    <Suspense fallback={<ScreenLoader />}>
+                      <history.route.element />
+                    </Suspense>
+                  </ModalRouterCurrentHistoryProvider>
+                ))}
+              </AnimatePresence>
+            </div>
+          ))}
+        </AnimatePresence>,
+        document.querySelector('#root')!
+      )}
     </ModalRouterContext.Provider>
   )
 }

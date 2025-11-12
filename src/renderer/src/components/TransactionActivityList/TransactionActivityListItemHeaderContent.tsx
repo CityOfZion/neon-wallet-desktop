@@ -1,6 +1,10 @@
 import React, { MouseEvent } from 'react'
 
-import { hasNeo3NeoXBridge, TFullTransactionsItemBridgeNeo3NeoX } from '@cityofzion/blockchain-service'
+import {
+  hasNeo3NeoXBridge,
+  type TBridgeToken,
+  TFullTransactionsItemBridgeNeo3NeoX,
+} from '@cityofzion/blockchain-service'
 import { format } from 'date-fns'
 import { useTranslation } from 'react-i18next'
 
@@ -27,6 +31,7 @@ import TbReplace2 from '@renderer/assets/images/tb-replace-2.svg?react'
 import TbTransform from '@renderer/assets/images/tb-transform.svg?react'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
+import type { TBlockchainServiceKey } from '@shared/types/blockchain'
 import { TFullTransactionsItem } from '@shared/types/hooks'
 
 import { TransactionActivityListItemHeaderDetails } from './TransactionActivityListItemHeaderDetails'
@@ -66,7 +71,7 @@ export const TransactionActivityListItemHeaderContent = ({ item }: TProps) => {
   }
 
   const handleGoToSwapDetails = () => {
-    modalNavigate('swap-details', { state: { swapRecord } })
+    modalNavigate('swap-details', { state: { swapRecord: swapRecord! } })
   }
 
   const handleGoToBridgeNeo3NeoXDetails = () => {
@@ -86,7 +91,7 @@ export const TransactionActivityListItemHeaderContent = ({ item }: TProps) => {
 
     modalNavigate('neo3-neox-bridge-details', {
       state: {
-        tokenToUse: data.token,
+        tokenToUse: data.token as TBridgeToken<TBlockchainServiceKey>,
         tokenToReceive,
         accountToUse: account,
         addressToReceive: data.receiverAddress,

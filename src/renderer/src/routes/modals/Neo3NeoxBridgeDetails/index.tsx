@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { BSError, TBridgeToken } from '@cityofzion/blockchain-service'
+import { BSError } from '@cityofzion/blockchain-service'
 import { Neo3NeoXBridgeOrchestrator } from '@cityofzion/bs-multichain'
 import { BSNeo3 } from '@cityofzion/bs-neo3'
 import { BSNeoX } from '@cityofzion/bs-neox'
@@ -26,18 +26,7 @@ import TbRosetteDiscountCheck from '@renderer/assets/images/tb-rosette-discount-
 import { DISCORD_LINK } from '@renderer/constants/urls'
 import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
-import { IAccountState } from '@shared/types/store'
-
-type TState = {
-  tokenToUse: TBridgeToken<TBlockchainServiceKey>
-  tokenToReceive: TBridgeToken<TBlockchainServiceKey>
-  accountToUse: IAccountState
-  amountToUse: string
-  amountToReceive: string
-  addressToReceive: string
-  transactionHash?: string
-  confirmed?: boolean
-}
+import type { TModalState } from '@shared/types/modal'
 
 type TBridgeStatus = 'confirming' | 'completed' | 'error'
 
@@ -57,7 +46,7 @@ const Neo3NeoxBridgeDetailsModal = () => {
     tokenToUse,
     transactionHash,
     confirmed,
-  } = useModalState<TState>()
+  } = useModalState<TModalState<'neo3-neox-bridge-details'>>()
   const { t } = useTranslation('modals', { keyPrefix: 'neo3NeoxBridgeDetails' })
 
   const [status, setStatus] = useState<TBridgeStatus>('confirming')
@@ -100,6 +89,7 @@ const Neo3NeoxBridgeDetailsModal = () => {
       heading={t('title')}
       headingIcon={<TbReplace2 aria-hidden />}
       contentClassName="flex flex-col items-center overflow-auto"
+      size="lg"
     >
       <TbRosetteDiscountCheck aria-hidden className="text-blue min-h-28 min-w-28 stroke-1" />
 

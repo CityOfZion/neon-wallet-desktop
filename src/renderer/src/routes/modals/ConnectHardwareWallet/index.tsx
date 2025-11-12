@@ -32,7 +32,7 @@ const ConnectHardwareWalletModal = () => {
 
     if (pathname.startsWith('/wallets/')) navigate(`/wallets/${firstAccount.id}/overview`)
 
-    modalErase('center')
+    modalErase()
   }
 
   useMountUnsafe(() => {
@@ -40,7 +40,7 @@ const ConnectHardwareWalletModal = () => {
   }, 500)
 
   return (
-    <CenterModalLayout contentClassName="flex flex-col items-center justify-between">
+    <CenterModalLayout contentClassName="flex flex-col items-center justify-between" size="lg">
       <div className="flex flex-col items-center">
         <NeonWalletFullImage aria-hidden />
 
