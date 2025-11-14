@@ -8,7 +8,14 @@ import { BACKUP_FILE_EXTENSION, BACKUP_VERSION, DEPRECATED_BACKUP_FILE_EXTENSION
 import { doesBlockchainSupported } from '@renderer/libs/blockchain-service'
 import { contactReducerActions } from '@renderer/store/reducers/contact'
 import { utilityReducerActions } from '@renderer/store/reducers/utility'
+import { neonBackupContentSchema, neonBackupDataSchema } from '@shared/schemas/neon-backup'
 import { TAccountsToImport, TCreateWalletAndAccountParam } from '@shared/types/blockchain'
+import type {
+  TUseNeonBackupData,
+  TUseNeonBackupDataSchema,
+  TUseNeonBackupDeprecatedData,
+  TUseNeonBackupGeneratedData,
+} from '@shared/types/hooks'
 import {
   IAccountState,
   IContactState,
@@ -27,86 +34,10 @@ import { useAppDispatch } from './useRedux'
 import { useSwapRecordsSelector } from './useUtilitySelector'
 import { useWalletsSelector } from './useWalletSelector'
 
-export type TUseNeonBackupSchema = zod.infer<typeof backupFileSchema>
-export type TUseNeonBackupDataSchema = zod.infer<typeof backupDataSchema>
-export type TUseNeonBackupData = { content: TUseNeonBackupSchema; type: 'backup' }
-export type TUseNeonBackupDeprecatedData = { content: string; type: 'backup-deprecated' }
+type TBackupAccount = zod.infer<typeof neonBackupDataSchema>['wallets'][0]['accounts'][0]
+type TBackupWallet = zod.infer<typeof neonBackupDataSchema>['wallets'][0]
 
-export type TUseNeonBackupGeneratedData = {
-  wallets: TCreateWalletAndAccountParam[]
-  swapRecords?: TSwapRecord[]
-  contacts?: IContactState[]
-}
-
-export const backupAccountSkinSchema = zod
-  .object({
-    id: zod.string(),
-    type: zod.union([zod.literal('nft'), zod.literal('local'), zod.literal('color')]),
-    imgUrl: zod.string().optional(),
-  })
-  .refine(data => (data.type === 'nft' ? !!data.imgUrl : true))
-
-export const backupAccountSchema = zod.object({
-  id: zod.string(),
-  address: zod.string(),
-  type: zod.union([zod.literal('standard'), zod.literal('watch'), zod.literal('hardware'), zod.literal('ledger')]),
-  idWallet: zod.string(),
-  name: zod.string(),
-  blockchain: zod.string(),
-  key: zod.string().optional(),
-  order: zod.number(),
-  skin: backupAccountSkinSchema,
-})
-
-export const backupWalletSchema = zod.object({
-  id: zod.string(),
-  type: zod.union([zod.literal('standard'), zod.literal('hardware'), zod.literal('ledger')]),
-  name: zod.string(),
-  mnemonic: zod.string().optional(),
-  accounts: zod.array(backupAccountSchema),
-})
-
-export const backupContactSchema = zod.object({
-  id: zod.string(),
-  name: zod.string(),
-  addresses: zod.array(
-    zod.object({
-      address: zod.string(),
-      blockchain: zod.string(),
-    })
-  ),
-})
-
-export const backupSwapSchema = zod.object({
-  account: backupAccountSchema,
-  txFrom: zod.string().optional(),
-  txTo: zod.string().optional(),
-  swapProvider: zod.literal('simpleswap'),
-  swapId: zod.string().optional(),
-  swapStatus: zod.any(),
-  tokenFrom: zod.any(),
-  tokenTo: zod.any(),
-  amountFrom: zod.string(),
-  amountTo: zod.string(),
-  addressTo: zod.string(),
-  extraIdTo: zod.string().optional(),
-  fee: zod.string().optional(),
-})
-
-export const backupDataSchema = zod.object({
-  wallets: zod.array(backupWalletSchema),
-  contacts: zod.array(backupContactSchema),
-  swapRecords: zod.array(backupSwapSchema).optional(),
-})
-
-export const backupFileSchema = zod.object({
-  version: zod.number(),
-  data: zod.string(),
-})
-
-const fixAccountProperties = (
-  backupAccount: zod.infer<typeof backupAccountSchema>
-): Omit<IAccountState, 'encryptedKey'> | undefined => {
+const fixAccountProperties = (backupAccount: TBackupAccount): Omit<IAccountState, 'encryptedKey'> | undefined => {
   if (!doesBlockchainSupported(backupAccount.blockchain)) return
 
   const type: TAccountType =
@@ -129,7 +60,7 @@ const fixAccountProperties = (
 }
 
 const fixWalletProperties = (
-  backupWallet: zod.infer<typeof backupWalletSchema>
+  backupWallet: TBackupWallet
 ): Omit<IWalletState, 'accounts' | 'encryptedMnemonic' | 'backupStatus'> => {
   const type = backupWallet.type === 'ledger' ? 'hardware' : backupWallet.type
 
@@ -156,7 +87,7 @@ export const useNeonCreateBackup = () => {
 
     const encryptedPassword = currentLoginSessionRef.current.encryptedPassword
 
-    const backupFile: zod.infer<typeof backupDataSchema> = {
+    const backupFile: zod.infer<typeof neonBackupDataSchema> = {
       wallets: [],
       contacts: [],
       swapRecords: [],
@@ -184,7 +115,7 @@ export const useNeonCreateBackup = () => {
       txTo: swap.txTo,
     }))
 
-    const backupAccountsByWalletId = new Map<string, zod.infer<typeof backupAccountSchema>[]>()
+    const backupAccountsByWalletId = new Map<string, TBackupAccount[]>()
 
     const accountPromises = accounts.map(async account => {
       let key: string | undefined
@@ -196,7 +127,7 @@ export const useNeonCreateBackup = () => {
         })
       }
 
-      const backupAccount: zod.infer<typeof backupAccountSchema> = {
+      const backupAccount: TBackupAccount = {
         id: account.id,
         idWallet: account.idWallet,
         address: account.address,
@@ -252,7 +183,7 @@ export const useNeonCreateBackup = () => {
         options: { algorithm: 'pbkdf2' },
       })
 
-      const backupFile: zod.infer<typeof backupFileSchema> = {
+      const backupFile: zod.infer<typeof neonBackupContentSchema> = {
         version: BACKUP_VERSION,
         data: backupFileDataStringEncrypted,
       }
@@ -290,7 +221,7 @@ export const useNeonImportBackup = () => {
     try {
       if (filePath.endsWith(BACKUP_FILE_EXTENSION)) {
         const backupFile = JSON.parse(fileContent)
-        const validatedFile = await backupFileSchema.parseAsync(backupFile)
+        const validatedFile = await neonBackupContentSchema.parseAsync(backupFile)
 
         if (validatedFile.version !== BACKUP_VERSION) {
           return undefined
@@ -328,13 +259,13 @@ export const useNeonImportBackup = () => {
 
       const parsedData = JSON.parse(decrypted)
 
-      return await backupDataSchema.parseAsync(parsedData)
+      return await neonBackupDataSchema.parseAsync(parsedData)
     } catch {
       throw new Error(t('errors.wrongPassword'))
     }
   }
 
-  const handleGenerateData = (data: zod.infer<typeof backupDataSchema>): TUseNeonBackupGeneratedData => {
+  const handleGenerateData = (data: zod.infer<typeof neonBackupDataSchema>): TUseNeonBackupGeneratedData => {
     const contactsToCreate: IContactState[] = []
     const swapRecordsToCreate: TSwapRecord[] = []
     const walletsToCreate: TCreateWalletAndAccountParam[] = []

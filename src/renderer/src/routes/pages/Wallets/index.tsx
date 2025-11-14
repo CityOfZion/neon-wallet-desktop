@@ -83,7 +83,7 @@ const WalletsPage = () => {
         onSubmitPassword: () =>
           modalNavigate('export-key', {
             state: {
-              account: selectedAccount,
+              account: selectedAccount!,
             },
             replace: true,
           }),
@@ -99,7 +99,7 @@ const WalletsPage = () => {
         onSubmitPassword: () =>
           modalNavigate('export-mnemonic', {
             state: {
-              wallet: selectedWallet,
+              wallet: selectedWallet!,
             },
             replace: true,
           }),
@@ -159,7 +159,7 @@ const WalletsPage = () => {
             actionPopoverItemType="button"
             leftIcon={<TbPencil aria-hidden className="text-neon" />}
             label={t('editWalletButtonLabel')}
-            onClick={modalNavigateWrapper('edit-wallet', { state: { wallet: selectedWallet } })}
+            onClick={modalNavigateWrapper('edit-wallet', { state: { wallet: selectedWallet! } })}
             colorSchema="white"
           />
 
@@ -174,6 +174,8 @@ const WalletsPage = () => {
               onClick={handleExportMnemonic}
             />
           )}
+
+          <ActionPopover.Separator />
         </CommonScreenActions>
       }
       contentClassName="flex-row gap-x-3"

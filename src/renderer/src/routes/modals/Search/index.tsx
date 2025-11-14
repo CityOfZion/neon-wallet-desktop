@@ -184,7 +184,7 @@ const SearchModal = () => {
               icon={<MdClose aria-hidden className="fill-gray-100" />}
               size="md"
               compacted
-              onClick={modalEraseWrapper('center')}
+              onClick={modalEraseWrapper()}
             />
           </header>
 

@@ -17,18 +17,14 @@ import { SideModalLayout } from '@renderer/layouts/SideModal'
 import MdOutlineContentCopy from '@renderer/assets/images/md-outline-content-copy.svg?react'
 import TbList from '@renderer/assets/images/tb-list.svg?react'
 
-import { TSwapRecord } from '@shared/types/store'
-
-type TState = {
-  swapRecord: TSwapRecord
-}
+import type { TModalState } from '@shared/types/modal'
 
 const swapService = new SimpleSwapService()
 
 const SwapDetailsLogModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'swapDetailsLog' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'general' })
-  const modalState = useModalState<TState>()
+  const modalState = useModalState<TModalState<'swap-details-log'>>()
 
   const {
     swapRecord: { swapId, ...swapRecord },
@@ -54,7 +50,12 @@ const SwapDetailsLogModal = () => {
   }
 
   return (
-    <SideModalLayout heading={t('title')} headingIcon={<TbList aria-hidden />} contentClassName="flex flex-col pt-6">
+    <SideModalLayout
+      heading={t('title')}
+      headingIcon={<TbList aria-hidden />}
+      contentClassName="flex flex-col pt-6"
+      size="lg"
+    >
       {match({ isLoading, log })
         .with({ isLoading: true }, () => <Loader className="h-8 w-8" />)
         .with({ log: P.when(value => !!value && typeof value === 'string') }, () => (

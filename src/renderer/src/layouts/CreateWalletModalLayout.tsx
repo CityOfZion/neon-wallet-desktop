@@ -10,9 +10,9 @@ import MdLooksOne from '@renderer/assets/images/md-looks-one.svg?react'
 import MdLooksTwo from '@renderer/assets/images/md-looks-two.svg?react'
 import TbPlus from '@renderer/assets/images/tb-plus.svg?react'
 
-import { SideModalLayout, TSideModalProps } from './SideModal'
+import { SideModalLayout, TSideModalLayoutProps } from './SideModal'
 
-type TProps = TSideModalProps
+type TProps = TSideModalLayoutProps
 
 export const CreateWalletModalLayout = ({ children, contentClassName, ...props }: TProps) => {
   const { t } = useTranslation('modals', { keyPrefix: 'createWallet' })
@@ -21,12 +21,13 @@ export const CreateWalletModalLayout = ({ children, contentClassName, ...props }
       heading={t('title')}
       headingIcon={<TbPlus className="text-neon" />}
       contentClassName="flex flex-col justify-between"
+      size="1xl"
       {...props}
     >
       <section className="flex min-h-0 w-full grow flex-row">
         <div className="max-w-88 min-w-88 border-r border-gray-300/30 pr-5 print:hidden">
           <h2 className="py-4 text-sm">{t('heading')}</h2>
-          <Separator className="min-h-0.25" />
+          <Separator className="min-h-px" />
           <div className="flex flex-col gap-11 pt-11">
             <div>
               <div className="flex h-11 items-center gap-2.5">

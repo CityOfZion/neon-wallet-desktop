@@ -1,4 +1,3 @@
-import type { TVoteServiceCandidate } from '@cityofzion/bs-neo3'
 import { Trans, useTranslation } from 'react-i18next'
 
 import { Button } from '@renderer/components/Button'
@@ -17,12 +16,7 @@ import TbHeartHandshake from '@renderer/assets/images/tb-heart-handshake.svg?rea
 
 import { COZ_WEBSITE_URL } from '@renderer/constants/urls'
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
-import { IAccountState } from '@shared/types/store'
-
-type TLocationState = {
-  neo3Account: IAccountState
-  cozCandidate: TVoteServiceCandidate
-}
+import type { TModalState } from '@shared/types/modal'
 
 type TActionsData = {
   dontShowAgain: boolean
@@ -31,7 +25,7 @@ type TActionsData = {
 const VoteNeo3SupportUsModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'voteNeo3SupportUs' })
   const { modalEraseWrapper, modalNavigate } = useModalNavigate()
-  const { neo3Account, cozCandidate } = useModalState<TLocationState>()
+  const { neo3Account, cozCandidate } = useModalState<TModalState<'vote-neo3-support-us'>>()
   const dispatch = useAppDispatch()
 
   const {
@@ -59,9 +53,8 @@ const VoteNeo3SupportUsModal = () => {
       heading={t('title')}
       headerClassName="pt-3"
       headingIcon={<TbHeartHandshake aria-hidden />}
-      className="overflow-y-auto"
       contentClassName="px-8 py-8 my-0 flex flex-col font-light text-sm text-white"
-      onClose={handleOnClose}
+      onErase={handleOnClose}
     >
       <div className="flex flex-col gap-y-3">
         <CozLogo aria-label={t('cozLogoAlt')} className="mx-auto mb-3 w-full max-w-48" />
@@ -97,13 +90,7 @@ const VoteNeo3SupportUsModal = () => {
             onClick={handleGoToVoteNeo3ConfirmationModalForCoz}
           />
 
-          <Button
-            label={t('skipButtonLabel')}
-            variant="card"
-            colorSchema="gray"
-            wide
-            onClick={modalEraseWrapper('center')}
-          />
+          <Button label={t('skipButtonLabel')} variant="card" colorSchema="gray" wide onClick={modalEraseWrapper()} />
         </div>
 
         <div className="mt-2 mb-8 flex items-center justify-center font-normal">

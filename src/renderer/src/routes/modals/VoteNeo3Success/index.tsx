@@ -1,4 +1,4 @@
-import { BSNeo3Constants, TVoteServiceCandidate } from '@cityofzion/bs-neo3'
+import { BSNeo3Constants } from '@cityofzion/bs-neo3'
 import { useTranslation } from 'react-i18next'
 
 import { Link } from '@renderer/components/Link'
@@ -15,17 +15,12 @@ import TbChartBarPopular from '@renderer/assets/images/tb-chart-bar-popular.svg?
 import TbEye from '@renderer/assets/images/tb-eye.svg?react'
 import TbRosetteDiscountCheck from '@renderer/assets/images/tb-rosette-discount-check.svg?react'
 
-import { IAccountState } from '@shared/types/store'
-
-type TLocationState = {
-  neo3Account: IAccountState
-  candidate: TVoteServiceCandidate
-}
+import type { TModalState } from '@shared/types/modal'
 
 const VoteNeo3SuccessModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'voteNeo3Success' })
   const { modalEraseWrapper } = useModalNavigate()
-  const { neo3Account, candidate } = useModalState<TLocationState>()
+  const { neo3Account, candidate } = useModalState<TModalState<'vote-neo3-success'>>()
   const voteDetailsByAddressQuery = useVoteNeo3GetVoteDetailsByAddress(neo3Account.address)
 
   const neoAmount = voteDetailsByAddressQuery.data?.neoBalance ?? 0
@@ -37,7 +32,6 @@ const VoteNeo3SuccessModal = () => {
       headingIcon={<TbChartBarPopular aria-hidden />}
       className="overflow-y-auto"
       contentClassName="pb-0 px-4 pt-8 my-0 flex flex-col text-sm text-white"
-      withCloseButton={false}
     >
       <div className="flex h-full flex-col gap-y-3">
         <TbRosetteDiscountCheck
@@ -92,7 +86,7 @@ const VoteNeo3SuccessModal = () => {
                 wide
                 iconsOnEdge={false}
                 rightIcon={<TbEye aria-hidden />}
-                onClick={modalEraseWrapper('center')}
+                onClick={modalEraseWrapper()}
               />
             </div>
           </>

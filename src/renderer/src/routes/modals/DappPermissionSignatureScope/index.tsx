@@ -1,4 +1,3 @@
-import { TSession } from '@cityofzion/wallet-connect-sdk-wallet-react'
 import { useTranslation } from 'react-i18next'
 
 import { DappPermissionHeader } from '@renderer/components/DappPermissionHeader'
@@ -7,15 +6,11 @@ import { useModalState } from '@renderer/hooks/useModalRouter'
 
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
 
-type TModalState = {
-  session: TSession
-  scope: string
-  allowedList?: string[]
-}
+import type { TModalState } from '@shared/types/modal'
 
 const DappPermissionSignatureScopeModal = () => {
-  const { session, scope, allowedList } = useModalState<TModalState>()
-  const { t } = useTranslation('modals', { keyPrefix: 'dappPermissionSignatureScopeModal' })
+  const { session, scope, allowedList } = useModalState<TModalState<'dapp-permission-signature-scope'>>()
+  const { t } = useTranslation('modals', { keyPrefix: 'dappPermissionSignatureScope' })
 
   return (
     <CenterModalLayout contentClassName="px-0 flex flex-col pb-5 min-h-0">

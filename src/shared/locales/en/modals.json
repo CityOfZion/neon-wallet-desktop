@@ -122,7 +122,7 @@
       "viewWalletButtonLabel": "View wallet"
     }
   },
-  "persistContactModal": {
+  "persistContact": {
     "addContact": "Add Contact",
     "editContact": "Edit Contact",
     "invalidName": "Invalid name",
@@ -208,21 +208,14 @@
     "title": "Connect to an account",
     "description": "Which account do you want to connect ?"
   },
-  "dappConnectionListModal": {
-    "title": "Connected dApps",
-    "inputPlaceholder": "Search for dApp…",
-    "listTitle": "Your connected dApps",
-    "emptyList": "No dApp connections",
-    "buttonLabel": "Connect new"
-  },
   "selectContact": {
     "title": "Select a contact",
     "selectRecipient": "Select recipient"
   },
-  "blockchainSelectionModal": {
+  "blockchainSelection": {
     "buttonContinueLabel": "Next"
   },
-  "decryptKeyModal": {
+  "decryptKey": {
     "title": "Import",
     "description": "Enter a pass phrase for your encrypted key:",
     "inputPlaceholder": "Enter your pass phrase…",
@@ -368,7 +361,7 @@
       }
     }
   },
-  "dappPermissionSignatureScopeModal": {
+  "dappPermissionSignatureScope": {
     "scopes": {
       "None": "Your signature is only valid for fee payments.",
       "CalledByEntry": "Your signature can only be used by the calling contract and just for this transaction.",
@@ -528,7 +521,7 @@
       "networkNameIsTooLong": "Network name is too long"
     }
   },
-  "addNetworkProfileModal": {
+  "addNetworkProfile": {
     "title": "Add new network profile",
     "inputLabel": "Profile name",
     "deleteButtonLabel": "Delete profile",
@@ -581,7 +574,7 @@
     "copySwapLog": "Copy swap log to clipboard",
     "thereIsNoLog": "There is no swap log"
   },
-  "aboutExtraIdToReceiveModal": {
+  "aboutExtraIdToReceive": {
     "title": "About a destination tag/memo",
     "what": {
       "title": "What is a destination tag or memo?",

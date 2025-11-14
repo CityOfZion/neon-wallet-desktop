@@ -18,15 +18,10 @@ import TbDeviceFloppy from '@renderer/assets/images/tb-device-floppy.svg?react'
 import TbFileExport from '@renderer/assets/images/tb-file-export.svg?react'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
+import type { TModalState } from '@shared/types/modal'
 import { IAccountState } from '@shared/types/store'
 
 import { ExportFullTransactionInfo } from './ExportFullTransactionInfo'
-
-type TModalState = {
-  account?: IAccountState
-  to?: Date
-  from?: Date
-}
 
 export type TExportFullTransactionsActionData = {
   account?: IAccountState
@@ -39,17 +34,17 @@ export type TExportFullTransactionsActionData = {
 }
 
 const ExportFullTransactionsModal = () => {
-  const modalState = useModalState<TModalState>()
   const { t } = useTranslation('modals', { keyPrefix: 'exportFullTransactions' })
   const { modalErase } = useModalNavigate()
   const navigate = useNavigate()
+  const modalState = useModalState<TModalState<'export-full-transactions'>>()
 
   const today = new Date()
-
+  const modalStateAccount = modalState?.account
   const { actionData, actionState, setData, handleAct } = useActions<TExportFullTransactionsActionData>({
-    account: modalState.account,
-    from: dateFns.startOfDay(modalState.from ?? dateFns.sub(today, { weeks: 1 })),
-    to: !!modalState.to && !dateFns.isSameDay(today, modalState.to) ? dateFns.endOfDay(modalState.to) : today,
+    account: modalStateAccount,
+    from: dateFns.startOfDay(dateFns.sub(today, { weeks: 1 })),
+    to: today,
     exported: false,
     selectedFolderPath: undefined,
     filePath: '',
@@ -134,7 +129,7 @@ const ExportFullTransactionsModal = () => {
   }
 
   const handleReturn = () => {
-    modalErase('center')
+    modalErase()
     navigate(`/wallets/${actionData.account!.id}/transactions`)
   }
 

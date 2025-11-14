@@ -40,19 +40,19 @@ export const functionByNotificationActionType: TFunctionByNotificationActionType
       .with({ to: 'account' }, payload => {
         const account = getAccount(payload)
 
-        modalActions.modalErase('side')
+        modalActions.modalErase()
         pageNavigate(`/wallets/${account.id}/overview`)
       })
       .with({ to: 'account-transaction' }, payload => {
         const account = getAccount(payload)
 
-        modalActions.modalErase('side')
+        modalActions.modalErase()
         pageNavigate(`/wallets/${account.id}/transactions`)
       })
       .with({ to: 'account-tokens' }, ({ address, blockchain }) => {
         const account = getAccount({ address, blockchain })
 
-        modalActions.modalErase('side')
+        modalActions.modalErase()
 
         setTimeout(() => {
           pageNavigate(`/wallets/${account.id}/tokens`)
@@ -61,7 +61,7 @@ export const functionByNotificationActionType: TFunctionByNotificationActionType
       .with({ to: 'hide-fraudulent-token' }, ({ address, blockchain, tokenHash }) => {
         const account = getAccount({ address, blockchain })
 
-        modalActions.modalErase('side')
+        modalActions.modalErase()
 
         setTimeout(() => {
           if (tokenHash) {
@@ -74,11 +74,11 @@ export const functionByNotificationActionType: TFunctionByNotificationActionType
       .with({ to: 'vote-neo3' }, payload => {
         const account = getAccount(payload)
 
-        modalActions.modalErase('side')
+        modalActions.modalErase()
         pageNavigate('/vote-neo3', { state: { defaultNeo3Account: account } })
       })
       .with({ to: 'backup-wallet' }, () => {
-        modalActions.modalErase('side')
+        modalActions.modalErase()
         pageNavigate('/settings/security/backup-wallet')
       })
       .otherwise(() => {

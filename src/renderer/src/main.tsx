@@ -8,7 +8,7 @@ import * as Sentry from '@sentry/electron/renderer'
 
 import { sentryConfig } from '../../../sentry.config'
 import { DragRegion } from './components/DragRegion'
-import { pagesRouter } from './routes/pagesRouter'
+import { pagesRouter } from './routes/pages-router'
 
 import './assets/css/index.css'
 

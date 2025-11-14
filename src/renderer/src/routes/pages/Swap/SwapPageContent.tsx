@@ -88,7 +88,7 @@ export const SwapPageContent = ({ account }: TProps) => {
   const { accountsRef } = useAccountsSelector()
   const { isConnectedAndUnlockedHardwareWallet } = useHardwareWalletActions()
   const dispatch = useAppDispatch()
-  const pressOncePasteAddressToReceive = usePressOnce()
+
   const { ref: amountInputRef, isFocused: isAmountInputFocused } = useIsFocused<HTMLInputElement>()
 
   const swapChainsByServiceName = useMemo(() => {
@@ -192,6 +192,17 @@ export const SwapPageContent = ({ account }: TProps) => {
       service.tokenService.predicateByHash(actionData.selectedTokenToUse.value!.hash!, tokenBalance.token)
     )
   }, [actionData.selectedTokenToUse.value, balanceQuery.data, service])
+
+  const [isPastingAddressToReceive, startPasteAddressToReceive] = usePressOnce(async () => {
+    try {
+      const text = await navigator.clipboard.readText()
+
+      await swapOrchestratorRef.current!.setAddressToReceive(text)
+    } catch (error) {
+      ToastHelper.error({ message: tCommonGeneral('pasteFromClipboardError') })
+      console.error(error)
+    }
+  })
 
   const initializeOrRestartSwapService = () => {
     reset()
@@ -300,17 +311,6 @@ export const SwapPageContent = ({ account }: TProps) => {
 
   const handleChangeExtraIdToReceive = (event: ChangeEvent<HTMLInputElement>) => {
     swapOrchestratorRef.current?.setExtraIdToReceive(event.target.value)
-  }
-
-  const handlePasteAddressToReceive = async () => {
-    try {
-      const text = await navigator.clipboard.readText()
-
-      await swapOrchestratorRef.current!.setAddressToReceive(text)
-    } catch (error) {
-      ToastHelper.error({ message: tCommonGeneral('pasteFromClipboardError') })
-      console.error(error)
-    }
   }
 
   const handleChangeAmountToUse = (value: string) => {
@@ -652,12 +652,10 @@ export const SwapPageContent = ({ account }: TProps) => {
                           type="button"
                           compacted
                           disabled={
-                            !actionData.selectedAccountToUse.value ||
-                            isAddressesDisabled ||
-                            pressOncePasteAddressToReceive.isPressing
+                            !actionData.selectedAccountToUse.value || isAddressesDisabled || isPastingAddressToReceive
                           }
                           icon={<MdContentPasteGo aria-hidden className="h-4 min-h-4 w-4 min-w-4" />}
-                          onClick={pressOncePasteAddressToReceive.handlePressOnce(handlePasteAddressToReceive)}
+                          onClick={startPasteAddressToReceive}
                         />
 
                         <IconButton

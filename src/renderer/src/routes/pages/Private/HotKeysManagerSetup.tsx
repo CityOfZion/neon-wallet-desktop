@@ -1,17 +1,16 @@
 import { useHotkeys } from 'react-hotkeys-hook'
 
-import { useModalHistories, useModalNavigate } from '@renderer/hooks/useModalRouter'
+import { useModalNavigate, useModalRouter } from '@renderer/hooks/useModalRouter'
 
 const HotKeysManagerSetup = () => {
   const { modalNavigate } = useModalNavigate()
-  const { historiesRef } = useModalHistories()
+  const { histories } = useModalRouter()
 
   const handleSearch = () => {
-    const [lastHistory] = historiesRef.current.slice(-1)
+    const [lastHistory] = histories.slice(-1)
 
     if (lastHistory?.route.name === 'search') {
       modalNavigate(-1)
-
       return
     }
 

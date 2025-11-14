@@ -1,4 +1,3 @@
-import { IBlockchainService, TBridgeToken } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
 
 import { Button } from '@renderer/components/Button'
@@ -15,20 +14,7 @@ import TbArrowRight from '@renderer/assets/images/tb-arrow-right.svg?react'
 import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
 import TbReplace2 from '@renderer/assets/images/tb-replace-2.svg?react'
 
-import { TBlockchainServiceKey } from '@shared/types/blockchain'
-import { IAccountState } from '@shared/types/store'
-
-type TState = {
-  onConfirm(): Promise<void>
-  tokenToUse: TBridgeToken<TBlockchainServiceKey>
-  tokenToReceive: TBridgeToken<TBlockchainServiceKey>
-  accountToUse: IAccountState
-  amountToUse: string
-  amountToReceive: string
-  addressToReceive: string
-  bridgeFee: string
-  fromService: IBlockchainService<TBlockchainServiceKey>
-}
+import type { TModalState } from '@shared/types/modal'
 
 const Neo3NeoxBridgeConfirmationModal = () => {
   const {
@@ -41,16 +27,17 @@ const Neo3NeoxBridgeConfirmationModal = () => {
     tokenToReceive,
     tokenToUse,
     fromService,
-  } = useModalState<TState>()
+  } = useModalState<TModalState<'neo3-neox-bridge-confirmation'>>()
   const { t } = useTranslation('modals', { keyPrefix: 'neo3NeoxBridgeConfirmation' })
 
-  const { handlePressOnce, isPressing } = usePressOnce()
+  const [isConfirm, startConfirm] = usePressOnce()
 
   return (
     <SideModalLayout
       heading={t('title')}
       headingIcon={<TbReplace2 aria-hidden />}
       contentClassName="flex flex-col overflow-y-auto"
+      size="lg"
     >
       <p className="text-xs text-white">{t('description')}</p>
 
@@ -106,8 +93,8 @@ const Neo3NeoxBridgeConfirmationModal = () => {
         leftIcon={<MdCheck aria-hidden />}
         iconsOnEdge={false}
         label={t('confirmButtonLabel')}
-        loading={isPressing}
-        onClick={handlePressOnce(onConfirm)}
+        loading={isConfirm}
+        onClick={startConfirm(onConfirm)}
       />
     </SideModalLayout>
   )

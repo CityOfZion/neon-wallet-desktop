@@ -21,7 +21,8 @@ import TbPlus from '@renderer/assets/images/tb-plus.svg?react'
 
 import { authReducerActions } from '@renderer/store/reducers/auth'
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
-import { IAccountState, IWalletState, TSkin } from '@shared/types/store'
+import type { TModalState } from '@shared/types/modal'
+import { TSkin } from '@shared/types/store'
 
 import { SkinSelector } from './SkinSelector'
 
@@ -30,24 +31,22 @@ type TFormData = {
   skin: TSkin
 }
 
-type TLocationState = {
-  account?: IAccountState
-  wallet?: IWalletState
-}
+const MAX_NAME_LENGTH = 50
 
 const PersistAccountModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'persistAccount' })
   const { modalNavigate } = useModalNavigate()
-  const { account, wallet } = useModalState<TLocationState>()
+  const modalState = useModalState<TModalState<'persist-account'>>()
   const { createStandardAccount } = useBlockchainActions()
   const { addNewHardwareAccount } = useHardwareWalletActions()
-  const MAX_NAME_LENGTH = 50
-
   const dispatch = useAppDispatch()
 
+  const modalStateAccount = modalState?.account
+  const modalStateWallet = modalState?.wallet
+
   const { actionData, actionState, handleAct, setDataFromEventWrapper, setData, setError } = useActions<TFormData>({
-    name: account ? account.name : '',
-    skin: account ? account.skin : UtilsHelper.generateColorSkin(0),
+    name: modalStateAccount ? modalStateAccount.name : '',
+    skin: modalStateAccount ? modalStateAccount.skin : UtilsHelper.generateColorSkin(0),
   })
 
   const nameValidation = StringHelper.validateValue(actionData.name, MAX_NAME_LENGTH)
@@ -68,16 +67,16 @@ const PersistAccountModal = () => {
       return
     }
 
-    if (account) {
-      dispatch(authReducerActions.saveAccount({ ...account, name: nameValidation.trimmedValue, skin }))
+    if (modalStateAccount) {
+      dispatch(authReducerActions.saveAccount({ ...modalStateAccount, name: nameValidation.trimmedValue, skin }))
       modalNavigate(-1)
 
       return
     }
 
-    if (!wallet) return
+    if (!modalStateWallet) return
 
-    if (wallet.type === 'standard') {
+    if (modalStateWallet.type === 'standard') {
       modalNavigate('blockchain-selection', {
         state: {
           heading: t('titleCreate'),
@@ -85,7 +84,7 @@ const PersistAccountModal = () => {
           description: t('selectBlockchainDescription'),
           onSelect: async (blockchain: TBlockchainServiceKey) => {
             await createStandardAccount({
-              wallet,
+              wallet: modalStateWallet,
               blockchain: blockchain,
               name: nameValidation.trimmedValue,
               skin: skin,
@@ -98,20 +97,20 @@ const PersistAccountModal = () => {
       return
     }
 
-    addNewHardwareAccount(wallet, nameValidation.trimmedValue)
+    addNewHardwareAccount(modalStateWallet, nameValidation.trimmedValue)
     modalNavigate(-1)
   }
 
   return (
     <SideModalLayout
-      heading={account ? t('titleEdit') : t('titleCreate')}
-      headingIcon={account ? <TbPencil aria-hidden /> : <TbPlus aria-hidden className="text-neon" />}
+      heading={modalStateAccount ? t('titleEdit') : t('titleCreate')}
+      headingIcon={modalStateAccount ? <TbPencil aria-hidden /> : <TbPlus aria-hidden className="text-neon" />}
       contentClassName="flex flex-col justify-between"
     >
       <form onSubmit={handleAct(handleSubmit)} className="flex h-full flex-col justify-between">
         <div>
           <div className="mb-2.5 flex flex-col gap-6 text-xs text-gray-100">
-            {!account && <p>{t('subtitleCreate')}</p>}
+            {!modalStateAccount && <p>{t('subtitleCreate')}</p>}
             <p className="font-bold uppercase">{t('inputLabel')}</p>
           </div>
 
@@ -126,7 +125,7 @@ const PersistAccountModal = () => {
           />
 
           <div className="flex flex-col gap-6 pt-4 pb-2">
-            {!account && <p className="text-xs text-gray-300 italic">{t('inputSubtitle')}</p>}
+            {!modalStateAccount && <p className="text-xs text-gray-300 italic">{t('inputSubtitle')}</p>}
             <Separator />
           </div>
 
@@ -134,20 +133,20 @@ const PersistAccountModal = () => {
             label={t('skinSelectorLabel')}
             onSelectSkin={handleSelectColorSkin}
             selectedSkin={actionData.skin}
-            account={account}
+            account={modalStateAccount}
           />
         </div>
 
         <Button
           className="mt-6 w-full"
           type="submit"
-          label={account ? t('saveButtonLabel') : t('nextButtonLabel')}
+          label={modalStateAccount ? t('saveButtonLabel') : t('nextButtonLabel')}
           flat
           disabled={isDisabled}
         />
       </form>
 
-      {account && (
+      {modalStateAccount && (
         <div className="mt-8 flex flex-col">
           <>
             <Separator />
@@ -159,7 +158,7 @@ const PersistAccountModal = () => {
               leftIcon={<MdDeleteForever />}
               className="mt-7"
               variant="outlined"
-              onClick={() => modalNavigate('delete-account', { state: { account: account } })}
+              onClick={() => modalNavigate('delete-account', { state: { account: modalStateAccount } })}
               colorSchema="error"
               flat
             />

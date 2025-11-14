@@ -1,6 +1,5 @@
 import { Fragment, useState } from 'react'
 
-import { TSessionProposal } from '@cityofzion/wallet-connect-sdk-wallet-core'
 import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
 import { useTranslation } from 'react-i18next'
 
@@ -24,18 +23,13 @@ import WalletConnectLogo from '@renderer/assets/images/wallet-connect.svg?react'
 
 import { NEON_ICONS_URL } from '@renderer/constants/urls'
 import { TWalletConnectHelperProposalInformation } from '@shared/types/helpers'
-import { IAccountState } from '@shared/types/store'
+import type { TModalState } from '@shared/types/modal'
 
 import { DappConnectionErrorContent } from './DappConnectionErrorContent'
 import { DappConnectionSuccessContent } from './DappConnectionSuccessContent'
 
-type TModalState = {
-  proposal: TSessionProposal
-  account: IAccountState
-}
-
 const DappConnectionDetailsModal = () => {
-  const { proposal, account } = useModalState<TModalState>()
+  const { proposal, account } = useModalState<TModalState<'dapp-connection-details'>>()
   const { rejectProposal, approveProposal } = useWalletConnectWallet()
   const { modalNavigate } = useModalNavigate()
   const { networkRef } = useSelectedNetworkSelector(account.blockchain)
@@ -121,7 +115,7 @@ const DappConnectionDetailsModal = () => {
   })
 
   return (
-    <CenterModalLayout onClose={handleOnClose} contentClassName="items-center justify-center flex flex-col">
+    <CenterModalLayout onErase={handleOnClose} contentClassName="items-center justify-center flex flex-col">
       {proposalInformation ? (
         <Fragment>
           <div className="flex w-full items-center gap-x-12">

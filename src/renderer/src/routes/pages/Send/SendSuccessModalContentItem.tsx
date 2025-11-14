@@ -63,7 +63,7 @@ export const SendSuccessModalContentItem = ({ order, transaction }: TProps) => {
             iconsOnEdge={false}
             onClick={modalNavigateWrapper('persist-contact', {
               state: {
-                addresses: [{ address: transaction.to, blockchain: transaction.account.blockchain }],
+                addresses: [{ address: transaction.to!, blockchain: transaction.account.blockchain }],
               },
             })}
           />

@@ -21,7 +21,12 @@ export const MigrateAccountsModalLayout = ({ currentStep, stepIcon, stepTitle, c
   const { t } = useTranslation('modals', { keyPrefix: 'migrateWallets' })
 
   return (
-    <SideModalLayout heading={t('title')} headingIcon={<TbPackageImport aria-hidden />} contentClassName="flex p-0">
+    <SideModalLayout
+      heading={t('title')}
+      headingIcon={<TbPackageImport aria-hidden />}
+      contentClassName="flex p-0"
+      size="xl"
+    >
       <div className="h-full w-[20rem] min-w-[20rem] bg-gray-900/50 px-4 py-10">
         <span className="text-ms text-white">{t('instructionTitle')}</span>
 

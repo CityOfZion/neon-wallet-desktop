@@ -122,7 +122,7 @@
       "viewWalletButtonLabel": "Wallet anzeigen"
     }
   },
-  "persistContactModal": {
+  "persistContact": {
     "addContact": "Kontakt hinzufügen",
     "editContact": "Kontakt bearbeiten",
     "invalidName": "Ungültiger Name",
@@ -208,21 +208,14 @@
     "title": "Mit einem Konto verbinden",
     "description": "Mit welchem Konto möchten Sie sich verbinden?"
   },
-  "dappConnectionListModal": {
-    "title": "Verbundene dApps",
-    "inputPlaceholder": "Nach dApp suchen…",
-    "listTitle": "Ihre verbundenen dApps",
-    "emptyList": "Keine dApp-Verbindungen",
-    "buttonLabel": "Neue verbinden"
-  },
   "selectContact": {
     "title": "Kontakt auswählen",
     "selectRecipient": "Empfänger auswählen"
   },
-  "blockchainSelectionModal": {
+  "blockchainSelection": {
     "buttonContinueLabel": "Weiter"
   },
-  "decryptKeyModal": {
+  "decryptKey": {
     "title": "Import",
     "description": "Geben Sie eine Passphrase für Ihren verschlüsselten Schlüssel ein:",
     "inputPlaceholder": "Geben Sie Ihre Passphrase ein…",
@@ -368,7 +361,7 @@
       }
     }
   },
-  "dappPermissionSignatureScopeModal": {
+  "dappPermissionSignatureScope": {
     "scopes": {
       "None": "Ihre Signatur ist nur für Gebührenzahlungen gültig.",
       "CalledByEntry": "Ihre Signatur kann nur vom aufrufenden Vertrag und nur für diese Transaktion verwendet werden.",
@@ -528,7 +521,7 @@
       "networkNameIsTooLong": "Netzwerkname ist zu lang"
     }
   },
-  "addNetworkProfileModal": {
+  "addNetworkProfile": {
     "title": "Neues Netzwerkprofil hinzufügen",
     "inputLabel": "Profilname",
     "deleteButtonLabel": "Profil löschen",
@@ -581,7 +574,7 @@
     "copySwapLog": "Tausch-Protokoll in die Zwischenablage kopieren",
     "thereIsNoLog": "Es gibt kein Tausch-Protokoll"
   },
-  "aboutExtraIdToReceiveModal": {
+  "aboutExtraIdToReceive": {
     "title": "Über ein Ziel-Tag/Memo",
     "what": {
       "title": "Was ist ein Ziel-Tag oder Memo?",

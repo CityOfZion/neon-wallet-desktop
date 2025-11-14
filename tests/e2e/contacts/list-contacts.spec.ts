@@ -43,8 +43,8 @@ test.describe('List contacts', () => {
     await createNewWallet(window)
     await createContact(window, { contactName })
 
+    await window.waitForTimeout(1000)
     await window.getByTestId('search-contact-input').fill('Invalid contact')
-
     await expect(window.getByTestId('contacts-list')).not.toContainText(contactName)
     await expect(window.getByTestId('contacts-not-found')).toBeVisible()
 

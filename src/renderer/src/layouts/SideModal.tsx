@@ -1,74 +1,135 @@
-import { cloneElement, ComponentProps, type JSX, useMemo } from 'react'
+import { cloneElement, ComponentProps, type JSX, type MouseEvent, useLayoutEffect } from 'react'
+
+import { motion, useAnimate } from 'motion/react'
+import { useHotkeys } from 'react-hotkeys-hook'
 
 import { IconButton } from '@renderer/components/IconButton'
 import { Separator } from '@renderer/components/Separator'
 
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
-import { useModalHistories, useModalNavigate } from '@renderer/hooks/useModalRouter'
-import { useModalRouterOnClose } from '@renderer/hooks/useModalRouterOnClose'
+import { useModalCurrentHistory, useModalNavigate } from '@renderer/hooks/useModalRouter'
+import { usePressOnce } from '@renderer/hooks/usePressOnce'
 
 import MdClose from '@renderer/assets/images/md-close.svg?react'
 import MdKeyboardBackspace from '@renderer/assets/images/md-keyboard-backspace.svg?react'
 
-export type TSideModalProps = {
+export type TSideModalSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '1xl'
+
+export type TSideModalLayoutProps = {
   heading?: JSX.Element | string
   headingIcon?: JSX.Element
   contentClassName?: string
-  onClose?: () => void
+  onErase?: () => Promise<void> | void
+  size?: TSideModalSize
+  closeOnEsc?: boolean
+  closeOnClickOutside?: boolean
 } & ComponentProps<'div'>
+
+const widthBySizes: Record<TSideModalSize, number> = {
+  xs: 224,
+  sm: 330,
+  md: 414,
+  lg: 512,
+  xl: 720,
+  '1xl': 1000,
+}
 
 export const SideModalLayout = ({
   children,
   heading,
   headingIcon,
   contentClassName,
-  onClose,
+  onErase,
+  size = 'sm',
   className,
+  closeOnClickOutside = true,
+  closeOnEsc = true,
   ...props
-}: TSideModalProps) => {
-  const { modalNavigateWrapper, modalEraseWrapper } = useModalNavigate()
-  const { histories } = useModalHistories()
+}: TSideModalLayoutProps) => {
+  const { modalNavigateWrapper, modalErase } = useModalNavigate()
+  const { index, isFocused } = useModalCurrentHistory()
 
-  useModalRouterOnClose(onClose)
+  const [scope, animate] = useAnimate<HTMLDivElement>()
 
-  const withBackButton = useMemo(() => {
-    return histories.filter(history => history.route.type === 'side').length > 1
-  }, [histories])
+  const widthBySize = widthBySizes[size] ?? 0
+
+  const [isErasing, startErase] = usePressOnce(async () => {
+    await onErase?.()
+    modalErase()
+  })
+
+  const handleClickContent = (event: MouseEvent<HTMLDivElement>) => {
+    event.stopPropagation()
+  }
+
+  const handleClickContainer = () => {
+    if (!closeOnClickOutside) return
+    startErase()
+  }
+
+  useLayoutEffect(() => {
+    animate(scope.current, { opacity: isFocused ? 1 : 0 }, { duration: 0.4 })
+  }, [animate, isFocused, scope])
+
+  useHotkeys('esc', startErase, { enableOnFormTags: true, enabled: closeOnEsc && !isErasing })
 
   return (
-    <div className={StyleHelper.mergeStyles('flex h-full flex-col text-xs text-white', className)} {...props}>
-      <header className="flex flex-col px-4">
-        <div className="flex items-center justify-between py-2.5">
-          {withBackButton && (
-            <IconButton
-              icon={<MdKeyboardBackspace aria-hidden className="fill-gray-200" />}
-              size="md"
-              compacted
-              onClick={modalNavigateWrapper(-1)}
-            />
-          )}
+    <div
+      className={StyleHelper.mergeStyles('flex h-full w-full justify-end', {
+        'pointer-events-none': isErasing,
+      })}
+      onClick={handleClickContainer}
+    >
+      <motion.div
+        className="relative h-full"
+        initial={{ width: 0, opacity: 0, transition: { duration: 0.2 } }}
+        animate={{ width: widthBySize, opacity: 1, transition: { duration: 0.2 } }}
+        exit={{ width: 0, opacity: 0, transition: { duration: 0.2, delay: 0.1 } }}
+        onClick={handleClickContent}
+        ref={scope}
+      >
+        <div
+          className={StyleHelper.mergeStyles('flex h-full flex-col bg-gray-800 text-xs text-white', className)}
+          style={{ minWidth: widthBySizes[size], ...props.style }}
+          {...props}
+        >
+          <header className="flex flex-col px-4">
+            <div className="flex items-center justify-between py-2.5">
+              {index > 0 && (
+                <IconButton
+                  icon={<MdKeyboardBackspace aria-hidden className="fill-gray-200" />}
+                  size="md"
+                  compacted
+                  onClick={modalNavigateWrapper(-1)}
+                />
+              )}
 
-          <div className="flex items-center gap-x-2.5">
-            {headingIcon &&
-              cloneElement(headingIcon, {
-                className: StyleHelper.mergeStyles('w-6 h-6 text-green', headingIcon.props?.className ?? ''),
-              })}
-            {heading && <h2 className="text-sm">{heading}</h2>}
-          </div>
+              <div className="flex items-center gap-x-2.5">
+                {headingIcon &&
+                  cloneElement(headingIcon, {
+                    className: StyleHelper.mergeStyles('w-6 h-6 text-green', headingIcon.props?.className ?? ''),
+                  })}
+                {heading && <h2 className="text-sm">{heading}</h2>}
+              </div>
 
-          <IconButton
-            icon={<MdClose aria-hidden className="fill-white" />}
-            size="md"
-            compacted
-            onClick={modalEraseWrapper('side')}
-          />
+              <IconButton
+                icon={<MdClose aria-hidden className="fill-white" />}
+                size="md"
+                compacted
+                loading={isErasing}
+                onClick={startErase}
+              />
+            </div>
+
+            <Separator />
+          </header>
+
+          <main className={StyleHelper.mergeStyles('min-h-0 min-w-0 grow px-4 py-8', contentClassName)}>
+            {children}
+          </main>
         </div>
-
-        <Separator />
-      </header>
-
-      <main className={StyleHelper.mergeStyles('min-h-0 min-w-0 grow px-4 py-8', contentClassName)}>{children}</main>
+      </motion.div>
     </div>
   )
 }

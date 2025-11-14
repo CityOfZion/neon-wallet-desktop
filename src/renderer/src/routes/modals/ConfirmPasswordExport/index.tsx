@@ -1,4 +1,3 @@
-import type { JSX } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
@@ -11,18 +10,14 @@ import { useModalState } from '@renderer/hooks/useModalRouter'
 
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 
+import type { TModalState } from '@shared/types/modal'
+
 type TFormData = {
   password: string
 }
 
-type TLocationState = {
-  title: string
-  icon: JSX.Element
-  onSubmitPassword: () => void
-}
-
 const ConfirmPasswordExportModal = () => {
-  const { onSubmitPassword, title, icon } = useModalState<TLocationState>()
+  const { onSubmitPassword, title, icon } = useModalState<TModalState<'confirm-password-export'>>()
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const { t } = useTranslation('modals', { keyPrefix: 'confirmPasswordExport' })
 

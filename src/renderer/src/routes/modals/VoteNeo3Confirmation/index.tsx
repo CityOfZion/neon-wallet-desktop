@@ -1,6 +1,6 @@
 import { Fragment, useMemo } from 'react'
 
-import { BSNeo3, BSNeo3Constants, type TVoteServiceCandidate } from '@cityofzion/bs-neo3'
+import { BSNeo3, BSNeo3Constants } from '@cityofzion/bs-neo3'
 import { useTranslation } from 'react-i18next'
 import { match } from 'ts-pattern'
 
@@ -37,18 +37,13 @@ import TbCheckbox from '@renderer/assets/images/tb-checkbox.svg?react'
 import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { thunks } from '@renderer/store/thunks'
 import { TUseTransactionsTransfer } from '@shared/types/hooks'
-import { IAccountState } from '@shared/types/store'
+import type { TModalState } from '@shared/types/modal'
 
 import { VoteNeo3ConfirmationSkeleton } from './VoteNeo3ConfirmationSkeleton'
 
-type TLocationState = {
-  neo3Account: IAccountState
-  candidate: TVoteServiceCandidate
-}
-
 const VoteNeo3ConfirmationModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'voteNeo3Confirmation' })
-  const { neo3Account, candidate } = useModalState<TLocationState>()
+  const { neo3Account, candidate } = useModalState<TModalState<'vote-neo3-confirmation'>>()
   const voteDetailsByAddressQuery = useVoteNeo3GetVoteDetailsByAddress(neo3Account.address)
   const calculateVoteFeeQuery = useVoteNeo3CalculateVoteFee({ neo3Account, candidatePubKey: candidate.pubKey })
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()

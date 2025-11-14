@@ -22,17 +22,13 @@ import TbCube3dSphere from '@renderer/assets/images/tb-cube-3d-sphere.svg?react'
 import TbRefresh from '@renderer/assets/images/tb-refresh.svg?react'
 
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
-import { TBlockchainServiceKey } from '@shared/types/blockchain'
-
-type TState = {
-  blockchain: TBlockchainServiceKey
-}
+import type { TModalState } from '@shared/types/modal'
 
 const NetworkNodeSelection = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'networkNodeSelection' })
   const { t: commonGeneral } = useTranslation('common', { keyPrefix: 'general' })
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
-  const { blockchain } = useModalState<TState>()
+  const { blockchain } = useModalState<TModalState<'network-node-selection'>>()
   const { selectedNetworkProfile } = useSelectedNetworkProfileSelector()
   const pingNodesQuery = usePingNodes(blockchain)
   const dispatch = useAppDispatch()

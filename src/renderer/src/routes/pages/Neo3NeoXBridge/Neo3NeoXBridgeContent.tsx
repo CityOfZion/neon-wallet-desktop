@@ -262,15 +262,23 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
   const handleSubmit = async () => {
     if (!isBridgeValid) return
 
+    const tokenToUse = actionData.tokenToUse.value!
+    const tokenToReceive = actionData.tokenToReceive.value!
+    const accountToUse = actionData.accountToUse.value!
+    const addressToReceive = actionData.addressToReceive.value!
+    const amountToUse = actionData.amountToUse.value!
+    const amountToReceive = actionData.amountToReceive.value!
+    const bridgeFee = actionData.bridgeFee.value!
+
     modalNavigate('neo3-neox-bridge-confirmation', {
       state: {
-        tokenToUse: actionData.tokenToUse.value,
-        tokenToReceive: actionData.tokenToReceive.value,
-        accountToUse: actionData.accountToUse.value,
-        addressToReceive: actionData.addressToReceive.value,
-        amountToUse: actionData.amountToUse.value,
-        amountToReceive: actionData.amountToReceive.value,
-        bridgeFee: actionData.bridgeFee.value,
+        tokenToUse,
+        tokenToReceive,
+        accountToUse,
+        addressToReceive,
+        amountToUse,
+        amountToReceive,
+        bridgeFee,
         fromService,
         onConfirm: async () => {
           const account = actionData.accountToUse.value!
@@ -295,12 +303,12 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
             modalNavigate('neo3-neox-bridge-details', {
               replace: true,
               state: {
-                tokenToUse: actionData.tokenToUse.value,
-                tokenToReceive: actionData.tokenToReceive.value,
-                accountToUse: actionData.accountToUse.value,
-                addressToReceive: actionData.addressToReceive.value,
-                amountToUse: actionData.amountToUse.value,
-                amountToReceive: actionData.amountToReceive.value,
+                tokenToUse,
+                tokenToReceive,
+                accountToUse,
+                addressToReceive,
+                amountToUse,
+                amountToReceive,
                 transactionHash,
                 confirmed: !transactionHash ? false : undefined,
               },

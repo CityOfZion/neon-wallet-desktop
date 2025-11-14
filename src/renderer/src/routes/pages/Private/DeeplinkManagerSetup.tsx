@@ -41,7 +41,6 @@ const DeeplinkManagerSetup = () => {
       const realWCUri = uri.split('uri=').pop()
       if (realWCUri) {
         let wcUri: string | undefined
-
         const decodedUri = decodeURIComponent(realWCUri)
         if (WalletConnectHelper.isValidURI(decodedUri)) {
           wcUri = decodedUri

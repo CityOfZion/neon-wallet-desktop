@@ -11,7 +11,7 @@ import { LazyHelper } from '@renderer/helpers/LazyHelper'
 
 import { useMountUnsafe } from '@renderer/hooks/useMount'
 
-import { modalsRouter } from '@renderer/routes/modalsRouter'
+import { modalsRouter } from '@renderer/routes/modals-router'
 
 import { ModalRouterProvider } from '@renderer/contexts/ModalRouterContext'
 import { setupBSAggregator } from '@renderer/libs/blockchain-service'
@@ -60,7 +60,7 @@ const RootPage = () => {
     <StoreProvider store={RootStore.store}>
       <WalletConnectWalletProvider options={walletConnectOptions}>
         <QueryClientProvider client={queryClient}>
-          <ModalRouterProvider routes={modalsRouter}>
+          <ModalRouterProvider router={modalsRouter}>
             <Outlet />
 
             <Suspense fallback={null}>

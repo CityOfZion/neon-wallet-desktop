@@ -16,17 +16,13 @@ import { SideModalLayout } from '@renderer/layouts/SideModal'
 import TbPencil from '@renderer/assets/images/tb-pencil.svg?react'
 import TbTrash from '@renderer/assets/images/tb-trash.svg?react'
 
-import { IAccountState } from '@shared/types/store'
-
-type TLocationState = {
-  account: IAccountState
-}
+import type { TModalState } from '@shared/types/modal'
 
 const DeleteAccountModal = () => {
-  const { account } = useModalState<TLocationState>()
+  const { account } = useModalState<TModalState<'delete-account'>>()
   const { accounts } = useAccountsSelector()
   const { t } = useTranslation('modals', { keyPrefix: 'deleteAccount' })
-  const { modalNavigate } = useModalNavigate()
+  const { modalErase, modalNavigateWrapper } = useModalNavigate()
   const { deleteAccount } = useBlockchainActions()
 
   const handleDelete = () => {
@@ -40,12 +36,12 @@ const DeleteAccountModal = () => {
       deleteAccount(account)
     }
 
-    modalNavigate(-2)
+    modalErase()
   }
 
   return (
-    <SideModalLayout heading={t('title')} headingIcon={<TbPencil aria-hidden className="text-neon" />}>
-      <div className="flex h-full w-full flex-col items-center justify-between rounded-sm bg-gray-800 px-4 text-xs">
+    <SideModalLayout heading={t('title')} headingIcon={<TbPencil aria-hidden className="text-neon" />} size="md">
+      <div className="flex h-full w-full flex-col items-center justify-between rounded-sm px-4 text-xs">
         <div className="flex flex-col items-center">
           <div className="bg-asphalt flex h-36 w-36 items-center justify-center rounded-full">
             <TbTrash aria-hidden className="text-pink h-20 w-20" />
@@ -68,7 +64,7 @@ const DeleteAccountModal = () => {
               className="w-full"
               variant="contained"
               label={t('cancel')}
-              onClick={() => modalNavigate(-1)}
+              onClick={modalNavigateWrapper(-1)}
               colorSchema="gray"
             />
 

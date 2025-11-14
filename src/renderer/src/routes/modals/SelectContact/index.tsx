@@ -12,18 +12,13 @@ import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 import TbStepOut from '@renderer/assets/images/tb-step-out.svg?react'
 
-import { TBlockchainServiceKey } from '@shared/types/blockchain'
+import type { TModalState } from '@shared/types/modal'
 import { IContactState, TContactAddress } from '@shared/types/store'
-
-type TLocationState = {
-  blockchain?: TBlockchainServiceKey
-  onSelectContact: (address: TContactAddress) => void
-}
 
 const SelectContact = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'selectContact' })
   const { modalNavigate } = useModalNavigate()
-  const { blockchain, onSelectContact } = useModalState<TLocationState>()
+  const { blockchain, onSelectContact } = useModalState<TModalState<'select-contact'>>()
   const { contacts } = useContactsSelector()
 
   const [selectedContact, setSelectedContact] = useState<IContactState | null>(null)

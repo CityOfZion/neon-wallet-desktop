@@ -13,17 +13,12 @@ import { useNfts } from '@renderer/hooks/useNfts'
 
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 
-import { IAccountState } from '@shared/types/store'
-
-type TState = {
-  account: IAccountState
-  onSelect: (nft: TNftResponse) => void
-}
+import type { TModalState } from '@shared/types/modal'
 
 const NFTSelectionModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'nftSelection' })
   const { t: commonT } = useTranslation('common')
-  const { account, onSelect } = useModalState<TState>()
+  const { account, onSelect } = useModalState<TModalState<'nft-selection'>>()
   const { modalNavigate } = useModalNavigate()
   const query = useNfts(account)
 

@@ -1,0 +1,133 @@
+import { lazy } from 'react'
+
+import type { TRoute } from '@shared/types/modal'
+
+const AboutExtraIdToReceiveModal = lazy(() => import('./modals/AboutExtraIdToReceive'))
+const AddAddressModal = lazy(() => import('./modals/AddAddress'))
+const AddCustomNetworkModal = lazy(() => import('./modals/AddCustomNetwork'))
+const AddNetworkProfileModal = lazy(() => import('./modals/AddNetworkProfile'))
+const BlockchainSelectionModal = lazy(() => import('./modals/BlockchainSelection'))
+const BuyAndSellTokensAboutDataModal = lazy(() => import('./modals/BuyAndSellTokensAboutData'))
+const ConfirmPasswordBackupModal = lazy(() => import('./modals/ConfirmPasswordBackup'))
+const ConfirmPasswordExportModal = lazy(() => import('./modals/ConfirmPasswordExport'))
+const ConfirmPasswordRecoverModal = lazy(() => import('./modals/ConfirmPasswordRecover'))
+const CreateWalletStep1Modal = lazy(() => import('./modals/CreateWalletStep1'))
+const CreateWalletStep2Modal = lazy(() => import('./modals/CreateWalletStep2'))
+const CreateWalletStep3Modal = lazy(() => import('./modals/CreateWalletStep3'))
+const CreateWalletStep4Modal = lazy(() => import('./modals/CreateWalletStep4'))
+const CreateWalletStep5Modal = lazy(() => import('./modals/CreateWalletStep5'))
+const DappDisconnectionModal = lazy(() => import('./modals/DappDisconnection'))
+const DecryptKeyModal = lazy(() => import('./modals/DecryptKey'))
+const DeleteAccountModal = lazy(() => import('./modals/DeleteAccount'))
+const DeleteContactModal = lazy(() => import('./modals/DeleteContact'))
+const DeleteWalletModal = lazy(() => import('./modals/DeleteWallet'))
+const EditWalletModal = lazy(() => import('./modals/EditWallet'))
+const ErrorModal = lazy(() => import('./modals/Error'))
+const ExportKeyModal = lazy(() => import('./modals/ExportKey'))
+const ExportMnemonicModal = lazy(() => import('./modals/ExportMnemonic'))
+const ImportAccountsSelectionModal = lazy(() => import('./modals/ImportAccountsSelection'))
+const ImportModal = lazy(() => import('./modals/Import'))
+const ImportWatchAccountsModal = lazy(() => import('./modals/ImportWatchAccounts'))
+const MigrateAccountsStep2Modal = lazy(() => import('./modals/MigrateAccountsStep2'))
+const MigrateAccountsStep3Modal = lazy(() => import('./modals/MigrateAccountsStep3'))
+const MigrateAccountsStep4Modal = lazy(() => import('./modals/MigrateAccountsStep4'))
+const Neo3NeoxBridgeConfirmationModal = lazy(() => import('./modals/Neo3NeoxBridgeConfirmation'))
+const Neo3NeoxBridgeDetailsModal = lazy(() => import('./modals/Neo3NeoxBridgeDetails'))
+const NetworkNodeSelectionModal = lazy(() => import('./modals/NetworkNodeSelection'))
+const NetworkSelectionModal = lazy(() => import('./modals/NetworkSelection'))
+const NFTSelectionModal = lazy(() => import('./modals/NftSelection'))
+const NotificationsModal = lazy(() => import('./modals/Notifications'))
+const PersistAccountModal = lazy(() => import('./modals/PersistAccount'))
+const PersistContactModal = lazy(() => import('./modals/PersistContact'))
+const SelectAccountModal = lazy(() => import('./modals/SelectAccount'))
+const SelectContactModal = lazy(() => import('./modals/SelectContact'))
+const SellTokensDepositModal = lazy(() => import('./modals/SellTokensDeposit/index'))
+const SuccessModal = lazy(() => import('./modals/Success'))
+const SwapDetailsLogModal = lazy(() => import('./modals/SwapDetailsLog'))
+const SwapDetailsModal = lazy(() => import('./modals/SwapDetails'))
+const VoteNeo3CandidateDetailsModal = lazy(() => import('./modals/VoteNeo3CandidateDetails'))
+
+const sideModalsRouter: TRoute[] = [
+  { name: 'about-extra-id-to-receive', element: AboutExtraIdToReceiveModal },
+  { name: 'add-address', element: AddAddressModal },
+  { name: 'add-custom-network', element: AddCustomNetworkModal },
+  { name: 'add-network-profile', element: AddNetworkProfileModal },
+  { name: 'blockchain-selection', element: BlockchainSelectionModal },
+  { name: 'buy-and-sell-tokens-about-data', element: BuyAndSellTokensAboutDataModal },
+  { name: 'confirm-password-backup', element: ConfirmPasswordBackupModal },
+  { name: 'confirm-password-export', element: ConfirmPasswordExportModal },
+  { name: 'confirm-password-recover', element: ConfirmPasswordRecoverModal },
+  { name: 'create-wallet-step-1', element: CreateWalletStep1Modal },
+  { name: 'create-wallet-step-2', element: CreateWalletStep2Modal },
+  { name: 'create-wallet-step-3', element: CreateWalletStep3Modal },
+  { name: 'create-wallet-step-4', element: CreateWalletStep4Modal },
+  { name: 'create-wallet-step-5', element: CreateWalletStep5Modal },
+  { name: 'dapp-disconnection', element: DappDisconnectionModal },
+  { name: 'decrypt-key', element: DecryptKeyModal },
+  { name: 'delete-account', element: DeleteAccountModal },
+  { name: 'delete-contact', element: DeleteContactModal },
+  { name: 'delete-wallet', element: DeleteWalletModal },
+  { name: 'edit-wallet', element: EditWalletModal },
+  { name: 'error', element: ErrorModal },
+  { name: 'export-key', element: ExportKeyModal },
+  { name: 'export-mnemonic', element: ExportMnemonicModal },
+  { name: 'import', element: ImportModal },
+  { name: 'import-accounts-selection', element: ImportAccountsSelectionModal },
+  { name: 'import-watch-accounts', element: ImportWatchAccountsModal },
+  { name: 'migrate-accounts-step-2', element: MigrateAccountsStep2Modal },
+  { name: 'migrate-accounts-step-3', element: MigrateAccountsStep3Modal },
+  { name: 'migrate-accounts-step-4', element: MigrateAccountsStep4Modal },
+  { name: 'neo3-neox-bridge-confirmation', element: Neo3NeoxBridgeConfirmationModal },
+  { name: 'neo3-neox-bridge-details', element: Neo3NeoxBridgeDetailsModal },
+  { name: 'network-node-selection', element: NetworkNodeSelectionModal },
+  { name: 'network-selection', element: NetworkSelectionModal },
+  { name: 'nft-selection', element: NFTSelectionModal },
+  { name: 'notifications', element: NotificationsModal },
+  { name: 'persist-account', element: PersistAccountModal },
+  { name: 'persist-contact', element: PersistContactModal },
+  { name: 'select-account', element: SelectAccountModal },
+  { name: 'select-contact', element: SelectContactModal },
+  { name: 'sell-tokens-deposit', element: SellTokensDepositModal },
+  { name: 'success', element: SuccessModal },
+  { name: 'swap-details', element: SwapDetailsModal },
+  { name: 'swap-details-log', element: SwapDetailsLogModal },
+  { name: 'vote-neo3-candidate-details', element: VoteNeo3CandidateDetailsModal },
+]
+
+const AutoUpdateCompletedModal = lazy(() => import('./modals/AutoUpdateCompleted'))
+const AutoUpdateMobileModal = lazy(() => import('./modals/AutoUpdateMobile'))
+const AutoUpdateNotesModal = lazy(() => import('./modals/AutoUpdateNotes'))
+const BuyAndSellTokensLeaveAlertModal = lazy(() => import('./modals/BuyAndSellTokensLeaveAlert'))
+const ConnectHardwareWalletModal = lazy(() => import('./modals/ConnectHardwareWallet'))
+const DappConnectionModal = lazy(() => import('./modals/DappConnection'))
+const DappConnectionDetailsModal = lazy(() => import('./modals/DappConnectionDetails'))
+const DappPermissionModal = lazy(() => import('./modals/DappPermission'))
+const DappPermissionContractDetailsModal = lazy(() => import('./modals/DappPermissionContractDetails'))
+const DappPermissionSignatureScopeModal = lazy(() => import('./modals/DappPermissionSignatureScope'))
+const ExportFullTransactionsModal = lazy(() => import('./modals/ExportFullTransactions'))
+const HideFraudulentTokenModal = lazy(() => import('./modals/HideFraudulentToken'))
+const SearchModal = lazy(() => import('./modals/Search'))
+const VoteNeo3ConfirmationModal = lazy(() => import('./modals/VoteNeo3Confirmation'))
+const VoteNeo3SuccessModal = lazy(() => import('./modals/VoteNeo3Success'))
+const VoteNeo3SupportUsModal = lazy(() => import('./modals/VoteNeo3SupportUs'))
+
+const centerModalsRouter: TRoute[] = [
+  { name: 'auto-update-completed', element: AutoUpdateCompletedModal },
+  { name: 'auto-update-mobile', element: AutoUpdateMobileModal },
+  { name: 'auto-update-notes', element: AutoUpdateNotesModal },
+  { name: 'buy-and-sell-tokens-leave-alert', element: BuyAndSellTokensLeaveAlertModal },
+  { name: 'connect-hardware-wallet', element: ConnectHardwareWalletModal },
+  { name: 'dapp-connection', element: DappConnectionModal },
+  { name: 'dapp-connection-details', element: DappConnectionDetailsModal },
+  { name: 'dapp-permission', element: DappPermissionModal },
+  { name: 'dapp-permission-contract-details', element: DappPermissionContractDetailsModal },
+  { name: 'dapp-permission-signature-scope', element: DappPermissionSignatureScopeModal },
+  { name: 'export-full-transactions', element: ExportFullTransactionsModal },
+  { name: 'hide-fraudulent-token', element: HideFraudulentTokenModal },
+  { name: 'search', element: SearchModal },
+  { name: 'vote-neo3-confirmation', element: VoteNeo3ConfirmationModal },
+  { name: 'vote-neo3-success', element: VoteNeo3SuccessModal },
+  { name: 'vote-neo3-support-us', element: VoteNeo3SupportUsModal },
+]
+
+export const modalsRouter = [sideModalsRouter, centerModalsRouter]

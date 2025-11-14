@@ -3,10 +3,11 @@ import { useTranslation } from 'react-i18next'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 
 import { BACKUP_FILE_EXTENSION, DEPRECATED_BACKUP_FILE_EXTENSION } from '@renderer/constants/backup'
+import type { TUseNeonBackupData, TUseNeonBackupDeprecatedData, TUseNeonMigrateData } from '@shared/types/hooks'
 
 import { useActions } from './useActions'
-import { TUseNeonBackupData, TUseNeonBackupDeprecatedData, useNeonImportBackup } from './useNeonBackup'
-import { TUseNeonMigrateData, useNeonImportMigrate } from './useNeonMigrate'
+import { useNeonImportBackup } from './useNeonBackup'
+import { useNeonImportMigrate } from './useNeonMigrate'
 
 export type TUseBackupOrMigrateActionsData = {
   path?: string

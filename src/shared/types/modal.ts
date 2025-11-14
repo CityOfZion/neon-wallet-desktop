@@ -1,54 +1,44 @@
-import { type ComponentType, Dispatch, ReactNode, SetStateAction } from 'react'
+import type { ComponentType } from 'react'
 
-export type TRouteType = 'side' | 'center'
-export type TRouterSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '1xl'
+import type { TModalRouterRouteTypes } from './modal-router'
 
-export type TRoute = {
-  element: ComponentType<any>
-  name: string
-  type: TRouteType
-  size?: TRouterSize
-  closeOnEsc?: boolean
-  closeOnClickOutside?: boolean
+export type TRoute<N extends keyof TModalRouterRouteTypes = keyof TModalRouterRouteTypes> = {
+  element: ComponentType
+  name: N
 }
 
-export type THistory<T = any> = {
-  state: T
-  replace: boolean
+export type THistory<T extends keyof TModalRouterRouteTypes = keyof TModalRouterRouteTypes> = {
   id: string
-  route: TRoute
+  route: TRoute<T>
+  state: TModalRouterRouteTypes[T]
+  group: number
 }
 
-export type TModalRouterContextNavigateOptions = Partial<Pick<THistory, 'state' | 'replace'>>
+export type TModalRouterContextNavigateOptions<T extends keyof TModalRouterRouteTypes> =
+  undefined extends TModalRouterRouteTypes[T]
+    ? [options?: { state?: TModalRouterRouteTypes[T]; replace?: boolean }]
+    : [options: { state: TModalRouterRouteTypes[T]; replace?: boolean }]
 
 export type TModalRouterContextValue = {
-  navigate: (name: string | number, options?: TModalRouterContextNavigateOptions) => void
-  erase: (type: TRouteType) => void
+  navigate(goBackCount: number): void
+  navigate<T extends keyof TModalRouterRouteTypes>(name: T, ...args: TModalRouterContextNavigateOptions<T>): void
+  erase(history?: THistory): void
   histories: THistory[]
-  historiesRef: React.MutableRefObject<THistory[]>
 }
 
 export type TModalRouterProviderProps = {
-  routes: TRoute[]
+  router: TRoute[][]
   children?: React.ReactNode
 }
 
-export type TModalRouterCurrentHistoryContextValue<T = any> = {
-  value: THistory<T>
+export type TModalRouterCurrentHistoryContextValue = {
+  history: THistory
+  isFocused: boolean
+  index: number
 }
 
-export type TModalRouterCurrentHistoryProviderProps<T = any> = {
-  value: THistory<T>
+export type TModalRouterCurrentHistoryProviderProps = TModalRouterCurrentHistoryContextValue & {
   children: React.ReactNode
 }
 
-export type TTransactionActivityListEventColumnSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-
-export type TTransactionActivityListProviderProps = {
-  children: ReactNode
-}
-
-export type TTransactionActivityListContextValue = {
-  eventColumnSize: TTransactionActivityListEventColumnSize
-  setEventColumnSize: Dispatch<SetStateAction<TTransactionActivityListEventColumnSize>>
-}
+export type TModalState<K extends keyof TModalRouterRouteTypes> = TModalRouterRouteTypes[K]

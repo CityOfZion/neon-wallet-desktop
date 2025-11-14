@@ -1,6 +1,5 @@
 import { cloneElement } from 'react'
 
-import type { TVoteServiceCandidate } from '@cityofzion/bs-neo3'
 import { useTranslation } from 'react-i18next'
 import { match, P } from 'ts-pattern'
 
@@ -26,18 +25,13 @@ import MdInfoOutline from '@renderer/assets/images/md-info-outline.svg?react'
 import TbCheckbox from '@renderer/assets/images/tb-checkbox.svg?react'
 
 import { VOTE_NEO3_COZ_PUB_KEY } from '@renderer/constants/public-keys'
-import { IAccountState } from '@shared/types/store'
-
-type TLocationState = {
-  neo3Account: IAccountState
-  candidate: TVoteServiceCandidate
-  candidateVotePercentage: string
-}
+import type { TModalState } from '@shared/types/modal'
 
 const VoteNeo3CandidateDetailsModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'voteNeo3CandidateDetails' })
   const { modalNavigate } = useModalNavigate()
-  const { neo3Account, candidate, candidateVotePercentage } = useModalState<TLocationState>()
+  const { neo3Account, candidate, candidateVotePercentage } =
+    useModalState<TModalState<'vote-neo3-candidate-details'>>()
   const { currency } = useCurrencySelector()
 
   const { position, name, description, votes, pubKey, logoUrl } = candidate

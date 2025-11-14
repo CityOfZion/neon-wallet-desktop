@@ -17,7 +17,7 @@ type TFunctionsByActionId = {
 
 export const functionsByActionId: TFunctionsByActionId = {
   transfer: async ({ pageNavigate, modalActions }) => {
-    modalActions.modalErase('center')
+    modalActions.modalErase()
     pageNavigate('/send')
   },
   connect: async ({ modalActions }) => {
@@ -35,23 +35,23 @@ export const functionsByActionId: TFunctionsByActionId = {
     modalActions.modalNavigate('persist-contact', { replace: true })
   },
   viewContacts: async ({ pageNavigate, modalActions }) => {
-    modalActions.modalErase('center')
+    modalActions.modalErase()
     pageNavigate('/contacts')
   },
   swap: async ({ pageNavigate, modalActions }) => {
-    modalActions.modalErase('center')
+    modalActions.modalErase()
     pageNavigate('/swap')
   },
   buy: async ({ pageNavigate, modalActions }) => {
-    modalActions.modalErase('center')
+    modalActions.modalErase()
     pageNavigate('/buy-and-sell-tokens', { state: { screenType: BuyAndSellTokensScreenType.BUY_TOKENS } })
   },
   sell: async ({ pageNavigate, modalActions }) => {
-    modalActions.modalErase('center')
+    modalActions.modalErase()
     pageNavigate('/buy-and-sell-tokens', { state: { screenType: BuyAndSellTokensScreenType.SELL_TOKENS } })
   },
   receive: async ({ pageNavigate, modalActions }) => {
-    modalActions.modalErase('center')
+    modalActions.modalErase()
     pageNavigate('/receive')
   },
   createWallet: async ({ modalActions }) => {
@@ -60,20 +60,18 @@ export const functionsByActionId: TFunctionsByActionId = {
     })
   },
   encrypt: async ({ pageNavigate, modalActions }) => {
-    modalActions.modalErase('center')
+    modalActions.modalErase()
     pageNavigate('/settings/security/encrypt-key')
   },
   createBackup: async ({ pageNavigate, modalActions }) => {
-    modalActions.modalErase('center')
+    modalActions.modalErase()
     pageNavigate('/settings/security/backup-wallet')
   },
   import: async ({ modalActions }) => {
-    modalActions.modalNavigate('import', {
-      replace: true,
-    })
+    modalActions.modalNavigate('import', { replace: true })
   },
   restoreBackup: async ({ pageNavigate, modalActions }) => {
-    modalActions.modalErase('center')
+    modalActions.modalErase()
     pageNavigate('/settings/security/recover-wallet')
   },
   connectHardwareWallet: async ({ modalActions }) => {
@@ -82,18 +80,18 @@ export const functionsByActionId: TFunctionsByActionId = {
     })
   },
   allActivity: async ({ modalActions, pageNavigate }) => {
-    modalActions.modalErase('center')
+    modalActions.modalErase()
     pageNavigate('/portfolio/activity')
   },
   exportFullTransactions: async ({ modalActions }) => {
     modalActions.modalNavigate('export-full-transactions', { replace: true })
   },
   voteNeo3: async ({ modalActions, pageNavigate }) => {
-    modalActions.modalErase('center')
+    modalActions.modalErase()
     pageNavigate('/vote-neo3')
   },
   neo3NeoXBridge: async ({ modalActions, pageNavigate }) => {
-    modalActions.modalErase('center')
+    modalActions.modalErase()
     pageNavigate('/neo3-neox-bridge')
   },
 }

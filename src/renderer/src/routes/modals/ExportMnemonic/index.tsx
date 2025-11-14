@@ -19,14 +19,10 @@ import PiPrinter from '@renderer/assets/images/pi-printer.svg?react'
 import TbCircleKey from '@renderer/assets/images/tb-circle-key.svg?react'
 import TbUpload from '@renderer/assets/images/tb-upload.svg?react'
 
-import { IWalletState } from '@shared/types/store'
-
-type TLocationState = {
-  wallet: IWalletState
-}
+import type { TModalState } from '@shared/types/modal'
 
 const ExportMnemonic = () => {
-  const { wallet } = useModalState<TLocationState>()
+  const { wallet } = useModalState<TModalState<'export-mnemonic'>>()
   const { t } = useTranslation('modals', { keyPrefix: 'exportMnemonic' })
   const { currentLoginSession } = useCurrentLoginSessionSelector()
 
@@ -51,6 +47,7 @@ const ExportMnemonic = () => {
       heading={t('title')}
       headingIcon={<TbUpload aria-hidden />}
       contentClassName="flex flex-col items-center"
+      size="md"
     >
       <div className="flex h-[84%] w-full flex-col items-center justify-between">
         <div className="flex w-full flex-col gap-6" ref={ref}>

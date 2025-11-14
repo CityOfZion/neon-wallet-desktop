@@ -27,7 +27,7 @@ const SettingsRecoverWallet = () => {
       return
     }
 
-    modalNavigate('confirm-password-recover', { state: { data }, replace: true })
+    modalNavigate('confirm-password-recover', { state: { data } })
   }
 
   return (

@@ -20,14 +20,14 @@ import { WelcomeLayout } from '@renderer/layouts/Welcome'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 import { TAccountsToImport } from '@shared/types/blockchain'
 
-type TState = {
+type TLocationState = {
   mnemonicOrKey: string
 }
 
 const LoginKeySelectAccountPage = () => {
   const {
     state: { mnemonicOrKey },
-  } = useLocation() as Location<TState>
+  } = useLocation() as Location<TLocationState>
   const { t: commonT } = useTranslation('common')
   const { t } = useTranslation('pages', { keyPrefix: 'loginKeySelectAccountPage' })
   const { loginWithKey } = useLogin()

@@ -20,11 +20,12 @@ export const IconButton = forwardRef<HTMLButtonElement, TProps>(
       className,
       clickableProps,
       disabled,
+      loading,
       ...props
     },
     ref
   ) => {
-    const isDisabled = disabled || false
+    const isDisabled = disabled || loading || false
 
     return (
       <button
@@ -45,6 +46,7 @@ export const IconButton = forwardRef<HTMLButtonElement, TProps>(
           colorSchema={colorSchema}
           rounded={rounded}
           disabled={isDisabled}
+          loading={loading}
         />
       </button>
     )

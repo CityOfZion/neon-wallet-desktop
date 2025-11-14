@@ -11,13 +11,11 @@ import { SideModalLayout } from '@renderer/layouts/SideModal'
 import TbPlug from '@renderer/assets/images/tb-plug.svg?react'
 import TbPlugX from '@renderer/assets/images/tb-plug-x.svg?react'
 
-type TLocationState = {
-  sessions: TSession[]
-}
+import type { TModalState } from '@shared/types/modal'
 
 const DappDisconnectionModal = () => {
   const { disconnect } = useWalletConnectWallet()
-  const { sessions } = useModalState<TLocationState>()
+  const { sessions } = useModalState<TModalState<'dapp-disconnection'>>()
   const { t } = useTranslation('modals', { keyPrefix: 'dappDisconnection' })
   const { modalNavigate } = useModalNavigate()
 

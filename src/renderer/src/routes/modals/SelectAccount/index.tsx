@@ -1,4 +1,4 @@
-import { Fragment, type JSX, useMemo, useState } from 'react'
+import { Fragment, useMemo, useState } from 'react'
 
 import { useTranslation } from 'react-i18next'
 
@@ -18,22 +18,14 @@ import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 import MdCheck from '@renderer/assets/images/md-check.svg?react'
 
-import { TBlockchainServiceKey } from '@shared/types/blockchain'
+import type { TModalState } from '@shared/types/modal'
 import { IAccountState, IWalletState } from '@shared/types/store'
-
-type TLocationState = {
-  onSelectAccount: (contact: IAccountState) => void
-  title: string
-  buttonLabel: string
-  leftIcon?: JSX.Element
-  blockchain?: TBlockchainServiceKey
-}
 
 const SelectAccountModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'selectAccount' })
   const { t: tCommon } = useTranslation('common')
 
-  const { onSelectAccount, leftIcon, title, buttonLabel, blockchain } = useModalState<TLocationState>()
+  const { onSelectAccount, leftIcon, title, buttonLabel, blockchain } = useModalState<TModalState<'select-account'>>()
   const { modalNavigate } = useModalNavigate()
   const { accounts } = useAccountsSelector()
   const { wallets } = useWalletsSelector()
