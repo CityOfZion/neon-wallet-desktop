@@ -12,7 +12,11 @@ const Item = forwardRef<
   ElementRef<typeof AccordionPrimitive.Item>,
   ComponentPropsWithoutRef<typeof AccordionPrimitive.Item>
 >(({ className, ...props }, ref) => (
-  <AccordionPrimitive.Item ref={ref} className={StyleHelper.mergeStyles('group', className)} {...props} />
+  <AccordionPrimitive.Item
+    ref={ref}
+    className={StyleHelper.mergeStyles('group/accordion-item', className)}
+    {...props}
+  />
 ))
 
 type TTriggerProps = ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger> & { iconClassName?: string }

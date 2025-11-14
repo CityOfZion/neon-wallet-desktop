@@ -120,6 +120,6 @@ export const useColumns = (showType: TUseBalanceOptionShowType) => {
         },
       }),
     ],
-    [currency.label, dispatch, showType, t]
+    [currency, dispatch, showType, t]
   )
 }
