@@ -111,9 +111,9 @@ export const ModalRouterProvider = ({ router, children }: TModalRouterProviderPr
 
       {createPortal(
         <AnimatePresence>
-          {historiesByGroupMap.entries().map(([type, histories], index) => (
+          {historiesByGroupMap.entries().map(([group, groupHistories], index) => (
             <div
-              key={type}
+              key={group}
               className="fixed top-[var(--drag-region-height)] left-0 h-[var(--height-screen-minus-drag-region)] w-screen overflow-hidden"
               style={{ zIndex: 1000 + index }}
             >
@@ -126,15 +126,16 @@ export const ModalRouterProvider = ({ router, children }: TModalRouterProviderPr
               />
 
               <AnimatePresence propagate>
-                {histories.map((history, index) => (
+                {groupHistories.map((groupHistory, groupIndex) => (
                   <ModalRouterCurrentHistoryProvider
-                    history={history}
-                    isFocused={index === histories.length - 1}
-                    index={index}
-                    key={history.id}
+                    history={groupHistory}
+                    groupIndex={groupIndex}
+                    key={groupHistory.id}
+                    isFocused={histories[histories.length - 1]?.id === groupHistory?.id}
+                    isGroupFocused={index === groupHistories.length - 1}
                   >
                     <Suspense fallback={<ScreenLoader />}>
-                      <history.route.element />
+                      <groupHistory.route.element />
                     </Suspense>
                   </ModalRouterCurrentHistoryProvider>
                 ))}
