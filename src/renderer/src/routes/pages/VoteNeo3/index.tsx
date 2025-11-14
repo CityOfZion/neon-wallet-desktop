@@ -132,7 +132,7 @@ const VoteNeo3Page = () => {
 
       canOpenVoteNeo3SupportUsModalRef.current = false
 
-      modalNavigate('vote-neo3-support-us', { state: { neo3Account: defaultNeo3Account, cozCandidate } })
+      modalNavigate('vote-neo3-support-us', { replace: true, state: { neo3Account: defaultNeo3Account, cozCandidate } })
     },
     [voteDetailsByAddressQuery.isLoading, voteDetailsByAddressQuery.data, cozCandidate, defaultNeo3Account],
     500
