@@ -18,6 +18,7 @@ import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { useActions } from '@renderer/hooks/useActions'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useBalance } from '@renderer/hooks/useBalances'
+import { useConfirmAction } from '@renderer/hooks/useConfirmAction'
 import { useExchange } from '@renderer/hooks/useExchange'
 import { useHardwareWalletActions } from '@renderer/hooks/useHardwareWallet'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
@@ -49,8 +50,9 @@ const VoteNeo3ConfirmationModal = () => {
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const { isConnectedAndUnlockedHardwareWallet } = useHardwareWalletActions()
   const { currency } = useCurrencySelector()
-  const { modalNavigate } = useModalNavigate()
+  const { modalNavigate, modalErase } = useModalNavigate()
   const { actionState, handleAct } = useActions({})
+  const { confirmAction } = useConfirmAction()
   const dispatch = useAppDispatch()
 
   const service = bsAggregator.blockchainServicesByName.neo3 as BSNeo3
@@ -101,9 +103,15 @@ const VoteNeo3ConfirmationModal = () => {
     .otherwise(() => undefined)
 
   const handleSubmit = async () => {
-    try {
-      if (isDisabled) return
+    if (isDisabled) return
 
+    try {
+      await confirmAction({ account: neo3Account })
+    } catch {
+      return
+    }
+
+    try {
       const key = await window.api.sendAsync('decryptBasedEncryptedSecret', {
         value: neo3Account.encryptedKey!,
         encryptedSecret: currentLoginSessionRef.current!.encryptedPassword,
@@ -151,6 +159,8 @@ const VoteNeo3ConfirmationModal = () => {
           },
         })
       )
+
+      modalErase()
 
       modalNavigate('vote-neo3-success', { replace: true, state: { neo3Account, candidate } })
     } catch (error) {

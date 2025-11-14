@@ -8,6 +8,7 @@ const AddCustomNetworkModal = lazy(() => import('./modals/AddCustomNetwork'))
 const AddNetworkProfileModal = lazy(() => import('./modals/AddNetworkProfile'))
 const BlockchainSelectionModal = lazy(() => import('./modals/BlockchainSelection'))
 const BuyAndSellTokensAboutDataModal = lazy(() => import('./modals/BuyAndSellTokensAboutData'))
+const ConfirmActionModal = lazy(() => import('./modals/ConfirmAction'))
 const ConfirmPasswordBackupModal = lazy(() => import('./modals/ConfirmPasswordBackup'))
 const ConfirmPasswordExportModal = lazy(() => import('./modals/ConfirmPasswordExport'))
 const ConfirmPasswordRecoverModal = lazy(() => import('./modals/ConfirmPasswordRecover'))
@@ -54,6 +55,7 @@ const sideModalsRouter: TRoute[] = [
   { name: 'add-network-profile', element: AddNetworkProfileModal },
   { name: 'blockchain-selection', element: BlockchainSelectionModal },
   { name: 'buy-and-sell-tokens-about-data', element: BuyAndSellTokensAboutDataModal },
+  { name: 'confirm-action', element: ConfirmActionModal },
   { name: 'confirm-password-backup', element: ConfirmPasswordBackupModal },
   { name: 'confirm-password-export', element: ConfirmPasswordExportModal },
   { name: 'confirm-password-recover', element: ConfirmPasswordRecoverModal },

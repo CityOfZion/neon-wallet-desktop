@@ -443,6 +443,13 @@
     "modalDescription": "Backup imported successfully!",
     "returnSettings": "Return to Settings"
   },
+  "confirmAction": {
+    "title": "Confirm your action",
+    "description": "To proceed with this action, please confirm:",
+    "inputPlaceholder": "Enter password…",
+    "passwordError": "Password not recognised!",
+    "confirmButtonLabel": "Confirm"
+  },
   "migrateWallets": {
     "title": "Migrate from NEON 2",
     "instructionTitle": "Instructions",

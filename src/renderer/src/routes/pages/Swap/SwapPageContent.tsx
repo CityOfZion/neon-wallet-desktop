@@ -33,6 +33,7 @@ import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useBalance } from '@renderer/hooks/useBalances'
+import { useConfirmAction } from '@renderer/hooks/useConfirmAction'
 import { useHasContactsByBlockchain } from '@renderer/hooks/useContactSelector'
 import { useHardwareWalletActions } from '@renderer/hooks/useHardwareWallet'
 import { useIsFocused } from '@renderer/hooks/useIsFocused'
@@ -88,7 +89,7 @@ export const SwapPageContent = ({ account }: TProps) => {
   const { accountsRef } = useAccountsSelector()
   const { isConnectedAndUnlockedHardwareWallet } = useHardwareWalletActions()
   const dispatch = useAppDispatch()
-
+  const { confirmAction } = useConfirmAction()
   const { ref: amountInputRef, isFocused: isAmountInputFocused } = useIsFocused<HTMLInputElement>()
 
   const swapChainsByServiceName = useMemo(() => {
@@ -353,6 +354,12 @@ export const SwapPageContent = ({ account }: TProps) => {
       }
     }
 
+    try {
+      await confirmAction({ account })
+    } catch {
+      return
+    }
+
     const swapRecord: TSwapRecord = {
       account,
       addressTo: actionData.selectedAddressToReceive.value,
@@ -368,7 +375,6 @@ export const SwapPageContent = ({ account }: TProps) => {
 
     try {
       const swapResponse = await swapOrchestratorRef.current.swap()
-
       swapRecord.swapId = swapResponse.id
       swapRecord.txFrom = swapResponse.txFrom
       swapRecord.log = swapResponse.log

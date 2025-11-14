@@ -31,6 +31,7 @@ import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useBalance } from '@renderer/hooks/useBalances'
+import { useConfirmAction } from '@renderer/hooks/useConfirmAction'
 import { useDebounceFunction } from '@renderer/hooks/useDebounceFunction'
 import { useHardwareWalletActions } from '@renderer/hooks/useHardwareWallet'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
@@ -63,6 +64,7 @@ const SellTokensDepositModal = () => {
   const { isConnectedAndUnlockedHardwareWallet } = useHardwareWalletActions()
   const { account, depositActionsData, setDepositActionsData } = useModalState<TModalState<'sell-tokens-deposit'>>()
   const dispatch = useAppDispatch()
+  const { confirmAction } = useConfirmAction()
   const debounceAddress = useDebounceFunction()
   const debounceAmount = useDebounceFunction()
 
@@ -178,9 +180,9 @@ const SellTokensDepositModal = () => {
 
     const transferParams = getServiceTransferParams()
 
-    if (!transferParams) return
-
     const { address, amount, token, account } = actionData
+
+    if (!transferParams) return
 
     if (account?.type === 'hardware') {
       const isConnectedAndUnlocked = await isConnectedAndUnlockedHardwareWallet(account)
@@ -190,6 +192,12 @@ const SellTokensDepositModal = () => {
 
         return
       }
+    }
+
+    try {
+      await confirmAction({ account: account! })
+    } catch {
+      return
     }
 
     try {
