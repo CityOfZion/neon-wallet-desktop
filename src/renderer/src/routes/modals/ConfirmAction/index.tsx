@@ -78,7 +78,7 @@ const ConfirmActionModal = () => {
           </Fragment>
         )}
 
-        <div className="flex w-full flex-col items-center">
+        <div className="mt-auto flex w-full flex-col items-center">
           <Separator className="my-7" />
 
           <Button

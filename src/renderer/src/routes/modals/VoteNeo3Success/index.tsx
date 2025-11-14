@@ -32,6 +32,9 @@ const VoteNeo3SuccessModal = () => {
       headingIcon={<TbChartBarPopular aria-hidden />}
       className="overflow-y-auto"
       contentClassName="pb-0 px-4 pt-8 my-0 flex flex-col text-sm text-white"
+      withClose={false}
+      closeOnClickOutside={false}
+      closeOnEsc={false}
     >
       <div className="flex h-full flex-col gap-y-3">
         <TbRosetteDiscountCheck

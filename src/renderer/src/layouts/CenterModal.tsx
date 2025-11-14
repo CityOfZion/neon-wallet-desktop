@@ -25,6 +25,7 @@ type TCenterModalLayoutProps = {
   heading?: JSX.Element | string
   onErase?: () => Promise<void> | void
   size?: TCenterModalSize
+  withClose?: boolean
   closeOnEsc?: boolean
   closeOnClickOutside?: boolean
 } & ComponentProps<'div'>
@@ -51,6 +52,7 @@ export const CenterModalLayout = ({
   headingIcon,
   size = 'sm',
   onErase,
+  withClose = true,
   closeOnClickOutside = true,
   closeOnEsc = true,
   ...props
@@ -131,14 +133,16 @@ export const CenterModalLayout = ({
                 )}
               </div>
 
-              <IconButton
-                icon={<MdClose aria-hidden className="text-gray-100" />}
-                size="md"
-                compacted
-                loading={onErase ? isErasing : false}
-                onClick={startErase}
-                {...TestHelper.buildTestObject('center-modal-close-button')}
-              />
+              {withClose && (
+                <IconButton
+                  icon={<MdClose aria-hidden className="text-gray-100" />}
+                  size="md"
+                  compacted
+                  loading={onErase ? isErasing : false}
+                  onClick={startErase}
+                  {...TestHelper.buildTestObject('center-modal-close-button')}
+                />
+              )}
             </header>
           )}
 

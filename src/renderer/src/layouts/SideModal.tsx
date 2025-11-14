@@ -23,6 +23,7 @@ export type TSideModalLayoutProps = {
   onErase?: () => Promise<void> | void
   onBack?: () => Promise<void> | void
   size?: TSideModalSize
+  withClose?: boolean
   closeOnEsc?: boolean
   closeOnClickOutside?: boolean
 } & ComponentProps<'div'>
@@ -45,6 +46,7 @@ export const SideModalLayout = ({
   onBack,
   size = 'sm',
   className,
+  withClose = true,
   closeOnClickOutside = true,
   closeOnEsc = true,
   ...props
@@ -121,13 +123,15 @@ export const SideModalLayout = ({
                 {heading && <h2 className="text-sm">{heading}</h2>}
               </div>
 
-              <IconButton
-                icon={<MdClose aria-hidden className="fill-white" />}
-                size="md"
-                compacted
-                loading={onErase ? isErasing : false}
-                onClick={startErase}
-              />
+              {withClose && (
+                <IconButton
+                  icon={<MdClose aria-hidden className="fill-white" />}
+                  size="md"
+                  compacted
+                  loading={onErase ? isErasing : false}
+                  onClick={startErase}
+                />
+              )}
             </div>
 
             <Separator />
