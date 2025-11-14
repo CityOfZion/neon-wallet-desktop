@@ -34,7 +34,8 @@ export type TModalRouterProviderProps = {
 export type TModalRouterCurrentHistoryContextValue = {
   history: THistory
   isFocused: boolean
-  index: number
+  isGroupFocused: boolean
+  groupIndex: number
 }
 
 export type TModalRouterCurrentHistoryProviderProps = TModalRouterCurrentHistoryContextValue & {

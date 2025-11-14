@@ -56,7 +56,7 @@ export const CenterModalLayout = ({
   ...props
 }: TCenterModalLayoutProps) => {
   const { modalNavigateWrapper, modalErase } = useModalNavigate()
-  const { index, isFocused } = useModalCurrentHistory()
+  const { groupIndex, isFocused, isGroupFocused } = useModalCurrentHistory()
 
   const [scope, animate] = useAnimate<HTMLDivElement>()
 
@@ -79,10 +79,10 @@ export const CenterModalLayout = ({
   }
 
   useLayoutEffect(() => {
-    animate(scope.current, { opacity: isFocused ? 1 : 0 }, { duration: 0.2 })
-  }, [animate, isFocused, scope])
+    animate(scope.current, { opacity: isGroupFocused ? 1 : 0 }, { duration: 0.2 })
+  }, [animate, isGroupFocused, scope])
 
-  useHotkeys('esc', startErase, { enableOnFormTags: true, enabled: closeOnEsc && !isErasing })
+  useHotkeys('esc', startErase, { enableOnFormTags: true, enabled: closeOnEsc && !isErasing && isFocused })
 
   return (
     <div
@@ -110,7 +110,7 @@ export const CenterModalLayout = ({
           {headerComponent ?? (
             <header className={StyleHelper.mergeStyles('flex items-center pt-5 pb-2.5', headerClassName)}>
               <div className="flex grow items-center gap-2.5">
-                {index > 0 && (
+                {groupIndex > 0 && (
                   <IconButton
                     icon={<MdKeyboardBackspace aria-hidden className="fill-gray-200" />}
                     size="md"

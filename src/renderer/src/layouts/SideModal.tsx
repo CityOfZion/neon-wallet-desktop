@@ -48,7 +48,7 @@ export const SideModalLayout = ({
   ...props
 }: TSideModalLayoutProps) => {
   const { modalNavigateWrapper, modalErase } = useModalNavigate()
-  const { index, isFocused } = useModalCurrentHistory()
+  const { groupIndex, isFocused, isGroupFocused } = useModalCurrentHistory()
 
   const [scope, animate] = useAnimate<HTMLDivElement>()
 
@@ -69,10 +69,10 @@ export const SideModalLayout = ({
   }
 
   useLayoutEffect(() => {
-    animate(scope.current, { opacity: isFocused ? 1 : 0 }, { duration: 0.4 })
-  }, [animate, isFocused, scope])
+    animate(scope.current, { opacity: isGroupFocused ? 1 : 0 }, { duration: 0.4 })
+  }, [animate, isGroupFocused, scope])
 
-  useHotkeys('esc', startErase, { enableOnFormTags: true, enabled: closeOnEsc && !isErasing })
+  useHotkeys('esc', startErase, { enableOnFormTags: true, enabled: closeOnEsc && !isErasing && isFocused })
 
   return (
     <div
@@ -96,7 +96,7 @@ export const SideModalLayout = ({
         >
           <header className="flex flex-col px-4">
             <div className="flex items-center justify-between py-2.5">
-              {index > 0 && (
+              {groupIndex > 0 && (
                 <IconButton
                   icon={<MdKeyboardBackspace aria-hidden className="fill-gray-200" />}
                   size="md"

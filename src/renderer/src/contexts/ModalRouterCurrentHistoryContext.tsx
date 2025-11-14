@@ -13,13 +13,22 @@ export const ModalRouterCurrentHistoryContext = createContext<TModalRouterCurren
 
 export const ModalRouterCurrentHistoryProvider = ({
   history,
-  isFocused,
   children,
-  index,
+  groupIndex,
+  isFocused,
+  isGroupFocused,
 }: TModalRouterCurrentHistoryProviderProps) => {
   return (
-    <ModalRouterCurrentHistoryContext.Provider value={{ history, isFocused, index }}>
-      <FocusScope loop trapped role="dialog" aria-modal="true" className="absolute top-0 left-0 h-full w-full">
+    <ModalRouterCurrentHistoryContext.Provider value={{ history, isFocused, isGroupFocused, groupIndex }}>
+      <FocusScope
+        loop
+        trapped
+        role="dialog"
+        aria-modal={isGroupFocused}
+        aria-hidden={!isGroupFocused}
+        inert={!isFocused || undefined}
+        className="absolute top-0 left-0 h-full w-full"
+      >
         {children}
       </FocusScope>
     </ModalRouterCurrentHistoryContext.Provider>
