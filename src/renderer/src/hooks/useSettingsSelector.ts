@@ -58,6 +58,24 @@ export const useCurrencySelector = () => {
   }
 }
 
+export const useSelectedWalletSelector = () => {
+  const { ref, value } = useAppSelector(state => state.settings.data.selectedWallet)
+
+  return {
+    selectedWallet: value,
+    selectedWalletRef: ref,
+  }
+}
+
+export const useSelectedAccountSelector = () => {
+  const { ref, value } = useAppSelector(state => state.settings.data.selectedAccount)
+
+  return {
+    selectedAccount: value,
+    selectedAccountRef: ref,
+  }
+}
+
 export const useLanguageSelector = () => {
   const { ref, value } = useAppSelector(state => state.settings.data.language)
   return {

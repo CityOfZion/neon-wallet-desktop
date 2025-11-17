@@ -17,6 +17,7 @@ import { ModalRouterProvider } from '@renderer/contexts/ModalRouterContext'
 import { setupBSAggregator } from '@renderer/libs/blockchain-service'
 import { queryClient } from '@renderer/libs/query'
 import { walletConnectOptions } from '@renderer/libs/walletConnectSDK'
+import { settingsReducerActions } from '@renderer/store/reducers/settings'
 import { RootStore } from '@renderer/store/RootStore'
 import * as Sentry from '@sentry/electron/renderer'
 import { setupI18next } from '@shared/libs/i18next'
@@ -42,6 +43,9 @@ const RootPage = () => {
         navigate('/welcome')
         return
       }
+
+      RootStore.store.dispatch(settingsReducerActions.setSelectedWallet(undefined))
+      RootStore.store.dispatch(settingsReducerActions.setSelectedAccount(undefined))
 
       navigate('/login/password')
     } catch (error) {

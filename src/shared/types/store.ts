@@ -101,6 +101,8 @@ export interface ISettingsState {
   selectedNetworkProfile: TNetworkProfile
   canShowVoteNeo3SupportUsModal: boolean
   encryptedLoginControl?: string
+  selectedWallet?: IWalletState
+  selectedAccount?: IAccountState
 }
 
 export type TContactAddress = {

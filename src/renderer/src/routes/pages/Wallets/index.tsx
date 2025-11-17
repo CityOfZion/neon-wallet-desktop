@@ -1,8 +1,9 @@
-import { Fragment, useLayoutEffect, useState } from 'react'
+import { Fragment, useLayoutEffect } from 'react'
 
 import { hasNft } from '@cityofzion/blockchain-service'
+import isEqual from 'lodash/isEqual'
 import { useTranslation } from 'react-i18next'
-import { Outlet, useNavigate, useParams } from 'react-router'
+import { Outlet, useLocation, useNavigate, useParams } from 'react-router'
 
 import { ActionPopover } from '@renderer/components/ActionPopover'
 import { Button } from '@renderer/components/Button'
@@ -17,10 +18,16 @@ import { TestHelper } from '@renderer/helpers/TestHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 
-import { useAccountsSelector, useHasHardwareAccountSelector } from '@renderer/hooks/useAccountSelector'
+import {
+  useAccountMapByIdSelector,
+  useAccountsSelector,
+  useHasHardwareAccountSelector,
+} from '@renderer/hooks/useAccountSelector'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useBridgeNeo3NeoXValidations } from '@renderer/hooks/useBridgeNeo3NeoXValidations'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+import { useAppDispatch } from '@renderer/hooks/useRedux'
+import { useSelectedAccountSelector, useSelectedWalletSelector } from '@renderer/hooks/useSettingsSelector'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
 
 import { MainLayout } from '@renderer/layouts/Main'
@@ -35,6 +42,7 @@ import TbReplace2 from '@renderer/assets/images/tb-replace-2.svg?react'
 import TbUpload from '@renderer/assets/images/tb-upload.svg?react'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
+import { settingsReducerActions } from '@renderer/store/reducers/settings'
 import { IAccountState, IWalletState } from '@shared/types/store'
 
 import { AccountList } from './AccountList'
@@ -52,13 +60,14 @@ const WalletsPage = () => {
   const { hasHardwareAccount } = useHasHardwareAccountSelector()
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
   const { currentLoginSession } = useCurrentLoginSessionSelector()
-  const navigate = useNavigate()
   const { id } = useParams<TParams>()
-
-  const [selectedWallet, setSelectedWallet] = useState<IWalletState | undefined>(wallets[0])
-  const [selectedAccount, setSelectedAccount] = useState<IAccountState | undefined>(
-    accounts.find(account => account.idWallet === selectedWallet?.id)
-  )
+  const { selectedWallet } = useSelectedWalletSelector()
+  const { selectedAccount } = useSelectedAccountSelector()
+  const { accountsMapByIdRef } = useAccountMapByIdSelector()
+  const { walletsRef } = useWalletsSelector()
+  const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+  const location = useLocation()
 
   const { canAccountBridge } = useBridgeNeo3NeoXValidations(selectedAccount)
 
@@ -118,32 +127,52 @@ const WalletsPage = () => {
   }
 
   useLayoutEffect(() => {
-    const navigateToFirstAccount = () => {
-      const [wallet] = wallets
-      const firstAccount = accounts.find(account => account.idWallet === wallet?.id)
-      if (firstAccount) navigate(`/wallets/${firstAccount.id}/overview`)
+    function getSelectedWalletAndAccount() {
+      if (id) {
+        const accountById = accountsMapByIdRef.current.get(id)
+        if (accountById) {
+          return {
+            nextSelectedAccount: accountById,
+            nextSelectedWallet: accountById.wallet,
+          }
+        }
+      }
+
+      if (selectedAccount) {
+        const accountById = accountsMapByIdRef.current.get(selectedAccount.id)
+        if (accountById) {
+          return {
+            nextSelectedAccount: accountById,
+            nextSelectedWallet: accountById.wallet,
+          }
+        }
+      }
+
+      const firstWallet = walletsRef.current[0]
+      return {
+        nextSelectedWallet: firstWallet,
+        nextSelectedAccount: firstWallet.accounts[0],
+      }
     }
 
-    if (!id) {
-      navigateToFirstAccount()
-      return
+    const { nextSelectedAccount, nextSelectedWallet } = getSelectedWalletAndAccount()
+
+    if (!isEqual(selectedWallet, nextSelectedWallet)) {
+      dispatch(settingsReducerActions.setSelectedWallet(nextSelectedWallet))
     }
 
-    const account = accounts.find(account => account.id === id)
-    if (!account) {
-      navigateToFirstAccount()
-      return
+    if (!isEqual(selectedAccount, nextSelectedAccount)) {
+      dispatch(settingsReducerActions.setSelectedAccount(nextSelectedAccount))
     }
 
-    const wallet = wallets.find(wallet => wallet.id === account.idWallet)
-    if (!wallet) {
-      navigateToFirstAccount()
-      return
+    const nextPath = `/wallets/${nextSelectedAccount.id}`
+
+    if (!location.pathname.startsWith(nextPath)) {
+      navigate(`${nextPath}/overview`)
     }
 
-    setSelectedWallet(wallet)
-    setSelectedAccount(account)
-  }, [id, wallets, accounts, navigate])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id])
 
   return (
     <MainLayout

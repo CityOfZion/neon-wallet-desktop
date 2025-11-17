@@ -165,6 +165,22 @@ export const useAccountMapSelector = () => {
   }
 }
 
+export const useAccountMapByIdSelector = () => {
+  const accountsMapByIdRef = useRef(new Map<string, TAccountWithWallet>())
+
+  useSelector((state: TRootState) => {
+    const result = selectAccountsWithWallet(state)
+    accountsMapByIdRef.current.clear()
+    result.forEach(account => {
+      accountsMapByIdRef.current.set(account.id, account)
+    })
+  })
+
+  return {
+    accountsMapByIdRef,
+  }
+}
+
 export const useAccountUtils = () => {
   const { accountsMapRef } = useAccountMapSelector()
 
