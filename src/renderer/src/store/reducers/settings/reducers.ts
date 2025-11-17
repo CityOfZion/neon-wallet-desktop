@@ -5,7 +5,14 @@ import merge from 'lodash/merge'
 import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { TBlockchainServiceKey, TNetwork } from '@shared/types/blockchain'
 import type { DeepPartial } from '@shared/types/global'
-import { TCurrency, TLanguage, TNetworkProfile, TOverTheAirInfo } from '@shared/types/store'
+import {
+  IAccountState,
+  IWalletState,
+  TCurrency,
+  TLanguage,
+  TNetworkProfile,
+  TOverTheAirInfo,
+} from '@shared/types/store'
 
 import { ISettingsReducer } from './index'
 
@@ -31,6 +38,14 @@ const setLanguage: CaseReducer<ISettingsReducer, PayloadAction<TLanguage>> = (st
 
 const setOverTheAirInfo: CaseReducer<ISettingsReducer, PayloadAction<Partial<TOverTheAirInfo>>> = (state, action) => {
   state.data.overTheAirInfo = { ...state.data.overTheAirInfo, ...action.payload }
+}
+
+const setSelectedWallet: CaseReducer<ISettingsReducer, PayloadAction<IWalletState | undefined>> = (state, action) => {
+  state.data.selectedWallet = action.payload
+}
+
+const setSelectedAccount: CaseReducer<ISettingsReducer, PayloadAction<IAccountState | undefined>> = (state, action) => {
+  state.data.selectedAccount = action.payload
 }
 
 const saveCustomNetwork: CaseReducer<
@@ -149,6 +164,8 @@ export const settingsSliceReducers = {
   setIsFirstTime,
   setLanguage,
   setCurrency,
+  setSelectedWallet,
+  setSelectedAccount,
   setOverTheAirInfo,
   saveCustomNetwork,
   deleteCustomNetwork,

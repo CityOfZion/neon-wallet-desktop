@@ -55,6 +55,8 @@ export function getSettingsReducer() {
       networkProfiles: [defaultProfile],
       selectedNetworkProfile: defaultProfile,
       canShowVoteNeo3SupportUsModal: true,
+      selectedWallet: undefined,
+      selectedAccount: undefined,
     },
   }
 

@@ -7,6 +7,7 @@ import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
 import { LOGIN_CONTROL_VALUE } from '@renderer/constants/password'
 import { authReducerActions } from '@renderer/store/reducers/auth'
+import { settingsReducerActions } from '@renderer/store/reducers/settings'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 import { TAccountsToImport, TBlockchainServiceKey, TWalletToCreate } from '@shared/types/blockchain'
 
@@ -83,6 +84,8 @@ export const useLogin = () => {
 
   const logout = useCallback(async () => {
     dispatch(authReducerActions.setCurrentLoginSession(undefined))
+    dispatch(settingsReducerActions.setSelectedWallet(undefined))
+    dispatch(settingsReducerActions.setSelectedAccount(undefined))
     await window.api.sendAsync('hardwareWallet:disconnect')
   }, [dispatch])
 
