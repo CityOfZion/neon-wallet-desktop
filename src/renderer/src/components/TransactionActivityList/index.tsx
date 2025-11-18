@@ -155,7 +155,7 @@ const Content = ({ defaultAccounts }: TProps) => {
     virtualizer.measure()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [actionData])
+  }, [actionData, data])
 
   useEffect(() => {
     const scrollElement = scrollRef.current
