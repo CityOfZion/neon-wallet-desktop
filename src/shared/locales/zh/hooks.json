@@ -54,7 +54,6 @@
     "formatExtendedDate": "yyyy MM dd"
   },
   "useConfirmAction": {
-    "unauthorizedAction": "未授权。请重试或联系支持。",
-    "invalidPassword": "密码验证出错。请重试。"
+    "unauthorizedAction": "未授权。请重试或联系支持。"
   }
 }
