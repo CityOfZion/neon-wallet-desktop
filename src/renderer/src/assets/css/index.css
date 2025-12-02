@@ -107,14 +107,14 @@
   }
 }
 
-@utility min-size {
-  min-width: var(--size);
-  min-height: var(--size);
+@utility min-size-* {
+  min-width: calc(var(--spacing) * --value(number));
+  min-height: calc(var(--spacing) * --value(number));
 }
 
-@utility max-size {
-  max-width: var(--size);
-  max-height: var(--size);
+@utility max-size-* {
+  max-width: calc(var(--spacing) * --value(number));
+  max-height: calc(var(--spacing) * --value(number));
 }
 
 /*
