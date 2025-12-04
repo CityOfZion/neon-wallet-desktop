@@ -82,7 +82,7 @@
         "formTitle": "Digite um endereço, chave criptografada, chave privada, mnemônico ou localize o arquivo de backup",
         "migrationFormTitle": "Navegue em seu computador para encontrar um arquivo de migração",
         "inputPlaceholder": "Digite um endereço, chave ou mnemônico…",
-        "importEncryptedDescription": "Selecione o blockchain desejado para sua nova conta",
+        "importEncryptedDescription": "Selecione a blockchain desejada para sua nova conta",
         "importEncryptedTitle": "Importar uma carteira",
         "importEncryptedSubtitle": "Sua chave criptografada foi reconhecida, por favor complete os campos abaixo para continuar.",
         "invalidAddress": "Endereço inválido",
@@ -283,7 +283,7 @@
       "encryptKey": "Criptografar Chave",
       "recoverWallet": "Importar Backup NEON",
       "backupWallet": "Backup NEON",
-      "migrateWallets": "Migrar do NEON 2.0"
+      "migrateWallets": "Migrar da NEON 2.0"
     },
     "encryptKey": {
       "subtitle": "Escolha uma frase secreta para criptografar uma chave existente:",
@@ -349,10 +349,10 @@
       "nameExtension": "Arquivos de Backup NEON"
     },
     "settingsMigrateWallets": {
-      "title": "Migrar do NEON 2.0",
+      "title": "Migrar da NEON 2.0",
       "subtitleWhy": "Por que migrar para o NEON 3?",
       "descriptionWhy": "Migrar sua carteira NEON 2 lhe dará acesso a uma gama mais ampla de ativos suportados e uma experiência de usuário mais elegante e melhorada que tornará o gerenciamento de seus ativos muito fácil!",
-      "subtitleHow": "Como migro do Neon 2?",
+      "subtitleHow": "Como migro da Neon 2?",
       "importButtonLabel": "Importar sua carteira NEON 2",
       "startProcessButtonLabel": "Iniciar o processo no NEON 2"
     },
@@ -424,7 +424,7 @@
           "text": "Quero <1>importar</1> uma carteira e proteger meus dados com senha para garantir que sejam persistentes"
         },
         "migrateFromNeon2": {
-          "title": "Migrar do Neon 2",
+          "title": "Migrar da NEON 2",
           "text": "Quero <1>migrar</1> minha carteira Neon 2"
         }
       }

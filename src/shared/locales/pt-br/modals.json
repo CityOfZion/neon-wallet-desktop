@@ -15,7 +15,7 @@
       "encrypted": "Chave criptografada completa!",
       "address": "Endereço completo!"
     },
-    "importEncryptedDescription": "Selecione o blockchain desejado para sua nova conta",
+    "importEncryptedDescription": "Selecione a blockchain desejada para sua nova conta",
     "addressAlreadyExist": "Endereço já existe",
     "successEncryptKey": "Chave criptografada importada com sucesso!"
   },
@@ -175,7 +175,7 @@
   },
   "dappConnection": {
     "title": "Conectar com um dApp",
-    "description": "Todas as transações solicitadas por um dApp conectado <strong>exigirão sua permissão antes de serem transmitidas</strong> para o blockchain.",
+    "description": "Todas as transações solicitadas por um dApp conectado <strong>exigirão sua permissão antes de serem transmitidas</strong> para a blockchain.",
     "disclaimer": "Nenhuma ação iniciada pelo dApp acontecerá sem sua aprovação direta.",
     "inputPlaceholder": "Cole sua URL aqui…",
     "buttonConnectLabel": "Conectar",
@@ -451,7 +451,7 @@
     "confirmButtonLabel": "Confirmar"
   },
   "migrateWallets": {
-    "title": "Migrar do NEON 2",
+    "title": "Migrar da NEON 2",
     "instructionTitle": "Instruções",
     "step2": {
       "title": "Importe suas contas NEON 2",
@@ -687,7 +687,6 @@
     "emptyListTitle": "Lista vazia",
     "emptyListBody": "Você está em dia!",
     "notification": {
-      "dateFormat": "dd MMMM yyyy | hh:mm",
       "actionsButtonLabel": "Ações",
       "markAsReadButtonLabel": "Marcar como lida",
       "markAsUnreadButtonLabel": "Marcar como não lida",
@@ -716,10 +715,8 @@
   },
   "exportFullTransactions": {
     "title": "Exportar CSV",
-    "filenameDateFormat": "ddMMyyyy",
     "info": {
       "addressPlaceholder": "Selecione um endereço",
-      "datePickerStepFormat": "dd MMMM yyyy",
       "datePickerStepTip": "Período máximo de 12 meses",
       "allTransactionsStepLabel": "Todas as transações"
     },

@@ -9,6 +9,7 @@ import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+import { useLanguageSelector } from '@renderer/hooks/useSettingsSelector'
 
 import TbPlugX from '@renderer/assets/images/tb-plug-x.svg?react'
 
@@ -24,6 +25,7 @@ const columnHelper = createColumnHelper<TSession>()
 export const useColumns = (withAddress: boolean) => {
   const { t } = useTranslation('components', { keyPrefix: 'connectionsTable' })
   const { t: commonT } = useTranslation('common', { keyPrefix: 'blockchain' })
+  const { language } = useLanguageSelector()
   const { accounts } = useAccountsSelector()
   const { modalNavigate } = useModalNavigate()
 
@@ -50,7 +52,7 @@ export const useColumns = (withAddress: boolean) => {
       }),
       columnHelper.accessor('approvalUnix', {
         header: t('connected'),
-        cell: info => DateHelper.unixToDateHour(info.getValue()),
+        cell: info => DateHelper.formatLocalized(info.getValue(), { format: 'Pp', language }),
       }),
       columnHelper.accessor(row => WalletConnectHelper.getAccountInformationFromSession(row).blockchain, {
         header: t('chain'),

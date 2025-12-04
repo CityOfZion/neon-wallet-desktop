@@ -50,9 +50,6 @@
       "noDevice": "There is no device connected"
     }
   },
-  "useGetFullTransactions": {
-    "formatExtendedDate": "dd MMM yyyy"
-  },
   "useConfirmAction": {
     "unauthorizedAction": "Unauthorized. Please try again or contact support."
   }

@@ -46,11 +46,11 @@ export const ExportFullTransactionInfo = ({
   const { language } = useLanguageSelector()
 
   const formattedDateFrom = DateHelper.formatLocalized(from, {
-    format: t('datePickerStepFormat'),
+    format: 'P',
     language,
   })
   const formattedDateTo = DateHelper.formatLocalized(to, {
-    format: t('datePickerStepFormat'),
+    format: 'P',
     language,
   })
 

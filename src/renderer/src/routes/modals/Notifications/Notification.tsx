@@ -120,7 +120,7 @@ export const Notification = ({ notification }: TProps) => {
       <div className="flex min-w-0 grow flex-col gap-0.5">
         <div className="flex items-center gap-2.5">
           <span className="text-1xs text-gray-300">
-            {DateHelper.formatLocalized(notification.date, { format: t('dateFormat'), language })}
+            {DateHelper.formatLocalized(notification.date, { format: 'Pp', language })}
           </span>
 
           {notification.provider && (

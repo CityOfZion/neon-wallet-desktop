@@ -1,11 +1,12 @@
-import { format } from 'date-fns'
 import { useTranslation } from 'react-i18next'
 
 import { IconButton } from '@renderer/components/IconButton'
 
+import { DateHelper } from '@renderer/helpers/DateHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import { useLastUpdated, useRefetch } from '@renderer/hooks/useQuery'
+import { useLanguageSelector } from '@renderer/hooks/useSettingsSelector'
 
 import TbRefresh from '@renderer/assets/images/tb-refresh.svg?react'
 
@@ -13,13 +14,16 @@ export const RefreshAction = () => {
   const { t } = useTranslation('components', { keyPrefix: 'refreshAction' })
   const { refetch, isRefetching } = useRefetch()
   const lastUpdated = useLastUpdated()
+  const { language } = useLanguageSelector()
 
   return (
     <div className="flex items-center gap-x-2">
       {lastUpdated && (
         <p className="text-xs text-gray-300 italic">
           {t('lastUpdated', {
-            date: isRefetching ? t('emptyDate') : format(new Date(lastUpdated), t('dateFormat')),
+            date: isRefetching
+              ? t('emptyDate')
+              : DateHelper.formatLocalized(new Date(lastUpdated), { language, format: 'p' }),
           })}
         </p>
       )}

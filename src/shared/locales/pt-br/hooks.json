@@ -28,30 +28,27 @@
   "useNeonImportBackup": {
     "errors": {
       "wrongPassword": "A senha está incorreta. Por favor, tente novamente.",
-      "wrongVersion": "A versão do arquivo de backup não é suportada. Por favor, tente gerar um novo backup na versão mais recente do NEON.",
+      "wrongVersion": "A versão do arquivo de backup não é suportada. Por favor, tente gerar um novo backup na versão mais recente da NEON.",
       "importData": "Ocorreu um erro ao importar os dados (pode ter sido importado parcialmente)."
     }
   },
   "useUnclaimedMutation": {
     "errors": {
-      "claimError": "Ocorreu um erro ao tentar reclamar. Por favor, tente novamente."
+      "claimError": "Ocorreu um erro ao tentar resgatar. Por favor, tente novamente."
     },
     "successNotification": {
-      "title": "Reclamação bem-sucedida",
-      "previewBody": "Você reclamou com sucesso seus tokens não reclamados."
+      "title": "Resgate bem-sucedido",
+      "previewBody": "Você resgatou com sucesso seus tokens não resgatados."
     },
     "failureNotification": {
-      "title": "Erro na reclamação",
-      "previewBody": "Não foi possível verificar a conclusão da sua reclamação"
+      "title": "Erro no resgate",
+      "previewBody": "Não foi possível verificar a conclusão do seu resgate"
     }
   },
   "useHardwareWalletByUsb": {
     "errors": {
       "noDevice": "Não há dispositivo conectado"
     }
-  },
-  "useGetFullTransactions": {
-    "formatExtendedDate": "dd MM yyyy"
   },
   "useConfirmAction": {
     "unauthorizedAction": "Não autorizado. Tente novamente ou entre em contato com o suporte."

@@ -4,7 +4,6 @@ import { hasExplorerService } from '@cityofzion/blockchain-service'
 import { Query, QueryClient, useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
 import * as dateFns from 'date-fns'
 import { cloneDeep } from 'lodash'
-import { useTranslation } from 'react-i18next'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
@@ -198,7 +197,6 @@ const getFullTransactions = async ({
 
 export const useGetFullTransactions = ({ accounts, dateFrom, dateTo }: TProps) => {
   const queryClient = useQueryClient()
-  const { t } = useTranslation('hooks', { keyPrefix: 'useGetFullTransactions' })
   const { accountsRef } = useAccountsSelector()
   const { networkByBlockchain: networksByBlockchain } = useSelectedNetworkByBlockchainSelector()
   const { pendingTransactions } = usePendingTransactionsSelector()
@@ -316,8 +314,6 @@ export const useGetFullTransactions = ({ accounts, dateFrom, dateTo }: TProps) =
 
     const groupedDataByDates = new Map<string, TFullTransactionsGroupedDataByDate>()
 
-    const extendedDateFormat = t('formatExtendedDate')
-
     items.forEach(item => {
       const hiddenTokens = hiddenTokensByBlockchain[item.blockchain]
       const service = bsAggregator.blockchainServicesByName[item.blockchain]
@@ -333,7 +329,7 @@ export const useGetFullTransactions = ({ accounts, dateFrom, dateTo }: TProps) =
 
       if (filteredEvents) item.events = filteredEvents
 
-      const date = dateFns.format(item.date, extendedDateFormat)
+      const date = dateFns.format(item.date, 'MM-dd-yyyy')
       const existingGroupedData = groupedDataByDates.get(date)
 
       if (existingGroupedData) existingGroupedData.items.push(item)
@@ -341,8 +337,6 @@ export const useGetFullTransactions = ({ accounts, dateFrom, dateTo }: TProps) =
     })
 
     return Array.from(groupedDataByDates.values())
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accounts, dateFrom, dateTo, hiddenTokensByBlockchain, pendingTransactions, query.data?.pages, query.isLoading])
 
   return { ...query, data }

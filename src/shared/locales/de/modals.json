@@ -687,7 +687,6 @@
     "emptyListTitle": "Nichts zu sehen hier",
     "emptyListBody": "Sie sind auf dem neuesten Stand!",
     "notification": {
-      "dateFormat": "dd.MM.yy | HH:mm",
       "actionsButtonLabel": "Aktionen",
       "markAsReadButtonLabel": "Als gelesen markieren",
       "markAsUnreadButtonLabel": "Als ungelesen markieren",
@@ -716,10 +715,8 @@
   },
   "exportFullTransactions": {
     "title": "CSV exportieren",
-    "filenameDateFormat": "ddMMyyyy",
     "info": {
       "addressPlaceholder": "Adresse auswählen",
-      "datePickerStepFormat": "dd.MM.yyyy",
       "datePickerStepTip": "Maximal 12 Monate",
       "allTransactionsStepLabel": "Alle Transaktionen"
     },

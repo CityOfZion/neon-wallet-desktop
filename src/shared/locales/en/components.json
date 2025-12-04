@@ -179,8 +179,7 @@
   "refreshAction": {
     "refreshLabel": "Refresh",
     "lastUpdated": "Last updated: {{ date }}",
-    "emptyDate": "--:--",
-    "dateFormat": "HH:mm"
+    "emptyDate": "--:--"
   },
   "transactionActivityList": {
     "notFoundTitle": "No transactions to display",
@@ -194,9 +193,7 @@
       "txIdLabel": "Tx ID",
       "copyTxIdLabel": "Copy tx ID",
       "pendingDataLabel": "Processing…",
-      "pendingTooltipLabel": "This transaction is processing, wait, please",
-      "formatHourMinutes": "HH:mm",
-      "formatFullDateTime": "dd MMM yyyy (HH:mm)"
+      "pendingTooltipLabel": "This transaction is processing, please wait"
     },
     "event": {
       "nftImageAltWithNameLabel": "NFT image: {{ name }}",

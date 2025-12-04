@@ -195,7 +195,7 @@ export const useNeonCreateBackup = () => {
       })
 
       await window.api.sendAsync('saveFile', {
-        path: `${selectedFilePath}/Neon-Backup-${DateHelper.getNowUnix()}.${BACKUP_FILE_EXTENSION}`,
+        path: `${selectedFilePath}/Neon-Backup-${DateHelper.getCurrentFullDateString()}.${BACKUP_FILE_EXTENSION}`,
         content: JSON.stringify(backupFile),
       })
     } catch {
