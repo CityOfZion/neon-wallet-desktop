@@ -6,10 +6,12 @@ import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { SuccessIcon } from '@renderer/components/SuccessIcon'
 
+import { DateHelper } from '@renderer/helpers/DateHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
+import { useLanguageSelector } from '@renderer/hooks/useSettingsSelector'
 
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
 
@@ -38,6 +40,7 @@ const ExportFullTransactionsModal = () => {
   const { modalErase } = useModalNavigate()
   const navigate = useNavigate()
   const modalState = useModalState<TModalState<'export-full-transactions'>>()
+  const { language } = useLanguageSelector()
 
   const today = new Date()
   const modalStateAccount = modalState?.account
@@ -75,8 +78,15 @@ const ExportFullTransactionsModal = () => {
         dateTo: (dateFns.isSameDay(today, actionData.to) ? today : actionData.to).toJSON(),
       })
 
-      const formattedDateFrom = dateFns.format(actionData.from, t('filenameDateFormat'))
-      const formattedDateTo = dateFns.format(actionData.to, t('filenameDateFormat'))
+      const format = 'MMddyyyy'
+      const formattedDateFrom = DateHelper.formatLocalized(actionData.from, {
+        language,
+        format,
+      })
+      const formattedDateTo = DateHelper.formatLocalized(actionData.to, {
+        language,
+        format,
+      })
       const filename = `NEON3-ACTV-${account.address}-${account.blockchain}-${formattedDateFrom}-${formattedDateTo}.csv`
       const filePath = `${actionData.selectedFolderPath}/${filename}`
 

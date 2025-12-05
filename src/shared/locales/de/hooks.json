@@ -50,9 +50,6 @@
       "noDevice": "Es ist kein Gerät angeschlossen"
     }
   },
-  "useGetFullTransactions": {
-    "formatExtendedDate": "dd MMMM yyyy"
-  },
   "useConfirmAction": {
     "unauthorizedAction": "Nicht autorisiert. Bitte versuchen Sie es erneut oder kontaktieren Sie den Support."
   }

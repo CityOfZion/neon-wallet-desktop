@@ -173,8 +173,7 @@
   "refreshAction": {
     "refreshLabel": "重新整理",
     "lastUpdated": "最後更新：{{ date }}",
-    "emptyDate": "--:--",
-    "dateFormat": "HH:mm"
+    "emptyDate": "--:--"
   },
   "transactionActivityList": {
     "notFoundTitle": "沒有可顯示的交易",
@@ -188,9 +187,7 @@
       "txIdLabel": "交易 ID",
       "copyTxIdLabel": "複製交易 ID",
       "pendingDataLabel": "處理中…",
-      "pendingTooltipLabel": "此交易正在處理中，請稍候",
-      "formatHourMinutes": "HH:mm",
-      "formatFullDateTime": "yyyy年MM月dd日（HH:mm）"
+      "pendingTooltipLabel": "此交易正在處理中，請稍候"
     },
     "event": {
       "nftImageAltWithNameLabel": "NFT 圖片：{{ name }}",

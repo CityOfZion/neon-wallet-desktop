@@ -55,7 +55,7 @@
   },
   "errors": {
     "noEncryptedKey": "Não há chave criptografada para esta conta: {{address}}",
-    "blockchainIsNotClaimable": "O blockchain da conta não é resgatável: {{address}} {{blockchain}}",
+    "blockchainIsNotClaimable": "A blockchain da conta não é resgatável: {{address}} {{blockchain}}",
     "loginSessionIsNotDefined": "Erro desconhecido. A sessão de login não está definida.",
     "hardwareWalletNotConnectedOrLocked": "A carteira de hardware não está conectada ou está bloqueada, verifique seu dispositivo e tente novamente"
   },

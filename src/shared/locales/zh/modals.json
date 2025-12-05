@@ -560,11 +560,7 @@
     "detailsHeaderLabel": "详情",
     "detailsHeaderDescription": "我们力争在7分钟内完成兑换",
     "statusPanelLabel": "状态",
-    "statusPanelSteps": [
-      "确认",
-      "兑换",
-      "完成"
-    ],
+    "statusPanelSteps": ["确认", "兑换", "完成"],
     "routingPanelLabel": "路由",
     "routingPanelTransactionFromLabel": "交易发起自",
     "routingPanelTransactionToLabel": "交易接收至",
@@ -691,7 +687,6 @@
     "emptyListTitle": "暂无内容",
     "emptyListBody": "您已全部查看！",
     "notification": {
-      "dateFormat": "yyyy年MM月dd日 | hh:mm",
       "actionsButtonLabel": "操作",
       "markAsReadButtonLabel": "标为已读",
       "markAsUnreadButtonLabel": "标为未读",
@@ -720,10 +715,8 @@
   },
   "exportFullTransactions": {
     "title": "导出CSV",
-    "filenameDateFormat": "yyyyMMdd",
     "info": {
       "addressPlaceholder": "选择一个地址",
-      "datePickerStepFormat": "yyyy年MM月dd日",
       "datePickerStepTip": "最长12个月周期",
       "allTransactionsStepLabel": "所有交易"
     },
@@ -850,10 +843,7 @@
     "description": "您的跨链详情",
     "detailsHeaderLabel": "详情",
     "statusPanelLabel": "状态",
-    "statusPanelSteps": [
-      "发送",
-      "完成"
-    ],
+    "statusPanelSteps": ["发送", "完成"],
     "fromDetailsPanelLabel": "来源",
     "fromAddressDetailsItemLabel": "发送地址",
     "fromTokenDetailsItemLabel": "代币",

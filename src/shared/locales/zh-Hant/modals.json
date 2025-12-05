@@ -560,11 +560,7 @@
     "detailsHeaderLabel": "詳情",
     "detailsHeaderDescription": "我們目標在 7 分鐘內完成兌換",
     "statusPanelLabel": "狀態",
-    "statusPanelSteps": [
-      "確認",
-      "兌換",
-      "完成"
-    ],
+    "statusPanelSteps": ["確認", "兌換", "完成"],
     "routingPanelLabel": "路由",
     "routingPanelTransactionFromLabel": "交易來源",
     "routingPanelTransactionToLabel": "交易目標",
@@ -691,7 +687,6 @@
     "emptyListTitle": "這裡沒有內容",
     "emptyListBody": "您已全部處理完畢！",
     "notification": {
-      "dateFormat": "yyyy年MM月dd日 | hh:mm",
       "actionsButtonLabel": "操作",
       "markAsReadButtonLabel": "標記為已讀",
       "markAsUnreadButtonLabel": "標記為未讀",
@@ -720,10 +715,8 @@
   },
   "exportFullTransactions": {
     "title": "匯出 CSV",
-    "filenameDateFormat": "yyyyMMdd",
     "info": {
       "addressPlaceholder": "選擇一個地址",
-      "datePickerStepFormat": "yyyy年MM月dd日",
       "datePickerStepTip": "最長 12 個月期間",
       "allTransactionsStepLabel": "所有交易"
     },
@@ -850,10 +843,7 @@
     "description": "您的跨鏈詳情",
     "detailsHeaderLabel": "詳情",
     "statusPanelLabel": "狀態",
-    "statusPanelSteps": [
-      "發送",
-      "完成"
-    ],
+    "statusPanelSteps": ["發送", "完成"],
     "fromDetailsPanelLabel": "來源",
     "fromAddressDetailsItemLabel": "發送地址",
     "fromTokenDetailsItemLabel": "代幣",

@@ -5,7 +5,6 @@ import {
   type TBridgeToken,
   TFullTransactionsItemBridgeNeo3NeoX,
 } from '@cityofzion/blockchain-service'
-import { format } from 'date-fns'
 import { useTranslation } from 'react-i18next'
 
 import { IconButton } from '@renderer/components/IconButton'
@@ -119,8 +118,8 @@ export const TransactionActivityListItemHeaderContent = ({ item }: TProps) => {
     <div className="bg-asphalt flex h-full w-full items-center justify-between gap-x-2 rounded-sm px-1">
       <div className="flex items-center gap-x-2 truncate whitespace-nowrap" onClick={handleCancelBubbleEvent}>
         <TransactionActivityListItemHeaderDetails
-          label={DateHelper.formatLocalized(date, { format: t('formatFullDateTime'), language })}
-          data={format(date, t('formatHourMinutes'))}
+          label={DateHelper.formatLocalized(date, { format: 'Pp', language })}
+          data={DateHelper.formatLocalized(date, { format: 'hh:mm', language })}
           icon={<TbClock aria-hidden />}
         />
 

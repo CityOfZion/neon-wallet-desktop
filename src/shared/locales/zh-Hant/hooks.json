@@ -50,9 +50,6 @@
       "noDevice": "沒有連接任何裝置"
     }
   },
-  "useGetFullTransactions": {
-    "formatExtendedDate": "yyyy MM dd"
-  },
   "useConfirmAction": {
     "unauthorizedAction": "未授權。請重試或聯繫支持。"
   }

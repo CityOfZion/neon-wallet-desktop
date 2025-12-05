@@ -50,9 +50,6 @@
       "noDevice": "未连接设备"
     }
   },
-  "useGetFullTransactions": {
-    "formatExtendedDate": "yyyy MM dd"
-  },
   "useConfirmAction": {
     "unauthorizedAction": "未授权。请重试或联系支持。"
   }
