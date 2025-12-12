@@ -1,0 +1,181 @@
+{
+  "notes": [
+    {
+      "changes": ["Neo Legacy 迁移移除", "备份提醒通知", "小幅用户体验改进"],
+      "date": "2025-10-30",
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.8.3",
+      "version": "3.8.3"
+    },
+    {
+      "changes": ["迁移改进", "跨链桥接 Neo 3 和 Neo X 功能", "修复 bug"],
+      "date": "2025-10-06",
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.8.2",
+      "version": "3.8.2"
+    },
+    {
+      "changes": [
+        "24个单词助记语支持",
+        "新通知：已识别恶意代币",
+        "移除“claim gas”要求以启用 Neo Legacy > Neo N3 迁移",
+        "新功能：通过深链导入助记词"
+      ],
+      "date": "2025-07-29",
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.8.1",
+      "version": "3.8.1"
+    },
+    {
+      "changes": ["新功能：Neo 治理投票", "新通知：Neo治理提醒", "多语言支持：中文", "小错误修复"],
+      "date": "2025-06-30",
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.8.0",
+      "version": "3.8.0"
+    },
+    {
+      "changes": [
+        "修复重复的 3.7.0 更新日志",
+        "修复影响兑换时交易费计算的问题",
+        "修复交易列表中待处理交易被重复列出的问题",
+        "通过操作搜索快速访问旧版迁移"
+      ],
+      "date": "2025-06-06",
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.7.1",
+      "version": "3.7.1"
+    },
+    {
+      "changes": [
+        "新功能：操作搜索 - 快速访问现有钱包操作",
+        "新功能：导出交易记录",
+        "更新功能：增强的活动界面",
+        "用户体验改进：助记词单词顺序的展示方式",
+        "修复导致某些场景下无法使用NNS的问题",
+        "小错误修复"
+      ],
+      "date": "2025-05-29",
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.7.0",
+      "version": "3.7.0"
+    },
+    {
+      "changes": [
+        "修复了导致 Wallet Connect 弹窗在成功后仍保持打开状态的问题",
+        "修复了在连接进行迁移时导致 Ledger 导航变慢的问题",
+        "改进导入助记语时返回无账户的提示信息",
+        "“迁移检查超时时显示消息的改进”",
+        "改进的解析方法，用于解析交换合作伙伴返回的换汇选项ticker",
+        "更改 Polygon 的默认节点",
+        "小错误修复"
+      ],
+      "date": "2025-04-30",
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.6.1",
+      "version": "3.6.1"
+    },
+    {
+      "changes": [
+        "新原生迁移（Legacy > N3）",
+        "通知功能首次交付（现在迁移和迁移完成）",
+        "FTW 价格数据集成",
+        "隐藏代币功能",
+        "Ledger 会话体验增强 - 跨会话持久化账户索引",
+        "小幅用户体验改进",
+        "小错误修复"
+      ],
+      "date": "2025-04-17",
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.6.0",
+      "version": "3.6.0"
+    },
+    {
+      "changes": [
+        "Arbitrum 网络支持",
+        "BASE 网络支持",
+        "上链功能交付",
+        "离线兑换功能上线",
+        "Swap 请求界面的改进",
+        "小错误修复"
+      ],
+      "date": "2025-02-17",
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.5.0",
+      "version": "3.5.0"
+    },
+    {
+      "changes": ["Polygon 网络支持", "Swap UI 优化", "发送的“最大”按钮", "小错误修复"],
+      "date": "2025-01-23",
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.4.0",
+      "version": "3.4.0"
+    },
+    {
+      "changes": [
+        "跨链兑换功能实现",
+        "Neon钱包移动端通过使用Neon备份实现离线同步兼容性",
+        "皮肤功能增强",
+        "帮助功能初始实现",
+        "小错误修复",
+        "支持 Neo Legacy Ledger"
+      ],
+      "date": "2024-12-24",
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.3.0",
+      "version": "3.3.0"
+    },
+    {
+      "changes": [
+        "新登录方式：通过地址或密钥登录",
+        "集成新的 Flamingo API 以增强定价数据",
+        "Ledger 多账户支持",
+        "对 Neo X NFT 的支持",
+        "支持同一笔交易中的多笔转账",
+        "支持选择已拥有的账户作为转账目标",
+        "小错误修复"
+      ],
+      "date": "2024-10-24",
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.2.0",
+      "version": "3.2.0"
+    },
+    {
+      "changes": [
+        "使用 Ledger 匿名登录",
+        "优化的 Ledger 用户体验",
+        "导出选项（私钥和助记词）",
+        "重置应用功能",
+        "Linux 构建的 Beta 访问权限",
+        "刷新区块链数据按钮",
+        "Neo X 交易列表增强 - 链接至 XExplorer",
+        "唤醒 NEON 时的性能提升"
+      ],
+      "date": "2024-09-20",
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.1.0",
+      "version": "3.1.0"
+    },
+    {
+      "changes": ["Ledger 界面优化", "钱包连接增强 - 支持 EIP-1559"],
+      "date": "2024-08-16",
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.0.2",
+      "version": "3.0.2"
+    },
+    {
+      "changes": [
+        "钱包连接增强 - 新增支持的以太坊方法（eth_call，eth_sendRawTransaction，eth_requestAccounts）",
+        "修复在确认过程中如果助记词中包含重复的单词时未被正确处理的问题",
+        "修复导入扫描期间派生索引的问题",
+        "修复使用 Ledger 时领取 GAS 的视觉错误",
+        "修复导致用户无法使用 Ledger 发送资产的问题"
+      ],
+      "date": "2024-08-13",
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.0.1",
+      "version": "3.0.1"
+    },
+    {
+      "changes": [
+        "Neon Wallet 3 的全新一代现已上线，我们的自托管钱包比以往任何时候都更出色！自 2017 年以来，我们的使命始终是通过结合最先进的技术与优雅且实用的设计，为用户提供流畅且愉悦的体验。我们的理念始终如一，但 Neon 却绝非如此。自发布以来，它经历了诸多改进，第三代的推出旨在展示它已准备好迎接 Web3 的新时代。本次版本的更新内容如下：",
+        "以太坊 & Neo X 支持",
+        "新产品设计",
+        "通用平台代码",
+        "多钱包架构",
+        "增强的界面自定义",
+        "全球登录",
+        "账户导入扫描",
+        "优化的 WalletConnect 体验"
+      ],
+      "date": "2024-08-13",
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.0.0",
+      "version": "3.0.0"
+    }
+  ],
+  "versionLabel": "版本 v{{version}}"
+}

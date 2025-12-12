@@ -1,4 +1,4 @@
-import enChangelog from '../changelog.json'
+import ptBrChangelog from './changelog.json'
 import ptBrCommon from './common.json'
 import ptBrComponents from './components.json'
 import ptBrHooks from './hooks.json'
@@ -12,6 +12,6 @@ export const ptBrResources = {
   components: ptBrComponents,
   modals: ptBrModals,
   hooks: ptBrHooks,
-  changelog: enChangelog,
+  changelog: ptBrChangelog,
   search: ptBrSearch,
 }

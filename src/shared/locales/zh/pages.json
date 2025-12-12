@@ -1,558 +1,45 @@
 {
-  "root": {
-    "overTheAirManagerSetup": {
-      "downloading": "发现新版本。正在下载... <1>或在</1> <2>我们的 GitHub</2> 手动下载",
-      "downloaded": "新版本已下载。应用将重启以应用更新。",
-      "error": "下载更新时出错。请稍后重启应用重试。",
-      "installError": "无法安装更新。请检查应用权限并手动下载更新。"
-    },
-    "deeplinkManagerSetup": {
-      "pleaseLogin": "请登录以继续。"
-    }
-  },
-  "private": {
-    "deeplinkManagerSetup": {
-      "selectAccountModal": {
-        "title": "选择一个账户连接到 dapp。",
-        "selectSourceAccount": "选择账户"
-      }
-    },
-    "hardwareWalletManagerSetup": {
-      "requestingPermission": "请在您的 Ledger 设备上确认"
-    },
-    "accountTasksManagerSetup": {
-      "useFraudulentTokensNotificationProcess": {
-        "notificationTitle": "\"{{ value }}\" 是一个欺诈代币！",
-        "notificationDescription": "我们发现 \"{{ value }}\" 被社区标记为欺诈代币，建议将其隐藏，并避免与其进行任何其他交互。"
-      },
-      "useVotingNeo3NotificationProcess": {
-        "notificationTitle": "你正在错过免费的 GAS！",
-        "notificationDescription": "点击这里，立即投票"
-      }
-    },
-    "walletTasksManagerSetup": {
-      "useBackupReminderNotificationProcess": {
-        "notificationTitle": "创建新的备份文件！",
-        "notificationDescription": "我们建议在\"设置 > 安全 > 备份 NEON\"中创建新的备份文件以保护您的钱包。为了增强安全性，您还可以在\"钱包 > 三点（工具）> 导出\"中手动导出助记词，并在\"钱包 > 三点 > 导出密钥\"中导出私钥。"
-      }
-    }
-  },
-  "welcome": {
-    "title": "欢迎使用Neon钱包",
-    "continue": "继续",
-    "card1": {
-      "title": "直观",
-      "description": "轻松管理、发送和接收您的数字资产，支持多钱包操作"
-    },
-    "card2": {
-      "title": "连接",
-      "description": "Neon使用开源的WalletConnect协议，安全地将您的钱包连接到不断增长的dApp目录"
-    },
-    "card3": {
-      "title": "灵活",
-      "description": "通过Neon桌面和移动（安卓和iOS）应用，数字资产管理从未如此简单"
-    },
-    "card4": {
-      "title": "集成",
-      "description": "只需连接您的Ledger硬件钱包，即可用最高安全标准管理您的以太坊和Neo资产"
-    },
-    "securitySetup": {
-      "title": "保护您的新钱包",
-      "steps": ["创建密码", "确认密码", "完成"],
-      "step1": {
-        "formTitle": "请创建密码以保护您的钱包",
-        "passwordPlaceholder": "创建密码...",
-        "passwordError": "密码长度至少为{{length}}个字符"
-      },
-      "step2": {
-        "formTitle": "请确认您的密码",
-        "confirmPasswordPlaceholder": "确认您的密码...",
-        "confirmPasswordError": "两次输入的密码不一致"
-      },
-      "step3": {
-        "title": "密码创建成功！",
-        "buttonContinueLabel": "打开您的钱包"
-      }
-    },
-    "importWallet": {
-      "title": "导入钱包",
-      "steps": ["创建密码", "确认密码", "添加信息或定位文件", "导入", "完成"],
-      "migrationLabel": "定位您的迁移文件",
-      "step3": {
-        "formTitle": "输入地址、加密密钥、私钥、助记词或定位备份文件",
-        "migrationFormTitle": "在您的电脑中查找迁移文件",
-        "inputPlaceholder": "输入地址、密钥或助记词...",
-        "importEncryptedDescription": "为您的新账户选择区块链",
-        "importEncryptedTitle": "导入钱包",
-        "importEncryptedSubtitle": "已识别您的加密密钥，请完成以下字段以继续。",
-        "invalidAddress": "无效地址",
-        "unexpectedError": "意外错误",
-        "locateFileButtonLabel": "定位文件",
-        "neon2Warning": "此文件在Neon 2钱包迁移过程中创建。请在Neon 2中启动迁移以生成文件。",
-        "importSuccess": "已识别兼容文件！",
-        "importError": "未识别兼容文件"
-      },
-      "step4": {
-        "title": "请耐心等待，我们正在为您设置钱包"
-      },
-      "step5": {
-        "title": "钱包导入成功！",
-        "openWalletButtonLabel": "打开您的钱包"
-      }
-    }
-  },
-  "portfolio": {
-    "title": "资产组合",
-    "allAccounts": "所有账户",
-    "overview": "概览",
-    "allActivity": "所有活动",
-    "allConnections": "所有连接",
-    "portfolioActivity": {
-      "allActivity": "所有活动",
-      "walletsAndAccounts": "{{wallets}} 个钱包 / {{accounts}} 个账户",
-      "balance": "余额"
-    },
-    "portfolioOverview": {
-      "overview": "概览",
-      "walletsAndAccounts": "{{wallets}} 个钱包 / {{accounts}} 个账户",
-      "balance": "余额"
-    },
-    "portfolioConnections": {
-      "title": "所有连接",
-      "walletsAndAccounts": "{{wallets}} 个钱包 / {{accounts}} 个账户",
-      "disconnectAllButtonLabel": "全部断开",
-      "totalConnections": "{{connections}} 个连接"
-    }
-  },
-  "forgottenPassword": {
-    "title": "忘记密码",
-    "text": "如果您忘记了密码，需要重置Neon。",
-    "alertCard": {
-      "text": "此操作将删除您的存储数据，您需要重新导入钱包"
-    },
-    "links": {
-      "continue": "继续"
-    }
-  },
-  "forgottenPasswordConfirm": {
-    "title": "忘记密码",
-    "text": "您确定吗？",
-    "alertCard": {
-      "text": "在继续之前，请确保您拥有私钥或助记词以恢复钱包"
-    },
-    "auxiliarText": "滑动以确认...",
-    "swipe": {
-      "text": "重置Neon并删除我的数据",
-      "buttonAriaLabel": "重置并删除数据"
-    },
-    "success": "数据已成功清除"
-  },
-  "forgottenPasswordSuccess": {
-    "title": "成功！",
-    "text": "您已重置Neon",
-    "description": "所有本地应用数据已被移除，您现在可以重新开始",
-    "goToWelcome": "返回欢迎界面"
-  },
-  "send": {
-    "title": "发送代币",
-    "subtitle": "您想发送哪些代币？",
-    "sourceAccountLabel": "源账户",
-    "addRecipientButtonLabel": "添加收款人",
-    "separatelyTransferWarning": "{{blockchain}} 不支持每笔交易发送多个转账，因此我们将分别发送每笔转账，这将大幅增加手续费。",
-    "recipient": {
-      "title": "收款人 {{order}}",
-      "addressPlaceholder": "输入收款人姓名或地址...",
-      "myAccountButtonLabel": "我的账户",
-      "tokenToSendLabel": "发送代币",
-      "amountLabel": "数量",
-      "fiatLabel": "法币价值（约{{currency}}）",
-      "max": "最大",
-      "errors": {
-        "invalidAddress": "无效地址"
-      }
-    },
-    "successNotification": {
-      "title": "转账完成",
-      "previewBody": "您的转账已成功完成"
-    },
-    "failureNotification": {
-      "title": "转账失败",
-      "previewBody": "我们无法验证您的转账是否完成"
-    },
-    "sendFail": {
-      "title": "哎呀！我们遇到了一个错误。",
-      "subtitle": "请稍后再试"
-    },
-    "sendSuccess": {
-      "title": "您的代币已成功发送！",
-      "detailsTitle": "交易详情",
-      "transactionNumber": "交易 {{order}}",
-      "recipientLabel": "收款人",
-      "saveContactButtonLabel": "保存联系人",
-      "amountLabel": "数量",
-      "transactionHashLabel": "交易哈希",
-      "viewStatusButtonLabel": "查看状态"
-    },
-    "sendTip": {
-      "supportLabel": "我想通过小费支持 COZ，金额为",
-      "optionalLabel": "*可选"
-    },
-    "errors": {
-      "feeError": "手续费计算错误",
-      "insufficientFunds": "余额不足",
-      "calculateMaxAmount": "计算最大金额时出错",
-      "amountIsLessOrEqualZero": "金额小于或等于零",
-      "hardwareWalletShouldBeValid": "请确保您的硬件钱包已解锁以继续操作",
-      "noTokenToTip": "没有代币支付小费",
-      "noAmountToTip": "金额不足以支付小费",
-      "noFiatPriceToTip": "未找到法定货币价格以进行打赏"
-    }
-  },
-  "wallets": {
-    "title": "钱包",
-    "addAccountButtonLabel": "添加账户",
-    "editWalletButtonLabel": "编辑",
-    "editAccountButton": "编辑账户",
-    "exportButtonLabel": "导出",
-    "exportKeyButtonLabel": "导出密钥",
-    "voteNeo3ButtonLabel": "投票",
-    "neo3NeoXBridgeButtonLabel": "跨链",
-    "importButtonLabel": "导入",
-    "newWalletButtonLabel": "新钱包",
-    "address": "地址",
-    "accounts": "账户",
-    "hardwareWalletConnectBadge": "硬件钱包已连接",
-    "accountNftList": {
-      "title": "NFTs",
-      "empty": "暂无NFT显示",
-      "total": "{{length}} 个项目",
-      "listLabel": "列表显示",
-      "gridLabel": "网格显示"
-    },
-    "accountOverview": {
-      "title": "账户概览"
-    },
-    "accountTokensList": {
-      "title": "代币",
-      "balance": "余额",
-      "tabs": {
-        "active": "活跃",
-        "hidden": "隐藏"
-      }
-    },
-    "accountTransactionsList": {
-      "title": "交易",
-      "exportCSVButtonLabel": "导出CSV"
-    },
-    "accountConnections": {
-      "title": "连接",
-      "totalConnections": "{{connections}} 个连接",
-      "newConnection": "新连接",
-      "disconnectAll": "全部断开"
-    },
-    "exportKeyTitle": "导出密钥",
-    "exportWalletTitle": "导出钱包"
-  },
-  "contacts": {
-    "title": "联系人",
-    "listTitle": "所有联系人",
-    "buttonAddContactLabel": "添加联系人",
-    "contactList": {
-      "contacts": "联系人",
-      "myAccounts": "我的账户",
-      "notFound": "未找到联系人"
-    },
-    "addresses": "地址"
-  },
-  "settings": {
-    "title": "设置",
-    "sidebarOption": {
-      "personalisation": "个性化",
-      "security": "安全"
-    },
-    "personalisationOption": {
-      "networkConfiguration": "网络配置",
-      "currency": "货币",
-      "language": "语言",
-      "theme": "主题",
-      "releaseNotes": "版本说明",
-      "mobileApp": "移动应用"
-    },
-    "securityOption": {
-      "changePassword": "更改密码",
-      "encryptKey": "加密密钥",
-      "recoverWallet": "导入NEON备份",
-      "backupWallet": "备份NEON",
-      "migrateWallets": "从NEON 2.0迁移"
-    },
-    "encryptKey": {
-      "subtitle": "选择密码短语加密现有密钥：",
-      "titleInput1": "您要加密的私钥",
-      "inputPrivateKeyPlaceholder": "输入您的私钥…",
-      "titleInput2": "密码短语",
-      "inputPassphrasePlaceholder": "输入您的密码短语…",
-      "titleInput3": "确认密码短语",
-      "inputConfirmPassphrasePlaceholder": "输入您的确认密码短语…",
-      "buttonGenerate": "生成加密密钥",
-      "error": {
-        "privateKey": "无效的私钥",
-        "privateKeyNotFound": "无法验证私钥",
-        "passphraseIsInvalid": "密码短语至少为{{ chars }}个字符",
-        "confirmationPassphraseIsInvalid": "确认密码短语至少为{{ chars }}个字符",
-        "passphraseIsDifferent": "密码短语与确认密码短语不一致",
-        "confirmationPassphraseIsDifferent": "确认密码短语与密码短语不一致",
-        "errorToEncryptKey": "加密密钥时出错",
-        "blockchainCanNotEncryptKey": "此区块链无法加密密钥"
-      },
-      "successModal": {
-        "title": "加密密钥",
-        "subtitle": "私钥加密成功！",
-        "description": "这是您的加密密钥："
-      }
-    },
-    "settingsNetwork": {
-      "title": "网络配置",
-      "youAreConnectedNeoAndEth": "您已连接Neo和以太坊网络",
-      "currentNetwork": "当前网络",
-      "nodeSelection": "节点选择",
-      "selectProfilePlaceholder": "选择配置文件...",
-      "createProfileButtonLabel": "创建配置文件",
-      "editProfileButtonLabel": "编辑配置文件",
-      "resetProfileButtonLabel": "重置配置文件"
-    },
-    "settingsReleaseNotes": {
-      "title": "版本说明",
-      "button": {
-        "learnMore": "了解更多"
-      }
-    },
-    "settingsMobileApp": {
-      "title": "移动应用",
-      "subtitle": "您的钱包也可在移动端使用！",
-      "descriptionLine1": "安全存储、查看和管理您的所有数字资产和多个钱包于一处。",
-      "descriptionLine2": "利用您设备上的额外安全选项，保障您的资产安全。"
-    },
-    "settingsBackupWallet": {
-      "title": "备份NEON",
-      "description": "将备份文件保存到您的电脑，以便在丢失访问权限或设备损坏时恢复钱包。",
-      "saveBackupLabel": "您希望将备份保存在哪里？",
-      "browse": "浏览...",
-      "backup": "备份",
-      "warning": "注意：此操作将备份您的整个钱包"
-    },
-    "settingsRecoverWallet": {
-      "title": "导入NEON备份",
-      "description": "如果您丢失了钱包访问权限，可以通过本地备份文件导入。只需定位本地备份文件并输入创建备份时的密码，即可恢复访问。",
-      "saveBackupLabel": "定位您的备份文件",
-      "browse": "浏览...",
-      "backup": "导入备份",
-      "nameExtension": "NEON备份文件"
-    },
-    "settingsMigrateWallets": {
-      "title": "从NEON 2.0迁移",
-      "subtitleWhy": "为什么要迁移到NEON 3？",
-      "descriptionWhy": "迁移您的NEON 2钱包将让您访问更多支持的资产，并获得更流畅、更优质的用户体验，让资产管理变得轻松！",
-      "subtitleHow": "如何从Neon 2迁移？",
-      "importButtonLabel": "导入您的NEON 2钱包",
-      "startProcessButtonLabel": "在NEON 2中开始迁移"
-    },
-    "changePassword": {
-      "title": "更改密码",
-      "step1": {
-        "subtitle": "如果您想创建新密码，只需在此更改并用当前密码确认即可！",
-        "titleInput1": "新密码",
-        "inputNewPasswordPlaceholder": "输入新密码...",
-        "titleInput2": "当前Neon密码",
-        "inputCurrentPasswordPlaceholder": "输入当前密码...",
-        "generatePassword": "生成密码",
-        "buttonContinue": "继续",
-        "error": "密码未识别！"
-      },
-      "step2": {
-        "subtitle": "如果您丢失密码，将无法找回。",
-        "description": "要完成密码更改，您需要备份新密码。点击下方按钮获取二维码并下载保存。",
-        "buttonDownload": "下载二维码并保存更改",
-        "error": "保存更改时出现问题"
-      },
-      "step3": {
-        "subtitle": "您的NEON 3密码已成功更改！"
-      }
-    },
-    "settingsCurrency": {
-      "title": "货币"
-    },
-    "settingsLanguage": {
-      "title": "语言"
-    }
-  },
-  "receive": {
-    "title": "接收代币",
-    "sendQRCode": "发送二维码",
-    "yourAddressTabTitle": "您的地址",
-    "requestTokenTabTitle": "请求代币",
-    "receivingAccountTitle": "接收账户",
-    "yourReceivingAddress": "您的接收账户",
-    "selectAccountToGenerateCode": "请选择账户以生成二维码！",
-    "addressInputHint": "您的接收地址将在此显示...",
-    "downloadQRCode": "下载二维码"
-  },
-  "login": {
-    "title": "欢迎使用Neon钱包",
-    "tabs": {
-      "password": "Neon账户",
-      "hardware": "硬件钱包",
-      "key": "地址或密钥"
-    }
-  },
-  "loginPassword": {
-    "formContent": {
-      "text": "登录到您的钱包",
-      "passwordPlaceholder": "请输入您的密码...",
-      "buttonLoginLabel": "登录",
-      "invalidPassword": "密码无效",
-      "forgotPassword": "忘记密码？"
-    },
-    "welcomeContent": {
-      "text": "您想用Neon做什么？",
-      "cardLinks": {
-        "createNewWallet": {
-          "title": "创建新钱包",
-          "text": "我想<1>创建一个新</1>的受密码保护账户，以便我的数据持久保存"
-        },
-        "importExternalWallet": {
-          "title": "导入外部钱包",
-          "text": "我想<1>导入</1>一个钱包并用密码保护我的数据以确保其持久性"
-        },
-        "migrateFromNeon2": {
-          "title": "从Neon 2迁移",
-          "text": "我想<1>迁移</1>我的Neon 2钱包"
-        }
-      }
-    }
-  },
-  "loginHardware": {
-    "title": "连接您的硬件钱包",
-    "searchingLabel": "正在搜索",
-    "notConnectedMessage": "未找到硬件钱包！请检查您的连接",
-    "connectedMessage": "设备已检测到！正在打开您的钱包...",
-    "searchAgainButtonLabel": "重新搜索"
-  },
-  "loginKey": {
-    "description": "请输入地址、密钥或助记词：",
-    "inputPlaceholder": "输入地址、密钥或助记词..."
-  },
-  "loginKeySelectAccountPage": {
-    "title": "导入地址",
-    "description": "您想导入哪些地址？",
-    "importAllButtonLabel": "全部导入",
-    "importSelectedButtonLabel": "导入所选"
-  },
-  "swap": {
-    "title": "兑换代币",
-    "explanation": {
-      "title": "它是如何工作的？",
-      "description1": "无需交易所即可跨链兑换代币。",
-      "description2": " 直接且即时地在NEON中兑换代币，方便快捷，节省时间和手续费。",
-      "useTitle": "Neon钱包使用："
-    },
-    "form": {
-      "title": "您想兑换哪些代币？",
-      "restart": "重新开始",
-      "assets": "资产",
-      "source": "账户详情",
-      "amounts": "数量",
-      "balanceLabel": "余额",
-      "balancePlaceholder": "0.00",
-      "max": "最大",
-      "tokenToUseTitle": "兑换此代币",
-      "accountToUseTitle": "从此处发送",
-      "amountToUseTitle": "数量",
-      "tooltipTitle": "兑换数量越大，汇率越优惠！",
-      "minimumAmountToUseLabel": "最小 {{amount}}",
-      "minimumAmountToUsePlaceholder": "0.00000000",
-      "tokenToReceiveTitle": "接收此代币",
-      "receiveHere": "接收至此",
-      "addressToReceivePlaceholder": "输入地址…",
-      "myAccountsButtonLabel": "账户…",
-      "extraIdToReceive": "目标标签/备注",
-      "extraIdToReceivePlaceholder": "输入标签/备注...",
-      "openAboutExtraIdToReceiveModal": "打开目标标签/备注说明",
-      "amountToReceiveTitle": "您将获得的数量",
-      "amountToReceiveTitleComplement": "（扣除手续费后）",
-      "submitLabel": "立即兑换",
-      "sendError": {
-        "subtitle": "哎呀！我们遇到了一个错误。",
-        "description": "请稍后再试"
-      },
-      "sendSuccess": {
-        "subtitle": "您的兑换已成功发起！",
-        "detailsTitle": "兑换详情",
-        "statusLabel": "状态",
-        "transactionFromLabel": "发起交易",
-        "transactionToLabel": "接收交易",
-        "transactionAux": "辅助交易",
-        "amountTo": "接收数量",
-        "amountFrom": "发送数量",
-        "recipientLabel": "收款人",
-        "feeLabel": "发起交易手续费"
-      },
-      "errors": {
-        "invalidAddress": "无效地址",
-        "invalidExtraIdToReceive": "无效的目标标签/备注",
-        "amountMin": "金额太低。最小金额为{{amount}}",
-        "amountMax": "金额太高。最大金额为{{amount}}",
-        "insufficientFunds": "余额不足",
-        "insufficientFundsFee": "余额不足以支付手续费",
-        "hardwareWalletNotConnectedOrLocked": "硬件钱包未连接或已锁定，请检查设备后重试"
-      },
-      "hints": {
-        "enterValidAddress": "请输入有效地址"
-      }
-    }
-  },
   "buyAndSellTokens": {
-    "title": "买卖代币",
-    "notConfigured": "买卖代币功能未配置",
+    "buyAndSellTokensAccordionAccounts": {
+      "labels": {
+        "copyAddress": "复制地址"
+      },
+      "title": "您的钱包与账户"
+    },
     "buyAndSellTokensLayout": {
+      "buttons": {
+        "aboutData": "关于您的数据",
+        "help": "需要帮助？联系我们",
+        "walletsAndAccounts": "钱包与账户"
+      },
       "howWorks": {
-        "title": "它是如何工作的？",
-        "description": "无需依赖交易所即可买卖代币！Neon为您提供便捷安全的法币买卖数字资产方式。"
+        "description": "无需依赖交易所即可买卖代币！Neon为您提供便捷安全的法币买卖数字资产方式。",
+        "title": "它是如何工作的？"
+      },
+      "labels": {
+        "walletsAndAccounts": {
+          "closed": "钱包与账户已收起",
+          "opened": "钱包与账户已展开"
+        }
       },
       "processes": {
         "all": {
           "observation": "转账完成后，您的新代币将在片刻后到账。"
         },
         "buyTokens": {
-          "text": "<1>该流程使用内嵌小部件。</1> 购买代币时，可能会因KYC需要要求部分个人信息。<2>大额交易需要更多KYC信息。</2>",
+          "alert": "请确保您选择的账户与所购代币的网络兼容！",
           "kyc": "<1>KYC流程完成后：</1> 您需要为代币提供目标地址。在“钱包与账户”面板中，复制您想要的Neon账户地址。",
-          "alert": "请确保您选择的账户与所购代币的网络兼容！"
+          "text": "<1>该流程使用内嵌小部件。</1> 购买代币时，可能会因KYC需要要求部分个人信息。<2>大额交易需要更多KYC信息。</2>"
         },
         "sellTokens": {
-          "text": "<1>该流程使用内嵌小部件。</1> 出售代币时，可能会因KYC需要要求部分个人信息。<2>大额交易需要更多KYC信息。</2>",
+          "alert": "存款交易需从<1>同一地址</1>发起！",
           "kyc": "<1>KYC流程完成后：</1> 您需要通过“存款”按钮将代币发送到指定地址。请确保转账金额正确！您也可以在“钱包与账户”面板复制目标地址。",
-          "alert": "存款交易需从<1>同一地址</1>发起！"
+          "text": "<1>该流程使用内嵌小部件。</1> 出售代币时，可能会因KYC需要要求部分个人信息。<2>大额交易需要更多KYC信息。</2>"
         }
       },
       "tabs": {
         "buyTokens": "购买代币",
         "sellTokens": "出售代币"
-      },
-      "buttons": {
-        "help": "需要帮助？联系我们",
-        "walletsAndAccounts": "钱包与账户",
-        "aboutData": "关于您的数据"
-      },
-      "labels": {
-        "walletsAndAccounts": {
-          "opened": "钱包与账户已展开",
-          "closed": "钱包与账户已收起"
-        }
-      }
-    },
-    "buyAndSellTokensAccordionAccounts": {
-      "title": "您的钱包与账户",
-      "labels": {
-        "copyAddress": "复制地址"
       }
     },
     "buyTokensContent": {
@@ -560,106 +47,619 @@
         "restart": "重新开始"
       }
     },
+    "notConfigured": "买卖代币功能未配置",
     "sellTokensContent": {
-      "error": "出售代币时发生错误，请重试",
       "buttons": {
         "deposit": "发起存款",
         "restart": "重新开始"
+      },
+      "error": "出售代币时发生错误，请重试"
+    },
+    "title": "买卖代币"
+  },
+  "contacts": {
+    "addresses": "地址",
+    "buttonAddContactLabel": "添加联系人",
+    "contactList": {
+      "contacts": "联系人",
+      "myAccounts": "我的账户",
+      "notFound": "未找到联系人"
+    },
+    "listTitle": "所有联系人",
+    "title": "联系人"
+  },
+  "forgottenPassword": {
+    "alertCard": {
+      "text": "此操作将删除您的存储数据，您需要重新导入钱包"
+    },
+    "links": {
+      "continue": "继续"
+    },
+    "text": "如果您忘记了密码，需要重置Neon。",
+    "title": "忘记密码"
+  },
+  "forgottenPasswordConfirm": {
+    "alertCard": {
+      "text": "在继续之前，请确保您拥有私钥或助记词以恢复钱包"
+    },
+    "auxiliarText": "滑动以确认...",
+    "success": "数据已成功清除",
+    "swipe": {
+      "buttonAriaLabel": "重置并删除数据",
+      "text": "重置Neon并删除我的数据"
+    },
+    "text": "您确定吗？",
+    "title": "忘记密码"
+  },
+  "forgottenPasswordSuccess": {
+    "description": "所有本地应用数据已被移除，您现在可以重新开始",
+    "goToWelcome": "返回欢迎界面",
+    "text": "您已重置Neon",
+    "title": "成功！"
+  },
+  "login": {
+    "tabs": {
+      "hardware": "硬件钱包",
+      "key": "地址或密钥",
+      "password": "Neon账户"
+    },
+    "title": "欢迎使用Neon钱包"
+  },
+  "loginHardware": {
+    "connectedMessage": "设备已检测到！正在打开您的钱包...",
+    "notConnectedMessage": "未找到硬件钱包！请检查您的连接",
+    "searchAgainButtonLabel": "重新搜索",
+    "searchingLabel": "正在搜索",
+    "title": "连接您的硬件钱包"
+  },
+  "loginKey": {
+    "description": "请输入地址、密钥或助记词：",
+    "inputPlaceholder": "输入地址、密钥或助记词..."
+  },
+  "loginKeySelectAccountPage": {
+    "description": "您想导入哪些地址？",
+    "importAllButtonLabel": "全部导入",
+    "importSelectedButtonLabel": "导入所选",
+    "title": "导入地址"
+  },
+  "loginPassword": {
+    "formContent": {
+      "buttonLoginLabel": "登录",
+      "forgotPassword": "忘记密码？",
+      "invalidPassword": "密码无效",
+      "passwordPlaceholder": "请输入您的密码...",
+      "text": "登录到您的钱包"
+    },
+    "welcomeContent": {
+      "cardLinks": {
+        "createNewWallet": {
+          "text": "我想<1>创建一个新</1>的受密码保护账户，以便我的数据持久保存",
+          "title": "创建新钱包"
+        },
+        "importExternalWallet": {
+          "text": "我想<1>导入</1>一个钱包并用密码保护我的数据以确保其持久性",
+          "title": "导入外部钱包"
+        },
+        "migrateFromNeon2": {
+          "text": "我想<1>迁移</1>我的Neon 2钱包",
+          "title": "从Neon 2迁移"
+        }
+      },
+      "text": "您想用Neon做什么？"
+    }
+  },
+  "neo3NeoXBridge": {
+    "errorsByCode": {
+      "ACCOUNT_NOT_COMPATIBLE_WITH_TOKEN": "所选账户与所选代币不兼容",
+      "AMOUNT_ABOVE_MAXIMUM": "数量超过最大值",
+      "AMOUNT_BELOW_MINIMUM": "数量低于最小值",
+      "BRIDGE_NOT_READY": "跨链尚未准备好，请填写所有字段",
+      "INSUFFICIENT_FEE_TOKEN_BALANCE": "余额不足以支付跨链费用",
+      "NO_AVAILABLE_TOKENS": "没有可跨链的代币",
+      "PAIR_TOKEN_NOT_FOUND": "未找到配对代币",
+      "TOKEN_NOT_AVAILABLE": "所选代币不可跨链",
+      "UNEXPECTED_ERROR": "发生意外错误，请重试"
+    },
+    "explanation": {
+      "alert": "COZ 不是此跨链过程的维护方 —— Neo Global Development 才是维护方。",
+      "description1": "轻松地在不同网络之间跨链您的加密资产，而无需离开您的钱包。",
+      "description2": "区块链是彼此独立的，无法相互交互——这就是跨链桥的作用。它类似于在不同国家旅行时兑换货币，跨链桥允许您在不同区块链之间转移资产。",
+      "description3": "在 NEON 中直接且即时跨链代币既方便又能节省时间和支付更低的费用。",
+      "title": "它是如何工作的？"
+    },
+    "form": {
+      "accountDetailsStepTitle": "账户详情",
+      "accountToUseStepTitle": "从这里跨链",
+      "addressToReceiveContactButtonLabel": "我的联系人",
+      "addressToReceiveInputPlaceholder": "输入地址…",
+      "addressToReceiveMyAccountButtonLabel": "我的账户…",
+      "addressToReceiveStepTitle": "接收地址",
+      "amountToReceivePlaceholder": "0.00000000",
+      "amountToReceiveStepTitle": "您将获得的数量 <1>(扣除费用后)</1>",
+      "amountToUseMaxButtonLabel": "最大",
+      "amountToUseMinimumLabel": "最小值 {{amount}}",
+      "amountToUseMinimumPlaceholder": "0.00000000",
+      "amountToUseStepTitle": "数量",
+      "amountsStepTitle": "数量",
+      "assetsStepTitle": "资产",
+      "bridgeButtonLabel": "立即跨链",
+      "restartButtonLabel": "重新开始",
+      "switchTokensButtonLabel": "切换代币",
+      "title": "您想跨链哪些代币？",
+      "tokenToReceiveStepTitle": "跨链到这里",
+      "tokenToUseBalancePlaceholder": "0.00",
+      "tokenToUseBalanceStepTitle": "余额",
+      "tokenToUseStepTitle": "从这里跨链"
+    },
+    "messages": {
+      "networksShouldBeMainnet": "Neo 3 和 Neo X 桥接应该使用主网"
+    },
+    "title": "跨链"
+  },
+  "portfolio": {
+    "allAccounts": "所有账户",
+    "allActivity": "所有活动",
+    "allConnections": "所有连接",
+    "overview": "概览",
+    "portfolioActivity": {
+      "allActivity": "所有活动",
+      "balance": "余额",
+      "walletsAndAccounts": "{{wallets}} 个钱包 / {{accounts}} 个账户"
+    },
+    "portfolioConnections": {
+      "disconnectAllButtonLabel": "全部断开",
+      "title": "所有连接",
+      "totalConnections": "{{connections}} 个连接",
+      "walletsAndAccounts": "{{wallets}} 个钱包 / {{accounts}} 个账户"
+    },
+    "portfolioOverview": {
+      "balance": "余额",
+      "overview": "概览",
+      "walletsAndAccounts": "{{wallets}} 个钱包 / {{accounts}} 个账户"
+    },
+    "title": "资产组合"
+  },
+  "private": {
+    "accountTasksManagerSetup": {
+      "useFraudulentTokensNotificationProcess": {
+        "notificationDescription": "我们发现 \"{{ value }}\" 被社区标记为欺诈代币，建议将其隐藏，并避免与其进行任何其他交互。",
+        "notificationTitle": "{{ value }}\" 是一个欺诈代币！"
+      },
+      "useVotingNeo3NotificationProcess": {
+        "notificationDescription": "点击这里，立即投票",
+        "notificationTitle": "你正在错过免费的 GAS！"
+      }
+    },
+    "deeplinkManagerSetup": {
+      "selectAccountModal": {
+        "selectSourceAccount": "选择账户",
+        "title": "选择一个账户连接到 dapp。"
+      }
+    },
+    "hardwareWalletManagerSetup": {
+      "requestingPermission": "请在您的 Ledger 设备上确认"
+    },
+    "walletTasksManagerSetup": {
+      "useBackupReminderNotificationProcess": {
+        "notificationDescription": "我们建议在\"设置 > 安全 > 备份 NEON\"中创建新的备份文件以保护您的钱包。为了增强安全性，您还可以在\"钱包 > 三点（工具）> 导出\"中手动导出助记词，并在\"钱包 > 三点 > 导出密钥\"中导出私钥。",
+        "notificationTitle": "创建新的备份文件！"
       }
     }
   },
-  "voteNeo3": {
-    "title": "投票",
-    "subtitle": "选择候选人",
-    "noAccountSelectedLabel": "未选择账户",
-    "changeNeo3AccountLabel": "更改",
-    "selectNeo3AccountLabel": "选择",
-    "createNeo3AccountLabel": "没有Neo 3账户，请创建一个",
-    "searchLabel": "搜索",
-    "searchPlaceholder": "搜索候选人…",
-    "voteErrorMessages": {
-      "thereIsNoNeoLabel": "您的Neo 3账户需持有NEO",
-      "shouldUseMainnetLabel": "您需使用主网进行投票",
-      "accountCanNotBeWatchLabel": "您的Neo 3账户为只读模式",
-      "shouldHaveEnoughGasToPayFeeLabel": "您的GAS余额不足以支付手续费",
-      "selectNeo3AccountLabel": "请选择Neo 3账户"
+  "receive": {
+    "addressInputHint": "您的接收地址将在此显示...",
+    "downloadQRCode": "下载二维码",
+    "receivingAccountTitle": "接收账户",
+    "requestTokenTabTitle": "请求代币",
+    "selectAccountToGenerateCode": "请选择账户以生成二维码！",
+    "sendQRCode": "发送二维码",
+    "title": "接收代币",
+    "yourAddressTabTitle": "您的地址",
+    "yourReceivingAddress": "您的接收账户"
+  },
+  "root": {
+    "deeplinkManagerSetup": {
+      "pleaseLogin": "请登录以继续。"
     },
+    "overTheAirManagerSetup": {
+      "downloaded": "新版本已下载。应用将重启以应用更新。",
+      "downloading": "发现新版本。正在下载... <1>或在</1> <2>我们的 GitHub</2> 手动下载",
+      "error": "下载更新时出错。请稍后重启应用重试。",
+      "installError": "无法安装更新。请检查应用权限并手动下载更新。"
+    }
+  },
+  "send": {
+    "addRecipientButtonLabel": "添加收款人",
+    "errors": {
+      "amountIsLessOrEqualZero": "金额小于或等于零",
+      "calculateMaxAmount": "计算最大金额时出错",
+      "feeError": "手续费计算错误",
+      "hardwareWalletShouldBeValid": "请确保您的硬件钱包已解锁以继续操作",
+      "insufficientFunds": "余额不足",
+      "noAmountToTip": "金额不足以支付小费",
+      "noFiatPriceToTip": "未找到法定货币价格以进行打赏",
+      "noTokenToTip": "没有代币支付小费"
+    },
+    "failureNotification": {
+      "previewBody": "我们无法验证您的转账是否完成",
+      "title": "转账失败"
+    },
+    "recipient": {
+      "addressPlaceholder": "输入收款人姓名或地址...",
+      "amountLabel": "数量",
+      "errors": {
+        "invalidAddress": "无效地址"
+      },
+      "fiatLabel": "法币价值（约{{currency}}）",
+      "max": "最大",
+      "myAccountButtonLabel": "我的账户",
+      "title": "收款人 {{order}}",
+      "tokenToSendLabel": "发送代币"
+    },
+    "sendFail": {
+      "subtitle": "请稍后再试",
+      "title": "哎呀！我们遇到了一个错误。"
+    },
+    "sendSuccess": {
+      "amountLabel": "数量",
+      "detailsTitle": "交易详情",
+      "recipientLabel": "收款人",
+      "saveContactButtonLabel": "保存联系人",
+      "title": "您的代币已成功发送！",
+      "transactionHashLabel": "交易哈希",
+      "transactionNumber": "交易 {{order}}",
+      "viewStatusButtonLabel": "查看状态"
+    },
+    "sendTip": {
+      "optionalLabel": "*可选",
+      "supportLabel": "我想通过小费支持 COZ，金额为"
+    },
+    "separatelyTransferWarning": "{{blockchain}} 不支持每笔交易发送多个转账，因此我们将分别发送每笔转账，这将大幅增加手续费。",
+    "sourceAccountLabel": "源账户",
+    "subtitle": "您想发送哪些代币？",
+    "successNotification": {
+      "previewBody": "您的转账已成功完成",
+      "title": "转账完成"
+    },
+    "title": "发送代币"
+  },
+  "settings": {
+    "changePassword": {
+      "step1": {
+        "buttonContinue": "继续",
+        "error": "密码未识别！",
+        "generatePassword": "生成密码",
+        "inputCurrentPasswordPlaceholder": "输入当前密码...",
+        "inputNewPasswordPlaceholder": "输入新密码...",
+        "subtitle": "如果您想创建新密码，只需在此更改并用当前密码确认即可！",
+        "titleInput1": "新密码",
+        "titleInput2": "当前Neon密码"
+      },
+      "step2": {
+        "buttonDownload": "下载二维码并保存更改",
+        "description": "要完成密码更改，您需要备份新密码。点击下方按钮获取二维码并下载保存。",
+        "error": "保存更改时出现问题",
+        "subtitle": "如果您丢失密码，将无法找回。"
+      },
+      "step3": {
+        "subtitle": "您的NEON 3密码已成功更改！"
+      },
+      "title": "更改密码"
+    },
+    "encryptKey": {
+      "buttonGenerate": "生成加密密钥",
+      "error": {
+        "blockchainCanNotEncryptKey": "此区块链无法加密密钥",
+        "confirmationPassphraseIsDifferent": "确认密码短语与密码短语不一致",
+        "confirmationPassphraseIsInvalid": "确认密码短语至少为{{ chars }}个字符",
+        "errorToEncryptKey": "加密密钥时出错",
+        "passphraseIsDifferent": "密码短语与确认密码短语不一致",
+        "passphraseIsInvalid": "密码短语至少为{{ chars }}个字符",
+        "privateKey": "无效的私钥",
+        "privateKeyNotFound": "无法验证私钥"
+      },
+      "inputConfirmPassphrasePlaceholder": "输入您的确认密码短语…",
+      "inputPassphrasePlaceholder": "输入您的密码短语…",
+      "inputPrivateKeyPlaceholder": "输入您的私钥…",
+      "subtitle": "选择密码短语加密现有密钥：",
+      "successModal": {
+        "description": "这是您的加密密钥：",
+        "subtitle": "私钥加密成功！",
+        "title": "加密密钥"
+      },
+      "titleInput1": "您要加密的私钥",
+      "titleInput2": "密码短语",
+      "titleInput3": "确认密码短语"
+    },
+    "personalisationOption": {
+      "currency": "货币",
+      "language": "语言",
+      "mobileApp": "移动应用",
+      "networkConfiguration": "网络配置",
+      "releaseNotes": "版本说明",
+      "theme": "主题"
+    },
+    "securityOption": {
+      "backupWallet": "备份NEON",
+      "changePassword": "更改密码",
+      "encryptKey": "加密密钥",
+      "migrateWallets": "从NEON 2.0迁移",
+      "recoverWallet": "导入NEON备份"
+    },
+    "settingsBackupWallet": {
+      "backup": "备份",
+      "browse": "浏览...",
+      "description": "将备份文件保存到您的电脑，以便在丢失访问权限或设备损坏时恢复钱包。",
+      "saveBackupLabel": "您希望将备份保存在哪里？",
+      "title": "备份NEON",
+      "warning": "注意：此操作将备份您的整个钱包"
+    },
+    "settingsCurrency": {
+      "title": "货币"
+    },
+    "settingsLanguage": {
+      "title": "语言"
+    },
+    "settingsMigrateWallets": {
+      "descriptionWhy": "迁移您的NEON 2钱包将让您访问更多支持的资产，并获得更流畅、更优质的用户体验，让资产管理变得轻松！",
+      "importButtonLabel": "导入您的NEON 2钱包",
+      "startProcessButtonLabel": "在NEON 2中开始迁移",
+      "subtitleHow": "如何从Neon 2迁移？",
+      "subtitleWhy": "为什么要迁移到NEON 3？",
+      "title": "从NEON 2.0迁移"
+    },
+    "settingsMobileApp": {
+      "descriptionLine1": "安全存储、查看和管理您的所有数字资产和多个钱包于一处。",
+      "descriptionLine2": "利用您设备上的额外安全选项，保障您的资产安全。",
+      "subtitle": "您的钱包也可在移动端使用！",
+      "title": "移动应用"
+    },
+    "settingsNetwork": {
+      "createProfileButtonLabel": "创建配置文件",
+      "currentNetwork": "当前网络",
+      "editProfileButtonLabel": "编辑配置文件",
+      "nodeSelection": "节点选择",
+      "resetProfileButtonLabel": "重置配置文件",
+      "selectProfilePlaceholder": "选择配置文件...",
+      "title": "网络配置",
+      "youAreConnectedNeoAndEth": "您已连接Neo和以太坊网络"
+    },
+    "settingsRecoverWallet": {
+      "backup": "导入备份",
+      "browse": "浏览...",
+      "description": "如果您丢失了钱包访问权限，可以通过本地备份文件导入。只需定位本地备份文件并输入创建备份时的密码，即可恢复访问。",
+      "nameExtension": "NEON备份文件",
+      "saveBackupLabel": "定位您的备份文件",
+      "title": "导入NEON备份"
+    },
+    "settingsReleaseNotes": {
+      "button": {
+        "learnMore": "了解更多"
+      },
+      "title": "版本说明"
+    },
+    "sidebarOption": {
+      "personalisation": "个性化",
+      "security": "安全"
+    },
+    "title": "设置"
+  },
+  "swap": {
+    "explanation": {
+      "description1": "无需交易所即可跨链兑换代币。",
+      "description2": " 直接且即时地在NEON中兑换代币，方便快捷，节省时间和手续费。",
+      "title": "它是如何工作的？",
+      "useTitle": "Neon钱包使用："
+    },
+    "form": {
+      "accountToUseTitle": "从此处发送",
+      "addressToReceivePlaceholder": "输入地址…",
+      "amountToReceiveTitle": "您将获得的数量",
+      "amountToReceiveTitleComplement": "（扣除手续费后）",
+      "amountToUseTitle": "数量",
+      "amounts": "数量",
+      "assets": "资产",
+      "balanceLabel": "余额",
+      "balancePlaceholder": "0.00",
+      "errors": {
+        "amountMax": "金额太高。最大金额为{{amount}}",
+        "amountMin": "金额太低。最小金额为{{amount}}",
+        "hardwareWalletNotConnectedOrLocked": "硬件钱包未连接或已锁定，请检查设备后重试",
+        "insufficientFunds": "余额不足",
+        "insufficientFundsFee": "余额不足以支付手续费",
+        "invalidAddress": "无效地址",
+        "invalidExtraIdToReceive": "无效的目标标签/备注"
+      },
+      "extraIdToReceive": "目标标签/备注",
+      "extraIdToReceivePlaceholder": "输入标签/备注...",
+      "hints": {
+        "enterValidAddress": "请输入有效地址"
+      },
+      "max": "最大",
+      "minimumAmountToUseLabel": "最小 {{amount}}",
+      "minimumAmountToUsePlaceholder": "0.00000000",
+      "myAccountsButtonLabel": "账户…",
+      "openAboutExtraIdToReceiveModal": "打开目标标签/备注说明",
+      "receiveHere": "接收至此",
+      "restart": "重新开始",
+      "sendError": {
+        "description": "请稍后再试",
+        "subtitle": "哎呀！我们遇到了一个错误。"
+      },
+      "sendSuccess": {
+        "amountFrom": "发送数量",
+        "amountTo": "接收数量",
+        "detailsTitle": "兑换详情",
+        "feeLabel": "发起交易手续费",
+        "recipientLabel": "收款人",
+        "statusLabel": "状态",
+        "subtitle": "您的兑换已成功发起！",
+        "transactionAux": "辅助交易",
+        "transactionFromLabel": "发起交易",
+        "transactionToLabel": "接收交易"
+      },
+      "source": "账户详情",
+      "submitLabel": "立即兑换",
+      "title": "您想兑换哪些代币？",
+      "tokenToReceiveTitle": "接收此代币",
+      "tokenToUseTitle": "兑换此代币",
+      "tooltipTitle": "兑换数量越大，汇率越优惠！"
+    },
+    "title": "兑换代币"
+  },
+  "voteNeo3": {
     "availableVotes": {
       "availableVotesLabel": "可用票数",
       "noAvailableVotesLabel": "无可用票数"
     },
-    "sideBar": {
-      "title": "它是如何工作的？",
-      "aboutNeoLabel": "您持有的NEO数量等于您可投的票数。",
-      "whyVoteTitle": "为什么要投票？",
-      "whyVoteDescription": "通过投票，您积极参与NEO生态系统，并有资格获得GAS作为持有者奖励。",
-      "noteLabel": "注意：不投票将无法获得此奖励。",
-      "sellNeoAlert": "如果您出售NEO，您的票数和GAS奖励将相应减少"
-    },
+    "changeNeo3AccountLabel": "更改",
+    "createNeo3AccountLabel": "没有Neo 3账户，请创建一个",
     "list": {
-      "positionColumnLabel": "排名",
-      "nameColumnLabel": "候选人",
-      "pubKeyColumnLabel": "公钥",
-      "votesColumnLabel": "总票数",
       "actionsColumnLabel": "操作",
-      "castVoteColumnLabel": "投票"
+      "castVoteColumnLabel": "投票",
+      "nameColumnLabel": "候选人",
+      "positionColumnLabel": "排名",
+      "pubKeyColumnLabel": "公钥",
+      "votesColumnLabel": "总票数"
     },
     "listItem": {
-      "detailsButtonLabel": "候选人信息",
       "castVoteButtonLabel": "投票",
+      "detailsButtonLabel": "候选人信息",
       "yourVoteButtonLabel": "您的投票"
     },
+    "noAccountSelectedLabel": "未选择账户",
     "notFound": {
-      "title": "暂无候选人",
-      "text": "没有可投票的候选人或获取候选人时出现问题。请检查您的Neo 3网络并重试。"
+      "text": "没有可投票的候选人或获取候选人时出现问题。请检查您的Neo 3网络并重试。",
+      "title": "暂无候选人"
+    },
+    "searchLabel": "搜索",
+    "searchPlaceholder": "搜索候选人…",
+    "selectNeo3AccountLabel": "选择",
+    "sideBar": {
+      "aboutNeoLabel": "您持有的NEO数量等于您可投的票数。",
+      "noteLabel": "注意：不投票将无法获得此奖励。",
+      "sellNeoAlert": "如果您出售NEO，您的票数和GAS奖励将相应减少",
+      "title": "它是如何工作的？",
+      "whyVoteDescription": "通过投票，您积极参与NEO生态系统，并有资格获得GAS作为持有者奖励。",
+      "whyVoteTitle": "为什么要投票？"
+    },
+    "subtitle": "选择候选人",
+    "title": "投票",
+    "voteErrorMessages": {
+      "accountCanNotBeWatchLabel": "您的Neo 3账户为只读模式",
+      "selectNeo3AccountLabel": "请选择Neo 3账户",
+      "shouldHaveEnoughGasToPayFeeLabel": "您的GAS余额不足以支付手续费",
+      "shouldUseMainnetLabel": "您需使用主网进行投票",
+      "thereIsNoNeoLabel": "您的Neo 3账户需持有NEO"
     }
   },
-  "neo3NeoXBridge": {
-    "title": "跨链",
-    "explanation": {
-      "title": "它是如何工作的？",
-      "description1": "轻松地在不同网络之间跨链您的加密资产，而无需离开您的钱包。",
-      "description2": "区块链是彼此独立的，无法相互交互——这就是跨链桥的作用。它类似于在不同国家旅行时兑换货币，跨链桥允许您在不同区块链之间转移资产。",
-      "description3": "在 NEON 中直接且即时跨链代币既方便又能节省时间和支付更低的费用。",
-      "alert": "COZ 不是此跨链过程的维护方 —— Neo Global Development 才是维护方。"
+  "wallets": {
+    "accountConnections": {
+      "disconnectAll": "全部断开",
+      "newConnection": "新连接",
+      "title": "连接",
+      "totalConnections": "{{connections}} 个连接"
     },
-    "form": {
-      "title": "您想跨链哪些代币？",
-      "restartButtonLabel": "重新开始",
-      "assetsStepTitle": "资产",
-      "tokenToUseStepTitle": "从这里跨链",
-      "switchTokensButtonLabel": "切换代币",
-      "tokenToReceiveStepTitle": "跨链到这里",
-      "accountDetailsStepTitle": "账户详情",
-      "accountToUseStepTitle": "从这里跨链",
-      "addressToReceiveStepTitle": "接收地址",
-      "addressToReceiveInputPlaceholder": "输入地址…",
-      "addressToReceiveContactButtonLabel": "我的联系人",
-      "addressToReceiveMyAccountButtonLabel": "我的账户…",
-      "amountsStepTitle": "数量",
-      "amountToUseStepTitle": "数量",
-      "amountToUseMinimumLabel": "最小值 {{amount}}",
-      "amountToUseMinimumPlaceholder": "0.00000000",
-      "amountToUseMaxButtonLabel": "最大",
-      "tokenToUseBalanceStepTitle": "余额",
-      "tokenToUseBalancePlaceholder": "0.00",
-      "amountToReceiveStepTitle": "您将获得的数量 <1>(扣除费用后)</1>",
-      "amountToReceivePlaceholder": "0.00000000",
-      "bridgeButtonLabel": "立即跨链"
+    "accountNftList": {
+      "empty": "暂无NFT显示",
+      "gridLabel": "网格显示",
+      "listLabel": "列表显示",
+      "title": "NFTs",
+      "total": "{{length}} 个项目"
     },
-    "errorsByCode": {
-      "UNEXPECTED_ERROR": "发生意外错误，请重试",
-      "NO_AVAILABLE_TOKENS": "没有可跨链的代币",
-      "TOKEN_NOT_AVAILABLE": "所选代币不可跨链",
-      "PAIR_TOKEN_NOT_FOUND": "未找到配对代币",
-      "ACCOUNT_NOT_COMPATIBLE_WITH_TOKEN": "所选账户与所选代币不兼容",
-      "AMOUNT_BELOW_MINIMUM": "数量低于最小值",
-      "AMOUNT_ABOVE_MAXIMUM": "数量超过最大值",
-      "INSUFFICIENT_FEE_TOKEN_BALANCE": "余额不足以支付跨链费用",
-      "BRIDGE_NOT_READY": "跨链尚未准备好，请填写所有字段"
+    "accountOverview": {
+      "title": "账户概览"
     },
-    "messages": {
-      "networksShouldBeMainnet": "Neo 3 和 Neo X 桥接应该使用主网"
-    }
+    "accountTokensList": {
+      "balance": "余额",
+      "tabs": {
+        "active": "活跃",
+        "hidden": "隐藏"
+      },
+      "title": "代币"
+    },
+    "accountTransactionsList": {
+      "exportCSVButtonLabel": "导出CSV",
+      "title": "交易"
+    },
+    "accounts": "账户",
+    "addAccountButtonLabel": "添加账户",
+    "address": "地址",
+    "editAccountButton": "编辑账户",
+    "editWalletButtonLabel": "编辑",
+    "exportButtonLabel": "导出",
+    "exportKeyButtonLabel": "导出密钥",
+    "exportKeyTitle": "导出密钥",
+    "exportWalletTitle": "导出钱包",
+    "hardwareWalletConnectBadge": "硬件钱包已连接",
+    "importButtonLabel": "导入",
+    "neo3NeoXBridgeButtonLabel": "跨链",
+    "newWalletButtonLabel": "新钱包",
+    "title": "钱包",
+    "voteNeo3ButtonLabel": "投票"
+  },
+  "welcome": {
+    "card1": {
+      "description": "轻松管理、发送和接收您的数字资产，支持多钱包操作",
+      "title": "直观"
+    },
+    "card2": {
+      "description": "Neon使用开源的WalletConnect协议，安全地将您的钱包连接到不断增长的dApp目录",
+      "title": "连接"
+    },
+    "card3": {
+      "description": "通过Neon桌面和移动（安卓和iOS）应用，数字资产管理从未如此简单",
+      "title": "灵活"
+    },
+    "card4": {
+      "description": "只需连接您的Ledger硬件钱包，即可用最高安全标准管理您的以太坊和Neo资产",
+      "title": "集成"
+    },
+    "continue": "继续",
+    "importWallet": {
+      "migrationLabel": "定位您的迁移文件",
+      "step3": {
+        "formTitle": "输入地址、加密密钥、私钥、助记词或定位备份文件",
+        "importEncryptedDescription": "为您的新账户选择区块链",
+        "importEncryptedSubtitle": "已识别您的加密密钥，请完成以下字段以继续。",
+        "importEncryptedTitle": "导入钱包",
+        "importError": "未识别兼容文件",
+        "importSuccess": "已识别兼容文件！",
+        "inputPlaceholder": "输入地址、密钥或助记词...",
+        "invalidAddress": "无效地址",
+        "locateFileButtonLabel": "定位文件",
+        "migrationFormTitle": "在您的电脑中查找迁移文件",
+        "neon2Warning": "此文件在Neon 2钱包迁移过程中创建。请在Neon 2中启动迁移以生成文件。",
+        "unexpectedError": "意外错误"
+      },
+      "step4": {
+        "title": "请耐心等待，我们正在为您设置钱包"
+      },
+      "step5": {
+        "openWalletButtonLabel": "打开您的钱包",
+        "title": "钱包导入成功！"
+      },
+      "steps": ["创建密码", "确认密码", "添加信息或定位文件", "导入", "完成"],
+      "title": "导入钱包"
+    },
+    "securitySetup": {
+      "step1": {
+        "formTitle": "请创建密码以保护您的钱包",
+        "passwordError": "密码长度至少为{{length}}个字符",
+        "passwordPlaceholder": "创建密码..."
+      },
+      "step2": {
+        "confirmPasswordError": "两次输入的密码不一致",
+        "confirmPasswordPlaceholder": "确认您的密码...",
+        "formTitle": "请确认您的密码"
+      },
+      "step3": {
+        "buttonContinueLabel": "打开您的钱包",
+        "title": "密码创建成功！"
+      },
+      "steps": ["创建密码", "确认密码", "完成"],
+      "title": "保护您的新钱包"
+    },
+    "title": "欢迎使用Neon钱包"
   }
 }

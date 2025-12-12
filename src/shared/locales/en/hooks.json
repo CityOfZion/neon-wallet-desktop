@@ -1,19 +1,27 @@
 {
-  "useImportAction": {
+  "useBackupOrMigrate": {
+    "defaultAccountLabel": "Migrated account",
+    "defaultContactName": "Migrated contact",
+    "error": "File not recognised",
+    "filterName": "Neon backup or migration file",
+    "neon2MigrateFileDetected": "NEON2 migrate file detected",
+    "neon3BackupFileDetected": "NEON3 backup file detected"
+  },
+  "useConfirmAction": {
+    "unauthorizedAction": "Unauthorized. Please try again or contact support."
+  },
+  "useHardwareWalletByUsb": {
     "errors": {
-      "invalid": "Invalid text or already exists",
-      "empty": "Please enter some text",
-      "allAddressesAlreadyImported": "All addresses are already imported",
-      "mnemonicIncomplete": "Mnemonic incomplete"
+      "noDevice": "There is no device connected"
     }
   },
-  "useBackupOrMigrate": {
-    "neon3BackupFileDetected": "NEON3 backup file detected",
-    "neon2MigrateFileDetected": "NEON2 migrate file detected",
-    "filterName": "Neon backup or migration file",
-    "error": "File not recognised",
-    "defaultAccountLabel": "Migrated account",
-    "defaultContactName": "Migrated contact"
+  "useImportAction": {
+    "errors": {
+      "allAddressesAlreadyImported": "All addresses are already imported",
+      "empty": "Please enter some text",
+      "invalid": "Invalid text or already exists",
+      "mnemonicIncomplete": "Mnemonic incomplete"
+    }
   },
   "useLogin": {
     "controlIsNotSet": "Unexpected error. Login control is not set.",
@@ -21,36 +29,28 @@
   },
   "useNeonBackup": {
     "errors": {
-      "unexpectedError": "Unexpected error. Restart the application.",
-      "backupError": "There was an error trying to backup. Please, try again."
+      "backupError": "There was an error trying to backup. Please, try again.",
+      "unexpectedError": "Unexpected error. Restart the application."
     }
   },
   "useNeonImportBackup": {
     "errors": {
+      "importData": "There was an error importing the data (It might imported partially).",
       "wrongPassword": "The password is incorrect. Please try again.",
-      "wrongVersion": "The backup file version is not supported. Please try to generate a new backup in the latest NEON version.",
-      "importData": "There was an error importing the data (It might imported partially)."
+      "wrongVersion": "The backup file version is not supported. Please try to generate a new backup in the latest NEON version."
     }
   },
   "useUnclaimedMutation": {
     "errors": {
       "claimError": "There was an error trying to claim. Please, try again."
     },
-    "successNotification": {
-      "title": "Claim successful",
-      "previewBody": "You have successfully claimed your unclaimed tokens."
-    },
     "failureNotification": {
-      "title": "Claim error",
-      "previewBody": "We couldn't verify the completion of your claim"
+      "previewBody": "We couldn't verify the completion of your claim",
+      "title": "Claim error"
+    },
+    "successNotification": {
+      "previewBody": "You have successfully claimed your unclaimed tokens.",
+      "title": "Claim successful"
     }
-  },
-  "useHardwareWalletByUsb": {
-    "errors": {
-      "noDevice": "There is no device connected"
-    }
-  },
-  "useConfirmAction": {
-    "unauthorizedAction": "Unauthorized. Please try again or contact support."
   }
 }

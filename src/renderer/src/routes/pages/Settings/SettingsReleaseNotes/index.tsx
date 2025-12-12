@@ -1,6 +1,11 @@
 import { useTranslation } from 'react-i18next'
 
 import { Link } from '@renderer/components/Link'
+import { Separator } from '@renderer/components/Separator'
+
+import { DateHelper } from '@renderer/helpers/DateHelper'
+
+import { useLanguageSelector } from '@renderer/hooks/useSettingsSelector'
 
 import { SettingsLayout } from '@renderer/layouts/Settings'
 
@@ -11,39 +16,47 @@ import 'github-markdown-css/github-markdown.css'
 const SettingsReleaseNotesPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'settings.settingsReleaseNotes' })
   const { t: changelogT } = useTranslation('changelog')
+  const { language } = useLanguageSelector()
 
   const releaseNotes = changelogT('notes', { returnObjects: true })
 
   return (
-    <SettingsLayout title={t('title')} contentClassName="overflow-y-auto">
-      <ul className="flex flex-col gap-10">
+    <SettingsLayout title={t('title')} contentClassName="overflow-y-auto ">
+      <ul className="flex flex-col">
         {releaseNotes.map(item => (
-          <li key={item.version}>
-            <span className="mb-1 block text-xs text-gray-300">{item.date}</span>
-            <span className="mb-2 block text-lg text-white">
-              {changelogT('versionLabel', { version: item.version })}
-            </span>
+          <li key={item.version} className="group">
+            <div>
+              <span className="mb-1 block text-xs text-gray-300">
+                {DateHelper.formatLocalized(item.date, { language, format: 'PPP' })}
+              </span>
 
-            <ul>
-              {item.changes.map((item, index) => (
-                <li key={`changelog-item-${index}`} className="list-inside list-disc text-xs text-gray-100">
-                  {item}
-                </li>
-              ))}
-            </ul>
+              <span className="mb-2 block text-lg text-white">
+                {changelogT('versionLabel', { version: item.version })}
+              </span>
 
-            {item.url && (
-              <div className="mt-6 w-40">
-                <Link
-                  target="_blank"
-                  to={item.url}
-                  label={t('button.learnMore')}
-                  rightIcon={<MdLaunch />}
-                  variant="outlined"
-                  clickableProps={{ className: 'h-10' }}
-                />
-              </div>
-            )}
+              <ul>
+                {item.changes.map((item, index) => (
+                  <li key={`changelog-item-${index}`} className="list-inside list-disc py-0.5 text-xs text-gray-100">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+
+              {item.url && (
+                <div className="mt-6 w-40">
+                  <Link
+                    target="_blank"
+                    to={item.url}
+                    label={t('button.learnMore')}
+                    rightIcon={<MdLaunch />}
+                    variant="outlined"
+                    clickableProps={{ className: 'h-10' }}
+                  />
+                </div>
+              )}
+            </div>
+
+            <Separator containerClassName="group-last:hidden py-5" />
           </li>
         ))}
       </ul>

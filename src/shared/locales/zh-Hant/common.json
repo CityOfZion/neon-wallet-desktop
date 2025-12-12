@@ -1,206 +1,90 @@
 {
-  "general": {
-    "continue": "繼續",
-    "next": "下一步",
-    "save": "儲存",
-    "edit": "編輯",
-    "cancel": "取消",
-    "reset": "重設",
-    "back": "返回",
-    "close": "關閉",
-    "successfullyCopied": "已成功複製到剪貼簿",
-    "receive": "接收",
-    "send": "發送",
-    "passwordNEONQRCode": "二維碼",
-    "downloadQRCodePassword": "下載密碼二維碼",
-    "default": "預設",
-    "remove": "移除",
-    "copy": "複製到剪貼簿",
-    "swap": "兌換",
-    "bridgeNeo3NeoX": "橋接",
-    "buyAndSellTokens": "買賣",
-    "logo": "Neon Wallet 標誌",
-    "pasteFromClipboard": "從剪貼簿貼上",
-    "pasteFromClipboardError": "從剪貼簿貼上失敗",
-    "emptyColumn": "--"
-  },
-  "walletConnect": {
-    "name": "Neon 錢包",
-    "description": "建立和管理錢包，或輕鬆導入現有錢包，透過 Neon 的簡潔介面安全管理和轉移您的資產。"
-  },
-  "wallet": {
-    "importedName": "已導入錢包",
-    "encryptedName": "加密錢包",
-    "ledgerName": "{{blockchain}} Ledger 錢包",
-    "watchAccount": "觀察帳戶",
-    "mnemonicWalletName": "助記詞錢包",
-    "firstWalletName": "我的第一個錢包",
-    "migratedWalletName": "已遷移錢包"
-  },
   "account": {
     "defaultName": "帳戶 {{accountNumber}}"
   },
   "blockchain": {
+    "arbitrum": "Arbitrum",
+    "base": "Base",
+    "ethereum": "以太坊",
     "neo3": "Neo N3",
     "neoLegacy": "Neo 傳統版",
-    "ethereum": "以太坊",
     "neox": "NeoX",
-    "polygon": "Polygon",
-    "base": "Base",
-    "arbitrum": "Arbitrum"
+    "polygon": "Polygon"
+  },
+  "errors": {
+    "blockchainIsNotClaimable": "此帳戶區塊鏈無法申領：{{address}} {{blockchain}}",
+    "hardwareWalletNotConnectedOrLocked": "硬體錢包未連接或已鎖定，請檢查您的裝置並重試",
+    "loginSessionIsNotDefined": "未知錯誤。登入會話未定義。",
+    "noEncryptedKey": "此帳戶沒有加密金鑰：{{address}}"
+  },
+  "general": {
+    "back": "返回",
+    "bridgeNeo3NeoX": "橋接",
+    "buyAndSellTokens": "買賣",
+    "cancel": "取消",
+    "close": "關閉",
+    "continue": "繼續",
+    "copy": "複製到剪貼簿",
+    "default": "預設",
+    "downloadQRCodePassword": "下載密碼二維碼",
+    "edit": "編輯",
+    "emptyColumn": "--",
+    "logo": "Neon Wallet 標誌",
+    "next": "下一步",
+    "passwordNEONQRCode": "二維碼",
+    "pasteFromClipboard": "從剪貼簿貼上",
+    "pasteFromClipboardError": "從剪貼簿貼上失敗",
+    "receive": "接收",
+    "remove": "移除",
+    "reset": "重設",
+    "save": "儲存",
+    "send": "發送",
+    "successfullyCopied": "已成功複製到剪貼簿",
+    "swap": "兌換"
   },
   "networkTypeLabel": {
     "mainnet": "主網",
     "testnet": "測試網"
   },
-  "errors": {
-    "noEncryptedKey": "此帳戶沒有加密金鑰：{{address}}",
-    "blockchainIsNotClaimable": "此帳戶區塊鏈無法申領：{{address}} {{blockchain}}",
-    "loginSessionIsNotDefined": "未知錯誤。登入會話未定義。",
-    "hardwareWalletNotConnectedOrLocked": "硬體錢包未連接或已鎖定，請檢查您的裝置並重試"
-  },
   "synonyms": {
-    "view": [
-      "看",
-      "查看",
-      "觀察",
-      "觀看"
-    ],
-    "transfer": [
-      "轉置",
-      "傳輸",
-      "運輸",
-      "改變",
-      "受讓人",
-      "轉移",
-      "運輸"
-    ],
-    "trade": [
-      "交換",
-      "易貨",
-      "切換",
-      "商品",
-      "生意",
-      "交易"
-    ],
-    "swap": [
-      "交換",
-      "切換"
-    ],
-    "send": [
-      "傳輸",
-      "運送",
-      "交付",
-      "提交"
-    ],
-    "sell": [
-      "市場",
-      "交易"
-    ],
-    "secure": [
-      "確保",
-      "保證",
-      "安全",
-      "不可侵犯",
-      "無畏",
-      "保險",
-      "保護"
-    ],
-    "save": [
-      "保存",
-      "保持",
-      "存儲",
-      "節約"
-    ],
-    "restore": [
-      "重建",
-      "再生"
-    ],
-    "recover": [
-      "恢復",
-      "返回",
-      "檢索",
-      "康復"
-    ],
-    "purchase": [
-      "購買",
-      "獲得"
-    ],
-    "pair": [
-      "對",
-      "匹配",
-      "雙"
-    ],
-    "lock": [
-      "保護",
-      "固定",
-      "關閉"
-    ],
-    "load": [
-      "充電",
-      "裝載",
-      "填充"
-    ],
-    "list": [
-      "列舉",
-      "目錄",
-      "清單"
-    ],
-    "liquidate": [
-      "結算",
-      "償還",
-      "浪費"
-    ],
-    "link": [
-      "連接",
-      "加入",
-      "關聯"
-    ],
-    "generate": [
-      "生產",
-      "創建",
-      "產生"
-    ],
-    "exchange": [
-      "貿易",
-      "交換",
-      "切換",
-      "改變"
-    ],
-    "create": [
-      "生產",
-      "建立",
-      "製作",
-      "生成"
-    ],
-    "connection": [
-      "鏈接",
-      "關聯",
-      "關係"
-    ],
-    "connect": [
-      "鏈接",
-      "加入",
-      "聯合",
-      "關聯"
-    ],
-    "buy": [
-      "購買",
-      "獲得"
-    ],
-    "add": [
-      "追加",
-      "包括",
-      "增加",
-      "總和"
-    ],
-    "acquire": [
-      "獲得",
-      "得到"
-    ],
-    "crypto": [
-      "代幣",
-      "代幣"
-    ]
+    "acquire": ["獲得", "得到"],
+    "add": ["追加", "包括", "增加", "總和"],
+    "buy": ["購買", "獲得"],
+    "connect": ["鏈接", "加入", "聯合", "關聯"],
+    "connection": ["鏈接", "關聯", "關係"],
+    "create": ["生產", "建立", "製作", "生成"],
+    "crypto": ["代幣", "代幣"],
+    "exchange": ["貿易", "交換", "切換", "改變"],
+    "generate": ["生產", "創建", "產生"],
+    "link": ["連接", "加入", "關聯"],
+    "liquidate": ["結算", "償還", "浪費"],
+    "list": ["列舉", "目錄", "清單"],
+    "load": ["充電", "裝載", "填充"],
+    "lock": ["保護", "固定", "關閉"],
+    "pair": ["對", "匹配", "雙"],
+    "purchase": ["購買", "獲得"],
+    "recover": ["恢復", "返回", "檢索", "康復"],
+    "restore": ["重建", "再生"],
+    "save": ["保存", "保持", "存儲", "節約"],
+    "secure": ["確保", "保證", "安全", "不可侵犯", "無畏", "保險", "保護"],
+    "sell": ["市場", "交易"],
+    "send": ["傳輸", "運送", "交付", "提交"],
+    "swap": ["交換", "切換"],
+    "trade": ["交換", "易貨", "切換", "商品", "生意", "交易"],
+    "transfer": ["轉置", "傳輸", "運輸", "改變", "受讓人", "轉移", "運輸"],
+    "view": ["看", "查看", "觀察", "觀看"]
+  },
+  "wallet": {
+    "encryptedName": "加密錢包",
+    "firstWalletName": "我的第一個錢包",
+    "importedName": "已導入錢包",
+    "ledgerName": "{{blockchain}} Ledger 錢包",
+    "migratedWalletName": "已遷移錢包",
+    "mnemonicWalletName": "助記詞錢包",
+    "watchAccount": "觀察帳戶"
+  },
+  "walletConnect": {
+    "description": "建立和管理錢包，或輕鬆導入現有錢包，透過 Neon 的簡潔介面安全管理和轉移您的資產。",
+    "name": "Neon 錢包"
   }
 }

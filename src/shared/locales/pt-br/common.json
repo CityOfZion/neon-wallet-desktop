@@ -1,206 +1,90 @@
 {
-  "general": {
-    "continue": "Continuar",
-    "next": "Próximo",
-    "save": "Salvar",
-    "edit": "Editar",
-    "cancel": "Cancelar",
-    "reset": "Redefinir",
-    "back": "Voltar",
-    "close": "Fechar",
-    "successfullyCopied": "Copiado com sucesso para a área de transferência",
-    "receive": "Receber",
-    "send": "Enviar",
-    "passwordNEONQRCode": "Código QR",
-    "downloadQRCodePassword": "Baixar código QR da senha",
-    "default": "Padrão",
-    "remove": "Remover",
-    "copy": "Copiar para área de transferência",
-    "swap": "Swap",
-    "bridgeNeo3NeoX": "Bridge",
-    "buyAndSellTokens": "Comprar + Vender",
-    "logo": "Logotipo da Neon Wallet",
-    "pasteFromClipboard": "Colar da área de transferência",
-    "pasteFromClipboardError": "Falha ao colar da área de transferência",
-    "emptyColumn": "--"
-  },
-  "walletConnect": {
-    "name": "Neon Wallet",
-    "description": "Crie e organize carteiras, ou importe facilmente as existentes, para gerenciar e transferir com segurança seus ativos entre contas com a interface elegante da Neon."
-  },
-  "wallet": {
-    "importedName": "Carteira Importada",
-    "encryptedName": "Carteira Criptografada",
-    "ledgerName": "Carteira {{blockchain}} Ledger",
-    "watchAccount": "Conta Observada",
-    "mnemonicWalletName": "Carteira Mnemônica",
-    "firstWalletName": "Minha Primeira Carteira",
-    "migratedWalletName": "Carteira Migrada"
-  },
   "account": {
     "defaultName": "Conta {{accountNumber}}"
   },
   "blockchain": {
+    "arbitrum": "Arbitrum",
+    "base": "Base",
+    "ethereum": "Ethereum",
     "neo3": "Neo N3",
     "neoLegacy": "Neo Legacy",
-    "ethereum": "Ethereum",
     "neox": "NeoX",
-    "polygon": "Polygon",
-    "base": "Base",
-    "arbitrum": "Arbitrum"
+    "polygon": "Polygon"
+  },
+  "errors": {
+    "blockchainIsNotClaimable": "A blockchain da conta não é resgatável: {{address}} {{blockchain}}",
+    "hardwareWalletNotConnectedOrLocked": "A carteira de hardware não está conectada ou está bloqueada, verifique seu dispositivo e tente novamente",
+    "loginSessionIsNotDefined": "Erro desconhecido. A sessão de login não está definida.",
+    "noEncryptedKey": "Não há chave criptografada para esta conta: {{address}}"
+  },
+  "general": {
+    "back": "Voltar",
+    "bridgeNeo3NeoX": "Bridge",
+    "buyAndSellTokens": "Comprar + Vender",
+    "cancel": "Cancelar",
+    "close": "Fechar",
+    "continue": "Continuar",
+    "copy": "Copiar para área de transferência",
+    "default": "Padrão",
+    "downloadQRCodePassword": "Baixar código QR da senha",
+    "edit": "Editar",
+    "emptyColumn": "--",
+    "logo": "Logotipo da Neon Wallet",
+    "next": "Próximo",
+    "passwordNEONQRCode": "Código QR",
+    "pasteFromClipboard": "Colar da área de transferência",
+    "pasteFromClipboardError": "Falha ao colar da área de transferência",
+    "receive": "Receber",
+    "remove": "Remover",
+    "reset": "Redefinir",
+    "save": "Salvar",
+    "send": "Enviar",
+    "successfullyCopied": "Copiado com sucesso para a área de transferência",
+    "swap": "Swap"
   },
   "networkTypeLabel": {
     "mainnet": "Rede Principal",
     "testnet": "Rede de Teste"
   },
-  "errors": {
-    "noEncryptedKey": "Não há chave criptografada para esta conta: {{address}}",
-    "blockchainIsNotClaimable": "A blockchain da conta não é resgatável: {{address}} {{blockchain}}",
-    "loginSessionIsNotDefined": "Erro desconhecido. A sessão de login não está definida.",
-    "hardwareWalletNotConnectedOrLocked": "A carteira de hardware não está conectada ou está bloqueada, verifique seu dispositivo e tente novamente"
-  },
   "synonyms": {
-    "view": [
-      "ver",
-      "olhar",
-      "observar",
-      "assistir"
-    ],
-    "transfer": [
-      "transpor",
-      "transmitir",
-      "transportar",
-      "mudar",
-      "transferência",
-      "transporte",
-      "transferir"
-    ],
-    "trade": [
-      "troca",
-      "câmbio",
-      "alterar",
-      "trocar",
-      "negócio",
-      "transação"
-    ],
-    "swap": [
-      "troca",
-      "câmbio"
-    ],
-    "send": [
-      "transmitir",
-      "enviar",
-      "mandar",
-      "remeter"
-    ],
-    "sell": [
-      "vender",
-      "comercializar"
-    ],
-    "secure": [
-      "garantir",
-      "seguro",
-      "proteger",
-      "inviolável",
-      "asseverar",
-      "assegurar",
-      "segurar"
-    ],
-    "save": [
-      "preservar",
-      "manter",
-      "armazenar",
-      "economizar"
-    ],
-    "restore": [
-      "restaurar",
-      "regenerar"
-    ],
-    "recover": [
-      "recuperar",
-      "voltar",
-      "obter",
-      "recobrar"
-    ],
-    "purchase": [
-      "comprar",
-      "adquirir"
-    ],
-    "pair": [
-      "parear",
-      "combinar",
-      "par"
-    ],
-    "lock": [
-      "bloquear",
-      "fixar",
-      "fechar"
-    ],
-    "load": [
-      "carregar",
-      "preenchendo",
-      "preencher"
-    ],
-    "list": [
-      "enumerar",
-      "lista",
-      "listagem"
-    ],
-    "liquidate": [
-      "liquidar",
-      "pagar",
-      "quitar"
-    ],
-    "link": [
-      "conectar",
-      "linkar",
-      "associar"
-    ],
-    "generate": [
-      "produzir",
-      "criar",
-      "gerar"
-    ],
-    "exchange": [
-      "trocar",
-      "permuta",
-      "alternância",
-      "mudar"
-    ],
-    "create": [
-      "produzir",
-      "construir",
-      "fazer",
-      "criar"
-    ],
-    "connection": [
-      "conexão",
-      "associação",
-      "ligação"
-    ],
-    "connect": [
-      "conectar",
-      "juntar",
-      "unir",
-      "associar"
-    ],
-    "buy": [
-      "comprar",
-      "adquirir"
-    ],
-    "add": [
-      "adicionar",
-      "incluir",
-      "aumentar",
-      "somar"
-    ],
-    "acquire": [
-      "obter",
-      "conseguir"
-    ],
-    "crypto": [
-      "token",
-      "tokens"
-    ]
+    "acquire": ["obter", "conseguir"],
+    "add": ["adicionar", "incluir", "aumentar", "somar"],
+    "buy": ["comprar", "adquirir"],
+    "connect": ["conectar", "juntar", "unir", "associar"],
+    "connection": ["conexão", "associação", "ligação"],
+    "create": ["produzir", "construir", "fazer", "criar"],
+    "crypto": ["token", "tokens"],
+    "exchange": ["trocar", "permuta", "alternância", "mudar"],
+    "generate": ["produzir", "criar", "gerar"],
+    "link": ["conectar", "linkar", "associar"],
+    "liquidate": ["liquidar", "pagar", "quitar"],
+    "list": ["enumerar", "lista", "listagem"],
+    "load": ["carregar", "preenchendo", "preencher"],
+    "lock": ["bloquear", "fixar", "fechar"],
+    "pair": ["parear", "combinar", "par"],
+    "purchase": ["comprar", "adquirir"],
+    "recover": ["recuperar", "voltar", "obter", "recobrar"],
+    "restore": ["restaurar", "regenerar"],
+    "save": ["preservar", "manter", "armazenar", "economizar"],
+    "secure": ["garantir", "seguro", "proteger", "inviolável", "asseverar", "assegurar", "segurar"],
+    "sell": ["vender", "comercializar"],
+    "send": ["transmitir", "enviar", "mandar", "remeter"],
+    "swap": ["troca", "câmbio"],
+    "trade": ["troca", "câmbio", "alterar", "trocar", "negócio", "transação"],
+    "transfer": ["transpor", "transmitir", "transportar", "mudar", "transferência", "transporte", "transferir"],
+    "view": ["ver", "olhar", "observar", "assistir"]
+  },
+  "wallet": {
+    "encryptedName": "Carteira Criptografada",
+    "firstWalletName": "Minha Primeira Carteira",
+    "importedName": "Carteira Importada",
+    "ledgerName": "Carteira {{blockchain}} Ledger",
+    "migratedWalletName": "Carteira Migrada",
+    "mnemonicWalletName": "Carteira Mnemônica",
+    "watchAccount": "Conta Observada"
+  },
+  "walletConnect": {
+    "description": "Crie e organize carteiras, ou importe facilmente as existentes, para gerenciar e transferir com segurança seus ativos entre contas com a interface elegante da Neon.",
+    "name": "Neon Wallet"
   }
 }

@@ -1,0 +1,191 @@
+{
+  "notes": [
+    {
+      "changes": ["Remoção da Migração do Neo Legacy", "Lembrete de Backup", "Melhorias Menores na UX"],
+      "date": "2025-10-30",
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.8.3",
+      "version": "3.8.3"
+    },
+    {
+      "changes": ["Melhorias na migração", "Bridge Neo 3 e Neo X", "Correções de erros"],
+      "date": "2025-10-06",
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.8.2",
+      "version": "3.8.2"
+    },
+    {
+      "changes": [
+        "Suporte para frasal de 24 palavras",
+        "Nova Notificação: Token Malicioso Identificado",
+        "Remoção da exigência de 'claim gas' antes de ativar a migração Neo Legacy > Neo N3",
+        "Nova Funcionalidade: Importar Mnemônico por meio de deeplinks"
+      ],
+      "date": "2025-07-29",
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.8.1",
+      "version": "3.8.1"
+    },
+    {
+      "changes": [
+        "Nova Funcionalidade: Votação na Governança Neo",
+        "Nova Notificação: Lembrete da Governança Neo",
+        "Suporte a múltiplos idiomas: Chinês",
+        "Correções Menores"
+      ],
+      "date": "2025-06-30",
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.8.0",
+      "version": "3.8.0"
+    },
+    {
+      "changes": [
+        "Correção para log de alterações duplicado 3.7.0",
+        "Correção para problema que afeta o cálculo da taxa de transação ao realizar uma troca",
+        "Correção para transação pendente sendo listada duas vezes na lista de transações",
+        "Acesso rápido à migração de legado via Pesquisa de Ação"
+      ],
+      "date": "2025-06-06",
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.7.1",
+      "version": "3.7.1"
+    },
+    {
+      "changes": [
+        "Nova Funcionalidade: Busca de Ações - Acesso rápido às ações existentes da carteira",
+        "Nova Funcionalidade: Exportar Histórico de Transações",
+        "Nova Funcionalidade: Tela de Atividades Aprimorada",
+        "Melhoria na experiência do usuário sobre a ordem das palavras nas frases mnemônicas",
+        "Correção para o problema que impedia o uso da NNS em alguns cenários",
+        "Correções Menores"
+      ],
+      "date": "2025-05-29",
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.7.0",
+      "version": "3.7.0"
+    },
+    {
+      "changes": [
+        "Corrigido problema que fazia modais do Wallet Connect permanecerem abertos após um resultado bem-sucedido",
+        "Problema corrigido que causava a navegação no ledger ser lenta enquanto conectado para migração",
+        "Melhoria na mensagem exibida quando a importação de uma mnemônica retorna nenhuma conta",
+        "Melhoria na mensagem exibida quando o check de migração ultrapassar o tempo limite",
+        "Aprovação melhorada para análise de tickers de opções de troca retornados pelo parceiro de troca",
+        "Mudar nó padrão para Polygon",
+        "Correções Menores"
+      ],
+      "date": "2025-04-30",
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.6.1",
+      "version": "3.6.1"
+    },
+    {
+      "changes": [
+        "Nova Migração Nativa (Legado > N3)",
+        "Funcionalidade de Notificações - Entrega Inicial (Migrar Agora e Migração Concluída)",
+        "Integração de Dados de Preços do FTW",
+        "Funcionalidade de Ocultar Token",
+        "Melhoria da UX da Sessão do Ledger - Manter Índices de Conta entre Sessões",
+        "Melhorias Menores na UX",
+        "Correções Menores"
+      ],
+      "date": "2025-04-17",
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.6.0",
+      "version": "3.6.0"
+    },
+    {
+      "changes": [
+        "Suporte à Rede Arbitrum",
+        "Suporte à rede BASE",
+        "Entrega da Função On-Ramp",
+        "Entrega da Função Off-Ramp",
+        "Melhorias na Tela de Solicitação de Troca",
+        "Correções menores"
+      ],
+      "date": "2025-02-17",
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.5.0",
+      "version": "3.5.0"
+    },
+    {
+      "changes": [
+        "Suporte à Rede Polygon",
+        "Melhorias na Interface de Troca",
+        "Botão \"Máximo\" para Enviar",
+        "Correções menores"
+      ],
+      "date": "2025-01-23",
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.4.0",
+      "version": "3.4.0"
+    },
+    {
+      "changes": [
+        "Implementação da Função de Troca de Cadeia Cruzada",
+        "Compatibilidade com sincronização offline com o Neon Wallet Mobile usando os backups do Neon",
+        "Melhoria no Recurso de Skins",
+        "Implementação Inicial da Função de Ajuda",
+        "Correções menores",
+        "Suporte ao Neo Legacy Ledger"
+      ],
+      "date": "2024-12-24",
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.3.0",
+      "version": "3.3.0"
+    },
+    {
+      "changes": [
+        "Novo método de login: Login com Endereço ou Chave",
+        "Integração com nova API do Flamingo para data de preços melhorada",
+        "Suporte a várias contas do Ledger",
+        "Suporte para NFTs Neo X",
+        "Suporte para Vários Transferências na mesma Transação",
+        "Suporte à seleção de contas próprias como destino de uma transferência",
+        "Correções Menores"
+      ],
+      "date": "2024-10-24",
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.2.0",
+      "version": "3.2.0"
+    },
+    {
+      "changes": [
+        "Login Anônimo com Ledger",
+        "UX Revampado do Ledger",
+        "Opções de Exportação (Chaves Privadas e Mnemônicos)",
+        "Recuperar Aplicativo",
+        "Acesso BETA para Build Linux",
+        "Botão de Atualizar Dados da Blockchain",
+        "Melhoria na lista de transações Neo X - Link para XExplorer",
+        "Aumento de Desempenho ao acordar o NEON"
+      ],
+      "date": "2024-09-20",
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.1.0",
+      "version": "3.1.0"
+    },
+    {
+      "changes": ["Melhoria da UX do Ledger", "Wallet Connect Melhoria - Suporte ao EIP-1559"],
+      "date": "2024-08-16",
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.0.2",
+      "version": "3.0.2"
+    },
+    {
+      "changes": [
+        "Wallet Connect Melhoria - Novos métodos Ethereum sendo suportados (eth_call, eth_sendRawTransaction, eth_requestAccounts)",
+        "Corrigir o problema em que, caso a mnemônica tenha palavras repetidas, ela não estava sendo tratada corretamente durante a confirmação",
+        "Corrigir problema com o índice de derivação durante a varredura de importação",
+        "Correção para bug visual na reclamação de GAS ao usar Ledger",
+        "Correção para o problema que estava impedindo os usuários de enviar ativos com Ledger"
+      ],
+      "date": "2024-08-13",
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.0.1",
+      "version": "3.0.1"
+    },
+    {
+      "changes": [
+        "A nova geração do Neon Wallet 3 chegou, e nossa carteira autônoma é melhor do que nunca! Desde 2017, nossa missão é entregar uma experiência suave e agradável combinando as tecnologias mais modernas com um design elegante e funcional. Nossa filosofia permanece a mesma, mas o Neon certamente não. Desde seu lançamento, ele sofreu inúmeras melhorias, e sua terceira geração está aqui para mostrar que está pronto para a nova era do Web3. Veja o que há de novo nesta versão:",
+        "Ethereum & Neo X suporte",
+        "Novo design de produto",
+        " Código da Plataforma Comum",
+        "Arquitetura de Multi-Wallet",
+        "Personalização Avançada da Interface",
+        "Login Global",
+        "Importação de Conta em Escaneamento",
+        "Experiência melhorada do WalletConnect"
+      ],
+      "date": "2024-08-13",
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.0.0",
+      "version": "3.0.0"
+    }
+  ],
+  "versionLabel": "Versão v{{version}}"
+}

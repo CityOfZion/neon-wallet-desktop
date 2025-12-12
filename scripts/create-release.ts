@@ -106,6 +106,8 @@ async function createOrUpdateChangelog(bumpedVersion: string, actualVersion: str
     JSON.stringify(changelog, null, 2),
     'utf-8'
   )
+
+  await execAsync('npm run translate')
 }
 
 async function main() {
@@ -152,11 +154,13 @@ async function main() {
   }
 
   const bumpedVersion = await bumpVersion(npmCliBumpType)
-
-  await createOrUpdateChangelog(bumpedVersion, packageJsonVersion)
-
   await execAsync('git add .')
   await execAsync(`git commit -m "Bump version to ${bumpedVersion}" --no-verify`)
+
+  await createOrUpdateChangelog(bumpedVersion, packageJsonVersion)
+  await execAsync('git add .')
+  await execAsync(`git commit -m "Update changelog for v${bumpedVersion}" --no-verify`)
+
   await execAsync('git push origin HEAD --no-verify')
 
   await execAsync(`git tag v${bumpedVersion}`)

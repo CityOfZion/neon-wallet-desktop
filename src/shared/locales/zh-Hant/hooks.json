@@ -1,19 +1,27 @@
 {
-  "useImportAction": {
+  "useBackupOrMigrate": {
+    "defaultAccountLabel": "已遷移帳戶",
+    "defaultContactName": "已遷移聯絡人",
+    "error": "無法識別的檔案",
+    "filterName": "Neon 備份或遷移檔案",
+    "neon2MigrateFileDetected": "偵測到 NEON2 遷移檔案",
+    "neon3BackupFileDetected": "偵測到 NEON3 備份檔案"
+  },
+  "useConfirmAction": {
+    "unauthorizedAction": "未授權。請重試或聯繫支持。"
+  },
+  "useHardwareWalletByUsb": {
     "errors": {
-      "invalid": "無效的文本或已存在",
-      "empty": "請輸入一些文本",
-      "allAddressesAlreadyImported": "所有地址已導入",
-      "mnemonicIncomplete": "助記詞不完整"
+      "noDevice": "沒有連接任何裝置"
     }
   },
-  "useBackupOrMigrate": {
-    "neon3BackupFileDetected": "偵測到 NEON3 備份檔案",
-    "neon2MigrateFileDetected": "偵測到 NEON2 遷移檔案",
-    "filterName": "Neon 備份或遷移檔案",
-    "error": "無法識別的檔案",
-    "defaultAccountLabel": "已遷移帳戶",
-    "defaultContactName": "已遷移聯絡人"
+  "useImportAction": {
+    "errors": {
+      "allAddressesAlreadyImported": "所有地址已導入",
+      "empty": "請輸入一些文本",
+      "invalid": "無效的文本或已存在",
+      "mnemonicIncomplete": "助記詞不完整"
+    }
   },
   "useLogin": {
     "controlIsNotSet": "意外錯誤。登入控制未設置。",
@@ -21,36 +29,28 @@
   },
   "useNeonBackup": {
     "errors": {
-      "unexpectedError": "意外錯誤。請重新啟動應用程式。",
-      "backupError": "備份時發生錯誤。請再試一次。"
+      "backupError": "備份時發生錯誤。請再試一次。",
+      "unexpectedError": "意外錯誤。請重新啟動應用程式。"
     }
   },
   "useNeonImportBackup": {
     "errors": {
+      "importData": "匯入資料時發生錯誤（可能已部分匯入）。",
       "wrongPassword": "密碼錯誤。請再試一次。",
-      "wrongVersion": "備份檔案版本不支援。請嘗試在最新 NEON 版本中產生新的備份。",
-      "importData": "匯入資料時發生錯誤（可能已部分匯入）。"
+      "wrongVersion": "備份檔案版本不支援。請嘗試在最新 NEON 版本中產生新的備份。"
     }
   },
   "useUnclaimedMutation": {
     "errors": {
       "claimError": "領取時發生錯誤。請再試一次。"
     },
-    "successNotification": {
-      "title": "領取成功",
-      "previewBody": "您已成功領取未領取的代幣。"
-    },
     "failureNotification": {
-      "title": "領取錯誤",
-      "previewBody": "我們無法驗證您的領取是否完成"
+      "previewBody": "我們無法驗證您的領取是否完成",
+      "title": "領取錯誤"
+    },
+    "successNotification": {
+      "previewBody": "您已成功領取未領取的代幣。",
+      "title": "領取成功"
     }
-  },
-  "useHardwareWalletByUsb": {
-    "errors": {
-      "noDevice": "沒有連接任何裝置"
-    }
-  },
-  "useConfirmAction": {
-    "unauthorizedAction": "未授權。請重試或聯繫支持。"
   }
 }

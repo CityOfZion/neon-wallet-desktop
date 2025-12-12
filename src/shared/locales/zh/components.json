@@ -1,85 +1,101 @@
 {
-  "sidebar": {
-    "portfolio": "投资组合",
-    "wallets": "钱包",
-    "settings": "设置",
-    "logout": "退出登录",
-    "send": "发送",
-    "receive": "接收",
-    "swap": "兑换",
-    "nfts": "NFTs",
-    "buyAndSellTokens": "买卖",
-    "contacts": "联系人"
-  },
-  "walletsSelect": {
-    "title": "钱包",
-    "placeholder": "请选择钱包..."
-  },
-  "walletAccordionList": {
-    "noAccounts": "没有账户"
-  },
-  "contacts": {
-    "search": "搜索",
-    "noContacts": "没有联系人"
-  },
-  "blockchainSelection": {
-    "search": "搜索..."
-  },
-  "wallets": {
-    "cancelButtonLabel": "取消",
-    "saveButtonLabel": "保存"
-  },
-  "tokenBalance": {
-    "token": "代币",
-    "quantity": "数量",
-    "price": "价格"
-  },
-  "tokensTable": {
-    "ticker": "代码",
-    "token": "代币",
+  "balanceChart": {
+    "balance": "余额",
     "holdings": "持有量",
-    "price": "价格",
-    "value": "价值",
-    "hash": "哈希",
-    "empty": "没有可显示的代币",
-    "hideTokenLabel": "隐藏代币",
-    "showTokenLabel": "显示代币"
+    "noAssets": "没有资产",
+    "othersTokens": "其他"
   },
   "blockchainDataPanel": {
     "tabs": {
-      "tokens": "代币",
       "nfts": "NFTs",
+      "tokens": "代币",
       "transactions": "交易"
     },
     "title": "所有账户"
   },
-  "balanceChart": {
-    "othersTokens": "其他",
-    "noAssets": "没有资产",
-    "holdings": "持有量",
-    "balance": "余额"
-  },
-  "transactionsTableEmpty": {
-    "title": "您的钱包目前为空，何不添加一些资产或连接 dApp？",
-    "subtitle": "您的钱包兼容 Neo、Gas 和以太坊资产",
-    "connectDappLabel": "连接 dApp",
-    "importAccountLabel": "导入账户"
-  },
-  "contactAddressTable": {
-    "blockchain": "区块链",
-    "address": "地址",
-    "sendAssets": "发送资产"
-  },
   "blockchainSelect": {
     "placeholder": "请选择区块链..."
   },
+  "blockchainSelection": {
+    "search": "搜索..."
+  },
+  "calendar": {
+    "nextYearButtonLabel": "前往后 {{years}} 年",
+    "previousYearButtonLabel": "前往前 {{years}} 年"
+  },
+  "chartCard": {
+    "24h": "（24小时）",
+    "holdings": "持有量：",
+    "unableToFetchData": "无法获取数据",
+    "variation": "{{variationType}}{{variation}}%"
+  },
+  "chartCardList": {
+    "title": "代币价格"
+  },
+  "claimGasButton": {
+    "balanceLessFee": "无法领取，因为余额不足以支付网络费用！",
+    "buttonLabel": "领取 GAS",
+    "claimAmount": "{{amount}} {{symbol}}",
+    "errorToGetUnclaimed": "无法获取未领取金额",
+    "feeToClaim": "领取手续费：{{fee}} {{symbol}}",
+    "unclaimedLessFee": "领取不可用，因为可领取金额不足以支付网络费用！",
+    "youDoNotHaveUnclaimed": "您没有未领取的 {{symbol}}！",
+    "youHaveUnclaimed": "您有未领取的 {{symbol}}！"
+  },
+  "commonScreenActions": {
+    "chatWithUsButtonLabel": "联系我们",
+    "connectButtonLabel": "连接",
+    "helpButtonLabel": "帮助",
+    "importButtonLabel": "导入",
+    "newWalletButtonLabel": "新钱包",
+    "notificationButtonLabel": "通知",
+    "searchButtonLabel": "搜索…",
+    "toolsButtonLabel": "工具",
+    "unreadNotificationsIconLabel": "您有未读通知"
+  },
+  "connectHardwareWalletButton": {
+    "connect": "连接"
+  },
   "connectionsTable": {
-    "name": "名称",
-    "connected": "已连接",
-    "chain": "链",
     "account": "账户",
+    "chain": "链",
+    "connected": "已连接",
     "disconnect": "断开连接",
-    "emptyList": "没有 dApp 连接"
+    "emptyList": "没有 dApp 连接",
+    "name": "名称"
+  },
+  "contactAddressTable": {
+    "address": "地址",
+    "blockchain": "区块链",
+    "sendAssets": "发送资产"
+  },
+  "contacts": {
+    "noContacts": "没有联系人",
+    "search": "搜索"
+  },
+  "dappPermissionContextualMessage": {
+    "messageLabel": "上下文消息"
+  },
+  "fieldActionsMenu": {
+    "copy": "复制",
+    "cut": "剪切",
+    "messages": {
+      "copied": "已复制",
+      "error": "执行此操作时出错"
+    },
+    "paste": "粘贴"
+  },
+  "greyAccountSelect": {
+    "empty": "没有账户",
+    "placeholder": "请选择账户..."
+  },
+  "greyAmountInput": {
+    "maxButtonLabel": "最大",
+    "placeholder": "0.00000000"
+  },
+  "greyTokenSelect": {
+    "empty": "没有代币",
+    "placeholder": "请选择代币..."
   },
   "migrateSteps": {
     "inNeon2": {
@@ -93,123 +109,107 @@
       "step4": "输入您的账户密码"
     }
   },
+  "mnemonicOrKeyAccountSelection": {
+    "accountsLength": "找到 {{length}} 个地址",
+    "alreadyExists": "已存在",
+    "noAccountsToImport": "未找到账户或已存在，请检查您的输入并稍后再试。"
+  },
   "passwordStrength": {
+    "good": "良好",
     "label": "密码强度",
     "none": "-",
+    "strong": "强",
     "tooShort": "太短",
-    "weak": "弱",
-    "good": "良好",
-    "strong": "强"
+    "weak": "弱"
   },
-  "claimGasButton": {
-    "buttonLabel": "领取 GAS",
-    "claimAmount": "{{amount}} {{symbol}}",
-    "youHaveUnclaimed": "您有未领取的 {{symbol}}！",
-    "youDoNotHaveUnclaimed": "您没有未领取的 {{symbol}}！",
-    "feeToClaim": "领取手续费：{{fee}} {{symbol}}",
-    "balanceLessFee": "无法领取，因为余额不足以支付网络费用！",
-    "unclaimedLessFee": "领取不可用，因为可领取金额不足以支付网络费用！",
-    "errorToGetUnclaimed": "无法获取未领取金额"
+  "refreshAction": {
+    "emptyDate": "--:--",
+    "lastUpdated": "最后更新：{{ date }}",
+    "refreshLabel": "刷新"
   },
-  "dappPermissionContextualMessage": {
-    "messageLabel": "上下文消息"
-  },
-  "chartCardList": {
-    "title": "代币价格"
-  },
-  "chartCard": {
-    "unableToFetchData": "无法获取数据",
-    "holdings": "持有量：",
-    "variation": "{{variationType}}{{variation}}%",
-    "24h": "（24小时）"
+  "sidebar": {
+    "buyAndSellTokens": "买卖",
+    "contacts": "联系人",
+    "logout": "退出登录",
+    "nfts": "NFTs",
+    "portfolio": "投资组合",
+    "receive": "接收",
+    "send": "发送",
+    "settings": "设置",
+    "swap": "兑换",
+    "wallets": "钱包"
   },
   "temporaryLimitsBox": {
     "description": "使用此登录方式将限制访问某些关键功能：",
     "limits": ["备份和恢复", "钱包自定义", "导入/导出功能", "创建新钱包", "以及其他功能..."]
   },
-  "mnemonicOrKeyAccountSelection": {
-    "noAccountsToImport": "未找到账户或已存在，请检查您的输入并稍后再试。",
-    "accountsLength": "找到 {{length}} 个地址",
-    "alreadyExists": "已存在"
+  "tokenBalance": {
+    "price": "价格",
+    "quantity": "数量",
+    "token": "代币"
   },
-  "greyAccountSelect": {
-    "placeholder": "请选择账户...",
-    "empty": "没有账户"
+  "tokensTable": {
+    "empty": "没有可显示的代币",
+    "hash": "哈希",
+    "hideTokenLabel": "隐藏代币",
+    "holdings": "持有量",
+    "price": "价格",
+    "showTokenLabel": "显示代币",
+    "ticker": "代码",
+    "token": "代币",
+    "value": "价值"
   },
-  "greyTokenSelect": {
-    "placeholder": "请选择代币...",
-    "empty": "没有代币"
-  },
-  "greyAmountInput": {
-    "placeholder": "0.00000000",
-    "maxButtonLabel": "最大"
+  "transactionActivityList": {
+    "dateRange": {
+      "formatExtendedDate": "yyyy年MM月dd日"
+    },
+    "event": {
+      "columns": {
+        "amountLabel": "数量",
+        "collectionNameLabel": "合集",
+        "fromLabel": "来自",
+        "hashLabel": "哈希",
+        "methodNameLabel": "方法",
+        "nameLabel": "名称",
+        "toLabel": "到",
+        "tokenHashLabel": "代币哈希",
+        "tokenLabel": "代币"
+      },
+      "nftImageAltLabel": "NFT 图片",
+      "nftImageAltWithNameLabel": "NFT 图片：{{ name }}"
+    },
+    "item": {
+      "blockLabel": "区块：{{ block }}",
+      "copyTxIdLabel": "复制交易 ID",
+      "invocationCountLabel": "调用",
+      "networkFeeAmountLabel": "网络手续费：{{ networkFeeAmount }}",
+      "notificationCountLabel": "通知",
+      "pendingDataLabel": "处理中…",
+      "pendingTooltipLabel": "此交易正在处理中，请稍候",
+      "systemFeeAmountLabel": "系统手续费：{{ systemFeeAmount }}",
+      "txIdLabel": "交易 ID"
+    },
+    "notFoundDescription": "进行一笔交易后会显示在这里",
+    "notFoundTitle": "没有可显示的交易"
   },
   "transactionFeeActionStep": {
     "title": "交易手续费"
   },
-  "connectHardwareWalletButton": {
-    "connect": "连接"
+  "transactionsTableEmpty": {
+    "connectDappLabel": "连接 dApp",
+    "importAccountLabel": "导入账户",
+    "subtitle": "您的钱包兼容 Neo、Gas 和以太坊资产",
+    "title": "您的钱包目前为空，何不添加一些资产或连接 dApp？"
   },
-  "fieldActionsMenu": {
-    "cut": "剪切",
-    "copy": "复制",
-    "paste": "粘贴",
-    "messages": {
-      "copied": "已复制",
-      "error": "执行此操作时出错"
-    }
+  "walletAccordionList": {
+    "noAccounts": "没有账户"
   },
-  "commonScreenActions": {
-    "searchButtonLabel": "搜索…",
-    "notificationButtonLabel": "通知",
-    "unreadNotificationsIconLabel": "您有未读通知",
-    "helpButtonLabel": "帮助",
-    "chatWithUsButtonLabel": "联系我们",
-    "importButtonLabel": "导入",
-    "newWalletButtonLabel": "新钱包",
-    "connectButtonLabel": "连接",
-    "toolsButtonLabel": "工具"
+  "wallets": {
+    "cancelButtonLabel": "取消",
+    "saveButtonLabel": "保存"
   },
-  "refreshAction": {
-    "refreshLabel": "刷新",
-    "lastUpdated": "最后更新：{{ date }}",
-    "emptyDate": "--:--"
-  },
-  "transactionActivityList": {
-    "notFoundTitle": "没有可显示的交易",
-    "notFoundDescription": "进行一笔交易后会显示在这里",
-    "item": {
-      "notificationCountLabel": "通知",
-      "invocationCountLabel": "调用",
-      "blockLabel": "区块：{{ block }}",
-      "networkFeeAmountLabel": "网络手续费：{{ networkFeeAmount }}",
-      "systemFeeAmountLabel": "系统手续费：{{ systemFeeAmount }}",
-      "txIdLabel": "交易 ID",
-      "copyTxIdLabel": "复制交易 ID",
-      "pendingDataLabel": "处理中…",
-      "pendingTooltipLabel": "此交易正在处理中，请稍候"
-    },
-    "event": {
-      "nftImageAltWithNameLabel": "NFT 图片：{{ name }}",
-      "nftImageAltLabel": "NFT 图片",
-      "columns": {
-        "fromLabel": "来自",
-        "toLabel": "到",
-        "hashLabel": "哈希",
-        "methodNameLabel": "方法",
-        "tokenLabel": "代币",
-        "tokenHashLabel": "代币哈希",
-        "amountLabel": "数量",
-        "collectionNameLabel": "合集",
-        "nameLabel": "名称"
-      }
-    },
-    "dateRange": {
-      "formatExtendedDate": "yyyy年MM月dd日"
-    }
-  },
-  "calendar": {
-    "previousYearButtonLabel": "前往前 {{years}} 年",
-    "nextYearButtonLabel": "前往后 {{years}} 年"
+  "walletsSelect": {
+    "placeholder": "请选择钱包...",
+    "title": "钱包"
   }
 }
