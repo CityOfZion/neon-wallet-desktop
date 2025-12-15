@@ -4,7 +4,7 @@ import { match } from 'ts-pattern'
 import { selectAccounts } from '@renderer/hooks/useAccountSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 
-import { RootStore } from '@renderer/store/RootStore'
+import { store } from '@renderer/libs/redux'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 import { getI18next } from '@shared/libs/i18next'
 import { TAccountHelperPredicateParams } from '@shared/types/helpers'
@@ -23,7 +23,7 @@ type TFunctionByNotificationActionType = {
 const { t } = getI18next()
 
 const getAccount = (predicate: TAccountHelperPredicateParams) => {
-  const state = RootStore.store.getState()
+  const state = store.getState()
   const accounts = selectAccounts(state)
   const account = accounts.find(SharedAccountHelper.predicate(predicate))
 

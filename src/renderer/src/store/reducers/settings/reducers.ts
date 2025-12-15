@@ -118,7 +118,7 @@ const editNetworkProfile: CaseReducer<
   ISettingsReducer,
   PayloadAction<DeepPartial<TNetworkProfile> & { id: string }>
 > = (state, action) => {
-  const profile = action.payload
+  const profile = cloneDeep(action.payload)
 
   const findIndex = state.data.networkProfiles.findIndex(it => it.id === profile.id)
   if (findIndex < 0) return

@@ -30,7 +30,7 @@ const Neo3NeoxBridgeConfirmationModal = () => {
   } = useModalState<TModalState<'neo3-neox-bridge-confirmation'>>()
   const { t } = useTranslation('modals', { keyPrefix: 'neo3NeoxBridgeConfirmation' })
 
-  const [isConfirm, startConfirm] = usePressOnce()
+  const [isConfirming, startConfirm] = usePressOnce(onConfirm)
 
   return (
     <SideModalLayout
@@ -42,7 +42,7 @@ const Neo3NeoxBridgeConfirmationModal = () => {
       <p className="text-xs text-white">{t('description')}</p>
 
       <Details.Root className="mt-9">
-        <Details.Header label={t('transactionDetailsHeaderLabel')} icon={<TbReceipt aria-hidden />} />
+        <Details.Header leftElement={<TbReceipt aria-hidden />}>{t('transactionDetailsHeaderLabel')}</Details.Header>
 
         <Details.Body>
           <Details.Panel>
@@ -78,7 +78,7 @@ const Neo3NeoxBridgeConfirmationModal = () => {
       </Details.Root>
 
       <Details.Root className="mt-2.5">
-        <Details.Header label={t('feesDetailsPanelLabel')} icon={<TbReceipt aria-hidden />} />
+        <Details.Header leftElement={<TbReceipt aria-hidden />}>{t('feesDetailsPanelLabel')}</Details.Header>
         <Details.Body>
           <Details.Panel>
             <Details.Item label={t('feeDetailsItemLabel')}>
@@ -93,8 +93,8 @@ const Neo3NeoxBridgeConfirmationModal = () => {
         leftIcon={<MdCheck aria-hidden />}
         iconsOnEdge={false}
         label={t('confirmButtonLabel')}
-        loading={isConfirm}
-        onClick={startConfirm(onConfirm)}
+        loading={isConfirming}
+        onClick={startConfirm}
       />
     </SideModalLayout>
   )

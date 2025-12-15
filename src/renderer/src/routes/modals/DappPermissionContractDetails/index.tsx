@@ -1,208 +1,204 @@
-import { Fragment } from 'react'
+import { useMemo } from 'react'
 
 import { hasExplorerService } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
 
-import { DappPermissionHeader } from '@renderer/components/DappPermissionHeader'
-import { IconButton } from '@renderer/components/IconButton'
-import { Loader } from '@renderer/components/Loader'
-import { Separator } from '@renderer/components/Separator'
-
-import { ToastHelper } from '@renderer/helpers/ToastHelper'
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+import { DappHeader } from '@renderer/components/DappHeader'
+import { Details } from '@renderer/components/Details'
+import { IconLink } from '@renderer/components/IconLink'
+import { ScreenLoader } from '@renderer/components/ScreenLoader'
+import { Tooltip } from '@renderer/components/Tooltip'
 
 import { useContract } from '@renderer/hooks/useContract'
-import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
+import { useModalState } from '@renderer/hooks/useModalRouter'
 
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
 
-import MdContentCopy from '@renderer/assets/images/md-content-copy.svg?react'
-import MdLaunch from '@renderer/assets/images/md-launch.svg?react'
 import TbArrowsSort from '@renderer/assets/images/tb-arrows-sort.svg?react'
+import TbExternalLink from '@renderer/assets/images/tb-external-link.svg?react'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
 import type { TModalState } from '@shared/types/modal'
 
-const COLORS_BY_TYPE = {
+const COLORS_BY_TYPE: Record<string, { color: string; textColor: string }> = {
   Signature: {
     color: '#E9265C',
-    textColor: 'dark',
+    textColor: 'black',
   },
   Boolean: {
     color: '#D355E7',
-    textColor: 'dark',
+    textColor: 'black',
   },
   Integer: {
     color: '#B167F2',
-    textColor: 'dark',
+    textColor: 'black',
   },
   Hash160: {
     color: '#008529',
-    textColor: 'light',
+    textColor: 'white',
   },
   Null: {
     color: 'rgba(255, 255, 255, 0.08)',
-    textColor: 'dark',
+    textColor: 'black',
   },
   Hash256: {
     color: '#1DB5FF',
-    textColor: 'dark',
+    textColor: 'black',
   },
   ByteArray: {
     color: '#0DCDFF',
-    textColor: 'dark',
+    textColor: 'black',
   },
   PublicKey: {
     color: '#00D69D',
-    textColor: 'dark',
+    textColor: 'black',
   },
   String: {
     color: '#67DD8B',
-    textColor: 'dark',
+    textColor: 'black',
   },
   ByteString: {
     color: '#67DD8B',
-    textColor: 'dark',
+    textColor: 'black',
   },
   Array: {
     color: '#F28F00',
-    textColor: 'dark',
+    textColor: 'black',
   },
   Buffer: {
     color: '#F28F00',
-    textColor: 'dark',
+    textColor: 'black',
   },
   InteropInterface: {
     color: '#A50000',
-    textColor: 'light',
+    textColor: 'white',
   },
   Void: {
     color: '#528D93',
-    textColor: 'dark',
+    textColor: 'black',
   },
   Any: {
     color: '#00D69D',
-    textColor: 'dark',
+    textColor: 'black',
   },
 }
 
-const DappPermissionContractDetailsModal = () => {
-  const { session, operation, hash, blockchain, values } =
-    useModalState<TModalState<'dapp-permission-contract-details'>>()
-  const { data, isLoading } = useContract({ blockchain, hash })
-  const { modalNavigate } = useModalNavigate()
+export const DappPermissionContractDetailsModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'dappPermissionContractDetails' })
-  const service = bsAggregator.blockchainServicesByName[blockchain]
-  let explorerUrl: string | undefined
+  const { session, blockchain, hash, operation, values } =
+    useModalState<TModalState<'dapp-permission-contract-details'>>()
 
-  if (hasExplorerService(service)) {
+  const service = bsAggregator.blockchainServicesByName[blockchain]
+
+  const contractQuery = useContract({ blockchain, hash })
+
+  const params = useMemo(() => {
+    if (contractQuery.isLoading || !contractQuery.data) return []
+
+    const methodsInfo = contractQuery.data.methods.find(method => method.name === operation)
+    if (!methodsInfo) return []
+
+    const params = methodsInfo.parameters.map((parameter, index) => {
+      const value = values[index]
+      const stringifiedValue = Array.isArray(value) ? JSON.stringify(value, null, 4) : value
+      return {
+        ...parameter,
+        value: stringifiedValue,
+      }
+    })
+
+    return params
+  }, [contractQuery.data, contractQuery.isLoading, operation, values])
+
+  const getContractHashUrl = () => {
+    if (!hasExplorerService(service)) return ''
+
     try {
-      explorerUrl = service.explorerService.buildContractUrl(hash)
+      if (hasExplorerService(service)) {
+        return service.explorerService.buildContractUrl(hash)
+      }
     } catch (error) {
       console.error(error)
     }
-  }
 
-  const methodsInfo = data?.methods.find(method => method.name === operation)
-  if (!methodsInfo) {
-    ToastHelper.error({ message: t('methodNotFoundError') })
-    modalNavigate(-1)
-    return <></>
-  }
-
-  const params = methodsInfo.parameters.map((parameter, index) => {
-    const value = values[index]
-    const stringifiedValue = Array.isArray(value) ? JSON.stringify(value, null, 4) : value
-    return {
-      ...parameter,
-      value: stringifiedValue,
-    }
-  })
-
-  const handleHashClick = () => {
-    window.open(explorerUrl, '_blank')
+    return ''
   }
 
   return (
     <CenterModalLayout contentClassName="px-0 flex flex-col pb-5 min-h-0">
-      <div className="flex min-h-0 flex-col overflow-y-auto pr-2 pl-5">
-        <DappPermissionHeader session={session} />
+      {contractQuery.isLoading ? (
+        <ScreenLoader />
+      ) : (
+        <div className="flex min-h-0 grow flex-col overflow-y-auto pr-2 pl-5">
+          <DappHeader proposerUri={session.peer.metadata.icons[0]} proposerName={session.peer.metadata.name} />
 
-        <p className="mt-9 mb-6 text-center text-2xl text-white">{t('title')}</p>
+          <Details.Root className="mt-5">
+            <Details.Header
+              leftElement={<TbArrowsSort className="rotate-90" aria-hidden />}
+              rightElement={
+                <p className="text-sm font-semibold text-gray-100 capitalize">{contractQuery.data?.name}</p>
+              }
+            >
+              <p className="text-sm text-white capitalize">{operation}</p>
+            </Details.Header>
 
-        {isLoading || !data ? (
-          <Loader className="text-gray-600" />
-        ) : (
-          <Fragment>
-            <div className="flex flex-col gap-2">
-              <span className="text-xs font-bold text-gray-100">{t('detailsLabel')}</span>
+            <Details.HeaderSeparator />
 
-              <div className="bg-asphalt/50 w-full rounded-sm px-4 pt-3 pb-5 text-sm text-gray-100">
-                <div className="flex items-center justify-between">
+            <Details.Body>
+              <Details.Item
+                label={t('hashDetailsHeaderLabel')}
+                contentClassName="bg-gray-700/60 px-3 rounded py-1.5 justify-between items-center"
+              >
+                <p className="truncate text-xs font-bold text-gray-100">{hash}</p>
+
+                <Tooltip title={t('externalButtonLabel')}>
+                  <IconLink
+                    aria-label={t('externalButtonLabel')}
+                    icon={<TbExternalLink aria-hidden className="text-neon" />}
+                    size="sm"
+                    compacted
+                    to={getContractHashUrl()}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                  />
+                </Tooltip>
+              </Details.Item>
+            </Details.Body>
+          </Details.Root>
+
+          <p className="mt-5 text-xs font-bold text-gray-300 uppercase">{t('parametersDetailsLabel')}</p>
+          {params.map(param => {
+            const color = COLORS_BY_TYPE[param.type]
+
+            return (
+              <Details.Root className="mt-3" key={param.name}>
+                <Details.Header>
                   <div className="flex items-center gap-2.5">
-                    <TbArrowsSort aria-hidden className="text-blue h-6 w-6 rotate-90" />
-                    <p className="text-white capitalize">{operation}</p>
+                    <p className="text-sm text-gray-100 capitalize">{param.name}</p>
+                    <span
+                      className="text-asphalt rounded-full px-3.5 py-1 text-xs font-bold"
+                      style={{
+                        backgroundColor: color.color,
+                        color: color.textColor,
+                      }}
+                    >
+                      {param.type}
+                    </span>
                   </div>
+                </Details.Header>
 
-                  <p className="capitalize">{data.name}</p>
-                </div>
+                <Details.HeaderSeparator />
 
-                <Separator className="mt-2.5 mb-4" />
-
-                <div className="flex flex-col gap-1">
-                  <span className="text-xs font-bold">{t('hashLabel')}</span>
-
-                  <div className="flex min-w-0 justify-between gap-3 rounded-sm bg-gray-700/60 py-2.5 pr-4 pl-5">
-                    <p className="truncate">{hash}</p>
-
-                    {explorerUrl && (
-                      <IconButton
-                        icon={<MdLaunch aria-hidden className="text-neon" />}
-                        compacted
-                        onClick={handleHashClick}
-                      />
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-7 flex flex-col gap-2">
-              <span className="text-xs font-bold text-gray-100">{t('parametersLabel')}</span>
-
-              <div className="flex flex-col gap-2.5">
-                {params.map(param => (
-                  <div className="bg-asphalt w-full rounded-sm px-4 pt-3 pb-5 text-sm text-gray-100" key={param.name}>
-                    <div className="flex items-center gap-5">
-                      <p className="text-gray-100 capitalize">{param.name}</p>
-                      <div
-                        className="text-asphalt rounded-full px-3.5 py-1 text-xs"
-                        style={{
-                          backgroundColor: COLORS_BY_TYPE[param.type].color,
-                          color: COLORS_BY_TYPE[param.type].textColor === 'dark' ? 'black' : 'white',
-                        }}
-                      >
-                        {param.type}
-                      </div>
-                    </div>
-
-                    <Separator className="mt-2.5 mb-4" />
-
-                    <div className="flex min-w-0 justify-between gap-3 rounded-sm bg-gray-700/60 px-4 py-2.5">
-                      <p className="min-w-0 wrap-break-word whitespace-pre-wrap">{param.value}</p>
-                      <IconButton
-                        icon={<MdContentCopy aria-hidden className="fill-neon" />}
-                        compacted
-                        onClick={UtilsHelper.copyToClipboard.bind(null, param.value)}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </Fragment>
-        )}
-      </div>
+                <Details.Body>
+                  <Details.Item contentClassName="bg-gray-700/60 px-3 rounded py-1.5" copyable={param.value}>
+                    <p className="truncate text-xs font-bold text-gray-100">{param.value}</p>
+                  </Details.Item>
+                </Details.Body>
+              </Details.Root>
+            )
+          })}
+        </div>
+      )}
     </CenterModalLayout>
   )
 }

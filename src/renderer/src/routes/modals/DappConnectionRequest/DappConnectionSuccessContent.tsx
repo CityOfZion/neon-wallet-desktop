@@ -7,7 +7,7 @@ import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import MdArrowBack from '@renderer/assets/images/md-arrow-back.svg?react'
 
 export const DappConnectionSuccessContent = () => {
-  const { t } = useTranslation('modals', { keyPrefix: 'dappConnectionDetails.successModal' })
+  const { t } = useTranslation('modals', { keyPrefix: 'dappConnectionRequest.successModal' })
   const { modalNavigateWrapper } = useModalNavigate()
 
   return (

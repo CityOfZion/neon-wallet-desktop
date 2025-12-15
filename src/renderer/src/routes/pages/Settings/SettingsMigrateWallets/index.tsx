@@ -7,7 +7,7 @@ import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 
 import { SettingsLayout } from '@renderer/layouts/Settings'
 
-import MdLaunch from '@renderer/assets/images/md-launch.svg?react'
+import TbExternalLink from '@renderer/assets/images/tb-external-link.svg?react'
 
 const SettingsMigrateWalletsPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'settings.settingsMigrateWallets' })
@@ -38,7 +38,7 @@ const SettingsMigrateWalletsPage = () => {
         />
         <Button
           label={t('startProcessButtonLabel')}
-          rightIcon={<MdLaunch />}
+          rightIcon={<TbExternalLink />}
           onClick={openNeon2Click}
           iconsOnEdge={false}
           wide

@@ -102,7 +102,7 @@ const AutoUpdateNotesModal = lazy(() => import('./modals/AutoUpdateNotes'))
 const BuyAndSellTokensLeaveAlertModal = lazy(() => import('./modals/BuyAndSellTokensLeaveAlert'))
 const ConnectHardwareWalletModal = lazy(() => import('./modals/ConnectHardwareWallet'))
 const DappConnectionModal = lazy(() => import('./modals/DappConnection'))
-const DappConnectionDetailsModal = lazy(() => import('./modals/DappConnectionDetails'))
+const DappConnectionRequest = lazy(() => import('./modals/DappConnectionRequest'))
 const DappPermissionModal = lazy(() => import('./modals/DappPermission'))
 const DappPermissionContractDetailsModal = lazy(() => import('./modals/DappPermissionContractDetails'))
 const DappPermissionSignatureScopeModal = lazy(() => import('./modals/DappPermissionSignatureScope'))
@@ -120,7 +120,7 @@ const centerModalsRouter: TRoute[] = [
   { name: 'buy-and-sell-tokens-leave-alert', element: BuyAndSellTokensLeaveAlertModal },
   { name: 'connect-hardware-wallet', element: ConnectHardwareWalletModal },
   { name: 'dapp-connection', element: DappConnectionModal },
-  { name: 'dapp-connection-details', element: DappConnectionDetailsModal },
+  { name: 'dapp-connection-request', element: DappConnectionRequest },
   { name: 'dapp-permission', element: DappPermissionModal },
   { name: 'dapp-permission-contract-details', element: DappPermissionContractDetailsModal },
   { name: 'dapp-permission-signature-scope', element: DappPermissionSignatureScopeModal },

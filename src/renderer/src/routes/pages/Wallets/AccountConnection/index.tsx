@@ -1,20 +1,17 @@
-import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
 import { useTranslation } from 'react-i18next'
 import { useOutletContext } from 'react-router'
 
 import { Button } from '@renderer/components/Button'
 import { ConnectionsTable } from '@renderer/components/ConnectionsTable'
 
-import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
-
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+import { useWalletConnectSessions } from '@renderer/hooks/useWalletConnectSessions'
 
 import { AccountDetailsLayout } from '@renderer/layouts/AccountDetailsLayout'
 
 import TbPlugX from '@renderer/assets/images/tb-plug-x.svg?react'
 import TbPlus from '@renderer/assets/images/tb-plus.svg?react'
 
-import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 import { IAccountState } from '@shared/types/store'
 
 type TOutletContext = {
@@ -22,24 +19,18 @@ type TOutletContext = {
 }
 
 const AccountConnections = () => {
-  const { sessions } = useWalletConnectWallet()
-  const { modalNavigateWrapper } = useModalNavigate()
-
   const { t } = useTranslation('pages', { keyPrefix: 'wallets.accountConnections' })
-
+  const { modalNavigateWrapper } = useModalNavigate()
   const { account } = useOutletContext<TOutletContext>()
+  const sessionsQuery = useWalletConnectSessions([account])
 
-  const filteredSessions = sessions.filter(session => {
-    const { address, blockchain } = WalletConnectHelper.getAccountInformationFromSession(session)
-
-    return SharedAccountHelper.predicate(account)({ address, blockchain }) && account.type !== 'watch'
-  })
+  const sessions = sessionsQuery.data ?? []
 
   return (
     <AccountDetailsLayout
       actions={
         <div className="flex items-center gap-2">
-          <span className="mr-2 text-gray-300">{t('totalConnections', { connections: filteredSessions.length })}</span>
+          <span className="mr-2 text-gray-300">{t('totalConnections', { connections: sessions.length })}</span>
 
           <Button
             variant="text"
@@ -55,14 +46,14 @@ const AccountConnections = () => {
             leftIcon={<TbPlugX aria-hidden />}
             flat
             colorSchema="error"
-            disabled={filteredSessions.length === 0}
-            onClick={modalNavigateWrapper('dapp-disconnection', { state: { sessions: filteredSessions } })}
+            disabled={sessions.length === 0}
+            onClick={modalNavigateWrapper('dapp-disconnection', { state: { sessions } })}
           />
         </div>
       }
       heading={t('title')}
     >
-      <ConnectionsTable sessions={filteredSessions} tableHeaderClassName="bg-gray-950" className="mt-5" />
+      <ConnectionsTable sessions={sessions} tableHeaderClassName="bg-gray-950" className="mt-5" />
     </AccountDetailsLayout>
   )
 }

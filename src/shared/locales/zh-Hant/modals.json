@@ -205,30 +205,36 @@
     "inputPlaceholder": "請貼上您的網址...",
     "title": "連接 dApp"
   },
-  "dappConnectionAccountSelection": {
-    "description": "您想連接哪個帳戶？",
-    "title": "連接帳戶"
-  },
-  "dappConnectionDetails": {
+  "dappConnectionRequest": {
     "acceptButtonLabel": "接受",
-    "connectionDetailsTitle": "連線詳情",
-    "declineButtonLabel": "拒絕",
-    "description": "{{name}} 想要連接您的錢包",
+    "connectionDetailsTitle": "連線資訊",
+    "description": "<strong>{{name}}</strong> 想要連接到您的錢包",
     "errorModal": {
-      "accountProposalError": "dApp 嘗試連接的區塊鏈與所選帳戶的區塊鏈不同。",
+      "accountProposalError": "該 dApp 正在嘗試連接到與所選帳戶的區塊鏈不同的區塊鏈。",
       "buttonReturnLabel": "返回",
-      "differentNetworkError": "dApp 嘗試連接的網路與您目前連接的網路不同。請切換網路以連接此 dApp。",
-      "subtitle": "哎呀！發生錯誤",
-      "subtitle2": "dApp 尚未連接",
-      "subtitle3": "請稍後再試。",
-      "title": "連接 dApp"
+      "differentNetworkError": "此 dApp 正在嘗試連接到與您目前連接的網絡不同的網絡。請更改您的網絡以連接到此 dApp。",
+      "errorMessageLabel": "錯誤",
+      "subtitle": "哎呀！我們遇到錯誤了",
+      "subtitle2": "The dApp 尚未連接",
+      "title": "連接一個 dApp"
     },
+    "errors": {
+      "unknown": "發生了未知錯誤。請再試一次。"
+    },
+    "errorsByCode": {
+      "NO_SERVICE": "該 dApp 正在嘗試連接到與所選不同的區塊鏈或網路。"
+    },
+    "messages": {
+      "connected": "{{dappName}} 已連線。"
+    },
+    "methodsDetailsTitle": "方法",
+    "rejectButtonLabel": "拒絕",
     "successModal": {
-      "buttonReturnLabel": "返回",
-      "subtitle": "新的 dApp 已成功連接！",
-      "title": "連接 dApp"
+      "buttonReturnLabel": "回傳",
+      "subtitle": "一個新的 dApp 已連接！",
+      "title": "連接一個 dApp"
     },
-    "title": "此應用程式想要連接！"
+    "title": "與 dApp 連線"
   },
   "dappDisconnection": {
     "cancel": "取消",
@@ -241,145 +247,61 @@
     "willRemove": "將被永久移除"
   },
   "dappPermission": {
-    "cancelled": "請求已取消",
-    "errorModal": {
-      "errorMessageLabel": "錯誤訊息",
-      "heading": "Dapp 請求",
-      "subtitle": "請求失敗",
-      "text": "很抱歉，您的請求無法處理。"
-    },
-    "requests": {
-      "ethereum": {
-        "fee": {
-          "fee": "{{fee}} ETH",
-          "feeError": "計算手續費時發生錯誤。請求已取消。",
-          "label": "手續費"
-        },
-        "rawJson": {
-          "acceptButtonLabel": "接受",
-          "cancelButtonLabel": "拒絕",
-          "dataLabel": "資料"
-        },
-        "sendTransaction": {
-          "successModal": {
-            "heading": "Dapp 請求",
-            "subtitle": "交易已成功發送！",
-            "text": "交易確認後，將顯示於您的活動記錄中。"
-          },
-          "title": "此應用程式需要您的許可來執行此交易"
-        },
-        "signMessage": {
-          "acceptButtonLabel": "驗證",
-          "cancelButtonLabel": "拒絕",
-          "messageLabel": "訊息",
-          "successModal": {
-            "heading": "Dapp 請求",
-            "subtitle": "訊息已成功簽署！"
-          },
-          "title": "此應用程式請求驗證"
-        },
-        "signTransaction": {
-          "successModal": {
-            "heading": "Dapp 請求",
-            "subtitle": "交易已成功簽署！"
-          },
-          "title": "此應用程式需要您的許可來簽署此交易"
-        },
-        "signTypedData": {
-          "successModal": {
-            "heading": "Dapp 請求",
-            "subtitle": "訊息已成功簽署！"
-          },
-          "title": "此應用程式請求驗證"
-        }
-      },
-      "neo3": {
-        "contractInvocation": {
-          "acceptButtonLabel": "確認",
-          "amountLabel": "金額",
-          "cancelButtonLabel": "取消",
-          "feeError": "計算手續費時發生錯誤。請求已取消。",
-          "feeLabel": "手續費",
-          "hashLabel": "雜湊",
-          "overrideFeeInfo": "dApp 已覆寫手續費",
-          "signatureScopeTitle": "簽章範圍",
-          "subtitle": "請確認您要繼續"
-        },
-        "decrypt": {
-          "acceptButtonLabel": "解密",
-          "cancelButtonLabel": "拒絕",
-          "messageLabel": "訊息",
-          "successModal": {
-            "heading": "Dapp 請求",
-            "subtitle": "訊息已成功解密！"
-          },
-          "title": "此應用程式請求解密"
-        },
-        "encrypt": {
-          "acceptButtonLabel": "加密",
-          "cancelButtonLabel": "拒絕",
-          "messageLabel": "訊息",
-          "successModal": {
-            "heading": "Dapp 請求",
-            "subtitle": "訊息已成功加密！"
-          },
-          "title": "此應用程式請求加密"
-        },
-        "invokeFunction": {
-          "successModal": {
-            "heading": "Dapp 請求",
-            "subtitle": "交易已成功發送！",
-            "text": "交易確認後，將顯示於您的活動記錄中。"
-          },
-          "title": "此應用程式需要您的許可來執行此交易"
-        },
-        "signMessage": {
-          "acceptButtonLabel": "驗證",
-          "cancelButtonLabel": "拒絕",
-          "messageLabel": "訊息",
-          "successModal": {
-            "heading": "Dapp 請求",
-            "subtitle": "訊息已成功簽署！"
-          },
-          "title": "此應用程式請求驗證"
-        },
-        "signTransaction": {
-          "successModal": {
-            "heading": "Dapp 請求",
-            "subtitle": "交易已成功簽署！"
-          },
-          "title": "此應用程式需要您的許可來簽署此交易"
-        },
-        "verifyMessage": {
-          "acceptButtonLabel": "驗證",
-          "cancelButtonLabel": "拒絕",
-          "messageLabel": "已簽署訊息",
-          "successModal": {
-            "heading": "Dapp 請求",
-            "subtitle": "錢包已驗證！"
-          },
-          "title": "此應用程式請求驗證"
-        }
+    "acceptButtonLabel": "接受",
+    "customContents": {
+      "invokeNeo3": {
+        "amountDetailsItemLabel": "金額",
+        "externalButtonLabel": "在探測器中查看",
+        "hashDetailsItemLabel": "哈希",
+        "signatureScopeDetailsHeaderLabel": "簽名範圍",
+        "viewContractDetailsButtonLabel": "查看合約細節",
+        "viewSignatureScopeButtonLabel": "查看簽名範圍詳細資訊"
       }
+    },
+    "description": "<1>{{name}}</1> 需要您的許可",
+    "description2": "請確認您要繼續進行",
+    "errorContent": {
+      "description": "該 dApp 請求無法處理。",
+      "doneButtonLabel": "完成",
+      "errorMessageLabel": "錯誤訊息",
+      "subtitle": "啊！我們遇到錯誤了",
+      "title": "dApp 請求失敗"
+    },
+    "errors": {
+      "cancelled": "請求已取消",
+      "expired": "該使用者的請求已過期",
+      "fee": "計算費用時發生錯誤。請求已取消。"
+    },
+    "feeLabel": "費用",
+    "feeOverridesMessage": "該 dApp 已覆寫費用",
+    "rejectButtonLabel": "拒絕",
+    "successContent": {
+      "doneButtonLabel": "完成",
+      "resultBoxLabel": "結果",
+      "subtitle": "dApp 的請求已成功處理",
+      "title": "成功 dApp 請求"
     },
     "unsupportedMethodError": "不支援的方法 {{method}}"
   },
   "dappPermissionContractDetails": {
-    "detailsLabel": "詳情",
-    "hashLabel": "雜湊",
-    "methodNotFoundError": "合約中找不到方法",
-    "parametersLabel": "請求參數",
-    "title": "調用詳情"
+    "externalButtonLabel": "在探查器中查看",
+    "hashDetailsHeaderLabel": "哈希",
+    "parametersDetailsLabel": "請求參數"
   },
   "dappPermissionSignatureScope": {
+    "allowListDetailsHeaderLabel": "允許清單",
+    "explanationDetailsHeaderLabel": "說明",
+    "scopeDetailsHeaderLabel": "範圍",
     "scopes": {
       "CalledByEntry": "您的簽章僅可由呼叫合約且僅限本次交易使用。",
       "CustomContracts": "您的簽章可用於上方列出的合約。",
       "CustomGroups": "您的簽章可用於上方列出的群組。",
       "Global": "您的簽章可不受限制地用於任何合約。",
       "None": "您的簽章僅適用於手續費支付。",
-      "WitnessRules": "您的簽章僅對符合指定規則與條件的交易有效，例如目前的 script hash、群組或呼叫 script hash。這可用於更複雜的簽章範圍設定，以防止重入攻擊等特殊情境。"
-    }
+      "WitnessRules": "您的簽名僅對符合指定規則和條件的交易有效，例如目前的腳本哈希、群組或呼叫腳本哈希。這允許進行更複雜且表達力強的簽名範圍控制，以處理邊緣案例和潛在的重入攻擊。",
+      "unknown": "未知"
+    },
+    "title": "簽名範圍"
   },
   "decryptKey": {
     "buttonContinueLabel": "導入",

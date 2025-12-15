@@ -239,6 +239,11 @@
     "hardwareWalletManagerSetup": {
       "requestingPermission": "Please confirm on your Ledger device"
     },
+    "walletConnectManagerSetup": {
+      "autoAcceptErrorMessage": "WalletConnect request processing failed",
+      "autoAcceptProcessingMessage": "WalletConnect request being processed…",
+      "autoAcceptSuccessMessage": "WalletConnect request successfully processed"
+    },
     "walletTasksManagerSetup": {
       "useBackupReminderNotificationProcess": {
         "notificationDescription": "We recommend creating a new backup file in \"Settings > Security > Backup NEON\" to protect your wallets. For additional security, you can also export manually your mnemonics in \"Wallets > 3 dots (Tools) > Export\" and private keys in \"Wallets > 3 dots > Export key\".",
@@ -297,6 +302,7 @@
       "tokenToSendLabel": "Token to send"
     },
     "sendFail": {
+      "errorMessageLabel": "Error",
       "subtitle": "Please try again later",
       "title": "Oops! We've encountered an error."
     },

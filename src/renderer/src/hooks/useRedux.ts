@@ -3,10 +3,10 @@ import { type RefObject, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { createSelector } from 'reselect'
 
-import { RootStore } from '@renderer/store/RootStore'
+import type { store } from '@renderer/libs/redux'
 import type { TRootState, TTypedCreateSelector } from '@renderer/types/redux'
 
-export const useAppDispatch: () => typeof RootStore.store.dispatch = useDispatch
+export const useAppDispatch: () => typeof store.dispatch = useDispatch
 
 export function useAppSelector<T = unknown>(selectHandler: (state: TRootState) => T): { value: T; ref: RefObject<T> } {
   const ref = useRef<T>(undefined) as RefObject<T>

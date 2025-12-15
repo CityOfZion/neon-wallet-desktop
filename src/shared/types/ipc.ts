@@ -3,7 +3,7 @@ import type Transport from '@ledgerhq/hw-transport'
 import type { BrowserWindow, IpcMainEvent, IpcMainInvokeEvent, IpcRendererEvent } from 'electron'
 
 import { TBlockchainServiceKey } from './blockchain'
-import { IAccountState, TLastIndexesByWallet, TSelectedNetworks } from './store'
+import { TLastIndexesByWallet } from './store'
 
 export type TIpcMainSyncListener<T = any[], R = any> = (options: {
   event: IpcMainEvent
@@ -26,12 +26,6 @@ export type TIpcRendererSendArgs<T> =
 
 export type TIpcRendererSendResponse<T> =
   T extends TIpcMainAsyncListener<any, infer U> ? U : T extends TIpcMainSyncListener<any, infer A> ? A : never
-
-export type TGetStoreFromWCSession = {
-  account?: IAccountState
-  encryptedPassword?: string
-  networkByBlockchain: TSelectedNetworks
-}
 
 export type TAddHardwareWalletAccountParams = {
   index: number

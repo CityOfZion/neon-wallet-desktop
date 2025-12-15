@@ -15,8 +15,8 @@ import { useLanguageSelector } from '@renderer/hooks/useSettingsSelector'
 
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
 
-import MdLaunch from '@renderer/assets/images/md-launch.svg?react'
 import TbDeviceFloppy from '@renderer/assets/images/tb-device-floppy.svg?react'
+import TbExternalLink from '@renderer/assets/images/tb-external-link.svg?react'
 import TbFileExport from '@renderer/assets/images/tb-file-export.svg?react'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
@@ -208,7 +208,7 @@ const ExportFullTransactionsModal = () => {
                 wide
                 loading={actionData.isOpeningFilePath}
                 textClassName="grow-0"
-                leftIcon={<MdLaunch aria-hidden />}
+                leftIcon={<TbExternalLink aria-hidden />}
                 onClick={handleOpenExport}
               />
             )}

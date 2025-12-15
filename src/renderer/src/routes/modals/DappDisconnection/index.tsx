@@ -1,33 +1,35 @@
-import { TSession, useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
+import { WalletKitHelper } from '@cityofzion/bs-multichain'
 import { useTranslation } from 'react-i18next'
 
 import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'
 
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
+import { usePressOnce } from '@renderer/hooks/usePressOnce'
+import { invalidateWalletConnectSessions } from '@renderer/hooks/useWalletConnectSessions'
 
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 import TbPlug from '@renderer/assets/images/tb-plug.svg?react'
 import TbPlugX from '@renderer/assets/images/tb-plug-x.svg?react'
 
+import { walletKit } from '@renderer/libs/wallet-connect'
 import type { TModalState } from '@shared/types/modal'
 
 const DappDisconnectionModal = () => {
-  const { disconnect } = useWalletConnectWallet()
   const { sessions } = useModalState<TModalState<'dapp-disconnection'>>()
   const { t } = useTranslation('modals', { keyPrefix: 'dappDisconnection' })
-  const { modalNavigate } = useModalNavigate()
+  const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
 
-  const handleDisconnect = async (session: TSession) => {
-    await disconnect(session)
+  const [isDisconnecting, startDisconnect] = usePressOnce(async () => {
+    await Promise.allSettled(
+      sessions.map(session =>
+        walletKit.disconnectSession({ topic: session.topic, reason: WalletKitHelper.getError('USER_DISCONNECTED') })
+      )
+    )
+    invalidateWalletConnectSessions()
     modalNavigate(-1)
-  }
-
-  const handleDisconnectAll = () => {
-    Promise.allSettled(sessions.map(async session => await disconnect(session)))
-    modalNavigate(-1)
-  }
+  })
 
   return (
     <SideModalLayout heading={t('title')} headingIcon={<TbPlug aria-hidden className="text-neon" />}>
@@ -62,31 +64,22 @@ const DappDisconnectionModal = () => {
               className="w-full"
               variant="contained"
               label={t('cancel')}
-              onClick={() => modalNavigate(-1)}
+              onClick={modalNavigateWrapper(-1)}
               colorSchema="gray"
               flat
+              disabled={isDisconnecting}
             />
-            {sessions.length === 1 ? (
-              <Button
-                className="w-full"
-                variant="outlined"
-                label={t('disconnect')}
-                leftIcon={<TbPlugX aria-hidden />}
-                colorSchema="error"
-                flat
-                onClick={() => handleDisconnect(sessions[0])}
-              />
-            ) : (
-              <Button
-                className="w-full"
-                variant="outlined"
-                label={t('disconnect')}
-                leftIcon={<TbPlugX aria-hidden />}
-                colorSchema="error"
-                flat
-                onClick={() => handleDisconnectAll()}
-              />
-            )}
+
+            <Button
+              className="w-full"
+              variant="outlined"
+              label={t('disconnect')}
+              leftIcon={<TbPlugX aria-hidden />}
+              colorSchema="error"
+              flat
+              loading={isDisconnecting}
+              onClick={startDisconnect}
+            />
           </div>
         </div>
       </div>

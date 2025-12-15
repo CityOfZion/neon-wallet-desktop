@@ -1,7 +1,8 @@
 import type { IBlockchainService, TBridgeToken, TNftResponse } from '@cityofzion/blockchain-service'
+import type { TWalletKitHelperSessionDetails } from '@cityofzion/bs-multichain'
 import type { TVoteServiceCandidate } from '@cityofzion/bs-neo3'
-import type { TSessionProposal } from '@cityofzion/wallet-connect-sdk-wallet-core'
-import type { TSession, TSessionRequest } from '@cityofzion/wallet-connect-sdk-wallet-react'
+import type { ErrorResponse } from '@walletconnect/jsonrpc-utils'
+import type { PendingRequestTypes, ProposalTypes, SessionTypes } from '@walletconnect/types'
 import type { Dispatch, JSX } from 'react'
 
 import type { TBlockchainServiceKey, TNetwork } from './blockchain'
@@ -80,7 +81,7 @@ type TCreateWalletStep5ModalState = {
 }
 
 type TDappDisconnectionModalState = {
-  sessions: TSession[]
+  sessions: SessionTypes.Struct[]
 }
 
 type TDecryptKeyModalState = {
@@ -314,13 +315,13 @@ type TDappConnectionModalState = {
   uri?: string
 }
 
-type TDappConnectionDetailsModalState = {
-  proposal: TSessionProposal
+type TDappConnectionRequestModalState = {
+  proposal: ProposalTypes.Struct
   account: IAccountState
 }
 
 type TDappPermissionContractDetailsModalState = {
-  session: TSession
+  session: SessionTypes.Struct
   hash: string
   operation: string
   blockchain: TBlockchainServiceKey
@@ -328,12 +329,16 @@ type TDappPermissionContractDetailsModalState = {
 }
 
 type TDappPermissionModalState = {
-  session: TSession
-  request: TSessionRequest
+  session: SessionTypes.Struct
+  request: PendingRequestTypes.Struct
+  sessionDetails: TWalletKitHelperSessionDetails<TBlockchainServiceKey>
+  sessionAccount: IAccountState
+  onReject: (reason?: ErrorResponse) => Promise<void>
+  onAccept: () => Promise<any>
 }
 
 type TDappPermissionSignatureScopeModalState = {
-  session: TSession
+  session: SessionTypes.Struct
   scope: string
   allowedList?: string[]
 }
@@ -371,7 +376,7 @@ type TModalRouterCenterRouteTypes = {
   'buy-and-sell-tokens-leave-alert': TBuyAndSellTokensLeaveAlertModalState
   'connect-hardware-wallet': undefined
   'dapp-connection': TDappConnectionModalState
-  'dapp-connection-details': TDappConnectionDetailsModalState
+  'dapp-connection-request': TDappConnectionRequestModalState
   'dapp-permission': TDappPermissionModalState
   'dapp-permission-contract-details': TDappPermissionContractDetailsModalState
   'dapp-permission-signature-scope': TDappPermissionSignatureScopeModalState

@@ -10,6 +10,7 @@ const CustomProfileBanner = lazy(() => import('@renderer/components/CustomProfil
 const HardwareWalletManagerSetup = LazyHelper.delayedLazy(() => import('./HardwareWalletManagerSetup'), 0)
 const DeeplinkManagerSetup = LazyHelper.delayedLazy(() => import('./DeeplinkManagerSetup'), 0)
 const HotKeysManagerSetup = LazyHelper.delayedLazy(() => import('./HotKeysManagerSetup'), 0)
+const WalletConnectManagerSetup = LazyHelper.delayedLazy(() => import('./WalletConnectManagerSetup'), 1000)
 const AccountTasksManagerSetup = LazyHelper.delayedLazy(() => import('./AccountTasksManagerSetup'), 10000)
 const WalletTasksManagerSetup = LazyHelper.delayedLazy(() => import('./WalletTasksManagerSetup'), 15000)
 
@@ -42,6 +43,10 @@ const PrivatePage = () => {
 
       <Suspense fallback={null}>
         <WalletTasksManagerSetup />
+      </Suspense>
+
+      <Suspense fallback={null}>
+        <WalletConnectManagerSetup />
       </Suspense>
 
       <Outlet />

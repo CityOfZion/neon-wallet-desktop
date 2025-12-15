@@ -25,6 +25,7 @@
     "close": "Schließen",
     "continue": "Weiter",
     "copy": "In Zwischenablage kopieren",
+    "copyToClipboard": "Zum Clipboards kopieren",
     "default": "Standard",
     "downloadQRCodePassword": "Passwort-QR-Code herunterladen",
     "edit": "Bearbeiten",
@@ -82,9 +83,5 @@
     "migratedWalletName": "Migriertes Wallet",
     "mnemonicWalletName": "Mnemonic-Wallet",
     "watchAccount": "Konto beobachten"
-  },
-  "walletConnect": {
-    "description": "Erstellen und organisieren Sie Wallets oder importieren Sie einfach Ihre vorhandenen, um Ihre Assets sicher über Konten hinweg mit der eleganten Benutzeroberfläche von Neon zu verwalten und zu übertragen.",
-    "name": "Neon Wallet"
   }
 }

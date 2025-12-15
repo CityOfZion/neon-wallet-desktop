@@ -35,7 +35,7 @@ const DeleteWalletModal = () => {
 
       if (isHardwareWalletConnected) await window.api.sendAsync('hardwareWallet:disconnect')
 
-      deleteWallet(wallet.id)
+      deleteWallet(wallet)
     }
 
     modalErase()

@@ -1,36 +1,32 @@
 import { useMemo } from 'react'
 
-import { TSession } from '@cityofzion/wallet-connect-sdk-wallet-core'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { useTranslation } from 'react-i18next'
 
 import { DateHelper } from '@renderer/helpers/DateHelper'
-import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 
-import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useLanguageSelector } from '@renderer/hooks/useSettingsSelector'
 
 import TbPlugX from '@renderer/assets/images/tb-plug-x.svg?react'
 
 import { NEON_ICONS_URL } from '@renderer/constants/urls'
-import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
+import type { TUseWalletConnectSessionsResult } from '@shared/types/query'
 
 import { BlockchainIcon } from '../BlockchainIcon'
 import { Button } from '../Button'
 import { ImageWithFallback } from '../ImageWithFallback'
 
-const columnHelper = createColumnHelper<TSession>()
+const columnHelper = createColumnHelper<TUseWalletConnectSessionsResult>()
 
 export const useColumns = (withAddress: boolean) => {
   const { t } = useTranslation('components', { keyPrefix: 'connectionsTable' })
   const { t: commonT } = useTranslation('common', { keyPrefix: 'blockchain' })
   const { language } = useLanguageSelector()
-  const { accounts } = useAccountsSelector()
   const { modalNavigate } = useModalNavigate()
 
   return useMemo(() => {
-    const columns: ColumnDef<TSession, any>[] = [
+    const columns: ColumnDef<TUseWalletConnectSessionsResult, any>[] = [
       columnHelper.accessor(row => row.peer.metadata, {
         header: t('name'),
         cell: info => {
@@ -50,11 +46,11 @@ export const useColumns = (withAddress: boolean) => {
           )
         },
       }),
-      columnHelper.accessor('approvalUnix', {
+      columnHelper.accessor('expiry', {
         header: t('connected'),
         cell: info => DateHelper.formatLocalized(info.getValue(), { format: 'Pp', language }),
       }),
-      columnHelper.accessor(row => WalletConnectHelper.getAccountInformationFromSession(row).blockchain, {
+      columnHelper.accessor('details.blockchain', {
         header: t('chain'),
         cell: info => {
           const value = info.getValue()
@@ -88,16 +84,13 @@ export const useColumns = (withAddress: boolean) => {
       columns.splice(
         3,
         0,
-        columnHelper.accessor(row => WalletConnectHelper.getAccountInformationFromSession(row), {
+        columnHelper.accessor('account', {
           header: t('account'),
-          cell: info => {
-            const value = info.getValue()
-            return accounts.find(SharedAccountHelper.predicate(value))?.name || value.address
-          },
+          cell: info => info.getValue().name,
         })
       )
     }
 
     return columns
-  }, [accounts, commonT, modalNavigate, language, t, withAddress])
+  }, [commonT, language, modalNavigate, t, withAddress])
 }
