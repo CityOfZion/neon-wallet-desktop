@@ -4,7 +4,10 @@ import { Button } from '@renderer/components/Button'
 import { Link } from '@renderer/components/Link'
 import { Separator } from '@renderer/components/Separator'
 
+import { DateHelper } from '@renderer/helpers/DateHelper'
+
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+import { useLanguageSelector } from '@renderer/hooks/useSettingsSelector'
 
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
 
@@ -20,6 +23,7 @@ const AutoUpdateNotes = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'autoUpdate.notes' })
   const { t: changelogT } = useTranslation('changelog')
   const { modalNavigateWrapper } = useModalNavigate()
+  const { language } = useLanguageSelector()
 
   const releaseNotes = changelogT('notes', { returnObjects: true })
   const latestRelease = releaseNotes[0]
@@ -36,7 +40,10 @@ const AutoUpdateNotes = () => {
           <Separator className="mt-3" />
 
           <div key={latestRelease.version} className="my-7 min-h-0 w-full overflow-auto">
-            <span className="mb-1 block text-xs text-gray-300">{latestRelease.date}</span>
+            <span className="mb-1 block text-xs text-gray-300">
+              {DateHelper.formatLocalized(latestRelease.date, { language, format: 'PPP' })}
+            </span>
+
             <span className="mb-2 block text-lg text-white">
               {changelogT('versionLabel', { version: latestRelease.version })}
             </span>

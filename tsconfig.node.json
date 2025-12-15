@@ -1,4 +1,19 @@
 {
+  "compilerOptions": {
+    "baseUrl": ".",
+    "composite": true,
+    "lib": [
+      "ESNext"
+    ],
+    "paths": {
+      "@shared/*": [
+        "src/shared/*"
+      ],
+    },
+    "types": [
+      "electron-vite/node"
+    ]
+  },
   "extends": "@electron-toolkit/tsconfig/tsconfig.node.json",
   "include": [
     "electron.vite.config.*",
@@ -9,15 +24,5 @@
     "sentry.config.ts",
     "package.json",
     "tailwind.config.ts"
-  ],
-  "compilerOptions": {
-    "baseUrl": ".",
-    "composite": true,
-    "paths": {
-      "@shared/*": [
-        "src/shared/*"
-      ],
-    },
-    "types": ["electron-vite/node"]
-  }
+  ]
 }

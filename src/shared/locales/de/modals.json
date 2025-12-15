@@ -1,863 +1,863 @@
 {
-  "import": {
-    "title": "Import",
-    "subtitle": "IMPORT",
-    "description": "Um Ihr Wallet zu importieren, geben Sie eine Adresse, einen verschlüsselten Schlüssel, einen privaten Schlüssel oder Mnemonic-Wörter ein:",
-    "inputPlaceholder": "Bitte geben Sie eine Adresse oder einen Schlüssel ein…",
-    "buttonContinueLabel": "Weiter",
-    "errors": {
-      "allAddressesAlreadyImported": "Alle Adressen sind bereits importiert",
-      "mnemonicAlreadyExist": "Mnemonic existiert bereits"
+  "aboutExtraIdToReceive": {
+    "title": "Über ein Ziel-Tag/Memo",
+    "what": {
+      "description": "Ein Ziel-Tag oder Memo ist eine eindeutige Kennung, die sicherstellt, dass eine Kryptowährungseinzahlung dem richtigen Empfänger gutgeschrieben wird. Es ist normalerweise erforderlich, wenn Geld an Dienste oder Börsen gesendet wird, die gemeinsame Wallet-Adressen verwenden.",
+      "title": "Was ist ein Ziel-Tag oder Memo?"
     },
-    "success": {
-      "mnemonic": "Mnemonic vollständig!",
-      "key": "Privater Schlüssel vollständig!",
-      "encrypted": "Verschlüsselter Schlüssel vollständig!",
-      "address": "Adresse vollständig!"
+    "where": {
+      "description": "Es ist normalerweise eine eindeutige Identifikationszeichenfolge, die in Ihren Empfänger-Kontoinformationen zu finden ist.",
+      "title": "Wo finde ich mein Ziel-Tag/Memo?"
     },
-    "importEncryptedDescription": "Wählen Sie die gewünschte Blockchain für Ihr neues Konto aus",
-    "addressAlreadyExist": "Adresse existiert bereits",
-    "successEncryptKey": "Verschlüsselter Schlüssel erfolgreich importiert!"
-  },
-  "importWatchAccounts": {
-    "title": "Beobachtungskonto hinzufügen",
-    "description": "Geben Sie die Adresse ein, die Sie beobachten möchten:",
-    "inputPlaceholder": "Bitte geben Sie eine Adresse ein",
-    "information": "Sie können die Assets in diesem Konto nicht verwenden!",
-    "willBeAdded": "Dieses Konto wird hinzugefügt:",
-    "buttonAdd": "Beobachtungskonto hinzufügen",
-    "errors": {
-      "invalid": "Ungültige Adresse oder existiert bereits",
-      "empty": "Bitte geben Sie einen Text ein"
-    }
-  },
-  "editWallet": {
-    "title": "Wallet bearbeiten",
-    "inputPlaceholder": "Geben Sie Ihren Wallet-Namen ein…",
-    "saveButtonLabel": "Speichern",
-    "cancelButtonLabel": "Abbrechen",
-    "deleteWalletTitle": "Wallet löschen",
-    "deleteWalletSubtext": "Dies entfernt Ihr Wallet und den gesamten Transaktionsverlauf",
-    "selectSkinLabel": "Wählen Sie ein Design aus",
-    "noSkinsUnlocked": "Keine Designs freigeschaltet",
-    "deleteWalletButtonLabel": "Wallet löschen",
-    "errors": {
-      "walletNameIsTooShort": "Wallet-Name muss mindestens 1 Zeichen lang sein",
-      "walletNameIsTooLong": "Wallet-Name darf maximal {{amount}} Zeichen lang sein"
-    }
-  },
-  "persistAccount": {
-    "titleEdit": "Konto bearbeiten",
-    "titleCreate": "Neues Konto erstellen",
-    "subtitleCreate": "Ein Konto zu erstellen ist einfach, geben Sie ihm einfach einen Namen und wählen Sie unten eine Farbe aus und schon sind Sie fertig!",
-    "inputLabel": "Kontoname",
-    "inputPlaceholder": "Geben Sie Ihren Kontonamen ein…",
-    "inputSubtitle": "Es könnte hilfreich sein, Ihr Konto mit einem Label zu benennen, das sich auf den Verwendungszweck des Kontos bezieht (z. B. 'Investitionen' oder 'Handel').",
-    "selectBlockchainDescription": "Bitte wählen Sie aus, welche Chain Sie für dieses Konto verwenden möchten.",
-    "skinSelectorLabel": "Wählen Sie ein Konto-Design aus",
-    "saveButtonLabel": "Speichern",
-    "nextButtonLabel": "Weiter",
-    "cancelButtonLabel": "Abbrechen",
-    "deleteAccountTitle": "Konto löschen",
-    "deleteAccountSubtext": "Das Löschen eines Kontos, das Assets enthält, führt dazu, dass diese Assets nach dem Löschen nicht mehr zugänglich sind!",
-    "useNftButtonLabel": "NFT-Bild verwenden",
-    "errors": {
-      "accountNameIsTooShort": "Kontoname muss mindestens 1 Zeichen lang sein",
-      "accountNameIsTooLong": "Kontoname darf maximal {{amount}} Zeichen lang sein"
-    }
-  },
-  "createWallet": {
-    "title": "Neues Wallet erstellen",
-    "heading": "Erstellen Sie Ihr neues BIP39-Wallet",
-    "step1Header": "Sicherheitsphrase generieren",
-    "step1Description": "Diese Reihe geheimer Wörter macht es einfach, Ihr Konto zu sichern und wiederherzustellen. Dies macht Ihr Wallet wirklich sicher",
-    "step2Header": "Sicherheitsphrase bestätigen",
-    "step2Description": "Es ist wirklich wichtig, dass Sie sich Ihre Phrase richtig merken, daher werden wir Ihnen dabei helfen. Wenn Sie es eilig haben, können Sie es ein anderes Mal tun.",
-    "step3Header": "Geben Sie Ihrem neuen Wallet einen Namen",
-    "step3Description": "Geben Sie Ihrem Wallet einen einprägsamen Namen.",
-    "step4Header": "Chains auswählen",
-    "step4Description": "Wählen Sie aus, welche Chains Sie für dieses Wallet verwenden möchten, und schon können Sie loslegen!",
-    "step1": {
-      "title": "Sicherheitsphrase generieren",
-      "step1of4": "1 von 4",
-      "description": "Schreiben Sie diese Phrase auf ein Blatt Papier oder speichern Sie sie in einer sicheren digitalen Notiz. Sie können sie auch unten herunterladen, aber achten Sie darauf, sie sicher aufzubewahren.",
-      "copyButtonLabel": "Kopieren",
-      "printButtonLabel": "Drucken",
-      "backButtonLabel": "Zurück",
-      "nextButtonLabel": "Weiter",
-      "warning": "Jeder, der diese Phrase hat, kann auf Ihre hart verdienten Assets zugreifen, und Sie werden sie nicht zurückbekommen können!"
-    },
-    "step2": {
-      "title": "Sicherheitsphrase bestätigen",
-      "step2of4": "2 von 4",
-      "description": "Bitte wählen Sie jede Phrase in der richtigen Reihenfolge aus, um sicherzustellen, dass Sie sie richtig haben:",
-      "backButtonLabel": "Zurück",
-      "nextButtonLabel": "Weiter",
-      "warning": "Wenn Sie sich nicht an Ihre Sicherheitsphrase erinnern können, keine Sorge, Sie finden sie im Abschnitt 'Einstellungen' des Wallets",
-      "tryAgain": "Bitte versuchen Sie erneut, Ihre Sicherung zu bestätigen"
-    },
-    "step3": {
-      "title": "Geben Sie Ihrem neuen Wallet einen Namen und eine Passphrase",
-      "step3of4": "3 von 4",
-      "description": "Geben Sie Ihrem Wallet einen einprägsamen Namen, es könnte hilfreich sein, es mit einem Label zu benennen, das sich auf den Verwendungszweck des Wallets bezieht (z. B. 'Investitionen' oder 'Handels-Wallet').",
-      "inputLabel": "Wallet-Name",
-      "inputPlaceholder": "Geben Sie Ihren Wallet-Namen ein…",
-      "backButtonLabel": "Zurück",
-      "nextButtonLabel": "Weiter",
-      "errors": {
-        "walletNameIsTooShort": "Wallet-Name muss mindestens 1 Zeichen lang sein",
-        "walletNameIsTooLong": "Wallet-Name darf maximal {{amount}} Zeichen lang sein"
-      }
-    },
-    "step4": {
-      "title": "Netzwerk auswählen",
-      "step4of4": "4 von 4",
-      "backButtonLabel": "Zurück",
-      "createWalletButtonLabel": "Wallet erstellen",
-      "description": "Bitte wählen Sie aus, welche Chains Sie für dieses Wallet verwenden möchten."
-    },
-    "step5": {
-      "title": "Herzlichen Glückwunsch, Sie sind jetzt stolzer Besitzer eines brandneuen Wallets!",
-      "description": "Denken Sie daran, Ihre geheime Phrase sicher aufzubewahren, mehrere Sicherungen zu haben ist immer eine gute Idee. Wenn Sie die geheime Phrase eines Wallets herausfinden müssen, finden Sie sie auf der Einstellungsseite dieses Wallets.",
-      "viewWalletButtonLabel": "Wallet anzeigen"
-    }
-  },
-  "persistContact": {
-    "addContact": "Kontakt hinzufügen",
-    "editContact": "Kontakt bearbeiten",
-    "invalidName": "Ungültiger Name",
-    "emptyAddresses": "Keine Adresse hinzugefügt",
-    "noAddressesFound": "Keine Adressen gefunden",
-    "addAddress": "Adresse hinzufügen",
-    "saveContact": "Kontakt speichern",
-    "name": "NAME",
-    "enterAName": "Namen eingeben…",
-    "addresses": "ADRESSEN",
-    "deleteContact": {
-      "title": "Kontakt löschen",
-      "warningText": "Diesen Kontakt löschen?",
-      "warningDescription": "Alle gespeicherten Adressen werden von diesem Kontakt getrennt",
-      "buttonDeleteLabel": "Diesen Kontakt löschen"
-    },
-    "deleteAddress": {
-      "title": "Adresse löschen",
-      "warningText": "Diese Adresse löschen?",
-      "warningDescription": "Diese Adresse wird getrennt von",
-      "buttonDeleteLabel": "Diese Adresse löschen"
+    "why": {
+      "description": "Der Ziel-Token wird als zusätzliche Identifikationsinformationen benötigt, um ordnungsgemäß zugestellt zu werden. Bitte stellen Sie sicher, dass Sie diese zusätzlichen Informationen bereitstellen, um einen erfolgreichen Tausch zu gewährleisten.",
+      "title": "Warum brauche ich eins?"
     }
   },
   "addAddress": {
-    "title": "Adresse hinzufügen",
-    "editTitle": "Adresse bearbeiten",
-    "name": "NAME",
-    "blockchain": "Blockchain",
-    "addressOrDomain": "Adresse oder NS-Domain",
-    "errorNoBlockchainSelected": "Keine Blockchain ausgewählt",
     "addressComplete": "Adresse vollständig!",
-    "nnsComplete": "NS-Domain gefunden!",
+    "addressOrDomain": "Adresse oder NS-Domain",
+    "blockchain": "Blockchain",
+    "editTitle": "Adresse bearbeiten",
+    "errorNoBlockchainSelected": "Keine Blockchain ausgewählt",
     "invalidAddress": "Ungültige Adresse oder NS-Domain",
-    "saveAddress": "Adresse speichern"
-  },
-  "importAccountsSelection": {
-    "title": "Import",
-    "description": "Wählen Sie die Adressen aus, die Sie importieren möchten:",
-    "importButtonLabel": "Importieren"
-  },
-  "dappDisconnection": {
-    "title": "Verbindungsdetails",
-    "disconnectAllApps": "Alle Anwendungen trennen?",
-    "disconnectApp": "Anwendung trennen?",
-    "totalDapps": "{{totalDapps}} Anwendungen",
-    "willRemove": "wird dauerhaft entfernt",
-    "warning": "Sind Sie sicher, dass Sie fortfahren möchten?",
-    "disconnect": "Trennen",
-    "cancel": "Abbrechen"
-  },
-  "dappConnection": {
-    "title": "Mit einer dApp verbinden",
-    "description": "Alle von einer verbundenen dApp angeforderten Transaktionen <strong>erfordern Ihre Genehmigung, bevor sie</strong> an die Blockchain übertragen werden.",
-    "disclaimer": "Keine von der dApp initiierten Aktionen werden ohne Ihre direkte Genehmigung ausgeführt.",
-    "inputPlaceholder": "Fügen Sie Ihre URL hier ein…",
-    "buttonConnectLabel": "Verbinden",
-    "errors": {
-      "errorToConnect": "Hoppla! Wir sind auf einen Fehler gestoßen. Versuchen Sie, eine neue URI zu generieren und es erneut zu versuchen."
-    }
-  },
-  "dappConnectionDetails": {
-    "title": "Diese App möchte sich verbinden!",
-    "description": "{{name}} möchte sich mit Ihrem Wallet verbinden",
-    "connectionDetailsTitle": "Verbindungsdetails",
-    "declineButtonLabel": "Ablehnen",
-    "acceptButtonLabel": "Akzeptieren",
-    "successModal": {
-      "title": "dApp verbinden",
-      "subtitle": "Eine neue dApp wurde verbunden!",
-      "buttonReturnLabel": "Zurück"
-    },
-    "errorModal": {
-      "title": "dApp verbinden",
-      "subtitle": "Hoppla! Wir sind auf einen Fehler gestoßen",
-      "subtitle2": "Die dApp wurde nicht verbunden",
-      "subtitle3": "Bitte versuchen Sie es später erneut.",
-      "buttonReturnLabel": "Zurück",
-      "accountProposalError": "Die dApp versucht, sich mit einer anderen Blockchain zu verbinden als die des ausgewählten Kontos.",
-      "differentNetworkError": "Die dApp versucht, sich mit einem anderen Netzwerk zu verbinden, als dem, mit dem Sie derzeit verbunden sind. Bitte ändern Sie Ihr Netzwerk, um sich mit dieser dApp zu verbinden."
-    }
-  },
-  "dappConnectionAccountSelection": {
-    "title": "Mit einem Konto verbinden",
-    "description": "Mit welchem Konto möchten Sie sich verbinden?"
-  },
-  "selectContact": {
-    "title": "Kontakt auswählen",
-    "selectRecipient": "Empfänger auswählen"
-  },
-  "blockchainSelection": {
-    "buttonContinueLabel": "Weiter"
-  },
-  "decryptKey": {
-    "title": "Import",
-    "description": "Geben Sie eine Passphrase für Ihren verschlüsselten Schlüssel ein:",
-    "inputPlaceholder": "Geben Sie Ihre Passphrase ein…",
-    "buttonContinueLabel": "Importieren",
-    "errors": {
-      "noEncryptionInterfaceError": "Diese Blockchain kann den Schlüssel nicht entschlüsseln",
-      "decryptError": "Es gab ein Problem beim Entschlüsseln des Schlüssels"
-    }
-  },
-  "selectAccount": {
-    "title": "Konto auswählen",
-    "yourAccounts": "Ihre Konten:",
-    "placeholder": "Wallet auswählen…",
-    "noAccounts": "Keine Konten"
-  },
-  "networkSelection": {
-    "title": "Netzwerk",
-    "selectNetwork": "Netzwerk auswählen",
-    "addCustomNetworkButtonLabel": "Benutzerdefiniertes Netzwerk hinzufügen",
-    "editCustomNetworkButtonLabel": "Benutzerdefiniertes Netzwerk bearbeiten"
-  },
-  "dappPermission": {
-    "unsupportedMethodError": "Die Methode {{method}} wird nicht unterstützt",
-    "cancelled": "Anfrage abgebrochen",
-    "errorModal": {
-      "heading": "Dapp-Anfrage",
-      "subtitle": "Anfrage fehlgeschlagen",
-      "text": "Es tut mir leid, aber Ihre Anfrage konnte nicht bearbeitet werden.",
-      "errorMessageLabel": "FEHLERMELDUNG"
-    },
-    "requests": {
-      "neo3": {
-        "contractInvocation": {
-          "subtitle": "Bestätigen Sie, dass Sie fortfahren möchten",
-          "overrideFeeInfo": "Die dApp hat die Gebühren überschrieben",
-          "feeError": "Fehler bei der Gebührenberechnung. Die Anfrage wurde abgebrochen.",
-          "feeLabel": "Gebühr",
-          "hashLabel": "HASH",
-          "amountLabel": "BETRAG",
-          "signatureScopeTitle": "Signaturbereich",
-          "acceptButtonLabel": "Bestätigen",
-          "cancelButtonLabel": "Abbrechen"
-        },
-        "invokeFunction": {
-          "title": "Diese App benötigt Ihre Erlaubnis, um diese Transaktion durchzuführen",
-          "successModal": {
-            "heading": "Dapp-Anfrage",
-            "subtitle": "Transaktion erfolgreich gesendet!",
-            "text": "Sobald Ihre Transaktion bestätigt wurde, wird sie in Ihrem Aktivitäts-Feed angezeigt."
-          }
-        },
-        "signTransaction": {
-          "title": "Diese App benötigt Ihre Erlaubnis, um diese Transaktion zu signieren",
-          "successModal": {
-            "heading": "Dapp-Anfrage",
-            "subtitle": "Transaktion erfolgreich signiert!"
-          }
-        },
-        "signMessage": {
-          "title": "Diese App fordert Authentifizierung an",
-          "messageLabel": "NACHRICHT",
-          "acceptButtonLabel": "Authentifizieren",
-          "cancelButtonLabel": "Ablehnen",
-          "successModal": {
-            "heading": "Dapp-Anfrage",
-            "subtitle": "Nachricht erfolgreich signiert!"
-          }
-        },
-        "verifyMessage": {
-          "title": "Diese App fordert Authentifizierung an",
-          "messageLabel": "SIGNIERTE NACHRICHT",
-          "acceptButtonLabel": "Authentifizieren",
-          "cancelButtonLabel": "Ablehnen",
-          "successModal": {
-            "heading": "Dapp-Anfrage",
-            "subtitle": "Wallet authentifiziert!"
-          }
-        },
-        "encrypt": {
-          "title": "Diese App fordert Verschlüsselung an",
-          "messageLabel": "NACHRICHT",
-          "acceptButtonLabel": "Verschlüsseln",
-          "cancelButtonLabel": "Ablehnen",
-          "successModal": {
-            "heading": "Dapp-Anfrage",
-            "subtitle": "Nachricht erfolgreich verschlüsselt!"
-          }
-        },
-        "decrypt": {
-          "title": "Diese App fordert Entschlüsselung an",
-          "messageLabel": "NACHRICHT",
-          "acceptButtonLabel": "Entschlüsseln",
-          "cancelButtonLabel": "Ablehnen",
-          "successModal": {
-            "heading": "Dapp-Anfrage",
-            "subtitle": "Nachricht erfolgreich entschlüsselt!"
-          }
-        }
-      },
-      "ethereum": {
-        "signMessage": {
-          "title": "Diese App fordert Authentifizierung an",
-          "messageLabel": "NACHRICHT",
-          "acceptButtonLabel": "Authentifizieren",
-          "cancelButtonLabel": "Ablehnen",
-          "successModal": {
-            "heading": "Dapp-Anfrage",
-            "subtitle": "Nachricht erfolgreich signiert!"
-          }
-        },
-        "rawJson": {
-          "dataLabel": "DATEN",
-          "acceptButtonLabel": "Akzeptieren",
-          "cancelButtonLabel": "Ablehnen"
-        },
-        "signTransaction": {
-          "title": "Diese App benötigt Ihre Erlaubnis, um diese Transaktion zu signieren",
-          "successModal": {
-            "heading": "Dapp-Anfrage",
-            "subtitle": "Transaktion erfolgreich signiert!"
-          }
-        },
-        "sendTransaction": {
-          "title": "Diese App benötigt Ihre Erlaubnis, um diese Transaktion durchzuführen",
-          "successModal": {
-            "heading": "Dapp-Anfrage",
-            "subtitle": "Transaktion erfolgreich gesendet!",
-            "text": "Sobald Ihre Transaktion bestätigt wurde, wird sie in Ihrem Aktivitäts-Feed angezeigt."
-          }
-        },
-        "signTypedData": {
-          "title": "Diese App fordert Authentifizierung an",
-          "successModal": {
-            "heading": "Dapp-Anfrage",
-            "subtitle": "Nachricht erfolgreich signiert!"
-          }
-        },
-        "fee": {
-          "label": "GEBÜHR",
-          "fee": "{{fee}} ETH",
-          "feeError": "Fehler bei der Gebührenberechnung. Die Anfrage wurde abgebrochen."
-        }
-      }
-    }
-  },
-  "dappPermissionSignatureScope": {
-    "scopes": {
-      "None": "Ihre Signatur ist nur für Gebührenzahlungen gültig.",
-      "CalledByEntry": "Ihre Signatur kann nur vom aufrufenden Vertrag und nur für diese Transaktion verwendet werden.",
-      "Global": "Ihre Signatur kann ohne Einschränkung mit jedem Vertrag verwendet werden.",
-      "CustomContracts": "Ihre Signatur kann von den oben aufgeführten Verträgen verwendet werden.",
-      "CustomGroups": "Ihre Signatur kann von den oben aufgeführten Gruppen verwendet werden.",
-      "WitnessRules": "Ihre Signatur ist nur für Transaktionen gültig, die den angegebenen Regeln und Bedingungen entsprechen, wie z. B. der aktuellen Script-Hash, Gruppe oder aufrufenden Script-Hash. Dies ermöglicht eine komplexere und ausdrucksstärkere Signaturbereichsdefinition, um Randfälle und potenzielle Reentrancy-Angriffe zu adressieren."
-    }
-  },
-  "dappPermissionContractDetails": {
-    "title": "Aufrufdetails",
-    "detailsLabel": "DETAILS",
-    "hashLabel": "HASH",
-    "parametersLabel": "ANFRAGEPARAMETER",
-    "methodNotFoundError": "Methode nicht im Vertrag gefunden"
-  },
-  "deleteAccount": {
-    "title": "Konto bearbeiten",
-    "deleteAccount": "Konto löschen?",
-    "subtitle": "Stellen Sie sicher, dass Sie Ihre Assets auf ein neues Konto übertragen haben, bevor Sie fortfahren, damit Ihre Assets sicher sind",
-    "alert": "Das Löschen eines Kontos, das Assets enthält, führt dazu, dass diese Assets nach dem Löschen nicht mehr zugänglich sind!",
-    "warning": "Sind Sie sicher, dass Sie fortfahren möchten?",
-    "delete": "Konto löschen",
-    "cancel": "Abbrechen",
-    "deleteLastAccountError": "Um das letzte Konto aus einem Wallet zu entfernen, müssen Sie das gesamte Wallet löschen"
-  },
-  "exportKey": {
-    "title": "Schlüssel exportieren",
-    "subtitle": "Verwenden Sie Ihren Schlüssel, um Ihr Konto zu sichern oder Ihre Assets zwischen Wallets zu verschieben",
-    "keyDetailsTitle": "Schlüsseldetails",
-    "copyButtonLabel": "Kopieren",
-    "printButtonLabel": "Drucken",
-    "warningDescription": "Bewahren Sie Ihre Schlüssel sicher auf! Sie gewähren vollständige Kontrolle über Ihr Wallet und Ihre Assets"
-  },
-  "confirmPasswordExport": {
-    "description": "Um den Zugriff auf Ihre Assets zu schützen, bestätigen Sie bitte Ihr Passwort",
-    "inputPlaceholder": "Passwort eingeben…",
-    "error": "Passwort nicht erkannt!",
-    "buttonContinueLabel": "Weiter"
-  },
-  "exportMnemonic": {
-    "title": "Wallet exportieren",
-    "description": "Schreiben Sie diese Phrase auf ein Blatt Papier oder speichern Sie sie in einer sicheren digitalen Notiz. Sie können sie auch unten herunterladen, aber achten Sie darauf, sie sicher aufzubewahren.",
-    "yourMnemonic": "Ihr Mnemonic",
-    "copyButtonLabel": "Kopieren",
-    "printButtonLabel": "Drucken",
-    "warning": "Jeder, der diese Phrase hat, kann auf Ihre hart verdienten Assets zugreifen, und Sie werden sie nicht zurückbekommen können!"
-  },
-  "deleteWallet": {
-    "title": "Wallet bearbeiten",
-    "deleteWallet": "Wallet löschen?",
-    "subtitle": "Stellen Sie sicher, dass Sie Ihre Assets auf ein neues Wallet übertragen haben, bevor Sie fortfahren, damit Ihre Assets sicher sind",
-    "alert": "Das Löschen eines Wallets, das Assets enthält, führt dazu, dass diese Assets nach dem Löschen nicht mehr zugänglich sind!",
-    "warning": "Sind Sie sicher, dass Sie fortfahren möchten?",
-    "delete": "Wallet löschen",
-    "cancel": "Abbrechen",
-    "deleteLastWalletError": "Es muss mindestens ein Wallet vorhanden sein"
-  },
-  "confirmPasswordBackup": {
-    "title": "NEON sichern",
-    "description": "Um Ihre Sicherungsdatei zu erstellen, geben Sie bitte unten Ihr NEON-Passwort ein:",
-    "subtitle": "Aktuelles NEON-Passwort",
-    "inputPlaceholder": "Geben Sie Ihr Passwort ein…",
-    "buttonContinueLabel": "Jetzt sichern",
-    "error": "Passwort nicht erkannt!",
-    "warning": "Sie benötigen dieses Passwort, um Ihr Wallet wiederherzustellen.",
-    "warningHighlighted": "Bitte bewahren Sie es sicher auf!",
-    "modalDescription": "Sicherung erfolgreich erstellt!",
-    "errorBackup": "Es gab einen Fehler beim Versuch zu sichern. Bitte versuchen Sie es erneut.",
-    "returnSettings": "Zurück zu den Einstellungen"
-  },
-  "confirmPasswordRecover": {
-    "title": "NEON-Backup importieren",
-    "description": "Um Ihre Sicherungsdatei zu importieren, geben Sie bitte das Passwort ein, das Sie zum Erstellen der Sicherung verwendet haben:",
-    "subtitle": "Backup-Passwort",
-    "inputPlaceholder": "Geben Sie Ihr Passwort ein…",
-    "buttonContinueLabel": "Dieses NEON-Backup importieren",
-    "error": "Passwort nicht erkannt!",
-    "modalDescription": "Backup erfolgreich importiert!",
-    "returnSettings": "Zurück zu den Einstellungen"
-  },
-  "confirmAction": {
-    "title": "Bestätigen Sie Ihre Aktion",
-    "description": "Um diese Aktion fortzusetzen, bitte bestätigen Sie:",
-    "inputPlaceholder": "Passwort eingeben…",
-    "passwordError": "Passwort nicht erkannt!",
-    "confirmButtonLabel": "Bestätigen"
-  },
-  "migrateWallets": {
-    "title": "Von NEON 2 migrieren",
-    "instructionTitle": "Anweisungen",
-    "step2": {
-      "title": "Importieren Sie Ihre NEON 2 Konten",
-      "description": "Um den NEON 2 Migrationsprozess abzuschließen, suchen Sie bitte Ihre NEON 2 Wallet-Migrationsdatei:",
-      "inputLabel": "Suchen Sie Ihre NEON 2 Migrationsdatei",
-      "buttonBrowseLabel": "Durchsuchen…",
-      "buttonImportLabel": "Importieren"
-    },
-    "step3": {
-      "title": "Wählen Sie die zu migrierenden Konten aus",
-      "selectTitle": "Wählen Sie aus, welche Konten Sie importieren möchten",
-      "selectLabel": "Konten",
-      "selectAllButtonLabel": "Alle auswählen",
-      "selectedQuantity": "{{selected}} von {{total}} Konten ausgewählt",
-      "alreadyImportedLabel": "Importiert",
-      "buttonLabel": "Ausgewählte Konten auswählen"
-    },
-    "step4": {
-      "title": "Geben Sie Ihre Kontopasswörter ein",
-      "description": "Geben Sie Ihre Passwörter für jedes Konto ein, das Sie importieren möchten",
-      "inputLabel": "Passwort",
-      "inputPlaceholder": "Kontopasswort eingeben…",
-      "buttonLabel": "Konten migrieren",
-      "passwordError": "Passwort nicht erkannt!",
-      "migrateError": "Es gab einen Fehler beim Versuch zu migrieren. Bitte versuchen Sie es erneut.",
-      "success": {
-        "subtitle": "Ihre NEON 2 Konten wurden erfolgreich migriert!",
-        "buttonLabel": "Ihr Portfolio anzeigen"
-      }
-    }
-  },
-  "autoUpdate": {
-    "completed": {
-      "title": "Ihr Wallet wurde aktualisiert!",
-      "description": "Neon-Updates bieten Ihrem Wallet neue und verbesserte Sicherheit und Funktionalität und beheben gleichzeitig bestehende Probleme wie Fehler und Abstürze",
-      "buttonPatchNotesLabel": "Patch-Notizen",
-      "buttonContinueLabel": "Beginnen Sie, Ihr Wallet zu verwenden"
-    },
-    "mobile": {
-      "title": "Ihr Wallet ist auch auf dem Handy verfügbar!",
-      "description": "Speichern, betrachten und verwalten Sie sicher alle Ihre digitalen Assets und mehrere Wallets an einem Ort. Nutzen Sie die zusätzlichen Sicherheitsoptionen auf Ihrem Gerät, um Ihre Assets sicher zu halten",
-      "downloadForIOS": "Für iOS herunterladen",
-      "downloadForAndroid": "Für Android herunterladen",
-      "buttonContinueLabel": "Weiter zu Ihrem Wallet"
-    },
-    "notes": {
-      "title": "Ihr Wallet ist gerade leistungsfähiger geworden!",
-      "subtitle": "Versionshinweise",
-      "buttonLearnMoreLabel": "Mehr erfahren",
-      "buttonContinueLabel": "Beginnen Sie, Ihr Wallet zu verwenden"
-    }
-  },
-  "networkNodeSelection": {
-    "title": "Knotenauswahl",
-    "description": "Wenn Sie Leistungsprobleme haben, versuchen Sie unten einen benutzerdefinierten Knoten auszuwählen",
-    "listLabel": "KNOTENLISTE",
-    "refreshButtonLabel": "Aktualisieren",
-    "selectAutomaticallyLabel": "Automatisch auswählen",
-    "blockHeight": "Blockhöhe: {{height}}",
-    "latency": "{{latency}}ms"
+    "name": "NAME",
+    "nnsComplete": "NS-Domain gefunden!",
+    "saveAddress": "Adresse speichern",
+    "title": "Adresse hinzufügen"
   },
   "addCustomNetwork": {
-    "title": "Benutzerdefiniertes Netzwerk hinzufügen",
-    "namePlaceholder": "Netzwerknamen eingeben",
-    "nameLabel": "Netzwerkname",
-    "urlPlaceholder": "Beispiel: 'http://127.0.0.1:50012",
-    "urlLabel": "RPC-URL",
-    "successUrl": "Erfolgreich mit dem Knoten verbunden",
     "deleteButtonLabel": "Netzwerk löschen",
     "errors": {
       "invalidURL": "Ungültige URL",
-      "notConnect": "Verbindung zu diesem Knoten nicht möglich",
       "networkNameIsRequired": "Netzwerkname ist erforderlich",
-      "networkNameIsTooLong": "Netzwerkname ist zu lang"
-    }
+      "networkNameIsTooLong": "Netzwerkname ist zu lang",
+      "notConnect": "Verbindung zu diesem Knoten nicht möglich"
+    },
+    "nameLabel": "Netzwerkname",
+    "namePlaceholder": "Netzwerknamen eingeben",
+    "successUrl": "Erfolgreich mit dem Knoten verbunden",
+    "title": "Benutzerdefiniertes Netzwerk hinzufügen",
+    "urlLabel": "RPC-URL",
+    "urlPlaceholder": "Beispiel: 'http://127.0.0.1:50012"
   },
   "addNetworkProfile": {
-    "title": "Neues Netzwerkprofil hinzufügen",
-    "inputLabel": "Profilname",
     "deleteButtonLabel": "Profil löschen",
     "errors": {
       "profileNameIsRequired": "Profilname ist erforderlich",
       "profileNameIsTooLong": "Profilname ist zu lang"
+    },
+    "inputLabel": "Profilname",
+    "title": "Neues Netzwerkprofil hinzufügen"
+  },
+  "autoUpdate": {
+    "completed": {
+      "buttonContinueLabel": "Beginnen Sie, Ihr Wallet zu verwenden",
+      "buttonPatchNotesLabel": "Patch-Notizen",
+      "description": "Neon-Updates bieten Ihrem Wallet neue und verbesserte Sicherheit und Funktionalität und beheben gleichzeitig bestehende Probleme wie Fehler und Abstürze",
+      "title": "Ihr Wallet wurde aktualisiert!"
+    },
+    "mobile": {
+      "buttonContinueLabel": "Weiter zu Ihrem Wallet",
+      "description": "Speichern, betrachten und verwalten Sie sicher alle Ihre digitalen Assets und mehrere Wallets an einem Ort. Nutzen Sie die zusätzlichen Sicherheitsoptionen auf Ihrem Gerät, um Ihre Assets sicher zu halten",
+      "downloadForAndroid": "Für Android herunterladen",
+      "downloadForIOS": "Für iOS herunterladen",
+      "title": "Ihr Wallet ist auch auf dem Handy verfügbar!"
+    },
+    "notes": {
+      "buttonContinueLabel": "Beginnen Sie, Ihr Wallet zu verwenden",
+      "buttonLearnMoreLabel": "Mehr erfahren",
+      "subtitle": "Versionshinweise",
+      "title": "Ihr Wallet ist gerade leistungsfähiger geworden!"
     }
   },
-  "nftSelection": {
-    "title": "Design mit NFT-Bild",
-    "description": "Bitte wählen Sie aus, welches Bild Sie für diese Kontokarte verwenden möchten.",
-    "selectTitle": "WÄHLEN SIE EIN NFT",
-    "emptyList": "Keine NFTs gefunden"
+  "blockchainSelection": {
+    "buttonContinueLabel": "Weiter"
+  },
+  "buyAndSellTokensAboutData": {
+    "alert": "COZ speichert keine Ihrer Daten!",
+    "description": "Unser On/Off-Ramp-Partner speichert nur eine ID-Referenz zu Ihren Daten und verwendet die von Ihnen angegebene E-Mail, um Sie über Ihre Verkäufe und Käufe zu informieren.",
+    "sumbsub": {
+      "link": "Über Sumsubs Dienst",
+      "title": "Ihre KYC-Daten werden verschlüsselt und von unserem KYC-Partner verwendet:"
+    },
+    "title": "Über Ihre Daten",
+    "unlimit": {
+      "link": "Über Unlimits Dienst",
+      "title": "Alle anderen Daten werden von unserem On/Off-Ramp-Partner verarbeitet:"
+    }
+  },
+  "buyAndSellTokensLeaveAlert": {
+    "buttons": {
+      "close": "Nein, ich möchte bleiben",
+      "continue": "Ja, fortfahren"
+    },
+    "description": "Durch Wechseln der Bildschirme werden die Daten in den Formularen zurückgesetzt.",
+    "title": "Sind Sie sicher, dass Sie diesen Bildschirm verlassen möchten?"
+  },
+  "confirmAction": {
+    "confirmButtonLabel": "Bestätigen",
+    "description": "Um diese Aktion fortzusetzen, bitte bestätigen Sie:",
+    "inputPlaceholder": "Passwort eingeben…",
+    "passwordError": "Passwort nicht erkannt!",
+    "title": "Bestätigen Sie Ihre Aktion"
+  },
+  "confirmPasswordBackup": {
+    "buttonContinueLabel": "Jetzt sichern",
+    "description": "Um Ihre Sicherungsdatei zu erstellen, geben Sie bitte unten Ihr NEON-Passwort ein:",
+    "error": "Passwort nicht erkannt!",
+    "errorBackup": "Es gab einen Fehler beim Versuch zu sichern. Bitte versuchen Sie es erneut.",
+    "inputPlaceholder": "Geben Sie Ihr Passwort ein…",
+    "modalDescription": "Sicherung erfolgreich erstellt!",
+    "returnSettings": "Zurück zu den Einstellungen",
+    "subtitle": "Aktuelles NEON-Passwort",
+    "title": "NEON sichern",
+    "warning": "Sie benötigen dieses Passwort, um Ihr Wallet wiederherzustellen.",
+    "warningHighlighted": "Bitte bewahren Sie es sicher auf!"
+  },
+  "confirmPasswordExport": {
+    "buttonContinueLabel": "Weiter",
+    "description": "Um den Zugriff auf Ihre Assets zu schützen, bestätigen Sie bitte Ihr Passwort",
+    "error": "Passwort nicht erkannt!",
+    "inputPlaceholder": "Passwort eingeben…"
+  },
+  "confirmPasswordRecover": {
+    "buttonContinueLabel": "Dieses NEON-Backup importieren",
+    "description": "Um Ihre Sicherungsdatei zu importieren, geben Sie bitte das Passwort ein, das Sie zum Erstellen der Sicherung verwendet haben:",
+    "error": "Passwort nicht erkannt!",
+    "inputPlaceholder": "Geben Sie Ihr Passwort ein…",
+    "modalDescription": "Backup erfolgreich importiert!",
+    "returnSettings": "Zurück zu den Einstellungen",
+    "subtitle": "Backup-Passwort",
+    "title": "NEON-Backup importieren"
   },
   "connectHardwareWallet": {
-    "title": "Verbinden Sie Ihr Hardware Wallet",
-    "description": "Nach der Verbindung wird Ihr Ledger Wallet zur Wallets-Liste hinzugefügt",
-    "searchingLabel": "Suche läuft",
-    "notConnectedMessage": "Kein Hardware Wallet gefunden! Bitte überprüfen Sie Ihre Verbindung und suchen Sie erneut",
     "connectedMessage": "Ihr Hardware Wallet erkannt! Öffne Ihr Wallet…",
-    "searchAgainButtonLabel": "Erneut suchen"
+    "description": "Nach der Verbindung wird Ihr Ledger Wallet zur Wallets-Liste hinzugefügt",
+    "notConnectedMessage": "Kein Hardware Wallet gefunden! Bitte überprüfen Sie Ihre Verbindung und suchen Sie erneut",
+    "searchAgainButtonLabel": "Erneut suchen",
+    "searchingLabel": "Suche läuft",
+    "title": "Verbinden Sie Ihr Hardware Wallet"
   },
-  "swapDetails": {
-    "title": "Ihr Tausch",
-    "swapErrorMessage": " Hoppla! Wir sind auf einen Fehler gestoßen - Tausch fehlgeschlagen",
-    "transferErrorMessage": " Hoppla! Wir sind auf einen Fehler gestoßen - Überweisung fehlgeschlagen",
-    "subtitle": "Ihre Tauschdetails",
-    "refundedSubtitle": "Sie wurden zurückerstattet",
-    "detailsHeaderLabel": "Details",
-    "detailsHeaderDescription": " Wir zielen darauf ab, Tausche in unter 7 Minuten abzuschließen",
-    "statusPanelLabel": "Status",
-    "statusPanelSteps": ["Bestätigen", "Tauschen", "Abschließen"],
-    "routingPanelLabel": "Routing",
-    "routingPanelTransactionFromLabel": "Transaktion von",
-    "routingPanelTransactionToLabel": "Transaktion an",
-    "routingPanelTransactionToLabelPending": "Ausstehend…",
-    "routingPanelTransactionFeeLabel": "Transaktionsgebühr",
-    "sentPanelLabel": "Sie haben gesendet",
-    "sentPanelTokenLabel": "Token",
-    "sentPanelAddressLabel": "Sendeadresse",
-    "receivePanelLabel": "Sie werden erhalten",
-    "receivePanelTokenLabel": "Token",
-    "receivePanelAddressLabel": "Empfangsadresse",
-    "extraIdToLabel": "Ziel-Tag/Memo",
-    "helpButtonLabel": "Brauchen Sie Hilfe? Chatten Sie mit uns",
-    "swapLog": "Tausch-Protokoll"
-  },
-  "swapDetailsLog": {
-    "title": "Tausch-Protokoll",
-    "copySwapLog": "Tausch-Protokoll in die Zwischenablage kopieren",
-    "thereIsNoLog": "Es gibt kein Tausch-Protokoll"
-  },
-  "aboutExtraIdToReceive": {
-    "title": "Über ein Ziel-Tag/Memo",
-    "what": {
-      "title": "Was ist ein Ziel-Tag oder Memo?",
-      "description": "Ein Ziel-Tag oder Memo ist eine eindeutige Kennung, die sicherstellt, dass eine Kryptowährungseinzahlung dem richtigen Empfänger gutgeschrieben wird. Es ist normalerweise erforderlich, wenn Geld an Dienste oder Börsen gesendet wird, die gemeinsame Wallet-Adressen verwenden."
+  "createWallet": {
+    "heading": "Erstellen Sie Ihr neues BIP39-Wallet",
+    "step1": {
+      "backButtonLabel": "Zurück",
+      "copyButtonLabel": "Kopieren",
+      "description": "Schreiben Sie diese Phrase auf ein Blatt Papier oder speichern Sie sie in einer sicheren digitalen Notiz. Sie können sie auch unten herunterladen, aber achten Sie darauf, sie sicher aufzubewahren.",
+      "nextButtonLabel": "Weiter",
+      "printButtonLabel": "Drucken",
+      "step1of4": "1 von 4",
+      "title": "Sicherheitsphrase generieren",
+      "warning": "Jeder, der diese Phrase hat, kann auf Ihre hart verdienten Assets zugreifen, und Sie werden sie nicht zurückbekommen können!"
     },
-    "why": {
-      "title": "Warum brauche ich eins?",
-      "description": "Der Ziel-Token wird als zusätzliche Identifikationsinformationen benötigt, um ordnungsgemäß zugestellt zu werden. Bitte stellen Sie sicher, dass Sie diese zusätzlichen Informationen bereitstellen, um einen erfolgreichen Tausch zu gewährleisten."
+    "step1Description": "Diese Reihe geheimer Wörter macht es einfach, Ihr Konto zu sichern und wiederherzustellen. Dies macht Ihr Wallet wirklich sicher",
+    "step1Header": "Sicherheitsphrase generieren",
+    "step2": {
+      "backButtonLabel": "Zurück",
+      "description": "Bitte wählen Sie jede Phrase in der richtigen Reihenfolge aus, um sicherzustellen, dass Sie sie richtig haben:",
+      "nextButtonLabel": "Weiter",
+      "step2of4": "2 von 4",
+      "title": "Sicherheitsphrase bestätigen",
+      "tryAgain": "Bitte versuchen Sie erneut, Ihre Sicherung zu bestätigen",
+      "warning": "Wenn Sie sich nicht an Ihre Sicherheitsphrase erinnern können, keine Sorge, Sie finden sie im Abschnitt 'Einstellungen' des Wallets"
     },
-    "where": {
-      "title": "Wo finde ich mein Ziel-Tag/Memo?",
-      "description": "Es ist normalerweise eine eindeutige Identifikationszeichenfolge, die in Ihren Empfänger-Kontoinformationen zu finden ist."
+    "step2Description": "Es ist wirklich wichtig, dass Sie sich Ihre Phrase richtig merken, daher werden wir Ihnen dabei helfen. Wenn Sie es eilig haben, können Sie es ein anderes Mal tun.",
+    "step2Header": "Sicherheitsphrase bestätigen",
+    "step3": {
+      "backButtonLabel": "Zurück",
+      "description": "Geben Sie Ihrem Wallet einen einprägsamen Namen, es könnte hilfreich sein, es mit einem Label zu benennen, das sich auf den Verwendungszweck des Wallets bezieht (z. B. 'Investitionen' oder 'Handels-Wallet').",
+      "errors": {
+        "walletNameIsTooLong": "Wallet-Name darf maximal {{amount}} Zeichen lang sein",
+        "walletNameIsTooShort": "Wallet-Name muss mindestens 1 Zeichen lang sein"
+      },
+      "inputLabel": "Wallet-Name",
+      "inputPlaceholder": "Geben Sie Ihren Wallet-Namen ein…",
+      "nextButtonLabel": "Weiter",
+      "step3of4": "3 von 4",
+      "title": "Geben Sie Ihrem neuen Wallet einen Namen und eine Passphrase"
+    },
+    "step3Description": "Geben Sie Ihrem Wallet einen einprägsamen Namen.",
+    "step3Header": "Geben Sie Ihrem neuen Wallet einen Namen",
+    "step4": {
+      "backButtonLabel": "Zurück",
+      "createWalletButtonLabel": "Wallet erstellen",
+      "description": "Bitte wählen Sie aus, welche Chains Sie für dieses Wallet verwenden möchten.",
+      "step4of4": "4 von 4",
+      "title": "Netzwerk auswählen"
+    },
+    "step4Description": "Wählen Sie aus, welche Chains Sie für dieses Wallet verwenden möchten, und schon können Sie loslegen!",
+    "step4Header": "Chains auswählen",
+    "step5": {
+      "description": "Denken Sie daran, Ihre geheime Phrase sicher aufzubewahren, mehrere Sicherungen zu haben ist immer eine gute Idee. Wenn Sie die geheime Phrase eines Wallets herausfinden müssen, finden Sie sie auf der Einstellungsseite dieses Wallets.",
+      "title": "Herzlichen Glückwunsch, Sie sind jetzt stolzer Besitzer eines brandneuen Wallets!",
+      "viewWalletButtonLabel": "Wallet anzeigen"
+    },
+    "title": "Neues Wallet erstellen"
+  },
+  "dappConnection": {
+    "buttonConnectLabel": "Verbinden",
+    "description": "Alle von einer verbundenen dApp angeforderten Transaktionen <strong>erfordern Ihre Genehmigung, bevor sie</strong> an die Blockchain übertragen werden.",
+    "disclaimer": "Keine von der dApp initiierten Aktionen werden ohne Ihre direkte Genehmigung ausgeführt.",
+    "errors": {
+      "errorToConnect": "Hoppla! Wir sind auf einen Fehler gestoßen. Versuchen Sie, eine neue URI zu generieren und es erneut zu versuchen."
+    },
+    "inputPlaceholder": "Fügen Sie Ihre URL hier ein…",
+    "title": "Mit einer dApp verbinden"
+  },
+  "dappConnectionAccountSelection": {
+    "description": "Mit welchem Konto möchten Sie sich verbinden?",
+    "title": "Mit einem Konto verbinden"
+  },
+  "dappConnectionDetails": {
+    "acceptButtonLabel": "Akzeptieren",
+    "connectionDetailsTitle": "Verbindungsdetails",
+    "declineButtonLabel": "Ablehnen",
+    "description": "{{name}} möchte sich mit Ihrem Wallet verbinden",
+    "errorModal": {
+      "accountProposalError": "Die dApp versucht, sich mit einer anderen Blockchain zu verbinden als die des ausgewählten Kontos.",
+      "buttonReturnLabel": "Zurück",
+      "differentNetworkError": "Die dApp versucht, sich mit einem anderen Netzwerk zu verbinden, als dem, mit dem Sie derzeit verbunden sind. Bitte ändern Sie Ihr Netzwerk, um sich mit dieser dApp zu verbinden.",
+      "subtitle": "Hoppla! Wir sind auf einen Fehler gestoßen",
+      "subtitle2": "Die dApp wurde nicht verbunden",
+      "subtitle3": "Bitte versuchen Sie es später erneut.",
+      "title": "dApp verbinden"
+    },
+    "successModal": {
+      "buttonReturnLabel": "Zurück",
+      "subtitle": "Eine neue dApp wurde verbunden!",
+      "title": "dApp verbinden"
+    },
+    "title": "Diese App möchte sich verbinden!"
+  },
+  "dappDisconnection": {
+    "cancel": "Abbrechen",
+    "disconnect": "Trennen",
+    "disconnectAllApps": "Alle Anwendungen trennen?",
+    "disconnectApp": "Anwendung trennen?",
+    "title": "Verbindungsdetails",
+    "totalDapps": "{{totalDapps}} Anwendungen",
+    "warning": "Sind Sie sicher, dass Sie fortfahren möchten?",
+    "willRemove": "wird dauerhaft entfernt"
+  },
+  "dappPermission": {
+    "cancelled": "Anfrage abgebrochen",
+    "errorModal": {
+      "errorMessageLabel": "FEHLERMELDUNG",
+      "heading": "Dapp-Anfrage",
+      "subtitle": "Anfrage fehlgeschlagen",
+      "text": "Es tut mir leid, aber Ihre Anfrage konnte nicht bearbeitet werden."
+    },
+    "requests": {
+      "ethereum": {
+        "fee": {
+          "fee": "{{fee}} ETH",
+          "feeError": "Fehler bei der Gebührenberechnung. Die Anfrage wurde abgebrochen.",
+          "label": "GEBÜHR"
+        },
+        "rawJson": {
+          "acceptButtonLabel": "Akzeptieren",
+          "cancelButtonLabel": "Ablehnen",
+          "dataLabel": "DATEN"
+        },
+        "sendTransaction": {
+          "successModal": {
+            "heading": "Dapp-Anfrage",
+            "subtitle": "Transaktion erfolgreich gesendet!",
+            "text": "Sobald Ihre Transaktion bestätigt wurde, wird sie in Ihrem Aktivitäts-Feed angezeigt."
+          },
+          "title": "Diese App benötigt Ihre Erlaubnis, um diese Transaktion durchzuführen"
+        },
+        "signMessage": {
+          "acceptButtonLabel": "Authentifizieren",
+          "cancelButtonLabel": "Ablehnen",
+          "messageLabel": "NACHRICHT",
+          "successModal": {
+            "heading": "Dapp-Anfrage",
+            "subtitle": "Nachricht erfolgreich signiert!"
+          },
+          "title": "Diese App fordert Authentifizierung an"
+        },
+        "signTransaction": {
+          "successModal": {
+            "heading": "Dapp-Anfrage",
+            "subtitle": "Transaktion erfolgreich signiert!"
+          },
+          "title": "Diese App benötigt Ihre Erlaubnis, um diese Transaktion zu signieren"
+        },
+        "signTypedData": {
+          "successModal": {
+            "heading": "Dapp-Anfrage",
+            "subtitle": "Nachricht erfolgreich signiert!"
+          },
+          "title": "Diese App fordert Authentifizierung an"
+        }
+      },
+      "neo3": {
+        "contractInvocation": {
+          "acceptButtonLabel": "Bestätigen",
+          "amountLabel": "BETRAG",
+          "cancelButtonLabel": "Abbrechen",
+          "feeError": "Fehler bei der Gebührenberechnung. Die Anfrage wurde abgebrochen.",
+          "feeLabel": "Gebühr",
+          "hashLabel": "HASH",
+          "overrideFeeInfo": "Die dApp hat die Gebühren überschrieben",
+          "signatureScopeTitle": "Signaturbereich",
+          "subtitle": "Bestätigen Sie, dass Sie fortfahren möchten"
+        },
+        "decrypt": {
+          "acceptButtonLabel": "Entschlüsseln",
+          "cancelButtonLabel": "Ablehnen",
+          "messageLabel": "NACHRICHT",
+          "successModal": {
+            "heading": "Dapp-Anfrage",
+            "subtitle": "Nachricht erfolgreich entschlüsselt!"
+          },
+          "title": "Diese App fordert Entschlüsselung an"
+        },
+        "encrypt": {
+          "acceptButtonLabel": "Verschlüsseln",
+          "cancelButtonLabel": "Ablehnen",
+          "messageLabel": "NACHRICHT",
+          "successModal": {
+            "heading": "Dapp-Anfrage",
+            "subtitle": "Nachricht erfolgreich verschlüsselt!"
+          },
+          "title": "Diese App fordert Verschlüsselung an"
+        },
+        "invokeFunction": {
+          "successModal": {
+            "heading": "Dapp-Anfrage",
+            "subtitle": "Transaktion erfolgreich gesendet!",
+            "text": "Sobald Ihre Transaktion bestätigt wurde, wird sie in Ihrem Aktivitäts-Feed angezeigt."
+          },
+          "title": "Diese App benötigt Ihre Erlaubnis, um diese Transaktion durchzuführen"
+        },
+        "signMessage": {
+          "acceptButtonLabel": "Authentifizieren",
+          "cancelButtonLabel": "Ablehnen",
+          "messageLabel": "NACHRICHT",
+          "successModal": {
+            "heading": "Dapp-Anfrage",
+            "subtitle": "Nachricht erfolgreich signiert!"
+          },
+          "title": "Diese App fordert Authentifizierung an"
+        },
+        "signTransaction": {
+          "successModal": {
+            "heading": "Dapp-Anfrage",
+            "subtitle": "Transaktion erfolgreich signiert!"
+          },
+          "title": "Diese App benötigt Ihre Erlaubnis, um diese Transaktion zu signieren"
+        },
+        "verifyMessage": {
+          "acceptButtonLabel": "Authentifizieren",
+          "cancelButtonLabel": "Ablehnen",
+          "messageLabel": "SIGNIERTE NACHRICHT",
+          "successModal": {
+            "heading": "Dapp-Anfrage",
+            "subtitle": "Wallet authentifiziert!"
+          },
+          "title": "Diese App fordert Authentifizierung an"
+        }
+      }
+    },
+    "unsupportedMethodError": "Die Methode {{method}} wird nicht unterstützt"
+  },
+  "dappPermissionContractDetails": {
+    "detailsLabel": "DETAILS",
+    "hashLabel": "HASH",
+    "methodNotFoundError": "Methode nicht im Vertrag gefunden",
+    "parametersLabel": "ANFRAGEPARAMETER",
+    "title": "Aufrufdetails"
+  },
+  "dappPermissionSignatureScope": {
+    "scopes": {
+      "CalledByEntry": "Ihre Signatur kann nur vom aufrufenden Vertrag und nur für diese Transaktion verwendet werden.",
+      "CustomContracts": "Ihre Signatur kann von den oben aufgeführten Verträgen verwendet werden.",
+      "CustomGroups": "Ihre Signatur kann von den oben aufgeführten Gruppen verwendet werden.",
+      "Global": "Ihre Signatur kann ohne Einschränkung mit jedem Vertrag verwendet werden.",
+      "None": "Ihre Signatur ist nur für Gebührenzahlungen gültig.",
+      "WitnessRules": "Ihre Signatur ist nur für Transaktionen gültig, die den angegebenen Regeln und Bedingungen entsprechen, wie z. B. der aktuellen Script-Hash, Gruppe oder aufrufenden Script-Hash. Dies ermöglicht eine komplexere und ausdrucksstärkere Signaturbereichsdefinition, um Randfälle und potenzielle Reentrancy-Angriffe zu adressieren."
     }
   },
-  "sellTokensDeposit": {
-    "title": "Einzahlung tätigen",
-    "description": "Um den Verkauf Ihrer digitalen Assets voranzutreiben, müssen Sie Ihre Assets an unseren Off-Ramp-Anbieter übertragen.",
-    "observation": "Wenn die Transaktion bestätigt ist, können Sie zum Prozess 'Token verkaufen' zurückkehren.",
+  "decryptKey": {
+    "buttonContinueLabel": "Importieren",
+    "description": "Geben Sie eine Passphrase für Ihren verschlüsselten Schlüssel ein:",
+    "errors": {
+      "decryptError": "Es gab ein Problem beim Entschlüsseln des Schlüssels",
+      "noEncryptionInterfaceError": "Diese Blockchain kann den Schlüssel nicht entschlüsseln"
+    },
+    "inputPlaceholder": "Geben Sie Ihre Passphrase ein…",
+    "title": "Import"
+  },
+  "deleteAccount": {
+    "alert": "Das Löschen eines Kontos, das Assets enthält, führt dazu, dass diese Assets nach dem Löschen nicht mehr zugänglich sind!",
+    "cancel": "Abbrechen",
+    "delete": "Konto löschen",
+    "deleteAccount": "Konto löschen?",
+    "deleteLastAccountError": "Um das letzte Konto aus einem Wallet zu entfernen, müssen Sie das gesamte Wallet löschen",
+    "subtitle": "Stellen Sie sicher, dass Sie Ihre Assets auf ein neues Konto übertragen haben, bevor Sie fortfahren, damit Ihre Assets sicher sind",
+    "title": "Konto bearbeiten",
+    "warning": "Sind Sie sicher, dass Sie fortfahren möchten?"
+  },
+  "deleteWallet": {
+    "alert": "Das Löschen eines Wallets, das Assets enthält, führt dazu, dass diese Assets nach dem Löschen nicht mehr zugänglich sind!",
+    "cancel": "Abbrechen",
+    "delete": "Wallet löschen",
+    "deleteLastWalletError": "Es muss mindestens ein Wallet vorhanden sein",
+    "deleteWallet": "Wallet löschen?",
+    "subtitle": "Stellen Sie sicher, dass Sie Ihre Assets auf ein neues Wallet übertragen haben, bevor Sie fortfahren, damit Ihre Assets sicher sind",
+    "title": "Wallet bearbeiten",
+    "warning": "Sind Sie sicher, dass Sie fortfahren möchten?"
+  },
+  "editWallet": {
+    "cancelButtonLabel": "Abbrechen",
+    "deleteWalletButtonLabel": "Wallet löschen",
+    "deleteWalletSubtext": "Dies entfernt Ihr Wallet und den gesamten Transaktionsverlauf",
+    "deleteWalletTitle": "Wallet löschen",
+    "errors": {
+      "walletNameIsTooLong": "Wallet-Name darf maximal {{amount}} Zeichen lang sein",
+      "walletNameIsTooShort": "Wallet-Name muss mindestens 1 Zeichen lang sein"
+    },
+    "inputPlaceholder": "Geben Sie Ihren Wallet-Namen ein…",
+    "noSkinsUnlocked": "Keine Designs freigeschaltet",
+    "saveButtonLabel": "Speichern",
+    "selectSkinLabel": "Wählen Sie ein Design aus",
+    "title": "Wallet bearbeiten"
+  },
+  "exportFullTransactions": {
+    "exported": {
+      "description": "Ihre CSV-Datei wurde erfolgreich gespeichert!",
+      "infoLabel": "Exportierte Daten",
+      "openExportButtonLabel": "Export öffnen",
+      "returnButtonLabel": "Zurück zu Ihrer Aktivität",
+      "selectedFolderPathInputLabel": "Ihre Datei wurde hier gespeichert:"
+    },
     "form": {
-      "title": "Ihre Einzahlungsdetails",
-      "source": {
-        "label": "Quellkonto"
+      "browseButtonLabel": "Durchsuchen…",
+      "description": "Speichern Sie eine CSV-Datei auf Ihrem Computer, mit der Sie Ihre Aktivität über den definierten Zeitraum überprüfen können.",
+      "errorMessage": "Beim Versuch, Ihre CSV zu exportieren, ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
+      "exportButtonLabel": "CSV exportieren",
+      "infoLabel": "Zu exportierendes Konto",
+      "selectedFolderPathInputLabel": "Wo möchten Sie Ihre CSV-Datei speichern?"
+    },
+    "info": {
+      "addressPlaceholder": "Adresse auswählen",
+      "allTransactionsStepLabel": "Alle Transaktionen",
+      "datePickerStepTip": "Maximal 12 Monate"
+    },
+    "messages": {
+      "openExportError": "Beim Öffnen der Datei gab es ein Problem, bitte überprüfen Sie den Pfad und versuchen Sie es erneut"
+    },
+    "title": "CSV exportieren"
+  },
+  "exportKey": {
+    "copyButtonLabel": "Kopieren",
+    "keyDetailsTitle": "Schlüsseldetails",
+    "printButtonLabel": "Drucken",
+    "subtitle": "Verwenden Sie Ihren Schlüssel, um Ihr Konto zu sichern oder Ihre Assets zwischen Wallets zu verschieben",
+    "title": "Schlüssel exportieren",
+    "warningDescription": "Bewahren Sie Ihre Schlüssel sicher auf! Sie gewähren vollständige Kontrolle über Ihr Wallet und Ihre Assets"
+  },
+  "exportMnemonic": {
+    "copyButtonLabel": "Kopieren",
+    "description": "Schreiben Sie diese Phrase auf ein Blatt Papier oder speichern Sie sie in einer sicheren digitalen Notiz. Sie können sie auch unten herunterladen, aber achten Sie darauf, sie sicher aufzubewahren.",
+    "printButtonLabel": "Drucken",
+    "title": "Wallet exportieren",
+    "warning": "Jeder, der diese Phrase hat, kann auf Ihre hart verdienten Assets zugreifen, und Sie werden sie nicht zurückbekommen können!",
+    "yourMnemonic": "Ihr Mnemonic"
+  },
+  "hideFraudulentToken": {
+    "amountLabel": "Betrag:",
+    "blockchainLabel": "Blockchain:",
+    "details": "Details:",
+    "hideErrorMessage": "Beim Ausblenden des betrügerischen Tokens ist ein Fehler aufgetreten, bitte versuchen Sie es später erneut",
+    "hideTokenButtonLabel": "Token ausblenden",
+    "notFoundTokenLabel": "Der Token wurde nicht gefunden",
+    "text": "Wenn Sie einen Token ausblenden, wird er nur aus der Ansicht Ihres Wallets entfernt. Es wird keine On-Chain-Aktion ausgeführt.",
+    "title": "Diesen betrügerischen Token ausblenden?",
+    "tokenHashLabel": "Hash:",
+    "tokenNameLabel": "Name:"
+  },
+  "import": {
+    "addressAlreadyExist": "Adresse existiert bereits",
+    "buttonContinueLabel": "Weiter",
+    "description": "Um Ihr Wallet zu importieren, geben Sie eine Adresse, einen verschlüsselten Schlüssel, einen privaten Schlüssel oder Mnemonic-Wörter ein:",
+    "errors": {
+      "allAddressesAlreadyImported": "Alle Adressen sind bereits importiert",
+      "mnemonicAlreadyExist": "Mnemonic existiert bereits"
+    },
+    "importEncryptedDescription": "Wählen Sie die gewünschte Blockchain für Ihr neues Konto aus",
+    "inputPlaceholder": "Bitte geben Sie eine Adresse oder einen Schlüssel ein…",
+    "subtitle": "IMPORT",
+    "success": {
+      "address": "Adresse vollständig!",
+      "encrypted": "Verschlüsselter Schlüssel vollständig!",
+      "key": "Privater Schlüssel vollständig!",
+      "mnemonic": "Mnemonic vollständig!"
+    },
+    "successEncryptKey": "Verschlüsselter Schlüssel erfolgreich importiert!",
+    "title": "Import"
+  },
+  "importAccountsSelection": {
+    "description": "Wählen Sie die Adressen aus, die Sie importieren möchten:",
+    "importButtonLabel": "Importieren",
+    "title": "Import"
+  },
+  "importWatchAccounts": {
+    "buttonAdd": "Beobachtungskonto hinzufügen",
+    "description": "Geben Sie die Adresse ein, die Sie beobachten möchten:",
+    "errors": {
+      "empty": "Bitte geben Sie einen Text ein",
+      "invalid": "Ungültige Adresse oder existiert bereits"
+    },
+    "information": "Sie können die Assets in diesem Konto nicht verwenden!",
+    "inputPlaceholder": "Bitte geben Sie eine Adresse ein",
+    "title": "Beobachtungskonto hinzufügen",
+    "willBeAdded": "Dieses Konto wird hinzugefügt:"
+  },
+  "migrateWallets": {
+    "instructionTitle": "Anweisungen",
+    "step2": {
+      "buttonBrowseLabel": "Durchsuchen…",
+      "buttonImportLabel": "Importieren",
+      "description": "Um den NEON 2 Migrationsprozess abzuschließen, suchen Sie bitte Ihre NEON 2 Wallet-Migrationsdatei:",
+      "inputLabel": "Suchen Sie Ihre NEON 2 Migrationsdatei",
+      "title": "Importieren Sie Ihre NEON 2 Konten"
+    },
+    "step3": {
+      "alreadyImportedLabel": "Importiert",
+      "buttonLabel": "Ausgewählte Konten auswählen",
+      "selectAllButtonLabel": "Alle auswählen",
+      "selectLabel": "Konten",
+      "selectTitle": "Wählen Sie aus, welche Konten Sie importieren möchten",
+      "selectedQuantity": "{{selected}} von {{total}} Konten ausgewählt",
+      "title": "Wählen Sie die zu migrierenden Konten aus"
+    },
+    "step4": {
+      "buttonLabel": "Konten migrieren",
+      "description": "Geben Sie Ihre Passwörter für jedes Konto ein, das Sie importieren möchten",
+      "inputLabel": "Passwort",
+      "inputPlaceholder": "Kontopasswort eingeben…",
+      "migrateError": "Es gab einen Fehler beim Versuch zu migrieren. Bitte versuchen Sie es erneut.",
+      "passwordError": "Passwort nicht erkannt!",
+      "success": {
+        "buttonLabel": "Ihr Portfolio anzeigen",
+        "subtitle": "Ihre NEON 2 Konten wurden erfolgreich migriert!"
       },
-      "receive": {
-        "label": "Einzahlungsempfänger"
+      "title": "Geben Sie Ihre Kontopasswörter ein"
+    },
+    "title": "Von NEON 2 migrieren"
+  },
+  "neo3NeoxBridgeConfirmation": {
+    "bridgeDetailsItemLabel": "Sie möchten verbinden",
+    "confirmButtonLabel": "Bestätigen",
+    "description": "Bitte überprüfen Sie die unten stehenden Details und bestätigen Sie, dass Sie fortfahren möchten",
+    "feeDetailsItemLabel": "Gesamtgebühr",
+    "feesDetailsPanelLabel": "Gebühren",
+    "fromAddressDetailsItemLabel": "Sendeadresse",
+    "fromDetailsPanelLabel": "Bridge von",
+    "fromTokenDetailsItemLabel": "Token",
+    "title": "Ihre Bridge bestätigen",
+    "toAddressDetailsItemLabel": "Empfangsadresse",
+    "toDetailsPanelLabel": "Bridge nach",
+    "toTokenDetailsItemLabel": "Token",
+    "transactionDetailsHeaderLabel": "Transaktionsdetails"
+  },
+  "neo3NeoxBridgeDetails": {
+    "description": "Ihre Bridge-Details",
+    "detailsHeaderLabel": "Details",
+    "errorsByCode": {
+      "FAILED_TO_GET_NONCE": "Fehler beim Abrufen der Nonce für diese Transaktion",
+      "FAILED_TO_GET_TRANSACTION_BY_NONCE": "Fehler beim Abrufen der Transaktion nach Nonce",
+      "INVALID_TRANSACTION": "Transaktion wurde nicht erfolgreich vom Netzwerk bestätigt",
+      "NONCE_NOT_FOUND": "Nonce für die Transaktion nicht gefunden",
+      "TXID_NOT_FOUND": "Transaktions-ID nicht gefunden",
+      "UNEXPECTED_ERROR": "Unerwarteter Fehler aufgetreten. Bitte kontaktieren Sie den Support, wenn das Problem weiterhin besteht."
+    },
+    "fromAddressDetailsItemLabel": "Sendeadresse",
+    "fromDetailsPanelLabel": "Von",
+    "fromTokenDetailsItemLabel": "Token",
+    "helpButtonLabel": "Brauchen Sie Hilfe? Chatten Sie mit uns",
+    "statusPanelLabel": "Status",
+    "statusPanelSteps": ["Senden", "Abschließen"],
+    "title": "Ihre Bridge",
+    "toAddressDetailsItemLabel": "Empfangsadresse",
+    "toDetailsPanelLabel": "Nach",
+    "toTokenDetailsItemLabel": "Token"
+  },
+  "networkNodeSelection": {
+    "blockHeight": "Blockhöhe: {{height}}",
+    "description": "Wenn Sie Leistungsprobleme haben, versuchen Sie unten einen benutzerdefinierten Knoten auszuwählen",
+    "latency": "{{latency}}ms",
+    "listLabel": "KNOTENLISTE",
+    "refreshButtonLabel": "Aktualisieren",
+    "selectAutomaticallyLabel": "Automatisch auswählen",
+    "title": "Knotenauswahl"
+  },
+  "networkSelection": {
+    "addCustomNetworkButtonLabel": "Benutzerdefiniertes Netzwerk hinzufügen",
+    "editCustomNetworkButtonLabel": "Benutzerdefiniertes Netzwerk bearbeiten",
+    "selectNetwork": "Netzwerk auswählen",
+    "title": "Netzwerk"
+  },
+  "nftSelection": {
+    "description": "Bitte wählen Sie aus, welches Bild Sie für diese Kontokarte verwenden möchten.",
+    "emptyList": "Keine NFTs gefunden",
+    "selectTitle": "WÄHLEN SIE EIN NFT",
+    "title": "Design mit NFT-Bild"
+  },
+  "notifications": {
+    "clearAllButtonLabel": "Alle löschen",
+    "emptyListBody": "Sie sind auf dem neuesten Stand!",
+    "emptyListTitle": "Nichts zu sehen hier",
+    "errors": {
+      "accountNotFound": "Aktion kann nicht ausgeführt werden. Konto wurde nicht gefunden"
+    },
+    "notification": {
+      "actionsButtonLabel": "Aktionen",
+      "markAsReadButtonLabel": "Als gelesen markieren",
+      "markAsUnreadButtonLabel": "Als ungelesen markieren",
+      "providerLabels": {
+        "system": "System"
       },
-      "token": {
-        "label": "Zu sendender Token"
-      },
+      "relatedAccountLabel": "Konto",
+      "relatedAddressLabel": "Adresse",
+      "viewButtonLabel": "Anzeigen"
+    },
+    "title": "Benachrichtigungen"
+  },
+  "persistAccount": {
+    "cancelButtonLabel": "Abbrechen",
+    "deleteAccountSubtext": "Das Löschen eines Kontos, das Assets enthält, führt dazu, dass diese Assets nach dem Löschen nicht mehr zugänglich sind!",
+    "deleteAccountTitle": "Konto löschen",
+    "errors": {
+      "accountNameIsTooLong": "Kontoname darf maximal {{amount}} Zeichen lang sein",
+      "accountNameIsTooShort": "Kontoname muss mindestens 1 Zeichen lang sein"
+    },
+    "inputLabel": "Kontoname",
+    "inputPlaceholder": "Geben Sie Ihren Kontonamen ein…",
+    "inputSubtitle": "Es könnte hilfreich sein, Ihr Konto mit einem Label zu benennen, das sich auf den Verwendungszweck des Kontos bezieht (z. B. 'Investitionen' oder 'Handel').",
+    "nextButtonLabel": "Weiter",
+    "saveButtonLabel": "Speichern",
+    "selectBlockchainDescription": "Bitte wählen Sie aus, welche Chain Sie für dieses Konto verwenden möchten.",
+    "skinSelectorLabel": "Wählen Sie ein Konto-Design aus",
+    "subtitleCreate": "Ein Konto zu erstellen ist einfach, geben Sie ihm einfach einen Namen und wählen Sie unten eine Farbe aus und schon sind Sie fertig!",
+    "titleCreate": "Neues Konto erstellen",
+    "titleEdit": "Konto bearbeiten",
+    "useNftButtonLabel": "NFT-Bild verwenden"
+  },
+  "persistContact": {
+    "addAddress": "Adresse hinzufügen",
+    "addContact": "Kontakt hinzufügen",
+    "addresses": "ADRESSEN",
+    "deleteAddress": {
+      "buttonDeleteLabel": "Diese Adresse löschen",
+      "title": "Adresse löschen",
+      "warningDescription": "Diese Adresse wird getrennt von",
+      "warningText": "Diese Adresse löschen?"
+    },
+    "deleteContact": {
+      "buttonDeleteLabel": "Diesen Kontakt löschen",
+      "title": "Kontakt löschen",
+      "warningDescription": "Alle gespeicherten Adressen werden von diesem Kontakt getrennt",
+      "warningText": "Diesen Kontakt löschen?"
+    },
+    "editContact": "Kontakt bearbeiten",
+    "emptyAddresses": "Keine Adresse hinzugefügt",
+    "enterAName": "Namen eingeben…",
+    "invalidName": "Ungültiger Name",
+    "name": "NAME",
+    "noAddressesFound": "Keine Adressen gefunden",
+    "saveContact": "Kontakt speichern"
+  },
+  "search": {
+    "closeButtonLabel": "Schließen",
+    "emptyResultDescription": "Nichts gefunden!",
+    "errors": {
+      "errorToExecute": "Beim Versuch, die Aktion auszuführen, ist ein Fehler aufgetreten. Bitte kontaktieren Sie unseren Support.",
+      "noFunction": "Für dieses Element ist keine Aktion verfügbar. Bitte kontaktieren Sie unseren Support."
+    },
+    "idleResultDescription": "Suchen Sie nach etwas?",
+    "inputPlaceholder": "Geben Sie Ihre Suche ein…",
+    "resultDescription": "Diese Themen könnten Sie interessieren:",
+    "title": "Neon durchsuchen"
+  },
+  "selectAccount": {
+    "noAccounts": "Keine Konten",
+    "placeholder": "Wallet auswählen…",
+    "title": "Konto auswählen",
+    "yourAccounts": "Ihre Konten:"
+  },
+  "selectContact": {
+    "selectRecipient": "Empfänger auswählen",
+    "title": "Kontakt auswählen"
+  },
+  "sellTokensDeposit": {
+    "buttons": {
+      "submit": "Token senden"
+    },
+    "description": "Um den Verkauf Ihrer digitalen Assets voranzutreiben, müssen Sie Ihre Assets an unseren Off-Ramp-Anbieter übertragen.",
+    "error": {
+      "default": "Unbekannter Fehler",
+      "label": "Fehlermeldung",
+      "subtitle": "Transaktion fehlgeschlagen",
+      "text": "Es tut mir leid, aber Ihre Transaktion konnte nicht bearbeitet werden."
+    },
+    "failureNotification": {
+      "previewBody": "Wir konnten den Abschluss Ihrer Verkaufsüberweisung nicht überprüfen",
+      "title": "Verkauf fehlgeschlagen"
+    },
+    "form": {
       "address": {
         "label": "Einzahlungsadresse",
         "placeholder": "Einzahlungsadresse eingeben…"
       },
       "amount": {
         "label": "Betrag"
+      },
+      "receive": {
+        "label": "Einzahlungsempfänger"
+      },
+      "source": {
+        "label": "Quellkonto"
+      },
+      "title": "Ihre Einzahlungsdetails",
+      "token": {
+        "label": "Zu sendender Token"
       }
     },
     "labels": {
-      "fiat": "Fiat-Wert ({{currencyLabel}} geschätzt)",
-      "fee": "Gesamtgebühr"
-    },
-    "buttons": {
-      "submit": "Token senden"
+      "fee": "Gesamtgebühr",
+      "fiat": "Fiat-Wert ({{currencyLabel}} geschätzt)"
     },
     "messages": {
       "feeError": "Fehler bei der Gebührenberechnung",
+      "hardwareWalletShouldBeValidError": "Um mit diesem Vorgang fortzufahren, stellen Sie bitte sicher, dass Ihr Hardware Wallet entsperrt ist",
       "insufficientFunds": "Unzureichendes Guthaben",
       "invalidAddress": "Ungültige Adresse",
-      "invalidAmount": "Ungültiger Betrag",
-      "hardwareWalletShouldBeValidError": "Um mit diesem Vorgang fortzufahren, stellen Sie bitte sicher, dass Ihr Hardware Wallet entsperrt ist"
+      "invalidAmount": "Ungültiger Betrag"
     },
+    "observation": "Wenn die Transaktion bestätigt ist, können Sie zum Prozess 'Token verkaufen' zurückkehren.",
     "success": {
-      "subtitle": "Ihre Einzahlung war erfolgreich",
-      "details": "Transaktionsdetails",
-      "section": "Transaktion",
-      "recipient": "Empfänger",
       "amount": "Betrag",
-      "transactionHash": "Transaktions-Hash",
+      "details": "Transaktionsdetails",
       "labels": {
         "copyAddress": "Adresse kopieren",
         "copyTransactionHash": "Transaktions-Hash kopieren"
-      }
-    },
-    "error": {
-      "subtitle": "Transaktion fehlgeschlagen",
-      "text": "Es tut mir leid, aber Ihre Transaktion konnte nicht bearbeitet werden.",
-      "label": "Fehlermeldung",
-      "default": "Unbekannter Fehler"
+      },
+      "recipient": "Empfänger",
+      "section": "Transaktion",
+      "subtitle": "Ihre Einzahlung war erfolgreich",
+      "transactionHash": "Transaktions-Hash"
     },
     "successNotification": {
-      "title": "Verkauf abgeschlossen",
-      "previewBody": "Ihre Verkaufsüberweisung wurde abgeschlossen"
+      "previewBody": "Ihre Verkaufsüberweisung wurde abgeschlossen",
+      "title": "Verkauf abgeschlossen"
     },
-    "failureNotification": {
-      "title": "Verkauf fehlgeschlagen",
-      "previewBody": "Wir konnten den Abschluss Ihrer Verkaufsüberweisung nicht überprüfen"
-    }
+    "title": "Einzahlung tätigen"
   },
-  "buyAndSellTokensLeaveAlert": {
-    "title": "Sind Sie sicher, dass Sie diesen Bildschirm verlassen möchten?",
-    "description": "Durch Wechseln der Bildschirme werden die Daten in den Formularen zurückgesetzt.",
-    "buttons": {
-      "close": "Nein, ich möchte bleiben",
-      "continue": "Ja, fortfahren"
-    }
+  "swapDetails": {
+    "detailsHeaderDescription": " Wir zielen darauf ab, Tausche in unter 7 Minuten abzuschließen",
+    "detailsHeaderLabel": "Details",
+    "extraIdToLabel": "Ziel-Tag/Memo",
+    "helpButtonLabel": "Brauchen Sie Hilfe? Chatten Sie mit uns",
+    "receivePanelAddressLabel": "Empfangsadresse",
+    "receivePanelLabel": "Sie werden erhalten",
+    "receivePanelTokenLabel": "Token",
+    "refundedSubtitle": "Sie wurden zurückerstattet",
+    "routingPanelLabel": "Routing",
+    "routingPanelTransactionFeeLabel": "Transaktionsgebühr",
+    "routingPanelTransactionFromLabel": "Transaktion von",
+    "routingPanelTransactionToLabel": "Transaktion an",
+    "routingPanelTransactionToLabelPending": "Ausstehend…",
+    "sentPanelAddressLabel": "Sendeadresse",
+    "sentPanelLabel": "Sie haben gesendet",
+    "sentPanelTokenLabel": "Token",
+    "statusPanelLabel": "Status",
+    "statusPanelSteps": ["Bestätigen", "Tauschen", "Abschließen"],
+    "subtitle": "Ihre Tauschdetails",
+    "swapErrorMessage": " Hoppla! Wir sind auf einen Fehler gestoßen - Tausch fehlgeschlagen",
+    "swapLog": "Tausch-Protokoll",
+    "title": "Ihr Tausch",
+    "transferErrorMessage": " Hoppla! Wir sind auf einen Fehler gestoßen - Überweisung fehlgeschlagen"
   },
-  "buyAndSellTokensAboutData": {
-    "title": "Über Ihre Daten",
-    "description": "Unser On/Off-Ramp-Partner speichert nur eine ID-Referenz zu Ihren Daten und verwendet die von Ihnen angegebene E-Mail, um Sie über Ihre Verkäufe und Käufe zu informieren.",
-    "alert": "COZ speichert keine Ihrer Daten!",
-    "sumbsub": {
-      "title": "Ihre KYC-Daten werden verschlüsselt und von unserem KYC-Partner verwendet:",
-      "link": "Über Sumsubs Dienst"
-    },
-    "unlimit": {
-      "title": "Alle anderen Daten werden von unserem On/Off-Ramp-Partner verarbeitet:",
-      "link": "Über Unlimits Dienst"
-    }
-  },
-  "notifications": {
-    "title": "Benachrichtigungen",
-    "clearAllButtonLabel": "Alle löschen",
-    "emptyListTitle": "Nichts zu sehen hier",
-    "emptyListBody": "Sie sind auf dem neuesten Stand!",
-    "notification": {
-      "actionsButtonLabel": "Aktionen",
-      "markAsReadButtonLabel": "Als gelesen markieren",
-      "markAsUnreadButtonLabel": "Als ungelesen markieren",
-      "viewButtonLabel": "Anzeigen",
-      "relatedAddressLabel": "Adresse",
-      "relatedAccountLabel": "Konto",
-      "providerLabels": {
-        "system": "System"
-      }
-    },
-    "errors": {
-      "accountNotFound": "Aktion kann nicht ausgeführt werden. Konto wurde nicht gefunden"
-    }
-  },
-  "search": {
-    "title": "Neon durchsuchen",
-    "closeButtonLabel": "Schließen",
-    "inputPlaceholder": "Geben Sie Ihre Suche ein…",
-    "idleResultDescription": "Suchen Sie nach etwas?",
-    "emptyResultDescription": "Nichts gefunden!",
-    "resultDescription": "Diese Themen könnten Sie interessieren:",
-    "errors": {
-      "noFunction": "Für dieses Element ist keine Aktion verfügbar. Bitte kontaktieren Sie unseren Support.",
-      "errorToExecute": "Beim Versuch, die Aktion auszuführen, ist ein Fehler aufgetreten. Bitte kontaktieren Sie unseren Support."
-    }
-  },
-  "exportFullTransactions": {
-    "title": "CSV exportieren",
-    "info": {
-      "addressPlaceholder": "Adresse auswählen",
-      "datePickerStepTip": "Maximal 12 Monate",
-      "allTransactionsStepLabel": "Alle Transaktionen"
-    },
-    "form": {
-      "description": "Speichern Sie eine CSV-Datei auf Ihrem Computer, mit der Sie Ihre Aktivität über den definierten Zeitraum überprüfen können.",
-      "infoLabel": "Zu exportierendes Konto",
-      "browseButtonLabel": "Durchsuchen…",
-      "exportButtonLabel": "CSV exportieren",
-      "selectedFolderPathInputLabel": "Wo möchten Sie Ihre CSV-Datei speichern?",
-      "errorMessage": "Beim Versuch, Ihre CSV zu exportieren, ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut."
-    },
-    "exported": {
-      "description": "Ihre CSV-Datei wurde erfolgreich gespeichert!",
-      "selectedFolderPathInputLabel": "Ihre Datei wurde hier gespeichert:",
-      "infoLabel": "Exportierte Daten",
-      "returnButtonLabel": "Zurück zu Ihrer Aktivität",
-      "openExportButtonLabel": "Export öffnen"
-    },
-    "messages": {
-      "openExportError": "Beim Öffnen der Datei gab es ein Problem, bitte überprüfen Sie den Pfad und versuchen Sie es erneut"
-    }
-  },
-  "voteNeo3SupportUs": {
-    "title": "Möchten Sie uns unterstützen?",
-    "cozLogoAlt": "COZ-Logo",
-    "hiLabel": "Hallo!",
-    "aboutNeonWalletDescription": "Als Neon Wallet-Benutzer und Token-Inhaber können Sie wichtige Protokollentscheidungen beeinflussen, damit das Netzwerk einen Entwicklungspfad hat, der Ihren Interessen entspricht.",
-    "importantThingsLabel": "Detaillierte Vorschlagsrecherche und intelligente Abstimmungspraktiken sind sehr wichtig.",
-    "youCanSupportUsLabel": "Wenn Sie Neon oder eines unserer anderen Produkte gerne verwenden, möchten Sie uns vielleicht mit Ihrer Stimme unterstützen, um unsere Entwicklung voranzutreiben.",
-    "scanOurWebsite": "Wenn Sie nicht wissen, wer wir sind, nehmen Sie sich bitte einen Moment Zeit, um <1>unsere Website</1> zu besuchen.",
-    "thankYouLabel": "Vielen Dank!",
-    "cozTeamLabel": "Das COZ-Team.",
-    "voteForCozButtonLabel": "Stimme für COZ abgeben",
-    "skipButtonLabel": "Überspringen",
-    "dontShowAgainLabel": "Nicht mehr anzeigen"
+  "swapDetailsLog": {
+    "copySwapLog": "Tausch-Protokoll in die Zwischenablage kopieren",
+    "thereIsNoLog": "Es gibt kein Tausch-Protokoll",
+    "title": "Tausch-Protokoll"
   },
   "voteNeo3CandidateDetails": {
-    "title": "Kandidateninformationen",
-    "positionLabel": "Aktuelle Position",
-    "nameLabel": "Kandidat",
-    "pubKeyLabel": "Öffentlicher Schlüssel",
-    "votesLabel": "Gesamtstimmen",
-    "descriptionLabel": "Beschreibung",
+    "accountCanNotBeWatchTitle": "Verwenden Sie ein Nicht-Beobachtungs-Neo 3 Konto",
     "castVoteButtonLabel": "Stimme für diesen Kandidaten abgeben",
-    "voteAlreadyCastButtonLabel": "Stimme bereits abgegeben",
-    "insufficientGasTitle": "Sie haben nicht genügend GAS, um die Abstimmungsgebühr zu decken.",
+    "descriptionLabel": "Beschreibung",
     "insufficientGasDescription": "Übertragen Sie GAS auf dieses Konto oder wechseln Sie das Konto, um fortzufahren.",
-    "thereIsNoNeoTitle": "Es gibt kein NEO in diesem Neo 3 Konto",
+    "insufficientGasTitle": "Sie haben nicht genügend GAS, um die Abstimmungsgebühr zu decken.",
+    "nameLabel": "Kandidat",
+    "positionLabel": "Aktuelle Position",
+    "pubKeyLabel": "Öffentlicher Schlüssel",
     "selectNeo3AccountTitle": "Wählen Sie ein Neo 3 Konto aus, um fortzufahren",
-    "accountCanNotBeWatchTitle": "Verwenden Sie ein Nicht-Beobachtungs-Neo 3 Konto"
+    "thereIsNoNeoTitle": "Es gibt kein NEO in diesem Neo 3 Konto",
+    "title": "Kandidateninformationen",
+    "voteAlreadyCastButtonLabel": "Stimme bereits abgegeben",
+    "votesLabel": "Gesamtstimmen"
   },
   "voteNeo3Confirmation": {
-    "title": "Überprüfen und bestätigen Sie Ihre Stimme",
-    "importanceLabel": "Als Token-Inhaber können Sie wichtige Protokollentscheidungen beeinflussen, damit das Netzwerk einen Entwicklungspfad hat, der den Interessen der Community entspricht.",
-    "contributeLabel": "Detaillierte Vorschlagsrecherche und intelligente Abstimmungspraktiken sind sehr wichtig. Das System verwendet zuverlässige Überprüfung und klare Prozesse, die es Einzelpersonen ermöglichen, sinnvoll zum Wachstum und zur Entwicklung des NEO-Ökosystems beizutragen.",
-    "detailsLabel": "Abstimmungsdetails",
     "accountNameLabel": "Kontoname",
     "addressLabel": "Adresse",
     "candidateLabel": "Kandidat",
-    "pubKeyLabel": "Öffentlicher Schlüssel",
-    "votesLabel": "Anzahl der Stimmen",
-    "feeLabel": "Gesamtgebühr",
     "confirmationButtonLabel": "Ihre Stimme bestätigen",
-    "voteErrorMessages": {
-      "noNeoLabel": "Sie haben nicht genügend NEO, um mit diesem Neo 3 Konto abzustimmen",
-      "watchAccountLabel": "Ihr Neo 3 Konto befindet sich im Beobachtungsmodus",
-      "canNotPayGasFeeLabel": "Sie können die GAS-Gebühr nicht bezahlen"
-    },
+    "contributeLabel": "Detaillierte Vorschlagsrecherche und intelligente Abstimmungspraktiken sind sehr wichtig. Das System verwendet zuverlässige Überprüfung und klare Prozesse, die es Einzelpersonen ermöglichen, sinnvoll zum Wachstum und zur Entwicklung des NEO-Ökosystems beizutragen.",
+    "detailsLabel": "Abstimmungsdetails",
+    "feeLabel": "Gesamtgebühr",
+    "importanceLabel": "Als Token-Inhaber können Sie wichtige Protokollentscheidungen beeinflussen, damit das Netzwerk einen Entwicklungspfad hat, der den Interessen der Community entspricht.",
     "messages": {
       "invalidHardwareWallet": "Um mit diesem Vorgang fortzufahren, stellen Sie bitte sicher, dass Ihr Hardware Wallet entsperrt ist",
       "voteError": "Beim Abstimmen ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
     },
     "notifications": {
-      "voteSuccessNotification": {
-        "title": "Abstimmung abgeschlossen",
-        "previewBody": "Ihre Abstimmung wurde erfolgreich abgeschlossen"
-      },
       "voteFailureNotification": {
-        "title": "Abstimmung fehlgeschlagen",
-        "previewBody": "Wir konnten den Abschluss Ihrer Abstimmung nicht überprüfen"
+        "previewBody": "Wir konnten den Abschluss Ihrer Abstimmung nicht überprüfen",
+        "title": "Abstimmung fehlgeschlagen"
+      },
+      "voteSuccessNotification": {
+        "previewBody": "Ihre Abstimmung wurde erfolgreich abgeschlossen",
+        "title": "Abstimmung abgeschlossen"
       }
-    }
+    },
+    "pubKeyLabel": "Öffentlicher Schlüssel",
+    "title": "Überprüfen und bestätigen Sie Ihre Stimme",
+    "voteErrorMessages": {
+      "canNotPayGasFeeLabel": "Sie können die GAS-Gebühr nicht bezahlen",
+      "noNeoLabel": "Sie haben nicht genügend NEO, um mit diesem Neo 3 Konto abzustimmen",
+      "watchAccountLabel": "Ihr Neo 3 Konto befindet sich im Beobachtungsmodus"
+    },
+    "votesLabel": "Anzahl der Stimmen"
   },
   "voteNeo3Success": {
-    "title": "Überprüfen und bestätigen Sie Ihre Stimme",
-    "subtitle": "Ihre Stimme wurde erfolgreich abgegeben!",
-    "listLabel": "Ihre Stimme",
     "accountLabel": "Kontoname",
     "addressLabel": "Adresse",
+    "listLabel": "Ihre Stimme",
     "nameLabel": "Kandidat",
     "publicKeyLabel": "Öffentlicher Schlüssel",
-    "votesLabel": "Anzahl der Stimmen",
-    "viewTransactionButtonLabel": "Transaktion anzeigen"
+    "subtitle": "Ihre Stimme wurde erfolgreich abgegeben!",
+    "title": "Überprüfen und bestätigen Sie Ihre Stimme",
+    "viewTransactionButtonLabel": "Transaktion anzeigen",
+    "votesLabel": "Anzahl der Stimmen"
   },
-  "hideFraudulentToken": {
-    "title": "Diesen betrügerischen Token ausblenden?",
-    "text": "Wenn Sie einen Token ausblenden, wird er nur aus der Ansicht Ihres Wallets entfernt. Es wird keine On-Chain-Aktion ausgeführt.",
-    "details": "Details:",
-    "tokenHashLabel": "Hash:",
-    "tokenNameLabel": "Name:",
-    "blockchainLabel": "Blockchain:",
-    "amountLabel": "Betrag:",
-    "hideTokenButtonLabel": "Token ausblenden",
-    "hideErrorMessage": "Beim Ausblenden des betrügerischen Tokens ist ein Fehler aufgetreten, bitte versuchen Sie es später erneut",
-    "notFoundTokenLabel": "Der Token wurde nicht gefunden"
-  },
-  "neo3NeoxBridgeConfirmation": {
-    "title": "Ihre Bridge bestätigen",
-    "description": "Bitte überprüfen Sie die unten stehenden Details und bestätigen Sie, dass Sie fortfahren möchten",
-    "transactionDetailsHeaderLabel": "Transaktionsdetails",
-    "bridgeDetailsItemLabel": "Sie möchten verbinden",
-    "fromDetailsPanelLabel": "Bridge von",
-    "fromAddressDetailsItemLabel": "Sendeadresse",
-    "fromTokenDetailsItemLabel": "Token",
-    "toDetailsPanelLabel": "Bridge nach",
-    "toAddressDetailsItemLabel": "Empfangsadresse",
-    "toTokenDetailsItemLabel": "Token",
-    "feesDetailsPanelLabel": "Gebühren",
-    "feeDetailsItemLabel": "Gesamtgebühr",
-    "confirmButtonLabel": "Bestätigen"
-  },
-  "neo3NeoxBridgeDetails": {
-    "title": "Ihre Bridge",
-    "description": "Ihre Bridge-Details",
-    "detailsHeaderLabel": "Details",
-    "statusPanelLabel": "Status",
-    "statusPanelSteps": ["Senden", "Abschließen"],
-    "fromDetailsPanelLabel": "Von",
-    "fromAddressDetailsItemLabel": "Sendeadresse",
-    "fromTokenDetailsItemLabel": "Token",
-    "toDetailsPanelLabel": "Nach",
-    "toAddressDetailsItemLabel": "Empfangsadresse",
-    "toTokenDetailsItemLabel": "Token",
-    "helpButtonLabel": "Brauchen Sie Hilfe? Chatten Sie mit uns",
-    "errorsByCode": {
-      "FAILED_TO_GET_NONCE": "Fehler beim Abrufen der Nonce für diese Transaktion",
-      "INVALID_TRANSACTION": "Transaktion wurde nicht erfolgreich vom Netzwerk bestätigt",
-      "NONCE_NOT_FOUND": "Nonce für die Transaktion nicht gefunden",
-      "TXID_NOT_FOUND": "Transaktions-ID nicht gefunden",
-      "FAILED_TO_GET_TRANSACTION_BY_NONCE": "Fehler beim Abrufen der Transaktion nach Nonce",
-      "UNEXPECTED_ERROR": "Unerwarteter Fehler aufgetreten. Bitte kontaktieren Sie den Support, wenn das Problem weiterhin besteht."
-    }
+  "voteNeo3SupportUs": {
+    "aboutNeonWalletDescription": "Als Neon Wallet-Benutzer und Token-Inhaber können Sie wichtige Protokollentscheidungen beeinflussen, damit das Netzwerk einen Entwicklungspfad hat, der Ihren Interessen entspricht.",
+    "cozLogoAlt": "COZ-Logo",
+    "cozTeamLabel": "Das COZ-Team.",
+    "dontShowAgainLabel": "Nicht mehr anzeigen",
+    "hiLabel": "Hallo!",
+    "importantThingsLabel": "Detaillierte Vorschlagsrecherche und intelligente Abstimmungspraktiken sind sehr wichtig.",
+    "scanOurWebsite": "Wenn Sie nicht wissen, wer wir sind, nehmen Sie sich bitte einen Moment Zeit, um <1>unsere Website</1> zu besuchen.",
+    "skipButtonLabel": "Überspringen",
+    "thankYouLabel": "Vielen Dank!",
+    "title": "Möchten Sie uns unterstützen?",
+    "voteForCozButtonLabel": "Stimme für COZ abgeben",
+    "youCanSupportUsLabel": "Wenn Sie Neon oder eines unserer anderen Produkte gerne verwenden, möchten Sie uns vielleicht mit Ihrer Stimme unterstützen, um unsere Entwicklung voranzutreiben."
   }
 }

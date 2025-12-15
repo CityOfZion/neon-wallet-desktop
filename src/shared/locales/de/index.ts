@@ -1,4 +1,4 @@
-import enChangelog from '../changelog.json'
+import deChangelog from './changelog.json'
 import deCommon from './common.json'
 import deComponents from './components.json'
 import deHooks from './hooks.json'
@@ -12,6 +12,6 @@ export const deResources = {
   components: deComponents,
   modals: deModals,
   hooks: deHooks,
-  changelog: enChangelog,
+  changelog: deChangelog,
   search: deSearch,
 }

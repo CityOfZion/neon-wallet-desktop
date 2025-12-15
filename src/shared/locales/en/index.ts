@@ -1,4 +1,4 @@
-import enChangelog from '../changelog.json'
+import enChangelog from './changelog.json'
 import enCommon from './common.json'
 import enComponents from './components.json'
 import enHooks from './hooks.json'

@@ -1,85 +1,101 @@
 {
-  "sidebar": {
-    "portfolio": "Portfolio",
-    "wallets": "Wallets",
-    "settings": "Settings",
-    "logout": "Logout",
-    "send": "Send",
-    "receive": "Receive",
-    "swap": "Swap",
-    "nfts": "NFTs",
-    "buyAndSellTokens": "Buy + Sell",
-    "contacts": "Contacts"
-  },
-  "walletsSelect": {
-    "title": "Wallets",
-    "placeholder": "Select a wallet…"
-  },
-  "walletAccordionList": {
-    "noAccounts": "No accounts"
-  },
-  "contacts": {
-    "search": "Search",
-    "noContacts": "No contacts"
-  },
-  "blockchainSelection": {
-    "search": "Search…"
-  },
-  "wallets": {
-    "cancelButtonLabel": "Cancel",
-    "saveButtonLabel": "Save"
-  },
-  "tokenBalance": {
-    "token": "Token",
-    "quantity": "Quantity",
-    "price": "Price"
-  },
-  "tokensTable": {
-    "ticker": "TICKER",
-    "token": "TOKEN",
-    "holdings": "HOLDINGS",
-    "price": "PRICE",
-    "value": "VALUE",
-    "hash": "HASH",
-    "empty": "No tokens to display",
-    "hideTokenLabel": "Hide token",
-    "showTokenLabel": "Show token"
+  "balanceChart": {
+    "balance": "Balance",
+    "holdings": "Holdings",
+    "noAssets": "No assets",
+    "othersTokens": "Others"
   },
   "blockchainDataPanel": {
     "tabs": {
-      "tokens": "TOKENS",
       "nfts": "NFTS",
+      "tokens": "TOKENS",
       "transactions": "TRANSACTIONS"
     },
     "title": "All accounts"
   },
-  "balanceChart": {
-    "othersTokens": "Others",
-    "noAssets": "No assets",
-    "holdings": "Holdings",
-    "balance": "Balance"
-  },
-  "transactionsTableEmpty": {
-    "title": "Your wallet is currently empty, why not add some assets or connect a dApp?",
-    "subtitle": "Your wallet is compatible with Neo, Gas and Ethereum assets",
-    "connectDappLabel": "Connect dApp",
-    "importAccountLabel": "Import account"
-  },
-  "contactAddressTable": {
-    "blockchain": "BLOCKCHAIN",
-    "address": "ADDRESS",
-    "sendAssets": "Send assets"
-  },
   "blockchainSelect": {
     "placeholder": "Select a blockchain…"
   },
+  "blockchainSelection": {
+    "search": "Search…"
+  },
+  "calendar": {
+    "nextYearButtonLabel": "Go to the next {{years}} years",
+    "previousYearButtonLabel": "Go to the previous {{years}} years"
+  },
+  "chartCard": {
+    "24h": "(24h)",
+    "holdings": "Holdings:",
+    "unableToFetchData": "Unable to fetch data",
+    "variation": "{{variationType}}{{variation}}%"
+  },
+  "chartCardList": {
+    "title": "Token Pricing"
+  },
+  "claimGasButton": {
+    "balanceLessFee": "Can't claim because balance will not cover network fees!",
+    "buttonLabel": "Claim GAS",
+    "claimAmount": "{{amount}} {{symbol}}",
+    "errorToGetUnclaimed": "Can't get unclaimed amount",
+    "feeToClaim": "Fee to claim: {{fee}} {{symbol}}",
+    "unclaimedLessFee": "Claim is unavailable as claimable amount doesn't cover network fee!",
+    "youDoNotHaveUnclaimed": "You don't have unclaimed {{symbol}}!",
+    "youHaveUnclaimed": "You have unclaimed {{symbol}}!"
+  },
+  "commonScreenActions": {
+    "chatWithUsButtonLabel": "Chat with us",
+    "connectButtonLabel": "Connect",
+    "helpButtonLabel": "Help",
+    "importButtonLabel": "Import",
+    "newWalletButtonLabel": "New Wallet",
+    "notificationButtonLabel": "Alerts",
+    "searchButtonLabel": "Search…",
+    "toolsButtonLabel": "Tools",
+    "unreadNotificationsIconLabel": "You have unread notifications"
+  },
+  "connectHardwareWalletButton": {
+    "connect": "Connect"
+  },
   "connectionsTable": {
-    "name": "Name",
-    "connected": "Connected",
-    "chain": "Chain",
     "account": "Account",
+    "chain": "Chain",
+    "connected": "Connected",
     "disconnect": "Disconnect",
-    "emptyList": "No dApp connections"
+    "emptyList": "No dApp connections",
+    "name": "Name"
+  },
+  "contactAddressTable": {
+    "address": "ADDRESS",
+    "blockchain": "BLOCKCHAIN",
+    "sendAssets": "Send assets"
+  },
+  "contacts": {
+    "noContacts": "No contacts",
+    "search": "Search"
+  },
+  "dappPermissionContextualMessage": {
+    "messageLabel": "Contextual Message"
+  },
+  "fieldActionsMenu": {
+    "copy": "Copy",
+    "cut": "Cut",
+    "messages": {
+      "copied": "Copied",
+      "error": "Error executing this action"
+    },
+    "paste": "Paste"
+  },
+  "greyAccountSelect": {
+    "empty": "No accounts",
+    "placeholder": "Select account…"
+  },
+  "greyAmountInput": {
+    "maxButtonLabel": "Max",
+    "placeholder": "0.00000000"
+  },
+  "greyTokenSelect": {
+    "empty": "No tokens",
+    "placeholder": "Select token…"
   },
   "migrateSteps": {
     "inNeon2": {
@@ -93,35 +109,35 @@
       "step4": "Enter your account passwords"
     }
   },
+  "mnemonicOrKeyAccountSelection": {
+    "accountsLength": "{{length}} address(es) found",
+    "alreadyExists": "Already exists",
+    "noAccountsToImport": "No accounts found or already exist, check your input and try again later, please."
+  },
   "passwordStrength": {
+    "good": "Good",
     "label": "Password strength",
     "none": "-",
+    "strong": "Strong",
     "tooShort": "Too short",
-    "weak": "Weak",
-    "good": "Good",
-    "strong": "Strong"
+    "weak": "Weak"
   },
-  "claimGasButton": {
-    "buttonLabel": "Claim GAS",
-    "claimAmount": "{{amount}} {{symbol}}",
-    "youHaveUnclaimed": "You have unclaimed {{symbol}}!",
-    "youDoNotHaveUnclaimed": "You don't have unclaimed {{symbol}}!",
-    "feeToClaim": "Fee to claim: {{fee}} {{symbol}}",
-    "balanceLessFee": "Can't claim because balance will not cover network fees!",
-    "unclaimedLessFee": "Claim is unavailable as claimable amount doesn't cover network fee!",
-    "errorToGetUnclaimed": "Can't get unclaimed amount"
+  "refreshAction": {
+    "emptyDate": "--:--",
+    "lastUpdated": "Last updated: {{ date }}",
+    "refreshLabel": "Refresh"
   },
-  "dappPermissionContextualMessage": {
-    "messageLabel": "Contextual Message"
-  },
-  "chartCardList": {
-    "title": "Token Pricing"
-  },
-  "chartCard": {
-    "unableToFetchData": "Unable to fetch data",
-    "holdings": "Holdings:",
-    "variation": "{{variationType}}{{variation}}%",
-    "24h": "(24h)"
+  "sidebar": {
+    "buyAndSellTokens": "Buy + Sell",
+    "contacts": "Contacts",
+    "logout": "Logout",
+    "nfts": "NFTs",
+    "portfolio": "Portfolio",
+    "receive": "Receive",
+    "send": "Send",
+    "settings": "Settings",
+    "swap": "Swap",
+    "wallets": "Wallets"
   },
   "temporaryLimitsBox": {
     "description": "Using this method of login limits access to some key features:",
@@ -133,89 +149,73 @@
       "Among other features…"
     ]
   },
-  "mnemonicOrKeyAccountSelection": {
-    "noAccountsToImport": "No accounts found or already exist, check your input and try again later, please.",
-    "accountsLength": "{{length}} address(es) found",
-    "alreadyExists": "Already exists"
+  "tokenBalance": {
+    "price": "Price",
+    "quantity": "Quantity",
+    "token": "Token"
   },
-  "greyAccountSelect": {
-    "placeholder": "Select account…",
-    "empty": "No accounts"
+  "tokensTable": {
+    "empty": "No tokens to display",
+    "hash": "HASH",
+    "hideTokenLabel": "Hide token",
+    "holdings": "HOLDINGS",
+    "price": "PRICE",
+    "showTokenLabel": "Show token",
+    "ticker": "TICKER",
+    "token": "TOKEN",
+    "value": "VALUE"
   },
-  "greyTokenSelect": {
-    "placeholder": "Select token…",
-    "empty": "No tokens"
-  },
-  "greyAmountInput": {
-    "placeholder": "0.00000000",
-    "maxButtonLabel": "Max"
+  "transactionActivityList": {
+    "dateRange": {
+      "formatExtendedDate": "dd MMM yyyy"
+    },
+    "event": {
+      "columns": {
+        "amountLabel": "Amount",
+        "collectionNameLabel": "Collection",
+        "fromLabel": "From",
+        "hashLabel": "Hash",
+        "methodNameLabel": "Method",
+        "nameLabel": "Name",
+        "toLabel": "To",
+        "tokenHashLabel": "Token hash",
+        "tokenLabel": "Token"
+      },
+      "nftImageAltLabel": "NFT image",
+      "nftImageAltWithNameLabel": "NFT image: {{ name }}"
+    },
+    "item": {
+      "blockLabel": "Block: {{ block }}",
+      "copyTxIdLabel": "Copy tx ID",
+      "invocationCountLabel": "Invocations",
+      "networkFeeAmountLabel": "Network fee: {{ networkFeeAmount }}",
+      "notificationCountLabel": "Notifications",
+      "pendingDataLabel": "Processing…",
+      "pendingTooltipLabel": "This transaction is processing, please wait",
+      "systemFeeAmountLabel": "System fee: {{ systemFeeAmount }}",
+      "txIdLabel": "Tx ID"
+    },
+    "notFoundDescription": "Make a transaction and it'll appear here",
+    "notFoundTitle": "No transactions to display"
   },
   "transactionFeeActionStep": {
     "title": "Transaction Fee"
   },
-  "connectHardwareWalletButton": {
-    "connect": "Connect"
+  "transactionsTableEmpty": {
+    "connectDappLabel": "Connect dApp",
+    "importAccountLabel": "Import account",
+    "subtitle": "Your wallet is compatible with Neo, Gas and Ethereum assets",
+    "title": "Your wallet is currently empty, why not add some assets or connect a dApp?"
   },
-  "fieldActionsMenu": {
-    "cut": "Cut",
-    "copy": "Copy",
-    "paste": "Paste",
-    "messages": {
-      "copied": "Copied",
-      "error": "Error executing this action"
-    }
+  "walletAccordionList": {
+    "noAccounts": "No accounts"
   },
-  "commonScreenActions": {
-    "searchButtonLabel": "Search…",
-    "notificationButtonLabel": "Alerts",
-    "unreadNotificationsIconLabel": "You have unread notifications",
-    "helpButtonLabel": "Help",
-    "chatWithUsButtonLabel": "Chat with us",
-    "importButtonLabel": "Import",
-    "newWalletButtonLabel": "New Wallet",
-    "connectButtonLabel": "Connect",
-    "toolsButtonLabel": "Tools"
+  "wallets": {
+    "cancelButtonLabel": "Cancel",
+    "saveButtonLabel": "Save"
   },
-  "refreshAction": {
-    "refreshLabel": "Refresh",
-    "lastUpdated": "Last updated: {{ date }}",
-    "emptyDate": "--:--"
-  },
-  "transactionActivityList": {
-    "notFoundTitle": "No transactions to display",
-    "notFoundDescription": "Make a transaction and it'll appear here",
-    "item": {
-      "notificationCountLabel": "Notifications",
-      "invocationCountLabel": "Invocations",
-      "blockLabel": "Block: {{ block }}",
-      "networkFeeAmountLabel": "Network fee: {{ networkFeeAmount }}",
-      "systemFeeAmountLabel": "System fee: {{ systemFeeAmount }}",
-      "txIdLabel": "Tx ID",
-      "copyTxIdLabel": "Copy tx ID",
-      "pendingDataLabel": "Processing…",
-      "pendingTooltipLabel": "This transaction is processing, please wait"
-    },
-    "event": {
-      "nftImageAltWithNameLabel": "NFT image: {{ name }}",
-      "nftImageAltLabel": "NFT image",
-      "columns": {
-        "fromLabel": "From",
-        "toLabel": "To",
-        "hashLabel": "Hash",
-        "methodNameLabel": "Method",
-        "tokenLabel": "Token",
-        "tokenHashLabel": "Token hash",
-        "amountLabel": "Amount",
-        "collectionNameLabel": "Collection",
-        "nameLabel": "Name"
-      }
-    },
-    "dateRange": {
-      "formatExtendedDate": "dd MMM yyyy"
-    }
-  },
-  "calendar": {
-    "previousYearButtonLabel": "Go to the previous {{years}} years",
-    "nextYearButtonLabel": "Go to the next {{years}} years"
+  "walletsSelect": {
+    "placeholder": "Select a wallet…",
+    "title": "Wallets"
   }
 }

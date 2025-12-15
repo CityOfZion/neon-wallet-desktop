@@ -1,206 +1,90 @@
 {
-  "general": {
-    "continue": "Weiter",
-    "next": "Weiter",
-    "save": "Speichern",
-    "edit": "Bearbeiten",
-    "cancel": "Abbrechen",
-    "reset": "Zurücksetzen",
-    "back": "Zurück",
-    "close": "Schließen",
-    "successfullyCopied": "Erfolgreich in die Zwischenablage kopiert",
-    "receive": "Empfangen",
-    "send": "Senden",
-    "passwordNEONQRCode": "QR-Code",
-    "downloadQRCodePassword": "Passwort-QR-Code herunterladen",
-    "default": "Standard",
-    "remove": "Entfernen",
-    "copy": "In Zwischenablage kopieren",
-    "swap": "Tauschen",
-    "bridgeNeo3NeoX": "Bridge",
-    "buyAndSellTokens": "Kaufen + Verkaufen",
-    "logo": "Neon Wallet Logo",
-    "pasteFromClipboard": "Aus Zwischenablage einfügen",
-    "pasteFromClipboardError": "Einfügen aus Zwischenablage fehlgeschlagen",
-    "emptyColumn": "--"
-  },
-  "walletConnect": {
-    "name": "Neon Wallet",
-    "description": "Erstellen und organisieren Sie Wallets oder importieren Sie einfach Ihre vorhandenen, um Ihre Assets sicher über Konten hinweg mit der eleganten Benutzeroberfläche von Neon zu verwalten und zu übertragen."
-  },
-  "wallet": {
-    "importedName": "Importiertes Wallet",
-    "encryptedName": "Verschlüsseltes Wallet",
-    "ledgerName": "{{blockchain}} Ledger Wallet",
-    "watchAccount": "Konto beobachten",
-    "mnemonicWalletName": "Mnemonic-Wallet",
-    "firstWalletName": "Mein erstes Wallet",
-    "migratedWalletName": "Migriertes Wallet"
-  },
   "account": {
     "defaultName": "Konto {{accountNumber}}"
   },
   "blockchain": {
+    "arbitrum": "Arbitrum",
+    "base": "Base",
+    "ethereum": "Ethereum",
     "neo3": "Neo N3",
     "neoLegacy": "Neo Legacy",
-    "ethereum": "Ethereum",
     "neox": "NeoX",
-    "polygon": "Polygon",
-    "base": "Base",
-    "arbitrum": "Arbitrum"
+    "polygon": "Polygon"
+  },
+  "errors": {
+    "blockchainIsNotClaimable": "Die Konto-Blockchain ist nicht abrufbar: {{address}} {{blockchain}}",
+    "hardwareWalletNotConnectedOrLocked": "Hardware Wallet ist nicht verbunden oder gesperrt, überprüfen Sie Ihr Gerät und versuchen Sie es erneut",
+    "loginSessionIsNotDefined": "Unbekannter Fehler. Login-Sitzung ist nicht definiert.",
+    "noEncryptedKey": "Es gibt keinen verschlüsselten Schlüssel für dieses Konto: {{address}}"
+  },
+  "general": {
+    "back": "Zurück",
+    "bridgeNeo3NeoX": "Bridge",
+    "buyAndSellTokens": "Kaufen + Verkaufen",
+    "cancel": "Abbrechen",
+    "close": "Schließen",
+    "continue": "Weiter",
+    "copy": "In Zwischenablage kopieren",
+    "default": "Standard",
+    "downloadQRCodePassword": "Passwort-QR-Code herunterladen",
+    "edit": "Bearbeiten",
+    "emptyColumn": "--",
+    "logo": "Neon Wallet Logo",
+    "next": "Weiter",
+    "passwordNEONQRCode": "QR-Code",
+    "pasteFromClipboard": "Aus Zwischenablage einfügen",
+    "pasteFromClipboardError": "Einfügen aus Zwischenablage fehlgeschlagen",
+    "receive": "Empfangen",
+    "remove": "Entfernen",
+    "reset": "Zurücksetzen",
+    "save": "Speichern",
+    "send": "Senden",
+    "successfullyCopied": "Erfolgreich in die Zwischenablage kopiert",
+    "swap": "Tauschen"
   },
   "networkTypeLabel": {
     "mainnet": "MainNet",
     "testnet": "TestNet"
   },
-  "errors": {
-    "noEncryptedKey": "Es gibt keinen verschlüsselten Schlüssel für dieses Konto: {{address}}",
-    "blockchainIsNotClaimable": "Die Konto-Blockchain ist nicht abrufbar: {{address}} {{blockchain}}",
-    "loginSessionIsNotDefined": "Unbekannter Fehler. Login-Sitzung ist nicht definiert.",
-    "hardwareWalletNotConnectedOrLocked": "Hardware Wallet ist nicht verbunden oder gesperrt, überprüfen Sie Ihr Gerät und versuchen Sie es erneut"
-  },
   "synonyms": {
-    "view": [
-      "sehen",
-      "ansehen",
-      "beobachten",
-      "schauen"
-    ],
-    "transfer": [
-      "transponieren",
-      "übertragen",
-      "transportieren",
-      "ändern",
-      "Empfänger",
-      "Übertragung",
-      "Transport"
-    ],
-    "trade": [
-      "tauschen",
-      "tauschen",
-      "wechseln",
-      "Ware",
-      "Geschäft",
-      "Geschäft"
-    ],
-    "swap": [
-      "tauschen",
-      "wechseln"
-    ],
-    "send": [
-      "übertragen",
-      "versenden",
-      "liefern",
-      "übergeben"
-    ],
-    "sell": [
-      "vermarkten",
-      "handeln"
-    ],
-    "secure": [
-      "sicherstellen",
-      "garantieren",
-      "sicher",
-      "unverletzlich",
-      "furchtlos",
-      "versichern",
-      "schützen"
-    ],
-    "save": [
-      "bewahren",
-      "behalten",
-      "speichern",
-      "sparen"
-    ],
-    "restore": [
-      "wiederaufbauen",
-      "regenerieren"
-    ],
-    "recover": [
-      "wiedererlangen",
-      "zurück",
-      "abrufen",
-      "erholen"
-    ],
-    "purchase": [
-      "kaufen",
-      "erwerben"
-    ],
-    "pair": [
-      "Paar",
-      "zusammenpassen",
-      "Zwilling"
-    ],
-    "lock": [
-      "sichern",
-      "befestigen",
-      "schließen"
-    ],
-    "load": [
-      "laden",
-      "Ladung",
-      "füllen"
-    ],
-    "list": [
-      "aufzählen",
-      "katalogisieren",
-      "Auflistung"
-    ],
-    "liquidate": [
-      "begleichen",
-      "abbezahlen",
-      "verschwenden"
-    ],
-    "link": [
-      "verbinden",
-      "verknüpfen",
-      "assoziieren"
-    ],
-    "generate": [
-      "produzieren",
-      "erstellen",
-      "erzeugen"
-    ],
-    "exchange": [
-      "handeln",
-      "tauschen",
-      "wechseln",
-      "ändern"
-    ],
-    "create": [
-      "produzieren",
-      "bauen",
-      "machen",
-      "generieren"
-    ],
-    "connection": [
-      "Verbindung",
-      "Assoziation",
-      "Beziehung"
-    ],
-    "connect": [
-      "verknüpfen",
-      "verbinden",
-      "vereinen",
-      "assoziieren"
-    ],
-    "buy": [
-      "kaufen",
-      "erwerben"
-    ],
-    "add": [
-      "anhängen",
-      "einschließen",
-      "erhöhen",
-      "Summe"
-    ],
-    "acquire": [
-      "erhalten",
-      "bekommen"
-    ],
-    "crypto": [
-      "Token",
-      "Tokens"
-    ]
+    "acquire": ["erhalten", "bekommen"],
+    "add": ["anhängen", "einschließen", "erhöhen", "Summe"],
+    "buy": ["kaufen", "erwerben"],
+    "connect": ["verknüpfen", "verbinden", "vereinen", "assoziieren"],
+    "connection": ["Verbindung", "Assoziation", "Beziehung"],
+    "create": ["produzieren", "bauen", "machen", "generieren"],
+    "crypto": ["Token", "Tokens"],
+    "exchange": ["handeln", "tauschen", "wechseln", "ändern"],
+    "generate": ["produzieren", "erstellen", "erzeugen"],
+    "link": ["verbinden", "verknüpfen", "assoziieren"],
+    "liquidate": ["begleichen", "abbezahlen", "verschwenden"],
+    "list": ["aufzählen", "katalogisieren", "Auflistung"],
+    "load": ["laden", "Ladung", "füllen"],
+    "lock": ["sichern", "befestigen", "schließen"],
+    "pair": ["Paar", "zusammenpassen", "Zwilling"],
+    "purchase": ["kaufen", "erwerben"],
+    "recover": ["wiedererlangen", "zurück", "abrufen", "erholen"],
+    "restore": ["wiederaufbauen", "regenerieren"],
+    "save": ["bewahren", "behalten", "speichern", "sparen"],
+    "secure": ["sicherstellen", "garantieren", "sicher", "unverletzlich", "furchtlos", "versichern", "schützen"],
+    "sell": ["vermarkten", "handeln"],
+    "send": ["übertragen", "versenden", "liefern", "übergeben"],
+    "swap": ["tauschen", "wechseln"],
+    "trade": ["tauschen", "tauschen", "wechseln", "Ware", "Geschäft", "Geschäft"],
+    "transfer": ["transponieren", "übertragen", "transportieren", "ändern", "Empfänger", "Übertragung", "Transport"],
+    "view": ["sehen", "ansehen", "beobachten", "schauen"]
+  },
+  "wallet": {
+    "encryptedName": "Verschlüsseltes Wallet",
+    "firstWalletName": "Mein erstes Wallet",
+    "importedName": "Importiertes Wallet",
+    "ledgerName": "{{blockchain}} Ledger Wallet",
+    "migratedWalletName": "Migriertes Wallet",
+    "mnemonicWalletName": "Mnemonic-Wallet",
+    "watchAccount": "Konto beobachten"
+  },
+  "walletConnect": {
+    "description": "Erstellen und organisieren Sie Wallets oder importieren Sie einfach Ihre vorhandenen, um Ihre Assets sicher über Konten hinweg mit der eleganten Benutzeroberfläche von Neon zu verwalten und zu übertragen.",
+    "name": "Neon Wallet"
   }
 }

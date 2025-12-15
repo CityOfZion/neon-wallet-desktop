@@ -1,19 +1,27 @@
 {
-  "useImportAction": {
+  "useBackupOrMigrate": {
+    "defaultAccountLabel": "Migriertes Konto",
+    "defaultContactName": "Migrierter Kontakt",
+    "error": "Datei nicht erkannt",
+    "filterName": "Neon-Sicherungs- oder Migrationsdatei",
+    "neon2MigrateFileDetected": "NEON2-Migrationsdatei erkannt",
+    "neon3BackupFileDetected": "NEON3-Sicherungsdatei erkannt"
+  },
+  "useConfirmAction": {
+    "unauthorizedAction": "Nicht autorisiert. Bitte versuchen Sie es erneut oder kontaktieren Sie den Support."
+  },
+  "useHardwareWalletByUsb": {
     "errors": {
-      "invalid": "Ungültiger Text oder existiert bereits",
-      "empty": "Bitte geben Sie einen Text ein",
-      "allAddressesAlreadyImported": "Alle Adressen sind bereits importiert",
-      "mnemonicIncomplete": "Mnemonic unvollständig"
+      "noDevice": "Es ist kein Gerät angeschlossen"
     }
   },
-  "useBackupOrMigrate": {
-    "neon3BackupFileDetected": "NEON3-Sicherungsdatei erkannt",
-    "neon2MigrateFileDetected": "NEON2-Migrationsdatei erkannt",
-    "filterName": "Neon-Sicherungs- oder Migrationsdatei",
-    "error": "Datei nicht erkannt",
-    "defaultAccountLabel": "Migriertes Konto",
-    "defaultContactName": "Migrierter Kontakt"
+  "useImportAction": {
+    "errors": {
+      "allAddressesAlreadyImported": "Alle Adressen sind bereits importiert",
+      "empty": "Bitte geben Sie einen Text ein",
+      "invalid": "Ungültiger Text oder existiert bereits",
+      "mnemonicIncomplete": "Mnemonic unvollständig"
+    }
   },
   "useLogin": {
     "controlIsNotSet": "Unerwarteter Fehler. Login-Steuerung ist nicht gesetzt.",
@@ -21,36 +29,28 @@
   },
   "useNeonBackup": {
     "errors": {
-      "unexpectedError": "Unerwarteter Fehler. Starten Sie die Anwendung neu.",
-      "backupError": "Es gab einen Fehler beim Versuch, die Sicherung zu erstellen. Bitte versuchen Sie es erneut."
+      "backupError": "Es gab einen Fehler beim Versuch, die Sicherung zu erstellen. Bitte versuchen Sie es erneut.",
+      "unexpectedError": "Unerwarteter Fehler. Starten Sie die Anwendung neu."
     }
   },
   "useNeonImportBackup": {
     "errors": {
+      "importData": "Es gab einen Fehler beim Importieren der Daten (möglicherweise teilweise importiert).",
       "wrongPassword": "Das Passwort ist falsch. Bitte versuchen Sie es erneut.",
-      "wrongVersion": "Die Sicherungsdateiversion wird nicht unterstützt. Bitte versuchen Sie, eine neue Sicherung in der neuesten NEON-Version zu erstellen.",
-      "importData": "Es gab einen Fehler beim Importieren der Daten (möglicherweise teilweise importiert)."
+      "wrongVersion": "Die Sicherungsdateiversion wird nicht unterstützt. Bitte versuchen Sie, eine neue Sicherung in der neuesten NEON-Version zu erstellen."
     }
   },
   "useUnclaimedMutation": {
     "errors": {
       "claimError": "Es gab einen Fehler beim Versuch abzurufen. Bitte versuchen Sie es erneut."
     },
-    "successNotification": {
-      "title": "Abruf erfolgreich",
-      "previewBody": "Sie haben Ihre nicht abgerufenen Token erfolgreich abgerufen."
-    },
     "failureNotification": {
-      "title": "Abruffehler",
-      "previewBody": "Wir konnten den Abschluss Ihres Abrufs nicht überprüfen"
+      "previewBody": "Wir konnten den Abschluss Ihres Abrufs nicht überprüfen",
+      "title": "Abruffehler"
+    },
+    "successNotification": {
+      "previewBody": "Sie haben Ihre nicht abgerufenen Token erfolgreich abgerufen.",
+      "title": "Abruf erfolgreich"
     }
-  },
-  "useHardwareWalletByUsb": {
-    "errors": {
-      "noDevice": "Es ist kein Gerät angeschlossen"
-    }
-  },
-  "useConfirmAction": {
-    "unauthorizedAction": "Nicht autorisiert. Bitte versuchen Sie es erneut oder kontaktieren Sie den Support."
   }
 }

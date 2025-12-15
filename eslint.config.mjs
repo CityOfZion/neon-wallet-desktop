@@ -2,10 +2,12 @@ import eslintConfigPrettier from '@electron-toolkit/eslint-config-prettier'
 import tseslint from '@electron-toolkit/eslint-config-ts'
 import eslintPluginQuery from '@tanstack/eslint-plugin-query'
 import { defineConfig } from 'eslint/config'
+import jsoncPlugin from 'eslint-plugin-jsonc'
 import eslintPluginReact from 'eslint-plugin-react'
 import eslintPluginReactHooks from 'eslint-plugin-react-hooks'
 import eslintPluginReactRefresh from 'eslint-plugin-react-refresh'
 import simpleImportSort from 'eslint-plugin-simple-import-sort'
+import jsoncParser from 'jsonc-eslint-parser'
 
 export default defineConfig(
   { ignores: ['**/node_modules', '**/dist', '**/out', '**/playwright-report'] },
@@ -89,6 +91,32 @@ export default defineConfig(
       ],
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
+    },
+  },
+  {
+    // Target all JSON files
+    files: ['src/shared/locales/**/*.json'],
+    // Use the special parser for JSON
+    languageOptions: {
+      parser: jsoncParser,
+    },
+    // Enable the JSONC plugin
+    plugins: {
+      jsonc: jsoncPlugin,
+    },
+    rules: {
+      // This rule will enforce alphabetically sorted keys in your JSON files.
+      'jsonc/sort-keys': [
+        'error',
+        {
+          pathPattern: '^$', // Sort keys at the root level
+          order: { type: 'asc' },
+        },
+        {
+          pathPattern: '.*', // Sort keys in all nested objects
+          order: { type: 'asc' },
+        },
+      ],
     },
   }
 )

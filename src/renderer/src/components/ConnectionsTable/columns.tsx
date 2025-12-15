@@ -99,5 +99,5 @@ export const useColumns = (withAddress: boolean) => {
     }
 
     return columns
-  }, [accounts, commonT, modalNavigate, t, withAddress])
+  }, [accounts, commonT, modalNavigate, language, t, withAddress])
 }

@@ -37,3 +37,45 @@ Join our community to stay updated with the latest news and developments:
 - **React**
 - **TypeScript**
 - **Electron**
+
+## Translation Script
+
+The Neon Wallet Desktop includes an automated translation script that helps maintain multi-language support across the application. This script automatically translates changes made to the English locale files to all other supported languages.
+
+### Prerequisites
+
+To use the translation script, you need to have [Ollama](https://ollama.ai/) installed and running locally:
+
+```bash
+# Install Ollama (visit https://ollama.ai/ for installation instructions)
+# Pull the default model
+ollama pull qwen3
+```
+
+### Start the Ollama server**:
+   ```bash
+   ollama serve
+   ```
+
+### Configuration
+
+You can customize the translation behavior using environment variables:
+
+- `OLLAMA_API_URL`: The Ollama API endpoint (default: `http://localhost:11434/api/generate`)
+- `OLLAMA_MODEL`: The AI model to use for translation (default: `qwen3`)
+
+### Usage
+
+The translation script is automatically run as a pre-commit hook, ensuring translations are always up-to-date before committing changes. You can also run it manually:
+
+```bash
+npm run translate
+```
+
+### Important Notes
+
+- Only modify translation files in the `en` (English) locale directory
+- The script will fail if there are uncommitted changes in other locale directories to prevent accidental overwrites
+- New translation keys are automatically added to all languages
+- Removed keys are automatically deleted from all languages
+- Updated translations are re-translated to maintain consistency

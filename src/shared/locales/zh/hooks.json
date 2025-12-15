@@ -1,19 +1,27 @@
 {
-  "useImportAction": {
+  "useBackupOrMigrate": {
+    "defaultAccountLabel": "已迁移账户",
+    "defaultContactName": "已迁移联系人",
+    "error": "无法识别的文件",
+    "filterName": "Neon 备份或迁移文件",
+    "neon2MigrateFileDetected": "检测到 NEON2 迁移文件",
+    "neon3BackupFileDetected": "检测到 NEON3 备份文件"
+  },
+  "useConfirmAction": {
+    "unauthorizedAction": "未授权。请重试或联系支持。"
+  },
+  "useHardwareWalletByUsb": {
     "errors": {
-      "invalid": "无效的文本或已存在",
-      "empty": "请输入一些文本",
-      "allAddressesAlreadyImported": "所有地址都已导入",
-      "mnemonicIncomplete": "助记词不完整"
+      "noDevice": "未连接设备"
     }
   },
-  "useBackupOrMigrate": {
-    "neon3BackupFileDetected": "检测到 NEON3 备份文件",
-    "neon2MigrateFileDetected": "检测到 NEON2 迁移文件",
-    "filterName": "Neon 备份或迁移文件",
-    "error": "无法识别的文件",
-    "defaultAccountLabel": "已迁移账户",
-    "defaultContactName": "已迁移联系人"
+  "useImportAction": {
+    "errors": {
+      "allAddressesAlreadyImported": "所有地址都已导入",
+      "empty": "请输入一些文本",
+      "invalid": "无效的文本或已存在",
+      "mnemonicIncomplete": "助记词不完整"
+    }
   },
   "useLogin": {
     "controlIsNotSet": "意外错误。登录控件未设置。",
@@ -21,36 +29,28 @@
   },
   "useNeonBackup": {
     "errors": {
-      "unexpectedError": "意外错误。请重启应用。",
-      "backupError": "备份时出错。请重试。"
+      "backupError": "备份时出错。请重试。",
+      "unexpectedError": "意外错误。请重启应用。"
     }
   },
   "useNeonImportBackup": {
     "errors": {
+      "importData": "导入数据时出错（可能已部分导入）。",
       "wrongPassword": "密码错误。请重试。",
-      "wrongVersion": "备份文件版本不受支持。请尝试在最新的 NEON 版本中生成新的备份。",
-      "importData": "导入数据时出错（可能已部分导入）。"
+      "wrongVersion": "备份文件版本不受支持。请尝试在最新的 NEON 版本中生成新的备份。"
     }
   },
   "useUnclaimedMutation": {
     "errors": {
       "claimError": "领取时出错。请重试。"
     },
-    "successNotification": {
-      "title": "领取成功",
-      "previewBody": "您已成功领取未领取的代币。"
-    },
     "failureNotification": {
-      "title": "领取错误",
-      "previewBody": "我们无法确认您的领取是否完成"
+      "previewBody": "我们无法确认您的领取是否完成",
+      "title": "领取错误"
+    },
+    "successNotification": {
+      "previewBody": "您已成功领取未领取的代币。",
+      "title": "领取成功"
     }
-  },
-  "useHardwareWalletByUsb": {
-    "errors": {
-      "noDevice": "未连接设备"
-    }
-  },
-  "useConfirmAction": {
-    "unauthorizedAction": "未授权。请重试或联系支持。"
   }
 }
