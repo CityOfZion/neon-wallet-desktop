@@ -25,6 +25,7 @@
     "close": "关闭",
     "continue": "继续",
     "copy": "复制到剪贴板",
+    "copyToClipboard": "复制到剪贴板",
     "default": "默认",
     "downloadQRCodePassword": "下载密码二维码",
     "edit": "编辑",
@@ -82,9 +83,5 @@
     "migratedWalletName": "已迁移钱包",
     "mnemonicWalletName": "助记词钱包",
     "watchAccount": "观察账户"
-  },
-  "walletConnect": {
-    "description": "创建和管理钱包，或轻松导入现有钱包，通过 Neon 的简洁界面安全管理和转移您的资产。",
-    "name": "Neon 钱包"
   }
 }

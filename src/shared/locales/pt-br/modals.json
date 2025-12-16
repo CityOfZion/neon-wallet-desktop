@@ -205,30 +205,36 @@
     "inputPlaceholder": "Cole sua URL aqui…",
     "title": "Conectar com um dApp"
   },
-  "dappConnectionAccountSelection": {
-    "description": "A qual conta você deseja se conectar?",
-    "title": "Conectar a uma conta"
-  },
-  "dappConnectionDetails": {
+  "dappConnectionRequest": {
     "acceptButtonLabel": "Aceitar",
     "connectionDetailsTitle": "Detalhes da conexão",
-    "declineButtonLabel": "Recusar",
-    "description": "{{name}} quer se conectar à sua carteira",
+    "description": "<strong>{{name}}</strong> quer se conectar à sua wallet",
     "errorModal": {
-      "accountProposalError": "O dApp está tentando se conectar a um blockchain diferente do blockchain da conta selecionada.",
-      "buttonReturnLabel": "Voltar",
-      "differentNetworkError": "O dApp está tentando se conectar a uma rede diferente daquela à qual você está conectado no momento. Por favor, mude sua rede para se conectar a este dApp.",
-      "subtitle": "Ops! Encontramos um erro",
-      "subtitle2": "O dApp não foi conectado",
-      "subtitle3": "Por favor, tente novamente mais tarde.",
-      "title": "Conectar um dApp"
+      "accountProposalError": "A dApp está tentando se conectar a uma blockchain diferente da blockchain da conta selecionada.",
+      "buttonReturnLabel": "Retornar",
+      "differentNetworkError": "A dApp está tentando se conectar a uma rede diferente da que você está atualmente conectado. Por favor, mude sua rede para se conectar a essa dApp.",
+      "errorMessageLabel": "Erro",
+      "subtitle": "Oops! ocorreu um erro",
+      "subtitle2": "A dApp não foi conectada",
+      "title": "Conecte um dApp"
     },
+    "errors": {
+      "unknown": "Um erro desconhecido ocorreu. Por favor, tente novamente."
+    },
+    "errorsByCode": {
+      "NO_SERVICE": "A dApp está tentando se conectar a uma blockchain ou rede diferente da selecionada."
+    },
+    "messages": {
+      "connected": "{{dappName}} agora está conectado."
+    },
+    "methodsDetailsTitle": "Métodos",
+    "rejectButtonLabel": "Rejeitar",
     "successModal": {
-      "buttonReturnLabel": "Voltar",
+      "buttonReturnLabel": "Retornar",
       "subtitle": "Um novo dApp foi conectado!",
-      "title": "Conectar um dApp"
+      "title": "Conecte um dApp"
     },
-    "title": "Este aplicativo quer se conectar!"
+    "title": "Conecte-se a um dApp"
   },
   "dappDisconnection": {
     "cancel": "Cancelar",
@@ -241,145 +247,61 @@
     "willRemove": "será permanentemente removido"
   },
   "dappPermission": {
-    "cancelled": "Solicitação cancelada",
-    "errorModal": {
-      "errorMessageLabel": "MENSAGEM DE ERRO",
-      "heading": "Solicitação Dapp",
-      "subtitle": "Solicitação falhou",
-      "text": "Desculpe, mas sua solicitação não pôde ser processada."
-    },
-    "requests": {
-      "ethereum": {
-        "fee": {
-          "fee": "{{fee}} ETH",
-          "feeError": "Erro ao calcular taxa. A solicitação foi cancelada.",
-          "label": "TAXA"
-        },
-        "rawJson": {
-          "acceptButtonLabel": "Aceitar",
-          "cancelButtonLabel": "Rejeitar",
-          "dataLabel": "DADOS"
-        },
-        "sendTransaction": {
-          "successModal": {
-            "heading": "Solicitação Dapp",
-            "subtitle": "Transação enviada com sucesso!",
-            "text": "Assim que sua transação for confirmada, ela aparecerá no seu feed de atividades."
-          },
-          "title": "Este aplicativo precisa da sua permissão para realizar esta transação"
-        },
-        "signMessage": {
-          "acceptButtonLabel": "Autenticar",
-          "cancelButtonLabel": "Rejeitar",
-          "messageLabel": "MENSAGEM",
-          "successModal": {
-            "heading": "Solicitação Dapp",
-            "subtitle": "Mensagem assinada com sucesso!"
-          },
-          "title": "Este aplicativo solicita autenticação"
-        },
-        "signTransaction": {
-          "successModal": {
-            "heading": "Solicitação Dapp",
-            "subtitle": "Transação assinada com sucesso!"
-          },
-          "title": "Este aplicativo precisa da sua permissão para assinar esta transação"
-        },
-        "signTypedData": {
-          "successModal": {
-            "heading": "Solicitação Dapp",
-            "subtitle": "Mensagem assinada com sucesso!"
-          },
-          "title": "Este aplicativo solicita autenticação"
-        }
-      },
-      "neo3": {
-        "contractInvocation": {
-          "acceptButtonLabel": "Confirmar",
-          "amountLabel": "QUANTIDADE",
-          "cancelButtonLabel": "Cancelar",
-          "feeError": "Erro ao calcular taxa. A solicitação foi cancelada.",
-          "feeLabel": "Taxa",
-          "hashLabel": "HASH",
-          "overrideFeeInfo": "O dApp substituiu as taxas",
-          "signatureScopeTitle": "Escopo de assinatura",
-          "subtitle": "Confirme que você gostaria de prosseguir"
-        },
-        "decrypt": {
-          "acceptButtonLabel": "Descriptografar",
-          "cancelButtonLabel": "Rejeitar",
-          "messageLabel": "MENSAGEM",
-          "successModal": {
-            "heading": "Solicitação Dapp",
-            "subtitle": "Mensagem descriptografada com sucesso!"
-          },
-          "title": "Este aplicativo solicita descriptografia"
-        },
-        "encrypt": {
-          "acceptButtonLabel": "Criptografar",
-          "cancelButtonLabel": "Rejeitar",
-          "messageLabel": "MENSAGEM",
-          "successModal": {
-            "heading": "Solicitação Dapp",
-            "subtitle": "Mensagem criptografada com sucesso!"
-          },
-          "title": "Este aplicativo solicita criptografia"
-        },
-        "invokeFunction": {
-          "successModal": {
-            "heading": "Solicitação Dapp",
-            "subtitle": "Transação enviada com sucesso!",
-            "text": "Assim que sua transação for confirmada, ela aparecerá no seu feed de atividades."
-          },
-          "title": "Este aplicativo precisa da sua permissão para realizar esta transação"
-        },
-        "signMessage": {
-          "acceptButtonLabel": "Autenticar",
-          "cancelButtonLabel": "Rejeitar",
-          "messageLabel": "MENSAGEM",
-          "successModal": {
-            "heading": "Solicitação Dapp",
-            "subtitle": "Mensagem assinada com sucesso!"
-          },
-          "title": "Este aplicativo solicita autenticação"
-        },
-        "signTransaction": {
-          "successModal": {
-            "heading": "Solicitação Dapp",
-            "subtitle": "Transação assinada com sucesso!"
-          },
-          "title": "Este aplicativo precisa da sua permissão para assinar esta transação"
-        },
-        "verifyMessage": {
-          "acceptButtonLabel": "Autenticar",
-          "cancelButtonLabel": "Rejeitar",
-          "messageLabel": "MENSAGEM ASSINADA",
-          "successModal": {
-            "heading": "Solicitação Dapp",
-            "subtitle": "Carteira autenticada!"
-          },
-          "title": "Este aplicativo solicita autenticação"
-        }
+    "acceptButtonLabel": "Aceitar",
+    "customContents": {
+      "invokeNeo3": {
+        "amountDetailsItemLabel": "Quantidade",
+        "externalButtonLabel": "Visualizar no explorador",
+        "hashDetailsItemLabel": "Hash",
+        "signatureScopeDetailsHeaderLabel": "Escopo da assinatura",
+        "viewContractDetailsButtonLabel": "Visualizar detalhes do contrato",
+        "viewSignatureScopeButtonLabel": "Visualizar detalhes do escopo da assinatura"
       }
+    },
+    "description": "<1>{{name}}</1> precisa da sua permissão",
+    "description2": "Confirme que deseja continuar",
+    "errorContent": {
+      "description": "A solicitação da dApp não pode ser processada.",
+      "doneButtonLabel": "Feito",
+      "errorMessageLabel": "Mensagem de erro",
+      "subtitle": "Oops! ocorreu um erro",
+      "title": "Falha na solicitação dApp"
+    },
+    "errors": {
+      "cancelled": "Requisição cancelada",
+      "expired": "A solicitação expirou",
+      "fee": "Erro ao calcular a taxa. A solicitação foi cancelada."
+    },
+    "feeLabel": "Taxa",
+    "feeOverridesMessage": "A dApp sobrescreveu as taxas",
+    "rejectButtonLabel": "Rejeitar",
+    "successContent": {
+      "doneButtonLabel": "Feito",
+      "resultBoxLabel": "Resultado",
+      "subtitle": "A solicitação da dApp foi processada com sucesso",
+      "title": "Solicitação de dApp bem-sucedida"
     },
     "unsupportedMethodError": "O método {{method}} não é suportado"
   },
   "dappPermissionContractDetails": {
-    "detailsLabel": "DETALHES",
-    "hashLabel": "HASH",
-    "methodNotFoundError": "Método não encontrado no contrato",
-    "parametersLabel": "PARÂMETROS DE SOLICITAÇÃO",
-    "title": "Detalhes da invocação"
+    "externalButtonLabel": "Visualizar no explorador",
+    "hashDetailsHeaderLabel": "Hash",
+    "parametersDetailsLabel": "Parâmetros da solicitação"
   },
   "dappPermissionSignatureScope": {
+    "allowListDetailsHeaderLabel": "Allow list",
+    "explanationDetailsHeaderLabel": "Explicação",
+    "scopeDetailsHeaderLabel": "Escopo",
     "scopes": {
       "CalledByEntry": "Sua assinatura só pode ser usada pelo contrato de chamada e apenas para esta transação.",
       "CustomContracts": "Sua assinatura pode ser usada pelo conjunto de contratos listados acima.",
       "CustomGroups": "Sua assinatura pode ser usada pelo conjunto de grupos listados acima.",
       "Global": "Sua assinatura pode ser usada sem restrições com qualquer contrato.",
       "None": "Sua assinatura é válida apenas para pagamentos de taxa.",
-      "WitnessRules": "Sua assinatura é válida apenas para transações que correspondem às regras e condições especificadas, como o hash do script atual, grupo ou hash do script de chamada. Isso permite um escopo de assinatura mais complexo e expressivo para abordar casos extremos e possíveis ataques de reentrada."
-    }
+      "WitnessRules": "Sua assinatura é válida apenas para transações que correspondam às regras e condições especificadas, como o hash do script atual, grupo ou hash do script de chamada. Isso permite escopo de assinatura mais complexo e expressivo para lidar com casos limites e possíveis ataques de reentrância.",
+      "unknown": "Desconhecido"
+    },
+    "title": "Escopo da assinatura"
   },
   "decryptKey": {
     "buttonContinueLabel": "Importar",

@@ -1,8 +1,8 @@
 import type { createSelector, Selector, UnknownMemoizer, weakMapMemoize } from 'reselect'
 
-import type { RootStore } from '@renderer/store/RootStore'
+import type { getReducer } from '@renderer/libs/redux'
 
-export type TRootState = ReturnType<ReturnType<typeof RootStore.getReducer>>
+export type TRootState = ReturnType<ReturnType<typeof getReducer>>
 
 export type TTypedCreateSelector<
   State,

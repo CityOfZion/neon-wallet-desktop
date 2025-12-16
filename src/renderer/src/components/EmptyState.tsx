@@ -1,6 +1,5 @@
+import { hasWalletConnect } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
-
-import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 
@@ -8,6 +7,7 @@ import TbDiamondOff from '@renderer/assets/images/tb-diamond-off.svg?react'
 import TbFileImport from '@renderer/assets/images/tb-file-import.svg?react'
 import TbPlug from '@renderer/assets/images/tb-plug.svg?react'
 
+import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { IAccountState } from '@shared/types/store'
 
 import { BlockchainIcon } from './BlockchainIcon'
@@ -36,15 +36,17 @@ export const EmptyState = ({ account }: TProps) => {
         <div className="flex justify-center text-center text-lg font-normal text-white">{t('title')}</div>
         <div className="mt-2 flex justify-center text-center text-xs text-gray-300">{t('subtitle')}</div>
         <div className="my-5 flex gap-3">
-          {account && account.type !== 'watch' && !!WalletConnectHelper.supportedBlockchains[account.blockchain] && (
-            <Button
-              className="w-full"
-              label={t('connectDappLabel')}
-              rightIcon={<TbPlug aria-hidden />}
-              onClick={modalNavigateWrapper('dapp-connection', { state: { account } })}
-              clickableProps={{ className: 'h-10 text-sm' }}
-            />
-          )}
+          {account &&
+            account.type !== 'watch' &&
+            hasWalletConnect(bsAggregator.blockchainServicesByName[account.blockchain]) && (
+              <Button
+                className="w-full"
+                label={t('connectDappLabel')}
+                rightIcon={<TbPlug aria-hidden />}
+                onClick={modalNavigateWrapper('dapp-connection', { state: { account } })}
+                clickableProps={{ className: 'h-10 text-sm' }}
+              />
+            )}
           <Button
             className="w-full"
             label={t('importAccountLabel')}

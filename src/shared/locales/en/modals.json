@@ -205,30 +205,36 @@
     "inputPlaceholder": "Paste your URL here…",
     "title": "Connect with a dApp"
   },
-  "dappConnectionAccountSelection": {
-    "description": "Which account do you want to connect ?",
-    "title": "Connect to an account"
-  },
-  "dappConnectionDetails": {
+  "dappConnectionRequest": {
     "acceptButtonLabel": "Accept",
     "connectionDetailsTitle": "Connection details",
-    "declineButtonLabel": "Decline",
-    "description": "{{name}} wants to connect to your wallet",
+    "description": "<strong>{{name}}</strong> wants to connect to your wallet",
     "errorModal": {
       "accountProposalError": "The dApp is trying to connect to a different blockchain than the selected account's blockchain.",
       "buttonReturnLabel": "Return",
       "differentNetworkError": "The dApp is trying to connect to a different network than the one you are currently connected to. Please change your network to connect to this dApp.",
+      "errorMessageLabel": "Error",
       "subtitle": "Oops! we’ve encountered an error",
       "subtitle2": "The dApp hasn’t been connected",
-      "subtitle3": "Please try again later.",
       "title": "Connect a dApp"
     },
+    "errors": {
+      "unknown": "An unknown error occurred. Please try again."
+    },
+    "errorsByCode": {
+      "NO_SERVICE": "The dApp is trying to connect to a different blockchain or network than the one selected."
+    },
+    "messages": {
+      "connected": "{{dappName}} is now connected."
+    },
+    "methodsDetailsTitle": "Methods",
+    "rejectButtonLabel": "Reject",
     "successModal": {
       "buttonReturnLabel": "Return",
       "subtitle": "A new dApp has been connected!",
       "title": "Connect a dApp"
     },
-    "title": "This app wants to connect!"
+    "title": "Connect with a dApp"
   },
   "dappDisconnection": {
     "cancel": "Cancel",
@@ -241,145 +247,61 @@
     "willRemove": "will be permanently removed"
   },
   "dappPermission": {
-    "cancelled": "Request cancelled",
-    "errorModal": {
-      "errorMessageLabel": "ERROR MESSAGE",
-      "heading": "Dapp Request",
-      "subtitle": "Request failed",
-      "text": "I'm sorry but your request could not be processed."
-    },
-    "requests": {
-      "ethereum": {
-        "fee": {
-          "fee": "{{fee}} ETH",
-          "feeError": "Error to calculate fee. The request was cancelled.",
-          "label": "FEE"
-        },
-        "rawJson": {
-          "acceptButtonLabel": "Accept",
-          "cancelButtonLabel": "Reject",
-          "dataLabel": "DATA"
-        },
-        "sendTransaction": {
-          "successModal": {
-            "heading": "Dapp Request",
-            "subtitle": "Transaction successfully sent!",
-            "text": "Once your transaction has been confirmed it will appear in your activity feed."
-          },
-          "title": "This app needs your permission to perform this transaction"
-        },
-        "signMessage": {
-          "acceptButtonLabel": "Authenticate",
-          "cancelButtonLabel": "Reject",
-          "messageLabel": "MESSAGE",
-          "successModal": {
-            "heading": "Dapp Request",
-            "subtitle": "Message successfully signed!"
-          },
-          "title": "This app asks for authentication"
-        },
-        "signTransaction": {
-          "successModal": {
-            "heading": "Dapp Request",
-            "subtitle": "Transaction successfully signed!"
-          },
-          "title": "This app needs your permission to sign this transaction"
-        },
-        "signTypedData": {
-          "successModal": {
-            "heading": "Dapp Request",
-            "subtitle": "Message successfully signed!"
-          },
-          "title": "This app asks for authentication"
-        }
-      },
-      "neo3": {
-        "contractInvocation": {
-          "acceptButtonLabel": "Confirm",
-          "amountLabel": "AMOUNT",
-          "cancelButtonLabel": "Cancel",
-          "feeError": "Error to calculate fee. The request was cancelled.",
-          "feeLabel": "Fee",
-          "hashLabel": "HASH",
-          "overrideFeeInfo": "The dApp has overwritten the fees",
-          "signatureScopeTitle": "Signature scope",
-          "subtitle": "Confirm that you’d like to proceed"
-        },
-        "decrypt": {
-          "acceptButtonLabel": "Decrypt",
-          "cancelButtonLabel": "Reject",
-          "messageLabel": "MESSAGE",
-          "successModal": {
-            "heading": "Dapp Request",
-            "subtitle": "Message successfully decrypted!"
-          },
-          "title": "This app asks for decryption"
-        },
-        "encrypt": {
-          "acceptButtonLabel": "Encrypt",
-          "cancelButtonLabel": "Reject",
-          "messageLabel": "MESSAGE",
-          "successModal": {
-            "heading": "Dapp Request",
-            "subtitle": "Message successfully encrypted!"
-          },
-          "title": "This app asks for encryption"
-        },
-        "invokeFunction": {
-          "successModal": {
-            "heading": "Dapp Request",
-            "subtitle": "Transaction successfully sent!",
-            "text": "Once your transaction has been confirmed it will appear in your activity feed."
-          },
-          "title": "This app needs your permission to perform this transaction"
-        },
-        "signMessage": {
-          "acceptButtonLabel": "Authenticate",
-          "cancelButtonLabel": "Reject",
-          "messageLabel": "MESSAGE",
-          "successModal": {
-            "heading": "Dapp Request",
-            "subtitle": "Message successfully signed!"
-          },
-          "title": "This app asks for authentication"
-        },
-        "signTransaction": {
-          "successModal": {
-            "heading": "Dapp Request",
-            "subtitle": "Transaction successfully signed!"
-          },
-          "title": "This app needs your permission to sign this transaction"
-        },
-        "verifyMessage": {
-          "acceptButtonLabel": "Authenticate",
-          "cancelButtonLabel": "Reject",
-          "messageLabel": "SIGNED MESSAGE",
-          "successModal": {
-            "heading": "Dapp Request",
-            "subtitle": "Wallet authenticated!"
-          },
-          "title": "This app asks for authentication"
-        }
+    "acceptButtonLabel": "Accept",
+    "customContents": {
+      "invokeNeo3": {
+        "amountDetailsItemLabel": "Amount",
+        "externalButtonLabel": "View on explorer",
+        "hashDetailsItemLabel": "Hash",
+        "signatureScopeDetailsHeaderLabel": "Signature scope",
+        "viewContractDetailsButtonLabel": "View contract details",
+        "viewSignatureScopeButtonLabel": "View signature scope details"
       }
+    },
+    "description": "<1>{{name}}</1> needs your permission",
+    "description2": "Confirm that you’d like to proceed",
+    "errorContent": {
+      "description": "The dApp request could not be processed.",
+      "doneButtonLabel": "Done",
+      "errorMessageLabel": "Error message",
+      "subtitle": "Oops! we’ve encountered an error",
+      "title": "Failed dApp request"
+    },
+    "errors": {
+      "cancelled": "Request cancelled",
+      "expired": "The request has expired",
+      "fee": "Error to calculate fee. The request was cancelled."
+    },
+    "feeLabel": "Fee",
+    "feeOverridesMessage": "The dApp has overwritten the fees",
+    "rejectButtonLabel": "Reject",
+    "successContent": {
+      "doneButtonLabel": "Done",
+      "resultBoxLabel": "Result",
+      "subtitle": "The dApp request was processed successfully",
+      "title": "Successful dApp request"
     },
     "unsupportedMethodError": "The method {{method}} is not supported"
   },
   "dappPermissionContractDetails": {
-    "detailsLabel": "DETAILS",
-    "hashLabel": "HASH",
-    "methodNotFoundError": "Method not found in contract",
-    "parametersLabel": "REQUEST PARAMETERS",
-    "title": "Invocation details"
+    "externalButtonLabel": "View on explorer",
+    "hashDetailsHeaderLabel": "Hash",
+    "parametersDetailsLabel": "Request parameters"
   },
   "dappPermissionSignatureScope": {
+    "allowListDetailsHeaderLabel": "Allow list",
+    "explanationDetailsHeaderLabel": "Explanation",
+    "scopeDetailsHeaderLabel": "Scope",
     "scopes": {
       "CalledByEntry": "Your signature can only be used by the calling contract and just for this transaction.",
       "CustomContracts": "Your signature can be used by the set of contracts listed above.",
       "CustomGroups": "Your signature can be used by the set of groups listed above.",
       "Global": "Your signature can be used without restriction with any contract.",
       "None": "Your signature is only valid for fee payments.",
-      "WitnessRules": "Your signature is only valid for transactions that match the specified rules and conditions, such as the current script hash, group, or calling script hash. This allows for more complex and expressive signature scoping to address edge cases and potential reentrancy attacks."
-    }
+      "WitnessRules": "Your signature is only valid for transactions that match the specified rules and conditions, such as the current script hash, group, or calling script hash. This allows for more complex and expressive signature scoping to address edge cases and potential reentrance attacks.",
+      "unknown": "Unknown"
+    },
+    "title": "Signature scope"
   },
   "decryptKey": {
     "buttonContinueLabel": "Import",

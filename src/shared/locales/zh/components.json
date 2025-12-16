@@ -73,9 +73,6 @@
     "noContacts": "没有联系人",
     "search": "搜索"
   },
-  "dappPermissionContextualMessage": {
-    "messageLabel": "上下文消息"
-  },
   "fieldActionsMenu": {
     "copy": "复制",
     "cut": "剪切",

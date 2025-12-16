@@ -72,10 +72,10 @@ CRITICAL RULES:
    No explanations, no quotes, no metadata.
 
 Examples (follow these EXACT patterns):
-- "Your hardware wallet is not connected." → "Sua hardware wallet não está conectada."
-- "Enter your seed phrase." → "Digite sua seed phrase."
-- "The smart contract execution failed." → "A execução do smart contract falhou."
-- "You blockchain is {{blockchain}}." → "A sua blockchain é {{blockchain}}."
+- Your hardware wallet is not connected. → Sua hardware wallet não está conectada.
+- Enter your seed phrase. → Digite sua seed phrase.
+- The smart contract execution failed. → A execução do smart contract falhou.
+- You blockchain is {{blockchain}}. → A sua blockchain é {{blockchain}}.
 
 
 Translate the following English text into the locale "${targetLocale}":

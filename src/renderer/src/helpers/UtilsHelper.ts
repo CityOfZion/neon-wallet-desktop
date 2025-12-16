@@ -253,4 +253,14 @@ export class UtilsHelper {
   static fallbackTokenHash(hash: string) {
     return UtilsHelper.isValidTokenHash(hash) ? hash : '--'
   }
+
+  static parseJsonSafely(value: any): any {
+    if (typeof value !== 'string') return value
+
+    try {
+      return JSON.parse(value)
+    } catch {
+      return value
+    }
+  }
 }

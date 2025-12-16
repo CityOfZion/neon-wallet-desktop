@@ -5,21 +5,18 @@ import { exposeApiToRenderer } from '@cityofzion/bs-electron/dist/main'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 import type { TBlockchainServiceKey } from '@shared/types/blockchain'
 
-export const getHardwareWalletTransport = async ({ address, blockchain }: TBSAccount<TBlockchainServiceKey>) => {
-  // This import is only to avoid circular dependencies
-  const { HardwareWalletGeneric } = await import('./hardware-wallet')
-  if (!HardwareWalletGeneric.info) {
-    throw new Error('No hardware wallet connected')
-  }
+async function getHardwareWalletTransport({ address, blockchain }: TBSAccount<TBlockchainServiceKey>) {
+  // Avoid circular dependency
+  const { connectedHardwareWalletInfo } = await import('./hardware-wallet')
+  if (!connectedHardwareWalletInfo) throw new Error('No hardware wallet connected')
 
-  const isHardwareWalletFromProvidedAddress = HardwareWalletGeneric.info.accounts.some(
+  const isHardwareWalletFromProvidedAddress = connectedHardwareWalletInfo.accounts.some(
     SharedAccountHelper.predicate({ address, blockchain })
   )
-  if (!isHardwareWalletFromProvidedAddress) {
+  if (!isHardwareWalletFromProvidedAddress)
     throw new Error('The provided address is not from the connected hardware wallet')
-  }
 
-  return HardwareWalletGeneric.info.transport
+  return connectedHardwareWalletInfo.transport
 }
 
 export let bsAggregator: BSAggregator<TBlockchainServiceKey>

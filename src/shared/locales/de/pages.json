@@ -239,6 +239,11 @@
     "hardwareWalletManagerSetup": {
       "requestingPermission": "Bitte bestätigen Sie auf Ihrem Ledger-Gerät"
     },
+    "walletConnectManagerSetup": {
+      "autoAcceptErrorMessage": "WalletConnect-Anfrageverarbeitung fehlgeschlagen",
+      "autoAcceptProcessingMessage": "WalletConnect-Anfrage wird verarbeitet…",
+      "autoAcceptSuccessMessage": "WalletConnect-Anfrage wurde erfolgreich verarbeitet"
+    },
     "walletTasksManagerSetup": {
       "useBackupReminderNotificationProcess": {
         "notificationDescription": "Wir empfehlen, eine neue Sicherungsdatei unter \"Einstellungen > Sicherheit > NEON sichern\" zu erstellen, um Ihre Wallets zu schützen. Für zusätzliche Sicherheit können Sie auch Ihre Mnemonics manuell unter \"Wallets > 3 Punkte (Tools) > Exportieren\" und private Schlüssel unter \"Wallets > 3 Punkte > Schlüssel exportieren\" exportieren.",
@@ -297,6 +302,7 @@
       "tokenToSendLabel": "Zu sendender Token"
     },
     "sendFail": {
+      "errorMessageLabel": "Fehler",
       "subtitle": "Bitte versuchen Sie es später erneut",
       "title": "Hoppla! Wir sind auf einen Fehler gestoßen."
     },

@@ -205,30 +205,36 @@
     "inputPlaceholder": "在此粘贴您的URL...",
     "title": "连接dApp"
   },
-  "dappConnectionAccountSelection": {
-    "description": "您想连接哪个账户？",
-    "title": "连接账户"
-  },
-  "dappConnectionDetails": {
+  "dappConnectionRequest": {
     "acceptButtonLabel": "接受",
     "connectionDetailsTitle": "连接详情",
-    "declineButtonLabel": "拒绝",
-    "description": "{{name}} 想要连接您的钱包",
+    "description": "<strong>{{name}}</strong> 想要连接到您的钱包",
     "errorModal": {
-      "accountProposalError": "dApp尝试连接的区块链与所选账户的区块链不同。",
+      "accountProposalError": "该 dApp 正在尝试连接到与所选账户区块链不同的区块链。",
       "buttonReturnLabel": "返回",
-      "differentNetworkError": "dApp尝试连接的网络与您当前连接的网络不同。请切换网络后再连接此dApp。",
-      "subtitle": "哎呀！发生错误",
-      "subtitle2": "dApp未连接",
-      "subtitle3": "请稍后再试。",
-      "title": "连接dApp"
+      "differentNetworkError": "该 dApp 正在尝试连接到与您当前连接的网络不同的网络。请更改您的网络以连接到此 dApp。",
+      "errorMessageLabel": "错误",
+      "subtitle": "哎呀！我们遇到了一个错误",
+      "subtitle2": "该 dApp 尚未连接",
+      "title": "连接一个 dApp"
     },
+    "errors": {
+      "unknown": "发生了一个未知错误。请再试一次。"
+    },
+    "errorsByCode": {
+      "NO_SERVICE": "该 dApp 正在尝试连接到与所选不同的区块链或网络。"
+    },
+    "messages": {
+      "connected": "{{dappName}} 已连接。"
+    },
+    "methodsDetailsTitle": "方法",
+    "rejectButtonLabel": "拒绝",
     "successModal": {
       "buttonReturnLabel": "返回",
-      "subtitle": "新dApp已连接！",
-      "title": "连接dApp"
+      "subtitle": "一个新的 dApp 已连接！",
+      "title": "连接一个 dApp"
     },
-    "title": "此应用请求连接！"
+    "title": "通过 dApp 连接"
   },
   "dappDisconnection": {
     "cancel": "取消",
@@ -241,145 +247,61 @@
     "willRemove": "将被永久移除"
   },
   "dappPermission": {
-    "cancelled": "请求已取消",
-    "errorModal": {
-      "errorMessageLabel": "错误信息",
-      "heading": "Dapp请求",
-      "subtitle": "请求失败",
-      "text": "很抱歉，您的请求无法处理。"
-    },
-    "requests": {
-      "ethereum": {
-        "fee": {
-          "fee": "{{fee}} ETH",
-          "feeError": "计算手续费出错。请求已取消。",
-          "label": "手续费"
-        },
-        "rawJson": {
-          "acceptButtonLabel": "接受",
-          "cancelButtonLabel": "拒绝",
-          "dataLabel": "数据"
-        },
-        "sendTransaction": {
-          "successModal": {
-            "heading": "Dapp请求",
-            "subtitle": "交易已成功发送！",
-            "text": "交易确认后将显示在您的活动记录中。"
-          },
-          "title": "此应用需要您的许可以执行此交易"
-        },
-        "signMessage": {
-          "acceptButtonLabel": "认证",
-          "cancelButtonLabel": "拒绝",
-          "messageLabel": "消息",
-          "successModal": {
-            "heading": "Dapp请求",
-            "subtitle": "消息已成功签名！"
-          },
-          "title": "此应用请求身份验证"
-        },
-        "signTransaction": {
-          "successModal": {
-            "heading": "Dapp请求",
-            "subtitle": "交易已成功签署！"
-          },
-          "title": "此应用需要您的许可以签署此交易"
-        },
-        "signTypedData": {
-          "successModal": {
-            "heading": "Dapp请求",
-            "subtitle": "消息已成功签名！"
-          },
-          "title": "此应用请求身份验证"
-        }
-      },
-      "neo3": {
-        "contractInvocation": {
-          "acceptButtonLabel": "确认",
-          "amountLabel": "金额",
-          "cancelButtonLabel": "取消",
-          "feeError": "计算手续费出错。请求已取消。",
-          "feeLabel": "手续费",
-          "hashLabel": "哈希",
-          "overrideFeeInfo": "dApp已覆盖手续费",
-          "signatureScopeTitle": "签名范围",
-          "subtitle": "请确认您要继续"
-        },
-        "decrypt": {
-          "acceptButtonLabel": "解密",
-          "cancelButtonLabel": "拒绝",
-          "messageLabel": "消息",
-          "successModal": {
-            "heading": "Dapp请求",
-            "subtitle": "消息已成功解密！"
-          },
-          "title": "此应用请求解密"
-        },
-        "encrypt": {
-          "acceptButtonLabel": "加密",
-          "cancelButtonLabel": "拒绝",
-          "messageLabel": "消息",
-          "successModal": {
-            "heading": "Dapp请求",
-            "subtitle": "消息已成功加密！"
-          },
-          "title": "此应用请求加密"
-        },
-        "invokeFunction": {
-          "successModal": {
-            "heading": "Dapp请求",
-            "subtitle": "交易已成功发送！",
-            "text": "交易确认后将显示在您的活动记录中。"
-          },
-          "title": "此应用需要您的许可以执行此交易"
-        },
-        "signMessage": {
-          "acceptButtonLabel": "认证",
-          "cancelButtonLabel": "拒绝",
-          "messageLabel": "消息",
-          "successModal": {
-            "heading": "Dapp请求",
-            "subtitle": "消息已成功签名！"
-          },
-          "title": "此应用请求身份验证"
-        },
-        "signTransaction": {
-          "successModal": {
-            "heading": "Dapp请求",
-            "subtitle": "交易已成功签署！"
-          },
-          "title": "此应用需要您的许可以签署此交易"
-        },
-        "verifyMessage": {
-          "acceptButtonLabel": "认证",
-          "cancelButtonLabel": "拒绝",
-          "messageLabel": "已签名消息",
-          "successModal": {
-            "heading": "Dapp请求",
-            "subtitle": "钱包已认证！"
-          },
-          "title": "此应用请求身份验证"
-        }
+    "acceptButtonLabel": "接受",
+    "customContents": {
+      "invokeNeo3": {
+        "amountDetailsItemLabel": "金额",
+        "externalButtonLabel": "在区块浏览器中查看",
+        "hashDetailsItemLabel": "“哈希”",
+        "signatureScopeDetailsHeaderLabel": "签名范围",
+        "viewContractDetailsButtonLabel": "查看合约详情",
+        "viewSignatureScopeButtonLabel": "查看签名范围详情"
       }
+    },
+    "description": "<1>{{name}}</1> 需要您的许可",
+    "description2": "确认您要继续操作",
+    "errorContent": {
+      "description": "该 dApp 请求无法处理。",
+      "doneButtonLabel": "完成",
+      "errorMessageLabel": "错误信息",
+      "subtitle": "哎呀！我们遇到了一个错误",
+      "title": "dApp请求失败"
+    },
+    "errors": {
+      "cancelled": "请求已取消",
+      "expired": "该请求已过期",
+      "fee": "计算费用出错。请求已取消。"
+    },
+    "feeLabel": "费用",
+    "feeOverridesMessage": "该 dApp 已覆盖费用",
+    "rejectButtonLabel": "拒绝",
+    "successContent": {
+      "doneButtonLabel": "完成",
+      "resultBoxLabel": "结果",
+      "subtitle": "dApp 请求已成功处理",
+      "title": "成功的 dApp 请求"
     },
     "unsupportedMethodError": "不支持的方法 {{method}}"
   },
   "dappPermissionContractDetails": {
-    "detailsLabel": "详情",
-    "hashLabel": "哈希",
-    "methodNotFoundError": "合约中未找到方法",
-    "parametersLabel": "请求参数",
-    "title": "调用详情"
+    "externalButtonLabel": "在区块浏览器中查看",
+    "hashDetailsHeaderLabel": "哈希",
+    "parametersDetailsLabel": "请求参数"
   },
   "dappPermissionSignatureScope": {
+    "allowListDetailsHeaderLabel": "允许列表",
+    "explanationDetailsHeaderLabel": "说明",
+    "scopeDetailsHeaderLabel": "范围",
     "scopes": {
       "CalledByEntry": "您的签名只能被调用合约使用，并且仅限于本次交易。",
       "CustomContracts": "您的签名可被上方列出的合约集合使用。",
       "CustomGroups": "您的签名可被上方列出的群组集合使用。",
       "Global": "您的签名可无限制地用于任何合约。",
       "None": "您的签名仅对手续费支付有效。",
-      "WitnessRules": "您的签名仅对符合指定规则和条件的交易有效，例如当前脚本哈希、群组或调用脚本哈希。这允许更复杂和灵活的签名范围，以应对边缘情况和潜在的重入攻击。"
-    }
+      "WitnessRules": "您的签名仅对符合指定规则和条件的交易有效，例如当前脚本哈希、组或调用脚本哈希。这允许更复杂且表达力更强的签名作用域，以解决边缘情况和潜在的重入攻击。",
+      "unknown": "未知"
+    },
+    "title": "签名范围"
   },
   "decryptKey": {
     "buttonContinueLabel": "导入",

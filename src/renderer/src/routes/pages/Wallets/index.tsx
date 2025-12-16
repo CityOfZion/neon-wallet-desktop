@@ -1,6 +1,6 @@
 import { Fragment, useLayoutEffect } from 'react'
 
-import { hasNft } from '@cityofzion/blockchain-service'
+import { hasNft, hasWalletConnect } from '@cityofzion/blockchain-service'
 import isEqual from 'lodash/isEqual'
 import { useTranslation } from 'react-i18next'
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router'
@@ -16,7 +16,6 @@ import { SidebarMenuButton } from '@renderer/components/SidebarMenuButton'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
-import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 
 import {
   useAccountMapByIdSelector,
@@ -273,16 +272,14 @@ const WalletsPage = () => {
                       textClassName="text-start text-white"
                     />
 
-                    {selectedAccount?.type !== 'watch' &&
-                      selectedAccount?.type !== 'hardware' &&
-                      !isKeyLoginSession && (
-                        <ActionPopover.Item
-                          leftIcon={<TbUpload aria-hidden />}
-                          onClick={handleExportKey}
-                          label={t('exportKeyButtonLabel')}
-                          textClassName="text-start text-white"
-                        />
-                      )}
+                    {selectedAccount.type !== 'watch' && selectedAccount.type !== 'hardware' && !isKeyLoginSession && (
+                      <ActionPopover.Item
+                        leftIcon={<TbUpload aria-hidden />}
+                        onClick={handleExportKey}
+                        label={t('exportKeyButtonLabel')}
+                        textClassName="text-start text-white"
+                      />
+                    )}
 
                     {canAccountBridge && (
                       <ActionPopover.Item
@@ -293,7 +290,7 @@ const WalletsPage = () => {
                       />
                     )}
 
-                    {selectedAccount?.blockchain === 'neo3' && (
+                    {selectedAccount.blockchain === 'neo3' && (
                       <ActionPopover.Item
                         label={t('voteNeo3ButtonLabel')}
                         textClassName="text-start text-white"
@@ -318,13 +315,12 @@ const WalletsPage = () => {
                   to={`/wallets/${selectedAccount.id}/transactions`}
                 />
 
-                {selectedAccount?.type !== 'watch' &&
-                  WalletConnectHelper.supportedBlockchains[selectedAccount.blockchain] && (
-                    <SidebarMenuButton
-                      title={t('accountConnections.title')}
-                      to={`/wallets/${selectedAccount.id}/connections`}
-                    />
-                  )}
+                {selectedAccount.type !== 'watch' && hasWalletConnect(service) && (
+                  <SidebarMenuButton
+                    title={t('accountConnections.title')}
+                    to={`/wallets/${selectedAccount.id}/connections`}
+                  />
+                )}
               </ul>
 
               <Outlet context={{ account: selectedAccount }} key={selectedAccount.id} />

@@ -239,6 +239,11 @@
     "hardwareWalletManagerSetup": {
       "requestingPermission": "請在您的 Ledger 裝置上確認"
     },
+    "walletConnectManagerSetup": {
+      "autoAcceptErrorMessage": "錢包連線請求處理失敗",
+      "autoAcceptProcessingMessage": "錢包連線請求正在處理中...",
+      "autoAcceptSuccessMessage": "WalletConnect 請求已成功處理"
+    },
     "walletTasksManagerSetup": {
       "useBackupReminderNotificationProcess": {
         "notificationDescription": "我們建議在\"設定 > 安全性 > 備份 NEON\"中建立新的備份檔案以保護您的錢包。為了增強安全性，您還可以在\"錢包 > 三點（工具）> 匯出\"中手動匯出助記詞，並在\"錢包 > 三點 > 匯出金鑰\"中匯出私密金鑰。",
@@ -297,6 +302,7 @@
       "tokenToSendLabel": "發送代幣"
     },
     "sendFail": {
+      "errorMessageLabel": "錯誤",
       "subtitle": "請稍後再試",
       "title": "糟糕！發生錯誤。"
     },

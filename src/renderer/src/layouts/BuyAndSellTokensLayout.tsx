@@ -15,9 +15,9 @@ import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 
 import MdInfoOutline from '@renderer/assets/images/md-info-outline.svg?react'
-import MdLaunch from '@renderer/assets/images/md-launch.svg?react'
 import TbChevronDown from '@renderer/assets/images/tb-chevron-down.svg?react'
 import TbChevronUp from '@renderer/assets/images/tb-chevron-up.svg?react'
+import TbExternalLink from '@renderer/assets/images/tb-external-link.svg?react'
 
 import { DISCORD_LINK } from '@renderer/constants/urls'
 import { IAccountState } from '@shared/types/store'
@@ -173,7 +173,7 @@ export const BuyAndSellTokensLayout = ({
             flat
             wide
             iconsOnEdge={false}
-            rightIcon={<MdLaunch aria-hidden />}
+            rightIcon={<TbExternalLink aria-hidden />}
           />
         </div>
       </div>

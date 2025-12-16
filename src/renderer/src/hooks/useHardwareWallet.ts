@@ -49,7 +49,7 @@ export const useHardwareWalletByUsb = () => {
       }
 
       try {
-        const info = await window.api.sendAsync('hardwareWalletByUsb:connect', {
+        const info = await window.api.sendAsync('hardwareWallet:connectByUsb', {
           lastIndexesByWallet: lastIndexesByWalletRef.current,
           ...params,
         })

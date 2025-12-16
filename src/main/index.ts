@@ -1,5 +1,5 @@
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
-import { app, BrowserWindow, shell } from 'electron'
+import { app, BrowserWindow, dialog, shell } from 'electron'
 import { join } from 'path'
 
 import { mainApi } from '@shared/api/main'
@@ -7,15 +7,16 @@ import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 
 import * as packageJson from '../../package.json'
 import icon from '../../resources/icon.png?asset'
-import { setupHardwareWalletUsbHandler } from './hardware-wallet/usb'
 import { setupBsAggregator } from './blockchain-service'
 import { setInitialDeeplink, setupDeeplinkHandler, setupDeeplinkProtocol } from './deeplink'
 import { setupEncryptionHandlers } from './encryption'
 import { setupHardwareWalletHandler } from './hardware-wallet'
 import { setupSentry } from './sentry'
 import { setupUpdaterHandler } from './updater'
-import { setupWalletConnectAdapters } from './wallet-connect'
 import { setupWindowHandlers } from './window'
+
+const isLinux = process.platform === 'linux'
+const devRendererUrl = is.dev ? process.env['ELECTRON_RENDERER_URL'] : undefined
 
 let mainWindow: BrowserWindow | null = null
 
@@ -23,8 +24,6 @@ setupSentry()
 setupDeeplinkProtocol()
 
 function createWindow(): void {
-  const isLinux = process.platform === 'linux'
-
   mainWindow = new BrowserWindow({
     title: `Neon Wallet ${packageJson.version}`,
     width: 1350,
@@ -61,15 +60,20 @@ function createWindow(): void {
     if (isLinux && input.key === 'Alt') event.preventDefault()
   })
 
-  if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
+  if (devRendererUrl) {
+    mainWindow.loadURL(devRendererUrl)
   } else {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
 }
 
 async function initialize() {
-  electronApp.setAppUserModelId('com.electron.neon3')
+  if (devRendererUrl) {
+    electronApp.setAppUserModelId('com.electron.neon3.dev')
+    app.setPath('userData', `${app.getPath('userData')} (development)`)
+  } else {
+    electronApp.setAppUserModelId('com.electron.neon3')
+  }
 
   const gotTheLock = app.requestSingleInstanceLock()
   if (!gotTheLock) {
@@ -113,16 +117,18 @@ async function initialize() {
     optimizer.watchWindowShortcuts(window)
   })
 
+  await Promise.all([setupBsAggregator(), app.whenReady()]).catch(error => {
+    dialog.showErrorBox(
+      'Initialization Error',
+      `Failed to start Neon Wallet: ${error instanceof Error ? error.message : 'Unknown error'}\n\nPlease restart the application or contact support.`
+    )
+    app.quit()
+  })
+
   setupDeeplinkHandler()
   setupWindowHandlers()
   setupEncryptionHandlers()
   setupUpdaterHandler()
-
-  await app.whenReady()
-
-  await setupBsAggregator()
-  setupWalletConnectAdapters()
-  setupHardwareWalletUsbHandler()
   setupHardwareWalletHandler()
 
   createWindow()

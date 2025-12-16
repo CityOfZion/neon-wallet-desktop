@@ -17,8 +17,8 @@ import { useMountUnsafe } from '@renderer/hooks/useMount'
 
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 
-import MdLaunch from '@renderer/assets/images/md-launch.svg?react'
 import MdRefresh from '@renderer/assets/images/md-refresh.svg?react'
+import TbExternalLink from '@renderer/assets/images/tb-external-link.svg?react'
 import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
 import TbReplace2 from '@renderer/assets/images/tb-replace-2.svg?react'
 import TbRosetteDiscountCheck from '@renderer/assets/images/tb-rosette-discount-check.svg?react'
@@ -98,8 +98,13 @@ const Neo3NeoxBridgeDetailsModal = () => {
       <Separator className="mt-6 mb-8" />
 
       <Details.Root>
-        <Details.Header label={t('detailsHeaderLabel')} icon={<TbReceipt aria-hidden />}>
-          {status === 'confirming' && <MdRefresh aria-hidden className="text-orange h-6 w-6 animate-spin" />}
+        <Details.Header
+          rightElement={
+            status === 'confirming' ? <MdRefresh aria-hidden className="text-orange h-6 w-6 animate-spin" /> : undefined
+          }
+          leftElement={<TbReceipt aria-hidden />}
+        >
+          {t('detailsHeaderLabel')}
         </Details.Header>
 
         <Details.Body>
@@ -150,7 +155,7 @@ const Neo3NeoxBridgeDetailsModal = () => {
           flat
           wide
           iconsOnEdge={false}
-          rightIcon={<MdLaunch aria-hidden />}
+          rightIcon={<TbExternalLink aria-hidden />}
         />
       </div>
     </SideModalLayout>

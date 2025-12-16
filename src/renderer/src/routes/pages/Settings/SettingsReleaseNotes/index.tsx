@@ -9,7 +9,7 @@ import { useLanguageSelector } from '@renderer/hooks/useSettingsSelector'
 
 import { SettingsLayout } from '@renderer/layouts/Settings'
 
-import MdLaunch from '@renderer/assets/images/md-launch.svg?react'
+import TbExternalLink from '@renderer/assets/images/tb-external-link.svg?react'
 
 import 'github-markdown-css/github-markdown.css'
 
@@ -48,7 +48,7 @@ const SettingsReleaseNotesPage = () => {
                     target="_blank"
                     to={item.url}
                     label={t('button.learnMore')}
-                    rightIcon={<MdLaunch />}
+                    rightIcon={<TbExternalLink />}
                     variant="outlined"
                     clickableProps={{ className: 'h-10' }}
                   />

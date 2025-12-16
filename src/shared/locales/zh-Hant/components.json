@@ -73,9 +73,6 @@
     "noContacts": "沒有聯絡人",
     "search": "搜尋"
   },
-  "dappPermissionContextualMessage": {
-    "messageLabel": "情境訊息"
-  },
   "fieldActionsMenu": {
     "copy": "複製",
     "cut": "剪下",

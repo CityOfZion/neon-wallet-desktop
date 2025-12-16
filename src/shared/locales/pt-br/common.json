@@ -25,6 +25,7 @@
     "close": "Fechar",
     "continue": "Continuar",
     "copy": "Copiar para área de transferência",
+    "copyToClipboard": "Copiar para a área de transferência",
     "default": "Padrão",
     "downloadQRCodePassword": "Baixar código QR da senha",
     "edit": "Editar",
@@ -82,9 +83,5 @@
     "migratedWalletName": "Carteira Migrada",
     "mnemonicWalletName": "Carteira Mnemônica",
     "watchAccount": "Conta Observada"
-  },
-  "walletConnect": {
-    "description": "Crie e organize carteiras, ou importe facilmente as existentes, para gerenciar e transferir com segurança seus ativos entre contas com a interface elegante da Neon.",
-    "name": "Neon Wallet"
   }
 }

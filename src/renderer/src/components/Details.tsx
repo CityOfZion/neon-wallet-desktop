@@ -21,28 +21,33 @@ const Root = ({ className, children, ...props }: TRootProps) => {
 }
 
 type THeaderProps = {
-  label: string
-  icon?: JSX.Element
+  rightElement?: JSX.Element
+  leftElement?: JSX.Element
 } & ComponentProps<'div'>
-const Header = ({ label, icon, children, ...props }: THeaderProps) => {
+
+const Header = ({ children, className, leftElement, rightElement, ...props }: THeaderProps) => {
   return (
-    <div {...props}>
-      <div className="flex items-center gap-2.5">
-        {icon &&
-          cloneElement(icon, {
-            'aria-hidden': true,
-            className: StyleHelper.mergeStyles('text-blue w-6 h-6', icon.props.className),
-          })}
+    <div className={StyleHelper.mergeStyles('flex items-center gap-2.5', className)} {...props}>
+      {leftElement &&
+        cloneElement(leftElement, {
+          'aria-hidden': true,
+          className: StyleHelper.mergeStyles('text-blue w-6 h-6', leftElement.props.className),
+        })}
 
-        <span className="text-sm text-white">{label}</span>
-
-        {children}
+      <div className="grow">
+        {typeof children === 'string' ? <span className="text-sm text-white">{children}</span> : children}
       </div>
 
-      <Separator className="mt-2.5" />
+      {rightElement}
     </div>
   )
 }
+
+type THeaderSeparatorProps = ComponentProps<typeof Separator>
+const HeaderSeparator = ({ className, ...props }: THeaderSeparatorProps) => {
+  return <Separator className={StyleHelper.mergeStyles('mt-2.5', className)} {...props} />
+}
+
 type TBodyProps = ComponentProps<'div'>
 const Body = ({ className, children, ...props }: TBodyProps) => {
   return (
@@ -72,7 +77,7 @@ const Item = ({ label, children, copyable, className, contentClassName, ...props
 
   return (
     <div className="group flex flex-col">
-      <div className={StyleHelper.mergeStyles('flex flex-col gap-2.5 px-3 py-4', className)} {...props}>
+      <div className={StyleHelper.mergeStyles('flex flex-col gap-2.5 py-4', className)} {...props}>
         {typeof label === 'string' ? <span className="text-xs text-gray-100 uppercase">{label}</span> : label}
 
         <div className={StyleHelper.mergeStyles('flex items-center gap-2.5', contentClassName)}>
@@ -94,4 +99,4 @@ const Item = ({ label, children, copyable, className, contentClassName, ...props
   )
 }
 
-export const Details = { Root, Header, Body, Panel, Item }
+export const Details = { Root, Header, Body, Panel, Item, HeaderSeparator }

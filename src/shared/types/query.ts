@@ -4,10 +4,13 @@ import {
   type TPingNetworkResponse,
   TTokenPricesResponse,
 } from '@cityofzion/blockchain-service'
+import type { TWalletKitHelperSessionDetails } from '@cityofzion/bs-multichain'
 import { QueryKey, UseQueryOptions } from '@tanstack/react-query'
+import type { SessionTypes } from '@walletconnect/types'
 
 import { TBlockchainServiceKey } from './blockchain'
 import type { Optional } from './global'
+import type { IAccountState } from './store'
 
 export type TBaseOptions<T = unknown> = Omit<UseQueryOptions<T, unknown, T, QueryKey>, 'queryKey' | 'queryFn'>
 
@@ -95,3 +98,8 @@ export type TUseUnclaimedResult = {
 }
 
 export type TNode = Optional<TPingNetworkResponse, 'height' | 'latency'>
+
+export type TUseWalletConnectSessionsResult = SessionTypes.Struct & {
+  details: TWalletKitHelperSessionDetails
+  account: IAccountState
+}

@@ -205,30 +205,36 @@
     "inputPlaceholder": "Fügen Sie Ihre URL hier ein…",
     "title": "Mit einer dApp verbinden"
   },
-  "dappConnectionAccountSelection": {
-    "description": "Mit welchem Konto möchten Sie sich verbinden?",
-    "title": "Mit einem Konto verbinden"
-  },
-  "dappConnectionDetails": {
+  "dappConnectionRequest": {
     "acceptButtonLabel": "Akzeptieren",
     "connectionDetailsTitle": "Verbindungsdetails",
-    "declineButtonLabel": "Ablehnen",
-    "description": "{{name}} möchte sich mit Ihrem Wallet verbinden",
+    "description": "<strong>{{name}}</strong> möchte sich an Ihre Wallet anschließen",
     "errorModal": {
-      "accountProposalError": "Die dApp versucht, sich mit einer anderen Blockchain zu verbinden als die des ausgewählten Kontos.",
+      "accountProposalError": "Die dApp versucht, sich an eine andere Blockchain zu verbinden, als die der ausgewählten Konten Blockchain.",
       "buttonReturnLabel": "Zurück",
-      "differentNetworkError": "Die dApp versucht, sich mit einem anderen Netzwerk zu verbinden, als dem, mit dem Sie derzeit verbunden sind. Bitte ändern Sie Ihr Netzwerk, um sich mit dieser dApp zu verbinden.",
-      "subtitle": "Hoppla! Wir sind auf einen Fehler gestoßen",
+      "differentNetworkError": "Die dApp versucht, sich an ein anderes Netzwerk zu verbinden, als das, an das Sie derzeit angeschlossen sind. Bitte ändern Sie Ihr Netzwerk, um sich an diese dApp zu verbinden.",
+      "errorMessageLabel": "Fehler",
+      "subtitle": "Ups! Ein Fehler ist aufgetreten",
       "subtitle2": "Die dApp wurde nicht verbunden",
-      "subtitle3": "Bitte versuchen Sie es später erneut.",
-      "title": "dApp verbinden"
+      "title": "Verbinde eine dApp"
     },
+    "errors": {
+      "unknown": "Ein unbekannter Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
+    },
+    "errorsByCode": {
+      "NO_SERVICE": "Die dApp versucht, sich an eine andere Blockchain oder Netzwerk zu verbinden, als das ausgewählte."
+    },
+    "messages": {
+      "connected": "{{dappName}} ist jetzt verbunden."
+    },
+    "methodsDetailsTitle": "Methoden",
+    "rejectButtonLabel": "Ablehnen",
     "successModal": {
-      "buttonReturnLabel": "Zurück",
+      "buttonReturnLabel": "Rückgabepflicht",
       "subtitle": "Eine neue dApp wurde verbunden!",
-      "title": "dApp verbinden"
+      "title": "Verbinde eine dApp"
     },
-    "title": "Diese App möchte sich verbinden!"
+    "title": "Mit einer dApp verbinden"
   },
   "dappDisconnection": {
     "cancel": "Abbrechen",
@@ -241,145 +247,61 @@
     "willRemove": "wird dauerhaft entfernt"
   },
   "dappPermission": {
-    "cancelled": "Anfrage abgebrochen",
-    "errorModal": {
-      "errorMessageLabel": "FEHLERMELDUNG",
-      "heading": "Dapp-Anfrage",
-      "subtitle": "Anfrage fehlgeschlagen",
-      "text": "Es tut mir leid, aber Ihre Anfrage konnte nicht bearbeitet werden."
-    },
-    "requests": {
-      "ethereum": {
-        "fee": {
-          "fee": "{{fee}} ETH",
-          "feeError": "Fehler bei der Gebührenberechnung. Die Anfrage wurde abgebrochen.",
-          "label": "GEBÜHR"
-        },
-        "rawJson": {
-          "acceptButtonLabel": "Akzeptieren",
-          "cancelButtonLabel": "Ablehnen",
-          "dataLabel": "DATEN"
-        },
-        "sendTransaction": {
-          "successModal": {
-            "heading": "Dapp-Anfrage",
-            "subtitle": "Transaktion erfolgreich gesendet!",
-            "text": "Sobald Ihre Transaktion bestätigt wurde, wird sie in Ihrem Aktivitäts-Feed angezeigt."
-          },
-          "title": "Diese App benötigt Ihre Erlaubnis, um diese Transaktion durchzuführen"
-        },
-        "signMessage": {
-          "acceptButtonLabel": "Authentifizieren",
-          "cancelButtonLabel": "Ablehnen",
-          "messageLabel": "NACHRICHT",
-          "successModal": {
-            "heading": "Dapp-Anfrage",
-            "subtitle": "Nachricht erfolgreich signiert!"
-          },
-          "title": "Diese App fordert Authentifizierung an"
-        },
-        "signTransaction": {
-          "successModal": {
-            "heading": "Dapp-Anfrage",
-            "subtitle": "Transaktion erfolgreich signiert!"
-          },
-          "title": "Diese App benötigt Ihre Erlaubnis, um diese Transaktion zu signieren"
-        },
-        "signTypedData": {
-          "successModal": {
-            "heading": "Dapp-Anfrage",
-            "subtitle": "Nachricht erfolgreich signiert!"
-          },
-          "title": "Diese App fordert Authentifizierung an"
-        }
-      },
-      "neo3": {
-        "contractInvocation": {
-          "acceptButtonLabel": "Bestätigen",
-          "amountLabel": "BETRAG",
-          "cancelButtonLabel": "Abbrechen",
-          "feeError": "Fehler bei der Gebührenberechnung. Die Anfrage wurde abgebrochen.",
-          "feeLabel": "Gebühr",
-          "hashLabel": "HASH",
-          "overrideFeeInfo": "Die dApp hat die Gebühren überschrieben",
-          "signatureScopeTitle": "Signaturbereich",
-          "subtitle": "Bestätigen Sie, dass Sie fortfahren möchten"
-        },
-        "decrypt": {
-          "acceptButtonLabel": "Entschlüsseln",
-          "cancelButtonLabel": "Ablehnen",
-          "messageLabel": "NACHRICHT",
-          "successModal": {
-            "heading": "Dapp-Anfrage",
-            "subtitle": "Nachricht erfolgreich entschlüsselt!"
-          },
-          "title": "Diese App fordert Entschlüsselung an"
-        },
-        "encrypt": {
-          "acceptButtonLabel": "Verschlüsseln",
-          "cancelButtonLabel": "Ablehnen",
-          "messageLabel": "NACHRICHT",
-          "successModal": {
-            "heading": "Dapp-Anfrage",
-            "subtitle": "Nachricht erfolgreich verschlüsselt!"
-          },
-          "title": "Diese App fordert Verschlüsselung an"
-        },
-        "invokeFunction": {
-          "successModal": {
-            "heading": "Dapp-Anfrage",
-            "subtitle": "Transaktion erfolgreich gesendet!",
-            "text": "Sobald Ihre Transaktion bestätigt wurde, wird sie in Ihrem Aktivitäts-Feed angezeigt."
-          },
-          "title": "Diese App benötigt Ihre Erlaubnis, um diese Transaktion durchzuführen"
-        },
-        "signMessage": {
-          "acceptButtonLabel": "Authentifizieren",
-          "cancelButtonLabel": "Ablehnen",
-          "messageLabel": "NACHRICHT",
-          "successModal": {
-            "heading": "Dapp-Anfrage",
-            "subtitle": "Nachricht erfolgreich signiert!"
-          },
-          "title": "Diese App fordert Authentifizierung an"
-        },
-        "signTransaction": {
-          "successModal": {
-            "heading": "Dapp-Anfrage",
-            "subtitle": "Transaktion erfolgreich signiert!"
-          },
-          "title": "Diese App benötigt Ihre Erlaubnis, um diese Transaktion zu signieren"
-        },
-        "verifyMessage": {
-          "acceptButtonLabel": "Authentifizieren",
-          "cancelButtonLabel": "Ablehnen",
-          "messageLabel": "SIGNIERTE NACHRICHT",
-          "successModal": {
-            "heading": "Dapp-Anfrage",
-            "subtitle": "Wallet authentifiziert!"
-          },
-          "title": "Diese App fordert Authentifizierung an"
-        }
+    "acceptButtonLabel": "Akzeptieren",
+    "customContents": {
+      "invokeNeo3": {
+        "amountDetailsItemLabel": "Betrag",
+        "externalButtonLabel": "Auf der Explorer-Ansicht",
+        "hashDetailsItemLabel": "Hash",
+        "signatureScopeDetailsHeaderLabel": "Signaturumfang",
+        "viewContractDetailsButtonLabel": "Vertragsdetails ansehen",
+        "viewSignatureScopeButtonLabel": "Signature Bereich Details ansehen"
       }
+    },
+    "description": "<1>{{name}}</1> benötigt Ihre Genehmigung",
+    "description2": "Bestätigen Sie, dass Sie fortfahren möchten",
+    "errorContent": {
+      "description": "Die dApp-Anfrage konnte nicht verarbeitet werden.",
+      "doneButtonLabel": "Fertig",
+      "errorMessageLabel": "Fehlermeldung",
+      "subtitle": "Ups! Ein Fehler ist aufgetreten",
+      "title": "Fehlerhafter dApp-Antrag"
+    },
+    "errors": {
+      "cancelled": "Anfrage abgebrochen",
+      "expired": "Die Anfrage ist abgelaufen",
+      "fee": "Fehler beim Berechnen der Gebühr. Die Anfrage wurde abgebrochen."
+    },
+    "feeLabel": "Gebühr",
+    "feeOverridesMessage": "Die dApp hat die Gebühren überschrieben",
+    "rejectButtonLabel": "Ablehnen",
+    "successContent": {
+      "doneButtonLabel": "Fertig",
+      "resultBoxLabel": "Ergebnis",
+      "subtitle": "Die dApp-Anfrage wurde erfolgreich verarbeitet",
+      "title": "Erfolgreiche dApp-Anfrage"
     },
     "unsupportedMethodError": "Die Methode {{method}} wird nicht unterstützt"
   },
   "dappPermissionContractDetails": {
-    "detailsLabel": "DETAILS",
-    "hashLabel": "HASH",
-    "methodNotFoundError": "Methode nicht im Vertrag gefunden",
-    "parametersLabel": "ANFRAGEPARAMETER",
-    "title": "Aufrufdetails"
+    "externalButtonLabel": "Auf der Explorer-Ansicht zeigen",
+    "hashDetailsHeaderLabel": "Hash",
+    "parametersDetailsLabel": "Anforderungsparameter"
   },
   "dappPermissionSignatureScope": {
+    "allowListDetailsHeaderLabel": "Allow list",
+    "explanationDetailsHeaderLabel": "Erläuterung",
+    "scopeDetailsHeaderLabel": "Umfang",
     "scopes": {
       "CalledByEntry": "Ihre Signatur kann nur vom aufrufenden Vertrag und nur für diese Transaktion verwendet werden.",
       "CustomContracts": "Ihre Signatur kann von den oben aufgeführten Verträgen verwendet werden.",
       "CustomGroups": "Ihre Signatur kann von den oben aufgeführten Gruppen verwendet werden.",
       "Global": "Ihre Signatur kann ohne Einschränkung mit jedem Vertrag verwendet werden.",
       "None": "Ihre Signatur ist nur für Gebührenzahlungen gültig.",
-      "WitnessRules": "Ihre Signatur ist nur für Transaktionen gültig, die den angegebenen Regeln und Bedingungen entsprechen, wie z. B. der aktuellen Script-Hash, Gruppe oder aufrufenden Script-Hash. Dies ermöglicht eine komplexere und ausdrucksstärkere Signaturbereichsdefinition, um Randfälle und potenzielle Reentrancy-Angriffe zu adressieren."
-    }
+      "WitnessRules": "Ihre Signatur ist nur gültig für Transaktionen, die den festgelegten Regeln und Bedingungen entsprechen, wie beispielsweise dem aktuellen Skript Hash, der Gruppe oder dem Aufruf Skript Hash. Dies ermöglicht komplexere und ausdruckskraftvollere Signaturbereiche, um Randfälle und potenzielle Re-Entrancy-Angriffe zu adressieren.",
+      "unknown": "Unbekannt"
+    },
+    "title": "Signaturscope"
   },
   "decryptKey": {
     "buttonContinueLabel": "Importieren",

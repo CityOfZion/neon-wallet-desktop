@@ -11,9 +11,9 @@ import { useLanguageSelector } from '@renderer/hooks/useSettingsSelector'
 
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
 
-import MdLaunch from '@renderer/assets/images/md-launch.svg?react'
 import MdOutlineAutoAwesome from '@renderer/assets/images/md-outline-auto-awesome.svg?react'
 import NeonWalletLogo from '@renderer/assets/images/neon-wallet-full.svg?react'
+import TbExternalLink from '@renderer/assets/images/tb-external-link.svg?react'
 
 import { LATEST_RELEASE_URL } from '@renderer/constants/urls'
 
@@ -64,7 +64,7 @@ const AutoUpdateNotes = () => {
           to={LATEST_RELEASE_URL}
           target="_blank"
           label={t('buttonLearnMoreLabel')}
-          rightIcon={<MdLaunch />}
+          rightIcon={<TbExternalLink />}
           colorSchema="gray"
           wide
           iconsOnEdge={false}

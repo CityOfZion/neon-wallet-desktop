@@ -1,9 +1,8 @@
 import { useEffect } from 'react'
 
+import { WalletKitHelper } from '@cityofzion/bs-multichain'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
-
-import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 
@@ -42,11 +41,11 @@ const DeeplinkManagerSetup = () => {
       if (realWCUri) {
         let wcUri: string | undefined
         const decodedUri = decodeURIComponent(realWCUri)
-        if (WalletConnectHelper.isValidURI(decodedUri)) {
+        if (WalletKitHelper.isValidURI(decodedUri)) {
           wcUri = decodedUri
         } else {
           const decodedBase64Uri = atob(decodedUri)
-          if (WalletConnectHelper.isValidURI(decodedBase64Uri)) {
+          if (WalletKitHelper.isValidURI(decodedBase64Uri)) {
             wcUri = decodedBase64Uri
           }
         }

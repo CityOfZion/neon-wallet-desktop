@@ -1,14 +1,15 @@
 import { useCallback } from 'react'
 
-import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
+import { hasWalletConnect } from '@cityofzion/blockchain-service'
+import { WalletKitHelper } from '@cityofzion/bs-multichain'
 import { cloneDeep } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
-import { WalletConnectHelper } from '@renderer/helpers/WalletConnectHelper'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
+import { walletKit } from '@renderer/libs/wallet-connect'
 import { authReducerActions } from '@renderer/store/reducers/auth'
 import { contactReducerActions } from '@renderer/store/reducers/contact'
 import { utilityReducerActions } from '@renderer/store/reducers/utility'
@@ -29,7 +30,6 @@ export function useBlockchainActions() {
   const dispatch = useAppDispatch()
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const { t } = useTranslation('common', { keyPrefix: 'account' })
-  const { disconnect, sessions } = useWalletConnectWallet()
 
   const createContacts = (contacts: IContactState[]) =>
     contacts.forEach(contact => dispatch(contactReducerActions.saveContact(contact)))
@@ -173,27 +173,48 @@ export function useBlockchainActions() {
 
   const deleteAccount = useCallback(
     async (account: IAccountState) => {
-      if (!currentLoginSessionRef.current) {
-        throw new Error('Login session not defined')
-      }
-
       dispatch(authReducerActions.deleteAccount(account))
 
-      await Promise.allSettled(
-        sessions.map(async session => {
-          const info = WalletConnectHelper.getAccountInformationFromSession(session)
-          if (info.address !== account.address || info.blockchain !== account.blockchain) return
+      const service = bsAggregator.blockchainServicesByName[account.blockchain]
+      if (!hasWalletConnect(service)) return
 
-          await disconnect(session)
-        })
+      const sessions = walletKit.getActiveSessions()
+      const accountSessions = WalletKitHelper.filterSessions(Object.values(sessions), {
+        addresses: [account.address],
+        chains: [service.walletConnectService.chain],
+      })
+      await Promise.allSettled(
+        accountSessions.map(session =>
+          walletKit.disconnectSession({ topic: session.topic, reason: WalletKitHelper.getError('USER_DISCONNECTED') })
+        )
       )
     },
-    [currentLoginSessionRef, disconnect, dispatch, sessions]
+    [dispatch]
   )
 
   const deleteWallet = useCallback(
-    (walletId: string) => {
-      dispatch(authReducerActions.deleteWallet(walletId))
+    async (wallet: IWalletState) => {
+      dispatch(authReducerActions.deleteWallet(wallet.id))
+
+      const sessions = walletKit.getActiveSessions()
+
+      const addresses: string[] = []
+      const chains: string[] = []
+
+      for (const account of wallet.accounts) {
+        const service = bsAggregator.blockchainServicesByName[account.blockchain]
+        if (!hasWalletConnect(service)) continue
+
+        addresses.push(account.address)
+        chains.push(service.walletConnectService.chain)
+      }
+
+      const accountSessions = WalletKitHelper.filterSessions(Object.values(sessions), { addresses, chains })
+      await Promise.allSettled(
+        accountSessions.map(session =>
+          walletKit.disconnectSession({ topic: session.topic, reason: WalletKitHelper.getError('USER_DISCONNECTED') })
+        )
+      )
     },
     [dispatch]
   )

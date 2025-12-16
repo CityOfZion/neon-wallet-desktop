@@ -1,4 +1,4 @@
-import { useMemo, useTransition } from 'react'
+import { useMemo } from 'react'
 
 import { useTranslation } from 'react-i18next'
 import { match, P } from 'ts-pattern'
@@ -11,6 +11,7 @@ import { TokenHelper } from '@renderer/helpers/TokenHelper'
 
 import { useBalance } from '@renderer/hooks/useBalances'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
+import { usePressOnce } from '@renderer/hooks/usePressOnce'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
@@ -28,7 +29,6 @@ const HideFraudulentTokenModal = () => {
   const { account, hash } = useModalState<TModalState<'hide-fraudulent-token'>>()
   const balanceQuery = useBalance(account, { showType: 'active' })
   const dispatch = useAppDispatch()
-  const [isHiding, startHidingTransition] = useTransition()
 
   const tokenBalance = useMemo(() => {
     const blockchain = balanceQuery.data?.blockchain
@@ -42,20 +42,16 @@ const HideFraudulentTokenModal = () => {
 
   const isNativeToken = useMemo(() => TokenHelper.isNativeToken(hash, account.blockchain), [hash, account])
 
+  const [isHiding, startHidingTransition] = usePressOnce(() => {
+    try {
+      dispatch(utilityReducerActions.toggleHiddenToken({ hash, blockchain: account.blockchain }))
+      modalErase()
+    } catch {
+      ToastHelper.error({ message: t('hideErrorMessage') })
+    }
+  })
+
   const isDisabled = isHiding || isNativeToken || !tokenBalance
-
-  const handleHide = () => {
-    if (isDisabled) return
-
-    startHidingTransition(() => {
-      try {
-        dispatch(utilityReducerActions.toggleHiddenToken({ hash, blockchain: account.blockchain }))
-        modalErase()
-      } catch {
-        ToastHelper.error({ message: t('hideErrorMessage') })
-      }
-    })
-  }
 
   return (
     <CenterModalLayout contentClassName="flex flex-col items-center px-0 gap-y-2 pb-6 m-0 pt-0 text-white" size="xs">
@@ -100,7 +96,7 @@ const HideFraudulentTokenModal = () => {
         loading={isHiding}
         disabled={isDisabled}
         rightIcon={<TbEyeOff aria-hidden />}
-        onClick={handleHide}
+        onClick={startHidingTransition}
       />
     </CenterModalLayout>
   )

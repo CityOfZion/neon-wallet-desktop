@@ -9,8 +9,8 @@ import { Separator } from '@renderer/components/Separator'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 import MdInfoOutline from '@renderer/assets/images/md-info-outline.svg?react'
-import MdLaunch from '@renderer/assets/images/md-launch.svg?react'
 import SumsubLogo from '@renderer/assets/images/sumsub-logo.svg?react'
+import TbExternalLink from '@renderer/assets/images/tb-external-link.svg?react'
 import UnlimitLogo from '@renderer/assets/images/unlimit-logo.svg?react'
 
 import { SUMSUB_TERMS_AND_CONDITIONS_LINK, UNLIMIT_USE_TERMS_LINK } from '@renderer/constants/urls'
@@ -38,7 +38,7 @@ const LinkItem = ({ title, to, linkLabel, svgImage }: TLinkItemProps) => (
       variant="text-slim"
       className="w-fit"
       iconsOnEdge={false}
-      rightIcon={<MdLaunch aria-hidden className="h-5 max-h-5 min-h-5 w-5 max-w-5 min-w-5" />}
+      rightIcon={<TbExternalLink aria-hidden className="h-5 max-h-5 min-h-5 w-5 max-w-5 min-w-5" />}
       clickableProps={{ className: 'text-xs' }}
     />
 

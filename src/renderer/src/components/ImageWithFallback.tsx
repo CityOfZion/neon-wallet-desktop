@@ -24,7 +24,7 @@ export const ImageWithFallback = ({ fallbackSrc, className, imgClassName, ...pro
 
   return (
     <div className={StyleHelper.mergeStyles('flex items-center justify-center', className)}>
-      {isLoading && <Loader className="h-4 min-h-4 w-4 min-w-4 text-gray-600" containerClassName="p-2" />}
+      {isLoading && <Loader className="h-full w-full text-gray-600" containerClassName="p-2" />}
 
       <img
         {...props}

@@ -1,6 +1,7 @@
 import { Fragment, useLayoutEffect, useState } from 'react'
 
-import { useWalletConnectWallet } from '@cityofzion/wallet-connect-sdk-wallet-react'
+import { hasWalletConnect } from '@cityofzion/blockchain-service'
+import { WalletKitHelper } from '@cityofzion/bs-multichain'
 import { useTranslation } from 'react-i18next'
 
 import { Button } from '@renderer/components/Button'
@@ -12,6 +13,7 @@ import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useCustomNetworksSelector, useSelectedNetworkProfileSelector } from '@renderer/hooks/useSettingsSelector'
+import { invalidateWalletConnectSessions } from '@renderer/hooks/useWalletConnectSessions'
 
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 
@@ -20,6 +22,7 @@ import TbPencil from '@renderer/assets/images/tb-pencil.svg?react'
 import TbPlus from '@renderer/assets/images/tb-plus.svg?react'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
+import { walletKit } from '@renderer/libs/wallet-connect'
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
 import type { TModalState } from '@shared/types/modal'
 
@@ -30,7 +33,6 @@ const NetworkSelectionModal = () => {
   const { blockchain } = useModalState<TModalState<'network-selection'>>()
   const { selectedNetworkProfile } = useSelectedNetworkProfileSelector()
   const { customNetworks } = useCustomNetworksSelector()
-  const { sessions, disconnect } = useWalletConnectWallet()
   const dispatch = useAppDispatch()
 
   const [selectedNetworkId, setSelectedNetworkId] = useState<string>()
@@ -49,8 +51,19 @@ const NetworkSelectionModal = () => {
   }
 
   const handleSave = async () => {
-    modalNavigate(-1)
-    await Promise.allSettled(sessions.map(session => disconnect(session)))
+    if (hasWalletConnect(service)) {
+      const sessions = walletKit.getActiveSessions()
+      const filteredSessions = WalletKitHelper.filterSessions(Object.values(sessions), {
+        chains: [service.walletConnectService.chain],
+      })
+
+      Promise.allSettled(
+        filteredSessions.map(session =>
+          walletKit.disconnectSession({ topic: session.topic, reason: WalletKitHelper.getError('USER_DISCONNECTED') })
+        )
+      ).then(() => invalidateWalletConnectSessions())
+    }
+
     dispatch(
       settingsReducerActions.editNetworkProfile({
         id: selectedNetworkProfile.id,
@@ -59,6 +72,8 @@ const NetworkSelectionModal = () => {
         },
       })
     )
+
+    modalNavigate(-1)
   }
 
   useLayoutEffect(() => {

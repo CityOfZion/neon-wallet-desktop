@@ -73,9 +73,6 @@
     "noContacts": "Nenhum contato",
     "search": "Pesquisar"
   },
-  "dappPermissionContextualMessage": {
-    "messageLabel": "Mensagem Contextual"
-  },
   "fieldActionsMenu": {
     "copy": "Copiar",
     "cut": "Cortar",

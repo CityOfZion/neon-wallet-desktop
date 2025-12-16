@@ -1,51 +1,59 @@
 import { useTranslation } from 'react-i18next'
 
-import { DappPermissionHeader } from '@renderer/components/DappPermissionHeader'
+import { DappHeader } from '@renderer/components/DappHeader'
+import { Details } from '@renderer/components/Details'
 
 import { useModalState } from '@renderer/hooks/useModalRouter'
 
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
 
+import TbCube3dSphere from '@renderer/assets/images/tb-cube-3d-sphere.svg?react'
+
 import type { TModalState } from '@shared/types/modal'
 
-const DappPermissionSignatureScopeModal = () => {
-  const { session, scope, allowedList } = useModalState<TModalState<'dapp-permission-signature-scope'>>()
+export const DappPermissionSignatureScopeModal = () => {
+  const { scope, allowedList, session } = useModalState<TModalState<'dapp-permission-signature-scope'>>()
   const { t } = useTranslation('modals', { keyPrefix: 'dappPermissionSignatureScope' })
 
   return (
     <CenterModalLayout contentClassName="px-0 flex flex-col pb-5 min-h-0">
-      <div className="flex min-h-0 flex-col overflow-y-auto pr-2 pl-5">
-        <DappPermissionHeader session={session} />
+      <div className="flex min-h-0 grow flex-col overflow-y-auto pr-2 pl-5">
+        <DappHeader proposerUri={session.peer.metadata.icons[0]} proposerName={session.peer.metadata.name} />
 
-        <p className="mt-9 mb-6 text-center text-2xl text-white">Signature scope</p>
+        <Details.Root className="mt-5">
+          <Details.Header
+            leftElement={<TbCube3dSphere aria-hidden />}
+            rightElement={<p className="text-sm font-semibold text-gray-100 capitalize">{scope}</p>}
+          >
+            <p className="text-sm text-white capitalize">{t('scopeDetailsHeaderLabel')}</p>
+          </Details.Header>
+        </Details.Root>
 
-        <div className="flex flex-col gap-2 text-sm text-gray-100">
-          <div className="flex flex-col gap-1">
-            <span className="text-xs font-bold">SCOPE</span>
+        {allowedList && (
+          <Details.Root className="mt-3">
+            <Details.Header>
+              <p className="text-sm text-white capitalize">{t('allowListDetailsHeaderLabel')}</p>
+            </Details.Header>
 
-            <div className="bg-asphalt flex min-w-0 justify-between gap-3 rounded-sm px-5 py-2.5">
-              <p className="min-w-0 wrap-break-word">{scope}</p>
-            </div>
-          </div>
+            <Details.HeaderSeparator />
 
-          {allowedList && (
-            <div className="flex flex-col gap-1">
-              <span className="text-xs font-bold">ALLOWED LIST</span>
+            <Details.Body>
+              <p className="min-w-0 text-sm wrap-break-word text-gray-100">{allowedList?.join(',\r\n')}</p>
+            </Details.Body>
+          </Details.Root>
+        )}
 
-              <div className="bg-asphalt flex min-w-0 justify-between gap-3 rounded-sm px-5 py-2.5">
-                <p className="min-w-0 wrap-break-word">{allowedList?.join(',\r\n')}</p>
-              </div>
-            </div>
-          )}
+        <Details.Root className="mt-3">
+          <Details.Header>
+            <p className="text-sm text-white capitalize">{t('explanationDetailsHeaderLabel')}</p>
+          </Details.Header>
 
-          <div className="flex flex-col gap-1">
-            <span className="text-xs font-bold">EXPLANATION</span>
+          <Details.HeaderSeparator />
 
-            <div className="bg-asphalt flex min-w-0 justify-between gap-3 rounded-sm px-5 py-2.5">
-              <p className="min-w-0 wrap-break-word">{t(`scopes.${scope}` as unknown as TemplateStringsArray)}</p>
-            </div>
-          </div>
-        </div>
+          <Details.Body>
+            <p className="min-w-0 text-sm wrap-break-word text-gray-100">{t(`scopes.${scope}`, t('scopes.unknown'))}</p>
+          </Details.Body>
+        </Details.Root>
       </div>
     </CenterModalLayout>
   )

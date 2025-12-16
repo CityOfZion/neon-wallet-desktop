@@ -1,5 +1,3 @@
-import { useTransition } from 'react'
-
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 
@@ -8,12 +6,13 @@ import { Swipe } from '@renderer/components/Swipe'
 
 import { TestHelper } from '@renderer/helpers/TestHelper'
 
+import { usePressOnce } from '@renderer/hooks/usePressOnce'
 import { useCurrencySelector, useIsFirstTimeSelector, useLanguageSelector } from '@renderer/hooks/useSettingsSelector'
 
 import { WelcomeLayout } from '@renderer/layouts/Welcome'
 
+import { persistor, setupStore, store, waitForBootstrap } from '@renderer/libs/redux'
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
-import { RootStore } from '@renderer/store/RootStore'
 
 const ForgottenPasswordConfirmPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'forgottenPasswordConfirm' })
@@ -21,29 +20,21 @@ const ForgottenPasswordConfirmPage = () => {
   const { language } = useLanguageSelector()
   const { currency } = useCurrencySelector()
   const { isFirstTime } = useIsFirstTimeSelector()
-  const [isCleaningData, startCleaningData] = useTransition()
+  const [isCleaningData, startCleaningData] = usePressOnce(async () => {
+    try {
+      await persistor.purge()
+      setupStore()
+      await waitForBootstrap()
 
-  const handleCleanData = async () => {
-    if (isCleaningData) return
+      store.dispatch(settingsReducerActions.setIsFirstTime(isFirstTime))
+      store.dispatch(settingsReducerActions.setLanguage(language))
+      store.dispatch(settingsReducerActions.setCurrency(currency))
 
-    startCleaningData(async () => {
-      try {
-        await RootStore.persistor.purge()
-
-        RootStore.setupStore()
-
-        await RootStore.waitForBootstrap()
-
-        RootStore.store.dispatch(settingsReducerActions.setIsFirstTime(isFirstTime))
-        RootStore.store.dispatch(settingsReducerActions.setLanguage(language))
-        RootStore.store.dispatch(settingsReducerActions.setCurrency(currency))
-
-        navigate('/forgotten-password/success')
-      } catch (error) {
-        console.error(error)
-      }
-    })
-  }
+      navigate('/forgotten-password/success')
+    } catch (error) {
+      console.error(error)
+    }
+  })
 
   return (
     <WelcomeLayout heading={t('title')} withBackButton className="flex-col justify-between">
@@ -60,7 +51,7 @@ const ForgottenPasswordConfirmPage = () => {
           text={t('swipe.text')}
           buttonAriaLabel={t('swipe.buttonAriaLabel')}
           isDisabled={isCleaningData}
-          onComplete={handleCleanData}
+          onComplete={startCleaningData}
           {...TestHelper.buildTestObject('forgotten-password-confirm')}
         />
       </div>

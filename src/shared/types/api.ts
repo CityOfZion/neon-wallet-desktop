@@ -1,5 +1,4 @@
 import { TBSAccount } from '@cityofzion/blockchain-service'
-import { TSession } from '@cityofzion/wallet-connect-sdk-wallet-react'
 import { OpenDialogOptions } from 'electron'
 
 import { TBlockchainServiceKey } from './blockchain'
@@ -10,7 +9,6 @@ import {
   TEncryptBasedEncryptedSecretParams,
   TEncryptBasedSecretParams,
   TGetAccountHardwareWalletGenericParams,
-  TGetStoreFromWCSession,
   TIpcMainAsyncListener,
   TIpcMainSyncListener,
   TIsConnectedAndUnlockedHardwareWalletGenericParams,
@@ -18,7 +16,6 @@ import {
 
 export type TMainApiListenersSync = {
   restore: TIpcMainSyncListener<undefined, void>
-  sendStoreFromWC: TIpcMainSyncListener<TGetStoreFromWCSession>
   encryptBasedEncryptedSecretSync: TIpcMainSyncListener<TEncryptBasedEncryptedSecretParams, string>
   decryptBasedEncryptedSecretSync: TIpcMainSyncListener<TDecryptBasedEncryptedSecretParams, string>
   encryptBasedOSSync: TIpcMainSyncListener<string, string>
@@ -59,15 +56,13 @@ export type TMainApiListenersAsync = {
     TGetAccountHardwareWalletGenericParams,
     TBSAccount<TBlockchainServiceKey>
   >
-
-  'hardwareWalletByUsb:connect': TIpcMainAsyncListener<
+  'hardwareWallet:connectByUsb': TIpcMainAsyncListener<
     TConnectHardwareWalletByUsbParams,
     TBSAccount<TBlockchainServiceKey>[]
   >
 }
 
 export type TMainApiSend = {
-  getStoreFromWC: TSession
   updateCompleted: undefined
   updateError: string
   deeplink: string

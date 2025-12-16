@@ -18,9 +18,9 @@ import { useAppDispatch } from '@renderer/hooks/useRedux'
 
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 
-import MdLaunch from '@renderer/assets/images/md-launch.svg?react'
 import MdRefresh from '@renderer/assets/images/md-refresh.svg?react'
 import TbCircleX from '@renderer/assets/images/tb-circle-x.svg?react'
+import TbExternalLink from '@renderer/assets/images/tb-external-link.svg?react'
 import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
 import TbReplace from '@renderer/assets/images/tb-replace.svg?react'
 import TbRosetteDiscountCheck from '@renderer/assets/images/tb-rosette-discount-check.svg?react'
@@ -133,8 +133,13 @@ const SwapDetailsModal = () => {
       <Separator className="mt-6 mb-8" />
 
       <Details.Root>
-        <Details.Header label={t('detailsHeaderLabel')} icon={<TbReceipt />}>
-          <span className="tet-sm text-orange grow text-end italic">{t('detailsHeaderDescription')}</span>
+        <Details.Header
+          rightElement={
+            <span className="text-orange grow text-end text-sm italic">{t('detailsHeaderDescription')}</span>
+          }
+          leftElement={<TbReceipt aria-hidden />}
+        >
+          {t('detailsHeaderLabel')}
         </Details.Header>
 
         <Details.Body>
@@ -298,7 +303,7 @@ const SwapDetailsModal = () => {
           flat
           wide
           iconsOnEdge={false}
-          rightIcon={<MdLaunch aria-hidden />}
+          rightIcon={<TbExternalLink aria-hidden />}
         />
       </div>
     </SideModalLayout>
