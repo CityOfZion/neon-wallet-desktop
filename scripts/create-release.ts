@@ -1,4 +1,4 @@
-import { exec } from 'child_process'
+import { exec, spawn } from 'child_process'
 import { format } from 'date-fns'
 import fs from 'fs/promises'
 import inquirer from 'inquirer'
@@ -9,6 +9,19 @@ import packageJson from '../package.json'
 import changelog from '../src/shared/locales/en/changelog.json'
 
 const execAsync = promisify(exec)
+
+function execWithOutput(command: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const child = spawn(command, { shell: true, stdio: 'inherit' })
+    child.on('close', code => {
+      if (code !== 0) {
+        reject(new Error(`Command failed with exit code ${code}`))
+      } else {
+        resolve()
+      }
+    })
+  })
+}
 
 async function verifyIfGitIsClean() {
   const { stdout } = await execAsync('git status --porcelain')
@@ -62,6 +75,9 @@ async function bumpVersion(npmCliBumpType: string) {
     newVersion = bumpedVersion
   } while (!newVersion)
 
+  await execAsync('git add .')
+  await execAsync(`git commit -m "Bump version to ${newVersion}" --no-verify`)
+
   return newVersion
 }
 
@@ -86,7 +102,7 @@ async function createOrUpdateChangelog(bumpedVersion: string, actualVersion: str
       default: JSON.stringify(
         {
           version: bumpedVersion,
-          date: format(new Date(), 'dd MMM yyyy'),
+          date: format(new Date(), 'yyyy-MM-dd'),
           changes: lastChangelog?.changes ?? [],
           url: `https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v${bumpedVersion}`,
         },
@@ -99,7 +115,7 @@ async function createOrUpdateChangelog(bumpedVersion: string, actualVersion: str
 
   const updatedChangelog = JSON.parse(value)
 
-  changelog.notes.unshift(updatedChangelog)
+  changelog.notes.push(updatedChangelog)
 
   await fs.writeFile(
     path.join(__dirname, '../src/shared/locales/en/changelog.json'),
@@ -107,7 +123,11 @@ async function createOrUpdateChangelog(bumpedVersion: string, actualVersion: str
     'utf-8'
   )
 
-  await execAsync('npm run translate')
+  await execWithOutput('npm run translate')
+  await execWithOutput(`npx eslint src/shared/locales/**/*.json --fix`)
+
+  await execAsync('git add .')
+  await execAsync(`git commit -m "Update changelog for v${bumpedVersion}" --no-verify`)
 }
 
 async function main() {
@@ -154,12 +174,8 @@ async function main() {
   }
 
   const bumpedVersion = await bumpVersion(npmCliBumpType)
-  await execAsync('git add .')
-  await execAsync(`git commit -m "Bump version to ${bumpedVersion}" --no-verify`)
 
   await createOrUpdateChangelog(bumpedVersion, packageJsonVersion)
-  await execAsync('git add .')
-  await execAsync(`git commit -m "Update changelog for v${bumpedVersion}" --no-verify`)
 
   await execAsync('git push origin HEAD --no-verify')
 

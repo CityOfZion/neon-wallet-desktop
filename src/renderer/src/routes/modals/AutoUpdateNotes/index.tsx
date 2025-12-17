@@ -26,7 +26,7 @@ const AutoUpdateNotes = () => {
   const { language } = useLanguageSelector()
 
   const releaseNotes = changelogT('notes', { returnObjects: true })
-  const latestRelease = releaseNotes[0]
+  const latestRelease = releaseNotes.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0]
 
   return (
     <CenterModalLayout contentClassName="flex flex-col w-full items-center justify-between" size="lg">
