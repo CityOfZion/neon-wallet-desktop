@@ -19,11 +19,12 @@ const SettingsReleaseNotesPage = () => {
   const { language } = useLanguageSelector()
 
   const releaseNotes = changelogT('notes', { returnObjects: true })
+  const sortedReleaseNotes = releaseNotes.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 
   return (
     <SettingsLayout title={t('title')} contentClassName="overflow-y-auto ">
       <ul className="flex flex-col">
-        {releaseNotes.map(item => (
+        {sortedReleaseNotes.map(item => (
           <li key={item.version} className="group">
             <div>
               <span className="mb-1 block text-xs text-gray-300">
