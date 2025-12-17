@@ -41,7 +41,9 @@ jobs:
     <<: *container_config
     steps:
       - prepare_linux
-      - run: npm run build:linux
+      - run:
+          command: npm run build:linux
+          no_output_timeout: 20m
       - store_artifacts:
           path: dist
           destination: build
@@ -78,7 +80,9 @@ jobs:
             setx METADATA_PATH $metadataPath
       - run: pip install setuptools
       - run: npm ci --timeout 1500000
-      - run: npm run build:win
+      - run:
+          command: npm run build:win
+          no_output_timeout: 20m
       - store_artifacts:
           path: dist
           destination: build
