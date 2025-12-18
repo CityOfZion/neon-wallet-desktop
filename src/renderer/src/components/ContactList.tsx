@@ -73,21 +73,21 @@ export const ContactList = ({
   const groupContactsByFirstLetter = useMemo(() => {
     let filteredContacts = cloneDeep(contacts)
 
-    if (blockchainFilter) {
-      filteredContacts = contacts.filter(contact =>
-        contact.addresses.some(address => address.blockchain === blockchainFilter)
-      )
-    }
-
     const newSearch = search?.toLocaleLowerCase()?.trim()
 
-    if (newSearch)
-      filteredContacts = contacts.filter(contact =>
-        contact.name
-          .toLocaleLowerCase()
-          .trim()
-          .includes(newSearch as string)
-      )
+    filteredContacts = filteredContacts.filter(contact => {
+      if (!contact.name?.trim()) return false
+
+      if (blockchainFilter && !contact.addresses.some(address => address.blockchain === blockchainFilter)) {
+        return false
+      }
+
+      if (newSearch && !contact.name.toLocaleLowerCase().trim().includes(newSearch)) {
+        return false
+      }
+
+      return true
+    })
 
     const sortedContacts = filteredContacts.sort((a, b) => a.name[0].localeCompare(b.name[0]))
 
