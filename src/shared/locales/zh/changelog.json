@@ -177,9 +177,17 @@
       "version": "3.0.0"
     },
     {
-      "date": "2025-12-17",
-      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.8.4-rc.0",
-      "version": "3.8.4-rc.0"
+      "changes": [
+        "语言支持 - 葡萄牙语（巴西）",
+        "语言支持 - 德语",
+        "性能改进",
+        "新通知 - 备份提醒",
+        "增强的密码保护",
+        "小错误修复"
+      ],
+      "date": "2025-12-22",
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.9.0",
+      "version": "3.9.0"
     }
   ],
   "versionLabel": "版本 v{{version}}"
