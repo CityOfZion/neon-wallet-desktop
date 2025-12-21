@@ -1,5 +1,7 @@
 import { createPortal } from 'react-dom'
 
+import { Fragment } from 'react/jsx-runtime'
+
 import { useSelectedNetworkProfileSelector } from '@renderer/hooks/useSettingsSelector'
 
 import { DEFAULT_NETWORK_PROFILE_ID } from '@renderer/constants/networks'
@@ -7,7 +9,7 @@ import { DEFAULT_NETWORK_PROFILE_ID } from '@renderer/constants/networks'
 const Banner = () => {
   const { selectedNetworkProfile } = useSelectedNetworkProfileSelector()
 
-  if (selectedNetworkProfile.id === DEFAULT_NETWORK_PROFILE_ID) return <></>
+  if (selectedNetworkProfile.id === DEFAULT_NETWORK_PROFILE_ID) return <Fragment />
 
   return (
     <div className="border-purple absolute top-[var(--drag-region-height)] left-0 z-50 flex w-screen justify-center border-t-3">

@@ -7,8 +7,8 @@ import { TestHelper } from '@renderer/helpers/TestHelper'
 import MdOutlineAutoAwesome from '@renderer/assets/images/md-outline-auto-awesome.svg?react'
 import TbRosetteDiscountCheck from '@renderer/assets/images/tb-rosette-discount-check.svg?react'
 
-const LoginPasswordSecuritySetupStep3Page = () => {
-  const { t } = useTranslation('pages', { keyPrefix: 'welcome.securitySetup.step3' })
+export const LoginPasswordSecuritySetupStep3Content = () => {
+  const { t } = useTranslation('pages', { keyPrefix: 'welcome.securitySetup.completedStep' })
 
   return (
     <div className="flex w-full grow flex-col items-center justify-between">
@@ -20,7 +20,7 @@ const LoginPasswordSecuritySetupStep3Page = () => {
 
       <Link
         label={t('buttonContinueLabel')}
-        to="/wallets"
+        to="/wallets/overview"
         className="w-64"
         rightIcon={<MdOutlineAutoAwesome />}
         iconsOnEdge={false}
@@ -29,5 +29,3 @@ const LoginPasswordSecuritySetupStep3Page = () => {
     </div>
   )
 }
-
-export default LoginPasswordSecuritySetupStep3Page

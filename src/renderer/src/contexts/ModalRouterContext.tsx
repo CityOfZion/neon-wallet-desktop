@@ -3,8 +3,6 @@ import { createPortal } from 'react-dom'
 
 import { AnimatePresence, motion } from 'motion/react'
 
-import { ScreenLoader } from '@renderer/components/ScreenLoader'
-
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
 import type { THistory, TModalRouterContextValue, TModalRouterProviderProps, TRoute } from '@shared/types/modal'
@@ -134,7 +132,7 @@ export const ModalRouterProvider = ({ router, children }: TModalRouterProviderPr
                     isFocused={histories[histories.length - 1]?.id === groupHistory?.id}
                     isGroupFocused={index === groupHistories.length - 1}
                   >
-                    <Suspense fallback={<ScreenLoader />}>
+                    <Suspense fallback={null}>
                       <groupHistory.route.element />
                     </Suspense>
                   </ModalRouterCurrentHistoryProvider>

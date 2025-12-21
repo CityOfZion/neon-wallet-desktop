@@ -1,3 +1,4 @@
+import { Fragment } from 'react/jsx-runtime'
 import { useTranslation } from 'react-i18next'
 
 import { Button } from '@renderer/components/Button'
@@ -148,7 +149,7 @@ const PersistAccountModal = () => {
 
       {modalStateAccount && (
         <div className="mt-8 flex flex-col">
-          <>
+          <Fragment>
             <Separator />
             <p className="mt-4 text-xs font-bold text-gray-300 uppercase">{t('deleteAccountTitle')}</p>
             <span className="mt-2 text-xs text-white">{t('deleteAccountSubtext')}</span>
@@ -162,7 +163,7 @@ const PersistAccountModal = () => {
               colorSchema="error"
               flat
             />
-          </>
+          </Fragment>
         </div>
       )}
     </SideModalLayout>

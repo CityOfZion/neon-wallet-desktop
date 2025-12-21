@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+import { AnimatePresence, motion } from 'motion/react'
 import { QRCodeSVG } from 'qrcode.react'
 import { useTranslation } from 'react-i18next'
 
@@ -43,44 +44,53 @@ export const ReceivePageContent = ({ account }: TProps) => {
           <GreyAccountSelect onSelect={setSelectedAccount} selectedAccount={selectedAccount} />
         </ActionStep>
 
-        <div className="mt-2 flex w-full flex-col items-center rounded-sm bg-gray-700/60 px-3">
-          <div className="my-2.5 flex w-full justify-between">
-            <div className="flex items-center gap-3">
-              <TbStepInto aria-hidden className="text-blue h-5 w-5" />
-              <span className="font-bold">{t('yourReceivingAddress')}</span>
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={selectedAccount?.address || 'no-account'}
+            initial={{ opacity: 0, scale: 0.98, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.98, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className="mt-2 flex w-full flex-col items-center rounded-sm bg-gray-700/60 px-3"
+          >
+            <div className="my-2.5 flex w-full justify-between">
+              <div className="flex items-center gap-3">
+                <TbStepInto aria-hidden className="text-blue h-5 w-5" />
+                <span className="font-bold">{t('yourReceivingAddress')}</span>
+              </div>
+
+              {!selectedAccount && (
+                <div className="flex items-center">
+                  <span className="mr-3 text-gray-300">{t('selectAccountToGenerateCode')}</span>
+                </div>
+              )}
             </div>
 
-            {!selectedAccount && (
-              <div className="flex items-center">
-                <span className="mr-3 text-gray-300">{t('selectAccountToGenerateCode')}</span>
-              </div>
-            )}
-          </div>
+            <Separator />
 
-          <Separator />
+            <Input
+              value={selectedAccount?.address ?? ''}
+              compacted
+              containerClassName="px-10 mt-4"
+              placeholder={t('addressInputHint')}
+              readOnly
+              copyable={!!selectedAccount?.address}
+            />
 
-          <Input
-            value={selectedAccount?.address ?? ''}
-            compacted
-            containerClassName="px-10 mt-4"
-            placeholder={t('addressInputHint')}
-            readOnly
-            copyable={!!selectedAccount?.address}
-          />
-
-          <div
-            className={StyleHelper.mergeStyles('my-6 rounded-sm border-4', {
-              'border-white': selectedAccount?.address,
-              'border-gray-700 bg-gray-800 p-4': !selectedAccount?.address,
-            })}
-          >
-            {selectedAccount?.address ? (
-              <QRCodeSVG id="QRCode" size={172} value={selectedAccount?.address} includeMargin />
-            ) : (
-              <TbQrcode aria-hidden className="size-35 text-green-700" />
-            )}
-          </div>
-        </div>
+            <div
+              className={StyleHelper.mergeStyles('my-6 rounded-sm border-4', {
+                'border-white': selectedAccount?.address,
+                'border-gray-700 bg-gray-800 p-4': !selectedAccount?.address,
+              })}
+            >
+              {selectedAccount?.address ? (
+                <QRCodeSVG id="QRCode" size={172} value={selectedAccount?.address} includeMargin />
+              ) : (
+                <TbQrcode aria-hidden className="size-35 text-green-700" />
+              )}
+            </div>
+          </motion.div>
+        </AnimatePresence>
       </div>
 
       <Button

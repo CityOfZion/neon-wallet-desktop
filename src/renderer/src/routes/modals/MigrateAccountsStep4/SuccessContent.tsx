@@ -21,7 +21,7 @@ export const SuccessContent = ({ accounts }: TProps) => {
 
   const handleView = () => {
     modalNavigate(-1)
-    navigate(`/wallets/${accounts[0].id}/overview`)
+    navigate('/wallets/overview', { state: { account: accounts[0] } })
   }
 
   return (

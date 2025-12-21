@@ -7,12 +7,12 @@ import { ConnectionsTable } from '@renderer/components/ConnectionsTable'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useWalletConnectSessions } from '@renderer/hooks/useWalletConnectSessions'
 
-import { AccountDetailsLayout } from '@renderer/layouts/AccountDetailsLayout'
-
 import TbPlugX from '@renderer/assets/images/tb-plug-x.svg?react'
 import TbPlus from '@renderer/assets/images/tb-plus.svg?react'
 
 import { IAccountState } from '@shared/types/store'
+
+import { AccountDetailsLayout } from '../AccountDetailsLayout'
 
 type TOutletContext = {
   account: IAccountState

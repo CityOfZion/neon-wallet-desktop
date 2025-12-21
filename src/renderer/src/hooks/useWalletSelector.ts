@@ -1,4 +1,9 @@
-import { useCallback } from 'react'
+import { useCallback, useRef } from 'react'
+
+import { useSelector } from 'react-redux'
+
+import type { TRootState } from '@renderer/types/redux'
+import type { IWalletState } from '@shared/types/store'
 
 import { useCurrentLoginSessionSelector } from './useAuthSelector'
 import { createAppSelector, useAppSelector } from './useRedux'
@@ -17,6 +22,22 @@ export const useWalletsSelector = () => {
     wallets: value,
     walletsRef: ref,
   }
+}
+
+export const useWalletsMapSelector = () => {
+  const walletsMapRef = useRef<Map<string, IWalletState>>(new Map())
+
+  useSelector((state: TRootState) => {
+    const wallets = selectWallets(state)
+
+    walletsMapRef.current.clear()
+
+    wallets.forEach(wallet => {
+      walletsMapRef.current.set(wallet.id, wallet)
+    })
+  })
+
+  return { walletsMapRef }
 }
 
 export const useWalletsUtils = () => {

@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router'
 
 import { Button } from '@renderer/components/Button'
 
@@ -13,18 +12,16 @@ import type { TModalState } from '@shared/types/modal'
 
 const BuyAndSellTokensLeaveAlertModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'buyAndSellTokensLeaveAlert' })
-  const navigate = useNavigate()
   const { modalErase } = useModalNavigate()
-  const { nextUrl, setCanNavigate } = useModalState<TModalState<'buy-and-sell-tokens-leave-alert'>>()
+  const { onContinue } = useModalState<TModalState<'buy-and-sell-tokens-leave-alert'>>()
 
   const handleClose = () => {
     modalErase()
   }
 
   const handleContinue = () => {
-    setCanNavigate(true)
     modalErase()
-    navigate(nextUrl)
+    onContinue()
   }
 
   return (

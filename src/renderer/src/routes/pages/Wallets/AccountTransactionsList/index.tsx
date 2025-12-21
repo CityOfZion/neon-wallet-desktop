@@ -6,12 +6,11 @@ import { TransactionActivityList } from '@renderer/components/TransactionActivit
 
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 
-import { AccountDetailsLayout } from '@renderer/layouts/AccountDetailsLayout'
-
 import TbFileExport from '@renderer/assets/images/tb-file-export.svg?react'
 
 import { IAccountState } from '@shared/types/store'
 
+import { AccountDetailsLayout } from '../AccountDetailsLayout'
 import { CommonAccountActions } from '../CommonAccountActions'
 
 type TOutletContext = {

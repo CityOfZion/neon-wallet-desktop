@@ -1,4 +1,4 @@
-import { cloneElement } from 'react'
+import { cloneElement, Fragment } from 'react'
 
 import { useTranslation } from 'react-i18next'
 import { match, P } from 'ts-pattern'
@@ -112,13 +112,13 @@ const VoteNeo3CandidateDetailsModal = () => {
 
         <div className="flex w-full grow flex-col gap-y-1">
           {description && (
-            <>
+            <Fragment>
               <Separator containerClassName="mb-4" />
 
               <strong className="w-full text-xs font-semibold text-gray-100 uppercase">{t('descriptionLabel')}</strong>
 
               <p className="w-full text-xs">{description}</p>
-            </>
+            </Fragment>
           )}
         </div>
 

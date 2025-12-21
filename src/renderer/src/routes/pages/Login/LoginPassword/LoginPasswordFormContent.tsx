@@ -12,6 +12,8 @@ import { TestHelper } from '@renderer/helpers/TestHelper'
 import { useActions } from '@renderer/hooks/useActions'
 import { useLogin } from '@renderer/hooks/useLogin'
 
+import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
+
 type TFormData = {
   password: string
 }
@@ -38,7 +40,10 @@ export const LoginPasswordFormContent = () => {
   const handleSubmit = async (data: TFormData) => {
     try {
       await loginWithPassword(data.password)
-      navigate('/wallets')
+      navigate('/wallets/overview')
+
+      // Improve UX
+      await SharedUtilsHelper.sleep(2000)
     } catch {
       setError('password', t('invalidPassword'))
     }
@@ -78,7 +83,7 @@ export const LoginPasswordFormContent = () => {
 
       <Button
         label={t('buttonLoginLabel')}
-        className="w-[250px]"
+        className="mt-auto w-[250px]"
         variant="contained"
         type="submit"
         disabled={!actionState.isValid || actionState.isActing}

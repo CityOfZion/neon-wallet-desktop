@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef } from 'react'
 
 import { BSBigNumberHelper, isCalculableFee, TIntentTransferParam } from '@cityofzion/blockchain-service'
 import { lte } from 'lodash'
-import { AnimatePresence } from 'motion/react'
+import { AnimatePresence, motion } from 'motion/react'
 import { useTranslation } from 'react-i18next'
 
 import { ActionStep } from '@renderer/components/ActionStep'
@@ -111,6 +111,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
   const isCalculatingForm = isCalculatingMaxAmount || actionData.isCalculatingFee
   const isAccountDisabled = !actionData.selectedAccount || isCalculatingForm
   const isAmountsLoading = actionData.recipients.some(recipient => !!recipient.isAmountLoading)
+  const isMultiTransfer = actionData.recipients.length > 1
 
   const getSendFields = () => {
     if (
@@ -586,7 +587,10 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
 
       <Separator />
 
-      <div className="my-2 flex min-h-0 w-full max-w-133 grow flex-col items-center overflow-auto px-5 py-8">
+      <div
+        className="my-2 flex min-h-0 w-full max-w-133 grow flex-col items-center overflow-auto px-5 py-8"
+        style={{ scrollbarGutter: 'stable' }}
+      >
         <ActionStep
           className="rounded-sm bg-gray-700/60 px-4"
           title={t('sourceAccountLabel')}
@@ -602,21 +606,32 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
         <ActionStepSeparator />
 
         <div className="relative mt-2 flex w-full flex-col gap-3">
-          <AnimatePresence>
+          <AnimatePresence initial={false} mode="popLayout">
             {actionData.recipients.map((recipient, index) => (
-              <SendRecipient
+              <motion.div
                 key={recipient.id}
-                onRemoveRecipient={() => handleRemoveRecipient(recipient.id)}
-                onUpdateRecipient={updatedRecipient => handleUpdateRecipient(recipient.id, updatedRecipient)}
-                order={index + 1}
-                selectedAccount={actionData.selectedAccount}
-                recipient={recipient}
-                removable={actionData.recipients.length > 1}
-                balance={balanceQuery}
-                isLoadingMaxAmount={actionData.maxAmountRecipientId === recipient.id}
-                isDisabledMaxAmount={isCalculatingForm}
-                onMaxAmount={handleMaxAmount}
-              />
+                layout
+                initial={isMultiTransfer ? { opacity: 0, y: -20, scale: 0.95 } : false}
+                animate={isMultiTransfer ? { opacity: 1, y: 0, scale: 1 } : false}
+                exit={isMultiTransfer ? { opacity: 0, y: -20, scale: 0.95 } : undefined}
+                transition={{
+                  duration: 0.2,
+                  layout: { duration: 0.2 },
+                }}
+              >
+                <SendRecipient
+                  onRemoveRecipient={() => handleRemoveRecipient(recipient.id)}
+                  onUpdateRecipient={updatedRecipient => handleUpdateRecipient(recipient.id, updatedRecipient)}
+                  order={index + 1}
+                  selectedAccount={actionData.selectedAccount}
+                  recipient={recipient}
+                  removable={isMultiTransfer}
+                  balance={balanceQuery}
+                  isLoadingMaxAmount={actionData.maxAmountRecipientId === recipient.id}
+                  isDisabledMaxAmount={isCalculatingForm}
+                  onMaxAmount={handleMaxAmount}
+                />
+              </motion.div>
             ))}
           </AnimatePresence>
         </div>
@@ -633,7 +648,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
           onClick={handleAddRecipient}
         />
 
-        {actionData.selectedAccount && !service?.isMultiTransferSupported && actionData.recipients.length > 1 && (
+        {actionData.selectedAccount && !service?.isMultiTransferSupported && isMultiTransfer && (
           <Banner
             type="warning"
             className="mt-2 w-full"

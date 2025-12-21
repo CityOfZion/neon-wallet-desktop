@@ -1,4 +1,5 @@
 import { BSNeo3Constants } from '@cityofzion/bs-neo3'
+import { Fragment } from 'react/jsx-runtime'
 import { useTranslation } from 'react-i18next'
 
 import { Link } from '@renderer/components/Link'
@@ -45,7 +46,7 @@ const VoteNeo3SuccessModal = () => {
         <h3 className="mt-2 text-center text-lg font-medium">{t('subtitle')}</h3>
 
         {!!neoAmount && (
-          <>
+          <Fragment>
             <strong className="mt-4 font-semibold text-gray-100 uppercase">{t('listLabel')}</strong>
 
             <ul className="flex flex-col gap-y-3 rounded-sm bg-gray-700/60 px-4 py-3">
@@ -83,7 +84,8 @@ const VoteNeo3SuccessModal = () => {
             <div className="mb-8 flex grow items-end">
               <Link
                 label={t('viewTransactionButtonLabel')}
-                to={`/wallets/${neo3Account.id}/transactions`}
+                to="/wallets/transactions"
+                state={{ account: neo3Account }}
                 className="mx-auto mt-6 w-full max-w-64"
                 flat
                 wide
@@ -92,7 +94,7 @@ const VoteNeo3SuccessModal = () => {
                 onClick={modalEraseWrapper()}
               />
             </div>
-          </>
+          </Fragment>
         )}
       </div>
     </CenterModalLayout>

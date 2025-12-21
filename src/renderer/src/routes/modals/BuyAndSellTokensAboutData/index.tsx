@@ -36,10 +36,10 @@ const LinkItem = ({ title, to, linkLabel, svgImage }: TLinkItemProps) => (
       target="_blank"
       colorSchema="neon"
       variant="text-slim"
+      flat
       className="w-fit"
       iconsOnEdge={false}
-      rightIcon={<TbExternalLink aria-hidden className="h-5 max-h-5 min-h-5 w-5 max-w-5 min-w-5" />}
-      clickableProps={{ className: 'text-xs' }}
+      rightIcon={<TbExternalLink aria-hidden />}
     />
 
     <Separator />

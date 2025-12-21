@@ -1,61 +1,33 @@
 {
   "buyAndSellTokens": {
-    "buyAndSellTokensAccordionAccounts": {
-      "labels": {
-        "copyAddress": "Copy address"
+    "aboutDataButtonLabel": "About your data",
+    "buyTokensTabLabel": "Buy tokens",
+    "copyAddressButtonLabel": "Copy address",
+    "depositButtonLabel": "Make a deposit",
+    "helpButtonLabel": "Need help? Chat with us",
+    "howItWorks": {
+      "buyTokens": {
+        "alert": "Ensure that the account you select is compatible with the network of your purchased token!",
+        "kyc": "<1>Once the KYC process is complete:</1> You will need to provide a destination address for your tokens. From the 'Wallets & Accounts' panel, copy the destination address of your desired Neon account.",
+        "text": "<1>This process uses an embedded widget.</1> When buying tokens, some personal data might be requested for KYC purposes. <2>Larger sales require a greater amount of KYC data.</2>"
       },
-      "title": "Your wallet(s) & account(s)"
+      "description": "Buy and sell tokens without relying on an exchange! Neon provides an effortless and secure way to buy and sell digital assets using fiat money.",
+      "observation": "After the transfer has been completed, your new tokens will take a few moments to arrive.",
+      "sellTokens": {
+        "alert": "Deposit transactions need to be sent from the <1>same address</1> used in the widget!",
+        "kyc": "<1>Once the KYC process is complete:</1> You will need to send your tokens to the deposit address using the ‘Make a Deposit’ button.  Please ensure that you transfer the correct amount of tokens to the deposit address! You can also copy a destination address of your desired Neon account, from the 'Wallets & Accounts' panel.",
+        "text": "<1>This process uses an embedded widget.</1> When selling tokens, some personal data might be requested for KYC purposes. <2>Larger sales require a greater amount of KYC data.</2>"
+      },
+      "title": "How does it work"
     },
-    "buyAndSellTokensLayout": {
-      "buttons": {
-        "aboutData": "About your data",
-        "help": "Need help? Chat with us",
-        "walletsAndAccounts": "Wallets & Accounts"
-      },
-      "howWorks": {
-        "description": "Buy and sell tokens without relying on an exchange! Neon provides an effortless and secure way to buy and sell digital assets using fiat money.",
-        "title": "How does it work?"
-      },
-      "labels": {
-        "walletsAndAccounts": {
-          "closed": "Wallets & Accounts are closed",
-          "opened": "Wallets & Accounts are opened"
-        }
-      },
-      "processes": {
-        "all": {
-          "observation": "After the transfer has been completed, your new tokens will take a few moments to arrive."
-        },
-        "buyTokens": {
-          "alert": "Ensure that the account you select is compatible with the network of your purchased token!",
-          "kyc": "<1>Once the KYC process is complete:</1> You will need to provide a destination address for your tokens. From the 'Wallets & Accounts' panel, copy the destination address of your desired Neon account.",
-          "text": "<1>This process uses an embedded widget.</1> When buying tokens, some personal data might be requested for KYC purposes. <2>Larger sales require a greater amount of KYC data.</2>"
-        },
-        "sellTokens": {
-          "alert": "Deposit transactions need to be sent from the <1>same address</1> used in the widget!",
-          "kyc": "<1>Once the KYC process is complete:</1> You will need to send your tokens to the deposit address using the ‘Make a Deposit’ button.  Please ensure that you transfer the correct amount of tokens to the deposit address! You can also copy a destination address of your desired Neon account, from the 'Wallets & Accounts' panel.",
-          "text": "<1>This process uses an embedded widget.</1> When selling tokens, some personal data might be requested for KYC purposes. <2>Larger sales require a greater amount of KYC data.</2>"
-        }
-      },
-      "tabs": {
-        "buyTokens": "Buy tokens",
-        "sellTokens": "Sell tokens"
-      }
-    },
-    "buyTokensContent": {
-      "buttons": {
-        "restart": "Restart"
-      }
-    },
-    "notConfigured": "The Buy & Sell Tokens aren't configured",
-    "sellTokensContent": {
-      "buttons": {
-        "deposit": "Make deposit",
-        "restart": "Restart"
-      },
-      "error": "There is an error with Sell Tokens, please, try again"
-    },
-    "title": "Buy & Sell Tokens"
+    "restartButtonLabel": "Restart",
+    "sellTokensTabLabel": "Sell tokens",
+    "title": "Buy & Sell Tokens",
+    "walletsAndAccountsButtonLabel": "Wallets & Accounts",
+    "walletsAndAccountsClosedButtonLabel": "Wallets & Accounts are closed",
+    "walletsAndAccountsContentTitle": "Your wallet(s) & account(s)",
+    "walletsAndAccountsOpenedButtonLabel": "Wallets & Accounts are opened",
+    "widgetError": "There was an error loading the widget. Please try again later or contact support."
   },
   "contacts": {
     "addresses": "Addresses",
@@ -623,8 +595,16 @@
     },
     "continue": "Continue",
     "importWallet": {
-      "migrationLabel": "Locate your migration file",
-      "step3": {
+      "completedStep": {
+        "label": "Complete",
+        "openWalletButtonLabel": "Open your wallet",
+        "title": "Wallet imported successfully!"
+      },
+      "importStep": {
+        "label": "Import",
+        "title": "Please be patient, we are now setting up your wallet"
+      },
+      "keyStep": {
         "formTitle": "Enter an address, encrypted key, private key, mnemonic or locate backup file",
         "importEncryptedDescription": "Select the desired blockchain for your new account",
         "importEncryptedSubtitle": "Your encrypted key has been recognised, please complete the below fields to continue.",
@@ -633,37 +613,35 @@
         "importSuccess": "Compatible file identified!",
         "inputPlaceholder": "Enter an address, key or mnemonic…",
         "invalidAddress": "Invalid address",
+        "label": "Add details or locate file",
         "locateFileButtonLabel": "Locate file",
         "migrationFormTitle": "Browse your computer to find a migration file",
         "neon2Warning": "This file is created during the migration process in your Neon 2 wallet. Start the process in Neon 2 to create the file.",
         "unexpectedError": "Unexpected error"
       },
-      "step4": {
-        "title": "Please be patient, we are now setting up your wallet"
+      "migrationStep": {
+        "label": "Locate your migration file"
       },
-      "step5": {
-        "openWalletButtonLabel": "Open your wallet",
-        "title": "Wallet imported successfully!"
-      },
-      "steps": ["Create Password", "Confirm Password", "Add details or locate file", "Import", "Complete"],
       "title": "Import a wallet"
     },
     "securitySetup": {
-      "step1": {
+      "completedStep": {
+        "buttonContinueLabel": "Open your wallet",
+        "label": "Complete",
+        "title": "Password created successfully!"
+      },
+      "confirmPasswordStep": {
+        "confirmPasswordError": "Passwords do not match",
+        "confirmPasswordPlaceholder": "Confirm your password…",
+        "formTitle": "Please confirm your password",
+        "label": "Confirm Password"
+      },
+      "passwordStep": {
         "formTitle": "Please create a password to secure your wallet",
+        "label": "Create Password",
         "passwordError": "Password must be at least {{length}} characters long",
         "passwordPlaceholder": "Create a password…"
       },
-      "step2": {
-        "confirmPasswordError": "Passwords do not match",
-        "confirmPasswordPlaceholder": "Confirm your password…",
-        "formTitle": "Please confirm your password"
-      },
-      "step3": {
-        "buttonContinueLabel": "Open your wallet",
-        "title": "Password created successfully!"
-      },
-      "steps": ["Create Password", "Confirm Password", "Complete"],
       "title": "Securing your new wallet"
     },
     "title": "Welcome to Neon Wallet"

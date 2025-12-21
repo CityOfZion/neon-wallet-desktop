@@ -1,4 +1,4 @@
-import { type JSX, useCallback, useEffect, useState } from 'react'
+import { Fragment, type JSX, useCallback, useEffect, useState } from 'react'
 
 import { QRCodeSVG } from 'qrcode.react'
 import { useTranslation } from 'react-i18next'
@@ -40,7 +40,7 @@ export const ButtonDownloadPasswordQRCode = ({ label, variant, leftIcon, onDownl
   }, [decryptPassword])
 
   return (
-    <>
+    <Fragment>
       {decryptedPassword && (
         <QRCodeSVG id="QRCode" size={172} value={decryptedPassword} includeMargin className="hidden" />
       )}
@@ -53,6 +53,6 @@ export const ButtonDownloadPasswordQRCode = ({ label, variant, leftIcon, onDownl
         loading={loading}
         onClick={handleDownload}
       />
-    </>
+    </Fragment>
   )
 }

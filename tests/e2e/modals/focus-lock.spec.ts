@@ -9,7 +9,6 @@ test.describe('Focus lock', () => {
 
     await createNewWallet(window)
 
-    await window.getByTestId('sidebar-link-wallets').click()
     await window.getByTestId('more-button').click()
     await window.getByTestId('connect-hardware-wallet-button').click()
 

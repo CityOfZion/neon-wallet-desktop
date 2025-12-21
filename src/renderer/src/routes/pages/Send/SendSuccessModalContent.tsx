@@ -54,7 +54,7 @@ export const SendSuccessModalContent = ({ transactions, selectedAccount }: TProp
         iconsOnEdge={false}
         onClick={() => {
           modalNavigate(-1)
-          navigate(`/wallets/${selectedAccount.id}/transactions`)
+          navigate('/wallets/transactions', { state: { account: selectedAccount } })
         }}
       />
     </div>

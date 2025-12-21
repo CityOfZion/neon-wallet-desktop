@@ -1,4 +1,6 @@
-import { cloneElement } from 'react'
+import { cloneElement, type ComponentProps } from 'react'
+
+import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import { ACCOUNT_COLOR_SKINS, ACCOUNT_LOCAL_SKINS } from '@renderer/constants/skins'
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
@@ -7,7 +9,7 @@ import { IAccountState, TNftSkin } from '@shared/types/store'
 import { BlockchainIcon } from './BlockchainIcon'
 type TProps = {
   account: IAccountState
-}
+} & ComponentProps<'div'>
 
 type TAccountBlockchainCircleProps = {
   blockchain: TBlockchainServiceKey
@@ -21,13 +23,16 @@ const AccountBlockchainCircle = ({ blockchain }: TAccountBlockchainCircleProps) 
   </div>
 )
 
-const AccountIconColor = ({ account }: TProps) => {
+const AccountIconColor = ({ account, className, ...props }: TProps) => {
   const color = ACCOUNT_COLOR_SKINS.find(({ id }) => id === account.skin.id)?.color
 
   if (!color) return null
 
   return (
-    <div className={`relative flex h-full w-full items-center justify-center ${color}`}>
+    <div
+      className={StyleHelper.mergeStyles(`relative flex h-full w-full items-center justify-center`, color, className)}
+      {...props}
+    >
       <AccountBlockchainCircle blockchain={account.blockchain} />
     </div>
   )

@@ -1,10 +1,14 @@
-import { Fragment, lazy, Suspense } from 'react'
+import { cloneElement, lazy, Suspense } from 'react'
 
-import { Navigate, Outlet, useLocation } from 'react-router'
+import { AnimatePresence } from 'motion/react'
+import { Navigate, useLocation, useMatch, useOutlet } from 'react-router'
 
 import { LazyHelper } from '@renderer/helpers/LazyHelper'
 
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
+import { useShowSideBarSelector } from '@renderer/hooks/useSettingsSelector'
+
+import { Sidebar } from './Sidebar'
 
 const CustomProfileBanner = lazy(() => import('@renderer/components/CustomProfileBanner'))
 const HardwareWalletManagerSetup = LazyHelper.delayedLazy(() => import('./HardwareWalletManagerSetup'), 0)
@@ -16,14 +20,20 @@ const WalletTasksManagerSetup = LazyHelper.delayedLazy(() => import('./WalletTas
 
 const PrivatePage = () => {
   const { currentLoginSession } = useCurrentLoginSessionSelector()
+  const { showSideBar } = useShowSideBarSelector()
   const location = useLocation()
+  const outlet = useOutlet()
+
+  const match = useMatch('/:rootPath/*')
 
   if (!currentLoginSession) {
     return <Navigate to="/login/password" state={{ from: location.pathname }} />
   }
 
   return (
-    <Fragment>
+    <div className="relative flex h-full w-full overflow-hidden">
+      <AnimatePresence initial={false}>{showSideBar && <Sidebar />}</AnimatePresence>
+
       <Suspense fallback={null}>
         <CustomProfileBanner />
       </Suspense>
@@ -49,8 +59,8 @@ const PrivatePage = () => {
         <WalletConnectManagerSetup />
       </Suspense>
 
-      <Outlet />
-    </Fragment>
+      {outlet && cloneElement(outlet, { key: match?.params.rootPath })}
+    </div>
   )
 }
 

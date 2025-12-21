@@ -1,4 +1,5 @@
 import { WalletKitHelper } from '@cityofzion/bs-multichain'
+import { Fragment } from 'react/jsx-runtime'
 import { useTranslation } from 'react-i18next'
 
 import { Button } from '@renderer/components/Button'
@@ -40,7 +41,7 @@ const DappDisconnectionModal = () => {
           </div>
           <p className="pt-7 text-lg text-white">{sessions.length > 1 ? t('disconnectAllApps') : t('disconnectApp')}</p>
           {sessions.length === 1 ? (
-            <>
+            <Fragment>
               <div className="mt-3 flex min-h-8 w-full items-center justify-center rounded-sm bg-gray-300/15 px-3">
                 <p className="p-2 text-center text-xs">{sessions[0].peer.metadata.name}</p>
               </div>
@@ -48,7 +49,7 @@ const DappDisconnectionModal = () => {
               <span className="px-2 pt-4 text-center text-xs text-gray-100">
                 {sessions[0].peer.metadata.description}
               </span>
-            </>
+            </Fragment>
           ) : (
             <div className="flex flex-col px-2 pt-4 text-center text-sm text-gray-100">
               <span>{t('totalDapps', { totalDapps: sessions.length })}</span>

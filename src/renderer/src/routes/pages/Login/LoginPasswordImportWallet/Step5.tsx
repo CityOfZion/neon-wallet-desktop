@@ -8,8 +8,8 @@ import { Link } from '@renderer/components/Link'
 import MdOutlineAutoAwesome from '@renderer/assets/images/md-outline-auto-awesome.svg?react'
 import TbRosetteDiscountCheck from '@renderer/assets/images/tb-rosette-discount-check.svg?react'
 
-const LoginPasswordImportWalletStep5Page = () => {
-  const { t } = useTranslation('pages', { keyPrefix: 'welcome.importWallet.step5' })
+export const LoginPasswordImportWalletStep5Content = () => {
+  const { t } = useTranslation('pages', { keyPrefix: 'welcome.importWallet.completedStep' })
 
   return (
     <Fragment>
@@ -22,7 +22,7 @@ const LoginPasswordImportWalletStep5Page = () => {
       <div className="flex gap-2.5">
         <ButtonDownloadPasswordQRCode />
         <Link
-          to="/wallets"
+          to="/wallets/overview"
           label={t('openWalletButtonLabel')}
           rightIcon={<MdOutlineAutoAwesome />}
           variant="contained"
@@ -33,5 +33,3 @@ const LoginPasswordImportWalletStep5Page = () => {
     </Fragment>
   )
 }
-
-export default LoginPasswordImportWalletStep5Page

@@ -1,17 +1,62 @@
 import { useTranslation } from 'react-i18next'
-import { Outlet } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
+
+import { Tabs } from '@renderer/components/Tabs'
+
+import { TestHelper } from '@renderer/helpers/TestHelper'
 
 import { WelcomeLayout } from '@renderer/layouts/Welcome'
 
-import { LoginTabs } from './LoginTabs'
+import { LoginHardwareTabContent } from './LoginHardware'
+import { LoginKeyTabContent } from './LoginKey'
+import { LoginPasswordTabContent } from './LoginPassword'
+
+type TParams = {
+  loginType?: string
+}
 
 const LoginPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'login' })
+  const navigate = useNavigate()
+
+  const { loginType } = useParams<TParams>()
 
   return (
     <WelcomeLayout heading={t('title')}>
-      <LoginTabs />
-      <Outlet />
+      <Tabs.Root value={loginType ?? 'password'} className="w-full grow">
+        <Tabs.List className="mt-6 mb-9 w-full">
+          <Tabs.Trigger value="password" className="uppercase" onClick={() => navigate('/login/password')}>
+            {t('tabs.password')}
+          </Tabs.Trigger>
+
+          <Tabs.Trigger value="hardware" className="uppercase" onClick={() => navigate('/login/hardware')}>
+            {t('tabs.hardware')}
+          </Tabs.Trigger>
+
+          <Tabs.Trigger
+            value="key"
+            className="uppercase"
+            onClick={() => navigate('/login/key')}
+            {...TestHelper.buildTestObject('welcome-tab-key')}
+          >
+            {t('tabs.key')}
+          </Tabs.Trigger>
+        </Tabs.List>
+
+        <Tabs.Content>
+          <Tabs.Item value="password">
+            <LoginPasswordTabContent />
+          </Tabs.Item>
+
+          <Tabs.Item value="hardware">
+            <LoginHardwareTabContent />
+          </Tabs.Item>
+
+          <Tabs.Item value="key">
+            <LoginKeyTabContent />
+          </Tabs.Item>
+        </Tabs.Content>
+      </Tabs.Root>
     </WelcomeLayout>
   )
 }

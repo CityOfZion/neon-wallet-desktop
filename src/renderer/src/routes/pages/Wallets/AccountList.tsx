@@ -1,4 +1,4 @@
-import { Fragment } from 'react'
+import { motion } from 'motion/react'
 
 import { AccountIcon } from '@renderer/components/AccountIcon'
 import { Separator } from '@renderer/components/Separator'
@@ -32,11 +32,19 @@ const AccountItem = ({ account, onClick, active }: TAccountItemProps) => {
   const totalExchangeFormatted = NumberHelper.currency(balance.exchangeTotal, { currency })
 
   return (
-    <li>
+    <div className="relative">
+      {active && (
+        <motion.div
+          layoutId="accountActiveIndicator"
+          className="bg-neon absolute top-0 left-0 z-11 h-full w-0.75"
+          transition={{ duration: 0.15, ease: [0.4, 0, 0.2, 1] }}
+        />
+      )}
+
       <button
         onClick={onClick}
         aria-selected={active}
-        className="hover:border-l-neon aria-selected:border-l-neon flex w-full min-w-0 cursor-pointer items-center gap-x-2.5 border-l-4 border-l-transparent px-3 py-2.5 transition-colors hover:bg-gray-900/50 aria-selected:bg-gray-900/50"
+        className="relative flex w-full min-w-0 cursor-pointer items-center gap-x-2.5 px-3 py-2.5 transition-colors hover:bg-gray-900/50 aria-selected:bg-gray-900/50"
       >
         <AccountIcon account={account} />
 
@@ -50,7 +58,7 @@ const AccountItem = ({ account, onClick, active }: TAccountItemProps) => {
           </Tooltip>
         </div>
       </button>
-    </li>
+    </div>
   )
 }
 
@@ -62,16 +70,16 @@ export const AccountList = ({ selectedWallet, selectedAccount, onSelect }: TProp
       {...TestHelper.buildTestObject('accounts-wallet-list')}
       className="flex min-h-0 w-full min-w-0 grow flex-col overflow-y-auto"
     >
-      {accountsByWalletId.map((account, index) => (
-        <Fragment key={account?.id}>
+      {accountsByWalletId.map(account => (
+        <li className="group" key={account?.id}>
           <AccountItem
             onClick={() => onSelect(account)}
             account={account}
             active={account.id === selectedAccount?.id}
           />
 
-          {index + 1 !== accountsByWalletId.length && <Separator />}
-        </Fragment>
+          <Separator containerClassName="group-last:hidden" />
+        </li>
       ))}
     </ul>
   )

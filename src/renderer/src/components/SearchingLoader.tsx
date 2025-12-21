@@ -17,7 +17,7 @@ export const SearchingLoader = ({ label, className, contentClassName, icon }: TP
   return (
     <div
       className={StyleHelper.mergeStyles(
-        'relative flex min-h-[52px] items-center justify-center overflow-hidden rounded-full px-0.5 py-0.5',
+        'relative flex min-h-[52px] w-fit items-center justify-center overflow-hidden rounded-full px-0.5 py-0.5',
         "before:absolute before:block before:aspect-square before:w-full before:animate-spin before:bg-[conic-gradient(from_0deg_at_50%_50%,#47BEFF_0%,#47BEFF00_100%)] before:content-['']",
         className
       )}

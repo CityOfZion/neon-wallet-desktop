@@ -62,7 +62,7 @@ const ImportModal = () => {
 
                 ToastHelper.success({ message: t('successEncryptKey') })
                 modalNavigate(-3)
-                navigate(`/wallets/${account.id}/overview`)
+                navigate('/wallets/overview', { state: { account } })
               },
             },
           })

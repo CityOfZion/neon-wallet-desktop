@@ -8,6 +8,7 @@ test.describe('Delete contact', () => {
     const contactName = 'Best contact'
 
     await createNewWallet(window)
+
     await createContact(window, { contactName })
 
     await window.getByTestId('contact-list-item').click()
@@ -24,6 +25,7 @@ test.describe('Delete contact', () => {
     const window = await launch()
 
     await createNewWallet(window)
+
     await createContact(window)
 
     await window.getByTestId('contact-list-item').click()

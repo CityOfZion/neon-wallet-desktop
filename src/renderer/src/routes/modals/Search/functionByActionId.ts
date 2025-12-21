@@ -2,8 +2,6 @@ import { useNavigate } from 'react-router'
 
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 
-import { BuyAndSellTokensScreenType } from '@renderer/routes/pages/BuyAndSellTokens'
-
 import { IAccountState } from '@shared/types/store'
 
 type TFunctionParams = {
@@ -44,11 +42,11 @@ export const functionsByActionId: TFunctionsByActionId = {
   },
   buy: async ({ pageNavigate, modalActions }) => {
     modalActions.modalErase()
-    pageNavigate('/buy-and-sell-tokens', { state: { screenType: BuyAndSellTokensScreenType.BUY_TOKENS } })
+    pageNavigate('/buy-and-sell-tokens/buy')
   },
   sell: async ({ pageNavigate, modalActions }) => {
     modalActions.modalErase()
-    pageNavigate('/buy-and-sell-tokens', { state: { screenType: BuyAndSellTokensScreenType.SELL_TOKENS } })
+    pageNavigate('/buy-and-sell-tokens/sell')
   },
   receive: async ({ pageNavigate, modalActions }) => {
     modalActions.modalErase()

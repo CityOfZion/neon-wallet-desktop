@@ -136,6 +136,10 @@
     "swap": "Swap",
     "wallets": "Carteiras"
   },
+  "stepper": {
+    "listLabel": "Etapas do progresso",
+    "rootLabel": "Indicador de etapas"
+  },
   "temporaryLimitsBox": {
     "description": "Usar este método de login limita o acesso a alguns recursos principais:",
     "limits": [

@@ -103,6 +103,8 @@ export interface ISettingsState {
   encryptedLoginControl?: string
   selectedWallet?: IWalletState
   selectedAccount?: IAccountState
+  showSideBar: boolean
+  lastAccountPanel?: string
 }
 
 export type TContactAddress = {

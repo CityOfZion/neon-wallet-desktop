@@ -21,7 +21,7 @@ type TProps = {
 }
 
 export const BuyAndSellTokensAccordionAccountItem = ({ account }: TProps) => {
-  const { t } = useTranslation('pages', { keyPrefix: 'buyAndSellTokens.buyAndSellTokensAccordionAccounts' })
+  const { t } = useTranslation('pages', { keyPrefix: 'buyAndSellTokens' })
   const { currency } = useCurrencySelector()
   const { data, isLoading } = useBalance(account)
 
@@ -38,9 +38,9 @@ export const BuyAndSellTokensAccordionAccountItem = ({ account }: TProps) => {
         <div className="flex items-center gap-1">
           <p className="text-xs text-gray-300">{StringHelper.truncateStringMiddle(address, 16)}</p>
 
-          <Tooltip title={t('labels.copyAddress')}>
+          <Tooltip title={t('copyAddressButtonLabel')}>
             <IconButton
-              aria-label={t('labels.copyAddress')}
+              aria-label={t('copyAddressButtonLabel')}
               size="xs"
               compacted
               icon={<MdOutlineContentCopy aria-hidden className="text-neon" />}

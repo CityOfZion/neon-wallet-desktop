@@ -6,11 +6,10 @@ import { OverviewCharts } from '@renderer/components/OverviewCharts'
 
 import { useBalances } from '@renderer/hooks/useBalances'
 
-import { AccountDetailsLayout } from '@renderer/layouts/AccountDetailsLayout'
-
 import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { IAccountState } from '@shared/types/store'
 
+import { AccountDetailsLayout } from '../AccountDetailsLayout'
 import { ClaimGasBanner } from '../ClaimGasBanner'
 import { CommonAccountActions } from '../CommonAccountActions'
 

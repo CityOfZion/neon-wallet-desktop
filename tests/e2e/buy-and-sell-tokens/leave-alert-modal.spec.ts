@@ -27,7 +27,7 @@ test.describe('Leave Alert Modal', () => {
     await window.getByTestId('buy-and-sell-tokens-leave-alert-close-button').click()
 
     await expect(window.getByTestId('buy-and-sell-tokens-leave-alert-modal')).not.toBeVisible()
-    await expect(window.getByTestId('buy-tokens-content-layout')).toBeVisible()
+    await expect(window.getByTestId('buy-tokens-content')).toBeVisible()
   })
 
   test('Should continue to Wallets screen if clicks on continue button', async () => {

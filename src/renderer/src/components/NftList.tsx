@@ -1,4 +1,5 @@
 import { hasExplorerService, TNftResponse } from '@cityofzion/blockchain-service'
+import { Fragment } from 'react/jsx-runtime'
 import { useTranslation } from 'react-i18next'
 
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
@@ -37,7 +38,7 @@ export const NftList = ({ account, nfts }: TProps) => {
       {nfts.map(nft => {
         const link = getHref(nft)
         const content = (
-          <>
+          <Fragment>
             <div className="mi-h-[3.5rem] h-14 w-20 min-w-20 overflow-hidden rounded-sm bg-gray-300/30">
               <img className="h-full w-full object-cover" src={nft.image} alt={nft.name} />
             </div>
@@ -70,7 +71,7 @@ export const NftList = ({ account, nfts }: TProps) => {
 
               {link && <TbChevronRight aria-hidden className="h-6 w-6 text-gray-300" />}
             </div>
-          </>
+          </Fragment>
         )
 
         return (

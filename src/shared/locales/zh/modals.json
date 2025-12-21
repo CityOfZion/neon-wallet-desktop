@@ -488,6 +488,7 @@
     "transactionDetailsHeaderLabel": "交易详情"
   },
   "neo3NeoxBridgeDetails": {
+    "completeStepLabel": "完成",
     "description": "您的跨链详情",
     "detailsHeaderLabel": "详情",
     "errorsByCode": {
@@ -502,8 +503,8 @@
     "fromDetailsPanelLabel": "来源",
     "fromTokenDetailsItemLabel": "代币",
     "helpButtonLabel": "需要帮助？与我们聊天",
+    "sendStepLabel": "发送",
     "statusPanelLabel": "状态",
-    "statusPanelSteps": ["发送", "完成"],
     "title": "您的跨链",
     "toAddressDetailsItemLabel": "接收地址",
     "toDetailsPanelLabel": "目标",
@@ -681,8 +682,11 @@
     "title": "发起存款"
   },
   "swapDetails": {
+    "completeStatusStepLabel": "完成",
+    "confirmStatusStepLabel": "确认",
     "detailsHeaderDescription": "我们力争在7分钟内完成兑换",
     "detailsHeaderLabel": "详情",
+    "exchangeStatusStepLabel": "交易所",
     "extraIdToLabel": "目标标签/备注",
     "helpButtonLabel": "需要帮助？联系我们",
     "receivePanelAddressLabel": "接收地址",
@@ -698,7 +702,6 @@
     "sentPanelLabel": "您已发送",
     "sentPanelTokenLabel": "代币",
     "statusPanelLabel": "状态",
-    "statusPanelSteps": ["确认", "兑换", "完成"],
     "subtitle": "您的兑换详情",
     "swapErrorMessage": "哎呀！发生错误 - 兑换失败",
     "swapLog": "兑换日志",

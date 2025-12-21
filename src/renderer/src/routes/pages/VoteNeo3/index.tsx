@@ -107,9 +107,8 @@ const VoteNeo3Page = () => {
     .otherwise(() => undefined)
 
   const handleGoBack = () => {
-    const accountId = defaultNeo3Account?.id || neo3Account?.id || neo3Accounts[0]?.id || accounts[0].id
-
-    navigate(`/wallets/${accountId}/overview`)
+    const account = defaultNeo3Account ?? neo3Account ?? neo3Accounts[0] ?? accounts[0]
+    navigate('/wallets/overview', { state: { account } })
   }
 
   const handleChangeNeo3Account = (neo3Account: IAccountState) => {

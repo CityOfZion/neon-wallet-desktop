@@ -19,7 +19,7 @@ const CreateWalletStep5Modal = () => {
 
   const handleNavigate = () => {
     modalErase()
-    navigate(`/wallets/${accounts[0].id}/overview`)
+    navigate('/wallets/overview', { state: { account: accounts[0] } })
   }
 
   return (

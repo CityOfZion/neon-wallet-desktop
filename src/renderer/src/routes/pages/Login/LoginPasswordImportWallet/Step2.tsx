@@ -1,8 +1,8 @@
 import { useLocation, useNavigate } from 'react-router'
 
-import WelcomeSecuritySetupStep2Page from '../LoginPasswordSecuritySetup/Step2'
+import { LoginPasswordSecuritySetupStep2Content } from '../LoginPasswordSecuritySetup/Step2'
 
-const LoginPasswordImportWalletStep2Page = () => {
+export const LoginPasswordImportWalletStep2Content = () => {
   const navigate = useNavigate()
   const { state } = useLocation()
 
@@ -10,7 +10,5 @@ const LoginPasswordImportWalletStep2Page = () => {
     navigate('/login-import-wallet-setup/3', { state: { password, ...state } })
   }
 
-  return <WelcomeSecuritySetupStep2Page onSubmit={handleSubmit} />
+  return <LoginPasswordSecuritySetupStep2Content onSubmit={handleSubmit} />
 }
-
-export default LoginPasswordImportWalletStep2Page

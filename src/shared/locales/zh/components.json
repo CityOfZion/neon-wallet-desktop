@@ -136,6 +136,10 @@
     "swap": "兑换",
     "wallets": "钱包"
   },
+  "stepper": {
+    "listLabel": "进度步骤",
+    "rootLabel": "步骤指示器"
+  },
   "temporaryLimitsBox": {
     "description": "使用此登录方式将限制访问某些关键功能：",
     "limits": ["备份和恢复", "钱包自定义", "导入/导出功能", "创建新钱包", "以及其他功能..."]

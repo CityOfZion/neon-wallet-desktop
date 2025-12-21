@@ -136,6 +136,10 @@
     "swap": "兌換",
     "wallets": "錢包"
   },
+  "stepper": {
+    "listLabel": "進度步驟",
+    "rootLabel": "步驟指示器"
+  },
   "temporaryLimitsBox": {
     "description": "使用此登入方式會限制部分主要功能：",
     "limits": ["備份與還原", "錢包自訂", "匯入/匯出功能", "建立新錢包", "以及其他功能..."]

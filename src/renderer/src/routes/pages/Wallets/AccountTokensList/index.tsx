@@ -12,11 +12,10 @@ import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { useBalances } from '@renderer/hooks/useBalances'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 
-import { AccountDetailsLayout } from '@renderer/layouts/AccountDetailsLayout'
-
 import { TUseBalanceOptionShowType } from '@shared/types/query'
 import { IAccountState } from '@shared/types/store'
 
+import { AccountDetailsLayout } from '../AccountDetailsLayout'
 import { CommonAccountActions } from '../CommonAccountActions'
 
 type TOutletContext = {
@@ -28,16 +27,18 @@ const AccountTokensList = () => {
   const { account } = useOutletContext<TOutletContext>()
   const { currency } = useCurrencySelector()
 
-  const [tab, setTab] = useState<TUseBalanceOptionShowType>('active')
+  const [showType, setShowType] = useState<TUseBalanceOptionShowType>('active')
 
-  const balances = useBalances([account], { showType: tab })
+  const accounts = [account]
+
+  const balances = useBalances(accounts, { showType })
 
   return (
     <AccountDetailsLayout
       heading={t('title')}
       actions={account ? <CommonAccountActions account={account} /> : undefined}
     >
-      <Tabs.Root value={tab} onValueChange={value => setTab(value as TUseBalanceOptionShowType)}>
+      <Tabs.Root value={showType} onValueChange={value => setShowType(value as TUseBalanceOptionShowType)}>
         <Tabs.List className="relative mt-3">
           <Tabs.Trigger value="active">{t('tabs.active')}</Tabs.Trigger>
           <Tabs.Trigger value="hidden">{t('tabs.hidden')}</Tabs.Trigger>
@@ -52,9 +53,17 @@ const AccountTokensList = () => {
             )}
           </div>
         </Tabs.List>
-      </Tabs.Root>
 
-      <TokensTable accounts={[account]} showType={tab} />
+        <Tabs.Content>
+          <Tabs.Item value="active">
+            <TokensTable accounts={accounts} showType="active" />
+          </Tabs.Item>
+
+          <Tabs.Item value="hidden">
+            <TokensTable accounts={accounts} showType="hidden" />
+          </Tabs.Item>
+        </Tabs.Content>
+      </Tabs.Root>
     </AccountDetailsLayout>
   )
 }

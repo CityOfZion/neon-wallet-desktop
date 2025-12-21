@@ -147,3 +147,9 @@ export const useCanShowVoteNeo3SupportUsModalSelector = () => {
 
   return { canShowVoteNeo3SupportUsModal, canShowVoteNeo3SupportUsModalRef }
 }
+
+export const useShowSideBarSelector = () => {
+  const { value: showSideBar, ref: showSideBarRef } = useAppSelector(({ settings }) => settings.data.showSideBar)
+
+  return { showSideBar, showSideBarRef }
+}

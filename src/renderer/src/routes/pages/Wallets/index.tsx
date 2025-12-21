@@ -1,33 +1,30 @@
-import { Fragment, useLayoutEffect } from 'react'
+import { cloneElement, useLayoutEffect } from 'react'
 
 import { hasNft, hasWalletConnect } from '@cityofzion/blockchain-service'
 import isEqual from 'lodash/isEqual'
+import { AnimatePresence, motion } from 'motion/react'
 import { useTranslation } from 'react-i18next'
-import { Outlet, useLocation, useNavigate, useParams } from 'react-router'
+import { type Location, useLocation, useNavigate, useOutlet } from 'react-router'
 
 import { ActionPopover } from '@renderer/components/ActionPopover'
 import { Button } from '@renderer/components/Button'
 import { CommonScreenActions } from '@renderer/components/CommonScreenActions'
 import { IconButton } from '@renderer/components/IconButton'
+import { MenuLink } from '@renderer/components/MenuLink'
 import { RefreshAction } from '@renderer/components/RefreshAction'
 import { Separator } from '@renderer/components/Separator'
-import { SidebarMenuButton } from '@renderer/components/SidebarMenuButton'
 
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
-import {
-  useAccountMapByIdSelector,
-  useAccountsSelector,
-  useHasHardwareAccountSelector,
-} from '@renderer/hooks/useAccountSelector'
+import { useAccountMapSelector, useHasHardwareAccountSelector } from '@renderer/hooks/useAccountSelector'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useBridgeNeo3NeoXValidations } from '@renderer/hooks/useBridgeNeo3NeoXValidations'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useSelectedAccountSelector, useSelectedWalletSelector } from '@renderer/hooks/useSettingsSelector'
-import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
+import { useWalletsMapSelector, useWalletsSelector } from '@renderer/hooks/useWalletSelector'
 
 import { MainLayout } from '@renderer/layouts/Main'
 
@@ -42,61 +39,44 @@ import TbUpload from '@renderer/assets/images/tb-upload.svg?react'
 
 import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
+import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 import { IAccountState, IWalletState } from '@shared/types/store'
 
 import { AccountList } from './AccountList'
 import { HardwareWalletConnectedBadge } from './HardwareWalletConnectedBadge'
+import { PanelTransition } from './PanelTransition'
 import { WalletsSelect } from './WalletsSelect'
 
-type TParams = {
-  id: string
+type TLocationState = {
+  account?: IAccountState
 }
 
 const WalletsPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'wallets' })
   const { wallets } = useWalletsSelector()
-  const { accounts } = useAccountsSelector()
   const { hasHardwareAccount } = useHasHardwareAccountSelector()
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
   const { currentLoginSession } = useCurrentLoginSessionSelector()
-  const { id } = useParams<TParams>()
   const { selectedWallet } = useSelectedWalletSelector()
   const { selectedAccount } = useSelectedAccountSelector()
-  const { accountsMapByIdRef } = useAccountMapByIdSelector()
-  const { walletsRef } = useWalletsSelector()
+  const { accountsMapRef } = useAccountMapSelector()
+  const { walletsMapRef } = useWalletsMapSelector()
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-  const location = useLocation()
-
+  const location = useLocation() as Location<TLocationState>
   const { canAccountBridge } = useBridgeNeo3NeoXValidations(selectedAccount)
+  const outlet = useOutlet({ account: selectedAccount })
 
   const service = selectedAccount ? bsAggregator.blockchainServicesByName[selectedAccount.blockchain] : undefined
   const isKeyLoginSession = currentLoginSession?.type === 'key'
+  const menuLayoutId = `wallets-menu-link-${selectedAccount?.id}`
 
   const handleSelectAccount = (selected: IAccountState) => {
-    navigate(`/wallets/${selected.id}/overview`)
+    navigate(location.pathname, { state: { account: selected } })
   }
 
   const handleSelectWallet = (selected: IWalletState) => {
-    const firstAccount = accounts.find(account => account.idWallet === selected.id)
-    if (!firstAccount) return
-    navigate(`/wallets/${firstAccount.id}/overview`)
-  }
-
-  const handleExportKey = () => {
-    modalNavigate('confirm-password-export', {
-      state: {
-        title: t('exportKeyTitle'),
-        icon: <TbUpload aria-hidden />,
-        onSubmitPassword: () =>
-          modalNavigate('export-key', {
-            state: {
-              account: selectedAccount!,
-            },
-            replace: true,
-          }),
-      },
-    })
+    navigate(location.pathname, { state: { account: selected.accounts[0] } })
   }
 
   const handleExportMnemonic = () => {
@@ -115,6 +95,22 @@ const WalletsPage = () => {
     })
   }
 
+  const handleExportKey = () => {
+    modalNavigate('confirm-password-export', {
+      state: {
+        title: t('exportKeyTitle'),
+        icon: <TbUpload aria-hidden />,
+        onSubmitPassword: () =>
+          modalNavigate('export-key', {
+            state: {
+              account: selectedAccount!,
+            },
+            replace: true,
+          }),
+      },
+    })
+  }
+
   const handleGoToVoteNeo3 = () => {
     if (selectedAccount!.blockchain !== 'neo3') return
 
@@ -126,35 +122,38 @@ const WalletsPage = () => {
   }
 
   useLayoutEffect(() => {
-    function getSelectedWalletAndAccount() {
-      if (id) {
-        const accountById = accountsMapByIdRef.current.get(id)
-        if (accountById) {
-          return {
-            nextSelectedAccount: accountById,
-            nextSelectedWallet: accountById.wallet,
-          }
-        }
+    const stateAccount = location.state?.account
+
+    const getNextSelectedWallet = () => {
+      const firstWallet = wallets[0]
+
+      if (stateAccount) {
+        return walletsMapRef.current.get(stateAccount.idWallet) ?? firstWallet
       }
 
-      if (selectedAccount) {
-        const accountById = accountsMapByIdRef.current.get(selectedAccount.id)
-        if (accountById) {
-          return {
-            nextSelectedAccount: accountById,
-            nextSelectedWallet: accountById.wallet,
-          }
-        }
+      if (selectedWallet) {
+        return walletsMapRef.current.get(selectedWallet.id) ?? firstWallet
       }
 
-      const firstWallet = walletsRef.current[0]
-      return {
-        nextSelectedWallet: firstWallet,
-        nextSelectedAccount: firstWallet.accounts[0],
-      }
+      return firstWallet
     }
 
-    const { nextSelectedAccount, nextSelectedWallet } = getSelectedWalletAndAccount()
+    const getNextSelectedAccount = (nextSelectedWallet: IWalletState) => {
+      const firstAccount = nextSelectedWallet.accounts[0]
+
+      if (stateAccount?.idWallet === nextSelectedWallet.id) {
+        return accountsMapRef.current.get(SharedAccountHelper.buildAccountKey(stateAccount)) ?? firstAccount
+      }
+
+      if (selectedAccount?.idWallet === nextSelectedWallet.id) {
+        return accountsMapRef.current.get(SharedAccountHelper.buildAccountKey(selectedAccount)) ?? firstAccount
+      }
+
+      return firstAccount
+    }
+
+    const nextSelectedWallet = getNextSelectedWallet()
+    const nextSelectedAccount = getNextSelectedAccount(nextSelectedWallet)
 
     if (!isEqual(selectedWallet, nextSelectedWallet)) {
       dispatch(settingsReducerActions.setSelectedWallet(nextSelectedWallet))
@@ -163,15 +162,8 @@ const WalletsPage = () => {
     if (!isEqual(selectedAccount, nextSelectedAccount)) {
       dispatch(settingsReducerActions.setSelectedAccount(nextSelectedAccount))
     }
-
-    const nextPath = `/wallets/${nextSelectedAccount.id}`
-
-    if (!location.pathname.startsWith(nextPath)) {
-      navigate(`${nextPath}/overview`)
-    }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id])
+  }, [wallets, location.state])
 
   return (
     <MainLayout
@@ -206,127 +198,191 @@ const WalletsPage = () => {
           <ActionPopover.Separator />
         </CommonScreenActions>
       }
-      contentClassName="flex-row gap-x-3"
       {...TestHelper.buildTestObject('wallets-screen')}
     >
       {selectedWallet && selectedAccount && service && (
-        <Fragment>
-          <section className="flex w-full max-w-46.5 min-w-46.5 flex-col rounded-sm bg-gray-800 drop-shadow-lg">
-            <header className="flex h-fit items-center justify-between gap-x-1 px-4 py-3">
-              <h2 className="truncate text-sm">{t('accounts')}</h2>
-            </header>
+        <AnimatePresence initial={false} mode="wait">
+          <motion.div
+            key={selectedWallet.id}
+            className="flex min-h-0 grow gap-x-3"
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -10 }}
+            transition={{ duration: 0.1 }}
+          >
+            <section
+              key={selectedWallet.id}
+              className="flex w-full max-w-46.5 min-w-46.5 flex-col rounded-sm border border-gray-300/10 bg-gray-800 drop-shadow-lg"
+            >
+              <header className="flex h-fit items-center justify-between gap-x-1 px-4 py-3">
+                <h2 className="truncate text-sm">{t('accounts')}</h2>
+              </header>
 
-            <main className="flex min-h-0 w-full grow flex-col items-center">
-              <div className="w-full px-4">
-                <Separator />
-              </div>
+              <main className="flex min-h-0 w-full grow flex-col items-center">
+                <Separator containerClassName="px-4" />
 
-              <AccountList
-                selectedWallet={selectedWallet}
-                onSelect={handleSelectAccount}
-                selectedAccount={selectedAccount}
-              />
-            </main>
-
-            {(selectedWallet.encryptedMnemonic || (selectedWallet.type === 'hardware' && hasHardwareAccount)) && (
-              <footer className="px-4 pt-3 pb-6">
-                <Button
-                  label={t('addAccountButtonLabel')}
-                  variant="outlined"
-                  className="w-full"
-                  flat
-                  leftIcon={<MdAdd aria-hidden />}
-                  onClick={modalNavigateWrapper('persist-account', { state: { wallet: selectedWallet } })}
+                <AccountList
+                  selectedWallet={selectedWallet}
+                  onSelect={handleSelectAccount}
+                  selectedAccount={selectedAccount}
                 />
-              </footer>
-            )}
-          </section>
+              </main>
 
-          <section className="flex h-full w-full min-w-0 grow flex-col rounded-sm bg-gray-800">
-            <header className="flex h-12 w-full items-center justify-between px-5">
-              <div className="flex items-center gap-2 text-sm">
-                <h1 className="pr-3 text-white">{selectedAccount.name}</h1>
-                <p className="text-gray-300">{t('address')}</p>
-                <p className="text-gray-100">{StringHelper.truncateStringMiddle(selectedAccount.address, 8)}</p>
-                <IconButton
-                  icon={<MdOutlineContentCopy aria-hidden />}
-                  colorSchema="neon"
-                  compacted
-                  onClick={() => UtilsHelper.copyToClipboard(selectedAccount.address)}
-                />
-              </div>
+              {(selectedWallet.encryptedMnemonic || (selectedWallet.type === 'hardware' && hasHardwareAccount)) && (
+                <footer className="flex flex-col gap-3 px-4 pb-6">
+                  <Separator />
 
-              <div className="flex gap-2">
-                <RefreshAction />
-
-                <ActionPopover.Root>
-                  <ActionPopover.Trigger asChild>
-                    <IconButton icon={<TbDotsVertical aria-hidden />} size="md" compacted />
-                  </ActionPopover.Trigger>
-
-                  <ActionPopover.Content side="bottom" sideOffset={-8} align="end">
-                    <ActionPopover.Item
-                      leftIcon={<TbPencil aria-hidden />}
-                      onClick={modalNavigateWrapper('persist-account', { state: { account: selectedAccount } })}
-                      label={t('editAccountButton')}
-                      textClassName="text-start text-white"
-                    />
-
-                    {selectedAccount.type !== 'watch' && selectedAccount.type !== 'hardware' && !isKeyLoginSession && (
-                      <ActionPopover.Item
-                        leftIcon={<TbUpload aria-hidden />}
-                        onClick={handleExportKey}
-                        label={t('exportKeyButtonLabel')}
-                        textClassName="text-start text-white"
-                      />
-                    )}
-
-                    {canAccountBridge && (
-                      <ActionPopover.Item
-                        label={t('neo3NeoXBridgeButtonLabel')}
-                        textClassName="text-start text-white"
-                        leftIcon={<TbReplace2 aria-hidden />}
-                        onClick={handleNeo3NeoXBridge}
-                      />
-                    )}
-
-                    {selectedAccount.blockchain === 'neo3' && (
-                      <ActionPopover.Item
-                        label={t('voteNeo3ButtonLabel')}
-                        textClassName="text-start text-white"
-                        leftIcon={<TbChartBarPopular aria-hidden />}
-                        onClick={handleGoToVoteNeo3}
-                      />
-                    )}
-                  </ActionPopover.Content>
-                </ActionPopover.Root>
-              </div>
-            </header>
-
-            <div className="flex h-full min-h-0 bg-gray-900/30">
-              <ul className="w-full max-w-46.5 min-w-46.5 border-r border-gray-300/30">
-                <SidebarMenuButton title={t('accountOverview.title')} to={`/wallets/${selectedAccount.id}/overview`} />
-                <SidebarMenuButton title={t('accountTokensList.title')} to={`/wallets/${selectedAccount.id}/tokens`} />
-                {service && hasNft(service) && (
-                  <SidebarMenuButton title={t('accountNftList.title')} to={`/wallets/${selectedAccount.id}/nfts`} />
-                )}
-                <SidebarMenuButton
-                  title={t('accountTransactionsList.title')}
-                  to={`/wallets/${selectedAccount.id}/transactions`}
-                />
-
-                {selectedAccount.type !== 'watch' && hasWalletConnect(service) && (
-                  <SidebarMenuButton
-                    title={t('accountConnections.title')}
-                    to={`/wallets/${selectedAccount.id}/connections`}
+                  <Button
+                    label={t('addAccountButtonLabel')}
+                    variant="outlined"
+                    className="w-full"
+                    flat
+                    leftIcon={<MdAdd aria-hidden />}
+                    onClick={modalNavigateWrapper('persist-account', { state: { wallet: selectedWallet } })}
                   />
-                )}
-              </ul>
+                </footer>
+              )}
+            </section>
 
-              <Outlet context={{ account: selectedAccount }} key={selectedAccount.id} />
+            <div className="relative flex min-h-0 w-full">
+              <AnimatePresence mode="popLayout" initial={false}>
+                <PanelTransition
+                  key={selectedAccount.id}
+                  className="flex flex-col rounded-sm border border-gray-300/10 bg-gray-800"
+                >
+                  <header className="flex h-12 w-full items-center justify-between px-5">
+                    <div className="flex items-center gap-2 text-sm">
+                      <h1 className="pr-3 text-white">{selectedAccount.name}</h1>
+                      <p className="text-gray-300">{t('address')}</p>
+                      <p className="text-gray-100">{StringHelper.truncateStringMiddle(selectedAccount.address, 8)}</p>
+                      <IconButton
+                        icon={<MdOutlineContentCopy aria-hidden />}
+                        colorSchema="neon"
+                        compacted
+                        onClick={() => UtilsHelper.copyToClipboard(selectedAccount.address)}
+                      />
+                    </div>
+
+                    <div className="flex gap-2">
+                      <RefreshAction />
+
+                      <ActionPopover.Root>
+                        <ActionPopover.Trigger asChild>
+                          <IconButton icon={<TbDotsVertical aria-hidden />} size="md" compacted />
+                        </ActionPopover.Trigger>
+
+                        <ActionPopover.Content side="bottom" sideOffset={-8} align="end">
+                          <ActionPopover.Item
+                            leftIcon={<TbPencil aria-hidden />}
+                            onClick={modalNavigateWrapper('persist-account', { state: { account: selectedAccount } })}
+                            label={t('editAccountButton')}
+                            textClassName="text-start text-white"
+                          />
+
+                          {selectedAccount.type !== 'watch' &&
+                            selectedAccount.type !== 'hardware' &&
+                            !isKeyLoginSession && (
+                              <ActionPopover.Item
+                                leftIcon={<TbUpload aria-hidden />}
+                                onClick={handleExportKey}
+                                label={t('exportKeyButtonLabel')}
+                                textClassName="text-start text-white"
+                              />
+                            )}
+
+                          {canAccountBridge && (
+                            <ActionPopover.Item
+                              label={t('neo3NeoXBridgeButtonLabel')}
+                              textClassName="text-start text-white"
+                              leftIcon={<TbReplace2 aria-hidden />}
+                              onClick={handleNeo3NeoXBridge}
+                            />
+                          )}
+
+                          {selectedAccount.blockchain === 'neo3' && (
+                            <ActionPopover.Item
+                              label={t('voteNeo3ButtonLabel')}
+                              textClassName="text-start text-white"
+                              leftIcon={<TbChartBarPopular aria-hidden />}
+                              onClick={handleGoToVoteNeo3}
+                            />
+                          )}
+                        </ActionPopover.Content>
+                      </ActionPopover.Root>
+                    </div>
+                  </header>
+
+                  <div className="flex h-full min-h-0 bg-gray-900/30">
+                    <ul className="w-full max-w-46.5 min-w-46.5 border-r border-gray-300/30">
+                      <li>
+                        <MenuLink layoutId={menuLayoutId} to="/wallets/overview" state={{ account: selectedAccount }}>
+                          {t('accountOverview.title')}
+                        </MenuLink>
+                      </li>
+
+                      <li>
+                        <Separator containerClassName="px-3" />
+
+                        <MenuLink layoutId={menuLayoutId} to="/wallets/tokens" state={{ account: selectedAccount }}>
+                          {t('accountTokensList.title')}
+                        </MenuLink>
+                      </li>
+
+                      {service && hasNft(service) && (
+                        <li>
+                          <Separator containerClassName="px-3" />
+
+                          <MenuLink layoutId={menuLayoutId} to="/wallets/nfts" state={{ account: selectedAccount }}>
+                            {t('accountNftList.title')}
+                          </MenuLink>
+                        </li>
+                      )}
+
+                      <li>
+                        <Separator containerClassName="px-3" />
+
+                        <MenuLink
+                          layoutId={menuLayoutId}
+                          to="/wallets/transactions"
+                          state={{ account: selectedAccount }}
+                        >
+                          {t('accountTransactionsList.title')}
+                        </MenuLink>
+                      </li>
+
+                      {selectedAccount.type !== 'watch' && hasWalletConnect(service) && (
+                        <li>
+                          <Separator containerClassName="px-3" />
+
+                          <MenuLink
+                            layoutId={menuLayoutId}
+                            to="/wallets/connections"
+                            state={{ account: selectedAccount }}
+                          >
+                            {t('accountConnections.title')}
+                          </MenuLink>
+                        </li>
+                      )}
+                    </ul>
+
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={location.pathname}
+                        initial={{ opacity: 0, x: 5 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 5 }}
+                        transition={{ duration: 0.1 }}
+                        className="flex h-full w-full min-w-0 flex-col"
+                      >
+                        {outlet && cloneElement(outlet)}
+                      </motion.div>
+                    </AnimatePresence>
+                  </div>
+                </PanelTransition>
+              </AnimatePresence>
             </div>
-          </section>
-        </Fragment>
+          </motion.div>
+        </AnimatePresence>
       )}
     </MainLayout>
   )
