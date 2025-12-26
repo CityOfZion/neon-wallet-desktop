@@ -52,7 +52,7 @@ To use the translation script, you need to have [Ollama](https://ollama.ai/) ins
 ollama pull qwen3
 ```
 
-### Start the Ollama server**:
+### Start the Ollama server:
    ```bash
    ollama serve
    ```
