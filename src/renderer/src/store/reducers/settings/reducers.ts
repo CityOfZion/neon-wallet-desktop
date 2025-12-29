@@ -158,6 +158,10 @@ const setCanShowVoteNeo3SupportUsModalAgain: CaseReducer<ISettingsReducer, Paylo
   state.data.canShowVoteNeo3SupportUsModal = action.payload
 }
 
+const setShowSideBar: CaseReducer<ISettingsReducer, PayloadAction<boolean>> = (state, action) => {
+  state.data.showSideBar = action.payload
+}
+
 export const settingsSliceReducers = {
   setEncryptedLoginControl,
   setHasPassword,
@@ -174,4 +178,5 @@ export const settingsSliceReducers = {
   deleteNetworkProfile,
   setSelectNetworkProfile,
   setCanShowVoteNeo3SupportUsModalAgain,
+  setShowSideBar,
 }

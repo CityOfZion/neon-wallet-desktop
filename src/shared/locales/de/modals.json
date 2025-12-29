@@ -488,6 +488,7 @@
     "transactionDetailsHeaderLabel": "Transaktionsdetails"
   },
   "neo3NeoxBridgeDetails": {
+    "completeStepLabel": "Vollständig",
     "description": "Ihre Bridge-Details",
     "detailsHeaderLabel": "Details",
     "errorsByCode": {
@@ -502,8 +503,8 @@
     "fromDetailsPanelLabel": "Von",
     "fromTokenDetailsItemLabel": "Token",
     "helpButtonLabel": "Brauchen Sie Hilfe? Chatten Sie mit uns",
+    "sendStepLabel": "Send",
     "statusPanelLabel": "Status",
-    "statusPanelSteps": ["Senden", "Abschließen"],
     "title": "Ihre Bridge",
     "toAddressDetailsItemLabel": "Empfangsadresse",
     "toDetailsPanelLabel": "Nach",
@@ -682,8 +683,11 @@
     "title": "Einzahlung tätigen"
   },
   "swapDetails": {
+    "completeStatusStepLabel": "Vollständig",
+    "confirmStatusStepLabel": "Bestätigen",
     "detailsHeaderDescription": " Wir zielen darauf ab, Tausche in unter 7 Minuten abzuschließen",
     "detailsHeaderLabel": "Details",
+    "exchangeStatusStepLabel": "Tausch",
     "extraIdToLabel": "Ziel-Tag/Memo",
     "helpButtonLabel": "Brauchen Sie Hilfe? Chatten Sie mit uns",
     "receivePanelAddressLabel": "Empfangsadresse",
@@ -699,7 +703,6 @@
     "sentPanelLabel": "Sie haben gesendet",
     "sentPanelTokenLabel": "Token",
     "statusPanelLabel": "Status",
-    "statusPanelSteps": ["Bestätigen", "Tauschen", "Abschließen"],
     "subtitle": "Ihre Tauschdetails",
     "swapErrorMessage": " Hoppla! Wir sind auf einen Fehler gestoßen - Tausch fehlgeschlagen",
     "swapLog": "Tausch-Protokoll",

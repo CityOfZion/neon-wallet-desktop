@@ -30,7 +30,9 @@ const ConnectHardwareWalletModal = () => {
 
     const [firstAccount] = await createHardwareWallet(accounts)
 
-    if (pathname.startsWith('/wallets/')) navigate(`/wallets/${firstAccount.id}/overview`)
+    if (pathname.startsWith('/wallets/')) {
+      navigate('/wallets/overview', { state: { account: firstAccount } })
+    }
 
     modalErase()
   }

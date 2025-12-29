@@ -57,7 +57,7 @@ const WelcomePage = () => {
           to="/login/password"
           label={t('continue')}
           variant="contained"
-          className="mt-10 w-[230px]"
+          className="mt-8 w-[230px]"
           iconsOnEdge={false}
           rightIcon={<TbArrowRight aria-hidden />}
           {...TestHelper.buildTestObject('welcome-continue')}

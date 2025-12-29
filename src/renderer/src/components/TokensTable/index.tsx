@@ -52,7 +52,7 @@ export const TokensTable = forwardRef<HTMLDivElement, TProps>(
           ))
           .otherwise(() => (
             <Table.Root className={StyleHelper.mergeStyles('table-fixed', className)}>
-              <Table.Header className="sticky top-0 bg-gray-800">
+              <Table.Header className="sticky top-0">
                 {table.getHeaderGroups().map(headerGroup => (
                   <Table.HeaderRow key={headerGroup.id}>
                     {headerGroup.headers.map(header => (

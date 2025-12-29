@@ -1,4 +1,4 @@
-import { cloneElement, type JSX, ReactNode } from 'react'
+import { cloneElement, Fragment, type JSX, ReactNode } from 'react'
 
 import { match, P } from 'ts-pattern'
 
@@ -21,6 +21,19 @@ export type TCustomClickableProps = {
 }
 
 export type TClickableProps = TCustomClickableProps & React.ComponentProps<'div'>
+
+const buildIconClassName = (side: 'left' | 'right', className: string, flat?: boolean) => {
+  return StyleHelper.mergeStyles(
+    'object-contain',
+    {
+      '-ml-1': side === 'left',
+      '-mr-1': side === 'right',
+      'w-6 h-6 min-w-6 min-h-6': !flat,
+      'w-5 h-5 min-w-5 min-h-5': flat,
+    },
+    className
+  )
+}
 
 const Outline = ({ className, ...props }: TClickableProps) => {
   return (
@@ -113,17 +126,6 @@ const Base = ({
   const { className: leftIconClassName = '', ...leftIconProps } = leftIcon ? leftIcon.props : {}
   const { className: rightIconClassName = '', ...rightIconProps } = rightIcon ? rightIcon.props : {}
 
-  const buildIconClassName = (className: string) => {
-    return StyleHelper.mergeStyles(
-      'object-contain',
-      {
-        'w-6 h-6 min-w-6 min-h-6': !flat,
-        'w-5 h-5 min-w-5 min-h-5': flat,
-      },
-      className
-    )
-  }
-
   return (
     <div
       className={StyleHelper.mergeStyles(
@@ -133,7 +135,7 @@ const Base = ({
           'h-12 text-sm': !flat,
           'h-8.5 gap-x-1.5 text-xs': flat,
           'px-4': !flat && !wide,
-          'px-2': flat && !wide,
+          'px-2.5': flat && !wide,
           'text-neon': colorSchema === 'neon',
           'text-gray-200': colorSchema === 'gray',
           'text-white': colorSchema === 'white',
@@ -145,10 +147,10 @@ const Base = ({
       )}
     >
       {!loading ? (
-        <>
+        <Fragment>
           {leftIcon &&
             cloneElement(leftIcon, {
-              className: buildIconClassName(leftIconClassName),
+              className: buildIconClassName('left', leftIconClassName, flat),
               ...leftIconProps,
             })}
 
@@ -171,10 +173,10 @@ const Base = ({
 
           {rightIcon &&
             cloneElement(rightIcon, {
-              className: buildIconClassName(rightIconClassName),
+              className: buildIconClassName('right', rightIconClassName, flat),
               ...rightIconProps,
             })}
-        </>
+        </Fragment>
       ) : (
         <Loader
           className={StyleHelper.mergeStyles({

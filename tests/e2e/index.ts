@@ -32,6 +32,7 @@ export const createNewWallet = async (window: Page) => {
   await window.getByTestId('security-setup-second-password').fill(PASSWORD)
   await window.getByTestId('security-setup-second-submit').click()
   await window.getByTestId('security-setup-open-your-wallet').click()
+  await sleep(1)
 }
 
 export const loginWithKey = async (window: Page, address: string) => {
@@ -40,10 +41,13 @@ export const loginWithKey = async (window: Page, address: string) => {
 
   await window.getByTestId('login-key-textarea').fill(address)
   await window.getByTestId('login-key-submit').click()
+
+  await sleep(1)
 }
 
 export const logout = async (window: Page) => {
   await window.getByTestId('logout-button').click()
+  await sleep(1)
 }
 
 export const startFromScratchAndLogout = async (window: Page) => {
@@ -55,7 +59,11 @@ export const createContact = async (
   window: Page,
   { contactName = 'My contact', address = ADDRESSES[0], blockchainName = 'Neo N3' }: TCreateContact = {}
 ) => {
-  await window.getByTestId('sidebar-link-contacts').click()
+  const url = window.url()
+  if (!url.includes('/contacts')) {
+    await window.getByTestId('sidebar-link-contacts').click()
+  }
+
   await window.getByTestId('more-button').click()
   await window.getByTestId('add-contact-button').click()
 

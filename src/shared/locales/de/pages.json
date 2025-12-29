@@ -1,61 +1,33 @@
 {
   "buyAndSellTokens": {
-    "buyAndSellTokensAccordionAccounts": {
-      "labels": {
-        "copyAddress": "Adresse kopieren"
+    "aboutDataButtonLabel": "Über Ihre Daten",
+    "buyTokensTabLabel": "Kaufen Sie Tokens",
+    "copyAddressButtonLabel": "Adresse kopieren",
+    "depositButtonLabel": "Machen Sie einen Deposit",
+    "helpButtonLabel": "Hilfe benötigt? Chatten Sie mit uns",
+    "howItWorks": {
+      "buyTokens": {
+        "alert": "Stellen Sie sicher, dass die ausgewählte Kontonummer kompatibel mit dem Netzwerk des erworbenen Tokens ist!",
+        "kyc": "<1>Wenn der KYC-Prozess abgeschlossen ist:</1> Sie müssen eine Zieladresse für Ihre Token angeben. Kopieren Sie aus dem 'Wallets & Accounts'-Panel die Zieladresse Ihres gewünschten Neon-Kontos.",
+        "text": "<1>Dieser Prozess verwendet ein eingebettetes Widget.</1> Beim Kauf von Tokens können bei KYC-Zwecken persönliche Daten angefordert werden. <2>Größere Verkäufe erfordern eine größere Menge an KYC-Daten.</2>"
       },
-      "title": "Ihre Wallet(s) & Konto(en)"
+      "description": "Käufe und verkaufe Tokens ohne auf einen Austausch zu vertrauen! Neon bietet eine einfache und sichere Methode, um digitale Vermögenswerte mit Fiat-Geld zu kaufen und zu verkaufen.",
+      "observation": "Nachdem die Übertragung abgeschlossen ist, benötigen Ihre neuen Tokens einige Momente, um einzulangen.",
+      "sellTokens": {
+        "alert": "Depositen Transaktionen müssen von der <1>gleichen Adresse</1> gesendet werden, die im Widget verwendet wird!",
+        "kyc": "<1>Wenn der KYC-Vorgang abgeschlossen ist:</1> Sie müssen Ihre Tokens an die Einzahlungsadresse über den Button „Einzahlung tätigen“ senden. Stellen Sie sicher, dass Sie die richtige Menge an Tokens an die Einzahlungsadresse überweisen! Sie können auch die Zieladresse Ihres gewünschten Neon-Kontos aus dem Bereich „Wallets & Konten“ kopieren.",
+        "text": "<1>Dieser Prozess verwendet ein eingebettetes Widget.</1> Bei der Verkauf von Token kann bei KYC-Zwecken personenbezogene Daten angefordert werden. <2>Größere Verkäufe erfordern eine größere Menge an KYC-Daten.</2>"
+      },
+      "title": "Wie funktioniert das?"
     },
-    "buyAndSellTokensLayout": {
-      "buttons": {
-        "aboutData": "Über Ihre Daten",
-        "help": "Brauchen Sie Hilfe? Chatten Sie mit uns",
-        "walletsAndAccounts": "Wallets & Konten"
-      },
-      "howWorks": {
-        "description": "Kaufen und verkaufen Sie Token ohne Börse! Neon bietet eine mühelose und sichere Möglichkeit, digitale Assets mit Fiat-Geld zu kaufen und zu verkaufen.",
-        "title": "Wie funktioniert es?"
-      },
-      "labels": {
-        "walletsAndAccounts": {
-          "closed": "Wallets & Konten sind geschlossen",
-          "opened": "Wallets & Konten sind geöffnet"
-        }
-      },
-      "processes": {
-        "all": {
-          "observation": "Nach Abschluss der Überweisung dauert es einige Momente, bis Ihre neuen Token ankommen."
-        },
-        "buyTokens": {
-          "alert": "Stellen Sie sicher, dass das ausgewählte Konto mit dem Netzwerk Ihres gekauften Tokens kompatibel ist!",
-          "kyc": "<1>Nach Abschluss des KYC-Prozesses:</1> Sie müssen eine Zieladresse für Ihre Token angeben. Kopieren Sie aus dem Panel 'Wallets & Konten' die Zieladresse Ihres gewünschten Neon-Kontos.",
-          "text": "<1>Dieser Prozess verwendet ein eingebettetes Widget.</1> Beim Kauf von Token können einige persönliche Daten für KYC-Zwecke angefordert werden. <2>Größere Verkäufe erfordern mehr KYC-Daten.</2>"
-        },
-        "sellTokens": {
-          "alert": "Einzahlungstransaktionen müssen von derselben Adresse gesendet werden, die im Widget verwendet wird!",
-          "kyc": "<1>Nach Abschluss des KYC-Prozesses:</1> Sie müssen Ihre Token mit der Schaltfläche 'Einzahlung tätigen' an die Einzahlungsadresse senden. Bitte stellen Sie sicher, dass Sie die richtige Menge an Token an die Einzahlungsadresse überweisen! Sie können auch eine Zieladresse Ihres gewünschten Neon-Kontos aus dem Panel 'Wallets & Konten' kopieren.",
-          "text": "<1>Dieser Prozess verwendet ein eingebettetes Widget.</1> Beim Verkauf von Token können einige persönliche Daten für KYC-Zwecke angefordert werden. <2>Größere Verkäufe erfordern mehr KYC-Daten.</2>"
-        }
-      },
-      "tabs": {
-        "buyTokens": "Token kaufen",
-        "sellTokens": "Token verkaufen"
-      }
-    },
-    "buyTokensContent": {
-      "buttons": {
-        "restart": "Neu starten"
-      }
-    },
-    "notConfigured": "Kauf & Verkauf von Token ist nicht konfiguriert",
-    "sellTokensContent": {
-      "buttons": {
-        "deposit": "Einzahlung tätigen",
-        "restart": "Neu starten"
-      },
-      "error": "Es gibt einen Fehler beim Verkauf von Token, bitte versuchen Sie es erneut"
-    },
-    "title": "Token kaufen & verkaufen"
+    "restartButtonLabel": "Neustarten",
+    "sellTokensTabLabel": "Verkauf von Token",
+    "title": "Token kaufen & verkaufen",
+    "walletsAndAccountsButtonLabel": "Wallets & Accounts",
+    "walletsAndAccountsClosedButtonLabel": "Wallets & Accounts sind geschlossen",
+    "walletsAndAccountsContentTitle": "Ihre Wallet(s) & Konto(s)",
+    "walletsAndAccountsOpenedButtonLabel": "Wallets & Accounts sind geöffnet",
+    "widgetError": "Es ist ein Fehler beim Laden des Widgets aufgetreten. Bitte versuchen Sie es später erneut oder kontaktieren Sie den Support."
   },
   "contacts": {
     "addresses": "Adressen",
@@ -623,53 +595,53 @@
     },
     "continue": "Weiter",
     "importWallet": {
-      "migrationLabel": "Migrationsdatei suchen",
-      "step3": {
-        "formTitle": "Geben Sie eine Adresse, einen verschlüsselten Schlüssel, einen privaten Schlüssel oder Mnemonic ein oder suchen Sie eine Sicherungsdatei",
-        "importEncryptedDescription": "Wählen Sie die gewünschte Blockchain für Ihr neues Konto aus",
-        "importEncryptedSubtitle": "Ihr verschlüsselter Schlüssel wurde erkannt. Bitte füllen Sie die folgenden Felder aus, um fortzufahren.",
-        "importEncryptedTitle": "Wallet importieren",
-        "importError": "Kompatible Datei nicht erkannt",
-        "importSuccess": "Kompatible Datei identifiziert!",
-        "inputPlaceholder": "Adresse, Schlüssel oder Mnemonic eingeben…",
-        "invalidAddress": "Ungültige Adresse",
-        "locateFileButtonLabel": "Datei suchen",
-        "migrationFormTitle": "Durchsuchen Sie Ihren Computer, um eine Migrationsdatei zu finden",
-        "neon2Warning": "Diese Datei wird während des Migrationsprozesses in Ihrem Neon 2 Wallet erstellt. Starten Sie den Prozess in Neon 2, um die Datei zu erstellen.",
-        "unexpectedError": "Unerwarteter Fehler"
-      },
-      "step4": {
-        "title": "Bitte haben Sie Geduld, wir richten jetzt Ihr Wallet ein"
-      },
-      "step5": {
-        "openWalletButtonLabel": "Wallet öffnen",
+      "completedStep": {
+        "label": "Vollständig",
+        "openWalletButtonLabel": "Öffnen Sie Ihre Wallet",
         "title": "Wallet erfolgreich importiert!"
       },
-      "steps": [
-        "Passwort erstellen",
-        "Passwort bestätigen",
-        "Details hinzufügen oder Datei suchen",
-        "Importieren",
-        "Abschließen"
-      ],
+      "importStep": {
+        "label": "Importieren",
+        "title": "Bitte haben Sie Geduld, wir erstellen gerade Ihr Wallet"
+      },
+      "keyStep": {
+        "formTitle": "Geben Sie eine Adresse, verschlüsselte Schlüssel, private Schlüssel, mnemonische Phrase oder lokalisieren Sie die Backup-Datei ein",
+        "importEncryptedDescription": "Wählen Sie die gewünschte Blockchain für Ihr neues Konto",
+        "importEncryptedSubtitle": "Ihre verschlüsselte Schlüssel wurden erkannt, bitte füllen Sie die untenstehenden Felder aus, um fortzufahren.",
+        "importEncryptedTitle": "Wallet importieren",
+        "importError": "Kompatibler Dateityp nicht erkannt",
+        "importSuccess": "Datei kompatibel erkannt!",
+        "inputPlaceholder": "Geben Sie eine Adresse, Schlüssel oder Mnemonik ein…",
+        "invalidAddress": "Ungültige Adresse",
+        "label": "Details hinzufügen oder Datei finden",
+        "locateFileButtonLabel": "Datei finden",
+        "migrationFormTitle": "Durchsuchen Sie Ihren Computer, um eine Migrationdatei zu finden",
+        "neon2Warning": "Diese Datei wird während des Migrationsvorgangs in Ihrer Neon 2 Wallet erstellt. Starten Sie den Vorgang in Neon 2, um die Datei zu erstellen.",
+        "unexpectedError": "Unerwarteter Fehler"
+      },
+      "migrationStep": {
+        "label": "Finden Sie Ihre Migrationsdatei"
+      },
       "title": "Wallet importieren"
     },
     "securitySetup": {
-      "step1": {
+      "completedStep": {
+        "buttonContinueLabel": "Öffnen Sie Ihre Wallet",
+        "label": "Vollständig",
+        "title": "Passwort erfolgreich erstellt!"
+      },
+      "confirmPasswordStep": {
+        "confirmPasswordError": "Passwörter stimmen nicht überein",
+        "confirmPasswordPlaceholder": "Bestätigen Sie Ihr Passwort…",
+        "formTitle": "Bitte bestätigen Sie Ihr Passwort",
+        "label": "Passwort bestätigen"
+      },
+      "passwordStep": {
         "formTitle": "Bitte erstellen Sie ein Passwort, um Ihr Wallet zu sichern",
+        "label": "Passwort erstellen",
         "passwordError": "Passwort muss mindestens {{length}} Zeichen lang sein",
         "passwordPlaceholder": "Passwort erstellen…"
       },
-      "step2": {
-        "confirmPasswordError": "Passwörter stimmen nicht überein",
-        "confirmPasswordPlaceholder": "Passwort bestätigen…",
-        "formTitle": "Bitte bestätigen Sie Ihr Passwort"
-      },
-      "step3": {
-        "buttonContinueLabel": "Wallet öffnen",
-        "title": "Passwort erfolgreich erstellt!"
-      },
-      "steps": ["Passwort erstellen", "Passwort bestätigen", "Abschließen"],
       "title": "Sichern Sie Ihr neues Wallet"
     },
     "title": "Willkommen bei Neon Wallet"

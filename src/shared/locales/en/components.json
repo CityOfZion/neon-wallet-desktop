@@ -136,6 +136,10 @@
     "swap": "Swap",
     "wallets": "Wallets"
   },
+  "stepper": {
+    "listLabel": "Progress steps",
+    "rootLabel": "Stepper"
+  },
   "temporaryLimitsBox": {
     "description": "Using this method of login limits access to some key features:",
     "limits": [

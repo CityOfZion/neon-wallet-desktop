@@ -140,7 +140,7 @@ const ExportFullTransactionsModal = () => {
 
   const handleReturn = () => {
     modalErase()
-    navigate(`/wallets/${actionData.account!.id}/transactions`)
+    navigate('/wallets/transactions', { state: { account: actionData.account } })
   }
 
   const handleOpenExport = async () => {

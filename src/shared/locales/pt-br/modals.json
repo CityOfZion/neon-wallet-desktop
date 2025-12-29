@@ -488,6 +488,7 @@
     "transactionDetailsHeaderLabel": "Detalhes da transação"
   },
   "neo3NeoxBridgeDetails": {
+    "completeStepLabel": "Completo",
     "description": "Detalhes da sua bridge",
     "detailsHeaderLabel": "Detalhes",
     "errorsByCode": {
@@ -502,8 +503,8 @@
     "fromDetailsPanelLabel": "De",
     "fromTokenDetailsItemLabel": "Token",
     "helpButtonLabel": "Precisa de ajuda? Converse conosco",
+    "sendStepLabel": "Enviar",
     "statusPanelLabel": "Status",
-    "statusPanelSteps": ["Enviado", "Concluído"],
     "title": "Sua bridge",
     "toAddressDetailsItemLabel": "Endereço de recebimento",
     "toDetailsPanelLabel": "Para",
@@ -682,8 +683,11 @@
     "title": "Fazer depósito"
   },
   "swapDetails": {
+    "completeStatusStepLabel": "Complete",
+    "confirmStatusStepLabel": "Confirme",
     "detailsHeaderDescription": " Nosso objetivo é concluir os swaps em menos de 7 minutos",
     "detailsHeaderLabel": "Detalhes",
+    "exchangeStatusStepLabel": "Troca",
     "extraIdToLabel": "Tag/memo de destino",
     "helpButtonLabel": "Precisa de ajuda? Converse conosco",
     "receivePanelAddressLabel": "Endereço de recebimento",
@@ -699,7 +703,6 @@
     "sentPanelLabel": "Você enviou",
     "sentPanelTokenLabel": "Token",
     "statusPanelLabel": "Status",
-    "statusPanelSteps": ["Confirmado", "Processando", "Concluir"],
     "subtitle": "Detalhes do seu swap",
     "swapErrorMessage": " Ops! Encontramos um erro - swap falhou",
     "swapLog": "Registro de swap",

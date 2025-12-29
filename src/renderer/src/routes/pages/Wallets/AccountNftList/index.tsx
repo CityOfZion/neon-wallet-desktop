@@ -11,12 +11,12 @@ import { NftList } from '@renderer/components/NftList'
 import { useInfiniteScroll } from '@renderer/hooks/useInfiniteScroll'
 import { useNfts } from '@renderer/hooks/useNfts'
 
-import { AccountDetailsLayout } from '@renderer/layouts/AccountDetailsLayout'
-
 import MdFormatListBulleted from '@renderer/assets/images/md-format-list-bulleted.svg?react'
 import MdGridView from '@renderer/assets/images/md-grid-view.svg?react'
 
 import { IAccountState } from '@shared/types/store'
+
+import { AccountDetailsLayout } from '../AccountDetailsLayout'
 
 enum ENftViewOption {
   LIST,

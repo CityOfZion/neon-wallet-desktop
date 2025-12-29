@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect } from 'react'
 
 import { BSBigNumberHelper, TBSToken } from '@cityofzion/blockchain-service'
-import { motion, useIsPresent } from 'motion/react'
+import { useIsPresent } from 'motion/react'
 import { useTranslation } from 'react-i18next'
 
 import { ActionStep } from '@renderer/components/ActionStep'
@@ -14,7 +14,6 @@ import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
 
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
-import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
 import { useDebounceFunction } from '@renderer/hooks/useDebounceFunction'
@@ -132,146 +131,132 @@ export const SendRecipient = ({
   useEffect(() => {
     if (recipient.addressInput === undefined || !selectedAccount || !isPresent) return
     validateAddressOrNS(recipient.addressInput, selectedAccount.blockchain)
-  }, [recipient.addressInput, selectedAccount, validateAddressOrNS, isPresent])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [recipient.addressInput, selectedAccount, validateAddressOrNS])
 
   useEffect(() => {
     if (!isPresent) return
     onUpdateRecipient({ address: validatedAddress })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [validatedAddress, isPresent])
+  }, [validatedAddress])
 
   return (
-    <motion.div
-      initial={removable ? { scale: 0, opacity: 0 } : undefined}
-      animate={removable ? { scale: 1, opacity: 1 } : undefined}
-      exit={removable ? { scale: 0, opacity: 0 } : undefined}
-      layout={order > 1}
-      style={{
-        zIndex: !isPresent ? 0 : 1,
-      }}
-      transition={{ type: 'spring', stiffness: 900, damping: 40, opacity: { duration: 0.05 } }}
-      className={StyleHelper.mergeStyles('w-full rounded-sm bg-gray-800', {
-        static: isPresent,
-        absolute: !isPresent,
-      })}
-    >
-      <div className="flex w-full flex-col items-center rounded-sm bg-gray-700/60 px-3.5">
-        <ActionStep className="px-0" title={t('title', { order })} leftIcon={<TbStepInto aria-hidden />}>
-          {removable && (
-            <Button
-              label={commonT('general.remove')}
-              flat
-              variant="text-slim"
-              textClassName="text-pink"
-              disabled={isDisabled}
-              onClick={() => onRemoveRecipient()}
-            />
-          )}
-        </ActionStep>
+    <div className="flex w-full flex-col items-center rounded-sm bg-gray-700/60 px-3.5">
+      <ActionStep className="px-0" title={t('title', { order })} leftIcon={<TbStepInto aria-hidden />}>
+        {removable && (
+          <Button
+            label={commonT('general.remove')}
+            flat
+            variant="text-slim"
+            textClassName="text-pink"
+            disabled={isDisabled}
+            onClick={() => onRemoveRecipient()}
+          />
+        )}
+      </ActionStep>
 
-        <Separator />
+      <Separator />
 
-        <div className="my-5 flex w-full flex-col">
-          <div className="flex w-full items-start gap-3">
-            <Input
-              value={recipient.addressInput ?? ''}
-              onChange={handleChangeAddress}
-              compacted
-              testId={`send-recipient-address-input-${order}`}
-              className="w-full"
-              placeholder={t('addressPlaceholder')}
-              clearable={false}
-              pastable
-              rightElement={
-                <IconButton
-                  icon={<TbUsers aria-hidden />}
-                  type="button"
-                  onClick={modalNavigateWrapper('select-contact', {
-                    state: {
-                      onSelectContact: handleSelectContact,
-                      blockchain: selectedAccount?.blockchain,
-                    },
-                  })}
-                  compacted
-                  disabled={isDisabled}
-                />
-              }
-              loading={isValidatingAddressOrDomainAddress}
-              errorMessage={isValidAddressOrDomainAddress === false ? t('errors.invalidAddress') : undefined}
-              disabled={isDisabled}
-            />
-
-            <GreyAccountSelect
-              onSelect={handleSelectAccount}
-              withoutIndicator
-              blockchains={selectedAccount ? [selectedAccount.blockchain] : undefined}
-              disabled={isDisabled}
-            >
-              <Button
+      <div className="my-5 flex w-full flex-col">
+        <div className="flex w-full items-start gap-3">
+          <Input
+            value={recipient.addressInput ?? ''}
+            onChange={handleChangeAddress}
+            compacted
+            testId={`send-recipient-address-input-${order}`}
+            className="w-full"
+            placeholder={t('addressPlaceholder')}
+            clearable={false}
+            pastable
+            rightElement={
+              <IconButton
+                icon={<TbUsers aria-hidden />}
+                type="button"
+                onClick={modalNavigateWrapper('select-contact', {
+                  state: {
+                    onSelectContact: handleSelectContact,
+                    blockchain: selectedAccount?.blockchain,
+                  },
+                })}
+                compacted
                 disabled={isDisabled}
-                variant="text"
-                label={t('myAccountButtonLabel')}
-                leftIcon={<TbWallet aria-hidden />}
-                flat
               />
-            </GreyAccountSelect>
-          </div>
-
-          {isNameService && <span className="text-neon mt-1 block text-xs">{validatedAddress}</span>}
-        </div>
-
-        <Separator />
-
-        <ActionStep
-          className="px-0"
-          title={t('tokenToSendLabel')}
-          leftIcon={<VscCircleFilled aria-hidden className="h-2 w-2 text-gray-300" />}
-        >
-          <GreyTokenSelect
-            tokens={balance?.data?.tokensBalances.map(tokenBalance => tokenBalance.token) ?? []}
-            balance={balance?.data}
-            onSelect={handleSelectToken}
-            selectedToken={recipient.token?.token}
-            loading={balance?.isLoading}
+            }
+            loading={isValidatingAddressOrDomainAddress}
+            errorMessage={isValidAddressOrDomainAddress === false ? t('errors.invalidAddress') : undefined}
             disabled={isDisabled}
           />
-        </ActionStep>
 
-        <Separator />
-
-        <ActionStep
-          className="px-0"
-          title={t('amountLabel')}
-          leftIcon={<VscCircleFilled aria-hidden className="h-2 w-2 text-gray-300" />}
-        >
-          <GreyAmountInput
-            value={recipient.amount ?? ''}
-            onChangeValue={handleChangeAmount}
-            disabled={isAmountDisabled}
-            maxButtonProps={{
-              loading: isLoadingMaxAmount,
-              disabled: isAmountDisabled,
-              onClick: () => onMaxAmount(recipient),
-            }}
-          />
-        </ActionStep>
-
-        <div className="flex w-full justify-between gap-x-4 pb-3 pl-8">
-          <span className="text-xs whitespace-nowrap text-gray-200 italic">
-            {t('fiatLabel', { currency: currency.label })}
-          </span>
-          <span className="truncate text-xs text-gray-100 italic">
-            {NumberHelper.currency(
-              recipient.amount && recipient.token
-                ? BSBigNumberHelper.fromNumber(recipient.amount)
-                    .multipliedBy(recipient.token.exchangeConvertedPrice)
-                    .toFixed()
-                : 0,
-              { currency, maximumFractionDigits: 6 }
-            )}
-          </span>
+          <GreyAccountSelect
+            onSelect={handleSelectAccount}
+            withoutIndicator
+            blockchains={selectedAccount ? [selectedAccount.blockchain] : undefined}
+            disabled={isDisabled}
+          >
+            <Button
+              disabled={isDisabled}
+              variant="text"
+              label={t('myAccountButtonLabel')}
+              leftIcon={<TbWallet aria-hidden />}
+              flat
+            />
+          </GreyAccountSelect>
         </div>
+
+        {isNameService && <span className="text-neon mt-1 block text-xs">{validatedAddress}</span>}
       </div>
-    </motion.div>
+
+      <Separator />
+
+      <ActionStep
+        className="px-0"
+        title={t('tokenToSendLabel')}
+        leftIcon={<VscCircleFilled aria-hidden className="h-2 w-2 text-gray-300" />}
+      >
+        <GreyTokenSelect
+          tokens={balance?.data?.tokensBalances.map(tokenBalance => tokenBalance.token) ?? []}
+          balance={balance?.data}
+          onSelect={handleSelectToken}
+          selectedToken={recipient.token?.token}
+          loading={balance?.isLoading}
+          disabled={isDisabled}
+        />
+      </ActionStep>
+
+      <Separator />
+
+      <ActionStep
+        className="px-0"
+        title={t('amountLabel')}
+        leftIcon={<VscCircleFilled aria-hidden className="h-2 w-2 text-gray-300" />}
+      >
+        <GreyAmountInput
+          value={recipient.amount ?? ''}
+          onChangeValue={handleChangeAmount}
+          disabled={isAmountDisabled}
+          maxButtonProps={{
+            loading: isLoadingMaxAmount,
+            disabled: isAmountDisabled,
+            onClick: () => onMaxAmount(recipient),
+          }}
+        />
+      </ActionStep>
+
+      <div className="flex w-full justify-between gap-x-4 pb-3 pl-8">
+        <span className="text-xs whitespace-nowrap text-gray-200 italic">
+          {t('fiatLabel', { currency: currency.label })}
+        </span>
+        <span className="truncate text-xs text-gray-100 italic">
+          {NumberHelper.currency(
+            recipient.amount && recipient.token
+              ? BSBigNumberHelper.fromNumber(recipient.amount)
+                  .multipliedBy(recipient.token.exchangeConvertedPrice)
+                  .toFixed()
+              : 0,
+            { currency, maximumFractionDigits: 6 }
+          )}
+        </span>
+      </div>
+    </div>
   )
 }

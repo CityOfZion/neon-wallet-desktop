@@ -27,9 +27,9 @@ type TProps = {
   onSubmit?: (password: string) => void
 }
 
-const LoginPasswordSecuritySetupStep2Page = ({ onSubmit }: TProps) => {
+export const LoginPasswordSecuritySetupStep2Content = ({ onSubmit }: TProps) => {
   const { state } = useLocation() as Location<TLocationState>
-  const { t } = useTranslation('pages', { keyPrefix: 'welcome.securitySetup.step2' })
+  const { t } = useTranslation('pages', { keyPrefix: 'welcome.securitySetup.confirmPasswordStep' })
   const { t: commonT } = useTranslation('common')
   const navigate = useNavigate()
   const { createWallet, createStandardAccount } = useBlockchainActions()
@@ -96,12 +96,11 @@ const LoginPasswordSecuritySetupStep2Page = ({ onSubmit }: TProps) => {
           label={commonT('general.continue')}
           className="w-64"
           type="submit"
-          disabled={!actionState.isValid || actionState.isActing}
+          loading={actionState.isActing}
+          disabled={!actionState.isValid}
           {...TestHelper.buildTestObject('security-setup-second-submit')}
         />
       </form>
     </Fragment>
   )
 }
-
-export default LoginPasswordSecuritySetupStep2Page

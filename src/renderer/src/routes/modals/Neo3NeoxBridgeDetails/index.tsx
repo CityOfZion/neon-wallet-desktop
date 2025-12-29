@@ -109,13 +109,17 @@ const Neo3NeoxBridgeDetailsModal = () => {
 
         <Details.Body>
           <Details.Panel label={t('statusPanelLabel')}>
-            <Stepper
+            <Stepper.Root
               className="mt-4 mb-10 px-14"
-              steps={t('statusPanelSteps', { returnObjects: true })}
-              currentStep={stepsByStatus[status]}
-              currentState={status == 'error' ? 'error' : 'success'}
-              theme="neon"
-            />
+              value={stepsByStatus[status]}
+              state={status == 'error' ? 'error' : 'success'}
+              colorSchema="neon"
+            >
+              <Stepper.List>
+                <Stepper.Step value={1} label={t('sendStepLabel')} />
+                <Stepper.Step value={2} label={t('completeStepLabel')} />
+              </Stepper.List>
+            </Stepper.Root>
 
             {errorMessage && <p className="text-pink text-center text-xs">{errorMessage}</p>}
           </Details.Panel>

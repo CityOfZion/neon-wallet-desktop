@@ -1,61 +1,33 @@
 {
   "buyAndSellTokens": {
-    "buyAndSellTokensAccordionAccounts": {
-      "labels": {
-        "copyAddress": "Copiar endereço"
+    "aboutDataButtonLabel": "Sobre seus dados",
+    "buyTokensTabLabel": "Comprar tokens",
+    "copyAddressButtonLabel": "Copiar endereço",
+    "depositButtonLabel": "Faça um depósito",
+    "helpButtonLabel": "Precisa de ajuda? Chat com a gente",
+    "howItWorks": {
+      "buyTokens": {
+        "alert": "Assegure-se de que a conta que você selecionar seja compatível com a rede do seu token adquirido!",
+        "kyc": "<1>Assim que o processo de KYC for concluído:</1> Você precisará fornecer um endereço de destino para seus tokens. Do painel 'Wallets & Accounts', copie o endereço de destino da sua conta Neon desejada.",
+        "text": "<1>Este processo usa um widget embutido.</1> Ao comprar tokens, alguns dados pessoais podem ser solicitados para fins de KYC. <2>Vendas maiores exigem uma quantidade maior de dados KYC.</2>"
       },
-      "title": "Sua(s) carteira(s) e conta(s)"
+      "description": "Compre e venda tokens sem depender de uma exchange! O Neon oferece uma forma fácil e segura de comprar e vender ativos digitais usando dinheiro fiat.",
+      "observation": "Após a transferência ter sido concluída, seus novos tokens levarão alguns momentos para chegar.",
+      "sellTokens": {
+        "alert": "Transações de depósito precisam ser enviadas do <1>mesmo endereço</1> utilizado no widget!",
+        "kyc": "<1>Assim que o processo de KYC for concluído:</1> Você precisará enviar seus tokens para o endereço de depósito usando o botão 'Faça um depósito'. Por favor, assegure-se de que você transfira a quantidade correta de tokens para o endereço de depósito! Você também pode copiar o endereço de destino da sua conta Neon desejada, do painel 'Portfólios & Contas'.",
+        "text": "<1>Este processo usa um widget embutido.</1> Ao vender tokens, alguns dados pessoais podem ser solicitados para fins de KYC. <2>Vendas maiores exigem uma quantidade maior de dados KYC.</2>"
+      },
+      "title": "Como funciona"
     },
-    "buyAndSellTokensLayout": {
-      "buttons": {
-        "aboutData": "Sobre seus dados",
-        "help": "Precisa de ajuda? Converse conosco",
-        "walletsAndAccounts": "Carteiras e Contas"
-      },
-      "howWorks": {
-        "description": "Compre e venda tokens sem depender de uma exchange! A Neon oferece uma maneira fácil e segura de comprar e vender ativos digitais usando dinheiro fiduciário.",
-        "title": "Como funciona?"
-      },
-      "labels": {
-        "walletsAndAccounts": {
-          "closed": "Carteiras e Contas estão fechadas",
-          "opened": "Carteiras e Contas estão abertas"
-        }
-      },
-      "processes": {
-        "all": {
-          "observation": "Após a transferência ser concluída, seus novos tokens levarão alguns momentos para chegar."
-        },
-        "buyTokens": {
-          "alert": "Certifique-se de que a conta selecionada seja compatível com a rede do seu token comprado!",
-          "kyc": "<1>Após a conclusão do processo KYC:</1> Você precisará fornecer um endereço de destino para seus tokens. No painel 'Carteiras e Contas', copie o endereço de destino da sua conta Neon desejada.",
-          "text": "<1>Este processo usa um widget incorporado.</1> Ao comprar tokens, alguns dados pessoais podem ser solicitados para fins de KYC. <2>Vendas maiores exigem uma maior quantidade de dados KYC.</2>"
-        },
-        "sellTokens": {
-          "alert": "As transações de depósito precisam ser enviadas do <1>mesmo endereço</1> usado no widget!",
-          "kyc": "<1>Após a conclusão do processo KYC:</1> Você precisará enviar seus tokens para o endereço de depósito usando o botão 'Fazer um Depósito'. Por favor, certifique-se de transferir a quantidade correta de tokens para o endereço de depósito! Você também pode copiar um endereço de destino da sua conta Neon desejada, no painel 'Carteiras e Contas'.",
-          "text": "<1>Este processo usa um widget incorporado.</1> Ao vender tokens, alguns dados pessoais podem ser solicitados para fins de KYC. <2>Vendas maiores exigem uma maior quantidade de dados KYC.</2>"
-        }
-      },
-      "tabs": {
-        "buyTokens": "Comprar tokens",
-        "sellTokens": "Vender tokens"
-      }
-    },
-    "buyTokensContent": {
-      "buttons": {
-        "restart": "Reiniciar"
-      }
-    },
-    "notConfigured": "Comprar e Vender Tokens não está configurado",
-    "sellTokensContent": {
-      "buttons": {
-        "deposit": "Fazer depósito",
-        "restart": "Reiniciar"
-      },
-      "error": "Há um erro com Vender Tokens, por favor, tente novamente"
-    },
-    "title": "Comprar e Vender Tokens"
+    "restartButtonLabel": "Reiniciar",
+    "sellTokensTabLabel": "Vender tokens",
+    "title": "Comprar e Vender Tokens",
+    "walletsAndAccountsButtonLabel": "Portfólio & Contas",
+    "walletsAndAccountsClosedButtonLabel": "Carteiras & Contas estão fechadas",
+    "walletsAndAccountsContentTitle": "Sua(s) wallet(s) & conta(s)",
+    "walletsAndAccountsOpenedButtonLabel": "Portfólios & Contas estão abertos",
+    "widgetError": "Houve um erro ao carregar o widget. Por favor, tente novamente mais tarde ou entre em contato com o suporte."
   },
   "contacts": {
     "addresses": "Endereços",
@@ -241,7 +213,7 @@
     },
     "walletConnectManagerSetup": {
       "autoAcceptErrorMessage": "Processamento da solicitação WalletConnect falhou",
-      "autoAcceptProcessingMessage": "WalletConnect solicitação sendo processada...",
+      "autoAcceptProcessingMessage": "WalletConnect solicitação sendo processada…",
       "autoAcceptSuccessMessage": "WalletConnect solicitação processada com sucesso"
     },
     "walletTasksManagerSetup": {
@@ -623,47 +595,53 @@
     },
     "continue": "Continuar",
     "importWallet": {
-      "migrationLabel": "Localizar seu arquivo de migração",
-      "step3": {
-        "formTitle": "Digite um endereço, chave criptografada, chave privada, mnemônico ou localize o arquivo de backup",
+      "completedStep": {
+        "label": "Completo",
+        "openWalletButtonLabel": "Abra sua wallet",
+        "title": "Carteira importada com sucesso!"
+      },
+      "importStep": {
+        "label": "Importar",
+        "title": "Por favor, seja paciente, estamos configurando sua wallet agora"
+      },
+      "keyStep": {
+        "formTitle": "Digite um endereço, chave criptografada, chave privada, mnemonic ou localize o arquivo de backup",
         "importEncryptedDescription": "Selecione a blockchain desejada para sua nova conta",
-        "importEncryptedSubtitle": "Sua chave criptografada foi reconhecida, por favor complete os campos abaixo para continuar.",
-        "importEncryptedTitle": "Importar uma carteira",
+        "importEncryptedSubtitle": "Sua chave criptografada foi reconhecida, por favor, complete os campos abaixo para continuar.",
+        "importEncryptedTitle": "Importar uma wallet",
         "importError": "Arquivo compatível não reconhecido",
         "importSuccess": "Arquivo compatível identificado!",
         "inputPlaceholder": "Digite um endereço, chave ou mnemônico…",
         "invalidAddress": "Endereço inválido",
+        "label": "Adicione detalhes ou localize o arquivo",
         "locateFileButtonLabel": "Localizar arquivo",
-        "migrationFormTitle": "Navegue em seu computador para encontrar um arquivo de migração",
-        "neon2Warning": "Este arquivo é criado durante o processo de migração em sua carteira Neon 2. Inicie o processo no Neon 2 para criar o arquivo.",
+        "migrationFormTitle": "Navegue pelo seu computador para encontrar um arquivo de migração",
+        "neon2Warning": "Este arquivo é criado durante o processo de migração em sua Neon 2 wallet. Inicie o processo na Neon 2 para criar o arquivo.",
         "unexpectedError": "Erro inesperado"
       },
-      "step4": {
-        "title": "Por favor, seja paciente, estamos configurando sua carteira"
+      "migrationStep": {
+        "label": "Localize seu arquivo de migração"
       },
-      "step5": {
-        "openWalletButtonLabel": "Abrir sua carteira",
-        "title": "Carteira importada com sucesso!"
-      },
-      "steps": ["Criar Senha", "Confirmar Senha", "Adicionar detalhes ou localizar arquivo", "Importar", "Concluir"],
       "title": "Importar uma carteira"
     },
     "securitySetup": {
-      "step1": {
-        "formTitle": "Por favor, crie uma senha para proteger sua carteira",
-        "passwordError": "A senha deve ter pelo menos {{length}} caracteres",
-        "passwordPlaceholder": "Criar uma senha…"
-      },
-      "step2": {
-        "confirmPasswordError": "As senhas não coincidem",
-        "confirmPasswordPlaceholder": "Confirme sua senha…",
-        "formTitle": "Por favor, confirme sua senha"
-      },
-      "step3": {
-        "buttonContinueLabel": "Abrir sua carteira",
+      "completedStep": {
+        "buttonContinueLabel": "Abra sua wallet",
+        "label": "Complete",
         "title": "Senha criada com sucesso!"
       },
-      "steps": ["Criar Senha", "Confirmar Senha", "Concluir"],
+      "confirmPasswordStep": {
+        "confirmPasswordError": "As senhas não coincidem",
+        "confirmPasswordPlaceholder": "Confirme sua senha…",
+        "formTitle": "Confirme sua senha",
+        "label": "Confirme a senha"
+      },
+      "passwordStep": {
+        "formTitle": "Por favor, crie uma senha para proteger sua wallet",
+        "label": "Criar senha",
+        "passwordError": "A senha deve ter pelo menos {{length}} caracteres",
+        "passwordPlaceholder": "Crie uma senha…"
+      },
       "title": "Protegendo sua nova carteira"
     },
     "title": "Bem-vindo à Neon Wallet"

@@ -54,7 +54,7 @@ const ImportAccountsSelectionModal = () => {
     })
 
     modalErase()
-    navigate(`/wallets/${accounts[0].id}/overview`)
+    navigate('/wallets/overview', { state: { account: accounts[0] } })
   })
 
   return (

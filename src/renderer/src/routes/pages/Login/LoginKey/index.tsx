@@ -15,7 +15,7 @@ import { useLogin } from '@renderer/hooks/useLogin'
 import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { TAccountsToImport } from '@shared/types/blockchain'
 
-const LoginKeyPage = () => {
+export const LoginKeyTabContent = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'loginKey' })
   const { t: commonT } = useTranslation('common')
   const navigate = useNavigate()
@@ -41,7 +41,7 @@ const LoginKeyPage = () => {
       name: commonT('wallet.watchAccount'),
       type: 'standard',
     })
-    navigate('/wallets')
+    navigate('/wallets/overview')
   }
 
   const { actionData, actionState, handleAct, handleChange, handleSubmit } = useImportAction(
@@ -74,7 +74,7 @@ const LoginKeyPage = () => {
 
         <Button
           label={commonT('general.next')}
-          className="mt-4 w-[250px]"
+          className="mt-8 w-[250px]"
           variant="contained"
           type="submit"
           disabled={!actionState.isValid || actionState.isActing}
@@ -85,5 +85,3 @@ const LoginKeyPage = () => {
     </Fragment>
   )
 }
-
-export default LoginKeyPage

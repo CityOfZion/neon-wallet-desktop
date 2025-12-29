@@ -306,8 +306,7 @@ type TModalRouterSideRouteTypes = {
 }
 
 type TBuyAndSellTokensLeaveAlertModalState = {
-  nextUrl: string
-  setCanNavigate: (canNavigate: boolean) => void
+  onContinue: () => void
 }
 
 type TDappConnectionModalState = {

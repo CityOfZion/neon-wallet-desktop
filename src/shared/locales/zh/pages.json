@@ -1,61 +1,33 @@
 {
   "buyAndSellTokens": {
-    "buyAndSellTokensAccordionAccounts": {
-      "labels": {
-        "copyAddress": "复制地址"
+    "aboutDataButtonLabel": "关于您的数据",
+    "buyTokensTabLabel": "购买代币",
+    "copyAddressButtonLabel": "复制地址",
+    "depositButtonLabel": "存款",
+    "helpButtonLabel": "需要帮助吗？与我们聊天",
+    "howItWorks": {
+      "buyTokens": {
+        "alert": "确保您选择的账户与所购买代币的网络兼容！",
+        "kyc": "<1>完成KYC流程后:</1> 您需要提供一个用于接收代币的目标地址。从“钱包与账户”面板中，复制您所选Neon账户的目标地址。",
+        "text": "<1>此流程使用嵌入式小部件。</1> 购买代币时，可能会要求提供一些个人数据以进行KYC。 <2>较大规模的销售需要更多的KYC数据。</2>"
       },
-      "title": "您的钱包与账户"
+      "description": "无需依赖交易所即可买卖代币！Neon 提供了一种轻松且安全的方式，使用法币购买和出售数字资产。",
+      "observation": "在转账完成后，您的新代币将需要几分钟时间才能到达。",
+      "sellTokens": {
+        "alert": "存款交易需要从 <1>相同地址</1> 发送，该地址用于小部件！",
+        "kyc": "<1>完成KYC流程后：</1> 您需要使用“存款”按钮将代币发送到存款地址。 请确保您将正确数量的代币转移到存款地址！您还可以从“钱包与账户”面板复制您所选Neon账户的目标地址。",
+        "text": "<1>此过程使用嵌入式小部件。</1> 卖出代币时，可能会出于KYC目的请求一些个人数据。<2>较大规模的交易需要更多的KYC数据。</2>"
+      },
+      "title": "它是如何运作的"
     },
-    "buyAndSellTokensLayout": {
-      "buttons": {
-        "aboutData": "关于您的数据",
-        "help": "需要帮助？联系我们",
-        "walletsAndAccounts": "钱包与账户"
-      },
-      "howWorks": {
-        "description": "无需依赖交易所即可买卖代币！Neon为您提供便捷安全的法币买卖数字资产方式。",
-        "title": "它是如何工作的？"
-      },
-      "labels": {
-        "walletsAndAccounts": {
-          "closed": "钱包与账户已收起",
-          "opened": "钱包与账户已展开"
-        }
-      },
-      "processes": {
-        "all": {
-          "observation": "转账完成后，您的新代币将在片刻后到账。"
-        },
-        "buyTokens": {
-          "alert": "请确保您选择的账户与所购代币的网络兼容！",
-          "kyc": "<1>KYC流程完成后：</1> 您需要为代币提供目标地址。在“钱包与账户”面板中，复制您想要的Neon账户地址。",
-          "text": "<1>该流程使用内嵌小部件。</1> 购买代币时，可能会因KYC需要要求部分个人信息。<2>大额交易需要更多KYC信息。</2>"
-        },
-        "sellTokens": {
-          "alert": "存款交易需从<1>同一地址</1>发起！",
-          "kyc": "<1>KYC流程完成后：</1> 您需要通过“存款”按钮将代币发送到指定地址。请确保转账金额正确！您也可以在“钱包与账户”面板复制目标地址。",
-          "text": "<1>该流程使用内嵌小部件。</1> 出售代币时，可能会因KYC需要要求部分个人信息。<2>大额交易需要更多KYC信息。</2>"
-        }
-      },
-      "tabs": {
-        "buyTokens": "购买代币",
-        "sellTokens": "出售代币"
-      }
-    },
-    "buyTokensContent": {
-      "buttons": {
-        "restart": "重新开始"
-      }
-    },
-    "notConfigured": "买卖代币功能未配置",
-    "sellTokensContent": {
-      "buttons": {
-        "deposit": "发起存款",
-        "restart": "重新开始"
-      },
-      "error": "出售代币时发生错误，请重试"
-    },
-    "title": "买卖代币"
+    "restartButtonLabel": "重新启动",
+    "sellTokensTabLabel": "出售代币",
+    "title": "买卖代币",
+    "walletsAndAccountsButtonLabel": "钱包与账户",
+    "walletsAndAccountsClosedButtonLabel": "钱包与账户已关闭",
+    "walletsAndAccountsContentTitle": "您的钱包（s）及账户（s）",
+    "walletsAndAccountsOpenedButtonLabel": "钱包与账户已打开",
+    "widgetError": "加载小部件时发生错误。请稍后再试或联系支持。"
   },
   "contacts": {
     "addresses": "地址",
@@ -623,47 +595,53 @@
     },
     "continue": "继续",
     "importWallet": {
-      "migrationLabel": "定位您的迁移文件",
-      "step3": {
-        "formTitle": "输入地址、加密密钥、私钥、助记词或定位备份文件",
-        "importEncryptedDescription": "为您的新账户选择区块链",
-        "importEncryptedSubtitle": "已识别您的加密密钥，请完成以下字段以继续。",
-        "importEncryptedTitle": "导入钱包",
-        "importError": "未识别兼容文件",
-        "importSuccess": "已识别兼容文件！",
-        "inputPlaceholder": "输入地址、密钥或助记词...",
-        "invalidAddress": "无效地址",
-        "locateFileButtonLabel": "定位文件",
-        "migrationFormTitle": "在您的电脑中查找迁移文件",
-        "neon2Warning": "此文件在Neon 2钱包迁移过程中创建。请在Neon 2中启动迁移以生成文件。",
-        "unexpectedError": "意外错误"
-      },
-      "step4": {
-        "title": "请耐心等待，我们正在为您设置钱包"
-      },
-      "step5": {
+      "completedStep": {
+        "label": "完成",
         "openWalletButtonLabel": "打开您的钱包",
         "title": "钱包导入成功！"
       },
-      "steps": ["创建密码", "确认密码", "添加信息或定位文件", "导入", "完成"],
+      "importStep": {
+        "label": "导入",
+        "title": "请稍等，我们现在正在为您设置钱包"
+      },
+      "keyStep": {
+        "formTitle": "请输入一个地址、加密密钥、私钥、助记词或定位备份文件",
+        "importEncryptedDescription": "选择您新账户的所需区块链",
+        "importEncryptedSubtitle": "您的加密密钥已识别，请填写以下字段以继续。",
+        "importEncryptedTitle": "导入钱包",
+        "importError": "兼容文件未被识别",
+        "importSuccess": "已识别兼容文件！",
+        "inputPlaceholder": "请输入一个地址、密钥或助记词…",
+        "invalidAddress": "无效地址",
+        "label": "添加详细信息或定位文件",
+        "locateFileButtonLabel": "定位文件",
+        "migrationFormTitle": "浏览您的电脑以找到迁移文件",
+        "neon2Warning": "此文件是在您Neon 2钱包迁移过程中创建的。在Neon 2中启动此过程以创建该文件。",
+        "unexpectedError": "意外错误"
+      },
+      "migrationStep": {
+        "label": "找到您的迁移文件"
+      },
       "title": "导入钱包"
     },
     "securitySetup": {
-      "step1": {
-        "formTitle": "请创建密码以保护您的钱包",
-        "passwordError": "密码长度至少为{{length}}个字符",
-        "passwordPlaceholder": "创建密码..."
-      },
-      "step2": {
-        "confirmPasswordError": "两次输入的密码不一致",
-        "confirmPasswordPlaceholder": "确认您的密码...",
-        "formTitle": "请确认您的密码"
-      },
-      "step3": {
+      "completedStep": {
         "buttonContinueLabel": "打开您的钱包",
+        "label": "完成",
         "title": "密码创建成功！"
       },
-      "steps": ["创建密码", "确认密码", "完成"],
+      "confirmPasswordStep": {
+        "confirmPasswordError": "密码不匹配",
+        "confirmPasswordPlaceholder": "确认您的密码…",
+        "formTitle": "请确认您的密码",
+        "label": "确认密码"
+      },
+      "passwordStep": {
+        "formTitle": "请创建一个密码以保护您的钱包",
+        "label": "创建密码",
+        "passwordError": "密码必须至少有 {{length}} 个字符长",
+        "passwordPlaceholder": "创建一个密码…"
+      },
       "title": "保护您的新钱包"
     },
     "title": "欢迎使用Neon钱包"

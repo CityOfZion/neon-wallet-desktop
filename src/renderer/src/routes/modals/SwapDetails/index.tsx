@@ -9,7 +9,7 @@ import { Button } from '@renderer/components/Button'
 import { Details } from '@renderer/components/Details'
 import { Link } from '@renderer/components/Link'
 import { Separator } from '@renderer/components/Separator'
-import { Stepper, TStepperCurrentState } from '@renderer/components/Stepper'
+import { Stepper, TStepperState } from '@renderer/components/Stepper'
 
 import { StringHelper } from '@renderer/helpers/StringHelper'
 
@@ -144,17 +144,21 @@ const SwapDetailsModal = () => {
 
         <Details.Body>
           <Details.Panel label={t('statusPanelLabel')}>
-            <Stepper
-              className="mt-4 px-14"
-              steps={t('statusPanelSteps', { returnObjects: true })}
-              currentStep={stepsByStatus[swapRecord.swapStatus]}
-              currentState={match({ swapStatus: swapRecord.swapStatus, txFrom: swapRecord.txFrom })
-                .returnType<TStepperCurrentState>()
+            <Stepper.Root
+              value={stepsByStatus[swapRecord.swapStatus]}
+              colorSchema="neon"
+              state={match({ swapStatus: swapRecord.swapStatus, txFrom: swapRecord.txFrom })
+                .returnType<TStepperState>()
                 .with({ swapStatus: P.union('failed', 'refunded') }, () => 'error')
                 .with({ txFrom: P.nullish }, () => 'error')
                 .otherwise(() => 'success')}
-              theme="neon"
-            />
+            >
+              <Stepper.List>
+                <Stepper.Step value={1} label={t('confirmStatusStepLabel')} />
+                <Stepper.Step value={2} label={t('exchangeStatusStepLabel')} />
+                <Stepper.Step value={3} label={t('completeStatusStepLabel')} />
+              </Stepper.List>
+            </Stepper.Root>
           </Details.Panel>
 
           <Details.Panel label={t('routingPanelLabel')} className="mt-6">

@@ -715,7 +715,7 @@ export const SwapPageContent = ({ account }: TProps) => {
               </ActionStep>
 
               {hasExtraIdToReceive && (
-                <>
+                <Fragment>
                   <Separator />
 
                   <ActionStep
@@ -749,7 +749,7 @@ export const SwapPageContent = ({ account }: TProps) => {
                       onChange={handleChangeExtraIdToReceive}
                     />
                   </ActionStep>
-                </>
+                </Fragment>
               )}
             </div>
 

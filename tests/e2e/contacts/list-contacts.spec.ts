@@ -9,6 +9,7 @@ test.describe('List contacts', () => {
     const secondContact = 'My contact 2'
 
     await createNewWallet(window)
+
     await createContact(window, { contactName: firstContact })
     await createContact(window, { contactName: secondContact })
 
@@ -23,6 +24,7 @@ test.describe('List contacts', () => {
     const contactName = 'Lorem Ipsum Contact'
 
     await createNewWallet(window)
+
     await createContact(window, { contactName })
 
     await window.getByTestId('search-contact-input').fill('ipsum cont')
@@ -41,6 +43,7 @@ test.describe('List contacts', () => {
     const contactName = 'Contact'
 
     await createNewWallet(window)
+
     await createContact(window, { contactName })
 
     await window.waitForTimeout(1000)

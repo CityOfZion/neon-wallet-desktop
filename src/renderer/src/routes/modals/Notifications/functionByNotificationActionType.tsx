@@ -41,13 +41,13 @@ export const functionByNotificationActionType: TFunctionByNotificationActionType
         const account = getAccount(payload)
 
         modalActions.modalErase()
-        pageNavigate(`/wallets/${account.id}/overview`)
+        pageNavigate('/wallets/overview', { state: { account } })
       })
       .with({ to: 'account-transaction' }, payload => {
         const account = getAccount(payload)
 
         modalActions.modalErase()
-        pageNavigate(`/wallets/${account.id}/transactions`)
+        pageNavigate('/wallets/transactions', { state: { account } })
       })
       .with({ to: 'account-tokens' }, ({ address, blockchain }) => {
         const account = getAccount({ address, blockchain })
@@ -55,7 +55,7 @@ export const functionByNotificationActionType: TFunctionByNotificationActionType
         modalActions.modalErase()
 
         setTimeout(() => {
-          pageNavigate(`/wallets/${account.id}/tokens`)
+          pageNavigate('/wallets/tokens', { state: { account } })
         }, 500)
       })
       .with({ to: 'hide-fraudulent-token' }, ({ address, blockchain, tokenHash }) => {
@@ -67,7 +67,7 @@ export const functionByNotificationActionType: TFunctionByNotificationActionType
           if (tokenHash) {
             modalActions.modalNavigate('hide-fraudulent-token', { state: { account, hash: tokenHash } })
           } else {
-            pageNavigate(`/wallets/${account.id}/tokens`)
+            pageNavigate('/wallets/tokens', { state: { account } })
           }
         }, 500)
       })

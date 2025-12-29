@@ -25,8 +25,8 @@ type TLocationState = {
   password: string
 }
 
-const LoginPasswordImportWalletStep4Page = () => {
-  const { t } = useTranslation('pages', { keyPrefix: 'welcome.importWallet.step4' })
+export const LoginPasswordImportWalletStep4Content = () => {
+  const { t } = useTranslation('pages', { keyPrefix: 'welcome.importWallet.importStep' })
   const { state } = useLocation() as Location<TLocationState>
   const navigate = useNavigate()
   const { createWallet, importAccounts, createContacts } = useBlockchainActions()
@@ -94,5 +94,3 @@ const LoginPasswordImportWalletStep4Page = () => {
     </Fragment>
   )
 }
-
-export default LoginPasswordImportWalletStep4Page

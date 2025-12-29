@@ -136,6 +136,10 @@
     "swap": "Tauschen",
     "wallets": "Wallets"
   },
+  "stepper": {
+    "listLabel": "Schritt-für-Schritt-Anleitung",
+    "rootLabel": "Schrittanzeige"
+  },
   "temporaryLimitsBox": {
     "description": "Diese Anmeldemethode schränkt den Zugriff auf einige wichtige Funktionen ein:",
     "limits": [

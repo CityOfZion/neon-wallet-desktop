@@ -1,6 +1,4 @@
-import { useLayoutEffect } from 'react'
-
-import { motion, useAnimate } from 'motion/react'
+import { motion } from 'motion/react'
 import { useTranslation } from 'react-i18next'
 
 import { Accordion } from '@renderer/components/Accordion'
@@ -17,38 +15,22 @@ type TProps = {
 }
 
 export const BuyAndSellTokensAccordionAccounts = ({ isOpened, account }: TProps) => {
-  const { t } = useTranslation('pages', { keyPrefix: 'buyAndSellTokens.buyAndSellTokensAccordionAccounts' })
-  const [scope, animate] = useAnimate()
+  const { t } = useTranslation('pages', { keyPrefix: 'buyAndSellTokens' })
   const { wallets: currentWallets } = useWalletsSelector()
 
   const wallets = account ? currentWallets.filter(({ id }) => id === account.idWallet) : currentWallets
   const [firstWallet] = wallets
 
-  useLayoutEffect(() => {
-    animate(
-      scope.current,
-      {
-        width: isOpened ? 364 : 0,
-        opacity: isOpened ? 1 : 0,
-        pointerEvents: isOpened ? 'auto' : 'none',
-        overflowY: 'hidden',
-      },
-      { type: 'spring', duration: 0.4 }
-    )
-
-    setTimeout(() => {
-      animate(scope.current, { overflowY: 'auto' }, { type: 'spring', duration: 0 })
-    }, 200)
-  }, [animate, scope, isOpened])
-
   return (
     <motion.div
       id="buy-and-sell-tokens-accordion-accounts"
       aria-hidden={!isOpened}
-      ref={scope}
-      className="absolute right-0 -mr-4 h-full w-full overflow-y-auto border-l border-gray-300/15 bg-gray-900 p-4 shadow-[-5px_0px_35px_0px_rgba(26,32,38,0.4)]"
+      initial={{ width: 0, opacity: 0 }}
+      animate={isOpened ? { width: 364, opacity: 1 } : { width: 0, opacity: 0 }}
+      transition={{ type: 'spring', duration: 0.4 }}
+      className="absolute right-0 z-10 -mr-4 h-full overflow-y-auto border-l border-gray-300/15 bg-gray-900 p-4 shadow-[-5px_0px_35px_0px_#1A202666]"
     >
-      <h3 className="text-xs text-gray-300 uppercase">{t('title')}</h3>
+      <h3 className="text-xs text-gray-300 uppercase">{t('walletsAndAccountsContentTitle')}</h3>
 
       <Accordion.Root
         className="mt-3 flex flex-col gap-3"

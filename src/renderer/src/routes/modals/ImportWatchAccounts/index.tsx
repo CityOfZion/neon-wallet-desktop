@@ -67,7 +67,7 @@ const ImportWatchAccountsModal = () => {
       const accounts = await blockchainActions.importAccounts({ wallet, accounts: accountsToImport })
 
       modalErase()
-      navigate(`/wallets/${accounts[0].id}/overview`)
+      navigate('/wallets/overview', { state: { account: accounts[0] } })
     } catch (error: any) {
       setError(error.message)
     } finally {

@@ -25,8 +25,8 @@ type TLocationState = {
   isMigration?: boolean
 }
 
-const LoginPasswordImportWalletStep3Page = () => {
-  const { t } = useTranslation('pages', { keyPrefix: 'welcome.importWallet.step3' })
+export const LoginPasswordImportWalletStep3Content = () => {
+  const { t } = useTranslation('pages', { keyPrefix: 'welcome.importWallet.keyStep' })
   const { t: commonT } = useTranslation('common')
   const navigate = useNavigate()
   const { state } = useLocation() as Location<TLocationState>
@@ -246,5 +246,3 @@ const LoginPasswordImportWalletStep3Page = () => {
     </Fragment>
   )
 }
-
-export default LoginPasswordImportWalletStep3Page

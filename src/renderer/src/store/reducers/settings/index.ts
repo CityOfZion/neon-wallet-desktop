@@ -57,6 +57,7 @@ export function getSettingsReducer() {
       canShowVoteNeo3SupportUsModal: true,
       selectedWallet: undefined,
       selectedAccount: undefined,
+      showSideBar: true,
     },
   }
 
@@ -234,6 +235,7 @@ export function getSettingsReducer() {
     storage: storage,
     version: 10,
     migrate: createMigrate(settingsReducerMigrations),
+    blacklist: ['showSideBar'],
   }
 
   const settingsSlice = createSlice({

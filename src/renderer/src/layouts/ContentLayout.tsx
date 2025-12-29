@@ -1,6 +1,7 @@
-import { ComponentProps, type JSX, ReactNode } from 'react'
+import { ComponentProps, type JSX, ReactNode, useLayoutEffect } from 'react'
 import { cloneElement } from 'react'
 
+import { motion } from 'motion/react'
 import { useNavigate } from 'react-router'
 
 import { IconButton } from '@renderer/components/IconButton'
@@ -8,11 +9,13 @@ import { Separator } from '@renderer/components/Separator'
 
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
+import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useSelectedNetworkProfileSelector } from '@renderer/hooks/useSettingsSelector'
 
 import TbArrowLeft from '@renderer/assets/images/tb-arrow-left.svg?react'
 
 import { DEFAULT_NETWORK_PROFILE_ID } from '@renderer/constants/networks'
+import { settingsReducerActions } from '@renderer/store/reducers/settings'
 
 export type TMainLayoutProps = {
   children?: ReactNode
@@ -38,9 +41,10 @@ export const ContentLayout = ({
   ...props
 }: TMainLayoutProps): JSX.Element => {
   const navigate = useNavigate()
-  const { className: titleIconClassName = '', ...titleIconProps } = titleIcon ? titleIcon.props : {}
-
+  const dispatch = useAppDispatch()
   const { selectedNetworkProfile } = useSelectedNetworkProfileSelector()
+
+  const { className: titleIconClassName = '', ...titleIconProps } = titleIcon ? titleIcon.props : {}
 
   const hasCustomProfile = selectedNetworkProfile.id !== DEFAULT_NETWORK_PROFILE_ID
 
@@ -54,9 +58,17 @@ export const ContentLayout = ({
     navigate(-1)
   }
 
+  useLayoutEffect(() => {
+    dispatch(settingsReducerActions.setShowSideBar(false))
+  }, [dispatch])
+
   return (
-    <div className={StyleHelper.mergeStyles('flex h-full', className)} {...props}>
-      <div
+    <div className={StyleHelper.mergeStyles('flex h-full grow overflow-x-hidden', className)} {...props}>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.2 }}
         className={StyleHelper.mergeStyles(
           'bg-asphalt flex h-full min-h-0 w-full min-w-0 flex-col px-14 pb-4 text-white',
           {
@@ -94,7 +106,7 @@ export const ContentLayout = ({
         <main className={StyleHelper.mergeStyles('mt-4 flex min-h-0 w-full grow flex-col', contentClassName)}>
           {children}
         </main>
-      </div>
+      </motion.div>
     </div>
   )
 }

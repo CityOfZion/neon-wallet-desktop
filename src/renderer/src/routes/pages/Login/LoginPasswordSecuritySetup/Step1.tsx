@@ -19,8 +19,8 @@ type TProps = {
   onSubmit?: (password: string) => void
 }
 
-const LoginPasswordSecuritySetupStep1Page = ({ onSubmit }: TProps) => {
-  const { t } = useTranslation('pages', { keyPrefix: 'welcome.securitySetup.step1' })
+export const LoginPasswordSecuritySetupStep1Content = ({ onSubmit }: TProps) => {
+  const { t } = useTranslation('pages', { keyPrefix: 'welcome.securitySetup.passwordStep' })
   const { t: commonT } = useTranslation('common')
   const navigate = useNavigate()
 
@@ -48,6 +48,7 @@ const LoginPasswordSecuritySetupStep1Page = ({ onSubmit }: TProps) => {
   return (
     <Fragment>
       <p className="mt-15 text-sm text-white">{t('formTitle')}</p>
+
       <form className="mt-6 flex w-full grow flex-col items-center justify-between" onSubmit={handleAct(handleSubmit)}>
         <Input
           testId="security-setup-first-password"
@@ -70,5 +71,3 @@ const LoginPasswordSecuritySetupStep1Page = ({ onSubmit }: TProps) => {
     </Fragment>
   )
 }
-
-export default LoginPasswordSecuritySetupStep1Page
