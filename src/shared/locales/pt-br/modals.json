@@ -510,6 +510,7 @@
     "toTokenDetailsItemLabel": "Token"
   },
   "networkNodeSelection": {
+    "antiMevLabel": "Anti-MEV",
     "blockHeight": "Altura do bloco: {{height}}",
     "description": "Se você estiver tendo problemas de desempenho, tente selecionar um nó personalizado abaixo",
     "latency": "{{latency}}ms",

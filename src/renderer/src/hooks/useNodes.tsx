@@ -16,7 +16,7 @@ const buildNodesQueryKey = (blockchain: TBlockchainServiceKey, id: TBSNetworkId)
 const pingNodes = async (blockchain: TBlockchainServiceKey): Promise<TNode[]> => {
   const service = bsAggregator.blockchainServicesByName[blockchain]
 
-  const promises = service.availableNetworkURLs.map(async url => {
+  const promises = service.rpcNetworkUrls.map(async url => {
     try {
       return await service.pingNode(url)
     } catch {

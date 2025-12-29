@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+import { BSNeoXConstants } from '@cityofzion/bs-neox'
 import { useTranslation } from 'react-i18next'
 import { match, P } from 'ts-pattern'
 
@@ -33,10 +34,10 @@ const NetworkNodeSelection = () => {
   const pingNodesQuery = usePingNodes(blockchain)
   const dispatch = useAppDispatch()
 
-  const [selectedUrl, setSelectedUrl] = useState(selectedNetworkProfile.networkByBlockchain[blockchain].url)
-  const [isAutomatic, setIsAutomatic] = useState(
-    selectedNetworkProfile.networkByBlockchain[blockchain].isAutomatic ?? false
-  )
+  const network = selectedNetworkProfile.networkByBlockchain[blockchain]
+
+  const [selectedUrl, setSelectedUrl] = useState(network.url)
+  const [isAutomatic, setIsAutomatic] = useState(network.isAutomatic ?? false)
 
   const handleSelectRadioItem = (selectedValue: string) => {
     setIsAutomatic(false)
@@ -95,49 +96,63 @@ const NetworkNodeSelection = () => {
         </div>
       </div>
 
-      <div className="my-3.5 grow overflow-auto">
+      <div className="mt-3.5 grow overflow-auto">
         {pingNodesQuery.isLoading ? (
           <Loader />
         ) : (
           <RadioGroup.Group value={selectedUrl} onValueChange={handleSelectRadioItem}>
-            {pingNodesQuery.data?.map(node => (
-              <RadioGroup.Item key={node.url} value={node.url} className="h-15 text-xs">
-                <div className="flex min-w-0 grow items-center gap-4">
-                  <div className="flex flex-col items-center justify-center gap-0.5">
-                    <div className="flex h-4 w-4 items-center justify-center">
-                      <div
-                        className={StyleHelper.mergeStyles(
-                          'h-1.5 min-h-1.5 w-1.5 min-w-1.5 rounded-full',
-                          match(node.latency)
-                            .with(undefined, () => 'bg-gray-300')
-                            .with(
-                              P.when(value => value < 400),
-                              () => 'bg-green'
-                            )
-                            .with(
-                              P.when(value => value < 800),
-                              () => 'bg-orange'
-                            )
-                            .otherwise(() => 'bg-pink')
-                        )}
-                      />
+            {pingNodesQuery.data?.map(node => {
+              const isNeoxAntiMev =
+                blockchain === 'neox' &&
+                BSNeoXConstants.ANTI_MEV_RPC_LIST_BY_NETWORK_ID[network.id].some(url => url === node.url)
+
+              return (
+                <RadioGroup.Item key={node.url} value={node.url} className="h-17 text-xs">
+                  <div className="flex min-w-0 grow items-center gap-4">
+                    <div className="flex flex-col items-center justify-center gap-0.5">
+                      <div className="flex h-4 w-4 items-center justify-center">
+                        <div
+                          className={StyleHelper.mergeStyles(
+                            'h-1.5 min-h-1.5 w-1.5 min-w-1.5 rounded-full',
+                            match(node.latency)
+                              .with(undefined, () => 'bg-gray-300')
+                              .with(
+                                P.when(value => value < 400),
+                                () => 'bg-green'
+                              )
+                              .with(
+                                P.when(value => value < 800),
+                                () => 'bg-orange'
+                              )
+                              .otherwise(() => 'bg-pink')
+                          )}
+                        />
+                      </div>
+
+                      <span className="min-w-12 text-gray-300">
+                        {typeof node.latency === 'number' ? t('latency', { latency: node.latency }) : '--'}
+                      </span>
                     </div>
 
-                    <span className="min-w-12 text-gray-300">
-                      {typeof node.latency === 'number' ? t('latency', { latency: node.latency }) : '--'}
-                    </span>
+                    <div className="flex-start flex min-w-0 grow flex-col gap-0.5">
+                      {isNeoxAntiMev && (
+                        <span className="bg-neon/70 text-asphalt text-1xs mb-0.5 block w-fit rounded px-1.25 py-px text-center font-semibold">
+                          {t('antiMevLabel')}
+                        </span>
+                      )}
+
+                      <span className="block w-full truncate text-left">{node.url}</span>
+
+                      <span className="text-left text-gray-300">
+                        {t('blockHeight', { height: node.height ?? '--' })}
+                      </span>
+                    </div>
                   </div>
 
-                  <div className="flex-start flex min-w-0 grow flex-col gap-0.5">
-                    <span className="block w-full truncate text-left">{node.url}</span>
-
-                    <span className="text-left text-gray-300">{t('blockHeight', { height: node.height ?? '--' })}</span>
-                  </div>
-                </div>
-
-                <RadioGroup.Indicator />
-              </RadioGroup.Item>
-            ))}
+                  <RadioGroup.Indicator />
+                </RadioGroup.Item>
+              )
+            })}
           </RadioGroup.Group>
         )}
       </div>

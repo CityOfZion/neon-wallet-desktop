@@ -510,6 +510,7 @@
     "toTokenDetailsItemLabel": "代币"
   },
   "networkNodeSelection": {
+    "antiMevLabel": "反MEV",
     "blockHeight": "区块高度：{{height}}",
     "description": "如果您遇到性能问题，请尝试在下方选择自定义节点",
     "latency": "{{latency}}毫秒",
