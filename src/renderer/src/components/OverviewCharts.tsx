@@ -35,7 +35,7 @@ export const OverviewCharts = ({
     <div className="flex w-full grow flex-col">
       {balances.isLoading ? (
         <Loader className="h-10 w-10" containerClassName="mt-12" />
-      ) : balances.exchangeTotal !== 0 ? (
+      ) : balances.groupedTokenBalances.length > 0 ? (
         <Fragment key={account?.address}>
           <BalanceChart
             balances={balances}
