@@ -1,14 +1,16 @@
+import { TranslationServiceClient } from '@google-cloud/translate'
 import isEqual from 'lodash/isEqual'
 import { execSync } from 'node:child_process'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 
+const CLIENT = new TranslationServiceClient()
+
 const LOCALE_DIR_PATH = path.join(process.cwd(), 'src', 'shared', 'locales')
 const MAIN_LOCALE = 'en'
 const MAIN_PATH = path.join(LOCALE_DIR_PATH, MAIN_LOCALE)
-
-const OLLAMA_API_URL = process.env.OLLAMA_API_URL || 'http://localhost:11434/api/generate'
-const OLLAMA_MODEL = process.env.OLLAMA_MODEL || 'qwen3:latest'
+const GCP_PROJECT_ID = process.env.GCP_PROJECT_ID!
+const LOCATION = 'global'
 
 async function treatError(message: string, code = 1): Promise<never> {
   const othersLocales = await getOtherLocales()
@@ -35,74 +37,19 @@ async function getNamespaces() {
     .map(value => value.name)
 }
 
-async function translateText(text: string, targetLocale: string): Promise<string> {
-  console.log(`Translating to ${targetLocale}: "${text}"`)
+export async function translateText(text: string, targetLanguageCode: string): Promise<string> {
+  if (!text?.trim()) return text
 
-  // A clear prompt is crucial for getting clean output.
-  const prompt = `You are a professional translator specialized in blockchain, crypto, Web3, DeFi and wallet user interfaces.
-
-CRITICAL RULES:
-1. Do NOT translate or alter standard Web3 technical terms.
-   These terms must remain EXACTLY as in English:
-   - hardware wallet
-   - wallet
-   - cold wallet
-   - hot wallet
-   - seed phrase
-   - private key
-   - public key
-   - derivation path
-   - smart contract
-   - on-chain, off-chain
-   - mint, stake, unstake
-   - RPC, endpoint
-   - NFT, metadata
-   - address
-   - Ledger, Trezor, MetaMask, Phantom, Solana, Ethereum, Bitcoin
-   - Any token symbol (SOL, ETH, BTC, USDC, etc.)
-
-2. You should NEVER translate variable markers or placeholders:
-   - {{variable}}
-   - {variable}
-   - <placeholder>
-
-3. Keep the style natural and native to the target language.
-
-4. Output ONLY the translated text.
-   No explanations, no quotes, no metadata.
-
-Examples (follow these EXACT patterns):
-- Your hardware wallet is not connected. → Sua hardware wallet não está conectada.
-- Enter your seed phrase. → Digite sua seed phrase.
-- The smart contract execution failed. → A execução do smart contract falhou.
-- You blockchain is {{blockchain}}. → A sua blockchain é {{blockchain}}.
-
-
-Translate the following English text into the locale "${targetLocale}":
-"${text}"`
-
-  const response = await fetch(OLLAMA_API_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      model: OLLAMA_MODEL,
-      prompt,
-      stream: false,
-      think: false,
-    }),
-  })
-
-  if (!response.ok) {
-    throw new Error(`Ollama API request failed with status ${response.status}`)
+  const request = {
+    parent: `projects/${GCP_PROJECT_ID}/locations/${LOCATION}`,
+    contents: [text],
+    mimeType: 'text/plain',
+    targetLanguageCode,
   }
 
-  const data = await response.json()
+  const [response] = await CLIENT.translateText(request)
 
-  let cleaned = data.response.trim()
-
-  cleaned = cleaned.replace(/^["'`]+|["'`]+$/g, '')
-
-  return cleaned.trim()
+  return response.translations?.[0]?.translatedText ?? text
 }
 
 function findDifferences(newFile: Map<string, any>, oldFile: Map<string, any>) {
@@ -209,6 +156,10 @@ async function getCurrentNamespaceMap(namespacePath: string) {
 }
 
 async function main() {
+  if (!GCP_PROJECT_ID) {
+    return await treatError('Missing GCP_PROJECT_ID in environment variables.', 0)
+  }
+
   const otherLocales = await getOtherLocales()
 
   // Ensure there are no uncommitted changes in other locale directories

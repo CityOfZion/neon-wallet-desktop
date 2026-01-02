@@ -38,39 +38,45 @@ Join our community to stay updated with the latest news and developments:
 - **TypeScript**
 - **Electron**
 
-## Translation Script
+# Translation Script Guide
 
-The Neon Wallet Desktop includes an automated translation script that helps maintain multi-language support across the application. This script automatically translates changes made to the English locale files to all other supported languages.
+This project includes an automated translation script to keep all locale files up-to-date across supported languages using the Google Cloud Translation API v3.
 
-### Prerequisites
+## Prerequisites
 
-To use the translation script, you need to have [Ollama](https://ollama.ai/) installed and running locally:
+- **Google Cloud Project** with the Cloud Translation API enabled
+- **Service Account Key** (JSON) with permissions for the Translation API
 
-```bash
-# Install Ollama (visit https://ollama.ai/ for installation instructions)
-# Pull the default model
-ollama pull qwen3
+## Environment Configuration
+
+Create a `.env` file in the project root with the following variables:
+
+```env
+GCP_PROJECT_ID=your-google-cloud-project-id
+GOOGLE_APPLICATION_CREDENTIALS=/absolute/path/to/your-service-account.json
 ```
 
-### Start the Ollama server:
-   ```bash
-   ollama serve
-   ```
+### Google Cloud Setup
+- Go to the [Google Cloud Console](https://console.cloud.google.com/)
+- Create a new project or select an existing one.
+- Enable the Cloud Translation API for your project.
+- Create a Service Account with the "Cloud Translation API User" role.
+- Download the service account key as a JSON file.
+- Set the GOOGLE_APPLICATION_CREDENTIALS environment variable to the path of this file.
 
-### Configuration
+## Setting a Budget to Prevent Unexpected Charges
+To ensure you never exceed the free tier of the Google Cloud Translation API and avoid unexpected charges, you can set a budget and configure alerts in your Google Cloud project.
 
-You can customize the translation behavior using environment variables:
-
-- `OLLAMA_API_URL`: The Ollama API endpoint (default: `http://localhost:11434/api/generate`)
-- `OLLAMA_MODEL`: The AI model to use for translation (default: `qwen3`)
-
-### Usage
-
-The translation script is automatically run as a pre-commit hook, ensuring translations are always up-to-date before committing changes. You can also run it manually:
-
-```bash
-npm run translate
-```
+### How to Set Up a Budget and Alerts
+- Go to [Google Cloud Billing Budgets & alerts](https://console.cloud.google.com/billing/budgets)
+- Make sure you are in the correct billing account for your project.
+- Click **"CREATE BUDGET"**.
+- Name your budget (e.g., "Translation API Free Tier Limit").
+- Set the **Scope** to your project or all projects as needed.
+- Enter the amount that matches the free tier for the Translation API (e.g., $0.01 if you want to be alerted before any charges, or the USD equivalent of the free tier quota).
+- Set alert thresholds (e.g., 50%, 90%, 100% of your budget).
+- Add your email to receive notifications when your usage approaches or exceeds your budget.
+- Review your settings and click **"Finish"**.
 
 ### Important Notes
 

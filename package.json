@@ -105,6 +105,7 @@
     "@electron-toolkit/eslint-config-prettier": "~3.0.0",
     "@electron-toolkit/eslint-config-ts": "~3.1.0",
     "@electron-toolkit/tsconfig": "~2.0.0",
+    "@google-cloud/translate": "^9.3.0",
     "@playwright/test": "~1.56.1",
     "@tailwindcss/vite": "~4.1.16",
     "@tanstack/eslint-plugin-query": "~5.91.2",
