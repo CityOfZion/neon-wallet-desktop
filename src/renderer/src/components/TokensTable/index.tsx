@@ -7,7 +7,7 @@ import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import { useBalances } from '@renderer/hooks/useBalances'
 
-import { getI18next } from '@shared/libs/i18next'
+import { SharedI18nextHelper } from '@shared/helpers/SharedI18nextHelper'
 import { TUseBalanceOptionShowType } from '@shared/types/query'
 import { IAccountState } from '@shared/types/store'
 
@@ -22,7 +22,7 @@ type TProps = {
   showType?: TUseBalanceOptionShowType
 }
 
-const { t } = getI18next()
+const { t } = SharedI18nextHelper.get()
 
 export const TokensTable = forwardRef<HTMLDivElement, TProps>(
   ({ accounts, className, containerClassName, showType = 'active' }, ref) => {

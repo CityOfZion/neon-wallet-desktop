@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { ActionPopover } from '@renderer/components/ActionPopover'
 import { IconButton } from '@renderer/components/IconButton'
 
+import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
+
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useNetworkProfilesSelector, useSelectedNetworkProfileSelector } from '@renderer/hooks/useSettingsSelector'
@@ -12,7 +14,6 @@ import MdRestartAlt from '@renderer/assets/images/md-restart-alt.svg?react'
 import TbDotsVertical from '@renderer/assets/images/tb-dots-vertical.svg?react'
 import TbPencil from '@renderer/assets/images/tb-pencil.svg?react'
 
-import { DEFAULT_NETWORK_PROFILE_ID } from '@renderer/constants/networks'
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
 
 export const NetworkProfileActions = () => {
@@ -22,7 +23,7 @@ export const NetworkProfileActions = () => {
   const { selectedNetworkProfile } = useSelectedNetworkProfileSelector()
   const dispatch = useAppDispatch()
 
-  const isDefaultSelected = selectedNetworkProfile.id === DEFAULT_NETWORK_PROFILE_ID
+  const isDefaultSelected = selectedNetworkProfile.id === ConstantsHelper.defaultNetworkProfileId
 
   const handleReset = () => {
     dispatch(

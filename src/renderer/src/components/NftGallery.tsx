@@ -3,9 +3,9 @@ import { useMemo } from 'react'
 import { hasExplorerService, TNftResponse } from '@cityofzion/blockchain-service'
 import { MasonryPhotoAlbum } from 'react-photo-album'
 
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
-import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { IAccountState } from '@shared/types/store'
 
 import { BlockchainIcon } from './BlockchainIcon'
@@ -32,7 +32,7 @@ export const NftGallery = ({ account, nfts }: TProps) => {
   )
 
   const getExplorerUrl = (nft: TNftResponse) => {
-    const service = bsAggregator.blockchainServicesByName[account.blockchain]
+    const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[account.blockchain]
 
     if (!hasExplorerService(service)) return
 

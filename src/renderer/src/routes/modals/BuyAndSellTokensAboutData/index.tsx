@@ -6,14 +6,14 @@ import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Link } from '@renderer/components/Link'
 import { Separator } from '@renderer/components/Separator'
 
+import { BuyAndSellTokensHelper } from '@renderer/helpers/BuyAndSellTokensHelper'
+
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 import MdInfoOutline from '@renderer/assets/images/md-info-outline.svg?react'
 import SumsubLogo from '@renderer/assets/images/sumsub-logo.svg?react'
 import TbExternalLink from '@renderer/assets/images/tb-external-link.svg?react'
 import UnlimitLogo from '@renderer/assets/images/unlimit-logo.svg?react'
-
-import { SUMSUB_TERMS_AND_CONDITIONS_LINK, UNLIMIT_USE_TERMS_LINK } from '@renderer/constants/urls'
 
 type TLinkItemProps = {
   title: string
@@ -58,14 +58,14 @@ const BuyAndSellTokensAboutDataModal = () => {
       <ul className="flex w-full flex-col gap-y-5">
         <LinkItem
           title={t('sumbsub.title')}
-          to={SUMSUB_TERMS_AND_CONDITIONS_LINK}
+          to={BuyAndSellTokensHelper.sumsubTermsAndConditionsUrl}
           linkLabel={t('sumbsub.link')}
           svgImage={<SumsubLogo aria-hidden className="h-full" />}
         />
 
         <LinkItem
           title={t('unlimit.title')}
-          to={UNLIMIT_USE_TERMS_LINK}
+          to={BuyAndSellTokensHelper.unlimitUseTermsUrl}
           linkLabel={t('unlimit.link')}
           svgImage={<UnlimitLogo aria-hidden className="h-full" />}
         />

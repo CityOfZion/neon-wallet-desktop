@@ -1,4 +1,5 @@
-import { bsAggregator } from '@renderer/libs/blockchain-service'
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import { TExchange } from '@shared/types/query'
 
@@ -16,7 +17,7 @@ export class ExchangeHelper {
 
     if (!blockchainExchange) return 0
 
-    const service = bsAggregator.blockchainServicesByName[blockchain]
+    const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
     const exchange = blockchainExchange.get(service.tokenService.normalizeHash(hash))
 
     return exchange?.convertedPrice ?? 0

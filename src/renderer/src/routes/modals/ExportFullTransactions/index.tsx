@@ -6,6 +6,7 @@ import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { SuccessIcon } from '@renderer/components/SuccessIcon'
 
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { DateHelper } from '@renderer/helpers/DateHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 
@@ -19,7 +20,6 @@ import TbDeviceFloppy from '@renderer/assets/images/tb-device-floppy.svg?react'
 import TbExternalLink from '@renderer/assets/images/tb-external-link.svg?react'
 import TbFileExport from '@renderer/assets/images/tb-file-export.svg?react'
 
-import { bsAggregator } from '@renderer/libs/blockchain-service'
 import type { TModalState } from '@shared/types/modal'
 import { IAccountState } from '@shared/types/store'
 
@@ -70,7 +70,7 @@ const ExportFullTransactionsModal = () => {
       if (isDisabled) return
 
       const account = actionData.account!
-      const service = bsAggregator.blockchainServicesByName[account.blockchain]
+      const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[account.blockchain]
 
       const result = await service.blockchainDataService.exportFullTransactionsByAddress({
         address: account.address,

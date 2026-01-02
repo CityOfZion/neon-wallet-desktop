@@ -1,10 +1,10 @@
-import { getI18next } from '@shared/libs/i18next'
+import { SharedI18nextHelper } from '@shared/helpers/SharedI18nextHelper'
 
 export class SynonymsHelper {
-  static #synonymsMap = new Map<string, string[]>()
+  static readonly #synonymsMap = new Map<string, string[]>()
 
   static getSynonyms(word: string) {
-    const { t } = getI18next()
+    const { t } = SharedI18nextHelper.get()
     if (this.#synonymsMap.has(word)) {
       return this.#synonymsMap.get(word)!
     }

@@ -2,7 +2,8 @@ import { CaseReducer, PayloadAction } from '@reduxjs/toolkit'
 import cloneDeep from 'lodash/cloneDeep'
 import merge from 'lodash/merge'
 
-import { bsAggregator } from '@renderer/libs/blockchain-service'
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+
 import { TBlockchainServiceKey, TNetwork } from '@shared/types/blockchain'
 import type { DeepPartial } from '@shared/types/global'
 import {
@@ -90,7 +91,8 @@ const deleteCustomNetwork: CaseReducer<
   const selectedProfile = cloneDeep(state.data.selectedNetworkProfile)
 
   if (selectedProfile.networkByBlockchain[blockchain].id === network.id) {
-    selectedProfile.networkByBlockchain[blockchain] = bsAggregator.blockchainServicesByName[blockchain].defaultNetwork
+    selectedProfile.networkByBlockchain[blockchain] =
+      BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain].defaultNetwork
   }
 
   state.data.selectedNetworkProfile = selectedProfile

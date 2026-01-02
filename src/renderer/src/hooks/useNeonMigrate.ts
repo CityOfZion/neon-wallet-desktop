@@ -1,10 +1,10 @@
 import { hasEncryption, hasNameService } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
 
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
-import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { getI18next } from '@shared/libs/i18next'
+import { SharedI18nextHelper } from '@shared/helpers/SharedI18nextHelper'
 import { neonMigrateSchema } from '@shared/schemas/neon-migrate'
 import { TAccountsToImport, TWalletToCreate } from '@shared/types/blockchain'
 import type {
@@ -20,6 +20,8 @@ import { IContactState, TContactAddress } from '@shared/types/store'
 import { useBlockchainActions } from './useBlockchainActions'
 import { useContactsSelector } from './useContactSelector'
 
+const { t } = SharedI18nextHelper.get()
+
 const neonMigrateSchemaWithTransform = neonMigrateSchema.transform(data => {
   const transformedAccounts: TUseNeonMigrateAccountsSchema[] = []
 
@@ -27,11 +29,9 @@ const neonMigrateSchemaWithTransform = neonMigrateSchema.transform(data => {
     if (!address || !key || transformedAccounts.some(account => account.address === address || account.key === key))
       return
 
-    const [blockchain] = bsAggregator.getBlockchainNameByAddress(address)
+    const [blockchain] = BlockchainServiceHelper.bsAggregator.getBlockchainNameByAddress(address)
 
     if (!blockchain) return
-
-    const { t } = getI18next()
 
     transformedAccounts.push({
       address,
@@ -43,7 +43,7 @@ const neonMigrateSchemaWithTransform = neonMigrateSchema.transform(data => {
 
   const transformedContacts = data.contacts.map<TUseNeonMigrateContactsSchema>(contact => {
     const transformedAddresses: TUseNeonMigrateContactsSchema['addresses'] = []
-    const blockchainServices = Object.values(bsAggregator.blockchainServicesByName)
+    const blockchainServices = Object.values(BlockchainServiceHelper.bsAggregator.blockchainServicesByName)
 
     contact.addresses?.forEach(address => {
       for (const service of blockchainServices) {
@@ -56,8 +56,6 @@ const neonMigrateSchemaWithTransform = neonMigrateSchema.transform(data => {
         }
       }
     })
-
-    const { t } = getI18next()
 
     return { name: contact.name ?? t('hooks:useBackupOrMigrate.defaultContactName'), addresses: transformedAddresses }
   })
@@ -90,7 +88,7 @@ export const useNeonImportMigrate = () => {
     accountToMigrate: TUseNeonMigrateAccountsSchema,
     password: string
   ): Promise<TUseNeonMigrateDecryptedAccountSchema | undefined> => {
-    const service = bsAggregator.blockchainServicesByName[accountToMigrate.blockchain]
+    const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[accountToMigrate.blockchain]
 
     if (!hasEncryption(service)) return undefined
 

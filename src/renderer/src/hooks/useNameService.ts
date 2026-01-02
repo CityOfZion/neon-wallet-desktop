@@ -4,7 +4,8 @@ import { hasNameService } from '@cityofzion/blockchain-service'
 import { Query, QueryClient, useQueryClient } from '@tanstack/react-query'
 import { debounce } from 'lodash'
 
-import { bsAggregator } from '@renderer/libs/blockchain-service'
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 function buildQueryKey(blockchain: TBlockchainServiceKey, domain: string) {
@@ -40,7 +41,7 @@ export const useNameService = (debounceTime = 1000) => {
       }
 
       try {
-        const service = bsAggregator.blockchainServicesByName[blockchain]
+        const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
 
         if (service.validateAddress(domainOrAddress)) {
           address = domainOrAddress

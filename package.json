@@ -20,6 +20,7 @@
     "translate": "tsx scripts/translate.ts",
     "start": "electron-vite preview",
     "dev": "electron-vite dev",
+    "prebuild": "tsx scripts/check-env.ts",
     "build": "npm run typecheck && electron-vite build",
     "build:win": "npm run build && electron-builder --win --config",
     "build:mac": "npm run build && electron-builder --mac --config",

@@ -10,7 +10,6 @@ import { PasswordStrength } from '@renderer/components/PasswordStrength'
 import { Separator } from '@renderer/components/Separator'
 
 import { PasswordHelper } from '@renderer/helpers/PasswordHelper'
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
 import { useActions } from '@renderer/hooks/useActions'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
@@ -62,7 +61,7 @@ const ChangePasswordStep1 = () => {
   }
 
   const handleGeneratePassword = () => {
-    setData({ newPassword: UtilsHelper.generateStrongPassword() })
+    setData({ newPassword: PasswordHelper.generateStrongPassword() })
 
     setIsPasswordValid(true)
   }

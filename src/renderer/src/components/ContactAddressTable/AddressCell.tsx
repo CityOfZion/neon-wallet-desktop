@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 
+import { ClipboardHelper } from '@renderer/helpers/ClipboardHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
 import { useNameService } from '@renderer/hooks/useNameService'
 
@@ -30,7 +30,7 @@ export const AddressCell = ({ address, blockchain }: TContactAddress) => {
 
         <IconButton
           icon={<MdOutlineContentCopy className="text-neon" />}
-          onClick={() => UtilsHelper.copyToClipboard(address)}
+          onClick={() => ClipboardHelper.write(address)}
           {...TestHelper.buildTestObject('copy-address-button')}
         />
       </div>

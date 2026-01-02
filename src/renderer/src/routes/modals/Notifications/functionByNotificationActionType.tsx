@@ -1,12 +1,13 @@
 import { useNavigate } from 'react-router'
 import { match } from 'ts-pattern'
 
+import { ReduxHelper } from '@renderer/helpers/ReduxHelper'
+
 import { selectAccounts } from '@renderer/hooks/useAccountSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 
-import { store } from '@renderer/libs/redux'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
-import { getI18next } from '@shared/libs/i18next'
+import { SharedI18nextHelper } from '@shared/helpers/SharedI18nextHelper'
 import { TAccountHelperPredicateParams } from '@shared/types/helpers'
 import { TNotificationAction } from '@shared/types/store'
 
@@ -20,10 +21,10 @@ type TFunctionByNotificationActionType = {
   [K in TNotificationAction['type']]: (params: TFunctionParams<TNotificationAction & { type: K }>) => Promise<void>
 }
 
-const { t } = getI18next()
+const { t } = SharedI18nextHelper.get()
 
 const getAccount = (predicate: TAccountHelperPredicateParams) => {
-  const state = store.getState()
+  const state = ReduxHelper.store.getState()
   const accounts = selectAccounts(state)
   const account = accounts.find(SharedAccountHelper.predicate(predicate))
 

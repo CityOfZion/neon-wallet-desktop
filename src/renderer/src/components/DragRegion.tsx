@@ -1,7 +1,7 @@
 import { useLayoutEffect } from 'react'
 
-import { IS_LINUX, IS_MAC } from '@renderer/constants/platform'
-
+const IS_LINUX = window.electron.process.platform === 'linux'
+const IS_MAC = window.electron.process.platform === 'darwin'
 const DRAG_REGION_HEIGHT = IS_LINUX ? 0 : 32
 
 export const DragRegion = () => {

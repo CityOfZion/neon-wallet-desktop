@@ -4,7 +4,7 @@ import { IconButton } from '@renderer/components/IconButton'
 import { Separator } from '@renderer/components/Separator'
 import { Tooltip } from '@renderer/components/Tooltip'
 
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+import { ClipboardHelper } from '@renderer/helpers/ClipboardHelper'
 
 import MdOutlineContentCopy from '@renderer/assets/images/md-outline-content-copy.svg?react'
 import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
@@ -45,7 +45,7 @@ export const SellTokensDepositSuccessContent = ({ transaction }: TProps) => {
                 size="sm"
                 compacted
                 icon={<MdOutlineContentCopy aria-hidden className="text-neon" />}
-                onClick={UtilsHelper.copyToClipboard.bind(null, to!)}
+                onClick={ClipboardHelper.write.bind(null, to!)}
               />
             </Tooltip>
           </div>
@@ -75,7 +75,7 @@ export const SellTokensDepositSuccessContent = ({ transaction }: TProps) => {
                 size="sm"
                 compacted
                 icon={<MdOutlineContentCopy aria-hidden className="text-neon" />}
-                onClick={UtilsHelper.copyToClipboard.bind(null, hash)}
+                onClick={ClipboardHelper.write.bind(null, hash)}
               />
             </Tooltip>
           </div>

@@ -3,11 +3,11 @@ import { ChangeEvent } from 'react'
 import { BSKeychainHelper } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
 
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+import { StringHelper } from '@renderer/helpers/StringHelper'
 
 import { useAccountUtils } from '@renderer/hooks/useAccountSelector'
 
-import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { TUseImportActionInputType } from '@shared/types/hooks'
 
 import { useActions } from './useActions'
@@ -40,7 +40,7 @@ export const useImportAction = (
   }
 
   const isValidAddress = (address: string) =>
-    Object.values(bsAggregator.blockchainServicesByName).some(service => {
+    Object.values(BlockchainServiceHelper.bsAggregator.blockchainServicesByName).some(service => {
       if (!service.validateAddress(address)) return false
       if (verifyIfAddressAlreadyExists && doesAccountExist({ address, blockchain: service.name })) return false
 
@@ -48,14 +48,16 @@ export const useImportAction = (
     })
 
   const handleChange = (data: ChangeEvent<HTMLTextAreaElement> | string) => {
-    const value = UtilsHelper.removeSpecialCharacters(typeof data === 'string' ? data : data.target.value)
+    const value = StringHelper.removeSpecialCharacters(typeof data === 'string' ? data : data.target.value)
     setData({ text: value, inputType: undefined })
 
     try {
       const checkFunctionsByInputType: Record<TUseImportActionInputType, (value: string) => boolean> = {
-        key: bsAggregator.validateKeyAllBlockchains.bind(bsAggregator),
+        key: BlockchainServiceHelper.bsAggregator.validateKeyAllBlockchains.bind(BlockchainServiceHelper.bsAggregator),
         mnemonic: BSKeychainHelper.isMnemonic,
-        encrypted: bsAggregator.validateEncryptedAllBlockchains.bind(bsAggregator),
+        encrypted: BlockchainServiceHelper.bsAggregator.validateEncryptedAllBlockchains.bind(
+          BlockchainServiceHelper.bsAggregator
+        ),
         address: isValidAddress,
       }
 
@@ -94,13 +96,15 @@ export const useImportAction = (
         throw new Error(t('errors.invalid'))
       }
 
-      const fixedText = UtilsHelper.removeSpecialCharacters(data.text, { trimText: true })
+      const fixedText = StringHelper.removeSpecialCharacters(data.text, { trimText: true })
+
       const submit = submitByInputType[data.inputType]
 
       if (!submit) throw new Error(t('errors.invalid'))
 
       await submit(fixedText, data.inputType)
     } catch (error: any) {
+      console.error(error)
       setError('text', error.message)
     }
   }

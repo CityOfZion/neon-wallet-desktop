@@ -9,10 +9,11 @@ import { useTranslation } from 'react-i18next'
 
 import { IconButton } from '@renderer/components/IconButton'
 
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+import { ClipboardHelper } from '@renderer/helpers/ClipboardHelper'
 import { DateHelper } from '@renderer/helpers/DateHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useLanguageSelector } from '@renderer/hooks/useSettingsSelector'
@@ -29,7 +30,6 @@ import TbCube from '@renderer/assets/images/tb-cube.svg?react'
 import TbReplace2 from '@renderer/assets/images/tb-replace-2.svg?react'
 import TbTransform from '@renderer/assets/images/tb-transform.svg?react'
 
-import { bsAggregator } from '@renderer/libs/blockchain-service'
 import type { TBlockchainServiceKey } from '@shared/types/blockchain'
 import { TFullTransactionsItem } from '@shared/types/hooks'
 
@@ -76,7 +76,8 @@ export const TransactionActivityListItemHeaderContent = ({ item }: TProps) => {
   const handleGoToBridgeNeo3NeoXDetails = () => {
     if (!isBridgeNeo3NeoX) return
 
-    const toService = bsAggregator.blockchainServicesByName[blockchain === 'neo3' ? 'neox' : 'neo3']
+    const toService =
+      BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain === 'neo3' ? 'neox' : 'neo3']
 
     if (!hasNeo3NeoXBridge(toService)) return
 
@@ -111,7 +112,7 @@ export const TransactionActivityListItemHeaderContent = ({ item }: TProps) => {
   }
 
   const handleCopyTxId = () => {
-    UtilsHelper.copyToClipboard(txId)
+    ClipboardHelper.write(txId)
   }
 
   return (
@@ -147,7 +148,7 @@ export const TransactionActivityListItemHeaderContent = ({ item }: TProps) => {
           />
         )}
 
-        {networkFeeAmount && NumberHelper.isBiggerThanZero(networkFeeAmount) && (
+        {networkFeeAmount && NumberHelper.number(networkFeeAmount) > 0 && (
           <TransactionActivityListItemHeaderDetails
             data={
               <div className="flex items-center whitespace-nowrap">
@@ -155,7 +156,7 @@ export const TransactionActivityListItemHeaderContent = ({ item }: TProps) => {
                   <span className="text-white">{StringHelper.truncateString(networkFeeAmount, 12)}</span>
                 </TransactionActivityListTooltip>
 
-                {systemFeeAmount && NumberHelper.isBiggerThanZero(systemFeeAmount) && (
+                {systemFeeAmount && NumberHelper.number(systemFeeAmount) > 0 && (
                   <TransactionActivityListTooltip data={t('systemFeeAmountLabel', { systemFeeAmount })}>
                     <span className="whitespace-break-spaces text-gray-100">{` | ${StringHelper.truncateString(systemFeeAmount, 12)}`}</span>
                   </TransactionActivityListTooltip>

@@ -3,7 +3,8 @@ import { useCallback } from 'react'
 import { TBSNetworkId } from '@cityofzion/blockchain-service'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 
-import { bsAggregator } from '@renderer/libs/blockchain-service'
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+
 import type { TBlockchainServiceKey } from '@shared/types/blockchain'
 import type { TBaseOptions, TNode } from '@shared/types/query'
 
@@ -14,7 +15,7 @@ const buildNodesQueryKey = (blockchain: TBlockchainServiceKey, id: TBSNetworkId)
 }
 
 const pingNodes = async (blockchain: TBlockchainServiceKey): Promise<TNode[]> => {
-  const service = bsAggregator.blockchainServicesByName[blockchain]
+  const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
 
   const promises = service.rpcNetworkUrls.map(async url => {
     try {

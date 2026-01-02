@@ -387,8 +387,10 @@
       "title": "Von NEON 2.0 migrieren"
     },
     "settingsMobileApp": {
+      "appStoreImageLabel": "Im App Store herunterladen",
       "descriptionLine1": "Speichern, betrachten und verwalten Sie sicher alle Ihre digitalen Assets und mehrere Wallets an einem Ort.",
       "descriptionLine2": "Nutzen Sie die zusätzlichen Sicherheitsoptionen auf Ihrem Gerät, um Ihre Assets sicher zu halten.",
+      "playStoreImageLabel": "Bei Google Play herunterladen",
       "subtitle": "Ihr Wallet ist auch auf dem Handy verfügbar!",
       "title": "Mobile App"
     },

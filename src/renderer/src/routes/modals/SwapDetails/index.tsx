@@ -11,6 +11,8 @@ import { Link } from '@renderer/components/Link'
 import { Separator } from '@renderer/components/Separator'
 import { Stepper, TStepperState } from '@renderer/components/Stepper'
 
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
@@ -25,8 +27,6 @@ import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
 import TbReplace from '@renderer/assets/images/tb-replace.svg?react'
 import TbRosetteDiscountCheck from '@renderer/assets/images/tb-rosette-discount-check.svg?react'
 
-import { DISCORD_LINK } from '@renderer/constants/urls'
-import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { utilityReducerActions } from '@renderer/store/reducers/utility'
 import type { TModalState } from '@shared/types/modal'
 import { TSwapRecord } from '@shared/types/store'
@@ -53,7 +53,7 @@ const SwapDetailsModal = () => {
 
   const timeoutRef = useRef<NodeJS.Timeout>(undefined)
 
-  const service = bsAggregator.blockchainServicesByName[swapRecord.account.blockchain]
+  const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[swapRecord.account.blockchain]
 
   const handleGoToSwapLog = () => {
     modalNavigate('swap-details-log', { state: { swapRecord } })
@@ -303,7 +303,7 @@ const SwapDetailsModal = () => {
           label={t('helpButtonLabel')}
           className="grow"
           target="_blank"
-          to={DISCORD_LINK}
+          to={ConstantsHelper.cozDiscordUrl}
           flat
           wide
           iconsOnEdge={false}

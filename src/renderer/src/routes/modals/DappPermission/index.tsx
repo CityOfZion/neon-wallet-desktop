@@ -6,13 +6,13 @@ import type { JSX } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
+import { WalletKitHelper } from '@renderer/helpers/WalletKitHelper'
 
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { usePressOnce } from '@renderer/hooks/usePressOnce'
 
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
 
-import { walletKit } from '@renderer/libs/wallet-connect'
 import type { TBlockchainServiceKey } from '@shared/types/blockchain'
 import type { TModalState } from '@shared/types/modal'
 
@@ -87,10 +87,10 @@ export const DappPermissionModal = () => {
       modalErase()
     }
 
-    walletKit.on('session_request_expire', handle)
+    WalletKitHelper.kit.on('session_request_expire', handle)
 
     return () => {
-      walletKit.off('session_request_expire', handle)
+      WalletKitHelper.kit.off('session_request_expire', handle)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [request.id, t])

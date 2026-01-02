@@ -1,12 +1,7 @@
-import { useCallback } from 'react'
-
-import { LOGIN_CONTROL_VALUE } from '@renderer/constants/password'
-import { authReducerActions } from '@renderer/store/reducers/auth'
-import { settingsReducerActions } from '@renderer/store/reducers/settings'
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import { TSelectedNetworks } from '@shared/types/store'
 
-import { useAppDispatch, useAppSelector } from './useRedux'
+import { useAppSelector } from './useRedux'
 
 export const useSelectedNetworkByBlockchainSelector = () => {
   const { ref, value } = useAppSelector(state => state.settings.data.selectedNetworkProfile.networkByBlockchain)
@@ -113,30 +108,6 @@ export const useOverTheAirInfoSelector = () => {
   return {
     overTheAirInfo: value,
     overTheAirInfoRef: ref,
-  }
-}
-
-export const useSettingsActions = () => {
-  const dispatch = useAppDispatch()
-
-  const setHasPassword = useCallback(
-    async (password: string, isAlreadyEncrypted?: boolean) => {
-      const encryptedPassword = !isAlreadyEncrypted ? await window.api.sendAsync('encryptBasedOS', password) : password
-
-      const encryptedLoginControl = await window.api.sendAsync('encryptBasedEncryptedSecret', {
-        value: LOGIN_CONTROL_VALUE,
-        encryptedSecret: encryptedPassword,
-      })
-
-      dispatch(settingsReducerActions.setHasPassword(true))
-      dispatch(settingsReducerActions.setEncryptedLoginControl(encryptedLoginControl))
-      dispatch(authReducerActions.setCurrentLoginSession({ type: 'password', encryptedPassword }))
-    },
-    [dispatch]
-  )
-
-  return {
-    setHasPassword,
   }
 }
 

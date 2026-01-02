@@ -5,9 +5,10 @@ import { useTranslation } from 'react-i18next'
 
 import { Button } from '@renderer/components/Button'
 
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { PasswordHelper } from '@renderer/helpers/PasswordHelper'
+import { StringHelper } from '@renderer/helpers/StringHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
@@ -16,7 +17,6 @@ import { SettingsLayout } from '@renderer/layouts/Settings'
 
 import MdOutlineKey from '@renderer/assets/images/md-outline-key.svg?react'
 
-import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 import { SettingsEncryptInputStep } from './SettingsEncryptInputStep'
@@ -50,10 +50,10 @@ const SettingsEncryptKeyPage = () => {
     const trimmedValue = value.trim()
     const comparablePassphraseValue = actionData[comparablePassphraseField]
 
-    if (trimmedValue.length < PasswordHelper.MINIMUM_PASSWORD_LENGTH)
+    if (trimmedValue.length < PasswordHelper.minimumPasswordLength)
       setError(
         passphraseField,
-        t(`encryptKey.error.${passphraseField}IsInvalid`, { chars: PasswordHelper.MINIMUM_PASSWORD_LENGTH })
+        t(`encryptKey.error.${passphraseField}IsInvalid`, { chars: PasswordHelper.minimumPasswordLength })
       )
     else if (comparablePassphraseValue && value !== comparablePassphraseValue)
       setError(passphraseField, t(`encryptKey.error.${passphraseField}IsDifferent`))
@@ -61,11 +61,12 @@ const SettingsEncryptKeyPage = () => {
   }
 
   const handlePrivateKeyChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const value = UtilsHelper.removeSpecialCharacters(event.target.value, { allowSpaces: false })
+    const value = StringHelper.removeSpecialCharacters(event.target.value, { allowSpaces: false })
 
     setData({ privateKey: value })
 
-    if (!bsAggregator.validateKeyAllBlockchains(value)) setError('privateKey', t('encryptKey.error.privateKey'))
+    if (!BlockchainServiceHelper.bsAggregator.validateKeyAllBlockchains(value))
+      setError('privateKey', t('encryptKey.error.privateKey'))
   }
 
   const handlePassphraseChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -80,7 +81,7 @@ const SettingsEncryptKeyPage = () => {
     modalNavigate(-1)
 
     try {
-      const service = bsAggregator.blockchainServicesByName[blockchain]
+      const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
 
       if (!hasEncryption(service)) {
         ToastHelper.error({ message: t('encryptKey.error.blockchainCanNotEncryptKey') })

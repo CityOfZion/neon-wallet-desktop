@@ -1,3 +1,6 @@
+// It ensures the env variables are set and loaded
+import './helpers/BuyAndSellTokensHelper'
+
 import React from 'react'
 
 import * as ReactSentry from '@sentry/react'

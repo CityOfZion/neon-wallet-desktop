@@ -8,6 +8,8 @@ import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
 
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+
 import { useAccountUtils } from '@renderer/hooks/useAccountSelector'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
@@ -17,7 +19,6 @@ import { SideModalLayout } from '@renderer/layouts/SideModal'
 import MdAdd from '@renderer/assets/images/md-add.svg?react'
 import TbEyePlus from '@renderer/assets/images/tb-eye-plus.svg?react'
 
-import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { TAccountsToImport, TBlockchainServiceKey } from '@shared/types/blockchain'
 import type { TModalState } from '@shared/types/modal'
 
@@ -93,7 +94,7 @@ const ImportWatchAccountsModal = () => {
 
     const validatedAddressesCache: TValidatedAddress[] = []
 
-    for (const blockchainService of Object.values(bsAggregator.blockchainServicesByName)) {
+    for (const blockchainService of Object.values(BlockchainServiceHelper.bsAggregator.blockchainServicesByName)) {
       const isValid = blockchainService.validateAddress(address)
 
       if (!isValid || doesAccountExist({ address, blockchain: blockchainService.name })) continue

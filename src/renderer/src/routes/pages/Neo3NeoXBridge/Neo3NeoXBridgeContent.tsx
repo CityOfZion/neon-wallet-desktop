@@ -21,8 +21,9 @@ import { Separator } from '@renderer/components/Separator'
 import { TransactionFeeActionStep } from '@renderer/components/TransactionFeeActionStep'
 
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+import { StringHelper } from '@renderer/helpers/StringHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
 import { useAccountMapSelector } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
@@ -45,7 +46,6 @@ import TbUsers from '@renderer/assets/images/tb-users.svg?react'
 import TbWallet from '@renderer/assets/images/tb-wallet.svg?react'
 import VscCircleFilled from '@renderer/assets/images/vsc-circle-filled.svg?react'
 
-import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import { IAccountState, TContactAddress } from '@shared/types/store'
@@ -152,8 +152,8 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
     reset()
 
     const neo3NeoXBridgeOrchestrator = new Neo3NeoXBridgeOrchestrator<TBlockchainServiceKey>({
-      neo3Service: bsAggregator.blockchainServicesByName.neo3 as BSNeo3<TBlockchainServiceKey>,
-      neoXService: bsAggregator.blockchainServicesByName.neox as BSNeoX<TBlockchainServiceKey>,
+      neo3Service: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.neo3 as BSNeo3<TBlockchainServiceKey>,
+      neoXService: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.neox as BSNeoX<TBlockchainServiceKey>,
       initialFromServiceName: account?.blockchain,
     })
 
@@ -240,7 +240,7 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
 
   const handleChangeAddressToReceive = (event: ChangeEvent<HTMLInputElement>) => {
     bridgeOrchestratorRef.current.setAddressToReceive(
-      UtilsHelper.removeSpecialCharacters(event.target.value, { allowSpaces: false })
+      StringHelper.removeSpecialCharacters(event.target.value, { allowSpaces: false })
     )
   }
 

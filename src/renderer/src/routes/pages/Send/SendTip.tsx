@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Checkbox } from '@renderer/components/Checkbox'
 import { Skeleton } from '@renderer/components/Skeleton'
 
-import { NumberHelper } from '@renderer/helpers/NumberHelper'
+import { CurrencyHelper } from '@renderer/helpers/CurrencyHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
@@ -52,7 +52,7 @@ export const SendTip = ({
         ) : (
           <span className="uppercase">
             {BSBigNumberHelper.format(amountBn, { decimals: token.decimals })} {token.symbol} (
-            {NumberHelper.currency(fiatPriceBn.toFixed(), { currency, maximumFractionDigits: 2 })} {currency.label})
+            {CurrencyHelper.format(fiatPriceBn.toFixed(), { currency, maximumFractionDigits: 2 })} {currency.label})
           </span>
         )}{' '}
         <span className="text-gray-100 italic">{t('optionalLabel')}</span>

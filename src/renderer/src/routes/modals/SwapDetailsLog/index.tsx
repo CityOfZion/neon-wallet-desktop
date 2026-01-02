@@ -8,7 +8,7 @@ import { match, P } from 'ts-pattern'
 import { IconButton } from '@renderer/components/IconButton'
 import { Loader } from '@renderer/components/Loader'
 
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+import { ClipboardHelper } from '@renderer/helpers/ClipboardHelper'
 
 import { useModalState } from '@renderer/hooks/useModalRouter'
 
@@ -44,11 +44,6 @@ const SwapDetailsLogModal = () => {
     },
   })
 
-  const handleCopyLogToClipboard = () => {
-    if (!log) return
-    UtilsHelper.copyToClipboard(log)
-  }
-
   return (
     <SideModalLayout
       heading={t('title')}
@@ -68,7 +63,7 @@ const SwapDetailsLogModal = () => {
                 size="sm"
                 compacted
                 icon={<MdOutlineContentCopy aria-hidden className="text-neon" />}
-                onClick={handleCopyLogToClipboard}
+                onClick={ClipboardHelper.write.bind(null, log!)}
               />
             </div>
 

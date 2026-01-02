@@ -129,6 +129,8 @@ export type TUseNeonMigrateGeneratedData = {
   accountsToCreate: TAccountsToImport
   contactsToCreate: IContactState[]
 }
+export type TUseNeonBackupAccount = zod.infer<typeof neonBackupDataSchema>['wallets'][0]['accounts'][0]
+export type TUseNeonBackupWallet = zod.infer<typeof neonBackupDataSchema>['wallets'][0]
 
 export type TUseNeonBackupContentSchema = zod.infer<typeof neonBackupContentSchema>
 export type TUseNeonBackupDataSchema = zod.infer<typeof neonBackupDataSchema>

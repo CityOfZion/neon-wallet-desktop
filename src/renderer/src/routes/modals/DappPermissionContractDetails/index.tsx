@@ -9,6 +9,8 @@ import { IconLink } from '@renderer/components/IconLink'
 import { ScreenLoader } from '@renderer/components/ScreenLoader'
 import { Tooltip } from '@renderer/components/Tooltip'
 
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+
 import { useContract } from '@renderer/hooks/useContract'
 import { useModalState } from '@renderer/hooks/useModalRouter'
 
@@ -17,7 +19,6 @@ import { CenterModalLayout } from '@renderer/layouts/CenterModal'
 import TbArrowsSort from '@renderer/assets/images/tb-arrows-sort.svg?react'
 import TbExternalLink from '@renderer/assets/images/tb-external-link.svg?react'
 
-import { bsAggregator } from '@renderer/libs/blockchain-service'
 import type { TModalState } from '@shared/types/modal'
 
 const COLORS_BY_TYPE: Record<string, { color: string; textColor: string }> = {
@@ -88,7 +89,7 @@ export const DappPermissionContractDetailsModal = () => {
   const { session, blockchain, hash, operation, values } =
     useModalState<TModalState<'dapp-permission-contract-details'>>()
 
-  const service = bsAggregator.blockchainServicesByName[blockchain]
+  const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
 
   const contractQuery = useContract({ blockchain, hash })
 

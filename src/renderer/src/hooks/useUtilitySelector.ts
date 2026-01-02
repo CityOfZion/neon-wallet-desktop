@@ -1,4 +1,5 @@
-import { bsAggregator } from '@renderer/libs/blockchain-service'
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 import { IAccountState } from '@shared/types/store'
 
@@ -41,7 +42,9 @@ export const useSwapRecordsSelector = () => {
 export const useSwapRecordSelector = (hash: string) => {
   const { value: swapRecord, ref: swapRecordRef } = useAppSelector(({ utility }) =>
     utility.data.swapRecords.find(({ txFrom, account }) => {
-      const service = account ? bsAggregator.blockchainServicesByName[account.blockchain] : undefined
+      const service = account
+        ? BlockchainServiceHelper.bsAggregator.blockchainServicesByName[account.blockchain]
+        : undefined
 
       return !!txFrom && !!service && service.tokenService.predicateByHash(hash, txFrom)
     })

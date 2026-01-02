@@ -2,7 +2,7 @@ import { Select } from '@renderer/components/Select'
 import { Tooltip } from '@renderer/components/Tooltip'
 import { WalletIcon } from '@renderer/components/WalletIcon'
 
-import { NumberHelper } from '@renderer/helpers/NumberHelper'
+import { CurrencyHelper } from '@renderer/helpers/CurrencyHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import { useAccountsByWalletIdSelector } from '@renderer/hooks/useAccountSelector'
@@ -21,7 +21,7 @@ export const WalletSelectItem = ({ wallet }: TProps) => {
 
   const balances = useBalances(accountsByWalletId)
 
-  const exchangeTotalFormatted = NumberHelper.currency(balances.exchangeTotal, { currency })
+  const exchangeTotalFormatted = CurrencyHelper.format(balances.exchangeTotal, { currency })
 
   return (
     <Select.Item

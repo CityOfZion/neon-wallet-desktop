@@ -6,10 +6,10 @@ import { useTranslation } from 'react-i18next'
 
 import { ImageWithFallback } from '@renderer/components/ImageWithFallback'
 
-import { NumberHelper } from '@renderer/helpers/NumberHelper'
+import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
+import { CurrencyHelper } from '@renderer/helpers/CurrencyHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { TokenHelper } from '@renderer/helpers/TokenHelper'
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
@@ -17,7 +17,6 @@ import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 import TbEye from '@renderer/assets/images/tb-eye.svg?react'
 import TbEyeOff from '@renderer/assets/images/tb-eye-off.svg?react'
 
-import { NEON_ICONS_URL } from '@renderer/constants/urls'
 import { utilityReducerActions } from '@renderer/store/reducers/utility'
 import { TTokenBalance, TUseBalanceOptionShowType } from '@shared/types/query'
 
@@ -41,9 +40,9 @@ export const useColumns = (showType: TUseBalanceOptionShowType) => {
           return (
             <div className="flex items-center gap-2">
               <ImageWithFallback
-                src={`${NEON_ICONS_URL}/tokens/${tokenBalance.blockchain}/${token.hash}.png`}
+                src={`${ConstantsHelper.neonIconsUrl}/tokens/${tokenBalance.blockchain}/${token.hash}.png`}
                 alt={token.name || token.symbol}
-                fallbackSrc={`${NEON_ICONS_URL}/tokens/default-token.png`}
+                fallbackSrc={`${ConstantsHelper.neonIconsUrl}/tokens/default-token.png`}
                 imgClassName="h-4.5 max-h-4.5 min-h-4.5 w-4.5 max-w-4.5 min-w-4.5 rounded-full"
                 className="h-6 max-h-6 min-h-6 w-6 max-w-6 min-w-6 rounded-full bg-gray-600/50"
               />
@@ -57,8 +56,8 @@ export const useColumns = (showType: TUseBalanceOptionShowType) => {
       columnHelper.accessor('token.hash', {
         cell: info => {
           const hash = info.getValue()
-          const isValidHash = UtilsHelper.isValidTokenHash(hash)
-          const hashText = UtilsHelper.fallbackTokenHash(hash)
+          const isValidHash = TokenHelper.isValidTokenHash(hash)
+          const hashText = TokenHelper.fallbackTokenHash(hash)
 
           return (
             <Tooltip title={isValidHash ? hash : ''}>
@@ -78,11 +77,11 @@ export const useColumns = (showType: TUseBalanceOptionShowType) => {
         header: t('holdings'),
       }),
       columnHelper.accessor('exchangeConvertedPrice', {
-        cell: info => NumberHelper.currency(info.getValue(), { currency, maximumFractionDigits: 8 }),
+        cell: info => CurrencyHelper.format(info.getValue(), { currency, maximumFractionDigits: 8 }),
         header: t('price'),
       }),
       columnHelper.accessor('exchangeAmount', {
-        cell: info => NumberHelper.currency(info.getValue(), { currency, maximumFractionDigits: 8 }),
+        cell: info => CurrencyHelper.format(info.getValue(), { currency, maximumFractionDigits: 8 }),
         header: t('value'),
       }),
       columnHelper.display({

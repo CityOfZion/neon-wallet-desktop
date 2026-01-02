@@ -8,7 +8,6 @@ import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { useMountUnsafe } from '@renderer/hooks/useMount'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 
-import { sellTokensIframeUrl } from '@renderer/constants/buy-and-sell-tokens'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 import { IAccountState } from '@shared/types/store'
 
@@ -20,7 +19,7 @@ export const BuyAndSellTokensSellIframe = ({ account, onReady, className, iframe
 
   const [hasIframeError, setHasIframeError] = useState(false)
 
-  const url = BuyAndSellTokensHelper.getMountedUrl({ domainUrl: sellTokensIframeUrl, currency, account })
+  const url = BuyAndSellTokensHelper.buildSellUrl({ account, currency })
 
   const handleLoad = async () => {
     await SharedUtilsHelper.sleep(500)

@@ -5,6 +5,7 @@ import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
 
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
 import { useActions } from '@renderer/hooks/useActions'
@@ -15,7 +16,6 @@ import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 import TbCube3dSphere from '@renderer/assets/images/tb-cube-3d-sphere.svg?react'
 
-import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
 import type { TModalState } from '@shared/types/modal'
 
@@ -57,7 +57,7 @@ const AddCustomNetwork = () => {
     setData({ validating: true })
 
     try {
-      const service = bsAggregator.blockchainServicesByName[blockchain]
+      const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
 
       await service.pingNode(actionData.url)
 

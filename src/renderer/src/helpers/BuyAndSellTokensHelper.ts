@@ -1,18 +1,81 @@
-import { hideBrand, lang, merchantId, theme } from '@renderer/constants/buy-and-sell-tokens'
-import { IAccountState, TAvailableCurrency, TCurrency } from '@shared/types/store'
+import fingerprint from '@fingerprintjs/fingerprintjs'
+import {
+  GateFiDisplayModeEnum,
+  GateFiEventTypes,
+  GateFiLangEnum,
+  GateFiSDK,
+  type GateFiThemeType,
+} from '@gatefi/js-sdk'
 
-type TGetMountedUrlParams = {
-  domainUrl: string
-  currency: TCurrency
-  account?: IAccountState
-}
+import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
+import type {
+  TBuyAndSellTokensHelperGetSellUrlParams,
+  TBuyAndSellTokensHelperInitBuyParams,
+} from '@shared/types/helpers'
+import type { TAvailableCurrency } from '@shared/types/store'
+
+import { StyleHelper } from './StyleHelper'
 
 export class BuyAndSellTokensHelper {
-  static getValidCurrencyLabel(currencyLabel: TAvailableCurrency) {
-    return ['USD', 'EUR', 'BRL', 'GBP'].includes(currencyLabel) ? currencyLabel : 'USD'
+  static readonly sumsubTermsAndConditionsUrl = 'https://sumsub.com/terms-and-conditions'
+  static readonly unlimitUseTermsUrl =
+    'https://cdn.unlimit.com/site-crypto/wp-content/uploads/2023/11/24062357/Unl-Crypto_User-TC_.pdf'
+  static readonly #defaultCurrencyLabel: TAvailableCurrency = 'USD'
+  static readonly #supportedCurrencyLabels: TAvailableCurrency[] = ['USD', 'EUR', 'BRL', 'GBP']
+  static readonly #lang = GateFiLangEnum.en_US
+  static readonly #theme: GateFiThemeType = 'dark'
+  static readonly #hideBrand = true
+
+  static getValidCurrencyLabel(currencyLabel: TAvailableCurrency): TAvailableCurrency {
+    return this.#supportedCurrencyLabels.includes(currencyLabel) ? currencyLabel : this.#defaultCurrencyLabel
   }
 
-  static getMountedUrl({ domainUrl, currency, account }: TGetMountedUrlParams) {
-    return `${domainUrl}?merchantId=${merchantId}&fiatCurrency=${BuyAndSellTokensHelper.getValidCurrencyLabel(currency.label)}&lang=${lang}&themeMode=${theme}&hideBrand=${hideBrand}&wallet=${account?.address ?? ''}`
+  static buildSellUrl({ currency, account }: TBuyAndSellTokensHelperGetSellUrlParams) {
+    const params = new URLSearchParams({
+      merchantId: import.meta.env.VITE_UNLIMIT_MERCHANT_ID,
+      fiatCurrency: this.getValidCurrencyLabel(currency.label),
+      lang: this.#lang,
+      themeMode: this.#theme,
+      hideBrand: String(this.#hideBrand),
+      wallet: account?.address ?? '',
+    })
+
+    return `${import.meta.env.VITE_UNLIMIT_SELL_TOKENS_IFRAME_URL}?${params.toString()}`
+  }
+
+  static async initBuy({ currency, account, id }: TBuyAndSellTokensHelperInitBuyParams) {
+    const loadedFingerprint = await fingerprint.load()
+    const result = await loadedFingerprint.get()
+
+    const [colorNeon, colorAsphalt] = StyleHelper.getTheme('color-neon', 'color-asphalt')
+
+    return await new Promise<() => void>(resolve => {
+      const sdk = new GateFiSDK({
+        merchantId: import.meta.env.VITE_UNLIMIT_MERCHANT_ID,
+        displayMode: GateFiDisplayModeEnum.Embedded,
+        nodeSelector: `#${id}`,
+        lang: this.#lang,
+        defaultFiat: { currency: BuyAndSellTokensHelper.getValidCurrencyLabel(currency.label) },
+        hideThemeSwitcher: true,
+        hideBrand: this.#hideBrand,
+        fingerprint: result.visitorId,
+        walletAddress: account?.address,
+        styles: {
+          type: this.#theme,
+          primaryColor: colorNeon,
+          primaryBackground: colorAsphalt,
+          primaryTextColor: colorAsphalt,
+          secondaryColor: colorNeon,
+          secondaryBackground: colorAsphalt,
+        },
+      })
+
+      sdk.subscribe(GateFiEventTypes.onLoad, async () => {
+        await SharedUtilsHelper.sleep(500)
+        resolve(() => {
+          sdk.destroy()
+        })
+      })
+    })
   }
 }

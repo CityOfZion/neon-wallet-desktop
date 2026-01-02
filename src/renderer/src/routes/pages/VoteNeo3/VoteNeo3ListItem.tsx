@@ -8,6 +8,7 @@ import { DashedSeparator } from '@renderer/components/DashedSeparator'
 import { IconButton } from '@renderer/components/IconButton'
 import { Tooltip } from '@renderer/components/Tooltip'
 
+import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
@@ -20,7 +21,6 @@ import MdCircle from '@renderer/assets/images/md-circle.svg?react'
 import MdInfoOutline from '@renderer/assets/images/md-info-outline.svg?react'
 import TbPackages from '@renderer/assets/images/tb-packages.svg?react'
 
-import { VOTE_NEO3_COZ_PUB_KEY } from '@renderer/constants/public-keys'
 import { IAccountState } from '@shared/types/store'
 
 type TProps = {
@@ -53,7 +53,7 @@ export const VoteNeo3ListItem = ({
   const { position, pubKey, votes } = candidate
 
   const currentCandidatePubKey = voteDetailsByAddressQuery.data?.candidatePubKey
-  const isCozCandidate = VOTE_NEO3_COZ_PUB_KEY === currentCandidatePubKey
+  const isCozCandidate = ConstantsHelper.voteNeo3CozPubKey === currentCandidatePubKey
   const isCurrentVote = pubKey === currentCandidatePubKey
   const isVoteDisabled = isCurrentVote || !canVote || voteDetailsByAddressQuery.isLoading
   const icon = candidate.type === 'consensus' ? <TbPackages className="h-5 w-5" /> : <MdCircle className="h-3 w-3" />

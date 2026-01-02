@@ -24,10 +24,12 @@ import { Tooltip } from '@renderer/components/Tooltip'
 import { TransactionFeeActionStep } from '@renderer/components/TransactionFeeActionStep'
 
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
+import { StringHelper } from '@renderer/helpers/StringHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+import { SwapHelper } from '@renderer/helpers/SwapHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
@@ -54,8 +56,6 @@ import TbWallet from '@renderer/assets/images/tb-wallet.svg?react'
 import TbWand from '@renderer/assets/images/tb-wand.svg?react'
 import VscCircleFilled from '@renderer/assets/images/vsc-circle-filled.svg?react'
 
-import { SWAP_NETWORK_BY_BLOCKCHAIN_AND_NETWORK_ID } from '@renderer/constants/swap'
-import { bsAggregator, doesBlockchainSupported } from '@renderer/libs/blockchain-service'
 import { utilityReducerActions } from '@renderer/store/reducers/utility'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
@@ -92,21 +92,7 @@ export const SwapPageContent = ({ account }: TProps) => {
   const { confirmAction } = useConfirmAction()
   const { ref: amountInputRef, isFocused: isAmountInputFocused } = useIsFocused<HTMLInputElement>()
 
-  const swapChainsByServiceName = useMemo(() => {
-    const chainsByServiceName: Partial<Record<TBlockchainServiceKey, string[]>> = {}
-
-    for (const networkBlockchain in networkByBlockchain) {
-      const blockchain = networkBlockchain as TBlockchainServiceKey
-      const network = networkByBlockchain[blockchain]
-      const swapNetwork = SWAP_NETWORK_BY_BLOCKCHAIN_AND_NETWORK_ID?.[blockchain]?.[network.id]
-
-      if (swapNetwork) {
-        chainsByServiceName[blockchain] = swapNetwork
-      }
-    }
-
-    return chainsByServiceName
-  }, [networkByBlockchain])
+  const swapChainsByServiceName = useMemo(() => SwapHelper.getNetworks(networkByBlockchain), [networkByBlockchain])
 
   const swapOrchestratorRef = useRef<SimpleSwapOrchestrator<TBlockchainServiceKey>>(undefined)
 
@@ -149,7 +135,8 @@ export const SwapPageContent = ({ account }: TProps) => {
     actionData.selectedAddressToReceive.valid === false
 
   const isContactsAndAccountsSelectionDisabled = tokenToReceiveBlockchain
-    ? !doesBlockchainSupported(tokenToReceiveBlockchain) || !actionData.selectedAccountToUse.value
+    ? !BlockchainServiceHelper.doesBlockchainSupported(tokenToReceiveBlockchain) ||
+      !actionData.selectedAccountToUse.value
     : true
 
   const isAccountsSelectionDisabled = !tokenToReceiveBlockchain
@@ -181,7 +168,9 @@ export const SwapPageContent = ({ account }: TProps) => {
   const service = useMemo(
     () =>
       actionData.selectedAccountToUse.value
-        ? bsAggregator.blockchainServicesByName[actionData.selectedAccountToUse.value.blockchain]
+        ? BlockchainServiceHelper.bsAggregator.blockchainServicesByName[
+            actionData.selectedAccountToUse.value.blockchain
+          ]
         : undefined,
     [actionData.selectedAccountToUse.value]
   )
@@ -209,7 +198,7 @@ export const SwapPageContent = ({ account }: TProps) => {
     reset()
 
     const swapService = new SimpleSwapOrchestrator({
-      blockchainServicesByName: bsAggregator.blockchainServicesByName,
+      blockchainServicesByName: BlockchainServiceHelper.bsAggregator.blockchainServicesByName,
       chainsByServiceName: swapChainsByServiceName,
     })
 
@@ -306,7 +295,7 @@ export const SwapPageContent = ({ account }: TProps) => {
 
   const handleChangeAddressToReceive = (event: ChangeEvent<HTMLInputElement>) => {
     swapOrchestratorRef.current?.setAddressToReceive(
-      UtilsHelper.removeSpecialCharacters(event.target.value, { allowSpaces: false })
+      StringHelper.removeSpecialCharacters(event.target.value, { allowSpaces: false })
     )
   }
 

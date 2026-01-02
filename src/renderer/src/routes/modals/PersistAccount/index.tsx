@@ -5,8 +5,8 @@ import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
 
+import { SkinHelper } from '@renderer/helpers/SkinHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
 import { useActions } from '@renderer/hooks/useActions'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
@@ -47,7 +47,7 @@ const PersistAccountModal = () => {
 
   const { actionData, actionState, handleAct, setDataFromEventWrapper, setData, setError } = useActions<TFormData>({
     name: modalStateAccount ? modalStateAccount.name : '',
-    skin: modalStateAccount ? modalStateAccount.skin : UtilsHelper.generateColorSkin(0),
+    skin: modalStateAccount ? modalStateAccount.skin : SkinHelper.generateColorSkin(0),
   })
 
   const nameValidation = StringHelper.validateValue(actionData.name, MAX_NAME_LENGTH)

@@ -387,8 +387,10 @@
       "title": "從 NEON 2.0 遷移"
     },
     "settingsMobileApp": {
+      "appStoreImageLabel": "在 App Store 下載",
       "descriptionLine1": "安全地儲存、查看和管理您的所有數位資產及多個錢包於同一處。",
       "descriptionLine2": "利用您裝置上的額外安全選項，確保您的資產安全。",
+      "playStoreImageLabel": "在 Google Play 下載",
       "subtitle": "您的錢包也可在行動裝置上使用！",
       "title": "行動應用程式"
     },

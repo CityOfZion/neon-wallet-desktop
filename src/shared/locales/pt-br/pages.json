@@ -387,8 +387,10 @@
       "title": "Migrar da NEON 2.0"
     },
     "settingsMobileApp": {
+      "appStoreImageLabel": "Baixe na App Store",
       "descriptionLine1": "Armazene, visualize e gerencie com segurança todos os seus ativos digitais e várias carteiras em um só lugar.",
       "descriptionLine2": "Aproveite as opções de segurança adicionais do seu dispositivo para manter seus ativos seguros.",
+      "playStoreImageLabel": "Baixe no Google Play",
       "subtitle": "Sua carteira também está disponível no celular!",
       "title": "Aplicativo Mobile"
     },

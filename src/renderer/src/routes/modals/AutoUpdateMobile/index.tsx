@@ -2,6 +2,8 @@ import { useTranslation } from 'react-i18next'
 
 import { Button } from '@renderer/components/Button'
 
+import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
+
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
@@ -12,19 +14,9 @@ import PlayStore from '@renderer/assets/images/playstore.png'
 import TbArrowRight from '@renderer/assets/images/tb-arrow-right.svg?react'
 import TbExternalLink from '@renderer/assets/images/tb-external-link.svg?react'
 
-import { MOBILE_APP_APPSTORE_LINK, MOBILE_APP_PLAYSTORE_LINK } from '@renderer/constants/urls'
-
 const AutoUpdateMobile = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'autoUpdate.mobile' })
   const { modalEraseWrapper } = useModalNavigate()
-
-  const appstoreClick = () => {
-    window.open(MOBILE_APP_APPSTORE_LINK)
-  }
-
-  const playstoreClick = () => {
-    window.open(MOBILE_APP_PLAYSTORE_LINK)
-  }
 
   return (
     <CenterModalLayout contentClassName="flex flex-col w-full items-center justify-between" size="lg">
@@ -41,7 +33,15 @@ const AutoUpdateMobile = () => {
               <TbExternalLink aria-hidden className="text-blue h-6 w-6" />
               <span className="text-lg text-white">{t('downloadForIOS')}</span>
             </div>
-            <AppStore className="mt-3 ml-11 h-12 w-40 cursor-pointer" onClick={appstoreClick} />
+
+            <a
+              href={ConstantsHelper.mobileAppStoreUrl}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={t('downloadForIOS')}
+            >
+              <AppStore aria-hidden className="mt-3 ml-11 h-12 w-40 cursor-pointer" />
+            </a>
           </div>
           <div className="h-full w-px bg-gray-300/30"></div>
           <div className="flex flex-col items-center">
@@ -49,12 +49,15 @@ const AutoUpdateMobile = () => {
               <TbExternalLink aria-hidden className="text-blue h-6 w-6" />
               <span className="text-lg text-white">{t('downloadForAndroid')}</span>
             </div>
-            <img
-              src={PlayStore}
-              className="ml-5 w-46 cursor-pointer"
-              onClick={playstoreClick}
-              alt={t('downloadForAndroid')}
-            />
+
+            <a
+              href={ConstantsHelper.mobilePlayStoreUrl}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={t('downloadForAndroid')}
+            >
+              <img src={PlayStore} aria-hidden className="ml-5 w-46 cursor-pointer" alt={t('downloadForAndroid')} />
+            </a>
           </div>
         </div>
       </div>

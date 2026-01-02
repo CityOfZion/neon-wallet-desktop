@@ -1,8 +1,8 @@
 import { cloneElement, type ComponentProps } from 'react'
 
+import { SkinHelper } from '@renderer/helpers/SkinHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
-import { ACCOUNT_COLOR_SKINS, ACCOUNT_LOCAL_SKINS } from '@renderer/constants/skins'
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import { IAccountState, TNftSkin } from '@shared/types/store'
 
@@ -24,7 +24,7 @@ const AccountBlockchainCircle = ({ blockchain }: TAccountBlockchainCircleProps) 
 )
 
 const AccountIconColor = ({ account, className, ...props }: TProps) => {
-  const color = ACCOUNT_COLOR_SKINS.find(({ id }) => id === account.skin.id)?.color
+  const color = SkinHelper.accountColorSkins.get(account.skin.id)?.color
 
   if (!color) return null
 
@@ -53,7 +53,7 @@ const AccountIconNFT = ({ account }: TProps) => {
 }
 
 const AccountIconLocal = ({ account }: TProps) => {
-  const component = ACCOUNT_LOCAL_SKINS.get(account.skin.id)?.component
+  const component = SkinHelper.localSkins.get(account.skin.id)?.component
   if (!component) return null
 
   return (

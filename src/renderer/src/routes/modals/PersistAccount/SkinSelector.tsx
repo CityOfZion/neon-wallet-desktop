@@ -1,8 +1,9 @@
 import { SkinCard } from '@renderer/components/SkinCard'
 
+import { SkinHelper } from '@renderer/helpers/SkinHelper'
+
 import { useUnlockedSkinIdsSelector } from '@renderer/hooks/useUtilitySelector'
 
-import { ACCOUNT_COLOR_SKINS, ACCOUNT_LOCAL_SKINS } from '@renderer/constants/skins'
 import { IAccountState, TSkin } from '@shared/types/store'
 
 type TProps = {
@@ -19,7 +20,7 @@ export const SkinSelector = ({ label, selectedSkin, account, onSelectSkin }: TPr
     <div>
       <div className="mt-4 mb-4 text-xs font-bold text-gray-300 uppercase">{label}</div>
       <div className="grid grid-cols-4 flex-wrap gap-4">
-        {ACCOUNT_COLOR_SKINS.map(skin => (
+        {SkinHelper.accountColorSkins.values().map(skin => (
           <button key={skin.id} onClick={() => onSelectSkin({ id: skin.id, type: 'color' })} type="button">
             <SkinCard showCheck={selectedSkin.id === skin.id} color={skin.color} />
           </button>
@@ -31,7 +32,7 @@ export const SkinSelector = ({ label, selectedSkin, account, onSelectSkin }: TPr
               <button key={skinId} onClick={() => onSelectSkin({ id: skinId, type: 'local' })} type="button">
                 <SkinCard
                   showCheck={selectedSkin.id === skinId}
-                  component={ACCOUNT_LOCAL_SKINS.get(skinId)?.component}
+                  component={SkinHelper.localSkins.get(skinId)?.component}
                 />
               </button>
             )

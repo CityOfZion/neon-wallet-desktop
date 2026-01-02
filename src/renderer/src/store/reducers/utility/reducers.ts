@@ -1,9 +1,9 @@
 import { CaseReducer, PayloadAction } from '@reduxjs/toolkit'
 import { cloneDeep } from 'lodash'
 
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { TokenHelper } from '@renderer/helpers/TokenHelper'
 
-import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import { TUseTransactionsTransfer } from '@shared/types/hooks'
 import { TSwapRecord } from '@shared/types/store'
@@ -77,7 +77,7 @@ const toggleHiddenToken: CaseReducer<IUtilityReducer, PayloadAction<THiddenToken
 
   if (TokenHelper.isNativeToken(hash, blockchain)) throw new Error("The native token can't be hidden")
 
-  const service = bsAggregator.blockchainServicesByName[blockchain]
+  const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
   const normalizedHash = service.tokenService.normalizeHash(hash)
   const hiddenTokens = cloneDeep(state.data.hiddenTokensByBlockchain[blockchain] ?? [])
   const index = hiddenTokens.findIndex(tokenHash => service.tokenService.predicateByHash(normalizedHash, tokenHash))

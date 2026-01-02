@@ -2,9 +2,10 @@ import { useTranslation } from 'react-i18next'
 
 import { Accordion } from '@renderer/components/Accordion'
 
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+
 import { SettingsLayout } from '@renderer/layouts/Settings'
 
-import { getBlockchainNames } from '@renderer/libs/blockchain-service'
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 import { BlockchainNetworkAccordion } from './BlockchainNetworkAccordion'
@@ -27,7 +28,7 @@ const SettingsNetwork = () => {
       <p className="mb-7 text-xs">{t('youAreConnectedNeoAndEth')}</p>
 
       <Accordion.Root type="multiple" defaultValue={['neo3']}>
-        {getBlockchainNames().map(blockchain => (
+        {BlockchainServiceHelper.blockchainNames.map(blockchain => (
           <BlockchainNetworkAccordion key={`network-${blockchain}`} blockchain={blockchain as TBlockchainServiceKey} />
         ))}
       </Accordion.Root>

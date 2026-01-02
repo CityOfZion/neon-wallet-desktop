@@ -8,8 +8,8 @@ import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'
 
+import { ClipboardHelper } from '@renderer/helpers/ClipboardHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 
@@ -59,7 +59,7 @@ const CreateWalletStep1Modal = () => {
               variant="text"
               leftIcon={<MdContentCopy aria-hidden />}
               label={t('copyButtonLabel')}
-              onClick={() => UtilsHelper.copyToClipboard(words.join(' '))}
+              onClick={ClipboardHelper.write.bind(null, words.join(' '))}
               flat
             />
 

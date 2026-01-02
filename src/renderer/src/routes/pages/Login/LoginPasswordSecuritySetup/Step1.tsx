@@ -31,7 +31,7 @@ export const LoginPasswordSecuritySetupStep1Content = ({ onSubmit }: TProps) => 
     setData({ password })
 
     if (!PasswordHelper.isWeakPassword(password)) {
-      setError('password', t('passwordError', { length: PasswordHelper.MINIMUM_PASSWORD_LENGTH }))
+      setError('password', t('passwordError', { length: PasswordHelper.minimumPasswordLength }))
       return
     }
   }

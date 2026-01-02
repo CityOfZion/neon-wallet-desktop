@@ -4,6 +4,7 @@ import { Button } from '@renderer/components/Button'
 import { Link } from '@renderer/components/Link'
 import { Separator } from '@renderer/components/Separator'
 
+import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
 import { DateHelper } from '@renderer/helpers/DateHelper'
 
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
@@ -14,8 +15,6 @@ import { CenterModalLayout } from '@renderer/layouts/CenterModal'
 import MdOutlineAutoAwesome from '@renderer/assets/images/md-outline-auto-awesome.svg?react'
 import NeonWalletLogo from '@renderer/assets/images/neon-wallet-full.svg?react'
 import TbExternalLink from '@renderer/assets/images/tb-external-link.svg?react'
-
-import { LATEST_RELEASE_URL } from '@renderer/constants/urls'
 
 import 'github-markdown-css/github-markdown.css'
 
@@ -61,7 +60,7 @@ const AutoUpdateNotes = () => {
 
       <div className="flex w-full justify-center gap-x-2">
         <Link
-          to={LATEST_RELEASE_URL}
+          to={ConstantsHelper.latestReleaseUrl}
           target="_blank"
           label={t('buttonLearnMoreLabel')}
           rightIcon={<TbExternalLink />}

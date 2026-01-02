@@ -2,9 +2,8 @@ import { useMemo } from 'react'
 
 import { useTranslation } from 'react-i18next'
 
-import { NumberHelper } from '@renderer/helpers/NumberHelper'
+import { CurrencyHelper } from '@renderer/helpers/CurrencyHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 
@@ -32,16 +31,16 @@ export const BalanceChart = ({ balances, sortedBalances, className }: TProps) =>
   const bars = useMemo<TBar[]>(() => {
     if (balances.exchangeTotal === 0)
       return [
-        { color: '#676767', name: t('noAssets'), value: NumberHelper.currency(0, { currency }), widthPercent: 100 },
+        { color: '#676767', name: t('noAssets'), value: CurrencyHelper.format(0, { currency }), widthPercent: 100 },
       ]
 
     const firstFourBars = sortedBalances.slice(0, 4).map<TBar>(tokenBalance => {
-      const color = UtilsHelper.generateTokenColor(tokenBalance.token.hash, tokenBalance.blockchain)
+      const color = StyleHelper.generateTokenColor(tokenBalance.token.hash, tokenBalance.blockchain)
       const widthPercent = (tokenBalance.exchangeAmount * 100) / balances.exchangeTotal
 
       return {
         name: tokenBalance.token.name,
-        value: NumberHelper.currency(tokenBalance.exchangeAmount, { currency }),
+        value: CurrencyHelper.format(tokenBalance.exchangeAmount, { currency }),
         color,
         widthPercent,
       }
@@ -54,7 +53,7 @@ export const BalanceChart = ({ balances, sortedBalances, className }: TProps) =>
     const othersAmount = sortedBalances.slice(4).reduce((acc, balance) => acc + balance.exchangeAmount, 0)
     const otherBar: TBar = {
       color: '#47BEFF',
-      value: NumberHelper.currency(othersAmount, { currency }),
+      value: CurrencyHelper.format(othersAmount, { currency }),
       name: t('othersTokens'),
       widthPercent: (othersAmount * 100) / balances.exchangeTotal,
     }
@@ -62,7 +61,7 @@ export const BalanceChart = ({ balances, sortedBalances, className }: TProps) =>
     return [...firstFourBars, otherBar]
   }, [balances, t, currency, sortedBalances])
 
-  const exchangeTotalFormatted = NumberHelper.currency(balances.exchangeTotal, { currency, showZero: false })
+  const exchangeTotalFormatted = CurrencyHelper.format(balances.exchangeTotal, { currency, showZero: false })
 
   return (
     <div className={StyleHelper.mergeStyles('w-full py-9', className)}>

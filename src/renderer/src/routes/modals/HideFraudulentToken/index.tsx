@@ -6,6 +6,7 @@ import { match, P } from 'ts-pattern'
 import { Button } from '@renderer/components/Button'
 import { Loader } from '@renderer/components/Loader'
 
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { TokenHelper } from '@renderer/helpers/TokenHelper'
 
@@ -18,7 +19,6 @@ import { CenterModalLayout } from '@renderer/layouts/CenterModal'
 
 import TbEyeOff from '@renderer/assets/images/tb-eye-off.svg?react'
 
-import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { utilityReducerActions } from '@renderer/store/reducers/utility'
 import type { TModalState } from '@shared/types/modal'
 
@@ -35,7 +35,7 @@ const HideFraudulentTokenModal = () => {
 
     if (balanceQuery.isLoading || !blockchain) return undefined
 
-    const service = bsAggregator.blockchainServicesByName[blockchain]
+    const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
 
     return balanceQuery.data?.tokensBalances?.find(({ token }) => service.tokenService.predicateByHash(hash, token))
   }, [balanceQuery.data, balanceQuery.isLoading, hash])

@@ -1,13 +1,14 @@
 import { hasWalletConnect } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
 
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 
 import TbDiamondOff from '@renderer/assets/images/tb-diamond-off.svg?react'
 import TbFileImport from '@renderer/assets/images/tb-file-import.svg?react'
 import TbPlug from '@renderer/assets/images/tb-plug.svg?react'
 
-import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { IAccountState } from '@shared/types/store'
 
 import { BlockchainIcon } from './BlockchainIcon'
@@ -38,7 +39,7 @@ export const EmptyState = ({ account }: TProps) => {
         <div className="my-5 flex gap-3">
           {account &&
             account.type !== 'watch' &&
-            hasWalletConnect(bsAggregator.blockchainServicesByName[account.blockchain]) && (
+            hasWalletConnect(BlockchainServiceHelper.bsAggregator.blockchainServicesByName[account.blockchain]) && (
               <Button
                 className="w-full"
                 label={t('connectDappLabel')}

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 
 import { Loader } from '@renderer/components/Loader'
 
+import { CurrencyHelper } from '@renderer/helpers/CurrencyHelper'
 import { ExchangeHelper } from '@renderer/helpers/ExchangeHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
@@ -68,7 +69,7 @@ export const TransactionFeeActionStep = ({
           </span>
 
           <span className={StyleHelper.mergeStyles('whitespace-nowrap text-white', fiatClassName)}>
-            {NumberHelper.currency(fiatFee, { currency })}
+            {CurrencyHelper.format(fiatFee, { currency })}
           </span>
         </div>
       )}

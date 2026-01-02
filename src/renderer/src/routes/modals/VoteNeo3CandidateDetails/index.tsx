@@ -7,6 +7,7 @@ import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'
 
+import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 
 import { useBalance } from '@renderer/hooks/useBalances'
@@ -24,7 +25,6 @@ import CozLogo from '@renderer/assets/images/coz-logo.svg?react'
 import MdInfoOutline from '@renderer/assets/images/md-info-outline.svg?react'
 import TbCheckbox from '@renderer/assets/images/tb-checkbox.svg?react'
 
-import { VOTE_NEO3_COZ_PUB_KEY } from '@renderer/constants/public-keys'
 import type { TModalState } from '@shared/types/modal'
 
 const VoteNeo3CandidateDetailsModal = () => {
@@ -44,7 +44,7 @@ const VoteNeo3CandidateDetailsModal = () => {
   const neoAmount = voteDetailsByAddressQuery.data?.neoBalance ?? 0
   const hasNeoAmount = neoAmount > 0
   const isWatchAccount = neo3Account?.type === 'watch'
-  const isCozCandidate = VOTE_NEO3_COZ_PUB_KEY === pubKey
+  const isCozCandidate = ConstantsHelper.voteNeo3CozPubKey === pubKey
   const isCurrentVote = voteDetailsByAddressQuery.data?.candidatePubKey === pubKey
   const isLoading = voteDetailsByAddressQuery.isLoading || calculateVoteFeeQuery.isLoading || balanceQuery.isLoading
   const isDisabled = isCurrentVote || isLoading || !hasEnoughGasToPayFee || !hasNeoAmount

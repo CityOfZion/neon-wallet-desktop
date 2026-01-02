@@ -4,6 +4,8 @@ import { Button } from '@renderer/components/Button'
 import { Checkbox } from '@renderer/components/Checkbox'
 import { Link } from '@renderer/components/Link'
 
+import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
+
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
@@ -14,7 +16,6 @@ import CozLogo from '@renderer/assets/images/coz-logo.svg?react'
 import TbCheckbox from '@renderer/assets/images/tb-checkbox.svg?react'
 import TbHeartHandshake from '@renderer/assets/images/tb-heart-handshake.svg?react'
 
-import { COZ_WEBSITE_URL } from '@renderer/constants/urls'
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
 import type { TModalState } from '@shared/types/modal'
 
@@ -70,7 +71,12 @@ const VoteNeo3SupportUsModal = () => {
         <span>
           <Trans t={t} i18nKey="scanOurWebsite">
             start
-            <Link to={COZ_WEBSITE_URL} target="_blank" variant="text-slim" clickableProps={{ className: 'inline' }}>
+            <Link
+              to={ConstantsHelper.cozWebsiteUrl}
+              target="_blank"
+              variant="text-slim"
+              clickableProps={{ className: 'inline' }}
+            >
               end
             </Link>
           </Trans>

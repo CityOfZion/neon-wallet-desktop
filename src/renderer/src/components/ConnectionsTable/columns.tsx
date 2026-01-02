@@ -3,6 +3,7 @@ import { useMemo } from 'react'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { useTranslation } from 'react-i18next'
 
+import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
 import { DateHelper } from '@renderer/helpers/DateHelper'
 
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
@@ -10,7 +11,6 @@ import { useLanguageSelector } from '@renderer/hooks/useSettingsSelector'
 
 import TbPlugX from '@renderer/assets/images/tb-plug-x.svg?react'
 
-import { NEON_ICONS_URL } from '@renderer/constants/urls'
 import type { TUseWalletConnectSessionsResult } from '@shared/types/query'
 
 import { BlockchainIcon } from '../BlockchainIcon'
@@ -37,7 +37,7 @@ export const useColumns = (withAddress: boolean) => {
               <ImageWithFallback
                 src={value.icons[0]}
                 alt={value.name}
-                fallbackSrc={`${NEON_ICONS_URL}/dapps/default-dapp.png`}
+                fallbackSrc={`${ConstantsHelper.neonIconsUrl}/dapps/default-dapp.png`}
                 imgClassName="size-5.5 rounded-full"
                 className="size-7 overflow-hidden rounded-full bg-gray-600/50"
               />

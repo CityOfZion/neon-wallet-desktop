@@ -1,9 +1,10 @@
-import { WalletKitHelper } from '@cityofzion/bs-multichain'
 import { Fragment } from 'react/jsx-runtime'
 import { useTranslation } from 'react-i18next'
 
 import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'
+
+import { WalletKitHelper } from '@renderer/helpers/WalletKitHelper'
 
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { usePressOnce } from '@renderer/hooks/usePressOnce'
@@ -14,7 +15,6 @@ import { SideModalLayout } from '@renderer/layouts/SideModal'
 import TbPlug from '@renderer/assets/images/tb-plug.svg?react'
 import TbPlugX from '@renderer/assets/images/tb-plug-x.svg?react'
 
-import { walletKit } from '@renderer/libs/wallet-connect'
 import type { TModalState } from '@shared/types/modal'
 
 const DappDisconnectionModal = () => {
@@ -25,7 +25,10 @@ const DappDisconnectionModal = () => {
   const [isDisconnecting, startDisconnect] = usePressOnce(async () => {
     await Promise.allSettled(
       sessions.map(session =>
-        walletKit.disconnectSession({ topic: session.topic, reason: WalletKitHelper.getError('USER_DISCONNECTED') })
+        WalletKitHelper.kit.disconnectSession({
+          topic: session.topic,
+          reason: WalletKitHelper.getError('USER_DISCONNECTED'),
+        })
       )
     )
     invalidateWalletConnectSessions()

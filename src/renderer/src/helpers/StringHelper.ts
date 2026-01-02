@@ -1,3 +1,5 @@
+import type { TStringHelperRemoveSpecialCharacterOptions } from '@shared/types/helpers'
+
 export class StringHelper {
   static truncateString(str: string, maxLength: number) {
     if (str.length > maxLength) {
@@ -37,5 +39,39 @@ export class StringHelper {
       isTooLong,
       isValid: !isEmpty && !isTooLong,
     }
+  }
+
+  static removeSpecialCharacters(text: string, options?: TStringHelperRemoveSpecialCharacterOptions) {
+    options = { allowSpaces: true, trimText: false, ...options }
+
+    let regex = 'a-zA-Z0-9'
+    if (options.allowDots) {
+      regex += '.'
+    }
+
+    if (options.allowSpaces) {
+      regex += ' '
+    }
+    text = text.replace(new RegExp(`[^${regex}]`, 'g'), '')
+
+    if (options.trimText) text = text.trim()
+
+    return text
+  }
+
+  static hasUppercaseChar(text: string) {
+    return /[A-Z]/.test(text)
+  }
+
+  static hasLowercaseChar(text: string) {
+    return /[a-z]/.test(text)
+  }
+
+  static hasNumberChar(text: string) {
+    return /\d/.test(text)
+  }
+
+  static hasSpecialChar(text: string) {
+    return /[^a-zA-Z\d]/.test(text)
   }
 }
