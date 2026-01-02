@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router'
 import { IconButton } from '@renderer/components/IconButton'
 import { Separator } from '@renderer/components/Separator'
 
+import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import { useAppDispatch } from '@renderer/hooks/useRedux'
@@ -14,7 +15,6 @@ import { useSelectedNetworkProfileSelector } from '@renderer/hooks/useSettingsSe
 
 import TbArrowLeft from '@renderer/assets/images/tb-arrow-left.svg?react'
 
-import { DEFAULT_NETWORK_PROFILE_ID } from '@renderer/constants/networks'
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
 
 export type TMainLayoutProps = {
@@ -46,7 +46,7 @@ export const ContentLayout = ({
 
   const { className: titleIconClassName = '', ...titleIconProps } = titleIcon ? titleIcon.props : {}
 
-  const hasCustomProfile = selectedNetworkProfile.id !== DEFAULT_NETWORK_PROFILE_ID
+  const hasCustomProfile = selectedNetworkProfile.id !== ConstantsHelper.defaultNetworkProfileId
 
   const handleBackClick = () => {
     if (onBackClick) {

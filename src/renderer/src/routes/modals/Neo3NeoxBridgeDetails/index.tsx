@@ -12,6 +12,9 @@ import { Separator } from '@renderer/components/Separator'
 import { Stepper } from '@renderer/components/Stepper'
 import { TokenDetails } from '@renderer/components/TokenDetails'
 
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
+
 import { useModalState } from '@renderer/hooks/useModalRouter'
 import { useMountUnsafe } from '@renderer/hooks/useMount'
 
@@ -23,8 +26,6 @@ import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
 import TbReplace2 from '@renderer/assets/images/tb-replace-2.svg?react'
 import TbRosetteDiscountCheck from '@renderer/assets/images/tb-rosette-discount-check.svg?react'
 
-import { DISCORD_LINK } from '@renderer/constants/urls'
-import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import type { TModalState } from '@shared/types/modal'
 
@@ -67,8 +68,8 @@ const Neo3NeoxBridgeDetailsModal = () => {
       tokenToUse,
       tokenToReceive,
       transactionHash,
-      neo3Service: bsAggregator.blockchainServicesByName.neo3 as BSNeo3<TBlockchainServiceKey>,
-      neoXService: bsAggregator.blockchainServicesByName.neox as BSNeoX<TBlockchainServiceKey>,
+      neo3Service: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.neo3 as BSNeo3<TBlockchainServiceKey>,
+      neoXService: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.neox as BSNeoX<TBlockchainServiceKey>,
     })
       .then(() => {
         setStatus('completed')
@@ -155,7 +156,7 @@ const Neo3NeoxBridgeDetailsModal = () => {
           label={t('helpButtonLabel')}
           className="grow"
           target="_blank"
-          to={DISCORD_LINK}
+          to={ConstantsHelper.cozDiscordUrl}
           flat
           wide
           iconsOnEdge={false}

@@ -3,13 +3,13 @@ import { useState } from 'react'
 import { BSKeychainHelper } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
 
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
 import { useMount } from '@renderer/hooks/useMount'
 import { useLastIndexesByWallet } from '@renderer/hooks/useUtilitySelector'
 
-import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
@@ -143,14 +143,20 @@ export const MnemonicOrKeyAccountSelection = ({
     let mnemonicAccountsArray: TMnemonicAccounts = []
 
     if (BSKeychainHelper.isValidMnemonic(mnemonicOrKey)) {
-      const accountFromMnemonicMap = await bsAggregator.generateAccountsFromMnemonic(mnemonicOrKey, lastIndexesByWallet)
+      const accountFromMnemonicMap = await BlockchainServiceHelper.bsAggregator.generateAccountsFromMnemonic(
+        mnemonicOrKey,
+        lastIndexesByWallet
+      )
 
       mnemonicAccountsArray = Array.from(accountFromMnemonicMap.entries())
     } else {
-      await UtilsHelper.promiseAll(Object.values(bsAggregator.blockchainServicesByName), async service => {
-        const account = service.generateAccountFromKey(mnemonicOrKey)
-        mnemonicAccountsArray.push([service.name, [account]])
-      })
+      await UtilsHelper.promiseAll(
+        Object.values(BlockchainServiceHelper.bsAggregator.blockchainServicesByName),
+        async service => {
+          const account = service.generateAccountFromKey(mnemonicOrKey)
+          mnemonicAccountsArray.push([service.name, [account]])
+        }
+      )
     }
 
     mnemonicAccountsArray.forEach(([blockchain, accounts]) => {

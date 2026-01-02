@@ -4,7 +4,8 @@ import createMigrate from 'redux-persist/es/createMigrate'
 import getStoredState from 'redux-persist/es/getStoredState'
 import storage from 'redux-persist/lib/storage'
 
-import { bsAggregator } from '@renderer/libs/blockchain-service'
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import { TUseTransactionsTransfer } from '@shared/types/hooks'
 import { THiddenTokenByBlockchain, TLastIndexesByWallet, TSwapRecord } from '@shared/types/store'
@@ -61,7 +62,7 @@ export function getUtilityReducer() {
       }
     },
     1: (state: any) => {
-      const neoLegacyService = bsAggregator.blockchainServicesByName.neoLegacy
+      const neoLegacyService = BlockchainServiceHelper.bsAggregator.blockchainServicesByName.neoLegacy
 
       const migrationsNeo3 = Object.entries(state.data.migrationsNeo3).reduce((previous, actual) => {
         const key = neoLegacyService.tokenService.normalizeHash(actual[0])
@@ -75,7 +76,7 @@ export function getUtilityReducer() {
         (previous, actual) => {
           const blockchain = actual[0] as TBlockchainServiceKey
           const tokens = actual[1] as string[] | undefined
-          const service = bsAggregator.blockchainServicesByName[blockchain]
+          const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
 
           previous[blockchain] = tokens?.map(token => service.tokenService.normalizeHash(token)) ?? []
 

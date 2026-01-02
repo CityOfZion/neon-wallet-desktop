@@ -7,12 +7,13 @@ import { Button } from '@renderer/components/Button'
 import { TemporaryLimitsBox } from '@renderer/components/TemporaryLimitsBox'
 import { Textarea } from '@renderer/components/Textarea'
 
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 
 import { useImportAction } from '@renderer/hooks/useImportAction'
 import { useLogin } from '@renderer/hooks/useLogin'
 
-import { bsAggregator } from '@renderer/libs/blockchain-service'
+import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 import { TAccountsToImport } from '@shared/types/blockchain'
 
 export const LoginKeyTabContent = () => {
@@ -23,14 +24,19 @@ export const LoginKeyTabContent = () => {
 
   const submitKey = async (key: string) => {
     navigate('/login-key-select-account', { state: { mnemonicOrKey: key } })
+    // Improve UX
+    await SharedUtilsHelper.sleep(2000)
   }
 
   const submitMnemonic = async (mnemonic: string) => {
     navigate('/login-key-select-account', { state: { mnemonicOrKey: mnemonic } })
+
+    // Improve UX
+    await SharedUtilsHelper.sleep(2000)
   }
 
   const submitAddress = async (address: string) => {
-    const blockchains = bsAggregator.getBlockchainNameByAddress(address)
+    const blockchains = BlockchainServiceHelper.bsAggregator.getBlockchainNameByAddress(address)
     const accountsToImport: TAccountsToImport = blockchains.map(blockchain => ({
       blockchain,
       address,
@@ -41,7 +47,11 @@ export const LoginKeyTabContent = () => {
       name: commonT('wallet.watchAccount'),
       type: 'standard',
     })
+
     navigate('/wallets/overview')
+
+    // Improve UX
+    await SharedUtilsHelper.sleep(2000)
   }
 
   const { actionData, actionState, handleAct, handleChange, handleSubmit } = useImportAction(

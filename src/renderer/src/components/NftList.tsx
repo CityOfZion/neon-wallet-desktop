@@ -4,9 +4,10 @@ import { useTranslation } from 'react-i18next'
 
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+
 import TbChevronRight from '@renderer/assets/images/tb-chevron-right.svg?react'
 
-import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { IAccountState } from '@shared/types/store'
 
 type TProps = {
@@ -19,7 +20,7 @@ export const NftList = ({ account, nfts }: TProps) => {
 
   const getHref = (nft: TNftResponse) => {
     try {
-      const service = bsAggregator.blockchainServicesByName[account.blockchain]
+      const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[account.blockchain]
       if (hasExplorerService(service)) {
         return service.explorerService.buildNftUrl({
           tokenHash: nft.hash,

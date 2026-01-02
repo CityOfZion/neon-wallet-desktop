@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Button } from '@renderer/components/Button'
 import { IconButton } from '@renderer/components/IconButton'
 
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+import { ClipboardHelper } from '@renderer/helpers/ClipboardHelper'
 
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 
@@ -32,7 +32,7 @@ export const DappPermissionSuccessContent = ({ response }: TProps) => {
               size="sm"
               compacted
               icon={<MdContentCopy aria-hidden />}
-              onClick={UtilsHelper.copyToClipboard.bind(null, stringifiedResponse)}
+              onClick={ClipboardHelper.write.bind(null, stringifiedResponse)}
             />
           </div>
 

@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router'
 import { Button } from '@renderer/components/Button'
 
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+import { SwapHelper } from '@renderer/helpers/SwapHelper'
 
 import { useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
 
@@ -14,7 +15,6 @@ import TbShoppingBag from '@renderer/assets/images/tb-shopping-bag.svg?react'
 import TbStepInto from '@renderer/assets/images/tb-step-into.svg?react'
 import TbStepOut from '@renderer/assets/images/tb-step-out.svg?react'
 
-import { SWAP_NETWORK_BY_BLOCKCHAIN_AND_NETWORK_ID } from '@renderer/constants/swap'
 import { IAccountState } from '@shared/types/store'
 
 type TProps = {
@@ -26,7 +26,7 @@ export const CommonAccountActions = ({ account, children, className, ...props }:
   const { network } = useSelectedNetworkSelector(account.blockchain)
   const { t } = useTranslation('common', { keyPrefix: 'general' })
 
-  const isSwapAvailable = !!SWAP_NETWORK_BY_BLOCKCHAIN_AND_NETWORK_ID?.[account.blockchain]?.[network.id]?.length
+  const isSwapAvailable = !!SwapHelper.getNetwork(account.blockchain, network)
 
   if (account.type === 'watch') {
     return null

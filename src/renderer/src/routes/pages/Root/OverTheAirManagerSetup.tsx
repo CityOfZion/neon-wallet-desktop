@@ -5,13 +5,13 @@ import { Trans, useTranslation } from 'react-i18next'
 
 import { Link } from '@renderer/components/Link'
 
+import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useOverTheAirInfoSelector } from '@renderer/hooks/useSettingsSelector'
 
-import { LATEST_RELEASE_URL } from '@renderer/constants/urls'
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 
@@ -60,7 +60,7 @@ const OverTheAirManagerSetup = () => {
             start
             <span className="inline-block">middle</span>
             <Link
-              to={LATEST_RELEASE_URL}
+              to={ConstantsHelper.latestReleaseUrl}
               target="_blank"
               colorSchema="white"
               variant="text-slim"

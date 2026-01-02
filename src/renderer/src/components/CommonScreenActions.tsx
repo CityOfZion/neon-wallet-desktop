@@ -2,6 +2,7 @@ import { ComponentProps } from 'react'
 
 import { useTranslation } from 'react-i18next'
 
+import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 
@@ -16,8 +17,6 @@ import TbHelp from '@renderer/assets/images/tb-help.svg?react'
 import TbMessage from '@renderer/assets/images/tb-message.svg?react'
 import TbPlus from '@renderer/assets/images/tb-plus.svg?react'
 import TbSearch from '@renderer/assets/images/tb-search.svg?react'
-
-import { DISCORD_LINK } from '@renderer/constants/urls'
 
 import { ActionPopover } from './ActionPopover'
 import { Button } from './Button'
@@ -90,7 +89,7 @@ export const CommonScreenActions = ({ children, className, ...props }: TProps) =
             <ActionPopover.Item
               actionPopoverItemType="link"
               label={t('chatWithUsButtonLabel')}
-              to={DISCORD_LINK}
+              to={ConstantsHelper.cozDiscordUrl}
               target="_blank"
               colorSchema="white"
               iconsOnEdge={false}

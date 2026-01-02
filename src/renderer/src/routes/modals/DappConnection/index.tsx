@@ -1,6 +1,5 @@
 import { ChangeEvent } from 'react'
 
-import { WalletKitHelper } from '@cityofzion/bs-multichain'
 import type { ProposalTypes, SignClientTypes } from '@walletconnect/types'
 import { Trans, useTranslation } from 'react-i18next'
 
@@ -8,6 +7,7 @@ import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
+import { WalletKitHelper } from '@renderer/helpers/WalletKitHelper'
 
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
@@ -18,7 +18,6 @@ import NeonWalletLogo from '@renderer/assets/images/neon-wallet-full.svg?react'
 import TbLink from '@renderer/assets/images/tb-link.svg?react'
 import WalletConnectLogo from '@renderer/assets/images/wallet-connect.svg?react'
 
-import { walletKit } from '@renderer/libs/wallet-connect'
 import type { TModalState } from '@shared/types/modal'
 
 type TFormData = {
@@ -44,19 +43,19 @@ const DappConnectionModal = () => {
     return new Promise<ProposalTypes.Struct>(async (resolve, reject) => {
       try {
         const timeout = setTimeout(() => {
-          walletKit.off('session_proposal', listener)
+          WalletKitHelper.kit.off('session_proposal', listener)
           reject(new Error('Timeout waiting for session proposal'))
         }, 6000)
 
         const listener = (proposal: Omit<SignClientTypes.BaseEventArgs<ProposalTypes.Struct>, 'topic'>) => {
           resolve(proposal.params)
           clearTimeout(timeout)
-          walletKit.off('session_proposal', listener)
+          WalletKitHelper.kit.off('session_proposal', listener)
         }
 
-        walletKit.once('session_proposal', listener)
+        WalletKitHelper.kit.once('session_proposal', listener)
 
-        await walletKit.pair({ uri })
+        await WalletKitHelper.kit.pair({ uri })
       } catch (error) {
         reject(error)
       }

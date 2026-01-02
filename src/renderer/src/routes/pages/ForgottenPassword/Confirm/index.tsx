@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router'
 import { Banner } from '@renderer/components/Banner'
 import { Swipe } from '@renderer/components/Swipe'
 
+import { ReduxHelper } from '@renderer/helpers/ReduxHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 
 import { usePressOnce } from '@renderer/hooks/usePressOnce'
@@ -11,7 +12,6 @@ import { useCurrencySelector, useIsFirstTimeSelector, useLanguageSelector } from
 
 import { WelcomeLayout } from '@renderer/layouts/Welcome'
 
-import { persistor, setupStore, store, waitForBootstrap } from '@renderer/libs/redux'
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
 
 const ForgottenPasswordConfirmPage = () => {
@@ -22,13 +22,13 @@ const ForgottenPasswordConfirmPage = () => {
   const { isFirstTime } = useIsFirstTimeSelector()
   const [isCleaningData, startCleaningData] = usePressOnce(async () => {
     try {
-      await persistor.purge()
-      setupStore()
-      await waitForBootstrap()
+      await ReduxHelper.persistor.purge()
+      ReduxHelper.setup()
+      await ReduxHelper.waitForBootstrap()
 
-      store.dispatch(settingsReducerActions.setIsFirstTime(isFirstTime))
-      store.dispatch(settingsReducerActions.setLanguage(language))
-      store.dispatch(settingsReducerActions.setCurrency(currency))
+      ReduxHelper.store.dispatch(settingsReducerActions.setIsFirstTime(isFirstTime))
+      ReduxHelper.store.dispatch(settingsReducerActions.setLanguage(language))
+      ReduxHelper.store.dispatch(settingsReducerActions.setCurrency(currency))
 
       navigate('/forgotten-password/success')
     } catch (error) {

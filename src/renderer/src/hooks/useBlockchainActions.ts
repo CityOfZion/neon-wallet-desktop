@@ -1,15 +1,15 @@
 import { useCallback } from 'react'
 
 import { hasWalletConnect } from '@cityofzion/blockchain-service'
-import { WalletKitHelper } from '@cityofzion/bs-multichain'
 import { cloneDeep } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+import { SkinHelper } from '@renderer/helpers/SkinHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+import { WalletKitHelper } from '@renderer/helpers/WalletKitHelper'
 
-import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { walletKit } from '@renderer/libs/wallet-connect'
 import { authReducerActions } from '@renderer/store/reducers/auth'
 import { contactReducerActions } from '@renderer/store/reducers/contact'
 import { utilityReducerActions } from '@renderer/store/reducers/utility'
@@ -79,7 +79,7 @@ export function useBlockchainActions() {
       })
 
       const accountOrder = AccountHelper.getNextOrderOrMissing(wallet.accounts, blockchain)
-      const service = bsAggregator.blockchainServicesByName[blockchain]
+      const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
       const generatedAccount = service.generateAccountFromMnemonic(mnemonic, accountOrder)
 
       const encryptedKey = window.api.sendSync('encryptBasedEncryptedSecretSync', {
@@ -92,7 +92,7 @@ export function useBlockchainActions() {
         idWallet: wallet.id,
         name,
         blockchain,
-        skin: skin ?? UtilsHelper.generateColorSkin(),
+        skin: skin ?? SkinHelper.generateColorSkin(),
         address: generatedAccount.address,
         type: 'standard',
         encryptedKey,
@@ -138,7 +138,7 @@ export function useBlockchainActions() {
         idWallet: wallet.id,
         name: name ?? t('defaultName', { accountNumber: accountOrder + 1 }),
         blockchain,
-        skin: skin ?? UtilsHelper.generateColorSkin(),
+        skin: skin ?? SkinHelper.generateColorSkin(),
         address,
         type,
         encryptedKey,
@@ -175,17 +175,20 @@ export function useBlockchainActions() {
     async (account: IAccountState) => {
       dispatch(authReducerActions.deleteAccount(account))
 
-      const service = bsAggregator.blockchainServicesByName[account.blockchain]
+      const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[account.blockchain]
       if (!hasWalletConnect(service)) return
 
-      const sessions = walletKit.getActiveSessions()
+      const sessions = WalletKitHelper.kit.getActiveSessions()
       const accountSessions = WalletKitHelper.filterSessions(Object.values(sessions), {
         addresses: [account.address],
         chains: [service.walletConnectService.chain],
       })
       await Promise.allSettled(
         accountSessions.map(session =>
-          walletKit.disconnectSession({ topic: session.topic, reason: WalletKitHelper.getError('USER_DISCONNECTED') })
+          WalletKitHelper.kit.disconnectSession({
+            topic: session.topic,
+            reason: WalletKitHelper.getError('USER_DISCONNECTED'),
+          })
         )
       )
     },
@@ -196,13 +199,13 @@ export function useBlockchainActions() {
     async (wallet: IWalletState) => {
       dispatch(authReducerActions.deleteWallet(wallet.id))
 
-      const sessions = walletKit.getActiveSessions()
+      const sessions = WalletKitHelper.kit.getActiveSessions()
 
       const addresses: string[] = []
       const chains: string[] = []
 
       for (const account of wallet.accounts) {
-        const service = bsAggregator.blockchainServicesByName[account.blockchain]
+        const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[account.blockchain]
         if (!hasWalletConnect(service)) continue
 
         addresses.push(account.address)
@@ -212,7 +215,10 @@ export function useBlockchainActions() {
       const accountSessions = WalletKitHelper.filterSessions(Object.values(sessions), { addresses, chains })
       await Promise.allSettled(
         accountSessions.map(session =>
-          walletKit.disconnectSession({ topic: session.topic, reason: WalletKitHelper.getError('USER_DISCONNECTED') })
+          WalletKitHelper.kit.disconnectSession({
+            topic: session.topic,
+            reason: WalletKitHelper.getError('USER_DISCONNECTED'),
+          })
         )
       )
     },

@@ -2,10 +2,10 @@ import { Fragment } from 'react'
 
 import { useTranslation } from 'react-i18next'
 
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 
-import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 import { BlockchainIcon } from './BlockchainIcon'
@@ -21,7 +21,7 @@ export const BlockchainSelect = ({ value, onSelect, testId }: TProps) => {
   const { t } = useTranslation('components', { keyPrefix: 'blockchainSelect' })
   const { t: commonT } = useTranslation('common', { keyPrefix: 'blockchain' })
 
-  const options = Object.keys(bsAggregator.blockchainServicesByName) as TBlockchainServiceKey[]
+  const options = Object.keys(BlockchainServiceHelper.bsAggregator.blockchainServicesByName) as TBlockchainServiceKey[]
 
   return (
     <Select.Root value={value} onValueChange={onSelect}>

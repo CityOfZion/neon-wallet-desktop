@@ -3,12 +3,12 @@ import { CaseReducer, PayloadAction } from '@reduxjs/toolkit'
 import { DateHelper } from '@renderer/helpers/DateHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
-import { getI18next } from '@shared/libs/i18next'
+import { SharedI18nextHelper } from '@shared/helpers/SharedI18nextHelper'
 import { IAccountState, IWalletState, TLoginSession, TNotification, TSaveNotification } from '@shared/types/store'
 
 import { IAuthReducer } from '.'
 
-const { t } = getI18next()
+const { t } = SharedI18nextHelper.get()
 
 const setCurrentLoginSession: CaseReducer<IAuthReducer, PayloadAction<TLoginSession | undefined>> = (state, action) => {
   state.inMemoryData.currentLoginSession = action.payload

@@ -1,88 +1,8 @@
-import _ from 'lodash'
-import { getI18n } from 'react-i18next'
 import * as uuid from 'uuid'
-
-import { AVAILABLE_RANDOM_COLORS, MANDATORY_TOKEN_COLORS } from '@renderer/constants/colors'
-import { ACCOUNT_COLOR_SKINS } from '@renderer/constants/skins'
-import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { TBlockchainServiceKey } from '@shared/types/blockchain'
-import { TColorSkin } from '@shared/types/store'
 
 import { DateHelper } from './DateHelper'
 
-export type TImageSize = {
-  width: number
-  height: number
-}
-
-type TRemoveSpecialCharacterOptions = {
-  allowSpaces?: boolean
-  allowDots?: boolean
-  trimText?: boolean
-}
-
 export class UtilsHelper {
-  static getRandomNumber(max: number) {
-    return Math.floor(Math.random() * Math.floor(max))
-  }
-
-  static randomLower() {
-    let result = ''
-    const characters = 'abcdefghijklmnopqrstuvwxyz'
-    const charactersLength = characters.length
-    let counter = 0
-    while (counter < length) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength))
-      counter += 1
-    }
-    return result
-  }
-
-  static randomUpper() {
-    let result = ''
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    const charactersLength = characters.length
-    let counter = 0
-    while (counter < length) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength))
-      counter += 1
-    }
-    return result
-  }
-
-  static randomSymbol() {
-    let result = ''
-    const characters = '!@#$%^&*()_+[\\]{};\':"\\|,.<>/?'
-    const charactersLength = characters.length
-    let counter = 0
-    while (counter < length) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength))
-      counter += 1
-    }
-    return result
-  }
-
-  static generateStrongPassword() {
-    const passwordLength = 15
-    let password = this.getRandomNumber(9).toString() + this.randomSymbol() + this.randomUpper() + this.randomLower()
-    for (let i = 0; i < passwordLength; i++) {
-      const choice = this.getRandomNumber(4)
-      if (choice === 0) {
-        password += this.randomLower()
-      } else if (choice === 1) {
-        password += this.randomUpper()
-      } else if (choice === 2) {
-        password += this.randomSymbol()
-      } else if (choice === 3) {
-        password += this.getRandomNumber(9).toString()
-      } else {
-        i--
-      }
-    }
-
-    return _.shuffle(password).join('')
-  }
-
   static async promiseAll<T, R>(array: T[], callback: (item: T) => Promise<R> | R): Promise<R[]> {
     const results: R[] = []
     const promises = array.map(async item => {
@@ -112,13 +32,6 @@ export class UtilsHelper {
 
       return aValue < bValue ? 1 : -1
     })
-  }
-
-  static async copyToClipboard(text: string) {
-    const { ToastHelper } = await import('@renderer/helpers/ToastHelper')
-    const { t } = getI18n()
-    ToastHelper.success({ message: t('common:general.successfullyCopied') })
-    navigator.clipboard.writeText(text)
   }
 
   static uuid() {
@@ -161,28 +74,8 @@ export class UtilsHelper {
     img.src = `data:image/svg+xml;base64,${btoa(svgData)}`
   }
 
-  static generateTokenColor(hash: string, blockchain: TBlockchainServiceKey) {
-    if (hash.length === 0) throw new Error('Invalid hash')
-
-    const service = bsAggregator.blockchainServicesByName[blockchain]
-    const normalizedHash = service.tokenService.normalizeHash(hash)
-    const mandatoryTokenColor = MANDATORY_TOKEN_COLORS[normalizedHash]
-
-    if (mandatoryTokenColor) return mandatoryTokenColor
-
-    let sum = 0
-
-    for (let i = 0; i < hash.length; i++) {
-      sum += hash.charCodeAt(i)
-    }
-
-    const randomColorIndex = sum % AVAILABLE_RANDOM_COLORS.length
-
-    return AVAILABLE_RANDOM_COLORS[randomColorIndex]
-  }
-
   static getImageSize(url: string) {
-    return new Promise<TImageSize>((resolve, reject) => {
+    return new Promise<{ width: number; height: number }>((resolve, reject) => {
       if (!url) {
         throw new Error('Invalid URL')
       }
@@ -210,48 +103,6 @@ export class UtilsHelper {
     }
 
     return false
-  }
-
-  static removeSpecialCharacters(text: string, options?: TRemoveSpecialCharacterOptions) {
-    options = { allowSpaces: true, trimText: false, ...options }
-
-    let regex = 'a-zA-Z0-9'
-    if (options.allowDots) {
-      regex += '.'
-    }
-
-    if (options.allowSpaces) {
-      regex += ' '
-    }
-    text = text.replace(new RegExp(`[^${regex}]`, 'g'), '')
-
-    if (options.trimText) text = text.trim()
-
-    return text
-  }
-
-  static isHexadecimal(hexadecimal: string) {
-    return /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(hexadecimal)
-  }
-
-  static getSkinColor(index?: number) {
-    const newIndex = index ?? UtilsHelper.getRandomNumber(7)
-
-    return ACCOUNT_COLOR_SKINS[newIndex]?.id ?? ACCOUNT_COLOR_SKINS[0].id
-  }
-
-  static generateColorSkin(colorIndex?: number): TColorSkin {
-    return { id: UtilsHelper.getSkinColor(colorIndex), type: 'color' }
-  }
-
-  static isValidTokenHash(hash: string) {
-    const trimmedHash = hash.trim()
-
-    return !!trimmedHash && trimmedHash.toLowerCase() !== '0x'
-  }
-
-  static fallbackTokenHash(hash: string) {
-    return UtilsHelper.isValidTokenHash(hash) ? hash : '--'
   }
 
   static parseJsonSafely(value: any): any {

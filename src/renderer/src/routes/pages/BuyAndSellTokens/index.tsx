@@ -12,6 +12,7 @@ import { ScreenLoader } from '@renderer/components/ScreenLoader'
 import { Separator } from '@renderer/components/Separator'
 import { Tabs } from '@renderer/components/Tabs'
 
+import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
@@ -28,7 +29,6 @@ import TbChevronUp from '@renderer/assets/images/tb-chevron-up.svg?react'
 import TbExternalLink from '@renderer/assets/images/tb-external-link.svg?react'
 import TbShoppingBag from '@renderer/assets/images/tb-shopping-bag.svg?react'
 
-import { DISCORD_LINK } from '@renderer/constants/urls'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 import type { TTokenBalance } from '@shared/types/query'
 import { IAccountState } from '@shared/types/store'
@@ -237,7 +237,7 @@ const BuyAndSellTokensPage = () => {
             <div className="mx-auto mt-auto">
               <Link
                 label={t('helpButtonLabel')}
-                to={DISCORD_LINK}
+                to={ConstantsHelper.cozDiscordUrl}
                 target="_blank"
                 colorSchema="neon"
                 variant="outlined"

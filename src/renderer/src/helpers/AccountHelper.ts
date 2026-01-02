@@ -1,13 +1,10 @@
 import { hasLedger, IBlockchainService, TBSAccount } from '@cityofzion/blockchain-service'
 
-import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { TBlockchainServiceKey } from '@shared/types/blockchain'
-import { IAccountState } from '@shared/types/store'
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 
-type TGetServiceAccountParams = {
-  account: IAccountState
-  key: string
-}
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
+import type { TAccountHelperGetServiceAccountParams } from '@shared/types/helpers'
+import { IAccountState } from '@shared/types/store'
 
 export class AccountHelper {
   static getNextOrderOrMissing(accounts: IAccountState[], blockchain: TBlockchainServiceKey) {
@@ -26,8 +23,8 @@ export class AccountHelper {
     return service.bip44DerivationPath.replace('?', order.toString())
   }
 
-  static getServiceAccount({ account, key }: TGetServiceAccountParams) {
-    const service = bsAggregator.blockchainServicesByName[account.blockchain]
+  static getServiceAccount({ account, key }: TAccountHelperGetServiceAccountParams) {
+    const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[account.blockchain]
     let serviceAccount: TBSAccount<TBlockchainServiceKey>
 
     if (account.type === 'hardware' && hasLedger(service)) {

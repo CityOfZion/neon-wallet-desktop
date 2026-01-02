@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 
-import { bsAggregator } from '@renderer/libs/blockchain-service'
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 import { useSelectedNetworkSelector } from './useSettingsSelector'
@@ -16,7 +17,7 @@ export const useContract = ({ blockchain, hash }: TProps) => {
   return useQuery({
     queryKey: ['contract', network, blockchain, hash],
     queryFn: async () => {
-      const service = bsAggregator.blockchainServicesByName[blockchain]
+      const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
       return service.blockchainDataService.getContract(hash)
     },
     gcTime: Infinity,

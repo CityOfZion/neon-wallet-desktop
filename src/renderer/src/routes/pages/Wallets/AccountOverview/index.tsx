@@ -4,9 +4,10 @@ import { useOutletContext } from 'react-router'
 
 import { OverviewCharts } from '@renderer/components/OverviewCharts'
 
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+
 import { useBalances } from '@renderer/hooks/useBalances'
 
-import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { IAccountState } from '@shared/types/store'
 
 import { AccountDetailsLayout } from '../AccountDetailsLayout'
@@ -22,7 +23,7 @@ const AccountOverview = () => {
   const { account } = useOutletContext<TOutletContext>()
   const balances = useBalances([account])
 
-  const blockchainService = bsAggregator.blockchainServicesByName[account.blockchain]
+  const blockchainService = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[account.blockchain]
 
   return (
     <AccountDetailsLayout

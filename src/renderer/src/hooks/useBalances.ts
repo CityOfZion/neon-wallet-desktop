@@ -5,12 +5,12 @@ import { QueryClient, useQueries, useQuery, useQueryClient } from '@tanstack/rea
 import { cloneDeep } from 'lodash'
 import { match } from 'ts-pattern'
 
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { ExchangeHelper } from '@renderer/helpers/ExchangeHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 
 import { useCurrencyRatio } from '@renderer/hooks/useCurrencyRatio'
 
-import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { TBlockchainServiceKey, TNetwork } from '@shared/types/blockchain'
 import {
   TBalance,
@@ -51,7 +51,7 @@ const fetchBalance = async (
   currencyRatio: number
 ): Promise<TUseBalancesFetchResult> => {
   try {
-    const service = bsAggregator.blockchainServicesByName[param.blockchain]
+    const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[param.blockchain]
     const balance = await service.blockchainDataService.getBalance(param.address)
     const tokens = balance.map(balance => balance.token)
     const exchange = await fetchExchange(param.blockchain, tokens, network, queryClient, currency, currencyRatio)
@@ -103,7 +103,7 @@ const fixBalanceResult = (
 ): TBalance => {
   const tokensBalancesMapClone = cloneDeep(result.tokensBalancesMap)
   const hiddenTokens = hiddenTokensByBlockchain[result.blockchain]
-  const service = bsAggregator.blockchainServicesByName[result.blockchain]
+  const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[result.blockchain]
   let tokensBalances: TTokenBalance[] = []
 
   match(showType)

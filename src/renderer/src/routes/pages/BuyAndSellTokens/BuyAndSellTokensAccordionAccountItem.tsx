@@ -5,9 +5,9 @@ import { IconButton } from '@renderer/components/IconButton'
 import { Loader } from '@renderer/components/Loader'
 import { Tooltip } from '@renderer/components/Tooltip'
 
-import { NumberHelper } from '@renderer/helpers/NumberHelper'
+import { ClipboardHelper } from '@renderer/helpers/ClipboardHelper'
+import { CurrencyHelper } from '@renderer/helpers/CurrencyHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
 import { useBalance } from '@renderer/hooks/useBalances'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
@@ -26,7 +26,7 @@ export const BuyAndSellTokensAccordionAccountItem = ({ account }: TProps) => {
   const { data, isLoading } = useBalance(account)
 
   const { address } = account
-  const total = NumberHelper.currency(data?.exchangeTotal ?? 0, { currency })
+  const total = CurrencyHelper.format(data?.exchangeTotal ?? 0, { currency })
 
   return (
     <section className="flex items-center gap-x-3 px-4 py-3">
@@ -44,7 +44,7 @@ export const BuyAndSellTokensAccordionAccountItem = ({ account }: TProps) => {
               size="xs"
               compacted
               icon={<MdOutlineContentCopy aria-hidden className="text-neon" />}
-              onClick={UtilsHelper.copyToClipboard.bind(null, address)}
+              onClick={ClipboardHelper.write.bind(null, address)}
             />
           </Tooltip>
         </div>

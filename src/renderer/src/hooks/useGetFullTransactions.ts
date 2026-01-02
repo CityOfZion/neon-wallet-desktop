@@ -5,7 +5,8 @@ import { Query, QueryClient, useInfiniteQuery, useQueryClient } from '@tanstack/
 import * as dateFns from 'date-fns'
 import { cloneDeep } from 'lodash'
 
-import { bsAggregator } from '@renderer/libs/blockchain-service'
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 import { TNetwork } from '@shared/types/blockchain'
 import {
@@ -135,7 +136,7 @@ const getFullTransactions = async ({
 
     if (previousQuery && !nextCursor) return
 
-    const service = bsAggregator.blockchainServicesByName[blockchain]
+    const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
 
     const queryData: TFullTransactionsByAddressResponse = {
       data: new Map<string, TFullTransactionsItem>(),
@@ -245,7 +246,7 @@ export const useGetFullTransactions = ({ accounts, dateFrom, dateTo }: TProps) =
         return
 
       const { blockchain } = account
-      const service = bsAggregator.blockchainServicesByName[blockchain]
+      const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
 
       let txTemplateUrl: string | undefined
       let addressTemplateUrl: string | undefined
@@ -316,7 +317,7 @@ export const useGetFullTransactions = ({ accounts, dateFrom, dateTo }: TProps) =
 
     items.forEach(item => {
       const hiddenTokens = hiddenTokensByBlockchain[item.blockchain]
-      const service = bsAggregator.blockchainServicesByName[item.blockchain]
+      const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[item.blockchain]
 
       const filteredEvents =
         !!hiddenTokens && hiddenTokens.length > 0

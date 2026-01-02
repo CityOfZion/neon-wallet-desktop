@@ -4,7 +4,7 @@ import { Button } from '@renderer/components/Button'
 import { IconButton } from '@renderer/components/IconButton'
 import { Separator } from '@renderer/components/Separator'
 
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+import { ClipboardHelper } from '@renderer/helpers/ClipboardHelper'
 
 import { useContactsSelector } from '@renderer/hooks/useContactSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
@@ -47,7 +47,7 @@ export const SendSuccessModalContentItem = ({ order, transaction }: TProps) => {
             <IconButton
               icon={<MdOutlineContentCopy className="text-neon" />}
               size="md"
-              onClick={() => UtilsHelper.copyToClipboard(transaction.to!)}
+              onClick={ClipboardHelper.write.bind(null, transaction.to!)}
               compacted
             />
           )}
@@ -90,7 +90,7 @@ export const SendSuccessModalContentItem = ({ order, transaction }: TProps) => {
           <IconButton
             icon={<MdOutlineContentCopy aria-hidden className="text-neon" />}
             size="md"
-            onClick={() => UtilsHelper.copyToClipboard(transaction.hash)}
+            onClick={ClipboardHelper.write.bind(null, transaction.hash)}
             compacted
           />
         </div>

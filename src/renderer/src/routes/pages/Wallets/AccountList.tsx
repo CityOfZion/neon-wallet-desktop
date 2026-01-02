@@ -4,7 +4,7 @@ import { AccountIcon } from '@renderer/components/AccountIcon'
 import { Separator } from '@renderer/components/Separator'
 import { Tooltip } from '@renderer/components/Tooltip'
 
-import { NumberHelper } from '@renderer/helpers/NumberHelper'
+import { CurrencyHelper } from '@renderer/helpers/CurrencyHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 
 import { useAccountsByWalletIdSelector } from '@renderer/hooks/useAccountSelector'
@@ -29,7 +29,7 @@ const AccountItem = ({ account, onClick, active }: TAccountItemProps) => {
   const balance = useBalances([account])
   const { currency } = useCurrencySelector()
 
-  const totalExchangeFormatted = NumberHelper.currency(balance.exchangeTotal, { currency })
+  const totalExchangeFormatted = CurrencyHelper.format(balance.exchangeTotal, { currency })
 
   return (
     <div className="relative">

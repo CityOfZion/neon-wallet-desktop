@@ -16,7 +16,7 @@ import { TestHelper } from '@renderer/helpers/TestHelper'
 
 import FiSend from '@renderer/assets/images/fi-send.svg?react'
 
-import { getI18next } from '@shared/libs/i18next'
+import { SharedI18nextHelper } from '@shared/helpers/SharedI18nextHelper'
 import { TContactAddress } from '@shared/types/store'
 
 import { Button } from '../Button'
@@ -27,7 +27,7 @@ type TProps = {
   contactAddresses: TContactAddress[]
 }
 
-const { t } = getI18next()
+const { t } = SharedI18nextHelper.get()
 
 const columnHelper = createColumnHelper<TContactAddress>()
 

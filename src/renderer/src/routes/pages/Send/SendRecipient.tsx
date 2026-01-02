@@ -13,8 +13,9 @@ import { IconButton } from '@renderer/components/IconButton'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
 
-import { NumberHelper } from '@renderer/helpers/NumberHelper'
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+import { CurrencyHelper } from '@renderer/helpers/CurrencyHelper'
+import { StringHelper } from '@renderer/helpers/StringHelper'
 
 import { useDebounceFunction } from '@renderer/hooks/useDebounceFunction'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
@@ -26,7 +27,6 @@ import TbUsers from '@renderer/assets/images/tb-users.svg?react'
 import TbWallet from '@renderer/assets/images/tb-wallet.svg?react'
 import VscCircleFilled from '@renderer/assets/images/vsc-circle-filled.svg?react'
 
-import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { TTokenBalance, TUseBalanceResult } from '@shared/types/query'
 import { IAccountState, TContactAddress } from '@shared/types/store'
 
@@ -83,7 +83,7 @@ export const SendRecipient = ({
   const isAmountDisabled = isDisabled || !recipient.token || !recipient.address
 
   const handleChangeAddress = (event: ChangeEvent<HTMLInputElement>) => {
-    const address = UtilsHelper.removeSpecialCharacters(event.target.value, { allowSpaces: false, allowDots: true })
+    const address = StringHelper.removeSpecialCharacters(event.target.value, { allowSpaces: false, allowDots: true })
 
     onUpdateRecipient({ addressInput: address, address: undefined })
   }
@@ -97,7 +97,7 @@ export const SendRecipient = ({
 
     if (!blockchain) return
 
-    const service = bsAggregator.blockchainServicesByName[blockchain]
+    const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
 
     const tokenBalance = balance.data?.tokensBalances?.find(tokenBalance =>
       service.tokenService.predicateByHash(token, tokenBalance.token)
@@ -247,7 +247,7 @@ export const SendRecipient = ({
           {t('fiatLabel', { currency: currency.label })}
         </span>
         <span className="truncate text-xs text-gray-100 italic">
-          {NumberHelper.currency(
+          {CurrencyHelper.format(
             recipient.amount && recipient.token
               ? BSBigNumberHelper.fromNumber(recipient.amount)
                   .multipliedBy(recipient.token.exchangeConvertedPrice)

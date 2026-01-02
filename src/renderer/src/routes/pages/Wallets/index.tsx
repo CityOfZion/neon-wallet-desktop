@@ -14,9 +14,10 @@ import { MenuLink } from '@renderer/components/MenuLink'
 import { RefreshAction } from '@renderer/components/RefreshAction'
 import { Separator } from '@renderer/components/Separator'
 
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+import { ClipboardHelper } from '@renderer/helpers/ClipboardHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
 import { useAccountMapSelector, useHasHardwareAccountSelector } from '@renderer/hooks/useAccountSelector'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
@@ -37,7 +38,6 @@ import TbPencil from '@renderer/assets/images/tb-pencil.svg?react'
 import TbReplace2 from '@renderer/assets/images/tb-replace-2.svg?react'
 import TbUpload from '@renderer/assets/images/tb-upload.svg?react'
 
-import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 import { IAccountState, IWalletState } from '@shared/types/store'
@@ -67,7 +67,9 @@ const WalletsPage = () => {
   const { canAccountBridge } = useBridgeNeo3NeoXValidations(selectedAccount)
   const outlet = useOutlet({ account: selectedAccount })
 
-  const service = selectedAccount ? bsAggregator.blockchainServicesByName[selectedAccount.blockchain] : undefined
+  const service = selectedAccount
+    ? BlockchainServiceHelper.bsAggregator.blockchainServicesByName[selectedAccount.blockchain]
+    : undefined
   const isKeyLoginSession = currentLoginSession?.type === 'key'
   const menuLayoutId = `wallets-menu-link-${selectedAccount?.id}`
 
@@ -259,7 +261,7 @@ const WalletsPage = () => {
                         icon={<MdOutlineContentCopy aria-hidden />}
                         colorSchema="neon"
                         compacted
-                        onClick={() => UtilsHelper.copyToClipboard(selectedAccount.address)}
+                        onClick={ClipboardHelper.write.bind(null, selectedAccount.address)}
                       />
                     </div>
 

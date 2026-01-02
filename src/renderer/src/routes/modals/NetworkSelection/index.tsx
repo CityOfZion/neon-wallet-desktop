@@ -1,14 +1,15 @@
 import { Fragment, useLayoutEffect, useState } from 'react'
 
 import { hasWalletConnect } from '@cityofzion/blockchain-service'
-import { WalletKitHelper } from '@cityofzion/bs-multichain'
 import { useTranslation } from 'react-i18next'
 
 import { Button } from '@renderer/components/Button'
 import { RadioGroup } from '@renderer/components/RadioGroup'
 import { Separator } from '@renderer/components/Separator'
 
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+import { WalletKitHelper } from '@renderer/helpers/WalletKitHelper'
 
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
@@ -21,8 +22,6 @@ import TbCube3dSphere from '@renderer/assets/images/tb-cube-3d-sphere.svg?react'
 import TbPencil from '@renderer/assets/images/tb-pencil.svg?react'
 import TbPlus from '@renderer/assets/images/tb-plus.svg?react'
 
-import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { walletKit } from '@renderer/libs/wallet-connect'
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
 import type { TModalState } from '@shared/types/modal'
 
@@ -37,7 +36,7 @@ const NetworkSelectionModal = () => {
 
   const [selectedNetworkId, setSelectedNetworkId] = useState<string>()
 
-  const service = bsAggregator.blockchainServicesByName[blockchain]
+  const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
 
   const options = service.availableNetworks.concat(...customNetworks[blockchain])
 
@@ -52,14 +51,17 @@ const NetworkSelectionModal = () => {
 
   const handleSave = async () => {
     if (hasWalletConnect(service)) {
-      const sessions = walletKit.getActiveSessions()
+      const sessions = WalletKitHelper.kit.getActiveSessions()
       const filteredSessions = WalletKitHelper.filterSessions(Object.values(sessions), {
         chains: [service.walletConnectService.chain],
       })
 
       Promise.allSettled(
         filteredSessions.map(session =>
-          walletKit.disconnectSession({ topic: session.topic, reason: WalletKitHelper.getError('USER_DISCONNECTED') })
+          WalletKitHelper.kit.disconnectSession({
+            topic: session.topic,
+            reason: WalletKitHelper.getError('USER_DISCONNECTED'),
+          })
         )
       ).then(() => invalidateWalletConnectSessions())
     }

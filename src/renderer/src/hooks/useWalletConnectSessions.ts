@@ -1,11 +1,11 @@
 import { useEffect } from 'react'
 
-import { WalletKitHelper } from '@cityofzion/bs-multichain'
 import { useQuery } from '@tanstack/react-query'
 
-import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { queryClient } from '@renderer/libs/query'
-import { walletKit } from '@renderer/libs/wallet-connect'
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+import { ReactQueryHelper } from '@renderer/helpers/ReactQueryHelper'
+import { WalletKitHelper } from '@renderer/helpers/WalletKitHelper'
+
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 import type { TUseWalletConnectSessionsResult } from '@shared/types/query'
 import type { IAccountState } from '@shared/types/store'
@@ -22,7 +22,7 @@ const buildWalletConnectSessionsQueryKey = (accounts?: IAccountState[]) => {
 }
 
 export const invalidateWalletConnectSessions = (accounts?: IAccountState[]) => {
-  return queryClient.invalidateQueries({
+  return ReactQueryHelper.client.invalidateQueries({
     queryKey: buildWalletConnectSessionsQueryKey(accounts),
   })
 }
@@ -30,9 +30,9 @@ export const invalidateWalletConnectSessions = (accounts?: IAccountState[]) => {
 const fetchSessions = async (accounts: IAccountState[]): Promise<TUseWalletConnectSessionsResult[]> => {
   const sessions: TUseWalletConnectSessionsResult[] = []
 
-  for (const session of Object.values(walletKit.getActiveSessions())) {
+  for (const session of Object.values(WalletKitHelper.kit.getActiveSessions())) {
     const details = WalletKitHelper.getSessionDetails({
-      services: Object.values(bsAggregator.blockchainServicesByName),
+      services: Object.values(BlockchainServiceHelper.bsAggregator.blockchainServicesByName),
       session,
     })
 
@@ -58,10 +58,10 @@ export const useWalletConnectSessions = (accounts: IAccountState[]) => {
       invalidateWalletConnectSessions()
     }
 
-    walletKit.on('session_delete', listener)
+    WalletKitHelper.kit.on('session_delete', listener)
 
     return () => {
-      walletKit.off('session_delete', listener)
+      WalletKitHelper.kit.off('session_delete', listener)
     }
   }, [])
 

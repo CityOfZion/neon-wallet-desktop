@@ -5,12 +5,12 @@ import { EChart } from '@renderer/components/EChart'
 import { ImageWithFallback } from '@renderer/components/ImageWithFallback'
 import { Separator } from '@renderer/components/Separator'
 
-import { NumberHelper } from '@renderer/helpers/NumberHelper'
+import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
+import { CurrencyHelper } from '@renderer/helpers/CurrencyHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 
-import { NEON_ICONS_URL } from '@renderer/constants/urls'
 import { TPriceHistory } from '@shared/types/query'
 
 type TProps = {
@@ -34,9 +34,9 @@ export const ChartCard = ({ priceHistory }: TProps) => {
     <div className="flex h-[205px] w-full grow flex-col gap-y-1.5 overflow-hidden rounded-sm bg-gray-900 px-3 py-2 text-xs">
       <div className="mb-1.5 flex items-center gap-x-2">
         <ImageWithFallback
-          src={`${NEON_ICONS_URL}/tokens/${tokenBalance.blockchain}/${token.hash}.png`}
+          src={`${ConstantsHelper.neonIconsUrl}/tokens/${tokenBalance.blockchain}/${token.hash}.png`}
           alt={token.name || token.symbol}
-          fallbackSrc={`${NEON_ICONS_URL}/tokens/default-token.png`}
+          fallbackSrc={`${ConstantsHelper.neonIconsUrl}/tokens/default-token.png`}
           imgClassName="h-4.5 max-h-4.5 min-h-4.5 w-4.5 max-w-4.5 min-w-4.5 rounded-full"
           className="h-6 w-6 rounded-full bg-gray-600/50"
         />
@@ -56,7 +56,7 @@ export const ChartCard = ({ priceHistory }: TProps) => {
 
       <div className="flex flex-col">
         <span className="text-lg">
-          {NumberHelper.currency(priceHistory.todayPrice, { currency, maximumFractionDigits: 4 })}
+          {CurrencyHelper.format(priceHistory.todayPrice, { currency, maximumFractionDigits: 4 })}
         </span>
         <div className="space-x-1">
           <span

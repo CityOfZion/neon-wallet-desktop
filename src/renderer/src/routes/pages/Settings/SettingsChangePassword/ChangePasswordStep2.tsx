@@ -10,8 +10,8 @@ import { ToastHelper } from '@renderer/helpers/ToastHelper'
 
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
+import { useSignup } from '@renderer/hooks/useLogin'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
-import { useSettingsActions } from '@renderer/hooks/useSettingsSelector'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
 
 import TbDownload from '@renderer/assets/images/tb-download.svg?react'
@@ -30,7 +30,7 @@ const ChangePasswordStep2 = () => {
   const dispatch = useAppDispatch()
   const { state } = useLocation() as Location<TLocationState>
   const navigate = useNavigate()
-  const { setHasPassword } = useSettingsActions()
+  const { signup } = useSignup()
   const isDownloading = useRef(false)
 
   const handleDownload = async () => {
@@ -89,7 +89,7 @@ const ChangePasswordStep2 = () => {
 
       await Promise.all(walletPromises)
 
-      await setHasPassword(encryptedNewPassword, true)
+      await signup(encryptedNewPassword, true)
 
       navigate('/settings/security/change-password/3')
     } catch (error) {

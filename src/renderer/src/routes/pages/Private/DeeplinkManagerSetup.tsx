@@ -1,8 +1,9 @@
 import { useEffect } from 'react'
 
-import { WalletKitHelper } from '@cityofzion/bs-multichain'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
+
+import { WalletKitHelper } from '@renderer/helpers/WalletKitHelper'
 
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 

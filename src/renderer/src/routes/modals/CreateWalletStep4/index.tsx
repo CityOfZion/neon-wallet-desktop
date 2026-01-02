@@ -5,6 +5,7 @@ import { Button } from '@renderer/components/Button'
 import { Checkbox } from '@renderer/components/Checkbox'
 import { Separator } from '@renderer/components/Separator'
 
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import { useActions } from '@renderer/hooks/useActions'
@@ -15,7 +16,6 @@ import { CreateWalletModalLayout } from '@renderer/layouts/CreateWalletModalLayo
 
 import MdLooks4 from '@renderer/assets/images/md-looks-4.svg?react'
 
-import { getBlockchainNames } from '@renderer/libs/blockchain-service'
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import type { TModalState } from '@shared/types/modal'
 
@@ -34,7 +34,7 @@ const CreateWalletStep4Modal = () => {
   const { createWallet, createStandardAccount } = useBlockchainActions()
 
   const { actionData, actionState, setData, handleAct } = useActions<TFormData>({
-    blockchains: getBlockchainNames().map(name => {
+    blockchains: BlockchainServiceHelper.blockchainNames.map(name => {
       return { name, checked: true }
     }),
   })

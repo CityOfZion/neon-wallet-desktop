@@ -9,6 +9,8 @@ import { Button } from '@renderer/components/Button'
 import { Tooltip } from '@renderer/components/Tooltip'
 
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+import { CurrencyHelper } from '@renderer/helpers/CurrencyHelper'
 import { DateHelper } from '@renderer/helpers/DateHelper'
 import { ExchangeHelper } from '@renderer/helpers/ExchangeHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
@@ -35,7 +37,6 @@ import { CenterModalLayout } from '@renderer/layouts/CenterModal'
 import TbChartBarPopular from '@renderer/assets/images/tb-chart-bar-popular.svg?react'
 import TbCheckbox from '@renderer/assets/images/tb-checkbox.svg?react'
 
-import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { thunks } from '@renderer/store/thunks'
 import { TUseTransactionsTransfer } from '@shared/types/hooks'
 import type { TModalState } from '@shared/types/modal'
@@ -55,7 +56,7 @@ const VoteNeo3ConfirmationModal = () => {
   const { confirmAction } = useConfirmAction()
   const dispatch = useAppDispatch()
 
-  const service = bsAggregator.blockchainServicesByName.neo3 as BSNeo3
+  const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName.neo3 as BSNeo3
   const fee = calculateVoteFeeQuery.data
 
   const exchangeQuery = useExchange([{ blockchain: 'neo3', tokens: [service.feeToken] }])
@@ -90,7 +91,7 @@ const VoteNeo3ConfirmationModal = () => {
           NumberHelper.number(fee) *
           ExchangeHelper.getExchangeConvertedPrice(service.feeToken.hash, 'neo3', exchangeQuery.data)
 
-      return NumberHelper.currency(value, { currency, maximumFractionDigits: 3 })
+      return CurrencyHelper.format(value, { currency, maximumFractionDigits: 3 })
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [exchangeQuery.data, fee, currency]

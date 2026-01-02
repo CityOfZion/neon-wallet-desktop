@@ -7,7 +7,7 @@ import { Loader } from '@renderer/components/Loader'
 import { Tabs } from '@renderer/components/Tabs'
 import { TokensTable } from '@renderer/components/TokensTable'
 
-import { NumberHelper } from '@renderer/helpers/NumberHelper'
+import { CurrencyHelper } from '@renderer/helpers/CurrencyHelper'
 
 import { useBalances } from '@renderer/hooks/useBalances'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
@@ -49,7 +49,7 @@ const AccountTokensList = () => {
             {balances.isLoading ? (
               <Loader className="h-4 w-4" />
             ) : (
-              <span className="text-sm text-white">{NumberHelper.currency(balances.exchangeTotal, { currency })}</span>
+              <span className="text-sm text-white">{CurrencyHelper.format(balances.exchangeTotal, { currency })}</span>
             )}
           </div>
         </Tabs.List>

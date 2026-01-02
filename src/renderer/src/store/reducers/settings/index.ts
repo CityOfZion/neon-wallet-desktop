@@ -2,11 +2,12 @@ import { type CaseReducerActions, createSlice } from '@reduxjs/toolkit'
 import { createMigrate, PersistConfig, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
-import { availableCurrencies } from '@renderer/constants/currency'
-import { defaultLanguage } from '@renderer/constants/language'
-import { DEFAULT_NETWORK_PROFILE_ID } from '@renderer/constants/networks'
-import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { getI18next } from '@shared/libs/i18next'
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
+import { CurrencyHelper } from '@renderer/helpers/CurrencyHelper'
+import { LanguageHelper } from '@renderer/helpers/LanguageHelper'
+
+import { SharedI18nextHelper } from '@shared/helpers/SharedI18nextHelper'
 import { ISettingsState, type TNetworkProfile } from '@shared/types/store'
 
 import { settingsSliceReducers } from './reducers'
@@ -18,19 +19,19 @@ export interface ISettingsReducer {
 export let settingsReducerActions: CaseReducerActions<typeof settingsSliceReducers, string>
 
 export function getSettingsReducer() {
-  const { t } = getI18next()
+  const { t } = SharedI18nextHelper.get()
 
   const defaultProfile: TNetworkProfile = {
-    id: DEFAULT_NETWORK_PROFILE_ID,
+    id: ConstantsHelper.defaultNetworkProfileId,
     name: t('common:general.default'),
     networkByBlockchain: {
-      arbitrum: bsAggregator.blockchainServicesByName.arbitrum.defaultNetwork,
-      base: bsAggregator.blockchainServicesByName.base.defaultNetwork,
-      ethereum: bsAggregator.blockchainServicesByName.ethereum.defaultNetwork,
-      neo3: bsAggregator.blockchainServicesByName.neo3.defaultNetwork,
-      neoLegacy: bsAggregator.blockchainServicesByName.neoLegacy.defaultNetwork,
-      neox: bsAggregator.blockchainServicesByName.neox.defaultNetwork,
-      polygon: bsAggregator.blockchainServicesByName.polygon.defaultNetwork,
+      arbitrum: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.arbitrum.defaultNetwork,
+      base: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.base.defaultNetwork,
+      ethereum: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.ethereum.defaultNetwork,
+      neo3: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.neo3.defaultNetwork,
+      neoLegacy: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.neoLegacy.defaultNetwork,
+      neox: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.neox.defaultNetwork,
+      polygon: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.polygon.defaultNetwork,
     },
   }
 
@@ -38,8 +39,8 @@ export function getSettingsReducer() {
     data: {
       hasPassword: false,
       isFirstTime: true,
-      currency: availableCurrencies[0],
-      language: defaultLanguage,
+      currency: CurrencyHelper.defaultCurrency,
+      language: LanguageHelper.defaultLanguage,
       overTheAirInfo: {
         shouldUpdate: true,
       },
@@ -80,20 +81,20 @@ export function getSettingsReducer() {
         },
         selectedNetworkByBlockchain: {
           ...state.data.selectedNetworkByBlockchain,
-          polygon: bsAggregator.blockchainServicesByName.polygon.defaultNetwork,
+          polygon: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.polygon.defaultNetwork,
         },
         networkProfiles: state.data.networkProfiles.map(profile => ({
           ...profile,
           networkByBlockchain: {
             ...profile.networkByBlockchain,
-            polygon: bsAggregator.blockchainServicesByName.polygon.defaultNetwork,
+            polygon: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.polygon.defaultNetwork,
           },
         })),
         selectedNetworkProfile: {
           ...state.data.selectedNetworkProfile,
           networkByBlockchain: {
             ...state.data.selectedNetworkProfile.networkByBlockchain,
-            polygon: bsAggregator.blockchainServicesByName.polygon.defaultNetwork,
+            polygon: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.polygon.defaultNetwork,
           },
         },
       },
@@ -122,23 +123,23 @@ export function getSettingsReducer() {
         },
         selectedNetworkByBlockchain: {
           ...state.data.selectedNetworkByBlockchain,
-          base: bsAggregator.blockchainServicesByName.base.defaultNetwork,
-          arbitrum: bsAggregator.blockchainServicesByName.arbitrum.defaultNetwork,
+          base: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.base.defaultNetwork,
+          arbitrum: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.arbitrum.defaultNetwork,
         },
         networkProfiles: state.data.networkProfiles.map(profile => ({
           ...profile,
           networkByBlockchain: {
             ...profile.networkByBlockchain,
-            base: bsAggregator.blockchainServicesByName.base.defaultNetwork,
-            arbitrum: bsAggregator.blockchainServicesByName.arbitrum.defaultNetwork,
+            base: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.base.defaultNetwork,
+            arbitrum: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.arbitrum.defaultNetwork,
           },
         })),
         selectedNetworkProfile: {
           ...state.data.selectedNetworkProfile,
           networkByBlockchain: {
             ...state.data.selectedNetworkProfile.networkByBlockchain,
-            base: bsAggregator.blockchainServicesByName.base.defaultNetwork,
-            arbitrum: bsAggregator.blockchainServicesByName.arbitrum.defaultNetwork,
+            base: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.base.defaultNetwork,
+            arbitrum: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.arbitrum.defaultNetwork,
           },
         },
       },
@@ -162,20 +163,20 @@ export function getSettingsReducer() {
         },
         selectedNetworkByBlockchain: {
           ...state.data.selectedNetworkByBlockchain,
-          polygon: bsAggregator.blockchainServicesByName.polygon.defaultNetwork,
+          polygon: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.polygon.defaultNetwork,
         },
         networkProfiles: state.data.networkProfiles.map(profile => ({
           ...profile,
           networkByBlockchain: {
             ...profile.networkByBlockchain,
-            polygon: bsAggregator.blockchainServicesByName.polygon.defaultNetwork,
+            polygon: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.polygon.defaultNetwork,
           },
         })),
         selectedNetworkProfile: {
           ...state.data.selectedNetworkProfile,
           networkByBlockchain: {
             ...state.data.selectedNetworkProfile.networkByBlockchain,
-            polygon: bsAggregator.blockchainServicesByName.polygon.defaultNetwork,
+            polygon: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.polygon.defaultNetwork,
           },
         },
       },
@@ -191,7 +192,7 @@ export function getSettingsReducer() {
       ...state,
       data: {
         ...state.data,
-        language: defaultLanguage,
+        language: LanguageHelper.defaultLanguage,
       },
     }),
     8: (state: any) => {
@@ -216,14 +217,14 @@ export function getSettingsReducer() {
           ...profile,
           networkByBlockchain: {
             ...profile.networkByBlockchain,
-            neoLegacy: bsAggregator.blockchainServicesByName.neoLegacy.defaultNetwork,
+            neoLegacy: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.neoLegacy.defaultNetwork,
           },
         })),
         selectedNetworkProfile: {
           ...state.data.selectedNetworkProfile,
           networkByBlockchain: {
             ...state.data.selectedNetworkProfile.networkByBlockchain,
-            neoLegacy: bsAggregator.blockchainServicesByName.neoLegacy.defaultNetwork,
+            neoLegacy: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.neoLegacy.defaultNetwork,
           },
         },
       },

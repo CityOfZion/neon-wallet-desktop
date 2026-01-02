@@ -2,12 +2,12 @@ import { isCalculableFee, isClaimable } from '@cityofzion/blockchain-service'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { DateHelper } from '@renderer/helpers/DateHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 
-import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { thunks } from '@renderer/store/thunks'
-import { getI18next } from '@shared/libs/i18next'
+import { SharedI18nextHelper } from '@shared/helpers/SharedI18nextHelper'
 import { TNetwork } from '@shared/types/blockchain'
 import { TUseTransactionsTransfer } from '@shared/types/hooks'
 import { TUseUnclaimedResult } from '@shared/types/query'
@@ -18,7 +18,7 @@ import { useAppDispatch } from './useRedux'
 import { useSelectedNetworkByBlockchainSelector } from './useSettingsSelector'
 import { useHasClaimPendingTransactionSelector } from './useUtilitySelector'
 
-const { t } = getI18next()
+const { t } = SharedI18nextHelper.get()
 
 const buildQueryKeyUnclaimed = (account: IAccountState, network: TNetwork) => ['claim', account.address, network]
 
@@ -29,7 +29,7 @@ const getUnclaimedInfos = async (
 ): Promise<TUseUnclaimedResult> => {
   if (!account.encryptedKey) throw new Error(t('common:errors.noEncryptedKey', { address: account.address }))
 
-  const blockchainService = bsAggregator.blockchainServicesByName[account.blockchain]
+  const blockchainService = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[account.blockchain]
   if (!isClaimable(blockchainService)) {
     throw new Error(
       t('common:errors.blockchainIsNotClaimable', { address: account.address, blockchain: account.blockchain })
@@ -101,7 +101,7 @@ export const useUnclaimedMutation = () => {
         throw new Error(t('common:errors.loginSessionIsNotDefined'))
       }
 
-      const blockchainService = bsAggregator.blockchainServicesByName[account.blockchain]
+      const blockchainService = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[account.blockchain]
       if (!isClaimable(blockchainService)) {
         throw new Error(
           t('common:errors.blockchainIsNotClaimable', { address: account.address, blockchain: account.blockchain })

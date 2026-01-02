@@ -1,7 +1,7 @@
 import { cloneElement, ComponentProps, type JSX, ReactNode } from 'react'
 
+import { ClipboardHelper } from '@renderer/helpers/ClipboardHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
 import MdOutlineContentCopy from '@renderer/assets/images/md-outline-content-copy.svg?react'
 
@@ -72,7 +72,7 @@ type TItemProps = { label?: ReactNode; copyable?: string; contentClassName?: str
 
 const Item = ({ label, children, copyable, className, contentClassName, ...props }: TItemProps) => {
   const handleCopy = () => {
-    if (copyable) UtilsHelper.copyToClipboard(copyable)
+    if (copyable) ClipboardHelper.write(copyable)
   }
 
   return (

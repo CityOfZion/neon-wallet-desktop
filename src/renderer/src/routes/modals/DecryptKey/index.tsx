@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 
 import { useActions } from '@renderer/hooks/useActions'
@@ -15,7 +16,6 @@ import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 import TbFileImport from '@renderer/assets/images/tb-file-import.svg?react'
 
-import { bsAggregator } from '@renderer/libs/blockchain-service'
 import type { TModalState } from '@shared/types/modal'
 
 type TFormData = {
@@ -36,7 +36,7 @@ const DecryptKeyModal = () => {
 
   const handleSubmit = async () => {
     try {
-      const service = bsAggregator.blockchainServicesByName[blockchain]
+      const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
 
       if (!hasEncryption(service)) {
         ToastHelper.error({ message: t('errors.noEncryptionInterfaceError') })

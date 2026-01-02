@@ -5,13 +5,13 @@ import { match, P } from 'ts-pattern'
 
 import { Tooltip } from '@renderer/components/Tooltip'
 
+import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 
 import { useVoteNeo3GetCandidatesToVote } from '@renderer/hooks/useVoteNeo3'
 
 import TbAlertTriangleFilled from '@renderer/assets/images/tb-filled-alert-triangle.svg?react'
 
-import { VOTE_NEO3_COZ_PUB_KEY } from '@renderer/constants/public-keys'
 import { IAccountState } from '@shared/types/store'
 
 import { VoteNeo3ListItem } from './VoteNeo3ListItem'
@@ -32,7 +32,9 @@ export const VoteNeo3List = ({ neo3Account, search, voteErrorMessage, canVote }:
   const ref = useRef<HTMLDivElement>(null)
 
   const candidates = useMemo(
-    () => candidatesToVoteQuery.data?.toSorted(({ pubKey }) => (pubKey === VOTE_NEO3_COZ_PUB_KEY ? -1 : 1)) ?? [],
+    () =>
+      candidatesToVoteQuery.data?.toSorted(({ pubKey }) => (pubKey === ConstantsHelper.voteNeo3CozPubKey ? -1 : 1)) ??
+      [],
     [candidatesToVoteQuery.data]
   )
 
@@ -41,7 +43,7 @@ export const VoteNeo3List = ({ neo3Account, search, voteErrorMessage, canVote }:
 
     if (normalizedSearch.length !== 0 && candidates.length !== 0)
       return candidates.filter(({ name, pubKey, hash, location }) => {
-        if (pubKey === VOTE_NEO3_COZ_PUB_KEY) return true
+        if (pubKey === ConstantsHelper.voteNeo3CozPubKey) return true
 
         return (
           StringHelper.normalizeText(name).includes(normalizedSearch) ||

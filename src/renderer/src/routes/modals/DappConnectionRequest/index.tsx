@@ -1,6 +1,6 @@
 import { Fragment, useState } from 'react'
 
-import { type TWalletKitHelperProposalDetails, WalletKitHelper } from '@cityofzion/bs-multichain'
+import { type TWalletKitHelperProposalDetails } from '@cityofzion/bs-multichain'
 import { Trans, useTranslation } from 'react-i18next'
 
 import { Button } from '@renderer/components/Button'
@@ -8,7 +8,9 @@ import { DappHeader } from '@renderer/components/DappHeader'
 import { Details } from '@renderer/components/Details'
 import { ScreenLoader } from '@renderer/components/ScreenLoader'
 
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
+import { WalletKitHelper } from '@renderer/helpers/WalletKitHelper'
 
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useMountUnsafe } from '@renderer/hooks/useMount'
@@ -19,8 +21,6 @@ import { CenterModalLayout } from '@renderer/layouts/CenterModal'
 
 import TbPlug from '@renderer/assets/images/tb-plug.svg?react'
 
-import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { walletKit } from '@renderer/libs/wallet-connect'
 import type { TModalState } from '@shared/types/modal'
 
 import { DappConnectionErrorContent } from './DappConnectionErrorContent'
@@ -37,7 +37,7 @@ const DappConnectionRequestModal = () => {
   const [proposalDetails, setProposalDetails] = useState<TWalletKitHelperProposalDetails>()
 
   const handleRejectSession = async () => {
-    walletKit.rejectSession({
+    WalletKitHelper.kit.rejectSession({
       id: proposal.id,
       reason: WalletKitHelper.getError('USER_REJECTED'),
     })
@@ -50,7 +50,7 @@ const DappConnectionRequestModal = () => {
 
   const handleAccept = async () => {
     try {
-      await walletKit.approveSession({
+      await WalletKitHelper.kit.approveSession({
         id: proposal.id,
         namespaces: proposalDetails!.approvedNamespaces,
       })
@@ -89,12 +89,12 @@ const DappConnectionRequestModal = () => {
         WalletKitHelper.getProposalDetails({
           proposal,
           address: account.address,
-          service: bsAggregator.blockchainServicesByName[account.blockchain],
+          service: BlockchainServiceHelper.bsAggregator.blockchainServicesByName[account.blockchain],
         })
       )
     } catch (error: any) {
       console.error(error)
-      walletKit.rejectSession({
+      WalletKitHelper.kit.rejectSession({
         id: proposal.id,
         reason: WalletKitHelper.getError('UNSUPPORTED_NAMESPACE_KEY'),
       })

@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next'
 
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
-import { LOGIN_CONTROL_VALUE } from '@renderer/constants/password'
 import { authReducerActions } from '@renderer/store/reducers/auth'
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
@@ -15,6 +14,8 @@ import { useBlockchainActions } from './useBlockchainActions'
 import { useHardwareWalletActions } from './useHardwareWallet'
 import { useAppDispatch } from './useRedux'
 import { useLoginControlSelector } from './useSettingsSelector'
+
+const LOGIN_CONTROL_VALUE = 'true'
 
 export const useLogin = () => {
   const { encryptedLoginControlRef } = useLoginControlSelector()
@@ -94,5 +95,29 @@ export const useLogin = () => {
     loginWithHardwareWallet,
     loginWithKey,
     logout,
+  }
+}
+
+export const useSignup = () => {
+  const dispatch = useAppDispatch()
+
+  const signup = useCallback(
+    async (password: string, isAlreadyEncrypted?: boolean) => {
+      const encryptedPassword = !isAlreadyEncrypted ? await window.api.sendAsync('encryptBasedOS', password) : password
+
+      const encryptedLoginControl = await window.api.sendAsync('encryptBasedEncryptedSecret', {
+        value: LOGIN_CONTROL_VALUE,
+        encryptedSecret: encryptedPassword,
+      })
+
+      dispatch(settingsReducerActions.setHasPassword(true))
+      dispatch(settingsReducerActions.setEncryptedLoginControl(encryptedLoginControl))
+      dispatch(authReducerActions.setCurrentLoginSession({ type: 'password', encryptedPassword }))
+    },
+    [dispatch]
+  )
+
+  return {
+    signup,
   }
 }

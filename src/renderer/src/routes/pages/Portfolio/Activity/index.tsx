@@ -6,7 +6,7 @@ import { RefreshAction } from '@renderer/components/RefreshAction'
 import { Separator } from '@renderer/components/Separator'
 import { TransactionActivityList } from '@renderer/components/TransactionActivityList'
 
-import { NumberHelper } from '@renderer/helpers/NumberHelper'
+import { CurrencyHelper } from '@renderer/helpers/CurrencyHelper'
 
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useBalances } from '@renderer/hooks/useBalances'
@@ -44,7 +44,7 @@ const PortfolioActivityPage = () => {
 
       <div className="flex w-full items-center justify-end gap-x-2 pt-3 text-xl">
         <span className="text-gray-300">{t('balance')}</span>
-        <span className="text-white">{NumberHelper.currency(balances.exchangeTotal, { currency })}</span>
+        <span className="text-white">{CurrencyHelper.format(balances.exchangeTotal, { currency })}</span>
       </div>
 
       <TransactionActivityList defaultAccounts={accounts} />

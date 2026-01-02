@@ -1,15 +1,16 @@
 import { useQueries } from '@tanstack/react-query'
 
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+
 import { useCurrencyRatio } from '@renderer/hooks/useCurrencyRatio'
 
-import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { TPriceHistory, TTokenBalance, TUsePriceHistoryResult } from '@shared/types/query'
 
 import { useCurrencySelector } from './useSettingsSelector'
 
 const fetchTokenData = async (tokenBalance: TTokenBalance, currencyRatio: number): Promise<TPriceHistory | null> => {
   try {
-    const service = bsAggregator.blockchainServicesByName[tokenBalance.blockchain]
+    const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[tokenBalance.blockchain]
     const prices = await service.exchangeDataService.getTokenPriceHistory({
       token: tokenBalance.token,
       limit: 24,

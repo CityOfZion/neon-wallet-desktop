@@ -1,18 +1,17 @@
-import { WalletKitHelper } from '@cityofzion/bs-multichain'
 import type { ErrorResponse } from '@walletconnect/jsonrpc-utils'
 import type { PendingRequestTypes } from '@walletconnect/types'
 import { useTranslation } from 'react-i18next'
 
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
+import { WalletKitHelper } from '@renderer/helpers/WalletKitHelper'
 
 import { useAccountMapSelector } from '@renderer/hooks/useAccountSelector'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useMountUnsafe } from '@renderer/hooks/useMount'
 
-import { bsAggregator } from '@renderer/libs/blockchain-service'
-import { walletKit } from '@renderer/libs/wallet-connect'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 
 export const WalletConnectManagerSetup = () => {
@@ -23,19 +22,19 @@ export const WalletConnectManagerSetup = () => {
 
   useMountUnsafe(async () => {
     async function handleRequest(request: PendingRequestTypes.Struct) {
-      const sessions = walletKit.getActiveSessions()
+      const sessions = WalletKitHelper.kit.getActiveSessions()
 
       const session = sessions[request.topic]
       if (!session) return
 
       const sessionDetails = WalletKitHelper.getSessionDetails({
         session,
-        services: Object.values(bsAggregator.blockchainServicesByName),
+        services: Object.values(BlockchainServiceHelper.bsAggregator.blockchainServicesByName),
       })
       const sessionAccount = accountsMapRef.current.get(SharedAccountHelper.buildAccountKey(sessionDetails))
 
       async function handleReject(reason?: ErrorResponse) {
-        await walletKit
+        await WalletKitHelper.kit
           .respondSessionRequest({
             topic: request.topic,
             response: WalletKitHelper.formatRequestError(request, reason ?? WalletKitHelper.getError('USER_REJECTED')),
@@ -59,7 +58,7 @@ export const WalletConnectManagerSetup = () => {
             sessionDetails,
           })
 
-          await walletKit.respondSessionRequest({
+          await WalletKitHelper.kit.respondSessionRequest({
             topic: request.topic,
             response: WalletKitHelper.formatRequestResult(request, response),
           })
@@ -67,7 +66,7 @@ export const WalletConnectManagerSetup = () => {
           return response
         } catch (error: any) {
           console.error(error)
-          await walletKit.respondSessionRequest({
+          await WalletKitHelper.kit.respondSessionRequest({
             topic: request.topic,
             response: WalletKitHelper.formatRequestError(request, error.message),
           })
@@ -109,16 +108,16 @@ export const WalletConnectManagerSetup = () => {
       })
     }
 
-    walletKit.on('session_request', handleRequest)
+    WalletKitHelper.kit.on('session_request', handleRequest)
 
-    const pendingRequests = walletKit.getPendingSessionRequests()
+    const pendingRequests = WalletKitHelper.kit.getPendingSessionRequests()
     const startPendingRequest = pendingRequests[0]
     if (startPendingRequest) {
       handleRequest(startPendingRequest)
     }
 
     return () => {
-      walletKit.off('session_request', handleRequest)
+      WalletKitHelper.kit.off('session_request', handleRequest)
     }
   })
 

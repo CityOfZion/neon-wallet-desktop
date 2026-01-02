@@ -1,7 +1,8 @@
 import { createListenerMiddleware } from '@reduxjs/toolkit'
 import { REHYDRATE } from 'redux-persist'
 
-import { bsAggregator } from '@renderer/libs/blockchain-service'
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+
 import type { TRootState } from '@renderer/types/redux'
 
 import { settingsReducerActions } from '../reducers/settings'
@@ -24,7 +25,7 @@ export function getNetworkMiddleware() {
       const selectedNetworkProfile = state.settings?.data?.selectedNetworkProfile
       if (!selectedNetworkProfile) return
 
-      Object.values(bsAggregator.blockchainServicesByName).forEach(service => {
+      Object.values(BlockchainServiceHelper.bsAggregator.blockchainServicesByName).forEach(service => {
         service.setNetwork(selectedNetworkProfile.networkByBlockchain[service.name])
       })
     },

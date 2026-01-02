@@ -10,6 +10,7 @@ import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
 import { Tooltip } from '@renderer/components/Tooltip'
 
+import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 
 import { useAccountsByBlockchainsSelector, useAccountsSelector } from '@renderer/hooks/useAccountSelector'
@@ -31,7 +32,6 @@ import { ContentLayout } from '@renderer/layouts/ContentLayout'
 import TbChartBarPopular from '@renderer/assets/images/tb-chart-bar-popular.svg?react'
 import TbSearch from '@renderer/assets/images/tb-search.svg?react'
 
-import { VOTE_NEO3_COZ_PUB_KEY } from '@renderer/constants/public-keys'
 import { IAccountState } from '@shared/types/store'
 
 import { VoteNeo3AvailableVotes } from './VoteNeo3AvailableVotes'
@@ -72,15 +72,18 @@ const VoteNeo3Page = () => {
     setDataFromEventWrapper,
   } = useActions<TActionsData>({ neo3Account: defaultNeo3Account, search: '' })
 
-  // We are using VOTE_NEO3_COZ_PUB_KEY only to calculate the fee
-  const calculateVoteFeeQuery = useVoteNeo3CalculateVoteFee({ neo3Account, candidatePubKey: VOTE_NEO3_COZ_PUB_KEY })
+  // We are using ConstantsHelper.voteNeo3CozPubKey only to calculate the fee
+  const calculateVoteFeeQuery = useVoteNeo3CalculateVoteFee({
+    neo3Account,
+    candidatePubKey: ConstantsHelper.voteNeo3CozPubKey,
+  })
   const candidatesToVoteQuery = useVoteNeo3GetCandidatesToVote()
   const voteDetailsByAddressQuery = useVoteNeo3GetVoteDetailsByAddress(neo3Account?.address)
   const balanceQuery = useBalance(neo3Account)
   const { hasEnoughGasToPayFee } = useVoteNeo3Validations({ balanceQuery, gasFee: calculateVoteFeeQuery.data })
 
   const cozCandidate = useMemo(
-    () => candidatesToVoteQuery.data?.find(candidate => candidate.pubKey === VOTE_NEO3_COZ_PUB_KEY),
+    () => candidatesToVoteQuery.data?.find(candidate => candidate.pubKey === ConstantsHelper.voteNeo3CozPubKey),
     [candidatesToVoteQuery.data]
   )
 
@@ -113,7 +116,6 @@ const VoteNeo3Page = () => {
 
   const handleChangeNeo3Account = (neo3Account: IAccountState) => {
     canOpenVoteNeo3SupportUsModalRef.current = false
-
     setData({ neo3Account })
   }
 
@@ -124,7 +126,7 @@ const VoteNeo3Page = () => {
         !canOpenVoteNeo3SupportUsModalRef.current ||
         !canShowVoteNeo3SupportUsModalRef.current ||
         voteDetailsByAddressQuery.isLoading ||
-        VOTE_NEO3_COZ_PUB_KEY === voteDetailsByAddressQuery.data?.candidatePubKey ||
+        ConstantsHelper.voteNeo3CozPubKey === voteDetailsByAddressQuery.data?.candidatePubKey ||
         !defaultNeo3Account
       )
         return

@@ -9,10 +9,10 @@ import { Loader } from '@renderer/components/Loader'
 import { Popover } from '@renderer/components/Popover'
 import { Separator } from '@renderer/components/Separator'
 
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
-import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import { TBalance } from '@shared/types/query'
 
@@ -66,7 +66,7 @@ export const GreyTokenSelect = <T extends TGreyTokenSelectToken>({
     }
 
     if (balance) {
-      const service = bsAggregator.blockchainServicesByName[balance.blockchain]
+      const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[balance.blockchain]
 
       filtered = filtered.map(token => {
         const tokenBalance = balance.tokensBalances.find(tokenBalance =>

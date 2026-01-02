@@ -14,9 +14,9 @@ import { match, P } from 'ts-pattern'
 
 import { FieldActionsMenu } from '@renderer/components/FieldActionsMenu'
 
+import { ClipboardHelper } from '@renderer/helpers/ClipboardHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
 import MdCancel from '@renderer/assets/images/md-cancel.svg?react'
 import MdContentCopy from '@renderer/assets/images/md-content-copy.svg?react'
@@ -100,7 +100,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
     }
 
     const handleCopyInput = () => {
-      UtilsHelper.copyToClipboard(internalRef.current?.value ?? '')
+      ClipboardHelper.write(internalRef.current?.value ?? '')
     }
 
     const handlePaste = async () => {

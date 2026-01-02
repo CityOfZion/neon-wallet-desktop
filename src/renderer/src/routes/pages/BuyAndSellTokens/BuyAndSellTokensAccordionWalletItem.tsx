@@ -3,7 +3,7 @@ import { Loader } from '@renderer/components/Loader'
 import { Separator } from '@renderer/components/Separator'
 import { Tooltip } from '@renderer/components/Tooltip'
 
-import { NumberHelper } from '@renderer/helpers/NumberHelper'
+import { CurrencyHelper } from '@renderer/helpers/CurrencyHelper'
 
 import { useBalances } from '@renderer/hooks/useBalances'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
@@ -24,7 +24,7 @@ export const BuyAndSellTokensAccordionWalletItem = ({ wallet }: TProps) => {
   const balances = useBalances(accounts)
   const { currency } = useCurrencySelector()
 
-  const total = NumberHelper.currency(balances.exchangeTotal, { currency })
+  const total = CurrencyHelper.format(balances.exchangeTotal, { currency })
 
   return (
     <Accordion.Item value={id} className="w-full">

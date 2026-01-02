@@ -22,10 +22,12 @@ import { Separator } from '@renderer/components/Separator'
 import { TransactionFeeActionStep } from '@renderer/components/TransactionFeeActionStep'
 
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+import { CurrencyHelper } from '@renderer/helpers/CurrencyHelper'
 import { DateHelper } from '@renderer/helpers/DateHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
+import { StringHelper } from '@renderer/helpers/StringHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
@@ -46,7 +48,6 @@ import TbStepInto from '@renderer/assets/images/tb-step-into.svg?react'
 import TbStepOut from '@renderer/assets/images/tb-step-out.svg?react'
 import VscCircleFilled from '@renderer/assets/images/vsc-circle-filled.svg?react'
 
-import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { thunks } from '@renderer/store/thunks'
 import { TUseTransactionsTransfer } from '@shared/types/hooks'
 import type { TModalState } from '@shared/types/modal'
@@ -81,7 +82,10 @@ const SellTokensDepositModal = () => {
   const { data: balanceData, isLoading: isBalanceLoading } = useBalance(actionData.account)
 
   const service = useMemo(
-    () => (actionData?.account ? bsAggregator.blockchainServicesByName[actionData.account.blockchain] : undefined),
+    () =>
+      actionData?.account
+        ? BlockchainServiceHelper.bsAggregator.blockchainServicesByName[actionData.account.blockchain]
+        : undefined,
     [actionData.account]
   )
 
@@ -160,7 +164,7 @@ const SellTokensDepositModal = () => {
   }
 
   const handleChangeAddress = (event: ChangeEvent<HTMLInputElement>) => {
-    const address = UtilsHelper.removeSpecialCharacters(event.target.value, { allowSpaces: false })
+    const address = StringHelper.removeSpecialCharacters(event.target.value, { allowSpaces: false })
 
     setData({ address })
   }
@@ -447,7 +451,7 @@ const SellTokensDepositModal = () => {
                     <p>{t('labels.fiat', { currencyLabel: currency.label })}</p>
 
                     <p>
-                      {NumberHelper.currency(
+                      {CurrencyHelper.format(
                         actionData.amount && actionData.token
                           ? NumberHelper.number(actionData.amount) * actionData.token.exchangeConvertedPrice
                           : 0,

@@ -6,22 +6,24 @@ import { Outlet, useNavigate } from 'react-router'
 
 import { ScreenLoader } from '@renderer/components/ScreenLoader'
 
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { LazyHelper } from '@renderer/helpers/LazyHelper'
+import { ReactQueryHelper } from '@renderer/helpers/ReactQueryHelper'
+import { ReduxHelper } from '@renderer/helpers/ReduxHelper'
+import { WalletKitHelper } from '@renderer/helpers/WalletKitHelper'
 
 import { useMountUnsafe } from '@renderer/hooks/useMount'
 
 import { modalsRouter } from '@renderer/routes/modals-router'
 
 import { ModalRouterProvider } from '@renderer/contexts/ModalRouterContext'
-import { setupBSAggregator } from '@renderer/libs/blockchain-service'
-import { queryClient } from '@renderer/libs/query'
-import { setupStore, store, waitForBootstrap } from '@renderer/libs/redux'
-import { setupWalletKit } from '@renderer/libs/wallet-connect'
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
 import * as Sentry from '@sentry/electron/renderer'
-import { setupI18next } from '@shared/libs/i18next'
+import { SharedI18nextHelper } from '@shared/helpers/SharedI18nextHelper'
 
-const ToastProvider = lazy(() => import('@renderer/libs/sonner'))
+const ToastProvider = lazy(() =>
+  import('@renderer/helpers/ToastHelper').then(module => ({ default: module.ToastHelper.Provider }))
+)
 const DeeplinkManagerSetup = LazyHelper.delayedLazy(() => import('./DeeplinkManagerSetup'), 1000)
 const OverTheAirManagerSetup = LazyHelper.delayedLazy(() => import('./OverTheAirManagerSetup'), 5000)
 
@@ -32,18 +34,18 @@ const RootPage = () => {
 
   useMountUnsafe(async () => {
     try {
-      await Promise.allSettled([setupI18next(), setupBSAggregator(), setupWalletKit()])
-      setupStore()
-      await waitForBootstrap()
+      await Promise.allSettled([SharedI18nextHelper.setup(), BlockchainServiceHelper.setup(), WalletKitHelper.setup()])
+      ReduxHelper.setup()
+      await ReduxHelper.waitForBootstrap()
 
-      const state = store.getState()
+      const state = ReduxHelper.store.getState()
       if (state.settings.data.isFirstTime) {
         navigate('/welcome')
         return
       }
 
-      store.dispatch(settingsReducerActions.setSelectedWallet(undefined))
-      store.dispatch(settingsReducerActions.setSelectedAccount(undefined))
+      ReduxHelper.store.dispatch(settingsReducerActions.setSelectedWallet(undefined))
+      ReduxHelper.store.dispatch(settingsReducerActions.setSelectedAccount(undefined))
 
       navigate('/login/password')
     } catch (error) {
@@ -59,8 +61,8 @@ const RootPage = () => {
   }
 
   return (
-    <StoreProvider store={store}>
-      <QueryClientProvider client={queryClient}>
+    <StoreProvider store={ReduxHelper.store}>
+      <QueryClientProvider client={ReactQueryHelper.client}>
         <ModalRouterProvider router={modalsRouter}>
           <Outlet />
           <Suspense fallback={null}>

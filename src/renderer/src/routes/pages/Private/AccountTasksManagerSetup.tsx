@@ -3,7 +3,9 @@ import { useRef } from 'react'
 import { hasNft } from '@cityofzion/blockchain-service'
 import intersection from 'lodash/intersection'
 
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
+import { SkinHelper } from '@renderer/helpers/SkinHelper'
 
 import { useOwnAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useUnreadNotificationsSelector } from '@renderer/hooks/useAuthSelector'
@@ -13,9 +15,6 @@ import { useMount } from '@renderer/hooks/useMount'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useLazyVoteNeo3GetVoteDetailsByAddress } from '@renderer/hooks/useVoteNeo3'
 
-import { FRAUDULENT_TOKEN_HASHES_BY_BLOCKCHAIN } from '@renderer/constants/fraudulent-tokens'
-import { LOCAL_SKINS } from '@renderer/constants/skins'
-import { bsAggregator } from '@renderer/libs/blockchain-service'
 import { authReducerActions } from '@renderer/store/reducers/auth'
 import { utilityReducerActions } from '@renderer/store/reducers/utility'
 import * as Sentry from '@sentry/electron/renderer'
@@ -50,7 +49,7 @@ const useFraudulentTokensNotificationProcess = () => {
     try {
       if (!balance) return
 
-      const fraudulentHashes = FRAUDULENT_TOKEN_HASHES_BY_BLOCKCHAIN[account.blockchain]
+      const fraudulentHashes = ConstantsHelper.fraudulentTokenHashesByBlockchain.get(account.blockchain)
       if (!fraudulentHashes) return
 
       const fraudulentTokensOwned = new Set(intersection([...fraudulentHashes], [...balance.tokensBalancesMap.keys()]))
@@ -181,10 +180,10 @@ const useUnlockLocalSkinsProcess = () => {
         accountWithLocalSkinsRef.current.push(account)
       }
 
-      if (unlockLocalSkinsSetRef.current.size === LOCAL_SKINS.size) return
+      if (unlockLocalSkinsSetRef.current.size === SkinHelper.localSkins.size) return
 
-      for (const [key, skin] of LOCAL_SKINS) {
-        const service = bsAggregator.blockchainServicesByName[account.blockchain]
+      for (const [key, skin] of SkinHelper.localSkins) {
+        const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[account.blockchain]
         if (unlockLocalSkinsSetRef.current.has(key) || account.blockchain !== skin.blockchain || !hasNft(service))
           continue
 
@@ -209,7 +208,7 @@ const useUnlockLocalSkinsProcess = () => {
 
       for (const account of accountWithLocalSkinsRef.current) {
         if (unlockLocalSkinsSetRef.current.has(account.skin.id)) continue
-        editAccount({ account, data: { skin: UtilsHelper.generateColorSkin() } })
+        editAccount({ account, data: { skin: SkinHelper.generateColorSkin() } })
       }
 
       accountWithLocalSkinsRef.current = []

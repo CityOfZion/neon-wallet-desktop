@@ -7,7 +7,7 @@ import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'
 
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
+import { ClipboardHelper } from '@renderer/helpers/ClipboardHelper'
 
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useModalState } from '@renderer/hooks/useModalRouter'
@@ -75,7 +75,7 @@ const ExportMnemonic = () => {
               variant="text"
               leftIcon={<MdContentCopy />}
               label={t('copyButtonLabel')}
-              onClick={() => UtilsHelper.copyToClipboard(words)}
+              onClick={ClipboardHelper.write.bind(null, words)}
               flat
             />
 
