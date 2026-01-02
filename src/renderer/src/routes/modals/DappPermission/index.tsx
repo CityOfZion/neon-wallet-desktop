@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 
+import { BSNeoXConstants } from '@cityofzion/bs-neox'
 import type { WalletKitTypes } from '@reown/walletkit'
 import type { ErrorResponse } from '@walletconnect/jsonrpc-utils'
 import type { JSX } from 'react'
@@ -10,6 +11,7 @@ import { WalletKitHelper } from '@renderer/helpers/WalletKitHelper'
 
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { usePressOnce } from '@renderer/hooks/usePressOnce'
+import { useSelectedNetworkProfileSelector } from '@renderer/hooks/useSettingsSelector'
 
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
 
@@ -42,6 +44,10 @@ export const DappPermissionModal = () => {
   const { session, request, onAccept, onReject, sessionAccount, sessionDetails } =
     useModalState<TModalState<'dapp-permission'>>()
   const { modalErase, modalNavigate } = useModalNavigate()
+  const { selectedNetworkProfile } = useSelectedNetworkProfileSelector()
+
+  const blockchain = sessionAccount.blockchain || sessionDetails.blockchain
+  const network = selectedNetworkProfile.networkByBlockchain[blockchain]
 
   const handleReject = async (reason?: ErrorResponse, toastMessage?: string) => {
     await onReject(reason)
@@ -69,6 +75,27 @@ export const DappPermissionModal = () => {
         },
       })
     } catch (error: any) {
+      const hasNonce = !!request.params.request.params?.[0]?.nonce
+
+      const isNeoxAntiMev =
+        blockchain === 'neox' &&
+        BSNeoXConstants.ANTI_MEV_RPC_LIST_BY_NETWORK_ID[network.id].some(url => url === network.url)
+
+      // It's expected to receive a transaction cached error on first Anti-MEV transaction
+      if (isNeoxAntiMev && hasNonce && error.message?.includes('transaction cached')) {
+        modalNavigate('success', {
+          replace: true,
+          state: {
+            heading: t('successContent.title'),
+            subtitle: t('successContent.subtitle'),
+            // Don't translate the response, because this property isn't translated, it comes from RPC
+            content: <DappPermissionSuccessContent response="Transaction cached" />,
+          },
+        })
+
+        return
+      }
+
       modalNavigate('error', {
         replace: true,
         state: {
@@ -95,9 +122,7 @@ export const DappPermissionModal = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [request.id, t])
 
-  const Content =
-    CUSTOM_CONTENT_BY_REQUEST[sessionDetails.blockchain]?.[request.params.request.method] ??
-    DappPermissionGenericContent
+  const Content = CUSTOM_CONTENT_BY_REQUEST[blockchain]?.[request.params.request.method] ?? DappPermissionGenericContent
 
   return (
     <CenterModalLayout contentClassName="px-0 flex flex-col pb-5 min-h-0" onErase={handleReject}>

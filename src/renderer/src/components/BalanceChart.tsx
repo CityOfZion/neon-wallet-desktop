@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 
+import { BSBigNumberHelper } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
 
 import { CurrencyHelper } from '@renderer/helpers/CurrencyHelper'
@@ -29,18 +30,19 @@ export const BalanceChart = ({ balances, sortedBalances, className }: TProps) =>
   const { currency } = useCurrencySelector()
 
   const bars = useMemo<TBar[]>(() => {
-    if (balances.exchangeTotal === 0)
-      return [
-        { color: '#676767', name: t('noAssets'), value: CurrencyHelper.format(0, { currency }), widthPercent: 100 },
-      ]
+    const hasExchangeTotal = balances.exchangeTotal > 0
 
     const firstFourBars = sortedBalances.slice(0, 4).map<TBar>(tokenBalance => {
       const color = StyleHelper.generateTokenColor(tokenBalance.token.hash, tokenBalance.blockchain)
-      const widthPercent = (tokenBalance.exchangeAmount * 100) / balances.exchangeTotal
+      const widthPercent = hasExchangeTotal
+        ? (tokenBalance.exchangeAmount * 100) / balances.exchangeTotal
+        : BSBigNumberHelper.fromNumber(tokenBalance.amount).multipliedBy(100).div(balances.bnAmountTotal).toNumber()
 
       return {
         name: tokenBalance.token.name,
-        value: CurrencyHelper.format(tokenBalance.exchangeAmount, { currency }),
+        value: hasExchangeTotal
+          ? CurrencyHelper.format(tokenBalance.exchangeAmount, { currency })
+          : tokenBalance.amount,
         color,
         widthPercent,
       }
@@ -50,18 +52,27 @@ export const BalanceChart = ({ balances, sortedBalances, className }: TProps) =>
       return firstFourBars
     }
 
-    const othersAmount = sortedBalances.slice(4).reduce((acc, balance) => acc + balance.exchangeAmount, 0)
+    const { othersExchangeAmount, bnOthersAmount } = sortedBalances.slice(4).reduce(
+      (accumulator, balance) => ({
+        othersExchangeAmount: accumulator.othersExchangeAmount + balance.exchangeAmount,
+        bnOthersAmount: accumulator.bnOthersAmount.plus(balance.amount),
+      }),
+      { othersExchangeAmount: 0, bnOthersAmount: BSBigNumberHelper.fromNumber('0') }
+    )
+
     const otherBar: TBar = {
       color: '#47BEFF',
-      value: CurrencyHelper.format(othersAmount, { currency }),
+      value: hasExchangeTotal ? CurrencyHelper.format(othersExchangeAmount, { currency }) : bnOthersAmount.toString(),
       name: t('othersTokens'),
-      widthPercent: (othersAmount * 100) / balances.exchangeTotal,
+      widthPercent: hasExchangeTotal
+        ? (othersExchangeAmount * 100) / balances.exchangeTotal
+        : bnOthersAmount.multipliedBy(100).div(balances.bnAmountTotal).toNumber(),
     }
 
     return [...firstFourBars, otherBar]
   }, [balances, t, currency, sortedBalances])
 
-  const exchangeTotalFormatted = CurrencyHelper.format(balances.exchangeTotal, { currency, showZero: false })
+  const exchangeTotalFormatted = CurrencyHelper.format(balances.exchangeTotal, { currency })
 
   return (
     <div className={StyleHelper.mergeStyles('w-full py-9', className)}>
@@ -88,7 +99,7 @@ export const BalanceChart = ({ balances, sortedBalances, className }: TProps) =>
                 style={{
                   backgroundImage: `linear-gradient(0deg, ${bar.color} 0%, ${bar.color}80 100%)`,
                 }}
-              ></div>
+              />
 
               <div className="mt-5 flex min-w-0 items-start gap-2">
                 <div
@@ -96,7 +107,7 @@ export const BalanceChart = ({ balances, sortedBalances, className }: TProps) =>
                   style={{
                     backgroundColor: bar.color,
                   }}
-                ></div>
+                />
 
                 <span className="min-w-0 truncate text-xs font-normal text-white">{bar.name}</span>
               </div>

@@ -26,6 +26,8 @@ export const ChartCardList = ({ sortedBalances, className }: TProps) => {
       .filter((item, index, array) => array.findIndex(t => t.token.symbol === item.token.symbol) === index)
   )
 
+  if (!priceHistories.isLoading && priceHistories.data.length === 0) return null
+
   return (
     <div className={StyleHelper.mergeStyles('w-full py-9', className)}>
       {priceHistories.isLoading ? (

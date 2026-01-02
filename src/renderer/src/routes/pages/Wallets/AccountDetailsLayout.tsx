@@ -23,7 +23,7 @@ export const AccountDetailsLayout = ({ heading, actions, children, className, ..
 
       <Separator />
 
-      <div className="flex w-full grow flex-col overflow-y-auto">{children}</div>
+      <div className="flex w-full grow flex-col overflow-x-hidden overflow-y-auto">{children}</div>
     </div>
   )
 }

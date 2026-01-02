@@ -19,14 +19,14 @@ export const LoginPasswordImportWalletStep5Content = () => {
         <TbRosetteDiscountCheck aria-hidden className="text-blue mt-3 h-25 w-25 stroke-1" />
       </div>
 
-      <div className="flex gap-2.5">
+      <div className="mt-2 flex flex-col gap-3 px-4">
         <ButtonDownloadPasswordQRCode />
+
         <Link
           to="/wallets/overview"
           label={t('openWalletButtonLabel')}
-          rightIcon={<MdOutlineAutoAwesome />}
+          rightIcon={<MdOutlineAutoAwesome aria-hidden />}
           variant="contained"
-          className="w-44"
           iconsOnEdge={false}
         />
       </div>
