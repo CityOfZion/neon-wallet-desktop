@@ -2,7 +2,6 @@
   "balanceChart": {
     "balance": "余额",
     "holdings": "持有量",
-    "noAssets": "没有资产",
     "othersTokens": "其他"
   },
   "blockchainDataPanel": {

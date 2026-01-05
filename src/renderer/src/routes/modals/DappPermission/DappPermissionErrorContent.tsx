@@ -19,7 +19,7 @@ export const DappPermissionErrorContent = ({ error }: TProps) => {
       <div className="my-8 flex min-h-0 w-full grow flex-col gap-1.5 text-sm">
         <p className="text-xs font-bold text-gray-300 uppercase">{t('errorMessageLabel')}</p>
 
-        <p className="bg-asphalt w-full overflow-y-auto rounded p-2 text-sm font-medium wrap-break-word whitespace-pre-wrap text-white">
+        <p className="bg-asphalt max-h-72 w-full overflow-y-auto rounded p-2 text-sm font-medium wrap-break-word whitespace-pre-wrap text-white">
           {error.message}
         </p>
       </div>

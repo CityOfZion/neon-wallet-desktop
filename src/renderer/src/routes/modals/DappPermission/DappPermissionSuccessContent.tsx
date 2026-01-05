@@ -36,7 +36,7 @@ export const DappPermissionSuccessContent = ({ response }: TProps) => {
             />
           </div>
 
-          <p className="bg-asphalt w-full overflow-y-auto rounded p-2 text-sm font-medium wrap-break-word whitespace-pre-wrap text-white">
+          <p className="bg-asphalt max-h-72 w-full overflow-y-auto rounded p-2 text-sm font-medium wrap-break-word whitespace-pre-wrap text-white">
             {stringifiedResponse}
           </p>
         </div>
