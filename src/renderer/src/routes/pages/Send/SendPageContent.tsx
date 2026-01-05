@@ -379,6 +379,10 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
         return transaction
       })
 
+      reset()
+      currentRecipientAddress.current = undefined
+      handleSelectAccount()
+
       modalNavigate('success', {
         state: {
           heading: t('title'),
@@ -400,10 +404,6 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
           content: <SendErrorModalContent error={error.message} />,
         },
       })
-    } finally {
-      reset()
-      currentRecipientAddress.current = undefined
-      handleSelectAccount()
     }
   }
 
