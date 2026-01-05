@@ -124,21 +124,12 @@ const fixBalanceResult = (
       })
     })
 
-  const values = tokensBalances.reduce(
-    (accumulator, tokenBalance) => ({
-      exchangeTotal: accumulator.exchangeTotal + tokenBalance.exchangeAmount,
-      bnAmountTotal: accumulator.bnAmountTotal.plus(tokenBalance.amount),
-    }),
-    { exchangeTotal: 0, bnAmountTotal: BSBigNumberHelper.fromNumber('0') }
-  )
-
   return {
     address: result.address,
     blockchain: result.blockchain,
     tokensBalances,
     tokensBalancesMap: tokensBalancesMapClone,
-    exchangeTotal: values.exchangeTotal,
-    bnAmountTotal: values.bnAmountTotal,
+    exchangeTotal: tokensBalances.reduce((accumulator, tokenBalance) => accumulator + tokenBalance.exchangeAmount, 0),
   }
 }
 
@@ -170,7 +161,6 @@ export function useBalances(params: TUseBalancesParams[], options?: TUseBalances
       const data: TBalance[] = []
       const groupedTokenBalances = new Map<string, TTokenBalance>()
       let exchangeTotal = 0
-      let bnAmountTotal = BSBigNumberHelper.fromNumber('0')
 
       if (!isLoading) {
         results.forEach(result => {
@@ -195,16 +185,7 @@ export function useBalances(params: TUseBalancesParams[], options?: TUseBalances
           })
         })
 
-        const values = data.reduce(
-          (accumulator, result) => ({
-            exchangeTotal: accumulator.exchangeTotal + (result.exchangeTotal ?? 0),
-            bnAmountTotal: accumulator.bnAmountTotal.plus(result.bnAmountTotal),
-          }),
-          { exchangeTotal, bnAmountTotal }
-        )
-
-        exchangeTotal = values.exchangeTotal
-        bnAmountTotal = values.bnAmountTotal
+        exchangeTotal = data.reduce((accumulator, result) => accumulator + (result.exchangeTotal ?? 0), 0)
       }
 
       return {
@@ -212,7 +193,6 @@ export function useBalances(params: TUseBalancesParams[], options?: TUseBalances
         groupedTokenBalances: Array.from(groupedTokenBalances.values()),
         isLoading,
         exchangeTotal,
-        bnAmountTotal,
       }
     },
   })

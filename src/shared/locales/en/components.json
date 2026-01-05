@@ -2,6 +2,7 @@
   "balanceChart": {
     "balance": "Balance",
     "holdings": "Holdings",
+    "noFinancialAssets": "No financial assets",
     "othersTokens": "Others"
   },
   "blockchainDataPanel": {
