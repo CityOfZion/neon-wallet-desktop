@@ -41,7 +41,8 @@
     "save": "Save",
     "send": "Send",
     "successfullyCopied": "Successfully copied to clipboard",
-    "swap": "Swap"
+    "swap": "Swap",
+    "test": "Test"
   },
   "networkTypeLabel": {
     "mainnet": "MainNet",

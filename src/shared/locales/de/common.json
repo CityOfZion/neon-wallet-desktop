@@ -41,7 +41,8 @@
     "save": "Speichern",
     "send": "Senden",
     "successfullyCopied": "Erfolgreich in die Zwischenablage kopiert",
-    "swap": "Tauschen"
+    "swap": "Tauschen",
+    "test": "Prüfen"
   },
   "networkTypeLabel": {
     "mainnet": "MainNet",

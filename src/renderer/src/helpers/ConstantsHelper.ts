@@ -13,6 +13,7 @@ export class ConstantsHelper {
   static readonly neonIconsUrl = 'https://raw.githubusercontent.com/CityOfZion/neon-icons/main'
 
   static readonly defaultNetworkProfileId = 'default'
+  static readonly testNetworkProfileId = 'test'
 
   static fraudulentTokenHashesByBlockchain: Map<TBlockchainServiceKey, Set<string>> = new Map([
     ['neo3', new Set(['0x42e6b0379e39a428362e08cf9d7e40903cdb0fe7'])],

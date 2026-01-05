@@ -41,7 +41,8 @@
     "save": "儲存",
     "send": "發送",
     "successfullyCopied": "已成功複製到剪貼簿",
-    "swap": "兌換"
+    "swap": "兌換",
+    "test": "測試"
   },
   "networkTypeLabel": {
     "mainnet": "主網",
