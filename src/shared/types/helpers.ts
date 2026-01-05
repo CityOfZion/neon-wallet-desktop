@@ -66,3 +66,9 @@ export type TToastHelperToastProps = {
   icon?: JSX.Element
   closeable?: boolean
 }
+
+export type TClickupHelperCreateSupportTicketParams = {
+  name: string
+  email: string
+  description: string
+}

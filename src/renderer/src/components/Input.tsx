@@ -38,7 +38,7 @@ export type TInputProps = Omit<React.ComponentProps<'input'>, 'type' | 'ref'> & 
   compacted?: boolean
   copyable?: boolean
   pastable?: boolean
-  type?: 'text' | 'password' | 'number'
+  type?: 'text' | 'password' | 'number' | 'email'
   leftIcon?: JSX.Element
   rightElement?: JSX.Element
   loading?: boolean

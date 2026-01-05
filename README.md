@@ -54,6 +54,14 @@ Create a `.env` file in the project root with the following variables:
 ```env
 GCP_PROJECT_ID=your-google-cloud-project-id
 GOOGLE_APPLICATION_CREDENTIALS=/absolute/path/to/your-service-account.json
+
+VITE_UNLIMIT_MERCHANT_ID=your-unlimit-merchant-id
+VITE_UNLIMIT_BUY_TOKENS_IFRAME_URL=your-unlimit-buy-iframe-url
+VITE_UNLIMIT_SELL_TOKENS_IFRAME_URL=your-unlimit-sell-iframe-url
+
+VITE_CLICK_UP_KEY=your-clickup-api-key
+VITE_CLICK_UP_LIST_ID=your-clickup-list-id
+VITE_CLICK_UP_ASSIGNEE_ID=your-clickup-assignee-id
 ```
 
 ### Google Cloud Setup

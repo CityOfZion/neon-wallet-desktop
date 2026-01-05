@@ -19,6 +19,7 @@ type TProps = React.ComponentProps<'textarea'> & {
   pastable?: boolean
   compacted?: boolean
   multiline?: boolean
+  label?: string
 }
 
 export const Textarea = forwardRef<HTMLTextAreaElement, TProps>(
@@ -33,6 +34,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TProps>(
       clearable,
       onChange,
       multiline = true,
+      label,
       ...props
     },
     ref
@@ -86,6 +88,8 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TProps>(
 
     return (
       <div className={StyleHelper.mergeStyles('w-full', containerClassName)}>
+        {label && <label className="mb-2 block text-xs font-bold text-gray-100 uppercase">{label}</label>}
+
         <div
           className={StyleHelper.mergeStyles(
             'bg-asphalt flex w-full items-center gap-x-1 rounded-sm px-5 font-medium text-white ring-2 ring-transparent outline-hidden placeholder:text-white/50',
