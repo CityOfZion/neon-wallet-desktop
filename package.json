@@ -67,6 +67,7 @@
     "@tanstack/react-table": "~8.21.3",
     "@tanstack/react-virtual": "~3.13.12",
     "@walletconnect/core": "^2.23.0",
+    "axios": "^1.13.2",
     "classnames": "~2.5.1",
     "cmdk": "~1.1.1",
     "compare-versions": "~6.1.1",

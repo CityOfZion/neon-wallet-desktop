@@ -682,6 +682,27 @@
     },
     "title": "Make deposit"
   },
+  "supportTicket": {
+    "cancelButtonLabel": "Cancel",
+    "descriptionLabel": "Description",
+    "descriptionPlaceholder": "Describe your issue…",
+    "emailLabel": "Email",
+    "emailPlaceholder": "Enter your email…",
+    "errors": {
+      "emailRequired": "Email is required",
+      "invalidEmail": "Please enter a valid email address",
+      "nameRequired": "Name is required",
+      "submitError": "There was an error trying to submit your ticket. Please try again later."
+    },
+    "nameLabel": "Name",
+    "namePlaceholder": "Enter your name…",
+    "submitTicketButtonLabel": "Submit ticket",
+    "successContent": {
+      "description": "We've received your support ticket and will get back to you soon.",
+      "title": "Ticket submitted successfully!"
+    },
+    "title": "Open support ticket"
+  },
   "swapDetails": {
     "completeStatusStepLabel": "Complete",
     "confirmStatusStepLabel": "Confirm",

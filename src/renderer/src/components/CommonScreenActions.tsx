@@ -9,6 +9,7 @@ import { TestHelper } from '@renderer/helpers/TestHelper'
 import { useCurrentLoginSessionSelector, useHasNewNotificationsSelector } from '@renderer/hooks/useAuthSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 
+import HiOutlineTicket from '@renderer/assets/images/hi-outline-ticket.svg?react'
 import MdMoreVert from '@renderer/assets/images/md-more-vert.svg?react'
 import TbBell from '@renderer/assets/images/tb-bell.svg?react'
 import TbDeviceUsb from '@renderer/assets/images/tb-device-usb.svg?react'
@@ -83,7 +84,7 @@ export const CommonScreenActions = ({ children, className, ...props }: TProps) =
             side="bottom"
             color="yellow"
             sideOffset={-10}
-            contentClassName="bg-gray-900/60 backdrop-blur-xs"
+            contentClassName="bg-gray-900/50 backdrop-blur-md"
             {...TestHelper.buildTestObject('help-content')}
           >
             <ActionPopover.Item
@@ -95,6 +96,14 @@ export const CommonScreenActions = ({ children, className, ...props }: TProps) =
               iconsOnEdge={false}
               leftIcon={<TbMessage aria-hidden="true" className="text-yellow" />}
               {...TestHelper.buildTestObject('help-chat-with-us')}
+            />
+            <ActionPopover.Item
+              actionPopoverItemType="button"
+              label={t('openSupportTicketButtonLabel')}
+              onClick={modalNavigateWrapper('support-ticket')}
+              colorSchema="white"
+              iconsOnEdge={false}
+              leftIcon={<HiOutlineTicket aria-hidden="true" className="text-yellow" />}
             />
           </ActionPopover.Content>
         </ActionPopover.Root>

@@ -682,6 +682,27 @@
     },
     "title": "发起存款"
   },
+  "supportTicket": {
+    "cancelButtonLabel": "取消",
+    "descriptionLabel": "描述",
+    "descriptionPlaceholder": "描述您的问题…",
+    "emailLabel": "电子邮箱",
+    "emailPlaceholder": "输入您的电子邮箱…",
+    "errors": {
+      "emailRequired": "电子邮箱为必填项",
+      "invalidEmail": "请输入有效的电子邮件地址",
+      "nameRequired": "姓名为必填项",
+      "submitError": "提交工单时出错。请稍后重试。"
+    },
+    "nameLabel": "姓名",
+    "namePlaceholder": "输入您的姓名…",
+    "submitTicketButtonLabel": "提交工单",
+    "successContent": {
+      "description": "我们已收到您的支持工单，会尽快与您联系。",
+      "title": "工单提交成功！"
+    },
+    "title": "开启支持工单"
+  },
   "swapDetails": {
     "completeStatusStepLabel": "完成",
     "confirmStatusStepLabel": "确认",

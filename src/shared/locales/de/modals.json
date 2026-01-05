@@ -682,6 +682,27 @@
     },
     "title": "Einzahlung tätigen"
   },
+  "supportTicket": {
+    "cancelButtonLabel": "Abbrechen",
+    "descriptionLabel": "Beschreibung",
+    "descriptionPlaceholder": "Beschreiben Sie Ihr Problem…",
+    "emailLabel": "E-Mail",
+    "emailPlaceholder": "Geben Sie Ihre E-Mail ein…",
+    "errors": {
+      "emailRequired": "E-Mail ist erforderlich",
+      "invalidEmail": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+      "nameRequired": "Name ist erforderlich",
+      "submitError": "Es gab einen Fehler beim Absenden Ihres Tickets. Bitte versuchen Sie es später erneut."
+    },
+    "nameLabel": "Name",
+    "namePlaceholder": "Geben Sie Ihren Namen ein…",
+    "submitTicketButtonLabel": "Ticket einreichen",
+    "successContent": {
+      "description": "Wir haben Ihr Support-Ticket erhalten und werden uns bald bei Ihnen melden.",
+      "title": "Ticket erfolgreich eingereicht!"
+    },
+    "title": "Support-Ticket öffnen"
+  },
   "swapDetails": {
     "completeStatusStepLabel": "Vollständig",
     "confirmStatusStepLabel": "Bestätigen",

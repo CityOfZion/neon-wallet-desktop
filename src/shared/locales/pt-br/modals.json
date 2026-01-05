@@ -682,6 +682,27 @@
     },
     "title": "Fazer depósito"
   },
+  "supportTicket": {
+    "cancelButtonLabel": "Cancelar",
+    "descriptionLabel": "Descrição",
+    "descriptionPlaceholder": "Descreva seu problema…",
+    "emailLabel": "E-mail",
+    "emailPlaceholder": "Digite seu e-mail…",
+    "errors": {
+      "emailRequired": "E-mail é obrigatório",
+      "invalidEmail": "Digite um endereço de e-mail válido",
+      "nameRequired": "Nome é obrigatório",
+      "submitError": "Ocorreu um erro ao enviar seu ticket. Tente novamente mais tarde."
+    },
+    "nameLabel": "Nome",
+    "namePlaceholder": "Digite seu nome…",
+    "submitTicketButtonLabel": "Enviar ticket",
+    "successContent": {
+      "description": "Recebemos seu ticket de suporte e entraremos em contato em breve.",
+      "title": "Ticket enviado com sucesso!"
+    },
+    "title": "Abrir ticket de suporte"
+  },
   "swapDetails": {
     "completeStatusStepLabel": "Complete",
     "confirmStatusStepLabel": "Confirme",

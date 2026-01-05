@@ -682,6 +682,27 @@
     },
     "title": "進行存款"
   },
+  "supportTicket": {
+    "cancelButtonLabel": "取消",
+    "descriptionLabel": "描述",
+    "descriptionPlaceholder": "描述您的問題…",
+    "emailLabel": "電郵",
+    "emailPlaceholder": "輸入您的電郵…",
+    "errors": {
+      "emailRequired": "必須輸入電郵",
+      "invalidEmail": "請輸入有效的電郵地址",
+      "nameRequired": "必須輸入姓名",
+      "submitError": "提交工單時出錯。請稍後再試。"
+    },
+    "nameLabel": "姓名",
+    "namePlaceholder": "輸入您的姓名…",
+    "submitTicketButtonLabel": "提交工單",
+    "successContent": {
+      "description": "我們已收到您的支援工單，會盡快與您聯絡。",
+      "title": "工單提交成功！"
+    },
+    "title": "開啟支援工單"
+  },
   "swapDetails": {
     "completeStatusStepLabel": "完成",
     "confirmStatusStepLabel": "確認",
