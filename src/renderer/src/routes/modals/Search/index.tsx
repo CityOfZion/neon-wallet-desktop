@@ -21,6 +21,7 @@ import { TestHelper } from '@renderer/helpers/TestHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 
 import { useActions } from '@renderer/hooks/useActions'
+import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
@@ -55,6 +56,7 @@ type TSearchAction = {
 }
 
 const SearchModal = () => {
+  const { currentLoginSession } = useCurrentLoginSessionSelector()
   const { modalEraseWrapper } = useModalNavigate()
   const { t } = useTranslation('modals', { keyPrefix: 'search' })
   const { t: tSearch } = useTranslation('search')
@@ -69,12 +71,15 @@ const SearchModal = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleSearch = useCallback(
     debounce(async (text: string) => {
+      const hidePasswordAccessMethods = currentLoginSession?.type !== 'password'
       const doc = nlp.readDoc(text.toLowerCase())
       const tokens = doc.tokens().filter(t => t.out(nlp.its.type) === 'word')
       const verbs = tokens.filter(token => token.out(nlp.its.pos) === 'VERB').out(nlp.its.lemma as any) as string[]
       const nonVerbs = removeStopwords(
         tokens.filter(token => token.out(nlp.its.pos) !== 'VERB').out(nlp.its.lemma as any) as string[]
       )
+
+      const passwordAccessMethods = ['createWallet', 'createBackup', 'restoreBackup', 'import']
 
       const verbsQuantity = verbs.length
       const nonVerbsQuantity = nonVerbs.length
@@ -92,6 +97,8 @@ const SearchModal = () => {
         const items: TItem[] = []
 
         for (const action of searchActions) {
+          if (hidePasswordAccessMethods && passwordAccessMethods.includes(action.id)) continue
+
           const allVerbsSynonyms = await SynonymsHelper.getAllSynonyms(action.verbs)
           const allNonVerbsSynonyms = await SynonymsHelper.getAllSynonyms(action.nonVerbs)
 
