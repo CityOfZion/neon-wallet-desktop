@@ -76,10 +76,6 @@ export class UtilsHelper {
 
   static getImageSize(url: string) {
     return new Promise<{ width: number; height: number }>((resolve, reject) => {
-      if (!url) {
-        throw new Error('Invalid URL')
-      }
-
       const img = new Image()
 
       img.addEventListener('load', () => {

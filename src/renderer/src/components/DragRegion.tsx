@@ -13,11 +13,15 @@ export const DragRegion = () => {
     if (IS_LINUX) return
 
     if (IS_MAC) {
-      window.api.sendAsync('setWindowButtonPosition', { x: 12, y: 8 })
+      window.api.sendAsync('window:setWindowButtonPosition', { x: 12, y: 8 })
       return
     }
 
-    window.api.sendAsync('setTitleBarOverlay', { height: DRAG_REGION_HEIGHT, symbolColor: '#FFFFFF', color: '#293139' })
+    window.api.sendAsync('window:setTitleBarOverlay', {
+      height: DRAG_REGION_HEIGHT,
+      symbolColor: '#FFFFFF',
+      color: '#293139',
+    })
   }, [])
 
   if (IS_LINUX) return null

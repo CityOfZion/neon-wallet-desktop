@@ -107,21 +107,17 @@ export const SendRecipient = ({
   }
 
   const handleChangeAmount = (value: string) => {
-    try {
-      onUpdateRecipient({
-        amount: value,
-        isAmountLoading: true,
-      })
+    onUpdateRecipient({
+      amount: value,
+      isAmountLoading: true,
+    })
 
-      debounce(() => {
-        onUpdateRecipient({
-          amount: BSBigNumberHelper.format(value, { decimals: recipient.token?.token?.decimals }),
-          isAmountLoading: false,
-        })
+    debounce(() => {
+      onUpdateRecipient({
+        amount: BSBigNumberHelper.format(value, { decimals: recipient.token?.token?.decimals }),
+        isAmountLoading: false,
       })
-    } catch (error) {
-      console.error(error)
-    }
+    })
   }
 
   const handleSelectAccount = (account: IAccountState) => {

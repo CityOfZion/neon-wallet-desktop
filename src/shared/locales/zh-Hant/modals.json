@@ -200,7 +200,8 @@
     "description": "所有由已連接 dApp 發起的交易都<strong>需要您的許可</strong>才會廣播到區塊鏈。",
     "disclaimer": "dApp 發起的任何操作都不會在未經您直接批准的情況下執行。",
     "errors": {
-      "errorToConnect": "哎呀！發生錯誤。請重新產生 URI 並再試一次。"
+      "errorToConnect": "哎呀！發生錯誤。請重新產生 URI 並再試一次。",
+      "timeout": "連線請求逾時。"
     },
     "inputPlaceholder": "請貼上您的網址...",
     "title": "連接 dApp"
@@ -220,9 +221,6 @@
     },
     "errors": {
       "unknown": "發生了未知錯誤。請再試一次。"
-    },
-    "errorsByCode": {
-      "NO_SERVICE": "該 dApp 正在嘗試連接到與所選不同的區塊鏈或網路。"
     },
     "messages": {
       "connected": "{{dappName}} 已連線。"

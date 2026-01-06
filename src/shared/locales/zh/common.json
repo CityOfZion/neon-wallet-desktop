@@ -13,9 +13,10 @@
   },
   "errors": {
     "blockchainIsNotClaimable": "该账户区块链不可领取: {{address}} {{blockchain}}",
-    "hardwareWalletNotConnectedOrLocked": "硬件钱包未连接或已锁定，请检查您的设备并重试",
     "loginSessionIsNotDefined": "未知错误。登录会话未定义。",
-    "noEncryptedKey": "此账户没有加密密钥: {{address}}"
+    "noEncryptedKey": "此账户没有加密密钥: {{address}}",
+    "unexpectedError": "发生意外错误。如果问题仍然存在，请联系技术支持。",
+    "userCancelled": "用户取消了操作。"
   },
   "general": {
     "back": "返回",
@@ -42,6 +43,18 @@
     "send": "发送",
     "successfullyCopied": "已成功复制到剪贴板",
     "swap": "兑换"
+  },
+  "hardwareWallet": {
+    "errors": {
+      "accountIsNotHardware": "所选账户不是硬件钱包账户。",
+      "accountsNotFound": "无法识别硬件钱包区块链。请确保已打开受支持的应用程序。",
+      "blockchainNotSupported": "区块链不支持硬件钱包。",
+      "disconnectFirst": "必须先断开硬件钱包的连接，然后再重新连接。",
+      "hardwareWalletIsNotConnectOrUnlocked": "硬件钱包未连接或已锁定，请验证您的设备并重试。",
+      "hardwareWalletNotFound": "未连接硬件钱包。",
+      "missingBip44Path": "硬件钱包账户缺少 BIP44 路径",
+      "walletIsNotHardware": "所选钱包不是硬件钱包。"
+    }
   },
   "networkTypeLabel": {
     "mainnet": "主网",
@@ -83,5 +96,11 @@
     "migratedWalletName": "已迁移钱包",
     "mnemonicWalletName": "助记词钱包",
     "watchAccount": "观察账户"
+  },
+  "walletConnect": {
+    "errorsByCode": {
+      "NO_SERVICE": "该 dApp 尝试连接到与所选区块链或网络不同的区块链或网络。",
+      "UNEXPECTED_ERROR": "发生意外错误。请重试或联系客服。"
+    }
   }
 }

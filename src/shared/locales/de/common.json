@@ -13,9 +13,10 @@
   },
   "errors": {
     "blockchainIsNotClaimable": "Die Konto-Blockchain ist nicht abrufbar: {{address}} {{blockchain}}",
-    "hardwareWalletNotConnectedOrLocked": "Hardware Wallet ist nicht verbunden oder gesperrt, überprüfen Sie Ihr Gerät und versuchen Sie es erneut",
     "loginSessionIsNotDefined": "Unbekannter Fehler. Login-Sitzung ist nicht definiert.",
-    "noEncryptedKey": "Es gibt keinen verschlüsselten Schlüssel für dieses Konto: {{address}}"
+    "noEncryptedKey": "Es gibt keinen verschlüsselten Schlüssel für dieses Konto: {{address}}",
+    "unexpectedError": "Es ist ein unerwarteter Fehler aufgetreten. Bitte kontaktieren Sie den Support, falls das Problem weiterhin besteht.",
+    "userCancelled": "Der Vorgang wurde vom Benutzer abgebrochen."
   },
   "general": {
     "back": "Zurück",
@@ -42,6 +43,18 @@
     "send": "Senden",
     "successfullyCopied": "Erfolgreich in die Zwischenablage kopiert",
     "swap": "Tauschen"
+  },
+  "hardwareWallet": {
+    "errors": {
+      "accountIsNotHardware": "Das ausgewählte Konto ist kein Hardware-Wallet-Konto.",
+      "accountsNotFound": "Die Blockchain der Hardware-Wallet konnte nicht identifiziert werden. Stellen Sie sicher, dass eine unterstützte App geöffnet ist.",
+      "blockchainNotSupported": "Die Blockchain {{blockchain}} unterstützt keine Hardware-Wallets.",
+      "disconnectFirst": "Sie müssen die Hardware-Wallet trennen, bevor Sie sie wieder anschließen.",
+      "hardwareWalletIsNotConnectOrUnlocked": "Ihre Hardware-Wallet ist nicht verbunden oder gesperrt. Überprüfen Sie Ihr Gerät und versuchen Sie es erneut.",
+      "hardwareWalletNotFound": "Es ist keine Hardware-Wallet angeschlossen.",
+      "missingBip44Path": "Der BIP44-Pfad fehlt für das Hardware-Wallet-Konto.",
+      "walletIsNotHardware": "Bei der ausgewählten Wallet handelt es sich nicht um eine Hardware-Wallet."
+    }
   },
   "networkTypeLabel": {
     "mainnet": "MainNet",
@@ -83,5 +96,11 @@
     "migratedWalletName": "Migriertes Wallet",
     "mnemonicWalletName": "Mnemonic-Wallet",
     "watchAccount": "Konto beobachten"
+  },
+  "walletConnect": {
+    "errorsByCode": {
+      "NO_SERVICE": "Die dApp versucht, eine Verbindung zu einer anderen Blockchain oder einem anderen Netzwerk als dem ausgewählten herzustellen.",
+      "UNEXPECTED_ERROR": "Es ist ein unerwarteter Fehler aufgetreten. Bitte versuchen Sie es erneut oder kontaktieren Sie den Support."
+    }
   }
 }

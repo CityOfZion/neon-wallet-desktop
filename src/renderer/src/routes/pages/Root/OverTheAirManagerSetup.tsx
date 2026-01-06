@@ -26,10 +26,10 @@ const OverTheAirManagerSetup = () => {
       return
     }
 
-    const removeUpdateCompletedListener = window.api.listen('updateCompleted', async () => {
+    const removeUpdateCompletedListener = window.api.listen('updater:updateCompleted', async () => {
       ToastHelper.dismiss('auto-update-downloading')
 
-      const appVersion = window.api.sendSync('getVersion')
+      const appVersion = window.api.sendSync('window:getVersion')
 
       dispatch(
         settingsReducerActions.setOverTheAirInfo({
@@ -42,16 +42,16 @@ const OverTheAirManagerSetup = () => {
 
       await SharedUtilsHelper.sleep(1000)
 
-      window.api.sendAsync('quitAndInstall')
+      window.api.sendAsync('updater:quitAndInstall')
     })
 
-    const removeUpdateErrorListener = window.api.listen('updateError', error => {
+    const removeUpdateErrorListener = window.api.listen('updater:updateError', error => {
       ToastHelper.dismiss('auto-update-downloading')
       ToastHelper.error({ message: t('error'), duration: 5000 })
       console.error(error)
     })
 
-    window.api.sendAsync('checkForUpdates').then(hasUpdates => {
+    window.api.sendAsync('updater:checkForUpdates').then(hasUpdates => {
       if (!hasUpdates) return
 
       ToastHelper.loading({
@@ -82,7 +82,7 @@ const OverTheAirManagerSetup = () => {
 
   useEffect(() => {
     const { lastAppVersion, hasUpdated } = overTheAirInfoRef.current
-    const currentAppVersion = window.api.sendSync('getVersion')
+    const currentAppVersion = window.api.sendSync('window:getVersion')
 
     if (!lastAppVersion) return
 

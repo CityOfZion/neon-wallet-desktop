@@ -19,6 +19,7 @@ import { SideModalLayout } from '@renderer/layouts/SideModal'
 import MdAdd from '@renderer/assets/images/md-add.svg?react'
 import TbEyePlus from '@renderer/assets/images/tb-eye-plus.svg?react'
 
+import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { TAccountsToImport, TBlockchainServiceKey } from '@shared/types/blockchain'
 import type { TModalState } from '@shared/types/modal'
 
@@ -54,7 +55,7 @@ const ImportWatchAccountsModal = () => {
       setIsLoading(true)
 
       if (!validatedAddresses.length) {
-        throw new Error(t('errors.invalid'))
+        throw new AppError(t('errors.invalid'))
       }
 
       const wallet = blockchainActions.createWallet({ name: commomT('watchAccount') })
@@ -69,8 +70,8 @@ const ImportWatchAccountsModal = () => {
 
       modalErase()
       navigate('/wallets/overview', { state: { account: accounts[0] } })
-    } catch (error: any) {
-      setError(error.message)
+    } catch (error) {
+      setError(AppError.wrap(error).displayMessage)
     } finally {
       setIsLoading(false)
     }

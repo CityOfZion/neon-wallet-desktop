@@ -19,7 +19,7 @@ const SettingsBackupWallet = () => {
   const [selectedFilePath, setSelectedFilePath] = useState<string>('')
 
   const handlePathSelectionButton = async () => {
-    const result = await window.api.sendAsync('openDialog', { properties: ['openDirectory', 'createDirectory'] })
+    const result = await window.api.sendAsync('window:openDialog', { properties: ['openDirectory', 'createDirectory'] })
     setSelectedFilePath(result[0])
   }
 

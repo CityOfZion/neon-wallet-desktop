@@ -8,6 +8,8 @@ import { ToastHelper } from '@renderer/helpers/ToastHelper'
 
 import { usePressOnce } from '@renderer/hooks/usePressOnce'
 
+import { AppError } from '@shared/helpers/SharedErrorHelper'
+
 type Props = {
   value: string
   disabled?: boolean
@@ -21,11 +23,10 @@ export const FieldActionsMenu = ({ value, disabled = false, readOnly = false, on
   const [isCutting, startCut] = usePressOnce(async () => {
     try {
       await navigator.clipboard.writeText(value)
-
       onChange?.('')
     } catch (error) {
       console.error(error)
-      ToastHelper.error({ message: t('messages.error') })
+      ToastHelper.error({ message: AppError.wrap(error, t('messages.error')).displayMessage })
     }
   })
 
@@ -36,7 +37,7 @@ export const FieldActionsMenu = ({ value, disabled = false, readOnly = false, on
       ToastHelper.success({ message: t('messages.copied') })
     } catch (error) {
       console.error(error)
-      ToastHelper.error({ message: t('messages.error') })
+      ToastHelper.error({ message: AppError.wrap(error, t('messages.error')).displayMessage })
     }
   })
 
@@ -47,7 +48,7 @@ export const FieldActionsMenu = ({ value, disabled = false, readOnly = false, on
       onChange?.(`${value}${text}`)
     } catch (error) {
       console.error(error)
-      ToastHelper.error({ message: t('messages.error') })
+      ToastHelper.error({ message: AppError.wrap(error, t('messages.error')).displayMessage })
     }
   })
 

@@ -8,6 +8,7 @@ import { StringHelper } from '@renderer/helpers/StringHelper'
 
 import { useAccountUtils } from '@renderer/hooks/useAccountSelector'
 
+import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { TUseImportActionInputType } from '@shared/types/hooks'
 
 import { useActions } from './useActions'
@@ -36,7 +37,7 @@ export const useImportAction = (
   const validateMnemonic = (value: string) => {
     const isValid = BSKeychainHelper.isValidMnemonic(value)
 
-    if (!isValid) throw new Error(t('errors.mnemonicIncomplete'))
+    if (!isValid) throw new AppError(t('errors.mnemonicIncomplete'))
   }
 
   const isValidAddress = (address: string) =>
@@ -69,7 +70,7 @@ export const useImportAction = (
         }
       })
 
-      if (!functionsByInputType) throw new Error()
+      if (!functionsByInputType) throw new AppError(t('errors.invalid'))
       const inputType = functionsByInputType[0] as TUseImportActionInputType
 
       setData({ inputType })
@@ -82,30 +83,30 @@ export const useImportAction = (
 
       clearErrors()
     } catch (error: any) {
-      setError('text', error.message || t('errors.invalid'))
+      setError('text', AppError.wrap(error, t('errors.invalid')).displayMessage)
     }
   }
 
   const handleSubmit = async (data: TFormData) => {
     try {
       if (!data.text.length) {
-        throw new Error(t('errors.empty'))
+        throw new AppError(t('errors.empty'))
       }
 
       if (!data.inputType) {
-        throw new Error(t('errors.invalid'))
+        throw new AppError(t('errors.invalid'))
       }
 
       const fixedText = StringHelper.removeSpecialCharacters(data.text, { trimText: true })
 
       const submit = submitByInputType[data.inputType]
 
-      if (!submit) throw new Error(t('errors.invalid'))
+      if (!submit) throw new AppError(t('errors.invalid'))
 
       await submit(fixedText, data.inputType)
     } catch (error: any) {
       console.error(error)
-      setError('text', error.message)
+      setError('text', AppError.wrap(error).displayMessage)
     }
   }
 

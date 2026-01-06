@@ -35,7 +35,6 @@ import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useBalance } from '@renderer/hooks/useBalances'
 import { useConfirmAction } from '@renderer/hooks/useConfirmAction'
 import { useDebounceFunction } from '@renderer/hooks/useDebounceFunction'
-import { useHardwareWalletActions } from '@renderer/hooks/useHardwareWallet'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
@@ -49,6 +48,7 @@ import TbStepOut from '@renderer/assets/images/tb-step-out.svg?react'
 import VscCircleFilled from '@renderer/assets/images/vsc-circle-filled.svg?react'
 
 import { thunks } from '@renderer/store/thunks'
+import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { TUseTransactionsTransfer } from '@shared/types/hooks'
 import type { TModalState } from '@shared/types/modal'
 import { IAccountState } from '@shared/types/store'
@@ -62,7 +62,6 @@ const SellTokensDepositModal = () => {
   const { accounts } = useAccountsSelector()
   const { modalNavigate } = useModalNavigate()
   const { currency } = useCurrencySelector()
-  const { isConnectedAndUnlockedHardwareWallet } = useHardwareWalletActions()
   const { account, depositActionsData, setDepositActionsData } = useModalState<TModalState<'sell-tokens-deposit'>>()
   const dispatch = useAppDispatch()
   const { confirmAction } = useConfirmAction()
@@ -124,7 +123,7 @@ const SellTokensDepositModal = () => {
       tokenDecimals: token!.decimals,
     }
 
-    const key = window.api.sendSync('decryptBasedEncryptedSecretSync', {
+    const key = window.api.sendSync('encryption:decryptBasedEncryptedSecretSync', {
       value: account.encryptedKey!,
       encryptedSecret: encryptedPassword,
     })
@@ -149,18 +148,14 @@ const SellTokensDepositModal = () => {
   }
 
   const handleChangeAmount = (value: string) => {
-    try {
-      setData({ amount: value, isAmountLoading: true })
+    setData({ amount: value, isAmountLoading: true })
 
-      debounceAmount(() => {
-        setData({
-          amount: BSBigNumberHelper.format(value, { decimals: actionData.token?.token?.decimals }),
-          isAmountLoading: false,
-        })
+    debounceAmount(() => {
+      setData({
+        amount: BSBigNumberHelper.format(value, { decimals: actionData.token?.token?.decimals }),
+        isAmountLoading: false,
       })
-    } catch (error) {
-      console.error(error)
-    }
+    })
   }
 
   const handleChangeAddress = (event: ChangeEvent<HTMLInputElement>) => {
@@ -183,29 +178,16 @@ const SellTokensDepositModal = () => {
     if (isDisabled) return
 
     const transferParams = getServiceTransferParams()
-
-    const { address, amount, token, account } = actionData
-
     if (!transferParams) return
 
-    if (account?.type === 'hardware') {
-      const isConnectedAndUnlocked = await isConnectedAndUnlockedHardwareWallet(account)
-
-      if (!isConnectedAndUnlocked) {
-        ToastHelper.error({ message: t('messages.hardwareWalletShouldBeValidError'), duration: 8000 })
-
-        return
-      }
-    }
+    const account = actionData.account!
 
     try {
-      await confirmAction({ account: account! })
-    } catch {
-      return
-    }
+      await confirmAction({ account })
 
-    try {
+      const { address, amount, token } = actionData
       const { serviceAccount, intent } = transferParams
+
       const [transactionHash] = await service.transfer({
         senderAccount: serviceAccount,
         intents: [intent],
@@ -214,7 +196,7 @@ const SellTokensDepositModal = () => {
       const assetToken = token!.token
 
       const transaction: TUseTransactionsTransfer = {
-        account: account!,
+        account,
         amount,
         asset: assetToken.symbol,
         assetHash: assetToken.hash,
@@ -251,8 +233,15 @@ const SellTokensDepositModal = () => {
           content: <SellTokensDepositSuccessContent transaction={transaction} />,
         },
       })
-    } catch (error: any) {
+    } catch (error) {
       console.error(error)
+
+      const appError = AppError.wrap(error, null)
+
+      if (appError.fromAppError) {
+        ToastHelper.error({ message: appError.displayMessage })
+        return
+      }
 
       modalNavigate('error', {
         replace: true,
@@ -260,7 +249,7 @@ const SellTokensDepositModal = () => {
           heading: t('title'),
           subtitle: t('error.subtitle'),
           headingIcon: <TbStepInto aria-hidden />,
-          content: <SellTokensDepositErrorContent errorMessage={error?.message ?? ''} />,
+          content: <SellTokensDepositErrorContent errorMessage={appError.displayMessage} />,
         },
       })
     } finally {
@@ -338,11 +327,10 @@ const SellTokensDepositModal = () => {
       } catch (error) {
         console.error(error)
 
-        const errorMessage = t('messages.feeError')
+        const appError = AppError.wrap(error, t('messages.feeError'))
+        ToastHelper.error({ message: appError.displayMessage })
 
-        ToastHelper.error({ message: errorMessage })
-
-        setError('fee', errorMessage)
+        setError('fee', appError.displayMessage)
         setData({ fee: undefined })
       } finally {
         setData({ isFeeLoading: false })

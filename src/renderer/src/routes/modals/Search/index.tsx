@@ -31,6 +31,8 @@ import MdSearch from '@renderer/assets/images/md-search.svg?react'
 import TbHelp from '@renderer/assets/images/tb-help.svg?react'
 import TbSearch from '@renderer/assets/images/tb-search.svg?react'
 
+import { AppError } from '@shared/helpers/SharedErrorHelper'
+
 import { functionsByActionId } from './functionByActionId'
 
 const nlp = WinkNLP(winkWebModel)
@@ -163,7 +165,7 @@ const SearchModal = () => {
       await func({ modalActions, pageNavigate })
     } catch (error) {
       console.error(error)
-      ToastHelper.error({ message: t('errors.errorToExecute') })
+      ToastHelper.error({ message: AppError.wrap(error, t('errors.errorToExecute')).displayMessage })
     }
   }
 

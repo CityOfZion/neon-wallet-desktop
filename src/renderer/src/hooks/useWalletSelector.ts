@@ -1,8 +1,10 @@
 import { useCallback, useRef } from 'react'
 
+import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 
 import type { TRootState } from '@renderer/types/redux'
+import { AppError } from '@shared/helpers/SharedErrorHelper'
 import type { IWalletState } from '@shared/types/store'
 
 import { useCurrentLoginSessionSelector } from './useAuthSelector'
@@ -41,19 +43,20 @@ export const useWalletsMapSelector = () => {
 }
 
 export const useWalletsUtils = () => {
+  const { t } = useTranslation('common')
   const { walletsRef } = useWalletsSelector()
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
 
   const doesMnemonicExist = useCallback(
     async (mnemonic: string) => {
       if (!currentLoginSessionRef.current) {
-        throw new Error('You need to be logged in to access wallets')
+        throw new AppError(t('errors.loginSessionIsNotDefined'))
       }
 
       for (const wallet of walletsRef.current) {
         if (!wallet.encryptedMnemonic) continue
 
-        const walletMnemonic = await window.api.sendAsync('decryptBasedEncryptedSecret', {
+        const walletMnemonic = await window.api.sendAsync('encryption:decryptBasedEncryptedSecret', {
           value: wallet.encryptedMnemonic,
           encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
         })

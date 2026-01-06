@@ -13,6 +13,7 @@ import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 import TbReload from '@renderer/assets/images/tb-reload.svg?react'
 
+import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 import type { TModalState } from '@shared/types/modal'
 
@@ -70,9 +71,9 @@ const ConfirmPasswordRecoverModal = () => {
         },
         replace: true,
       })
-    } catch {
+    } catch (error) {
       reset()
-      setError('password', t('error'))
+      setError('password', AppError.wrap(error, t('error')).displayMessage)
     }
   }
 

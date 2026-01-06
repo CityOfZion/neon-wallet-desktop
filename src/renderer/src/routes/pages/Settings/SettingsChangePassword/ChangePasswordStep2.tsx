@@ -17,6 +17,7 @@ import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
 import TbDownload from '@renderer/assets/images/tb-download.svg?react'
 
 import { authReducerActions } from '@renderer/store/reducers/auth'
+import { AppError } from '@shared/helpers/SharedErrorHelper'
 
 type TLocationState = {
   encryptedNewPassword: string
@@ -24,6 +25,7 @@ type TLocationState = {
 
 const ChangePasswordStep2 = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'settings.changePassword.step2' })
+  const { t: commonT } = useTranslation('common')
   const { wallets } = useWalletsSelector()
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const { accounts } = useAccountsSelector()
@@ -41,7 +43,9 @@ const ChangePasswordStep2 = () => {
 
       const loginSession = currentLoginSessionRef.current
 
-      if (!loginSession) throw new Error('Login session not defined')
+      if (!loginSession) {
+        throw new AppError(commonT('errors.loginSessionIsNotDefined'))
+      }
 
       const { encryptedPassword } = loginSession
       const { encryptedNewPassword } = state
@@ -56,12 +60,12 @@ const ChangePasswordStep2 = () => {
 
             if (!encryptedKey) return account
 
-            const key = await window.api.sendAsync('decryptBasedEncryptedSecret', {
+            const key = await window.api.sendAsync('encryption:decryptBasedEncryptedSecret', {
               value: encryptedKey,
               encryptedSecret: encryptedPassword,
             })
 
-            const newEncryptedKey = await window.api.sendAsync('encryptBasedEncryptedSecret', {
+            const newEncryptedKey = await window.api.sendAsync('encryption:encryptBasedEncryptedSecret', {
               value: key,
               encryptedSecret: encryptedNewPassword,
             })
@@ -73,12 +77,12 @@ const ChangePasswordStep2 = () => {
         const encryptedMnemonic = clonedWallet.encryptedMnemonic
 
         if (encryptedMnemonic) {
-          const mnemonic = await window.api.sendAsync('decryptBasedEncryptedSecret', {
+          const mnemonic = await window.api.sendAsync('encryption:decryptBasedEncryptedSecret', {
             value: encryptedMnemonic,
             encryptedSecret: encryptedPassword,
           })
 
-          clonedWallet.encryptedMnemonic = await window.api.sendAsync('encryptBasedEncryptedSecret', {
+          clonedWallet.encryptedMnemonic = await window.api.sendAsync('encryption:encryptBasedEncryptedSecret', {
             value: mnemonic,
             encryptedSecret: encryptedNewPassword,
           })
@@ -94,7 +98,7 @@ const ChangePasswordStep2 = () => {
       navigate('/settings/security/change-password/3')
     } catch (error) {
       console.error(error)
-      ToastHelper.error({ message: t('error') })
+      ToastHelper.error({ message: AppError.wrap(error, t('error')).displayMessage })
     } finally {
       isDownloading.current = false
     }

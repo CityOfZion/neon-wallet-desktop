@@ -131,7 +131,7 @@ export const useVoteNeo3CalculateVoteFee = ({ neo3Account, candidatePubKey }: TC
   return useQuery({
     queryKey: buildVoteNeo3CalculateVoteFeeQueryKey({ neo3Network, candidatePubKey, neo3Account }),
     queryFn: async () => {
-      const key = await window.api.sendAsync('decryptBasedEncryptedSecret', {
+      const key = await window.api.sendAsync('encryption:decryptBasedEncryptedSecret', {
         value: neo3Account!.encryptedKey!,
         encryptedSecret: currentLoginSessionRef.current!.encryptedPassword,
       })

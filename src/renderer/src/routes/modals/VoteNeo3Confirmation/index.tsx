@@ -22,7 +22,6 @@ import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useBalance } from '@renderer/hooks/useBalances'
 import { useConfirmAction } from '@renderer/hooks/useConfirmAction'
 import { useExchange } from '@renderer/hooks/useExchange'
-import { useHardwareWalletActions } from '@renderer/hooks/useHardwareWallet'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
@@ -38,6 +37,7 @@ import TbChartBarPopular from '@renderer/assets/images/tb-chart-bar-popular.svg?
 import TbCheckbox from '@renderer/assets/images/tb-checkbox.svg?react'
 
 import { thunks } from '@renderer/store/thunks'
+import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { TUseTransactionsTransfer } from '@shared/types/hooks'
 import type { TModalState } from '@shared/types/modal'
 
@@ -49,7 +49,6 @@ const VoteNeo3ConfirmationModal = () => {
   const voteDetailsByAddressQuery = useVoteNeo3GetVoteDetailsByAddress(neo3Account.address)
   const calculateVoteFeeQuery = useVoteNeo3CalculateVoteFee({ neo3Account, candidatePubKey: candidate.pubKey })
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
-  const { isConnectedAndUnlockedHardwareWallet } = useHardwareWalletActions()
   const { currency } = useCurrencySelector()
   const { modalNavigate, modalErase } = useModalNavigate()
   const { actionState, handleAct } = useActions({})
@@ -108,27 +107,13 @@ const VoteNeo3ConfirmationModal = () => {
 
     try {
       await confirmAction({ account: neo3Account })
-    } catch {
-      return
-    }
 
-    try {
-      const key = await window.api.sendAsync('decryptBasedEncryptedSecret', {
+      const key = await window.api.sendAsync('encryption:decryptBasedEncryptedSecret', {
         value: neo3Account.encryptedKey!,
         encryptedSecret: currentLoginSessionRef.current!.encryptedPassword,
       })
 
       const account = AccountHelper.getServiceAccount({ account: neo3Account, key })
-
-      if (neo3Account.type === 'hardware') {
-        const isConnectedAndUnlocked = await isConnectedAndUnlockedHardwareWallet(neo3Account)
-
-        if (!isConnectedAndUnlocked) {
-          ToastHelper.error({ message: t('messages.invalidHardwareWallet'), duration: 8000 })
-
-          return
-        }
-      }
 
       const transactionHash = await service.voteService.vote({
         account,
@@ -166,7 +151,7 @@ const VoteNeo3ConfirmationModal = () => {
       modalNavigate('vote-neo3-success', { replace: true, state: { neo3Account, candidate } })
     } catch (error) {
       console.error(error)
-      ToastHelper.error({ message: t('messages.voteError'), duration: 8000 })
+      ToastHelper.error({ message: AppError.wrap(error, t('messages.voteError')).displayMessage, duration: 8000 })
     }
   }
 

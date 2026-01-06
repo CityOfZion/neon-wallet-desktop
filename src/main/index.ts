@@ -7,21 +7,21 @@ import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 
 import * as packageJson from '../../package.json'
 import icon from '../../resources/icon.png?asset'
-import { setupBsAggregator } from './blockchain-service'
-import { setInitialDeeplink, setupDeeplinkHandler, setupDeeplinkProtocol } from './deeplink'
-import { setupEncryptionHandlers } from './encryption'
-import { setupHardwareWalletHandler } from './hardware-wallet'
-import { setupSentry } from './sentry'
-import { setupUpdaterHandler } from './updater'
-import { setupWindowHandlers } from './window'
+import { MainBlockchainServiceHelper } from './blockchain-service'
+import { MainDeeplinkHelper } from './deeplink'
+import { MainEncryptionHelper } from './encryption'
+import { MainHardwareWalletHelper } from './hardware-wallet'
+import { MainSentryHelper } from './sentry'
+import { MainUpdaterHelper } from './updater'
+import { MainWindowHelper } from './window'
 
 const isLinux = process.platform === 'linux'
 const devRendererUrl = is.dev ? process.env['ELECTRON_RENDERER_URL'] : undefined
 
 let mainWindow: BrowserWindow | null = null
 
-setupSentry()
-setupDeeplinkProtocol()
+MainSentryHelper.setup()
+MainDeeplinkHelper.setupProtocol()
 
 function createWindow(): void {
   mainWindow = new BrowserWindow({
@@ -86,7 +86,7 @@ async function initialize() {
     const deeplinkUrl = commandLine.pop()
 
     if (!mainWindow) {
-      setInitialDeeplink(deeplinkUrl)
+      MainDeeplinkHelper.initialUri = deeplinkUrl
       return
     }
 
@@ -97,7 +97,7 @@ async function initialize() {
     mainWindow.focus()
 
     if (deeplinkUrl) {
-      mainApi.send('deeplink', deeplinkUrl)
+      mainApi.send('deeplink:connection', deeplinkUrl)
     }
   })
 
@@ -117,7 +117,7 @@ async function initialize() {
     optimizer.watchWindowShortcuts(window)
   })
 
-  await Promise.all([setupBsAggregator(), app.whenReady()]).catch(error => {
+  await Promise.all([MainBlockchainServiceHelper.setup(), app.whenReady()]).catch(error => {
     dialog.showErrorBox(
       'Initialization Error',
       `Failed to start Neon Wallet: ${error instanceof Error ? error.message : 'Unknown error'}\n\nPlease restart the application or contact support.`
@@ -125,11 +125,11 @@ async function initialize() {
     app.quit()
   })
 
-  setupDeeplinkHandler()
-  setupWindowHandlers()
-  setupEncryptionHandlers()
-  setupUpdaterHandler()
-  setupHardwareWalletHandler()
+  MainDeeplinkHelper.setupHandler()
+  MainWindowHelper.setupHandlers()
+  MainEncryptionHelper.setupHandlers()
+  MainUpdaterHelper.setupHandlers()
+  MainHardwareWalletHelper.setupHandlers()
 
   createWindow()
 }

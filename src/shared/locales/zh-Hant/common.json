@@ -13,9 +13,10 @@
   },
   "errors": {
     "blockchainIsNotClaimable": "此帳戶區塊鏈無法申領：{{address}} {{blockchain}}",
-    "hardwareWalletNotConnectedOrLocked": "硬體錢包未連接或已鎖定，請檢查您的裝置並重試",
     "loginSessionIsNotDefined": "未知錯誤。登入會話未定義。",
-    "noEncryptedKey": "此帳戶沒有加密金鑰：{{address}}"
+    "noEncryptedKey": "此帳戶沒有加密金鑰：{{address}}",
+    "unexpectedError": "發生意外錯誤。如果問題仍然存在，請聯絡技術支援。",
+    "userCancelled": "用戶取消了操作。"
   },
   "general": {
     "back": "返回",
@@ -42,6 +43,18 @@
     "send": "發送",
     "successfullyCopied": "已成功複製到剪貼簿",
     "swap": "兌換"
+  },
+  "hardwareWallet": {
+    "errors": {
+      "accountIsNotHardware": "所選帳戶不是硬體錢包帳戶。",
+      "accountsNotFound": "無法辨識硬體錢包區塊鏈。請確保已開啟受支援的應用程式。",
+      "blockchainNotSupported": "區塊鏈不支援硬體錢包。",
+      "disconnectFirst": "必須先斷開硬體錢包的連接，然後再重新連接。",
+      "hardwareWalletIsNotConnectOrUnlocked": "硬體錢包未連接或已鎖定，請驗證您的裝置並重試。",
+      "hardwareWalletNotFound": "未連接硬體錢包。",
+      "missingBip44Path": "硬體錢包帳戶缺少 BIP44 路徑",
+      "walletIsNotHardware": "所選錢包不是硬體錢包。"
+    }
   },
   "networkTypeLabel": {
     "mainnet": "主網",
@@ -83,5 +96,11 @@
     "migratedWalletName": "已遷移錢包",
     "mnemonicWalletName": "助記詞錢包",
     "watchAccount": "觀察帳戶"
+  },
+  "walletConnect": {
+    "errorsByCode": {
+      "NO_SERVICE": "該 dApp 嘗試連接到與所選區區塊鏈或網路不同的區塊鏈或網路。",
+      "UNEXPECTED_ERROR": "發生意外錯誤。請重試或聯絡客服。"
+    }
   }
 }

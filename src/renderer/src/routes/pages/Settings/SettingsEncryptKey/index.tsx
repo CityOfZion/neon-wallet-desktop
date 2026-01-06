@@ -17,6 +17,7 @@ import { SettingsLayout } from '@renderer/layouts/Settings'
 
 import MdOutlineKey from '@renderer/assets/images/md-outline-key.svg?react'
 
+import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 import { SettingsEncryptInputStep } from './SettingsEncryptInputStep'
@@ -103,8 +104,7 @@ const SettingsEncryptKeyPage = () => {
       reset()
     } catch (error) {
       console.error(error)
-
-      ToastHelper.error({ message: t('encryptKey.error.errorToEncryptKey') })
+      ToastHelper.error({ message: AppError.wrap(error, t('encryptKey.error.errorToEncryptKey')).displayMessage })
     }
   }
 

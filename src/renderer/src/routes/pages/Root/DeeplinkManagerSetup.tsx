@@ -14,7 +14,7 @@ const DeeplinkManagerSetup = () => {
     const handleDeeplink = async (uri?: string) => {
       if (!uri) return
 
-      window.api.sendSync('restore')
+      window.api.sendSync('window:restore')
 
       if (!currentLoginSessionRef.current)
         ToastHelper.info({
@@ -22,8 +22,8 @@ const DeeplinkManagerSetup = () => {
         })
     }
 
-    const removeListener = window.api.listen('deeplink', ({ args }) => handleDeeplink(args))
-    window.api.sendAsync('getInitialDeepLinkUri').then(handleDeeplink)
+    const removeListener = window.api.listen('deeplink:connection', ({ args }) => handleDeeplink(args))
+    window.api.sendAsync('deeplink:getInitialUri').then(handleDeeplink)
 
     return () => {
       removeListener()

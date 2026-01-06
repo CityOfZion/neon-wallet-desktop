@@ -200,7 +200,8 @@
     "description": "Alle von einer verbundenen dApp angeforderten Transaktionen <strong>erfordern Ihre Genehmigung, bevor sie</strong> an die Blockchain übertragen werden.",
     "disclaimer": "Keine von der dApp initiierten Aktionen werden ohne Ihre direkte Genehmigung ausgeführt.",
     "errors": {
-      "errorToConnect": "Hoppla! Wir sind auf einen Fehler gestoßen. Versuchen Sie, eine neue URI zu generieren und es erneut zu versuchen."
+      "errorToConnect": "Hoppla! Wir sind auf einen Fehler gestoßen. Versuchen Sie, eine neue URI zu generieren und es erneut zu versuchen.",
+      "timeout": "Die Verbindungsanfrage ist abgelaufen."
     },
     "inputPlaceholder": "Fügen Sie Ihre URL hier ein…",
     "title": "Mit einer dApp verbinden"
@@ -220,9 +221,6 @@
     },
     "errors": {
       "unknown": "Ein unbekannter Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
-    },
-    "errorsByCode": {
-      "NO_SERVICE": "Die dApp versucht, sich an eine andere Blockchain oder Netzwerk zu verbinden, als das ausgewählte."
     },
     "messages": {
       "connected": "{{dappName}} ist jetzt verbunden."

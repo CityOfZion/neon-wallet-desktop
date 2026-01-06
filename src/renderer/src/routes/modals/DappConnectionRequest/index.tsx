@@ -21,6 +21,7 @@ import { CenterModalLayout } from '@renderer/layouts/CenterModal'
 
 import TbPlug from '@renderer/assets/images/tb-plug.svg?react'
 
+import { AppError, WalletConnectError } from '@shared/helpers/SharedErrorHelper'
 import type { TModalState } from '@shared/types/modal'
 
 import { DappConnectionErrorContent } from './DappConnectionErrorContent'
@@ -66,7 +67,7 @@ const DappConnectionRequestModal = () => {
         },
         replace: true,
       })
-    } catch (error: any) {
+    } catch (error) {
       console.error(error)
 
       handleReject()
@@ -76,7 +77,7 @@ const DappConnectionRequestModal = () => {
           heading: t('errorModal.title'),
           headingIcon: <TbPlug aria-hidden />,
           subtitle: t('errorModal.subtitle'),
-          content: <DappConnectionErrorContent error={error.message} />,
+          content: <DappConnectionErrorContent error={AppError.wrap(error).displayMessage} />,
         },
         replace: true,
       })
@@ -92,15 +93,16 @@ const DappConnectionRequestModal = () => {
           service: BlockchainServiceHelper.bsAggregator.blockchainServicesByName[account.blockchain],
         })
       )
-    } catch (error: any) {
+    } catch (error) {
       console.error(error)
+
       WalletKitHelper.kit.rejectSession({
         id: proposal.id,
         reason: WalletKitHelper.getError('UNSUPPORTED_NAMESPACE_KEY'),
       })
 
       ToastHelper.error({
-        message: t(`errorsByCode.${error.code}`, error.message),
+        message: WalletConnectError.wrap(error).displayMessage,
         id: 'dapp-connection-details-proposal-error',
       })
 

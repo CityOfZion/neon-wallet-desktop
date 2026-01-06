@@ -7,6 +7,7 @@ import { selectAccounts } from '@renderer/hooks/useAccountSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
+import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { SharedI18nextHelper } from '@shared/helpers/SharedI18nextHelper'
 import { TAccountHelperPredicateParams } from '@shared/types/helpers'
 import { TNotificationAction } from '@shared/types/store'
@@ -29,7 +30,7 @@ const getAccount = (predicate: TAccountHelperPredicateParams) => {
   const account = accounts.find(SharedAccountHelper.predicate(predicate))
 
   if (!account) {
-    throw new Error(t('modals:notifications.errors.accountNotFound'))
+    throw new AppError(t('modals:notifications.errors.accountNotFound'))
   }
 
   return account

@@ -21,12 +21,14 @@ import MdOutlinePrint from '@renderer/assets/images/md-outline-print.svg?react'
 import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
 import TbUpload from '@renderer/assets/images/tb-upload.svg?react'
 
+import { AppError } from '@shared/helpers/SharedErrorHelper'
 import type { TModalState } from '@shared/types/modal'
 
 const ExportKeyModal = () => {
   const { account } = useModalState<TModalState<'export-key'>>()
   const { currentLoginSession } = useCurrentLoginSessionSelector()
   const { t } = useTranslation('modals', { keyPrefix: 'exportKey' })
+  const { t: commonT } = useTranslation('common')
   const ref = useRef<HTMLDivElement>(null)
   const handlePrint = useReactToPrint({
     contentRef: ref,
@@ -34,10 +36,10 @@ const ExportKeyModal = () => {
   })
 
   if (!currentLoginSession) {
-    throw new Error('Login session not defined')
+    throw new AppError(commonT('errors.loginSessionIsNotDefined'))
   }
 
-  const decryptedKey = window.api.sendSync('decryptBasedEncryptedSecretSync', {
+  const decryptedKey = window.api.sendSync('encryption:decryptBasedEncryptedSecretSync', {
     value: account.encryptedKey ?? '',
     encryptedSecret: currentLoginSession.encryptedPassword,
   })

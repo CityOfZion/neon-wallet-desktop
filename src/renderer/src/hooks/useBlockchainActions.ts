@@ -13,6 +13,7 @@ import { WalletKitHelper } from '@renderer/helpers/WalletKitHelper'
 import { authReducerActions } from '@renderer/store/reducers/auth'
 import { contactReducerActions } from '@renderer/store/reducers/contact'
 import { utilityReducerActions } from '@renderer/store/reducers/utility'
+import { AppError } from '@shared/helpers/SharedErrorHelper'
 import {
   TAccountToCreate,
   TAccountToEdit,
@@ -29,7 +30,7 @@ import { useAppDispatch } from './useRedux'
 export function useBlockchainActions() {
   const dispatch = useAppDispatch()
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
-  const { t } = useTranslation('common', { keyPrefix: 'account' })
+  const { t } = useTranslation('common')
 
   const createContacts = (contacts: IContactState[]) =>
     contacts.forEach(contact => dispatch(contactReducerActions.saveContact(contact)))
@@ -37,13 +38,13 @@ export function useBlockchainActions() {
   const createWallet = useCallback(
     ({ name, mnemonic, id, type, backupStatus }: TWalletToCreate) => {
       if (!currentLoginSessionRef.current) {
-        throw new Error('Login session not defined')
+        throw new AppError(t('errors.loginSessionIsNotDefined'))
       }
 
       let encryptedMnemonic: string | undefined
 
       if (mnemonic) {
-        encryptedMnemonic = window.api.sendSync('encryptBasedEncryptedSecretSync', {
+        encryptedMnemonic = window.api.sendSync('encryption:encryptBasedEncryptedSecretSync', {
           value: mnemonic,
           encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
         })
@@ -62,18 +63,20 @@ export function useBlockchainActions() {
 
       return newWallet
     },
-    [dispatch, currentLoginSessionRef]
+    [currentLoginSessionRef, dispatch, t]
   )
 
   const createStandardAccount = useCallback(
     async ({ blockchain, name, wallet, skin, id }: TAccountToCreate) => {
       if (!currentLoginSessionRef.current) {
-        throw new Error('Login session not defined')
+        throw new AppError(t('errors.loginSessionIsNotDefined'))
       }
 
-      if (!wallet.encryptedMnemonic) throw new Error('Problem to create account')
+      if (!wallet.encryptedMnemonic) {
+        throw new AppError(t('errors.unexpectedError'))
+      }
 
-      const mnemonic = await window.api.sendAsync('decryptBasedEncryptedSecret', {
+      const mnemonic = await window.api.sendAsync('encryption:decryptBasedEncryptedSecret', {
         value: wallet.encryptedMnemonic,
         encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
       })
@@ -82,7 +85,7 @@ export function useBlockchainActions() {
       const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
       const generatedAccount = service.generateAccountFromMnemonic(mnemonic, accountOrder)
 
-      const encryptedKey = window.api.sendSync('encryptBasedEncryptedSecretSync', {
+      const encryptedKey = window.api.sendSync('encryption:encryptBasedEncryptedSecretSync', {
         value: generatedAccount.key,
         encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
       })
@@ -112,7 +115,7 @@ export function useBlockchainActions() {
 
       return newAccount
     },
-    [currentLoginSessionRef, dispatch]
+    [currentLoginSessionRef, dispatch, t]
   )
 
   const importAccount = useCallback(
@@ -120,12 +123,15 @@ export function useBlockchainActions() {
       let encryptedKey: string | undefined
 
       if (!currentLoginSessionRef.current) {
-        throw new Error('Login session not defined')
+        throw new AppError(t('errors.loginSessionIsNotDefined'))
       }
 
       if (type === 'standard' || type === 'hardware') {
-        if (!key) throw new Error('Key not defined')
-        encryptedKey = await window.api.sendAsync('encryptBasedEncryptedSecret', {
+        if (!key) {
+          throw new AppError(t('errors.unexpectedError'))
+        }
+
+        encryptedKey = await window.api.sendAsync('encryption:encryptBasedEncryptedSecret', {
           value: key,
           encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
         })
@@ -136,7 +142,7 @@ export function useBlockchainActions() {
       const newAccount: IAccountState = {
         id: UtilsHelper.uuid(),
         idWallet: wallet.id,
-        name: name ?? t('defaultName', { accountNumber: accountOrder + 1 }),
+        name: name ?? t('account.defaultName', { accountNumber: accountOrder + 1 }),
         blockchain,
         skin: skin ?? SkinHelper.generateColorSkin(),
         address,
@@ -155,7 +161,7 @@ export function useBlockchainActions() {
   const importAccounts = useCallback(
     async ({ accounts: accountsToImport, wallet }: TImportAccountsParam) => {
       if (!currentLoginSessionRef.current) {
-        throw new Error('Login session not defined')
+        throw new AppError(t('errors.loginSessionIsNotDefined'))
       }
 
       const clonedWallet = cloneDeep(wallet)
@@ -168,7 +174,7 @@ export function useBlockchainActions() {
 
       return clonedWallet.accounts
     },
-    [currentLoginSessionRef, importAccount]
+    [currentLoginSessionRef, importAccount, t]
   )
 
   const deleteAccount = useCallback(
@@ -228,13 +234,13 @@ export function useBlockchainActions() {
   const editAccount = useCallback(
     ({ account, data }: TAccountToEdit) => {
       if (!currentLoginSessionRef.current) {
-        throw new Error('Login session not defined')
+        throw new AppError(t('errors.loginSessionIsNotDefined'))
       }
 
       let encryptedKey = account.encryptedKey
 
       if (data.key) {
-        encryptedKey = window.api.sendSync('encryptBasedEncryptedSecretSync', {
+        encryptedKey = window.api.sendSync('encryption:encryptBasedEncryptedSecretSync', {
           value: data.key,
           encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
         })
@@ -248,19 +254,19 @@ export function useBlockchainActions() {
 
       return editedAccount
     },
-    [dispatch, currentLoginSessionRef]
+    [currentLoginSessionRef, dispatch, t]
   )
 
   const editWallet = useCallback(
     ({ data, wallet }: TWalletToEdit) => {
       if (!currentLoginSessionRef.current) {
-        throw new Error('Login session not defined')
+        throw new AppError(t('errors.loginSessionIsNotDefined'))
       }
 
       let encryptedMnemonic = wallet.encryptedMnemonic
 
       if (data.mnemonic) {
-        encryptedMnemonic = window.api.sendSync('encryptBasedEncryptedSecretSync', {
+        encryptedMnemonic = window.api.sendSync('encryption:encryptBasedEncryptedSecretSync', {
           value: data.mnemonic,
           encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
         })
@@ -274,7 +280,7 @@ export function useBlockchainActions() {
 
       return editedWallet
     },
-    [dispatch, currentLoginSessionRef]
+    [currentLoginSessionRef, dispatch, t]
   )
 
   return {

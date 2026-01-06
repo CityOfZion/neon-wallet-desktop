@@ -3,6 +3,7 @@ import { CaseReducer, PayloadAction } from '@reduxjs/toolkit'
 import { DateHelper } from '@renderer/helpers/DateHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
+import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { SharedI18nextHelper } from '@shared/helpers/SharedI18nextHelper'
 import { IAccountState, IWalletState, TLoginSession, TNotification, TSaveNotification } from '@shared/types/store'
 
@@ -22,7 +23,7 @@ const resetTemporaryApplicationData: CaseReducer<IAuthReducer> = state => {
 // Wallet Reducers
 const saveWallet: CaseReducer<IAuthReducer, PayloadAction<IWalletState>> = (state, action) => {
   if (!state.inMemoryData.currentLoginSession) {
-    throw new Error('Error to save wallet: Current login session is not defined')
+    throw new AppError(t('errors.loginSessionIsNotDefined'))
   }
 
   const loginSessionType = state.inMemoryData.currentLoginSession.type
@@ -41,7 +42,7 @@ const saveWallet: CaseReducer<IAuthReducer, PayloadAction<IWalletState>> = (stat
 
 const deleteWallet: CaseReducer<IAuthReducer, PayloadAction<string>> = (state, action) => {
   if (!state.inMemoryData.currentLoginSession) {
-    throw new Error('Error to delete wallet: Current login session is not defined')
+    throw new AppError(t('errors.loginSessionIsNotDefined'))
   }
 
   const loginSessionType = state.inMemoryData.currentLoginSession.type
@@ -54,7 +55,7 @@ const deleteWallet: CaseReducer<IAuthReducer, PayloadAction<string>> = (state, a
 // Account Reducers
 const saveAccount: CaseReducer<IAuthReducer, PayloadAction<IAccountState>> = (state, action) => {
   if (!state.inMemoryData.currentLoginSession) {
-    throw new Error('Error to save account: Current login session is not defined')
+    throw new AppError(t('errors.loginSessionIsNotDefined'))
   }
 
   const loginSessionType = state.inMemoryData.currentLoginSession.type
@@ -65,7 +66,7 @@ const saveAccount: CaseReducer<IAuthReducer, PayloadAction<IAccountState>> = (st
 
   const wallet = applicationData.wallets.find(it => it.id === walletId)
   if (!wallet) {
-    throw new Error('Error to save account: Wallet not found')
+    throw new AppError(t('errors.unexpectedError'))
   }
 
   const accountIndex = wallet.accounts.findIndex(it => it.id === account.id)
@@ -79,7 +80,7 @@ const saveAccount: CaseReducer<IAuthReducer, PayloadAction<IAccountState>> = (st
 
 const deleteAccount: CaseReducer<IAuthReducer, PayloadAction<IAccountState>> = (state, action) => {
   if (!state.inMemoryData.currentLoginSession) {
-    throw new Error('Error to delete account: Current login session is not defined')
+    throw new AppError(t('errors.loginSessionIsNotDefined'))
   }
 
   const loginSessionType = state.inMemoryData.currentLoginSession.type
@@ -90,7 +91,7 @@ const deleteAccount: CaseReducer<IAuthReducer, PayloadAction<IAccountState>> = (
 
   const wallet = applicationData.wallets.find(it => it.id === walletId)
   if (!wallet) {
-    throw new Error('Error to delete account: Wallet not found')
+    throw new AppError(t('errors.unexpectedError'))
   }
 
   wallet.accounts = wallet.accounts.filter(account => account.id !== accountToRemove.id)

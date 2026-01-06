@@ -7,6 +7,7 @@ import { DateHelper } from '@renderer/helpers/DateHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 
 import { thunks } from '@renderer/store/thunks'
+import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { SharedI18nextHelper } from '@shared/helpers/SharedI18nextHelper'
 import { TNetwork } from '@shared/types/blockchain'
 import { TUseTransactionsTransfer } from '@shared/types/hooks'
@@ -27,11 +28,13 @@ const getUnclaimedInfos = async (
   hasClaimPendingTransaction: boolean,
   encryptedPassword?: string
 ): Promise<TUseUnclaimedResult> => {
-  if (!account.encryptedKey) throw new Error(t('common:errors.noEncryptedKey', { address: account.address }))
+  if (!account.encryptedKey) {
+    throw new AppError(t('common:errors.noEncryptedKey', { address: account.address }))
+  }
 
   const blockchainService = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[account.blockchain]
   if (!isClaimable(blockchainService)) {
-    throw new Error(
+    throw new AppError(
       t('common:errors.blockchainIsNotClaimable', { address: account.address, blockchain: account.blockchain })
     )
   }
@@ -47,7 +50,7 @@ const getUnclaimedInfos = async (
   let fee = '0'
 
   if (isCalculableFee(blockchainService) && unclaimedNumber > 0) {
-    const key = await window.api.sendAsync('decryptBasedEncryptedSecret', {
+    const key = await window.api.sendAsync('encryption:decryptBasedEncryptedSecret', {
       value: account.encryptedKey,
       encryptedSecret: encryptedPassword,
     })
@@ -98,19 +101,19 @@ export const useUnclaimedMutation = () => {
   return useMutation({
     mutationFn: async (account: IAccountState) => {
       if (!currentLoginSessionRef.current) {
-        throw new Error(t('common:errors.loginSessionIsNotDefined'))
+        throw new AppError(t('common:errors.loginSessionIsNotDefined'))
       }
 
       const blockchainService = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[account.blockchain]
       if (!isClaimable(blockchainService)) {
-        throw new Error(
+        throw new AppError(
           t('common:errors.blockchainIsNotClaimable', { address: account.address, blockchain: account.blockchain })
         )
       }
 
       if (!account.encryptedKey) return
 
-      const key = await window.api.sendAsync('decryptBasedEncryptedSecret', {
+      const key = await window.api.sendAsync('encryption:decryptBasedEncryptedSecret', {
         value: account.encryptedKey,
         encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
       })

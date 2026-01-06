@@ -28,7 +28,6 @@ import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useBalance } from '@renderer/hooks/useBalances'
 import { useConfirmAction } from '@renderer/hooks/useConfirmAction'
 import { useExchange } from '@renderer/hooks/useExchange'
-import { useHardwareWalletActions } from '@renderer/hooks/useHardwareWallet'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useSelectedNetworkByBlockchainSelector } from '@renderer/hooks/useSettingsSelector'
@@ -40,6 +39,7 @@ import TbPlus from '@renderer/assets/images/tb-plus.svg?react'
 import TbStepOut from '@renderer/assets/images/tb-step-out.svg?react'
 
 import { thunks } from '@renderer/store/thunks'
+import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { TUseTransactionsTransfer } from '@shared/types/hooks'
 import { IAccountState } from '@shared/types/store'
 
@@ -73,7 +73,6 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const { accountsRef } = useAccountsSelector()
   const { modalNavigate } = useModalNavigate()
-  const { isConnectedAndUnlockedHardwareWallet } = useHardwareWalletActions()
   const { confirmAction } = useConfirmAction()
   const dispatch = useAppDispatch()
 
@@ -131,7 +130,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
       tokenHash: recipient.token!.token.hash,
       tokenDecimals: recipient.token!.token.decimals,
     }))
-    const key = window.api.sendSync('decryptBasedEncryptedSecretSync', {
+    const key = window.api.sendSync('encryption:decryptBasedEncryptedSecretSync', {
       value: actionData.selectedAccount.encryptedKey,
       encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
     })
@@ -210,16 +209,14 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
   }
 
   const handleUpdateRecipientAmount = (id: string, amount: number, decimals?: number) => {
-    if (lte(amount, 0)) ToastHelper.error({ message: t('errors.amountIsLessOrEqualZero') })
-    else {
-      try {
-        handleUpdateRecipient(id, {
-          amount: BSBigNumberHelper.format(amount, { decimals }),
-        })
-      } catch (error) {
-        console.error(error)
-      }
+    if (lte(amount, 0)) {
+      ToastHelper.error({ message: t('errors.amountIsLessOrEqualZero') })
+      return
     }
+
+    handleUpdateRecipient(id, {
+      amount: BSBigNumberHelper.format(amount, { decimals }),
+    })
   }
 
   const handleAddRecipient = () => {
@@ -278,7 +275,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
         })
         .filter(recipient => recipient !== null) as TIntentTransferParam[]
 
-      const key = await window.api.sendAsync('decryptBasedEncryptedSecret', {
+      const key = await window.api.sendAsync('encryption:decryptBasedEncryptedSecret', {
         value: encryptedKey,
         encryptedSecret: encryptedPassword,
       })
@@ -294,7 +291,10 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
       )
     } catch (error) {
       console.error(error)
-      ToastHelper.error({ message: t('errors.calculateMaxAmount') })
+      ToastHelper.error({
+        message: AppError.wrap(error, t('errors.calculateMaxAmount')).displayMessage,
+        id: 'send-calculate-max-amount-error',
+      })
     } finally {
       isDisabledMaxAmountRef.current = false
       setData({ isLoadingMaxAmount: false, maxAmountRecipientId: '' })
@@ -320,19 +320,6 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
 
     try {
       await confirmAction({ account })
-    } catch {
-      return
-    }
-
-    try {
-      if (account.type === 'hardware') {
-        const isConnectedAndUnlocked = await isConnectedAndUnlockedHardwareWallet(account)
-
-        if (!isConnectedAndUnlocked) {
-          ToastHelper.error({ message: t('errors.hardwareWalletShouldBeValid'), duration: 8000 })
-          return
-        }
-      }
 
       const transactionHashes = await fields.service.transfer({
         senderAccount: fields.serviceAccount,
@@ -392,8 +379,19 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
         },
         replace: true,
       })
-    } catch (error: any) {
+
+      reset()
+      currentRecipientAddress.current = undefined
+      handleSelectAccount()
+    } catch (error) {
       console.error(error)
+
+      const appError = AppError.wrap(error, null)
+
+      if (appError.fromAppError) {
+        ToastHelper.error({ message: appError.displayMessage })
+        return
+      }
 
       modalNavigate('error', {
         state: {
@@ -401,7 +399,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
           headingIcon: <TbStepOut aria-hidden />,
           subtitle: t('sendFail.title'),
           description: t('sendFail.subtitle'),
-          content: <SendErrorModalContent error={error.message} />,
+          content: <SendErrorModalContent error={appError.displayMessage} />,
         },
       })
     }
@@ -447,12 +445,12 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
         } else {
           clearErrors('fee')
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error(error)
-        ToastHelper.error({ message: t('errors.feeError') })
-        setError('fee', t('errors.feeError'))
+        const appError = AppError.wrap(error, t('errors.feeError'))
+        ToastHelper.error({ message: appError.displayMessage, id: 'send-calculate-fee-error' })
+        setError('fee', appError.displayMessage)
         setData({ fee: undefined })
-        throw error
       } finally {
         setData({ isCalculatingFee: false })
       }

@@ -200,7 +200,8 @@
     "description": "所有由已连接dApp请求的交易<strong>都需要您的许可</strong>后才会广播到区块链。",
     "disclaimer": "dApp发起的任何操作都不会在您直接批准前执行。",
     "errors": {
-      "errorToConnect": "哎呀！发生错误。请生成新的URI并重试。"
+      "errorToConnect": "哎呀！发生错误。请生成新的URI并重试。",
+      "timeout": "连接请求超时。"
     },
     "inputPlaceholder": "在此粘贴您的URL...",
     "title": "连接dApp"
@@ -220,9 +221,6 @@
     },
     "errors": {
       "unknown": "发生了一个未知错误。请再试一次。"
-    },
-    "errorsByCode": {
-      "NO_SERVICE": "该 dApp 正在尝试连接到与所选不同的区块链或网络。"
     },
     "messages": {
       "connected": "{{dappName}} 已连接。"

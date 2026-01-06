@@ -43,7 +43,9 @@ export class StyleHelper {
   }
 
   static generateTokenColor(hash: string, blockchain: TBlockchainServiceKey) {
-    if (hash.length === 0) throw new Error('Invalid hash')
+    if (hash.length === 0) {
+      return this.availableRandomColors[0]
+    }
 
     const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
     const normalizedHash = service.tokenService.normalizeHash(hash)

@@ -10,11 +10,6 @@
   "useConfirmAction": {
     "unauthorizedAction": "Nicht autorisiert. Bitte versuchen Sie es erneut oder kontaktieren Sie den Support."
   },
-  "useHardwareWalletByUsb": {
-    "errors": {
-      "noDevice": "Es ist kein Gerät angeschlossen"
-    }
-  },
   "useImportAction": {
     "errors": {
       "allAddressesAlreadyImported": "Alle Adressen sind bereits importiert",

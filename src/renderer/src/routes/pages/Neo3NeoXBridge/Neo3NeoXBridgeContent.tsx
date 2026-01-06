@@ -30,7 +30,6 @@ import { useActions } from '@renderer/hooks/useActions'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useLazyBalance } from '@renderer/hooks/useBalances'
 import { useConfirmAction } from '@renderer/hooks/useConfirmAction'
-import { useHardwareWalletActions } from '@renderer/hooks/useHardwareWallet'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useMountUnsafe } from '@renderer/hooks/useMount'
 import { useSelectedNetworkByBlockchainSelector } from '@renderer/hooks/useSettingsSelector'
@@ -47,6 +46,7 @@ import TbWallet from '@renderer/assets/images/tb-wallet.svg?react'
 import VscCircleFilled from '@renderer/assets/images/vsc-circle-filled.svg?react'
 
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
+import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import { IAccountState, TContactAddress } from '@shared/types/store'
 
@@ -73,13 +73,11 @@ const isBridgeValueValid = (value: TBridgeValue<any> | TBridgeValidateValue<any>
 }
 
 export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
-  const { t: commonT } = useTranslation('common')
   const { t } = useTranslation('pages', { keyPrefix: 'neo3NeoXBridge' })
   const { accountsMapRef } = useAccountMapSelector()
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
   const { getBalance } = useLazyBalance()
-  const { isConnectedAndUnlockedHardwareWallet } = useHardwareWalletActions()
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
   const { confirmAction } = useConfirmAction()
   const navigate = useNavigate()
@@ -224,7 +222,7 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
   const handleSelectAccountToUse = async (account: IAccountState) => {
     if (!currentLoginSessionRef.current || !account.encryptedKey) return
 
-    const key = await window.api.sendAsync('decryptBasedEncryptedSecret', {
+    const key = await window.api.sendAsync('encryption:decryptBasedEncryptedSecret', {
       value: account.encryptedKey,
       encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
     })
@@ -272,12 +270,6 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
     const amountToReceive = actionData.amountToReceive.value!
     const bridgeFee = actionData.bridgeFee.value!
 
-    try {
-      await confirmAction({ account: actionData.accountToUse.value! })
-    } catch {
-      return
-    }
-
     modalNavigate('neo3-neox-bridge-confirmation', {
       replace: true,
       state: {
@@ -290,25 +282,11 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
         bridgeFee,
         fromService,
         onConfirm: async () => {
-          const account = actionData.accountToUse.value!
-
-          if (account.type === 'hardware') {
-            const isConnectedAndUnlocked = await isConnectedAndUnlockedHardwareWallet(account)
-
-            if (!isConnectedAndUnlocked) {
-              const message = commonT('errors.hardwareWalletNotConnectedOrLocked')
-              ToastHelper.error({ message, duration: 8000 })
-              throw new Error(message)
-            }
-          }
-
-          let transactionHash: string | undefined
-
           try {
-            transactionHash = await bridgeOrchestratorRef.current.bridge()
-          } catch (error: any) {
-            console.error(error)
-          } finally {
+            await confirmAction({ account: actionData.accountToUse.value! })
+
+            const transactionHash = await bridgeOrchestratorRef.current.bridge()
+
             modalNavigate('neo3-neox-bridge-details', {
               replace: true,
               state: {
@@ -324,6 +302,9 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
             })
 
             initializeOrRestartSwapService()
+          } catch (error: any) {
+            console.error(error)
+            ToastHelper.error({ message: AppError.wrap(error).displayMessage })
           }
         },
       },

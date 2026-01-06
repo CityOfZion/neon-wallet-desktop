@@ -7,10 +7,10 @@ import { AccountHelper } from '@renderer/helpers/AccountHelper'
 
 import { utilityReducerActions } from '@renderer/store/reducers/utility'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
+import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import { TUseHardwareWalletByUsbStatus } from '@shared/types/hooks'
-import { TConnectHardwareWalletByUsbParams } from '@shared/types/ipc'
 import { IAccountState, IWalletState } from '@shared/types/store'
 
 import { useAccountMapSelector } from './useAccountSelector'
@@ -22,14 +22,15 @@ import { useLastIndexesByWallet } from './useUtilitySelector'
 const CONNECT_MAX_ATTEMPTS = 10
 
 export const useHardwareWalletByUsb = () => {
-  const { t } = useTranslation('hooks', { keyPrefix: 'useHardwareWalletByUsb' })
+  const { t } = useTranslation('common')
+
   const { lastIndexesByWalletRef } = useLastIndexesByWallet()
 
   const [status, setStatus] = useState<TUseHardwareWalletByUsbStatus>('searching')
 
   const abortControllerRef = useRef<AbortController>(null)
 
-  const connect = async (params?: Omit<TConnectHardwareWalletByUsbParams, 'lastIndexesByWallet'>) => {
+  const connect = async () => {
     abortControllerRef.current = new AbortController()
 
     setStatus('searching')
@@ -49,9 +50,9 @@ export const useHardwareWalletByUsb = () => {
       }
 
       try {
-        const info = await window.api.sendAsync('hardwareWallet:connectByUsb', {
+        const info = await window.api.sendAsync('hardwareWallet:connect', {
           lastIndexesByWallet: lastIndexesByWalletRef.current,
-          ...params,
+          type: 'usb',
         })
 
         if (abortControllerRef.current.signal.aborted) {
@@ -70,7 +71,7 @@ export const useHardwareWalletByUsb = () => {
     }
 
     setStatus('not-connected')
-    throw new Error(t('errors.noDevice'))
+    throw new AppError(t('hardwareWallet.errors.hardwareWalletNotFound'))
   }
 
   useEffect(() => {
@@ -82,17 +83,16 @@ export const useHardwareWalletByUsb = () => {
   return { connect, status, setStatus }
 }
 
-export const useHardwareWalletActions = () => {
+export const useCreateHardwareWallet = () => {
   const { t: commonT } = useTranslation('common')
   const { createWallet, editAccount, importAccount, editWallet } = useBlockchainActions()
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
-  const dispatch = useAppDispatch()
   const { accountsMapRef } = useAccountMapSelector()
 
   const createHardwareWallet = useCallback(
     async (accounts: TBSAccount<TBlockchainServiceKey>[]) => {
       if (!currentLoginSessionRef.current) {
-        throw new Error('Login session not defined')
+        throw new AppError(commonT('errors.loginSessionIsNotDefined'))
       }
 
       const existentWalletsByBlockchain = new Map<TBlockchainServiceKey, IWalletState>()
@@ -173,26 +173,35 @@ export const useHardwareWalletActions = () => {
     [currentLoginSessionRef, accountsMapRef, createWallet, commonT, editWallet, editAccount, importAccount]
   )
 
+  return { createHardwareWallet }
+}
+
+export const useAddAccountHardwareWallet = () => {
+  const { importAccount } = useBlockchainActions()
+  const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
+  const dispatch = useAppDispatch()
+  const { t: commonT } = useTranslation('common')
+
   const addNewHardwareAccount = useCallback(
     async (wallet: IWalletState, accountName?: string) => {
       if (!currentLoginSessionRef.current) {
-        throw new Error('Login session not defined')
+        throw new AppError(commonT('errors.loginSessionIsNotDefined'))
       }
 
       if (wallet.type !== 'hardware') {
-        throw new Error('Wallet is not hardware')
+        throw new AppError(commonT('hardwareWallet.errors.walletIsNotHardware'))
       }
       // When a wallet is hardware, all accounts are from the same blockchain
       const blockchain = wallet.accounts[0].blockchain
 
       const accountOrder = AccountHelper.getNextOrderOrMissing(wallet.accounts, blockchain)
 
-      const serviceAccount = await window.api.sendAsync('hardwareWallet:addAccount', {
+      const serviceAccount = await window.api.sendAsync('hardwareWallet:getAccount', {
         index: accountOrder,
         blockchain,
       })
 
-      await importAccount({
+      const account = await importAccount({
         ...serviceAccount,
         type: 'hardware',
         wallet,
@@ -201,6 +210,7 @@ export const useHardwareWalletActions = () => {
       })
 
       const firstAccount = await window.api.sendAsync('hardwareWallet:getAccount', { index: 0, blockchain })
+
       dispatch(
         utilityReducerActions.saveLastIndexByWallet({
           firstAccountAddress: firstAccount.address,
@@ -209,23 +219,10 @@ export const useHardwareWalletActions = () => {
         })
       )
 
-      return serviceAccount
+      return account
     },
     [currentLoginSessionRef, dispatch, importAccount]
   )
 
-  const isConnectedAndUnlockedHardwareWallet = useCallback(async (account: IAccountState) => {
-    try {
-      return await window.api.sendAsync('hardwareWallet:isConnectedAndUnlocked', { blockchain: account.blockchain })
-    } catch (error) {
-      console.error(error)
-      return false
-    }
-  }, [])
-
-  return {
-    createHardwareWallet,
-    addNewHardwareAccount,
-    isConnectedAndUnlockedHardwareWallet,
-  }
+  return { addNewHardwareAccount }
 }

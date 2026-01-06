@@ -10,11 +10,6 @@
   "useConfirmAction": {
     "unauthorizedAction": "未授权。请重试或联系支持。"
   },
-  "useHardwareWalletByUsb": {
-    "errors": {
-      "noDevice": "未连接设备"
-    }
-  },
   "useImportAction": {
     "errors": {
       "allAddressesAlreadyImported": "所有地址都已导入",
