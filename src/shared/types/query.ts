@@ -40,7 +40,6 @@ export type TBalance = {
   tokensBalances: TTokenBalance[]
   tokensBalancesMap: Map<string, TTokenBalance>
   exchangeTotal: number
-  bnAmountTotal: BigNumber
 }
 
 export type TUseBalancesFetchResult = {
@@ -54,7 +53,6 @@ export type TUseBalancesResult = {
   groupedTokenBalances: TTokenBalance[]
   isLoading: boolean
   exchangeTotal: number
-  bnAmountTotal: BigNumber
 }
 
 export type TUseBalanceResult = {

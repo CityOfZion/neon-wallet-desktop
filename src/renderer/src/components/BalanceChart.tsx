@@ -1,6 +1,5 @@
 import { useMemo } from 'react'
 
-import { BSBigNumberHelper } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
 
 import { CurrencyHelper } from '@renderer/helpers/CurrencyHelper'
@@ -30,19 +29,24 @@ export const BalanceChart = ({ balances, sortedBalances, className }: TProps) =>
   const { currency } = useCurrencySelector()
 
   const bars = useMemo<TBar[]>(() => {
-    const hasExchangeTotal = balances.exchangeTotal > 0
+    if (balances.exchangeTotal === 0) {
+      return [
+        {
+          color: '#676767',
+          name: t('noFinancialAssets'),
+          value: CurrencyHelper.format(0, { currency }),
+          widthPercent: 100,
+        },
+      ]
+    }
 
     const firstFourBars = sortedBalances.slice(0, 4).map<TBar>(tokenBalance => {
       const color = StyleHelper.generateTokenColor(tokenBalance.token.hash, tokenBalance.blockchain)
-      const widthPercent = hasExchangeTotal
-        ? (tokenBalance.exchangeAmount * 100) / balances.exchangeTotal
-        : BSBigNumberHelper.fromNumber(tokenBalance.amount).multipliedBy(100).div(balances.bnAmountTotal).toNumber()
+      const widthPercent = (tokenBalance.exchangeAmount * 100) / balances.exchangeTotal
 
       return {
         name: tokenBalance.token.name,
-        value: hasExchangeTotal
-          ? CurrencyHelper.format(tokenBalance.exchangeAmount, { currency })
-          : tokenBalance.amount,
+        value: CurrencyHelper.format(tokenBalance.exchangeAmount, { currency }),
         color,
         widthPercent,
       }
@@ -52,21 +56,15 @@ export const BalanceChart = ({ balances, sortedBalances, className }: TProps) =>
       return firstFourBars
     }
 
-    const { othersExchangeAmount, bnOthersAmount } = sortedBalances.slice(4).reduce(
-      (accumulator, balance) => ({
-        othersExchangeAmount: accumulator.othersExchangeAmount + balance.exchangeAmount,
-        bnOthersAmount: accumulator.bnOthersAmount.plus(balance.amount),
-      }),
-      { othersExchangeAmount: 0, bnOthersAmount: BSBigNumberHelper.fromNumber('0') }
-    )
+    const othersAmount = sortedBalances
+      .slice(4)
+      .reduce((accumulator, balance) => accumulator + balance.exchangeAmount, 0)
 
     const otherBar: TBar = {
       color: '#47BEFF',
-      value: hasExchangeTotal ? CurrencyHelper.format(othersExchangeAmount, { currency }) : bnOthersAmount.toString(),
+      value: CurrencyHelper.format(othersAmount, { currency }),
       name: t('othersTokens'),
-      widthPercent: hasExchangeTotal
-        ? (othersExchangeAmount * 100) / balances.exchangeTotal
-        : bnOthersAmount.multipliedBy(100).div(balances.bnAmountTotal).toNumber(),
+      widthPercent: (othersAmount * 100) / balances.exchangeTotal,
     }
 
     return [...firstFourBars, otherBar]
