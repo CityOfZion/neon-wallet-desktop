@@ -1,4 +1,5 @@
 import { type CaseReducerActions, createSlice } from '@reduxjs/toolkit'
+import isEqual from 'lodash/isEqual'
 import { createMigrate, PersistConfig, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
@@ -257,12 +258,27 @@ export function getSettingsReducer() {
         },
       }
     },
+    12: (state: any) => {
+      const [firstNetworkProfile] = state.data.networkProfiles
+      const isCurrentNetworkProfile = isEqual(firstNetworkProfile, state.data.selectedNetworkProfile)
+
+      firstNetworkProfile.networkByBlockchain.neox =
+        BlockchainServiceHelper.bsAggregator.blockchainServicesByName.neox.defaultNetwork
+
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          selectedNetworkProfile: isCurrentNetworkProfile ? firstNetworkProfile : state.data.selectedNetworkProfile,
+        },
+      }
+    },
   }
 
   const settingsReducerConfig: PersistConfig<ISettingsReducer> = {
     key: 'settingsReducer',
     storage: storage,
-    version: 11,
+    version: 12,
     migrate: createMigrate(settingsReducerMigrations),
     blacklist: ['showSideBar'],
   }

@@ -98,7 +98,7 @@ const Neo3NeoxBridgeDetailsModal = () => {
 
       <Separator className="mt-6 mb-8" />
 
-      <Details.Root>
+      <Details.Root className="gap-y-2">
         <Details.Header
           rightElement={
             status === 'confirming' ? <MdRefresh aria-hidden className="text-orange h-6 w-6 animate-spin" /> : undefined

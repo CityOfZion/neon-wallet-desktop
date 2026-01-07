@@ -306,6 +306,8 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
 
           try {
             transactionHash = await bridgeOrchestratorRef.current.bridge()
+
+            initializeOrRestartSwapService()
           } catch (error: any) {
             console.error(error)
           } finally {
@@ -322,8 +324,6 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
                 confirmed: !transactionHash ? false : undefined,
               },
             })
-
-            initializeOrRestartSwapService()
           }
         },
       },
