@@ -41,7 +41,8 @@
     "save": "Salvar",
     "send": "Enviar",
     "successfullyCopied": "Copiado com sucesso para a área de transferência",
-    "swap": "Swap"
+    "swap": "Swap",
+    "test": "Teste"
   },
   "networkTypeLabel": {
     "mainnet": "Rede Principal",

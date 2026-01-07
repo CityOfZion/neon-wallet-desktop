@@ -8,7 +8,7 @@ import { CurrencyHelper } from '@renderer/helpers/CurrencyHelper'
 import { LanguageHelper } from '@renderer/helpers/LanguageHelper'
 
 import { SharedI18nextHelper } from '@shared/helpers/SharedI18nextHelper'
-import { ISettingsState, type TNetworkProfile } from '@shared/types/store'
+import { ISettingsState, type TNetworkProfile, type TSelectedNetworks } from '@shared/types/store'
 
 import { settingsSliceReducers } from './reducers'
 
@@ -35,6 +35,19 @@ export function getSettingsReducer() {
     },
   }
 
+  const testProfile: TNetworkProfile = {
+    id: ConstantsHelper.testNetworkProfileId,
+    name: t('common:general.test'),
+    networkByBlockchain: Object.values(BlockchainServiceHelper.bsAggregator.blockchainServicesByName).reduce(
+      (accumulator, service) => {
+        accumulator[service.name] =
+          service.availableNetworks.find(network => network.type === 'testnet') ?? service.defaultNetwork
+        return accumulator
+      },
+      {} as TSelectedNetworks
+    ),
+  }
+
   const settingsReducerInitialState: ISettingsReducer = {
     data: {
       hasPassword: false,
@@ -53,7 +66,7 @@ export function getSettingsReducer() {
         base: [],
         arbitrum: [],
       },
-      networkProfiles: [defaultProfile],
+      networkProfiles: [defaultProfile, testProfile],
       selectedNetworkProfile: defaultProfile,
       canShowVoteNeo3SupportUsModal: true,
       selectedWallet: undefined,
@@ -229,12 +242,27 @@ export function getSettingsReducer() {
         },
       },
     }),
+    11: (state: any) => {
+      const newNetworkProfiles = state.data.networkProfiles
+
+      if (newNetworkProfiles.length <= 1) {
+        newNetworkProfiles.push(testProfile)
+      }
+
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          networkProfiles: newNetworkProfiles,
+        },
+      }
+    },
   }
 
   const settingsReducerConfig: PersistConfig<ISettingsReducer> = {
     key: 'settingsReducer',
     storage: storage,
-    version: 10,
+    version: 11,
     migrate: createMigrate(settingsReducerMigrations),
     blacklist: ['showSideBar'],
   }
