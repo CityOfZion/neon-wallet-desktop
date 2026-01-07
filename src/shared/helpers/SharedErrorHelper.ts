@@ -64,7 +64,7 @@ export class WalletConnectError extends AppError {
     }
 
     if (error instanceof AppError) {
-      return new WalletConnectError(error.message, 'UNEXPECTED_ERROR', undefined, true)
+      return new WalletConnectError(error.displayMessage, 'UNEXPECTED_ERROR', undefined, true)
     }
 
     if (error instanceof BSError) {

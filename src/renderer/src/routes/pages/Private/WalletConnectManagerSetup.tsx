@@ -67,17 +67,15 @@ export const WalletConnectManagerSetup = () => {
         } catch (error) {
           console.error(error)
 
-          const appError = AppError.wrap(error)
-
           await WalletKitHelper.kit.respondSessionRequest({
             topic: request.topic,
             response: WalletKitHelper.formatRequestError(request, {
-              message: appError.displayMessage,
+              message: AppError.wrap(error, null).displayMessage,
               code: -32000,
             }),
           })
 
-          throw appError
+          throw error
         }
       }
 

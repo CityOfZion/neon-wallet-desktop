@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { WalletKitHelper } from '@renderer/helpers/WalletKitHelper'
 
+import { useConfirmAction } from '@renderer/hooks/useConfirmAction'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { usePressOnce } from '@renderer/hooks/usePressOnce'
 import { useSelectedNetworkProfileSelector } from '@renderer/hooks/useSettingsSelector'
@@ -46,6 +47,7 @@ export const DappPermissionModal = () => {
     useModalState<TModalState<'dapp-permission'>>()
   const { modalErase, modalNavigate } = useModalNavigate()
   const { selectedNetworkProfile } = useSelectedNetworkProfileSelector()
+  const { confirmAction } = useConfirmAction()
 
   const blockchain = sessionAccount.blockchain || sessionDetails.blockchain
   const network = selectedNetworkProfile.networkByBlockchain[blockchain]
@@ -65,6 +67,7 @@ export const DappPermissionModal = () => {
 
   const [isAccepting, startAccept] = usePressOnce(async () => {
     try {
+      await confirmAction({ account: sessionAccount })
       const response = await onAccept()
 
       modalNavigate('success', {
@@ -76,6 +79,13 @@ export const DappPermissionModal = () => {
         },
       })
     } catch (error: any) {
+      const walletConnectError = WalletConnectError.wrap(error)
+
+      if (walletConnectError.fromAppError) {
+        ToastHelper.error({ message: walletConnectError.displayMessage, id: 'dapp-permission-error' })
+        return
+      }
+
       const hasNonce = !!request.params.request.params?.[0]?.nonce
 
       const isNeoxAntiMev =
@@ -102,7 +112,7 @@ export const DappPermissionModal = () => {
         state: {
           heading: t('errorContent.title'),
           subtitle: t('errorContent.subtitle'),
-          content: <DappPermissionErrorContent error={WalletConnectError.wrap(error)} />,
+          content: <DappPermissionErrorContent error={walletConnectError.displayMessage} />,
         },
       })
     }

@@ -2,6 +2,8 @@ import { useCallback } from 'react'
 
 import { useTranslation } from 'react-i18next'
 
+import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
+
 import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { IAccountState } from '@shared/types/store'
 
@@ -14,19 +16,20 @@ type TConfirmActionParams = {
 export const useConfirmAction = () => {
   const { modalNavigate } = useModalNavigate()
   const { t } = useTranslation('hooks', { keyPrefix: 'useConfirmAction' })
+  const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
 
   const confirmAction = useCallback(
-    async ({ account }: TConfirmActionParams) => {
+    ({ account }: TConfirmActionParams) => {
       return new Promise<void>((resolve, reject) => {
         const handleReject = () => {
-          return reject(new AppError(t('unauthorizedAction')))
+          reject(new AppError(t('unauthorizedAction')))
         }
 
         if (account.type === 'watch') {
           return handleReject()
         }
 
-        if (account.type === 'hardware') {
+        if (account.type === 'hardware' || currentLoginSessionRef.current?.type === 'hardware') {
           resolve()
           return
         }
@@ -39,7 +42,7 @@ export const useConfirmAction = () => {
         })
       })
     },
-    [t, modalNavigate]
+    [currentLoginSessionRef, t, modalNavigate]
   )
   return { confirmAction }
 }

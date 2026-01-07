@@ -31,7 +31,7 @@ const resolveSigner = (scope: string | number) => {
   return witnessScope
 }
 
-export const DappPermissionInvokeNeo3ContentSigner = ({ signer, session }: TProps) => {
+export const DappPermissionInvokeNeo3ContentSigner = ({ signer, session, onReject }: TProps) => {
   const { t } = useTranslation('modals', { keyPrefix: 'dappPermission.customContents.invokeNeo3' })
   const { modalNavigateWrapper } = useModalNavigate()
   const scope = resolveSigner(signer.scopes)
@@ -52,7 +52,7 @@ export const DappPermissionInvokeNeo3ContentSigner = ({ signer, session }: TProp
                 size="sm"
                 compacted
                 onClick={modalNavigateWrapper('dapp-permission-signature-scope', {
-                  state: { session, scope, allowedList: signer.allowedContracts ?? signer.allowedGroups },
+                  state: { session, scope, allowedList: signer.allowedContracts ?? signer.allowedGroups, onReject },
                 })}
               />
             </Tooltip>
