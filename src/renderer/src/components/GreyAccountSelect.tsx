@@ -101,7 +101,7 @@ export const GreyAccountSelect = ({
         </Select.Trigger>
       )}
 
-      <Select.Content align="end" side="bottom" className="max-h-60 max-w-48" isTriggerWidth={false}>
+      <Select.Content align="end" side="bottom" className="max-h-54 max-w-48" isTriggerWidth={false}>
         {match(filteredAccounts.length)
           .with(0, () => <p className="py-2.5 text-center text-xs text-gray-100">{t('empty')}</p>)
           .otherwise(() =>

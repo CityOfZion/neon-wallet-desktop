@@ -81,7 +81,7 @@ export function getSettingsReducer() {
   const settingsReducerConfig: PersistConfig<ISettingsReducer> = {
     key: 'settingsReducer',
     storage: storage,
-    version: 11,
+    version: 12,
     migrate: createMigrate(settingsMigrations),
     blacklist: ['showSideBar'],
   }

@@ -186,5 +186,32 @@ export function getSettingsMigrations(defaultProfile: TNetworkProfile, testProfi
         },
       }
     },
+    12: (state: any) => {
+      const neoxNetwork = defaultProfile.networkByBlockchain.neox
+      const newSelectedNetworkProfile = state.data.selectedNetworkProfile
+
+      if (newSelectedNetworkProfile.id === defaultProfile.id) {
+        newSelectedNetworkProfile.networkByBlockchain.neox = neoxNetwork
+      }
+
+      const newNetworkProfiles = state.data.networkProfiles.map(profile => {
+        if (profile.id === defaultProfile.id) {
+          profile.networkByBlockchain.neox = neoxNetwork
+
+          return profile
+        }
+
+        return profile
+      })
+
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          networkProfiles: newNetworkProfiles,
+          selectedNetworkProfile: newSelectedNetworkProfile,
+        },
+      }
+    },
   }
 }
