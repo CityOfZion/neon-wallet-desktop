@@ -86,7 +86,7 @@ const COLORS_BY_TYPE: Record<string, { color: string; textColor: string }> = {
 
 export const DappPermissionContractDetailsModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'dappPermissionContractDetails' })
-  const { session, blockchain, hash, operation, values } =
+  const { session, blockchain, hash, operation, values, onReject } =
     useModalState<TModalState<'dapp-permission-contract-details'>>()
 
   const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
@@ -126,7 +126,7 @@ export const DappPermissionContractDetailsModal = () => {
   }
 
   return (
-    <CenterModalLayout contentClassName="px-0 flex flex-col pb-5 min-h-0">
+    <CenterModalLayout contentClassName="px-0 flex flex-col pb-5 min-h-0" onErase={onReject}>
       {contractQuery.isLoading ? (
         <ScreenLoader />
       ) : (

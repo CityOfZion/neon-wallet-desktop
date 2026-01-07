@@ -23,7 +23,12 @@ type TProps = {
   invocation: ContractInvocation
 } & TDappPermissionProps
 
-export const DappPermissionInvokeNeo3ContentInvocation = ({ invocation, sessionDetails, session }: TProps) => {
+export const DappPermissionInvokeNeo3ContentInvocation = ({
+  invocation,
+  sessionDetails,
+  session,
+  onReject,
+}: TProps) => {
   const { t } = useTranslation('modals', { keyPrefix: 'dappPermission.customContents.invokeNeo3' })
   const { modalNavigateWrapper } = useModalNavigate()
 
@@ -71,6 +76,7 @@ export const DappPermissionInvokeNeo3ContentInvocation = ({ invocation, sessionD
                       operation: invocation.operation,
                       blockchain: sessionDetails.blockchain,
                       values: invocation.args?.map(arg => arg.value) ?? [],
+                      onReject,
                     },
                   })}
                 />

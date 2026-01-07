@@ -5,7 +5,7 @@ import { Button } from '@renderer/components/Button'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 
 type TProps = {
-  error: Error
+  error: string
 }
 
 export const DappPermissionErrorContent = ({ error }: TProps) => {
@@ -20,7 +20,7 @@ export const DappPermissionErrorContent = ({ error }: TProps) => {
         <p className="text-xs font-bold text-gray-300 uppercase">{t('errorMessageLabel')}</p>
 
         <p className="bg-asphalt max-h-72 w-full overflow-y-auto rounded p-2 text-sm font-medium wrap-break-word whitespace-pre-wrap text-white">
-          {error.message}
+          {error}
         </p>
       </div>
 

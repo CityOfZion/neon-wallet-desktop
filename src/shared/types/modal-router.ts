@@ -326,6 +326,7 @@ type TDappPermissionContractDetailsModalState = {
   operation: string
   blockchain: TBlockchainServiceKey
   values: any[]
+  onReject: () => void
 }
 
 type TDappPermissionModalState = {
@@ -341,6 +342,7 @@ type TDappPermissionSignatureScopeModalState = {
   session: SessionTypes.Struct
   scope: string
   allowedList?: string[]
+  onReject: () => void
 }
 
 type TExportFullTransactionsModalState =

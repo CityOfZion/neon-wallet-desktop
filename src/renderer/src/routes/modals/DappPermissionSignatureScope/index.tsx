@@ -12,11 +12,11 @@ import TbCube3dSphere from '@renderer/assets/images/tb-cube-3d-sphere.svg?react'
 import type { TModalState } from '@shared/types/modal'
 
 export const DappPermissionSignatureScopeModal = () => {
-  const { scope, allowedList, session } = useModalState<TModalState<'dapp-permission-signature-scope'>>()
+  const { scope, allowedList, session, onReject } = useModalState<TModalState<'dapp-permission-signature-scope'>>()
   const { t } = useTranslation('modals', { keyPrefix: 'dappPermissionSignatureScope' })
 
   return (
-    <CenterModalLayout contentClassName="px-0 flex flex-col pb-5 min-h-0">
+    <CenterModalLayout contentClassName="px-0 flex flex-col pb-5 min-h-0" onErase={onReject}>
       <div className="flex min-h-0 grow flex-col overflow-y-auto pr-2 pl-5">
         <DappHeader proposerUri={session.peer.metadata.icons[0]} proposerName={session.peer.metadata.name} />
 
