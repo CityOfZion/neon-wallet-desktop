@@ -2,10 +2,9 @@ import { type CaseReducerActions, createSlice } from '@reduxjs/toolkit'
 import { createMigrate, PersistConfig, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
-import { ContactsHelper } from '@renderer/helpers/ContactsHelper'
-
 import { IContactState, TContactEncryptedAddress } from '@shared/types/store'
 
+import { getContactMigrations } from './migrations'
 import { contactSliceReducers } from './reducers'
 
 export interface IContactReducer {
@@ -15,21 +14,16 @@ export interface IContactReducer {
 export let contactReducerActions: CaseReducerActions<typeof contactSliceReducers, string>
 
 export function getContactReducer() {
+  const contactMigrations = getContactMigrations()
+
   const contactReducerInitialState = {
     data: [],
   } as IContactReducer
 
-  const contactReducerMigrations = {
-    0: (state: any) => ({
-      ...state,
-      data: ContactsHelper.encryptContacts(state.data),
-    }),
-  }
-
   const contactReducerConfig: PersistConfig<IContactReducer> = {
     key: 'contactReducer',
     storage,
-    migrate: createMigrate(contactReducerMigrations),
+    migrate: createMigrate(contactMigrations),
     version: 0,
   }
 
