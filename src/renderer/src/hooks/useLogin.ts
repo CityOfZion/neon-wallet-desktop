@@ -7,11 +7,12 @@ import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
 import { authReducerActions } from '@renderer/store/reducers/auth'
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
+import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 import { TAccountsToImport, TBlockchainServiceKey, TWalletToCreate } from '@shared/types/blockchain'
 
 import { useBlockchainActions } from './useBlockchainActions'
-import { useHardwareWalletActions } from './useHardwareWallet'
+import { useCreateHardwareWallet } from './useHardwareWallet'
 import { useAppDispatch } from './useRedux'
 import { useLoginControlSelector } from './useSettingsSelector'
 
@@ -22,23 +23,23 @@ export const useLogin = () => {
   const dispatch = useAppDispatch()
   const { t } = useTranslation('hooks', { keyPrefix: 'useLogin' })
   const { createWallet, importAccounts } = useBlockchainActions()
-  const { createHardwareWallet } = useHardwareWalletActions()
+  const { createHardwareWallet } = useCreateHardwareWallet()
 
   const loginWithPassword = useCallback(
     async (password: string) => {
       if (!encryptedLoginControlRef.current) {
-        throw new Error(t('controlIsNotSet'))
+        throw new AppError(t('controlIsNotSet'))
       }
 
-      const encryptedPassword = await window.api.sendAsync('encryptBasedOS', password)
+      const encryptedPassword = await window.api.sendAsync('encryption:encryptBasedOS', password)
 
-      const decryptedLoginControl = await window.api.sendAsync('decryptBasedEncryptedSecret', {
+      const decryptedLoginControl = await window.api.sendAsync('encryption:decryptBasedEncryptedSecret', {
         value: encryptedLoginControlRef.current,
         encryptedSecret: encryptedPassword,
       })
 
       if (decryptedLoginControl !== LOGIN_CONTROL_VALUE) {
-        throw new Error(t('controlIsNotValid'))
+        throw new AppError(t('controlIsNotValid'))
       }
 
       dispatch(
@@ -54,7 +55,7 @@ export const useLogin = () => {
   const loginWithHardwareWallet = useCallback(
     async (accounts: TBSAccount<TBlockchainServiceKey>[]) => {
       const randomPassword = UtilsHelper.uuid()
-      const encryptedPassword = await window.api.sendAsync('encryptBasedOS', randomPassword)
+      const encryptedPassword = await window.api.sendAsync('encryption:encryptBasedOS', randomPassword)
 
       dispatch(authReducerActions.setCurrentLoginSession({ type: 'hardware', encryptedPassword }))
 
@@ -69,7 +70,7 @@ export const useLogin = () => {
   const loginWithKey = useCallback(
     async (accountsToCreate: TAccountsToImport, walletToCreate: TWalletToCreate) => {
       const randomPassword = UtilsHelper.uuid()
-      const encryptedPassword = await window.api.sendAsync('encryptBasedOS', randomPassword)
+      const encryptedPassword = await window.api.sendAsync('encryption:encryptBasedOS', randomPassword)
 
       dispatch(authReducerActions.setCurrentLoginSession({ type: 'key', encryptedPassword }))
 
@@ -103,9 +104,11 @@ export const useSignup = () => {
 
   const signup = useCallback(
     async (password: string, isAlreadyEncrypted?: boolean) => {
-      const encryptedPassword = !isAlreadyEncrypted ? await window.api.sendAsync('encryptBasedOS', password) : password
+      const encryptedPassword = !isAlreadyEncrypted
+        ? await window.api.sendAsync('encryption:encryptBasedOS', password)
+        : password
 
-      const encryptedLoginControl = await window.api.sendAsync('encryptBasedEncryptedSecret', {
+      const encryptedLoginControl = await window.api.sendAsync('encryption:encryptBasedEncryptedSecret', {
         value: LOGIN_CONTROL_VALUE,
         encryptedSecret: encryptedPassword,
       })

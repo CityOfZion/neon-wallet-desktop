@@ -13,6 +13,7 @@ import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useMountUnsafe } from '@renderer/hooks/useMount'
 
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
+import { AppError } from '@shared/helpers/SharedErrorHelper'
 
 export const WalletConnectManagerSetup = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'private.walletConnectManagerSetup' })
@@ -44,11 +45,10 @@ export const WalletConnectManagerSetup = () => {
 
       async function handleAccept() {
         try {
-          const key = await window.api.sendAsync('decryptBasedEncryptedSecret', {
+          const key = await window.api.sendAsync('encryption:decryptBasedEncryptedSecret', {
             value: sessionAccount!.encryptedKey!,
             encryptedSecret: currentLoginSessionRef.current!.encryptedPassword,
           })
-          if (!key) throw new Error('Unexpected missing key for account')
 
           const serviceAccount = AccountHelper.getServiceAccount({ account: sessionAccount!, key })
 
@@ -64,14 +64,20 @@ export const WalletConnectManagerSetup = () => {
           })
 
           return response
-        } catch (error: any) {
+        } catch (error) {
           console.error(error)
+
+          const appError = AppError.wrap(error)
+
           await WalletKitHelper.kit.respondSessionRequest({
             topic: request.topic,
-            response: WalletKitHelper.formatRequestError(request, error.message),
+            response: WalletKitHelper.formatRequestError(request, {
+              message: appError.displayMessage,
+              code: -32000,
+            }),
           })
 
-          throw error
+          throw appError
         }
       }
 
@@ -101,7 +107,7 @@ export const WalletConnectManagerSetup = () => {
         return
       }
 
-      window.api.sendSync('restore')
+      window.api.sendSync('window:restore')
       modalErase()
       modalNavigate('dapp-permission', {
         state: { request, session, sessionDetails, sessionAccount, onAccept: handleAccept, onReject: handleReject },

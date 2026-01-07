@@ -37,7 +37,6 @@ import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useBalance } from '@renderer/hooks/useBalances'
 import { useConfirmAction } from '@renderer/hooks/useConfirmAction'
 import { useHasContactsByBlockchain } from '@renderer/hooks/useContactSelector'
-import { useHardwareWalletActions } from '@renderer/hooks/useHardwareWallet'
 import { useIsFocused } from '@renderer/hooks/useIsFocused'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { usePressOnce } from '@renderer/hooks/usePressOnce'
@@ -58,6 +57,7 @@ import VscCircleFilled from '@renderer/assets/images/vsc-circle-filled.svg?react
 
 import { utilityReducerActions } from '@renderer/store/reducers/utility'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
+import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import { IAccountState, TContactAddress, TSwapRecord } from '@shared/types/store'
 
@@ -87,7 +87,6 @@ export const SwapPageContent = ({ account }: TProps) => {
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const { accountsRef } = useAccountsSelector()
-  const { isConnectedAndUnlockedHardwareWallet } = useHardwareWalletActions()
   const dispatch = useAppDispatch()
   const { confirmAction } = useConfirmAction()
   const { ref: amountInputRef, isFocused: isAmountInputFocused } = useIsFocused<HTMLInputElement>()
@@ -189,8 +188,8 @@ export const SwapPageContent = ({ account }: TProps) => {
 
       await swapOrchestratorRef.current!.setAddressToReceive(text)
     } catch (error) {
-      ToastHelper.error({ message: tCommonGeneral('pasteFromClipboardError') })
       console.error(error)
+      ToastHelper.error({ message: AppError.wrap(error, tCommonGeneral('pasteFromClipboardError')).displayMessage })
     }
   })
 
@@ -275,7 +274,7 @@ export const SwapPageContent = ({ account }: TProps) => {
   const handleSelectAccountToUse = async (account: IAccountState) => {
     if (!currentLoginSessionRef.current || !account.encryptedKey) return
 
-    const key = await window.api.sendAsync('decryptBasedEncryptedSecret', {
+    const key = await window.api.sendAsync('encryption:decryptBasedEncryptedSecret', {
       value: account.encryptedKey,
       encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
     })
@@ -304,11 +303,7 @@ export const SwapPageContent = ({ account }: TProps) => {
   }
 
   const handleChangeAmountToUse = (value: string) => {
-    try {
-      swapOrchestratorRef.current?.setAmountToUse(value)
-    } catch (error) {
-      console.error(error)
-    }
+    swapOrchestratorRef.current?.setAmountToUse(value)
   }
 
   const handleSubmit = async () => {
@@ -331,56 +326,43 @@ export const SwapPageContent = ({ account }: TProps) => {
     )
       return
 
-    if (account.type === 'hardware') {
-      const isConnectedAndUnlocked = await isConnectedAndUnlockedHardwareWallet(account)
-
-      if (!isConnectedAndUnlocked) {
-        const message = t('form.errors.hardwareWalletNotConnectedOrLocked')
-
-        ToastHelper.error({ message, duration: 8000 })
-
-        throw new Error(message)
-      }
-    }
-
     try {
       await confirmAction({ account })
-    } catch {
-      return
-    }
 
-    const swapRecord: TSwapRecord = {
-      account,
-      addressTo: actionData.selectedAddressToReceive.value,
-      extraIdTo: actionData.selectedExtraIdToReceive.value ?? undefined,
-      amountFrom: actionData.selectedAmountToUse.value,
-      amountTo: actionData.selectedAmountToReceive.value,
-      tokenFrom: actionData.selectedTokenToUse.value,
-      tokenTo: actionData.selectedTokenToReceive.value,
-      swapStatus: 'confirming',
-      swapProvider: 'simpleswap',
-      fee: actionData.fee,
-    }
+      const swapRecord: TSwapRecord = {
+        account,
+        addressTo: actionData.selectedAddressToReceive.value,
+        extraIdTo: actionData.selectedExtraIdToReceive.value ?? undefined,
+        amountFrom: actionData.selectedAmountToUse.value,
+        amountTo: actionData.selectedAmountToReceive.value,
+        tokenFrom: actionData.selectedTokenToUse.value,
+        tokenTo: actionData.selectedTokenToReceive.value,
+        swapStatus: 'confirming',
+        swapProvider: 'simpleswap',
+        fee: actionData.fee,
+      }
 
-    try {
       const swapResponse = await swapOrchestratorRef.current.swap()
       swapRecord.swapId = swapResponse.id
       swapRecord.txFrom = swapResponse.txFrom
       swapRecord.log = swapResponse.log
-    } catch (error: any) {
-      console.error(error)
-    } finally {
-      if (!swapRecord.txFrom) swapRecord.swapStatus = 'refunded'
 
-      dispatch(utilityReducerActions.persistSwapRecord(swapRecord))
+      dispatch(
+        utilityReducerActions.persistSwapRecord({
+          ...swapRecord,
+          swapId: swapResponse.id,
+          txFrom: swapResponse.txFrom,
+          log: swapResponse.log,
+          swapStatus: swapResponse.txFrom ? swapRecord.swapStatus : 'refunded',
+        })
+      )
 
-      modalNavigate('swap-details', {
-        state: {
-          swapRecord,
-        },
-      })
+      modalNavigate('swap-details', { state: { swapRecord } })
 
       initializeOrRestartSwapService()
+    } catch (error) {
+      console.error(error)
+      ToastHelper.error({ message: AppError.wrap(error).displayMessage })
     }
   }
 
@@ -430,8 +412,8 @@ export const SwapPageContent = ({ account }: TProps) => {
         } else {
           clearErrors('fee')
         }
-      } catch {
-        setError('fee', t('form.errors.insufficientFundsFee'))
+      } catch (error) {
+        setError('fee', AppError.wrap(error, t('form.errors.insufficientFundsFee')).displayMessage)
       } finally {
         setData({ isCalculatingFee: false })
       }
@@ -471,14 +453,14 @@ export const SwapPageContent = ({ account }: TProps) => {
           const minNumber = NumberHelper.number(actionData.selectAmountToUseMinMax.value?.min ?? 0)
 
           if (amountNumber < minNumber) {
-            throw new Error(t('form.errors.amountMin', { amount: minNumber }))
+            throw new AppError(t('form.errors.amountMin', { amount: minNumber }))
           }
 
           if (actionData.selectAmountToUseMinMax.value?.max) {
             const maxNumber = NumberHelper.number(actionData.selectAmountToUseMinMax.value.max)
 
             if (amountNumber > maxNumber) {
-              throw new Error(t('form.errors.amountMax', { amount: actionData.selectAmountToUseMinMax.value.max }))
+              throw new AppError(t('form.errors.amountMax', { amount: actionData.selectAmountToUseMinMax.value.max }))
             }
           }
         }
@@ -488,12 +470,12 @@ export const SwapPageContent = ({ account }: TProps) => {
           actionData.selectedTokenToUse.value &&
           (!selectedTokenBalance || selectedTokenBalance.amountNumber < amountNumber)
         ) {
-          throw new Error(t('form.errors.insufficientFunds'))
+          throw new AppError(t('form.errors.insufficientFunds'))
         }
 
         clearErrors('selectedAmountToUse')
-      } catch (error: any) {
-        setError('selectedAmountToUse', error.message)
+      } catch (error) {
+        setError('selectedAmountToUse', AppError.wrap(error).displayMessage)
       }
     }
 

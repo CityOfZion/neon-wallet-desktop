@@ -15,6 +15,7 @@ import { SideModalLayout } from '@renderer/layouts/SideModal'
 import MdCheckCircleOutline from '@renderer/assets/images/md-check-circle-outline.svg?react'
 import TbAlertTriangle from '@renderer/assets/images/tb-alert-triangle.svg?react'
 
+import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { TModalState } from '@shared/types/modal'
 
 type TActionData = {
@@ -23,6 +24,7 @@ type TActionData = {
 
 const ConfirmActionModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'confirmAction' })
+  const { t: tCommon } = useTranslation('common')
   const { currentLoginSession } = useCurrentLoginSessionSelector()
   const { onSuccess, onCancel } = useModalState<TModalState<'confirm-action'>>()
   const { modalErase } = useModalNavigate()
@@ -35,12 +37,12 @@ const ConfirmActionModal = () => {
 
   const handleSubmit = async () => {
     if (!currentLoginSession) {
-      throw new Error('Login session not defined')
+      throw new AppError(tCommon('errors.loginSessionIsNotDefined'))
     }
 
     if (shouldPromptPassword) {
       const encryptedPassword = currentLoginSession.encryptedPassword
-      const decryptedPassword = await window.api.sendAsync('decryptBasedOS', encryptedPassword)
+      const decryptedPassword = await window.api.sendAsync('encryption:decryptBasedOS', encryptedPassword)
 
       if (actionData.password.length === 0 || actionData.password !== decryptedPassword) {
         setError('password', t('passwordError'))

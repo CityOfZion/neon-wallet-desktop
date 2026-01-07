@@ -1,71 +1,115 @@
 import { TBSAccount } from '@cityofzion/blockchain-service'
-import { OpenDialogOptions } from 'electron'
+import {
+  type BrowserWindow,
+  type IpcMainEvent,
+  type IpcMainInvokeEvent,
+  type IpcRendererEvent,
+  OpenDialogOptions,
+} from 'electron'
 
 import { TBlockchainServiceKey } from './blockchain'
-import {
-  TConnectHardwareWalletByUsbParams,
-  TDecryptBasedEncryptedSecretParams,
-  TDecryptBasedSecretParams,
-  TEncryptBasedEncryptedSecretParams,
-  TEncryptBasedSecretParams,
-  TGetAccountHardwareWalletGenericParams,
-  TIpcMainAsyncListener,
-  TIpcMainSyncListener,
-  TIsConnectedAndUnlockedHardwareWalletGenericParams,
-} from './ipc'
+import type { TLastIndexesByWallet } from './store'
+
+export type TIpcMainBaseOptions<T = any[]> = {
+  args: T
+  window: BrowserWindow
+  removeAllListeners: () => void
+}
+
+export type TIpcMainSyncOptions<T = any[]> = TIpcMainBaseOptions<T> & {
+  event: IpcMainEvent
+}
+
+export type TIpcMainAsyncOptions<T = any[]> = TIpcMainBaseOptions<T> & {
+  event: IpcMainInvokeEvent
+}
+
+export type TIpcMainSyncListener<T = any[], R = any> = (options: TIpcMainSyncOptions<T>) => R
+
+export type TIpcMainAsyncListener<T = any[], R = any> = (options: TIpcMainAsyncOptions<T>) => Promise<R> | R
+
+export type TIpcRendererListener<T = any[], R = any> = (options: { event: IpcRendererEvent; args: T }) => R
+
+export type TIpcRendererSendArgs<T> =
+  T extends TIpcMainAsyncListener<infer U> ? U : T extends TIpcMainSyncListener<infer A> ? A : never
+
+export type TIpcRendererSendResponse<T> =
+  T extends TIpcMainAsyncListener<any, infer U> ? U : T extends TIpcMainSyncListener<any, infer A> ? A : never
+
+export type TAddHardwareWalletAccountParams = {
+  index: number
+  blockchain: TBlockchainServiceKey
+}
+
+export type TConnectHardwareWalletType = 'usb'
+
+export type TConnectHardwareWalletParams = {
+  lastIndexesByWallet: TLastIndexesByWallet
+  type: TConnectHardwareWalletType
+}
+
+export type TGetAccountHardwareWalletGenericParams = {
+  index: number
+  blockchain: TBlockchainServiceKey
+}
+
+export type TEncryptBasedSecretParams = {
+  value: string
+  secret: string
+  options?: { algorithm?: 'scrypt' | 'pbkdf2' }
+}
+
+export type TDecryptBasedSecretParams = TEncryptBasedSecretParams
+
+export type TEncryptBasedEncryptedSecretParams = Omit<TEncryptBasedSecretParams, 'secret'> & {
+  encryptedSecret?: string
+}
+
+export type TDecryptBasedEncryptedSecretParams = TEncryptBasedEncryptedSecretParams
+
+export type TSaveFileOptions = { path: string; content: string }
 
 export type TMainApiListenersSync = {
-  restore: TIpcMainSyncListener<undefined, void>
-  encryptBasedEncryptedSecretSync: TIpcMainSyncListener<TEncryptBasedEncryptedSecretParams, string>
-  decryptBasedEncryptedSecretSync: TIpcMainSyncListener<TDecryptBasedEncryptedSecretParams, string>
-  encryptBasedOSSync: TIpcMainSyncListener<string, string>
-  decryptBasedOSSync: TIpcMainSyncListener<string, string>
-  generateRandomHexSync: TIpcMainSyncListener<number | undefined, string>
-  getVersion: TIpcMainSyncListener<undefined, string>
+  'window:restore': TIpcMainSyncListener<undefined, void>
+  'encryption:encryptBasedEncryptedSecretSync': TIpcMainSyncListener<TEncryptBasedEncryptedSecretParams, string>
+  'encryption:decryptBasedEncryptedSecretSync': TIpcMainSyncListener<TDecryptBasedEncryptedSecretParams, string>
+  'encryption:encryptBasedOSSync': TIpcMainSyncListener<string, string>
+  'encryption:decryptBasedOSSync': TIpcMainSyncListener<string, string>
+  'encryption:generateRandomHexSync': TIpcMainSyncListener<number | undefined, string>
+  'window:getVersion': TIpcMainSyncListener<undefined, string>
 }
 
 export type TMainApiListenersAsync = {
-  openDialog: TIpcMainAsyncListener<OpenDialogOptions, string[]>
-  readFile: TIpcMainAsyncListener<string, string>
-  saveFile: TIpcMainAsyncListener<{ path: string; content: string }, void>
-  openFile: TIpcMainAsyncListener<string, void>
-  setTitleBarOverlay: TIpcMainAsyncListener<Electron.TitleBarOverlay, void>
-  setWindowButtonPosition: TIpcMainAsyncListener<Electron.Point, void>
-  checkForUpdates: TIpcMainAsyncListener<undefined, boolean>
-  quitAndInstall: TIpcMainAsyncListener<undefined, void>
-  encryptBasedOS: TIpcMainAsyncListener<string, string>
-  decryptBasedOS: TIpcMainAsyncListener<string, string>
-  encryptBasedSecret: TIpcMainAsyncListener<TEncryptBasedSecretParams, string>
-  decryptBasedSecret: TIpcMainAsyncListener<TDecryptBasedSecretParams, string>
-  encryptBasedEncryptedSecret: TIpcMainAsyncListener<TEncryptBasedEncryptedSecretParams, string>
-  decryptBasedEncryptedSecret: TIpcMainAsyncListener<TDecryptBasedEncryptedSecretParams, string>
-  getInitialDeepLinkUri: TIpcMainAsyncListener<undefined, string | undefined>
-  resetInitialDeeplink: TIpcMainAsyncListener<undefined, void>
+  'window:openDialog': TIpcMainAsyncListener<OpenDialogOptions, string[]>
+  'window:readFile': TIpcMainAsyncListener<string, string>
+  'window:saveFile': TIpcMainAsyncListener<TSaveFileOptions, void>
+  'window:openFile': TIpcMainAsyncListener<string, void>
+  'window:setTitleBarOverlay': TIpcMainAsyncListener<Electron.TitleBarOverlay, void>
+  'window:setWindowButtonPosition': TIpcMainAsyncListener<Electron.Point, void>
+  'updater:checkForUpdates': TIpcMainAsyncListener<undefined, boolean>
+  'updater:quitAndInstall': TIpcMainAsyncListener<undefined, void>
+  'encryption:encryptBasedOS': TIpcMainAsyncListener<string, string>
+  'encryption:decryptBasedOS': TIpcMainAsyncListener<string, string>
+  'encryption:encryptBasedSecret': TIpcMainAsyncListener<TEncryptBasedSecretParams, string>
+  'encryption:decryptBasedSecret': TIpcMainAsyncListener<TDecryptBasedSecretParams, string>
+  'encryption:encryptBasedEncryptedSecret': TIpcMainAsyncListener<TEncryptBasedEncryptedSecretParams, string>
+  'encryption:decryptBasedEncryptedSecret': TIpcMainAsyncListener<TDecryptBasedEncryptedSecretParams, string>
+  'deeplink:getInitialUri': TIpcMainAsyncListener<undefined, string | undefined>
+  'deeplink:resetInitialUri': TIpcMainAsyncListener<undefined, void>
 
   // Hardware wallet
   'hardwareWallet:disconnect': TIpcMainAsyncListener<undefined, void>
-  'hardwareWallet:isConnectedAndUnlocked': TIpcMainAsyncListener<
-    TIsConnectedAndUnlockedHardwareWalletGenericParams,
-    boolean
-  >
-  'hardwareWallet:addAccount': TIpcMainAsyncListener<
-    TGetAccountHardwareWalletGenericParams,
-    TBSAccount<TBlockchainServiceKey>
-  >
   'hardwareWallet:getAccount': TIpcMainAsyncListener<
     TGetAccountHardwareWalletGenericParams,
     TBSAccount<TBlockchainServiceKey>
   >
-  'hardwareWallet:connectByUsb': TIpcMainAsyncListener<
-    TConnectHardwareWalletByUsbParams,
-    TBSAccount<TBlockchainServiceKey>[]
-  >
+  'hardwareWallet:connect': TIpcMainAsyncListener<TConnectHardwareWalletParams, TBSAccount<TBlockchainServiceKey>[]>
 }
 
 export type TMainApiSend = {
-  updateCompleted: undefined
-  updateError: string
-  deeplink: string
+  'updater:updateCompleted': undefined
+  'updater:updateError': string
+  'deeplink:connection': string
 
   // Hardware wallet
   'hardwareWallet:onDisconnect': undefined

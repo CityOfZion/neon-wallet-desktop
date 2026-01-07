@@ -3,35 +3,37 @@ import path from 'path'
 
 import { mainApi } from '@shared/api/main'
 
-let initialDeepLinkUri: string | undefined = undefined
+export class MainDeeplinkHelper {
+  static initialUri: string | undefined = undefined
 
-export function setupDeeplinkProtocol() {
-  if (process.defaultApp) {
-    if (process.argv.length >= 2) {
-      app.setAsDefaultProtocolClient('neon', process.execPath, [path.resolve(process.argv[1])])
-      app.setAsDefaultProtocolClient('neon3', process.execPath, [path.resolve(process.argv[1])])
-    }
-  } else {
-    app.setAsDefaultProtocolClient('neon')
-    app.setAsDefaultProtocolClient('neon3')
+  static #onOpenUrl(_event: Electron.Event, url: string) {
+    this.initialUri = url
+    mainApi.send('deeplink:connection', url)
   }
-}
 
-export function setInitialDeeplink(deeplinkUrl?: string) {
-  initialDeepLinkUri = deeplinkUrl
-}
+  static #onGetInitialUri() {
+    return this.initialUri
+  }
 
-export function setupDeeplinkHandler() {
-  app.on('open-url', (_event, url) => {
-    initialDeepLinkUri = url
-    mainApi.send('deeplink', url)
-  })
+  static #onResetInitialUri() {
+    this.initialUri = undefined
+  }
 
-  mainApi.listenAsync('getInitialDeepLinkUri', () => {
-    return initialDeepLinkUri
-  })
+  static setupProtocol() {
+    if (process.defaultApp) {
+      if (process.argv.length >= 2) {
+        app.setAsDefaultProtocolClient('neon', process.execPath, [path.resolve(process.argv[1])])
+        app.setAsDefaultProtocolClient('neon3', process.execPath, [path.resolve(process.argv[1])])
+      }
+    } else {
+      app.setAsDefaultProtocolClient('neon')
+      app.setAsDefaultProtocolClient('neon3')
+    }
+  }
 
-  mainApi.listenAsync('resetInitialDeeplink', () => {
-    initialDeepLinkUri = undefined
-  })
+  static setupHandler() {
+    app.on('open-url', this.#onOpenUrl.bind(this))
+    mainApi.listenAsync('deeplink:getInitialUri', this.#onGetInitialUri.bind(this))
+    mainApi.listenAsync('deeplink:resetInitialUri', this.#onResetInitialUri.bind(this))
+  }
 }

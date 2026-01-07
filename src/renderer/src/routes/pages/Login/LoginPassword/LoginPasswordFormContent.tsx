@@ -12,6 +12,7 @@ import { TestHelper } from '@renderer/helpers/TestHelper'
 import { useActions } from '@renderer/hooks/useActions'
 import { useLogin } from '@renderer/hooks/useLogin'
 
+import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 
 type TFormData = {
@@ -44,8 +45,8 @@ export const LoginPasswordFormContent = () => {
 
       // Improve UX
       await SharedUtilsHelper.sleep(2000)
-    } catch {
-      setError('password', t('invalidPassword'))
+    } catch (error) {
+      setError('password', AppError.wrap(error, t('invalidPassword')).displayMessage)
     }
   }
 

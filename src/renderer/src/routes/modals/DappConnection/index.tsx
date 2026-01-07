@@ -18,6 +18,7 @@ import NeonWalletLogo from '@renderer/assets/images/neon-wallet-full.svg?react'
 import TbLink from '@renderer/assets/images/tb-link.svg?react'
 import WalletConnectLogo from '@renderer/assets/images/wallet-connect.svg?react'
 
+import { AppError } from '@shared/helpers/SharedErrorHelper'
 import type { TModalState } from '@shared/types/modal'
 
 type TFormData = {
@@ -44,7 +45,7 @@ const DappConnectionModal = () => {
       try {
         const timeout = setTimeout(() => {
           WalletKitHelper.kit.off('session_proposal', listener)
-          reject(new Error('Timeout waiting for session proposal'))
+          reject(new AppError(t('errors.timeout')))
         }, 6000)
 
         const listener = (proposal: Omit<SignClientTypes.BaseEventArgs<ProposalTypes.Struct>, 'topic'>) => {
@@ -71,8 +72,8 @@ const DappConnectionModal = () => {
     try {
       const proposal = await handlePair(data.url)
       modalNavigate('dapp-connection-request', { state: { proposal, account }, replace: true })
-    } catch {
-      ToastHelper.error({ message: t('errors.errorToConnect') })
+    } catch (error) {
+      ToastHelper.error({ message: AppError.wrap(error, t('errors.errorToConnect')).displayMessage })
     } finally {
       reset()
     }

@@ -20,6 +20,7 @@ import TbDeviceFloppy from '@renderer/assets/images/tb-device-floppy.svg?react'
 import TbExternalLink from '@renderer/assets/images/tb-external-link.svg?react'
 import TbFileExport from '@renderer/assets/images/tb-file-export.svg?react'
 
+import { AppError } from '@shared/helpers/SharedErrorHelper'
 import type { TModalState } from '@shared/types/modal'
 import { IAccountState } from '@shared/types/store'
 
@@ -61,7 +62,7 @@ const ExportFullTransactionsModal = () => {
   }
 
   const handleBrowse = async () => {
-    const result = await window.api.sendAsync('openDialog', { properties: ['openDirectory', 'createDirectory'] })
+    const result = await window.api.sendAsync('window:openDialog', { properties: ['openDirectory', 'createDirectory'] })
     setData({ selectedFolderPath: result[0] })
   }
 
@@ -90,7 +91,7 @@ const ExportFullTransactionsModal = () => {
       const filename = `NEON3-ACTV-${account.address}-${account.blockchain}-${formattedDateFrom}-${formattedDateTo}.csv`
       const filePath = `${actionData.selectedFolderPath}/${filename}`
 
-      await window.api.sendAsync('saveFile', {
+      await window.api.sendAsync('window:saveFile', {
         path: filePath,
         content: result,
       })
@@ -98,7 +99,7 @@ const ExportFullTransactionsModal = () => {
       setData({ exported: true, filePath })
     } catch (error) {
       console.error(error)
-      ToastHelper.error({ message: t('form.errorMessage') })
+      ToastHelper.error({ message: AppError.wrap(error, t('form.errorMessage')).displayMessage })
     }
   }
 
@@ -149,10 +150,10 @@ const ExportFullTransactionsModal = () => {
     setData({ isOpeningFilePath: true })
 
     try {
-      await window.api.sendAsync('openFile', actionData.filePath)
+      await window.api.sendAsync('window:openFile', actionData.filePath)
     } catch (error) {
       console.error(error)
-      ToastHelper.error({ message: t('messages.openExportError'), duration: 6000 })
+      ToastHelper.error({ message: AppError.wrap(error, t('messages.openExportError')).displayMessage, duration: 6000 })
     } finally {
       setData({ isOpeningFilePath: false })
     }

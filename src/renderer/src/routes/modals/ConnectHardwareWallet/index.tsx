@@ -6,7 +6,7 @@ import { AlertSuccessBanner } from '@renderer/components/AlertSuccessBanner'
 import { Button } from '@renderer/components/Button'
 import { SearchingLoader } from '@renderer/components/SearchingLoader'
 
-import { useHardwareWalletActions, useHardwareWalletByUsb } from '@renderer/hooks/useHardwareWallet'
+import { useCreateHardwareWallet, useHardwareWalletByUsb } from '@renderer/hooks/useHardwareWallet'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useMountUnsafe } from '@renderer/hooks/useMount'
 
@@ -20,7 +20,7 @@ const ConnectHardwareWalletModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'connectHardwareWallet' })
   const navigate = useNavigate()
   const { modalErase } = useModalNavigate()
-  const { createHardwareWallet } = useHardwareWalletActions()
+  const { createHardwareWallet } = useCreateHardwareWallet()
   const { pathname } = useLocation()
 
   const { status, connect } = useHardwareWalletByUsb()

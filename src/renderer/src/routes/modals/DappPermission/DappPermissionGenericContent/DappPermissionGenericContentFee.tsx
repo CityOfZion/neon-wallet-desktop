@@ -12,6 +12,8 @@ import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 
 import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
 
+import { AppError } from '@shared/helpers/SharedErrorHelper'
+
 import type { TDappPermissionProps } from '../index'
 
 export const DappPermissionGenericContentFee = ({
@@ -28,9 +30,9 @@ export const DappPermissionGenericContentFee = ({
     queryKey: ['fee', request.id],
     queryFn: async () => {
       if (!currentLoginSession || !sessionAccount.encryptedKey)
-        throw new Error(commonT('errors.loginSessionIsNotDefined'))
+        throw new AppError(commonT('errors.loginSessionIsNotDefined'))
 
-      const key = await window.api.sendAsync('decryptBasedEncryptedSecret', {
+      const key = await window.api.sendAsync('encryption:decryptBasedEncryptedSecret', {
         value: sessionAccount.encryptedKey,
         encryptedSecret: currentLoginSession.encryptedPassword,
       })

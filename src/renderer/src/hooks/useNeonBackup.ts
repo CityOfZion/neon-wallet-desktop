@@ -7,6 +7,7 @@ import { NeonBackupHelper } from '@renderer/helpers/NeonBackupHelper'
 
 import { contactReducerActions } from '@renderer/store/reducers/contact'
 import { utilityReducerActions } from '@renderer/store/reducers/utility'
+import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { neonBackupContentSchema, neonBackupDataSchema } from '@shared/schemas/neon-backup'
 import { TAccountsToImport, TCreateWalletAndAccountParam } from '@shared/types/blockchain'
 import type {
@@ -37,7 +38,7 @@ export const useNeonCreateBackup = () => {
 
   const handleCreateBackupFormat = async () => {
     if (!currentLoginSessionRef.current) {
-      throw new Error(t('errors.unexpectedError'))
+      throw new AppError(t('errors.unexpectedError'))
     }
 
     const encryptedPassword = currentLoginSessionRef.current.encryptedPassword
@@ -76,7 +77,7 @@ export const useNeonCreateBackup = () => {
       let key: string | undefined
 
       if (account.encryptedKey) {
-        key = await window.api.sendAsync('decryptBasedEncryptedSecret', {
+        key = await window.api.sendAsync('encryption:decryptBasedEncryptedSecret', {
           value: account.encryptedKey,
           encryptedSecret: encryptedPassword,
         })
@@ -105,7 +106,7 @@ export const useNeonCreateBackup = () => {
       let mnemonic: string | undefined
 
       if (wallet.encryptedMnemonic) {
-        mnemonic = await window.api.sendAsync('decryptBasedEncryptedSecret', {
+        mnemonic = await window.api.sendAsync('encryption:decryptBasedEncryptedSecret', {
           value: wallet.encryptedMnemonic,
           encryptedSecret: encryptedPassword,
         })
@@ -132,7 +133,7 @@ export const useNeonCreateBackup = () => {
       const backupFileData = await handleCreateBackupFormat()
       const backupFileDataString = JSON.stringify(backupFileData)
 
-      const backupFileDataStringEncrypted = await window.api.sendAsync('encryptBasedSecret', {
+      const backupFileDataStringEncrypted = await window.api.sendAsync('encryption:encryptBasedSecret', {
         value: backupFileDataString,
         secret: password,
         options: { algorithm: 'pbkdf2' },
@@ -149,12 +150,12 @@ export const useNeonCreateBackup = () => {
         if (wallet) editWallet({ wallet, data: { backupStatus: 'successful' } })
       })
 
-      await window.api.sendAsync('saveFile', {
+      await window.api.sendAsync('window:saveFile', {
         path: `${selectedFilePath}/Neon-Backup-${DateHelper.getCurrentFullDateString()}.${NeonBackupHelper.fileExtension}`,
         content: JSON.stringify(backupFile),
       })
-    } catch {
-      throw new Error(t('errors.backupError'))
+    } catch (error) {
+      throw AppError.wrap(error, t('errors.backupError'))
     }
   }
 
@@ -203,9 +204,12 @@ export const useNeonImportBackup = () => {
       let decrypted: string
 
       if (data.type === 'backup-deprecated') {
-        decrypted = await window.api.sendAsync('decryptBasedSecret', { value: data.content, secret: password })
+        decrypted = await window.api.sendAsync('encryption:decryptBasedSecret', {
+          value: data.content,
+          secret: password,
+        })
       } else {
-        decrypted = await window.api.sendAsync('decryptBasedSecret', {
+        decrypted = await window.api.sendAsync('encryption:decryptBasedSecret', {
           value: data.content.data,
           secret: password,
           options: { algorithm: 'pbkdf2' },
@@ -215,8 +219,8 @@ export const useNeonImportBackup = () => {
       const parsedData = JSON.parse(decrypted)
 
       return await neonBackupDataSchema.parseAsync(parsedData)
-    } catch {
-      throw new Error(t('errors.wrongPassword'))
+    } catch (error) {
+      throw AppError.wrap(error, t('errors.wrongPassword'))
     }
   }
 
@@ -309,8 +313,8 @@ export const useNeonImportBackup = () => {
       })
 
       await Promise.allSettled(promises)
-    } catch {
-      throw new Error(t('errors.importData'))
+    } catch (error) {
+      throw AppError.wrap(error, t('errors.importData'))
     }
   }
 

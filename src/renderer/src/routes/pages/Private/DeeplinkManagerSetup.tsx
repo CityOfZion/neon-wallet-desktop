@@ -21,7 +21,7 @@ const DeeplinkManagerSetup = () => {
       // Remove trailing slash
       uri = uri.endsWith('/') ? uri.slice(0, -1) : uri
 
-      window.api.sendAsync('resetInitialDeeplink')
+      window.api.sendAsync('deeplink:resetInitialUri')
 
       const [_prefix, path] = uri.split('://')
 
@@ -65,9 +65,9 @@ const DeeplinkManagerSetup = () => {
       }
     }
 
-    window.api.sendAsync('getInitialDeepLinkUri').then(handleDeeplink)
+    window.api.sendAsync('deeplink:getInitialUri').then(handleDeeplink)
 
-    const removeDeeplinkListener = window.api.listen('deeplink', ({ args }) => {
+    const removeDeeplinkListener = window.api.listen('deeplink:connection', ({ args }) => {
       handleDeeplink(args)
     })
 

@@ -4,6 +4,8 @@ import { cloneDeep } from 'lodash'
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { TokenHelper } from '@renderer/helpers/TokenHelper'
 
+import { AppError } from '@shared/helpers/SharedErrorHelper'
+import { SharedI18nextHelper } from '@shared/helpers/SharedI18nextHelper'
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import { TUseTransactionsTransfer } from '@shared/types/hooks'
 import { TSwapRecord } from '@shared/types/store'
@@ -14,6 +16,8 @@ type THiddenTokenParams = {
   hash: string
   blockchain: TBlockchainServiceKey
 }
+
+const { t } = SharedI18nextHelper.get()
 
 // Pending Transaction Reducers
 const addPendingTransaction: CaseReducer<IUtilityReducer, PayloadAction<TUseTransactionsTransfer>> = (
@@ -75,7 +79,9 @@ const setUnlockedSkinIds: CaseReducer<IUtilityReducer, PayloadAction<string[]>> 
 const toggleHiddenToken: CaseReducer<IUtilityReducer, PayloadAction<THiddenTokenParams>> = (state, action) => {
   const { hash, blockchain } = action.payload
 
-  if (TokenHelper.isNativeToken(hash, blockchain)) throw new Error("The native token can't be hidden")
+  if (TokenHelper.isNativeToken(hash, blockchain)) {
+    throw new AppError(t('errors.unexpectedError'))
+  }
 
   const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
   const normalizedHash = service.tokenService.normalizeHash(hash)

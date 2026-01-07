@@ -25,7 +25,7 @@ export const useBackupOrMigrate = () => {
   })
 
   const handleBrowse = async () => {
-    const [filePath] = await window.api.sendAsync('openDialog', {
+    const [filePath] = await window.api.sendAsync('window:openDialog', {
       properties: ['openFile'],
       filters: [
         {
@@ -35,7 +35,7 @@ export const useBackupOrMigrate = () => {
       ],
     })
 
-    const fileContent = await window.api.sendAsync('readFile', filePath)
+    const fileContent = await window.api.sendAsync('window:readFile', filePath)
 
     const backupContent = await importBackupActions.validateAndParseFile(filePath, fileContent)
 

@@ -20,20 +20,17 @@ const ForgottenPasswordConfirmPage = () => {
   const { language } = useLanguageSelector()
   const { currency } = useCurrencySelector()
   const { isFirstTime } = useIsFirstTimeSelector()
+
   const [isCleaningData, startCleaningData] = usePressOnce(async () => {
-    try {
-      await ReduxHelper.persistor.purge()
-      ReduxHelper.setup()
-      await ReduxHelper.waitForBootstrap()
+    await ReduxHelper.persistor.purge()
+    ReduxHelper.setup()
+    await ReduxHelper.waitForBootstrap()
 
-      ReduxHelper.store.dispatch(settingsReducerActions.setIsFirstTime(isFirstTime))
-      ReduxHelper.store.dispatch(settingsReducerActions.setLanguage(language))
-      ReduxHelper.store.dispatch(settingsReducerActions.setCurrency(currency))
+    ReduxHelper.store.dispatch(settingsReducerActions.setIsFirstTime(isFirstTime))
+    ReduxHelper.store.dispatch(settingsReducerActions.setLanguage(language))
+    ReduxHelper.store.dispatch(settingsReducerActions.setCurrency(currency))
 
-      navigate('/forgotten-password/success')
-    } catch (error) {
-      console.error(error)
-    }
+    navigate('/forgotten-password/success')
   })
 
   return (

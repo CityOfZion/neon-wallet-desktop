@@ -10,7 +10,7 @@ import { StringHelper } from '@renderer/helpers/StringHelper'
 
 import { useActions } from '@renderer/hooks/useActions'
 import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
-import { useHardwareWalletActions } from '@renderer/hooks/useHardwareWallet'
+import { useAddAccountHardwareWallet } from '@renderer/hooks/useHardwareWallet'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 
@@ -39,7 +39,7 @@ const PersistAccountModal = () => {
   const { modalNavigate } = useModalNavigate()
   const modalState = useModalState<TModalState<'persist-account'>>()
   const { createStandardAccount } = useBlockchainActions()
-  const { addNewHardwareAccount } = useHardwareWalletActions()
+  const { addNewHardwareAccount } = useAddAccountHardwareWallet()
   const dispatch = useAppDispatch()
 
   const modalStateAccount = modalState?.account

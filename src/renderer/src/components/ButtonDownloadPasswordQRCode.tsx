@@ -31,7 +31,10 @@ export const ButtonDownloadPasswordQRCode = ({ label, variant, leftIcon, onDownl
   }
 
   const decryptPassword = useCallback(async () => {
-    const result = await window.api.sendAsync('decryptBasedOS', currentLoginSessionRef.current?.encryptedPassword ?? '')
+    const result = await window.api.sendAsync(
+      'encryption:decryptBasedOS',
+      currentLoginSessionRef.current?.encryptedPassword ?? ''
+    )
     setDecryptedPassword(result)
   }, [currentLoginSessionRef])
 

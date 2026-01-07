@@ -6,7 +6,7 @@ export class ContactsHelper {
       ...contact,
       addresses: contact.addresses.map(({ address, ...contactAddress }) => ({
         ...contactAddress,
-        encryptedAddress: window.api.sendSync('encryptBasedOSSync', address),
+        encryptedAddress: window.api.sendSync('encryption:encryptBasedOSSync', address),
       })),
     }
   }
@@ -20,7 +20,7 @@ export class ContactsHelper {
       ...contact,
       addresses: addresses.map(({ encryptedAddress, ...contactAddress }) => ({
         ...contactAddress,
-        address: window.api.sendSync('decryptBasedOSSync', encryptedAddress),
+        address: window.api.sendSync('encryption:decryptBasedOSSync', encryptedAddress),
       })),
     }))
   }

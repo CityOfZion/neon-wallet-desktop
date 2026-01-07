@@ -17,6 +17,8 @@ import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import TbArrowRight from '@renderer/assets/images/tb-arrow-right.svg?react'
 import TbReload from '@renderer/assets/images/tb-reload.svg?react'
 
+import { AppError } from '@shared/helpers/SharedErrorHelper'
+
 type TFormData = {
   newPassword: string
   currentPassword: string
@@ -25,6 +27,7 @@ type TFormData = {
 const ChangePasswordStep1 = () => {
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const { t } = useTranslation('pages', { keyPrefix: 'settings.changePassword.step1' })
+  const { t: commonT } = useTranslation('common')
   const navigate = useNavigate()
   const [isPasswordValid, setIsPasswordValid] = useState(false)
 
@@ -36,14 +39,14 @@ const ChangePasswordStep1 = () => {
 
   const handleSubmit = async (data: TFormData) => {
     if (!currentLoginSessionRef.current) {
-      throw new Error('Login session not defined')
+      throw new AppError(commonT('errors.loginSessionIsNotDefined'))
     }
 
     const decryptedPassword = await window.api.sendAsync(
-      'decryptBasedOS',
+      'encryption:decryptBasedOS',
       currentLoginSessionRef.current.encryptedPassword
     )
-    const encryptedNewPassword = await window.api.sendAsync('encryptBasedOS', data.newPassword)
+    const encryptedNewPassword = await window.api.sendAsync('encryption:encryptBasedOS', data.newPassword)
     if (data.currentPassword.length === 0 || data.currentPassword !== decryptedPassword) {
       setError('currentPassword', t('error'))
       return

@@ -19,11 +19,13 @@ import PiPrinter from '@renderer/assets/images/pi-printer.svg?react'
 import TbCircleKey from '@renderer/assets/images/tb-circle-key.svg?react'
 import TbUpload from '@renderer/assets/images/tb-upload.svg?react'
 
+import { AppError } from '@shared/helpers/SharedErrorHelper'
 import type { TModalState } from '@shared/types/modal'
 
 const ExportMnemonic = () => {
   const { wallet } = useModalState<TModalState<'export-mnemonic'>>()
   const { t } = useTranslation('modals', { keyPrefix: 'exportMnemonic' })
+  const { t: commonT } = useTranslation('common')
   const { currentLoginSession } = useCurrentLoginSessionSelector()
 
   const ref = useRef<HTMLDivElement>(null)
@@ -34,10 +36,10 @@ const ExportMnemonic = () => {
   })
 
   if (!currentLoginSession) {
-    throw new Error('Login session not defined')
+    throw new AppError(commonT('errors.loginSessionIsNotDefined'))
   }
 
-  const words = window.api.sendSync('decryptBasedEncryptedSecretSync', {
+  const words = window.api.sendSync('encryption:decryptBasedEncryptedSecretSync', {
     value: wallet.encryptedMnemonic ?? '',
     encryptedSecret: currentLoginSession.encryptedPassword,
   })

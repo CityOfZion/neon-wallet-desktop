@@ -18,6 +18,7 @@ import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 import MdOutlineSave from '@renderer/assets/images/md-outline-save.svg?react'
 
+import { AppError } from '@shared/helpers/SharedErrorHelper'
 import type { TModalState } from '@shared/types/modal'
 
 type TFormData = {
@@ -40,6 +41,7 @@ const SuccessFooter = () => {
 const ConfirmPasswordBackupModal = () => {
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const { t } = useTranslation('modals', { keyPrefix: 'confirmPasswordBackup' })
+  const { t: tCommon } = useTranslation('common')
   const { selectedFilePath } = useModalState<TModalState<'confirm-password-backup'>>()
   const { modalNavigate } = useModalNavigate()
   const { handleCreateBackup } = useNeonCreateBackup()
@@ -50,12 +52,12 @@ const ConfirmPasswordBackupModal = () => {
 
   const handleSubmit = async ({ password }: TFormData) => {
     if (!currentLoginSessionRef.current) {
-      throw new Error('Login session not defined')
+      throw new AppError(tCommon('errors.loginSessionIsNotDefined'))
     }
 
     const encryptedPassword = currentLoginSessionRef.current.encryptedPassword
 
-    const decryptedPassword = await window.api.sendAsync('decryptBasedOS', encryptedPassword)
+    const decryptedPassword = await window.api.sendAsync('encryption:decryptBasedOS', encryptedPassword)
 
     if (password.length === 0 || password !== decryptedPassword) {
       setError('password', t('error'))
@@ -74,8 +76,8 @@ const ConfirmPasswordBackupModal = () => {
         },
         replace: true,
       })
-    } catch {
-      ToastHelper.error({ message: t('errorBackup') })
+    } catch (error) {
+      ToastHelper.error({ message: AppError.wrap(error, t('errorBackup')).displayMessage })
     }
   }
 

@@ -20,6 +20,7 @@ import { CenterModalLayout } from '@renderer/layouts/CenterModal'
 import TbEyeOff from '@renderer/assets/images/tb-eye-off.svg?react'
 
 import { utilityReducerActions } from '@renderer/store/reducers/utility'
+import { AppError } from '@shared/helpers/SharedErrorHelper'
 import type { TModalState } from '@shared/types/modal'
 
 const HideFraudulentTokenModal = () => {
@@ -46,8 +47,8 @@ const HideFraudulentTokenModal = () => {
     try {
       dispatch(utilityReducerActions.toggleHiddenToken({ hash, blockchain: account.blockchain }))
       modalErase()
-    } catch {
-      ToastHelper.error({ message: t('hideErrorMessage') })
+    } catch (error) {
+      ToastHelper.error({ message: AppError.wrap(error, t('hideErrorMessage')).displayMessage })
     }
   })
 

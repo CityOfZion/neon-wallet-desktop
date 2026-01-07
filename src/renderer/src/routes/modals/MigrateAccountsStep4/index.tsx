@@ -16,6 +16,7 @@ import { MigrateAccountsModalLayout } from '@renderer/layouts/MigrateAccountsMod
 import MdLooks4 from '@renderer/assets/images/md-looks-4.svg?react'
 import TbPackageImport from '@renderer/assets/images/tb-package-import.svg?react'
 
+import { AppError } from '@shared/helpers/SharedErrorHelper'
 import type { TUseNeonMigrateAccountsSchema, TUseNeonMigrateDecryptedAccountSchema } from '@shared/types/hooks'
 import type { TModalState } from '@shared/types/modal'
 
@@ -64,8 +65,9 @@ const MigrateAccountsStep4Modal = () => {
           content: <SuccessContent accounts={accounts} />,
         },
       })
-    } catch {
-      ToastHelper.error({ message: t('step4.migrateError') })
+    } catch (error) {
+      console.error(error)
+      ToastHelper.error({ message: AppError.wrap(error, t('step4.migrateError')).displayMessage })
       modalErase()
     }
   }

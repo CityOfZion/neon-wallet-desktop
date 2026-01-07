@@ -18,6 +18,7 @@ import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 import TbFileImport from '@renderer/assets/images/tb-file-import.svg?react'
 
+import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import type { TModalState } from '@shared/types/modal'
@@ -54,7 +55,7 @@ const ImportModal = () => {
               blockchain,
               onDecrypt: async (key: string, address: string) => {
                 if (doesAccountExist({ address, blockchain })) {
-                  throw new Error(t('addressAlreadyExist'))
+                  throw new AppError(t('addressAlreadyExist'))
                 }
 
                 const wallet = createWallet({ name: tCommon('encryptedName') })

@@ -10,6 +10,7 @@ import { useModalState } from '@renderer/hooks/useModalRouter'
 
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 
+import { AppError } from '@shared/helpers/SharedErrorHelper'
 import type { TModalState } from '@shared/types/modal'
 
 type TFormData = {
@@ -20,6 +21,7 @@ const ConfirmPasswordExportModal = () => {
   const { onSubmitPassword, title, icon } = useModalState<TModalState<'confirm-password-export'>>()
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const { t } = useTranslation('modals', { keyPrefix: 'confirmPasswordExport' })
+  const { t: tCommon } = useTranslation('common')
 
   const { actionData, actionState, handleAct, setDataFromEventWrapper, setError } = useActions<TFormData>({
     password: '',
@@ -27,11 +29,11 @@ const ConfirmPasswordExportModal = () => {
 
   const handleSubmit = async ({ password }: TFormData) => {
     if (!currentLoginSessionRef.current) {
-      throw new Error('Login session not defined')
+      throw new AppError(tCommon('errors.loginSessionIsNotDefined'))
     }
 
     const decryptedPassword = await window.api.sendAsync(
-      'decryptBasedOS',
+      'encryption:decryptBasedOS',
       currentLoginSessionRef.current?.encryptedPassword
     )
 

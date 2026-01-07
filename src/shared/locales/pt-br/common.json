@@ -13,9 +13,10 @@
   },
   "errors": {
     "blockchainIsNotClaimable": "A blockchain da conta não é resgatável: {{address}} {{blockchain}}",
-    "hardwareWalletNotConnectedOrLocked": "A carteira de hardware não está conectada ou está bloqueada, verifique seu dispositivo e tente novamente",
     "loginSessionIsNotDefined": "Erro desconhecido. A sessão de login não está definida.",
-    "noEncryptedKey": "Não há chave criptografada para esta conta: {{address}}"
+    "noEncryptedKey": "Não há chave criptografada para esta conta: {{address}}",
+    "unexpectedError": "Ocorreu um erro inesperado. Se o problema persistir, entre em contato com o suporte.",
+    "userCancelled": "A operação foi cancelada pelo usuário."
   },
   "general": {
     "back": "Voltar",
@@ -43,6 +44,18 @@
     "successfullyCopied": "Copiado com sucesso para a área de transferência",
     "swap": "Swap",
     "test": "Teste"
+  },
+  "hardwareWallet": {
+    "errors": {
+      "accountIsNotHardware": "A conta selecionada não é uma conta de carteira de hardware.",
+      "accountsNotFound": "Não foi possível identificar a blockchain da carteira de hardware. Certifique-se de que um aplicativo compatível esteja aberto.",
+      "blockchainNotSupported": "A blockchain {{blockchain}} não suporta carteiras de hardware.",
+      "disconnectFirst": "Você deve desconectar a carteira de hardware antes de conectá-la novamente.",
+      "hardwareWalletIsNotConnectOrUnlocked": "A carteira de hardware não está conectada ou está bloqueada. Verifique seu dispositivo e tente novamente.",
+      "hardwareWalletNotFound": "Não há nenhuma carteira de hardware conectada.",
+      "missingBip44Path": "O caminho BIP44 está ausente para a conta da carteira de hardware.",
+      "walletIsNotHardware": "A carteira selecionada não é uma carteira de hardware."
+    }
   },
   "networkTypeLabel": {
     "mainnet": "Rede Principal",
@@ -84,5 +97,11 @@
     "migratedWalletName": "Carteira Migrada",
     "mnemonicWalletName": "Carteira Mnemônica",
     "watchAccount": "Conta Observada"
+  },
+  "walletConnect": {
+    "errorsByCode": {
+      "NO_SERVICE": "O aplicativo descentralizado (dApp) está tentando se conectar a uma blockchain ou rede diferente da selecionada.",
+      "UNEXPECTED_ERROR": "Ocorreu um erro inesperado. Tente novamente ou entre em contato com o suporte."
+    }
   }
 }

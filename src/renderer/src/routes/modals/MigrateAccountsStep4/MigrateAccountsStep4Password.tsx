@@ -11,6 +11,7 @@ import MdCheck from '@renderer/assets/images/md-check.svg?react'
 import MdChevronRight from '@renderer/assets/images/md-chevron-right.svg?react'
 import TbAlertTriangle from '@renderer/assets/images/tb-alert-triangle.svg?react'
 
+import { AppError } from '@shared/helpers/SharedErrorHelper'
 import type { TUseNeonMigrateAccountsSchema } from '@shared/types/hooks'
 
 type TProps = {
@@ -32,8 +33,9 @@ export const MigrateAccountsStep4Password = ({ accountToMigrate, onSubmit }: TPr
   const handleSubmit = async (data: TActionData) => {
     try {
       await onSubmit(accountToMigrate, data.password)
-    } catch {
-      setError('password', t('passwordError'))
+    } catch (error) {
+      console.error(error)
+      setError('password', AppError.wrap(error, t('passwordError')).displayMessage)
     }
   }
 

@@ -200,7 +200,8 @@
     "description": "Todas as transações solicitadas por um dApp conectado <strong>exigirão sua permissão antes de serem transmitidas</strong> para a blockchain.",
     "disclaimer": "Nenhuma ação iniciada pelo dApp acontecerá sem sua aprovação direta.",
     "errors": {
-      "errorToConnect": "Ops! Encontramos um erro. Tente gerar uma nova uri e tente novamente."
+      "errorToConnect": "Ops! Encontramos um erro. Tente gerar uma nova uri e tente novamente.",
+      "timeout": "A solicitação de conexão expirou."
     },
     "inputPlaceholder": "Cole sua URL aqui…",
     "title": "Conectar com um dApp"
@@ -220,9 +221,6 @@
     },
     "errors": {
       "unknown": "Um erro desconhecido ocorreu. Por favor, tente novamente."
-    },
-    "errorsByCode": {
-      "NO_SERVICE": "A dApp está tentando se conectar a uma blockchain ou rede diferente da selecionada."
     },
     "messages": {
       "connected": "{{dappName}} agora está conectado."

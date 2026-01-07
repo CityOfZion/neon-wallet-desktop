@@ -16,6 +16,7 @@ import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 import TbFileImport from '@renderer/assets/images/tb-file-import.svg?react'
 
+import { AppError } from '@shared/helpers/SharedErrorHelper'
 import type { TModalState } from '@shared/types/modal'
 
 type TFormData = {
@@ -47,10 +48,9 @@ const DecryptKeyModal = () => {
       const { address, key } = await service.decrypt(encryptedKey, actionData.password)
 
       await onDecrypt?.(key, address)
-    } catch (error: any) {
+    } catch (error) {
       console.error(error)
-
-      ToastHelper.error({ message: t('errors.decryptError') })
+      ToastHelper.error({ message: AppError.wrap(error, t('errors.decryptError')).displayMessage })
     } finally {
       reset()
     }

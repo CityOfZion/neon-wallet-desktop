@@ -14,6 +14,7 @@ import { useAppDispatch } from '@renderer/hooks/useRedux'
 import NeonWalletLogo from '@renderer/assets/images/neon-wallet-compact.svg?react'
 
 import { utilityReducerActions } from '@renderer/store/reducers/utility'
+import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 import { TCreateWalletAndAccountParam } from '@shared/types/blockchain'
 import { IContactState, TSwapRecord } from '@shared/types/store'
@@ -70,8 +71,8 @@ export const LoginPasswordImportWalletStep4Content = () => {
       await SharedUtilsHelper.sleep(250)
 
       navigate('/login-import-wallet-setup/5')
-    } catch (error: any) {
-      ToastHelper.error({ message: error.message })
+    } catch (error) {
+      ToastHelper.error({ message: AppError.wrap(error).displayMessage })
       navigate(-1)
     }
   }

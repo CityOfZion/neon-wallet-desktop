@@ -2,21 +2,29 @@ import { autoUpdater } from 'electron-updater'
 
 import { mainApi } from '@shared/api/main'
 
-export function setupUpdaterHandler() {
-  autoUpdater.on('update-downloaded', () => {
-    mainApi.send('updateCompleted')
-  })
+export class MainUpdaterHelper {
+  static #onUpdateDownloaded() {
+    mainApi.send('updater:updateCompleted')
+  }
 
-  autoUpdater.on('error', error => {
-    mainApi.send('updateError', error.message)
-  })
+  static #onUpdateError(error: Error) {
+    mainApi.send('updater:updateError', error.message)
+  }
 
-  mainApi.listenAsync('checkForUpdates', async () => {
+  static async #onCheckForUpdates() {
     const info = await autoUpdater.checkForUpdates()
     return !!info?.cancellationToken
-  })
+  }
 
-  mainApi.listenAsync('quitAndInstall', async () => {
+  static #onQuitAndInstall() {
     autoUpdater.quitAndInstall()
-  })
+  }
+
+  static setupHandlers() {
+    autoUpdater.on('update-downloaded', this.#onUpdateDownloaded.bind(this))
+    autoUpdater.on('error', this.#onUpdateError.bind(this))
+
+    mainApi.listenAsync('updater:checkForUpdates', this.#onCheckForUpdates.bind(this))
+    mainApi.listenAsync('updater:quitAndInstall', this.#onQuitAndInstall.bind(this))
+  }
 }

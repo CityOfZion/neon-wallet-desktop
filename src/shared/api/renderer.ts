@@ -1,7 +1,7 @@
 import { electronAPI } from '@electron-toolkit/preload'
 
 import { TMainApiListenersAsync, TMainApiListenersSync, TMainApiSend } from '@shared/types/api'
-import { TIpcRendererListener, TIpcRendererSendArgs, TIpcRendererSendResponse } from '@shared/types/ipc'
+import { TIpcRendererListener, TIpcRendererSendArgs, TIpcRendererSendResponse } from '@shared/types/api'
 
 function sendSync<
   K extends keyof TMainApiListenersSync = keyof TMainApiListenersSync,

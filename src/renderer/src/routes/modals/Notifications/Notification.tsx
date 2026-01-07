@@ -22,6 +22,7 @@ import TbAlertTriangle from '@renderer/assets/images/tb-alert-triangle.svg?react
 
 import { authReducerActions } from '@renderer/store/reducers/auth'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
+import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { TNotification, TNotificationPriority } from '@shared/types/store'
 
 import { functionByNotificationActionType } from './functionByNotificationActionType'
@@ -91,9 +92,9 @@ export const Notification = ({ notification }: TProps) => {
           read: true,
         })
       )
-    } catch (error: any) {
+    } catch (error) {
       console.error(error)
-      ToastHelper.error({ message: error.message })
+      ToastHelper.error({ message: AppError.wrap(error).displayMessage })
     }
   }
 

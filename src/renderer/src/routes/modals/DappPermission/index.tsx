@@ -15,6 +15,7 @@ import { useSelectedNetworkProfileSelector } from '@renderer/hooks/useSettingsSe
 
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
 
+import { WalletConnectError } from '@shared/helpers/SharedErrorHelper'
 import type { TBlockchainServiceKey } from '@shared/types/blockchain'
 import type { TModalState } from '@shared/types/modal'
 
@@ -101,7 +102,7 @@ export const DappPermissionModal = () => {
         state: {
           heading: t('errorContent.title'),
           subtitle: t('errorContent.subtitle'),
-          content: <DappPermissionErrorContent error={error} />,
+          content: <DappPermissionErrorContent error={WalletConnectError.wrap(error)} />,
         },
       })
     }

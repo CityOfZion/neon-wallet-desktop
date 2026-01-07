@@ -13,9 +13,10 @@
   },
   "errors": {
     "blockchainIsNotClaimable": "The account blockchain is not claimable: {{address}} {{blockchain}}",
-    "hardwareWalletNotConnectedOrLocked": "Hardware wallet isn't connected or is locked, verify your device and try again",
     "loginSessionIsNotDefined": "Unknown error. Login session is not defined.",
-    "noEncryptedKey": "There is not encrypted key for this account: {{address}}"
+    "noEncryptedKey": "There is not encrypted key for this account: {{address}}",
+    "unexpectedError": "An unexpected error occurred. Please contact support if the problem persists.",
+    "userCancelled": "The operation was cancelled by the user."
   },
   "general": {
     "back": "Back",
@@ -43,6 +44,18 @@
     "successfullyCopied": "Successfully copied to clipboard",
     "swap": "Swap",
     "test": "Test"
+  },
+  "hardwareWallet": {
+    "errors": {
+      "accountIsNotHardware": "The selected account is not a hardware wallet account",
+      "accountsNotFound": "Unable to identify the hardware wallet blockchain. Ensure a supported app is open",
+      "blockchainNotSupported": "The blockchain {{blockchain}} does not support hardware wallets",
+      "disconnectFirst": "You must disconnect the hardware wallet before connecting again",
+      "hardwareWalletIsNotConnectOrUnlocked": "Hardware wallet isn't connected or is locked, verify your device and try again",
+      "hardwareWalletNotFound": "There is no hardware wallet connected",
+      "missingBip44Path": "BIP44 path is missing for the hardware wallet account",
+      "walletIsNotHardware": "The selected wallet is not a hardware wallet"
+    }
   },
   "networkTypeLabel": {
     "mainnet": "MainNet",
@@ -84,5 +97,11 @@
     "migratedWalletName": "Migrated Wallet",
     "mnemonicWalletName": "Mnemonic Wallet",
     "watchAccount": "Watch Account"
+  },
+  "walletConnect": {
+    "errorsByCode": {
+      "NO_SERVICE": "The dApp is trying to connect to a different blockchain or network than the one selected.",
+      "UNEXPECTED_ERROR": "An unexpected error occurred. Please try again or contact support."
+    }
   }
 }

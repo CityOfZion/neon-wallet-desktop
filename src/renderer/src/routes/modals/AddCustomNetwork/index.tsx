@@ -17,6 +17,7 @@ import { SideModalLayout } from '@renderer/layouts/SideModal'
 import TbCube3dSphere from '@renderer/assets/images/tb-cube-3d-sphere.svg?react'
 
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
+import { AppError } from '@shared/helpers/SharedErrorHelper'
 import type { TModalState } from '@shared/types/modal'
 
 type TActionData = {
@@ -63,8 +64,8 @@ const AddCustomNetwork = () => {
 
       clearErrors('url')
       setData({ isValid: true })
-    } catch {
-      setError('url', t('errors.notConnect'))
+    } catch (error) {
+      setError('url', AppError.wrap(error, t('errors.notConnect')).displayMessage)
     } finally {
       setData({ validating: false })
     }
