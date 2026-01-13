@@ -348,6 +348,8 @@ type TDappPermissionSignatureScopeModalState = {
 type TExportFullTransactionsModalState =
   | {
       account: IAccountState
+      dateFrom?: Date
+      dateTo?: Date
     }
   | undefined
 

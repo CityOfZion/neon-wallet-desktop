@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 
 import { useVirtualizer } from '@tanstack/react-virtual'
-import * as dateFns from 'date-fns'
 import { useTranslation } from 'react-i18next'
 import { match, P } from 'ts-pattern'
 
@@ -9,7 +8,6 @@ import { Separator } from '@renderer/components/Separator'
 
 import { DateHelper } from '@renderer/helpers/DateHelper'
 
-import { useActions } from '@renderer/hooks/useActions'
 import { useGetFullTransactions } from '@renderer/hooks/useGetFullTransactions'
 import { useInfiniteScroll } from '@renderer/hooks/useInfiniteScroll'
 import { useLanguageSelector } from '@renderer/hooks/useSettingsSelector'
@@ -26,14 +24,12 @@ import { TransactionActivityListDateRange } from './TransactionActivityListDateR
 import { TransactionActivityListItem } from './TransactionActivityListItem'
 import { TransactionActivityListSkeleton } from './TransactionActivityListSkeleton'
 
-type TActionsData = {
-  accounts: IAccountState[]
-  dateFrom: Date
-  dateTo: Date
-}
-
 type TProps = {
   defaultAccounts: IAccountState[]
+  dateFrom: Date
+  dateTo: Date
+  onSelectDateFrom: (date: Date) => void
+  onSelectDateTo: (date: Date) => void
 }
 
 const heights = {
@@ -46,23 +42,20 @@ const heights = {
   TRANSACTION_GAP: 16,
 }
 
-const Content = ({ defaultAccounts }: TProps) => {
+const Content = ({ defaultAccounts, dateFrom, dateTo, onSelectDateFrom, onSelectDateTo }: TProps) => {
   const { t } = useTranslation('components', { keyPrefix: 'transactionActivityList' })
   const { setEventColumnSize } = useTransactionActivityList()
   const { language } = useLanguageSelector()
 
   const dateNow = new Date()
 
-  const { actionData, setData } = useActions<TActionsData>({
+  const { data, isLoading, fetchNextPage } = useGetFullTransactions({
     accounts: defaultAccounts,
-    dateFrom: dateFns.startOfMonth(dateNow),
-    dateTo: dateNow,
+    dateFrom,
+    dateTo,
   })
 
-  const { data, isLoading, fetchNextPage } = useGetFullTransactions(actionData)
   const { handleScroll, ref: scrollRef } = useInfiniteScroll<HTMLDivElement>(fetchNextPage)
-
-  const { dateFrom, dateTo } = actionData
 
   const isDateDisabled = isLoading ? true : { after: dateNow }
 
@@ -75,44 +68,13 @@ const Content = ({ defaultAccounts }: TProps) => {
   const handleSelectDateFrom = async (date: Date) => {
     await handleScrollToTop()
 
-    const newDateFrom = dateFns.startOfDay(date)
-
-    setData({ dateFrom: newDateFrom })
-
-    if (dateTo && dateFns.isAfter(newDateFrom, dateTo)) {
-      const dateNow = new Date()
-      const newDateTo = dateFns.endOfDay(dateFns.min([dateNow, dateFns.add(newDateFrom, { weeks: 1 })]))
-
-      setData({ dateTo: dateFns.isSameDay(dateNow, newDateTo) ? dateNow : newDateTo })
-
-      return
-    }
-
-    if (dateTo && dateFns.differenceInYears(dateTo, newDateFrom) > 0) {
-      const dateNow = new Date()
-      const newDateTo = dateFns.endOfDay(dateFns.add(newDateFrom, { years: 1, days: -1 }))
-
-      setData({ dateTo: dateFns.isSameDay(dateNow, newDateTo) ? dateNow : newDateTo })
-    }
+    onSelectDateFrom(date)
   }
 
   const handleSelectDateTo = async (date: Date) => {
     await handleScrollToTop()
 
-    const dateNow = new Date()
-    const newDateTo = dateFns.isSameDay(dateNow, date) ? dateNow : dateFns.endOfDay(date)
-
-    setData({ dateTo: newDateTo })
-
-    if (dateFrom && dateFns.isBefore(newDateTo, dateFrom)) {
-      setData({ dateFrom: dateFns.startOfDay(dateFns.sub(newDateTo, { weeks: 1 })) })
-
-      return
-    }
-
-    if (dateFrom && dateFns.differenceInYears(newDateTo, dateFrom) > 0) {
-      setData({ dateFrom: dateFns.startOfDay(dateFns.sub(newDateTo, { years: 1, days: -1 })) })
-    }
+    onSelectDateTo(date)
   }
 
   const virtualizer = useVirtualizer({
@@ -155,7 +117,7 @@ const Content = ({ defaultAccounts }: TProps) => {
     virtualizer.measure()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [actionData, data])
+  }, [data])
 
   useEffect(() => {
     const scrollElement = scrollRef.current

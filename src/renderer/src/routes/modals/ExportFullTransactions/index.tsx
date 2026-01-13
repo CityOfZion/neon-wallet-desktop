@@ -44,11 +44,14 @@ const ExportFullTransactionsModal = () => {
   const { language } = useLanguageSelector()
 
   const today = new Date()
+  const { dateFrom, dateTo } = modalState || {}
+
   const modalStateAccount = modalState?.account
+
   const { actionData, actionState, setData, handleAct } = useActions<TExportFullTransactionsActionData>({
     account: modalStateAccount,
-    from: dateFns.startOfDay(dateFns.sub(today, { weeks: 1 })),
-    to: today,
+    from: dateFrom ?? dateFns.startOfDay(dateFns.sub(today, { weeks: 1 })),
+    to: dateTo ?? today,
     exported: false,
     selectedFolderPath: undefined,
     filePath: '',

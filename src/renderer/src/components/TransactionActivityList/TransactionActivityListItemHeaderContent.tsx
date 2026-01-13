@@ -120,7 +120,7 @@ export const TransactionActivityListItemHeaderContent = ({ item }: TProps) => {
       <div className="flex items-center gap-x-2 truncate whitespace-nowrap" onClick={handleCancelBubbleEvent}>
         <TransactionActivityListItemHeaderDetails
           label={DateHelper.formatLocalized(date, { format: 'Pp', language })}
-          data={DateHelper.formatLocalized(date, { format: 'hh:mm', language })}
+          data={DateHelper.formatLocalized(date, { format: 'p', language })}
           icon={<TbClock aria-hidden />}
         />
 

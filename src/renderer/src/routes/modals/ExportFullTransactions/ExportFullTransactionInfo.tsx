@@ -154,7 +154,7 @@ export const ExportFullTransactionInfo = ({
             titleClassName="text-xs"
             leftIconContainerClassName="h-5 w-5"
           >
-            <span className="text-right text-xs text-gray-300">{t('datePickerStepTip')}</span>
+            {!readOnly && <span className="text-right text-xs text-gray-300">{t('datePickerStepTip')}</span>}
           </ActionStep>
 
           <Separator />
