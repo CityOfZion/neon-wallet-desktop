@@ -28,7 +28,7 @@ export function getUtilityMigrations() {
     1: (state: any) => {
       const neoLegacyService = BlockchainServiceHelper.bsAggregator.blockchainServicesByName.neoLegacy
 
-      const migrationsNeo3 = Object.entries(state.data.migrationsNeo3).reduce((previous, actual) => {
+      const migrationsNeo3 = Object.entries(state.data.migrationsNeo3 ?? {}).reduce((previous, actual) => {
         const key = neoLegacyService.tokenService.normalizeHash(actual[0])
 
         previous[key] = actual[1]

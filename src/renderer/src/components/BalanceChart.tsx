@@ -99,7 +99,7 @@ export const BalanceChart = ({ balances, sortedBalances, className }: TProps) =>
                 }}
               />
 
-              <div className="mt-5 flex min-w-0 items-start gap-2">
+              <div className="mt-3 flex min-w-0 items-start gap-2">
                 <div
                   className="mt-1 h-2 w-2 min-w-2 rounded-full"
                   style={{

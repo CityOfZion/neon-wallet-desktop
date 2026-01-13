@@ -94,7 +94,7 @@ const SelectAccountModal = () => {
             <Fragment key={wallet.id}>
               <Select.Item
                 value={wallet.id}
-                className="flex cursor-pointer items-center justify-start gap-x-2 text-sm text-gray-100 hover:bg-gray-300/15"
+                className="flex items-center justify-start gap-x-2 text-sm text-gray-100 hover:bg-gray-300/15 focus:bg-gray-300/15"
               >
                 <Select.ItemText>{wallet.name}</Select.ItemText>
               </Select.Item>

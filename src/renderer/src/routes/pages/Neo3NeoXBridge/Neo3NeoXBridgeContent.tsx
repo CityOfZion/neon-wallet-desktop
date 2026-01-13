@@ -146,7 +146,7 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
     isBridgeValueValid(actionData.amountToReceive) &&
     isBridgeValueValid(actionData.bridgeFee)
 
-  const initializeOrRestartSwapService = async () => {
+  const initializeOrRestartBridgeService = async () => {
     reset()
 
     const neo3NeoXBridgeOrchestrator = new Neo3NeoXBridgeOrchestrator<TBlockchainServiceKey>({
@@ -287,6 +287,8 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
 
             const transactionHash = await bridgeOrchestratorRef.current.bridge()
 
+            initializeOrRestartBridgeService()
+
             modalNavigate('neo3-neox-bridge-details', {
               replace: true,
               state: {
@@ -300,8 +302,6 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
                 confirmed: !transactionHash ? false : undefined,
               },
             })
-
-            initializeOrRestartSwapService()
           } catch (error: any) {
             console.error(error)
             ToastHelper.error({ message: AppError.wrap(error).displayMessage })
@@ -312,7 +312,7 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
   }
 
   useMountUnsafe(() => {
-    initializeOrRestartSwapService()
+    initializeOrRestartBridgeService()
 
     return () => {
       bridgeOrchestratorRef.current?.eventEmitter?.removeAllListeners()
@@ -360,7 +360,7 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
             leftIcon={<MdRestartAlt aria-hidden />}
             colorSchema={isRestartDisabled ? 'gray' : 'neon'}
             disabled={isRestartDisabled}
-            onClick={initializeOrRestartSwapService}
+            onClick={initializeOrRestartBridgeService}
           />
         </div>
 

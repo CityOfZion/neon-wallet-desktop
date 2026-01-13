@@ -149,7 +149,7 @@ export const GreyTokenSelect = <T extends TGreyTokenSelectToken>({
           <Command.Root shouldFilter={false}>
             <Command.Input value={filter} onValueChange={setFilter} />
 
-            <Command.List ref={parentRef} className="max-h-60">
+            <Command.List ref={parentRef} className="max-h-44">
               <Command.Empty>{t('empty')}</Command.Empty>
 
               <Command.Group

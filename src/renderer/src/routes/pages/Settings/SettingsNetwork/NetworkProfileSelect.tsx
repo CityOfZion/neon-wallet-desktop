@@ -32,7 +32,7 @@ export const NetworkProfileSelect = () => {
           <Fragment key={`network-profile-${profile.id}`}>
             <Select.Item
               value={profile.id}
-              className="flex cursor-pointer items-center justify-start gap-x-2 text-sm text-gray-100 hover:bg-gray-300/15"
+              className="flex items-center justify-start gap-x-2 text-sm text-gray-100 hover:bg-gray-300/15 focus:bg-gray-300/15"
             >
               <Select.ItemText>{profile.name}</Select.ItemText>
             </Select.Item>

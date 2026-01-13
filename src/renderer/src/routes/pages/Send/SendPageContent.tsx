@@ -661,6 +661,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
             fee={actionData.fee ?? '0'}
             isCalculatingFee={actionData.isCalculatingFee}
             service={service}
+            className="min-h-auto"
           />
         )}
 

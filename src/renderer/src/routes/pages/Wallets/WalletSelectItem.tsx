@@ -26,7 +26,7 @@ export const WalletSelectItem = ({ wallet }: TProps) => {
   return (
     <Select.Item
       value={wallet.id}
-      className="hover:border-l-neon data-[state=checked]:border-l-neon cursor-pointer border-l-4 border-l-transparent pl-4 transition-colors"
+      className="hover:border-l-neon focus:border-l-neon data-[state=checked]:border-l-neon border-l-4 border-l-transparent pl-4 transition-colors"
     >
       <div className={StyleHelper.mergeStyles('flex min-w-0 items-center gap-x-1')}>
         <WalletIcon wallet={wallet} />
