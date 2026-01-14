@@ -73,6 +73,11 @@ export type TClickupHelperCreateSupportTicketParams = {
   description: string
 }
 
+export type TExportTransactionsHelperCalculateDateSelectionMaxOneYearParams = {
+  dateFrom: Date
+  dateTo: Date
+}
+
 export type TExportTransactionsHelperCalculateDateToSelectionMaxOneYearResponse = {
   dateTo: Date
   dateFrom?: Date

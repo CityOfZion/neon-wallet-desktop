@@ -42,11 +42,11 @@ const AccountTransactionsList = () => {
   const { dateFrom, dateTo } = actionData
 
   const handleSelectDateFrom = async (dateFrom: Date) => {
-    setData(ExportTransactionsHelper.calculateDateFromSelectionMaxOneYear(dateFrom, dateTo))
+    setData(ExportTransactionsHelper.calculateDateFromSelectionMaxOneYear({ dateFrom, dateTo }))
   }
 
   const handleSelectDateTo = async (dateTo: Date) => {
-    setData(ExportTransactionsHelper.calculateDateToSelectionMaxOneYear(dateTo, dateFrom))
+    setData(ExportTransactionsHelper.calculateDateToSelectionMaxOneYear({ dateFrom, dateTo }))
   }
 
   return (

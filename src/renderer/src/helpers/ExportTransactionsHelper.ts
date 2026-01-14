@@ -2,14 +2,15 @@ import * as dateFns from 'date-fns'
 
 import type {
   TExportTransactionsHelperCalculateDateFromSelectionMaxOneYearResponse,
+  TExportTransactionsHelperCalculateDateSelectionMaxOneYearParams,
   TExportTransactionsHelperCalculateDateToSelectionMaxOneYearResponse,
 } from '@shared/types/helpers'
 
 export class ExportTransactionsHelper {
-  static calculateDateFromSelectionMaxOneYear = (
-    dateFrom: Date,
-    dateTo: Date
-  ): TExportTransactionsHelperCalculateDateFromSelectionMaxOneYearResponse => {
+  static calculateDateFromSelectionMaxOneYear = ({
+    dateFrom,
+    dateTo,
+  }: TExportTransactionsHelperCalculateDateSelectionMaxOneYearParams): TExportTransactionsHelperCalculateDateFromSelectionMaxOneYearResponse => {
     const newDateFrom = dateFns.startOfDay(dateFrom)
     const dateSelection: TExportTransactionsHelperCalculateDateFromSelectionMaxOneYearResponse = {
       dateFrom: newDateFrom,
@@ -34,10 +35,10 @@ export class ExportTransactionsHelper {
     return dateSelection
   }
 
-  static calculateDateToSelectionMaxOneYear = (
-    dateTo: Date,
-    dateFrom: Date
-  ): TExportTransactionsHelperCalculateDateToSelectionMaxOneYearResponse => {
+  static calculateDateToSelectionMaxOneYear = ({
+    dateFrom,
+    dateTo,
+  }: TExportTransactionsHelperCalculateDateSelectionMaxOneYearParams): TExportTransactionsHelperCalculateDateToSelectionMaxOneYearResponse => {
     const dateNow = new Date()
     const newDateTo = dateFns.isSameDay(dateNow, dateTo) ? dateNow : dateFns.endOfDay(dateTo)
     const dateSelection: TExportTransactionsHelperCalculateDateToSelectionMaxOneYearResponse = { dateTo: newDateTo }
