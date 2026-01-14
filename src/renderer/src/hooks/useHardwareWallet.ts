@@ -50,9 +50,8 @@ export const useHardwareWalletByUsb = () => {
       }
 
       try {
-        const info = await window.api.sendAsync('hardwareWallet:connect', {
+        const info = await window.api.sendAsync('hardwareWallet:connectByUsb', {
           lastIndexesByWallet: lastIndexesByWalletRef.current,
-          type: 'usb',
         })
 
         if (abortControllerRef.current.signal.aborted) {

@@ -11,7 +11,6 @@ import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { SharedI18nextHelper } from '@shared/helpers/SharedI18nextHelper'
 import type {
   TConnectHardwareWalletParams,
-  TConnectHardwareWalletType,
   TGetAccountHardwareWalletGenericParams,
   TIpcMainBaseOptions,
 } from '@shared/types/api'
@@ -28,44 +27,10 @@ const { t } = SharedI18nextHelper.get()
 export class MainHardwareWalletHelper {
   static #transport?: Transport
 
-  static getDeviceFnByType: Record<TConnectHardwareWalletType, () => Promise<any>> = {
-    usb: this.#getUsbDevice.bind(this),
-  }
-
-  static openTransportFnByType: Record<TConnectHardwareWalletType, (device: any) => Promise<Transport>> = {
-    usb: NodeHidTransportFixed.open.bind(NodeHidTransportFixed),
-  }
-
-  static onHardwareDisconnectFnByType: Record<TConnectHardwareWalletType, () => void> = {
-    usb: this.onHardwareDisconnectUsbDevice.bind(this),
-  }
-
-  static #getUsbDevice() {
-    const devices = getDevices()
-    if (!devices.length) throw new AppError(t('hardwareWallet.errors.hardwareWalletNotFound'))
-
-    return devices[0]
-  }
-
-  static onHardwareDisconnectUsbDevice() {
-    usb.on('detach', async device => {
-      if (device.deviceDescriptor.idVendor !== ledgerUSBVendorId) return
-
-      await this.#onDisconnect()
-    })
-  }
-
-  static async #onConnect({ args: { lastIndexesByWallet, type } }: TIpcMainBaseOptions<TConnectHardwareWalletParams>) {
-    if (this.#transport) {
-      throw new AppError(t('hardwareWallet.errors.disconnectFirst'))
-    }
-
-    const device = await this.getDeviceFnByType[type]()
-
-    const transport = await this.openTransportFnByType[type](device.path).catch(() => {
-      throw new AppError(t('hardwareWallet.errors.hardwareWalletNotFound'))
-    })
-
+  static async #connect(
+    transport: Transport,
+    lastIndexesByWallet: Partial<Record<TBlockchainServiceKey, Record<string, number>>>
+  ) {
     const accounts: TBSAccount<TBlockchainServiceKey>[] = []
 
     const services = Object.values(MainBlockchainServiceHelper.bsAggregator.blockchainServicesByName)
@@ -87,9 +52,32 @@ export class MainHardwareWalletHelper {
 
     this.#transport = transport
 
-    this.onHardwareDisconnectFnByType[type]()
-
     return cloneDeep(accounts)
+  }
+
+  static async #onConnectByUsb({ args: { lastIndexesByWallet } }: TIpcMainBaseOptions<TConnectHardwareWalletParams>) {
+    if (this.#transport) {
+      throw new AppError(t('hardwareWallet.errors.disconnectFirst'))
+    }
+
+    const devices = getDevices()
+    if (!devices.length) throw new AppError(t('hardwareWallet.errors.hardwareWalletNotFound'))
+
+    const device = devices[0]
+
+    const transport = await NodeHidTransportFixed.open(device.path).catch(() => {
+      throw new AppError(t('hardwareWallet.errors.hardwareWalletNotFound'))
+    })
+
+    const accounts = await this.#connect(transport, lastIndexesByWallet)
+
+    usb.on('detach', async device => {
+      if (device.deviceDescriptor.idVendor !== ledgerUSBVendorId) return
+      await this.#onDisconnect()
+      usb.removeAllListeners('detach')
+    })
+
+    return accounts
   }
 
   static async #onDisconnect() {
@@ -97,7 +85,6 @@ export class MainHardwareWalletHelper {
       await this.#transport.close()
     }
 
-    usb.removeAllListeners('detach')
     this.#transport = undefined
     mainApi.send('hardwareWallet:onDisconnect')
   }
@@ -143,7 +130,7 @@ export class MainHardwareWalletHelper {
   }
 
   static setupHandlers() {
-    mainApi.listenAsync('hardwareWallet:connect', this.#onConnect.bind(this))
+    mainApi.listenAsync('hardwareWallet:connectByUsb', this.#onConnectByUsb.bind(this))
     mainApi.listenAsync('hardwareWallet:disconnect', this.#onDisconnect.bind(this))
     mainApi.listenAsync('hardwareWallet:getAccount', this.#onGetAccount.bind(this))
 

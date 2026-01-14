@@ -41,11 +41,8 @@ export type TAddHardwareWalletAccountParams = {
   blockchain: TBlockchainServiceKey
 }
 
-export type TConnectHardwareWalletType = 'usb'
-
 export type TConnectHardwareWalletParams = {
   lastIndexesByWallet: TLastIndexesByWallet
-  type: TConnectHardwareWalletType
 }
 
 export type TGetAccountHardwareWalletGenericParams = {
@@ -103,7 +100,10 @@ export type TMainApiListenersAsync = {
     TGetAccountHardwareWalletGenericParams,
     TBSAccount<TBlockchainServiceKey>
   >
-  'hardwareWallet:connect': TIpcMainAsyncListener<TConnectHardwareWalletParams, TBSAccount<TBlockchainServiceKey>[]>
+  'hardwareWallet:connectByUsb': TIpcMainAsyncListener<
+    TConnectHardwareWalletParams,
+    TBSAccount<TBlockchainServiceKey>[]
+  >
 }
 
 export type TMainApiSend = {

@@ -1,6 +1,6 @@
 import { cloneElement } from 'react'
 
-import { getI18n } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { toast as sonner, Toaster as SonnerToaster } from 'sonner'
 
 import { Loader } from '@renderer/components/Loader'
@@ -16,38 +16,38 @@ import type { TToastHelperToastOptions, TToastHelperToastProps } from '@shared/t
 import { StyleHelper } from './StyleHelper'
 import { TestHelper } from './TestHelper'
 
-const { t } = getI18n()
+function Toast({ message, className, sonnerId, icon, closeable = true }: TToastHelperToastProps) {
+  const { t } = useTranslation('common')
+
+  return (
+    <div
+      className={StyleHelper.mergeStyles(
+        'flex w-(--width) items-center gap-5 rounded-sm p-5 text-sm font-medium shadow-lg',
+        className
+      )}
+      {...TestHelper.buildTestObject('toast')}
+    >
+      {icon &&
+        cloneElement(icon, {
+          className: StyleHelper.mergeStyles('size-6 min-size-6 max-size-6', icon.props.className),
+        })}
+
+      <div className="grow">{message}</div>
+
+      {closeable && (
+        <button
+          aria-label={t('general.close')}
+          className="cursor-pointer opacity-50"
+          onClick={() => sonner.dismiss(sonnerId)}
+        >
+          <MdClose aria-hidden className="min-size-6 max-size-6 size-6" />
+        </button>
+      )}
+    </div>
+  )
+}
 
 export class ToastHelper {
-  private static Toast({ message, className, sonnerId, icon, closeable = true }: TToastHelperToastProps) {
-    return (
-      <div
-        className={StyleHelper.mergeStyles(
-          'flex w-(--width) items-center gap-5 rounded-sm p-5 text-sm font-medium shadow-lg',
-          className
-        )}
-        {...TestHelper.buildTestObject('toast')}
-      >
-        {icon &&
-          cloneElement(icon, {
-            className: StyleHelper.mergeStyles('w-6 h-6 min-w-6 min-h-6', icon.props.className),
-          })}
-
-        <div className="grow">{message}</div>
-
-        {closeable && (
-          <button
-            aria-label={t('common:general.close')}
-            className="cursor-pointer opacity-50"
-            onClick={() => sonner.dismiss(sonnerId)}
-          >
-            <MdClose aria-hidden className="h-6 min-h-6 w-6 min-w-6" />
-          </button>
-        )}
-      </div>
-    )
-  }
-
   static Provider() {
     return <SonnerToaster position="bottom-center" expand gap={10} />
   }
@@ -61,7 +61,7 @@ export class ToastHelper {
 
     sonner.custom(
       sonnerId => (
-        <this.Toast
+        <Toast
           className="text-neon bg-green-700"
           sonnerId={sonnerId}
           icon={<MdCheckCircleOutline aria-hidden />}
@@ -81,7 +81,7 @@ export class ToastHelper {
 
     sonner.custom(
       sonnerId => (
-        <this.Toast
+        <Toast
           className="bg-pink-700 text-white"
           message={message}
           sonnerId={sonnerId}
@@ -101,7 +101,7 @@ export class ToastHelper {
 
     sonner.custom(
       sonnerId => (
-        <this.Toast
+        <Toast
           className="bg-orange text-white"
           message={message}
           sonnerId={sonnerId}
@@ -121,7 +121,7 @@ export class ToastHelper {
 
     sonner.custom(
       sonnerId => (
-        <this.Toast
+        <Toast
           className="bg-orange text-white"
           message={message}
           sonnerId={sonnerId}
