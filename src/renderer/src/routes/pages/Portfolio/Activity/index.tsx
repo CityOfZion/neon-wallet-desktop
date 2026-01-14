@@ -1,5 +1,6 @@
 import { Fragment } from 'react'
 
+import * as dateFns from 'date-fns'
 import { useTranslation } from 'react-i18next'
 
 import { RefreshAction } from '@renderer/components/RefreshAction'
@@ -7,11 +8,20 @@ import { Separator } from '@renderer/components/Separator'
 import { TransactionActivityList } from '@renderer/components/TransactionActivityList'
 
 import { CurrencyHelper } from '@renderer/helpers/CurrencyHelper'
+import { ExportTransactionsHelper } from '@renderer/helpers/ExportTransactionsHelper'
 
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
+import { useActions } from '@renderer/hooks/useActions'
 import { useBalances } from '@renderer/hooks/useBalances'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
+
+type TActionsData = {
+  dateFrom: Date
+  dateTo: Date
+}
+
+const dateNow = new Date()
 
 const PortfolioActivityPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'portfolio.portfolioActivity' })
@@ -19,6 +29,19 @@ const PortfolioActivityPage = () => {
   const { wallets } = useWalletsSelector()
   const { currency } = useCurrencySelector()
   const balances = useBalances(accounts)
+
+  const { actionData, setData } = useActions<TActionsData>({
+    dateFrom: dateFns.startOfMonth(dateNow),
+    dateTo: dateNow,
+  })
+
+  const handleSelectDateFrom = async (dateFrom: Date) => {
+    setData(ExportTransactionsHelper.calculateDateFromSelectionMaxOneYear(dateFrom, actionData.dateTo))
+  }
+
+  const handleSelectDateTo = async (dateTo: Date) => {
+    setData(ExportTransactionsHelper.calculateDateToSelectionMaxOneYear(dateTo, actionData.dateFrom))
+  }
 
   return (
     <Fragment>
@@ -47,7 +70,13 @@ const PortfolioActivityPage = () => {
         <span className="text-white">{CurrencyHelper.format(balances.exchangeTotal, { currency })}</span>
       </div>
 
-      <TransactionActivityList defaultAccounts={accounts} />
+      <TransactionActivityList
+        defaultAccounts={accounts}
+        dateFrom={actionData.dateFrom}
+        dateTo={actionData.dateTo}
+        onSelectDateFrom={handleSelectDateFrom}
+        onSelectDateTo={handleSelectDateTo}
+      />
     </Fragment>
   )
 }

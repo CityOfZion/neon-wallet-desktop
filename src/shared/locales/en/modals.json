@@ -365,7 +365,7 @@
     "info": {
       "addressPlaceholder": "Select an address",
       "allTransactionsStepLabel": "All transactions",
-      "datePickerStepTip": "Maximum 12 month period"
+      "datePickerStepTip": "Maximum 12-month period"
     },
     "messages": {
       "openExportError": "There was a problem to open the file, verify the path and try again, please"
