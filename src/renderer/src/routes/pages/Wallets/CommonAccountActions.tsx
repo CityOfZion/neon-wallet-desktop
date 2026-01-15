@@ -1,4 +1,4 @@
-import { ComponentProps } from 'react'
+import { ComponentProps, Fragment } from 'react'
 
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
@@ -28,7 +28,9 @@ export const CommonAccountActions = ({ account, children, className, ...props }:
 
   const isSwapAvailable = !!SwapHelper.getNetwork(account.blockchain, network)
 
-  if (account.type === 'watch') {
+  const isWatchAccount = account.type === 'watch'
+
+  if (isWatchAccount && !children) {
     return null
   }
 
@@ -36,51 +38,55 @@ export const CommonAccountActions = ({ account, children, className, ...props }:
     <div className={StyleHelper.mergeStyles('flex gap-2', className)} {...props}>
       {children}
 
-      <Button
-        label={t('buyAndSellTokens')}
-        className="h-9 w-fit"
-        variant="text"
-        colorSchema="neon"
-        flat
-        clickableProps={{ className: 'text-xs' }}
-        leftIcon={<TbShoppingBag aria-hidden />}
-        onClick={() => navigate('/buy-and-sell-tokens', { state: { account } })}
-      />
+      {!isWatchAccount && (
+        <Fragment>
+          <Button
+            label={t('buyAndSellTokens')}
+            className="h-9 w-fit"
+            variant="text"
+            colorSchema="neon"
+            flat
+            clickableProps={{ className: 'text-xs' }}
+            leftIcon={<TbShoppingBag aria-hidden />}
+            onClick={() => navigate('/buy-and-sell-tokens', { state: { account } })}
+          />
 
-      {isSwapAvailable && (
-        <Button
-          leftIcon={<TbReplace aria-hidden />}
-          label={t('swap')}
-          className="h-9 w-fit"
-          variant="text"
-          flat
-          colorSchema="neon"
-          clickableProps={{ className: 'text-xs' }}
-          onClick={() => navigate('/swap', { state: { account } })}
-        />
+          {isSwapAvailable && (
+            <Button
+              leftIcon={<TbReplace aria-hidden />}
+              label={t('swap')}
+              className="h-9 w-fit"
+              variant="text"
+              flat
+              colorSchema="neon"
+              clickableProps={{ className: 'text-xs' }}
+              onClick={() => navigate('/swap', { state: { account } })}
+            />
+          )}
+
+          <Button
+            leftIcon={<TbStepInto aria-hidden />}
+            label={t('receive')}
+            className="h-9 w-fit"
+            variant="text"
+            colorSchema="neon"
+            flat
+            clickableProps={{ className: 'text-xs' }}
+            onClick={() => navigate('/receive', { state: { account } })}
+          />
+
+          <Button
+            leftIcon={<TbStepOut aria-hidden />}
+            label={t('send')}
+            className="h-9 w-fit"
+            variant="text"
+            flat
+            colorSchema="neon"
+            clickableProps={{ className: 'text-xs' }}
+            onClick={() => navigate('/send', { state: { account } })}
+          />
+        </Fragment>
       )}
-
-      <Button
-        leftIcon={<TbStepInto aria-hidden />}
-        label={t('receive')}
-        className="h-9 w-fit"
-        variant="text"
-        colorSchema="neon"
-        flat
-        clickableProps={{ className: 'text-xs' }}
-        onClick={() => navigate('/receive', { state: { account } })}
-      />
-
-      <Button
-        leftIcon={<TbStepOut aria-hidden />}
-        label={t('send')}
-        className="h-9 w-fit"
-        variant="text"
-        flat
-        colorSchema="neon"
-        clickableProps={{ className: 'text-xs' }}
-        onClick={() => navigate('/send', { state: { account } })}
-      />
     </div>
   )
 }
