@@ -27,7 +27,7 @@ export class ClickupHelper {
         name: `NWD - Help - ${nameTrimmed}`,
         markdown_content: finalDescription,
         tags: ['ProductSupport'],
-        status: 'to-do',
+        status: 'development',
         priority: normalPriority,
         assignees: [import.meta.env.VITE_CLICK_UP_ASSIGNEE_ID],
       },
