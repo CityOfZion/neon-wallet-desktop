@@ -12,6 +12,8 @@
     "polygon": "Polygon"
   },
   "errors": {
+    "analyticsAreNotConfigured": "分析功能配置不正確。",
+    "analyticsEventLoggingFailed": "分析事件日誌記錄失敗。",
     "blockchainIsNotClaimable": "此帳戶區塊鏈無法申領：{{address}} {{blockchain}}",
     "loginSessionIsNotDefined": "未知錯誤。登入會話未定義。",
     "noEncryptedKey": "此帳戶沒有加密金鑰：{{address}}",

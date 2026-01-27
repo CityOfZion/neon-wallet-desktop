@@ -12,6 +12,8 @@
     "polygon": "Polygon"
   },
   "errors": {
+    "analyticsAreNotConfigured": "O sistema de análise não está configurado corretamente.",
+    "analyticsEventLoggingFailed": "Falha ao registrar o evento de análise.",
     "blockchainIsNotClaimable": "A blockchain da conta não é resgatável: {{address}} {{blockchain}}",
     "loginSessionIsNotDefined": "Erro desconhecido. A sessão de login não está definida.",
     "noEncryptedKey": "Não há chave criptografada para esta conta: {{address}}",

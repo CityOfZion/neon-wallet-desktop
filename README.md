@@ -62,6 +62,9 @@ VITE_UNLIMIT_SELL_TOKENS_IFRAME_URL=your-unlimit-sell-iframe-url
 VITE_CLICK_UP_KEY=your-clickup-api-key
 VITE_CLICK_UP_LIST_ID=your-clickup-list-id
 VITE_CLICK_UP_ASSIGNEE_ID=your-clickup-assignee-id
+
+VITE_GA_MEASUREMENT_ID=your-google-analytics-measurement-id
+VITE_GA_API_SECRET=your-google-analytics-api-secret
 ```
 
 ### Google Cloud Setup

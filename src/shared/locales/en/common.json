@@ -12,6 +12,8 @@
     "polygon": "Polygon"
   },
   "errors": {
+    "analyticsAreNotConfigured": "Analytics are not configured properly.",
+    "analyticsEventLoggingFailed": "Failed to log analytics event.",
     "blockchainIsNotClaimable": "The account blockchain is not claimable: {{address}} {{blockchain}}",
     "loginSessionIsNotDefined": "Unknown error. Login session is not defined.",
     "noEncryptedKey": "There is not encrypted key for this account: {{address}}",

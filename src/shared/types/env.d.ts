@@ -8,6 +8,8 @@ interface ImportMetaEnv {
   readonly VITE_CLICK_UP_KEY: string
   readonly VITE_CLICK_UP_LIST_ID: string
   readonly VITE_CLICK_UP_ASSIGNEE_ID: string
+  readonly VITE_GA_MEASUREMENT_ID: string
+  readonly VITE_GA_API_SECRET: string
 }
 
 interface ImportMeta {

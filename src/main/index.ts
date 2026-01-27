@@ -7,6 +7,7 @@ import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 
 import * as packageJson from '../../package.json'
 import icon from '../../resources/icon.png?asset'
+import { MainAnalyticsHelper } from './analytics'
 import { MainBlockchainServiceHelper } from './blockchain-service'
 import { MainDeeplinkHelper } from './deeplink'
 import { MainEncryptionHelper } from './encryption'
@@ -130,6 +131,7 @@ async function initialize() {
   MainEncryptionHelper.setupHandlers()
   MainUpdaterHelper.setupHandlers()
   MainHardwareWalletHelper.setupHandlers()
+  MainAnalyticsHelper.setupHandlers()
 
   createWindow()
 }
