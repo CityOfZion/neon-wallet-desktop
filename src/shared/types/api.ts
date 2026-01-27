@@ -66,6 +66,12 @@ export type TDecryptBasedEncryptedSecretParams = TEncryptBasedEncryptedSecretPar
 
 export type TSaveFileOptions = { path: string; content: string }
 
+export type TAnalyticsLogEventParams = {
+  eventName: string
+  clientId: string
+  params?: Record<string, any>
+}
+
 export type TMainApiListenersSync = {
   'window:restore': TIpcMainSyncListener<undefined, void>
   'encryption:encryptBasedEncryptedSecretSync': TIpcMainSyncListener<TEncryptBasedEncryptedSecretParams, string>
@@ -93,6 +99,7 @@ export type TMainApiListenersAsync = {
   'encryption:decryptBasedEncryptedSecret': TIpcMainAsyncListener<TDecryptBasedEncryptedSecretParams, string>
   'deeplink:getInitialUri': TIpcMainAsyncListener<undefined, string | undefined>
   'deeplink:resetInitialUri': TIpcMainAsyncListener<undefined, void>
+  'analytics:logEvent': TIpcMainAsyncListener<TAnalyticsLogEventParams, void>
 
   // Hardware wallet
   'hardwareWallet:disconnect': TIpcMainAsyncListener<undefined, void>

@@ -10,12 +10,14 @@ const envSchema = z.object({
   VITE_CLICK_UP_KEY: z.string().nonempty(),
   VITE_CLICK_UP_LIST_ID: z.string().nonempty(),
   VITE_CLICK_UP_ASSIGNEE_ID: z.string().nonempty(),
+  VITE_GA_MEASUREMENT_ID: z.string().nonempty(),
+  VITE_GA_API_SECRET: z.string().nonempty(),
 })
 
 const result = envSchema.safeParse(process.env)
 if (!result.success) {
   console.error('❌ Environment variable validation failed:')
-  console.error(result.error.format())
+  console.error(z.treeifyError(result.error))
   process.exit(1)
 } else {
   console.log('✅ Environment variables are valid.')
