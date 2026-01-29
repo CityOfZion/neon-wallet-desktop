@@ -6,14 +6,14 @@ import { match } from 'ts-pattern'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { TokenHelper } from '@renderer/helpers/TokenHelper'
 
-import { TFullTransactionAssetEvent, TFullTransactionEvent, TFullTransactionNftEvent } from '@shared/types/hooks'
+import type { TUseTransactionsTransaction } from '@shared/types/hooks'
 
 import { TransactionActivityListEventColumn } from './TransactionActivityListEventColumn'
 import { TransactionActivityListEventColumnDataAddress } from './TransactionActivityListEventColumnDataAddress'
 import { TransactionActivityListTooltip } from './TransactionActivityListTooltip'
 
 type TProps = {
-  event: TFullTransactionEvent
+  event: TUseTransactionsTransaction['events'][number]
 }
 
 export const TransactionActivityListEvent = ({ event }: TProps) => {
@@ -92,24 +92,34 @@ export const TransactionActivityListEvent = ({ event }: TProps) => {
         }
       />
 
-      {match(eventType)
-        .with('nft', () => {
-          const { tokenHash, nftImageUrl, nftUrl, name, collectionName } = event as TFullTransactionNftEvent
-          const nftImageLabel = name ? t('nftImageAltWithNameLabel', { name }) : t('nftImageAltLabel')
+      {match(event)
+        .with({ eventType: 'nft' }, matchEvent => {
+          const nftImageLabel = matchEvent.name
+            ? t('nftImageAltWithNameLabel', { name: matchEvent.name })
+            : t('nftImageAltLabel')
 
           return (
             <Fragment>
-              {!!tokenHash && (
-                <TransactionActivityListEventColumn label={t('columns.tokenHashLabel')} data={tokenHash} />
+              {!!matchEvent.tokenHash && (
+                <TransactionActivityListEventColumn label={t('columns.tokenHashLabel')} data={matchEvent.tokenHash} />
               )}
 
-              {!!collectionName && (
-                <TransactionActivityListEventColumn label={t('columns.collectionNameLabel')} data={collectionName} />
+              {!!matchEvent.collectionName && (
+                <TransactionActivityListEventColumn
+                  label={t('columns.collectionNameLabel')}
+                  data={matchEvent.collectionName}
+                />
               )}
 
-              {!!name && <TransactionActivityListEventColumn label={t('columns.nameLabel')} data={name} url={nftUrl} />}
+              {!!matchEvent.name && (
+                <TransactionActivityListEventColumn
+                  label={t('columns.nameLabel')}
+                  data={matchEvent.name}
+                  url={matchEvent.nftUrl}
+                />
+              )}
 
-              {!!nftImageUrl && (
+              {!!matchEvent.nftImageUrl && (
                 <TransactionActivityListEventColumn
                   className="mt-0.5 mr-0 mb-0 ml-auto flex grow items-end justify-center"
                   data={
@@ -117,22 +127,21 @@ export const TransactionActivityListEvent = ({ event }: TProps) => {
                       <div>
                         <img
                           className="pointer-events-none max-h-8 w-full max-w-16 rounded-sm select-none"
-                          src={nftImageUrl}
+                          src={matchEvent.nftImageUrl}
                           alt={nftImageLabel}
                         />
                       </div>
                     </TransactionActivityListTooltip>
                   }
-                  url={nftUrl}
+                  url={matchEvent.nftUrl}
                 />
               )}
             </Fragment>
           )
         })
-        .otherwise(() => {
-          const { token } = event as TFullTransactionAssetEvent
-          const tokenSymbol = token?.symbol ?? ''
-          const tokenName = token?.name ?? ''
+        .otherwise(matchEvent => {
+          const tokenSymbol = matchEvent.token?.symbol ?? ''
+          const tokenName = matchEvent.token?.name ?? ''
           const hasTokenLabel = !!tokenSymbol || !!tokenName
 
           return (

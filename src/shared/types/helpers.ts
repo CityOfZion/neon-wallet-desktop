@@ -1,7 +1,9 @@
+import type { TBSToken } from '@cityofzion/blockchain-service'
 import type { JSX, ReactNode } from 'react'
 import type { ToastT } from 'sonner'
 
 import { TBlockchainServiceKey } from './blockchain'
+import type { TUseTransactionsTransaction } from './hooks'
 import type { IAccountState, TCurrency, TLanguage } from './store'
 export type TAccountHelperPredicateParams = {
   address: string
@@ -86,4 +88,11 @@ export type TExportTransactionsHelperCalculateDateToSelectionMaxOneYearResponse 
 export type TExportTransactionsHelperCalculateDateFromSelectionMaxOneYearResponse = {
   dateFrom: Date
   dateTo?: Date
+}
+
+export type TTransactionHelperBuildPendingTransactionParams = {
+  txId: string
+  fromAccount: IAccountState
+  type?: Exclude<TUseTransactionsTransaction['type'], 'bridgeNeo3NeoX'>
+  events?: { toAccount?: IAccountState; toAddress: string; token: TBSToken; amount: string }[]
 }

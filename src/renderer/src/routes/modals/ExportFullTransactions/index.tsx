@@ -1,3 +1,4 @@
+import { hasFullTransactions } from '@cityofzion/blockchain-service'
 import * as dateFns from 'date-fns'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
@@ -58,7 +59,12 @@ const ExportFullTransactionsModal = () => {
     isOpeningFilePath: false,
   })
 
-  const isDisabled = !actionData.account || !actionData.selectedFolderPath
+  const account = actionData.account
+  const service = account
+    ? BlockchainServiceHelper.bsAggregator.blockchainServicesByName[account.blockchain]
+    : undefined
+
+  const isDisabled = !account || !actionData.selectedFolderPath || !service || !hasFullTransactions(service)
 
   const handleSelectAccount = (account: IAccountState) => {
     setData({ account })
@@ -73,11 +79,8 @@ const ExportFullTransactionsModal = () => {
     try {
       if (isDisabled) return
 
-      const account = actionData.account!
-      const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[account.blockchain]
-
-      const result = await service.blockchainDataService.exportFullTransactionsByAddress({
-        address: account.address,
+      const result = await service.fullTransactionsDataService.exportFullTransactionsByAddress({
+        address: actionData.account!.address,
         dateFrom: actionData.from.toJSON(),
         dateTo: (dateFns.isSameDay(today, actionData.to) ? today : actionData.to).toJSON(),
       })

@@ -1,11 +1,11 @@
 import { FormEvent, MouseEvent } from 'react'
 
 import {
-  TBSToken,
-  TFullTransactionAssetEvent as TBSFullTransactionAssetEvent,
-  TFullTransactionNftEvent as TBSFullTransactionNftEvent,
-  TFullTransactionsByAddressResponse as TBSFullTransactionsByAddressResponse,
-  TFullTransactionsItem as TBSFullTransactionsItem,
+  type TGetTransactionsByAddressResponse,
+  type TTransactionBase,
+  type TTransactionBridgeNeo3NeoX,
+  type TTransactionNftEvent,
+  type TTransactionTokenEvent,
 } from '@cityofzion/blockchain-service'
 import zod from 'zod'
 
@@ -14,10 +14,11 @@ import {
   type TAccountsToImport,
   TBlockchainServiceKey,
   type TCreateWalletAndAccountParam,
+  type TNetwork,
   type TUseCreateWalletParams,
 } from '@shared/types/blockchain'
 
-import type { IAccountState, IContactState, TSwapRecord } from './store'
+import type { IAccountState, IContactState, TSelectedNetworks, TSwapRecord } from './store'
 
 export type TUseActionsData = Record<string, any>
 
@@ -53,53 +54,56 @@ export type TUseActionsReturn<T> = {
 
 export type TUseImportActionInputType = 'key' | 'mnemonic' | 'encrypted' | 'address'
 
-export type TUseTransactionsTransfer = {
-  time: number
-  hash: string
-  account: IAccountState
-  toAccount?: IAccountState
-  fromAccount?: IAccountState
-  methodName?: string
-  isPending?: boolean
-  isClaim?: boolean
-  isMigrate?: boolean
-  amount: string
-  to?: string
-  from?: string
-  asset: string
-  assetHash: string
-  token?: TBSToken
-  explorerUrl?: string
-}
-
 export type TUseHardwareWalletByUsbStatus = 'searching' | 'connected' | 'not-connected'
 
-type TFullTransactionCommonEvent = {
+//* useTransactions types *//
+
+export type TUseTransactionsProps = {
+  accounts: IAccountState[]
+  dateTo: Date
+  dateFrom: Date
+}
+
+export type TUseTransactionsTransactionEvent = (TTransactionTokenEvent | TTransactionNftEvent) & {
   fromAccount?: IAccountState
   toAccount?: IAccountState
 }
 
-export type TFullTransactionNftEvent = TFullTransactionCommonEvent & TBSFullTransactionNftEvent
-
-export type TFullTransactionAssetEvent = TFullTransactionCommonEvent & TBSFullTransactionAssetEvent
-
-export type TFullTransactionEvent = TFullTransactionAssetEvent | TFullTransactionNftEvent
-
-export type TFullTransactionsItem = Omit<TBSFullTransactionsItem, 'events'> & {
+export type TUseTransactionsTransaction = TTransactionBase & {
   account: IAccountState
   blockchain: TBlockchainServiceKey
   isPending: boolean
-  events: TFullTransactionEvent[]
+  events: TUseTransactionsTransactionEvent[]
+} & ({ type: 'default' } | { type: 'claim' } | { type: 'vote' } | TTransactionBridgeNeo3NeoX<TBlockchainServiceKey>)
+
+export type TUseTransactionsQueryData = Omit<
+  TGetTransactionsByAddressResponse<TBlockchainServiceKey>,
+  'transactions'
+> & {
+  transactions: Map<string, TUseTransactionsTransaction>
 }
 
-export type TFullTransactionsByAddressResponse = Omit<TBSFullTransactionsByAddressResponse, 'data'> & {
-  data: Map<string, TFullTransactionsItem>
-}
-
-export type TFullTransactionsGroupedDataByDate = {
+export type TUseTransactionsGroupedTransactionsByDate = {
   date: string
-  items: TFullTransactionsItem[]
+  transactions: TUseTransactionsTransaction[]
 }
+
+export type TUseTransactionsBuildTransactionsQueryKeyParams = {
+  account: IAccountState
+  network: TNetwork
+  dateFrom?: Date
+  dateTo?: Date
+  page?: number
+}
+
+export type TUseTransactionsBuildTransactionsAggregatedQueryKeyParams = {
+  dateFrom?: Date
+  dateTo?: Date
+  accounts?: IAccountState[]
+  networksByBlockchain?: TSelectedNetworks
+}
+
+//* useNeonMigrate types *//
 
 export type TUseNeonMigrateAccountsSchema = {
   address: string

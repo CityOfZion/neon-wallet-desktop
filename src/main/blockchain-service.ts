@@ -21,18 +21,22 @@ export class MainBlockchainServiceHelper {
   }
 
   static async setup() {
-    const [{ BSAggregator }, { BSNeo3 }, { BSNeoLegacy }, { BSNeoX }, { BSEthereum }] = await Promise.all([
-      import('@cityofzion/bs-multichain'),
-      import('@cityofzion/bs-neo3'),
-      import('@cityofzion/bs-neo-legacy'),
-      import('@cityofzion/bs-neox'),
-      import('@cityofzion/bs-ethereum'),
-    ])
+    const [{ BSAggregator }, { BSNeo3 }, { BSNeoLegacy }, { BSNeoX }, { BSEthereum }, { BSSolana }] = await Promise.all(
+      [
+        import('@cityofzion/bs-multichain'),
+        import('@cityofzion/bs-neo3'),
+        import('@cityofzion/bs-neo-legacy'),
+        import('@cityofzion/bs-neox'),
+        import('@cityofzion/bs-ethereum'),
+        import('@cityofzion/bs-solana'),
+      ]
+    )
 
     const services = await Promise.all([
       Promise.resolve(new BSNeo3('neo3', undefined, this.getHardwareWalletTransport.bind(this))),
       Promise.resolve(new BSNeoLegacy('neoLegacy', undefined, this.getHardwareWalletTransport.bind(this))),
       Promise.resolve(new BSNeoX('neox', undefined, this.getHardwareWalletTransport.bind(this))),
+      Promise.resolve(new BSSolana('solana', undefined, this.getHardwareWalletTransport.bind(this))),
       Promise.resolve(new BSEthereum('ethereum', 'ethereum', undefined, this.getHardwareWalletTransport.bind(this))),
       Promise.resolve(new BSEthereum('polygon', 'polygon', undefined, this.getHardwareWalletTransport.bind(this))),
       Promise.resolve(new BSEthereum('base', 'base', undefined, this.getHardwareWalletTransport.bind(this))),

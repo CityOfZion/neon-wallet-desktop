@@ -1,10 +1,7 @@
 import { QueryClient } from '@tanstack/react-query'
 
 import { buildQueryKeyBalance } from '@renderer/hooks/useBalances'
-import {
-  buildGetFullTransactionsAggregatedQueryKey,
-  buildGetFullTransactionsQueryKey,
-} from '@renderer/hooks/useGetFullTransactions'
+import { buildTransactionsAggregatedQueryKey, buildTransactionsQueryKey } from '@renderer/hooks/useTransactions'
 import { buildVoteNeo3GetVoteDetailsByAddressQueryKey } from '@renderer/hooks/useVoteNeo3'
 
 import { TNetwork } from '@shared/types/blockchain'
@@ -25,12 +22,12 @@ export class ReactQueryHelper {
 
   static invalidateTransactionQueries = (account: IAccountState, network: TNetwork, toAccount?: IAccountState) => {
     this.client.removeQueries({
-      queryKey: buildGetFullTransactionsQueryKey({ account, network }),
+      queryKey: buildTransactionsQueryKey({ account, network }),
       type: 'all',
     })
 
     this.client.removeQueries({
-      queryKey: buildGetFullTransactionsAggregatedQueryKey(),
+      queryKey: buildTransactionsAggregatedQueryKey(),
       type: 'all',
     })
 
@@ -51,7 +48,7 @@ export class ReactQueryHelper {
       })
 
       this.client.removeQueries({
-        queryKey: buildGetFullTransactionsQueryKey({ account: toAccount, network }),
+        queryKey: buildTransactionsQueryKey({ account: toAccount, network }),
         type: 'all',
       })
     }

@@ -286,6 +286,7 @@
       "title": "Seus tokens foram enviados com sucesso!",
       "transactionHashLabel": "Hash da transação",
       "transactionNumber": "Transação {{order}}",
+      "transferNumber": "Transferência {{order}}",
       "viewStatusButtonLabel": "Ver status"
     },
     "sendTip": {

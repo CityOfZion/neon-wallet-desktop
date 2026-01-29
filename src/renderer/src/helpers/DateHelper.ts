@@ -35,4 +35,14 @@ export class DateHelper {
       locale: this.dateFnsLocaleByLanguage[options.language.value],
     })
   }
+
+  static format(date: Date | string | number, formatStr: string): string {
+    if (typeof date === 'string') {
+      date = new Date(date)
+    } else if (typeof date === 'number') {
+      date *= 1000
+    }
+
+    return dateFns.format(date, formatStr)
+  }
 }

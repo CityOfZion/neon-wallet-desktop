@@ -1,26 +1,24 @@
 import { Separator } from '@renderer/components/Separator'
 
-import { TFullTransactionsItem } from '@shared/types/hooks'
+import type { TUseTransactionsTransaction } from '@shared/types/hooks'
 
 import { TransactionActivityListEvent } from './TransactionActivityListEvent'
 import { TransactionActivityListItemHeader } from './TransactionActivityListItemHeader'
 
 type TProps = {
-  item: TFullTransactionsItem
+  transaction: TUseTransactionsTransaction
 }
 
-export const TransactionActivityListItem = ({ item }: TProps) => {
-  const { blockchain, events } = item
-
+export const TransactionActivityListItem = ({ transaction }: TProps) => {
   return (
     <li className="flex w-full flex-col">
-      <TransactionActivityListItemHeader item={item} />
+      <TransactionActivityListItemHeader transaction={transaction} />
 
-      {events.length > 0 && (
+      {transaction.events.length > 0 && (
         <ul className="flex w-full flex-col">
-          {events.map((event, index, array) => (
+          {transaction.events.map((event, index, array) => (
             <li
-              key={`${event.eventType}-${event.methodName}-${event.eventType === 'nft' ? event.collectionHash : event.contractHash}-${blockchain}-${index}`}
+              key={`${event.eventType}-${event.methodName}-${event.eventType === 'nft' ? event.collectionHash : event.contractHash}-${transaction.blockchain}-${index}`}
               className="flex h-13.25 max-h-13.25 min-h-13.25 w-full flex-col justify-center"
             >
               <TransactionActivityListEvent event={event} />

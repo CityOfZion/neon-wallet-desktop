@@ -11,11 +11,8 @@ import { Separator } from './Separator'
 type TRootProps = ComponentProps<'div'>
 const Root = ({ className, children, ...props }: TRootProps) => {
   return (
-    <div
-      className={StyleHelper.mergeStyles('bg-asphalt flex w-full flex-col rounded-sm px-4 py-2.5', className)}
-      {...props}
-    >
-      {children}
+    <div className={StyleHelper.mergeStyles('bg-asphalt flex w-full flex-col rounded-sm py-1', className)} {...props}>
+      <div className="min-h-0 grow overflow-auto px-4 py-1.5">{children}</div>
     </div>
   )
 }
@@ -45,7 +42,7 @@ const Header = ({ children, className, leftElement, rightElement, ...props }: TH
 
 type THeaderSeparatorProps = ComponentProps<typeof Separator>
 const HeaderSeparator = ({ className, ...props }: THeaderSeparatorProps) => {
-  return <Separator className={StyleHelper.mergeStyles('mt-2.5', className)} {...props} />
+  return <Separator className={StyleHelper.mergeStyles('my-2.5', className)} {...props} />
 }
 
 type TBodyProps = ComponentProps<'div'>
@@ -76,7 +73,7 @@ const Item = ({ label, children, copyable, className, contentClassName, ...props
   }
 
   return (
-    <div className="group flex flex-col">
+    <div className="group ml-3 flex flex-col">
       <div className={StyleHelper.mergeStyles('flex flex-col gap-2.5 py-4', className)} {...props}>
         {typeof label === 'string' ? <span className="text-xs text-gray-100 uppercase">{label}</span> : label}
 

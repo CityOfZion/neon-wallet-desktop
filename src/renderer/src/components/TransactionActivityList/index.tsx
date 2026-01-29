@@ -8,10 +8,10 @@ import { Separator } from '@renderer/components/Separator'
 
 import { DateHelper } from '@renderer/helpers/DateHelper'
 
-import { useGetFullTransactions } from '@renderer/hooks/useGetFullTransactions'
 import { useInfiniteScroll } from '@renderer/hooks/useInfiniteScroll'
 import { useLanguageSelector } from '@renderer/hooks/useSettingsSelector'
 import { useTransactionActivityList } from '@renderer/hooks/useTransactionActivityList'
+import { useTransactions } from '@renderer/hooks/useTransactions'
 
 import TbAlertTriangle from '@renderer/assets/images/tb-alert-triangle.svg?react'
 
@@ -49,7 +49,7 @@ const Content = ({ defaultAccounts, dateFrom, dateTo, onSelectDateFrom, onSelect
 
   const dateNow = new Date()
 
-  const { data, isLoading, fetchNextPage } = useGetFullTransactions({
+  const { data, isLoading, fetchNextPage } = useTransactions({
     accounts: defaultAccounts,
     dateFrom,
     dateTo,
@@ -82,8 +82,8 @@ const Content = ({ defaultAccounts, dateFrom, dateTo, onSelectDateFrom, onSelect
     gap: heights.DATE_GAP,
     getScrollElement: () => scrollRef.current,
     estimateSize: index => {
-      const { items } = data[index] // Get the transactions (items) for the current date group
-      const itemsLength = items.length // Number of transactions (items) in this group
+      const { transactions } = data[index] // Get the transactions (items) for the current date group
+      const itemsLength = transactions.length // Number of transactions (items) in this group
 
       // Base height includes date label, separator, and separator margin
       let height = heights.DATE + heights.SEPARATOR + heights.SEPARATOR_MARGIN
@@ -98,7 +98,7 @@ const Content = ({ defaultAccounts, dateFrom, dateTo, onSelectDateFrom, onSelect
       height += (itemsLength - 1) * heights.TRANSACTION_GAP
 
       // Calculate total number of events across all items in the group
-      const eventsLength = items.flatMap(({ events }) => events).length
+      const eventsLength = transactions.flatMap(({ events }) => events).length
 
       // Add height for each event
       height += eventsLength * heights.EVENT
@@ -183,7 +183,7 @@ const Content = ({ defaultAccounts, dateFrom, dateTo, onSelectDateFrom, onSelect
           <div className="min-h-0 w-full overflow-x-hidden overflow-y-auto" ref={scrollRef} onScroll={handleScroll}>
             <ul className="relative flex w-full flex-col" style={{ height: `${virtualizer.getTotalSize()}px` }}>
               {virtualizer.getVirtualItems().map(virtualItem => {
-                const { date, items } = data[virtualItem.index]
+                const { date, transactions } = data[virtualItem.index]
 
                 return (
                   <li
@@ -203,10 +203,10 @@ const Content = ({ defaultAccounts, dateFrom, dateTo, onSelectDateFrom, onSelect
 
                     <Separator className="h-px max-h-px min-h-px" containerClassName="mb-2" />
 
-                    {items.length > 0 && (
+                    {transactions.length > 0 && (
                       <ul className="flex flex-col gap-y-4">
-                        {items.map((item, index) => (
-                          <TransactionActivityListItem key={`${item.txId}-${index}`} item={item} />
+                        {transactions.map((transaction, index) => (
+                          <TransactionActivityListItem key={`${transaction.txId}-${index}`} transaction={transaction} />
                         ))}
                       </ul>
                     )}
