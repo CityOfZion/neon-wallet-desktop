@@ -14,7 +14,7 @@ import {
   type TAccountsToImport,
   TBlockchainServiceKey,
   type TCreateWalletAndAccountParam,
-  type TWalletToCreate,
+  type TUseCreateWalletParams,
 } from '@shared/types/blockchain'
 
 import type { IAccountState, IContactState, TSwapRecord } from './store'
@@ -125,7 +125,7 @@ export type TUseNeonMigrateDecryptedAccountSchema = TUseNeonMigrateAccountsSchem
 }
 
 export type TUseNeonMigrateGeneratedData = {
-  walletToCreate: TWalletToCreate
+  walletToCreate: TUseCreateWalletParams
   accountsToCreate: TAccountsToImport
   contactsToCreate: IContactState[]
 }

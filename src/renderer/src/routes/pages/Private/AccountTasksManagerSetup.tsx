@@ -7,10 +7,10 @@ import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelp
 import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
 import { SkinHelper } from '@renderer/helpers/SkinHelper'
 
+import { useEditAccount } from '@renderer/hooks/useAccountActions'
 import { useOwnAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useUnreadNotificationsSelector } from '@renderer/hooks/useAuthSelector'
 import { useLazyBalance } from '@renderer/hooks/useBalances'
-import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useMount } from '@renderer/hooks/useMount'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useLazyVoteNeo3GetVoteDetailsByAddress } from '@renderer/hooks/useVoteNeo3'
@@ -169,7 +169,7 @@ const useVotingNeo3NotificationProcess = () => {
 
 const useUnlockLocalSkinsProcess = () => {
   const dispatch = useAppDispatch()
-  const { editAccount } = useBlockchainActions()
+  const { editAccount } = useEditAccount()
 
   const unlockLocalSkinsSetRef = useRef<Set<string>>(new Set())
   const accountWithLocalSkinsRef = useRef<IAccountState[]>([])

@@ -8,8 +8,8 @@ import { Separator } from '@renderer/components/Separator'
 import { SkinHelper } from '@renderer/helpers/SkinHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 
+import { useCreateStandardAccount } from '@renderer/hooks/useAccountActions'
 import { useActions } from '@renderer/hooks/useActions'
-import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useAddAccountHardwareWallet } from '@renderer/hooks/useHardwareWallet'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
@@ -38,7 +38,7 @@ const PersistAccountModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'persistAccount' })
   const { modalNavigate } = useModalNavigate()
   const modalState = useModalState<TModalState<'persist-account'>>()
-  const { createStandardAccount } = useBlockchainActions()
+  const { createStandardAccount } = useCreateStandardAccount()
   const { addNewHardwareAccount } = useAddAccountHardwareWallet()
   const dispatch = useAppDispatch()
 

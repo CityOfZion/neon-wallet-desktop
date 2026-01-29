@@ -9,10 +9,11 @@ import { Textarea } from '@renderer/components/Textarea'
 
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 
+import { useImportAccount } from '@renderer/hooks/useAccountActions'
 import { useAccountUtils } from '@renderer/hooks/useAccountSelector'
-import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useImportAction } from '@renderer/hooks/useImportAction'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
+import { useCreateWallet } from '@renderer/hooks/useWalletActions'
 
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 
@@ -29,7 +30,8 @@ const ImportModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'import' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'wallet' })
   const { doesAccountExist } = useAccountUtils()
-  const { createWallet, importAccount } = useBlockchainActions()
+  const { importAccount } = useImportAccount()
+  const { createWallet } = useCreateWallet()
   const navigate = useNavigate()
 
   const modalStateText = modalState?.text

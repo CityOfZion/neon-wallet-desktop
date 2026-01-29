@@ -7,8 +7,8 @@ import { Separator } from '@renderer/components/Separator'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 
-import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
+import { useDeleteWallet } from '@renderer/hooks/useWalletActions'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
 
 import { SideModalLayout } from '@renderer/layouts/SideModal'
@@ -23,7 +23,7 @@ const DeleteWalletModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'deleteWallet' })
   const { wallets } = useWalletsSelector()
   const { modalNavigateWrapper, modalErase } = useModalNavigate()
-  const { deleteWallet } = useBlockchainActions()
+  const { deleteWallet } = useDeleteWallet()
 
   const handleDelete = async () => {
     const isLastWallet = wallets.length === 1 && wallets[0].id === wallet.id

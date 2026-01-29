@@ -8,9 +8,10 @@ import { Separator } from '@renderer/components/Separator'
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
+import { useCreateStandardAccount } from '@renderer/hooks/useAccountActions'
 import { useActions } from '@renderer/hooks/useActions'
-import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
+import { useCreateWallet } from '@renderer/hooks/useWalletActions'
 
 import { CreateWalletModalLayout } from '@renderer/layouts/CreateWalletModalLayout'
 
@@ -31,7 +32,8 @@ const CreateWalletStep4Modal = () => {
   const { t: commonT } = useTranslation('common')
   const { nameTrimmed, words } = useModalState<TModalState<'create-wallet-step-4'>>()
   const { modalNavigate, modalNavigateWrapper, modalErase } = useModalNavigate()
-  const { createWallet, createStandardAccount } = useBlockchainActions()
+  const { createStandardAccount } = useCreateStandardAccount()
+  const { createWallet } = useCreateWallet()
 
   const { actionData, actionState, setData, handleAct } = useActions<TFormData>({
     blockchains: BlockchainServiceHelper.blockchainNames.map(name => {

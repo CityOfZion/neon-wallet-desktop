@@ -9,12 +9,13 @@ import { authReducerActions } from '@renderer/store/reducers/auth'
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
 import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
-import { TAccountsToImport, TBlockchainServiceKey, TWalletToCreate } from '@shared/types/blockchain'
+import { TAccountsToImport, TBlockchainServiceKey, TUseCreateWalletParams } from '@shared/types/blockchain'
 
-import { useBlockchainActions } from './useBlockchainActions'
+import { useImportAccounts } from './useAccountActions'
 import { useCreateHardwareWallet } from './useHardwareWallet'
 import { useAppDispatch } from './useRedux'
 import { useLoginControlSelector } from './useSettingsSelector'
+import { useCreateWallet } from './useWalletActions'
 
 const LOGIN_CONTROL_VALUE = 'true'
 
@@ -22,7 +23,8 @@ export const useLogin = () => {
   const { encryptedLoginControlRef } = useLoginControlSelector()
   const dispatch = useAppDispatch()
   const { t } = useTranslation('hooks', { keyPrefix: 'useLogin' })
-  const { createWallet, importAccounts } = useBlockchainActions()
+  const { createWallet } = useCreateWallet()
+  const { importAccounts } = useImportAccounts()
   const { createHardwareWallet } = useCreateHardwareWallet()
 
   const loginWithPassword = useCallback(
@@ -68,7 +70,7 @@ export const useLogin = () => {
   )
 
   const loginWithKey = useCallback(
-    async (accountsToCreate: TAccountsToImport, walletToCreate: TWalletToCreate) => {
+    async (accountsToCreate: TAccountsToImport, walletToCreate: TUseCreateWalletParams) => {
       const randomPassword = UtilsHelper.uuid()
       const encryptedPassword = await window.api.sendAsync('encryption:encryptBasedOS', randomPassword)
 

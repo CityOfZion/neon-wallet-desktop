@@ -7,9 +7,11 @@ import { Progress } from '@renderer/components/Progress'
 
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 
-import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
+import { useImportAccounts } from '@renderer/hooks/useAccountActions'
+import { useCreateContacts } from '@renderer/hooks/useContactActions'
 import { useSignup } from '@renderer/hooks/useLogin'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
+import { useCreateWallet } from '@renderer/hooks/useWalletActions'
 
 import NeonWalletLogo from '@renderer/assets/images/neon-wallet-compact.svg?react'
 
@@ -30,7 +32,9 @@ export const LoginPasswordImportWalletStep4Content = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'welcome.importWallet.importStep' })
   const { state } = useLocation() as Location<TLocationState>
   const navigate = useNavigate()
-  const { createWallet, importAccounts, createContacts } = useBlockchainActions()
+  const { createContacts } = useCreateContacts()
+  const { createWallet } = useCreateWallet()
+  const { importAccounts } = useImportAccounts()
   const { signup } = useSignup()
   const dispatch = useAppDispatch()
 

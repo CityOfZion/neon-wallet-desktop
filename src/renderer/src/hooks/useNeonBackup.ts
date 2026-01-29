@@ -19,12 +19,13 @@ import type {
 } from '@shared/types/hooks'
 import { IContactState, TContactAddress, TSwapRecord } from '@shared/types/store'
 
+import { useImportAccounts } from './useAccountActions'
 import { useAccountsSelector, useAccountUtils } from './useAccountSelector'
 import { useCurrentLoginSessionSelector } from './useAuthSelector'
-import { useBlockchainActions } from './useBlockchainActions'
 import { useContactsSelector } from './useContactSelector'
 import { useAppDispatch } from './useRedux'
 import { useSwapRecordsSelector } from './useUtilitySelector'
+import { useCreateWallet, useEditWallet } from './useWalletActions'
 import { useWalletsSelector } from './useWalletSelector'
 
 export const useNeonCreateBackup = () => {
@@ -34,7 +35,7 @@ export const useNeonCreateBackup = () => {
   const { accounts } = useAccountsSelector()
   const { contacts } = useContactsSelector()
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
-  const { editWallet } = useBlockchainActions()
+  const { editWallet } = useEditWallet()
 
   const handleCreateBackupFormat = async () => {
     if (!currentLoginSessionRef.current) {
@@ -167,7 +168,8 @@ export const useNeonCreateBackup = () => {
 export const useNeonImportBackup = () => {
   const { t } = useTranslation('hooks', { keyPrefix: 'useNeonImportBackup' })
   const dispatch = useAppDispatch()
-  const { createWallet, importAccounts } = useBlockchainActions()
+  const { importAccounts } = useImportAccounts()
+  const { createWallet } = useCreateWallet()
   const { doesAccountExist } = useAccountUtils()
 
   const validateAndParseFile = async (
