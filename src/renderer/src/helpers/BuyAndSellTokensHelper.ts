@@ -7,6 +7,7 @@ import {
   type GateFiThemeType,
 } from '@gatefi/js-sdk'
 
+import { SharedEnvHelper } from '@shared/helpers/SharedEnvHelper'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 import type {
   TBuyAndSellTokensHelperGetSellUrlParams,
@@ -31,8 +32,12 @@ export class BuyAndSellTokensHelper {
   }
 
   static buildSellUrl({ currency, account }: TBuyAndSellTokensHelperGetSellUrlParams) {
+    if (!SharedEnvHelper.VITE_UNLIMIT_MERCHANT_ID || !SharedEnvHelper.VITE_UNLIMIT_SELL_TOKENS_IFRAME_URL) {
+      return
+    }
+
     const params = new URLSearchParams({
-      merchantId: import.meta.env.VITE_UNLIMIT_MERCHANT_ID,
+      merchantId: SharedEnvHelper.VITE_UNLIMIT_MERCHANT_ID,
       fiatCurrency: this.getValidCurrencyLabel(currency.label),
       lang: this.#lang,
       themeMode: this.#theme,
@@ -40,10 +45,14 @@ export class BuyAndSellTokensHelper {
       wallet: account?.address ?? '',
     })
 
-    return `${import.meta.env.VITE_UNLIMIT_SELL_TOKENS_IFRAME_URL}?${params.toString()}`
+    return `${SharedEnvHelper.VITE_UNLIMIT_SELL_TOKENS_IFRAME_URL}?${params.toString()}`
   }
 
   static async initBuy({ currency, account, id }: TBuyAndSellTokensHelperInitBuyParams) {
+    if (!SharedEnvHelper.VITE_UNLIMIT_MERCHANT_ID || !SharedEnvHelper.VITE_UNLIMIT_BUY_TOKENS_IFRAME_URL) {
+      return
+    }
+
     const loadedFingerprint = await fingerprint.load()
     const result = await loadedFingerprint.get()
 
@@ -51,7 +60,7 @@ export class BuyAndSellTokensHelper {
 
     return await new Promise<() => void>(resolve => {
       const sdk = new GateFiSDK({
-        merchantId: import.meta.env.VITE_UNLIMIT_MERCHANT_ID,
+        merchantId: SharedEnvHelper.VITE_UNLIMIT_MERCHANT_ID!,
         displayMode: GateFiDisplayModeEnum.Embedded,
         nodeSelector: `#${id}`,
         lang: this.#lang,

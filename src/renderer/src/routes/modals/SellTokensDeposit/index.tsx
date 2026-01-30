@@ -17,6 +17,7 @@ import { TransactionFeeActionStep } from '@renderer/components/TransactionFeeAct
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { CurrencyHelper } from '@renderer/helpers/CurrencyHelper'
+import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
@@ -232,7 +233,7 @@ const SellTokensDepositModal = () => {
         },
       })
     } catch (error) {
-      console.error(error)
+      LoggerHelper.sentry(error, { where: 'SellTokensDeposit', operation: 'submitDeposit' })
 
       const appError = AppError.wrap(error, null)
 
@@ -326,7 +327,7 @@ const SellTokensDepositModal = () => {
           clearErrors(['fee', 'amount'])
         }
       } catch (error) {
-        console.error(error)
+        LoggerHelper.error(error, { where: 'SellTokensDeposit', operation: 'calculateDepositFee' })
 
         const appError = AppError.wrap(error, t('messages.feeError'))
         ToastHelper.error({ message: appError.displayMessage })

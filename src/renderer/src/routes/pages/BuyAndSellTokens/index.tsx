@@ -81,8 +81,8 @@ const BuyAndSellTokensPage = () => {
   const [depositActionsData, setDepositActionsData] = useState<TDepositActionsData | null>(null)
   const [isAccordionAccountsOpened, setIsAccordionAccountsOpened] = useState(false)
   const [iframeId, setIframeId] = useState(UtilsHelper.uuid())
-  const [isBuyReady, setIsBuyReady] = useState(false)
-  const [isSellReady, setIsSellReady] = useState(false)
+  const [isBuyReady, setIsBuyReady] = useState<boolean | undefined>(undefined)
+  const [isSellReady, setIsSellReady] = useState<boolean | undefined>(undefined)
 
   const shouldSkipBlockerRef = useRef(false)
 
@@ -322,7 +322,7 @@ const BuyAndSellTokensPage = () => {
           <Separator className="-mt-px" />
 
           <div className="relative flex min-h-0 w-full grow">
-            {!isReady && <ScreenLoader />}
+            {isReady === undefined && <ScreenLoader />}
 
             <motion.div
               key={`buy-${iframeId}`}

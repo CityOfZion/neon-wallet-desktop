@@ -5,6 +5,7 @@ import intersection from 'lodash/intersection'
 
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
+import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
 import { SkinHelper } from '@renderer/helpers/SkinHelper'
 
 import { useEditAccount } from '@renderer/hooks/useAccountActions'
@@ -17,7 +18,6 @@ import { useLazyVoteNeo3GetVoteDetailsByAddress } from '@renderer/hooks/useVoteN
 
 import { authReducerActions } from '@renderer/store/reducers/auth'
 import { utilityReducerActions } from '@renderer/store/reducers/utility'
-import * as Sentry from '@sentry/electron/renderer'
 import type { TBalance } from '@shared/types/query'
 import type { IAccountState, TNotification } from '@shared/types/store'
 
@@ -40,8 +40,7 @@ const useFraudulentTokensNotificationProcess = () => {
 
       fraudulentNotificationsSetRef.current.add(key)
     } catch (error) {
-      console.error('Error on processNotification (useFraudulentTokensNotificationProcess):', error)
-      Sentry.captureException(error)
+      LoggerHelper.error(error, { where: 'useFraudulentTokensNotificationProcess', operation: 'processNotification' })
     }
   }
 
@@ -87,8 +86,7 @@ const useFraudulentTokensNotificationProcess = () => {
         )
       }
     } catch (error) {
-      console.error('Error on process (useFraudulentTokensNotificationProcess):', error)
-      Sentry.captureException(error)
+      LoggerHelper.error(error, { where: 'useFraudulentTokensNotificationProcess', operation: 'process' })
     }
   }
 
@@ -117,8 +115,7 @@ const useVotingNeo3NotificationProcess = () => {
 
       votingNotificationsSetRef.current.add(generateNotificationKey(payload.blockchain, payload.address))
     } catch (error) {
-      console.error('Error on processNotification (useVotingNeo3NotificationProcess):', error)
-      Sentry.captureException(error)
+      LoggerHelper.error(error, { where: 'useVotingNeo3NotificationProcess', operation: 'processNotification' })
     }
   }
 
@@ -155,8 +152,7 @@ const useVotingNeo3NotificationProcess = () => {
         })
       )
     } catch (error) {
-      console.error('Error on process (useVotingNeo3NotificationProcess):', error)
-      Sentry.captureException(error)
+      LoggerHelper.error(error, { where: 'useVotingNeo3NotificationProcess', operation: 'process' })
     }
   }
 
@@ -197,8 +193,7 @@ const useUnlockLocalSkinsProcess = () => {
         unlockLocalSkinsSetRef.current.add(key)
       }
     } catch (error) {
-      console.error('Error processing account in UnlockLocalSkinsProcess:', error)
-      Sentry.captureException(error)
+      LoggerHelper.error(error, { where: 'useUnlockLocalSkinsProcess', operation: 'process' })
     }
   }
 
@@ -214,8 +209,7 @@ const useUnlockLocalSkinsProcess = () => {
       accountWithLocalSkinsRef.current = []
       unlockLocalSkinsSetRef.current.clear()
     } catch (error) {
-      console.error('Error finishing UnlockLocalSkinsProcess:', error)
-      Sentry.captureException(error)
+      LoggerHelper.error(error, { where: 'useUnlockLocalSkinsProcess', operation: 'finish' })
     }
   }
 

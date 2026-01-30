@@ -36,16 +36,10 @@ export const NftGallery = ({ account, nfts }: TProps) => {
 
     if (!hasExplorerService(service)) return
 
-    let explorerUrl: string | undefined
-
-    try {
-      explorerUrl = service.explorerService.buildNftUrl({
-        tokenHash: nft.hash,
-        collectionHash: nft.collection.hash,
-      })
-    } catch (error) {
-      console.error(error)
-    }
+    const explorerUrl = service.explorerService.buildNftUrl({
+      tokenHash: nft.hash,
+      collectionHash: nft.collection.hash,
+    })
 
     return explorerUrl
   }

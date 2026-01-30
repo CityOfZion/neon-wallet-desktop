@@ -1,20 +1,12 @@
 import { config } from 'dotenv'
 import { z } from 'zod'
 
+import { SharedEnvHelper } from '../src/shared/helpers/SharedEnvHelper'
+
 config()
 
-const envSchema = z.object({
-  VITE_UNLIMIT_MERCHANT_ID: z.string().nonempty(),
-  VITE_UNLIMIT_BUY_TOKENS_IFRAME_URL: z.url(),
-  VITE_UNLIMIT_SELL_TOKENS_IFRAME_URL: z.url(),
-  VITE_CLICK_UP_KEY: z.string().nonempty(),
-  VITE_CLICK_UP_LIST_ID: z.string().nonempty(),
-  VITE_CLICK_UP_ASSIGNEE_ID: z.string().nonempty(),
-  VITE_GA_MEASUREMENT_ID: z.string().nonempty(),
-  VITE_GA_API_SECRET: z.string().nonempty(),
-})
+const result = SharedEnvHelper.schema.required().safeParse(process.env)
 
-const result = envSchema.safeParse(process.env)
 if (!result.success) {
   console.error('❌ Environment variable validation failed:')
   console.error(z.treeifyError(result.error))

@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { TransactionHelper } from '@renderer/helpers/TransactionHelper'
 
@@ -149,7 +150,7 @@ export const useUnclaimedMutation = () => {
       )
     },
     onError: error => {
-      console.error(error)
+      LoggerHelper.sentry(error, { where: 'useUnclaimedMutation' })
       ToastHelper.error({ message: t('hooks:useUnclaimedMutation.errors.claimError') })
     },
     onSuccess: (_data, account) => {

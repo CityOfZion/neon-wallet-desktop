@@ -31,6 +31,11 @@ export const BuyAndSellTokensSellIframe = ({ account, onReady, className, iframe
   }
 
   useMountUnsafe(() => {
+    if (!url) {
+      onReady?.(false)
+      return
+    }
+
     onReady?.(false)
   })
 

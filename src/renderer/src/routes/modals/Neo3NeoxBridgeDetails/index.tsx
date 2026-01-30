@@ -14,6 +14,7 @@ import { TokenDetails } from '@renderer/components/TokenDetails'
 
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
+import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
 
 import { useModalState } from '@renderer/hooks/useModalRouter'
 import { useMountUnsafe } from '@renderer/hooks/useMount'
@@ -75,7 +76,7 @@ const Neo3NeoxBridgeDetailsModal = () => {
         setStatus('completed')
       })
       .catch(error => {
-        console.error(error)
+        LoggerHelper.error(error, { where: 'Neo3NeoxBridgeDetailsModal', operation: 'waitForBridgeCompletion' })
         setStatus('error')
         setErrorMessage(
           error instanceof BSError

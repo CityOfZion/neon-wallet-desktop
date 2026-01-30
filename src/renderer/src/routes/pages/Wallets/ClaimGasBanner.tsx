@@ -8,6 +8,7 @@ import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { Button } from '@renderer/components/Button'
 import { Loader } from '@renderer/components/Loader'
 
+import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 
 import { useBalance } from '@renderer/hooks/useBalances'
@@ -50,7 +51,7 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
     if (!unclaimedQuery.error) return
 
     ToastHelper.error({ message: t('errorToGetUnclaimed') })
-    console.error(unclaimedQuery.error)
+    LoggerHelper.error(unclaimedQuery.error, { where: 'ClaimGasBanner', operation: 'getUnclaimed' })
   }, [t, unclaimedQuery.error])
 
   return (

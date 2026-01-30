@@ -12,6 +12,7 @@ import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { CurrencyHelper } from '@renderer/helpers/CurrencyHelper'
 import { ExchangeHelper } from '@renderer/helpers/ExchangeHelper'
+import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
@@ -139,7 +140,7 @@ const VoteNeo3ConfirmationModal = () => {
 
       modalNavigate('vote-neo3-success', { replace: true, state: { neo3Account, candidate } })
     } catch (error) {
-      console.error(error)
+      LoggerHelper.sentry(error, { where: 'VoteNeo3ConfirmationModal', operation: 'submitVote' })
       ToastHelper.error({ message: AppError.wrap(error, t('messages.voteError')).displayMessage, duration: 8000 })
     }
   }

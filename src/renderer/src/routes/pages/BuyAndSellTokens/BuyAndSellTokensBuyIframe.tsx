@@ -8,7 +8,7 @@ import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 
 import type { IAccountState } from '@shared/types/store'
 
-type TProps = { account?: IAccountState; onReady?: (ready: boolean) => void } & ComponentProps<'div'>
+type TProps = { account?: IAccountState; onReady?: (ready?: boolean) => void } & ComponentProps<'div'>
 
 const IFRAME_CONTAINER_ID = 'buy-tokens-iframe-container'
 
@@ -16,9 +16,13 @@ export const BuyAndSellTokensBuyIframe = ({ account, onReady, className, ...prop
   const { currency } = useCurrencySelector()
 
   useMountUnsafe(async () => {
-    onReady?.(false)
+    onReady?.()
 
     const destroySdkCallback = await BuyAndSellTokensHelper.initBuy({ account, currency, id: IFRAME_CONTAINER_ID })
+    if (!destroySdkCallback) {
+      onReady?.(false)
+      return () => {}
+    }
 
     onReady?.(true)
 

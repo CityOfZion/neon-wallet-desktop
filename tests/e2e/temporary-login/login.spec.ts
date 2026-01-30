@@ -18,8 +18,7 @@ test.describe('Temporary Login', () => {
     const window = await launch()
     const key = process.env.TEST_NEO3_KEY
     if (!key) {
-      console.warn('TEST_NEO3_KEY is not defined')
-      return
+      throw new Error('TEST_NEO3_KEY is not defined')
     }
 
     await loginWithKey(window, key)
@@ -38,8 +37,7 @@ test.describe('Temporary Login', () => {
 
     const mnemonic = process.env.TEST_MNEMONIC
     if (!mnemonic) {
-      console.warn('TEST_MNEMONIC is not defined')
-      return
+      throw new Error('TEST_MNEMONIC is not defined')
     }
 
     await loginWithKey(window, mnemonic)

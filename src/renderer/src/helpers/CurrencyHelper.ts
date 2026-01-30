@@ -1,6 +1,8 @@
 import type { TCurrencyHelperFormatOptions } from '@shared/types/helpers'
 import type { TAvailableCurrency, TCurrency } from '@shared/types/store'
 
+import { LoggerHelper } from './LoggerHelper'
+
 export class CurrencyHelper {
   static readonly availableCurrencies: TCurrency[] = [
     { symbol: 'U$', label: 'USD' },
@@ -45,7 +47,7 @@ export class CurrencyHelper {
 
       if (!showZero && num === 0) result = result.replace('0', '--').replaceAll('0', '-')
     } catch (error) {
-      console.error(error)
+      LoggerHelper.error(error, { where: 'CurrencyHelper', operation: 'format' })
     }
 
     if (approximateSymbol) result = `~${result}`

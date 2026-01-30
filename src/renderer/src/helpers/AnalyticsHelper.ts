@@ -1,3 +1,6 @@
+import { SharedEnvHelper } from '@shared/helpers/SharedEnvHelper'
+
+import { LoggerHelper } from './LoggerHelper'
 import { UtilsHelper } from './UtilsHelper'
 
 export class AnalyticsHelper {
@@ -13,8 +16,11 @@ export class AnalyticsHelper {
   }
 
   static async logEvent(eventName: string, params: Record<string, any> = {}) {
-    if (!import.meta.env.PROD) {
-      console.warn('Analytics event skipped in non-production environment:', eventName, params)
+    if (!SharedEnvHelper.PROD) {
+      LoggerHelper.warn(`Analytics event skipped in non-production environment: ${eventName}`, {
+        where: 'AnalyticsHelper',
+        operation: 'logEvent',
+      })
       return
     }
 
@@ -25,7 +31,7 @@ export class AnalyticsHelper {
         params,
       })
     } catch (error) {
-      console.error(error)
+      LoggerHelper.sentry(error, { where: 'AnalyticsHelper', operation: 'logEvent' })
     }
   }
 }

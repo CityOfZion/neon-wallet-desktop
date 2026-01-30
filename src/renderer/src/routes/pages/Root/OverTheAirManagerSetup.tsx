@@ -6,6 +6,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import { Link } from '@renderer/components/Link'
 
 import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
+import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
@@ -48,7 +49,7 @@ const OverTheAirManagerSetup = () => {
     const removeUpdateErrorListener = window.api.listen('updater:updateError', error => {
       ToastHelper.dismiss('auto-update-downloading')
       ToastHelper.error({ message: t('error'), duration: 5000 })
-      console.error(error)
+      LoggerHelper.sentry(error, { where: 'OverTheAirManagerSetup', operation: 'downloadUpdate' })
     })
 
     window.api.sendAsync('updater:checkForUpdates').then(hasUpdates => {

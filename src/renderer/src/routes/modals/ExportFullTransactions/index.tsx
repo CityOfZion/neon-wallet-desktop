@@ -9,6 +9,7 @@ import { SuccessIcon } from '@renderer/components/SuccessIcon'
 
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { DateHelper } from '@renderer/helpers/DateHelper'
+import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 
 import { useActions } from '@renderer/hooks/useActions'
@@ -104,7 +105,7 @@ const ExportFullTransactionsModal = () => {
 
       setData({ exported: true, filePath })
     } catch (error) {
-      console.error(error)
+      LoggerHelper.error(error, { where: 'ExportFullTransactionsModal', operation: 'export' })
       ToastHelper.error({ message: AppError.wrap(error, t('form.errorMessage')).displayMessage })
     }
   }
@@ -158,7 +159,7 @@ const ExportFullTransactionsModal = () => {
     try {
       await window.api.sendAsync('window:openFile', actionData.filePath)
     } catch (error) {
-      console.error(error)
+      LoggerHelper.error(error, { where: 'ExportFullTransactionsModal', operation: 'readFile' })
       ToastHelper.error({ message: AppError.wrap(error, t('messages.openExportError')).displayMessage, duration: 6000 })
     } finally {
       setData({ isOpeningFilePath: false })

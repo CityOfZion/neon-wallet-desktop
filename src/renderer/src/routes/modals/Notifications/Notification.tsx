@@ -7,6 +7,7 @@ import { ActionPopover } from '@renderer/components/ActionPopover'
 import { IconButton } from '@renderer/components/IconButton'
 
 import { DateHelper } from '@renderer/helpers/DateHelper'
+import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
@@ -93,7 +94,7 @@ export const Notification = ({ notification }: TProps) => {
         })
       )
     } catch (error) {
-      console.error(error)
+      LoggerHelper.error(error, { where: 'Notification', operation: 'clickNotification' })
       ToastHelper.error({ message: AppError.wrap(error).displayMessage })
     }
   }

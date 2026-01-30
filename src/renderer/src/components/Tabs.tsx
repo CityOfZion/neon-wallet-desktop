@@ -44,6 +44,7 @@ const List = ({ className, children, ...props }: ComponentProps<typeof TabsPrimi
   <TabsPrimitive.List
     data-slot="tabs-list"
     className={StyleHelper.mergeStyles('flex w-full items-center justify-center text-gray-300', className)}
+    tabIndex={0}
     {...props}
   >
     <div className="flex h-fit w-fit border-b border-gray-300">{children}</div>
@@ -59,12 +60,13 @@ const Trigger = ({ className, value, ...props }: ComponentProps<typeof TabsPrimi
       data-slot="tabs-trigger"
       value={value}
       className={StyleHelper.mergeStyles(
-        'text-1xs relative h-full justify-center px-4 py-3 font-medium whitespace-nowrap uppercase transition-colors focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50 data-[state=active]:text-white',
+        'text-1xs relative h-full justify-center px-4 py-3 font-medium whitespace-nowrap uppercase transition-colors focus-visible:ring-2 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50 data-[state=active]:text-white',
         className
       )}
       {...props}
     >
       {props.children}
+
       {isActive && (
         <motion.div
           layoutId={`tab-indicator-${id}`}
@@ -112,7 +114,7 @@ const Item = ({ className, children, value, ...props }: ComponentProps<typeof Ta
         'ring-offset-background focus-visible:ring-ring flex h-full w-full grow flex-col items-center focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-hidden',
         className
       )}
-      forceMount
+      tabIndex={-1}
       value={value}
       {...props}
     >
