@@ -6,7 +6,7 @@ import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
 import { SharedI18nextHelper } from '@shared/helpers/SharedI18nextHelper'
 import { neonMigrateSchema } from '@shared/schemas/neon-migrate'
-import { TAccountsToImport, TWalletToCreate } from '@shared/types/blockchain'
+import { TAccountsToImport, TUseCreateWalletParams } from '@shared/types/blockchain'
 import type {
   TUseNeonMigrateAccountsSchema,
   TUseNeonMigrateContactsSchema,
@@ -17,8 +17,10 @@ import type {
 } from '@shared/types/hooks'
 import { IContactState, TContactAddress } from '@shared/types/store'
 
-import { useBlockchainActions } from './useBlockchainActions'
+import { useImportAccounts } from './useAccountActions'
+import { useCreateContacts } from './useContactActions'
 import { useContactsSelector } from './useContactSelector'
+import { useCreateWallet } from './useWalletActions'
 
 const { t } = SharedI18nextHelper.get()
 
@@ -69,7 +71,9 @@ const neonMigrateSchemaWithTransform = neonMigrateSchema.transform(data => {
 export const useNeonImportMigrate = () => {
   const { t: commonT } = useTranslation('common', { keyPrefix: 'wallet' })
   const { contactsRef } = useContactsSelector()
-  const { createContacts, createWallet, importAccounts } = useBlockchainActions()
+  const { importAccounts } = useImportAccounts()
+  const { createContacts } = useCreateContacts()
+  const { createWallet } = useCreateWallet()
 
   const validateAndParseFile = async (fileContent: string): Promise<TUseNeonMigrateData | undefined> => {
     try {
@@ -105,7 +109,7 @@ export const useNeonImportMigrate = () => {
     decryptedAccounts: TUseNeonMigrateDecryptedAccountSchema[]
   ): TUseNeonMigrateGeneratedData => {
     const contactsToCreate: IContactState[] = []
-    const walletToCreate: TWalletToCreate = { name: commonT('migratedWalletName'), backupStatus: 'successful' }
+    const walletToCreate: TUseCreateWalletParams = { name: commonT('migratedWalletName'), backupStatus: 'successful' }
     const accountsToCreate: TAccountsToImport = []
 
     decryptedAccounts.map(({ address, blockchain, decryptedKey, label }) => {

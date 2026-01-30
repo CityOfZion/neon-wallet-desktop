@@ -5,7 +5,7 @@ import { IAccountState, IWalletState, TAccountType, TSkin, TWalletBackupStatus, 
 export type TBlockchainServiceKey = 'neo3' | 'neoLegacy' | 'ethereum' | 'neox' | 'polygon' | 'base' | 'arbitrum'
 export type TBlockchainImageColor = 'default' | 'white' | 'gray' | 'blue' | 'green'
 
-export type TAccountToImport = {
+export type TUseImportAccountParams = {
   address: string
   blockchain: TBlockchainServiceKey
   wallet: IWalletState
@@ -16,18 +16,18 @@ export type TAccountToImport = {
   skin?: TSkin
 }
 
-export type TAccountsToImport = Omit<TAccountToImport, 'wallet'>[]
+export type TAccountsToImport = Omit<TUseImportAccountParams, 'wallet'>[]
 
-export type TCreateWalletAndAccountParam = TWalletToCreate & {
+export type TCreateWalletAndAccountParam = TUseCreateWalletParams & {
   accounts: TAccountsToImport
 }
 
-export type TImportAccountsParam = {
+export type TUseImportAccountsParams = {
   wallet: IWalletState
   accounts: TAccountsToImport
 }
 
-export type TAccountToCreate = {
+export type TUseCreateStandardAccountParams = {
   id?: string
   wallet: IWalletState
   name: string
@@ -35,7 +35,7 @@ export type TAccountToCreate = {
   skin?: TSkin
 }
 
-export type TWalletToCreate = {
+export type TUseCreateWalletParams = {
   name: string
   mnemonic?: string
   id?: string
@@ -47,12 +47,12 @@ export type TNetwork = {
   isAutomatic?: boolean
 } & TBSNetwork
 
-export type TAccountToEdit = {
+export type TUseEditAccountParams = {
   account: IAccountState
   data: Partial<Omit<IAccountState, 'address' | 'encryptedKey' | 'id'>> & { key?: string }
 }
 
-export type TWalletToEdit = {
+export type TUseEditWalletParams = {
   wallet: IWalletState
   data: Partial<Omit<IWalletState, 'id' | 'encryptedMnemonic'>> & { mnemonic?: string }
 }

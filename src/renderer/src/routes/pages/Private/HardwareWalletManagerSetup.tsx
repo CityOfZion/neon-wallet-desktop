@@ -4,15 +4,15 @@ import { useTranslation } from 'react-i18next'
 
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 
+import { useEditAccount } from '@renderer/hooks/useAccountActions'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
-import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useMountUnsafe } from '@renderer/hooks/useMount'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
 
 const HardwareWalletManagerSetup = () => {
   const { walletsRef } = useWalletsSelector()
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
-  const { editAccount } = useBlockchainActions()
+  const { editAccount } = useEditAccount()
   const { t: commonT } = useTranslation('pages', { keyPrefix: 'private.hardwareWalletManagerSetup' })
 
   const transformHardwareAccountsToWatch = useCallback(() => {

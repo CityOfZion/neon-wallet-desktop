@@ -10,9 +10,10 @@ import { Separator } from '@renderer/components/Separator'
 
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 
+import { useImportAccounts } from '@renderer/hooks/useAccountActions'
 import { useAccountUtils } from '@renderer/hooks/useAccountSelector'
-import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
+import { useCreateWallet } from '@renderer/hooks/useWalletActions'
 
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 
@@ -33,7 +34,8 @@ type TValidatedAddress = {
 
 const ImportWatchAccountsModal = () => {
   const { modalErase } = useModalNavigate()
-  const blockchainActions = useBlockchainActions()
+  const { createWallet } = useCreateWallet()
+  const { importAccounts } = useImportAccounts()
   const { t } = useTranslation('modals', { keyPrefix: 'importWatchAccounts' })
   const { t: commomT } = useTranslation('common', { keyPrefix: 'wallet' })
   const modalState = useModalState<TModalState<'import-watch-accounts'>>()
@@ -58,7 +60,7 @@ const ImportWatchAccountsModal = () => {
         throw new AppError(t('errors.invalid'))
       }
 
-      const wallet = blockchainActions.createWallet({ name: commomT('watchAccount') })
+      const wallet = createWallet({ name: commomT('watchAccount') })
 
       const accountsToImport: TAccountsToImport = validatedAddresses.map(validatedAddress => ({
         address: validatedAddress.address,
@@ -66,7 +68,7 @@ const ImportWatchAccountsModal = () => {
         type: 'watch',
       }))
 
-      const accounts = await blockchainActions.importAccounts({ wallet, accounts: accountsToImport })
+      const accounts = await importAccounts({ wallet, accounts: accountsToImport })
 
       modalErase()
       navigate('/wallets/overview', { state: { account: accounts[0] } })

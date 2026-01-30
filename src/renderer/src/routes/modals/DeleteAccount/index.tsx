@@ -7,8 +7,8 @@ import { Separator } from '@renderer/components/Separator'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 
+import { useDeleteAccount } from '@renderer/hooks/useAccountActions'
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
-import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 
 import { SideModalLayout } from '@renderer/layouts/SideModal'
@@ -23,7 +23,7 @@ const DeleteAccountModal = () => {
   const { accounts } = useAccountsSelector()
   const { t } = useTranslation('modals', { keyPrefix: 'deleteAccount' })
   const { modalErase, modalNavigateWrapper } = useModalNavigate()
-  const { deleteAccount } = useBlockchainActions()
+  const { deleteAccount } = useDeleteAccount()
 
   const handleDelete = () => {
     const idWallet = account.idWallet

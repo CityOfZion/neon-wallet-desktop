@@ -17,7 +17,7 @@ import { useLastIndexesByWallet } from '@renderer/hooks/useUtilitySelector'
 
 import TbFileImport from '@renderer/assets/images/tb-file-import.svg?react'
 
-import { TAccountsToImport, TBlockchainServiceKey, TWalletToCreate } from '@shared/types/blockchain'
+import { TAccountsToImport, TBlockchainServiceKey, TUseCreateWalletParams } from '@shared/types/blockchain'
 import type { TUseNeonBackupGeneratedData, TUseNeonMigrateGeneratedData } from '@shared/types/hooks'
 
 type TLocationState = {
@@ -34,7 +34,7 @@ export const LoginPasswordImportWalletStep3Content = () => {
   const { lastIndexesByWalletRef } = useLastIndexesByWallet()
 
   const submitAddress = async (address: string) => {
-    const wallet: TWalletToCreate = {
+    const wallet: TUseCreateWalletParams = {
       name: commonT('wallet.watchAccount'),
     }
     const serviceNames = BlockchainServiceHelper.bsAggregator.getBlockchainNameByAddress(address)
@@ -60,7 +60,7 @@ export const LoginPasswordImportWalletStep3Content = () => {
       }
     )
 
-    const wallet: TWalletToCreate = {
+    const wallet: TUseCreateWalletParams = {
       name: commonT('wallet.encryptedName'),
     }
 
@@ -86,7 +86,7 @@ export const LoginPasswordImportWalletStep3Content = () => {
       })
       .flat()
 
-    const wallet: TWalletToCreate = {
+    const wallet: TUseCreateWalletParams = {
       name: commonT('wallet.mnemonicWalletName'),
       mnemonic,
     }
@@ -100,7 +100,7 @@ export const LoginPasswordImportWalletStep3Content = () => {
     const handleDecrypt = async (key: string, address: string, blockchain: TBlockchainServiceKey) => {
       modalNavigate(-2)
 
-      const wallet: TWalletToCreate = { name: commonT('wallet.encryptedName') }
+      const wallet: TUseCreateWalletParams = { name: commonT('wallet.encryptedName') }
       const accounts: TAccountsToImport = [{ address, blockchain, key, type: 'standard' }]
 
       navigate('/login-import-wallet-setup/4', {

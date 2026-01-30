@@ -13,11 +13,12 @@ import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import { TUseHardwareWalletByUsbStatus } from '@shared/types/hooks'
 import { IAccountState, IWalletState } from '@shared/types/store'
 
+import { useEditAccount, useImportAccount } from './useAccountActions'
 import { useAccountMapSelector } from './useAccountSelector'
 import { useCurrentLoginSessionSelector } from './useAuthSelector'
-import { useBlockchainActions } from './useBlockchainActions'
 import { useAppDispatch } from './useRedux'
 import { useLastIndexesByWallet } from './useUtilitySelector'
+import { useCreateWallet, useEditWallet } from './useWalletActions'
 
 const CONNECT_MAX_ATTEMPTS = 10
 
@@ -84,7 +85,10 @@ export const useHardwareWalletByUsb = () => {
 
 export const useCreateHardwareWallet = () => {
   const { t: commonT } = useTranslation('common')
-  const { createWallet, editAccount, importAccount, editWallet } = useBlockchainActions()
+  const { editWallet } = useEditWallet()
+  const { createWallet } = useCreateWallet()
+  const { editAccount } = useEditAccount()
+  const { importAccount } = useImportAccount()
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const { accountsMapRef } = useAccountMapSelector()
 
@@ -176,7 +180,7 @@ export const useCreateHardwareWallet = () => {
 }
 
 export const useAddAccountHardwareWallet = () => {
-  const { importAccount } = useBlockchainActions()
+  const { importAccount } = useImportAccount()
   const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
   const dispatch = useAppDispatch()
   const { t: commonT } = useTranslation('common')

@@ -10,9 +10,10 @@ import { Input } from '@renderer/components/Input'
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 
+import { useCreateStandardAccount } from '@renderer/hooks/useAccountActions'
 import { useActions } from '@renderer/hooks/useActions'
-import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useSignup } from '@renderer/hooks/useLogin'
+import { useCreateWallet } from '@renderer/hooks/useWalletActions'
 
 type TFormData = {
   confirmPassword: string
@@ -31,7 +32,8 @@ export const LoginPasswordSecuritySetupStep2Content = ({ onSubmit }: TProps) => 
   const { t } = useTranslation('pages', { keyPrefix: 'welcome.securitySetup.confirmPasswordStep' })
   const { t: commonT } = useTranslation('common')
   const navigate = useNavigate()
-  const { createWallet, createStandardAccount } = useBlockchainActions()
+  const { createStandardAccount } = useCreateStandardAccount()
+  const { createWallet } = useCreateWallet()
   const { signup } = useSignup()
 
   const { actionData, actionState, handleAct, setData, setError } = useActions<TFormData>({

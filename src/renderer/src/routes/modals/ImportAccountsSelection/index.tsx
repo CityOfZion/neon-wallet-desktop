@@ -10,10 +10,11 @@ import {
   TMnemonicOrKeyAccountWithBlockchain,
 } from '@renderer/components/MnemonicOrKeyAccountSelection'
 
+import { useImportAccounts } from '@renderer/hooks/useAccountActions'
 import { useAccountUtils } from '@renderer/hooks/useAccountSelector'
-import { useBlockchainActions } from '@renderer/hooks/useBlockchainActions'
 import { useLoadingActions } from '@renderer/hooks/useLoadingActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
+import { useCreateWallet } from '@renderer/hooks/useWalletActions'
 
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 
@@ -24,7 +25,8 @@ import type { TModalState } from '@shared/types/modal'
 
 const ImportAccountsSelectionModal = () => {
   const { mnemonicOrKey } = useModalState<TModalState<'import-accounts-selection'>>()
-  const blockchainActions = useBlockchainActions()
+  const { createWallet } = useCreateWallet()
+  const { importAccounts } = useImportAccounts()
   const { t: commonT } = useTranslation('common')
   const { modalErase } = useModalNavigate()
   const navigate = useNavigate()
@@ -36,7 +38,7 @@ const ImportAccountsSelectionModal = () => {
   const { handleAct, isActing } = useLoadingActions(async () => {
     const isMnemonic = BSKeychainHelper.isValidMnemonic(mnemonicOrKey)
 
-    const wallet = blockchainActions.createWallet({
+    const wallet = createWallet({
       name: isMnemonic ? commonT('wallet.mnemonicWalletName') : commonT('wallet.importedName'),
       mnemonic: isMnemonic ? mnemonicOrKey : undefined,
     })
@@ -48,7 +50,7 @@ const ImportAccountsSelectionModal = () => {
       type: 'standard',
     }))
 
-    const accounts = await blockchainActions.importAccounts({
+    const accounts = await importAccounts({
       accounts: accountsToImport,
       wallet,
     })
