@@ -25,6 +25,7 @@ import { TransactionFeeActionStep } from '@renderer/components/TransactionFeeAct
 
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
@@ -188,7 +189,7 @@ export const SwapPageContent = ({ account }: TProps) => {
 
       await swapOrchestratorRef.current!.setAddressToReceive(text)
     } catch (error) {
-      console.error(error)
+      LoggerHelper.error(error, { where: 'SwapPageContent', operation: 'pasteAddressToReceive' })
       ToastHelper.error({ message: AppError.wrap(error, tCommonGeneral('pasteFromClipboardError')).displayMessage })
     }
   })
@@ -361,7 +362,7 @@ export const SwapPageContent = ({ account }: TProps) => {
 
       initializeOrRestartSwapService()
     } catch (error) {
-      console.error(error)
+      LoggerHelper.sentry(error, { where: 'SwapPageContent', operation: 'submitSwap' })
       ToastHelper.error({ message: AppError.wrap(error).displayMessage })
     }
   }

@@ -3,6 +3,7 @@ import { app, BrowserWindow, dialog, shell } from 'electron'
 import { join } from 'path'
 
 import { mainApi } from '@shared/api/main'
+import { SharedEnvHelper } from '@shared/helpers/SharedEnvHelper'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 
 import * as packageJson from '../../package.json'
@@ -126,6 +127,7 @@ async function initialize() {
     app.quit()
   })
 
+  SharedEnvHelper.setup()
   MainDeeplinkHelper.setupHandler()
   MainWindowHelper.setupHandlers()
   MainEncryptionHelper.setupHandlers()

@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 import { mainApi } from '@shared/api/main'
+import { SharedEnvHelper } from '@shared/helpers/SharedEnvHelper'
 import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { SharedI18nextHelper } from '@shared/helpers/SharedI18nextHelper'
 import type { TAnalyticsLogEventParams, TIpcMainBaseOptions } from '@shared/types/api'
@@ -11,7 +12,7 @@ let sessionId: string | null = null
 
 export class MainAnalyticsHelper {
   static async #onLogAnalyticsEvent({ args }: TIpcMainBaseOptions<TAnalyticsLogEventParams>) {
-    if (!import.meta.env.VITE_GA_MEASUREMENT_ID || !import.meta.env.VITE_GA_API_SECRET) {
+    if (!SharedEnvHelper.VITE_GA_MEASUREMENT_ID || !SharedEnvHelper.VITE_GA_API_SECRET) {
       throw new AppError(t('errors.analyticsAreNotConfigured'))
     }
 
@@ -20,7 +21,7 @@ export class MainAnalyticsHelper {
     }
 
     const response = await axios.post(
-      `https://www.google-analytics.com/mp/collect?measurement_id=${import.meta.env.VITE_GA_MEASUREMENT_ID}&api_secret=${import.meta.env.VITE_GA_API_SECRET}`,
+      `https://www.google-analytics.com/mp/collect?measurement_id=${SharedEnvHelper.VITE_GA_MEASUREMENT_ID}&api_secret=${SharedEnvHelper.VITE_GA_API_SECRET}`,
       {
         client_id: args.clientId,
         consent: { ad_personalization: 'DENIED' },

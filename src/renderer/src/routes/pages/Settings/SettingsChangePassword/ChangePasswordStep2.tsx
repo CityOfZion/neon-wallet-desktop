@@ -6,6 +6,7 @@ import { Location, useLocation, useNavigate } from 'react-router'
 
 import { ButtonDownloadPasswordQRCode } from '@renderer/components/ButtonDownloadPasswordQRCode'
 
+import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
@@ -97,7 +98,7 @@ const ChangePasswordStep2 = () => {
 
       navigate('/settings/security/change-password/3')
     } catch (error) {
-      console.error(error)
+      LoggerHelper.error(error, { where: 'ChangePasswordStep2', operation: 'download' })
       ToastHelper.error({ message: AppError.wrap(error, t('error')).displayMessage })
     } finally {
       isDownloading.current = false

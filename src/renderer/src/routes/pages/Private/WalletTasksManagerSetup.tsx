@@ -1,12 +1,13 @@
 import { useRef } from 'react'
 
+import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
+
 import { useCurrentLoginSessionSelector, useUnreadNotificationsSelector } from '@renderer/hooks/useAuthSelector'
 import { useMount } from '@renderer/hooks/useMount'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
 
 import { authReducerActions } from '@renderer/store/reducers/auth'
-import * as Sentry from '@sentry/electron/renderer'
 import type { IWalletState, TNotification } from '@shared/types/store'
 
 const useBackupReminderNotificationProcess = () => {
@@ -27,9 +28,7 @@ const useBackupReminderNotificationProcess = () => {
 
       hasUnreadNotification.current = true
     } catch (error) {
-      console.error('Error on processNotification (useBackupReminderNotificationProcess):', error)
-
-      Sentry.captureException(error)
+      LoggerHelper.error(error, { where: 'useBackupReminderNotificationProcess', operation: 'processNotification' })
     }
   }
 
@@ -45,9 +44,7 @@ const useBackupReminderNotificationProcess = () => {
 
       hasWalletWithoutBackup.current = true
     } catch (error) {
-      console.error('Error on processWallet (useBackupReminderNotificationProcess):', error)
-
-      Sentry.captureException(error)
+      LoggerHelper.error(error, { where: 'useBackupReminderNotificationProcess', operation: 'processWallet' })
     }
   }
 
@@ -74,9 +71,7 @@ const useBackupReminderNotificationProcess = () => {
         hasUnreadNotification.current = false
       }, 2000)
     } catch (error) {
-      console.error('Error on finish (BackupReminderNotificationProcess):', error)
-
-      Sentry.captureException(error)
+      LoggerHelper.error(error, { where: 'useBackupReminderNotificationProcess', operation: 'finish' })
     }
   }
 

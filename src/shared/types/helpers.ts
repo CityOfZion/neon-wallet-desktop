@@ -1,4 +1,5 @@
 import type { TBSToken } from '@cityofzion/blockchain-service'
+import type { SeverityLevel } from '@sentry/electron'
 import type { JSX, ReactNode } from 'react'
 import type { ToastT } from 'sonner'
 
@@ -95,4 +96,13 @@ export type TTransactionHelperBuildPendingTransactionParams = {
   fromAccount: IAccountState
   type?: Exclude<TUseTransactionsTransaction['type'], 'bridgeNeo3NeoX'>
   events?: { toAccount?: IAccountState; toAddress: string; token: TBSToken; amount: string }[]
+}
+
+export type TLoggerHelperOptions = {
+  where: string
+  operation?: string
+}
+
+export type TSentryHelperOptions = TLoggerHelperOptions & {
+  level: SeverityLevel
 }

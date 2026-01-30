@@ -5,6 +5,8 @@ import { useTranslation } from 'react-i18next'
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Input } from '@renderer/components/Input'
 
+import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
+
 import { useActions } from '@renderer/hooks/useActions'
 
 import MdCheck from '@renderer/assets/images/md-check.svg?react'
@@ -34,7 +36,7 @@ export const MigrateAccountsStep4Password = ({ accountToMigrate, onSubmit }: TPr
     try {
       await onSubmit(accountToMigrate, data.password)
     } catch (error) {
-      console.error(error)
+      LoggerHelper.error(error, { where: 'MigrateAccountsStep4Password', operation: 'submitAccountToMigrate' })
       setError('password', AppError.wrap(error, t('passwordError')).displayMessage)
     }
   }

@@ -22,6 +22,7 @@ import { TransactionFeeActionStep } from '@renderer/components/TransactionFeeAct
 
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 
@@ -303,7 +304,7 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
               },
             })
           } catch (error: any) {
-            console.error(error)
+            LoggerHelper.sentry(error, { where: 'Neo3NeoXBridgeContent', operation: 'submitBridge' })
             ToastHelper.error({ message: AppError.wrap(error).displayMessage })
           }
         },

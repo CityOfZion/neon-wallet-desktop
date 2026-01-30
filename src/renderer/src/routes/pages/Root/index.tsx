@@ -8,6 +8,7 @@ import { ScreenLoader } from '@renderer/components/ScreenLoader'
 
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { LazyHelper } from '@renderer/helpers/LazyHelper'
+import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
 import { ReactQueryHelper } from '@renderer/helpers/ReactQueryHelper'
 import { ReduxHelper } from '@renderer/helpers/ReduxHelper'
 import { WalletKitHelper } from '@renderer/helpers/WalletKitHelper'
@@ -18,7 +19,7 @@ import { modalsRouter } from '@renderer/routes/modals-router'
 
 import { ModalRouterProvider } from '@renderer/contexts/ModalRouterContext'
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
-import * as Sentry from '@sentry/electron/renderer'
+import { SharedEnvHelper } from '@shared/helpers/SharedEnvHelper'
 import { SharedI18nextHelper } from '@shared/helpers/SharedI18nextHelper'
 
 const ToastProvider = lazy(() =>
@@ -35,6 +36,7 @@ const RootPage = () => {
 
   useMountUnsafe(async () => {
     try {
+      SharedEnvHelper.setup()
       await Promise.allSettled([SharedI18nextHelper.setup(), BlockchainServiceHelper.setup(), WalletKitHelper.setup()])
       ReduxHelper.setup()
       await ReduxHelper.waitForBootstrap()
@@ -50,8 +52,7 @@ const RootPage = () => {
 
       navigate('/login/password')
     } catch (error) {
-      console.error('Error during app initialization:', error)
-      Sentry.captureException(error)
+      LoggerHelper.sentry(error, { where: 'RootPage', operation: 'setup' })
     } finally {
       setReady(true)
     }

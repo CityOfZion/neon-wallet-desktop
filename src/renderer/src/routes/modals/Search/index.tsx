@@ -16,6 +16,7 @@ import { Input } from '@renderer/components/Input'
 import { Loader } from '@renderer/components/Loader'
 import { Separator } from '@renderer/components/Separator'
 
+import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
 import { SynonymsHelper } from '@renderer/helpers/SynonymsHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
@@ -171,7 +172,7 @@ const SearchModal = () => {
 
       await func({ modalActions, pageNavigate })
     } catch (error) {
-      console.error(error)
+      LoggerHelper.error(error, { where: 'SearchModal', operation: 'clickSearchOption' })
       ToastHelper.error({ message: AppError.wrap(error, t('errors.errorToExecute')).displayMessage })
     }
   }

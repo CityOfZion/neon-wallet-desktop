@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { Button } from '@renderer/components/Button'
 
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
 import { PasswordHelper } from '@renderer/helpers/PasswordHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
@@ -103,7 +104,7 @@ const SettingsEncryptKeyPage = () => {
 
       reset()
     } catch (error) {
-      console.error(error)
+      LoggerHelper.error(error, { where: 'SettingsEncryptKeyPage', operation: 'encrypt' })
       ToastHelper.error({ message: AppError.wrap(error, t('encryptKey.error.errorToEncryptKey')).displayMessage })
     }
   }

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { WalletKitHelper } from '@renderer/helpers/WalletKitHelper'
 
@@ -40,7 +41,9 @@ export const WalletConnectManagerSetup = () => {
             topic: request.topic,
             response: WalletKitHelper.formatRequestError(request, reason ?? WalletKitHelper.getError('USER_REJECTED')),
           })
-          .catch(console.error)
+          .catch(error =>
+            LoggerHelper.error(error, { where: 'WalletConnectManagerSetup', operation: 'manualRejectRequest' })
+          )
       }
 
       async function handleAccept() {
@@ -65,7 +68,7 @@ export const WalletConnectManagerSetup = () => {
 
           return response
         } catch (error) {
-          console.error(error)
+          LoggerHelper.error(error, { where: 'WalletConnectManagerSetup', operation: 'manualAcceptRequest' })
 
           await WalletKitHelper.kit.respondSessionRequest({
             topic: request.topic,
@@ -100,7 +103,7 @@ export const WalletConnectManagerSetup = () => {
           .catch(error => {
             ToastHelper.dismiss('auto-approve-walletconnect-request')
             ToastHelper.error({ message: t('autoAcceptErrorMessage') })
-            console.error(error)
+            LoggerHelper.error(error, { where: 'WalletConnectManagerSetup', operation: 'autoAcceptRequest' })
           })
         return
       }

@@ -4,6 +4,7 @@ import { BSKeychainHelper } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
 
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 
 import { useAccountUtils } from '@renderer/hooks/useAccountSelector'
@@ -105,7 +106,7 @@ export const useImportAction = (
 
       await submit(fixedText, data.inputType)
     } catch (error: any) {
-      console.error(error)
+      LoggerHelper.error(error, { where: 'useImportAction', operation: 'submit' })
       setError('text', AppError.wrap(error).displayMessage)
     }
   }

@@ -18,6 +18,7 @@ import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
 import { ExchangeHelper } from '@renderer/helpers/ExchangeHelper'
+import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { TransactionHelper } from '@renderer/helpers/TransactionHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
@@ -290,7 +291,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
         decimals
       )
     } catch (error) {
-      console.error(error)
+      LoggerHelper.error(error, { where: 'SendPageContent', operation: 'calculateMaxAmount' })
       ToastHelper.error({
         message: AppError.wrap(error, t('errors.calculateMaxAmount')).displayMessage,
         id: 'send-calculate-max-amount-error',
@@ -408,7 +409,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
       currentRecipientAddress.current = undefined
       handleSelectAccount()
     } catch (error) {
-      console.error(error)
+      LoggerHelper.sentry(error, { where: 'SendPageContent', operation: 'submitSend' })
 
       const appError = AppError.wrap(error, null)
 
@@ -468,7 +469,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
           clearErrors('fee')
         }
       } catch (error: any) {
-        console.error(error)
+        LoggerHelper.error(error, { where: 'SendPageContent', operation: 'calculateFee' })
         const appError = AppError.wrap(error, t('errors.feeError'))
         ToastHelper.error({ message: appError.displayMessage, id: 'send-calculate-fee-error' })
         setError('fee', appError.displayMessage)

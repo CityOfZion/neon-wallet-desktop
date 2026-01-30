@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'
 
+import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 
 import { useActions } from '@renderer/hooks/useActions'
@@ -66,7 +67,7 @@ const MigrateAccountsStep4Modal = () => {
         },
       })
     } catch (error) {
-      console.error(error)
+      LoggerHelper.error(error, { where: 'MigrateAccountsStep4Modal', operation: 'importBackupDate' })
       ToastHelper.error({ message: AppError.wrap(error, t('step4.migrateError')).displayMessage })
       modalErase()
     }

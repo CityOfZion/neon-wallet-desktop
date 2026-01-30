@@ -9,6 +9,7 @@ import { Details } from '@renderer/components/Details'
 import { ScreenLoader } from '@renderer/components/ScreenLoader'
 
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { WalletKitHelper } from '@renderer/helpers/WalletKitHelper'
 
@@ -68,7 +69,7 @@ const DappConnectionRequestModal = () => {
         replace: true,
       })
     } catch (error) {
-      console.error(error)
+      LoggerHelper.error(error, { where: 'DappConnectionRequestModal', operation: 'manualAccept' })
 
       handleReject()
 
@@ -94,7 +95,7 @@ const DappConnectionRequestModal = () => {
         })
       )
     } catch (error) {
-      console.error(error)
+      LoggerHelper.error(error, { where: 'DappConnectionRequestModal', operation: 'getProposalDetails' })
 
       WalletKitHelper.kit.rejectSession({
         id: proposal.id,

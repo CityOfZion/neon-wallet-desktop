@@ -1,14 +1,14 @@
 import * as Sentry from '@sentry/electron/main'
+import { SharedEnvHelper } from '@shared/helpers/SharedEnvHelper'
 
 import { sentryConfig } from '../../sentry.config'
 
 export class MainSentryHelper {
   static setup() {
-    const isProductionMode = Boolean(import.meta.env?.VITE_SENTRY_DSN && import.meta.env.PROD)
-    if (!isProductionMode) return
+    if (!SharedEnvHelper.VITE_SENTRY_DSN || !SharedEnvHelper.PROD) return
 
     Sentry.init({
-      dsn: import.meta.env.VITE_SENTRY_DSN,
+      dsn: SharedEnvHelper.VITE_SENTRY_DSN,
       ipcMode: Sentry.IPCMode.Classic,
       ...sentryConfig,
     })
