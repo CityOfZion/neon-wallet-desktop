@@ -74,13 +74,12 @@
     "noContacts": "No contacts",
     "search": "Search"
   },
+  "dragRegion": {
+    "toggleDevToolsMenuLabel": "Toggle DevTools"
+  },
   "fieldActionsMenu": {
     "copy": "Copy",
     "cut": "Cut",
-    "messages": {
-      "copied": "Copied",
-      "error": "Error executing this action"
-    },
     "paste": "Paste"
   },
   "greyAccountSelect": {

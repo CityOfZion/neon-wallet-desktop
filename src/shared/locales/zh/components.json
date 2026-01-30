@@ -74,13 +74,12 @@
     "noContacts": "没有联系人",
     "search": "搜索"
   },
+  "dragRegion": {
+    "toggleDevToolsMenuLabel": "切换开发者工具"
+  },
   "fieldActionsMenu": {
     "copy": "复制",
     "cut": "剪切",
-    "messages": {
-      "copied": "已复制",
-      "error": "执行此操作时出错"
-    },
     "paste": "粘贴"
   },
   "greyAccountSelect": {

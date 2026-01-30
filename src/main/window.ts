@@ -4,7 +4,7 @@ import { readFile, writeFile } from 'fs/promises'
 import { mainApi } from '@shared/api/main'
 import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { SharedI18nextHelper } from '@shared/helpers/SharedI18nextHelper'
-import type { TIpcMainBaseOptions, TSaveFileOptions } from '@shared/types/api'
+import type { TIpcMainAsyncOptions, TIpcMainBaseOptions, TSaveFileOptions } from '@shared/types/api'
 
 const { t } = SharedI18nextHelper.get()
 
@@ -51,6 +51,15 @@ export class MainWindowHelper {
     return app.getVersion()
   }
 
+  static async #onToggleDevTools({ window }: TIpcMainAsyncOptions<undefined>) {
+    if (window.webContents.isDevToolsOpened()) {
+      window.webContents.closeDevTools()
+      return
+    }
+
+    window.webContents.openDevTools({ mode: 'detach' })
+  }
+
   static setupHandlers() {
     mainApi.listenSync('window:restore', this.#onRestore.bind(this))
     mainApi.listenAsync('window:openDialog', this.#onOpenDialog.bind(this))
@@ -61,5 +70,6 @@ export class MainWindowHelper {
     mainApi.listenAsync('window:setTitleBarOverlay', this.#onSetTitleBarOverlay.bind(this))
     mainApi.listenAsync('window:setWindowButtonPosition', this.#onSetWindowButtonPosition.bind(this))
     mainApi.listenSync('window:getVersion', this.#onGetVersion.bind(this))
+    mainApi.listenAsync('window:toggleDevTools', this.#onToggleDevTools.bind(this))
   }
 }

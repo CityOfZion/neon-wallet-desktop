@@ -74,13 +74,12 @@
     "noContacts": "Keine Kontakte",
     "search": "Suchen"
   },
+  "dragRegion": {
+    "toggleDevToolsMenuLabel": "Entwicklertools umschalten"
+  },
   "fieldActionsMenu": {
     "copy": "Kopieren",
     "cut": "Ausschneiden",
-    "messages": {
-      "copied": "Kopiert",
-      "error": "Fehler beim Ausführen dieser Aktion"
-    },
     "paste": "Einfügen"
   },
   "greyAccountSelect": {

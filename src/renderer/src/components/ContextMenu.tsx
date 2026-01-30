@@ -1,12 +1,15 @@
-import { ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react'
+import { ComponentPropsWithoutRef, ComponentRef, forwardRef } from 'react'
 
 import * as ContextMenuPrimitive from '@radix-ui/react-context-menu'
 
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+
+import { Button } from './Button'
+
 const Root = ContextMenuPrimitive.Root
 
 const Trigger = forwardRef<
-  ElementRef<typeof ContextMenuPrimitive.Trigger>,
+  ComponentRef<typeof ContextMenuPrimitive.Trigger>,
   ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Trigger>
 >(({ className, children, ...props }, ref) => (
   <ContextMenuPrimitive.Trigger ref={ref} className={StyleHelper.mergeStyles('flex w-full', className)} {...props}>
@@ -17,14 +20,14 @@ const Trigger = forwardRef<
 const Portal = ContextMenuPrimitive.Portal
 
 const Content = forwardRef<
-  ElementRef<typeof ContextMenuPrimitive.Content>,
+  ComponentRef<typeof ContextMenuPrimitive.Content>,
   ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Content>
 >(({ className, ...props }, ref) => (
   <ContextMenuPrimitive.Portal>
     <ContextMenuPrimitive.Content
       ref={ref}
       className={StyleHelper.mergeStyles(
-        'border-neon bg-asphalt data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-1012 min-w-40 overflow-hidden rounded-md border-t-3 p-1 shadow-md',
+        'border-neon data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-2012 flex min-w-20 flex-col overflow-hidden rounded-sm border-t-3 bg-gray-900/50 shadow-md backdrop-blur-md',
         className
       )}
       {...props}
@@ -34,20 +37,19 @@ const Content = forwardRef<
 
 Content.displayName = ContextMenuPrimitive.Content.displayName
 
-const Item = forwardRef<
-  ElementRef<typeof ContextMenuPrimitive.Item>,
-  ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Item> & { inset?: boolean }
->(({ className, inset, ...props }, ref) => (
-  <ContextMenuPrimitive.Item
-    ref={ref}
-    className={StyleHelper.mergeStyles(
-      'hover:bg-neon/10 focus:bg-neon/10 relative flex cursor-pointer items-center rounded-xs px-2 py-1.5 text-xs text-white outline-hidden transition-colors select-none data-disabled:pointer-events-none data-disabled:cursor-default data-disabled:opacity-50',
-      { 'pl-8': inset },
-      className
-    )}
-    {...props}
-  />
-))
+const Item = forwardRef<ComponentRef<typeof ContextMenuPrimitive.Item>, ComponentPropsWithoutRef<typeof Button>>(
+  (props, ref) => (
+    <ContextMenuPrimitive.Item ref={ref} asChild>
+      <Button
+        variant="text"
+        flat
+        colorSchema="white"
+        clickableProps={{ className: 'rounded-none h-10 px-4 justify-start gap-3' }}
+        {...props}
+      />
+    </ContextMenuPrimitive.Item>
+  )
+)
 
 Item.displayName = ContextMenuPrimitive.Item.displayName
 
