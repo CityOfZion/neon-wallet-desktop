@@ -1,4 +1,4 @@
-import { ComponentProps, ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react'
+import { ComponentProps, ComponentPropsWithoutRef, type ComponentRef, forwardRef } from 'react'
 
 import * as RadixPopover from '@radix-ui/react-popover'
 
@@ -20,7 +20,7 @@ type TContentProps = ComponentPropsWithoutRef<typeof RadixPopover.Content> & {
   color?: 'green' | 'yellow'
 }
 
-const Content = forwardRef<ElementRef<typeof RadixPopover.Content>, TContentProps>(
+const Content = forwardRef<ComponentRef<typeof RadixPopover.Content>, TContentProps>(
   ({ className, contentClassName, side = 'right', align = 'center', color = 'green', children, ...props }, ref) => {
     const isRightSide = side === 'right'
     const isLeftSide = side === 'left'
@@ -43,7 +43,7 @@ const Content = forwardRef<ElementRef<typeof RadixPopover.Content>, TContentProp
         >
           <div
             className={StyleHelper.mergeStyles(
-              'flex flex-col overflow-hidden rounded-sm bg-gray-900/50 backdrop-blur-md',
+              'flex flex-col overflow-hidden rounded-sm bg-gray-900/50 shadow-md backdrop-blur-md',
               {
                 'border-r-4': isRightSide,
                 'border-l-4': isLeftSide,

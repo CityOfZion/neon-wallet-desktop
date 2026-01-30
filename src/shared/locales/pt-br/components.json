@@ -74,13 +74,12 @@
     "noContacts": "Nenhum contato",
     "search": "Pesquisar"
   },
+  "dragRegion": {
+    "toggleDevToolsMenuLabel": "Alternar ferramentas de desenvolvedor"
+  },
   "fieldActionsMenu": {
     "copy": "Copiar",
     "cut": "Cortar",
-    "messages": {
-      "copied": "Copiado",
-      "error": "Erro ao executar esta ação"
-    },
     "paste": "Colar"
   },
   "greyAccountSelect": {

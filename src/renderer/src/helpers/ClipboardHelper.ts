@@ -9,4 +9,8 @@ export class ClipboardHelper {
     ToastHelper.success({ message: t('common:general.successfullyCopied') })
     navigator.clipboard.writeText(text)
   }
+
+  static async read() {
+    return await navigator.clipboard.readText()
+  }
 }
