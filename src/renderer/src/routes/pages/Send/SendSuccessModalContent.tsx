@@ -1,23 +1,21 @@
-import { Fragment } from 'react'
-
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 
 import { Button } from '@renderer/components/Button'
-import { Separator } from '@renderer/components/Separator'
+import { Details } from '@renderer/components/Details'
 
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 
 import TbEye from '@renderer/assets/images/tb-eye.svg?react'
 import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
 
-import { TUseTransactionsTransfer } from '@shared/types/hooks'
+import type { TUseTransactionsTransaction } from '@shared/types/hooks'
 import { IAccountState } from '@shared/types/store'
 
 import { SendSuccessModalContentItem } from './SendSuccessModalContentItem'
 
 type TProps = {
-  transactions: (TUseTransactionsTransfer | undefined)[]
+  transactions: TUseTransactionsTransaction[]
   selectedAccount: IAccountState
 }
 
@@ -27,25 +25,34 @@ export const SendSuccessModalContent = ({ transactions, selectedAccount }: TProp
   const { modalNavigate } = useModalNavigate()
 
   return (
-    <div className="flex min-h-0 w-full grow flex-col items-center justify-between gap-8">
-      <div className="fle-grow bg-asphalt mt-6 flex min-h-0 flex-col rounded-sm py-1.5">
-        <div className="flex min-h-0 w-full grow flex-col overflow-auto px-4 py-1.5">
-          <div className="flex items-center gap-2.5 text-sm text-white">
-            <TbReceipt aria-hidden className="text-blue h-6 w-6" />
-            <span>{t('detailsTitle')}</span>
-          </div>
+    <div className="mt-6 flex min-h-0 w-full grow flex-col items-center justify-between gap-8">
+      <Details.Root className="min-h-0 grow">
+        <Details.Header leftElement={<TbReceipt aria-hidden />}>{t('detailsTitle')}</Details.Header>
 
-          <Separator className="mt-2.5" />
+        <Details.HeaderSeparator />
 
-          <ul className="mt-5 flex flex-col gap-3.5">
-            {transactions.map((transaction, index) => (
-              <Fragment key={`send-success-transaction-${index}`}>
-                {transaction && <SendSuccessModalContentItem transaction={transaction} order={index + 1} />}
-              </Fragment>
-            ))}
-          </ul>
-        </div>
-      </div>
+        <Details.Body>
+          {transactions.map((transaction, index) => (
+            <Details.Panel
+              key={`send-success-transaction-${index}`}
+              label={t('transactionNumber', { order: index + 1 })}
+            >
+              <Details.Item label={t('transactionHashLabel')} copyable={transaction?.txId}>
+                {transaction?.txId}
+              </Details.Item>
+
+              {transaction.events.map((event, eventIndex) => (
+                <SendSuccessModalContentItem
+                  key={`send-success-event-${eventIndex}`}
+                  event={event}
+                  transaction={transaction}
+                  order={index + 1}
+                />
+              ))}
+            </Details.Panel>
+          ))}
+        </Details.Body>
+      </Details.Root>
 
       <Button
         className="w-full max-w-62.5"

@@ -286,6 +286,8 @@
       "title": "您的代幣已成功發送！",
       "transactionHashLabel": "交易雜湊",
       "transactionNumber": "交易 {{order}}",
+      "transferNumber": "轉帳 {{order}}",
+
       "viewStatusButtonLabel": "查看狀態"
     },
     "sendTip": {

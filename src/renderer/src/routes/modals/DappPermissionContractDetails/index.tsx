@@ -113,16 +113,7 @@ export const DappPermissionContractDetailsModal = () => {
 
   const getContractHashUrl = () => {
     if (!hasExplorerService(service)) return ''
-
-    try {
-      if (hasExplorerService(service)) {
-        return service.explorerService.buildContractUrl(hash)
-      }
-    } catch (error) {
-      console.error(error)
-    }
-
-    return ''
+    return service.explorerService.buildContractUrl(hash) ?? ''
   }
 
   return (

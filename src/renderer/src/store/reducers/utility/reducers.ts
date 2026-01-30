@@ -7,7 +7,7 @@ import { TokenHelper } from '@renderer/helpers/TokenHelper'
 import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { SharedI18nextHelper } from '@shared/helpers/SharedI18nextHelper'
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
-import { TUseTransactionsTransfer } from '@shared/types/hooks'
+import type { TUseTransactionsTransaction } from '@shared/types/hooks'
 import { TSwapRecord } from '@shared/types/store'
 
 import { IUtilityReducer } from './index'
@@ -20,7 +20,7 @@ type THiddenTokenParams = {
 const { t } = SharedI18nextHelper.get()
 
 // Pending Transaction Reducers
-const addPendingTransaction: CaseReducer<IUtilityReducer, PayloadAction<TUseTransactionsTransfer>> = (
+const addPendingTransaction: CaseReducer<IUtilityReducer, PayloadAction<TUseTransactionsTransaction>> = (
   state,
   action
 ) => {
@@ -29,7 +29,7 @@ const addPendingTransaction: CaseReducer<IUtilityReducer, PayloadAction<TUseTran
 
 const removePendingTransaction: CaseReducer<IUtilityReducer, PayloadAction<string>> = (state, action) => {
   state.inMemoryData.pendingTransactions = state.inMemoryData.pendingTransactions.filter(
-    transaction => transaction.hash !== action.payload
+    transaction => transaction.txId !== action.payload
   )
 }
 

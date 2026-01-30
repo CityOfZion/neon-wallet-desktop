@@ -32,7 +32,7 @@ const AccountOverview = () => {
     >
       <div className="flex w-full grow flex-col items-center justify-center">
         <OverviewCharts balances={balances} account={account}>
-          {balances.exchangeTotal > 0 && isClaimable(blockchainService) && account.type !== 'watch' && (
+          {isClaimable(blockchainService) && account.type !== 'watch' && (
             <ClaimGasBanner blockchainService={blockchainService} account={account} />
           )}
         </OverviewCharts>

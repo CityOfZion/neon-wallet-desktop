@@ -37,6 +37,11 @@ import PolygonDefault from '@renderer/assets/blockchain/images/polygon_default.s
 import PolygonGray from '@renderer/assets/blockchain/images/polygon_gray.svg?react'
 import PolygonGreen from '@renderer/assets/blockchain/images/polygon_green.svg?react'
 import PolygonWhite from '@renderer/assets/blockchain/images/polygon_white.svg?react'
+import SolanaBlue from '@renderer/assets/blockchain/images/solana_blue.svg?react'
+import SolanaDefault from '@renderer/assets/blockchain/images/solana_default.svg?react'
+import SolanaGray from '@renderer/assets/blockchain/images/solana_gray.svg?react'
+import SolanaGreen from '@renderer/assets/blockchain/images/solana_green.svg?react'
+import SolanaWhite from '@renderer/assets/blockchain/images/solana_white.svg?react'
 
 import type { TBlockchainImageColor, TBlockchainServiceKey } from '@shared/types/blockchain'
 
@@ -92,6 +97,13 @@ export const ICONS_BY_BLOCKCHAIN: Record<
     white: ArbitrumWhite,
     blue: ArbitrumBlue,
     green: ArbitrumGreen,
+  },
+  solana: {
+    default: SolanaDefault,
+    gray: SolanaGray,
+    white: SolanaWhite,
+    blue: SolanaBlue,
+    green: SolanaGreen,
   },
 }
 

@@ -8,7 +8,7 @@ import { createAppSelector, useAppSelector } from './useRedux'
 const selectHasClaimPendingTransaction = (account: IAccountState) =>
   createAppSelector([state => state.utility.inMemoryData.pendingTransactions], pendingTransactions => {
     return pendingTransactions.some(
-      transaction => !!transaction.isClaim && SharedAccountHelper.predicate(account)(transaction.account)
+      transaction => transaction.type === 'claim' && SharedAccountHelper.predicate(account)(transaction.account)
     )
   })
 

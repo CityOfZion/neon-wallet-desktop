@@ -42,13 +42,7 @@ export const DappPermissionInvokeNeo3ContentInvocation = ({
       : null
 
   const getContractHashUrl = () => {
-    try {
-      return service.explorerService.buildContractUrl(invocation.scriptHash)
-    } catch (error) {
-      console.error(error)
-    }
-
-    return ''
+    return service.explorerService.buildContractUrl(invocation.scriptHash) ?? ''
   }
 
   return (

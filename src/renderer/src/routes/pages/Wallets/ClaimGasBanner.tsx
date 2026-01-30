@@ -20,7 +20,7 @@ import { IAccountState } from '@shared/types/store'
 
 type TProps = {
   account: IAccountState
-  blockchainService: IBlockchainService<TBlockchainServiceKey> & IBSWithClaim
+  blockchainService: IBlockchainService<TBlockchainServiceKey> & IBSWithClaim<TBlockchainServiceKey>
 }
 
 export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {

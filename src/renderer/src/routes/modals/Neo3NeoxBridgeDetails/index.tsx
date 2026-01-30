@@ -108,6 +108,8 @@ const Neo3NeoxBridgeDetailsModal = () => {
           {t('detailsHeaderLabel')}
         </Details.Header>
 
+        <Details.HeaderSeparator />
+
         <Details.Body>
           <Details.Panel label={t('statusPanelLabel')}>
             <Stepper.Root

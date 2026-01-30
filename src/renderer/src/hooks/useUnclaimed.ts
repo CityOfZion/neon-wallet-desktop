@@ -3,14 +3,13 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
-import { DateHelper } from '@renderer/helpers/DateHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
+import { TransactionHelper } from '@renderer/helpers/TransactionHelper'
 
 import { thunks } from '@renderer/store/thunks'
 import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { SharedI18nextHelper } from '@shared/helpers/SharedI18nextHelper'
 import { TNetwork } from '@shared/types/blockchain'
-import { TUseTransactionsTransfer } from '@shared/types/hooks'
 import { TUseUnclaimedResult } from '@shared/types/query'
 import { IAccountState } from '@shared/types/store'
 
@@ -32,8 +31,8 @@ const getUnclaimedInfos = async (
     throw new AppError(t('common:errors.noEncryptedKey', { address: account.address }))
   }
 
-  const blockchainService = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[account.blockchain]
-  if (!isClaimable(blockchainService)) {
+  const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[account.blockchain]
+  if (!isClaimable(service)) {
     throw new AppError(
       t('common:errors.blockchainIsNotClaimable', { address: account.address, blockchain: account.blockchain })
     )
@@ -42,14 +41,14 @@ const getUnclaimedInfos = async (
   let unclaimed = '0'
 
   if (!hasClaimPendingTransaction) {
-    unclaimed = await blockchainService.claimDataService.getUnclaimed(account.address)
+    unclaimed = await service.claimDataService.getUnclaimed(account.address)
   }
 
   const unclaimedNumber = parseFloat(unclaimed)
 
   let fee = '0'
 
-  if (isCalculableFee(blockchainService) && unclaimedNumber > 0) {
+  if (isCalculableFee(service) && unclaimedNumber > 0) {
     const key = await window.api.sendAsync('encryption:decryptBasedEncryptedSecret', {
       value: account.encryptedKey,
       encryptedSecret: encryptedPassword,
@@ -57,13 +56,12 @@ const getUnclaimedInfos = async (
 
     const serviceAccount = AccountHelper.getServiceAccount({ account, key })
 
-    fee = await blockchainService.calculateTransferFee({
+    fee = await service.calculateTransferFee({
       intents: [
         {
           amount: '0',
           receiverAddress: account.address,
-          tokenHash: blockchainService.burnToken.hash,
-          tokenDecimals: blockchainService.burnToken.decimals,
+          token: service.burnToken,
         },
       ],
       senderAccount: serviceAccount,
@@ -104,8 +102,8 @@ export const useUnclaimedMutation = () => {
         throw new AppError(t('common:errors.loginSessionIsNotDefined'))
       }
 
-      const blockchainService = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[account.blockchain]
-      if (!isClaimable(blockchainService)) {
+      const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[account.blockchain]
+      if (!isClaimable(service)) {
         throw new AppError(
           t('common:errors.blockchainIsNotClaimable', { address: account.address, blockchain: account.blockchain })
         )
@@ -119,24 +117,22 @@ export const useUnclaimedMutation = () => {
       })
 
       const serviceAccount = AccountHelper.getServiceAccount({ account, key })
-      const transactionHash = await blockchainService.claim(serviceAccount)
-      const token = blockchainService.burnToken
+      const txId = await service.claim(serviceAccount)
+      const token = service.burnToken
 
-      const transaction: TUseTransactionsTransfer = {
-        hash: transactionHash,
-        time: DateHelper.getNowUnix(),
-        account: account,
-        toAccount: account,
-        isPending: true,
-        isClaim: true,
-        amount: '0',
-        to: account.address,
-        from: account.address,
-        asset: token.symbol,
-        assetHash: token.hash,
-        token,
+      const transaction = TransactionHelper.buildPendingTransaction({
         fromAccount: account,
-      }
+        txId,
+        events: [
+          {
+            toAccount: account,
+            token,
+            amount: '0',
+            toAddress: account.address,
+          },
+        ],
+        type: 'claim',
+      })
 
       dispatch(
         thunks.waitTransaction({

@@ -9,7 +9,8 @@
     "neo3": "Neo N3",
     "neoLegacy": "Neo 傳統版",
     "neox": "NeoX",
-    "polygon": "Polygon"
+    "polygon": "Polygon",
+    "solana": "索拉納"
   },
   "errors": {
     "analyticsAreNotConfigured": "分析功能配置不正確。",

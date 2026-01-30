@@ -33,6 +33,7 @@ export function getSettingsReducer() {
       neoLegacy: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.neoLegacy.defaultNetwork,
       neox: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.neox.defaultNetwork,
       polygon: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.polygon.defaultNetwork,
+      solana: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.solana.defaultNetwork,
     },
   }
 
@@ -68,6 +69,7 @@ export function getSettingsReducer() {
         polygon: [],
         base: [],
         arbitrum: [],
+        solana: [],
       },
       networkProfiles: [defaultProfile, testProfile],
       selectedNetworkProfile: defaultProfile,
@@ -81,7 +83,7 @@ export function getSettingsReducer() {
   const settingsReducerConfig: PersistConfig<ISettingsReducer> = {
     key: 'settingsReducer',
     storage: storage,
-    version: 12,
+    version: 13,
     migrate: createMigrate(settingsMigrations),
     blacklist: ['showSideBar'],
   }

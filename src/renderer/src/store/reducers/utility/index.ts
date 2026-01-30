@@ -4,7 +4,7 @@ import createMigrate from 'redux-persist/es/createMigrate'
 import getStoredState from 'redux-persist/es/getStoredState'
 import storage from 'redux-persist/lib/storage'
 
-import { TUseTransactionsTransfer } from '@shared/types/hooks'
+import { type TUseTransactionsTransaction } from '@shared/types/hooks'
 import { THiddenTokenByBlockchain, TLastIndexesByWallet, TSwapRecord } from '@shared/types/store'
 
 import { getUtilityMigrations } from './migrations'
@@ -12,7 +12,7 @@ import { utilitySliceReducers } from './reducers'
 
 export interface IUtilityReducer {
   inMemoryData: {
-    pendingTransactions: TUseTransactionsTransfer[]
+    pendingTransactions: TUseTransactionsTransaction[]
   }
   data: {
     unlockedSkinIds: string[]

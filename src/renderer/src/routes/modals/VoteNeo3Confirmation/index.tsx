@@ -11,11 +11,11 @@ import { Tooltip } from '@renderer/components/Tooltip'
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { CurrencyHelper } from '@renderer/helpers/CurrencyHelper'
-import { DateHelper } from '@renderer/helpers/DateHelper'
 import { ExchangeHelper } from '@renderer/helpers/ExchangeHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
+import { TransactionHelper } from '@renderer/helpers/TransactionHelper'
 
 import { useActions } from '@renderer/hooks/useActions'
 import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
@@ -38,7 +38,6 @@ import TbCheckbox from '@renderer/assets/images/tb-checkbox.svg?react'
 
 import { thunks } from '@renderer/store/thunks'
 import { AppError } from '@shared/helpers/SharedErrorHelper'
-import { TUseTransactionsTransfer } from '@shared/types/hooks'
 import type { TModalState } from '@shared/types/modal'
 
 import { VoteNeo3ConfirmationSkeleton } from './VoteNeo3ConfirmationSkeleton'
@@ -115,22 +114,12 @@ const VoteNeo3ConfirmationModal = () => {
 
       const account = AccountHelper.getServiceAccount({ account: neo3Account, key })
 
-      const transactionHash = await service.voteService.vote({
+      const txId = await service.voteService.vote({
         account,
         candidatePubKey: candidate.pubKey,
       })
 
-      const transaction: TUseTransactionsTransfer = {
-        methodName: 'vote',
-        account: neo3Account,
-        amount: '0',
-        asset: BSNeo3Constants.NEO_TOKEN.symbol,
-        assetHash: BSNeo3Constants.NEO_TOKEN.hash,
-        token: BSNeo3Constants.NEO_TOKEN,
-        hash: transactionHash,
-        time: DateHelper.getNowUnix(),
-        isPending: true,
-      }
+      const transaction = TransactionHelper.buildPendingTransaction({ txId, fromAccount: neo3Account })
 
       dispatch(
         thunks.waitTransaction({

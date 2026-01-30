@@ -5,14 +5,14 @@ import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelp
 import { ReactQueryHelper } from '@renderer/helpers/ReactQueryHelper'
 
 import type { TRootState } from '@renderer/types/redux'
-import { TUseTransactionsTransfer } from '@shared/types/hooks'
+import type { TUseTransactionsTransaction } from '@shared/types/hooks'
 import { TNotification, TSaveNotification } from '@shared/types/store'
 
 import { authReducerActions } from '../reducers/auth'
 import { utilityReducerActions } from '../reducers/utility'
 
 type TWaitTransactionParams = {
-  transaction: TUseTransactionsTransfer
+  transaction: TUseTransactionsTransaction
   successNotification: Pick<TNotification, 'title' | 'previewBody'>
   failureNotification: Pick<TNotification, 'title' | 'previewBody'>
 }
@@ -41,7 +41,7 @@ export const waitTransaction = createAsyncThunk<void, TWaitTransactionParams>(
 
       const response = await waitForAccountTransaction({
         service,
-        txId: transaction.hash,
+        txId: transaction.txId,
         address: transaction.account.address,
         maxAttempts: 20,
       })
@@ -62,9 +62,9 @@ export const waitTransaction = createAsyncThunk<void, TWaitTransactionParams>(
       /* empty */
     }
 
-    ReactQueryHelper.invalidateTransactionQueries(transaction.account, network, transaction.toAccount)
+    ReactQueryHelper.invalidateTransactionQueries(transaction.account, network, transaction.account)
 
     dispatch(authReducerActions.saveNotification(notification))
-    dispatch(utilityReducerActions.removePendingTransaction(transaction.hash))
+    dispatch(utilityReducerActions.removePendingTransaction(transaction.txId))
   }
 )

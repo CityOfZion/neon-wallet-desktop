@@ -9,7 +9,8 @@
     "neo3": "Neo N3",
     "neoLegacy": "Neo Legacy",
     "neox": "NeoX",
-    "polygon": "Polygon"
+    "polygon": "Polygon",
+    "solana": "Solana"
   },
   "errors": {
     "analyticsAreNotConfigured": "Die Analysefunktionen sind nicht richtig konfiguriert.",
