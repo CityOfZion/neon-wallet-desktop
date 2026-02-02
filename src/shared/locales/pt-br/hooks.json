@@ -10,12 +10,15 @@
   "useConfirmAction": {
     "unauthorizedAction": "Não autorizado. Tente novamente ou entre em contato com o suporte."
   },
+  "useExportMnemonic": {
+    "fileTemplate": "Importante: Mantenha este arquivo seguro e nunca o compartilhe com ninguém! Qualquer pessoa com este mnemônico poderá acessar seus ativos.\n\n--- FRASE MNEMÔNICA ---\n\n{{mnemonic}}\n\n-----------------------\n\n{{generatedAt}}"
+  },
   "useImportAction": {
     "errors": {
       "allAddressesAlreadyImported": "Todos os endereços já foram importados",
       "empty": "Por favor, insira algum texto",
       "invalid": "Texto inválido ou já existe",
-      "mnemonicIncomplete": "Mnemônico incompleto"
+      "mnemonicIncomplete": "Mnemonic incompleto"
     }
   },
   "useLogin": {

@@ -630,14 +630,21 @@
     "securitySetup": {
       "completedStep": {
         "buttonContinueLabel": "Abra sua wallet",
+        "description": "O arquivo contendo seu mnemônico pode ser encontrado em: ",
         "label": "Complete",
+        "locateBackupFileButtonLabel": "Localizar backup",
+        "openSelectedPathButtonLabel": "Abrir pasta",
         "title": "Senha criada com sucesso!"
       },
       "confirmPasswordStep": {
+        "browseButtonLabel": "Procurar…",
         "confirmPasswordError": "As senhas não coincidem",
         "confirmPasswordPlaceholder": "Confirme sua senha…",
-        "formTitle": "Confirme sua senha",
-        "label": "Confirme a senha"
+        "formTitleImportWallet": "Por favor, confirme sua senha para continuar",
+        "formTitleNewWallet": "Escolha um local para salvar o arquivo contendo seu mnemônico e confirme sua senha para continuar",
+        "label": "Confirme a senha",
+        "selectedFilePathLabel": "Caminho do arquivo selecionado",
+        "selectedFilePathPlaceholder": "Caminho do arquivo selecionado…"
       },
       "passwordStep": {
         "formTitle": "Por favor, crie uma senha para proteger sua wallet",

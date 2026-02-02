@@ -631,14 +631,21 @@
     "securitySetup": {
       "completedStep": {
         "buttonContinueLabel": "開啟您的錢包",
+        "description": "包含您的助記詞的檔案可以在以下位置找到：",
         "label": "完成",
+        "locateBackupFileButtonLabel": "定位備份檔案",
+        "openSelectedPathButtonLabel": "開啟資料夾",
         "title": "密碼已成功建立！"
       },
       "confirmPasswordStep": {
+        "browseButtonLabel": "瀏覽…",
         "confirmPasswordError": "密碼不匹配",
         "confirmPasswordPlaceholder": "確認您的密碼…",
-        "formTitle": "請確認您的密碼",
-        "label": "確認密碼"
+        "formTitleImportWallet": "請確認您的密碼以繼續",
+        "formTitleNewWallet": "請選擇位置以保存包含您的助記詞的檔案，並確認您的密碼以繼續",
+        "label": "確認密碼",
+        "selectedFilePathLabel": "選定的檔案路徑",
+        "selectedFilePathPlaceholder": "選定的檔案路徑…"
       },
       "passwordStep": {
         "formTitle": "請建立一個密碼以保護您的 wallet",

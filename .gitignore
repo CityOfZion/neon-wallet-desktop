@@ -12,3 +12,4 @@ yarn.lock
 /blob-report/
 /playwright/.cache/
 .env.test
+tests/e2e/files

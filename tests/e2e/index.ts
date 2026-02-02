@@ -1,4 +1,5 @@
 import { ElectronApplication, Page } from '@playwright/test'
+import { resolve } from 'path'
 import { _electron as electron } from 'playwright-core'
 
 import { TCreateContact } from './types'
@@ -8,10 +9,21 @@ export const ADDRESSES = ['NRwXs5yZRMuuXUo7AqvetHQ4GDHe3pV7Mb', 'NcuusM86eJ1u1FK
 
 let electronApp: ElectronApplication
 
+const filePath = resolve('./tests/e2e/files')
+
 export const launch = async (shouldResetStorage = true) => {
   if (electronApp) await electronApp.close()
 
   electronApp = await electron.launch({ args: ['.', '--no-sandbox'] })
+
+  await electronApp.evaluate(async ({ dialog }, filePath) => {
+    dialog.showOpenDialog = async () => {
+      return {
+        canceled: false,
+        filePaths: [filePath],
+      }
+    }
+  }, filePath)
 
   const window = await electronApp.firstWindow()
 
@@ -30,6 +42,7 @@ export const createNewWallet = async (window: Page) => {
   await window.getByTestId('security-setup-first-password').fill(PASSWORD)
   await window.getByTestId('security-setup-first-submit').click()
   await window.getByTestId('security-setup-second-password').fill(PASSWORD)
+  await window.getByTestId('security-setup-browse-button').click()
   await window.getByTestId('security-setup-second-submit').click()
   await window.getByTestId('security-setup-open-your-wallet').click()
   await sleep(1)

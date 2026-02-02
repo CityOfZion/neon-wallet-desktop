@@ -631,14 +631,21 @@
     "securitySetup": {
       "completedStep": {
         "buttonContinueLabel": "Open your wallet",
+        "description": "The file containing your mnemonic can be found at: ",
         "label": "Complete",
+        "locateBackupFileButtonLabel": "Locate backup file",
+        "openSelectedPathButtonLabel": "Open folder",
         "title": "Password created successfully!"
       },
       "confirmPasswordStep": {
+        "browseButtonLabel": "Browse…",
         "confirmPasswordError": "Passwords do not match",
         "confirmPasswordPlaceholder": "Confirm your password…",
-        "formTitle": "Please confirm your password",
-        "label": "Confirm Password"
+        "formTitleImportWallet": "Please confirm your password to proceed",
+        "formTitleNewWallet": "Please choose a location to save the file containing your mnemonic and confirm your password to proceed",
+        "label": "Confirm Password",
+        "selectedFilePathLabel": "Selected file path",
+        "selectedFilePathPlaceholder": "Selected file path…"
       },
       "passwordStep": {
         "formTitle": "Please create a password to secure your wallet",
