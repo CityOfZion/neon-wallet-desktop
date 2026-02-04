@@ -175,5 +175,23 @@ export function getAuthMigrations() {
         },
       }
     },
+    7: (state: any) => {
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          applicationDataByLoginType: {
+            ...state.data.applicationDataByLoginType,
+            password: {
+              ...state.data.applicationDataByLoginType.password,
+              notifications: state.data.applicationDataByLoginType.password.notifications.map(notification => ({
+                ...notification,
+                date: new Date(notification.date * 1000).toJSON(),
+              })),
+            },
+          },
+        },
+      }
+    },
   }
 }

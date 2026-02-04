@@ -630,14 +630,21 @@
     "securitySetup": {
       "completedStep": {
         "buttonContinueLabel": "Öffnen Sie Ihre Wallet",
+        "description": "Die Datei mit Ihrem mnemonischen Code finden Sie unter: ",
         "label": "Vollständig",
+        "locateBackupFileButtonLabel": "Backup suchen",
+        "openSelectedPathButtonLabel": "Ordner öffnen",
         "title": "Passwort erfolgreich erstellt!"
       },
       "confirmPasswordStep": {
+        "browseButtonLabel": "Durchsuchen…",
         "confirmPasswordError": "Passwörter stimmen nicht überein",
         "confirmPasswordPlaceholder": "Bestätigen Sie Ihr Passwort…",
-        "formTitle": "Bitte bestätigen Sie Ihr Passwort",
-        "label": "Passwort bestätigen"
+        "formTitleImportWallet": "Bitte bestätigen Sie Ihr Passwort, um fortzufahren",
+        "formTitleNewWallet": "Bitte wählen Sie einen Speicherort für die Datei mit Ihrem mnemonischen Code und bestätigen Sie Ihr Passwort, um fortzufahren",
+        "label": "Passwort bestätigen",
+        "selectedFilePathLabel": "Ausgewählter Dateipfad",
+        "selectedFilePathPlaceholder": "Ausgewählter Dateipfad…"
       },
       "passwordStep": {
         "formTitle": "Bitte erstellen Sie ein Passwort, um Ihr Wallet zu sichern",

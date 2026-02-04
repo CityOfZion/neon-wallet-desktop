@@ -12,11 +12,13 @@ import { TestHelper } from '@renderer/helpers/TestHelper'
 
 import { useCreateStandardAccount } from '@renderer/hooks/useAccountActions'
 import { useActions } from '@renderer/hooks/useActions'
+import { useExportMnemonic } from '@renderer/hooks/useExportMnemonic'
 import { useSignup } from '@renderer/hooks/useLogin'
 import { useCreateWallet } from '@renderer/hooks/useWalletActions'
 
 type TFormData = {
   confirmPassword: string
+  selectedFilePath?: string
 }
 
 type TLocationState = {
@@ -35,10 +37,16 @@ export const LoginPasswordSecuritySetupStep2Content = ({ onSubmit }: TProps) => 
   const { createStandardAccount } = useCreateStandardAccount()
   const { createWallet } = useCreateWallet()
   const { signup } = useSignup()
+  const { saveMnemonicToTextFile } = useExportMnemonic()
 
   const { actionData, actionState, handleAct, setData, setError } = useActions<TFormData>({
     confirmPassword: '',
+    selectedFilePath: '',
   })
+
+  const isNewWallet = !onSubmit
+  const isDisabled =
+    !actionData.confirmPassword || !!actionState.errors.confirmPassword || (isNewWallet && !actionData.selectedFilePath)
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const confirmPassword = event.target.value
@@ -47,6 +55,14 @@ export const LoginPasswordSecuritySetupStep2Content = ({ onSubmit }: TProps) => 
     if (confirmPassword !== state.password) {
       setError('confirmPassword', t('confirmPasswordError'))
     }
+  }
+
+  const handlePathSelectionButton = async () => {
+    const result = await window.api.sendAsync('window:openDialog', {
+      properties: ['openDirectory', 'createDirectory'],
+    })
+
+    setData({ selectedFilePath: result[0] })
   }
 
   const handleSubmit = async (data: TFormData) => {
@@ -58,6 +74,10 @@ export const LoginPasswordSecuritySetupStep2Content = ({ onSubmit }: TProps) => 
     await signup(data.confirmPassword)
 
     const mnemonic = BSKeychainHelper.generateMnemonic()
+
+    if (isNewWallet && actionData.selectedFilePath) {
+      await saveMnemonicToTextFile(mnemonic, actionData.selectedFilePath)
+    }
 
     const wallet = createWallet({
       name: commonT('wallet.firstWalletName'),
@@ -74,13 +94,14 @@ export const LoginPasswordSecuritySetupStep2Content = ({ onSubmit }: TProps) => 
 
     await Promise.allSettled(promises)
 
-    navigate('/login-security-setup/3')
+    navigate('/login-security-setup/3', { state: { selectedFilePath: actionData.selectedFilePath } })
   }
 
   return (
     <Fragment>
-      <p className="mt-15 text-sm text-white">{t('formTitle')}</p>
-      <form className="mt-6 flex w-full grow flex-col items-center justify-between" onSubmit={handleAct(handleSubmit)}>
+      <p className="mt-15 text-sm text-white">{isNewWallet ? t('formTitleNewWallet') : t('formTitleImportWallet')}</p>
+
+      <form className="mt-6 flex w-full grow flex-col items-center gap-y-4" onSubmit={handleAct(handleSubmit)}>
         <Input
           testId="security-setup-second-password"
           type="password"
@@ -91,12 +112,32 @@ export const LoginPasswordSecuritySetupStep2Content = ({ onSubmit }: TProps) => 
           autoFocus
         />
 
+        {isNewWallet && (
+          <div className="flex w-full gap-2.5">
+            <Input
+              value={actionData.selectedFilePath}
+              containerClassName="w-full"
+              placeholder={t('selectedFilePathPlaceholder')}
+              aria-label={t('selectedFilePathLabel')}
+              readOnly
+            />
+
+            <Button
+              label={t('browseButtonLabel')}
+              onClick={handlePathSelectionButton}
+              className="w-36"
+              type="button"
+              {...TestHelper.buildTestObject('security-setup-browse-button')}
+            />
+          </div>
+        )}
+
         <Button
           label={commonT('general.continue')}
-          className="w-64"
+          className="mt-auto w-64"
           type="submit"
           loading={actionState.isActing}
-          disabled={!actionState.isValid}
+          disabled={isDisabled}
           {...TestHelper.buildTestObject('security-setup-second-submit')}
         />
       </form>

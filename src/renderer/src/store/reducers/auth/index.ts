@@ -45,7 +45,7 @@ export function getAuthReducer() {
     key: 'authReducer',
     storage: storage,
     blacklist: ['inMemoryData'],
-    version: 6,
+    version: 7,
     migrate: createMigrate(authMigrations),
     // It is necessary to check if the stored state is empty, because the redux-persist library does not call the migrate function when the state is empty
     getStoredState: async config => {

@@ -12,10 +12,6 @@ export class DateHelper {
     'zh-Hant': dateFnsLocales.zhTW,
   }
 
-  static getNowUnix = (): number => {
-    return Date.now() / 1000
-  }
-
   static getCurrentFullDateString = () => {
     const currentDate = new Date()
     const year = currentDate.getFullYear()
@@ -24,11 +20,9 @@ export class DateHelper {
     return `${year}${month}${day}`
   }
 
-  static formatLocalized = (date: Date | string | number, options: TDateHelperFormatLocalizedOptions): string => {
+  static formatLocalized = (date: Date | string, options: TDateHelperFormatLocalizedOptions): string => {
     if (typeof date === 'string') {
       date = new Date(date)
-    } else if (typeof date === 'number') {
-      date *= 1000
     }
 
     return dateFns.format(date, options.format, {
@@ -36,11 +30,9 @@ export class DateHelper {
     })
   }
 
-  static format(date: Date | string | number, formatStr: string): string {
+  static format(date: Date | string, formatStr: string): string {
     if (typeof date === 'string') {
       date = new Date(date)
-    } else if (typeof date === 'number') {
-      date *= 1000
     }
 
     return dateFns.format(date, formatStr)

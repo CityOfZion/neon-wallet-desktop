@@ -630,14 +630,21 @@
     "securitySetup": {
       "completedStep": {
         "buttonContinueLabel": "打开您的钱包",
+        "description": "包含您的助记词的文件可以在以下位置找到：",
         "label": "完成",
+        "locateBackupFileButtonLabel": "定位备份文件",
+        "openSelectedPathButtonLabel": "打开文件夹",
         "title": "密码创建成功！"
       },
       "confirmPasswordStep": {
+        "browseButtonLabel": "浏览…",
         "confirmPasswordError": "密码不匹配",
         "confirmPasswordPlaceholder": "确认您的密码…",
-        "formTitle": "请确认您的密码",
-        "label": "确认密码"
+        "formTitleImportWallet": "请确认您的密码以继续",
+        "formTitleNewWallet": "请选择一个位置以保存包含您的助记词的文件，并确认您的密码以继续",
+        "label": "确认密码",
+        "selectedFilePathLabel": "选定的文件路径",
+        "selectedFilePathPlaceholder": "选定的文件路径…"
       },
       "passwordStep": {
         "formTitle": "请创建一个密码以保护您的钱包",

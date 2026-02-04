@@ -10,6 +10,9 @@
   "useConfirmAction": {
     "unauthorizedAction": "未授權。請重試或聯繫支持。"
   },
+  "useExportMnemonic": {
+    "fileTemplate": "重要：請保持此檔案安全，切勿與任何人分享！任何擁有此助記詞的人都可以存取您的資產。\n\n--- 助記詞 ---\n\n{{mnemonic}}\n\n-----------------------\n\n{{generatedAt}}"
+  },
   "useImportAction": {
     "errors": {
       "allAddressesAlreadyImported": "所有地址已導入",

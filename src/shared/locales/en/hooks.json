@@ -10,6 +10,9 @@
   "useConfirmAction": {
     "unauthorizedAction": "Unauthorized. Please try again or contact support."
   },
+  "useExportMnemonic": {
+    "fileTemplate": "Important: Keep this file secure and never share it with anyone! Anyone with this mnemonic will be able to access your assets.\n\n--- MNEMONIC PHRASE ---\n\n{{mnemonic}}\n\n-----------------------\n\n{{generatedAt}}"
+  },
   "useImportAction": {
     "errors": {
       "allAddressesAlreadyImported": "All addresses are already imported",

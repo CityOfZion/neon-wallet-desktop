@@ -10,6 +10,9 @@
   "useConfirmAction": {
     "unauthorizedAction": "Nicht autorisiert. Bitte versuchen Sie es erneut oder kontaktieren Sie den Support."
   },
+  "useExportMnemonic": {
+    "fileTemplate": "Wichtig: Halten Sie diese Datei sicher und teilen Sie sie mit niemandem! Jeder, der diese Mnemonic hat, kann auf Ihre Vermögenswerte zugreifen.\n\n--- MNEMONIC-PHRASE ---\n\n{{mnemonic}}\n\n-----------------------\n\n{{generatedAt}}"
+  },
   "useImportAction": {
     "errors": {
       "allAddressesAlreadyImported": "Alle Adressen sind bereits importiert",
