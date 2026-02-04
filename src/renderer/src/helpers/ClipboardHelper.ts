@@ -13,8 +13,4 @@ export class ClipboardHelper {
   static async read(): Promise<string> {
     return await navigator.clipboard.readText()
   }
-
-  static async read() {
-    return await navigator.clipboard.readText()
-  }
 }
