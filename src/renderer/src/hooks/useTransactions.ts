@@ -213,7 +213,12 @@ export const useTransactions = ({ accounts, dateFrom, dateTo }: TUseTransactions
     })
 
     pendingTransactions.forEach(transaction => {
-      groupedTransactionsMap.set(transaction.txId, transaction)
+      if (
+        accounts.some(SharedAccountHelper.predicate(transaction.account)) &&
+        dateFns.isWithinInterval(transaction.date, { start: dateFrom, end: dateTo })
+      ) {
+        groupedTransactionsMap.set(transaction.txId, transaction)
+      }
     })
 
     const sortedTransactions = Array.from(groupedTransactionsMap.values()).sort((a, b) => {
