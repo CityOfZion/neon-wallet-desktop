@@ -127,20 +127,19 @@ const DappConnectionRequestModal = () => {
           </p>
 
           <Details.Root className="my-4">
-            <Details.Header
-              rightElement={
-                <span className="text-right text-sm text-gray-300">
-                  {proposalDetails.service.walletConnectService.chain}
-                </span>
-              }
-              leftElement={<TbPlug aria-hidden className="text-blue" />}
-            >
+            <Details.Header leftElement={<TbPlug aria-hidden className="text-blue" />}>
               {t('connectionDetailsTitle')}
             </Details.Header>
 
             <Details.HeaderSeparator />
 
             <Details.Body>
+              <Details.Panel label={t('chainDetailsTitle')}>
+                <Details.Item>
+                  <span className="text-sm text-white">{proposalDetails.service.walletConnectService.chain}</span>
+                </Details.Item>
+              </Details.Panel>
+
               <Details.Panel label={t('methodsDetailsTitle')}>
                 <Details.Item>
                   <span className="text-sm text-white">{proposalDetails.methods.join(', ')}</span>

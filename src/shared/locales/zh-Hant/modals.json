@@ -208,6 +208,7 @@
   },
   "dappConnectionRequest": {
     "acceptButtonLabel": "接受",
+    "chainDetailsTitle": "鏈",
     "connectionDetailsTitle": "連線資訊",
     "description": "<strong>{{name}}</strong> 想要連接到您的錢包",
     "errorModal": {

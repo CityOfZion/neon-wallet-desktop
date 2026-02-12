@@ -208,6 +208,7 @@
   },
   "dappConnectionRequest": {
     "acceptButtonLabel": "Akzeptieren",
+    "chainDetailsTitle": "Kette",
     "connectionDetailsTitle": "Verbindungsdetails",
     "description": "<strong>{{name}}</strong> möchte sich an Ihre Wallet anschließen",
     "errorModal": {

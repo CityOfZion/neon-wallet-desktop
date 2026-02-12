@@ -208,6 +208,7 @@
   },
   "dappConnectionRequest": {
     "acceptButtonLabel": "Aceitar",
+    "chainDetailsTitle": "Corrente",
     "connectionDetailsTitle": "Detalhes da conexão",
     "description": "<strong>{{name}}</strong> quer se conectar à sua wallet",
     "errorModal": {

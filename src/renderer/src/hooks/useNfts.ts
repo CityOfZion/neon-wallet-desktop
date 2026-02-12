@@ -25,7 +25,7 @@ export const useNfts = (account: IAccountState) => {
       })
     },
     initialPageParam: undefined as string | undefined,
-    getNextPageParam: lastPage => lastPage.nextCursor,
+    getNextPageParam: lastPage => lastPage.nextPageParams,
   })
 
   const aggregatedData = useMemo(() => {
