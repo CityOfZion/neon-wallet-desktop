@@ -637,6 +637,8 @@
         "title": "密码创建成功！"
       },
       "confirmPasswordStep": {
+        "blockchainSelectionModalDescription": "选择您想为其创建帐户的区块链",
+        "blockchainSelectionModalTitle": "选择区块链",
         "browseButtonLabel": "浏览…",
         "confirmPasswordError": "密码不匹配",
         "confirmPasswordPlaceholder": "确认您的密码…",

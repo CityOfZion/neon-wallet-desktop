@@ -50,7 +50,7 @@ const ImportModal = () => {
         heading: t('title'),
         headingIcon: <TbFileImport aria-hidden />,
         description: t('importEncryptedDescription'),
-        onSelect: (blockchain: TBlockchainServiceKey) => {
+        onSelect: ([blockchain]: TBlockchainServiceKey[]) => {
           modalNavigate('decrypt-key', {
             state: {
               encryptedKey,

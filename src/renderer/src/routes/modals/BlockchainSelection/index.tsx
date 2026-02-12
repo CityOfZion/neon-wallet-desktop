@@ -1,14 +1,12 @@
-import { FormEvent, Fragment, useState } from 'react'
+import { Fragment } from 'react'
 
 import { useTranslation } from 'react-i18next'
 
-import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
+import { BlockchainList } from '@renderer/components/BlockchainList'
 import { Button } from '@renderer/components/Button'
-import { RadioGroup } from '@renderer/components/RadioGroup'
 import { Separator } from '@renderer/components/Separator'
 
-import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
-
+import { useActions } from '@renderer/hooks/useActions'
 import { useModalState } from '@renderer/hooks/useModalRouter'
 
 import { SideModalLayout } from '@renderer/layouts/SideModal'
@@ -16,23 +14,32 @@ import { SideModalLayout } from '@renderer/layouts/SideModal'
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import type { TModalState } from '@shared/types/modal'
 
+type TActionData = {
+  selectedBlockchains: TBlockchainServiceKey[]
+}
+
 const BlockchainSelectionModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'blockchainSelection' })
-  const { t: blockchainT } = useTranslation('common', { keyPrefix: 'blockchain' })
-  const { heading, headingIcon, description, buttonLabel, onSelect, subtitle } =
-    useModalState<TModalState<'blockchain-selection'>>()
+  const {
+    heading,
+    headingIcon,
+    description,
+    buttonLabel,
+    onSelect,
+    subtitle,
+    isMulti = false,
+  } = useModalState<TModalState<'blockchain-selection'>>()
 
-  const [selectedBlockchain, setSelectedBlockchain] = useState<TBlockchainServiceKey>('neo3')
+  const { actionData, setData, handleAct } = useActions<TActionData>({
+    selectedBlockchains: ['neo3'],
+  })
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-
-    if (!selectedBlockchain) return
-    onSelect?.(selectedBlockchain)
+  const handleSelect = (blockchains: TBlockchainServiceKey[]) => {
+    setData({ selectedBlockchains: blockchains })
   }
 
-  const handleSelectRadioItem = (service: TBlockchainServiceKey) => {
-    setSelectedBlockchain(service)
+  const handleSubmit = () => {
+    onSelect(actionData.selectedBlockchains)
   }
 
   return (
@@ -47,38 +54,20 @@ const BlockchainSelectionModal = () => {
 
       <p>{description}</p>
 
-      <form className="mt-6 flex grow flex-col" onSubmit={handleSubmit}>
-        <div className="flex h-0 min-h-0 grow flex-col gap-2.5">
-          <RadioGroup.Group
-            value={selectedBlockchain}
-            onValueChange={handleSelectRadioItem}
-            className="overflow-y-auto"
-          >
-            {(
-              Object.keys(BlockchainServiceHelper.bsAggregator.blockchainServicesByName) as TBlockchainServiceKey[]
-            ).map((service, index) => (
-              <RadioGroup.Item
-                key={index}
-                value={service}
-                className="bg-asphalt mb-2.5 h-12 rounded-sm border-none"
-                withSeparator={false}
-              >
-                <div className="flex items-center gap-4">
-                  <BlockchainIcon blockchain={service} type="gray" />
-                  <span>{blockchainT(service)}</span>
-                </div>
-                <RadioGroup.Indicator />
-              </RadioGroup.Item>
-            ))}
-          </RadioGroup.Group>
-        </div>
+      <form className="mt-6 flex grow flex-col" onSubmit={handleAct(handleSubmit)}>
+        <BlockchainList
+          selectedBlockchains={actionData.selectedBlockchains}
+          onSelect={handleSelect}
+          isMulti={isMulti}
+          className="mb-0 h-0 min-h-0 w-full grow"
+        />
 
         <Button
           className="mt-8"
           type="submit"
           label={buttonLabel ?? t('buttonContinueLabel')}
           flat
-          disabled={!selectedBlockchain}
+          disabled={actionData.selectedBlockchains.length === 0}
         />
       </form>
     </SideModalLayout>

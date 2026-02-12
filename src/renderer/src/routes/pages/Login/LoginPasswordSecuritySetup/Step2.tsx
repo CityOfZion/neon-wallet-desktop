@@ -7,14 +7,21 @@ import { Location, useLocation, useNavigate } from 'react-router'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 
-import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 
 import { useCreateStandardAccount } from '@renderer/hooks/useAccountActions'
 import { useActions } from '@renderer/hooks/useActions'
 import { useExportMnemonic } from '@renderer/hooks/useExportMnemonic'
 import { useSignup } from '@renderer/hooks/useLogin'
+import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useCreateWallet } from '@renderer/hooks/useWalletActions'
+import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
+
+import TbWallet from '@renderer/assets/images/tb-wallet.svg?react'
+
+import { authReducerActions } from '@renderer/store/reducers/auth'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 type TFormData = {
   confirmPassword: string
@@ -34,10 +41,13 @@ export const LoginPasswordSecuritySetupStep2Content = ({ onSubmit }: TProps) => 
   const { t } = useTranslation('pages', { keyPrefix: 'welcome.securitySetup.confirmPasswordStep' })
   const { t: commonT } = useTranslation('common')
   const navigate = useNavigate()
+  const { modalNavigate, modalErase } = useModalNavigate()
   const { createStandardAccount } = useCreateStandardAccount()
   const { createWallet } = useCreateWallet()
   const { signup } = useSignup()
   const { saveMnemonicToTextFile } = useExportMnemonic()
+  const { walletsRef } = useWalletsSelector()
+  const dispatch = useAppDispatch()
 
   const { actionData, actionState, handleAct, setData, setError } = useActions<TFormData>({
     confirmPassword: '',
@@ -71,30 +81,43 @@ export const LoginPasswordSecuritySetupStep2Content = ({ onSubmit }: TProps) => 
       return
     }
 
-    await signup(data.confirmPassword)
+    modalNavigate('blockchain-selection', {
+      state: {
+        heading: t('blockchainSelectionModalTitle'),
+        headingIcon: <TbWallet aria-hidden />,
+        description: t('blockchainSelectionModalDescription'),
+        isMulti: true,
+        onSelect: async (blockchains: TBlockchainServiceKey[]) => {
+          await signup(data.confirmPassword)
 
-    const mnemonic = BSKeychainHelper.generateMnemonic()
+          const mnemonic = BSKeychainHelper.generateMnemonic()
 
-    if (isNewWallet && actionData.selectedFilePath) {
-      await saveMnemonicToTextFile(mnemonic, actionData.selectedFilePath)
-    }
+          const wallet = createWallet({
+            name: commonT('wallet.firstWalletName'),
+            mnemonic,
+          })
 
-    const wallet = createWallet({
-      name: commonT('wallet.firstWalletName'),
-      mnemonic,
+          const promises = blockchains.map(blockchain =>
+            createStandardAccount({
+              wallet,
+              blockchain,
+              name: commonT('account.defaultName', { accountNumber: 1 }),
+            })
+          )
+
+          await Promise.allSettled(promises)
+
+          if (isNewWallet && actionData.selectedFilePath) {
+            await saveMnemonicToTextFile(mnemonic, actionData.selectedFilePath)
+
+            dispatch(authReducerActions.saveWallet({ ...walletsRef.current[0], backupStatus: 'successful' }))
+          }
+
+          modalErase()
+          navigate('/login-security-setup/3', { state: { selectedFilePath: actionData.selectedFilePath } })
+        },
+      },
     })
-
-    const promises = BlockchainServiceHelper.blockchainNames.map(blockchain =>
-      createStandardAccount({
-        wallet,
-        blockchain,
-        name: commonT('account.defaultName', { accountNumber: 1 }),
-      })
-    )
-
-    await Promise.allSettled(promises)
-
-    navigate('/login-security-setup/3', { state: { selectedFilePath: actionData.selectedFilePath } })
   }
 
   return (

@@ -637,6 +637,8 @@
         "title": "Senha criada com sucesso!"
       },
       "confirmPasswordStep": {
+        "blockchainSelectionModalDescription": "Selecione as blockchains para as quais você deseja criar uma conta",
+        "blockchainSelectionModalTitle": "Selecione blockchains",
         "browseButtonLabel": "Procurar…",
         "confirmPasswordError": "As senhas não coincidem",
         "confirmPasswordPlaceholder": "Confirme sua senha…",

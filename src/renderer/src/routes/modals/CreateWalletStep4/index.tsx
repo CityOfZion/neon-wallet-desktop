@@ -1,8 +1,7 @@
 import { useTranslation } from 'react-i18next'
 
-import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
+import { BlockchainList } from '@renderer/components/BlockchainList'
 import { Button } from '@renderer/components/Button'
-import { Checkbox } from '@renderer/components/Checkbox'
 import { Separator } from '@renderer/components/Separator'
 
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
@@ -21,10 +20,7 @@ import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import type { TModalState } from '@shared/types/modal'
 
 type TFormData = {
-  blockchains: {
-    name: TBlockchainServiceKey
-    checked: boolean
-  }[]
+  selectedBlockchains: TBlockchainServiceKey[]
 }
 
 const CreateWalletStep4Modal = () => {
@@ -36,12 +32,10 @@ const CreateWalletStep4Modal = () => {
   const { createWallet } = useCreateWallet()
 
   const { actionData, actionState, setData, handleAct } = useActions<TFormData>({
-    blockchains: BlockchainServiceHelper.blockchainNames.map(name => {
-      return { name, checked: true }
-    }),
+    selectedBlockchains: BlockchainServiceHelper.blockchainNames,
   })
 
-  const isDisabled = actionData.blockchains.every(({ checked }) => !checked)
+  const isDisabled = actionData.selectedBlockchains.length === 0
 
   const handleSubmit = async () => {
     const wallet = createWallet({
@@ -49,13 +43,11 @@ const CreateWalletStep4Modal = () => {
       mnemonic: words.join(' '),
     })
 
-    const selectedBlockchains = actionData.blockchains.filter(service => service.checked)
-
     const accounts = await Promise.allSettled(
-      selectedBlockchains.map(blockchain =>
+      actionData.selectedBlockchains.map(blockchain =>
         createStandardAccount({
           wallet,
-          blockchain: blockchain.name,
+          blockchain,
           name: commonT('account.defaultName', { accountNumber: 1 }),
         })
       )
@@ -67,12 +59,8 @@ const CreateWalletStep4Modal = () => {
     modalNavigate('create-wallet-step-5', { state: { accounts: createdAccounts } })
   }
 
-  const handleSelectedBlockchain = (position: number) => {
-    setData({
-      blockchains: actionData.blockchains.map((service, index) => {
-        return index === position ? { ...service, checked: !service.checked } : { ...service }
-      }),
-    })
+  const handleSelect = (blockchains: TBlockchainServiceKey[]) => {
+    setData({ selectedBlockchains: blockchains })
   }
 
   return (
@@ -98,24 +86,7 @@ const CreateWalletStep4Modal = () => {
           <div className="text-xs text-gray-100">{t('description')}</div>
           <Separator />
 
-          <ul className="m-auto mb-4 flex w-1/2 grow flex-col gap-2 overflow-auto">
-            {actionData.blockchains.map((blockchain, index) => (
-              <li key={`${blockchain.name}-${index}`} className="bg-asphalt flex h-12 rounded-sm border-none px-6 py-4">
-                <div className="flex grow items-center justify-between">
-                  <label className="flex w-full items-center gap-2.5">
-                    <BlockchainIcon blockchain={blockchain.name} type="gray" />
-                    <span className="flex grow">{commonT(`blockchain.${blockchain.name}`)}</span>
-                    <Checkbox
-                      value={blockchain.name}
-                      onCheckedChange={handleSelectedBlockchain.bind(null, index)}
-                      checked={blockchain.checked}
-                      className="rounded-sm"
-                    />
-                  </label>
-                </div>
-              </li>
-            ))}
-          </ul>
+          <BlockchainList selectedBlockchains={actionData.selectedBlockchains} onSelect={handleSelect} isMulti />
         </div>
 
         <div className="flex gap-2">
