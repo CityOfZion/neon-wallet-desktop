@@ -638,6 +638,8 @@
         "title": "Password created successfully!"
       },
       "confirmPasswordStep": {
+        "blockchainSelectionModalDescription": "Select the blockchains which you want to create an account for",
+        "blockchainSelectionModalTitle": "Select blockchains",
         "browseButtonLabel": "Browse…",
         "confirmPasswordError": "Passwords do not match",
         "confirmPasswordPlaceholder": "Confirm your password…",

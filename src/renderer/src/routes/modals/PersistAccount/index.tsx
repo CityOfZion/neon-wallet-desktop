@@ -83,7 +83,7 @@ const PersistAccountModal = () => {
           heading: t('titleCreate'),
           headingIcon: <TbPlus className="text-neon" />,
           description: t('selectBlockchainDescription'),
-          onSelect: async (blockchain: TBlockchainServiceKey) => {
+          onSelect: async ([blockchain]: TBlockchainServiceKey[]) => {
             await createStandardAccount({
               wallet: modalStateWallet,
               blockchain: blockchain,

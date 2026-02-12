@@ -79,7 +79,7 @@ const SettingsEncryptKeyPage = () => {
     validatePassphraseField(event.target.value, 'confirmationPassphrase', 'passphrase')
   }
 
-  const handleSelect = async (blockchain: TBlockchainServiceKey) => {
+  const handleSelect = async ([blockchain]: TBlockchainServiceKey[]) => {
     modalNavigate(-1)
 
     try {

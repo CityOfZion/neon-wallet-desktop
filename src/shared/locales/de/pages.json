@@ -637,6 +637,8 @@
         "title": "Passwort erfolgreich erstellt!"
       },
       "confirmPasswordStep": {
+        "blockchainSelectionModalDescription": "Wählen Sie die Blockchains aus, auf denen Sie ein Konto erstellen möchten",
+        "blockchainSelectionModalTitle": "Blockchains auswählen",
         "browseButtonLabel": "Durchsuchen…",
         "confirmPasswordError": "Passwörter stimmen nicht überein",
         "confirmPasswordPlaceholder": "Bestätigen Sie Ihr Passwort…",

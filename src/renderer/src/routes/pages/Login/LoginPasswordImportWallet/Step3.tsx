@@ -108,7 +108,7 @@ export const LoginPasswordImportWalletStep3Content = () => {
       })
     }
 
-    const handleSelect = async (blockchain: TBlockchainServiceKey) => {
+    const handleSelect = async ([blockchain]: TBlockchainServiceKey[]) => {
       modalNavigate('decrypt-key', {
         state: {
           encryptedKey: input,

@@ -40,7 +40,8 @@ type TBlockchainSelectionModalState = {
   subtitle?: string
   buttonLabel?: string
   withBackButton?: boolean
-  onSelect?: (blockchain: TBlockchainServiceKey) => void | Promise<void>
+  isMulti?: boolean
+  onSelect: (blockchains: TBlockchainServiceKey[]) => void | Promise<void>
 }
 
 type TConfirmActionModalState = {

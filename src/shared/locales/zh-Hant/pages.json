@@ -638,6 +638,8 @@
         "title": "密碼已成功建立！"
       },
       "confirmPasswordStep": {
+        "blockchainSelectionModalDescription": "選擇您想為其建立帳戶的區塊鏈",
+        "blockchainSelectionModalTitle": "選擇區塊鏈",
         "browseButtonLabel": "瀏覽…",
         "confirmPasswordError": "密碼不匹配",
         "confirmPasswordPlaceholder": "確認您的密碼…",
