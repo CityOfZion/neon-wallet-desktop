@@ -21,7 +21,7 @@ export const NftGallery = ({ account, nfts }: TProps) => {
   const photos = useMemo(
     () =>
       nfts.map(nft => ({
-        key: `${nft.hash}-${nft.collection.hash}`,
+        key: `${nft.hash}-${nft.collection?.hash}`,
         title: nft.name,
         src: nft.image ?? '',
         width: 1,
@@ -38,7 +38,7 @@ export const NftGallery = ({ account, nfts }: TProps) => {
 
     const explorerUrl = service.explorerService.buildNftUrl({
       tokenHash: nft.hash,
-      collectionHash: nft.collection.hash,
+      collectionHash: nft.collection?.hash,
     })
 
     return explorerUrl

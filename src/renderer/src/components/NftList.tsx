@@ -24,7 +24,7 @@ export const NftList = ({ account, nfts }: TProps) => {
       if (hasExplorerService(service)) {
         return service.explorerService.buildNftUrl({
           tokenHash: nft.hash,
-          collectionHash: nft.collection.hash,
+          collectionHash: nft.collection?.hash,
         })
       }
     } catch {
@@ -54,9 +54,11 @@ export const NftList = ({ account, nfts }: TProps) => {
                   </div>
                 )}
 
-                <span className="-mt-0.5 truncate text-xs text-gray-300 capitalize">
-                  {nft.creator.name ?? nft.creator.address}
-                </span>
+                {(nft.creator?.name || nft.creator?.address) && (
+                  <span className="-mt-0.5 truncate text-xs text-gray-300 capitalize">
+                    {nft.creator?.name ?? nft.creator?.address}
+                  </span>
+                )}
               </div>
             </div>
 
@@ -76,7 +78,7 @@ export const NftList = ({ account, nfts }: TProps) => {
         )
 
         return (
-          <li key={`${nft.hash}-${nft.collection.hash}`} className="w-full">
+          <li key={`${nft.hash}-${nft.collection?.hash}`} className="w-full">
             {link ? (
               <a
                 href={link}

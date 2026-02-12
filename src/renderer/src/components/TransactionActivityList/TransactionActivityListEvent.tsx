@@ -32,7 +32,7 @@ export const TransactionActivityListEvent = ({ event }: TProps) => {
 
   return (
     <div className="ml-20 flex h-13 max-h-13 min-h-13 grow items-center gap-x-2 overflow-x-auto overflow-y-hidden pr-2 pl-4 whitespace-nowrap">
-      {TokenHelper.isValidTokenHash(hash) && (
+      {hash && TokenHelper.isValidTokenHash(hash) && (
         <TransactionActivityListEventColumn
           label={t('columns.hashLabel')}
           url={hashUrl}
