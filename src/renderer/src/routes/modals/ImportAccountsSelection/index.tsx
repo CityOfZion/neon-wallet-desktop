@@ -10,10 +10,12 @@ import {
   TMnemonicOrKeyAccountWithBlockchain,
 } from '@renderer/components/MnemonicOrKeyAccountSelection'
 
+import { AnalyticsHelper } from '@renderer/helpers/AnalyticsHelper'
+
 import { useImportAccounts } from '@renderer/hooks/useAccountActions'
 import { useAccountUtils } from '@renderer/hooks/useAccountSelector'
-import { useLoadingActions } from '@renderer/hooks/useLoadingActions'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
+import { usePressOnce } from '@renderer/hooks/usePressOnce'
 import { useCreateWallet } from '@renderer/hooks/useWalletActions'
 
 import { SideModalLayout } from '@renderer/layouts/SideModal'
@@ -35,7 +37,7 @@ const ImportAccountsSelectionModal = () => {
 
   const [selectedAccounts, setSelectedAccounts] = useState<TMnemonicOrKeyAccountWithBlockchain[]>([])
 
-  const { handleAct, isActing } = useLoadingActions(async () => {
+  const [isImporting, startImport] = usePressOnce(async () => {
     const isMnemonic = BSKeychainHelper.isValidMnemonic(mnemonicOrKey)
 
     const wallet = createWallet({
@@ -54,6 +56,8 @@ const ImportAccountsSelectionModal = () => {
       accounts: accountsToImport,
       wallet,
     })
+
+    AnalyticsHelper.logEvent('wallet_imported')
 
     modalErase()
     navigate('/wallets/overview', { state: { account: accounts[0] } })
@@ -79,10 +83,10 @@ const ImportAccountsSelectionModal = () => {
       <Button
         className="w-full"
         type="button"
-        onClick={handleAct}
+        onClick={startImport}
         label={t('importButtonLabel')}
         leftIcon={<TbFileImport aria-hidden />}
-        loading={isActing}
+        loading={isImporting}
         disabled={selectedAccounts.length === 0}
         flat
       />

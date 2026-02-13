@@ -5,6 +5,7 @@ import { Location, useLocation, useNavigate } from 'react-router'
 
 import { Progress } from '@renderer/components/Progress'
 
+import { AnalyticsHelper } from '@renderer/helpers/AnalyticsHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 
 import { useImportAccounts } from '@renderer/hooks/useAccountActions'
@@ -73,6 +74,8 @@ export const LoginPasswordImportWalletStep4Content = () => {
       setProgress(progress => progress + progressByStep)
 
       await SharedUtilsHelper.sleep(250)
+
+      AnalyticsHelper.logEvent('onboarding_completed')
 
       navigate('/login-import-wallet-setup/5')
     } catch (error) {

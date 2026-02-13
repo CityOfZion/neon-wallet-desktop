@@ -7,6 +7,7 @@ import { ButtonDownloadPasswordQRCode } from '@renderer/components/ButtonDownloa
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
 
+import { AnalyticsHelper } from '@renderer/helpers/AnalyticsHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 
 import { useActions } from '@renderer/hooks/useActions'
@@ -66,6 +67,8 @@ const ConfirmPasswordBackupModal = () => {
 
     try {
       await handleCreateBackup(password, selectedFilePath)
+
+      AnalyticsHelper.logEvent('backup_done')
 
       modalNavigate('success', {
         state: {
