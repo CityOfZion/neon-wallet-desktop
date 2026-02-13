@@ -17,7 +17,6 @@
     "analyticsEventLoggingFailed": "Fehler beim Protokollieren des Analyseereignisses.",
     "blockchainIsNotClaimable": "Die Konto-Blockchain ist nicht abrufbar: {{address}} {{blockchain}}",
     "loginSessionIsNotDefined": "Unbekannter Fehler. Login-Sitzung ist nicht definiert.",
-    "noEncryptedKey": "Es gibt keinen verschlüsselten Schlüssel für dieses Konto: {{address}}",
     "unexpectedError": "Es ist ein unerwarteter Fehler aufgetreten. Bitte kontaktieren Sie den Support, falls das Problem weiterhin besteht.",
     "userCancelled": "Der Vorgang wurde vom Benutzer abgebrochen."
   },

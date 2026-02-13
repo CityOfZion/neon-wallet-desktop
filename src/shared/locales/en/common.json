@@ -17,7 +17,6 @@
     "analyticsEventLoggingFailed": "Failed to log analytics event.",
     "blockchainIsNotClaimable": "The account blockchain is not claimable: {{address}} {{blockchain}}",
     "loginSessionIsNotDefined": "Unknown error. Login session is not defined.",
-    "noEncryptedKey": "There is not encrypted key for this account: {{address}}",
     "unexpectedError": "An unexpected error occurred. Please contact support if the problem persists.",
     "userCancelled": "The operation was cancelled by the user."
   },

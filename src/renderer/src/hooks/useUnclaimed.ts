@@ -28,10 +28,6 @@ const getUnclaimedInfos = async (
   hasClaimPendingTransaction: boolean,
   encryptedPassword?: string
 ): Promise<TUseUnclaimedResult> => {
-  if (!account.encryptedKey) {
-    throw new AppError(t('common:errors.noEncryptedKey', { address: account.address }))
-  }
-
   const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[account.blockchain]
   if (!isClaimable(service)) {
     throw new AppError(
@@ -49,7 +45,7 @@ const getUnclaimedInfos = async (
 
   let fee = '0'
 
-  if (isCalculableFee(service) && unclaimedNumber > 0) {
+  if (account.type !== 'watch' && !!account.encryptedKey && isCalculableFee(service) && unclaimedNumber > 0) {
     const key = await window.api.sendAsync('encryption:decryptBasedEncryptedSecret', {
       value: account.encryptedKey,
       encryptedSecret: encryptedPassword,
