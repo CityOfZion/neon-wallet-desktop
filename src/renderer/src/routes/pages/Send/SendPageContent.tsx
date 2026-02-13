@@ -15,6 +15,7 @@ import { Separator } from '@renderer/components/Separator'
 import { TransactionFeeActionStep } from '@renderer/components/TransactionFeeActionStep'
 
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
+import { AnalyticsHelper } from '@renderer/helpers/AnalyticsHelper'
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
 import { ExchangeHelper } from '@renderer/helpers/ExchangeHelper'
@@ -390,6 +391,8 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
           })
         )
       })
+
+      AnalyticsHelper.logEvent('transaction_executed')
 
       reset()
       currentRecipientAddress.current = undefined

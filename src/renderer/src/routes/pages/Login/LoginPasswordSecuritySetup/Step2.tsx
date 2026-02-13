@@ -7,6 +7,7 @@ import { Location, useLocation, useNavigate } from 'react-router'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 
+import { AnalyticsHelper } from '@renderer/helpers/AnalyticsHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 
 import { useCreateStandardAccount } from '@renderer/hooks/useAccountActions'
@@ -113,6 +114,7 @@ export const LoginPasswordSecuritySetupStep2Content = ({ onSubmit }: TProps) => 
             dispatch(authReducerActions.saveWallet({ ...walletsRef.current[0], backupStatus: 'successful' }))
           }
 
+          AnalyticsHelper.logEvent('onboarding_completed')
           modalErase()
           navigate('/login-security-setup/3', { state: { selectedFilePath: actionData.selectedFilePath } })
         },

@@ -12,8 +12,8 @@ import {
 
 import { TestHelper } from '@renderer/helpers/TestHelper'
 
-import { useLoadingActions } from '@renderer/hooks/useLoadingActions'
 import { useLogin } from '@renderer/hooks/useLogin'
+import { usePressOnce } from '@renderer/hooks/usePressOnce'
 
 import { WelcomeLayout } from '@renderer/layouts/Welcome'
 
@@ -51,10 +51,9 @@ const LoginKeySelectAccountPage = () => {
     navigate('/wallets/overview')
   }
 
-  const { handleAct: handleActSelected, isActing: isActingSelected } = useLoadingActions(() =>
-    handleImport(selectedAccounts)
-  )
-  const { handleAct: handleActAll, isActing: isActingAll } = useLoadingActions(() => handleImport(allAccounts))
+  const [isImportingSelected, startImportSelected] = usePressOnce(() => handleImport(selectedAccounts))
+
+  const [isImportingAll, startImportAll] = usePressOnce(() => handleImport(allAccounts))
 
   return (
     <WelcomeLayout heading={t('title')} withBackButton className="flex-col justify-between">
@@ -72,9 +71,9 @@ const LoginKeySelectAccountPage = () => {
           variant="outlined"
           label={t('importAllButtonLabel')}
           wide
-          loading={isActingAll}
-          disabled={allAccounts.length === 0 || isActingSelected}
-          onClick={handleActAll}
+          loading={isImportingAll}
+          disabled={allAccounts.length === 0 || isImportingSelected}
+          onClick={startImportAll}
           {...TestHelper.buildTestObject('login-key-select-account-import-all')}
         />
 
@@ -82,9 +81,9 @@ const LoginKeySelectAccountPage = () => {
           variant="contained"
           label={t('importSelectedButtonLabel')}
           wide
-          disabled={selectedAccounts.length === 0 || isActingAll}
-          loading={isActingSelected}
-          onClick={handleActSelected}
+          disabled={selectedAccounts.length === 0 || isImportingAll}
+          loading={isImportingSelected}
+          onClick={startImportSelected}
           {...TestHelper.buildTestObject('login-key-select-account-import-selected')}
         />
       </div>

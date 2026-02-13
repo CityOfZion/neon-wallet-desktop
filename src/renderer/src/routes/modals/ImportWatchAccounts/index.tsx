@@ -8,6 +8,7 @@ import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
 
+import { AnalyticsHelper } from '@renderer/helpers/AnalyticsHelper'
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 
 import { useImportAccounts } from '@renderer/hooks/useAccountActions'
@@ -69,6 +70,8 @@ const ImportWatchAccountsModal = () => {
       }))
 
       const accounts = await importAccounts({ wallet, accounts: accountsToImport })
+
+      AnalyticsHelper.logEvent('wallet_imported')
 
       modalErase()
       navigate('/wallets/overview', { state: { account: accounts[0] } })

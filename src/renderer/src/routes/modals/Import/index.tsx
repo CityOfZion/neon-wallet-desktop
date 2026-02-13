@@ -7,6 +7,7 @@ import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
 import { Textarea } from '@renderer/components/Textarea'
 
+import { AnalyticsHelper } from '@renderer/helpers/AnalyticsHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 
 import { useImportAccount } from '@renderer/hooks/useAccountActions'
@@ -62,6 +63,8 @@ const ImportModal = () => {
 
                 const wallet = createWallet({ name: tCommon('encryptedName') })
                 const account = await importAccount({ address, blockchain, wallet, key, type: 'standard' })
+
+                AnalyticsHelper.logEvent('wallet_imported')
 
                 ToastHelper.success({ message: t('successEncryptKey') })
                 modalNavigate(-3)
