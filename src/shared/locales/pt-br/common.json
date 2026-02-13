@@ -17,7 +17,6 @@
     "analyticsEventLoggingFailed": "Falha ao registrar o evento de análise.",
     "blockchainIsNotClaimable": "A blockchain da conta não é resgatável: {{address}} {{blockchain}}",
     "loginSessionIsNotDefined": "Erro desconhecido. A sessão de login não está definida.",
-    "noEncryptedKey": "Não há chave criptografada para esta conta: {{address}}",
     "unexpectedError": "Ocorreu um erro inesperado. Se o problema persistir, entre em contato com o suporte.",
     "userCancelled": "A operação foi cancelada pelo usuário."
   },

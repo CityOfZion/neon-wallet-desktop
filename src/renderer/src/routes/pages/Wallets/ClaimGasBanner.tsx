@@ -47,6 +47,8 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
     ? unclaimedQuery.data.feeNumber < unclaimedQuery.data.unclaimedNumber
     : undefined
 
+  const isWatchAccount = account.type === 'watch'
+
   useEffect(() => {
     if (!unclaimedQuery.error) return
 
@@ -55,7 +57,7 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
   }, [t, unclaimedQuery.error])
 
   return (
-    <div className="bg-asphalt mb-5 flex h-[55px] w-full items-center justify-center rounded-sm text-sm">
+    <div className="bg-asphalt mb-5 flex h-13.75 w-full items-center justify-center rounded-sm text-sm">
       {unclaimedQuery.isLoading || balance.isLoading ? (
         <Loader />
       ) : (
@@ -90,12 +92,14 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
                     })}
                   </span>
 
-                  <span className="text-gray-300">
-                    {t('feeToClaim', {
-                      fee: unclaimedQuery.data?.fee,
-                      symbol: blockchainService.claimToken.symbol,
-                    })}
-                  </span>
+                  {!isWatchAccount && (
+                    <span className="text-gray-300">
+                      {t('feeToClaim', {
+                        fee: unclaimedQuery.data?.fee,
+                        symbol: blockchainService.claimToken.symbol,
+                      })}
+                    </span>
+                  )}
                 </div>
               ))
               .otherwise(() => (
@@ -116,6 +120,7 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
               className="w-28"
               leftIcon={<TbTransform aria-hidden />}
               disabled={
+                isWatchAccount ||
                 !feeIsLessThanBalance ||
                 !feeIsLessThanUnclaimed ||
                 !unclaimedQuery.data ||
