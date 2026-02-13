@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+import { TestHelper } from '@renderer/helpers/TestHelper'
 
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
@@ -40,7 +41,11 @@ export const BlockchainList = ({ onSelect, selectedBlockchains = [], isMulti, bl
         const isSelected = selectedBlockchains.includes(blockchain)
 
         return (
-          <li key={blockchain} className="bg-asphalt flex h-12 rounded-sm border-none">
+          <li
+            key={blockchain}
+            className="bg-asphalt flex h-12 rounded-sm border-none"
+            {...TestHelper.buildTestObject(`blockchain-selection-item-${blockchain}`)}
+          >
             <div className="flex grow items-center justify-between">
               <label className="flex w-full cursor-pointer items-center gap-2.5 px-6 py-4">
                 <BlockchainIcon blockchain={blockchain} type="gray" />

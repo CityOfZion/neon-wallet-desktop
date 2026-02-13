@@ -6,6 +6,8 @@ import { BlockchainList } from '@renderer/components/BlockchainList'
 import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'
 
+import { TestHelper } from '@renderer/helpers/TestHelper'
+
 import { useActions } from '@renderer/hooks/useActions'
 import { useModalState } from '@renderer/hooks/useModalRouter'
 
@@ -68,6 +70,7 @@ const BlockchainSelectionModal = () => {
           label={buttonLabel ?? t('buttonContinueLabel')}
           flat
           disabled={actionData.selectedBlockchains.length === 0}
+          {...TestHelper.buildTestObject('blockchain-selection-submit')}
         />
       </form>
     </SideModalLayout>
