@@ -199,6 +199,12 @@
       "date": "2026-01-08",
       "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.9.1",
       "version": "3.9.1"
+    },
+    {
+      "changes": [],
+      "date": "2026-02-17",
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.10.0-rc.0",
+      "version": "3.10.0-rc.0"
     }
   ],
   "versionLabel": "Version v{{version}}"
