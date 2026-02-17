@@ -57,9 +57,9 @@ export const DappPermissionModal = () => {
     ToastHelper.error({ message: toastMessage ?? t('errors.cancelled'), id: 'dapp-permission-cancel' })
   }
 
-  const [isRejecting, startReject] = usePressOnce(async () => {
+  const [isRejecting, startReject] = usePressOnce(async (reason?: ErrorResponse | undefined, toastMessage?: string) => {
     try {
-      await handleReject()
+      await handleReject(reason, toastMessage)
     } finally {
       modalErase()
     }
