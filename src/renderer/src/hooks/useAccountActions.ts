@@ -46,7 +46,7 @@ export const useCreateStandardAccount = () => {
 
       const accountOrder = AccountHelper.getNextOrderOrMissing(wallet.accounts, blockchain)
       const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
-      const generatedAccount = service.generateAccountFromMnemonic(mnemonic, accountOrder)
+      const generatedAccount = await service.generateAccountFromMnemonic(mnemonic, accountOrder)
 
       const encryptedKey = window.api.sendSync('encryption:encryptBasedEncryptedSecretSync', {
         value: generatedAccount.key,
@@ -67,7 +67,7 @@ export const useCreateStandardAccount = () => {
 
       dispatch(authReducerActions.saveAccount(newAccount))
 
-      const firstAccount = service.generateAccountFromMnemonic(mnemonic, 0)
+      const firstAccount = await service.generateAccountFromMnemonic(mnemonic, 0)
       dispatch(
         utilityReducerActions.saveLastIndexByWallet({
           firstAccountAddress: firstAccount.address,

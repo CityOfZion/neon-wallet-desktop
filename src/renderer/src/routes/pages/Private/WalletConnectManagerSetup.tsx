@@ -53,7 +53,7 @@ export const WalletConnectManagerSetup = () => {
             encryptedSecret: currentLoginSessionRef.current!.encryptedPassword,
           })
 
-          const serviceAccount = AccountHelper.getServiceAccount({ account: sessionAccount!, key })
+          const serviceAccount = await AccountHelper.getServiceAccount({ account: sessionAccount!, key })
 
           const response = await WalletKitHelper.processRequest({
             account: serviceAccount,

@@ -103,7 +103,7 @@ const SellTokensDepositModal = () => {
     isInvalidForm ||
     (isServiceCalculableFee && !actionData.fee)
 
-  const getServiceTransferParams = () => {
+  const getServiceTransferParams = async () => {
     const { account, address, isAmountLoading } = actionData
     const token = actionData.token?.token
     const amount = actionData.amount
@@ -122,7 +122,7 @@ const SellTokensDepositModal = () => {
       encryptedSecret: encryptedPassword,
     })
 
-    const serviceAccount = AccountHelper.getServiceAccount({ account, key })
+    const serviceAccount = await AccountHelper.getServiceAccount({ account, key })
 
     return {
       serviceAccount,
@@ -174,7 +174,7 @@ const SellTokensDepositModal = () => {
   const handleSubmit = async () => {
     if (isDisabled) return
 
-    const transferParams = getServiceTransferParams()
+    const transferParams = await getServiceTransferParams()
     if (!transferParams) return
 
     const account = actionData.account!
@@ -287,7 +287,7 @@ const SellTokensDepositModal = () => {
           return
         }
 
-        const transferParams = getServiceTransferParams()
+        const transferParams = await getServiceTransferParams()
         if (!transferParams) {
           setData({ fee: undefined })
           return

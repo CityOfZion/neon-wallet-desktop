@@ -38,7 +38,7 @@ export const DappPermissionGenericContentFee = ({
         encryptedSecret: currentLoginSession.encryptedPassword,
       })
 
-      const serviceAccount = AccountHelper.getServiceAccount({ account: sessionAccount, key })
+      const serviceAccount = await AccountHelper.getServiceAccount({ account: sessionAccount, key })
 
       return await sessionDetails.service.walletConnectService.calculateRequestFee({
         account: serviceAccount,

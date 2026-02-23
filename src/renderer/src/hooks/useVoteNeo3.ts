@@ -136,7 +136,7 @@ export const useVoteNeo3CalculateVoteFee = ({ neo3Account, candidatePubKey }: TC
         encryptedSecret: currentLoginSessionRef.current!.encryptedPassword,
       })
 
-      const account = AccountHelper.getServiceAccount({ account: neo3Account!, key })
+      const account = await AccountHelper.getServiceAccount({ account: neo3Account!, key })
 
       return await blockchainService.voteService.calculateVoteFee({ account, candidatePubKey })
     },

@@ -113,7 +113,7 @@ const VoteNeo3ConfirmationModal = () => {
         encryptedSecret: currentLoginSessionRef.current!.encryptedPassword,
       })
 
-      const account = AccountHelper.getServiceAccount({ account: neo3Account, key })
+      const account = await AccountHelper.getServiceAccount({ account: neo3Account, key })
 
       const txId = await service.voteService.vote({
         account,
