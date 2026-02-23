@@ -34,14 +34,14 @@
     "icon": "svg-icons"
   },
   "dependencies": {
-    "@cityofzion/blockchain-service": "3.0.3",
-    "@cityofzion/bs-electron": "3.0.3",
-    "@cityofzion/bs-ethereum": "3.0.3",
-    "@cityofzion/bs-multichain": "3.0.3",
-    "@cityofzion/bs-neo-legacy": "3.0.3",
-    "@cityofzion/bs-neo3": "3.0.3",
-    "@cityofzion/bs-neox": "3.0.3",
-    "@cityofzion/bs-solana": "3.0.3",
+    "@cityofzion/blockchain-service": "3.0.5",
+    "@cityofzion/bs-electron": "3.0.5",
+    "@cityofzion/bs-ethereum": "3.0.5",
+    "@cityofzion/bs-multichain": "3.0.5",
+    "@cityofzion/bs-neo-legacy": "3.0.5",
+    "@cityofzion/bs-neo3": "3.0.5",
+    "@cityofzion/bs-neox": "3.0.5",
+    "@cityofzion/bs-solana": "3.0.5",
     "@electron-toolkit/preload": "~3.0.2",
     "@electron-toolkit/utils": "~4.0.0",
     "@fingerprintjs/fingerprintjs": "~5.0.1",
@@ -146,5 +146,8 @@
     "vite": "~7.1.12",
     "vite-plugin-node-polyfills": "~0.24.0",
     "vite-plugin-svgr": "~4.5.0"
+  },
+  "overrides": {
+    "keccak": "npm:empty-npm-package@1.0.0"
   }
 }

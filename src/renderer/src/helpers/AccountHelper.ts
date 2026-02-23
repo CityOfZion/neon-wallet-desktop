@@ -23,16 +23,16 @@ export class AccountHelper {
     return service.bip44DerivationPath.replace('?', order.toString())
   }
 
-  static getServiceAccount({ account, key }: TAccountHelperGetServiceAccountParams) {
+  static async getServiceAccount({ account, key }: TAccountHelperGetServiceAccountParams) {
     const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[account.blockchain]
     let serviceAccount: TBSAccount<TBlockchainServiceKey>
 
     if (account.type === 'hardware' && hasLedger(service)) {
-      serviceAccount = service.generateAccountFromPublicKey(key)
+      serviceAccount = await service.generateAccountFromPublicKey(key)
       serviceAccount.isHardware = true
       serviceAccount.bip44Path = AccountHelper.getBip44Path(service, account.order)
     } else {
-      serviceAccount = service.generateAccountFromKey(key)
+      serviceAccount = await service.generateAccountFromKey(key)
     }
 
     return serviceAccount

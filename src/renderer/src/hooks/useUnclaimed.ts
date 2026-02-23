@@ -51,7 +51,7 @@ const getUnclaimedInfos = async (
       encryptedSecret: encryptedPassword,
     })
 
-    const serviceAccount = AccountHelper.getServiceAccount({ account, key })
+    const serviceAccount = await AccountHelper.getServiceAccount({ account, key })
 
     fee = await service.calculateTransferFee({
       intents: [
@@ -113,7 +113,7 @@ export const useUnclaimedMutation = () => {
         encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
       })
 
-      const serviceAccount = AccountHelper.getServiceAccount({ account, key })
+      const serviceAccount = await AccountHelper.getServiceAccount({ account, key })
       const txId = await service.claim(serviceAccount)
       const token = service.burnToken
 

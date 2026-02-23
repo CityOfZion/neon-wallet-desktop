@@ -55,7 +55,7 @@ export const LoginPasswordImportWalletStep3Content = () => {
     await UtilsHelper.promiseAll(
       Object.values(BlockchainServiceHelper.bsAggregator.blockchainServicesByName),
       async service => {
-        const account = service.generateAccountFromKey(key)
+        const account = await service.generateAccountFromKey(key)
         accounts.push({ address: account.address, blockchain: service.name, key, type: 'standard' })
       }
     )

@@ -115,7 +115,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
   const isAmountsLoading = actionData.recipients.some(recipient => !!recipient.isAmountLoading)
   const isMultiTransfer = actionData.recipients.length > 1
 
-  const getSendFields = () => {
+  const getSendFields = async () => {
     if (
       !currentLoginSessionRef.current ||
       !actionData.selectedAccount ||
@@ -147,7 +147,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
       encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
     })
 
-    const serviceAccount = AccountHelper.getServiceAccount({ account: actionData.selectedAccount, key })
+    const serviceAccount = await AccountHelper.getServiceAccount({ account: actionData.selectedAccount, key })
 
     return {
       service,
@@ -282,7 +282,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
         encryptedSecret: encryptedPassword,
       })
 
-      const senderAccount = AccountHelper.getServiceAccount({ account: selectedAccount, key })
+      const senderAccount = await AccountHelper.getServiceAccount({ account: selectedAccount, key })
 
       const fee = await service.calculateTransferFee({ senderAccount, intents })
 
@@ -314,7 +314,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
   }
 
   const handleSubmit = async () => {
-    const fields = getSendFields()
+    const fields = await getSendFields()
 
     if (!fields || isCalculatingForm || actionState.isActing || isFeeInvalid) return
 
@@ -438,7 +438,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
 
     const handleCalculateFee = async () => {
       try {
-        const fields = getSendFields()
+        const fields = await getSendFields()
 
         if (!fields || !isCalculableFee(fields.service)) {
           setData({ fee: undefined })

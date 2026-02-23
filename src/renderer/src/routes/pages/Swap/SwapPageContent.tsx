@@ -280,7 +280,7 @@ export const SwapPageContent = ({ account }: TProps) => {
       encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
     })
 
-    const serviceAccount = AccountHelper.getServiceAccount({ account, key })
+    const serviceAccount = await AccountHelper.getServiceAccount({ account, key })
 
     swapOrchestratorRef.current?.setAccountToUse(serviceAccount)
   }
