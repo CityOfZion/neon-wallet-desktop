@@ -12,18 +12,10 @@ export class TransactionHelper {
     type,
     events,
   }: TTransactionHelperBuildPendingTransactionParams): TUseTransactionsTransaction {
-    let txTemplateUrl: string | undefined
-    let addressTemplateUrl: string | undefined
-    let contractTemplateUrl: string | undefined
-
     const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[fromAccount.blockchain]
-    if (hasExplorerService(service)) {
-      txTemplateUrl = service.explorerService.getTxTemplateUrl()
-      addressTemplateUrl = service.explorerService.getAddressTemplateUrl()
-      contractTemplateUrl = service.explorerService.getContractTemplateUrl()
-    }
+    const explorerService = hasExplorerService(service) ? service.explorerService : undefined
 
-    const txIdUrl = txTemplateUrl?.replace('{txId}', txId)
+    const txIdUrl = explorerService?.buildTransactionUrl(txId)
 
     const transaction: TUseTransactionsTransaction = {
       txId,
@@ -43,9 +35,9 @@ export class TransactionHelper {
 
     if (events) {
       transaction.events = events.map(({ amount, toAddress, token, toAccount }) => {
-        const contractHashUrl = contractTemplateUrl?.replace('{hash}', token.hash)
-        const fromUrl = addressTemplateUrl?.replace('{address}', fromAccount.address)
-        const toUrl = addressTemplateUrl?.replace('{address}', toAddress)
+        const contractHashUrl = explorerService?.buildContractUrl(token.hash)
+        const fromUrl = explorerService?.buildAddressUrl(fromAccount.address)
+        const toUrl = explorerService?.buildAddressUrl(toAddress)
 
         return {
           eventType: 'token',
