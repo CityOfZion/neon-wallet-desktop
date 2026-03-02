@@ -304,7 +304,7 @@
   },
   "decryptKey": {
     "buttonContinueLabel": "Importar",
-    "description": "Digite uma senha para sua chave criptografada:",
+    "description": "Digite a senha que você usou para criptografar sua chave:",
     "errors": {
       "decryptError": "Houve um problema ao descriptografar a chave",
       "noEncryptionInterfaceError": "Este blockchain não pode descriptografar a chave"

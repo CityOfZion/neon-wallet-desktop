@@ -304,7 +304,7 @@
   },
   "decryptKey": {
     "buttonContinueLabel": "导入",
-    "description": "请输入加密密钥的密码：",
+    "description": "请输入您用于加密密钥的密码：",
     "errors": {
       "decryptError": "解密密钥时出现问题",
       "noEncryptionInterfaceError": "此区块链无法解密密钥"
