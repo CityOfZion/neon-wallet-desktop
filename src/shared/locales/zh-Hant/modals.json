@@ -304,7 +304,7 @@
   },
   "decryptKey": {
     "buttonContinueLabel": "導入",
-    "description": "請輸入您的加密金鑰密碼：",
+    "description": "請輸入您用於加密金鑰的密碼：",
     "errors": {
       "decryptError": "解密密鑰時出現問題",
       "noEncryptionInterfaceError": "此區塊鏈無法解密密鑰"

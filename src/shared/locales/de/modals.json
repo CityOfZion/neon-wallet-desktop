@@ -304,7 +304,7 @@
   },
   "decryptKey": {
     "buttonContinueLabel": "Importieren",
-    "description": "Geben Sie eine Passphrase für Ihren verschlüsselten Schlüssel ein:",
+    "description": "Geben Sie die Passphrase ein, die Sie zur Verschlüsselung Ihres Schlüssels verwendet haben:",
     "errors": {
       "decryptError": "Es gab ein Problem beim Entschlüsseln des Schlüssels",
       "noEncryptionInterfaceError": "Diese Blockchain kann den Schlüssel nicht entschlüsseln"

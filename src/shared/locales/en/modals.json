@@ -304,7 +304,7 @@
   },
   "decryptKey": {
     "buttonContinueLabel": "Import",
-    "description": "Enter a pass phrase for your encrypted key:",
+    "description": "Enter the pass phrase you used to encrypt your key:",
     "errors": {
       "decryptError": "There was a problem to decrypt the key",
       "noEncryptionInterfaceError": "This blockchain can't decrypt the key"
