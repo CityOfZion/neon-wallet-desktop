@@ -22,6 +22,7 @@ const devRendererUrl = is.dev ? process.env['ELECTRON_RENDERER_URL'] : undefined
 
 let mainWindow: BrowserWindow | null = null
 
+SharedEnvHelper.setup()
 MainSentryHelper.setup()
 MainDeeplinkHelper.setupProtocol()
 
@@ -127,7 +128,6 @@ async function initialize() {
     app.quit()
   })
 
-  SharedEnvHelper.setup()
   MainDeeplinkHelper.setupHandler()
   MainWindowHelper.setupHandlers()
   MainEncryptionHelper.setupHandlers()

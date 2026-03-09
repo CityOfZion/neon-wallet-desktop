@@ -19,7 +19,6 @@ import { modalsRouter } from '@renderer/routes/modals-router'
 
 import { ModalRouterProvider } from '@renderer/contexts/ModalRouterContext'
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
-import { SharedEnvHelper } from '@shared/helpers/SharedEnvHelper'
 import { SharedI18nextHelper } from '@shared/helpers/SharedI18nextHelper'
 
 const ToastProvider = lazy(() =>
@@ -37,8 +36,7 @@ const RootPage = () => {
 
   useMountUnsafe(async () => {
     try {
-      SharedEnvHelper.setup()
-      await Promise.allSettled([SharedI18nextHelper.setup(), BlockchainServiceHelper.setup(), WalletKitHelper.setup()])
+      await Promise.all([SharedI18nextHelper.setup(), BlockchainServiceHelper.setup(), WalletKitHelper.setup()])
       ReduxHelper.setup()
       await ReduxHelper.waitForBootstrap()
 
