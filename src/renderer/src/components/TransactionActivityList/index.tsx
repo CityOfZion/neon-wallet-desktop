@@ -30,6 +30,7 @@ type TProps = {
   dateTo: Date
   onSelectDateFrom: (date: Date) => void
   onSelectDateTo: (date: Date) => void
+  shouldUseFullTransactionsService: boolean
 }
 
 const heights = {
@@ -42,7 +43,14 @@ const heights = {
   TRANSACTION_GAP: 16,
 }
 
-const Content = ({ defaultAccounts, dateFrom, dateTo, onSelectDateFrom, onSelectDateTo }: TProps) => {
+const Content = ({
+  defaultAccounts,
+  dateFrom,
+  dateTo,
+  onSelectDateFrom,
+  onSelectDateTo,
+  shouldUseFullTransactionsService,
+}: TProps) => {
   const { t } = useTranslation('components', { keyPrefix: 'transactionActivityList' })
   const { setEventColumnSize } = useTransactionActivityList()
   const { language } = useLanguageSelector()
@@ -53,6 +61,7 @@ const Content = ({ defaultAccounts, dateFrom, dateTo, onSelectDateFrom, onSelect
     accounts: defaultAccounts,
     dateFrom,
     dateTo,
+    shouldUseFullTransactionsService,
   })
 
   const { handleScroll, ref: scrollRef } = useInfiniteScroll<HTMLDivElement>(fetchNextPage)
@@ -161,13 +170,15 @@ const Content = ({ defaultAccounts, dateFrom, dateTo, onSelectDateFrom, onSelect
   return (
     <div className="mt-2 flex min-h-0 w-full flex-col gap-y-2 text-sm">
       <div className="flex justify-end">
-        <TransactionActivityListDateRange
-          dateFrom={dateFrom}
-          dateTo={dateTo}
-          isDisabled={isDateDisabled}
-          onSelectDateFrom={handleSelectDateFrom}
-          onSelectDateTo={handleSelectDateTo}
-        />
+        {shouldUseFullTransactionsService && (
+          <TransactionActivityListDateRange
+            dateFrom={dateFrom}
+            dateTo={dateTo}
+            isDisabled={isDateDisabled}
+            onSelectDateFrom={handleSelectDateFrom}
+            onSelectDateTo={handleSelectDateTo}
+          />
+        )}
       </div>
 
       {match({ isLoading, data })

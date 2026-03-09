@@ -76,7 +76,8 @@ const fetchTransactions = async (
   accounts: IAccountState[],
   allAccountsMap: Map<string, TAccountWithWallet>,
   networksByBlockchain: TSelectedNetworks,
-  page: number
+  page: number,
+  shouldUseFullTransactionsService: boolean
 ) => {
   let transactions: TUseTransactionsQueryData['transactions'] = new Map()
   let hasNextPage = false
@@ -116,7 +117,7 @@ const fetchTransactions = async (
     try {
       let response: TGetTransactionsByAddressResponse<TBlockchainServiceKey>
 
-      if (hasFullTransactions(service)) {
+      if (hasFullTransactions(service) && shouldUseFullTransactionsService) {
         const dateNow = new Date()
 
         response = await service.fullTransactionsDataService.getFullTransactionsByAddress({
@@ -179,7 +180,12 @@ const fetchTransactions = async (
   return { transactions, page: hasNextPage ? page + 1 : undefined }
 }
 
-export const useTransactions = ({ accounts, dateFrom, dateTo }: TUseTransactionsProps) => {
+export const useTransactions = ({
+  accounts,
+  dateFrom,
+  dateTo,
+  shouldUseFullTransactionsService,
+}: TUseTransactionsProps) => {
   const queryClient = useQueryClient()
   const { accountsMapRef } = useAccountMapSelector()
   const { networkByBlockchain: networksByBlockchain } = useSelectedNetworkByBlockchainSelector()
@@ -194,7 +200,16 @@ export const useTransactions = ({ accounts, dateFrom, dateTo }: TUseTransactions
       networksByBlockchain,
     }),
     queryFn: ({ pageParam: page }) =>
-      fetchTransactions(queryClient, dateFrom, dateTo, accounts, accountsMapRef.current, networksByBlockchain, page),
+      fetchTransactions(
+        queryClient,
+        dateFrom,
+        dateTo,
+        accounts,
+        accountsMapRef.current,
+        networksByBlockchain,
+        page,
+        shouldUseFullTransactionsService
+      ),
     initialPageParam: 1,
     getNextPageParam: ({ page }) => page,
   })

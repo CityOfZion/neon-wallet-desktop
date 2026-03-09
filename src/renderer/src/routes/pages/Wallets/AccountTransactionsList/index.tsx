@@ -1,3 +1,4 @@
+import { hasFullTransactions } from '@cityofzion/blockchain-service'
 import * as dateFns from 'date-fns'
 import { useTranslation } from 'react-i18next'
 import { useOutletContext } from 'react-router'
@@ -5,6 +6,7 @@ import { useOutletContext } from 'react-router'
 import { Button } from '@renderer/components/Button'
 import { TransactionActivityList } from '@renderer/components/TransactionActivityList'
 
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { ExportTransactionsHelper } from '@renderer/helpers/ExportTransactionsHelper'
 
 import { useActions } from '@renderer/hooks/useActions'
@@ -41,6 +43,11 @@ const AccountTransactionsList = () => {
 
   const { dateFrom, dateTo } = actionData
 
+  const service = account
+    ? BlockchainServiceHelper.bsAggregator.blockchainServicesByName[account.blockchain]
+    : undefined
+  const shouldUseFullTransactionsService = !!service && hasFullTransactions(service)
+
   const handleSelectDateFrom = async (dateFrom: Date) => {
     setData(ExportTransactionsHelper.calculateDateFromSelectionMaxOneYear({ dateFrom, dateTo }))
   }
@@ -55,13 +62,15 @@ const AccountTransactionsList = () => {
       actions={
         account ? (
           <CommonAccountActions account={account}>
-            <Button
-              leftIcon={<TbFileExport aria-hidden />}
-              label={t('exportCSVButtonLabel')}
-              variant="text"
-              flat
-              onClick={modalNavigateWrapper('export-full-transactions', { state: { account, dateFrom, dateTo } })}
-            />
+            {shouldUseFullTransactionsService && (
+              <Button
+                leftIcon={<TbFileExport aria-hidden />}
+                label={t('exportCSVButtonLabel')}
+                variant="text"
+                flat
+                onClick={modalNavigateWrapper('export-full-transactions', { state: { account, dateFrom, dateTo } })}
+              />
+            )}
           </CommonAccountActions>
         ) : undefined
       }
@@ -72,6 +81,7 @@ const AccountTransactionsList = () => {
         dateTo={dateTo}
         onSelectDateFrom={handleSelectDateFrom}
         onSelectDateTo={handleSelectDateTo}
+        shouldUseFullTransactionsService={shouldUseFullTransactionsService}
       />
     </AccountDetailsLayout>
   )
