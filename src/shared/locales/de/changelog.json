@@ -214,9 +214,23 @@
       "version": "3.9.1"
     },
     {
-      "date": "23.02.2026",
-      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.10.0-rc.2",
-      "version": "3.10.0-rc.2"
+      "changes": [
+        "Solana Blockchain-Unterstützung",
+        "Neo X Anti-MEV-Schutz",
+        "Verbesserte Einarbeitung mit obligatorischer Sicherung des Wiederherstellungsschlüssels beim ersten Zugriff",
+        "Netzwerkauswahl während des Onboardings",
+        "Support-Tickets direkt in der Wallet erstellen",
+        "Für Aktionen, die über WalletConnect ausgeführt werden, ist eine Authentifizierung erforderlich.",
+        "Verbesserte Eingabevalidierung zur expliziten Zulassung von Sonderzeichen",
+        "Verbesserte Backup-Erinnerungen zum Schutz der Benutzerdaten",
+        "Die buildAddressUrl wurde zum ExplorerService hinzugefügt, um das Routing zu externen Blockchain-Explorern zu verbessern.",
+        "Verbesserte Stabilität von WalletConnect und optimierte Multi-Chain-Unterstützung für Neo N3 und Neo X",
+        "DevTools-Verknüpfung",
+        "Kleinere Fehlerbehebungen"
+      ],
+      "date": "10.03.2026",
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.10.0",
+      "version": "3.10.0"
     }
   ],
   "versionLabel": "Version v{{version}}"

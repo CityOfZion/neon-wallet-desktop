@@ -196,9 +196,23 @@
       "version": "3.9.1"
     },
     {
-      "date": "2026-02-23",
-      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.10.0-rc.2",
-      "version": "3.10.0-rc.2"
+      "changes": [
+        "Solana区块链支持",
+        "Neo X 抗 MEV 保护",
+        "改进了新用户引导流程，首次访问时强制进行助记词备份",
+        "网络选择（入职阶段）",
+        "直接在钱包内创建支持工单",
+        "通过 WalletConnect 执行的操作需要进行身份验证。",
+        "改进了输入验证，明确允许特殊字符",
+        "更强大的备份提醒功能，有助于保护用户资产。",
+        "为 ExplorerService 添加了 buildAddressUrl，以改进对外部区块链浏览器的路由。",
+        "增强了 WalletConnect 的稳定性，并改进了对 Neo N3 和 Neo X 的多链支持。",
+        "开发者工具快捷方式",
+        "修复了一些小错误"
+      ],
+      "date": "2026-03-10",
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.10.0",
+      "version": "3.10.0"
     }
   ],
   "versionLabel": "版本 v{{version}}"
