@@ -91,22 +91,22 @@ const Content = ({
     gap: heights.DATE_GAP,
     getScrollElement: () => scrollRef.current,
     estimateSize: index => {
-      const { transactions } = data[index] // Get the transactions (items) for the current date group
-      const itemsLength = transactions.length // Number of transactions (items) in this group
+      const { transactions } = data[index] // Get the transactions for the current date group
+      const transactionsLength = transactions.length // Number of transactions in this group
 
       // Base height includes date label, separator, and separator margin
       let height = heights.DATE + heights.SEPARATOR + heights.SEPARATOR_MARGIN
 
-      // If there aren't transactions (items), return the base height
-      if (itemsLength === 0) return height
+      // If there aren't transactions, return the base height
+      if (transactionsLength === 0) return height
 
       // Add height for each header
-      height += itemsLength * heights.HEADER
+      height += transactionsLength * heights.HEADER
 
-      // Add gaps between transactions (items), except after the last one
-      height += (itemsLength - 1) * heights.TRANSACTION_GAP
+      // Add gaps between transactions, except after the last one
+      height += (transactionsLength - 1) * heights.TRANSACTION_GAP
 
-      // Calculate total number of events across all items in the group
+      // Calculate total number of events across all transactions in the group
       const eventsLength = transactions.flatMap(({ events }) => events).length
 
       // Add height for each event
@@ -169,8 +169,8 @@ const Content = ({
 
   return (
     <div className="mt-2 flex min-h-0 w-full flex-col gap-y-2 text-sm">
-      <div className="flex justify-end">
-        {shouldUseFullTransactionsService && (
+      {shouldUseFullTransactionsService && (
+        <div className="flex justify-end">
           <TransactionActivityListDateRange
             dateFrom={dateFrom}
             dateTo={dateTo}
@@ -178,8 +178,8 @@ const Content = ({
             onSelectDateFrom={handleSelectDateFrom}
             onSelectDateTo={handleSelectDateTo}
           />
-        )}
-      </div>
+        </div>
+      )}
 
       {match({ isLoading, data })
         .with({ isLoading: true }, () => <TransactionActivityListSkeleton />)
