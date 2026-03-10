@@ -78,6 +78,7 @@ const PortfolioActivityPage = () => {
         dateTo={actionData.dateTo}
         onSelectDateFrom={handleSelectDateFrom}
         onSelectDateTo={handleSelectDateTo}
+        shouldUseFullTransactionsService={false}
       />
     </Fragment>
   )

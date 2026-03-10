@@ -62,6 +62,7 @@ export type TUseTransactionsProps = {
   accounts: IAccountState[]
   dateTo: Date
   dateFrom: Date
+  shouldUseFullTransactionsService: boolean
 }
 
 export type TUseTransactionsTransactionEvent = (TTransactionTokenEvent | TTransactionNftEvent) & {
