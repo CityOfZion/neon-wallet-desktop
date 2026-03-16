@@ -1,11 +1,11 @@
 import { BSKeychainHelper, hasLedger, TBSAccount } from '@cityofzion/blockchain-service'
+import { ledgerUSBVendorId } from '@ledgerhq/devices'
 import type Transport from '@ledgerhq/hw-transport'
 import NodeHidTransport, { getDevices } from '@ledgerhq/hw-transport-node-hid-noevents'
 import { app } from 'electron'
 import cloneDeep from 'lodash/cloneDeep'
 import { usb } from 'usb'
 
-import { ledgerUSBVendorId } from '@ledgerhq/devices/lib-es/index'
 import { mainApi } from '@shared/api/main'
 import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { SharedI18nextHelper } from '@shared/helpers/SharedI18nextHelper'
@@ -113,13 +113,13 @@ export class MainHardwareWalletHelper {
   static async getTransport(account: TBSAccount<TBlockchainServiceKey>): Promise<Transport> {
     if (!this.#transport) throw new AppError(t('hardwareWallet.errors.hardwareWalletNotFound'))
 
-    if (!account.bip44Path) throw new AppError(t('hardwareWallet.errors.missingBip44Path'))
+    if (!account.bipPath) throw new AppError(t('hardwareWallet.errors.missingBipPath'))
 
     const service = MainBlockchainServiceHelper.bsAggregator.blockchainServicesByName[account.blockchain]
     if (!hasLedger(service))
       throw new AppError(t('hardwareWallet.errors.blockchainNotSupported', { blockchain: account.blockchain }))
 
-    const index = BSKeychainHelper.extractIndexFromPath(account.bip44Path)
+    const index = BSKeychainHelper.extractIndexFromPath(account.bipPath)
 
     const hardwareAccount = await service.ledgerService.getAccount(this.#transport, index)
     if (hardwareAccount.address !== account.address) {

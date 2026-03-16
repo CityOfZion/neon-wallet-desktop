@@ -24,7 +24,12 @@ export const SkinCard = ({ showCheck, image, color, className, component }: TPro
     >
       {match({ image, component, color })
         .with({ image: P.when(value => !!value) }, ({ image }) => (
-          <img aria-hidden src={image} alt="" className="absolute inset-0 m-auto h-full w-full object-cover" />
+          <img
+            aria-hidden
+            src={image}
+            alt=""
+            className="pointer-events-none absolute inset-0 m-auto h-full w-full object-cover"
+          />
         ))
         .with({ component: P.when(value => !!value) }, ({ component }) =>
           cloneElement(component, {
@@ -40,7 +45,7 @@ export const SkinCard = ({ showCheck, image, color, className, component }: TPro
       <div className="absolute top-0 left-0 flex h-full w-full items-center justify-center bg-linear-to-b from-transparent via-[#4F4F4F15] to-[#5E5E5E20]">
         <MdCheckCircle
           aria-hidden
-          className={StyleHelper.mergeStyles('h-6 w-6 text-white opacity-0 transition-opacity', {
+          className={StyleHelper.mergeStyles('size-6 text-white opacity-0 transition-opacity', {
             'opacity-100': showCheck,
           })}
         />

@@ -54,7 +54,7 @@
     "alertCard": {
       "text": "在繼續之前，請確保您擁有私鑰或助記詞以恢復錢包"
     },
-    "auxiliarText": "滑動以確認...",
+    "auxiliarText": "滑動以確認…",
     "success": "資料已成功清除",
     "swipe": {
       "buttonAriaLabel": "重設並刪除資料",
@@ -78,7 +78,7 @@
     "title": "歡迎使用 Neon 錢包"
   },
   "loginHardware": {
-    "connectedMessage": "已偵測到裝置！正在開啟您的錢包...",
+    "connectedMessage": "已偵測到裝置！正在開啟您的錢包…",
     "notConnectedMessage": "找不到硬體錢包！請檢查連線",
     "searchAgainButtonLabel": "再次搜尋",
     "searchingLabel": "搜尋中",
@@ -86,7 +86,7 @@
   },
   "loginKey": {
     "description": "輸入地址、金鑰或助記詞：",
-    "inputPlaceholder": "輸入地址、金鑰或助記詞..."
+    "inputPlaceholder": "輸入地址、金鑰或助記詞…"
   },
   "loginKeySelectAccountPage": {
     "description": "您想匯入哪些地址？",
@@ -99,7 +99,7 @@
       "buttonLoginLabel": "登入",
       "forgotPassword": "忘記密碼？",
       "invalidPassword": "密碼無效",
-      "passwordPlaceholder": "輸入您的密碼...",
+      "passwordPlaceholder": "輸入您的密碼…",
       "text": "登入您的錢包"
     },
     "welcomeContent": {
@@ -213,7 +213,7 @@
     },
     "walletConnectManagerSetup": {
       "autoAcceptErrorMessage": "錢包連線請求處理失敗",
-      "autoAcceptProcessingMessage": "錢包連線請求正在處理中...",
+      "autoAcceptProcessingMessage": "錢包連線請求正在處理中…",
       "autoAcceptSuccessMessage": "WalletConnect 請求已成功處理"
     },
     "walletTasksManagerSetup": {
@@ -224,7 +224,7 @@
     }
   },
   "receive": {
-    "addressInputHint": "您的接收地址將顯示於此...",
+    "addressInputHint": "您的接收地址將顯示於此…",
     "downloadQRCode": "下載 QR 碼",
     "receivingAccountTitle": "接收帳戶",
     "requestTokenTabTitle": "請求代幣",
@@ -240,7 +240,7 @@
     },
     "overTheAirManagerSetup": {
       "downloaded": "新版本已下載。應用程式將重新啟動以套用更新。",
-      "downloading": "發現新版本。正在下載... <1>或在</1> <2>我們的 GitHub</2> 手動下載",
+      "downloading": "發現新版本。正在下載… <1>或在</1> <2>我們的 GitHub</2> 手動下載",
       "error": "下載更新時發生錯誤。請稍後重新啟動應用程式再試一次。",
       "installError": "無法安裝更新。請檢查應用程式權限並手動下載更新。"
     }
@@ -262,7 +262,7 @@
       "title": "轉帳失敗"
     },
     "recipient": {
-      "addressPlaceholder": "輸入收件人名稱或地址...",
+      "addressPlaceholder": "輸入收件人名稱或地址…",
       "amountLabel": "金額",
       "errors": {
         "invalidAddress": "無效的地址"
@@ -309,8 +309,8 @@
         "buttonContinue": "繼續",
         "error": "密碼不正確！",
         "generatePassword": "產生密碼",
-        "inputCurrentPasswordPlaceholder": "輸入目前密碼...",
-        "inputNewPasswordPlaceholder": "輸入新密碼...",
+        "inputCurrentPasswordPlaceholder": "輸入目前密碼…",
+        "inputNewPasswordPlaceholder": "輸入新密碼…",
         "subtitle": "若您想建立新密碼，只需在此更改並以目前密碼確認即可！",
         "titleInput1": "新密碼",
         "titleInput2": "目前 Neon 密碼"
@@ -368,7 +368,7 @@
     },
     "settingsBackupWallet": {
       "backup": "備份",
-      "browse": "瀏覽...",
+      "browse": "瀏覽…",
       "description": "將備份檔案儲存到您的電腦，若您遺失存取權或裝置損壞時可恢復錢包。",
       "saveBackupLabel": "您想將備份儲存在哪裡？",
       "title": "備份 NEON",
@@ -400,15 +400,15 @@
       "createProfileButtonLabel": "建立設定檔",
       "currentNetwork": "目前網路",
       "editProfileButtonLabel": "編輯設定檔",
-      "nodeSelection": "節點選擇",
+      "networkUrlSelection": "網路URL選擇",
       "resetProfileButtonLabel": "重設設定檔",
-      "selectProfilePlaceholder": "選擇設定檔...",
+      "selectProfilePlaceholder": "選擇設定檔…",
       "title": "網路設定",
       "youAreConnectedNeoAndEth": "您已連接至 Neo 和以太坊網路"
     },
     "settingsRecoverWallet": {
       "backup": "匯入備份",
-      "browse": "瀏覽...",
+      "browse": "瀏覽…",
       "description": "若您遺失錢包存取權，可從本地備份檔案匯入。只需找到您的本地備份檔案並輸入建立備份時使用的密碼，即可恢復存取權。",
       "nameExtension": "NEON 備份檔案",
       "saveBackupLabel": "尋找您的備份檔案",
@@ -453,7 +453,7 @@
         "invalidExtraIdToReceive": "無效的目的標籤/備註"
       },
       "extraIdToReceive": "目的標籤/備註",
-      "extraIdToReceivePlaceholder": "輸入標籤/備註...",
+      "extraIdToReceivePlaceholder": "輸入標籤/備註…",
       "hints": {
         "enterValidAddress": "請輸入有效地址"
       },

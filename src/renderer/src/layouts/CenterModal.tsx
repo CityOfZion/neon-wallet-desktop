@@ -72,8 +72,8 @@ export const CenterModalLayout = ({
   })
 
   const withHeading = headingIcon || heading
-  const height = heightBySizes[size ?? 'xs']
-  const width = widthBySizes[size ?? 'xs']
+  const height = heightBySizes[size || 'xs']
+  const width = widthBySizes[size || 'xs']
 
   const handleClickContent = (event: MouseEvent<HTMLDivElement>) => {
     event.stopPropagation()
@@ -129,7 +129,7 @@ export const CenterModalLayout = ({
                   <div className="flex items-center gap-x-2.5">
                     {headingIcon &&
                       cloneElement(headingIcon, {
-                        className: StyleHelper.mergeStyles('w-6 h-6 text-green', headingIcon.props?.className ?? ''),
+                        className: StyleHelper.mergeStyles('size-6 text-green', headingIcon.props?.className),
                       })}
 
                     {heading && <h2 className="text-sm text-white">{heading}</h2>}

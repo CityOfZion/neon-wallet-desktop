@@ -32,13 +32,13 @@
       "invalidURL": "Ungültige URL",
       "networkNameIsRequired": "Netzwerkname ist erforderlich",
       "networkNameIsTooLong": "Netzwerkname ist zu lang",
-      "notConnect": "Verbindung zu diesem Knoten nicht möglich"
+      "notConnect": "Verbindung zu diesem Netzwerk nicht möglich"
     },
     "nameLabel": "Netzwerkname",
     "namePlaceholder": "Netzwerknamen eingeben",
-    "successUrl": "Erfolgreich mit dem Knoten verbunden",
+    "successUrl": "Erfolgreich mit dem Netzwerk verbunden",
     "title": "Benutzerdefiniertes Netzwerk hinzufügen",
-    "urlLabel": "RPC-URL",
+    "urlLabel": "URL",
     "urlPlaceholder": "Beispiel: 'http://127.0.0.1:50012"
   },
   "addNetworkProfile": {
@@ -509,21 +509,21 @@
     "toDetailsPanelLabel": "Nach",
     "toTokenDetailsItemLabel": "Token"
   },
-  "networkNodeSelection": {
-    "antiMevLabel": "Anti-MEV",
-    "blockHeight": "Blockhöhe: {{height}}",
-    "description": "Wenn Sie Leistungsprobleme haben, versuchen Sie unten einen benutzerdefinierten Knoten auszuwählen",
-    "latency": "{{latency}}ms",
-    "listLabel": "KNOTENLISTE",
-    "refreshButtonLabel": "Aktualisieren",
-    "selectAutomaticallyLabel": "Automatisch auswählen",
-    "title": "Knotenauswahl"
-  },
   "networkSelection": {
     "addCustomNetworkButtonLabel": "Benutzerdefiniertes Netzwerk hinzufügen",
     "editCustomNetworkButtonLabel": "Benutzerdefiniertes Netzwerk bearbeiten",
     "selectNetwork": "Netzwerk auswählen",
     "title": "Netzwerk"
+  },
+  "networkUrlSelection": {
+    "antiMevLabel": "Anti-MEV",
+    "blockHeight": "Blockhöhe: {{height}}",
+    "description": "Wenn Sie Leistungsprobleme haben, versuchen Sie unten ein benutzerdefiniertes Netzwerk auszuwählen",
+    "latency": "{{latency}}ms",
+    "listLabel": "Netzwerk-URLs-Liste",
+    "refreshButtonLabel": "Aktualisieren",
+    "selectAutomaticallyLabel": "Automatisch auswählen",
+    "title": "Netzwerk-URL-Auswahl"
   },
   "nftSelection": {
     "description": "Bitte wählen Sie aus, welches Bild Sie für diese Kontokarte verwenden möchten.",
@@ -666,10 +666,6 @@
     "success": {
       "amount": "Betrag",
       "details": "Transaktionsdetails",
-      "labels": {
-        "copyAddress": "Adresse kopieren",
-        "copyTransactionHash": "Transaktions-Hash kopieren"
-      },
       "recipient": "Empfänger",
       "section": "Transaktion",
       "subtitle": "Ihre Einzahlung war erfolgreich",

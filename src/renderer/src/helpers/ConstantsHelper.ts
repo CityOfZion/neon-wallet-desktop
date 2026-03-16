@@ -7,7 +7,7 @@ import type { TBlockchainServiceKey } from '@shared/types/blockchain'
 export class ConstantsHelper {
   static readonly cozWebsiteUrl = 'https://coz.io'
   static readonly mobileAppStoreUrl = 'https://apps.apple.com/my/app/neon-wallet-mobile/id1530111452'
-  static readonly mobilePlayStoreUrl = 'https://play.google.com/store/apps/details?id=io.cityofzion.neon&hl=en_US&gl=US'
+  static readonly mobilePlayStoreUrl = 'https://play.google.com/store/apps/details?id=io.cityofzion.neon'
   static readonly latestReleaseUrl = 'https://github.com/CityOfZion/neon-wallet-desktop/releases/latest'
   static readonly cozDiscordUrl = 'https://discord.gg/M7jGtEpjH4'
   static readonly neonIconsUrl = 'https://raw.githubusercontent.com/CityOfZion/neon-icons/main'

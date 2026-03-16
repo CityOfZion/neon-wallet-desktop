@@ -40,7 +40,7 @@ const SettingsRecoverWallet = () => {
 
           <div className="w-fit">
             <div className="flex gap-2.5">
-              <Input value={actionData?.path ?? ''} compacted readOnly containerClassName="w-68" />
+              <Input value={actionData?.path || ''} compacted readOnly containerClassName="w-68" />
 
               <Button flat label={t('browse')} type="button" onClick={handleBrowse} className="h-fit w-36" />
             </div>

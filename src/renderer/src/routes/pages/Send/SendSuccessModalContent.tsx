@@ -9,17 +9,21 @@ import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import TbEye from '@renderer/assets/images/tb-eye.svg?react'
 import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
 
-import type { TUseTransactionsTransaction } from '@shared/types/hooks'
+import type {
+  TUseTransactionsTransaction,
+  TUseTransactionsTransactionEvent,
+  TUseTransactionsTransactionInputOutput,
+} from '@shared/types/hooks'
 import { IAccountState } from '@shared/types/store'
 
 import { SendSuccessModalContentItem } from './SendSuccessModalContentItem'
 
 type TProps = {
   transactions: TUseTransactionsTransaction[]
-  selectedAccount: IAccountState
+  account: IAccountState
 }
 
-export const SendSuccessModalContent = ({ transactions, selectedAccount }: TProps) => {
+export const SendSuccessModalContent = ({ transactions, account }: TProps) => {
   const { t } = useTranslation('pages', { keyPrefix: 'send.sendSuccess' })
   const navigate = useNavigate()
   const { modalNavigate } = useModalNavigate()
@@ -32,36 +36,41 @@ export const SendSuccessModalContent = ({ transactions, selectedAccount }: TProp
         <Details.HeaderSeparator />
 
         <Details.Body>
-          {transactions.map((transaction, index) => (
-            <Details.Panel
-              key={`send-success-transaction-${index}`}
-              label={t('transactionNumber', { order: index + 1 })}
-            >
-              <Details.Item label={t('transactionHashLabel')} copyable={transaction?.txId}>
-                {transaction?.txId}
-              </Details.Item>
+          {transactions.map((transaction, index) => {
+            const order = index + 1
+            const items = (transaction.view === 'utxo' ? transaction.outputs : transaction.events) as (
+              | TUseTransactionsTransactionEvent
+              | TUseTransactionsTransactionInputOutput
+            )[]
 
-              {transaction.events.map((event, eventIndex) => (
-                <SendSuccessModalContentItem
-                  key={`send-success-event-${eventIndex}`}
-                  event={event}
-                  transaction={transaction}
-                  order={index + 1}
-                />
-              ))}
-            </Details.Panel>
-          ))}
+            return (
+              <Details.Panel key={`send-success-transaction-${index}`} label={t('transactionNumber', { order })}>
+                <Details.Item label={t('transactionHashLabel')} copyable={transaction.txId}>
+                  {transaction.txId}
+                </Details.Item>
+
+                {items.map((item, itemIndex) => (
+                  <SendSuccessModalContentItem
+                    key={`send-success-item-${itemIndex}`}
+                    item={item}
+                    transaction={transaction}
+                    order={order}
+                  />
+                ))}
+              </Details.Panel>
+            )
+          })}
         </Details.Body>
       </Details.Root>
 
       <Button
         className="w-full max-w-62.5"
         label={t('viewStatusButtonLabel')}
-        rightIcon={<TbEye />}
+        rightIcon={<TbEye aria-hidden />}
         iconsOnEdge={false}
         onClick={() => {
           modalNavigate(-1)
-          navigate('/wallets/transactions', { state: { account: selectedAccount } })
+          navigate('/wallets/transactions', { state: { account } })
         }}
       />
     </div>

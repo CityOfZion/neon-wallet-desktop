@@ -5,6 +5,7 @@
   "blockchain": {
     "arbitrum": "Arbitrum",
     "base": "Base",
+    "bitcoin": "比特币",
     "ethereum": "以太坊",
     "neo3": "Neo N3",
     "neoLegacy": "Neo 旧版",
@@ -27,7 +28,7 @@
     "cancel": "取消",
     "close": "关闭",
     "continue": "继续",
-    "copy": "复制到剪贴板",
+    "copy": "复制",
     "copyToClipboard": "复制到剪贴板",
     "default": "默认",
     "downloadQRCodePassword": "下载密码二维码",
@@ -55,7 +56,7 @@
       "disconnectFirst": "必须先断开硬件钱包的连接，然后再重新连接。",
       "hardwareWalletIsNotConnectOrUnlocked": "硬件钱包未连接或已锁定，请验证您的设备并重试。",
       "hardwareWalletNotFound": "未连接硬件钱包。",
-      "missingBip44Path": "硬件钱包账户缺少 BIP44 路径",
+      "missingBipPath": "硬件钱包账户缺少 BIP 路径",
       "walletIsNotHardware": "所选钱包不是硬件钱包。"
     }
   },

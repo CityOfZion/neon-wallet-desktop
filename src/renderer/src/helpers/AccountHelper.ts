@@ -1,4 +1,4 @@
-import { hasLedger, IBlockchainService, TBSAccount } from '@cityofzion/blockchain-service'
+import { BSKeychainHelper, hasLedger, TBSAccount } from '@cityofzion/blockchain-service'
 
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 
@@ -19,10 +19,6 @@ export class AccountHelper {
     return maxOrder + 1
   }
 
-  static getBip44Path(service: IBlockchainService<TBlockchainServiceKey>, order = 0) {
-    return service.bip44DerivationPath.replace('?', order.toString())
-  }
-
   static async getServiceAccount({ account, key }: TAccountHelperGetServiceAccountParams) {
     const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[account.blockchain]
     let serviceAccount: TBSAccount<TBlockchainServiceKey>
@@ -30,7 +26,7 @@ export class AccountHelper {
     if (account.type === 'hardware' && hasLedger(service)) {
       serviceAccount = await service.generateAccountFromPublicKey(key)
       serviceAccount.isHardware = true
-      serviceAccount.bip44Path = AccountHelper.getBip44Path(service, account.order)
+      serviceAccount.bipPath = BSKeychainHelper.getBipPath(service.bipDerivationPath, account.order)
     } else {
       serviceAccount = await service.generateAccountFromKey(key)
     }

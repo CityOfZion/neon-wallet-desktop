@@ -1,4 +1,4 @@
-import { cloneElement, type JSX, useMemo } from 'react'
+import { cloneElement, type JSX, SyntheticEvent, useMemo } from 'react'
 
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
@@ -62,7 +62,7 @@ export const Notification = ({ notification }: TProps) => {
       : undefined
   }, [accounts, notification.related?.address, notification.related?.blockchain])
 
-  const icon = iconsByPriority[notification.priority ?? 'low']
+  const icon = iconsByPriority[notification.priority || 'low']
 
   const handleToggleRead = event => {
     event.preventDefault()
@@ -99,7 +99,7 @@ export const Notification = ({ notification }: TProps) => {
     }
   }
 
-  const handleStopPropagation = (event: React.MouseEvent) => {
+  const handleStopPropagation = (event: SyntheticEvent) => {
     event.stopPropagation()
   }
 
@@ -127,12 +127,9 @@ export const Notification = ({ notification }: TProps) => {
 
           {notification.provider && (
             <span
-              className={StyleHelper.mergeStyles(
-                'bg-asphalt text-1xs rounded-full px-2 py-0.5 text-gray-300 capitalize',
-                {
-                  'bg-gray-300/15 text-gray-100/50': notification.read,
-                }
-              )}
+              className={StyleHelper.mergeStyles('bg-asphalt text-1xs rounded-full px-2 py-0.5 text-gray-300', {
+                'bg-gray-300/15 text-gray-100/50': notification.read,
+              })}
             >
               {t(`providerLabels.${notification.provider}`)}
             </span>
@@ -161,13 +158,13 @@ export const Notification = ({ notification }: TProps) => {
         {notification.related?.address && (
           <div className="flex gap-2.5">
             {account && (
-              <span className="text-1xs w-full max-w-[50%] truncate text-gray-300 capitalize">
-                {`${t('relatedAccountLabel')}: ${account?.name}`}
+              <span className="text-1xs w-full max-w-[50%] truncate text-gray-300">
+                {t('relatedAccountLabel')}: {account?.name}
               </span>
             )}
 
-            <span className="text-1xs text-gray-300 capitalize">
-              {`${t('relatedAddressLabel')}: ${StringHelper.truncateStringStart(notification.related.address, 10)}`}
+            <span className="text-1xs text-gray-300">
+              {t('relatedAddressLabel')}: {StringHelper.truncateStringStart(notification.related.address, 10)}
             </span>
           </div>
         )}

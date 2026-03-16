@@ -32,13 +32,13 @@
       "invalidURL": "Invalid URL",
       "networkNameIsRequired": "Network name is required",
       "networkNameIsTooLong": "Network name is too long",
-      "notConnect": "Can't connect to this node"
+      "notConnect": "Can't connect to this network"
     },
     "nameLabel": "Network name",
     "namePlaceholder": "Enter network name",
-    "successUrl": "Successfully connected to the node",
+    "successUrl": "Successfully connected to the network",
     "title": "Add custom network",
-    "urlLabel": "RPC url",
+    "urlLabel": "URL",
     "urlPlaceholder": "Example: 'http://127.0.0.1:50012"
   },
   "addNetworkProfile": {
@@ -509,21 +509,21 @@
     "toDetailsPanelLabel": "To",
     "toTokenDetailsItemLabel": "Token"
   },
-  "networkNodeSelection": {
-    "antiMevLabel": "Anti-MEV",
-    "blockHeight": "Block height: {{height}}",
-    "description": "If you’re experiencing performance issues, try selecting a custom node below",
-    "latency": "{{latency}}ms",
-    "listLabel": "NODES LIST",
-    "refreshButtonLabel": "Refresh",
-    "selectAutomaticallyLabel": "Select automatically",
-    "title": "Node Selection"
-  },
   "networkSelection": {
     "addCustomNetworkButtonLabel": "Add custom network",
     "editCustomNetworkButtonLabel": "Edit custom network",
     "selectNetwork": "Select a network",
     "title": "Network"
+  },
+  "networkUrlSelection": {
+    "antiMevLabel": "Anti-MEV",
+    "blockHeight": "Block height: {{height}}",
+    "description": "If you’re experiencing performance issues, try selecting a custom network below",
+    "latency": "{{latency}}ms",
+    "listLabel": "Network URLs list",
+    "refreshButtonLabel": "Refresh",
+    "selectAutomaticallyLabel": "Select automatically",
+    "title": "Network URL selection"
   },
   "nftSelection": {
     "description": "Please select which image you would like to use for this account card.",
@@ -666,10 +666,6 @@
     "success": {
       "amount": "Amount",
       "details": "Transaction details",
-      "labels": {
-        "copyAddress": "Copy address",
-        "copyTransactionHash": "Copy transaction hash"
-      },
       "recipient": "Recipient",
       "section": "Transaction",
       "subtitle": "Your deposit was successful",

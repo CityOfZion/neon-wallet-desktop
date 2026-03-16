@@ -6,7 +6,7 @@ import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 
-import { useCurrentLoginSessionSelector, useHasNewNotificationsSelector } from '@renderer/hooks/useAuthSelector'
+import { useHasNewNotificationsSelector, useLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 
 import HiOutlineTicket from '@renderer/assets/images/hi-outline-ticket.svg?react'
@@ -30,9 +30,9 @@ export const CommonScreenActions = ({ children, className, ...props }: TProps) =
   const { t } = useTranslation('components', { keyPrefix: 'commonScreenActions' })
   const { modalNavigateWrapper } = useModalNavigate()
   const { hasNewNotifications } = useHasNewNotificationsSelector()
-  const { currentLoginSession } = useCurrentLoginSessionSelector()
+  const { loginSession } = useLoginSessionSelector()
 
-  const isPasswordLogin = currentLoginSession?.type === 'password'
+  const isPasswordLogin = loginSession?.type === 'password'
 
   return (
     <div className={StyleHelper.mergeStyles('flex h-full', className)} {...props}>
@@ -97,6 +97,7 @@ export const CommonScreenActions = ({ children, className, ...props }: TProps) =
               leftIcon={<TbMessage aria-hidden="true" className="text-yellow" />}
               {...TestHelper.buildTestObject('help-chat-with-us')}
             />
+
             <ActionPopover.Item
               actionPopoverItemType="button"
               label={t('openSupportTicketButtonLabel')}

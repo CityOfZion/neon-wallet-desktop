@@ -4,7 +4,7 @@ import { MenuLink } from '@renderer/components/MenuLink'
 
 import { TestHelper } from '@renderer/helpers/TestHelper'
 
-import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
+import { useLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 
 import MdOutlineKey from '@renderer/assets/images/md-outline-key.svg?react'
 import MdOutlineLock from '@renderer/assets/images/md-outline-lock.svg?react'
@@ -13,10 +13,10 @@ import TbPackageImport from '@renderer/assets/images/tb-package-import.svg?react
 import TbReload from '@renderer/assets/images/tb-reload.svg?react'
 
 export const SettingsSecurityTabContent = () => {
-  const { currentLoginSession } = useCurrentLoginSessionSelector()
+  const { loginSession } = useLoginSessionSelector()
   const { t } = useTranslation('pages', { keyPrefix: 'settings' })
 
-  const disabled = currentLoginSession?.type !== 'password'
+  const disabled = loginSession?.type !== 'password'
 
   return (
     <nav className="mb-5 flex h-15 w-full flex-row justify-between text-[14px]">

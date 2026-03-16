@@ -7,8 +7,6 @@ import { TCreateContact } from './types'
 export const PASSWORD = '.7g/7i*Vcf%V3:9Ls3AAt3;i'
 export const ADDRESSES = ['NRwXs5yZRMuuXUo7AqvetHQ4GDHe3pV7Mb', 'NcuusM86eJ1u1FKxh2qUUpfsQ1kgjZqNrf']
 
-export const BLOCKCHAINS = ['neo3', 'neoLegacy', 'ethereum', 'neox', 'polygon', 'base', 'arbitrum', 'solana']
-
 let electronApp: ElectronApplication
 
 const filePath = resolve('./tests/e2e/files')
@@ -47,12 +45,19 @@ export const createNewWallet = async (window: Page) => {
   await window.getByTestId('security-setup-browse-button').click()
   await window.getByTestId('security-setup-second-submit').click()
 
-  for (const blockchain of BLOCKCHAINS.filter(blockchain => blockchain !== 'neo3')) {
-    await window.getByTestId(`blockchain-selection-item-${blockchain}`).click()
-  }
-  await window.getByTestId('blockchain-selection-submit').click()
+  // Wait the modal
+  await sleep(1)
 
+  const blockchains = await window.getByTestId('blockchains-list').locator('> li > label').all()
+
+  // Remove the first (Neo 3), because it's already selected
+  for (const blockchain of blockchains.slice(1)) {
+    await blockchain.click()
+  }
+
+  await window.getByTestId('blockchain-selection-submit').click()
   await window.getByTestId('security-setup-open-your-wallet').click()
+
   await sleep(1)
 }
 

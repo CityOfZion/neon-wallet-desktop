@@ -14,10 +14,10 @@
     "title": "所有账户"
   },
   "blockchainSelect": {
-    "placeholder": "请选择区块链..."
+    "placeholder": "请选择区块链…"
   },
   "blockchainSelection": {
-    "search": "搜索..."
+    "search": "搜索…"
   },
   "calendar": {
     "nextYearButtonLabel": "前往后 {{years}} 年",
@@ -84,7 +84,7 @@
   },
   "greyAccountSelect": {
     "empty": "没有账户",
-    "placeholder": "请选择账户..."
+    "placeholder": "请选择账户…"
   },
   "greyAmountInput": {
     "maxButtonLabel": "最大",
@@ -92,7 +92,7 @@
   },
   "greyTokenSelect": {
     "empty": "没有代币",
-    "placeholder": "请选择代币..."
+    "placeholder": "请选择代币…"
   },
   "migrateSteps": {
     "inNeon2": {
@@ -142,7 +142,7 @@
   },
   "temporaryLimitsBox": {
     "description": "使用此登录方式将限制访问某些关键功能：",
-    "limits": ["备份和恢复", "钱包自定义", "导入/导出功能", "创建新钱包", "以及其他功能..."]
+    "limits": ["备份和恢复", "钱包自定义", "导入/导出功能", "创建新钱包", "以及其他功能…"]
   },
   "tokenBalance": {
     "price": "价格",
@@ -210,7 +210,7 @@
     "saveButtonLabel": "保存"
   },
   "walletsSelect": {
-    "placeholder": "请选择钱包...",
+    "placeholder": "请选择钱包…",
     "title": "钱包"
   }
 }

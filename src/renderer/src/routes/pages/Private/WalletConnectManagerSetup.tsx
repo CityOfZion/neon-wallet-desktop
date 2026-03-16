@@ -8,8 +8,8 @@ import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { WalletKitHelper } from '@renderer/helpers/WalletKitHelper'
 
-import { useAccountMapSelector } from '@renderer/hooks/useAccountSelector'
-import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
+import { useAccountsMapSelector } from '@renderer/hooks/useAccountSelector'
+import { useLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useMountUnsafe } from '@renderer/hooks/useMount'
 
@@ -18,8 +18,8 @@ import { AppError } from '@shared/helpers/SharedErrorHelper'
 
 export const WalletConnectManagerSetup = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'private.walletConnectManagerSetup' })
-  const { accountsMapRef } = useAccountMapSelector()
-  const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
+  const { accountsMapRef } = useAccountsMapSelector()
+  const { loginSessionRef } = useLoginSessionSelector()
   const { modalNavigate, modalErase } = useModalNavigate()
 
   useMountUnsafe(async () => {
@@ -50,7 +50,7 @@ export const WalletConnectManagerSetup = () => {
         try {
           const key = await window.api.sendAsync('encryption:decryptBasedEncryptedSecret', {
             value: sessionAccount!.encryptedKey!,
-            encryptedSecret: currentLoginSessionRef.current!.encryptedPassword,
+            encryptedSecret: loginSessionRef.current!.encryptedPassword,
           })
 
           const serviceAccount = await AccountHelper.getServiceAccount({ account: sessionAccount!, key })

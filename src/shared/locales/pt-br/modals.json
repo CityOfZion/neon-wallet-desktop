@@ -32,13 +32,13 @@
       "invalidURL": "URL inválida",
       "networkNameIsRequired": "Nome da rede é obrigatório",
       "networkNameIsTooLong": "Nome da rede é muito longo",
-      "notConnect": "Não é possível conectar a este nó"
+      "notConnect": "Não é possível conectar a esta rede"
     },
     "nameLabel": "Nome da rede",
     "namePlaceholder": "Digite o nome da rede",
-    "successUrl": "Conectado com sucesso ao nó",
+    "successUrl": "Conectado com sucesso à rede",
     "title": "Adicionar rede personalizada",
-    "urlLabel": "URL RPC",
+    "urlLabel": "URL",
     "urlPlaceholder": "Exemplo: 'http://127.0.0.1:50012"
   },
   "addNetworkProfile": {
@@ -509,21 +509,21 @@
     "toDetailsPanelLabel": "Para",
     "toTokenDetailsItemLabel": "Token"
   },
-  "networkNodeSelection": {
-    "antiMevLabel": "Anti-MEV",
-    "blockHeight": "Altura do bloco: {{height}}",
-    "description": "Se você estiver tendo problemas de desempenho, tente selecionar um nó personalizado abaixo",
-    "latency": "{{latency}}ms",
-    "listLabel": "LISTA DE NÓS",
-    "refreshButtonLabel": "Atualizar",
-    "selectAutomaticallyLabel": "Selecionar automaticamente",
-    "title": "Seleção de Nó"
-  },
   "networkSelection": {
     "addCustomNetworkButtonLabel": "Adicionar rede personalizada",
     "editCustomNetworkButtonLabel": "Editar rede personalizada",
     "selectNetwork": "Selecionar uma rede",
     "title": "Rede"
+  },
+  "networkUrlSelection": {
+    "antiMevLabel": "Anti-MEV",
+    "blockHeight": "Altura do bloco: {{height}}",
+    "description": "Se você estiver tendo problemas de desempenho, tente selecionar uma rede personalizada abaixo",
+    "latency": "{{latency}}ms",
+    "listLabel": "Lista de URLs de rede",
+    "refreshButtonLabel": "Atualizar",
+    "selectAutomaticallyLabel": "Selecionar automaticamente",
+    "title": "Seleção de URL de rede"
   },
   "nftSelection": {
     "description": "Por favor, selecione qual imagem você gostaria de usar para este cartão de conta.",
@@ -666,10 +666,6 @@
     "success": {
       "amount": "Quantidade",
       "details": "Detalhes da transação",
-      "labels": {
-        "copyAddress": "Copiar endereço",
-        "copyTransactionHash": "Copiar hash da transação"
-      },
       "recipient": "Destinatário",
       "section": "Transação",
       "subtitle": "Seu depósito foi bem-sucedido",

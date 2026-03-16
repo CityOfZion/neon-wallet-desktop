@@ -21,7 +21,7 @@ export const useNfts = (account: IAccountState) => {
 
       return await blockchainService.nftDataService.getNftsByAddress({
         address: account.address,
-        cursor: pageParam,
+        nextPageParams: pageParam,
       })
     },
     initialPageParam: undefined as string | undefined,

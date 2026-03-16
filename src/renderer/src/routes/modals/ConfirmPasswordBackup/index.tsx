@@ -11,7 +11,7 @@ import { AnalyticsHelper } from '@renderer/helpers/AnalyticsHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 
 import { useActions } from '@renderer/hooks/useActions'
-import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
+import { useLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useNeonCreateBackup } from '@renderer/hooks/useNeonBackup'
 
@@ -40,7 +40,7 @@ const SuccessFooter = () => {
 }
 
 const ConfirmPasswordBackupModal = () => {
-  const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
+  const { loginSessionRef } = useLoginSessionSelector()
   const { t } = useTranslation('modals', { keyPrefix: 'confirmPasswordBackup' })
   const { t: tCommon } = useTranslation('common')
   const { selectedFilePath } = useModalState<TModalState<'confirm-password-backup'>>()
@@ -52,11 +52,11 @@ const ConfirmPasswordBackupModal = () => {
   })
 
   const handleSubmit = async ({ password }: TFormData) => {
-    if (!currentLoginSessionRef.current) {
+    if (!loginSessionRef.current) {
       throw new AppError(tCommon('errors.loginSessionIsNotDefined'))
     }
 
-    const encryptedPassword = currentLoginSessionRef.current.encryptedPassword
+    const encryptedPassword = loginSessionRef.current.encryptedPassword
 
     const decryptedPassword = await window.api.sendAsync('encryption:decryptBasedOS', encryptedPassword)
 

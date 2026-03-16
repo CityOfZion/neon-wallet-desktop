@@ -244,7 +244,7 @@ const ExportFullTransactionsModal = () => {
                 label={t('form.selectedFolderPathInputLabel')}
                 compacted
                 readOnly
-                value={actionData.selectedFolderPath ?? ''}
+                value={actionData.selectedFolderPath || ''}
               />
               <Button type="button" label={t('form.browseButtonLabel')} flat wide onClick={handleBrowse} />
             </div>

@@ -15,8 +15,8 @@ export type TApplicationDataByLoginType = {
 }
 
 export interface IAuthReducer {
-  inMemoryData: {
-    currentLoginSession?: TLoginSession
+  memoryData: {
+    loginSession?: TLoginSession
   }
   data: {
     applicationDataByLoginType: TApplicationDataByLoginType
@@ -29,8 +29,8 @@ export function getAuthReducer() {
   const authMigrations = getAuthMigrations()
 
   const authReducerInitialState: IAuthReducer = {
-    inMemoryData: {
-      currentLoginSession: undefined,
+    memoryData: {
+      loginSession: undefined,
     },
     data: {
       applicationDataByLoginType: {
@@ -43,8 +43,8 @@ export function getAuthReducer() {
 
   const authReducerConfig: PersistConfig<IAuthReducer> = {
     key: 'authReducer',
-    storage: storage,
-    blacklist: ['inMemoryData'],
+    storage,
+    blacklist: ['memoryData'],
     version: 7,
     migrate: createMigrate(authMigrations),
     // It is necessary to check if the stored state is empty, because the redux-persist library does not call the migrate function when the state is empty

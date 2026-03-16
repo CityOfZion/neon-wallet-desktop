@@ -21,9 +21,7 @@ export const RefreshAction = () => {
       {lastUpdated && (
         <p className="text-xs text-gray-300 italic">
           {t('lastUpdated', {
-            date: isRefetching
-              ? t('emptyDate')
-              : DateHelper.formatLocalized(new Date(lastUpdated), { language, format: 'p' }),
+            date: isRefetching ? t('emptyDate') : DateHelper.formatLocalized(lastUpdated, { language, format: 'p' }),
           })}
         </p>
       )}

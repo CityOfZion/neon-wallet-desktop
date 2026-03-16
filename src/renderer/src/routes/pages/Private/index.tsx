@@ -5,7 +5,7 @@ import { Navigate, useLocation, useMatch, useOutlet } from 'react-router'
 
 import { LazyHelper } from '@renderer/helpers/LazyHelper'
 
-import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
+import { useLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useShowSideBarSelector } from '@renderer/hooks/useSettingsSelector'
 
 import { Sidebar } from './Sidebar'
@@ -19,14 +19,13 @@ const AccountTasksManagerSetup = LazyHelper.delayedLazy(() => import('./AccountT
 const WalletTasksManagerSetup = LazyHelper.delayedLazy(() => import('./WalletTasksManagerSetup'), 15000)
 
 const PrivatePage = () => {
-  const { currentLoginSession } = useCurrentLoginSessionSelector()
+  const { loginSession } = useLoginSessionSelector()
   const { showSideBar } = useShowSideBarSelector()
   const location = useLocation()
   const outlet = useOutlet()
-
   const match = useMatch('/:rootPath/*')
 
-  if (!currentLoginSession) {
+  if (!loginSession) {
     return <Navigate to="/login/password" state={{ from: location.pathname }} />
   }
 

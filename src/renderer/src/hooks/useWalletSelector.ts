@@ -3,27 +3,28 @@ import { useCallback, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 
+import { SelectorHelper } from '@renderer/helpers/SelectorHelper'
+
 import type { TRootState } from '@renderer/types/redux'
 import { AppError } from '@shared/helpers/SharedErrorHelper'
 import type { IWalletState } from '@shared/types/store'
 
-import { useCurrentLoginSessionSelector } from './useAuthSelector'
+import { useLoginSessionSelector } from './useAuthSelector'
 import { createAppSelector, useAppSelector } from './useRedux'
 
 const selectWallets = createAppSelector(
-  [state => state.auth.data.applicationDataByLoginType, state => state.auth.inMemoryData.currentLoginSession],
-  (applicationDataByLoginType, currentLoginSession) => {
-    return applicationDataByLoginType[currentLoginSession?.type ?? 'password'].wallets
+  [state => state.auth.data.applicationDataByLoginType, state => state.auth.memoryData.loginSession],
+  (applicationDataByLoginType, loginSession) => {
+    if (!loginSession?.type) return SelectorHelper.fallbackToEmptyArray<IWalletState>()
+
+    return SelectorHelper.fallbackToEmptyArray<IWalletState>(applicationDataByLoginType[loginSession.type].wallets)
   }
 )
 
 export const useWalletsSelector = () => {
-  const { ref, value } = useAppSelector(selectWallets)
+  const { value, ref } = useAppSelector(selectWallets)
 
-  return {
-    wallets: value,
-    walletsRef: ref,
-  }
+  return { wallets: value, walletsRef: ref }
 }
 
 export const useWalletsMapSelector = () => {
@@ -45,11 +46,11 @@ export const useWalletsMapSelector = () => {
 export const useWalletsUtils = () => {
   const { t } = useTranslation('common')
   const { walletsRef } = useWalletsSelector()
-  const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
+  const { loginSessionRef } = useLoginSessionSelector()
 
   const doesMnemonicExist = useCallback(
     async (mnemonic: string) => {
-      if (!currentLoginSessionRef.current) {
+      if (!loginSessionRef.current) {
         throw new AppError(t('errors.loginSessionIsNotDefined'))
       }
 
@@ -58,7 +59,7 @@ export const useWalletsUtils = () => {
 
         const walletMnemonic = await window.api.sendAsync('encryption:decryptBasedEncryptedSecret', {
           value: wallet.encryptedMnemonic,
-          encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
+          encryptedSecret: loginSessionRef.current.encryptedPassword,
         })
 
         if (walletMnemonic === mnemonic) return true
@@ -66,10 +67,8 @@ export const useWalletsUtils = () => {
 
       return false
     },
-    [walletsRef, currentLoginSessionRef]
+    [loginSessionRef, t, walletsRef]
   )
 
-  return {
-    doesMnemonicExist,
-  }
+  return { doesMnemonicExist }
 }

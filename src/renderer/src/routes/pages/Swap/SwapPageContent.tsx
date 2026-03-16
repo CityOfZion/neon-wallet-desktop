@@ -34,7 +34,7 @@ import { ToastHelper } from '@renderer/helpers/ToastHelper'
 
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
-import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
+import { useLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useBalance } from '@renderer/hooks/useBalances'
 import { useConfirmAction } from '@renderer/hooks/useConfirmAction'
 import { useHasContactsByBlockchain } from '@renderer/hooks/useContactSelector'
@@ -86,7 +86,7 @@ export const SwapPageContent = ({ account }: TProps) => {
   const { t: tCommonGeneral } = useTranslation('common', { keyPrefix: 'general' })
   const { modalNavigateWrapper, modalNavigate } = useModalNavigate()
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
-  const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
+  const { loginSessionRef } = useLoginSessionSelector()
   const { accountsRef } = useAccountsSelector()
   const dispatch = useAppDispatch()
   const { confirmAction } = useConfirmAction()
@@ -155,7 +155,7 @@ export const SwapPageContent = ({ account }: TProps) => {
   const balanceQuery = useBalance(actionData.selectedAccountToUse.value ?? undefined)
 
   const errorMessage = useMemo(() => {
-    const message = actionState.errors.selectedAmountToUse ?? actionState.errors.fee ?? ''
+    const message = actionState.errors.selectedAmountToUse || actionState.errors.fee || ''
 
     if (message) return message
     if (isExtraIdToReceiveWrong) return t('form.errors.invalidExtraIdToReceive') as string
@@ -273,11 +273,11 @@ export const SwapPageContent = ({ account }: TProps) => {
   }
 
   const handleSelectAccountToUse = async (account: IAccountState) => {
-    if (!currentLoginSessionRef.current || !account.encryptedKey) return
+    if (!loginSessionRef.current || !account.encryptedKey) return
 
     const key = await window.api.sendAsync('encryption:decryptBasedEncryptedSecret', {
       value: account.encryptedKey,
-      encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
+      encryptedSecret: loginSessionRef.current.encryptedPassword,
     })
 
     const serviceAccount = await AccountHelper.getServiceAccount({ account, key })
@@ -343,18 +343,16 @@ export const SwapPageContent = ({ account }: TProps) => {
         fee: actionData.fee,
       }
 
-      const swapResponse = await swapOrchestratorRef.current.swap()
-      swapRecord.swapId = swapResponse.id
-      swapRecord.txFrom = swapResponse.txFrom
-      swapRecord.log = swapResponse.log
+      const { id, transaction, log } = await swapOrchestratorRef.current.swap()
+
+      swapRecord.swapId = id
+      swapRecord.txFrom = transaction?.txId
+      swapRecord.log = log
 
       dispatch(
         utilityReducerActions.persistSwapRecord({
           ...swapRecord,
-          swapId: swapResponse.id,
-          txFrom: swapResponse.txFrom,
-          log: swapResponse.log,
-          swapStatus: swapResponse.txFrom ? swapRecord.swapStatus : 'refunded',
+          swapStatus: swapRecord.txFrom ? swapRecord.swapStatus : 'refunded',
         })
       )
 
@@ -616,7 +614,7 @@ export const SwapPageContent = ({ account }: TProps) => {
               >
                 <div className="flex grow gap-3">
                   <Input
-                    value={actionData.selectedAddressToReceive.value ?? ''}
+                    value={actionData.selectedAddressToReceive.value || ''}
                     onChange={handleChangeAddressToReceive}
                     compacted
                     containerClassName="w-auto grow"
@@ -715,7 +713,7 @@ export const SwapPageContent = ({ account }: TProps) => {
                       contentClassName="px-4 h-9"
                       containerClassName="w-42"
                       error={actionData.selectedExtraIdToReceive.valid === false}
-                      value={actionData.selectedExtraIdToReceive.value ?? ''}
+                      value={actionData.selectedExtraIdToReceive.value || ''}
                       required
                       disabled={!actionData.selectedAccountToUse.value || isAddressesDisabled}
                       onChange={handleChangeExtraIdToReceive}
@@ -757,7 +755,7 @@ export const SwapPageContent = ({ account }: TProps) => {
                   >
                     <GreyAmountInput
                       ref={amountInputRef}
-                      value={actionData.selectedAmountToUse.value ?? ''}
+                      value={actionData.selectedAmountToUse.value || ''}
                       onChangeValue={handleChangeAmountToUse}
                       disabled={isAmountsDisabled}
                       loading={actionData.selectedAmountToUse.loading}
@@ -788,7 +786,7 @@ export const SwapPageContent = ({ account }: TProps) => {
                   disabled={isAmountsDisabled}
                   readOnly
                   className="bg-transparent"
-                  value={actionData.selectedAmountToReceive.value ?? ''}
+                  value={actionData.selectedAmountToReceive.value || ''}
                   loading={actionData.selectedAmountToReceive.loading}
                 />
               </ActionStep>

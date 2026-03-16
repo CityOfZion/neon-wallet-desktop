@@ -18,9 +18,9 @@ import {
   type TUseTransactionsQueryData,
   type TUseTransactionsTransaction,
 } from '@shared/types/hooks'
-import { IAccountState, type TAccountWithWallet, TSelectedNetworks } from '@shared/types/store'
+import { IAccountState, TSelectedNetworks } from '@shared/types/store'
 
-import { useAccountMapSelector } from './useAccountSelector'
+import { useAccountsMapSelector } from './useAccountSelector'
 import { useSelectedNetworkByBlockchainSelector } from './useSettingsSelector'
 import { useHiddenTokensByBlockchainSelector, usePendingTransactionsSelector } from './useUtilitySelector'
 
@@ -74,7 +74,7 @@ const fetchTransactions = async (
   dateFrom: Date,
   dateTo: Date,
   accounts: IAccountState[],
-  allAccountsMap: Map<string, TAccountWithWallet>,
+  accountsMap: Map<string, IAccountState>,
   networksByBlockchain: TSelectedNetworks,
   page: number,
   shouldUseFullTransactionsService: boolean
@@ -137,25 +137,37 @@ const fetchTransactions = async (
       queryDataNextPageParams = response.nextPageParams
 
       response.transactions.forEach(transaction => {
-        const events = transaction.events.map(({ from, to, ...event }) => ({
-          ...event,
-          from,
-          to,
-          fromAccount: from
-            ? allAccountsMap.get(SharedAccountHelper.buildAccountKey({ address: from, blockchain }))
-            : undefined,
-          toAccount: to
-            ? allAccountsMap.get(SharedAccountHelper.buildAccountKey({ address: to, blockchain }))
-            : undefined,
-        }))
+        const newTransaction = { ...transaction, account, blockchain, isPending: false }
 
-        queryDataTransactions.set(transaction.txId, {
-          ...transaction,
-          account,
-          blockchain,
-          isPending: false,
-          events,
-        })
+        if (newTransaction.view === 'utxo') {
+          newTransaction.inputs = newTransaction.inputs.map(({ address, ...input }) => ({
+            ...input,
+            account: address
+              ? accountsMap.get(SharedAccountHelper.buildAccountKey({ address, blockchain }))
+              : undefined,
+          }))
+
+          newTransaction.outputs = newTransaction.outputs.map(({ address, ...output }) => ({
+            ...output,
+            account: address
+              ? accountsMap.get(SharedAccountHelper.buildAccountKey({ address, blockchain }))
+              : undefined,
+          }))
+        } else {
+          newTransaction.events = newTransaction.events.map(({ from, to, ...event }) => ({
+            ...event,
+            from,
+            to,
+            fromAccount: from
+              ? accountsMap.get(SharedAccountHelper.buildAccountKey({ address: from, blockchain }))
+              : undefined,
+            toAccount: to
+              ? accountsMap.get(SharedAccountHelper.buildAccountKey({ address: to, blockchain }))
+              : undefined,
+          }))
+        }
+
+        queryDataTransactions.set(transaction.txId, newTransaction)
       })
     } catch {
       /* empty */
@@ -187,7 +199,7 @@ export const useTransactions = ({
   shouldUseFullTransactionsService,
 }: TUseTransactionsProps) => {
   const queryClient = useQueryClient()
-  const { accountsMapRef } = useAccountMapSelector()
+  const { accountsMapRef } = useAccountsMapSelector()
   const { networkByBlockchain: networksByBlockchain } = useSelectedNetworkByBlockchainSelector()
   const { pendingTransactions } = usePendingTransactionsSelector()
   const { hiddenTokensByBlockchain } = useHiddenTokensByBlockchainSelector()
@@ -253,10 +265,24 @@ export const useTransactions = ({
       const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[transaction.blockchain]
 
       if (!!hiddenTokens && hiddenTokens.length > 0) {
-        transaction.events = transaction.events.filter(event => {
-          if (event.eventType === 'nft') return true
-          return !hiddenTokens.includes(service.tokenService.normalizeHash(event.contractHash))
-        })
+        const isHiddenToken = (tokenHash: string) => {
+          return hiddenTokens.includes(service.tokenService.normalizeHash(tokenHash))
+        }
+
+        if (transaction.view === 'utxo') {
+          transaction.inputs = transaction.inputs.filter(({ token }) => !isHiddenToken(token.hash))
+          transaction.outputs = transaction.outputs.filter(({ token }) => !isHiddenToken(token.hash))
+        } else {
+          transaction.events = transaction.events.filter(event => {
+            if (event.eventType === 'nft') return true
+
+            const tokenHash = event.token?.hash
+
+            if (!tokenHash) return true
+
+            return !isHiddenToken(tokenHash)
+          })
+        }
       }
 
       const date = DateHelper.format(transaction.date, 'MM-dd-yyyy')
@@ -271,7 +297,7 @@ export const useTransactions = ({
     })
 
     return Array.from(groupedDataByDates.values())
-  }, [hiddenTokensByBlockchain, pendingTransactions, query.data, query.isLoading])
+  }, [accounts, dateFrom, dateTo, hiddenTokensByBlockchain, pendingTransactions, query.data, query.isLoading])
 
   return { ...query, data }
 }

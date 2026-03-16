@@ -25,6 +25,7 @@ const Content = ({ data }: TContentProps) =>
   ) : (
     data
   )
+
 export const TransactionActivityListEventColumn = ({ data, label, url, className }: TProps) => {
   const { eventColumnSize } = useTransactionActivityList()
 

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef } from 'react'
 
-import { BSBigNumberHelper, isCalculableFee, TIntentTransferParam } from '@cityofzion/blockchain-service'
-import { lte } from 'lodash'
+import { BSBigNumberHelper, isCalculableFee, TTransferIntent } from '@cityofzion/blockchain-service'
+import lte from 'lodash/lte'
 import { AnimatePresence, motion } from 'motion/react'
 import { useTranslation } from 'react-i18next'
 
@@ -24,9 +24,9 @@ import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { TransactionHelper } from '@renderer/helpers/TransactionHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
-import { useAccountMapSelector } from '@renderer/hooks/useAccountSelector'
+import { useAccountsMapSelector } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
-import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
+import { useLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useBalance } from '@renderer/hooks/useBalances'
 import { useConfirmAction } from '@renderer/hooks/useConfirmAction'
 import { useExchange } from '@renderer/hooks/useExchange'
@@ -43,7 +43,7 @@ import TbStepOut from '@renderer/assets/images/tb-step-out.svg?react'
 import { thunks } from '@renderer/store/thunks'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 import { AppError } from '@shared/helpers/SharedErrorHelper'
-import type { TUseTransactionsTransaction } from '@shared/types/hooks'
+import { TUseTransactionsTransaction } from '@shared/types/hooks'
 import { IAccountState } from '@shared/types/store'
 
 import { SendErrorModalContent } from './SendErrorModalContent'
@@ -73,8 +73,8 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
   const { t } = useTranslation('pages', { keyPrefix: 'send' })
   const { t: commonT } = useTranslation('common')
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
-  const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
-  const { accountsMapRef } = useAccountMapSelector()
+  const { loginSessionRef } = useLoginSessionSelector()
+  const { accountsMapRef } = useAccountsMapSelector()
   const { modalNavigate } = useModalNavigate()
   const { confirmAction } = useConfirmAction()
   const dispatch = useAppDispatch()
@@ -101,7 +101,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
     [actionData.selectedAccount]
   )
 
-  const tipConfig = useMemo(() => ConstantsHelper.tipConfigByBlockchain.get(service?.name ?? ''), [service])
+  const tipConfig = useMemo(() => ConstantsHelper.tipConfigByBlockchain.get(service?.name || ''), [service])
 
   const exchangeQuery = useExchange(
     service && tipConfig ? [{ blockchain: service.name, tokens: [tipConfig.token] }] : []
@@ -117,7 +117,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
 
   const getSendFields = async () => {
     if (
-      !currentLoginSessionRef.current ||
+      !loginSessionRef.current ||
       !actionData.selectedAccount ||
       !actionData.selectedAccount.encryptedKey ||
       !service ||
@@ -127,7 +127,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
     )
       return
 
-    const intents: TIntentTransferParam[] = actionData.recipients.map(recipient => ({
+    const intents: TTransferIntent[] = actionData.recipients.map(recipient => ({
       amount: recipient.amount!,
       receiverAddress: recipient.address!,
       token: recipient.token!.token,
@@ -144,7 +144,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
 
     const key = window.api.sendSync('encryption:decryptBasedEncryptedSecretSync', {
       value: actionData.selectedAccount.encryptedKey,
-      encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
+      encryptedSecret: loginSessionRef.current.encryptedPassword,
     })
 
     const serviceAccount = await AccountHelper.getServiceAccount({ account: actionData.selectedAccount, key })
@@ -180,7 +180,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
       const amountBn = BSBigNumberHelper.fromNumber(recipient.amount)
 
       const tokenBalance = balanceQuery.data?.tokensBalances?.find(tokenBalance =>
-        service?.tokenService?.predicateByHash(recipient.token?.token?.hash ?? '', tokenBalance.token)
+        service?.tokenService?.predicateByHash(recipient.token?.token?.hash || '', tokenBalance.token)
       )
 
       if (!tokenBalance || amountBn.isGreaterThan(tokenBalance.amount)) {
@@ -228,7 +228,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
   const handleMaxAmount = async (recipient: TSendRecipient) => {
     const { selectedAccount } = actionData
     const encryptedKey = selectedAccount?.encryptedKey
-    const encryptedPassword = currentLoginSessionRef.current?.encryptedPassword
+    const encryptedPassword = loginSessionRef.current?.encryptedPassword
     const decimals = recipient.token?.token?.decimals
 
     if (
@@ -253,7 +253,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
       handleUpdateRecipientAmount(
         recipient.id,
         BSBigNumberHelper.fromNumber(recipient.token.amount)
-          .minus(actionData.fee ?? '0')
+          .minus(actionData.fee || '0')
           .toNumber(),
         decimals
       )
@@ -275,7 +275,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
 
           return { receiverAddress, token, amount }
         })
-        .filter(recipient => recipient !== null) as TIntentTransferParam[]
+        .filter(recipient => recipient !== null) as TTransferIntent[]
 
       const key = await window.api.sendAsync('encryption:decryptBasedEncryptedSecret', {
         value: encryptedKey,
@@ -323,74 +323,59 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
     try {
       await confirmAction({ account })
 
-      const transactionHashes = await fields.service.transfer({
-        senderAccount: fields.serviceAccount,
-        intents: fields.intents,
-      })
+      const { intents, service } = fields
+      const transactions = await service.transfer({ senderAccount: fields.serviceAccount, intents })
+      const pendingTransactions: TUseTransactionsTransaction[] = []
+      const blockchain = service.name
+      const notificationPrefix = 'pages:send'
+      const notificationSuccessPrefix = `${notificationPrefix}.successNotification`
+      const notificationFailurePrefix = `${notificationPrefix}.failureNotification`
 
-      const transactions: TUseTransactionsTransaction[] = []
+      const waitTransactionParams = {
+        successNotification: {
+          title: `${notificationSuccessPrefix}.title`,
+          previewBody: `${notificationSuccessPrefix}.previewBody`,
+        },
+        failureNotification: {
+          title: `${notificationFailurePrefix}.title`,
+          previewBody: `${notificationFailurePrefix}.previewBody`,
+        },
+      }
 
-      if (fields.service.isMultiTransferSupported) {
-        transactions.push(
-          TransactionHelper.buildPendingTransaction({
-            fromAccount: fields.selectedAccount,
-            txId: transactionHashes[0],
-            events: fields.intents.map(intent => ({
-              amount: intent.amount,
-              toAddress: intent.receiverAddress,
-              token: intent.token,
-              toAccount: accountsMapRef.current.get(
-                SharedAccountHelper.buildAccountKey({
-                  address: intent.receiverAddress,
-                  blockchain: fields.service.name,
-                })
-              ),
-            })),
-          })
+      if (service.isMultiTransferSupported) {
+        const receiverAccounts = intents.map(({ receiverAddress }) =>
+          accountsMapRef.current.get(SharedAccountHelper.buildAccountKey({ address: receiverAddress, blockchain }))
         )
+
+        const pendingTransaction = TransactionHelper.buildPendingTransaction({
+          transaction: transactions[0],
+          account,
+          senderAccount: account,
+          receiverAccounts,
+        })
+
+        pendingTransactions.push(pendingTransaction)
       } else {
-        transactionHashes.forEach((txId, index) => {
-          if (!txId) return
-
-          const intent = fields.intents[index]
-
-          transactions.push(
-            TransactionHelper.buildPendingTransaction({
-              fromAccount: fields.selectedAccount,
-              txId,
-              events: [
-                {
-                  amount: intent.amount,
-                  toAddress: intent.receiverAddress,
-                  token: intent.token,
-                  toAccount: accountsMapRef.current.get(
-                    SharedAccountHelper.buildAccountKey({
-                      address: intent.receiverAddress,
-                      blockchain: fields.service.name,
-                    })
-                  ),
-                },
-              ],
-            })
+        transactions.forEach((transaction, index) => {
+          const intent = intents[index]
+          const receiverAccount = accountsMapRef.current.get(
+            SharedAccountHelper.buildAccountKey({ address: intent?.receiverAddress, blockchain })
           )
+
+          const pendingTransaction = TransactionHelper.buildPendingTransaction({
+            transaction,
+            account,
+            senderAccount: account,
+            receiverAccounts: receiverAccount ? [receiverAccount] : undefined,
+          })
+
+          pendingTransactions.push(pendingTransaction)
         })
       }
 
-      transactions.forEach(transaction => {
-        dispatch(
-          thunks.waitTransaction({
-            transaction,
-            successNotification: {
-              title: 'pages:send.successNotification.title',
-              previewBody: 'pages:send.successNotification.previewBody',
-            },
-            failureNotification: {
-              title: 'pages:send.failureNotification.title',
-              previewBody: 'pages:send.failureNotification.previewBody',
-            },
-          })
-        )
-      })
+      pendingTransactions.forEach(pendingTransaction =>
+        dispatch(thunks.waitPendingTransaction({ ...waitTransactionParams, pendingTransaction }))
+      )
 
       AnalyticsHelper.logEvent('transaction_executed')
 
@@ -403,7 +388,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
           heading: t('title'),
           headingIcon: <TbStepOut aria-hidden />,
           subtitle: t('sendSuccess.title'),
-          content: <SendSuccessModalContent transactions={transactions} selectedAccount={fields.selectedAccount} />,
+          content: <SendSuccessModalContent transactions={pendingTransactions} account={account} />,
         },
         replace: true,
       })
@@ -464,7 +449,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
         const feeBalance =
           balanceQuery.data?.tokensBalances?.find(({ token }) =>
             fields.service.tokenService.predicateByHash(fields.service.feeToken, token)
-          )?.amount ?? '0'
+          )?.amount || '0'
 
         if (totalFeeAmountBn.isGreaterThan(feeBalance)) {
           setError('fee', t('errors.insufficientFunds'))
@@ -684,7 +669,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
 
         {(!service || (service && isCalculableFee(service))) && (
           <TransactionFeeActionStep
-            fee={actionData.fee ?? '0'}
+            fee={actionData.fee || '0'}
             isCalculatingFee={actionData.isCalculatingFee}
             service={service}
             className="min-h-auto"
@@ -707,7 +692,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
         {(actionState.errors.fee || actionState.errors.selectedAccount) && (
           <AlertErrorBanner
             className="mt-2 w-full"
-            message={actionState.errors.fee || actionState.errors.selectedAccount || ''}
+            message={(actionState.errors.fee || actionState.errors.selectedAccount)!}
           />
         )}
 

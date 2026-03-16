@@ -1,4 +1,4 @@
-import { isCalculableFee, isClaimable } from '@cityofzion/blockchain-service'
+import { isClaimable } from '@cityofzion/blockchain-service'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
@@ -14,7 +14,7 @@ import { TNetwork } from '@shared/types/blockchain'
 import { TUseUnclaimedResult } from '@shared/types/query'
 import { IAccountState } from '@shared/types/store'
 
-import { useCurrentLoginSessionSelector } from './useAuthSelector'
+import { useLoginSessionSelector } from './useAuthSelector'
 import { useAppDispatch } from './useRedux'
 import { useSelectedNetworkByBlockchainSelector } from './useSettingsSelector'
 import { useHasClaimPendingTransactionSelector } from './useUtilitySelector'
@@ -45,7 +45,7 @@ const getUnclaimedInfos = async (
 
   let fee = '0'
 
-  if (account.type !== 'watch' && !!account.encryptedKey && isCalculableFee(service) && unclaimedNumber > 0) {
+  if (account.type !== 'watch' && !!account.encryptedKey && unclaimedNumber > 0) {
     const key = await window.api.sendAsync('encryption:decryptBasedEncryptedSecret', {
       value: account.encryptedKey,
       encryptedSecret: encryptedPassword,
@@ -53,23 +53,18 @@ const getUnclaimedInfos = async (
 
     const serviceAccount = await AccountHelper.getServiceAccount({ account, key })
 
-    fee = await service.calculateTransferFee({
-      intents: [
-        {
-          amount: '0',
-          receiverAddress: account.address,
-          token: service.burnToken,
-        },
-      ],
-      senderAccount: serviceAccount,
-    })
+    try {
+      fee = await service.calculateClaimFee(serviceAccount)
+    } catch {
+      /* empty */
+    }
   }
 
   return { unclaimed, unclaimedNumber, fee, feeNumber: parseFloat(fee) }
 }
 
 export const useUnclaimed = (account: IAccountState) => {
-  const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
+  const { loginSessionRef } = useLoginSessionSelector()
   const { hasClaimPendingTransactionRef } = useHasClaimPendingTransactionSelector(account)
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
 
@@ -82,20 +77,20 @@ export const useUnclaimed = (account: IAccountState) => {
       null,
       account,
       hasClaimPendingTransactionRef.current,
-      currentLoginSessionRef.current?.encryptedPassword
+      loginSessionRef.current?.encryptedPassword
     ),
   })
 }
 
 export const useUnclaimedMutation = () => {
-  const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
+  const { loginSessionRef } = useLoginSessionSelector()
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
   const queryClient = useQueryClient()
   const dispatch = useAppDispatch()
 
   return useMutation({
     mutationFn: async (account: IAccountState) => {
-      if (!currentLoginSessionRef.current) {
+      if (!loginSessionRef.current) {
         throw new AppError(t('common:errors.loginSessionIsNotDefined'))
       }
 
@@ -110,37 +105,33 @@ export const useUnclaimedMutation = () => {
 
       const key = await window.api.sendAsync('encryption:decryptBasedEncryptedSecret', {
         value: account.encryptedKey,
-        encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
+        encryptedSecret: loginSessionRef.current.encryptedPassword,
       })
 
       const serviceAccount = await AccountHelper.getServiceAccount({ account, key })
-      const txId = await service.claim(serviceAccount)
-      const token = service.burnToken
+      const transaction = await service.claim(serviceAccount)
 
-      const transaction = TransactionHelper.buildPendingTransaction({
-        fromAccount: account,
-        txId,
-        events: [
-          {
-            toAccount: account,
-            token,
-            amount: '0',
-            toAddress: account.address,
-          },
-        ],
-        type: 'claim',
+      const pendingTransaction = TransactionHelper.buildPendingTransaction({
+        transaction,
+        account,
+        senderAccount: account,
+        receiverAccounts: [account],
       })
 
+      const notificationPrefix = 'hooks:useUnclaimedMutation'
+      const notificationSuccessPrefix = `${notificationPrefix}.successNotification`
+      const notificationFailurePrefix = `${notificationPrefix}.failureNotification`
+
       dispatch(
-        thunks.waitTransaction({
-          transaction,
+        thunks.waitPendingTransaction({
+          pendingTransaction,
           successNotification: {
-            title: 'hooks:useUnclaimedMutation.successNotification.title',
-            previewBody: 'hooks:useUnclaimedMutation.successNotification.previewBody',
+            title: `${notificationSuccessPrefix}.title`,
+            previewBody: `${notificationSuccessPrefix}.previewBody`,
           },
           failureNotification: {
-            title: 'hooks:useUnclaimedMutation.failureNotification.title',
-            previewBody: 'hooks:useUnclaimedMutation.failureNotification.previewBody',
+            title: `${notificationFailurePrefix}.title`,
+            previewBody: `${notificationFailurePrefix}.previewBody`,
           },
         })
       )

@@ -11,7 +11,7 @@ import { getUtilityMigrations } from './migrations'
 import { utilitySliceReducers } from './reducers'
 
 export interface IUtilityReducer {
-  inMemoryData: {
+  memoryData: {
     pendingTransactions: TUseTransactionsTransaction[]
   }
   data: {
@@ -28,7 +28,7 @@ export function getUtilityReducer() {
   const utilityMigrations = getUtilityMigrations()
 
   const utilityReducerInitialState: IUtilityReducer = {
-    inMemoryData: {
+    memoryData: {
       pendingTransactions: [],
     },
     data: {
@@ -43,7 +43,7 @@ export function getUtilityReducer() {
     key: 'utilityReducer',
     storage,
     timeout: 0,
-    blacklist: ['inMemoryData'],
+    blacklist: ['memoryData'],
     version: 2,
     migrate: createMigrate(utilityMigrations),
     getStoredState: async (config: any) => {

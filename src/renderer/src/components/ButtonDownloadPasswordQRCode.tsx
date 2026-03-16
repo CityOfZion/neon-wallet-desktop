@@ -1,11 +1,11 @@
-import { Fragment, type JSX, useCallback, useEffect, useState } from 'react'
+import { ComponentProps, Fragment, type JSX, useCallback, useEffect, useState } from 'react'
 
 import { QRCodeSVG } from 'qrcode.react'
 import { useTranslation } from 'react-i18next'
 
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
-import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
+import { useLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 
 import MdDownload from '@renderer/assets/images/md-download.svg?react'
 
@@ -17,10 +17,10 @@ type TProps = {
   variant?: 'outlined' | 'contained' | 'text' | 'text-slim'
   onDownload?: () => void
   loading?: boolean
-} & React.ComponentProps<'button'>
+} & ComponentProps<'button'>
 
 export const ButtonDownloadPasswordQRCode = ({ label, variant, leftIcon, onDownload, loading, ...props }: TProps) => {
-  const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
+  const { loginSessionRef } = useLoginSessionSelector()
   const { t } = useTranslation('common', { keyPrefix: 'general' })
   const [decryptedPassword, setDecryptedPassword] = useState<string>('')
 
@@ -33,10 +33,11 @@ export const ButtonDownloadPasswordQRCode = ({ label, variant, leftIcon, onDownl
   const decryptPassword = useCallback(async () => {
     const result = await window.api.sendAsync(
       'encryption:decryptBasedOS',
-      currentLoginSessionRef.current?.encryptedPassword ?? ''
+      loginSessionRef.current?.encryptedPassword || ''
     )
+
     setDecryptedPassword(result)
-  }, [currentLoginSessionRef])
+  }, [loginSessionRef])
 
   useEffect(() => {
     decryptPassword()
@@ -49,7 +50,7 @@ export const ButtonDownloadPasswordQRCode = ({ label, variant, leftIcon, onDownl
       )}
       <Button
         label={label ? label : t('downloadQRCodePassword')}
-        leftIcon={leftIcon ? leftIcon : <MdDownload />}
+        leftIcon={leftIcon ? leftIcon : <MdDownload aria-hidden />}
         variant={variant ? variant : 'outlined'}
         className={props.className}
         iconsOnEdge={false}

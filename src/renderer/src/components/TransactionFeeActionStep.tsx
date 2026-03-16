@@ -39,6 +39,7 @@ export const TransactionFeeActionStep = ({
   fiatClassName,
 }: TProps) => {
   const { t } = useTranslation('components', { keyPrefix: 'transactionFeeActionStep' })
+  const { t: tCommonBlockchain } = useTranslation('common', { keyPrefix: 'blockchain' })
   const { currency } = useCurrencySelector()
 
   const exchange = useExchange(service ? [{ blockchain: service.name, tokens: [service.feeToken] }] : [])
@@ -57,15 +58,16 @@ export const TransactionFeeActionStep = ({
       className={StyleHelper.mergeStyles('mt-2 min-h-11 rounded-sm bg-gray-700/60 px-4 font-bold', className)}
       titleClassName={StyleHelper.mergeStyles('whitespace-nowrap mr-3 overflow-visible!', titleClassName)}
       headerClassName="gap-4"
+      containerClassName="gap-2"
       defaultHeight="auto"
     >
       {isCalculatingFee ? (
-        <Loader className="h-4 w-4" containerClassName="w-min items-center" />
+        <Loader className="size-4" containerClassName="w-min items-center" />
       ) : (
         <div className={StyleHelper.mergeStyles('flex items-center gap-3 text-sm', textClassName)}>
           <span className="mt-0.5 text-right leading-4 font-normal uppercase">
-            {(!service ? '' : fee) ?? '0.00'} {service?.feeToken.symbol}{' '}
-            {service ? <span className="text-gray-100">| {service.name}</span> : null}
+            {(!service ? '' : fee) || '0.00'} {service?.feeToken.symbol}{' '}
+            {service ? <span className="text-gray-100">| {tCommonBlockchain(service.name)}</span> : null}
           </span>
 
           <span className={StyleHelper.mergeStyles('whitespace-nowrap text-white', fiatClassName)}>

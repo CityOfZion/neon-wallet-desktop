@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useMemo } from 'react'
 
-import { BSBigNumberHelper, isCalculableFee, TBSToken, TIntentTransferParam } from '@cityofzion/blockchain-service'
+import { BSBigNumberHelper, isCalculableFee, TBSToken, TTransferIntent } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
 
 import { ActionStep } from '@renderer/components/ActionStep'
@@ -23,9 +23,9 @@ import { StringHelper } from '@renderer/helpers/StringHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { TransactionHelper } from '@renderer/helpers/TransactionHelper'
 
-import { useAccountMapSelector } from '@renderer/hooks/useAccountSelector'
+import { useAccountsMapSelector } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
-import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
+import { useLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useBalance } from '@renderer/hooks/useBalances'
 import { useConfirmAction } from '@renderer/hooks/useConfirmAction'
 import { useDebounceFunction } from '@renderer/hooks/useDebounceFunction'
@@ -52,8 +52,8 @@ import { SellTokensDepositSuccessContent } from './SellTokensDepositSuccessConte
 
 const SellTokensDepositModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'sellTokensDeposit' })
-  const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
-  const { accountsMapRef } = useAccountMapSelector()
+  const { loginSessionRef } = useLoginSessionSelector()
+  const { accountsMapRef } = useAccountsMapSelector()
   const { modalNavigate } = useModalNavigate()
   const { currency } = useCurrencySelector()
   const { account, depositActionsData, setDepositActionsData } = useModalState<TModalState<'sell-tokens-deposit'>>()
@@ -107,11 +107,11 @@ const SellTokensDepositModal = () => {
     const { account, address, isAmountLoading } = actionData
     const token = actionData.token?.token
     const amount = actionData.amount
-    const encryptedPassword = currentLoginSessionRef.current?.encryptedPassword
+    const encryptedPassword = loginSessionRef.current?.encryptedPassword
 
     if (!encryptedPassword || isInvalidForm || !account || isAmountLoading || !amount || !token) return
 
-    const intent: TIntentTransferParam = {
+    const intent: TTransferIntent = {
       amount,
       receiverAddress: address,
       token,
@@ -182,43 +182,41 @@ const SellTokensDepositModal = () => {
     try {
       await confirmAction({ account })
 
-      const { serviceAccount, intent, address, amount, token } = transferParams
+      const { serviceAccount, intent, address } = transferParams
 
-      const [transactionHash] = await service.transfer({
+      const [transaction] = await service.transfer({
         senderAccount: serviceAccount,
         intents: [intent],
       })
 
-      const toAccount = accountsMapRef.current.get(
+      const receiverAccount = accountsMapRef.current.get(
         SharedAccountHelper.buildAccountKey({
           address,
           blockchain: account.blockchain,
         })
       )
 
-      const transaction = TransactionHelper.buildPendingTransaction({
-        fromAccount: account,
-        txId: transactionHash,
-        events: [
-          {
-            amount,
-            toAccount: toAccount,
-            toAddress: address,
-            token,
-          },
-        ],
+      const pendingTransaction = TransactionHelper.buildPendingTransaction({
+        transaction,
+        account,
+        senderAccount: account,
+        receiverAccounts: receiverAccount ? [receiverAccount] : undefined,
       })
 
+      const notificationPrefix = 'modals:sellTokensDeposit'
+      const notificationSuccessPrefix = `${notificationPrefix}.successNotification`
+      const notificationFailurePrefix = `${notificationPrefix}.failureNotification`
+
       dispatch(
-        thunks.waitTransaction({
-          transaction,
+        thunks.waitPendingTransaction({
+          pendingTransaction,
           successNotification: {
-            title: 'modals:sellTokensDeposit.successNotification.title',
-            previewBody: 'modals:sellTokensDeposit.successNotification.previewBody',
+            title: `${notificationSuccessPrefix}.title`,
+            previewBody: `${notificationSuccessPrefix}.previewBody`,
           },
           failureNotification: {
-            title: 'modals:sellTokensDeposit.failureNotification.title',
-            previewBody: 'modals:sellTokensDeposit.failureNotification.previewBody',
+            title: `${notificationFailurePrefix}.title`,
+            previewBody: `${notificationFailurePrefix}.previewBody`,
           },
         })
       )
@@ -229,7 +227,7 @@ const SellTokensDepositModal = () => {
           heading: t('title'),
           subtitle: t('success.subtitle'),
           headingIcon: <TbStepInto aria-hidden />,
-          content: <SellTokensDepositSuccessContent transaction={transaction} />,
+          content: <SellTokensDepositSuccessContent transaction={pendingTransaction} />,
         },
       })
     } catch (error) {
@@ -423,7 +421,7 @@ const SellTokensDepositModal = () => {
                   className="w-full"
                   compacted
                   pastable
-                  value={actionData.address ?? ''}
+                  value={actionData.address || ''}
                   disabled={isRecipientDisabled}
                   errorMessage={actionState.errors.address}
                   onChange={handleChangeAddress}
@@ -467,7 +465,7 @@ const SellTokensDepositModal = () => {
             className="font-normal"
             titleClassName="text-sm font-semibold"
             fiatClassName="text-gray-300"
-            fee={actionData.fee ?? '0'}
+            fee={actionData.fee || '0'}
             isCalculatingFee={actionData.isFeeLoading}
             service={service}
           />
@@ -476,7 +474,7 @@ const SellTokensDepositModal = () => {
         {(actionState.errors.fee || actionState.errors.amount || actionState.errors.account) && (
           <AlertErrorBanner
             className="mt-2 w-full"
-            message={actionState.errors.fee || actionState.errors.amount || actionState.errors.account || ''}
+            message={(actionState.errors.fee || actionState.errors.amount || actionState.errors.account)!}
           />
         )}
 

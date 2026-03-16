@@ -42,7 +42,7 @@ export class BuyAndSellTokensHelper {
       lang: this.#lang,
       themeMode: this.#theme,
       hideBrand: String(this.#hideBrand),
-      wallet: account?.address ?? '',
+      wallet: account?.address || '',
     })
 
     return `${SharedEnvHelper.VITE_UNLIMIT_SELL_TOKENS_IFRAME_URL}?${params.toString()}`

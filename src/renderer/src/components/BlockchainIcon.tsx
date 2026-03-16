@@ -12,6 +12,11 @@ import BaseDefault from '@renderer/assets/blockchain/images/base_default.svg?rea
 import BaseGray from '@renderer/assets/blockchain/images/base_gray.svg?react'
 import BaseGreen from '@renderer/assets/blockchain/images/base_green.svg?react'
 import BaseWhite from '@renderer/assets/blockchain/images/base_white.svg?react'
+import BitcoinBlue from '@renderer/assets/blockchain/images/bitcoin_blue.svg?react'
+import BitcoinDefault from '@renderer/assets/blockchain/images/bitcoin_default.svg?react'
+import BitcoinGray from '@renderer/assets/blockchain/images/bitcoin_gray.svg?react'
+import BitcoinGreen from '@renderer/assets/blockchain/images/bitcoin_green.svg?react'
+import BitcoinWhite from '@renderer/assets/blockchain/images/bitcoin_white.svg?react'
 import EthereumBlue from '@renderer/assets/blockchain/images/ethereum_blue.svg?react'
 import EthereumDefault from '@renderer/assets/blockchain/images/ethereum_default.svg?react'
 import EthereumGray from '@renderer/assets/blockchain/images/ethereum_gray.svg?react'
@@ -62,6 +67,13 @@ export const ICONS_BY_BLOCKCHAIN: Record<
     white: NeoLegacyWhite,
     blue: NeoLegacyBlue,
     green: NeoLegacyGreen,
+  },
+  bitcoin: {
+    default: BitcoinDefault,
+    gray: BitcoinGray,
+    white: BitcoinWhite,
+    blue: BitcoinBlue,
+    green: BitcoinGreen,
   },
   ethereum: {
     default: EthereumDefault,

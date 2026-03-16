@@ -41,9 +41,7 @@ export const DappPermissionInvokeNeo3ContentInvocation = ({
       ? invocation.args[2].value
       : null
 
-  const getContractHashUrl = () => {
-    return service.explorerService.buildContractUrl(invocation.scriptHash) ?? ''
-  }
+  const contractHashUrl = service.explorerService.buildContractUrl(invocation.scriptHash)
 
   return (
     <Details.Root>
@@ -90,17 +88,19 @@ export const DappPermissionInvokeNeo3ContentInvocation = ({
         >
           <p className="truncate text-sm text-gray-100">{invocation.scriptHash}</p>
 
-          <Tooltip title={t('externalButtonLabel')}>
-            <IconLink
-              aria-label={t('externalButtonLabel')}
-              icon={<TbExternalLink aria-hidden className="text-neon" />}
-              to={getContractHashUrl()}
-              target="_blank"
-              rel="noopener noreferrer"
-              compacted
-              size="sm"
-            />
-          </Tooltip>
+          {contractHashUrl && (
+            <Tooltip title={t('externalButtonLabel')}>
+              <IconLink
+                aria-label={t('externalButtonLabel')}
+                icon={<TbExternalLink aria-hidden className="text-neon" />}
+                to={contractHashUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                compacted
+                size="sm"
+              />
+            </Tooltip>
+          )}
         </Details.Item>
 
         {amount && (

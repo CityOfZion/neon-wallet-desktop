@@ -69,7 +69,7 @@ export const ReceivePageContent = ({ account }: TProps) => {
             <Separator />
 
             <Input
-              value={selectedAccount?.address ?? ''}
+              value={selectedAccount?.address || ''}
               compacted
               containerClassName="px-10 mt-4"
               placeholder={t('addressInputHint')}
@@ -84,7 +84,13 @@ export const ReceivePageContent = ({ account }: TProps) => {
               })}
             >
               {selectedAccount?.address ? (
-                <QRCodeSVG id="QRCode" size={172} value={selectedAccount?.address} includeMargin />
+                <QRCodeSVG
+                  aria-label={selectedAccount.address}
+                  id="QRCode"
+                  size={172}
+                  value={selectedAccount.address}
+                  includeMargin
+                />
               ) : (
                 <TbQrcode aria-hidden className="size-35 text-green-700" />
               )}
@@ -96,7 +102,7 @@ export const ReceivePageContent = ({ account }: TProps) => {
       <Button
         className="w-[16rem]"
         label={!selectedAccount?.address ? t('sendQRCode') : t('downloadQRCode')}
-        leftIcon={!selectedAccount?.address ? <TbSend /> : <TbCopy />}
+        leftIcon={!selectedAccount?.address ? <TbSend aria-hidden /> : <TbCopy aria-hidden />}
         disabled={!selectedAccount?.address}
         onClick={handleDownload}
         iconsOnEdge={false}

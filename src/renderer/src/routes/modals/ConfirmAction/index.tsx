@@ -7,7 +7,7 @@ import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
 
 import { useActions } from '@renderer/hooks/useActions'
-import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
+import { useLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 
 import { SideModalLayout } from '@renderer/layouts/SideModal'
@@ -25,7 +25,7 @@ type TActionData = {
 const ConfirmActionModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'confirmAction' })
   const { t: tCommon } = useTranslation('common')
-  const { currentLoginSession } = useCurrentLoginSessionSelector()
+  const { loginSession } = useLoginSessionSelector()
   const { onSuccess, onCancel } = useModalState<TModalState<'confirm-action'>>()
   const { modalErase } = useModalNavigate()
 
@@ -33,15 +33,15 @@ const ConfirmActionModal = () => {
     password: '',
   })
 
-  const shouldPromptPassword = currentLoginSession?.type === 'password'
+  const shouldPromptPassword = loginSession?.type === 'password'
 
   const handleSubmit = async () => {
-    if (!currentLoginSession) {
+    if (!loginSession) {
       throw new AppError(tCommon('errors.loginSessionIsNotDefined'))
     }
 
     if (shouldPromptPassword) {
-      const encryptedPassword = currentLoginSession.encryptedPassword
+      const encryptedPassword = loginSession.encryptedPassword
       const decryptedPassword = await window.api.sendAsync('encryption:decryptBasedOS', encryptedPassword)
 
       if (actionData.password.length === 0 || actionData.password !== decryptedPassword) {

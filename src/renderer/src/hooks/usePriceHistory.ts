@@ -6,7 +6,7 @@ import { useCurrencyRatio } from '@renderer/hooks/useCurrencyRatio'
 
 import { TPriceHistory, TTokenBalance, TUsePriceHistoryResult } from '@shared/types/query'
 
-import { useCurrencySelector } from './useSettingsSelector'
+import { useCurrencySelector, useSelectedNetworkByBlockchainSelector } from './useSettingsSelector'
 
 const fetchTokenData = async (tokenBalance: TTokenBalance, currencyRatio: number): Promise<TPriceHistory | null> => {
   try {
@@ -40,13 +40,18 @@ const fetchTokenData = async (tokenBalance: TTokenBalance, currencyRatio: number
 export const usePriceHistory = (tokenBalances: TTokenBalance[]): TUsePriceHistoryResult => {
   const { currency } = useCurrencySelector()
   const { isLoading: isCurrencyRatioLoading, data: currencyRatio } = useCurrencyRatio()
+  const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
 
   return useQueries({
-    queries: tokenBalances.map(tokenBalance => ({
-      queryKey: ['prices', tokenBalance.token.symbol, currency],
-      queryFn: fetchTokenData.bind(null, tokenBalance, currencyRatio ?? 0),
-      enabled: !isCurrencyRatioLoading && typeof currencyRatio === 'number',
-    })),
+    queries: tokenBalances.map(tokenBalance => {
+      const { blockchain } = tokenBalance
+
+      return {
+        queryKey: ['prices', blockchain, tokenBalance.token.symbol, currency, networkByBlockchain[blockchain]],
+        queryFn: fetchTokenData.bind(null, tokenBalance, currencyRatio ?? 0),
+        enabled: !isCurrencyRatioLoading && typeof currencyRatio === 'number',
+      }
+    }),
     combine: results => ({
       data: results.map(result => result.data).filter((data): data is TPriceHistory => !!data),
       isLoading: isCurrencyRatioLoading || results.some(result => result.isLoading),

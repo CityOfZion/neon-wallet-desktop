@@ -23,7 +23,7 @@ const LoginPage = () => {
 
   return (
     <WelcomeLayout heading={t('title')}>
-      <Tabs.Root value={loginType ?? 'password'} className="w-full grow">
+      <Tabs.Root value={loginType || 'password'} className="w-full grow">
         <Tabs.List className="mt-6 mb-9 w-full">
           <Tabs.Trigger value="password" className="uppercase" onClick={() => navigate('/login/password')}>
             {t('tabs.password')}

@@ -100,7 +100,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
     }
 
     const handleCopyInput = () => {
-      ClipboardHelper.write(internalRef.current?.value ?? '')
+      ClipboardHelper.write(internalRef.current?.value || '')
     }
 
     const handlePaste = async () => {

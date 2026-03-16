@@ -26,9 +26,9 @@ import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 
-import { useAccountMapSelector } from '@renderer/hooks/useAccountSelector'
+import { useAccountsMapSelector } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
-import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
+import { useLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useLazyBalance } from '@renderer/hooks/useBalances'
 import { useConfirmAction } from '@renderer/hooks/useConfirmAction'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
@@ -75,8 +75,8 @@ const isBridgeValueValid = (value: TBridgeValue<any> | TBridgeValidateValue<any>
 
 export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
   const { t } = useTranslation('pages', { keyPrefix: 'neo3NeoXBridge' })
-  const { accountsMapRef } = useAccountMapSelector()
-  const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
+  const { accountsMapRef } = useAccountsMapSelector()
+  const { loginSessionRef } = useLoginSessionSelector()
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
   const { getBalance } = useLazyBalance()
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
@@ -221,11 +221,11 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
   }
 
   const handleSelectAccountToUse = async (account: IAccountState) => {
-    if (!currentLoginSessionRef.current || !account.encryptedKey) return
+    if (!loginSessionRef.current || !account.encryptedKey) return
 
     const key = await window.api.sendAsync('encryption:decryptBasedEncryptedSecret', {
       value: account.encryptedKey,
-      encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
+      encryptedSecret: loginSessionRef.current.encryptedPassword,
     })
 
     const serviceAccount = await AccountHelper.getServiceAccount({ account, key })
@@ -450,7 +450,7 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
               >
                 <div className="flex grow items-start gap-3">
                   <Input
-                    value={actionData.addressToReceive.value ?? ''}
+                    value={actionData.addressToReceive.value || ''}
                     onChange={handleChangeAddressToReceive}
                     compacted
                     containerClassName="w-auto grow"
@@ -524,7 +524,7 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
                   </span>
 
                   <GreyAmountInput
-                    value={actionData.amountToUse.value ?? ''}
+                    value={actionData.amountToUse.value || ''}
                     onChangeValue={handleChangeAmountToUse}
                     disabled={isAmountsDisabled}
                     loading={actionData.amountToUse.loading}

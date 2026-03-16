@@ -2,7 +2,7 @@ import { useRef } from 'react'
 
 import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
 
-import { useCurrentLoginSessionSelector, useUnreadNotificationsSelector } from '@renderer/hooks/useAuthSelector'
+import { useLoginSessionSelector, useUnreadNotificationsSelector } from '@renderer/hooks/useAuthSelector'
 import { useMount } from '@renderer/hooks/useMount'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
@@ -13,7 +13,7 @@ import type { IWalletState, TNotification } from '@shared/types/store'
 const useBackupReminderNotificationProcess = () => {
   const dispatch = useAppDispatch()
 
-  const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
+  const { loginSessionRef } = useLoginSessionSelector()
 
   const hasUnreadNotification = useRef(false)
   const hasWalletWithoutBackup = useRef(false)
@@ -38,7 +38,7 @@ const useBackupReminderNotificationProcess = () => {
         hasUnreadNotification.current ||
         hasWalletWithoutBackup.current ||
         wallet.backupStatus === 'successful' ||
-        currentLoginSessionRef.current?.type !== 'password'
+        loginSessionRef.current?.type !== 'password'
       )
         return
 

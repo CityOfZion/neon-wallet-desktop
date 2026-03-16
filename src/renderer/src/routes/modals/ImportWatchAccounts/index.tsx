@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
@@ -10,6 +10,7 @@ import { Separator } from '@renderer/components/Separator'
 
 import { AnalyticsHelper } from '@renderer/helpers/AnalyticsHelper'
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+import { StringHelper } from '@renderer/helpers/StringHelper'
 
 import { useImportAccounts } from '@renderer/hooks/useAccountActions'
 import { useAccountUtils } from '@renderer/hooks/useAccountSelector'
@@ -39,6 +40,7 @@ const ImportWatchAccountsModal = () => {
   const { importAccounts } = useImportAccounts()
   const { t } = useTranslation('modals', { keyPrefix: 'importWatchAccounts' })
   const { t: commomT } = useTranslation('common', { keyPrefix: 'wallet' })
+  const { t: tCommonBlockchain } = useTranslation('common', { keyPrefix: 'blockchain' })
   const modalState = useModalState<TModalState<'import-watch-accounts'>>()
   const navigate = useNavigate()
 
@@ -51,7 +53,7 @@ const ImportWatchAccountsModal = () => {
 
   const modalStateAddress = modalState?.address
 
-  const handleSubmit = async (event: FormEvent) => {
+  const handleSubmit = async (event: ChangeEvent) => {
     try {
       event.preventDefault()
 
@@ -85,9 +87,7 @@ const ImportWatchAccountsModal = () => {
   const abbreviateAddress = (address: string): string => {
     if (address.length <= 34) return address
 
-    return (
-      address.substring(0, address.length / 2 - 4) + '.....' + address.substring(address.length / 2 + 4, address.length)
-    )
+    return StringHelper.truncateStringMiddle(address, 42)
   }
 
   const handleChangeAndValidateAddress = (address: string) => {
@@ -144,41 +144,43 @@ const ImportWatchAccountsModal = () => {
 
         <Banner className="mt-5" message={t('information')} type="info" />
 
-        <div className="flex min-h-0 grow flex-col">
-          <Separator className="mt-6" />
+        {validatedAddresses.length > 0 && (
+          <div className="flex min-h-0 grow flex-col">
+            <Separator className="mt-6" />
 
-          <p className="mt-6 text-xs">{t('willBeAdded')}</p>
+            <p className="mt-6 text-xs">{t('willBeAdded')}</p>
 
-          <ul className="mt-5 flex min-h-0 grow flex-col gap-2 overflow-auto">
-            {validatedAddresses.map((validatedAddress, index) => (
-              <li className="bg-asphalt rounded-md" key={index}>
-                <div className="flex overflow-hidden p-4">
-                  <BlockchainIcon
-                    blockchain={validatedAddress.blockchain}
-                    type="white"
-                    className="h-5 w-5 opacity-50"
-                  />
+            <ul className="mt-5 flex min-h-0 grow flex-col gap-2 overflow-auto">
+              {validatedAddresses.map((validatedAddress, index) => (
+                <li className="bg-asphalt rounded-md" key={index}>
+                  <div className="flex overflow-hidden p-4">
+                    <BlockchainIcon
+                      blockchain={validatedAddress.blockchain}
+                      type="white"
+                      className="size-5 opacity-50"
+                    />
 
-                  <p className="ml-4 text-xs capitalize">{validatedAddress.blockchain}</p>
-                </div>
-                <Separator className="mx-4 w-9/10" />
-                <p className="p-4 pt-3 text-xs">{validatedAddress.abbreviatedAddress}</p>
-              </li>
-            ))}
-          </ul>
+                    <p className="ml-4 text-xs">{tCommonBlockchain(validatedAddress.blockchain)}</p>
+                  </div>
+                  <Separator className="mx-4 w-9/10" />
+                  <p className="p-4 pt-3 text-xs">{validatedAddress.abbreviatedAddress}</p>
+                </li>
+              ))}
+            </ul>
 
-          <div className="flex w-full justify-center">
-            <Button
-              className="mt-8 w-full px-5"
-              type="submit"
-              label={t('buttonAdd')}
-              leftIcon={<MdAdd aria-hidden />}
-              disabled={validatedAddresses.length === 0}
-              loading={isLoading}
-              flat
-            />
+            <div className="flex w-full justify-center">
+              <Button
+                className="mt-8 w-full px-5"
+                type="submit"
+                label={t('buttonAdd')}
+                leftIcon={<MdAdd aria-hidden />}
+                disabled={validatedAddresses.length === 0}
+                loading={isLoading}
+                flat
+              />
+            </div>
           </div>
-        </div>
+        )}
       </form>
     </SideModalLayout>
   )

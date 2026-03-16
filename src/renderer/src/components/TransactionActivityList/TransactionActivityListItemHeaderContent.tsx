@@ -1,6 +1,6 @@
 import React, { MouseEvent } from 'react'
 
-import { hasNeo3NeoXBridge } from '@cityofzion/blockchain-service'
+import { BSBigNumberHelper, hasNeo3NeoXBridge } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
 
 import { IconButton } from '@renderer/components/IconButton'
@@ -8,7 +8,6 @@ import { IconButton } from '@renderer/components/IconButton'
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { ClipboardHelper } from '@renderer/helpers/ClipboardHelper'
 import { DateHelper } from '@renderer/helpers/DateHelper'
-import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
@@ -38,8 +37,8 @@ type TProps = {
 export const TransactionActivityListItemHeaderContent = ({ transaction }: TProps) => {
   const { t } = useTranslation('components', { keyPrefix: 'transactionActivityList.item' })
   const { t: tCommonGeneral } = useTranslation('common', { keyPrefix: 'general' })
-  const { swapRecord } = useSwapRecordSelector(transaction.txId)
   const { modalNavigate } = useModalNavigate()
+  const { swapRecord } = useSwapRecordSelector(transaction.txId)
   const { language } = useLanguageSelector()
 
   const isBridgeNeo3NeoX = transaction.type === 'bridgeNeo3NeoX'
@@ -64,6 +63,7 @@ export const TransactionActivityListItemHeaderContent = ({ transaction }: TProps
     const tokenToReceive = toService.neo3NeoXBridgeService.getTokenByMultichainId(
       transaction.data.tokenToUse.multichainId
     )
+
     if (!tokenToReceive) return
 
     modalNavigate('neo3-neox-bridge-details', {
@@ -101,7 +101,7 @@ export const TransactionActivityListItemHeaderContent = ({ transaction }: TProps
           icon={<TbClock aria-hidden />}
         />
 
-        {!!transaction.notificationCount && (
+        {typeof transaction.notificationCount === 'number' && (
           <TransactionActivityListItemHeaderDetails
             label={t('notificationCountLabel')}
             data={transaction.notificationCount}
@@ -109,7 +109,7 @@ export const TransactionActivityListItemHeaderContent = ({ transaction }: TProps
           />
         )}
 
-        {!!transaction.invocationCount && (
+        {typeof transaction.invocationCount === 'number' && (
           <TransactionActivityListItemHeaderDetails
             label={t('invocationCountLabel')}
             data={transaction.invocationCount}
@@ -117,7 +117,7 @@ export const TransactionActivityListItemHeaderContent = ({ transaction }: TProps
           />
         )}
 
-        {!!transaction.block && (
+        {typeof transaction.block === 'number' && (
           <TransactionActivityListItemHeaderDetails
             label={t('blockLabel', { block: transaction.block })}
             data={StringHelper.truncateStringMiddle(transaction.block.toString(), 10)}
@@ -125,21 +125,21 @@ export const TransactionActivityListItemHeaderContent = ({ transaction }: TProps
           />
         )}
 
-        {transaction.networkFeeAmount && NumberHelper.number(transaction.networkFeeAmount) > 0 && (
+        {BSBigNumberHelper.fromNumber(transaction.networkFeeAmount).isGreaterThan('0') && (
           <TransactionActivityListItemHeaderDetails
             data={
               <div className="flex items-center whitespace-nowrap">
                 <TransactionActivityListTooltip
                   data={t('networkFeeAmountLabel', { networkFeeAmount: transaction.networkFeeAmount })}
                 >
-                  <span className="text-white">{StringHelper.truncateString(transaction.networkFeeAmount, 12)}</span>
+                  <span className="text-white">{StringHelper.truncateString(transaction.networkFeeAmount!, 12)}</span>
                 </TransactionActivityListTooltip>
 
-                {transaction.systemFeeAmount && NumberHelper.number(transaction.systemFeeAmount) > 0 && (
+                {BSBigNumberHelper.fromNumber(transaction.systemFeeAmount).isGreaterThan('0') && (
                   <TransactionActivityListTooltip
                     data={t('systemFeeAmountLabel', { systemFeeAmount: transaction.systemFeeAmount })}
                   >
-                    <span className="whitespace-break-spaces text-gray-100">{` | ${StringHelper.truncateString(transaction.systemFeeAmount, 12)}`}</span>
+                    <span className="whitespace-break-spaces text-gray-100">{` | ${StringHelper.truncateString(transaction.systemFeeAmount!, 12)}`}</span>
                   </TransactionActivityListTooltip>
                 )}
               </div>

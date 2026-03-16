@@ -14,8 +14,8 @@ import { TUseHardwareWalletByUsbStatus } from '@shared/types/hooks'
 import { IAccountState, IWalletState } from '@shared/types/store'
 
 import { useEditAccount, useImportAccount } from './useAccountActions'
-import { useAccountMapSelector } from './useAccountSelector'
-import { useCurrentLoginSessionSelector } from './useAuthSelector'
+import { useAccountsWithWalletMapSelector } from './useAccountSelector'
+import { useLoginSessionSelector } from './useAuthSelector'
 import { useAppDispatch } from './useRedux'
 import { useLastIndexesByWallet } from './useUtilitySelector'
 import { useCreateWallet, useEditWallet } from './useWalletActions'
@@ -89,12 +89,12 @@ export const useCreateHardwareWallet = () => {
   const { createWallet } = useCreateWallet()
   const { editAccount } = useEditAccount()
   const { importAccount } = useImportAccount()
-  const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
-  const { accountsMapRef } = useAccountMapSelector()
+  const { loginSessionRef } = useLoginSessionSelector()
+  const { accountsWithWalletMapRef } = useAccountsWithWalletMapSelector()
 
   const createHardwareWallet = useCallback(
     async (accounts: TBSAccount<TBlockchainServiceKey>[]) => {
-      if (!currentLoginSessionRef.current) {
+      if (!loginSessionRef.current) {
         throw new AppError(commonT('errors.loginSessionIsNotDefined'))
       }
 
@@ -109,7 +109,7 @@ export const useCreateHardwareWallet = () => {
 
       // Group accounts by blockchain and check if the wallet already exists
       accounts.forEach(account => {
-        const existentAccount = accountsMapRef.current.get(SharedAccountHelper.buildAccountKey(account))
+        const existentAccount = accountsWithWalletMapRef.current.get(SharedAccountHelper.buildAccountKey(account))
         const existentWallet = existentAccount?.wallet
 
         const groupedInfo = groupedAccountInfosByBlockchain.get(account.blockchain) ?? []
@@ -163,7 +163,7 @@ export const useCreateHardwareWallet = () => {
               type: 'hardware',
               key: info.account.key,
               wallet,
-              order: BSKeychainHelper.extractIndexFromPath(info.account.bip44Path!),
+              order: BSKeychainHelper.extractIndexFromPath(info.account.bipPath!),
             })
           }
 
@@ -173,7 +173,7 @@ export const useCreateHardwareWallet = () => {
 
       return newAccounts
     },
-    [currentLoginSessionRef, accountsMapRef, createWallet, commonT, editWallet, editAccount, importAccount]
+    [loginSessionRef, accountsWithWalletMapRef, createWallet, commonT, editWallet, editAccount, importAccount]
   )
 
   return { createHardwareWallet }
@@ -181,13 +181,13 @@ export const useCreateHardwareWallet = () => {
 
 export const useAddAccountHardwareWallet = () => {
   const { importAccount } = useImportAccount()
-  const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
+  const { loginSessionRef } = useLoginSessionSelector()
   const dispatch = useAppDispatch()
   const { t: commonT } = useTranslation('common')
 
   const addNewHardwareAccount = useCallback(
     async (wallet: IWalletState, accountName?: string) => {
-      if (!currentLoginSessionRef.current) {
+      if (!loginSessionRef.current) {
         throw new AppError(commonT('errors.loginSessionIsNotDefined'))
       }
 
@@ -224,7 +224,8 @@ export const useAddAccountHardwareWallet = () => {
 
       return account
     },
-    [currentLoginSessionRef, dispatch, importAccount]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [loginSessionRef, dispatch, importAccount]
   )
 
   return { addNewHardwareAccount }

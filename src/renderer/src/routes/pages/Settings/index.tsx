@@ -9,7 +9,7 @@ import { Tabs } from '@renderer/components/Tabs'
 
 import { TestHelper } from '@renderer/helpers/TestHelper'
 
-import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
+import { useLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 
 import { MainLayout } from '@renderer/layouts/Main'
 
@@ -18,7 +18,7 @@ import { SettingsSecurityTabContent } from './SettingsSecurityTabContent'
 
 const SettingsPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'settings' })
-  const { currentLoginSession } = useCurrentLoginSessionSelector()
+  const { loginSession } = useLoginSessionSelector()
   const navigate = useNavigate()
   const outlet = useOutlet()
 
@@ -29,7 +29,7 @@ const SettingsPage = () => {
   }
 
   const handleSecurityClick = () => {
-    if (currentLoginSession?.type !== 'password') {
+    if (loginSession?.type !== 'password') {
       navigate('/settings/security/encrypt-key')
       return
     }
@@ -41,7 +41,7 @@ const SettingsPage = () => {
     <MainLayout heading={t('title')} rightComponent={<CommonScreenActions />}>
       <section className="flex h-full w-full rounded-sm bg-gray-800">
         <div className="flex max-w-70 min-w-70 flex-col items-center border-r border-gray-300/15 px-5">
-          <Tabs.Root value={match?.params.tab ?? 'personalisation'} className="w-full">
+          <Tabs.Root value={match?.params.tab || 'personalisation'} className="w-full">
             <Tabs.List className="mt-2.5 mb-7 w-full">
               <Tabs.Trigger value="personalisation" className="px-6" onClick={handlePersonalisationClick}>
                 {t('sidebarOption.personalisation')}

@@ -12,7 +12,7 @@ import { Separator } from '@renderer/components/Separator'
 import { PasswordHelper } from '@renderer/helpers/PasswordHelper'
 
 import { useActions } from '@renderer/hooks/useActions'
-import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
+import { useLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 
 import TbArrowRight from '@renderer/assets/images/tb-arrow-right.svg?react'
 import TbReload from '@renderer/assets/images/tb-reload.svg?react'
@@ -25,7 +25,7 @@ type TFormData = {
 }
 
 const ChangePasswordStep1 = () => {
-  const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
+  const { loginSessionRef } = useLoginSessionSelector()
   const { t } = useTranslation('pages', { keyPrefix: 'settings.changePassword.step1' })
   const { t: commonT } = useTranslation('common')
   const navigate = useNavigate()
@@ -38,13 +38,13 @@ const ChangePasswordStep1 = () => {
     })
 
   const handleSubmit = async (data: TFormData) => {
-    if (!currentLoginSessionRef.current) {
+    if (!loginSessionRef.current) {
       throw new AppError(commonT('errors.loginSessionIsNotDefined'))
     }
 
     const decryptedPassword = await window.api.sendAsync(
       'encryption:decryptBasedOS',
-      currentLoginSessionRef.current.encryptedPassword
+      loginSessionRef.current.encryptedPassword
     )
     const encryptedNewPassword = await window.api.sendAsync('encryption:encryptBasedOS', data.newPassword)
     if (data.currentPassword.length === 0 || data.currentPassword !== decryptedPassword) {
@@ -124,7 +124,7 @@ const ChangePasswordStep1 = () => {
               label={t('buttonContinue')}
               loading={actionState.isActing}
               disabled={!isPasswordValid || !actionData.currentPassword}
-              rightIcon={<TbArrowRight />}
+              rightIcon={<TbArrowRight aria-hidden />}
               iconsOnEdge={false}
             />
           </div>

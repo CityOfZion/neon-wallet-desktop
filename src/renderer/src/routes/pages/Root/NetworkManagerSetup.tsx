@@ -4,7 +4,7 @@ import isEqual from 'lodash/isEqual'
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 
 import { useMountUnsafe } from '@renderer/hooks/useMount'
-import { useLazyPingNodes } from '@renderer/hooks/useNodes'
+import { useLazyPingNetworks } from '@renderer/hooks/usePingNetworks'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import {
   useSelectedNetworkByBlockchainSelector,
@@ -15,7 +15,7 @@ import { settingsReducerActions } from '@renderer/store/reducers/settings'
 
 const NetworkManagerSetup = () => {
   const dispatch = useAppDispatch()
-  const { getPingNodes } = useLazyPingNodes()
+  const { getPingNetworks } = useLazyPingNetworks()
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
   const { selectedNetworkProfile } = useSelectedNetworkProfileSelector()
 
@@ -28,16 +28,16 @@ const NetworkManagerSetup = () => {
       const currentNetwork = updatedNetworks[service.name]
 
       try {
-        await service.pingNode(currentNetwork.url)
+        await service.pingNetwork(currentNetwork.url)
       } catch {
-        const nodes = await getPingNodes(service.name)
+        const networks = await getPingNetworks(service.name)
+        const [newNetwork] = networks
 
-        const newNode = nodes[0]
-        if (!newNode) return
+        if (!newNetwork) return
 
         updatedNetworks[service.name] = {
           ...currentNetwork,
-          url: newNode.url,
+          url: newNetwork.url,
         }
       }
     })

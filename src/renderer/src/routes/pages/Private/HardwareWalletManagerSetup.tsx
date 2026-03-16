@@ -5,13 +5,13 @@ import { useTranslation } from 'react-i18next'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 
 import { useEditAccount } from '@renderer/hooks/useAccountActions'
-import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
+import { useLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useMountUnsafe } from '@renderer/hooks/useMount'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
 
 const HardwareWalletManagerSetup = () => {
   const { walletsRef } = useWalletsSelector()
-  const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
+  const { loginSessionRef } = useLoginSessionSelector()
   const { editAccount } = useEditAccount()
   const { t: commonT } = useTranslation('pages', { keyPrefix: 'private.hardwareWalletManagerSetup' })
 
@@ -31,7 +31,7 @@ const HardwareWalletManagerSetup = () => {
   }, [editAccount, walletsRef])
 
   useMountUnsafe(() => {
-    if (currentLoginSessionRef.current?.type === 'password') {
+    if (loginSessionRef.current?.type === 'password') {
       transformHardwareAccountsToWatch()
     }
   })
@@ -45,7 +45,7 @@ const HardwareWalletManagerSetup = () => {
     return () => {
       removeOnDisconnectListener()
     }
-  }, [currentLoginSessionRef, transformHardwareAccountsToWatch])
+  }, [loginSessionRef, transformHardwareAccountsToWatch])
 
   useEffect(() => {
     const removeOnSignatureStartListener = window.api.listen('hardwareWallet:onSignatureStart', () => {

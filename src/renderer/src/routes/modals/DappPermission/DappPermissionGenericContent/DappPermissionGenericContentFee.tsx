@@ -9,7 +9,7 @@ import { Loader } from '@renderer/components/Loader'
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
 
-import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
+import { useLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 
 import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
 
@@ -23,19 +23,18 @@ export const DappPermissionGenericContentFee = ({
   sessionAccount,
   onReject,
 }: TDappPermissionProps) => {
-  const { currentLoginSession } = useCurrentLoginSessionSelector()
+  const { loginSession } = useLoginSessionSelector()
   const { t } = useTranslation('modals', { keyPrefix: 'dappPermission' })
   const { t: commonT } = useTranslation('common')
 
   const feeQuery = useQuery({
     queryKey: ['fee', request.id],
     queryFn: async () => {
-      if (!currentLoginSession || !sessionAccount.encryptedKey)
-        throw new AppError(commonT('errors.loginSessionIsNotDefined'))
+      if (!loginSession || !sessionAccount.encryptedKey) throw new AppError(commonT('errors.loginSessionIsNotDefined'))
 
       const key = await window.api.sendAsync('encryption:decryptBasedEncryptedSecret', {
         value: sessionAccount.encryptedKey,
-        encryptedSecret: currentLoginSession.encryptedPassword,
+        encryptedSecret: loginSession.encryptedPassword,
       })
 
       const serviceAccount = await AccountHelper.getServiceAccount({ account: sessionAccount, key })
@@ -65,14 +64,14 @@ export const DappPermissionGenericContentFee = ({
             {feeQuery.isLoading || !feeQuery.data ? (
               <Loader className="text-gray-100" />
             ) : (
-              <p className="text-sm font-semibold text-gray-100 capitalize">
+              <p className="text-sm font-semibold text-gray-100">
                 {feeQuery.data} {sessionDetails.service.feeToken.symbol}
               </p>
             )}
           </div>
         }
       >
-        <p className="text-sm text-white capitalize">{t('feeLabel')}</p>
+        <p className="text-sm text-white">{t('feeLabel')}</p>
       </Details.Header>
     </Details.Root>
   )

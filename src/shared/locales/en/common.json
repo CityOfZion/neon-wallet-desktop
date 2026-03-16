@@ -5,6 +5,7 @@
   "blockchain": {
     "arbitrum": "Arbitrum",
     "base": "Base",
+    "bitcoin": "Bitcoin",
     "ethereum": "Ethereum",
     "neo3": "Neo N3",
     "neoLegacy": "Neo Legacy",
@@ -27,7 +28,7 @@
     "cancel": "Cancel",
     "close": "Close",
     "continue": "Continue",
-    "copy": "Copy to clipboard",
+    "copy": "Copy",
     "copyToClipboard": "Copy to clipboard",
     "default": "Default",
     "downloadQRCodePassword": "Download password QR code",
@@ -55,7 +56,7 @@
       "disconnectFirst": "You must disconnect the hardware wallet before connecting again",
       "hardwareWalletIsNotConnectOrUnlocked": "Hardware wallet isn't connected or is locked, verify your device and try again",
       "hardwareWalletNotFound": "There is no hardware wallet connected",
-      "missingBip44Path": "BIP44 path is missing for the hardware wallet account",
+      "missingBipPath": "BIP path is missing for the hardware wallet account",
       "walletIsNotHardware": "The selected wallet is not a hardware wallet"
     }
   },
