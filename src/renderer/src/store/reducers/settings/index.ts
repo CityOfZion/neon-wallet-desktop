@@ -82,13 +82,14 @@ export function getSettingsReducer() {
       selectedWallet: undefined,
       selectedAccount: undefined,
       showSideBar: true,
+      showNewsModal: true,
     },
   }
 
   const settingsReducerConfig: PersistConfig<ISettingsReducer> = {
     key: 'settingsReducer',
     storage,
-    version: 14,
+    version: 15,
     migrate: createMigrate(settingsMigrations),
     blacklist: ['showSideBar'],
   }

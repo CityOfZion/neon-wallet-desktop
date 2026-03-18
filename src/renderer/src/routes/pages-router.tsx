@@ -2,6 +2,7 @@ import { lazy } from 'react'
 
 import { createHashRouter, redirect } from 'react-router'
 
+import NewsPage from './pages/News'
 import PrivatePage from './pages/Private'
 import PublicPage from './pages/Public'
 import RootPage from './pages/Root'
@@ -205,6 +206,10 @@ export const pagesRouter = createHashRouter([
                 ],
               },
             ],
+          },
+          {
+            path: 'news',
+            element: <NewsPage />,
           },
         ],
       },

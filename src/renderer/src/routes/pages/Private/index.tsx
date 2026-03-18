@@ -6,7 +6,9 @@ import { Navigate, useLocation, useMatch, useOutlet } from 'react-router'
 import { LazyHelper } from '@renderer/helpers/LazyHelper'
 
 import { useLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
-import { useShowSideBarSelector } from '@renderer/hooks/useSettingsSelector'
+import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+import { useMountUnsafe } from '@renderer/hooks/useMount'
+import { useShowNewsModalSelector, useShowSideBarSelector } from '@renderer/hooks/useSettingsSelector'
 
 import { Sidebar } from './Sidebar'
 
@@ -21,9 +23,17 @@ const WalletTasksManagerSetup = LazyHelper.delayedLazy(() => import('./WalletTas
 const PrivatePage = () => {
   const { loginSession } = useLoginSessionSelector()
   const { showSideBar } = useShowSideBarSelector()
+  const { showNewsModal } = useShowNewsModalSelector()
+  const { modalNavigate } = useModalNavigate()
   const location = useLocation()
   const outlet = useOutlet()
   const match = useMatch('/:rootPath/*')
+
+  useMountUnsafe(() => {
+    if (loginSession && showNewsModal) {
+      modalNavigate('news')
+    }
+  })
 
   if (!loginSession) {
     return <Navigate to="/login/password" state={{ from: location.pathname }} />

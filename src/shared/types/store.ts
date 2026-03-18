@@ -107,6 +107,7 @@ export interface ISettingsState {
   selectedAccount?: IAccountState
   showSideBar: boolean
   lastAccountPanel?: string
+  showNewsModal: boolean
 }
 
 export type TContactAddress = {

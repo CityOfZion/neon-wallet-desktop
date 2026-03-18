@@ -16,8 +16,6 @@ import MdOutlineAutoAwesome from '@renderer/assets/images/md-outline-auto-awesom
 import NeonWalletLogo from '@renderer/assets/images/neon-wallet-full.svg?react'
 import TbExternalLink from '@renderer/assets/images/tb-external-link.svg?react'
 
-import 'github-markdown-css/github-markdown.css'
-
 const AutoUpdateNotes = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'autoUpdate.notes' })
   const { t: tChangelog } = useTranslation('changelog')

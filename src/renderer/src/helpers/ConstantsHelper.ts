@@ -11,6 +11,8 @@ export class ConstantsHelper {
   static readonly latestReleaseUrl = 'https://github.com/CityOfZion/neon-wallet-desktop/releases/latest'
   static readonly cozDiscordUrl = 'https://discord.gg/M7jGtEpjH4'
   static readonly neonIconsUrl = 'https://raw.githubusercontent.com/CityOfZion/neon-icons/main'
+  // TODO: change this to the correct URL once the backend is ready
+  static readonly newsApiUrl = 'http://localhost:8080/news'
 
   static readonly defaultNetworkProfileId = 'default'
   static readonly testNetworkProfileId = 'test'

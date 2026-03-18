@@ -282,5 +282,14 @@ export function getSettingsMigrations(defaultProfile: TNetworkProfile, testProfi
         },
       }
     },
+    15: (state: any) => {
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          showNewsModal: true,
+        },
+      }
+    },
   }
 }

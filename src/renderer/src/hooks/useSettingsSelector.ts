@@ -124,3 +124,9 @@ export const useShowSideBarSelector = () => {
 
   return { showSideBar, showSideBarRef }
 }
+
+export const useShowNewsModalSelector = () => {
+  const { value: showNewsModal, ref: showNewsModalRef } = useAppSelector(({ settings }) => settings.data.showNewsModal)
+
+  return { showNewsModal, showNewsModalRef }
+}

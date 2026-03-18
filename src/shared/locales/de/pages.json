@@ -214,6 +214,19 @@
       "thereIsNoNeoLabel": "Ihr Neo 3-Konto sollte NEO haben."
     }
   },
+  "news": {
+    "articlesTitle": "Artikel",
+    "noArticlesMessage": "Es gibt derzeit keine Nachrichtenartikel. Bitte schauen Sie später wieder vorbei!",
+    "showModalOnLoginLabel": "Neueste Nachrichten beim Anmelden anzeigen",
+    "sortDateAscending": "Datum - Aufsteigend",
+    "sortDateDescending": "Datum - Absteigend",
+    "title": "Neueste Nachrichten",
+    "viewArticle": {
+      "backToNewsButtonLabel": "Zurück zur Nachrichtenübersicht",
+      "nextArticleButtonLabel": "Nächster Artikel",
+      "previousArticleButtonLabel": "Vorheriger Artikel"
+    }
+  },
   "portfolio": {
     "allAccounts": "Alle Konten",
     "allActivity": "Alle Aktivitäten",

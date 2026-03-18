@@ -214,6 +214,19 @@
       "thereIsNoNeoLabel": "Your Neo 3 account should have NEO"
     }
   },
+  "news": {
+    "articlesTitle": "Articles",
+    "noArticlesMessage": "There are no news articles to display at the moment. Please check back later!",
+    "showModalOnLoginLabel": "Show latest news on login",
+    "sortDateAscending": "Date - Ascending",
+    "sortDateDescending": "Date - Descending",
+    "title": "Latest News",
+    "viewArticle": {
+      "backToNewsButtonLabel": "Back to News Home",
+      "nextArticleButtonLabel": "Next article",
+      "previousArticleButtonLabel": "Previous article"
+    }
+  },
   "portfolio": {
     "allAccounts": "All accounts",
     "allActivity": "All activity",

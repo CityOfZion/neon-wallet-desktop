@@ -10,6 +10,7 @@ import { useLogin } from '@renderer/hooks/useLogin'
 import NeonLogoIcon from '@renderer/assets/images/neon-wallet-compact.svg?react'
 import TbDoorExit from '@renderer/assets/images/tb-door-exit.svg?react'
 import TbHome2 from '@renderer/assets/images/tb-home-2.svg?react'
+import TbNews from '@renderer/assets/images/tb-news.svg?react'
 import TbReplace from '@renderer/assets/images/tb-replace.svg?react'
 import TbSettings from '@renderer/assets/images/tb-settings.svg?react'
 import TbShoppingBag from '@renderer/assets/images/tb-shopping-bag.svg?react'
@@ -71,6 +72,10 @@ export const Sidebar = ({ className, ...props }: TProps) => {
             {...TestHelper.buildTestObject('sidebar-link-buy-and-sell-tokens')}
           >
             {t('buyAndSellTokens')}
+          </SidebarLink>
+
+          <SidebarLink to="/news" iconElement={<TbNews aria-hidden />}>
+            {t('news')}
           </SidebarLink>
 
           <SidebarLink
