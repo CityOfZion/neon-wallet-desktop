@@ -2,7 +2,7 @@ import { createContext, useState } from 'react'
 
 import {
   TTransactionActivityListContextValue,
-  TTransactionActivityListEventColumnSize,
+  TTransactionActivityListItemColumnSize,
   TTransactionActivityListProviderProps,
 } from '@shared/types/contexts'
 
@@ -11,10 +11,10 @@ export const TransactionActivityListContext = createContext<TTransactionActivity
 )
 
 export const TransactionActivityListProvider = ({ children }: TTransactionActivityListProviderProps) => {
-  const [eventColumnSize, setEventColumnSize] = useState<TTransactionActivityListEventColumnSize>('xs')
+  const [itemColumnSize, setItemColumnSize] = useState<TTransactionActivityListItemColumnSize>('xs')
 
   return (
-    <TransactionActivityListContext.Provider value={{ eventColumnSize, setEventColumnSize }}>
+    <TransactionActivityListContext.Provider value={{ itemColumnSize, setItemColumnSize }}>
       {children}
     </TransactionActivityListContext.Provider>
   )

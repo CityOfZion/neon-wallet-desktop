@@ -114,7 +114,7 @@ const ItemRadialIndicator = forwardRef<
   ElementRef<typeof SelectPrimitive.ItemIndicator>,
   ComponentPropsWithoutRef<typeof SelectPrimitive.ItemIndicator>
 >((props, ref) => (
-  <div className="group-data-[state=checked]:border-neon h-4 min-h-4 w-4 min-w-4 rounded-full border-2 bg-transparent outline-hidden group-data-[state=unchecked]:border-gray-300">
+  <div className="group-data-[state=checked]:border-neon min-size-4 size-4 rounded-full border-2 bg-transparent outline-hidden group-data-[state=unchecked]:border-gray-300">
     <SelectPrimitive.ItemIndicator
       ref={ref}
       {...props}

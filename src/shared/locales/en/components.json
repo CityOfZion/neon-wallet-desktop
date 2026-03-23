@@ -170,7 +170,8 @@
     "dateRange": {
       "formatExtendedDate": "dd MMM yyyy"
     },
-    "event": {
+    "items": {
+      "blockLabel": "Block: {{ block }}",
       "columns": {
         "amountLabel": "Amount",
         "collectionNameLabel": "Collection",
@@ -182,18 +183,18 @@
         "tokenHashLabel": "Token hash",
         "tokenLabel": "Token"
       },
-      "nftImageAltLabel": "NFT image",
-      "nftImageAltWithNameLabel": "NFT image: {{ name }}"
-    },
-    "item": {
-      "blockLabel": "Block: {{ block }}",
+      "copyAddressButtonLabel": "Copy address",
       "copyTxIdLabel": "Copy tx ID",
       "invocationCountLabel": "Invocations",
       "networkFeeAmountLabel": "Network fee: {{ networkFeeAmount }}",
+      "nftImageAltLabel": "NFT image",
+      "nftImageAltWithNameLabel": "NFT image: {{ name }}",
+      "nftLabel": "NFT",
       "notificationCountLabel": "Notifications",
       "pendingDataLabel": "Processing…",
       "pendingTooltipLabel": "This transaction is processing, please wait",
       "systemFeeAmountLabel": "System fee: {{ systemFeeAmount }}",
+      "totalAmountLabel": "Total: {{ totalAmount }}",
       "txIdLabel": "Tx ID"
     },
     "notFoundDescription": "Make a transaction and it'll appear here",

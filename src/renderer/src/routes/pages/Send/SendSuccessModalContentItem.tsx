@@ -12,13 +12,13 @@ import TbUsers from '@renderer/assets/images/tb-users.svg?react'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 import type {
   TUseTransactionsTransaction,
-  TUseTransactionsTransactionEvent,
-  TUseTransactionsTransactionEventToken,
-  TUseTransactionsTransactionInputOutput,
+  TUseTransactionsTransactionDefaultEvent,
+  TUseTransactionsTransactionDefaultEventToken,
+  TUseTransactionsTransactionUtxoInputOutput,
 } from '@shared/types/hooks'
 
 type TProps = {
-  item: TUseTransactionsTransactionEvent | TUseTransactionsTransactionInputOutput
+  item: TUseTransactionsTransactionDefaultEvent | TUseTransactionsTransactionUtxoInputOutput
   transaction: TUseTransactionsTransaction
   order: number
 }
@@ -33,23 +33,21 @@ export const SendSuccessModalContentItem = ({ item, transaction, order }: TProps
 
   const { address, account } = match(isUtxo)
     .with(true, () => {
-      const { address, account } = item as TUseTransactionsTransactionInputOutput
+      const { address, account } = item as TUseTransactionsTransactionUtxoInputOutput
 
       return { address, account }
     })
     .otherwise(() => {
-      const { to, toAccount } = item as TUseTransactionsTransactionEvent
+      const { to, toAccount } = item as TUseTransactionsTransactionDefaultEvent
 
       return { address: to, account: toAccount }
     })
 
   const token = match({ isUtxo, item })
-    .with({ isUtxo: true }, () => {
-      return (item as TUseTransactionsTransactionInputOutput).token
-    })
+    .with({ isUtxo: true }, () => (item as TUseTransactionsTransactionUtxoInputOutput).token)
     .with(
-      { item: P.when(value => (value as TUseTransactionsTransactionEvent).eventType === 'token') },
-      () => (item as TUseTransactionsTransactionEventToken).token
+      { item: P.when(value => (value as TUseTransactionsTransactionDefaultEvent).eventType === 'token') },
+      () => (item as TUseTransactionsTransactionDefaultEventToken).token
     )
     .otherwise(() => undefined)
 

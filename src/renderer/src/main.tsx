@@ -18,7 +18,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <DragRegion />
 
-    <div className="h-[var(--height-screen-minus-drag-region)] w-screen">
+    <div className="h-(--height-screen-minus-drag-region) w-screen">
       <RouterProvider router={pagesRouter} />
     </div>
   </React.StrictMode>

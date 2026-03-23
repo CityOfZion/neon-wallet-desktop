@@ -17,6 +17,7 @@ import { useSwapRecordSelector } from '@renderer/hooks/useUtilitySelector'
 import MdCoffee from '@renderer/assets/images/md-coffee.svg?react'
 import MdOutlineContentCopy from '@renderer/assets/images/md-outline-content-copy.svg?react'
 import TbBell from '@renderer/assets/images/tb-bell.svg?react'
+import TbCashBanknote from '@renderer/assets/images/tb-cash-banknote.svg?react'
 import TbChevronRight from '@renderer/assets/images/tb-chevron-right.svg?react'
 import TbClock from '@renderer/assets/images/tb-clock.svg?react'
 import TbCodeCircle from '@renderer/assets/images/tb-code-circle.svg?react'
@@ -27,15 +28,15 @@ import TbTransform from '@renderer/assets/images/tb-transform.svg?react'
 
 import type { TUseTransactionsTransaction } from '@shared/types/hooks'
 
-import { TransactionActivityListItemHeaderDetails } from './TransactionActivityListItemHeaderDetails'
+import { TransactionActivityListItemsHeaderDetails } from './TransactionActivityListItemsHeaderDetails'
 import { TransactionActivityListTooltip } from './TransactionActivityListTooltip'
 
 type TProps = {
   transaction: TUseTransactionsTransaction
 }
 
-export const TransactionActivityListItemHeaderContent = ({ transaction }: TProps) => {
-  const { t } = useTranslation('components', { keyPrefix: 'transactionActivityList.item' })
+export const TransactionActivityListItemsHeaderContent = ({ transaction }: TProps) => {
+  const { t } = useTranslation('components', { keyPrefix: 'transactionActivityList.items' })
   const { t: tCommonGeneral } = useTranslation('common', { keyPrefix: 'general' })
   const { modalNavigate } = useModalNavigate()
   const { swapRecord } = useSwapRecordSelector(transaction.txId)
@@ -95,14 +96,14 @@ export const TransactionActivityListItemHeaderContent = ({ transaction }: TProps
   return (
     <div className="bg-asphalt flex h-full w-full items-center justify-between gap-x-2 rounded-sm px-1">
       <div className="flex items-center gap-x-2 truncate whitespace-nowrap" onClick={handleCancelBubbleEvent}>
-        <TransactionActivityListItemHeaderDetails
+        <TransactionActivityListItemsHeaderDetails
           label={DateHelper.formatLocalized(transaction.date, { format: 'Pp', language })}
           data={DateHelper.formatLocalized(transaction.date, { format: 'p', language })}
           icon={<TbClock aria-hidden />}
         />
 
         {typeof transaction.notificationCount === 'number' && (
-          <TransactionActivityListItemHeaderDetails
+          <TransactionActivityListItemsHeaderDetails
             label={t('notificationCountLabel')}
             data={transaction.notificationCount}
             icon={<TbBell aria-hidden />}
@@ -110,7 +111,7 @@ export const TransactionActivityListItemHeaderContent = ({ transaction }: TProps
         )}
 
         {typeof transaction.invocationCount === 'number' && (
-          <TransactionActivityListItemHeaderDetails
+          <TransactionActivityListItemsHeaderDetails
             label={t('invocationCountLabel')}
             data={transaction.invocationCount}
             icon={<TbCodeCircle aria-hidden />}
@@ -118,7 +119,7 @@ export const TransactionActivityListItemHeaderContent = ({ transaction }: TProps
         )}
 
         {typeof transaction.block === 'number' && (
-          <TransactionActivityListItemHeaderDetails
+          <TransactionActivityListItemsHeaderDetails
             label={t('blockLabel', { block: transaction.block })}
             data={StringHelper.truncateStringMiddle(transaction.block.toString(), 10)}
             icon={<TbCube aria-hidden />}
@@ -126,7 +127,7 @@ export const TransactionActivityListItemHeaderContent = ({ transaction }: TProps
         )}
 
         {BSBigNumberHelper.fromNumber(transaction.networkFeeAmount).isGreaterThan('0') && (
-          <TransactionActivityListItemHeaderDetails
+          <TransactionActivityListItemsHeaderDetails
             data={
               <div className="flex items-center whitespace-nowrap">
                 <TransactionActivityListTooltip
@@ -148,8 +149,16 @@ export const TransactionActivityListItemHeaderContent = ({ transaction }: TProps
           />
         )}
 
+        {transaction.view === 'utxo' && (
+          <TransactionActivityListItemsHeaderDetails
+            label={t('totalAmountLabel', { totalAmount: transaction.totalAmount })}
+            data={StringHelper.truncateString(transaction.totalAmount, 12)}
+            icon={<TbCashBanknote aria-hidden />}
+          />
+        )}
+
         {transaction.isPending && (
-          <TransactionActivityListItemHeaderDetails
+          <TransactionActivityListItemsHeaderDetails
             className="animate-pulse"
             data={
               <TransactionActivityListTooltip data={t('pendingTooltipLabel')}>
@@ -165,7 +174,7 @@ export const TransactionActivityListItemHeaderContent = ({ transaction }: TProps
         {(swapRecord || isBridgeNeo3NeoX) && (
           <div className="flex items-center gap-x-2" onClick={handleCancelBubbleEvent}>
             {swapRecord && (
-              <TransactionActivityListItemHeaderDetails
+              <TransactionActivityListItemsHeaderDetails
                 role="button"
                 tabIndex={0}
                 className="hover:opacity-90 focus:opacity-90 active:opacity-80"
@@ -177,7 +186,7 @@ export const TransactionActivityListItemHeaderContent = ({ transaction }: TProps
             )}
 
             {isBridgeNeo3NeoX && (
-              <TransactionActivityListItemHeaderDetails
+              <TransactionActivityListItemsHeaderDetails
                 role="button"
                 tabIndex={0}
                 className="border-neon h-6 max-h-6 min-h-6 rounded-sm border px-1.5 py-0 hover:opacity-90 focus:opacity-90 active:opacity-80"

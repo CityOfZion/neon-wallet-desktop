@@ -17,12 +17,11 @@ import TbAlertTriangle from '@renderer/assets/images/tb-alert-triangle.svg?react
 
 import { TransactionActivityListProvider } from '@renderer/contexts/TransactionActivityListContext'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
-import { TTransactionActivityListEventColumnSize } from '@shared/types/contexts'
-import { TUseTransactionsTransactionDefault } from '@shared/types/hooks'
+import { TTransactionActivityListItemColumnSize } from '@shared/types/contexts'
 import { IAccountState } from '@shared/types/store'
 
 import { TransactionActivityListDateRange } from './TransactionActivityListDateRange'
-import { TransactionActivityListItem } from './TransactionActivityListItem'
+import { TransactionActivityListItems } from './TransactionActivityListItems'
 import { TransactionActivityListSkeleton } from './TransactionActivityListSkeleton'
 
 type TProps = {
@@ -38,7 +37,7 @@ const heights = {
   DATE: 40,
   DATE_GAP: 16,
   HEADER: 34,
-  ITEM: 53,
+  ITEM: 56,
   SEPARATOR: 1,
   SEPARATOR_MARGIN: 8,
   TRANSACTION_GAP: 16,
@@ -53,7 +52,7 @@ const Content = ({
   shouldUseFullTransactionsService,
 }: TProps) => {
   const { t } = useTranslation('components', { keyPrefix: 'transactionActivityList' })
-  const { setEventColumnSize } = useTransactionActivityList()
+  const { setItemColumnSize } = useTransactionActivityList()
   const { language } = useLanguageSelector()
 
   const dateNow = new Date()
@@ -87,7 +86,6 @@ const Content = ({
     onSelectDateTo(date)
   }
 
-  // TODO: change variable names, comments and height when UTXO is implemented
   const virtualizer = useVirtualizer({
     count: data.length,
     gap: heights.DATE_GAP,
@@ -108,13 +106,18 @@ const Content = ({
       // Add gaps between transactions, except after the last one
       height += (transactionsLength - 1) * heights.TRANSACTION_GAP
 
-      const [firstTransaction] = transactions
+      let itemsLength = 0
 
       // Calculate total number of items across all transactions in the group
-      const itemsLength =
-        firstTransaction.view === 'default'
-          ? (transactions as TUseTransactionsTransactionDefault[]).flatMap(({ events }) => events).length
-          : 0
+      transactions.forEach(transaction => {
+        if (transaction.view === 'utxo') {
+          itemsLength += Math.max(transaction.inputs.length, transaction.outputs.length) + transaction.nfts.length
+
+          return
+        }
+
+        itemsLength += transaction.events.length
+      })
 
       // Add height for each item
       height += itemsLength * heights.ITEM
@@ -145,8 +148,7 @@ const Content = ({
 
       const { width } = entry.contentRect
 
-      // TODO: change this variable name
-      setEventColumnSize(
+      setItemColumnSize(
         match(width)
           .with(
             P.when(value => value <= 822),
@@ -164,7 +166,7 @@ const Content = ({
             P.when(value => value <= 1120),
             () => 'lg'
           )
-          .otherwise(() => 'xl') as TTransactionActivityListEventColumnSize
+          .otherwise(() => 'xl') as TTransactionActivityListItemColumnSize
       )
     })
 
@@ -224,8 +226,8 @@ const Content = ({
 
                     {transactions.length > 0 && (
                       <ul className="flex flex-col gap-y-4">
-                        {transactions.map((transaction, index) => (
-                          <TransactionActivityListItem key={`${transaction.txId}-${index}`} transaction={transaction} />
+                        {transactions.map(transaction => (
+                          <TransactionActivityListItems key={transaction.txId} transaction={transaction} />
                         ))}
                       </ul>
                     )}

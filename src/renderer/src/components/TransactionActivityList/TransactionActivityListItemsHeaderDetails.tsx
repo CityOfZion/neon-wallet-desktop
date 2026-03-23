@@ -10,7 +10,7 @@ type TProps = {
   icon: JSX.Element
 } & ComponentProps<'div'>
 
-export const TransactionActivityListItemHeaderDetails = ({ label, data, icon, ...props }: TProps) => (
+export const TransactionActivityListItemsHeaderDetails = ({ label, data, icon, ...props }: TProps) => (
   <div {...props} className={StyleHelper.mergeStyles('flex items-center gap-x-1', props.className)}>
     {cloneElement(icon, {
       ...icon.props,
