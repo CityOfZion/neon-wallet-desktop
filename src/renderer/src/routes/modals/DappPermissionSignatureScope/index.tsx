@@ -25,14 +25,14 @@ export const DappPermissionSignatureScopeModal = () => {
             leftElement={<TbCube3dSphere aria-hidden />}
             rightElement={<p className="text-sm font-semibold text-gray-100 capitalize">{scope}</p>}
           >
-            <p className="text-sm text-white capitalize">{t('scopeDetailsHeaderLabel')}</p>
+            <p className="text-sm text-white">{t('scopeDetailsHeaderLabel')}</p>
           </Details.Header>
         </Details.Root>
 
         {allowedList && (
           <Details.Root className="mt-3">
             <Details.Header>
-              <p className="text-sm text-white capitalize">{t('allowListDetailsHeaderLabel')}</p>
+              <p className="text-sm text-white">{t('allowListDetailsHeaderLabel')}</p>
             </Details.Header>
 
             <Details.HeaderSeparator />
@@ -45,7 +45,7 @@ export const DappPermissionSignatureScopeModal = () => {
 
         <Details.Root className="mt-3">
           <Details.Header>
-            <p className="text-sm text-white capitalize">{t('explanationDetailsHeaderLabel')}</p>
+            <p className="text-sm text-white">{t('explanationDetailsHeaderLabel')}</p>
           </Details.Header>
 
           <Details.HeaderSeparator />

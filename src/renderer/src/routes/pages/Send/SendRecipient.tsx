@@ -156,7 +156,7 @@ export const SendRecipient = ({
       <div className="my-5 flex w-full flex-col">
         <div className="flex w-full items-start gap-3">
           <Input
-            value={recipient.addressInput ?? ''}
+            value={recipient.addressInput || ''}
             onChange={handleChangeAddress}
             compacted
             testId={`send-recipient-address-input-${order}`}
@@ -205,9 +205,9 @@ export const SendRecipient = ({
       <Separator />
 
       <ActionStep
-        className="px-0"
         title={t('tokenToSendLabel')}
-        leftIcon={<VscCircleFilled aria-hidden className="h-2 w-2 text-gray-300" />}
+        className="px-0"
+        leftIcon={<VscCircleFilled aria-hidden className="size-2 text-gray-300" />}
       >
         <GreyTokenSelect
           tokens={balance?.data?.tokensBalances.map(tokenBalance => tokenBalance.token) ?? []}
@@ -222,12 +222,12 @@ export const SendRecipient = ({
       <Separator />
 
       <ActionStep
-        className="px-0"
         title={t('amountLabel')}
-        leftIcon={<VscCircleFilled aria-hidden className="h-2 w-2 text-gray-300" />}
+        className="px-0"
+        leftIcon={<VscCircleFilled aria-hidden className="size-2 text-gray-300" />}
       >
         <GreyAmountInput
-          value={recipient.amount ?? ''}
+          value={recipient.amount || ''}
           onChangeValue={handleChangeAmount}
           disabled={isAmountDisabled}
           maxButtonProps={{

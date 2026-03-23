@@ -10,6 +10,7 @@ type TProps = {
   leftIconContainerClassName?: string
   className?: string
   titleClassName?: string
+  containerClassName?: string
   headerClassName?: string
   defaultHeight?: string
   children?: ReactNode
@@ -21,6 +22,7 @@ export const ActionStep = ({
   leftIcon,
   className,
   titleClassName,
+  containerClassName,
   headerClassName,
   leftIconContainerClassName,
   defaultHeight,
@@ -53,7 +55,7 @@ export const ActionStep = ({
 
   return (
     <div className={StyleHelper.mergeStyles('flex w-full flex-col gap-2.5 py-3', className)}>
-      <div className="flex w-full justify-between gap-6">
+      <div className={StyleHelper.mergeStyles('flex w-full justify-between gap-6', containerClassName)}>
         <div
           className={StyleHelper.mergeStyles(
             'flex h-min min-w-0 items-center gap-2.5',

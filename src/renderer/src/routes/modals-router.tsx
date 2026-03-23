@@ -34,7 +34,7 @@ const MigrateAccountsStep3Modal = lazy(() => import('./modals/MigrateAccountsSte
 const MigrateAccountsStep4Modal = lazy(() => import('./modals/MigrateAccountsStep4'))
 const Neo3NeoxBridgeConfirmationModal = lazy(() => import('./modals/Neo3NeoxBridgeConfirmation'))
 const Neo3NeoxBridgeDetailsModal = lazy(() => import('./modals/Neo3NeoxBridgeDetails'))
-const NetworkNodeSelectionModal = lazy(() => import('./modals/NetworkNodeSelection'))
+const NetworkUrlSelectionModal = lazy(() => import('./modals/NetworkUrlSelection'))
 const NetworkSelectionModal = lazy(() => import('./modals/NetworkSelection'))
 const NFTSelectionModal = lazy(() => import('./modals/NftSelection'))
 const NotificationsModal = lazy(() => import('./modals/Notifications'))
@@ -82,7 +82,7 @@ const sideModalsRouter: TRoute[] = [
   { name: 'migrate-accounts-step-4', element: MigrateAccountsStep4Modal },
   { name: 'neo3-neox-bridge-confirmation', element: Neo3NeoxBridgeConfirmationModal },
   { name: 'neo3-neox-bridge-details', element: Neo3NeoxBridgeDetailsModal },
-  { name: 'network-node-selection', element: NetworkNodeSelectionModal },
+  { name: 'network-url-selection', element: NetworkUrlSelectionModal },
   { name: 'network-selection', element: NetworkSelectionModal },
   { name: 'nft-selection', element: NFTSelectionModal },
   { name: 'notifications', element: NotificationsModal },

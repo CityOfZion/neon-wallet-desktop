@@ -30,7 +30,7 @@ const AddNetworkProfileModal = () => {
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
 
   const { actionData, actionState, setDataFromEventWrapper, setError, handleAct } = useActions<TActionData>({
-    name: modalState?.profile?.name ?? '',
+    name: modalState?.profile?.name || '',
   })
 
   const modalStateProfile = modalState?.profile

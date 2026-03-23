@@ -35,6 +35,7 @@ mac:
   hardenedRuntime: true
   entitlements: build/entitlements.mac.plist
   entitlementsInherit: build/entitlements.mac.plist
+  x64ArchFiles: '**/tiny-secp256k1/build/Release/secp256k1.node'
   type: distribution
   target:
     target: default

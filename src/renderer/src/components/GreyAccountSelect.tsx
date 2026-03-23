@@ -66,7 +66,7 @@ export const GreyAccountSelect = ({
   }
 
   return (
-    <Select.Root open={open} onOpenChange={setOpen} value={selectedAccount?.id ?? ''} onValueChange={handleChangeValue}>
+    <Select.Root open={open} onOpenChange={setOpen} value={selectedAccount?.id || ''} onValueChange={handleChangeValue}>
       {children ? (
         <Select.RawTrigger asChild disabled={isDisabled}>
           {children}
@@ -114,7 +114,7 @@ export const GreyAccountSelect = ({
                     <Select.ItemText>{StringHelper.truncateStringMiddle(account.address, 8)}</Select.ItemText>
 
                     <span className="text-1xs truncate text-left text-gray-100">
-                      {`${account.name} | ${account.wallet.name}`}
+                      {account.name} | {account.wallet.name}
                     </span>
                   </div>
 

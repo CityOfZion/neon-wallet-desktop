@@ -1,3 +1,5 @@
+import { ChangeEvent } from 'react'
+
 import { useTranslation } from 'react-i18next'
 
 import { Button } from '@renderer/components/Button'
@@ -32,7 +34,7 @@ const CreateWalletStep3Modal = () => {
   const nameValidation = StringHelper.validateValue(actionData.name, MAX_NAME_LENGTH)
   const isDisabled = !nameValidation.isValid || actionState.isActing
 
-  const handleChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeName = (event: ChangeEvent<HTMLInputElement>) => {
     setData({ name: event.target.value })
   }
 

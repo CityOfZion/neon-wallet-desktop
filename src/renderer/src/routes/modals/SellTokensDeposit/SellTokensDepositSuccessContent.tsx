@@ -1,12 +1,8 @@
 import { useTranslation } from 'react-i18next'
+import { match, P } from 'ts-pattern'
 
-import { IconButton } from '@renderer/components/IconButton'
-import { Separator } from '@renderer/components/Separator'
-import { Tooltip } from '@renderer/components/Tooltip'
+import { Details } from '@renderer/components/Details'
 
-import { ClipboardHelper } from '@renderer/helpers/ClipboardHelper'
-
-import MdOutlineContentCopy from '@renderer/assets/images/md-outline-content-copy.svg?react'
 import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
 
 import type { TUseTransactionsTransaction } from '@shared/types/hooks'
@@ -17,73 +13,46 @@ type TProps = {
 
 export const SellTokensDepositSuccessContent = ({ transaction }: TProps) => {
   const { t } = useTranslation('modals', { keyPrefix: 'sellTokensDeposit.success' })
+  const isUtxo = transaction.view === 'utxo'
+  const output = isUtxo ? transaction.outputs[0] : undefined
+  const event = !isUtxo ? transaction.events[0] : undefined
+  const amount = isUtxo ? output!.amount : event!.amount
+  const receiverAccount = isUtxo ? output?.account : event?.toAccount
+  const receiverName = receiverAccount?.name
+  const receiverAddress = receiverAccount?.address
 
-  const event = transaction.events[0]
-  const name = event.toAccount?.name
+  const token = match({ output, event })
+    .with({ output: P.nonNullable }, ({ output }) => output.token)
+    .with({ event: P.when(value => value?.eventType === 'token') }, ({ event }) => event.token)
+    .otherwise(() => undefined)
 
   return (
-    <div className="bg-asphalt mt-6 flex min-h-0 w-full flex-col rounded-sm p-3 pb-4">
-      <div className="flex items-center gap-2.5 text-sm text-white">
-        <TbReceipt aria-hidden className="text-blue h-6 w-6" />
+    <Details.Root className="mt-6 min-h-0 pt-2">
+      <Details.Header className="font-medium" leftElement={<TbReceipt aria-hidden />}>
+        {t('details')}
+      </Details.Header>
 
-        <p className="grow font-medium">{t('details')}</p>
-      </div>
+      <Details.HeaderSeparator className="mt-3" />
 
-      <Separator className="mt-3" />
+      <Details.Body className="mt-4 gap-3.5">
+        <Details.Panel label={t('section')}>
+          <Details.Item label={t('recipient')} className="gap-2 pr-3" copyable={receiverAddress}>
+            <span className="grow text-sm font-medium break-all text-white">
+              {receiverName ? `${receiverName} (${receiverAddress})` : receiverAddress}
+            </span>
+          </Details.Item>
 
-      <div className="mt-4 flex flex-col gap-3.5">
-        <p className="text-blue bg-gray-300/15 px-3.5 py-1.5 text-xs">{t('section')}</p>
+          <Details.Item label={t('amount')} className="gap-2 pr-3">
+            <span className="text-sm font-medium break-all text-white">
+              {amount} {token && <span className="font-normal text-gray-100">{token.symbol}</span>}
+            </span>
+          </Details.Item>
 
-        <div className="flex flex-col gap-2 px-3">
-          <p className="text-xs text-gray-100 uppercase">{t('recipient')}</p>
-
-          <div className="flex items-center gap-2">
-            <p className="grow text-sm font-medium break-all text-white">{name ? `${name} (${event.to})` : event.to}</p>
-
-            <Tooltip title={t('labels.copyAddress')}>
-              <IconButton
-                aria-label={t('labels.copyAddress')}
-                size="sm"
-                compacted
-                icon={<MdOutlineContentCopy aria-hidden className="text-neon" />}
-                onClick={ClipboardHelper.write.bind(null, event.to ?? '')}
-              />
-            </Tooltip>
-          </div>
-        </div>
-
-        <Separator />
-
-        {event.eventType === 'token' && (
-          <div className="flex flex-col gap-2 px-3">
-            <p className="text-xs text-gray-100 uppercase">{t('amount')}</p>
-
-            <p className="text-sm font-medium break-all text-white">
-              {event.amount} <span className="font-normal text-gray-100">{event.token?.symbol}</span>
-            </p>
-          </div>
-        )}
-
-        <Separator />
-
-        <div className="flex flex-col gap-2 px-3">
-          <p className="text-xs text-gray-100 uppercase">{t('transactionHash')}</p>
-
-          <div className="flex items-center gap-2">
-            <p className="grow text-sm font-medium break-all text-white">{transaction.txId}</p>
-
-            <Tooltip title={t('labels.copyTransactionHash')}>
-              <IconButton
-                aria-label={t('labels.copyTransactionHash')}
-                size="sm"
-                compacted
-                icon={<MdOutlineContentCopy aria-hidden className="text-neon" />}
-                onClick={ClipboardHelper.write.bind(null, transaction.txId)}
-              />
-            </Tooltip>
-          </div>
-        </div>
-      </div>
-    </div>
+          <Details.Item label={t('transactionHash')} className="gap-2 pr-3" copyable={transaction.txId}>
+            <span className="grow text-sm font-medium break-all text-white">{transaction.txId}</span>
+          </Details.Item>
+        </Details.Panel>
+      </Details.Body>
+    </Details.Root>
   )
 }

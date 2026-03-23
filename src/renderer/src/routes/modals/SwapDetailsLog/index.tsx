@@ -40,7 +40,7 @@ const SwapDetailsLogModal = () => {
         if (response.log) finalLog = response.log
       }
 
-      return JSON.stringify(JSON.parse(finalLog ?? ''), null, 4)
+      return JSON.stringify(JSON.parse(finalLog || ''), null, 4)
     },
   })
 

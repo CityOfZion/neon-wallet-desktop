@@ -28,6 +28,7 @@ export function getSettingsReducer() {
     networkByBlockchain: {
       arbitrum: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.arbitrum.defaultNetwork,
       base: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.base.defaultNetwork,
+      bitcoin: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.bitcoin.defaultNetwork,
       ethereum: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.ethereum.defaultNetwork,
       neo3: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.neo3.defaultNetwork,
       neoLegacy: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.neoLegacy.defaultNetwork,
@@ -43,7 +44,8 @@ export function getSettingsReducer() {
     networkByBlockchain: Object.values(BlockchainServiceHelper.bsAggregator.blockchainServicesByName).reduce(
       (accumulator, service) => {
         accumulator[service.name] =
-          service.availableNetworks.find(network => network.type === 'testnet') ?? service.defaultNetwork
+          service.availableNetworks.find(({ type }) => type === 'testnet') || service.defaultNetwork
+
         return accumulator
       },
       {} as TSelectedNetworks
@@ -62,6 +64,7 @@ export function getSettingsReducer() {
         shouldUpdate: true,
       },
       customNetworks: {
+        bitcoin: [],
         ethereum: [],
         neo3: [],
         neoLegacy: [],
@@ -82,8 +85,8 @@ export function getSettingsReducer() {
 
   const settingsReducerConfig: PersistConfig<ISettingsReducer> = {
     key: 'settingsReducer',
-    storage: storage,
-    version: 13,
+    storage,
+    version: 14,
     migrate: createMigrate(settingsMigrations),
     blacklist: ['showSideBar'],
   }

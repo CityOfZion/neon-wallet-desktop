@@ -45,7 +45,7 @@ export const useLogin = () => {
       }
 
       dispatch(
-        authReducerActions.setCurrentLoginSession({
+        authReducerActions.setLoginSession({
           type: 'password',
           encryptedPassword,
         })
@@ -59,7 +59,7 @@ export const useLogin = () => {
       const randomPassword = UtilsHelper.uuid()
       const encryptedPassword = await window.api.sendAsync('encryption:encryptBasedOS', randomPassword)
 
-      dispatch(authReducerActions.setCurrentLoginSession({ type: 'hardware', encryptedPassword }))
+      dispatch(authReducerActions.setLoginSession({ type: 'hardware', encryptedPassword }))
 
       // Prevent the login session from being not set within createHardwareWallet
       await SharedUtilsHelper.sleep(500)
@@ -74,7 +74,7 @@ export const useLogin = () => {
       const randomPassword = UtilsHelper.uuid()
       const encryptedPassword = await window.api.sendAsync('encryption:encryptBasedOS', randomPassword)
 
-      dispatch(authReducerActions.setCurrentLoginSession({ type: 'key', encryptedPassword }))
+      dispatch(authReducerActions.setLoginSession({ type: 'key', encryptedPassword }))
 
       const wallet = createWallet(walletToCreate)
 
@@ -87,7 +87,7 @@ export const useLogin = () => {
   )
 
   const logout = useCallback(async () => {
-    dispatch(authReducerActions.setCurrentLoginSession(undefined))
+    dispatch(authReducerActions.setLoginSession(undefined))
     dispatch(settingsReducerActions.setSelectedWallet(undefined))
     dispatch(settingsReducerActions.setSelectedAccount(undefined))
     await window.api.sendAsync('hardwareWallet:disconnect')
@@ -117,7 +117,7 @@ export const useSignup = () => {
 
       dispatch(settingsReducerActions.setHasPassword(true))
       dispatch(settingsReducerActions.setEncryptedLoginControl(encryptedLoginControl))
-      dispatch(authReducerActions.setCurrentLoginSession({ type: 'password', encryptedPassword }))
+      dispatch(authReducerActions.setLoginSession({ type: 'password', encryptedPassword }))
     },
     [dispatch]
   )

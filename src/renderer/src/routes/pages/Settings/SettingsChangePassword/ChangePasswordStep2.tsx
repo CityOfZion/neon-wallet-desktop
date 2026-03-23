@@ -10,7 +10,7 @@ import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
-import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
+import { useLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useSignup } from '@renderer/hooks/useLogin'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
@@ -28,7 +28,7 @@ const ChangePasswordStep2 = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'settings.changePassword.step2' })
   const { t: commonT } = useTranslation('common')
   const { wallets } = useWalletsSelector()
-  const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
+  const { loginSessionRef } = useLoginSessionSelector()
   const { accounts } = useAccountsSelector()
   const dispatch = useAppDispatch()
   const { state } = useLocation() as Location<TLocationState>
@@ -42,7 +42,7 @@ const ChangePasswordStep2 = () => {
 
       isDownloading.current = true
 
-      const loginSession = currentLoginSessionRef.current
+      const loginSession = loginSessionRef.current
 
       if (!loginSession) {
         throw new AppError(commonT('errors.loginSessionIsNotDefined'))
@@ -119,10 +119,10 @@ const ChangePasswordStep2 = () => {
         label={t('buttonDownload')}
         type="button"
         variant="contained"
-        className="w-[268px]"
+        className="w-67"
         disabled={isDownloading.current}
         loading={isDownloading.current}
-        leftIcon={<TbDownload />}
+        leftIcon={<TbDownload aria-hidden />}
         onDownload={handleDownload}
       />
     </div>

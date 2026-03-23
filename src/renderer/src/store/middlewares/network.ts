@@ -9,6 +9,7 @@ import { settingsReducerActions } from '../reducers/settings'
 
 export function getNetworkMiddleware() {
   const networkListenerMiddleware = createListenerMiddleware()
+  const services = Object.values(BlockchainServiceHelper.bsAggregator.blockchainServicesByName)
 
   networkListenerMiddleware.startListening({
     predicate: action =>
@@ -25,7 +26,7 @@ export function getNetworkMiddleware() {
       const selectedNetworkProfile = state.settings?.data?.selectedNetworkProfile
       if (!selectedNetworkProfile) return
 
-      Object.values(BlockchainServiceHelper.bsAggregator.blockchainServicesByName).forEach(service => {
+      services.forEach(service => {
         service.setNetwork(selectedNetworkProfile.networkByBlockchain[service.name])
       })
     },

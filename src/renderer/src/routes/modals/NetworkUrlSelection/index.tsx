@@ -13,7 +13,7 @@ import { Separator } from '@renderer/components/Separator'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
-import { usePingNodes } from '@renderer/hooks/useNodes'
+import { usePingNetworks } from '@renderer/hooks/usePingNetworks'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useSelectedNetworkProfileSelector } from '@renderer/hooks/useSettingsSelector'
 
@@ -25,13 +25,13 @@ import TbRefresh from '@renderer/assets/images/tb-refresh.svg?react'
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
 import type { TModalState } from '@shared/types/modal'
 
-const NetworkNodeSelection = () => {
-  const { t } = useTranslation('modals', { keyPrefix: 'networkNodeSelection' })
+const NetworkUrlSelection = () => {
+  const { t } = useTranslation('modals', { keyPrefix: 'networkUrlSelection' })
   const { t: commonGeneral } = useTranslation('common', { keyPrefix: 'general' })
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
-  const { blockchain } = useModalState<TModalState<'network-node-selection'>>()
+  const { blockchain } = useModalState<TModalState<'network-url-selection'>>()
   const { selectedNetworkProfile } = useSelectedNetworkProfileSelector()
-  const pingNodesQuery = usePingNodes(blockchain)
+  const pingNetworksQuery = usePingNetworks(blockchain)
   const dispatch = useAppDispatch()
 
   const network = selectedNetworkProfile.networkByBlockchain[blockchain]
@@ -45,9 +45,9 @@ const NetworkNodeSelection = () => {
   }
 
   const handleIsAutomaticallyChange = (value: boolean) => {
-    const firstNode = pingNodesQuery.data?.[0]
-    if (firstNode) {
-      setSelectedUrl(firstNode.url)
+    const firstNetwork = pingNetworksQuery.data?.[0]
+    if (firstNetwork) {
+      setSelectedUrl(firstNetwork.url)
     }
 
     setIsAutomatic(value)
@@ -71,7 +71,7 @@ const NetworkNodeSelection = () => {
     >
       <p className="px-4 text-xs text-white">{t('description')}</p>
 
-      <span className="mt-6 block px-4 font-bold text-gray-100">{t('listLabel')}</span>
+      <span className="mt-6 block px-4 font-bold text-gray-100 uppercase">{t('listLabel')}</span>
 
       <div className="bg-asphalt mt-4 flex justify-between px-4 py-3.5">
         <Button
@@ -80,7 +80,7 @@ const NetworkNodeSelection = () => {
           variant="text-slim"
           flat
           colorSchema="white"
-          onClick={() => pingNodesQuery.refetch()}
+          onClick={() => pingNetworksQuery.refetch()}
         />
 
         <div className="flex gap-2.5">
@@ -91,30 +91,30 @@ const NetworkNodeSelection = () => {
             id="automatically"
             checked={isAutomatic}
             onCheckedChange={handleIsAutomaticallyChange}
-            disabled={pingNodesQuery.isLoading}
+            disabled={pingNetworksQuery.isLoading}
           />
         </div>
       </div>
 
       <div className="mt-3.5 grow overflow-auto">
-        {pingNodesQuery.isLoading ? (
+        {pingNetworksQuery.isLoading ? (
           <Loader />
         ) : (
           <RadioGroup.Group value={selectedUrl} onValueChange={handleSelectRadioItem}>
-            {pingNodesQuery.data?.map(node => {
+            {pingNetworksQuery.data?.map(currentNetwork => {
               const isNeoxAntiMev =
                 blockchain === 'neox' &&
-                BSNeoXConstants.ANTI_MEV_RPC_LIST_BY_NETWORK_ID[network.id].some(url => url === node.url)
+                BSNeoXConstants.ANTI_MEV_RPC_LIST_BY_NETWORK_ID[network.id].some(url => url === currentNetwork.url)
 
               return (
-                <RadioGroup.Item key={node.url} value={node.url} className="h-17 text-xs">
+                <RadioGroup.Item key={currentNetwork.url} value={currentNetwork.url} className="h-17 text-xs">
                   <div className="flex min-w-0 grow items-center gap-4">
                     <div className="flex flex-col items-center justify-center gap-0.5">
                       <div className="flex h-4 w-4 items-center justify-center">
                         <div
                           className={StyleHelper.mergeStyles(
                             'h-1.5 min-h-1.5 w-1.5 min-w-1.5 rounded-full',
-                            match(node.latency)
+                            match(currentNetwork.latency)
                               .with(undefined, () => 'bg-gray-300')
                               .with(
                                 P.when(value => value < 400),
@@ -130,7 +130,9 @@ const NetworkNodeSelection = () => {
                       </div>
 
                       <span className="min-w-12 text-gray-300">
-                        {typeof node.latency === 'number' ? t('latency', { latency: node.latency }) : '--'}
+                        {typeof currentNetwork.latency === 'number'
+                          ? t('latency', { latency: currentNetwork.latency })
+                          : '--'}
                       </span>
                     </div>
 
@@ -141,10 +143,12 @@ const NetworkNodeSelection = () => {
                         </span>
                       )}
 
-                      <span className="block w-full truncate text-left">{node.url}</span>
+                      <span className="block w-full truncate text-left">{currentNetwork.url}</span>
 
                       <span className="text-left text-gray-300">
-                        {t('blockHeight', { height: node.height ?? '--' })}
+                        {t('blockHeight', {
+                          height: typeof currentNetwork.height === 'number' ? currentNetwork.height : '--',
+                        })}
                       </span>
                     </div>
                   </div>
@@ -177,4 +181,4 @@ const NetworkNodeSelection = () => {
   )
 }
 
-export default NetworkNodeSelection
+export default NetworkUrlSelection

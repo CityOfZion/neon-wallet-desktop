@@ -5,6 +5,7 @@
   "blockchain": {
     "arbitrum": "Arbitrum",
     "base": "Base",
+    "bitcoin": "Bitcoin",
     "ethereum": "Ethereum",
     "neo3": "Neo N3",
     "neoLegacy": "Neo Legacy",
@@ -27,7 +28,7 @@
     "cancel": "Cancelar",
     "close": "Fechar",
     "continue": "Continuar",
-    "copy": "Copiar para área de transferência",
+    "copy": "Copiar",
     "copyToClipboard": "Copiar para a área de transferência",
     "default": "Padrão",
     "downloadQRCodePassword": "Baixar código QR da senha",
@@ -55,7 +56,7 @@
       "disconnectFirst": "Você deve desconectar a carteira de hardware antes de conectá-la novamente.",
       "hardwareWalletIsNotConnectOrUnlocked": "A carteira de hardware não está conectada ou está bloqueada. Verifique seu dispositivo e tente novamente.",
       "hardwareWalletNotFound": "Não há nenhuma carteira de hardware conectada.",
-      "missingBip44Path": "O caminho BIP44 está ausente para a conta da carteira de hardware.",
+      "missingBipPath": "O caminho BIP está ausente para a conta da carteira de hardware.",
       "walletIsNotHardware": "A carteira selecionada não é uma carteira de hardware."
     }
   },

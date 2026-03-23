@@ -27,7 +27,7 @@ export const VoteNeo3AvailableVotes = ({ neoAmount, voteErrorMessage, hasNeoAmou
         <Skeleton className="h-7 w-24" />
       ) : (
         <Tooltip
-          title={voteErrorMessage ?? ''}
+          title={voteErrorMessage || ''}
           variant="black"
           delayDuration={0}
           contentProps={{ className: 'max-w-32' }}

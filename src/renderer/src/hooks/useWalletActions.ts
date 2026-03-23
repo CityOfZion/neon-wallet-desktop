@@ -12,17 +12,17 @@ import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { TUseCreateWalletParams, TUseEditWalletParams } from '@shared/types/blockchain'
 import { IWalletState } from '@shared/types/store'
 
-import { useCurrentLoginSessionSelector } from './useAuthSelector'
+import { useLoginSessionSelector } from './useAuthSelector'
 import { useAppDispatch } from './useRedux'
 
 export const useCreateWallet = () => {
   const dispatch = useAppDispatch()
-  const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
+  const { loginSessionRef } = useLoginSessionSelector()
   const { t } = useTranslation('common')
 
   const createWallet = useCallback(
     ({ name, mnemonic, id, type, backupStatus }: TUseCreateWalletParams) => {
-      if (!currentLoginSessionRef.current) {
+      if (!loginSessionRef.current) {
         throw new AppError(t('errors.loginSessionIsNotDefined'))
       }
 
@@ -31,7 +31,7 @@ export const useCreateWallet = () => {
       if (mnemonic) {
         encryptedMnemonic = window.api.sendSync('encryption:encryptBasedEncryptedSecretSync', {
           value: mnemonic,
-          encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
+          encryptedSecret: loginSessionRef.current.encryptedPassword,
         })
       }
 
@@ -48,7 +48,7 @@ export const useCreateWallet = () => {
 
       return newWallet
     },
-    [currentLoginSessionRef, dispatch, t]
+    [loginSessionRef, dispatch, t]
   )
 
   return { createWallet }
@@ -92,12 +92,12 @@ export const useDeleteWallet = () => {
 
 export const useEditWallet = () => {
   const dispatch = useAppDispatch()
-  const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
+  const { loginSessionRef } = useLoginSessionSelector()
   const { t } = useTranslation('common')
 
   const editWallet = useCallback(
     ({ data, wallet }: TUseEditWalletParams) => {
-      if (!currentLoginSessionRef.current) {
+      if (!loginSessionRef.current) {
         throw new AppError(t('errors.loginSessionIsNotDefined'))
       }
 
@@ -106,7 +106,7 @@ export const useEditWallet = () => {
       if (data.mnemonic) {
         encryptedMnemonic = window.api.sendSync('encryption:encryptBasedEncryptedSecretSync', {
           value: data.mnemonic,
-          encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
+          encryptedSecret: loginSessionRef.current.encryptedPassword,
         })
 
         delete data.mnemonic
@@ -118,7 +118,7 @@ export const useEditWallet = () => {
 
       return editedWallet
     },
-    [currentLoginSessionRef, dispatch, t]
+    [loginSessionRef, dispatch, t]
   )
 
   return { editWallet }

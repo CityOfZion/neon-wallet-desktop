@@ -399,7 +399,7 @@
       "createProfileButtonLabel": "Profil erstellen",
       "currentNetwork": "Aktuelles Netzwerk",
       "editProfileButtonLabel": "Profil bearbeiten",
-      "nodeSelection": "Knotenauswahl",
+      "networkUrlSelection": "Netzwerk-URL-Auswahl",
       "resetProfileButtonLabel": "Profil zurücksetzen",
       "selectProfilePlaceholder": "Profil auswählen…",
       "title": "Netzwerkkonfiguration",

@@ -32,13 +32,13 @@
       "invalidURL": "無效的網址",
       "networkNameIsRequired": "必須輸入網路名稱",
       "networkNameIsTooLong": "網路名稱過長",
-      "notConnect": "無法連接此節點"
+      "notConnect": "無法連接到此網路"
     },
     "nameLabel": "網路名稱",
     "namePlaceholder": "輸入網路名稱",
-    "successUrl": "成功連接至節點",
+    "successUrl": "成功連接到網路",
     "title": "新增自訂網路",
-    "urlLabel": "RPC 網址",
+    "urlLabel": "URL",
     "urlPlaceholder": "範例：'http://127.0.0.1:50012"
   },
   "addNetworkProfile": {
@@ -107,7 +107,7 @@
     "description": "為了建立備份檔案，請輸入您的 NEON 密碼：",
     "error": "密碼不正確！",
     "errorBackup": "備份時發生錯誤，請再試一次。",
-    "inputPlaceholder": "輸入您的密碼...",
+    "inputPlaceholder": "輸入您的密碼…",
     "modalDescription": "備份建立成功！",
     "returnSettings": "返回設定",
     "subtitle": "目前的 NEON 密碼",
@@ -119,20 +119,20 @@
     "buttonContinueLabel": "繼續",
     "description": "為保護您的資產，請確認密碼",
     "error": "密碼不正確！",
-    "inputPlaceholder": "輸入密碼..."
+    "inputPlaceholder": "輸入密碼…"
   },
   "confirmPasswordRecover": {
     "buttonContinueLabel": "導入此 NEON 備份",
     "description": "為了導入備份檔案，請輸入您建立備份時使用的密碼：",
     "error": "密碼不正確！",
-    "inputPlaceholder": "輸入您的密碼...",
+    "inputPlaceholder": "輸入您的密碼…",
     "modalDescription": "備份導入成功！",
     "returnSettings": "返回設定",
     "subtitle": "備份密碼",
     "title": "導入 NEON 備份"
   },
   "connectHardwareWallet": {
-    "connectedMessage": "已偵測到您的硬體錢包！正在開啟錢包...",
+    "connectedMessage": "已偵測到您的硬體錢包！正在開啟錢包…",
     "description": "連接後，您的 Ledger 錢包將新增至錢包列表",
     "notConnectedMessage": "找不到硬體錢包！請檢查連線並重新搜尋",
     "searchAgainButtonLabel": "重新搜尋",
@@ -172,7 +172,7 @@
         "walletNameIsTooShort": "錢包名稱至少需 1 個字元"
       },
       "inputLabel": "錢包名稱",
-      "inputPlaceholder": "輸入您的錢包名稱...",
+      "inputPlaceholder": "輸入您的錢包名稱…",
       "nextButtonLabel": "下一步",
       "step3of4": "3 / 4",
       "title": "為新錢包命名與設置密碼"
@@ -203,7 +203,7 @@
       "errorToConnect": "哎呀！發生錯誤。請重新產生 URI 並再試一次。",
       "timeout": "連線請求逾時。"
     },
-    "inputPlaceholder": "請貼上您的網址...",
+    "inputPlaceholder": "請貼上您的網址…",
     "title": "連接 dApp"
   },
   "dappConnectionRequest": {
@@ -309,7 +309,7 @@
       "decryptError": "解密密鑰時出現問題",
       "noEncryptionInterfaceError": "此區塊鏈無法解密密鑰"
     },
-    "inputPlaceholder": "請輸入密碼...",
+    "inputPlaceholder": "請輸入密碼…",
     "title": "導入"
   },
   "deleteAccount": {
@@ -341,7 +341,7 @@
       "walletNameIsTooLong": "錢包名稱最多需 {{amount}} 個字元",
       "walletNameIsTooShort": "錢包名稱至少需 1 個字元"
     },
-    "inputPlaceholder": "輸入您的錢包名稱...",
+    "inputPlaceholder": "輸入您的錢包名稱…",
     "noSkinsUnlocked": "尚未解鎖任何主題",
     "saveButtonLabel": "儲存",
     "selectSkinLabel": "選擇主題",
@@ -410,7 +410,7 @@
       "mnemonicAlreadyExist": "助記詞已存在"
     },
     "importEncryptedDescription": "為您的新帳戶選擇所需的區塊鏈",
-    "inputPlaceholder": "請輸入地址或金鑰...",
+    "inputPlaceholder": "請輸入地址或金鑰…",
     "subtitle": "導入",
     "success": {
       "address": "地址完成！",
@@ -441,7 +441,7 @@
   "migrateWallets": {
     "instructionTitle": "操作說明",
     "step2": {
-      "buttonBrowseLabel": "瀏覽...",
+      "buttonBrowseLabel": "瀏覽…",
       "buttonImportLabel": "導入",
       "description": "為了完成 NEON 2 遷移流程，請選擇您的 NEON 2 錢包遷移檔案：",
       "inputLabel": "選擇您的 NEON 2 遷移檔案",
@@ -460,7 +460,7 @@
       "buttonLabel": "遷移帳戶",
       "description": "請為每個要導入的帳戶輸入密碼",
       "inputLabel": "密碼",
-      "inputPlaceholder": "輸入帳戶密碼...",
+      "inputPlaceholder": "輸入帳戶密碼…",
       "migrateError": "遷移時發生錯誤，請再試一次。",
       "passwordError": "密碼不正確！",
       "success": {
@@ -509,21 +509,21 @@
     "toDetailsPanelLabel": "目標",
     "toTokenDetailsItemLabel": "代幣"
   },
-  "networkNodeSelection": {
-    "antiMevLabel": "反MEV",
-    "blockHeight": "區塊高度：{{height}}",
-    "description": "如果您遇到效能問題，請嘗試選擇下方的自訂節點",
-    "latency": "{{latency}}毫秒",
-    "listLabel": "節點列表",
-    "refreshButtonLabel": "重新整理",
-    "selectAutomaticallyLabel": "自動選擇",
-    "title": "節點選擇"
-  },
   "networkSelection": {
     "addCustomNetworkButtonLabel": "新增自訂網路",
     "editCustomNetworkButtonLabel": "編輯自訂網路",
     "selectNetwork": "選擇網路",
     "title": "網路"
+  },
+  "networkUrlSelection": {
+    "antiMevLabel": "防MEV",
+    "blockHeight": "區塊高度：{{height}}",
+    "description": "如果您遇到效能問題，請嘗試在下方選擇自訂網路",
+    "latency": "{{latency}}毫秒",
+    "listLabel": "網路URL清單",
+    "refreshButtonLabel": "重新整理",
+    "selectAutomaticallyLabel": "自動選擇",
+    "title": "網路URL選擇"
   },
   "nftSelection": {
     "description": "請選擇您想用於此帳戶卡片的圖片。",
@@ -560,7 +560,7 @@
       "accountNameIsTooShort": "帳戶名稱至少需 1 個字元"
     },
     "inputLabel": "帳戶名稱",
-    "inputPlaceholder": "輸入您的帳戶名稱...",
+    "inputPlaceholder": "輸入您的帳戶名稱…",
     "inputSubtitle": "建議以用途（如「投資」或「交易」）為帳戶命名，方便辨識。",
     "nextButtonLabel": "下一步",
     "saveButtonLabel": "儲存",
@@ -589,7 +589,7 @@
     },
     "editContact": "編輯聯絡人",
     "emptyAddresses": "尚未新增地址",
-    "enterAName": "請輸入名稱...",
+    "enterAName": "請輸入名稱…",
     "invalidName": "名稱無效",
     "name": "名稱",
     "noAddressesFound": "找不到地址",
@@ -609,7 +609,7 @@
   },
   "selectAccount": {
     "noAccounts": "沒有帳戶",
-    "placeholder": "選擇錢包...",
+    "placeholder": "選擇錢包…",
     "title": "選擇帳戶",
     "yourAccounts": "您的帳戶："
   },
@@ -666,10 +666,6 @@
     "success": {
       "amount": "金額",
       "details": "交易詳情",
-      "labels": {
-        "copyAddress": "複製地址",
-        "copyTransactionHash": "複製交易雜湊"
-      },
       "recipient": "收件人",
       "section": "交易",
       "subtitle": "您的存款已成功",
@@ -718,7 +714,7 @@
     "routingPanelTransactionFeeLabel": "交易手續費",
     "routingPanelTransactionFromLabel": "交易來源",
     "routingPanelTransactionToLabel": "交易目標",
-    "routingPanelTransactionToLabelPending": "處理中...",
+    "routingPanelTransactionToLabelPending": "處理中…",
     "sentPanelAddressLabel": "發送地址",
     "sentPanelLabel": "您已發送",
     "sentPanelTokenLabel": "代幣",

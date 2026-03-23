@@ -1,11 +1,11 @@
-import type { TBSToken } from '@cityofzion/blockchain-service'
+import { TTransaction } from '@cityofzion/blockchain-service'
 import type { SeverityLevel } from '@sentry/electron'
 import type { JSX, ReactNode } from 'react'
 import type { ToastT } from 'sonner'
 
 import { TBlockchainServiceKey } from './blockchain'
-import type { TUseTransactionsTransaction } from './hooks'
 import type { IAccountState, TCurrency, TLanguage } from './store'
+
 export type TAccountHelperPredicateParams = {
   address: string
   blockchain: TBlockchainServiceKey
@@ -92,10 +92,10 @@ export type TExportTransactionsHelperCalculateDateFromSelectionMaxOneYearRespons
 }
 
 export type TTransactionHelperBuildPendingTransactionParams = {
-  txId: string
-  fromAccount: IAccountState
-  type?: Exclude<TUseTransactionsTransaction['type'], 'bridgeNeo3NeoX'>
-  events?: { toAccount?: IAccountState; toAddress: string; token: TBSToken; amount: string }[]
+  transaction: TTransaction<TBlockchainServiceKey>
+  account: IAccountState
+  senderAccount?: IAccountState
+  receiverAccounts?: (IAccountState | undefined)[]
 }
 
 export type TLoggerHelperOptions = {

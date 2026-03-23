@@ -11,7 +11,7 @@ import { Separator } from '@renderer/components/Separator'
 import { ClipboardHelper } from '@renderer/helpers/ClipboardHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 
-import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
+import { useLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useModalState } from '@renderer/hooks/useModalRouter'
 
 import { SideModalLayout } from '@renderer/layouts/SideModal'
@@ -26,7 +26,7 @@ import type { TModalState } from '@shared/types/modal'
 
 const ExportKeyModal = () => {
   const { account } = useModalState<TModalState<'export-key'>>()
-  const { currentLoginSession } = useCurrentLoginSessionSelector()
+  const { loginSession } = useLoginSessionSelector()
   const { t } = useTranslation('modals', { keyPrefix: 'exportKey' })
   const { t: commonT } = useTranslation('common')
   const ref = useRef<HTMLDivElement>(null)
@@ -35,13 +35,13 @@ const ExportKeyModal = () => {
     bodyClass: 'print-agreement',
   })
 
-  if (!currentLoginSession) {
+  if (!loginSession) {
     throw new AppError(commonT('errors.loginSessionIsNotDefined'))
   }
 
   const decryptedKey = window.api.sendSync('encryption:decryptBasedEncryptedSecretSync', {
-    value: account.encryptedKey ?? '',
-    encryptedSecret: currentLoginSession.encryptedPassword,
+    value: account.encryptedKey || '',
+    encryptedSecret: loginSession.encryptedPassword,
   })
 
   return (

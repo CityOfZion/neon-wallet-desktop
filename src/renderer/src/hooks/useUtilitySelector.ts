@@ -6,14 +6,14 @@ import { IAccountState } from '@shared/types/store'
 import { createAppSelector, useAppSelector } from './useRedux'
 
 const selectHasClaimPendingTransaction = (account: IAccountState) =>
-  createAppSelector([state => state.utility.inMemoryData.pendingTransactions], pendingTransactions => {
+  createAppSelector([state => state.utility.memoryData.pendingTransactions], pendingTransactions => {
     return pendingTransactions.some(
       transaction => transaction.type === 'claim' && SharedAccountHelper.predicate(account)(transaction.account)
     )
   })
 
 export const usePendingTransactionsSelector = () => {
-  const { ref, value } = useAppSelector(state => state.utility.inMemoryData.pendingTransactions)
+  const { value, ref } = useAppSelector(state => state.utility.memoryData.pendingTransactions)
 
   return {
     pendingTransactions: value,

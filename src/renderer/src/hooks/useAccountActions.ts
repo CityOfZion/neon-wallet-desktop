@@ -21,17 +21,17 @@ import {
 } from '@shared/types/blockchain'
 import { IAccountState } from '@shared/types/store'
 
-import { useCurrentLoginSessionSelector } from './useAuthSelector'
+import { useLoginSessionSelector } from './useAuthSelector'
 import { useAppDispatch } from './useRedux'
 
 export const useCreateStandardAccount = () => {
   const dispatch = useAppDispatch()
-  const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
+  const { loginSessionRef } = useLoginSessionSelector()
   const { t } = useTranslation('common')
 
   const createStandardAccount = useCallback(
     async ({ blockchain, name, wallet, skin, id }: TUseCreateStandardAccountParams) => {
-      if (!currentLoginSessionRef.current) {
+      if (!loginSessionRef.current) {
         throw new AppError(t('errors.loginSessionIsNotDefined'))
       }
 
@@ -41,7 +41,7 @@ export const useCreateStandardAccount = () => {
 
       const mnemonic = await window.api.sendAsync('encryption:decryptBasedEncryptedSecret', {
         value: wallet.encryptedMnemonic,
-        encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
+        encryptedSecret: loginSessionRef.current.encryptedPassword,
       })
 
       const accountOrder = AccountHelper.getNextOrderOrMissing(wallet.accounts, blockchain)
@@ -50,7 +50,7 @@ export const useCreateStandardAccount = () => {
 
       const encryptedKey = window.api.sendSync('encryption:encryptBasedEncryptedSecretSync', {
         value: generatedAccount.key,
-        encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
+        encryptedSecret: loginSessionRef.current.encryptedPassword,
       })
 
       const newAccount: IAccountState = {
@@ -78,7 +78,7 @@ export const useCreateStandardAccount = () => {
 
       return newAccount
     },
-    [currentLoginSessionRef, dispatch, t]
+    [loginSessionRef, dispatch, t]
   )
 
   return { createStandardAccount }
@@ -86,14 +86,14 @@ export const useCreateStandardAccount = () => {
 
 export const useImportAccount = () => {
   const dispatch = useAppDispatch()
-  const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
+  const { loginSessionRef } = useLoginSessionSelector()
   const { t } = useTranslation('common')
 
   const importAccount = useCallback(
     async ({ address, blockchain, type, wallet, key, name, order, skin }: TUseImportAccountParams) => {
       let encryptedKey: string | undefined
 
-      if (!currentLoginSessionRef.current) {
+      if (!loginSessionRef.current) {
         throw new AppError(t('errors.loginSessionIsNotDefined'))
       }
 
@@ -104,7 +104,7 @@ export const useImportAccount = () => {
 
         encryptedKey = await window.api.sendAsync('encryption:encryptBasedEncryptedSecret', {
           value: key,
-          encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
+          encryptedSecret: loginSessionRef.current.encryptedPassword,
         })
       }
 
@@ -126,7 +126,7 @@ export const useImportAccount = () => {
 
       return newAccount
     },
-    [currentLoginSessionRef, t, dispatch]
+    [loginSessionRef, t, dispatch]
   )
 
   return { importAccount }
@@ -134,12 +134,12 @@ export const useImportAccount = () => {
 
 export const useImportAccounts = () => {
   const { importAccount } = useImportAccount()
-  const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
+  const { loginSessionRef } = useLoginSessionSelector()
   const { t } = useTranslation('common')
 
   const importAccounts = useCallback(
     async ({ accounts: accountsToImport, wallet }: TUseImportAccountsParams) => {
-      if (!currentLoginSessionRef.current) {
+      if (!loginSessionRef.current) {
         throw new AppError(t('errors.loginSessionIsNotDefined'))
       }
 
@@ -153,7 +153,7 @@ export const useImportAccounts = () => {
 
       return clonedWallet.accounts
     },
-    [currentLoginSessionRef, importAccount, t]
+    [loginSessionRef, importAccount, t]
   )
 
   return { importAccounts }
@@ -190,12 +190,12 @@ export const useDeleteAccount = () => {
 
 export const useEditAccount = () => {
   const dispatch = useAppDispatch()
-  const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
+  const { loginSessionRef } = useLoginSessionSelector()
   const { t } = useTranslation('common')
 
   const editAccount = useCallback(
     ({ account, data }: TUseEditAccountParams) => {
-      if (!currentLoginSessionRef.current) {
+      if (!loginSessionRef.current) {
         throw new AppError(t('errors.loginSessionIsNotDefined'))
       }
 
@@ -204,7 +204,7 @@ export const useEditAccount = () => {
       if (data.key) {
         encryptedKey = window.api.sendSync('encryption:encryptBasedEncryptedSecretSync', {
           value: data.key,
-          encryptedSecret: currentLoginSessionRef.current.encryptedPassword,
+          encryptedSecret: loginSessionRef.current.encryptedPassword,
         })
 
         delete data.key
@@ -216,7 +216,7 @@ export const useEditAccount = () => {
 
       return editedAccount
     },
-    [currentLoginSessionRef, dispatch, t]
+    [loginSessionRef, dispatch, t]
   )
 
   return { editAccount }

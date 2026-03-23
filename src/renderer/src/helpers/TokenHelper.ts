@@ -9,10 +9,12 @@ export class TokenHelper {
     return service.nativeTokens.some(token => service.tokenService.predicateByHash(hash, token))
   }
 
-  static isValidTokenHash(hash: string) {
-    const trimmedHash = hash.trim()
+  static isValidTokenHash(hash?: string): hash is string {
+    const trimmedHash = hash?.trim()
 
-    return !!trimmedHash && trimmedHash.toLowerCase() !== '0x'
+    if (!trimmedHash) return false
+
+    return trimmedHash.toLowerCase() !== '0x'
   }
 
   static fallbackTokenHash(hash: string) {

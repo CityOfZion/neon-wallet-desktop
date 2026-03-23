@@ -36,7 +36,7 @@ const MigrateAccountsStep2Modal = () => {
         <div className="flex grow flex-col items-center">
           <p>{t('description')}</p>
 
-          <Input compacted label={t('inputLabel')} value={actionData.path ?? ''} readOnly containerClassName="mt-5" />
+          <Input compacted label={t('inputLabel')} value={actionData.path || ''} readOnly containerClassName="mt-5" />
 
           {actionState.errors.path && <AlertErrorBanner message={actionState.errors.path} className="mt-3 w-full" />}
 

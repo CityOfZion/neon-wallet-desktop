@@ -32,13 +32,13 @@
       "invalidURL": "无效的URL",
       "networkNameIsRequired": "网络名称为必填项",
       "networkNameIsTooLong": "网络名称过长",
-      "notConnect": "无法连接到该节点"
+      "notConnect": "无法连接到此网络"
     },
     "nameLabel": "网络名称",
     "namePlaceholder": "输入网络名称",
-    "successUrl": "已成功连接到节点",
+    "successUrl": "成功连接到网络",
     "title": "添加自定义网络",
-    "urlLabel": "RPC地址",
+    "urlLabel": "URL",
     "urlPlaceholder": "例如: 'http://127.0.0.1:50012"
   },
   "addNetworkProfile": {
@@ -107,7 +107,7 @@
     "description": "要创建备份文件，请在下方输入您的NEON密码：",
     "error": "密码不正确！",
     "errorBackup": "备份时发生错误，请重试。",
-    "inputPlaceholder": "输入您的密码...",
+    "inputPlaceholder": "输入您的密码…",
     "modalDescription": "备份创建成功！",
     "returnSettings": "返回设置",
     "subtitle": "当前NEON密码",
@@ -119,20 +119,20 @@
     "buttonContinueLabel": "继续",
     "description": "为保护您的资产访问，请确认您的密码",
     "error": "密码不正确！",
-    "inputPlaceholder": "输入密码..."
+    "inputPlaceholder": "输入密码…"
   },
   "confirmPasswordRecover": {
     "buttonContinueLabel": "导入此NEON备份",
     "description": "要导入备份文件，请输入创建备份时使用的密码：",
     "error": "密码不正确！",
-    "inputPlaceholder": "输入您的密码...",
+    "inputPlaceholder": "输入您的密码…",
     "modalDescription": "备份导入成功！",
     "returnSettings": "返回设置",
     "subtitle": "备份密码",
     "title": "导入NEON备份"
   },
   "connectHardwareWallet": {
-    "connectedMessage": "检测到您的硬件钱包！正在打开钱包...",
+    "connectedMessage": "检测到您的硬件钱包！正在打开钱包…",
     "description": "连接后，您的Ledger钱包将被添加到钱包列表中",
     "notConnectedMessage": "未找到硬件钱包！请检查连接并重新搜索",
     "searchAgainButtonLabel": "重新搜索",
@@ -172,7 +172,7 @@
         "walletNameIsTooShort": "钱包名称至少需 1 个字元"
       },
       "inputLabel": "钱包名称",
-      "inputPlaceholder": "输入您的钱包名称...",
+      "inputPlaceholder": "输入您的钱包名称…",
       "nextButtonLabel": "下一步",
       "step3of4": "第3步，共4步",
       "title": "为新钱包命名并设置密码"
@@ -203,7 +203,7 @@
       "errorToConnect": "哎呀！发生错误。请生成新的URI并重试。",
       "timeout": "连接请求超时。"
     },
-    "inputPlaceholder": "在此粘贴您的URL...",
+    "inputPlaceholder": "在此粘贴您的URL…",
     "title": "连接dApp"
   },
   "dappConnectionRequest": {
@@ -309,7 +309,7 @@
       "decryptError": "解密密钥时出现问题",
       "noEncryptionInterfaceError": "此区块链无法解密密钥"
     },
-    "inputPlaceholder": "输入密码...",
+    "inputPlaceholder": "输入密码…",
     "title": "导入"
   },
   "deleteAccount": {
@@ -341,7 +341,7 @@
       "walletNameIsTooLong": "钱包名称最多需 {{amount}} 个字元",
       "walletNameIsTooShort": "钱包名称至少需 1 个字元"
     },
-    "inputPlaceholder": "输入您的钱包名称...",
+    "inputPlaceholder": "输入您的钱包名称…",
     "noSkinsUnlocked": "没有解锁的皮肤",
     "saveButtonLabel": "保存",
     "selectSkinLabel": "选择皮肤",
@@ -410,7 +410,7 @@
       "mnemonicAlreadyExist": "助记词已存在"
     },
     "importEncryptedDescription": "为您的新账户选择所需的区块链",
-    "inputPlaceholder": "请输入地址或密钥...",
+    "inputPlaceholder": "请输入地址或密钥…",
     "subtitle": "导入",
     "success": {
       "address": "地址导入成功！",
@@ -441,7 +441,7 @@
   "migrateWallets": {
     "instructionTitle": "操作说明",
     "step2": {
-      "buttonBrowseLabel": "浏览...",
+      "buttonBrowseLabel": "浏览…",
       "buttonImportLabel": "导入",
       "description": "为完成NEON 2迁移流程，请定位您的NEON 2钱包迁移文件：",
       "inputLabel": "定位您的NEON 2迁移文件",
@@ -460,7 +460,7 @@
       "buttonLabel": "迁移账户",
       "description": "为每个要导入的账户输入密码",
       "inputLabel": "密码",
-      "inputPlaceholder": "输入账户密码...",
+      "inputPlaceholder": "输入账户密码…",
       "migrateError": "迁移时发生错误，请重试。",
       "passwordError": "密码不正确！",
       "success": {
@@ -509,21 +509,21 @@
     "toDetailsPanelLabel": "目标",
     "toTokenDetailsItemLabel": "代币"
   },
-  "networkNodeSelection": {
-    "antiMevLabel": "反MEV",
-    "blockHeight": "区块高度：{{height}}",
-    "description": "如果您遇到性能问题，请尝试在下方选择自定义节点",
-    "latency": "{{latency}}毫秒",
-    "listLabel": "节点列表",
-    "refreshButtonLabel": "刷新",
-    "selectAutomaticallyLabel": "自动选择",
-    "title": "节点选择"
-  },
   "networkSelection": {
     "addCustomNetworkButtonLabel": "添加自定义网络",
     "editCustomNetworkButtonLabel": "编辑自定义网络",
     "selectNetwork": "选择网络",
     "title": "网络"
+  },
+  "networkUrlSelection": {
+    "antiMevLabel": "防MEV",
+    "blockHeight": "区块高度：{{height}}",
+    "description": "如果您遇到性能问题，请尝试在下方选择自定义网络",
+    "latency": "{{latency}}毫秒",
+    "listLabel": "网络URL列表",
+    "refreshButtonLabel": "刷新",
+    "selectAutomaticallyLabel": "自动选择",
+    "title": "网络URL选择"
   },
   "nftSelection": {
     "description": "请选择您想用于此账户卡片的图片。",
@@ -560,7 +560,7 @@
       "accountNameIsTooShort": "账户名称至少为1个字符"
     },
     "inputLabel": "账户名称",
-    "inputPlaceholder": "输入您的账户名称...",
+    "inputPlaceholder": "输入您的账户名称…",
     "inputSubtitle": "建议用与用途相关的标签命名账户（如“投资”或“交易”）。",
     "nextButtonLabel": "下一步",
     "saveButtonLabel": "保存",
@@ -589,7 +589,7 @@
     },
     "editContact": "编辑联系人",
     "emptyAddresses": "未添加地址",
-    "enterAName": "输入姓名...",
+    "enterAName": "输入姓名…",
     "invalidName": "名称无效",
     "name": "姓名",
     "noAddressesFound": "未找到地址",
@@ -609,7 +609,7 @@
   },
   "selectAccount": {
     "noAccounts": "暂无账户",
-    "placeholder": "选择钱包...",
+    "placeholder": "选择钱包…",
     "title": "选择账户",
     "yourAccounts": "您的账户："
   },
@@ -666,10 +666,6 @@
     "success": {
       "amount": "金额",
       "details": "交易详情",
-      "labels": {
-        "copyAddress": "复制地址",
-        "copyTransactionHash": "复制交易哈希"
-      },
       "recipient": "收款人",
       "section": "交易",
       "subtitle": "您的存款已成功",
@@ -718,7 +714,7 @@
     "routingPanelTransactionFeeLabel": "交易手续费",
     "routingPanelTransactionFromLabel": "交易发起自",
     "routingPanelTransactionToLabel": "交易接收至",
-    "routingPanelTransactionToLabelPending": "待处理...",
+    "routingPanelTransactionToLabelPending": "待处理…",
     "sentPanelAddressLabel": "发送地址",
     "sentPanelLabel": "您已发送",
     "sentPanelTokenLabel": "代币",

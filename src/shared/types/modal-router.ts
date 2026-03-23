@@ -180,7 +180,7 @@ type TNeo3NeoxBridgeDetailsModalState = {
   confirmed?: boolean
 }
 
-type TNetworkNodeSelectionModalState = {
+type TNetworkUrlSelectionModalState = {
   blockchain: TBlockchainServiceKey
 }
 
@@ -291,7 +291,7 @@ type TModalRouterSideRouteTypes = {
   'migrate-accounts-step-4': TMigrateAccountsStep4ModalState
   'neo3-neox-bridge-confirmation': TNeo3NeoxBridgeConfirmationModalState
   'neo3-neox-bridge-details': TNeo3NeoxBridgeDetailsModalState
-  'network-node-selection': TNetworkNodeSelectionModalState
+  'network-url-selection': TNetworkUrlSelectionModalState
   'network-selection': TNetworkSelectionModalState
   'nft-selection': TNftSelectionModalState
   notifications: undefined

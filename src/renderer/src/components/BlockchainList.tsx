@@ -36,28 +36,25 @@ export const BlockchainList = ({ onSelect, selectedBlockchains = [], isMulti, bl
   }
 
   return (
-    <ul className={StyleHelper.mergeStyles('m-auto mb-4 flex w-1/2 grow flex-col gap-2 overflow-auto', className)}>
+    <ul
+      className={StyleHelper.mergeStyles('m-auto mb-4 flex w-1/2 grow flex-col gap-2 overflow-auto', className)}
+      {...TestHelper.buildTestObject('blockchains-list')}
+    >
       {blockchainsToIterate.map(blockchain => {
         const isSelected = selectedBlockchains.includes(blockchain)
 
         return (
-          <li
-            key={blockchain}
-            className="bg-asphalt flex h-12 rounded-sm border-none"
-            {...TestHelper.buildTestObject(`blockchain-selection-item-${blockchain}`)}
-          >
-            <div className="flex grow items-center justify-between">
-              <label className="flex w-full cursor-pointer items-center gap-2.5 px-6 py-4">
-                <BlockchainIcon blockchain={blockchain} type="gray" />
-                <span className="flex grow">{commonT(blockchain)}</span>
-                <Checkbox
-                  value={blockchain}
-                  onCheckedChange={() => handleSelect(blockchain)}
-                  checked={isSelected}
-                  className="rounded-sm"
-                />
-              </label>
-            </div>
+          <li key={blockchain} className="bg-asphalt flex h-12 grow items-center rounded-sm border-none">
+            <label className="flex w-full cursor-pointer items-center gap-2.5 px-6 py-4">
+              <BlockchainIcon blockchain={blockchain} type="gray" />
+              <span className="flex grow">{commonT(blockchain)}</span>
+              <Checkbox
+                value={blockchain}
+                onCheckedChange={() => handleSelect(blockchain)}
+                checked={isSelected}
+                className="rounded-sm"
+              />
+            </label>
           </li>
         )
       })}

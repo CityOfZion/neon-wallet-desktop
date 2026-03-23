@@ -400,7 +400,7 @@
       "createProfileButtonLabel": "Create profile",
       "currentNetwork": "Current Network",
       "editProfileButtonLabel": "Edit profile",
-      "nodeSelection": "Node Selection",
+      "networkUrlSelection": "Network URL selection",
       "resetProfileButtonLabel": "Reset profile",
       "selectProfilePlaceholder": "Select a profile…",
       "title": "Network Configuration",

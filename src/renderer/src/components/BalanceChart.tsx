@@ -81,13 +81,13 @@ export const BalanceChart = ({ balances, sortedBalances, className }: TProps) =>
       </div>
 
       <div className="flex w-full flex-col">
-        <p className="mb-3.5 px-2 text-sm text-gray-100">{t('holdings')}</p>
+        <p className="mb-3.5 px-1 text-sm text-gray-100">{t('holdings')}</p>
 
         <ul className="flex w-full justify-center">
           {bars.map((bar, index) => (
             <li
               key={`${bar.name}-${bar.color}-${index}`}
-              className="mx-2 flex min-w-20 flex-col"
+              className="mx-1 flex min-w-20 flex-col"
               style={{
                 width: `${bar.widthPercent}%`,
               }}

@@ -42,8 +42,8 @@ const PersistContactModal = () => {
   const modalStateAddresses = modalState?.addresses
 
   const { actionData, actionState, handleAct, setData, setError } = useActions<TFormData>({
-    name: modalStateContact?.name ?? '',
-    addresses: modalStateAddresses ?? modalStateContact?.addresses ?? [],
+    name: modalStateContact?.name || '',
+    addresses: modalStateAddresses || modalStateContact?.addresses || [],
   })
 
   const handleAddAddress = (address: TContactAddress, index?: number) =>

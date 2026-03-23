@@ -1,9 +1,8 @@
 import { useMemo } from 'react'
 
-import { hasExplorerService, TNftResponse } from '@cityofzion/blockchain-service'
+import { TNftResponse } from '@cityofzion/blockchain-service'
 import { MasonryPhotoAlbum } from 'react-photo-album'
 
-import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import { IAccountState } from '@shared/types/store'
@@ -23,26 +22,13 @@ export const NftGallery = ({ account, nfts }: TProps) => {
       nfts.map(nft => ({
         key: `${nft.hash}-${nft.collection?.hash}`,
         title: nft.name,
-        src: nft.image ?? '',
+        src: nft.image || '',
         width: 1,
         height: 1,
         nft,
       })),
     [nfts]
   )
-
-  const getExplorerUrl = (nft: TNftResponse) => {
-    const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[account.blockchain]
-
-    if (!hasExplorerService(service)) return
-
-    const explorerUrl = service.explorerService.buildNftUrl({
-      tokenHash: nft.hash,
-      collectionHash: nft.collection?.hash,
-    })
-
-    return explorerUrl
-  }
 
   const handleClick = (explorerUrl: string) => {
     window.open(explorerUrl, '_blank')
@@ -62,32 +48,34 @@ export const NftGallery = ({ account, nfts }: TProps) => {
           />
         ),
         photo: (_props, { photo }) => {
-          const explorerUrl = getExplorerUrl(photo.nft)
+          const explorerUrl = photo.nft.explorerUri
 
           return (
             <div
               key={`${photo.key}-${photo.src}`}
-              className={StyleHelper.mergeStyles('flex flex-col gap-2 rounded-md bg-gray-300/15 p-2.5', {
+              className={StyleHelper.mergeStyles('flex w-full flex-col gap-2 rounded-md bg-gray-300/15 p-2.5', {
                 'cursor-pointer transition-colors hover:bg-gray-300/30': !!explorerUrl,
               })}
               onClick={explorerUrl ? handleClick.bind(null, explorerUrl) : undefined}
             >
-              <div className="overflow-hidden rounded-sm bg-gray-300/30">
-                <img
-                  loading="lazy"
-                  decoding="async"
-                  title={photo.title}
-                  key={photo.key}
-                  src={photo.src}
-                  alt={photo.title}
-                  className="block h-full w-full"
-                />
-              </div>
+              {photo.src && (
+                <div className="mx-auto w-full overflow-hidden rounded-sm bg-gray-300/30">
+                  <img
+                    loading="lazy"
+                    decoding="async"
+                    title={photo.title}
+                    key={photo.key}
+                    src={photo.src}
+                    alt={photo.title}
+                    className="pointer-events-none block h-full w-full"
+                  />
+                </div>
+              )}
 
-              <div className="flex items-center gap-2.5">
-                <BlockchainIcon blockchain={account.blockchain} type="gray" className="ml-0.5 h-3 w-3 opacity-60" />
+              <div className="mt-1 flex items-center gap-2.5">
+                <BlockchainIcon blockchain={account.blockchain} type="gray" className="ml-0.5 size-3 opacity-60" />
 
-                <span className="w-20 truncate text-xs capitalize 2xl:w-36">{photo.title}</span>
+                <span className="w-20 truncate text-xs 2xl:w-36">{photo.title}</span>
               </div>
 
               <div className="flex items-center gap-2">
@@ -101,7 +89,7 @@ export const NftGallery = ({ account, nfts }: TProps) => {
                   </div>
                 )}
 
-                <span className="text-blue w-20 truncate text-xs capitalize 2xl:w-32">{photo.nft.hash}</span>
+                <span className="text-blue w-28 truncate text-xs 2xl:w-32">{photo.nft.hash}</span>
               </div>
             </div>
           )

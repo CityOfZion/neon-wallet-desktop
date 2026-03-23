@@ -5,6 +5,7 @@
   "blockchain": {
     "arbitrum": "Arbitrum",
     "base": "Base",
+    "bitcoin": "Bitcoin",
     "ethereum": "Ethereum",
     "neo3": "Neo N3",
     "neoLegacy": "Neo Legacy",
@@ -27,7 +28,7 @@
     "cancel": "Abbrechen",
     "close": "Schließen",
     "continue": "Weiter",
-    "copy": "In Zwischenablage kopieren",
+    "copy": "Kopie",
     "copyToClipboard": "Zum Clipboards kopieren",
     "default": "Standard",
     "downloadQRCodePassword": "Passwort-QR-Code herunterladen",
@@ -55,7 +56,7 @@
       "disconnectFirst": "Sie müssen die Hardware-Wallet trennen, bevor Sie sie wieder anschließen.",
       "hardwareWalletIsNotConnectOrUnlocked": "Ihre Hardware-Wallet ist nicht verbunden oder gesperrt. Überprüfen Sie Ihr Gerät und versuchen Sie es erneut.",
       "hardwareWalletNotFound": "Es ist keine Hardware-Wallet angeschlossen.",
-      "missingBip44Path": "Der BIP44-Pfad fehlt für das Hardware-Wallet-Konto.",
+      "missingBipPath": "Der BIP-Pfad fehlt für das Hardware-Wallet-Konto.",
       "walletIsNotHardware": "Bei der ausgewählten Wallet handelt es sich nicht um eine Hardware-Wallet."
     }
   },

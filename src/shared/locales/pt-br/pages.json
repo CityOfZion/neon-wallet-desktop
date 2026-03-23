@@ -399,7 +399,7 @@
       "createProfileButtonLabel": "Criar perfil",
       "currentNetwork": "Rede Atual",
       "editProfileButtonLabel": "Editar perfil",
-      "nodeSelection": "Seleção de Nó",
+      "networkUrlSelection": "Seleção de URL de rede",
       "resetProfileButtonLabel": "Redefinir perfil",
       "selectProfilePlaceholder": "Selecione um perfil…",
       "title": "Configuração de Rede",

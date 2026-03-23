@@ -1,11 +1,12 @@
 import { FormEvent, MouseEvent } from 'react'
 
-import {
-  type TGetTransactionsByAddressResponse,
-  type TTransactionBase,
-  type TTransactionBridgeNeo3NeoX,
-  type TTransactionNftEvent,
-  type TTransactionTokenEvent,
+import type {
+  TGetTransactionsByAddressResponse,
+  TTransactionDefault,
+  TTransactionInputOutput,
+  TTransactionNftEvent,
+  TTransactionTokenEvent,
+  TTransactionUtxo,
 } from '@cityofzion/blockchain-service'
 import zod from 'zod'
 
@@ -60,22 +61,44 @@ export type TUseHardwareWalletByUsbStatus = 'searching' | 'connected' | 'not-con
 
 export type TUseTransactionsProps = {
   accounts: IAccountState[]
-  dateTo: Date
   dateFrom: Date
+  dateTo: Date
   shouldUseFullTransactionsService: boolean
 }
 
-export type TUseTransactionsTransactionEvent = (TTransactionTokenEvent | TTransactionNftEvent) & {
+type TUseTransactionsTransactionEventBase = {
   fromAccount?: IAccountState
   toAccount?: IAccountState
 }
 
-export type TUseTransactionsTransaction = TTransactionBase & {
+export type TUseTransactionsTransactionEventToken = TUseTransactionsTransactionEventBase & TTransactionTokenEvent
+
+export type TUseTransactionsTransactionEventNft = TUseTransactionsTransactionEventBase & TTransactionNftEvent
+
+export type TUseTransactionsTransactionEvent =
+  | TUseTransactionsTransactionEventToken
+  | TUseTransactionsTransactionEventNft
+
+export type TUseTransactionsTransactionInputOutput = TTransactionInputOutput & {
+  account?: IAccountState
+}
+
+type TUseTransactionsTransactionBase = {
   account: IAccountState
   blockchain: TBlockchainServiceKey
   isPending: boolean
-  events: TUseTransactionsTransactionEvent[]
-} & ({ type: 'default' } | { type: 'claim' } | { type: 'vote' } | TTransactionBridgeNeo3NeoX<TBlockchainServiceKey>)
+}
+
+export type TUseTransactionsTransactionDefault = TUseTransactionsTransactionBase &
+  TTransactionDefault<TBlockchainServiceKey> & { events: TUseTransactionsTransactionEvent[] }
+
+export type TUseTransactionsTransactionUtxo = TUseTransactionsTransactionBase &
+  TTransactionUtxo<TBlockchainServiceKey> & {
+    inputs: TUseTransactionsTransactionInputOutput[]
+    outputs: TUseTransactionsTransactionInputOutput[]
+  }
+
+export type TUseTransactionsTransaction = TUseTransactionsTransactionDefault | TUseTransactionsTransactionUtxo
 
 export type TUseTransactionsQueryData = Omit<
   TGetTransactionsByAddressResponse<TBlockchainServiceKey>,

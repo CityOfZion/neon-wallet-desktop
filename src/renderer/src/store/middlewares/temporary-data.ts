@@ -10,13 +10,12 @@ export function getTemporaryDataMiddleware() {
 
   networkListenerMiddleware.startListening({
     predicate: action =>
-      authReducerActions.setCurrentLoginSession.match(action) ||
-      (action.type === REHYDRATE && action.key === 'authReducer'),
+      authReducerActions.setLoginSession.match(action) || (action.type === REHYDRATE && action.key === 'authReducer'),
     effect: (_action, listenerApi) => {
       const state = listenerApi.getState() as TRootState
+      const loginSession = state.auth?.memoryData?.loginSession
 
-      const currentLoginSession = state.auth?.inMemoryData.currentLoginSession
-      if (currentLoginSession) return
+      if (loginSession) return
 
       listenerApi.dispatch(authReducerActions.resetTemporaryApplicationData())
     },

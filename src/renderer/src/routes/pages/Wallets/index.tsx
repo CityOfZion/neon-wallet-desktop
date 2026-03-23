@@ -19,8 +19,8 @@ import { ClipboardHelper } from '@renderer/helpers/ClipboardHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 
-import { useAccountMapSelector, useHasHardwareAccountSelector } from '@renderer/hooks/useAccountSelector'
-import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
+import { useAccountsMapSelector, useHasHardwareAccountSelector } from '@renderer/hooks/useAccountSelector'
+import { useLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useBridgeNeo3NeoXValidations } from '@renderer/hooks/useBridgeNeo3NeoXValidations'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
@@ -56,10 +56,10 @@ const WalletsPage = () => {
   const { wallets } = useWalletsSelector()
   const { hasHardwareAccount } = useHasHardwareAccountSelector()
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
-  const { currentLoginSession } = useCurrentLoginSessionSelector()
+  const { loginSession } = useLoginSessionSelector()
   const { selectedWallet } = useSelectedWalletSelector()
   const { selectedAccount } = useSelectedAccountSelector()
-  const { accountsMapRef } = useAccountMapSelector()
+  const { accountsMapRef } = useAccountsMapSelector()
   const { walletsMapRef } = useWalletsMapSelector()
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
@@ -70,8 +70,10 @@ const WalletsPage = () => {
   const service = selectedAccount
     ? BlockchainServiceHelper.bsAggregator.blockchainServicesByName[selectedAccount.blockchain]
     : undefined
-  const isKeyLoginSession = currentLoginSession?.type === 'key'
+
+  const isKeyLoginSession = loginSession?.type === 'key'
   const menuLayoutId = `wallets-menu-link-${selectedAccount?.id}`
+  const hasNftMenuItem = service && hasNft(service)
 
   const handleSelectAccount = (selected: IAccountState) => {
     navigate(location.pathname, { state: { account: selected } })
@@ -166,6 +168,12 @@ const WalletsPage = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [wallets, location.state])
+
+  useLayoutEffect(() => {
+    if (!hasNftMenuItem && location.pathname.startsWith('/wallets/nfts')) {
+      navigate('/wallets/overview', { state: { account: selectedAccount } })
+    }
+  }, [hasNftMenuItem, navigate, location.pathname, selectedAccount])
 
   return (
     <MainLayout
@@ -330,7 +338,7 @@ const WalletsPage = () => {
                         </MenuLink>
                       </li>
 
-                      {service && hasNft(service) && (
+                      {hasNftMenuItem && (
                         <li>
                           <Separator containerClassName="px-3" />
 

@@ -37,9 +37,7 @@ const NetworkSelectionModal = () => {
   const [selectedNetworkId, setSelectedNetworkId] = useState<string>()
 
   const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
-
   const options = service.availableNetworks.concat(...customNetworks[blockchain])
-
   const selectedNetwork = options.find(option => option.id === selectedNetworkId) ?? options[0]
 
   const onSelectRadioItem = (selectedValue: string) => {

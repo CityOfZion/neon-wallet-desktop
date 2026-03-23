@@ -1,4 +1,4 @@
-import { FormEvent, MouseEvent, useCallback, useMemo, useRef, useState } from 'react'
+import { SyntheticEvent, useCallback, useMemo, useRef, useState } from 'react'
 
 import { cloneDeep } from 'lodash'
 
@@ -148,11 +148,12 @@ export const useActions = <T extends TUseActionsData>(
   )
 
   const handleAct = useCallback((callback: (data: T) => void | Promise<void>) => {
-    return async (event: FormEvent | MouseEvent) => {
+    return async (event: SyntheticEvent) => {
       event.preventDefault()
 
       try {
         setPrivateActionState(prev => ({ ...prev, isActing: true }))
+
         await callback(actionDataRef.current)
       } finally {
         setPrivateActionState(prev => ({ ...prev, isActing: false, hasActed: true }))

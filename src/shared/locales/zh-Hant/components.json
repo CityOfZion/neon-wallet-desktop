@@ -14,10 +14,10 @@
     "title": "所有帳戶"
   },
   "blockchainSelect": {
-    "placeholder": "選擇區塊鏈..."
+    "placeholder": "選擇區塊鏈…"
   },
   "blockchainSelection": {
-    "search": "搜尋..."
+    "search": "搜尋…"
   },
   "calendar": {
     "nextYearButtonLabel": "前往後 {{years}} 年",
@@ -84,7 +84,7 @@
   },
   "greyAccountSelect": {
     "empty": "沒有帳戶",
-    "placeholder": "選擇帳戶..."
+    "placeholder": "選擇帳戶…"
   },
   "greyAmountInput": {
     "maxButtonLabel": "最大",
@@ -92,7 +92,7 @@
   },
   "greyTokenSelect": {
     "empty": "沒有代幣",
-    "placeholder": "選擇代幣..."
+    "placeholder": "選擇代幣…"
   },
   "migrateSteps": {
     "inNeon2": {
@@ -142,7 +142,7 @@
   },
   "temporaryLimitsBox": {
     "description": "使用此登入方式會限制部分主要功能：",
-    "limits": ["備份與還原", "錢包自訂", "匯入/匯出功能", "建立新錢包", "以及其他功能..."]
+    "limits": ["備份與還原", "錢包自訂", "匯入/匯出功能", "建立新錢包", "以及其他功能…"]
   },
   "tokenBalance": {
     "price": "價格",
@@ -210,7 +210,7 @@
     "saveButtonLabel": "儲存"
   },
   "walletsSelect": {
-    "placeholder": "選擇錢包...",
+    "placeholder": "選擇錢包…",
     "title": "錢包"
   }
 }

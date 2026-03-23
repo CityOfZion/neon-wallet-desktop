@@ -18,6 +18,7 @@ import TbAlertTriangle from '@renderer/assets/images/tb-alert-triangle.svg?react
 import { TransactionActivityListProvider } from '@renderer/contexts/TransactionActivityListContext'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 import { TTransactionActivityListEventColumnSize } from '@shared/types/contexts'
+import { TUseTransactionsTransactionDefault } from '@shared/types/hooks'
 import { IAccountState } from '@shared/types/store'
 
 import { TransactionActivityListDateRange } from './TransactionActivityListDateRange'
@@ -37,7 +38,7 @@ const heights = {
   DATE: 40,
   DATE_GAP: 16,
   HEADER: 34,
-  EVENT: 53,
+  ITEM: 53,
   SEPARATOR: 1,
   SEPARATOR_MARGIN: 8,
   TRANSACTION_GAP: 16,
@@ -86,6 +87,7 @@ const Content = ({
     onSelectDateTo(date)
   }
 
+  // TODO: change variable names, comments and height when UTXO is implemented
   const virtualizer = useVirtualizer({
     count: data.length,
     gap: heights.DATE_GAP,
@@ -106,11 +108,16 @@ const Content = ({
       // Add gaps between transactions, except after the last one
       height += (transactionsLength - 1) * heights.TRANSACTION_GAP
 
-      // Calculate total number of events across all transactions in the group
-      const eventsLength = transactions.flatMap(({ events }) => events).length
+      const [firstTransaction] = transactions
 
-      // Add height for each event
-      height += eventsLength * heights.EVENT
+      // Calculate total number of items across all transactions in the group
+      const itemsLength =
+        firstTransaction.view === 'default'
+          ? (transactions as TUseTransactionsTransactionDefault[]).flatMap(({ events }) => events).length
+          : 0
+
+      // Add height for each item
+      height += itemsLength * heights.ITEM
 
       return height // Return the final estimated height
     },
@@ -138,6 +145,7 @@ const Content = ({
 
       const { width } = entry.contentRect
 
+      // TODO: change this variable name
       setEventColumnSize(
         match(width)
           .with(

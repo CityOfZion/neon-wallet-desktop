@@ -5,6 +5,7 @@ import { IAccountState, IWalletState, TAccountType, TSkin, TWalletBackupStatus, 
 export type TBlockchainServiceKey =
   | 'neo3'
   | 'neoLegacy'
+  | 'bitcoin'
   | 'ethereum'
   | 'neox'
   | 'polygon'

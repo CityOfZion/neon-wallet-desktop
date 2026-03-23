@@ -21,7 +21,7 @@ import { IContactState, TContactAddress, TSwapRecord } from '@shared/types/store
 
 import { useImportAccounts } from './useAccountActions'
 import { useAccountsSelector, useAccountUtils } from './useAccountSelector'
-import { useCurrentLoginSessionSelector } from './useAuthSelector'
+import { useLoginSessionSelector } from './useAuthSelector'
 import { useContactsSelector } from './useContactSelector'
 import { useAppDispatch } from './useRedux'
 import { useSwapRecordsSelector } from './useUtilitySelector'
@@ -34,15 +34,15 @@ export const useNeonCreateBackup = () => {
   const { wallets } = useWalletsSelector()
   const { accounts } = useAccountsSelector()
   const { contacts } = useContactsSelector()
-  const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
+  const { loginSessionRef } = useLoginSessionSelector()
   const { editWallet } = useEditWallet()
 
   const handleCreateBackupFormat = async () => {
-    if (!currentLoginSessionRef.current) {
+    if (!loginSessionRef.current) {
       throw new AppError(t('errors.unexpectedError'))
     }
 
-    const encryptedPassword = currentLoginSessionRef.current.encryptedPassword
+    const encryptedPassword = loginSessionRef.current.encryptedPassword
 
     const backupFile: zod.infer<typeof neonBackupDataSchema> = {
       wallets: [],

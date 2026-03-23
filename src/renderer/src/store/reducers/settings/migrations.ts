@@ -239,5 +239,29 @@ export function getSettingsMigrations(defaultProfile: TNetworkProfile, testProfi
         },
       }
     },
+    14: (state: any) => ({
+      ...state,
+      data: {
+        ...state.data,
+        customNetworks: {
+          ...state.data.customNetworks,
+          bitcoin: [],
+        },
+        networkProfiles: state.data.networkProfiles.map((profile: any) => ({
+          ...profile,
+          networkByBlockchain: {
+            ...profile.networkByBlockchain,
+            bitcoin: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.bitcoin.defaultNetwork,
+          },
+        })),
+        selectedNetworkProfile: {
+          ...state.data.selectedNetworkProfile,
+          networkByBlockchain: {
+            ...state.data.selectedNetworkProfile.networkByBlockchain,
+            bitcoin: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.bitcoin.defaultNetwork,
+          },
+        },
+      },
+    }),
   }
 }

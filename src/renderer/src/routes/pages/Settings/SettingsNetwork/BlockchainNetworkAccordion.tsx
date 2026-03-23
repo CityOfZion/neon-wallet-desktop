@@ -24,15 +24,17 @@ export const BlockchainNetworkAccordion = ({ blockchain }: TProps) => {
   const { network } = useSelectedNetworkSelector(blockchain)
   const { selectedNetworkProfile } = useSelectedNetworkProfileSelector()
 
-  const isDefaultSelected = selectedNetworkProfile.id === ConstantsHelper.defaultNetworkProfileId
-
   const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
+
+  const isCurrentNetworkDisabled =
+    selectedNetworkProfile.id === ConstantsHelper.defaultNetworkProfileId ||
+    (service.availableNetworks.length <= 1 && !service.isCustomNetworkSupported)
 
   return (
     <Accordion.Item value={blockchain}>
       <Accordion.Trigger>
         <div className="flex items-center gap-2.5">
-          <div className="flex h-4 w-4 items-center justify-center">
+          <div className="flex size-4 items-center justify-center">
             <BlockchainIcon blockchain={blockchain} type="blue" />
           </div>
           <span className="text-sm text-white">{tCommon(blockchain)}</span>
@@ -44,15 +46,15 @@ export const BlockchainNetworkAccordion = ({ blockchain }: TProps) => {
           label={t('currentNetwork')}
           subLabel={network.name}
           onClick={modalNavigateWrapper('network-selection', { state: { blockchain } })}
-          disabled={isDefaultSelected}
+          disabled={isCurrentNetworkDisabled}
         />
 
         <BlockchainNetworkButton
           className="border-none"
-          label={t('nodeSelection')}
+          label={t('networkUrlSelection')}
           subLabel={network.url}
-          onClick={modalNavigateWrapper('network-node-selection', { state: { blockchain } })}
-          disabled={service.rpcNetworkUrls.length <= 1}
+          onClick={modalNavigateWrapper('network-url-selection', { state: { blockchain } })}
+          disabled={service.networkUrls.length <= 1}
         />
       </Accordion.Content>
     </Accordion.Item>

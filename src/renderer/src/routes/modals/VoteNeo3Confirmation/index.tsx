@@ -19,7 +19,7 @@ import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { TransactionHelper } from '@renderer/helpers/TransactionHelper'
 
 import { useActions } from '@renderer/hooks/useActions'
-import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
+import { useLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useBalance } from '@renderer/hooks/useBalances'
 import { useConfirmAction } from '@renderer/hooks/useConfirmAction'
 import { useExchange } from '@renderer/hooks/useExchange'
@@ -39,6 +39,7 @@ import TbCheckbox from '@renderer/assets/images/tb-checkbox.svg?react'
 
 import { thunks } from '@renderer/store/thunks'
 import { AppError } from '@shared/helpers/SharedErrorHelper'
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import type { TModalState } from '@shared/types/modal'
 
 import { VoteNeo3ConfirmationSkeleton } from './VoteNeo3ConfirmationSkeleton'
@@ -48,14 +49,14 @@ const VoteNeo3ConfirmationModal = () => {
   const { neo3Account, candidate } = useModalState<TModalState<'vote-neo3-confirmation'>>()
   const voteDetailsByAddressQuery = useVoteNeo3GetVoteDetailsByAddress(neo3Account.address)
   const calculateVoteFeeQuery = useVoteNeo3CalculateVoteFee({ neo3Account, candidatePubKey: candidate.pubKey })
-  const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
+  const { loginSessionRef } = useLoginSessionSelector()
   const { currency } = useCurrencySelector()
   const { modalNavigate, modalErase } = useModalNavigate()
   const { actionState, handleAct } = useActions({})
   const { confirmAction } = useConfirmAction()
   const dispatch = useAppDispatch()
 
-  const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName.neo3 as BSNeo3
+  const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName.neo3 as BSNeo3<TBlockchainServiceKey>
   const fee = calculateVoteFeeQuery.data
 
   const exchangeQuery = useExchange([{ blockchain: 'neo3', tokens: [service.feeToken] }])
@@ -110,28 +111,35 @@ const VoteNeo3ConfirmationModal = () => {
 
       const key = await window.api.sendAsync('encryption:decryptBasedEncryptedSecret', {
         value: neo3Account.encryptedKey!,
-        encryptedSecret: currentLoginSessionRef.current!.encryptedPassword,
+        encryptedSecret: loginSessionRef.current!.encryptedPassword,
       })
 
       const account = await AccountHelper.getServiceAccount({ account: neo3Account, key })
 
-      const txId = await service.voteService.vote({
+      const transaction = await service.voteService.vote({
         account,
         candidatePubKey: candidate.pubKey,
       })
 
-      const transaction = TransactionHelper.buildPendingTransaction({ txId, fromAccount: neo3Account })
+      const pendingTransaction = TransactionHelper.buildPendingTransaction({
+        transaction,
+        account: neo3Account,
+      })
+
+      const notificationPrefix = 'modals:voteNeo3Confirmation.notifications'
+      const notificationSuccessPrefix = `${notificationPrefix}.voteSuccessNotification`
+      const notificationFailurePrefix = `${notificationPrefix}.voteFailureNotification`
 
       dispatch(
-        thunks.waitTransaction({
-          transaction,
+        thunks.waitPendingTransaction({
+          pendingTransaction,
           successNotification: {
-            title: 'modals:voteNeo3Confirmation.notifications.voteSuccessNotification.title',
-            previewBody: 'modals:voteNeo3Confirmation.notifications.voteSuccessNotification.previewBody',
+            title: `${notificationSuccessPrefix}.title`,
+            previewBody: `${notificationSuccessPrefix}.previewBody`,
           },
           failureNotification: {
-            title: 'modals:voteNeo3Confirmation.notifications.voteFailureNotification.title',
-            previewBody: 'modals:voteNeo3Confirmation.notifications.voteFailureNotification.previewBody',
+            title: `${notificationFailurePrefix}.title`,
+            previewBody: `${notificationFailurePrefix}.previewBody`,
           },
         })
       )
@@ -199,7 +207,7 @@ const VoteNeo3ConfirmationModal = () => {
             <p className="flex gap-x-4 rounded-sm bg-gray-700/60 px-4 py-3 whitespace-nowrap">
               <span className="text-blue">{t('feeLabel')}</span>
               <span className="grow truncate text-right text-gray-100">
-                {fee ?? '0'} {service.feeToken.symbol}
+                {fee || '0'} {service.feeToken.symbol}
               </span>
               <span className="text-gray-300">{feeFiatPrice}</span>
             </p>

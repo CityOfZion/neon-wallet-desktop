@@ -4,10 +4,10 @@ import { useTranslation } from 'react-i18next'
 
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 
-import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
+import { useLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 
 const DeeplinkManagerSetup = () => {
-  const { currentLoginSessionRef } = useCurrentLoginSessionSelector()
+  const { loginSessionRef } = useLoginSessionSelector()
   const { t } = useTranslation('pages', { keyPrefix: 'root.deeplinkManagerSetup' })
 
   useEffect(() => {
@@ -16,7 +16,7 @@ const DeeplinkManagerSetup = () => {
 
       window.api.sendSync('window:restore')
 
-      if (!currentLoginSessionRef.current)
+      if (!loginSessionRef.current)
         ToastHelper.info({
           message: t('pleaseLogin'),
         })
@@ -28,7 +28,7 @@ const DeeplinkManagerSetup = () => {
     return () => {
       removeListener()
     }
-  }, [currentLoginSessionRef, t])
+  }, [loginSessionRef, t])
 
   return null
 }

@@ -97,7 +97,7 @@ export type TUseUnclaimedResult = {
   feeNumber: number
 }
 
-export type TNode = Optional<TPingNetworkResponse, 'height' | 'latency'>
+export type TPingNetwork = Optional<TPingNetworkResponse, 'height' | 'latency'>
 
 export type TUseWalletConnectSessionsResult = SessionTypes.Struct & {
   details: TWalletKitHelperSessionDetails

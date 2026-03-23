@@ -20,7 +20,7 @@ export class DateHelper {
     return `${year}${month}${day}`
   }
 
-  static formatLocalized = (date: Date | string, options: TDateHelperFormatLocalizedOptions): string => {
+  static formatLocalized = (date: Date | string | number, options: TDateHelperFormatLocalizedOptions): string => {
     if (typeof date === 'string') {
       date = new Date(date)
     }
@@ -30,7 +30,7 @@ export class DateHelper {
     })
   }
 
-  static format(date: Date | string, formatStr: string): string {
+  static format(date: Date | string | number, formatStr: string): string {
     if (typeof date === 'string') {
       date = new Date(date)
     }

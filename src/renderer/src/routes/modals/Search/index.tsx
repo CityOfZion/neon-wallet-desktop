@@ -22,7 +22,7 @@ import { TestHelper } from '@renderer/helpers/TestHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 
 import { useActions } from '@renderer/hooks/useActions'
-import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
+import { useLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
@@ -59,7 +59,7 @@ type TSearchAction = {
 }
 
 const SearchModal = () => {
-  const { currentLoginSession } = useCurrentLoginSessionSelector()
+  const { loginSession } = useLoginSessionSelector()
   const { modalEraseWrapper } = useModalNavigate()
   const { t } = useTranslation('modals', { keyPrefix: 'search' })
   const { t: tSearch } = useTranslation('search')
@@ -74,7 +74,7 @@ const SearchModal = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleSearch = useCallback(
     debounce(async (text: string) => {
-      const hidePasswordAccessMethods = currentLoginSession?.type !== 'password'
+      const hidePasswordAccessMethods = loginSession?.type !== 'password'
       const doc = nlp.readDoc(text.toLowerCase())
       const tokens = doc.tokens().filter(t => t.out(nlp.its.type) === 'word')
       const verbs = tokens.filter(token => token.out(nlp.its.pos) === 'VERB').out(nlp.its.lemma as any) as string[]

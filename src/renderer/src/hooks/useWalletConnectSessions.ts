@@ -39,7 +39,7 @@ const fetchSessions = async (accounts: IAccountState[]): Promise<TUseWalletConne
     const account = accounts.find(SharedAccountHelper.predicate(details))
     if (!account) continue
 
-    sessions.push({ ...session, details, account })
+    sessions.push({ ...session, details, account, expiry: session.expiry * 1000 })
   }
 
   return sessions

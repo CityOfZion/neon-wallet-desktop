@@ -93,13 +93,15 @@ export const DappPermissionContractDetailsModal = () => {
 
   const contractQuery = useContract({ blockchain, hash })
 
+  const contractHashUrl = hasExplorerService(service) ? service.explorerService.buildContractUrl(hash) : undefined
+
   const params = useMemo(() => {
     if (contractQuery.isLoading || !contractQuery.data) return []
 
     const methodsInfo = contractQuery.data.methods.find(method => method.name === operation)
     if (!methodsInfo) return []
 
-    const params = methodsInfo.parameters.map((parameter, index) => {
+    return methodsInfo.parameters.map((parameter, index) => {
       const value = values[index]
       const stringifiedValue = Array.isArray(value) ? JSON.stringify(value, null, 4) : value
       return {
@@ -107,14 +109,7 @@ export const DappPermissionContractDetailsModal = () => {
         value: stringifiedValue,
       }
     })
-
-    return params
   }, [contractQuery.data, contractQuery.isLoading, operation, values])
-
-  const getContractHashUrl = () => {
-    if (!hasExplorerService(service)) return ''
-    return service.explorerService.buildContractUrl(hash) ?? ''
-  }
 
   return (
     <CenterModalLayout contentClassName="px-0 flex flex-col pb-5 min-h-0" onErase={onReject}>
@@ -127,9 +122,7 @@ export const DappPermissionContractDetailsModal = () => {
           <Details.Root className="mt-5">
             <Details.Header
               leftElement={<TbArrowsSort className="rotate-90" aria-hidden />}
-              rightElement={
-                <p className="text-sm font-semibold text-gray-100 capitalize">{contractQuery.data?.name}</p>
-              }
+              rightElement={<p className="text-sm font-semibold text-gray-100">{contractQuery.data?.name}</p>}
             >
               <p className="text-sm text-white capitalize">{operation}</p>
             </Details.Header>
@@ -143,17 +136,19 @@ export const DappPermissionContractDetailsModal = () => {
               >
                 <p className="truncate text-xs font-bold text-gray-100">{hash}</p>
 
-                <Tooltip title={t('externalButtonLabel')}>
-                  <IconLink
-                    aria-label={t('externalButtonLabel')}
-                    icon={<TbExternalLink aria-hidden className="text-neon" />}
-                    size="sm"
-                    compacted
-                    to={getContractHashUrl()}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                  />
-                </Tooltip>
+                {contractHashUrl && (
+                  <Tooltip title={t('externalButtonLabel')}>
+                    <IconLink
+                      aria-label={t('externalButtonLabel')}
+                      icon={<TbExternalLink aria-hidden className="text-neon" />}
+                      size="sm"
+                      compacted
+                      to={contractHashUrl}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                    />
+                  </Tooltip>
+                )}
               </Details.Item>
             </Details.Body>
           </Details.Root>

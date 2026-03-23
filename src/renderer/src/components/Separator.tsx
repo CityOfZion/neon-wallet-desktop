@@ -19,9 +19,9 @@ export const Separator = ({ className, containerClassName, type = 'horizontal', 
       )}
     >
       {type === 'horizontal' ? (
-        <div className={StyleHelper.mergeStyles('h-px min-h-0.25 w-full bg-gray-300/15', className)} {...props} />
+        <div className={StyleHelper.mergeStyles('h-px min-h-px w-full bg-gray-300/15', className)} {...props} />
       ) : (
-        <div className={StyleHelper.mergeStyles('h-full w-px min-w-0.25 bg-gray-300/15', className)} {...props} />
+        <div className={StyleHelper.mergeStyles('h-full w-px min-w-px bg-gray-300/15', className)} {...props} />
       )}
     </div>
   )

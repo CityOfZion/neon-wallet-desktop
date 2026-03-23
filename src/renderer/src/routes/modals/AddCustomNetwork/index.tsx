@@ -36,8 +36,8 @@ const AddCustomNetwork = () => {
 
   const { actionData, actionState, setDataFromEventWrapper, setData, handleAct, setError, clearErrors } =
     useActions<TActionData>({
-      name: networkToEdit?.name ?? '',
-      url: networkToEdit?.url ?? '',
+      name: networkToEdit?.name || '',
+      url: networkToEdit?.url || '',
       validating: false,
       isValid: !!networkToEdit,
     })
@@ -60,7 +60,7 @@ const AddCustomNetwork = () => {
     try {
       const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
 
-      await service.pingNode(actionData.url)
+      await service.pingNetwork(actionData.url)
 
       clearErrors('url')
       setData({ isValid: true })

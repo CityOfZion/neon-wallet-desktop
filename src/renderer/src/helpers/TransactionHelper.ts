@@ -1,62 +1,34 @@
-import { hasExplorerService } from '@cityofzion/blockchain-service'
-
 import type { TTransactionHelperBuildPendingTransactionParams } from '@shared/types/helpers'
 import type { TUseTransactionsTransaction } from '@shared/types/hooks'
 
-import { BlockchainServiceHelper } from './BlockchainServiceHelper'
-
 export class TransactionHelper {
   static buildPendingTransaction({
-    fromAccount,
-    txId,
-    type,
-    events,
+    transaction,
+    account,
+    senderAccount,
+    receiverAccounts,
   }: TTransactionHelperBuildPendingTransactionParams): TUseTransactionsTransaction {
-    const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[fromAccount.blockchain]
-    const explorerService = hasExplorerService(service) ? service.explorerService : undefined
-
-    const txIdUrl = explorerService?.buildTransactionUrl(txId)
-
-    const transaction: TUseTransactionsTransaction = {
-      txId,
-      txIdUrl,
-      date: new Date().toISOString(),
-      account: fromAccount,
-      block: 0,
-      invocationCount: 0,
-      notificationCount: 0,
-      networkFeeAmount: undefined,
-      systemFeeAmount: undefined,
+    const pendingTransaction: TUseTransactionsTransaction = {
+      ...transaction,
+      account,
       isPending: true,
-      blockchain: fromAccount.blockchain,
-      type: type ?? 'default',
-      events: [],
+      blockchain: account.blockchain,
     }
 
-    if (events) {
-      transaction.events = events.map(({ amount, toAddress, token, toAccount }) => {
-        const contractHashUrl = explorerService?.buildContractUrl(token.hash)
-        const fromUrl = explorerService?.buildAddressUrl(fromAccount.address)
-        const toUrl = explorerService?.buildAddressUrl(toAddress)
-
-        return {
-          eventType: 'token',
-          methodName: 'transfer',
-          contractHash: token.hash,
-          from: fromAccount.address,
-          to: toAddress,
-          amount,
-          token,
-          tokenType: 'generic',
-          toAccount,
-          fromAccount,
-          contractHashUrl,
-          fromUrl,
-          toUrl,
-        }
-      })
+    if (pendingTransaction.view === 'utxo') {
+      pendingTransaction.inputs = pendingTransaction.inputs.map(input => ({ ...input, account: senderAccount }))
+      pendingTransaction.outputs = pendingTransaction.outputs.map((output, index) => ({
+        ...output,
+        account: receiverAccounts?.[index],
+      }))
+    } else {
+      pendingTransaction.events = pendingTransaction.events.map((event, index) => ({
+        ...event,
+        fromAccount: senderAccount,
+        toAccount: receiverAccounts?.[index],
+      }))
     }
 
-    return transaction
+    return pendingTransaction
   }
 }

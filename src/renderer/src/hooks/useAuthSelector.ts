@@ -1,4 +1,6 @@
-import lodash from 'lodash'
+import orderBy from 'lodash/orderBy'
+
+import { SelectorHelper } from '@renderer/helpers/SelectorHelper'
 
 import { TNotification, TNotificationPriority } from '@shared/types/store'
 
@@ -10,64 +12,66 @@ const priorityOrder: Record<TNotificationPriority, number> = {
   low: 3,
 }
 
-const orderNotifications = <T extends TNotification>(notifications: T[]): T[] => {
-  return lodash.orderBy(
+const orderNotifications = <T extends TNotification>(notifications: T[]): T[] =>
+  orderBy(
     [...notifications],
-    [item => item.read, item => priorityOrder[item.priority], 'date'],
+    [notification => notification.read, notification => priorityOrder[notification.priority], 'date'],
     ['asc', 'asc', 'desc']
   )
-}
 
 const selectHasNewNotifications = createAppSelector(
-  [state => state.auth.data.applicationDataByLoginType, state => state.auth.inMemoryData.currentLoginSession],
-  (applicationDataByLoginType, currentLoginSession) =>
-    applicationDataByLoginType[currentLoginSession?.type ?? 'password'].notifications.some(
-      notification => !notification.read
-    )
+  [state => state.auth.data.applicationDataByLoginType, state => state.auth.memoryData.loginSession],
+  (applicationDataByLoginType, loginSession) => {
+    if (!loginSession?.type) return false
+
+    return applicationDataByLoginType[loginSession.type].notifications.some(notification => !notification.read)
+  }
 )
 
-const selectAllNotifications = createAppSelector(
-  [state => state.auth.data.applicationDataByLoginType, state => state.auth.inMemoryData.currentLoginSession],
-  (applicationDataByLoginType, currentLoginSession) =>
-    orderNotifications(applicationDataByLoginType[currentLoginSession?.type ?? 'password'].notifications)
+const selectNotifications = createAppSelector(
+  [state => state.auth.data.applicationDataByLoginType, state => state.auth.memoryData.loginSession],
+  (applicationDataByLoginType, loginSession) => {
+    if (!loginSession?.type) return SelectorHelper.fallbackToEmptyArray<TNotification>()
+
+    return SelectorHelper.fallbackToEmptyArray<TNotification>(
+      orderNotifications(applicationDataByLoginType[loginSession.type].notifications)
+    )
+  }
 )
 
 const selectUnreadNotifications = createAppSelector(
-  [state => state.auth.data.applicationDataByLoginType, state => state.auth.inMemoryData.currentLoginSession],
-  (applicationDataByLoginType, currentLoginSession) =>
-    applicationDataByLoginType[currentLoginSession?.type ?? 'password'].notifications.filter(
-      notification => !notification.read
+  [state => state.auth.data.applicationDataByLoginType, state => state.auth.memoryData.loginSession],
+  (applicationDataByLoginType, loginSession) => {
+    if (!loginSession?.type) return SelectorHelper.fallbackToEmptyArray<TNotification>()
+
+    return SelectorHelper.fallbackToEmptyArray<TNotification>(
+      orderNotifications(
+        applicationDataByLoginType[loginSession.type].notifications.filter(notification => !notification.read)
+      )
     )
+  }
 )
 
-export const useCurrentLoginSessionSelector = () => {
-  const { ref, value } = useAppSelector(state => state.auth.inMemoryData.currentLoginSession)
-  return {
-    currentLoginSession: value,
-    currentLoginSessionRef: ref,
-  }
+export const useLoginSessionSelector = () => {
+  const { value, ref } = useAppSelector(state => state.auth.memoryData.loginSession)
+
+  return { loginSession: value, loginSessionRef: ref }
 }
 
 export const useHasNewNotificationsSelector = () => {
-  const { ref, value } = useAppSelector(selectHasNewNotifications)
-  return {
-    hasNewNotifications: value,
-    hasNewNotificationsRef: ref,
-  }
+  const { value, ref } = useAppSelector(selectHasNewNotifications)
+
+  return { hasNewNotifications: value, hasNewNotificationsRef: ref }
 }
 
 export const useNotificationsSelector = () => {
-  const { ref, value } = useAppSelector(selectAllNotifications)
-  return {
-    notifications: value,
-    notificationsRef: ref,
-  }
+  const { value, ref } = useAppSelector(selectNotifications)
+
+  return { notifications: value, notificationsRef: ref }
 }
 
 export const useUnreadNotificationsSelector = () => {
-  const { ref, value } = useAppSelector(selectUnreadNotifications)
-  return {
-    unreadNotifications: value,
-    unreadNotificationsRef: ref,
-  }
+  const { value, ref } = useAppSelector(selectUnreadNotifications)
+
+  return { unreadNotifications: value, unreadNotificationsRef: ref }
 }

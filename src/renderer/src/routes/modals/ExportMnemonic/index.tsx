@@ -9,7 +9,7 @@ import { Separator } from '@renderer/components/Separator'
 
 import { ClipboardHelper } from '@renderer/helpers/ClipboardHelper'
 
-import { useCurrentLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
+import { useLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useModalState } from '@renderer/hooks/useModalRouter'
 
 import { SideModalLayout } from '@renderer/layouts/SideModal'
@@ -26,7 +26,7 @@ const ExportMnemonic = () => {
   const { wallet } = useModalState<TModalState<'export-mnemonic'>>()
   const { t } = useTranslation('modals', { keyPrefix: 'exportMnemonic' })
   const { t: commonT } = useTranslation('common')
-  const { currentLoginSession } = useCurrentLoginSessionSelector()
+  const { loginSession } = useLoginSessionSelector()
 
   const ref = useRef<HTMLDivElement>(null)
 
@@ -35,13 +35,13 @@ const ExportMnemonic = () => {
     bodyClass: 'print-agreement',
   })
 
-  if (!currentLoginSession) {
+  if (!loginSession) {
     throw new AppError(commonT('errors.loginSessionIsNotDefined'))
   }
 
   const words = window.api.sendSync('encryption:decryptBasedEncryptedSecretSync', {
-    value: wallet.encryptedMnemonic ?? '',
-    encryptedSecret: currentLoginSession.encryptedPassword,
+    value: wallet.encryptedMnemonic || '',
+    encryptedSecret: loginSession.encryptedPassword,
   })
 
   return (

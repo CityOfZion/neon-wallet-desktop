@@ -31,7 +31,7 @@ const DappConnectionModal = () => {
   const { account, uri } = useModalState<TModalState<'dapp-connection'>>()
 
   const { actionData, setData, actionState, setError, handleAct, reset } = useActions<TFormData>({
-    url: uri ?? '',
+    url: uri || '',
   })
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {

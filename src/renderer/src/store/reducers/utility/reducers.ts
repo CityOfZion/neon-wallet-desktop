@@ -24,11 +24,11 @@ const addPendingTransaction: CaseReducer<IUtilityReducer, PayloadAction<TUseTran
   state,
   action
 ) => {
-  state.inMemoryData.pendingTransactions = [...state.inMemoryData.pendingTransactions, action.payload]
+  state.memoryData.pendingTransactions = [...state.memoryData.pendingTransactions, action.payload]
 }
 
 const removePendingTransaction: CaseReducer<IUtilityReducer, PayloadAction<string>> = (state, action) => {
-  state.inMemoryData.pendingTransactions = state.inMemoryData.pendingTransactions.filter(
+  state.memoryData.pendingTransactions = state.memoryData.pendingTransactions.filter(
     transaction => transaction.txId !== action.payload
   )
 }

@@ -17,8 +17,8 @@ export const TransactionActivityListItemHeaderDetails = ({ label, data, icon, ..
       className: StyleHelper.mergeStyles('text-gray-300 w-4 min-w-4 max-w-4 h-4 min-h-4 max-h-4', icon.props.className),
     })}
 
-    {typeof data === 'string' || typeof data === 'number' ? (
-      <TransactionActivityListTooltip data={label ?? ''}>
+    {typeof data !== 'object' ? (
+      <TransactionActivityListTooltip data={label || ''}>
         <span className="text-white">{data}</span>
       </TransactionActivityListTooltip>
     ) : (

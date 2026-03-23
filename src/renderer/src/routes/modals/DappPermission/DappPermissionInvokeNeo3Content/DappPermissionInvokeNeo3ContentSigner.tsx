@@ -34,6 +34,7 @@ const resolveSigner = (scope: string | number) => {
 export const DappPermissionInvokeNeo3ContentSigner = ({ signer, session, onReject }: TProps) => {
   const { t } = useTranslation('modals', { keyPrefix: 'dappPermission.customContents.invokeNeo3' })
   const { modalNavigateWrapper } = useModalNavigate()
+
   const scope = resolveSigner(signer.scopes)
 
   return (
@@ -59,7 +60,7 @@ export const DappPermissionInvokeNeo3ContentSigner = ({ signer, session, onRejec
           </div>
         }
       >
-        <p className="text-sm text-white capitalize">{t('signatureScopeDetailsHeaderLabel')}</p>
+        <p className="text-sm text-white">{t('signatureScopeDetailsHeaderLabel')}</p>
       </Details.Header>
     </Details.Root>
   )

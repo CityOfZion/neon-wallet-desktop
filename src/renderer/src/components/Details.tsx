@@ -1,5 +1,9 @@
 import { cloneElement, ComponentProps, type JSX, ReactNode } from 'react'
 
+import { useTranslation } from 'react-i18next'
+
+import { Tooltip } from '@renderer/components/Tooltip'
+
 import { ClipboardHelper } from '@renderer/helpers/ClipboardHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
@@ -28,7 +32,7 @@ const Header = ({ children, className, leftElement, rightElement, ...props }: TH
       {leftElement &&
         cloneElement(leftElement, {
           'aria-hidden': true,
-          className: StyleHelper.mergeStyles('text-blue w-6 h-6', leftElement.props.className),
+          className: StyleHelper.mergeStyles('text-blue size-6', leftElement.props.className),
         })}
 
       <div className="grow">
@@ -68,12 +72,14 @@ const Panel = ({ className, children, label, ...props }: TPanelProps) => {
 type TItemProps = { label?: ReactNode; copyable?: string; contentClassName?: string } & ComponentProps<'div'>
 
 const Item = ({ label, children, copyable, className, contentClassName, ...props }: TItemProps) => {
+  const { t } = useTranslation('common', { keyPrefix: 'general' })
+
   const handleCopy = () => {
     if (copyable) ClipboardHelper.write(copyable)
   }
 
   return (
-    <div className="group ml-3 flex flex-col">
+    <div className="group/item ml-3 flex flex-col">
       <div className={StyleHelper.mergeStyles('flex flex-col gap-2.5 py-4', className)} {...props}>
         {typeof label === 'string' ? <span className="text-xs text-gray-100 uppercase">{label}</span> : label}
 
@@ -81,17 +87,20 @@ const Item = ({ label, children, copyable, className, contentClassName, ...props
           {typeof children === 'string' ? <span className="text-sm break-all text-white">{children}</span> : children}
 
           {copyable && (
-            <IconButton
-              icon={<MdOutlineContentCopy aria-hidden className="text-neon" />}
-              size="sm"
-              onClick={handleCopy}
-              compacted
-            />
+            <Tooltip title={t('copy')}>
+              <IconButton
+                aria-label={t('copy')}
+                size="sm"
+                compacted
+                icon={<MdOutlineContentCopy aria-hidden className="text-neon" />}
+                onClick={handleCopy}
+              />
+            </Tooltip>
           )}
         </div>
       </div>
 
-      <Separator className="group-last:hidden" />
+      <Separator className="group-last/item:hidden" />
     </div>
   )
 }

@@ -10,8 +10,8 @@ import { IAuthReducer } from '.'
 
 const { t } = SharedI18nextHelper.get()
 
-const setCurrentLoginSession: CaseReducer<IAuthReducer, PayloadAction<TLoginSession | undefined>> = (state, action) => {
-  state.inMemoryData.currentLoginSession = action.payload
+const setLoginSession: CaseReducer<IAuthReducer, PayloadAction<TLoginSession | undefined>> = (state, action) => {
+  state.memoryData.loginSession = action.payload
 }
 
 const resetTemporaryApplicationData: CaseReducer<IAuthReducer> = state => {
@@ -21,18 +21,19 @@ const resetTemporaryApplicationData: CaseReducer<IAuthReducer> = state => {
 
 // Wallet Reducers
 const saveWallet: CaseReducer<IAuthReducer, PayloadAction<IWalletState>> = (state, action) => {
-  if (!state.inMemoryData.currentLoginSession) {
+  const loginSessionType = state.memoryData.loginSession?.type
+
+  if (!loginSessionType) {
     throw new AppError(t('errors.loginSessionIsNotDefined'))
   }
 
-  const loginSessionType = state.inMemoryData.currentLoginSession.type
   const wallet = action.payload
-
   const applicationData = state.data.applicationDataByLoginType[loginSessionType]
+  const walletIndex = applicationData.wallets.findIndex(({ id }) => id === wallet.id)
 
-  const walletIndex = applicationData.wallets.findIndex(it => it.id === wallet.id)
   if (walletIndex < 0) {
     applicationData.wallets = [...applicationData.wallets, wallet]
+
     return
   }
 
@@ -40,37 +41,40 @@ const saveWallet: CaseReducer<IAuthReducer, PayloadAction<IWalletState>> = (stat
 }
 
 const deleteWallet: CaseReducer<IAuthReducer, PayloadAction<string>> = (state, action) => {
-  if (!state.inMemoryData.currentLoginSession) {
+  const loginSessionType = state.memoryData.loginSession?.type
+
+  if (!loginSessionType) {
     throw new AppError(t('errors.loginSessionIsNotDefined'))
   }
 
-  const loginSessionType = state.inMemoryData.currentLoginSession.type
   const walletId = action.payload
   const applicationData = state.data.applicationDataByLoginType[loginSessionType]
 
-  applicationData.wallets = applicationData.wallets.filter(it => it.id !== walletId)
+  applicationData.wallets = applicationData.wallets.filter(({ id }) => id !== walletId)
 }
 
 // Account Reducers
 const saveAccount: CaseReducer<IAuthReducer, PayloadAction<IAccountState>> = (state, action) => {
-  if (!state.inMemoryData.currentLoginSession) {
+  const loginSessionType = state.memoryData.loginSession?.type
+
+  if (!loginSessionType) {
     throw new AppError(t('errors.loginSessionIsNotDefined'))
   }
 
-  const loginSessionType = state.inMemoryData.currentLoginSession.type
   const account = action.payload
   const walletId = account.idWallet
-
   const applicationData = state.data.applicationDataByLoginType[loginSessionType]
+  const wallet = applicationData.wallets.find(({ id }) => id === walletId)
 
-  const wallet = applicationData.wallets.find(it => it.id === walletId)
   if (!wallet) {
     throw new AppError(t('errors.unexpectedError'))
   }
 
-  const accountIndex = wallet.accounts.findIndex(it => it.id === account.id)
+  const accountIndex = wallet.accounts.findIndex(({ id }) => id === account.id)
+
   if (accountIndex < 0) {
     wallet.accounts = [...wallet.accounts, account]
+
     return
   }
 
@@ -78,17 +82,17 @@ const saveAccount: CaseReducer<IAuthReducer, PayloadAction<IAccountState>> = (st
 }
 
 const deleteAccount: CaseReducer<IAuthReducer, PayloadAction<IAccountState>> = (state, action) => {
-  if (!state.inMemoryData.currentLoginSession) {
+  const loginSessionType = state.memoryData.loginSession?.type
+
+  if (!loginSessionType) {
     throw new AppError(t('errors.loginSessionIsNotDefined'))
   }
 
-  const loginSessionType = state.inMemoryData.currentLoginSession.type
   const accountToRemove = action.payload
   const walletId = accountToRemove.idWallet
-
   const applicationData = state.data.applicationDataByLoginType[loginSessionType]
+  const wallet = applicationData.wallets.find(({ id }) => id === walletId)
 
-  const wallet = applicationData.wallets.find(it => it.id === walletId)
   if (!wallet) {
     throw new AppError(t('errors.unexpectedError'))
   }
@@ -98,7 +102,9 @@ const deleteAccount: CaseReducer<IAuthReducer, PayloadAction<IAccountState>> = (
 
 // Notification Reducers
 const saveNotification: CaseReducer<IAuthReducer, PayloadAction<TSaveNotification>> = (state, action) => {
-  const loginSessionType = state.inMemoryData.currentLoginSession?.type ?? 'password'
+  const loginSessionType = state.memoryData.loginSession?.type
+
+  if (!loginSessionType) return
 
   const notification: TNotification = {
     id: UtilsHelper.uuid(),
@@ -110,9 +116,9 @@ const saveNotification: CaseReducer<IAuthReducer, PayloadAction<TSaveNotificatio
   }
 
   const applicationData = state.data.applicationDataByLoginType[loginSessionType]
-  const findIndex = applicationData.notifications.findIndex(item => item.id === notification.id)
+  const foundIndex = applicationData.notifications.findIndex(({ id }) => id === notification.id)
 
-  if (findIndex < 0) {
+  if (foundIndex < 0) {
     applicationData.notifications = [...applicationData.notifications, notification]
 
     new window.Notification(
@@ -128,11 +134,11 @@ const saveNotification: CaseReducer<IAuthReducer, PayloadAction<TSaveNotificatio
     return
   }
 
-  applicationData.notifications[findIndex] = notification
+  applicationData.notifications[foundIndex] = notification
 }
 
 export const authSliceReducers = {
-  setCurrentLoginSession,
+  setLoginSession,
 
   resetTemporaryApplicationData,
 
