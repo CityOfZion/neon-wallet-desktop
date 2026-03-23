@@ -170,7 +170,8 @@
     "dateRange": {
       "formatExtendedDate": "dd MMMM yyyy"
     },
-    "event": {
+    "items": {
+      "blockLabel": "Bloco: {{ block }}",
       "columns": {
         "amountLabel": "Quantidade",
         "collectionNameLabel": "Coleção",
@@ -182,18 +183,18 @@
         "tokenHashLabel": "Hash do token",
         "tokenLabel": "Token"
       },
-      "nftImageAltLabel": "Imagem NFT",
-      "nftImageAltWithNameLabel": "Imagem NFT: {{ name }}"
-    },
-    "item": {
-      "blockLabel": "Bloco: {{ block }}",
+      "copyAddressButtonLabel": "Copiar endereço",
       "copyTxIdLabel": "Copiar ID da tx",
       "invocationCountLabel": "Invocações",
       "networkFeeAmountLabel": "Taxa de rede: {{ networkFeeAmount }}",
+      "nftImageAltLabel": "Imagem NFT",
+      "nftImageAltWithNameLabel": "Imagem NFT: {{ name }}",
+      "nftLabel": "NFT",
       "notificationCountLabel": "Notificações",
       "pendingDataLabel": "Processando…",
       "pendingTooltipLabel": "Esta transação está sendo processada, aguarde",
       "systemFeeAmountLabel": "Taxa do sistema: {{ systemFeeAmount }}",
+      "totalAmountLabel": "Total: {{ totalAmount }}",
       "txIdLabel": "ID da Tx"
     },
     "notFoundDescription": "Faça uma transação e ela aparecerá aqui",

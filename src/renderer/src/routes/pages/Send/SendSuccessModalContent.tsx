@@ -11,8 +11,8 @@ import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
 
 import type {
   TUseTransactionsTransaction,
-  TUseTransactionsTransactionEvent,
-  TUseTransactionsTransactionInputOutput,
+  TUseTransactionsTransactionDefaultEvent,
+  TUseTransactionsTransactionUtxoInputOutput,
 } from '@shared/types/hooks'
 import { IAccountState } from '@shared/types/store'
 
@@ -38,10 +38,10 @@ export const SendSuccessModalContent = ({ transactions, account }: TProps) => {
         <Details.Body>
           {transactions.map((transaction, index) => {
             const order = index + 1
-            const items = (transaction.view === 'utxo' ? transaction.outputs : transaction.events) as (
-              | TUseTransactionsTransactionEvent
-              | TUseTransactionsTransactionInputOutput
-            )[]
+            const items =
+              transaction.view === 'utxo'
+                ? (transaction.outputs as TUseTransactionsTransactionUtxoInputOutput[])
+                : (transaction.events as TUseTransactionsTransactionDefaultEvent[])
 
             return (
               <Details.Panel key={`send-success-transaction-${index}`} label={t('transactionNumber', { order })}>

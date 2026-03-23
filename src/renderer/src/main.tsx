@@ -1,3 +1,5 @@
+import '@hotequil/proposal-filter-groups'
+
 import React from 'react'
 
 import ReactDOM from 'react-dom/client'
