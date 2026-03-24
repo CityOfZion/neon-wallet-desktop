@@ -15,6 +15,7 @@ type TProps = {
   label?: string
   url?: string
   className?: string
+  labelClassName?: string
 }
 
 const Content = ({ data }: TContentProps) =>
@@ -26,24 +27,24 @@ const Content = ({ data }: TContentProps) =>
     data
   )
 
-export const TransactionActivityListEventColumn = ({ data, label, url, className }: TProps) => {
-  const { eventColumnSize } = useTransactionActivityList()
+export const TransactionActivityListItemsColumn = ({ data, label, url, className, labelClassName }: TProps) => {
+  const { itemColumnSize } = useTransactionActivityList()
 
   return (
     <div
       className={StyleHelper.mergeStyles(
         'flex flex-col',
         {
-          'w-24 max-w-24 min-w-24': eventColumnSize === 'xs',
-          'w-28 max-w-28 min-w-28': eventColumnSize === 'sm',
-          'w-32 max-w-32 min-w-32': eventColumnSize === 'md',
-          'w-36 max-w-36 min-w-36': eventColumnSize === 'lg',
-          'w-40 max-w-40 min-w-40': eventColumnSize === 'xl',
+          'w-24 max-w-24 min-w-24': itemColumnSize === 'xs',
+          'w-28 max-w-28 min-w-28': itemColumnSize === 'sm',
+          'w-32 max-w-32 min-w-32': itemColumnSize === 'md',
+          'w-36 max-w-36 min-w-36': itemColumnSize === 'lg',
+          'w-40 max-w-40 min-w-40': itemColumnSize === 'xl',
         },
         className
       )}
     >
-      {label && <p className="font-medium text-gray-300">{label}</p>}
+      {label && <p className={StyleHelper.mergeStyles('font-medium text-gray-300', labelClassName)}>{label}</p>}
 
       {url ? (
         <Link to={url} target="_blank" className="text-neon flex">

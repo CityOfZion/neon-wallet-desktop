@@ -164,7 +164,8 @@
     "dateRange": {
       "formatExtendedDate": "yyyy年MM月dd日"
     },
-    "event": {
+    "items": {
+      "blockLabel": "区块：{{ block }}",
       "columns": {
         "amountLabel": "数量",
         "collectionNameLabel": "合集",
@@ -176,18 +177,18 @@
         "tokenHashLabel": "代币哈希",
         "tokenLabel": "代币"
       },
-      "nftImageAltLabel": "NFT 图片",
-      "nftImageAltWithNameLabel": "NFT 图片：{{ name }}"
-    },
-    "item": {
-      "blockLabel": "区块：{{ block }}",
+      "copyAddressButtonLabel": "复制地址",
       "copyTxIdLabel": "复制交易 ID",
       "invocationCountLabel": "调用",
       "networkFeeAmountLabel": "网络手续费：{{ networkFeeAmount }}",
+      "nftImageAltLabel": "NFT 图片",
+      "nftImageAltWithNameLabel": "NFT 图片：{{ name }}",
+      "nftLabel": "NFT",
       "notificationCountLabel": "通知",
       "pendingDataLabel": "处理中…",
       "pendingTooltipLabel": "此交易正在处理中，请稍候",
       "systemFeeAmountLabel": "系统手续费：{{ systemFeeAmount }}",
+      "totalAmountLabel": "总计：{{ totalAmount }}",
       "txIdLabel": "交易 ID"
     },
     "notFoundDescription": "进行一笔交易后会显示在这里",

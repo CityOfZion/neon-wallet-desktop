@@ -29,26 +29,32 @@ export const NftList = ({ account, nfts }: TProps) => {
               </div>
             )}
 
-            <div className="flex min-w-0 grow flex-col gap-2.5">
+            <div className="flex min-w-0 grow flex-col justify-between py-1.5">
               <span className="truncate">{nft.name}</span>
 
-              <div className="flex items-center gap-1.5">
-                {nft.collection?.image && (
-                  <div className="h-4 min-h-4 w-4 min-w-4 overflow-hidden rounded-full bg-gray-300/30">
-                    <img className="h-full w-full object-cover" src={nft.collection.image} alt={nft.collection.name} />
-                  </div>
-                )}
+              {(nft.collection || nft.creator) && (
+                <div className="flex items-center gap-1.5">
+                  {nft.collection?.image && (
+                    <div className="min-size-4 size-4 overflow-hidden rounded-full bg-gray-300/30">
+                      <img
+                        className="h-full w-full object-cover"
+                        src={nft.collection.image}
+                        alt={nft.collection.name}
+                      />
+                    </div>
+                  )}
 
-                {(!!nft.creator?.name || !!nft.creator?.address) && (
-                  <span className="-mt-0.5 truncate text-xs text-gray-300">
-                    {nft.creator.name || nft.creator.address}
-                  </span>
-                )}
-              </div>
+                  {(!!nft.creator?.name || !!nft.creator?.address) && (
+                    <span className="-mt-0.5 truncate text-xs text-gray-300">
+                      {nft.creator.name || nft.creator.address}
+                    </span>
+                  )}
+                </div>
+              )}
             </div>
 
-            <div className="flex items-center gap-5">
-              <div className="flex flex-col items-end gap-2.5">
+            <div className="flex gap-5">
+              <div className="flex flex-col items-end justify-between py-1.5">
                 <span className="text-blue">{nft.hash}</span>
 
                 <div className="flex items-center gap-1.5">
@@ -57,7 +63,7 @@ export const NftList = ({ account, nfts }: TProps) => {
                 </div>
               </div>
 
-              {link && <TbChevronRight aria-hidden className="size-6 text-gray-300" />}
+              {link && <TbChevronRight aria-hidden className="mx-0 my-auto size-6 text-gray-300" />}
             </div>
           </Fragment>
         )
@@ -68,15 +74,13 @@ export const NftList = ({ account, nfts }: TProps) => {
               <a
                 href={link}
                 target="_blank"
-                className="flex w-full min-w-0 cursor-pointer items-center gap-5 rounded-md bg-gray-700/60 p-2.5 text-sm transition-colors hover:bg-gray-300/30"
+                className="flex w-full min-w-0 cursor-pointer gap-5 rounded-md bg-gray-700/60 p-2.5 text-sm transition-colors hover:bg-gray-300/30 focus:bg-gray-300/30"
                 rel="noreferrer"
               >
                 {content}
               </a>
             ) : (
-              <div className="flex w-full min-w-0 items-center gap-5 rounded-md bg-gray-700/60 p-2.5 text-sm">
-                {content}
-              </div>
+              <div className="flex w-full min-w-0 gap-5 rounded-md bg-gray-700/60 p-2.5 text-sm">{content}</div>
             )}
           </li>
         )

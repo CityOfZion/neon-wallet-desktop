@@ -142,6 +142,7 @@ const fetchTransactions = async (
         if (newTransaction.view === 'utxo') {
           newTransaction.inputs = newTransaction.inputs.map(({ address, ...input }) => ({
             ...input,
+            address,
             account: address
               ? accountsMap.get(SharedAccountHelper.buildAccountKey({ address, blockchain }))
               : undefined,
@@ -149,6 +150,7 @@ const fetchTransactions = async (
 
           newTransaction.outputs = newTransaction.outputs.map(({ address, ...output }) => ({
             ...output,
+            address,
             account: address
               ? accountsMap.get(SharedAccountHelper.buildAccountKey({ address, blockchain }))
               : undefined,

@@ -5,14 +5,14 @@ import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 
 import type { TUseTransactionsTransaction } from '@shared/types/hooks'
 
-import { TransactionActivityListItemHeaderContent } from './TransactionActivityListItemHeaderContent'
+import { TransactionActivityListItemsHeaderContent } from './TransactionActivityListItemsHeaderContent'
 import { TransactionActivityListTooltip } from './TransactionActivityListTooltip'
 
 type TProps = {
   transaction: TUseTransactionsTransaction
 }
 
-export const TransactionActivityListItemHeader = ({ transaction }: TProps) => {
+export const TransactionActivityListItemsHeader = ({ transaction }: TProps) => {
   const { t: tCommonBlockchain } = useTranslation('common', { keyPrefix: 'blockchain' })
 
   return (
@@ -31,10 +31,10 @@ export const TransactionActivityListItemHeader = ({ transaction }: TProps) => {
 
       {transaction.txIdUrl ? (
         <Link to={transaction.txIdUrl} target="_blank" className="block h-full w-full cursor-pointer">
-          <TransactionActivityListItemHeaderContent transaction={transaction} />
+          <TransactionActivityListItemsHeaderContent transaction={transaction} />
         </Link>
       ) : (
-        <TransactionActivityListItemHeaderContent transaction={transaction} />
+        <TransactionActivityListItemsHeaderContent transaction={transaction} />
       )}
     </div>
   )

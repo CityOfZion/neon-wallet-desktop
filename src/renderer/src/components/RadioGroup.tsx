@@ -45,7 +45,7 @@ const Indicator = forwardRef<
   ComponentPropsWithoutRef<typeof RadixRadioGroup.Indicator>
 >((props, ref) => {
   return (
-    <div className="group-data-[state=checked]:border-neon h-4 min-h-4 w-4 min-w-4 cursor-pointer rounded-full border-2 bg-transparent outline-hidden group-data-[state=unchecked]:border-gray-300">
+    <div className="group-data-[state=checked]:border-neon min-size-4 size-4 cursor-pointer rounded-full border-2 bg-transparent outline-hidden group-data-[state=unchecked]:border-gray-300">
       <RadixRadioGroup.Indicator
         {...props}
         ref={ref}
