@@ -55,7 +55,14 @@ function createWindow(): void {
   })
 
   mainWindow.webContents.setWindowOpenHandler(details => {
-    shell.openExternal(details.url)
+    try {
+      const { hostname } = new URL(details.url)
+      if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
+        shell.openExternal(details.url)
+      }
+    } catch {
+      // Invalid URL: ignore
+    }
     return { action: 'deny' }
   })
 
