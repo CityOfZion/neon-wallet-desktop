@@ -27,7 +27,7 @@ type TFormData = {
 const ChangePasswordStep1 = () => {
   const { loginSessionRef } = useLoginSessionSelector()
   const { t } = useTranslation('pages', { keyPrefix: 'settings.changePassword.step1' })
-  const { t: commonT } = useTranslation('common')
+  const { t: tCommon } = useTranslation('common')
   const navigate = useNavigate()
   const [isPasswordValid, setIsPasswordValid] = useState(false)
 
@@ -39,7 +39,7 @@ const ChangePasswordStep1 = () => {
 
   const handleSubmit = async (data: TFormData) => {
     if (!loginSessionRef.current) {
-      throw new AppError(commonT('errors.loginSessionIsNotDefined'))
+      throw new AppError(tCommon('errors.loginSessionIsNotDefined'))
     }
 
     const decryptedPassword = await window.api.sendAsync(

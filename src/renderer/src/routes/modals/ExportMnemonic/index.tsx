@@ -25,7 +25,7 @@ import type { TModalState } from '@shared/types/modal'
 const ExportMnemonic = () => {
   const { wallet } = useModalState<TModalState<'export-mnemonic'>>()
   const { t } = useTranslation('modals', { keyPrefix: 'exportMnemonic' })
-  const { t: commonT } = useTranslation('common')
+  const { t: tCommon } = useTranslation('common')
   const { loginSession } = useLoginSessionSelector()
 
   const ref = useRef<HTMLDivElement>(null)
@@ -36,7 +36,7 @@ const ExportMnemonic = () => {
   })
 
   if (!loginSession) {
-    throw new AppError(commonT('errors.loginSessionIsNotDefined'))
+    throw new AppError(tCommon('errors.loginSessionIsNotDefined'))
   }
 
   const words = window.api.sendSync('encryption:decryptBasedEncryptedSecretSync', {

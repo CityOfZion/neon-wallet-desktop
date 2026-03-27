@@ -58,7 +58,7 @@ const MnemonicOrKeyAccountSelectionAccordion = ({
   onSelect,
 }: TMnemonicOrKeyAccountSelectionAccordionProps) => {
   const { t } = useTranslation('components', { keyPrefix: 'mnemonicOrKeyAccountSelection' })
-  const { t: commonT } = useTranslation('common')
+  const { t: tCommon } = useTranslation('common')
 
   const handleChecked = (checked: boolean, account: TMnemonicOrKeyAccountWithBlockchain) => {
     onSelect(
@@ -74,7 +74,7 @@ const MnemonicOrKeyAccountSelectionAccordion = ({
             <div className="flex grow items-center justify-between">
               <div className="flex items-center gap-x-2.5 px-2 text-sm text-white">
                 <BlockchainIcon blockchain={blockchain} type="white" />
-                {commonT(`blockchain.${blockchain}`)}
+                {tCommon(`blockchain.${blockchain}`)}
               </div>
 
               <span className="text-1xs mr-2 text-right text-gray-300 uppercase">

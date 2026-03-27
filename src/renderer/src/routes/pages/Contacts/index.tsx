@@ -24,7 +24,7 @@ import { IContactState } from '@shared/types/store'
 
 const ContactsPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'contacts' })
-  const { t: commonGeneral } = useTranslation('common', { keyPrefix: 'general' })
+  const { t: tCommonGeneral } = useTranslation('common', { keyPrefix: 'general' })
   const { modalNavigateWrapper } = useModalNavigate()
   const { contacts } = useContactsSelector()
   const [selectedContact, setSelectedContact] = useState<IContactState | null>(null)
@@ -76,7 +76,7 @@ const ContactsPage = () => {
 
                 <Button
                   leftIcon={<TbPencil className="text-neon" />}
-                  label={commonGeneral('edit')}
+                  label={tCommonGeneral('edit')}
                   variant="text"
                   colorSchema="gray"
                   onClick={modalNavigateWrapper('persist-contact', { state: { contact: selectedContact } })}

@@ -44,7 +44,7 @@ const iconsByPriority: Record<TNotificationPriority, JSX.Element> = {
 
 export const Notification = ({ notification }: TProps) => {
   const dispatch = useAppDispatch()
-  const { t: globalT } = useTranslation()
+  const { t: tGlobal } = useTranslation()
   const { t } = useTranslation('modals', { keyPrefix: 'notifications.notification' })
   const modalActions = useModalNavigate()
   const pageNavigate = useNavigate()
@@ -141,7 +141,7 @@ export const Notification = ({ notification }: TProps) => {
             'text-gray-300': notification.read,
           })}
         >
-          {globalT(notification.title, { defaultValue: notification.title, value: notification.titleValue })}
+          {tGlobal(notification.title, { defaultValue: notification.title, value: notification.titleValue })}
         </p>
 
         <p
@@ -149,7 +149,7 @@ export const Notification = ({ notification }: TProps) => {
             'text-gray-300': notification.read,
           })}
         >
-          {globalT(notification.previewBody, {
+          {tGlobal(notification.previewBody, {
             defaultValue: notification.previewBody,
             value: notification.previewBodyValue,
           })}

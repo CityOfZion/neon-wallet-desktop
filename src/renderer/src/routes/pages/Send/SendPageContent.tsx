@@ -71,7 +71,7 @@ type TProps = {
 
 export const SendPageContent = ({ account, recipientAddress }: TProps) => {
   const { t } = useTranslation('pages', { keyPrefix: 'send' })
-  const { t: commonT } = useTranslation('common')
+  const { t: tCommon } = useTranslation('common')
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
   const { loginSessionRef } = useLoginSessionSelector()
   const { accountsMapRef } = useAccountsMapSelector()
@@ -662,7 +662,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
             type="warning"
             className="mt-2 w-full"
             message={t('separatelyTransferWarning', {
-              blockchain: commonT(`blockchain.${actionData.selectedAccount.blockchain}`),
+              blockchain: tCommon(`blockchain.${actionData.selectedAccount.blockchain}`),
             })}
           />
         )}
@@ -697,7 +697,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
         )}
 
         <Button
-          label={commonT('general.continue')}
+          label={tCommon('general.continue')}
           className="mt-6 mb-4 w-full max-w-[16rem]"
           iconsOnEdge={false}
           loading={actionState.isActing}

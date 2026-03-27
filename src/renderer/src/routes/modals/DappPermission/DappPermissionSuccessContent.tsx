@@ -15,7 +15,7 @@ type TProps = {
 
 export const DappPermissionSuccessContent = ({ response }: TProps) => {
   const { t } = useTranslation('modals', { keyPrefix: 'dappPermission.successContent' })
-  const { t: commonT } = useTranslation('common', { keyPrefix: 'general' })
+  const { t: tCommon } = useTranslation('common', { keyPrefix: 'general' })
   const { modalEraseWrapper } = useModalNavigate()
 
   const stringifiedResponse = typeof response === 'string' ? response : JSON.stringify(response, null, 4)
@@ -28,7 +28,7 @@ export const DappPermissionSuccessContent = ({ response }: TProps) => {
             <p className="text-xs font-bold text-gray-300 uppercase">{t('resultBoxLabel')}</p>
 
             <IconButton
-              aria-label={commonT('copyToClipboard')}
+              aria-label={tCommon('copyToClipboard')}
               size="sm"
               compacted
               icon={<MdContentCopy aria-hidden />}

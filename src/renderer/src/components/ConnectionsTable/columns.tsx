@@ -21,7 +21,7 @@ const columnHelper = createColumnHelper<TUseWalletConnectSessionsResult>()
 
 export const useColumns = (withAddress: boolean) => {
   const { t } = useTranslation('components', { keyPrefix: 'connectionsTable' })
-  const { t: commonT } = useTranslation('common', { keyPrefix: 'blockchain' })
+  const { t: tCommonBlockchain } = useTranslation('common', { keyPrefix: 'blockchain' })
   const { language } = useLanguageSelector()
   const { modalNavigate } = useModalNavigate()
 
@@ -58,7 +58,7 @@ export const useColumns = (withAddress: boolean) => {
           return (
             <div className="flex">
               <BlockchainIcon blockchain={value} />
-              <span className="ml-2">{commonT(value)}</span>
+              <span className="ml-2">{tCommonBlockchain(value)}</span>
             </div>
           )
         },
@@ -92,5 +92,5 @@ export const useColumns = (withAddress: boolean) => {
     }
 
     return columns
-  }, [commonT, language, modalNavigate, t, withAddress])
+  }, [tCommonBlockchain, language, modalNavigate, t, withAddress])
 }

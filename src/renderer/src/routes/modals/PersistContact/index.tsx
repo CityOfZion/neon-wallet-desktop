@@ -33,7 +33,7 @@ type TFormData = {
 
 const PersistContactModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'persistContact' })
-  const { t: commonT } = useTranslation('common', { keyPrefix: 'general' })
+  const { t: tCommon } = useTranslation('common', { keyPrefix: 'general' })
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
   const modalState = useModalState<TModalState<'persist-contact'>>()
   const dispatch = useAppDispatch()
@@ -232,7 +232,7 @@ const PersistContactModal = () => {
           )}
 
           <Button
-            label={modalStateContact ? commonT('save') : t('saveContact')}
+            label={modalStateContact ? tCommon('save') : t('saveContact')}
             flat
             disabled={actionData.addresses.length <= 0 || !actionState.isValid || actionState.isActing}
             type="submit"

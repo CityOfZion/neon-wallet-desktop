@@ -17,7 +17,7 @@ type TParams = {
 
 const LoginPasswordImportWalletPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'welcome.importWallet' })
-  const { t: securitySetupT } = useTranslation('pages', { keyPrefix: 'welcome.securitySetup' })
+  const { t: tSecuritySetup } = useTranslation('pages', { keyPrefix: 'welcome.securitySetup' })
 
   const { state } = useLocation()
   const { step } = useParams<TParams>()
@@ -28,8 +28,8 @@ const LoginPasswordImportWalletPage = () => {
     <WelcomeLayout heading={t('title')} withBackButton={currentStep <= 3} className="overflow-hidden px-8">
       <Stepper.Root className="h-full w-full" value={currentStep}>
         <Stepper.List className="my-10">
-          <Stepper.Step value={1} label={securitySetupT('passwordStep.label')} />
-          <Stepper.Step value={2} label={securitySetupT('confirmPasswordStep.label')} />
+          <Stepper.Step value={1} label={tSecuritySetup('passwordStep.label')} />
+          <Stepper.Step value={2} label={tSecuritySetup('confirmPasswordStep.label')} />
           <Stepper.Step value={3} label={state?.isMigration ? t('migrationStep.label') : t('keyStep.label')} />
           <Stepper.Step value={4} label={t('importStep.label')} />
           <Stepper.Step value={5} label={t('completedStep.label')} />

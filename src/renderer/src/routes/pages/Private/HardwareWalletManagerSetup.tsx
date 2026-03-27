@@ -13,7 +13,7 @@ const HardwareWalletManagerSetup = () => {
   const { walletsRef } = useWalletsSelector()
   const { loginSessionRef } = useLoginSessionSelector()
   const { editAccount } = useEditAccount()
-  const { t: commonT } = useTranslation('pages', { keyPrefix: 'private.hardwareWalletManagerSetup' })
+  const { t: tCommon } = useTranslation('pages', { keyPrefix: 'private.hardwareWalletManagerSetup' })
 
   const transformHardwareAccountsToWatch = useCallback(() => {
     walletsRef.current
@@ -49,7 +49,7 @@ const HardwareWalletManagerSetup = () => {
 
   useEffect(() => {
     const removeOnSignatureStartListener = window.api.listen('hardwareWallet:onSignatureStart', () => {
-      ToastHelper.loading({ message: commonT('requestingPermission'), id: 'hardware-wallet-request-permission' })
+      ToastHelper.loading({ message: tCommon('requestingPermission'), id: 'hardware-wallet-request-permission' })
     })
 
     const removeOnSignatureEndListener = window.api.listen('hardwareWallet:onSignatureEnd', () => {
@@ -60,7 +60,7 @@ const HardwareWalletManagerSetup = () => {
       removeOnSignatureStartListener()
       removeOnSignatureEndListener()
     }
-  }, [commonT])
+  }, [tCommon])
 
   return null
 }

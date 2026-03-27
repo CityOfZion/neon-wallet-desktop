@@ -65,7 +65,7 @@ export const SendRecipient = ({
   onMaxAmount,
 }: TProps) => {
   const { t } = useTranslation('pages', { keyPrefix: 'send.recipient' })
-  const { t: commonT } = useTranslation('common')
+  const { t: tCommon } = useTranslation('common')
   const { modalNavigateWrapper } = useModalNavigate()
   const { currency } = useCurrencySelector()
   const isPresent = useIsPresent()
@@ -141,7 +141,7 @@ export const SendRecipient = ({
       <ActionStep className="px-0" title={t('title', { order })} leftIcon={<TbStepInto aria-hidden />}>
         {removable && (
           <Button
-            label={commonT('general.remove')}
+            label={tCommon('general.remove')}
             flat
             variant="text-slim"
             textClassName="text-pink"

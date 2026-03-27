@@ -24,7 +24,7 @@ export const DappPermissionGenericContent = (props: TDappPermissionProps) => {
   const { session, onAccept, onReject, isAccepting, isRejecting, request, sessionDetails } = props
 
   const { t } = useTranslation('modals', { keyPrefix: 'dappPermission' })
-  const { t: commonT } = useTranslation('common', { keyPrefix: 'general' })
+  const { t: tCommon } = useTranslation('common', { keyPrefix: 'general' })
 
   const parsedParams = useMemo(() => {
     const params = request.params.request.params
@@ -62,9 +62,9 @@ export const DappPermissionGenericContent = (props: TDappPermissionProps) => {
           <Details.Root className="mt-3" key={key}>
             <Details.Header
               rightElement={
-                <Tooltip title={commonT('copy')}>
+                <Tooltip title={tCommon('copy')}>
                   <IconButton
-                    aria-label={commonT('copy')}
+                    aria-label={tCommon('copy')}
                     icon={<MdContentCopy aria-hidden />}
                     size="sm"
                     onClick={ClipboardHelper.write.bind(null, content)}

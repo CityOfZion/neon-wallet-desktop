@@ -27,7 +27,7 @@ import type { TModalState } from '@shared/types/modal'
 
 const NetworkSelectionModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'networkSelection' })
-  const { t: commonGeneral } = useTranslation('common', { keyPrefix: 'general' })
+  const { t: tCommonGeneral } = useTranslation('common', { keyPrefix: 'general' })
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
   const { blockchain } = useModalState<TModalState<'network-selection'>>()
   const { selectedNetworkProfile } = useSelectedNetworkProfileSelector()
@@ -148,12 +148,12 @@ const NetworkSelectionModal = () => {
             className="w-full"
             type="button"
             onClick={modalNavigateWrapper(-1)}
-            label={commonGeneral('cancel')}
+            label={tCommonGeneral('cancel')}
             flat
             colorSchema="gray"
           />
 
-          <Button className="w-full" label={commonGeneral('save')} flat onClick={handleSave} />
+          <Button className="w-full" label={tCommonGeneral('save')} flat onClick={handleSave} />
         </div>
       </div>
     </SideModalLayout>

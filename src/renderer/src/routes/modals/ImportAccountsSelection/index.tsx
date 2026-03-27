@@ -29,7 +29,7 @@ const ImportAccountsSelectionModal = () => {
   const { mnemonicOrKey } = useModalState<TModalState<'import-accounts-selection'>>()
   const { createWallet } = useCreateWallet()
   const { importAccounts } = useImportAccounts()
-  const { t: commonT } = useTranslation('common')
+  const { t: tCommon } = useTranslation('common')
   const { modalErase } = useModalNavigate()
   const navigate = useNavigate()
   const { t } = useTranslation('modals', { keyPrefix: 'importAccountsSelection' })
@@ -41,7 +41,7 @@ const ImportAccountsSelectionModal = () => {
     const isMnemonic = BSKeychainHelper.isValidMnemonic(mnemonicOrKey)
 
     const wallet = createWallet({
-      name: isMnemonic ? commonT('wallet.mnemonicWalletName') : commonT('wallet.importedName'),
+      name: isMnemonic ? tCommon('wallet.mnemonicWalletName') : tCommon('wallet.importedName'),
       mnemonic: isMnemonic ? mnemonicOrKey : undefined,
     })
 

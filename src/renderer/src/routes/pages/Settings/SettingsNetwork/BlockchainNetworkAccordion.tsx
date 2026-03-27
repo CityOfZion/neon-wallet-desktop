@@ -18,7 +18,7 @@ type TProps = {
 }
 
 export const BlockchainNetworkAccordion = ({ blockchain }: TProps) => {
-  const { t: tCommon } = useTranslation('common', { keyPrefix: 'blockchain' })
+  const { t: tCommonBlockchain } = useTranslation('common', { keyPrefix: 'blockchain' })
   const { t } = useTranslation('pages', { keyPrefix: 'settings.settingsNetwork' })
   const { modalNavigateWrapper } = useModalNavigate()
   const { network } = useSelectedNetworkSelector(blockchain)
@@ -37,7 +37,7 @@ export const BlockchainNetworkAccordion = ({ blockchain }: TProps) => {
           <div className="flex size-4 items-center justify-center">
             <BlockchainIcon blockchain={blockchain} type="blue" />
           </div>
-          <span className="text-sm text-white">{tCommon(blockchain)}</span>
+          <span className="text-sm text-white">{tCommonBlockchain(blockchain)}</span>
         </div>
       </Accordion.Trigger>
 

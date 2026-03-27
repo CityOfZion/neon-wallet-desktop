@@ -41,7 +41,7 @@ export const ExportFullTransactionInfo = ({
   readOnly,
 }: TProps) => {
   const { t } = useTranslation('modals', { keyPrefix: 'exportFullTransactions.info' })
-  const { t: commonT } = useTranslation('common')
+  const { t: tCommon } = useTranslation('common')
   const { modalNavigateWrapper } = useModalNavigate()
   const { language } = useLanguageSelector()
 
@@ -89,7 +89,7 @@ export const ExportFullTransactionInfo = ({
           >
             {account && (
               <span className="text-xs whitespace-nowrap text-gray-100">
-                {commonT(`blockchain.${account.blockchain}`)}
+                {tCommon(`blockchain.${account.blockchain}`)}
               </span>
             )}
           </ActionStep>

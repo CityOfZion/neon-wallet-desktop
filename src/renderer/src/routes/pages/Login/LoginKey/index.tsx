@@ -18,7 +18,7 @@ import { TAccountsToImport } from '@shared/types/blockchain'
 
 export const LoginKeyTabContent = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'loginKey' })
-  const { t: commonT } = useTranslation('common')
+  const { t: tCommon } = useTranslation('common')
   const navigate = useNavigate()
   const { loginWithKey } = useLogin()
 
@@ -44,7 +44,7 @@ export const LoginKeyTabContent = () => {
     }))
 
     await loginWithKey(accountsToImport, {
-      name: commonT('wallet.watchAccount'),
+      name: tCommon('wallet.watchAccount'),
       type: 'standard',
     })
 
@@ -83,8 +83,8 @@ export const LoginKeyTabContent = () => {
         </div>
 
         <Button
-          label={commonT('general.next')}
-          className="mt-8 w-[250px]"
+          label={tCommon('general.next')}
+          className="mt-8 w-62.5"
           variant="contained"
           type="submit"
           disabled={!actionState.isValid || actionState.isActing}
