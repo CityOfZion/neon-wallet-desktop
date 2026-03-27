@@ -21,7 +21,7 @@ type TProps = {
 
 export const LoginPasswordSecuritySetupStep1Content = ({ onSubmit }: TProps) => {
   const { t } = useTranslation('pages', { keyPrefix: 'welcome.securitySetup.passwordStep' })
-  const { t: commonT } = useTranslation('common')
+  const { t: tCommon } = useTranslation('common')
   const navigate = useNavigate()
 
   const { actionData, actionState, setData, setError, handleAct } = useActions<TFormData>({ password: '' })
@@ -61,7 +61,7 @@ export const LoginPasswordSecuritySetupStep1Content = ({ onSubmit }: TProps) => 
         />
 
         <Button
-          label={commonT('general.continue')}
+          label={tCommon('general.continue')}
           className="w-64"
           type="submit"
           disabled={!actionState.isValid || actionState.isActing}

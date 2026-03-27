@@ -26,7 +26,7 @@ type TLocationState = {
 
 const ChangePasswordStep2 = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'settings.changePassword.step2' })
-  const { t: commonT } = useTranslation('common')
+  const { t: tCommon } = useTranslation('common')
   const { wallets } = useWalletsSelector()
   const { loginSessionRef } = useLoginSessionSelector()
   const { accounts } = useAccountsSelector()
@@ -45,7 +45,7 @@ const ChangePasswordStep2 = () => {
       const loginSession = loginSessionRef.current
 
       if (!loginSession) {
-        throw new AppError(commonT('errors.loginSessionIsNotDefined'))
+        throw new AppError(tCommon('errors.loginSessionIsNotDefined'))
       }
 
       const { encryptedPassword } = loginSession

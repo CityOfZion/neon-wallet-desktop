@@ -28,7 +28,7 @@ const ExportKeyModal = () => {
   const { account } = useModalState<TModalState<'export-key'>>()
   const { loginSession } = useLoginSessionSelector()
   const { t } = useTranslation('modals', { keyPrefix: 'exportKey' })
-  const { t: commonT } = useTranslation('common')
+  const { t: tCommon } = useTranslation('common')
   const ref = useRef<HTMLDivElement>(null)
   const handlePrint = useReactToPrint({
     contentRef: ref,
@@ -36,7 +36,7 @@ const ExportKeyModal = () => {
   })
 
   if (!loginSession) {
-    throw new AppError(commonT('errors.loginSessionIsNotDefined'))
+    throw new AppError(tCommon('errors.loginSessionIsNotDefined'))
   }
 
   const decryptedKey = window.api.sendSync('encryption:decryptBasedEncryptedSecretSync', {

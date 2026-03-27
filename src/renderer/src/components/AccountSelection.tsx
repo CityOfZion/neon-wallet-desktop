@@ -20,13 +20,13 @@ type TItemProps = {
 }
 
 const Root = ({ blockchain, children }: TRootProps) => {
-  const { t: blockchainT } = useTranslation('common', { keyPrefix: 'blockchain' })
+  const { t: tCommonBlockchain } = useTranslation('common', { keyPrefix: 'blockchain' })
 
   return (
     <div className="bg-asphalt gap-y-4 rounded-sm p-2">
       <div className="flex items-center gap-x-2 p-2">
         <BlockchainIcon blockchain={blockchain} type="white" />
-        {blockchainT(blockchain)}
+        {tCommonBlockchain(blockchain)}
       </div>
 
       <Separator />

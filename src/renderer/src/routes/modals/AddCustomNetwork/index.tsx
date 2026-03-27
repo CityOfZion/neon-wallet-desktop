@@ -29,7 +29,7 @@ type TActionData = {
 
 const AddCustomNetwork = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'addCustomNetwork' })
-  const { t: commonGeneral } = useTranslation('common', { keyPrefix: 'general' })
+  const { t: tCommonGeneral } = useTranslation('common', { keyPrefix: 'general' })
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
   const { blockchain, network: networkToEdit } = useModalState<TModalState<'add-custom-network'>>()
   const dispatch = useAppDispatch()
@@ -152,12 +152,12 @@ const AddCustomNetwork = () => {
               className="w-full"
               type="button"
               onClick={modalNavigateWrapper(-1)}
-              label={commonGeneral('cancel')}
+              label={tCommonGeneral('cancel')}
               flat
               colorSchema="gray"
             />
 
-            <Button className="w-full" type="submit" label={commonGeneral('save')} flat disabled={isDisabled} />
+            <Button className="w-full" type="submit" label={tCommonGeneral('save')} flat disabled={isDisabled} />
           </div>
         </div>
       </form>

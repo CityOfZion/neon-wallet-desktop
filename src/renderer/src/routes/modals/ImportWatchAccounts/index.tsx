@@ -39,7 +39,7 @@ const ImportWatchAccountsModal = () => {
   const { createWallet } = useCreateWallet()
   const { importAccounts } = useImportAccounts()
   const { t } = useTranslation('modals', { keyPrefix: 'importWatchAccounts' })
-  const { t: commomT } = useTranslation('common', { keyPrefix: 'wallet' })
+  const { t: tCommonWallet } = useTranslation('common', { keyPrefix: 'wallet' })
   const { t: tCommonBlockchain } = useTranslation('common', { keyPrefix: 'blockchain' })
   const modalState = useModalState<TModalState<'import-watch-accounts'>>()
   const navigate = useNavigate()
@@ -63,7 +63,7 @@ const ImportWatchAccountsModal = () => {
         throw new AppError(t('errors.invalid'))
       }
 
-      const wallet = createWallet({ name: commomT('watchAccount') })
+      const wallet = createWallet({ name: tCommonWallet('watchAccount') })
 
       const accountsToImport: TAccountsToImport = validatedAddresses.map(validatedAddress => ({
         address: validatedAddress.address,

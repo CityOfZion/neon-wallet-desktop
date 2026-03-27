@@ -12,7 +12,7 @@ import type { IAccountState } from '@shared/types/store'
 const DeeplinkManagerSetup = () => {
   const { modalNavigate } = useModalNavigate()
   const navigate = useNavigate()
-  const { t: commonWc } = useTranslation('pages', { keyPrefix: 'private.deeplinkManagerSetup' })
+  const { t } = useTranslation('pages', { keyPrefix: 'private.deeplinkManagerSetup' })
 
   useEffect(() => {
     const handleDeeplink = async (uri?: string) => {
@@ -57,8 +57,8 @@ const DeeplinkManagerSetup = () => {
               onSelectAccount: (account: IAccountState) => {
                 modalNavigate('dapp-connection', { state: { account: account, uri: wcUri } })
               },
-              title: commonWc('selectAccountModal.title'),
-              buttonLabel: commonWc('selectAccountModal.selectSourceAccount'),
+              title: t('selectAccountModal.title'),
+              buttonLabel: t('selectAccountModal.selectSourceAccount'),
             },
           })
         }
@@ -74,7 +74,7 @@ const DeeplinkManagerSetup = () => {
     return () => {
       removeDeeplinkListener()
     }
-  }, [commonWc, modalNavigate, navigate])
+  }, [t, modalNavigate, navigate])
 
   return null
 }

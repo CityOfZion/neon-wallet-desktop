@@ -20,11 +20,11 @@ import 'github-markdown-css/github-markdown.css'
 
 const AutoUpdateNotes = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'autoUpdate.notes' })
-  const { t: changelogT } = useTranslation('changelog')
+  const { t: tChangelog } = useTranslation('changelog')
   const { modalNavigateWrapper } = useModalNavigate()
   const { language } = useLanguageSelector()
 
-  const releaseNotes = changelogT('notes', { returnObjects: true })
+  const releaseNotes = tChangelog('notes', { returnObjects: true })
   const latestRelease = releaseNotes.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0]
 
   return (
@@ -44,7 +44,7 @@ const AutoUpdateNotes = () => {
             </span>
 
             <span className="mb-2 block text-lg text-white">
-              {changelogT('versionLabel', { version: latestRelease.version })}
+              {tChangelog('versionLabel', { version: latestRelease.version })}
             </span>
 
             <ul>

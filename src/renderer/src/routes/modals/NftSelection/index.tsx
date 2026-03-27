@@ -17,7 +17,7 @@ import type { TModalState } from '@shared/types/modal'
 
 const NFTSelectionModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'nftSelection' })
-  const { t: commonT } = useTranslation('common')
+  const { t: tCommon } = useTranslation('common')
   const { account, onSelect } = useModalState<TModalState<'nft-selection'>>()
   const { modalNavigate } = useModalNavigate()
   const query = useNfts(account)
@@ -69,7 +69,7 @@ const NFTSelectionModal = () => {
       </div>
 
       <Button
-        label={commonT('general.save')}
+        label={tCommon('general.save')}
         type="button"
         flat
         className="mx-5 mt-5"

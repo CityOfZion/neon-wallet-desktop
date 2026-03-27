@@ -84,7 +84,7 @@ export const useHardwareWalletByUsb = () => {
 }
 
 export const useCreateHardwareWallet = () => {
-  const { t: commonT } = useTranslation('common')
+  const { t: tCommon } = useTranslation('common')
   const { editWallet } = useEditWallet()
   const { createWallet } = useCreateWallet()
   const { editAccount } = useEditAccount()
@@ -95,7 +95,7 @@ export const useCreateHardwareWallet = () => {
   const createHardwareWallet = useCallback(
     async (accounts: TBSAccount<TBlockchainServiceKey>[]) => {
       if (!loginSessionRef.current) {
-        throw new AppError(commonT('errors.loginSessionIsNotDefined'))
+        throw new AppError(tCommon('errors.loginSessionIsNotDefined'))
       }
 
       const existentWalletsByBlockchain = new Map<TBlockchainServiceKey, IWalletState>()
@@ -132,14 +132,14 @@ export const useCreateHardwareWallet = () => {
 
         if (!existentWallet) {
           wallet = createWallet({
-            name: commonT('wallet.ledgerName', { blockchain: commonT(`blockchain.${blockchain}`) }),
+            name: tCommon('wallet.ledgerName', { blockchain: tCommon(`blockchain.${blockchain}`) }),
             type: 'hardware',
           })
         } else {
           wallet = editWallet({
             wallet: existentWallet,
             data: {
-              name: commonT('wallet.ledgerName', { blockchain: commonT(`blockchain.${blockchain}`) }),
+              name: tCommon('wallet.ledgerName', { blockchain: tCommon(`blockchain.${blockchain}`) }),
               type: 'hardware',
             },
           })
@@ -173,7 +173,7 @@ export const useCreateHardwareWallet = () => {
 
       return newAccounts
     },
-    [loginSessionRef, accountsWithWalletMapRef, createWallet, commonT, editWallet, editAccount, importAccount]
+    [loginSessionRef, accountsWithWalletMapRef, createWallet, tCommon, editWallet, editAccount, importAccount]
   )
 
   return { createHardwareWallet }
@@ -183,16 +183,16 @@ export const useAddAccountHardwareWallet = () => {
   const { importAccount } = useImportAccount()
   const { loginSessionRef } = useLoginSessionSelector()
   const dispatch = useAppDispatch()
-  const { t: commonT } = useTranslation('common')
+  const { t: tCommon } = useTranslation('common')
 
   const addNewHardwareAccount = useCallback(
     async (wallet: IWalletState, accountName?: string) => {
       if (!loginSessionRef.current) {
-        throw new AppError(commonT('errors.loginSessionIsNotDefined'))
+        throw new AppError(tCommon('errors.loginSessionIsNotDefined'))
       }
 
       if (wallet.type !== 'hardware') {
-        throw new AppError(commonT('hardwareWallet.errors.walletIsNotHardware'))
+        throw new AppError(tCommon('hardwareWallet.errors.walletIsNotHardware'))
       }
       // When a wallet is hardware, all accounts are from the same blockchain
       const blockchain = wallet.accounts[0].blockchain

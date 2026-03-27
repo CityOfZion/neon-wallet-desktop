@@ -28,7 +28,7 @@ const LoginKeySelectAccountPage = () => {
   const {
     state: { mnemonicOrKey },
   } = useLocation() as Location<TLocationState>
-  const { t: commonT } = useTranslation('common')
+  const { t: tCommon } = useTranslation('common')
   const { t } = useTranslation('pages', { keyPrefix: 'loginKeySelectAccountPage' })
   const { loginWithKey } = useLogin()
   const navigate = useNavigate()
@@ -40,7 +40,7 @@ const LoginKeySelectAccountPage = () => {
     const isMnemonic = BSKeychainHelper.isValidMnemonic(mnemonicOrKey)
     const accounts: TAccountsToImport = accountsToImport.map(account => ({ ...account, type: 'standard' }))
     await loginWithKey(accounts, {
-      name: isMnemonic ? commonT('wallet.mnemonicWalletName') : commonT('wallet.importedName'),
+      name: isMnemonic ? tCommon('wallet.mnemonicWalletName') : tCommon('wallet.importedName'),
       type: 'standard',
       mnemonic: isMnemonic ? mnemonicOrKey : undefined,
     })

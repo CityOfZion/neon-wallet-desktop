@@ -15,10 +15,10 @@ import 'github-markdown-css/github-markdown.css'
 
 const SettingsReleaseNotesPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'settings.settingsReleaseNotes' })
-  const { t: changelogT } = useTranslation('changelog')
+  const { t: tChangelog } = useTranslation('changelog')
   const { language } = useLanguageSelector()
 
-  const releaseNotes = changelogT('notes', { returnObjects: true })
+  const releaseNotes = tChangelog('notes', { returnObjects: true })
   const sortedReleaseNotes = releaseNotes.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 
   return (
@@ -32,7 +32,7 @@ const SettingsReleaseNotesPage = () => {
               </span>
 
               <span className="mb-2 block text-lg text-white">
-                {changelogT('versionLabel', { version: item.version })}
+                {tChangelog('versionLabel', { version: item.version })}
               </span>
 
               <ul>

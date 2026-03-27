@@ -14,7 +14,7 @@ type TProps = {
 }
 
 export const NftList = ({ account, nfts }: TProps) => {
-  const { t: tCommon } = useTranslation('common', { keyPrefix: 'blockchain' })
+  const { t: tCommonBlockchain } = useTranslation('common', { keyPrefix: 'blockchain' })
 
   return (
     <ul className="flex min-w-0 flex-col gap-1">
@@ -59,7 +59,7 @@ export const NftList = ({ account, nfts }: TProps) => {
 
                 <div className="flex items-center gap-1.5">
                   <BlockchainIcon blockchain={account.blockchain} type="gray" className="size-3 opacity-60" />
-                  <span className="text-xs text-gray-300">{tCommon(account.blockchain)}</span>
+                  <span className="text-xs text-gray-300">{tCommonBlockchain(account.blockchain)}</span>
                 </div>
               </div>
 

@@ -40,7 +40,7 @@ type TProps = {
 export const LoginPasswordSecuritySetupStep2Content = ({ onSubmit }: TProps) => {
   const { state } = useLocation() as Location<TLocationState>
   const { t } = useTranslation('pages', { keyPrefix: 'welcome.securitySetup.confirmPasswordStep' })
-  const { t: commonT } = useTranslation('common')
+  const { t: tCommon } = useTranslation('common')
   const navigate = useNavigate()
   const { modalNavigate, modalErase } = useModalNavigate()
   const { createStandardAccount } = useCreateStandardAccount()
@@ -94,7 +94,7 @@ export const LoginPasswordSecuritySetupStep2Content = ({ onSubmit }: TProps) => 
           const mnemonic = BSKeychainHelper.generateMnemonic()
 
           const wallet = createWallet({
-            name: commonT('wallet.firstWalletName'),
+            name: tCommon('wallet.firstWalletName'),
             mnemonic,
           })
 
@@ -102,7 +102,7 @@ export const LoginPasswordSecuritySetupStep2Content = ({ onSubmit }: TProps) => 
             createStandardAccount({
               wallet,
               blockchain,
-              name: commonT('account.defaultName', { accountNumber: 1 }),
+              name: tCommon('account.defaultName', { accountNumber: 1 }),
             })
           )
 
@@ -158,7 +158,7 @@ export const LoginPasswordSecuritySetupStep2Content = ({ onSubmit }: TProps) => 
         )}
 
         <Button
-          label={commonT('general.continue')}
+          label={tCommon('general.continue')}
           className="mt-auto w-64"
           type="submit"
           loading={actionState.isActing}

@@ -27,7 +27,7 @@ type TLocationState = {
 
 export const LoginPasswordImportWalletStep3Content = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'welcome.importWallet.keyStep' })
-  const { t: commonT } = useTranslation('common')
+  const { t: tCommon } = useTranslation('common')
   const navigate = useNavigate()
   const { state } = useLocation() as Location<TLocationState>
   const { modalErase, modalNavigate } = useModalNavigate()
@@ -35,7 +35,7 @@ export const LoginPasswordImportWalletStep3Content = () => {
 
   const submitAddress = async (address: string) => {
     const wallet: TUseCreateWalletParams = {
-      name: commonT('wallet.watchAccount'),
+      name: tCommon('wallet.watchAccount'),
     }
     const serviceNames = BlockchainServiceHelper.bsAggregator.getBlockchainNameByAddress(address)
     const accounts: TAccountsToImport = serviceNames.map(serviceName => ({
@@ -61,7 +61,7 @@ export const LoginPasswordImportWalletStep3Content = () => {
     )
 
     const wallet: TUseCreateWalletParams = {
-      name: commonT('wallet.encryptedName'),
+      name: tCommon('wallet.encryptedName'),
     }
 
     navigate('/login-import-wallet-setup/4', {
@@ -87,7 +87,7 @@ export const LoginPasswordImportWalletStep3Content = () => {
       .flat()
 
     const wallet: TUseCreateWalletParams = {
-      name: commonT('wallet.mnemonicWalletName'),
+      name: tCommon('wallet.mnemonicWalletName'),
       mnemonic,
     }
 
@@ -100,7 +100,7 @@ export const LoginPasswordImportWalletStep3Content = () => {
     const handleDecrypt = async (key: string, address: string, blockchain: TBlockchainServiceKey) => {
       modalNavigate(-2)
 
-      const wallet: TUseCreateWalletParams = { name: commonT('wallet.encryptedName') }
+      const wallet: TUseCreateWalletParams = { name: tCommon('wallet.encryptedName') }
       const accounts: TAccountsToImport = [{ address, blockchain, key, type: 'standard' }]
 
       navigate('/login-import-wallet-setup/4', {
@@ -242,7 +242,7 @@ export const LoginPasswordImportWalletStep3Content = () => {
         )}
 
         <Button
-          label={commonT('general.next')}
+          label={tCommon('general.next')}
           className="mt-auto w-64"
           type="submit"
           disabled={importActions.actionData.text ? !importActions.actionState.isValid : !fileActions.actionData.path}

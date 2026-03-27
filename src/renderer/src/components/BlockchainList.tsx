@@ -18,7 +18,7 @@ type TProps = {
 }
 
 export const BlockchainList = ({ onSelect, selectedBlockchains = [], isMulti, blockchains, className }: TProps) => {
-  const { t: commonT } = useTranslation('common', { keyPrefix: 'blockchain' })
+  const { t: tCommonBlockchain } = useTranslation('common', { keyPrefix: 'blockchain' })
 
   const blockchainsToIterate = blockchains ?? BlockchainServiceHelper.blockchainNames
 
@@ -47,7 +47,7 @@ export const BlockchainList = ({ onSelect, selectedBlockchains = [], isMulti, bl
           <li key={blockchain} className="bg-asphalt flex h-12 grow items-center rounded-sm border-none">
             <label className="flex w-full cursor-pointer items-center gap-2.5 px-6 py-4">
               <BlockchainIcon blockchain={blockchain} type="gray" />
-              <span className="flex grow">{commonT(blockchain)}</span>
+              <span className="flex grow">{tCommonBlockchain(blockchain)}</span>
               <Checkbox
                 value={blockchain}
                 onCheckedChange={() => handleSelect(blockchain)}

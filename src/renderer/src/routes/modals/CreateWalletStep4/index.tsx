@@ -25,7 +25,7 @@ type TFormData = {
 
 const CreateWalletStep4Modal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'createWallet.step4' })
-  const { t: commonT } = useTranslation('common')
+  const { t: tCommon } = useTranslation('common')
   const { nameTrimmed, words } = useModalState<TModalState<'create-wallet-step-4'>>()
   const { modalNavigate, modalNavigateWrapper, modalErase } = useModalNavigate()
   const { createStandardAccount } = useCreateStandardAccount()
@@ -48,7 +48,7 @@ const CreateWalletStep4Modal = () => {
         createStandardAccount({
           wallet,
           blockchain,
-          name: commonT('account.defaultName', { accountNumber: 1 }),
+          name: tCommon('account.defaultName', { accountNumber: 1 }),
         })
       )
     )
