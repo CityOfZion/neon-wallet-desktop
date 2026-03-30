@@ -1,7 +1,5 @@
 import { createContext } from 'react'
 
-import { FocusScope } from '@radix-ui/react-focus-scope'
-
 import type {
   TModalRouterCurrentHistoryContextValue,
   TModalRouterCurrentHistoryProviderProps,
@@ -20,9 +18,7 @@ export const ModalRouterCurrentHistoryProvider = ({
 }: TModalRouterCurrentHistoryProviderProps) => {
   return (
     <ModalRouterCurrentHistoryContext.Provider value={{ history, isFocused, isGroupFocused, groupIndex }}>
-      <FocusScope
-        loop
-        trapped
+      <div
         role="dialog"
         aria-modal={isGroupFocused}
         aria-hidden={!isGroupFocused}
@@ -30,7 +26,7 @@ export const ModalRouterCurrentHistoryProvider = ({
         className="absolute top-0 left-0 h-full w-full"
       >
         {children}
-      </FocusScope>
+      </div>
     </ModalRouterCurrentHistoryContext.Provider>
   )
 }

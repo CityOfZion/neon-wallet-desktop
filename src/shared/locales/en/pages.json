@@ -168,6 +168,52 @@
     },
     "title": "Bridge"
   },
+  "neo3Vote": {
+    "availableVotes": {
+      "availableVotesLabel": "Available votes",
+      "noAvailableVotesLabel": "No votes"
+    },
+    "changeNeo3AccountLabel": "Change",
+    "createNeo3AccountLabel": "There isn't any Neo 3 account, create one, please",
+    "list": {
+      "actionsColumnLabel": "Actions",
+      "castVoteColumnLabel": "Vote",
+      "nameColumnLabel": "Candidate",
+      "positionColumnLabel": "Position",
+      "pubKeyColumnLabel": "Public key",
+      "votesColumnLabel": "Total votes"
+    },
+    "listItem": {
+      "castVoteButtonLabel": "Cast vote",
+      "detailsButtonLabel": "Candidate information",
+      "yourVoteButtonLabel": "Your vote"
+    },
+    "noAccountSelectedLabel": "No account selected",
+    "notFound": {
+      "text": "There are no candidates to vote for or there was a problem obtaining them. Verify your Neo 3 network, and please, try again.",
+      "title": "No candidates to display"
+    },
+    "searchLabel": "Search",
+    "searchPlaceholder": "Search for a candidate…",
+    "selectNeo3AccountLabel": "Select",
+    "sideBar": {
+      "aboutNeoLabel": "The number of NEO you hold equates to the number of votes you can cast to vote for a candidate.",
+      "noteLabel": "Note: By not voting, you miss will out on this benefit.",
+      "sellNeoAlert": "If you sell your NEO, your votes will be reduced by the number you have sold and your GAS reward will reduce proportionately too",
+      "title": "How does it work?",
+      "whyVoteDescription": "By voting, you’re actively participating in the NEO ecosystem and are subsequently eligible to receive GAS as a holder’s benefit.",
+      "whyVoteTitle": "Why vote?"
+    },
+    "subtitle": "Select a candidate",
+    "title": "Voting",
+    "voteErrorMessages": {
+      "accountCanNotBeWatchLabel": "Your Neo 3 account is in watch mode",
+      "selectNeo3AccountLabel": "Select a Neo 3 account",
+      "shouldHaveEnoughGasToPayFeeLabel": "You don't have enough GAS to pay the fee",
+      "shouldUseMainnetLabel": "You should use a Mainnet network to vote",
+      "thereIsNoNeoLabel": "Your Neo 3 account should have NEO"
+    }
+  },
   "portfolio": {
     "allAccounts": "All accounts",
     "allActivity": "All activity",
@@ -489,52 +535,6 @@
     },
     "title": "Swap tokens"
   },
-  "voteNeo3": {
-    "availableVotes": {
-      "availableVotesLabel": "Available votes",
-      "noAvailableVotesLabel": "No votes"
-    },
-    "changeNeo3AccountLabel": "Change",
-    "createNeo3AccountLabel": "There isn't any Neo 3 account, create one, please",
-    "list": {
-      "actionsColumnLabel": "Actions",
-      "castVoteColumnLabel": "Vote",
-      "nameColumnLabel": "Candidate",
-      "positionColumnLabel": "Position",
-      "pubKeyColumnLabel": "Public key",
-      "votesColumnLabel": "Total votes"
-    },
-    "listItem": {
-      "castVoteButtonLabel": "Cast vote",
-      "detailsButtonLabel": "Candidate information",
-      "yourVoteButtonLabel": "Your vote"
-    },
-    "noAccountSelectedLabel": "No account selected",
-    "notFound": {
-      "text": "There are no candidates to vote for or there was a problem obtaining them. Verify your Neo 3 network, and please, try again.",
-      "title": "No candidates to display"
-    },
-    "searchLabel": "Search",
-    "searchPlaceholder": "Search for a candidate…",
-    "selectNeo3AccountLabel": "Select",
-    "sideBar": {
-      "aboutNeoLabel": "The number of NEO you hold equates to the number of votes you can cast to vote for a candidate.",
-      "noteLabel": "Note: By not voting, you miss will out on this benefit.",
-      "sellNeoAlert": "If you sell your NEO, your votes will be reduced by the number you have sold and your GAS reward will reduce proportionately too",
-      "title": "How does it work?",
-      "whyVoteDescription": "By voting, you’re actively participating in the NEO ecosystem and are subsequently eligible to receive GAS as a holder’s benefit.",
-      "whyVoteTitle": "Why vote?"
-    },
-    "subtitle": "Select a candidate",
-    "title": "Voting",
-    "voteErrorMessages": {
-      "accountCanNotBeWatchLabel": "Your Neo 3 account is in watch mode",
-      "selectNeo3AccountLabel": "Select a Neo 3 account",
-      "shouldHaveEnoughGasToPayFeeLabel": "You don't have enough GAS to pay the fee",
-      "shouldUseMainnetLabel": "You should use a Mainnet network to vote",
-      "thereIsNoNeoLabel": "Your Neo 3 account should have NEO"
-    }
-  },
   "wallets": {
     "accountConnections": {
       "disconnectAll": "Disconnect all",
@@ -576,9 +576,10 @@
     "hardwareWalletConnectBadge": "Hardware wallet connected",
     "importButtonLabel": "Import",
     "neo3NeoXBridgeButtonLabel": "Bridge",
+    "neo3VoteButtonLabel": "Vote",
     "newWalletButtonLabel": "New Wallet",
-    "title": "Wallets",
-    "voteNeo3ButtonLabel": "Vote"
+    "stellarTrustlineButtonLabel": "Trustline",
+    "title": "Wallets"
   },
   "welcome": {
     "card1": {

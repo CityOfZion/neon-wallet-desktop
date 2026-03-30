@@ -1,3 +1,4 @@
+import type { TBSBridgeName } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
 import { Location, useLocation } from 'react-router'
 
@@ -13,7 +14,7 @@ import { IAccountState } from '@shared/types/store'
 import { Neo3NeoXBridgeContent } from './Neo3NeoXBridgeContent'
 
 type TLocationState = {
-  account?: IAccountState
+  account?: IAccountState<TBSBridgeName>
 }
 
 const Neo3NeoXBridgePage = () => {

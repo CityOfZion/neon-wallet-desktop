@@ -132,7 +132,7 @@ const PersistContactModal = () => {
                   className="bg-asphalt mb-4 flex h-8.5 w-full items-center justify-between rounded-sm pr-2 pl-3"
                 >
                   <div className="flex min-w-0 grow items-center gap-x-3">
-                    <BlockchainIcon blockchain={address.blockchain} type="white" className="h-3 min-h-3 w-3 min-w-3" />
+                    <BlockchainIcon blockchain={address.blockchain} className="min-size-3 size-3 text-white" />
                     <span {...TestHelper.buildTestObject('contact-address-text')} className="truncate">
                       {address.address}
                     </span>

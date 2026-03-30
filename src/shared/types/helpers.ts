@@ -47,11 +47,6 @@ export type TStringHelperRemoveSpecialCharacterOptions = {
   trimText?: boolean
 }
 
-export type TAccountHelperGetServiceAccountParams = {
-  account: IAccountState
-  key: string
-}
-
 export type TDateHelperFormatLocalizedOptions = {
   format: string
   language: TLanguage
@@ -92,7 +87,7 @@ export type TExportTransactionsHelperCalculateDateFromSelectionMaxOneYearRespons
 }
 
 export type TTransactionHelperBuildPendingTransactionParams = {
-  transaction: TTransaction<TBlockchainServiceKey>
+  transaction: TTransaction
   account: IAccountState
   senderAccount?: IAccountState
   receiverAccounts?: (IAccountState | undefined)[]

@@ -1,17 +1,16 @@
 import { TBSAccount } from '@cityofzion/blockchain-service'
 import { BSBitcoinConstants } from '@cityofzion/bs-bitcoin'
-import type { BSAggregator } from '@cityofzion/bs-multichain'
 
 import { exposeApiToRenderer } from '@cityofzion/bs-electron/dist/main'
 import { SharedEnvHelper } from '@shared/helpers/SharedEnvHelper'
 import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { SharedI18nextHelper } from '@shared/helpers/SharedI18nextHelper'
-import type { TBlockchainServiceKey } from '@shared/types/blockchain'
+import type { TBlockchainServiceKey, TBSAggregator } from '@shared/types/blockchain'
 
 const { t } = SharedI18nextHelper.get()
 
 export class MainBlockchainServiceHelper {
-  static bsAggregator: BSAggregator<TBlockchainServiceKey>
+  static bsAggregator: TBSAggregator
 
   static async getHardwareWalletTransport(account: TBSAccount<TBlockchainServiceKey>) {
     try {
@@ -23,36 +22,45 @@ export class MainBlockchainServiceHelper {
   }
 
   static async setup() {
-    const [{ BSAggregator }, { BSNeo3 }, { BSNeoLegacy }, { BSNeoX }, { BSBitcoin }, { BSEthereum }, { BSSolana }] =
-      await Promise.all([
-        import('@cityofzion/bs-multichain'),
-        import('@cityofzion/bs-neo3'),
-        import('@cityofzion/bs-neo-legacy'),
-        import('@cityofzion/bs-neox'),
-        import('@cityofzion/bs-bitcoin'),
-        import('@cityofzion/bs-ethereum'),
-        import('@cityofzion/bs-solana'),
-      ])
+    const [
+      { BSAggregator },
+      { BSNeo3 },
+      { BSNeoLegacy },
+      { BSNeoX },
+      { BSEthereum },
+      { BSSolana },
+      { BSStellar },
+      { BSBitcoin },
+    ] = await Promise.all([
+      import('@cityofzion/bs-multichain'),
+      import('@cityofzion/bs-neo3'),
+      import('@cityofzion/bs-neo-legacy'),
+      import('@cityofzion/bs-neox'),
+      import('@cityofzion/bs-ethereum'),
+      import('@cityofzion/bs-solana'),
+      import('@cityofzion/bs-stellar'),
+      import('@cityofzion/bs-bitcoin'),
+    ])
 
     const services = await Promise.all([
-      Promise.resolve(new BSNeo3('neo3', undefined, this.getHardwareWalletTransport.bind(this))),
-      Promise.resolve(new BSNeoLegacy('neoLegacy', undefined, this.getHardwareWalletTransport.bind(this))),
-      Promise.resolve(new BSNeoX('neox', undefined, this.getHardwareWalletTransport.bind(this))),
+      Promise.resolve(new BSNeo3(undefined, this.getHardwareWalletTransport.bind(this))),
+      Promise.resolve(new BSNeoLegacy(undefined, this.getHardwareWalletTransport.bind(this))),
+      Promise.resolve(new BSNeoX(undefined, this.getHardwareWalletTransport.bind(this))),
+      Promise.resolve(new BSStellar(undefined, this.getHardwareWalletTransport.bind(this))),
+      Promise.resolve(new BSSolana(undefined, this.getHardwareWalletTransport.bind(this))),
       Promise.resolve(
         new BSBitcoin(
-          'bitcoin',
           SharedEnvHelper.PROD ? undefined : BSBitcoinConstants.TESTNET_NETWORK,
           this.getHardwareWalletTransport.bind(this)
         )
       ),
-      Promise.resolve(new BSSolana('solana', undefined, this.getHardwareWalletTransport.bind(this))),
-      Promise.resolve(new BSEthereum('ethereum', 'ethereum', undefined, this.getHardwareWalletTransport.bind(this))),
-      Promise.resolve(new BSEthereum('polygon', 'polygon', undefined, this.getHardwareWalletTransport.bind(this))),
-      Promise.resolve(new BSEthereum('base', 'base', undefined, this.getHardwareWalletTransport.bind(this))),
-      Promise.resolve(new BSEthereum('arbitrum', 'arbitrum', undefined, this.getHardwareWalletTransport.bind(this))),
+      Promise.resolve(new BSEthereum('ethereum', undefined, this.getHardwareWalletTransport.bind(this))),
+      Promise.resolve(new BSEthereum('polygon', undefined, this.getHardwareWalletTransport.bind(this))),
+      Promise.resolve(new BSEthereum('base', undefined, this.getHardwareWalletTransport.bind(this))),
+      Promise.resolve(new BSEthereum('arbitrum', undefined, this.getHardwareWalletTransport.bind(this))),
     ])
 
-    this.bsAggregator = new BSAggregator<TBlockchainServiceKey>(services)
+    this.bsAggregator = new BSAggregator(services)
 
     exposeApiToRenderer(this.bsAggregator)
   }

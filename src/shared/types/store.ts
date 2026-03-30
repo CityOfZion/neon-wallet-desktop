@@ -25,17 +25,19 @@ export type TLocalSkin = {
 
 export type TSkin = TColorSkin | TLocalSkin | TNftSkin
 
-export interface IAccountState {
-  id: string
-  address: string
-  type: TAccountType
-  idWallet: string
-  name: string
-  blockchain: TBlockchainServiceKey
-  encryptedKey?: string
-  order: number
-  skin: TSkin
-}
+export type IAccountState<N extends TBlockchainServiceKey = TBlockchainServiceKey> = N extends TBlockchainServiceKey
+  ? {
+      id: string
+      address: string
+      type: TAccountType
+      idWallet: string
+      name: string
+      blockchain: N
+      encryptedKey?: string
+      order: number
+      skin: TSkin
+    }
+  : never
 
 export interface IWalletState {
   id: string
@@ -99,7 +101,7 @@ export interface ISettingsState {
   customNetworks: TCustomNetwork
   networkProfiles: TNetworkProfile[]
   selectedNetworkProfile: TNetworkProfile
-  canShowVoteNeo3SupportUsModal: boolean
+  canShowNeo3VoteSupportUsModal: boolean
   encryptedLoginControl?: string
   selectedWallet?: IWalletState
   selectedAccount?: IAccountState
@@ -169,7 +171,7 @@ export type TNotificationNavigateAction = {
       }
     | TNotificationNavigateActionHideFraudulentTokenPayload
     | {
-        to: 'vote-neo3'
+        to: 'neo3-vote'
         address: string
         blockchain: TBlockchainServiceKey
       }

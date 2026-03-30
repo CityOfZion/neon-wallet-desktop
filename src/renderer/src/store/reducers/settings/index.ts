@@ -35,6 +35,7 @@ export function getSettingsReducer() {
       neox: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.neox.defaultNetwork,
       polygon: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.polygon.defaultNetwork,
       solana: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.solana.defaultNetwork,
+      stellar: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.stellar.defaultNetwork,
     },
   }
 
@@ -73,10 +74,11 @@ export function getSettingsReducer() {
         base: [],
         arbitrum: [],
         solana: [],
+        stellar: [],
       },
       networkProfiles: [defaultProfile, testProfile],
       selectedNetworkProfile: defaultProfile,
-      canShowVoteNeo3SupportUsModal: true,
+      canShowNeo3VoteSupportUsModal: true,
       selectedWallet: undefined,
       selectedAccount: undefined,
       showSideBar: true,

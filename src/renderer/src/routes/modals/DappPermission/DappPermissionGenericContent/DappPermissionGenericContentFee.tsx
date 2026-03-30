@@ -9,11 +9,7 @@ import { Loader } from '@renderer/components/Loader'
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
 
-import { useLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
-
 import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
-
-import { AppError } from '@shared/helpers/SharedErrorHelper'
 
 import type { TDappPermissionProps } from '../index'
 
@@ -23,21 +19,12 @@ export const DappPermissionGenericContentFee = ({
   sessionAccount,
   onReject,
 }: TDappPermissionProps) => {
-  const { loginSession } = useLoginSessionSelector()
   const { t } = useTranslation('modals', { keyPrefix: 'dappPermission' })
-  const { t: tCommon } = useTranslation('common')
 
   const feeQuery = useQuery({
     queryKey: ['fee', request.id],
     queryFn: async () => {
-      if (!loginSession || !sessionAccount.encryptedKey) throw new AppError(tCommon('errors.loginSessionIsNotDefined'))
-
-      const key = await window.api.sendAsync('encryption:decryptBasedEncryptedSecret', {
-        value: sessionAccount.encryptedKey,
-        encryptedSecret: loginSession.encryptedPassword,
-      })
-
-      const serviceAccount = await AccountHelper.getServiceAccount({ account: sessionAccount, key })
+      const serviceAccount = await AccountHelper.getServiceAccount(sessionAccount)
 
       return await sessionDetails.service.walletConnectService.calculateRequestFee({
         account: serviceAccount,

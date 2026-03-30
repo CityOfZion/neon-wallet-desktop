@@ -203,11 +203,7 @@ export const ContactList = ({
                                 <div className="flex w-full">
                                   <div className="flex items-center">
                                     <div className="mr-2 rounded-full bg-gray-700 p-2">
-                                      <BlockchainIcon
-                                        className="h-3 w-3"
-                                        blockchain={address.blockchain}
-                                        type="white"
-                                      />
+                                      <BlockchainIcon className="size-3 text-white" blockchain={address.blockchain} />
                                     </div>
                                   </div>
                                   <div className="flex items-center">

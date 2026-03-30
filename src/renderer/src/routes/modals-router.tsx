@@ -47,7 +47,9 @@ const SuccessModal = lazy(() => import('./modals/Success'))
 const SupportTicketModal = lazy(() => import('./modals/SupportTicket'))
 const SwapDetailsLogModal = lazy(() => import('./modals/SwapDetailsLog'))
 const SwapDetailsModal = lazy(() => import('./modals/SwapDetails'))
-const VoteNeo3CandidateDetailsModal = lazy(() => import('./modals/VoteNeo3CandidateDetails'))
+const Neo3VoteCandidateDetailsModal = lazy(() => import('./modals/Neo3VoteCandidateDetails'))
+const StellarTrustlinesModal = lazy(() => import('./modals/StellarTrustlines'))
+const StellarPersistTrustlineModal = lazy(() => import('./modals/StellarPersistTrustline'))
 
 const sideModalsRouter: TRoute[] = [
   { name: 'about-extra-id-to-receive', element: AboutExtraIdToReceiveModal },
@@ -95,7 +97,9 @@ const sideModalsRouter: TRoute[] = [
   { name: 'support-ticket', element: SupportTicketModal },
   { name: 'swap-details', element: SwapDetailsModal },
   { name: 'swap-details-log', element: SwapDetailsLogModal },
-  { name: 'vote-neo3-candidate-details', element: VoteNeo3CandidateDetailsModal },
+  { name: 'neo3-vote-candidate-details', element: Neo3VoteCandidateDetailsModal },
+  { name: 'stellar-trustlines', element: StellarTrustlinesModal },
+  { name: 'stellar-persist-trustlines', element: StellarPersistTrustlineModal },
 ]
 
 const AutoUpdateCompletedModal = lazy(() => import('./modals/AutoUpdateCompleted'))
@@ -111,9 +115,9 @@ const DappPermissionSignatureScopeModal = lazy(() => import('./modals/DappPermis
 const ExportFullTransactionsModal = lazy(() => import('./modals/ExportFullTransactions'))
 const HideFraudulentTokenModal = lazy(() => import('./modals/HideFraudulentToken'))
 const SearchModal = lazy(() => import('./modals/Search'))
-const VoteNeo3ConfirmationModal = lazy(() => import('./modals/VoteNeo3Confirmation'))
-const VoteNeo3SuccessModal = lazy(() => import('./modals/VoteNeo3Success'))
-const VoteNeo3SupportUsModal = lazy(() => import('./modals/VoteNeo3SupportUs'))
+const Neo3VoteConfirmationModal = lazy(() => import('./modals/Neo3VoteConfirmation'))
+const Neo3VoteSuccessModal = lazy(() => import('./modals/Neo3VoteSuccess'))
+const Neo3VoteSupportUsModal = lazy(() => import('./modals/Neo3VoteSupportUs'))
 
 const centerModalsRouter: TRoute[] = [
   { name: 'auto-update-completed', element: AutoUpdateCompletedModal },
@@ -129,9 +133,9 @@ const centerModalsRouter: TRoute[] = [
   { name: 'export-full-transactions', element: ExportFullTransactionsModal },
   { name: 'hide-fraudulent-token', element: HideFraudulentTokenModal },
   { name: 'search', element: SearchModal },
-  { name: 'vote-neo3-confirmation', element: VoteNeo3ConfirmationModal },
-  { name: 'vote-neo3-success', element: VoteNeo3SuccessModal },
-  { name: 'vote-neo3-support-us', element: VoteNeo3SupportUsModal },
+  { name: 'neo3-vote-confirmation', element: Neo3VoteConfirmationModal },
+  { name: 'neo3-vote-success', element: Neo3VoteSuccessModal },
+  { name: 'neo3-vote-support-us', element: Neo3VoteSupportUsModal },
 ]
 
 export const modalsRouter = [sideModalsRouter, centerModalsRouter]

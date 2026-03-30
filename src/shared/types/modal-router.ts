@@ -1,4 +1,10 @@
-import type { IBlockchainService, TBridgeToken, TNftResponse } from '@cityofzion/blockchain-service'
+import type {
+  IBlockchainService,
+  TBridgeToken,
+  TBSBridgeName,
+  TBSToken,
+  TNftResponse,
+} from '@cityofzion/blockchain-service'
 import type { TWalletKitHelperSessionDetails } from '@cityofzion/bs-multichain'
 import type { TVoteServiceCandidate } from '@cityofzion/bs-neo3'
 import type { ErrorResponse } from '@walletconnect/jsonrpc-utils'
@@ -159,19 +165,19 @@ type TMigrateAccountsStep4ModalState = {
 
 type TNeo3NeoxBridgeConfirmationModalState = {
   onConfirm(): Promise<void>
-  tokenToUse: TBridgeToken<TBlockchainServiceKey>
-  tokenToReceive: TBridgeToken<TBlockchainServiceKey>
+  tokenToUse: TBridgeToken<TBSBridgeName>
+  tokenToReceive: TBridgeToken<TBSBridgeName>
   accountToUse: IAccountState
   amountToUse: string
   amountToReceive: string
   addressToReceive: string
   bridgeFee: string
-  fromService: IBlockchainService<TBlockchainServiceKey>
+  fromService: IBlockchainService<TBSBridgeName>
 }
 
 type TNeo3NeoxBridgeDetailsModalState = {
-  tokenToUse: TBridgeToken<TBlockchainServiceKey>
-  tokenToReceive: TBridgeToken<TBlockchainServiceKey>
+  tokenToUse: TBridgeToken<TBSBridgeName>
+  tokenToReceive: TBridgeToken<TBSBridgeName>
   accountToUse: IAccountState
   amountToUse: string
   amountToReceive: string
@@ -252,8 +258,8 @@ type TSwapDetailsLogModalState = {
   swapRecord: TSwapRecord
 }
 
-type TVoteNeo3CandidateDetailsModalState = {
-  neo3Account: IAccountState
+type TNeo3VoteCandidateDetailsModalState = {
+  neo3Account: IAccountState<'neo3'>
   candidate: TVoteServiceCandidate
   candidateVotePercentage: string
 }
@@ -304,7 +310,7 @@ type TModalRouterSideRouteTypes = {
   'support-ticket': undefined
   'swap-details': TSwapDetailsModalState
   'swap-details-log': TSwapDetailsLogModalState
-  'vote-neo3-candidate-details': TVoteNeo3CandidateDetailsModalState
+  'neo3-vote-candidate-details': TNeo3VoteCandidateDetailsModalState
 }
 
 type TBuyAndSellTokensLeaveAlertModalState = {
@@ -333,7 +339,7 @@ type TDappPermissionContractDetailsModalState = {
 type TDappPermissionModalState = {
   session: SessionTypes.Struct
   request: PendingRequestTypes.Struct
-  sessionDetails: TWalletKitHelperSessionDetails<TBlockchainServiceKey>
+  sessionDetails: TWalletKitHelperSessionDetails
   sessionAccount: IAccountState
   onReject: (reason?: ErrorResponse) => Promise<void>
   onAccept: () => Promise<any>
@@ -359,19 +365,29 @@ type THideFraudulentTokenModalState = {
   hash: string
 }
 
-type TVoteNeo3ConfirmationModalState = {
-  neo3Account: IAccountState
+type TNeo3VoteConfirmationModalState = {
+  neo3Account: IAccountState<'neo3'>
   candidate: TVoteServiceCandidate
 }
 
-type TVoteNeo3SuccessModalState = {
-  neo3Account: IAccountState
+type TNeo3VoteSuccessModalState = {
+  neo3Account: IAccountState<'neo3'>
   candidate: TVoteServiceCandidate
 }
 
-type TVoteNeo3SupportUsModalState = {
-  neo3Account: IAccountState
+type TNeo3VoteSupportUsModalState = {
+  neo3Account: IAccountState<'neo3'>
   cozCandidate: TVoteServiceCandidate
+}
+
+type TStellarTrustlinesModalState = {
+  stellarAccount: IAccountState<'stellar'>
+}
+
+type TStellarPersistTrustlineModalState = {
+  stellarAccount: IAccountState<'stellar'>
+  token?: TBSToken
+  limit?: string
 }
 
 type TModalRouterCenterRouteTypes = {
@@ -388,9 +404,11 @@ type TModalRouterCenterRouteTypes = {
   'export-full-transactions': TExportFullTransactionsModalState
   'hide-fraudulent-token': THideFraudulentTokenModalState
   search: undefined
-  'vote-neo3-confirmation': TVoteNeo3ConfirmationModalState
-  'vote-neo3-success': TVoteNeo3SuccessModalState
-  'vote-neo3-support-us': TVoteNeo3SupportUsModalState
+  'neo3-vote-confirmation': TNeo3VoteConfirmationModalState
+  'neo3-vote-success': TNeo3VoteSuccessModalState
+  'neo3-vote-support-us': TNeo3VoteSupportUsModalState
+  'stellar-trustlines': TStellarTrustlinesModalState
+  'stellar-persist-trustlines': TStellarPersistTrustlineModalState
 }
 
 export type TModalRouterRouteTypes = TModalRouterSideRouteTypes & TModalRouterCenterRouteTypes

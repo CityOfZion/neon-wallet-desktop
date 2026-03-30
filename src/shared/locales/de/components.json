@@ -74,9 +74,6 @@
     "noContacts": "Keine Kontakte",
     "search": "Suchen"
   },
-  "dragRegion": {
-    "toggleDevToolsMenuLabel": "Entwicklertools umschalten"
-  },
   "fieldActionsMenu": {
     "copy": "Kopieren",
     "cut": "Ausschneiden",
@@ -123,6 +120,11 @@
     "emptyDate": "--:--",
     "lastUpdated": "Zuletzt aktualisiert: {{ date }}",
     "refreshLabel": "Aktualisieren"
+  },
+  "searchableToken": {
+    "emptyMessage": "Geben Sie Suchbegriffe ein",
+    "notFoundMessage": "Keine Token gefunden",
+    "placeholder": "Token auswählen…"
   },
   "sidebar": {
     "buyAndSellTokens": "Kaufen + Verkaufen",
@@ -183,6 +185,10 @@
         "tokenHashLabel": "Token-Hash",
         "tokenLabel": "Token"
       },
+      "columnsByKey": {
+        "limit": "Limit",
+        "token": "Token"
+      },
       "copyAddressButtonLabel": "Adresse kopieren",
       "copyTxIdLabel": "Tx ID kopieren",
       "invocationCountLabel": "Aufrufe",
@@ -204,10 +210,14 @@
     "title": "Transaktionsgebühr"
   },
   "transactionsTableEmpty": {
-    "connectDappLabel": "dApp verbinden",
-    "importAccountLabel": "Konto importieren",
-    "subtitle": "Ihr Wallet ist mit Neo-, Gas- und Ethereum-Assets kompatibel",
-    "title": "Ihr Wallet ist derzeit leer. Warum fügen Sie nicht einige Assets hinzu oder verbinden eine dApp?"
+    "connectDappButtonLabel": "Connect dApp",
+    "description": "{{name}} benötigt Ihre Erlaubnis",
+    "faucetButtonLabel": "Wasserhahn",
+    "receiveTokensButtonLabel": "Tokens hinzufügen.",
+    "stellarSubtitle": "Um dieses Konto zu nutzen, laden Sie mindestens 1 XLM darauf auf.<1>Erfahren Sie mehr über die Erstellung eines Stellar-Kontos</1>",
+    "subtitleNonWatch": "Warum nicht einige Assets hinzufügen oder eine dApp verbinden?",
+    "subtitleNonWatchWithoutDapp": "Warum nicht einige Vermögenswerte hinzufügen?",
+    "title": "Ihr Konto ist derzeit leer."
   },
   "walletAccordionList": {
     "noAccounts": "Keine Konten"

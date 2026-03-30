@@ -42,7 +42,11 @@ export const TransactionActivityListItemsHeaderContent = ({ transaction }: TProp
   const { swapRecord } = useSwapRecordSelector(transaction.txId)
   const { language } = useLanguageSelector()
 
-  const isBridgeNeo3NeoX = transaction.type === 'bridgeNeo3NeoX'
+  const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[transaction.blockchain]
+
+  const bridgeData = hasNeo3NeoXBridge(service)
+    ? service.neo3NeoXBridgeService.getTransactionData(transaction)
+    : undefined
 
   const handleCancelBubbleEvent = (event: MouseEvent<HTMLDivElement>) => {
     event.preventDefault()
@@ -54,27 +58,24 @@ export const TransactionActivityListItemsHeaderContent = ({ transaction }: TProp
   }
 
   const handleGoToBridgeNeo3NeoXDetails = () => {
-    if (!isBridgeNeo3NeoX) return
+    if (!bridgeData || !hasNeo3NeoXBridge(service)) return
 
     const toService =
-      BlockchainServiceHelper.bsAggregator.blockchainServicesByName[transaction.blockchain === 'neo3' ? 'neox' : 'neo3']
-
-    if (!hasNeo3NeoXBridge(toService)) return
+      BlockchainServiceHelper.bsAggregator.blockchainServicesByName[service.name === 'neo3' ? 'neox' : 'neo3']
 
     const tokenToReceive = toService.neo3NeoXBridgeService.getTokenByMultichainId(
-      transaction.data.tokenToUse.multichainId
+      bridgeData.neo3NeoxBridge.tokenToUse.multichainId
     )
-
     if (!tokenToReceive) return
 
     modalNavigate('neo3-neox-bridge-details', {
       state: {
-        tokenToUse: transaction.data.tokenToUse,
+        tokenToUse: bridgeData.neo3NeoxBridge.tokenToUse,
         tokenToReceive,
         accountToUse: transaction.account,
-        addressToReceive: transaction.data.receiverAddress,
-        amountToUse: transaction.data.amount,
-        amountToReceive: transaction.data.amount,
+        addressToReceive: bridgeData.neo3NeoxBridge.receiverAddress,
+        amountToUse: bridgeData.neo3NeoxBridge.amount,
+        amountToReceive: bridgeData.neo3NeoxBridge.amount,
         transactionHash: transaction.txId,
         confirmed: true,
       },
@@ -171,7 +172,7 @@ export const TransactionActivityListItemsHeaderContent = ({ transaction }: TProp
       </div>
 
       <div className="flex items-center gap-x-2 truncate whitespace-nowrap">
-        {(swapRecord || isBridgeNeo3NeoX) && (
+        {(swapRecord || bridgeData) && (
           <div className="flex items-center gap-x-2" onClick={handleCancelBubbleEvent}>
             {swapRecord && (
               <TransactionActivityListItemsHeaderDetails
@@ -185,7 +186,7 @@ export const TransactionActivityListItemsHeaderContent = ({ transaction }: TProp
               />
             )}
 
-            {isBridgeNeo3NeoX && (
+            {bridgeData && (
               <TransactionActivityListItemsHeaderDetails
                 role="button"
                 tabIndex={0}

@@ -1,4 +1,5 @@
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
 import { LanguageHelper } from '@renderer/helpers/LanguageHelper'
 
 import { type TNetworkProfile } from '@shared/types/store'
@@ -127,7 +128,7 @@ export function getSettingsMigrations(defaultProfile: TNetworkProfile, testProfi
       ...state,
       data: {
         ...state.data,
-        canShowVoteNeo3SupportUsModal: true,
+        canShowNeo3VoteSupportUsModal: true,
       },
     }),
     7: (state: any) => ({
@@ -239,29 +240,47 @@ export function getSettingsMigrations(defaultProfile: TNetworkProfile, testProfi
         },
       }
     },
-    14: (state: any) => ({
-      ...state,
-      data: {
-        ...state.data,
-        customNetworks: {
-          ...state.data.customNetworks,
-          bitcoin: [],
-        },
-        networkProfiles: state.data.networkProfiles.map((profile: any) => ({
-          ...profile,
-          networkByBlockchain: {
-            ...profile.networkByBlockchain,
-            bitcoin: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.bitcoin.defaultNetwork,
+    14: (state: any) => {
+      function getStellarNetwork(profile: TNetworkProfile) {
+        return profile.id === ConstantsHelper.testNetworkProfileId
+          ? BlockchainServiceHelper.bsAggregator.blockchainServicesByName.stellar.availableNetworks.find(
+              ({ type }) => type === 'testnet'
+            ) || BlockchainServiceHelper.bsAggregator.blockchainServicesByName.stellar.defaultNetwork
+          : BlockchainServiceHelper.bsAggregator.blockchainServicesByName.stellar.defaultNetwork
+      }
+
+      const canShowNeo3VoteSupportUsModal = state.data.canShowVoteNeo3SupportUsModal
+
+      delete state.date.canShowVoteNeo3SupportUsModal
+
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          customNetworks: {
+            ...state.data.customNetworks,
+            bitcoin: [],
+            stellar: [],
           },
-        })),
-        selectedNetworkProfile: {
-          ...state.data.selectedNetworkProfile,
-          networkByBlockchain: {
-            ...state.data.selectedNetworkProfile.networkByBlockchain,
-            bitcoin: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.bitcoin.defaultNetwork,
+          networkProfiles: state.data.networkProfiles.map((profile: any) => ({
+            ...profile,
+            networkByBlockchain: {
+              ...profile.networkByBlockchain,
+              bitcoin: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.bitcoin.defaultNetwork,
+              stellar: getStellarNetwork(profile),
+            },
+          })),
+          selectedNetworkProfile: {
+            ...state.data.selectedNetworkProfile,
+            networkByBlockchain: {
+              ...state.data.selectedNetworkProfile.networkByBlockchain,
+              bitcoin: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.bitcoin.defaultNetwork,
+              stellar: getStellarNetwork(state.data.selectedNetworkProfile),
+            },
           },
+          canShowNeo3VoteSupportUsModal,
         },
-      },
-    }),
+      }
+    },
   }
 }

@@ -19,7 +19,7 @@ const AccountBlockchainCircle = ({ blockchain }: TAccountBlockchainCircleProps) 
   <div className="relative flex h-4.5 w-4.5 items-center justify-center">
     <div className="bg-asphalt absolute h-full w-full rounded-full mix-blend-overlay" />
 
-    <BlockchainIcon blockchain={blockchain} type="white" className="h-2.5 w-2.5" />
+    <BlockchainIcon blockchain={blockchain} className="size-2.5 text-white" />
   </div>
 )
 

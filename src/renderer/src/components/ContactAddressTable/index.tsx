@@ -43,7 +43,7 @@ export const ContactAddressTable = ({ contactAddresses }: TProps) => {
           return (
             <div className="flex flex-row items-center" {...TestHelper.buildTestObject('blockchain-column-cell')}>
               <div className="mr-2 rounded-full bg-gray-700 p-2">
-                <BlockchainIcon blockchain={info.row.original.blockchain} type="white" />
+                <BlockchainIcon blockchain={info.row.original.blockchain} className="text-white" />
               </div>
               <span className="uppercase">{t(`common:blockchain.${info.row.original.blockchain}`)}</span>
             </div>

@@ -94,7 +94,7 @@ export const SwapPageContent = ({ account }: TProps) => {
 
   const swapChainsByServiceName = useMemo(() => SwapHelper.getNetworks(networkByBlockchain), [networkByBlockchain])
 
-  const swapOrchestratorRef = useRef<SimpleSwapOrchestrator<TBlockchainServiceKey>>(undefined)
+  const swapOrchestratorRef = useRef<SimpleSwapOrchestrator>(undefined)
 
   const { actionData, actionState, setData, setError, clearErrors, reset, handleAct } = useActions<TActionsData>(
     {
@@ -275,12 +275,7 @@ export const SwapPageContent = ({ account }: TProps) => {
   const handleSelectAccountToUse = async (account: IAccountState) => {
     if (!loginSessionRef.current || !account.encryptedKey) return
 
-    const key = await window.api.sendAsync('encryption:decryptBasedEncryptedSecret', {
-      value: account.encryptedKey,
-      encryptedSecret: loginSessionRef.current.encryptedPassword,
-    })
-
-    const serviceAccount = await AccountHelper.getServiceAccount({ account, key })
+    const serviceAccount = await AccountHelper.getServiceAccount(account)
 
     swapOrchestratorRef.current?.setAccountToUse(serviceAccount)
   }

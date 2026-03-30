@@ -6,10 +6,10 @@ import { useTranslation } from 'react-i18next'
 
 import { ImageWithFallback } from '@renderer/components/ImageWithFallback'
 
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
 import { CurrencyHelper } from '@renderer/helpers/CurrencyHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
-import { TokenHelper } from '@renderer/helpers/TokenHelper'
 
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
@@ -28,6 +28,7 @@ const columnHelper = createColumnHelper<TTokenBalance>()
 export const useColumns = (showType: TUseBalanceOptionShowType) => {
   const { currency } = useCurrencySelector()
   const { t } = useTranslation('components', { keyPrefix: 'tokensTable' })
+  const { t: tCommonGeneral } = useTranslation('common', { keyPrefix: 'general' })
   const dispatch = useAppDispatch()
 
   return useMemo(
@@ -56,8 +57,10 @@ export const useColumns = (showType: TUseBalanceOptionShowType) => {
       columnHelper.accessor('token.hash', {
         cell: info => {
           const hash = info.getValue()
-          const isValidHash = TokenHelper.isValidTokenHash(hash)
-          const hashText = TokenHelper.fallbackTokenHash(hash)
+          const { blockchain } = info.row.original
+          const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByNameRecord[blockchain]
+          const isValidHash = service.tokenService.validateTokenHash(hash)
+          const hashText = isValidHash ? hash : tCommonGeneral('emptyColumn')
 
           return (
             <Tooltip title={isValidHash ? hash : ''}>
@@ -88,7 +91,8 @@ export const useColumns = (showType: TUseBalanceOptionShowType) => {
         id: 'actions',
         cell: info => {
           const value = info.row.original
-          const isNativeToken = TokenHelper.isNativeToken(value.token.hash, value.blockchain)
+          const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByNameRecord[value.blockchain]
+          const isNativeToken = service.tokenService.isNativeToken(value.token.hash)
           const isHidden = showType === 'hidden'
           const label = isHidden ? t('showTokenLabel') : t('hideTokenLabel')
           let tooltipTitle = ''
@@ -119,6 +123,6 @@ export const useColumns = (showType: TUseBalanceOptionShowType) => {
         },
       }),
     ],
-    [currency, dispatch, showType, t]
+    [currency, dispatch, showType, t, tCommonGeneral]
   )
 }

@@ -13,6 +13,19 @@
   "useExportMnemonic": {
     "fileTemplate": "Importante: Mantenha este arquivo seguro e nunca o compartilhe com ninguém! Qualquer pessoa com este mnemônico poderá acessar seus ativos.\n\n--- FRASE MNEMÔNICA ---\n\n{{mnemonic}}\n\n-----------------------\n\n{{generatedAt}}"
   },
+  "useFaucetMutation": {
+    "errors": {
+      "faucetError": "Ocorreu um erro ao tentar acessar a torneira. Por favor, tente novamente."
+    },
+    "failureNotification": {
+      "previewBody": "Não foi possível verificar se a instalação da sua torneira foi concluída.",
+      "title": "Erro na torneira"
+    },
+    "successNotification": {
+      "previewBody": "Você recebeu com sucesso seus tokens da torneira.",
+      "title": "Torneira bem-sucedida"
+    }
+  },
   "useImportAction": {
     "errors": {
       "allAddressesAlreadyImported": "Todos os endereços já foram importados",

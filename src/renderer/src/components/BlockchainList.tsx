@@ -31,7 +31,6 @@ export const BlockchainList = ({ onSelect, selectedBlockchains = [], isMulti, bl
       )
       return
     }
-
     onSelect([blockchain])
   }
 
@@ -44,12 +43,13 @@ export const BlockchainList = ({ onSelect, selectedBlockchains = [], isMulti, bl
         const isSelected = selectedBlockchains.includes(blockchain)
 
         return (
-          <li key={blockchain} className="bg-asphalt flex h-12 grow items-center rounded-sm border-none">
-            <label className="flex w-full cursor-pointer items-center gap-2.5 px-6 py-4">
-              <BlockchainIcon blockchain={blockchain} type="gray" />
+          <li key={blockchain}>
+            <label className="bg-asphalt flex h-11 w-full cursor-pointer items-center gap-2.5 rounded-sm px-4">
+              <BlockchainIcon blockchain={blockchain} className="text-gray-100" />
               <span className="flex grow">{tCommonBlockchain(blockchain)}</span>
+
               <Checkbox
-                value={blockchain}
+                name={blockchain}
                 onCheckedChange={() => handleSelect(blockchain)}
                 checked={isSelected}
                 className="rounded-sm"

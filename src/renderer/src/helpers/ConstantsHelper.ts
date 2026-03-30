@@ -15,14 +15,14 @@ export class ConstantsHelper {
   static readonly defaultNetworkProfileId = 'default'
   static readonly testNetworkProfileId = 'test'
 
-  static fraudulentTokenHashesByBlockchain: Map<TBlockchainServiceKey, Set<string>> = new Map([
+  static readonly fraudulentTokenHashesByBlockchain: Map<TBlockchainServiceKey, Set<string>> = new Map([
     ['neo3', new Set(['0x42e6b0379e39a428362e08cf9d7e40903cdb0fe7'])],
   ])
 
-  static voteNeo3CozPubKey = '02946248f71bdf14933e6735da9867e81cc9eea0b5895329aa7f71e7745cf40659'
+  static readonly neo3VoteCozPubKey = '02946248f71bdf14933e6735da9867e81cc9eea0b5895329aa7f71e7745cf40659'
 
-  static tipPercentageBn = BSBigNumberHelper.fromNumber('0.01') // 1%
-  static tipConfigByBlockchain = new Map([
+  static readonly tipPercentageBn = BSBigNumberHelper.fromNumber('0.01') // 1%
+  static readonly tipConfigByBlockchain = new Map([
     [
       'neo3',
       {
@@ -32,4 +32,11 @@ export class ConstantsHelper {
       },
     ],
   ])
+
+  static readonly stellarCreateAccountDocumentationUrl =
+    'https://developers.stellar.org/docs/build/guides/transactions/create-account#create-account'
+
+  static readonly isLinux = window.electron.process.platform === 'linux'
+  static readonly isMac = window.electron.process.platform === 'darwin'
+  static readonly isWindows = window.electron.process.platform === 'win32'
 }

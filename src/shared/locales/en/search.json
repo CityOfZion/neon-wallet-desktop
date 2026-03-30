@@ -49,7 +49,7 @@
       "verbs": ["sell", "trade", "liquidate", "receive", "ramp", "crypto"]
     },
     {
-      "id": "voteNeo3",
+      "id": "neo3Vote",
       "label": "Vote (Neo 3)",
       "nonVerbs": ["voting", "neo", "n3", "node", "member", "consensus", "council", "governance"],
       "verbs": ["vote"]

@@ -96,7 +96,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
   const service = useMemo(
     () =>
       actionData.selectedAccount
-        ? BlockchainServiceHelper.bsAggregator.blockchainServicesByName[actionData.selectedAccount.blockchain]
+        ? BlockchainServiceHelper.bsAggregator.blockchainServicesByNameRecord[actionData.selectedAccount.blockchain]
         : undefined,
     [actionData.selectedAccount]
   )
@@ -142,12 +142,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
       })
     }
 
-    const key = window.api.sendSync('encryption:decryptBasedEncryptedSecretSync', {
-      value: actionData.selectedAccount.encryptedKey,
-      encryptedSecret: loginSessionRef.current.encryptedPassword,
-    })
-
-    const serviceAccount = await AccountHelper.getServiceAccount({ account: actionData.selectedAccount, key })
+    const serviceAccount = await AccountHelper.getServiceAccount(actionData.selectedAccount)
 
     return {
       service,
@@ -277,12 +272,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
         })
         .filter(recipient => recipient !== null) as TTransferIntent[]
 
-      const key = await window.api.sendAsync('encryption:decryptBasedEncryptedSecret', {
-        value: encryptedKey,
-        encryptedSecret: encryptedPassword,
-      })
-
-      const senderAccount = await AccountHelper.getServiceAccount({ account: selectedAccount, key })
+      const senderAccount = await AccountHelper.getServiceAccount(selectedAccount)
 
       const fee = await service.calculateTransferFee({ senderAccount, intents })
 

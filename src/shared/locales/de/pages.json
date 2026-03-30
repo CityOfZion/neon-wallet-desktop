@@ -168,6 +168,52 @@
     },
     "title": "Bridge"
   },
+  "neo3Vote": {
+    "availableVotes": {
+      "availableVotesLabel": "Verfügbare Stimmen",
+      "noAvailableVotesLabel": "Nicht wählen"
+    },
+    "changeNeo3AccountLabel": "Ändern",
+    "createNeo3AccountLabel": "Es existiert noch kein Neo 3-Konto. Bitte erstellen Sie eines.",
+    "list": {
+      "actionsColumnLabel": "Aktionen",
+      "castVoteColumnLabel": "Abstimmung",
+      "nameColumnLabel": "Kandidat",
+      "positionColumnLabel": "Position",
+      "pubKeyColumnLabel": "Öffentlicher Schlüssel",
+      "votesColumnLabel": "Gesamtzahl der Stimmen"
+    },
+    "listItem": {
+      "castVoteButtonLabel": "Stimme abgeben",
+      "detailsButtonLabel": "Informationen zum Kandidaten",
+      "yourVoteButtonLabel": "Ihre Stimme"
+    },
+    "noAccountSelectedLabel": "Kein Konto ausgewählt",
+    "notFound": {
+      "text": "Es sind keine Kandidaten zur Wahl verfügbar oder es gab ein Problem bei deren Abruf. Bitte überprüfen Sie Ihr Neo 3-Netzwerk und versuchen Sie es erneut.",
+      "title": "Keine Kandidaten zur Anzeige"
+    },
+    "searchLabel": "Suchen",
+    "searchPlaceholder": "Kandidatensuche…",
+    "selectNeo3AccountLabel": "Wählen",
+    "sideBar": {
+      "aboutNeoLabel": "Die Anzahl Ihrer NEO-Punkte entspricht der Anzahl der Stimmen, die Sie für einen Kandidaten abgeben können.",
+      "noteLabel": "Hinweis: Wer nicht abstimmt, verpasst diesen Vorteil.",
+      "sellNeoAlert": "Wenn Sie Ihre NEO verkaufen, verringert sich Ihre Stimmenanzahl um die Anzahl der verkauften NEO und Ihre GAS-Prämie verringert sich entsprechend.",
+      "title": "Wie funktioniert es?",
+      "whyVoteDescription": "Mit Ihrer Stimmabgabe beteiligen Sie sich aktiv am NEO-Ökosystem und sind anschließend berechtigt, GAS als Inhabervorteil zu erhalten.",
+      "whyVoteTitle": "Warum wählen gehen?"
+    },
+    "subtitle": "Wählen Sie einen Kandidaten aus",
+    "title": "Wählen",
+    "voteErrorMessages": {
+      "accountCanNotBeWatchLabel": "Ihr Neo 3-Konto befindet sich im Beobachtungsmodus.",
+      "selectNeo3AccountLabel": "Wählen Sie ein Neo 3-Konto aus",
+      "shouldHaveEnoughGasToPayFeeLabel": "Du hast nicht genug Benzin, um die Gebühr zu bezahlen.",
+      "shouldUseMainnetLabel": "Sie sollten ein Mainnet-Netzwerk zum Abstimmen verwenden.",
+      "thereIsNoNeoLabel": "Ihr Neo 3-Konto sollte NEO haben."
+    }
+  },
   "portfolio": {
     "allAccounts": "Alle Konten",
     "allActivity": "Alle Aktivitäten",
@@ -488,52 +534,6 @@
     },
     "title": "Token tauschen"
   },
-  "voteNeo3": {
-    "availableVotes": {
-      "availableVotesLabel": "Verfügbare Stimmen",
-      "noAvailableVotesLabel": "Keine Stimmen"
-    },
-    "changeNeo3AccountLabel": "Ändern",
-    "createNeo3AccountLabel": "Es gibt kein Neo 3 Konto, bitte erstellen Sie eines",
-    "list": {
-      "actionsColumnLabel": "Aktionen",
-      "castVoteColumnLabel": "Abstimmen",
-      "nameColumnLabel": "Kandidat",
-      "positionColumnLabel": "Position",
-      "pubKeyColumnLabel": "Öffentlicher Schlüssel",
-      "votesColumnLabel": "Gesamtstimmen"
-    },
-    "listItem": {
-      "castVoteButtonLabel": "Stimme abgeben",
-      "detailsButtonLabel": "Kandidateninformationen",
-      "yourVoteButtonLabel": "Ihre Stimme"
-    },
-    "noAccountSelectedLabel": "Kein Konto ausgewählt",
-    "notFound": {
-      "text": "Es gibt keine Kandidaten, für die Sie abstimmen können, oder es gab ein Problem beim Abrufen. Überprüfen Sie Ihr Neo 3 Netzwerk und versuchen Sie es bitte erneut.",
-      "title": "Keine Kandidaten zum Anzeigen"
-    },
-    "searchLabel": "Suchen",
-    "searchPlaceholder": "Nach Kandidaten suchen…",
-    "selectNeo3AccountLabel": "Auswählen",
-    "sideBar": {
-      "aboutNeoLabel": "Die Anzahl der NEO, die Sie halten, entspricht der Anzahl der Stimmen, die Sie für einen Kandidaten abgeben können.",
-      "noteLabel": "Hinweis: Wenn Sie nicht abstimmen, verpassen Sie diesen Vorteil.",
-      "sellNeoAlert": "Wenn Sie Ihre NEO verkaufen, werden Ihre Stimmen um die Anzahl reduziert, die Sie verkauft haben, und Ihre GAS-Belohnung wird proportional sinken",
-      "title": "Wie funktioniert es?",
-      "whyVoteDescription": "Durch die Abstimmung nehmen Sie aktiv am NEO-Ökosystem teil und sind berechtigt, GAS als Inhabervorteil zu erhalten.",
-      "whyVoteTitle": "Warum abstimmen?"
-    },
-    "subtitle": "Kandidaten auswählen",
-    "title": "Abstimmung",
-    "voteErrorMessages": {
-      "accountCanNotBeWatchLabel": "Ihr Neo 3 Konto befindet sich im Ansichtsmodus",
-      "selectNeo3AccountLabel": "Neo 3 Konto auswählen",
-      "shouldHaveEnoughGasToPayFeeLabel": "Sie haben nicht genügend GAS, um die Gebühr zu bezahlen",
-      "shouldUseMainnetLabel": "Sie sollten ein Mainnet-Netzwerk verwenden, um abzustimmen",
-      "thereIsNoNeoLabel": "Ihr Neo 3 Konto sollte NEO haben"
-    }
-  },
   "wallets": {
     "accountConnections": {
       "disconnectAll": "Alle trennen",
@@ -575,9 +575,10 @@
     "hardwareWalletConnectBadge": "Hardware Wallet verbunden",
     "importButtonLabel": "Importieren",
     "neo3NeoXBridgeButtonLabel": "Bridge",
+    "neo3VoteButtonLabel": "Abstimmung",
     "newWalletButtonLabel": "Neues Wallet",
-    "title": "Wallets",
-    "voteNeo3ButtonLabel": "Abstimmen"
+    "stellarTrustlineButtonLabel": "Trustline",
+    "title": "Wallets"
   },
   "welcome": {
     "card1": {

@@ -153,11 +153,11 @@ const setSelectNetworkProfile: CaseReducer<ISettingsReducer, PayloadAction<strin
   state.data.selectedNetworkProfile = profile
 }
 
-const setCanShowVoteNeo3SupportUsModalAgain: CaseReducer<ISettingsReducer, PayloadAction<boolean>> = (
+const setCanShowNeo3VoteSupportUsModalAgain: CaseReducer<ISettingsReducer, PayloadAction<boolean>> = (
   state,
   action
 ) => {
-  state.data.canShowVoteNeo3SupportUsModal = action.payload
+  state.data.canShowNeo3VoteSupportUsModal = action.payload
 }
 
 const setShowSideBar: CaseReducer<ISettingsReducer, PayloadAction<boolean>> = (state, action) => {
@@ -179,6 +179,6 @@ export const settingsSliceReducers = {
   editNetworkProfile,
   deleteNetworkProfile,
   setSelectNetworkProfile,
-  setCanShowVoteNeo3SupportUsModalAgain,
+  setCanShowNeo3VoteSupportUsModalAgain,
   setShowSideBar,
 }

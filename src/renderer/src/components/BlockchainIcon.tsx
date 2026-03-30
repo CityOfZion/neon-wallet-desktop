@@ -2,130 +2,49 @@ import React from 'react'
 
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
-import ArbitrumBlue from '@renderer/assets/blockchain/images/arbitrum_blue.svg?react'
-import ArbitrumDefault from '@renderer/assets/blockchain/images/arbitrum_default.svg?react'
-import ArbitrumGray from '@renderer/assets/blockchain/images/arbitrum_gray.svg?react'
-import ArbitrumGreen from '@renderer/assets/blockchain/images/arbitrum_green.svg?react'
-import ArbitrumWhite from '@renderer/assets/blockchain/images/arbitrum_white.svg?react'
-import BaseBlue from '@renderer/assets/blockchain/images/base_blue.svg?react'
-import BaseDefault from '@renderer/assets/blockchain/images/base_default.svg?react'
-import BaseGray from '@renderer/assets/blockchain/images/base_gray.svg?react'
-import BaseGreen from '@renderer/assets/blockchain/images/base_green.svg?react'
-import BaseWhite from '@renderer/assets/blockchain/images/base_white.svg?react'
-import BitcoinBlue from '@renderer/assets/blockchain/images/bitcoin_blue.svg?react'
-import BitcoinDefault from '@renderer/assets/blockchain/images/bitcoin_default.svg?react'
-import BitcoinGray from '@renderer/assets/blockchain/images/bitcoin_gray.svg?react'
-import BitcoinGreen from '@renderer/assets/blockchain/images/bitcoin_green.svg?react'
-import BitcoinWhite from '@renderer/assets/blockchain/images/bitcoin_white.svg?react'
-import EthereumBlue from '@renderer/assets/blockchain/images/ethereum_blue.svg?react'
-import EthereumDefault from '@renderer/assets/blockchain/images/ethereum_default.svg?react'
-import EthereumGray from '@renderer/assets/blockchain/images/ethereum_gray.svg?react'
-import EthereumGreen from '@renderer/assets/blockchain/images/ethereum_green.svg?react'
-import EthereumWhite from '@renderer/assets/blockchain/images/ethereum_white.svg?react'
-import NeoLegacyBlue from '@renderer/assets/blockchain/images/neo_legacy_blue.svg?react'
-import NeoLegacyDefault from '@renderer/assets/blockchain/images/neo_legacy_default.svg?react'
-import NeoLegacyGray from '@renderer/assets/blockchain/images/neo_legacy_gray.svg?react'
-import NeoLegacyGreen from '@renderer/assets/blockchain/images/neo_legacy_green.svg?react'
-import NeoLegacyWhite from '@renderer/assets/blockchain/images/neo_legacy_white.svg?react'
-import Neo3Blue from '@renderer/assets/blockchain/images/neo3_blue.svg?react'
-import Neo3Default from '@renderer/assets/blockchain/images/neo3_default.svg?react'
-import Neo3Gray from '@renderer/assets/blockchain/images/neo3_gray.svg?react'
-import Neo3Green from '@renderer/assets/blockchain/images/neo3_green.svg?react'
-import Neo3White from '@renderer/assets/blockchain/images/neo3_white.svg?react'
-import NeoxBlue from '@renderer/assets/blockchain/images/neox_blue.svg?react'
-import NeoxDefault from '@renderer/assets/blockchain/images/neox_default.svg?react'
-import NeoxGray from '@renderer/assets/blockchain/images/neox_gray.svg?react'
-import NeoxGreen from '@renderer/assets/blockchain/images/neox_green.svg?react'
-import NeoxWhite from '@renderer/assets/blockchain/images/neox_white.svg?react'
-import PolygonBlue from '@renderer/assets/blockchain/images/polygon_blue.svg?react'
-import PolygonDefault from '@renderer/assets/blockchain/images/polygon_default.svg?react'
-import PolygonGray from '@renderer/assets/blockchain/images/polygon_gray.svg?react'
-import PolygonGreen from '@renderer/assets/blockchain/images/polygon_green.svg?react'
-import PolygonWhite from '@renderer/assets/blockchain/images/polygon_white.svg?react'
-import SolanaBlue from '@renderer/assets/blockchain/images/solana_blue.svg?react'
-import SolanaDefault from '@renderer/assets/blockchain/images/solana_default.svg?react'
-import SolanaGray from '@renderer/assets/blockchain/images/solana_gray.svg?react'
-import SolanaGreen from '@renderer/assets/blockchain/images/solana_green.svg?react'
-import SolanaWhite from '@renderer/assets/blockchain/images/solana_white.svg?react'
+import ArbitrumIcon from '@renderer/assets/images/blockchain/arbitrum.svg?react'
+import BaseIcon from '@renderer/assets/images/blockchain/base.svg?react'
+import BitcoinIcon from '@renderer/assets/images/blockchain/bitcoin.svg?react'
+import EthereumIcon from '@renderer/assets/images/blockchain/ethereum.svg?react'
+import NeoLegacyIcon from '@renderer/assets/images/blockchain/neo_legacy.svg?react'
+import Neo3Icon from '@renderer/assets/images/blockchain/neo3.svg?react'
+import NeoxIcon from '@renderer/assets/images/blockchain/neox.svg?react'
+import PolygonIcon from '@renderer/assets/images/blockchain/polygon.svg?react'
+import SolanaIcon from '@renderer/assets/images/blockchain/solana.svg?react'
+import StellarIcon from '@renderer/assets/images/blockchain/stellar.svg?react'
 
-import type { TBlockchainImageColor, TBlockchainServiceKey } from '@shared/types/blockchain'
+import type { TBlockchainServiceKey } from '@shared/types/blockchain'
 
-export const ICONS_BY_BLOCKCHAIN: Record<
-  TBlockchainServiceKey,
-  Record<TBlockchainImageColor, React.FC<React.SVGProps<SVGSVGElement>>>
-> = {
-  neo3: {
-    default: Neo3Default,
-    gray: Neo3Gray,
-    white: Neo3White,
-    blue: Neo3Blue,
-    green: Neo3Green,
-  },
-  neoLegacy: {
-    default: NeoLegacyDefault,
-    gray: NeoLegacyGray,
-    white: NeoLegacyWhite,
-    blue: NeoLegacyBlue,
-    green: NeoLegacyGreen,
-  },
-  bitcoin: {
-    default: BitcoinDefault,
-    gray: BitcoinGray,
-    white: BitcoinWhite,
-    blue: BitcoinBlue,
-    green: BitcoinGreen,
-  },
-  ethereum: {
-    default: EthereumDefault,
-    gray: EthereumGray,
-    white: EthereumWhite,
-    blue: EthereumBlue,
-    green: EthereumGreen,
-  },
-  neox: {
-    default: NeoxDefault,
-    gray: NeoxGray,
-    white: NeoxWhite,
-    blue: NeoxBlue,
-    green: NeoxGreen,
-  },
-  polygon: {
-    default: PolygonDefault,
-    gray: PolygonGray,
-    white: PolygonWhite,
-    blue: PolygonBlue,
-    green: PolygonGreen,
-  },
-  base: {
-    default: BaseDefault,
-    gray: BaseGray,
-    white: BaseWhite,
-    blue: BaseBlue,
-    green: BaseGreen,
-  },
-  arbitrum: {
-    default: ArbitrumDefault,
-    gray: ArbitrumGray,
-    white: ArbitrumWhite,
-    blue: ArbitrumBlue,
-    green: ArbitrumGreen,
-  },
-  solana: {
-    default: SolanaDefault,
-    gray: SolanaGray,
-    white: SolanaWhite,
-    blue: SolanaBlue,
-    green: SolanaGreen,
-  },
+export const ICONS_BY_BLOCKCHAIN: Record<TBlockchainServiceKey, React.FC<React.SVGProps<SVGSVGElement>>> = {
+  neo3: Neo3Icon,
+  neoLegacy: NeoLegacyIcon,
+  ethereum: EthereumIcon,
+  neox: NeoxIcon,
+  polygon: PolygonIcon,
+  base: BaseIcon,
+  arbitrum: ArbitrumIcon,
+  solana: SolanaIcon,
+  stellar: StellarIcon,
+  bitcoin: BitcoinIcon,
 }
 
 type Props = React.SVGProps<SVGSVGElement> & {
   blockchain: TBlockchainServiceKey
-  type?: TBlockchainImageColor
 }
 
-export const BlockchainIcon = React.memo(({ blockchain, type = 'gray', ...props }: Props) => {
-  const Component = ICONS_BY_BLOCKCHAIN[blockchain][type]
+export const BlockchainIcon = React.memo(({ blockchain, ...props }: Props) => {
+  const Component = ICONS_BY_BLOCKCHAIN[blockchain]
 
-  return <Component {...props} className={StyleHelper.mergeStyles('h-4 w-4 object-contain', props.className)} />
+  return (
+    <Component
+      {...props}
+      className={StyleHelper.mergeStyles(
+        'size-4 object-contain',
+        {
+          '[--blockchain-icon-color:currentColor]': props.className?.includes('text-'),
+        },
+        props.className
+      )}
+    />
+  )
 })

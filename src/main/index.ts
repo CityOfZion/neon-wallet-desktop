@@ -13,11 +13,13 @@ import { MainBlockchainServiceHelper } from './blockchain-service'
 import { MainDeeplinkHelper } from './deeplink'
 import { MainEncryptionHelper } from './encryption'
 import { MainHardwareWalletHelper } from './hardware-wallet'
+import { MainMenuHelper } from './menu'
 import { MainSentryHelper } from './sentry'
 import { MainUpdaterHelper } from './updater'
 import { MainWindowHelper } from './window'
 
 const isLinux = process.platform === 'linux'
+const isMac = process.platform === 'darwin'
 const devRendererUrl = is.dev ? process.env['ELECTRON_RENDERER_URL'] : undefined
 
 let mainWindow: BrowserWindow | null = null
@@ -33,8 +35,8 @@ function createWindow(): void {
     height: 800,
     minWidth: 1350,
     minHeight: 800,
-    titleBarStyle: isLinux ? 'default' : 'hidden',
-    titleBarOverlay: true,
+    titleBarStyle: isMac ? 'hidden' : 'default',
+    trafficLightPosition: isMac ? { x: 12, y: 8 } : undefined,
     show: false,
     backgroundColor: '#1a2026',
     ...(isLinux ? { icon } : {}),
@@ -42,7 +44,6 @@ function createWindow(): void {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false,
     },
-    autoHideMenuBar: true,
   })
 
   mainWindow.on('ready-to-show', async () => {
@@ -141,6 +142,7 @@ async function initialize() {
   MainUpdaterHelper.setupHandlers()
   MainHardwareWalletHelper.setupHandlers()
   MainAnalyticsHelper.setupHandlers()
+  MainMenuHelper.setup()
 
   createWindow()
 }

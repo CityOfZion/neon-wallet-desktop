@@ -1,8 +1,8 @@
 import { QueryClient } from '@tanstack/react-query'
 
 import { buildQueryKeyBalance } from '@renderer/hooks/useBalances'
+import { buildNeo3VoteGetVoteDetailsByAddressQueryKey } from '@renderer/hooks/useNeo3Vote'
 import { buildTransactionsAggregatedQueryKey, buildTransactionsQueryKey } from '@renderer/hooks/useTransactions'
-import { buildVoteNeo3GetVoteDetailsByAddressQueryKey } from '@renderer/hooks/useVoteNeo3'
 
 import { TNetwork } from '@shared/types/blockchain'
 import { IAccountState } from '@shared/types/store'
@@ -39,7 +39,7 @@ export class ReactQueryHelper {
     })
 
     this.client.removeQueries({
-      queryKey: buildVoteNeo3GetVoteDetailsByAddressQueryKey({ neo3Network: network, address }),
+      queryKey: buildNeo3VoteGetVoteDetailsByAddressQueryKey({ neo3Network: network, address }),
       type: 'all',
     })
 

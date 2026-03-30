@@ -9,11 +9,7 @@ import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import TbEye from '@renderer/assets/images/tb-eye.svg?react'
 import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
 
-import type {
-  TUseTransactionsTransaction,
-  TUseTransactionsTransactionDefaultEvent,
-  TUseTransactionsTransactionUtxoInputOutput,
-} from '@shared/types/hooks'
+import type { TUseTransactionsTransaction } from '@shared/types/hooks'
 import { IAccountState } from '@shared/types/store'
 
 import { SendSuccessModalContentItem } from './SendSuccessModalContentItem'
@@ -38,10 +34,6 @@ export const SendSuccessModalContent = ({ transactions, account }: TProps) => {
         <Details.Body>
           {transactions.map((transaction, index) => {
             const order = index + 1
-            const items =
-              transaction.view === 'utxo'
-                ? (transaction.outputs as TUseTransactionsTransactionUtxoInputOutput[])
-                : (transaction.events as TUseTransactionsTransactionDefaultEvent[])
 
             return (
               <Details.Panel key={`send-success-transaction-${index}`} label={t('transactionNumber', { order })}>
@@ -49,14 +41,23 @@ export const SendSuccessModalContent = ({ transactions, account }: TProps) => {
                   {transaction.txId}
                 </Details.Item>
 
-                {items.map((item, itemIndex) => (
-                  <SendSuccessModalContentItem
-                    key={`send-success-item-${itemIndex}`}
-                    item={item}
-                    transaction={transaction}
-                    order={order}
-                  />
-                ))}
+                {transaction.view === 'utxo'
+                  ? transaction.outputs.map((item, itemIndex) => (
+                      <SendSuccessModalContentItem
+                        key={`send-success-utxo-item-${itemIndex}`}
+                        item={item}
+                        transaction={transaction}
+                        order={order}
+                      />
+                    ))
+                  : transaction.events.map((item, itemIndex) => (
+                      <SendSuccessModalContentItem
+                        key={`send-success-default-item-${itemIndex}`}
+                        item={item}
+                        transaction={transaction}
+                        order={order}
+                      />
+                    ))}
               </Details.Panel>
             )
           })}

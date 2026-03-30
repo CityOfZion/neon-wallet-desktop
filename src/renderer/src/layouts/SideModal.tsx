@@ -1,5 +1,6 @@
 import { cloneElement, ComponentProps, type JSX, type MouseEvent, useLayoutEffect } from 'react'
 
+import { FocusScope } from '@radix-ui/react-focus-scope'
 import { motion, useAnimate } from 'motion/react'
 import { useHotkeys } from 'react-hotkeys-hook'
 
@@ -88,7 +89,8 @@ export const SideModalLayout = ({
   useHotkeys('esc', startErase, { enableOnFormTags: true, enabled: closeOnEsc && !isErasing && isFocused })
 
   return (
-    <div
+    <FocusScope
+      loop
       className={StyleHelper.mergeStyles('flex h-full w-full justify-end', {
         'pointer-events-none': isErasing,
       })}
@@ -146,6 +148,6 @@ export const SideModalLayout = ({
           </main>
         </div>
       </motion.div>
-    </div>
+    </FocusScope>
   )
 }

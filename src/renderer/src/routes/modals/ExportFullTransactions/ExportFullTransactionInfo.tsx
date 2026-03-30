@@ -79,7 +79,7 @@ export const ExportFullTransactionInfo = ({
             }
             leftIcon={
               account ? (
-                <BlockchainIcon blockchain={account.blockchain} type="blue" className="h-4 w-4" />
+                <BlockchainIcon blockchain={account.blockchain} className="text-blue size-4" />
               ) : (
                 <TbWallet aria-hidden />
               )
