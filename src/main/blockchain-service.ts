@@ -38,7 +38,6 @@ export class MainBlockchainServiceHelper {
       Promise.resolve(new BSNeo3('neo3', undefined, this.getHardwareWalletTransport.bind(this))),
       Promise.resolve(new BSNeoLegacy('neoLegacy', undefined, this.getHardwareWalletTransport.bind(this))),
       Promise.resolve(new BSNeoX('neox', undefined, this.getHardwareWalletTransport.bind(this))),
-      Promise.resolve(new BSBitcoin('bitcoin', undefined, this.getHardwareWalletTransport.bind(this))),
       Promise.resolve(
         new BSBitcoin(
           'bitcoin',
