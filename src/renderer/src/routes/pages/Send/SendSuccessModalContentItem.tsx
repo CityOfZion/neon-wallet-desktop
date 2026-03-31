@@ -1,24 +1,20 @@
+import type { TBSToken, TTransactionDefaultEvent, TTransactionUtxoInputOutput } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
-import { match, P } from 'ts-pattern'
 
 import { Button } from '@renderer/components/Button'
 import { Details } from '@renderer/components/Details'
 
+import { useAccountsMapSelector } from '@renderer/hooks/useAccountSelector'
 import { useContactsSelector } from '@renderer/hooks/useContactSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 
 import TbUsers from '@renderer/assets/images/tb-users.svg?react'
 
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
-import type {
-  TUseTransactionsTransaction,
-  TUseTransactionsTransactionDefaultEvent,
-  TUseTransactionsTransactionDefaultEventToken,
-  TUseTransactionsTransactionUtxoInputOutput,
-} from '@shared/types/hooks'
+import type { TUseTransactionsTransaction } from '@shared/types/hooks'
 
 type TProps = {
-  item: TUseTransactionsTransactionDefaultEvent | TUseTransactionsTransactionUtxoInputOutput
+  item: TTransactionDefaultEvent | TTransactionUtxoInputOutput
   transaction: TUseTransactionsTransaction
   order: number
 }
@@ -26,30 +22,31 @@ type TProps = {
 export const SendSuccessModalContentItem = ({ item, transaction, order }: TProps) => {
   const { t } = useTranslation('pages', { keyPrefix: 'send.sendSuccess' })
   const { contacts } = useContactsSelector()
+  const { accountsMapRef } = useAccountsMapSelector()
   const { modalNavigateWrapper } = useModalNavigate()
 
   const { blockchain, view } = transaction
   const isUtxo = view === 'utxo'
 
-  const { address, account } = match(isUtxo)
-    .with(true, () => {
-      const { address, account } = item as TUseTransactionsTransactionUtxoInputOutput
+  let address: string | undefined
+  let token: TBSToken | undefined
 
-      return { address, account }
-    })
-    .otherwise(() => {
-      const { to, toAccount } = item as TUseTransactionsTransactionDefaultEvent
+  if (isUtxo) {
+    const utxoItem = item as TTransactionUtxoInputOutput
+    address = utxoItem.address
+    token = utxoItem.token
+  } else {
+    const defaultEventItem = item as TTransactionDefaultEvent
+    address = defaultEventItem.to
+    token =
+      defaultEventItem.eventType === 'token'
+        ? (defaultEventItem as TTransactionDefaultEvent & { token: any }).token
+        : undefined
+  }
 
-      return { address: to, account: toAccount }
-    })
-
-  const token = match({ isUtxo, item })
-    .with({ isUtxo: true }, () => (item as TUseTransactionsTransactionUtxoInputOutput).token)
-    .with(
-      { item: P.when(value => (value as TUseTransactionsTransactionDefaultEvent).eventType === 'token') },
-      () => (item as TUseTransactionsTransactionDefaultEventToken).token
-    )
-    .otherwise(() => undefined)
+  const account = address
+    ? accountsMapRef.current.get(SharedAccountHelper.buildAccountKey({ address, blockchain }))
+    : undefined
 
   const contact = address
     ? contacts.find(contact => contact.addresses.some(SharedAccountHelper.predicate({ address, blockchain })))

@@ -19,11 +19,7 @@ export const TransactionActivityListItemsHeader = ({ transaction }: TProps) => {
     <div className="flex h-8.5 max-h-8.5 min-h-8.5 w-full items-center gap-x-2">
       <TransactionActivityListTooltip data={tCommonBlockchain(transaction.blockchain)} className="relative -top-2">
         <div className="flex h-full w-20 max-w-20 min-w-20 items-center justify-center gap-x-1 rounded-sm bg-gray-700 px-1">
-          <BlockchainIcon
-            blockchain={transaction.blockchain}
-            type="default"
-            className="h-3 max-h-3 min-h-3 w-3 max-w-3 min-w-3"
-          />
+          <BlockchainIcon blockchain={transaction.blockchain} className="min-size-3 max-size-3 size-3" />
 
           <span className="inline-block truncate text-white">{tCommonBlockchain(transaction.blockchain)}</span>
         </div>

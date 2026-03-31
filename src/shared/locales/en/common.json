@@ -11,11 +11,13 @@
     "neoLegacy": "Neo Legacy",
     "neox": "NeoX",
     "polygon": "Polygon",
-    "solana": "Solana"
+    "solana": "Solana",
+    "stellar": "Stellar"
   },
   "errors": {
     "analyticsAreNotConfigured": "Analytics are not configured properly.",
     "analyticsEventLoggingFailed": "Failed to log analytics event.",
+    "blockchainDoesNotSupportFaucet": "The selected blockchain does not support faucet operations.",
     "blockchainIsNotClaimable": "The account blockchain is not claimable: {{address}} {{blockchain}}",
     "loginSessionIsNotDefined": "Unknown error. Login session is not defined.",
     "unexpectedError": "An unexpected error occurred. Please contact support if the problem persists.",

@@ -36,6 +36,7 @@ import TbDotsVertical from '@renderer/assets/images/tb-dots-vertical.svg?react'
 import TbFileExport from '@renderer/assets/images/tb-file-export.svg?react'
 import TbPencil from '@renderer/assets/images/tb-pencil.svg?react'
 import TbReplace2 from '@renderer/assets/images/tb-replace-2.svg?react'
+import TbShieldCheck from '@renderer/assets/images/tb-shield-check.svg?react'
 import TbUpload from '@renderer/assets/images/tb-upload.svg?react'
 
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
@@ -115,14 +116,18 @@ const WalletsPage = () => {
     })
   }
 
-  const handleGoToVoteNeo3 = () => {
+  const handleGoToNeo3Vote = () => {
     if (selectedAccount!.blockchain !== 'neo3') return
-
-    navigate('/vote-neo3', { state: { defaultNeo3Account: selectedAccount } })
+    navigate('/neo3-vote', { state: { defaultNeo3Account: selectedAccount } })
   }
 
   const handleNeo3NeoXBridge = () => {
     navigate('/neo3-neoX-bridge', { state: { account: selectedAccount } })
+  }
+
+  const handleGoToManageTrustlines = () => {
+    if (!selectedAccount || selectedAccount.blockchain !== 'stellar') return
+    modalNavigate('stellar-trustlines', { state: { stellarAccount: selectedAccount } })
   }
 
   useLayoutEffect(() => {
@@ -311,10 +316,19 @@ const WalletsPage = () => {
 
                           {selectedAccount.blockchain === 'neo3' && (
                             <ActionPopover.Item
-                              label={t('voteNeo3ButtonLabel')}
+                              label={t('neo3VoteButtonLabel')}
                               textClassName="text-start text-white"
                               leftIcon={<TbChartBarPopular aria-hidden />}
-                              onClick={handleGoToVoteNeo3}
+                              onClick={handleGoToNeo3Vote}
+                            />
+                          )}
+
+                          {selectedAccount.blockchain === 'stellar' && (
+                            <ActionPopover.Item
+                              label={t('stellarTrustlineButtonLabel')}
+                              textClassName="text-start text-white"
+                              leftIcon={<TbShieldCheck aria-hidden />}
+                              onClick={handleGoToManageTrustlines}
                             />
                           )}
                         </ActionPopover.Content>

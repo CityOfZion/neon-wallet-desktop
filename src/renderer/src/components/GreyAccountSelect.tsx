@@ -16,11 +16,11 @@ import { IAccountState, TAccountType } from '@shared/types/store'
 import { BlockchainIcon } from './BlockchainIcon'
 import { Select } from './Select'
 
-type TProps = {
-  selectedAccount?: IAccountState | null
-  onSelect: (account: IAccountState) => void
+type TProps<T extends TBlockchainServiceKey> = {
+  selectedAccount?: IAccountState<T> | null
+  onSelect: (account: IAccountState<T>) => void
   children?: JSX.Element
-  blockchains?: TBlockchainServiceKey[]
+  blockchains?: T[]
   disabled?: boolean
   withoutIndicator?: boolean
   loading?: boolean
@@ -29,7 +29,7 @@ type TProps = {
   accountTypes?: TAccountType[]
 }
 
-export const GreyAccountSelect = ({
+export const GreyAccountSelect = <T extends TBlockchainServiceKey>({
   onSelect,
   selectedAccount,
   blockchains,
@@ -39,7 +39,7 @@ export const GreyAccountSelect = ({
   loading,
   triggerClassName,
   accountTypes = ['standard', 'hardware'],
-}: TProps) => {
+}: TProps<T>) => {
   const { accountsWithWallet } = useAccountsWithWalletSelector()
   const { t } = useTranslation('components', { keyPrefix: 'greyAccountSelect' })
 
@@ -49,7 +49,7 @@ export const GreyAccountSelect = ({
     let filtered = accountsWithWallet.filter(account => (accountTypes ? accountTypes.includes(account.type) : true))
 
     if (blockchains) {
-      filtered = filtered.filter(account => blockchains.includes(account.blockchain))
+      filtered = filtered.filter(account => blockchains.includes(account.blockchain as T))
     }
 
     return filtered
@@ -61,7 +61,7 @@ export const GreyAccountSelect = ({
     const account = accountsWithWallet.find(account => account.id === value)
     if (!account) return
 
-    onSelect(account)
+    onSelect(account as unknown as IAccountState<T>)
     setOpen(false)
   }
 
@@ -88,7 +88,7 @@ export const GreyAccountSelect = ({
             .with({ loading: true }, () => <Loader />)
             .with({ isSelectedAccount: true }, () => (
               <div className="flex min-w-0 items-center gap-2.5">
-                <BlockchainIcon blockchain={selectedAccount!.blockchain} type="gray" />
+                <BlockchainIcon blockchain={selectedAccount!.blockchain} className="text-gray-100" />
 
                 <span className="text-start text-white">
                   {StringHelper.truncateStringMiddle(selectedAccount!.address, 8)}
@@ -108,7 +108,7 @@ export const GreyAccountSelect = ({
             filteredAccounts.map((account, index) => (
               <Fragment key={account.id}>
                 <Select.Item value={account.id} className="justify-start gap-2.5">
-                  <BlockchainIcon className="h-4 min-h-4 w-4 min-w-4" blockchain={account.blockchain} type="gray" />
+                  <BlockchainIcon className="min-size-4 size-4 text-gray-100" blockchain={account.blockchain} />
 
                   <div className="flex min-w-0 grow flex-col gap-0.5">
                     <Select.ItemText>{StringHelper.truncateStringMiddle(account.address, 8)}</Select.ItemText>

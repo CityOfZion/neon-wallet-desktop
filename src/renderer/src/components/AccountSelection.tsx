@@ -25,7 +25,7 @@ const Root = ({ blockchain, children }: TRootProps) => {
   return (
     <div className="bg-asphalt gap-y-4 rounded-sm p-2">
       <div className="flex items-center gap-x-2 p-2">
-        <BlockchainIcon blockchain={blockchain} type="white" />
+        <BlockchainIcon blockchain={blockchain} className="text-white" />
         {tCommonBlockchain(blockchain)}
       </div>
 

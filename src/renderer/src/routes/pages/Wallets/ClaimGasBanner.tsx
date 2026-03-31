@@ -48,6 +48,7 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
     : undefined
 
   const isWatchAccount = account.type === 'watch'
+  const claimToken = blockchainService.claimService.claimToken
 
   useEffect(() => {
     if (!unclaimedQuery.error) return
@@ -64,8 +65,8 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
         <div className="flex h-full w-full items-center justify-between px-4">
           <div className="flex items-center gap-x-2">
             <div className="flex items-center gap-x-1.5">
-              <BlockchainIcon blockchain={account.blockchain} type="green" />
-              {blockchainService.claimToken.symbol}
+              <BlockchainIcon className="text-green" blockchain={account.blockchain} />
+              {claimToken.symbol}
             </div>
 
             {match({
@@ -76,7 +77,7 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
               .with({ unclaimedNumber: 0 }, () => (
                 <span className="text-gray-300">
                   {t('youDoNotHaveUnclaimed', {
-                    symbol: blockchainService.claimToken.symbol,
+                    symbol: claimToken.symbol,
                   })}
                 </span>
               ))
@@ -88,7 +89,7 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
                 <div className="flex gap-x-1">
                   <span className="text-gray-100">
                     {t('youHaveUnclaimed', {
-                      symbol: blockchainService.claimToken.symbol,
+                      symbol: claimToken.symbol,
                     })}
                   </span>
 
@@ -96,7 +97,7 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
                     <span className="text-gray-300">
                       {t('feeToClaim', {
                         fee: unclaimedQuery.data?.fee,
-                        symbol: blockchainService.claimToken.symbol,
+                        symbol: claimToken.symbol,
                       })}
                     </span>
                   )}
@@ -111,7 +112,7 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
             <span className="truncate">
               {t('claimAmount', {
                 amount: unclaimedQuery.data?.unclaimed ?? 0,
-                symbol: blockchainService.claimToken.symbol,
+                symbol: claimToken.symbol,
               })}
             </span>
 

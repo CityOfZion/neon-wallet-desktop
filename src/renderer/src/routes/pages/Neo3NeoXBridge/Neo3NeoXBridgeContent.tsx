@@ -1,9 +1,13 @@
 import { ChangeEvent, useEffect, useRef } from 'react'
 
-import { TBalanceResponse, TBridgeToken, TBridgeValidateValue, TBridgeValue } from '@cityofzion/blockchain-service'
+import {
+  TBalanceResponse,
+  TBridgeToken,
+  TBridgeValidateValue,
+  TBridgeValue,
+  type TBSBridgeName,
+} from '@cityofzion/blockchain-service'
 import { Neo3NeoXBridgeOrchestrator } from '@cityofzion/bs-multichain'
-import { BSNeo3 } from '@cityofzion/bs-neo3'
-import { BSNeoX } from '@cityofzion/bs-neox'
 import { Trans, useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 
@@ -48,22 +52,21 @@ import VscCircleFilled from '@renderer/assets/images/vsc-circle-filled.svg?react
 
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 import { AppError } from '@shared/helpers/SharedErrorHelper'
-import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import { IAccountState, TContactAddress } from '@shared/types/store'
 
 type TProps = {
-  account?: IAccountState
+  account?: IAccountState<TBSBridgeName>
 }
 
 type TActionsData = {
-  availableTokensToUse: TBridgeValue<TBridgeToken<TBlockchainServiceKey>[]>
-  tokenToUse: TBridgeValue<TBridgeToken<TBlockchainServiceKey>>
+  availableTokensToUse: TBridgeValue<TBridgeToken<TBSBridgeName>[]>
+  tokenToUse: TBridgeValue<TBridgeToken<TBSBridgeName>>
   tokenToUseBalance: TBridgeValue<TBalanceResponse | undefined>
-  accountToUse: TBridgeValue<IAccountState>
+  accountToUse: TBridgeValue<IAccountState<TBSBridgeName>>
   amountToUse: TBridgeValidateValue<string>
   amountToUseMin: TBridgeValue<string>
   amountToUseMax: TBridgeValue<string>
-  tokenToReceive: TBridgeValue<TBridgeToken<TBlockchainServiceKey>>
+  tokenToReceive: TBridgeValue<TBridgeToken<TBSBridgeName>>
   addressToReceive: TBridgeValidateValue<string>
   amountToReceive: TBridgeValue<string>
   bridgeFee: TBridgeValue<string>
@@ -98,7 +101,7 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
     bridgeFee: { value: null, error: null, loading: false },
   })
 
-  const bridgeOrchestratorRef = useRef({} as Neo3NeoXBridgeOrchestrator<TBlockchainServiceKey>)
+  const bridgeOrchestratorRef = useRef({} as Neo3NeoXBridgeOrchestrator)
 
   const fromService = bridgeOrchestratorRef.current?.fromService
 
@@ -150,9 +153,9 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
   const initializeOrRestartBridgeService = async () => {
     reset()
 
-    const neo3NeoXBridgeOrchestrator = new Neo3NeoXBridgeOrchestrator<TBlockchainServiceKey>({
-      neo3Service: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.neo3 as BSNeo3<TBlockchainServiceKey>,
-      neoXService: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.neox as BSNeoX<TBlockchainServiceKey>,
+    const neo3NeoXBridgeOrchestrator = new Neo3NeoXBridgeOrchestrator({
+      neo3Service: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.neo3,
+      neoXService: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.neox,
       initialFromServiceName: account?.blockchain,
     })
 
@@ -212,7 +215,7 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
     }
   }
 
-  const handleSelectTokenToUse = async (token: TBridgeToken<TBlockchainServiceKey>) => {
+  const handleSelectTokenToUse = async (token: TBridgeToken<TBSBridgeName>) => {
     await bridgeOrchestratorRef.current.setTokenToUse(token)
   }
 
@@ -220,15 +223,10 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
     await bridgeOrchestratorRef.current.switchTokens()
   }
 
-  const handleSelectAccountToUse = async (account: IAccountState) => {
+  const handleSelectAccountToUse = async (account: IAccountState<TBSBridgeName>) => {
     if (!loginSessionRef.current || !account.encryptedKey) return
 
-    const key = await window.api.sendAsync('encryption:decryptBasedEncryptedSecret', {
-      value: account.encryptedKey,
-      encryptedSecret: loginSessionRef.current.encryptedPassword,
-    })
-
-    const serviceAccount = await AccountHelper.getServiceAccount({ account, key })
+    const serviceAccount = await AccountHelper.getServiceAccount(account)
 
     await bridgeOrchestratorRef.current.setAccountToUse(serviceAccount)
 

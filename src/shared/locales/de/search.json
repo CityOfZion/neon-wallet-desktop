@@ -49,7 +49,7 @@
       "verbs": ["verkaufen", "handeln", "liquidieren", "empfangen", "rampe", "krypto"]
     },
     {
-      "id": "voteNeo3",
+      "id": "neo3Vote",
       "label": "Abstimmen (Neo 3)",
       "nonVerbs": ["abstimmung", "neo", "n3", "knoten", "mitglied", "konsens", "rat", "governance"],
       "verbs": ["abstimmen"]

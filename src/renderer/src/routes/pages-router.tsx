@@ -36,7 +36,7 @@ const SettingsNetworkPage = lazy(() => import('./pages/Settings/SettingsNetwork'
 const SettingsRecoverWalletPage = lazy(() => import('./pages/Settings/SettingsRecoverWallet'))
 const SettingsReleaseNotesPage = lazy(() => import('./pages/Settings/SettingsReleaseNotes'))
 const SwapPage = lazy(() => import('./pages/Swap'))
-const VoteNeo3Page = lazy(() => import('./pages/VoteNeo3'))
+const Neo3VotePage = lazy(() => import('./pages/Neo3Vote'))
 const WalletsPage = lazy(() => import('./pages/Wallets'))
 const AccountConnectionsPage = lazy(() => import('./pages/Wallets/AccountConnection'))
 const AccountNftListPage = lazy(() => import('./pages/Wallets/AccountNftList'))
@@ -124,8 +124,8 @@ export const pagesRouter = createHashRouter([
             element: <BuyAndSellTokensPage />,
           },
           {
-            path: 'vote-neo3',
-            element: <VoteNeo3Page />,
+            path: 'neo3-vote',
+            element: <Neo3VotePage />,
           },
           {
             path: 'neo3-neox-bridge',

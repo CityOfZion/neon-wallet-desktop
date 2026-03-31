@@ -11,11 +11,13 @@
     "neoLegacy": "Neo 傳統版",
     "neox": "NeoX",
     "polygon": "Polygon",
-    "solana": "索拉納"
+    "solana": "索拉納",
+    "stellar": "恆星"
   },
   "errors": {
     "analyticsAreNotConfigured": "分析功能配置不正確。",
     "analyticsEventLoggingFailed": "分析事件日誌記錄失敗。",
+    "blockchainDoesNotSupportFaucet": "選區塊鏈不支援水龍頭操作。",
     "blockchainIsNotClaimable": "此帳戶區塊鏈無法申領：{{address}} {{blockchain}}",
     "loginSessionIsNotDefined": "未知錯誤。登入會話未定義。",
     "unexpectedError": "發生意外錯誤。如果問題仍然存在，請聯絡技術支援。",

@@ -121,7 +121,7 @@ const SelectAccountModal = () => {
                     onClick={handleSelectAccount.bind(null, account)}
                   >
                     <div className="flex min-w-0 items-center gap-x-4">
-                      <BlockchainIcon blockchain={account.blockchain} type="gray" className="min-h-4 min-w-4" />
+                      <BlockchainIcon blockchain={account.blockchain} className="min-size-4 text-gray-100" />
                       <div className="flex flex-col text-left">
                         <span className="truncate text-sm text-white">{account.name}</span>
                         <span className="truncate text-xs text-gray-300">

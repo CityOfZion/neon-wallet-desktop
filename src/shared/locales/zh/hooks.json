@@ -13,6 +13,19 @@
   "useExportMnemonic": {
     "fileTemplate": "重要：请保持此文件安全，切勿与任何人分享！任何拥有此助记词的人都可以访问您的资产。\n\n--- 助记词 ---\n\n{{mnemonic}}\n\n-----------------------\n\n{{generatedAt}}"
   },
+  "useFaucetMutation": {
+    "errors": {
+      "faucetError": "尝试连接水龙头时出错，请重试。"
+    },
+    "failureNotification": {
+      "previewBody": "我们无法确认您的水龙头是否已完工。",
+      "title": "水龙头故障"
+    },
+    "successNotification": {
+      "previewBody": "您已成功从水龙头领取代币。",
+      "title": "水龙头成功"
+    }
+  },
   "useImportAction": {
     "errors": {
       "allAddressesAlreadyImported": "所有地址都已导入",

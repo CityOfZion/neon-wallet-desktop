@@ -1,11 +1,15 @@
+import type { TBSToken } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
-import { match, P } from 'ts-pattern'
 
 import { Details } from '@renderer/components/Details'
 
+import { useAccountsMapSelector } from '@renderer/hooks/useAccountSelector'
+
 import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
 
+import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 import type { TUseTransactionsTransaction } from '@shared/types/hooks'
+import type { IAccountState } from '@shared/types/store'
 
 type TProps = {
   transaction: TUseTransactionsTransaction
@@ -13,18 +17,34 @@ type TProps = {
 
 export const SellTokensDepositSuccessContent = ({ transaction }: TProps) => {
   const { t } = useTranslation('modals', { keyPrefix: 'sellTokensDeposit.success' })
-  const isUtxo = transaction.view === 'utxo'
-  const output = isUtxo ? transaction.outputs[0] : undefined
-  const event = !isUtxo ? transaction.events[0] : undefined
-  const amount = isUtxo ? output!.amount : event!.amount
-  const receiverAccount = isUtxo ? output?.account : event?.toAccount
-  const receiverName = receiverAccount?.name
-  const receiverAddress = receiverAccount?.address
+  const { accountsMapRef } = useAccountsMapSelector()
 
-  const token = match({ output, event })
-    .with({ output: P.nonNullable }, ({ output }) => output.token)
-    .with({ event: P.when(value => value?.eventType === 'token') }, ({ event }) => event.token)
-    .otherwise(() => undefined)
+  let token: TBSToken | undefined
+  let amount: string | undefined
+  let receiverAddress: string | undefined
+  let receiverAccount: IAccountState | undefined
+
+  if (transaction.view === 'utxo') {
+    const output = transaction.outputs[0]
+    token = output.token
+    amount = output.amount
+    receiverAddress = output.address
+    receiverAccount = output.address
+      ? accountsMapRef.current.get(
+          SharedAccountHelper.buildAccountKey({ address: output.address, blockchain: transaction.blockchain })
+        )
+      : undefined
+  } else {
+    const event = transaction.events[0]
+    token = event?.eventType === 'token' ? event.token : undefined
+    amount = event?.amount
+    receiverAddress = event.to
+    receiverAccount = event.to
+      ? accountsMapRef.current.get(
+          SharedAccountHelper.buildAccountKey({ address: event.to, blockchain: transaction.blockchain })
+        )
+      : undefined
+  }
 
   return (
     <Details.Root className="mt-6 min-h-0 pt-2">
@@ -38,7 +58,7 @@ export const SellTokensDepositSuccessContent = ({ transaction }: TProps) => {
         <Details.Panel label={t('section')}>
           <Details.Item label={t('recipient')} className="gap-2 pr-3" copyable={receiverAddress}>
             <span className="grow text-sm font-medium break-all text-white">
-              {receiverName ? `${receiverName} (${receiverAddress})` : receiverAddress}
+              {receiverAccount?.name ? `${receiverAccount.name} (${receiverAccount.address})` : receiverAddress}
             </span>
           </Details.Item>
 

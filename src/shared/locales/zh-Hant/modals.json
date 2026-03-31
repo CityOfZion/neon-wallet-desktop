@@ -509,6 +509,78 @@
     "toDetailsPanelLabel": "目標",
     "toTokenDetailsItemLabel": "代幣"
   },
+  "neo3VoteCandidateDetails": {
+    "accountCanNotBeWatchTitle": "使用非 Watch Neo 3 帳戶",
+    "castVoteButtonLabel": "請投票給這位候選人",
+    "descriptionLabel": "描述",
+    "insufficientGasDescription": "將瓦斯轉入此帳戶或更改帳戶以繼續操作。",
+    "insufficientGasTitle": "您的 GAS 餘額不足以支付投票費。",
+    "nameLabel": "候選人",
+    "positionLabel": "目前職位",
+    "pubKeyLabel": "公鑰",
+    "selectNeo3AccountTitle": "選擇一個 Neo 3 帳號繼續",
+    "thereIsNoNeoTitle": "這個 Neo 3 帳戶裡沒有 NEO。",
+    "title": "候選人資訊",
+    "voteAlreadyCastButtonLabel": "投票已完成",
+    "votesLabel": "總票數"
+  },
+  "neo3VoteConfirmation": {
+    "accountNameLabel": "帳戶名稱",
+    "addressLabel": "地址",
+    "candidateLabel": "候選人",
+    "confirmationButtonLabel": "確認您的投票",
+    "contributeLabel": "詳盡的提案調查和明智的投票實踐至關重要。該系統採用可靠的驗證機制和清晰的流程，使個人能夠為NEO生態系統的成長和發展做出有意義的貢獻。",
+    "detailsLabel": "投票詳情",
+    "feeLabel": "總費用",
+    "importanceLabel": "作為代幣持有者，您可以影響重要的協議決策，從而使網路的發展路徑符合社區的利益。",
+    "messages": {
+      "invalidHardwareWallet": "若要繼續執行此操作，請確保您的硬體錢包已解鎖。",
+      "voteError": "投票出錯，請重試。"
+    },
+    "notifications": {
+      "voteFailureNotification": {
+        "previewBody": "我們無法核實您的投票是否已完成。",
+        "title": "投票失敗"
+      },
+      "voteSuccessNotification": {
+        "previewBody": "您的投票已成功完成。",
+        "title": "投票已完成"
+      }
+    },
+    "pubKeyLabel": "公鑰",
+    "title": "請核對您的投票",
+    "voteErrorMessages": {
+      "canNotPayGasFeeLabel": "你無法支付瓦斯費",
+      "noNeoLabel": "你沒有足夠的NEO幣來使用這個Neo 3帳戶進行投票。",
+      "watchAccountLabel": "您的 Neo 3 帳號處於觀看模式"
+    },
+    "votesLabel": "票數"
+  },
+  "neo3VoteSuccess": {
+    "accountLabel": "帳戶名稱",
+    "addressLabel": "地址",
+    "listLabel": "你的投票",
+    "nameLabel": "候選人",
+    "publicKeyLabel": "公鑰",
+    "subtitle": "您的投票已成功！",
+    "title": "請檢查並確認您的投票",
+    "viewTransactionButtonLabel": "查看交易",
+    "votesLabel": "票數"
+  },
+  "neo3VoteSupportUs": {
+    "aboutNeonWalletDescription": "作為 Neon Wallet 用戶和代幣持有者，您可以影響重要的協議決策，從而使網路的發展路徑符合您的利益。",
+    "cozLogoAlt": "COZ標誌",
+    "cozTeamLabel": "COZ團隊。",
+    "dontShowAgainLabel": "不要再次顯示",
+    "hiLabel": "你好呀！",
+    "importantThingsLabel": "詳細的提案調查和明智的投票策略至關重要。",
+    "scanOurWebsite": "如果您還不知道我們是誰，請花點時間查看<1>我們的網站</1>。",
+    "skipButtonLabel": "跳過",
+    "thankYouLabel": "謝謝你！",
+    "title": "想支持我們嗎？",
+    "voteForCozButtonLabel": "請為 COZ 投票",
+    "youCanSupportUsLabel": "如果您喜歡使用 Neon 或我們的任何其他產品，您可以投票支持我們，以幫助推動我們的發展。"
+  },
   "networkSelection": {
     "addCustomNetworkButtonLabel": "新增自訂網路",
     "editCustomNetworkButtonLabel": "編輯自訂網路",
@@ -677,6 +749,38 @@
     },
     "title": "進行存款"
   },
+  "stellarPersistTrustlines": {
+    "addButtonLabel": "新增信任線",
+    "addDescription": "若要新增此信任線，請提供必要資訊。",
+    "addErrorToastMessage": "新增信任線失敗",
+    "addSuccessToastMessage": "Trustline 已成功新增。",
+    "addTitle": "新增信任線",
+    "editButtonLabel": "儲存變更",
+    "editDescription": "如需編輯此信任線，請提供必要資訊。",
+    "editErrorToastMessage": "更新信任線失敗",
+    "editSuccessToastMessage": "Trustline 已成功編輯",
+    "editTitle": "編輯信任線",
+    "errors": {
+      "invalidLimit": "無效限制",
+      "invalidToken": "無效令牌",
+      "validation": "請提供有效資訊以繼續。"
+    },
+    "failureNotification": {
+      "previewBody": "我們無法驗證您的信任線是否已完成",
+      "title": "更改信任線失敗"
+    },
+    "limitLabel": "限制（可選）",
+    "successNotification": {
+      "previewBody": "您的信任線已成功更改",
+      "title": "變更信任線已完成"
+    },
+    "tokenLabel": "令牌"
+  },
+  "stellarTrustlines": {
+    "addTrustlineButtonLabel": "新增信任線",
+    "emptyMessage": "未找到信任線",
+    "title": "信任線"
+  },
   "supportTicket": {
     "cancelButtonLabel": "取消",
     "descriptionLabel": "描述",
@@ -729,77 +833,5 @@
     "copySwapLog": "複製兌換紀錄到剪貼簿",
     "thereIsNoLog": "沒有兌換紀錄",
     "title": "兌換紀錄"
-  },
-  "voteNeo3CandidateDetails": {
-    "accountCanNotBeWatchTitle": "請使用非觀察模式的 Neo 3 帳戶",
-    "castVoteButtonLabel": "投票給此候選人",
-    "descriptionLabel": "描述",
-    "insufficientGasDescription": "請將 GAS 轉入此帳戶或更換帳戶以繼續。",
-    "insufficientGasTitle": "您的 GAS 餘額不足以支付投票手續費。",
-    "nameLabel": "候選人",
-    "positionLabel": "目前職位",
-    "pubKeyLabel": "公鑰",
-    "selectNeo3AccountTitle": "請選擇 Neo 3 帳戶以繼續",
-    "thereIsNoNeoTitle": "此 Neo 3 帳戶中沒有 NEO",
-    "title": "候選人資訊",
-    "voteAlreadyCastButtonLabel": "已投票",
-    "votesLabel": "總票數"
-  },
-  "voteNeo3Confirmation": {
-    "accountNameLabel": "帳戶名稱",
-    "addressLabel": "地址",
-    "candidateLabel": "候選人",
-    "confirmationButtonLabel": "確認您的投票",
-    "contributeLabel": "詳細的提案研究與明智的投票行為非常重要。系統採用可靠的驗證與明確流程，讓個人能有意義地促進 NEO 生態系統的成長與發展。",
-    "detailsLabel": "投票詳情",
-    "feeLabel": "總手續費",
-    "importanceLabel": "作為代幣持有者，您可以影響重要協議決策，讓網路發展方向符合社群利益。",
-    "messages": {
-      "invalidHardwareWallet": "請確保您的硬體錢包已解鎖以繼續操作",
-      "voteError": "投票時發生錯誤，請再試一次"
-    },
-    "notifications": {
-      "voteFailureNotification": {
-        "previewBody": "我們無法確認您的投票已完成",
-        "title": "投票失敗"
-      },
-      "voteSuccessNotification": {
-        "previewBody": "您的投票已成功完成",
-        "title": "投票完成"
-      }
-    },
-    "pubKeyLabel": "公鑰",
-    "title": "審查並確認您的投票",
-    "voteErrorMessages": {
-      "canNotPayGasFeeLabel": "您無法支付 GAS 手續費",
-      "noNeoLabel": "此 Neo 3 帳戶沒有足夠的 NEO 可用於投票",
-      "watchAccountLabel": "您的 Neo 3 帳戶為觀察模式"
-    },
-    "votesLabel": "投票數"
-  },
-  "voteNeo3Success": {
-    "accountLabel": "帳戶名稱",
-    "addressLabel": "地址",
-    "listLabel": "您的投票",
-    "nameLabel": "候選人",
-    "publicKeyLabel": "公鑰",
-    "subtitle": "您的投票已成功完成！",
-    "title": "審查並確認您的投票",
-    "viewTransactionButtonLabel": "查看交易",
-    "votesLabel": "投票數"
-  },
-  "voteNeo3SupportUs": {
-    "aboutNeonWalletDescription": "作為 Neon Wallet 用戶及代幣持有者，您可以影響重要協議決策，讓網路發展方向符合您的利益。",
-    "cozLogoAlt": "COZ 標誌",
-    "cozTeamLabel": "COZ 團隊",
-    "dontShowAgainLabel": "不再顯示",
-    "hiLabel": "您好！",
-    "importantThingsLabel": "詳細的提案研究與明智的投票行為非常重要。",
-    "scanOurWebsite": "如果您還不認識我們，請花點時間瀏覽<1>我們的網站</1>。",
-    "skipButtonLabel": "略過",
-    "thankYouLabel": "感謝您！",
-    "title": "願意支持我們嗎？",
-    "voteForCozButtonLabel": "投票支持 COZ",
-    "youCanSupportUsLabel": "如果您喜歡使用 Neon 或我們的其他產品，歡迎用您的投票支持我們的發展。"
   }
 }

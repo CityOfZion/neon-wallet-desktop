@@ -111,12 +111,12 @@ export const useOverTheAirInfoSelector = () => {
   }
 }
 
-export const useCanShowVoteNeo3SupportUsModalSelector = () => {
-  const { value: canShowVoteNeo3SupportUsModal, ref: canShowVoteNeo3SupportUsModalRef } = useAppSelector(
-    ({ settings }) => settings.data.canShowVoteNeo3SupportUsModal
+export const useCanShowNeo3VoteSupportUsModalSelector = () => {
+  const { value: canShowNeo3VoteSupportUsModal, ref: canShowNeo3VoteSupportUsModalRef } = useAppSelector(
+    ({ settings }) => settings.data.canShowNeo3VoteSupportUsModal
   )
 
-  return { canShowVoteNeo3SupportUsModal, canShowVoteNeo3SupportUsModalRef }
+  return { canShowNeo3VoteSupportUsModal, canShowNeo3VoteSupportUsModalRef }
 }
 
 export const useShowSideBarSelector = () => {

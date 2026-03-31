@@ -77,7 +77,7 @@ const SellTokensDepositModal = () => {
   const service = useMemo(
     () =>
       actionData?.account
-        ? BlockchainServiceHelper.bsAggregator.blockchainServicesByName[actionData.account.blockchain]
+        ? BlockchainServiceHelper.bsAggregator.blockchainServicesByNameRecord[actionData.account.blockchain]
         : undefined,
     [actionData.account]
   )
@@ -117,12 +117,7 @@ const SellTokensDepositModal = () => {
       token,
     }
 
-    const key = window.api.sendSync('encryption:decryptBasedEncryptedSecretSync', {
-      value: account.encryptedKey!,
-      encryptedSecret: encryptedPassword,
-    })
-
-    const serviceAccount = await AccountHelper.getServiceAccount({ account, key })
+    const serviceAccount = await AccountHelper.getServiceAccount(account)
 
     return {
       serviceAccount,

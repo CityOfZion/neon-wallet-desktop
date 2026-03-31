@@ -8,7 +8,6 @@ import { Loader } from '@renderer/components/Loader'
 
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
-import { TokenHelper } from '@renderer/helpers/TokenHelper'
 
 import { useBalance } from '@renderer/hooks/useBalances'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
@@ -31,17 +30,16 @@ const HideFraudulentTokenModal = () => {
   const balanceQuery = useBalance(account, { showType: 'active' })
   const dispatch = useAppDispatch()
 
+  const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[account.blockchain]
+
   const tokenBalance = useMemo(() => {
-    const blockchain = balanceQuery.data?.blockchain
-
-    if (balanceQuery.isLoading || !blockchain) return undefined
-
-    const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
+    if (balanceQuery.isLoading) return undefined
 
     return balanceQuery.data?.tokensBalances?.find(({ token }) => service.tokenService.predicateByHash(hash, token))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [balanceQuery.data, balanceQuery.isLoading, hash])
 
-  const isNativeToken = useMemo(() => TokenHelper.isNativeToken(hash, account.blockchain), [hash, account])
+  const isNativeToken = service.tokenService.isNativeToken(hash)
 
   const [isHiding, startHidingTransition] = usePressOnce(() => {
     try {

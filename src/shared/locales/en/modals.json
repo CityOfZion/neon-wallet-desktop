@@ -509,6 +509,78 @@
     "toDetailsPanelLabel": "To",
     "toTokenDetailsItemLabel": "Token"
   },
+  "neo3VoteCandidateDetails": {
+    "accountCanNotBeWatchTitle": "Use a non-watch Neo 3 account",
+    "castVoteButtonLabel": "Cast vote for this candidate",
+    "descriptionLabel": "Description",
+    "insufficientGasDescription": "Transfer GAS to this account or change account to proceed.",
+    "insufficientGasTitle": "You have insufficient GAS to cover the voting fee.",
+    "nameLabel": "Candidate",
+    "positionLabel": "Current position",
+    "pubKeyLabel": "Public key",
+    "selectNeo3AccountTitle": "Select a Neo 3 account to continue",
+    "thereIsNoNeoTitle": "There isn't NEO in this Neo 3 account",
+    "title": "Candidate information",
+    "voteAlreadyCastButtonLabel": "Vote already cast",
+    "votesLabel": "Total votes"
+  },
+  "neo3VoteConfirmation": {
+    "accountNameLabel": "Account name",
+    "addressLabel": "Address",
+    "candidateLabel": "Candidate",
+    "confirmationButtonLabel": "Confirm your vote",
+    "contributeLabel": "Detailed proposal research and smart voting practices matter greatly. The system uses reliable verification and clear processes that let individuals meaningfully contribute to the NEO ecosystem’s growth and development.",
+    "detailsLabel": "Voting details",
+    "feeLabel": "Total fee",
+    "importanceLabel": "As a token holder, you can influence important protocol decisions so the network has a development path that matches community interests.",
+    "messages": {
+      "invalidHardwareWallet": "To proceed with this operation, please make sure your hardware wallet is unlocked",
+      "voteError": "There was an error to vote, try again, please"
+    },
+    "notifications": {
+      "voteFailureNotification": {
+        "previewBody": "We couldn't verify the completion of your vote",
+        "title": "Vote failed"
+      },
+      "voteSuccessNotification": {
+        "previewBody": "Your vote has been completed successfully",
+        "title": "Vote completed"
+      }
+    },
+    "pubKeyLabel": "Public key",
+    "title": "Review and confirm your vote",
+    "voteErrorMessages": {
+      "canNotPayGasFeeLabel": "You can't pay the GAS fee",
+      "noNeoLabel": "You don't have enough NEO to vote with this Neo 3 account",
+      "watchAccountLabel": "Your Neo 3 account is in watching mode"
+    },
+    "votesLabel": "N. of votes"
+  },
+  "neo3VoteSuccess": {
+    "accountLabel": "Account name",
+    "addressLabel": "Address",
+    "listLabel": "Your vote",
+    "nameLabel": "Candidate",
+    "publicKeyLabel": "Public key",
+    "subtitle": "Your vote has been cast successfully!",
+    "title": "Review and confirm your vote",
+    "viewTransactionButtonLabel": "View transaction",
+    "votesLabel": "N. of votes"
+  },
+  "neo3VoteSupportUs": {
+    "aboutNeonWalletDescription": "As a Neon Wallet user and token holder, you can influence important protocol decisions so the network has a development path that matches your interests.",
+    "cozLogoAlt": "COZ logo",
+    "cozTeamLabel": "The COZ Team.",
+    "dontShowAgainLabel": "Don't show again",
+    "hiLabel": "Hi there!",
+    "importantThingsLabel": "Detailed proposal research and smart voting practices matter greatly.",
+    "scanOurWebsite": "If you don’t know who we are, please take a moment to check <1>our website</1>.",
+    "skipButtonLabel": "Skip",
+    "thankYouLabel": "Thank you!",
+    "title": "Fancy supporting us?",
+    "voteForCozButtonLabel": "Cast your vote for COZ",
+    "youCanSupportUsLabel": "If you like using Neon or any of our other products, you may want to support us with your vote to help drive our development."
+  },
   "networkSelection": {
     "addCustomNetworkButtonLabel": "Add custom network",
     "editCustomNetworkButtonLabel": "Edit custom network",
@@ -677,6 +749,38 @@
     },
     "title": "Make deposit"
   },
+  "stellarPersistTrustlines": {
+    "addButtonLabel": "Add trustline",
+    "addDescription": "In order to add this trustline, please provide the necessary information.",
+    "addErrorToastMessage": "Failed to add trustline",
+    "addSuccessToastMessage": "Trustline added successfully",
+    "addTitle": "Add trustline",
+    "editButtonLabel": "Save changes",
+    "editDescription": "In order to edit this trustline, please provide the necessary information.",
+    "editErrorToastMessage": "Failed to update trustline",
+    "editSuccessToastMessage": "Trustline edited successfully",
+    "editTitle": "Edit trustline",
+    "errors": {
+      "invalidLimit": "Invalid limit",
+      "invalidToken": "Invalid token",
+      "validation": "Please provide valid information to proceed"
+    },
+    "failureNotification": {
+      "previewBody": "We couldn't verify the completion of your trustline",
+      "title": "Change Trustline failed"
+    },
+    "limitLabel": "Limit (Optional)",
+    "successNotification": {
+      "previewBody": "Your trustline has been changed successfully",
+      "title": "Change Trustline completed"
+    },
+    "tokenLabel": "Token"
+  },
+  "stellarTrustlines": {
+    "addTrustlineButtonLabel": "Add trustline",
+    "emptyMessage": "No trustlines found",
+    "title": "Trustlines"
+  },
   "supportTicket": {
     "cancelButtonLabel": "Cancel",
     "descriptionLabel": "Description",
@@ -729,77 +833,5 @@
     "copySwapLog": "Copy swap log to clipboard",
     "thereIsNoLog": "There is no swap log",
     "title": "Swap log"
-  },
-  "voteNeo3CandidateDetails": {
-    "accountCanNotBeWatchTitle": "Use a non-watch Neo 3 account",
-    "castVoteButtonLabel": "Cast vote for this candidate",
-    "descriptionLabel": "Description",
-    "insufficientGasDescription": "Transfer GAS to this account or change account to proceed.",
-    "insufficientGasTitle": "You have insufficient GAS to cover the voting fee.",
-    "nameLabel": "Candidate",
-    "positionLabel": "Current position",
-    "pubKeyLabel": "Public key",
-    "selectNeo3AccountTitle": "Select a Neo 3 account to continue",
-    "thereIsNoNeoTitle": "There isn't NEO in this Neo 3 account",
-    "title": "Candidate information",
-    "voteAlreadyCastButtonLabel": "Vote already cast",
-    "votesLabel": "Total votes"
-  },
-  "voteNeo3Confirmation": {
-    "accountNameLabel": "Account name",
-    "addressLabel": "Address",
-    "candidateLabel": "Candidate",
-    "confirmationButtonLabel": "Confirm your vote",
-    "contributeLabel": "Detailed proposal research and smart voting practices matter greatly. The system uses reliable verification and clear processes that let individuals meaningfully contribute to the NEO ecosystem’s growth and development.",
-    "detailsLabel": "Voting details",
-    "feeLabel": "Total fee",
-    "importanceLabel": "As a token holder, you can influence important protocol decisions so the network has a development path that matches community interests.",
-    "messages": {
-      "invalidHardwareWallet": "To proceed with this operation, please make sure your hardware wallet is unlocked",
-      "voteError": "There was an error to vote, try again, please"
-    },
-    "notifications": {
-      "voteFailureNotification": {
-        "previewBody": "We couldn't verify the completion of your vote",
-        "title": "Vote failed"
-      },
-      "voteSuccessNotification": {
-        "previewBody": "Your vote has been completed successfully",
-        "title": "Vote completed"
-      }
-    },
-    "pubKeyLabel": "Public key",
-    "title": "Review and confirm your vote",
-    "voteErrorMessages": {
-      "canNotPayGasFeeLabel": "You can't pay the GAS fee",
-      "noNeoLabel": "You don't have enough NEO to vote with this Neo 3 account",
-      "watchAccountLabel": "Your Neo 3 account is in watching mode"
-    },
-    "votesLabel": "N. of votes"
-  },
-  "voteNeo3Success": {
-    "accountLabel": "Account name",
-    "addressLabel": "Address",
-    "listLabel": "Your vote",
-    "nameLabel": "Candidate",
-    "publicKeyLabel": "Public key",
-    "subtitle": "Your vote has been cast successfully!",
-    "title": "Review and confirm your vote",
-    "viewTransactionButtonLabel": "View transaction",
-    "votesLabel": "N. of votes"
-  },
-  "voteNeo3SupportUs": {
-    "aboutNeonWalletDescription": "As a Neon Wallet user and token holder, you can influence important protocol decisions so the network has a development path that matches your interests.",
-    "cozLogoAlt": "COZ logo",
-    "cozTeamLabel": "The COZ Team.",
-    "dontShowAgainLabel": "Don't show again",
-    "hiLabel": "Hi there!",
-    "importantThingsLabel": "Detailed proposal research and smart voting practices matter greatly.",
-    "scanOurWebsite": "If you don’t know who we are, please take a moment to check <1>our website</1>.",
-    "skipButtonLabel": "Skip",
-    "thankYouLabel": "Thank you!",
-    "title": "Fancy supporting us?",
-    "voteForCozButtonLabel": "Cast your vote for COZ",
-    "youCanSupportUsLabel": "If you like using Neon or any of our other products, you may want to support us with your vote to help drive our development."
   }
 }

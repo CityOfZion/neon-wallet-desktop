@@ -33,7 +33,7 @@ export const Sidebar = ({ className, ...props }: TProps) => {
       animate={{ x: 0, opacity: 1 }}
       exit={{ opacity: 0, width: 0, x: -64, minWidth: 0 }}
       transition={{ duration: 0.3 }}
-      className={StyleHelper.mergeStyles('flex h-full w-16 min-w-16 flex-col bg-gray-800', className)}
+      className={StyleHelper.mergeStyles('flex h-full w-16 min-w-16 flex-col bg-gray-800 drop-shadow-lg', className)}
       {...props}
     >
       <div className="flex justify-center py-4" {...TestHelper.buildTestObject('neon-wallet-logo')}>

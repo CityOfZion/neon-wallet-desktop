@@ -25,10 +25,9 @@ const buildQueryKeyUnclaimed = (account: IAccountState, network: TNetwork) => ['
 
 const getUnclaimedInfos = async (
   account: IAccountState,
-  hasClaimPendingTransaction: boolean,
-  encryptedPassword?: string
+  hasClaimPendingTransaction: boolean
 ): Promise<TUseUnclaimedResult> => {
-  const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[account.blockchain]
+  const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByNameRecord[account.blockchain]
   if (!isClaimable(service)) {
     throw new AppError(
       t('common:errors.blockchainIsNotClaimable', { address: account.address, blockchain: account.blockchain })
@@ -38,23 +37,18 @@ const getUnclaimedInfos = async (
   let unclaimed = '0'
 
   if (!hasClaimPendingTransaction) {
-    unclaimed = await service.claimDataService.getUnclaimed(account.address)
+    unclaimed = await service.claimService.getUnclaimed(account.address)
   }
 
   const unclaimedNumber = parseFloat(unclaimed)
 
   let fee = '0'
 
-  if (account.type !== 'watch' && !!account.encryptedKey && unclaimedNumber > 0) {
-    const key = await window.api.sendAsync('encryption:decryptBasedEncryptedSecret', {
-      value: account.encryptedKey,
-      encryptedSecret: encryptedPassword,
-    })
-
-    const serviceAccount = await AccountHelper.getServiceAccount({ account, key })
+  if (account.type !== 'watch' && unclaimedNumber > 0) {
+    const serviceAccount = await AccountHelper.getServiceAccount(account)
 
     try {
-      fee = await service.calculateClaimFee(serviceAccount)
+      fee = await service.claimService.calculateFee(serviceAccount)
     } catch {
       /* empty */
     }
@@ -64,7 +58,6 @@ const getUnclaimedInfos = async (
 }
 
 export const useUnclaimed = (account: IAccountState) => {
-  const { loginSessionRef } = useLoginSessionSelector()
   const { hasClaimPendingTransactionRef } = useHasClaimPendingTransactionSelector(account)
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
 
@@ -73,12 +66,7 @@ export const useUnclaimed = (account: IAccountState) => {
     staleTime: 0,
     gcTime: 0,
     retry: false,
-    queryFn: getUnclaimedInfos.bind(
-      null,
-      account,
-      hasClaimPendingTransactionRef.current,
-      loginSessionRef.current?.encryptedPassword
-    ),
+    queryFn: getUnclaimedInfos.bind(null, account, hasClaimPendingTransactionRef.current),
   })
 }
 
@@ -94,7 +82,7 @@ export const useUnclaimedMutation = () => {
         throw new AppError(t('common:errors.loginSessionIsNotDefined'))
       }
 
-      const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[account.blockchain]
+      const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByNameRecord[account.blockchain]
       if (!isClaimable(service)) {
         throw new AppError(
           t('common:errors.blockchainIsNotClaimable', { address: account.address, blockchain: account.blockchain })
@@ -103,13 +91,8 @@ export const useUnclaimedMutation = () => {
 
       if (!account.encryptedKey) return
 
-      const key = await window.api.sendAsync('encryption:decryptBasedEncryptedSecret', {
-        value: account.encryptedKey,
-        encryptedSecret: loginSessionRef.current.encryptedPassword,
-      })
-
-      const serviceAccount = await AccountHelper.getServiceAccount({ account, key })
-      const transaction = await service.claim(serviceAccount)
+      const serviceAccount = await AccountHelper.getServiceAccount(account)
+      const transaction = await service.claimService.claim(serviceAccount)
 
       const pendingTransaction = TransactionHelper.buildPendingTransaction({
         transaction,

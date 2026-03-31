@@ -154,11 +154,7 @@ const ImportWatchAccountsModal = () => {
               {validatedAddresses.map((validatedAddress, index) => (
                 <li className="bg-asphalt rounded-md" key={index}>
                   <div className="flex overflow-hidden p-4">
-                    <BlockchainIcon
-                      blockchain={validatedAddress.blockchain}
-                      type="white"
-                      className="size-5 opacity-50"
-                    />
+                    <BlockchainIcon blockchain={validatedAddress.blockchain} className="size-5 text-white opacity-50" />
 
                     <p className="ml-4 text-xs">{tCommonBlockchain(validatedAddress.blockchain)}</p>
                   </div>

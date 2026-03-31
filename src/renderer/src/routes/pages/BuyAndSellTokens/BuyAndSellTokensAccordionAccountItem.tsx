@@ -30,7 +30,7 @@ export const BuyAndSellTokensAccordionAccountItem = ({ account }: TProps) => {
 
   return (
     <section className="flex items-center gap-x-3 px-4 py-3">
-      <BlockchainIcon className="min-size-4 mt-1 size-4 self-start" blockchain={account.blockchain} type="gray" />
+      <BlockchainIcon className="min-size-4 mt-1 size-4 self-start text-gray-100" blockchain={account.blockchain} />
 
       <div className="flex grow flex-col gap-0.5">
         <h5 className="max-w-41 truncate text-xs font-medium text-white">{account.name}</h5>

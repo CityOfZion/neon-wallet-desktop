@@ -26,7 +26,6 @@ const ToastProvider = lazy(() =>
 )
 const DeeplinkManagerSetup = LazyHelper.delayedLazy(() => import('./DeeplinkManagerSetup'), 1000)
 const OverTheAirManagerSetup = LazyHelper.delayedLazy(() => import('./OverTheAirManagerSetup'), 5000)
-const HotKeysManagerSetup = LazyHelper.delayedLazy(() => import('./HotKeysManagerSetup'))
 const NetworkManagerSetup = LazyHelper.delayedLazy(() => import('../Root/NetworkManagerSetup'), 1000)
 
 const RootPage = () => {
@@ -69,7 +68,6 @@ const RootPage = () => {
           <Suspense fallback={null}>
             <OverTheAirManagerSetup />
             <DeeplinkManagerSetup />
-            <HotKeysManagerSetup />
             <NetworkManagerSetup />
           </Suspense>
           <Suspense fallback={null}>

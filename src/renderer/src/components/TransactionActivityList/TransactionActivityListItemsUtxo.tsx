@@ -4,7 +4,7 @@ import { Separator } from '@renderer/components/Separator'
 
 import { StringHelper } from '@renderer/helpers/StringHelper'
 
-import { TUseTransactionsTransactionUtxo, TUseTransactionsTransactionUtxoInputOutput } from '@shared/types/hooks'
+import { TUseTransactionsTransactionUtxo } from '@shared/types/hooks'
 
 import { TransactionActivityListItemsColumn } from './TransactionActivityListItemsColumn'
 import { TransactionActivityListItemsColumnNftImage } from './TransactionActivityListItemsColumnNftImage'
@@ -24,7 +24,7 @@ export const TransactionActivityListItemsUtxo = ({ transaction: { blockchain, in
       <div className="ml-20 grid h-fit grow grid-cols-2 pr-2 pl-4">
         {inputs.length > 0 && (
           <ul className="col-start-1 col-end-1 flex flex-col">
-            {inputs.map((input: TUseTransactionsTransactionUtxoInputOutput, index) => (
+            {inputs.map((input, index) => (
               <TransactionActivityListItemsUtxoInputOutput
                 key={`${input.address}-${input.amount}-${blockchain}-${index}`}
                 input={input}
@@ -38,7 +38,7 @@ export const TransactionActivityListItemsUtxo = ({ transaction: { blockchain, in
 
         {outputs.length > 0 && (
           <ul className="col-start-2 col-end-2 flex flex-col">
-            {outputs.map((output: TUseTransactionsTransactionUtxoInputOutput, index) => (
+            {outputs.map((output, index) => (
               <TransactionActivityListItemsUtxoInputOutput
                 key={`${output.address}-${output.amount}-${blockchain}-${index}`}
                 output={output}

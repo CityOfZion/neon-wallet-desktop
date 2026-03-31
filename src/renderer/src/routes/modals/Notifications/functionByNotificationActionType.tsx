@@ -73,11 +73,11 @@ export const functionByNotificationActionType: TFunctionByNotificationActionType
           }
         }, 500)
       })
-      .with({ to: 'vote-neo3' }, payload => {
+      .with({ to: 'neo3-vote' }, payload => {
         const account = getAccount(payload)
 
         modalActions.modalErase()
-        pageNavigate('/vote-neo3', { state: { defaultNeo3Account: account } })
+        pageNavigate('/neo3-vote', { state: { defaultNeo3Account: account } })
       })
       .with({ to: 'backup-wallet' }, () => {
         modalActions.modalErase()

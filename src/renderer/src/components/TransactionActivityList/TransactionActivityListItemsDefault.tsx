@@ -1,14 +1,16 @@
 import { Fragment } from 'react'
 
-import { TNftResponse } from '@cityofzion/blockchain-service'
+import { type TBSToken, TNftResponse } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
 
 import { Separator } from '@renderer/components/Separator'
 
 import { StringHelper } from '@renderer/helpers/StringHelper'
-import { TokenHelper } from '@renderer/helpers/TokenHelper'
 
-import { TUseTransactionsTransactionDefault, TUseTransactionsTransactionDefaultEvent } from '@shared/types/hooks'
+import { useAccountsMapSelector } from '@renderer/hooks/useAccountSelector'
+
+import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
+import { TUseTransactionsTransactionDefault } from '@shared/types/hooks'
 
 import { TransactionActivityListItemsColumn } from './TransactionActivityListItemsColumn'
 import { TransactionActivityListItemsColumnDataAddress } from './TransactionActivityListItemsColumnDataAddress'
@@ -22,26 +24,36 @@ type TProps = {
 export const TransactionActivityListItemsDefault = ({ transaction }: TProps) => {
   const { t } = useTranslation('components', { keyPrefix: 'transactionActivityList.items' })
   const { t: tCommonGeneral } = useTranslation('common', { keyPrefix: 'general' })
+  const { accountsMapRef } = useAccountsMapSelector()
+
+  const blockchain = transaction.blockchain
 
   return (
     <ul className="flex w-full flex-col">
-      {transaction.events.map((event: TUseTransactionsTransactionDefaultEvent, index) => {
-        const { eventType, amount, methodName, from, fromUrl, fromAccount, to, toUrl, toAccount } = event
+      {transaction.events.map((event, index) => {
+        const { eventType, amount, methodName, from, fromUrl, to, toUrl } = event
 
-        const isNft = eventType === 'nft'
-        const nft = isNft ? (event.nft as TNftResponse) : undefined
-        const nftName = nft?.name
+        const fromAccount = from
+          ? accountsMapRef.current.get(SharedAccountHelper.buildAccountKey({ address: from, blockchain }))
+          : undefined
+        const toAccount = to
+          ? accountsMapRef.current.get(SharedAccountHelper.buildAccountKey({ address: to, blockchain }))
+          : undefined
 
-        const hash = isNft ? nft?.collection?.hash : event.token?.hash
-        const hashUrl = isNft ? nft?.collection?.url : event.tokenUrl
-        const isValidHash = TokenHelper.isValidTokenHash(hash)
+        let token: TBSToken | undefined
+        let nft: TNftResponse | undefined
+        let hash: string | undefined
+        let hashUrl: string | undefined
 
-        const fromName = fromAccount?.name
-        const toName = toAccount?.name
-
-        const tokenSymbol = isNft ? '' : event.token?.symbol
-        const tokenName = isNft ? '' : event.token?.name
-        const hasTokenLabel = !!tokenSymbol || !!tokenName
+        if (eventType === 'token') {
+          token = event.token
+          hash = event.token?.hash
+          hashUrl = event.tokenUrl
+        } else if (eventType === 'nft') {
+          hash = nft?.collection?.hash
+          hashUrl = nft?.collection?.url
+          nft = event.nft
+        }
 
         return (
           <li
@@ -53,7 +65,7 @@ export const TransactionActivityListItemsDefault = ({ transaction }: TProps) => 
                 label={t('columns.hashLabel')}
                 url={hashUrl}
                 data={
-                  !isValidHash ? (
+                  !hash ? (
                     tCommonGeneral('emptyColumn')
                   ) : (
                     <TransactionActivityListTooltip data={hash}>
@@ -82,7 +94,7 @@ export const TransactionActivityListItemsDefault = ({ transaction }: TProps) => 
                   !from ? (
                     tCommonGeneral('emptyColumn')
                   ) : (
-                    <TransactionActivityListItemsColumnDataAddress address={from} accountName={fromName} />
+                    <TransactionActivityListItemsColumnDataAddress address={from} accountName={fromAccount?.name} />
                   )
                 }
                 url={fromUrl}
@@ -94,63 +106,78 @@ export const TransactionActivityListItemsDefault = ({ transaction }: TProps) => 
                   !to ? (
                     tCommonGeneral('emptyColumn')
                   ) : (
-                    <TransactionActivityListItemsColumnDataAddress address={to} accountName={toName} />
+                    <TransactionActivityListItemsColumnDataAddress address={to} accountName={toAccount?.name} />
                   )
                 }
                 url={toUrl}
               />
 
-              <TransactionActivityListItemsColumn
-                label={t('columns.amountLabel')}
-                data={!amount ? tCommonGeneral('emptyColumn') : amount}
-              />
-
-              {isNft ? (
+              {eventType !== 'generic' && (
                 <Fragment>
-                  {nft?.hash && (
+                  <TransactionActivityListItemsColumn
+                    label={t('columns.amountLabel')}
+                    data={!amount ? tCommonGeneral('emptyColumn') : amount}
+                  />
+
+                  {nft ? (
+                    <Fragment>
+                      {nft?.hash && (
+                        <TransactionActivityListItemsColumn
+                          label={t('columns.tokenHashLabel')}
+                          data={
+                            <TransactionActivityListTooltip data={nft.hash}>
+                              <span className="inline-block">{StringHelper.truncateStringMiddle(nft.hash, 8)}</span>
+                            </TransactionActivityListTooltip>
+                          }
+                          url={nft.explorerUri}
+                        />
+                      )}
+
+                      {nft?.name && (
+                        <TransactionActivityListItemsColumn
+                          label={t('columns.nameLabel')}
+                          data={nft.name}
+                          url={nft.explorerUri}
+                        />
+                      )}
+
+                      {nft?.collection?.name && (
+                        <TransactionActivityListItemsColumn
+                          label={t('columns.collectionNameLabel')}
+                          data={nft.collection.name}
+                          url={nft.collection.url}
+                        />
+                      )}
+
+                      <TransactionActivityListItemsColumnNftImage nft={nft!} />
+                    </Fragment>
+                  ) : (
                     <TransactionActivityListItemsColumn
-                      label={t('columns.tokenHashLabel')}
+                      label={t('columns.tokenLabel')}
                       data={
-                        <TransactionActivityListTooltip data={nft.hash}>
-                          <span className="inline-block">{StringHelper.truncateStringMiddle(nft.hash, 8)}</span>
-                        </TransactionActivityListTooltip>
+                        !token ? (
+                          tCommonGeneral('emptyColumn')
+                        ) : (
+                          <TransactionActivityListTooltip data={(token.name || token.symbol)!}>
+                            <span className="inline-block truncate">{token.symbol || token.name}</span>
+                          </TransactionActivityListTooltip>
+                        )
                       }
-                      url={nft.explorerUri}
                     />
                   )}
-
-                  {nftName && (
-                    <TransactionActivityListItemsColumn
-                      label={t('columns.nameLabel')}
-                      data={nftName}
-                      url={nft.explorerUri}
-                    />
-                  )}
-
-                  {nft?.collection?.name && (
-                    <TransactionActivityListItemsColumn
-                      label={t('columns.collectionNameLabel')}
-                      data={nft.collection.name}
-                      url={nft.collection.url}
-                    />
-                  )}
-
-                  <TransactionActivityListItemsColumnNftImage nft={nft!} />
                 </Fragment>
-              ) : (
-                <TransactionActivityListItemsColumn
-                  label={t('columns.tokenLabel')}
-                  data={
-                    !hasTokenLabel ? (
-                      tCommonGeneral('emptyColumn')
-                    ) : (
-                      <TransactionActivityListTooltip data={(tokenName || tokenSymbol)!}>
-                        <span className="inline-block truncate">{tokenSymbol || tokenName}</span>
-                      </TransactionActivityListTooltip>
-                    )
-                  }
-                />
               )}
+
+              {eventType === 'generic' &&
+                !!event.data &&
+                Object.entries(event.data).map(([key, value]) => (
+                  <TransactionActivityListItemsColumn
+                    labelClassName="capitalize"
+                    key={t(`columnsByKey.${key}`, { defaultValue: key })}
+                    label={key}
+                    data={!value ? tCommonGeneral('emptyColumn') : value}
+                  />
+                ))}
             </div>
 
             <Separator className="h-px max-h-px min-h-px" containerClassName="group-last/item:hidden" />

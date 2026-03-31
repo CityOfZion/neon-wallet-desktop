@@ -9,7 +9,6 @@ import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelp
 import { DateHelper } from '@renderer/helpers/DateHelper'
 
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
-import type { TBlockchainServiceKey } from '@shared/types/blockchain'
 import {
   type TUseTransactionsBuildTransactionsAggregatedQueryKeyParams,
   type TUseTransactionsBuildTransactionsQueryKeyParams,
@@ -20,7 +19,6 @@ import {
 } from '@shared/types/hooks'
 import { IAccountState, TSelectedNetworks } from '@shared/types/store'
 
-import { useAccountsMapSelector } from './useAccountSelector'
 import { useSelectedNetworkByBlockchainSelector } from './useSettingsSelector'
 import { useHiddenTokensByBlockchainSelector, usePendingTransactionsSelector } from './useUtilitySelector'
 
@@ -74,7 +72,6 @@ const fetchTransactions = async (
   dateFrom: Date,
   dateTo: Date,
   accounts: IAccountState[],
-  accountsMap: Map<string, IAccountState>,
   networksByBlockchain: TSelectedNetworks,
   page: number,
   shouldUseFullTransactionsService: boolean
@@ -115,7 +112,7 @@ const fetchTransactions = async (
     let queryDataNextPageParams: TUseTransactionsQueryData['nextPageParams'] = undefined
 
     try {
-      let response: TGetTransactionsByAddressResponse<TBlockchainServiceKey>
+      let response: TGetTransactionsByAddressResponse
 
       if (hasFullTransactions(service) && shouldUseFullTransactionsService) {
         const dateNow = new Date()
@@ -143,33 +140,21 @@ const fetchTransactions = async (
           newTransaction.inputs = newTransaction.inputs.map(({ address, ...input }) => ({
             ...input,
             address,
-            account: address
-              ? accountsMap.get(SharedAccountHelper.buildAccountKey({ address, blockchain }))
-              : undefined,
           }))
 
           newTransaction.outputs = newTransaction.outputs.map(({ address, ...output }) => ({
             ...output,
             address,
-            account: address
-              ? accountsMap.get(SharedAccountHelper.buildAccountKey({ address, blockchain }))
-              : undefined,
           }))
         } else {
           newTransaction.events = newTransaction.events.map(({ from, to, ...event }) => ({
             ...event,
             from,
             to,
-            fromAccount: from
-              ? accountsMap.get(SharedAccountHelper.buildAccountKey({ address: from, blockchain }))
-              : undefined,
-            toAccount: to
-              ? accountsMap.get(SharedAccountHelper.buildAccountKey({ address: to, blockchain }))
-              : undefined,
           }))
         }
 
-        queryDataTransactions.set(transaction.txId, newTransaction)
+        queryDataTransactions.set(transaction.txId, newTransaction as TUseTransactionsTransaction)
       })
     } catch {
       /* empty */
@@ -201,7 +186,6 @@ export const useTransactions = ({
   shouldUseFullTransactionsService,
 }: TUseTransactionsProps) => {
   const queryClient = useQueryClient()
-  const { accountsMapRef } = useAccountsMapSelector()
   const { networkByBlockchain: networksByBlockchain } = useSelectedNetworkByBlockchainSelector()
   const { pendingTransactions } = usePendingTransactionsSelector()
   const { hiddenTokensByBlockchain } = useHiddenTokensByBlockchainSelector()
@@ -219,7 +203,6 @@ export const useTransactions = ({
         dateFrom,
         dateTo,
         accounts,
-        accountsMapRef.current,
         networksByBlockchain,
         page,
         shouldUseFullTransactionsService
@@ -276,10 +259,9 @@ export const useTransactions = ({
           transaction.outputs = transaction.outputs.filter(({ token }) => !isHiddenToken(token.hash))
         } else {
           transaction.events = transaction.events.filter(event => {
-            if (event.eventType === 'nft') return true
+            if (event.eventType !== 'token') return true
 
             const tokenHash = event.token?.hash
-
             if (!tokenHash) return true
 
             return !isHiddenToken(tokenHash)

@@ -7,8 +7,8 @@ export class TransactionHelper {
     account,
     senderAccount,
     receiverAccounts,
-  }: TTransactionHelperBuildPendingTransactionParams): TUseTransactionsTransaction {
-    const pendingTransaction: TUseTransactionsTransaction = {
+  }: TTransactionHelperBuildPendingTransactionParams) {
+    const pendingTransaction = {
       ...transaction,
       account,
       isPending: true,
@@ -29,6 +29,6 @@ export class TransactionHelper {
       }))
     }
 
-    return pendingTransaction
+    return pendingTransaction as TUseTransactionsTransaction
   }
 }

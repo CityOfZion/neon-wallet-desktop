@@ -1,3 +1,5 @@
+import { isClaimable } from '@cityofzion/blockchain-service'
+
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
@@ -7,8 +9,13 @@ import { createAppSelector, useAppSelector } from './useRedux'
 
 const selectHasClaimPendingTransaction = (account: IAccountState) =>
   createAppSelector([state => state.utility.memoryData.pendingTransactions], pendingTransactions => {
+    const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[account.blockchain]
+
     return pendingTransactions.some(
-      transaction => transaction.type === 'claim' && SharedAccountHelper.predicate(account)(transaction.account)
+      transaction =>
+        isClaimable(service) &&
+        service.claimService.getTransactionData(transaction) &&
+        SharedAccountHelper.predicate(account)(transaction.data)
     )
   })
 

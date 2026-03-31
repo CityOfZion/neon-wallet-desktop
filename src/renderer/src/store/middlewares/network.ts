@@ -27,7 +27,11 @@ export function getNetworkMiddleware() {
       if (!selectedNetworkProfile) return
 
       services.forEach(service => {
-        service.setNetwork(selectedNetworkProfile.networkByBlockchain[service.name])
+        try {
+          service.setNetwork(selectedNetworkProfile.networkByBlockchain[service.name])
+        } catch {
+          // Do nothing, This catch is just to prevent the one service from breaking the others in case of an error.
+        }
       })
     },
   })

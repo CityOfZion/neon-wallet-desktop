@@ -73,7 +73,7 @@ export const NftGallery = ({ account, nfts }: TProps) => {
               )}
 
               <div className="mt-1 flex items-center gap-1.5">
-                <BlockchainIcon blockchain={account.blockchain} type="gray" className="mt-0.5 size-3 opacity-60" />
+                <BlockchainIcon blockchain={account.blockchain} className="mt-0.5 size-3 text-gray-100 opacity-60" />
 
                 <span className="w-20 truncate text-xs 2xl:w-36">{photo.title}</span>
               </div>

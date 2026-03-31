@@ -2,8 +2,6 @@ import { useState } from 'react'
 
 import { BSError } from '@cityofzion/blockchain-service'
 import { Neo3NeoXBridgeOrchestrator } from '@cityofzion/bs-multichain'
-import { BSNeo3 } from '@cityofzion/bs-neo3'
-import { BSNeoX } from '@cityofzion/bs-neox'
 import { useTranslation } from 'react-i18next'
 
 import { Details } from '@renderer/components/Details'
@@ -27,7 +25,6 @@ import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
 import TbReplace2 from '@renderer/assets/images/tb-replace-2.svg?react'
 import TbRosetteDiscountCheck from '@renderer/assets/images/tb-rosette-discount-check.svg?react'
 
-import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import type { TModalState } from '@shared/types/modal'
 
 type TBridgeStatus = 'confirming' | 'completed' | 'error'
@@ -69,8 +66,8 @@ const Neo3NeoxBridgeDetailsModal = () => {
       tokenToUse,
       tokenToReceive,
       transactionHash,
-      neo3Service: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.neo3 as BSNeo3<TBlockchainServiceKey>,
-      neoXService: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.neox as BSNeoX<TBlockchainServiceKey>,
+      neo3Service: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.neo3,
+      neoXService: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.neox,
     })
       .then(() => {
         setStatus('completed')

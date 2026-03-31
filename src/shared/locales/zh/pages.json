@@ -168,6 +168,52 @@
     },
     "title": "跨链"
   },
+  "neo3Vote": {
+    "availableVotes": {
+      "availableVotesLabel": "可用选票",
+      "noAvailableVotesLabel": "不要投票"
+    },
+    "changeNeo3AccountLabel": "改变",
+    "createNeo3AccountLabel": "目前还没有 Neo 3 账号，请创建一个。",
+    "list": {
+      "actionsColumnLabel": "行动",
+      "castVoteColumnLabel": "投票",
+      "nameColumnLabel": "候选人",
+      "positionColumnLabel": "位置",
+      "pubKeyColumnLabel": "公钥",
+      "votesColumnLabel": "总票数"
+    },
+    "listItem": {
+      "castVoteButtonLabel": "投票",
+      "detailsButtonLabel": "候选人信息",
+      "yourVoteButtonLabel": "你的投票"
+    },
+    "noAccountSelectedLabel": "未选择账户",
+    "notFound": {
+      "text": "没有候选人可供投票，或者获取候选人信息时出现问题。请检查您的 Neo 3 网络，然后重试。",
+      "title": "暂无候选人可供显示"
+    },
+    "searchLabel": "搜索",
+    "searchPlaceholder": "寻找候选人……",
+    "selectNeo3AccountLabel": "选择",
+    "sideBar": {
+      "aboutNeoLabel": "你持有的NEO数量等于你可以投给候选人的票数。",
+      "noteLabel": "注意：不投票，您将无法享受这项福利。",
+      "sellNeoAlert": "如果您出售您的 NEO，您的投票数将减少您出售的数量，您的 GAS 奖励也将按比例减少。",
+      "title": "它是如何运作的？",
+      "whyVoteDescription": "通过投票，您积极参与了 NEO 生态系统，并因此有资格获得 GAS 作为持有者的福利。",
+      "whyVoteTitle": "为什么要投票？"
+    },
+    "subtitle": "选择候选人",
+    "title": "表决",
+    "voteErrorMessages": {
+      "accountCanNotBeWatchLabel": "您的 Neo 3 帐户处于监视模式",
+      "selectNeo3AccountLabel": "选择一个 Neo 3 帐户",
+      "shouldHaveEnoughGasToPayFeeLabel": "你的汽油不够支付这笔费用",
+      "shouldUseMainnetLabel": "你应该使用主网进行投票。",
+      "thereIsNoNeoLabel": "您的 Neo 3 帐户应该有 NEO"
+    }
+  },
   "portfolio": {
     "allAccounts": "所有账户",
     "allActivity": "所有活动",
@@ -488,52 +534,6 @@
     },
     "title": "兑换代币"
   },
-  "voteNeo3": {
-    "availableVotes": {
-      "availableVotesLabel": "可用票数",
-      "noAvailableVotesLabel": "无可用票数"
-    },
-    "changeNeo3AccountLabel": "更改",
-    "createNeo3AccountLabel": "没有Neo 3账户，请创建一个",
-    "list": {
-      "actionsColumnLabel": "操作",
-      "castVoteColumnLabel": "投票",
-      "nameColumnLabel": "候选人",
-      "positionColumnLabel": "排名",
-      "pubKeyColumnLabel": "公钥",
-      "votesColumnLabel": "总票数"
-    },
-    "listItem": {
-      "castVoteButtonLabel": "投票",
-      "detailsButtonLabel": "候选人信息",
-      "yourVoteButtonLabel": "您的投票"
-    },
-    "noAccountSelectedLabel": "未选择账户",
-    "notFound": {
-      "text": "没有可投票的候选人或获取候选人时出现问题。请检查您的Neo 3网络并重试。",
-      "title": "暂无候选人"
-    },
-    "searchLabel": "搜索",
-    "searchPlaceholder": "搜索候选人…",
-    "selectNeo3AccountLabel": "选择",
-    "sideBar": {
-      "aboutNeoLabel": "您持有的NEO数量等于您可投的票数。",
-      "noteLabel": "注意：不投票将无法获得此奖励。",
-      "sellNeoAlert": "如果您出售NEO，您的票数和GAS奖励将相应减少",
-      "title": "它是如何工作的？",
-      "whyVoteDescription": "通过投票，您积极参与NEO生态系统，并有资格获得GAS作为持有者奖励。",
-      "whyVoteTitle": "为什么要投票？"
-    },
-    "subtitle": "选择候选人",
-    "title": "投票",
-    "voteErrorMessages": {
-      "accountCanNotBeWatchLabel": "您的Neo 3账户为只读模式",
-      "selectNeo3AccountLabel": "请选择Neo 3账户",
-      "shouldHaveEnoughGasToPayFeeLabel": "您的GAS余额不足以支付手续费",
-      "shouldUseMainnetLabel": "您需使用主网进行投票",
-      "thereIsNoNeoLabel": "您的Neo 3账户需持有NEO"
-    }
-  },
   "wallets": {
     "accountConnections": {
       "disconnectAll": "全部断开",
@@ -575,9 +575,10 @@
     "hardwareWalletConnectBadge": "硬件钱包已连接",
     "importButtonLabel": "导入",
     "neo3NeoXBridgeButtonLabel": "跨链",
+    "neo3VoteButtonLabel": "投票",
     "newWalletButtonLabel": "新钱包",
-    "title": "钱包",
-    "voteNeo3ButtonLabel": "投票"
+    "stellarTrustlineButtonLabel": "信任线",
+    "title": "钱包"
   },
   "welcome": {
     "card1": {

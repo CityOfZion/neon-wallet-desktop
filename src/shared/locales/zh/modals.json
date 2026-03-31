@@ -509,6 +509,78 @@
     "toDetailsPanelLabel": "目标",
     "toTokenDetailsItemLabel": "代币"
   },
+  "neo3VoteCandidateDetails": {
+    "accountCanNotBeWatchTitle": "使用非 Watch Neo 3 帐户",
+    "castVoteButtonLabel": "请投票给这位候选人",
+    "descriptionLabel": "描述",
+    "insufficientGasDescription": "将燃气转入此账户或更改账户以继续操作。",
+    "insufficientGasTitle": "您的 GAS 余额不足以支付投票费。",
+    "nameLabel": "候选人",
+    "positionLabel": "当前职位",
+    "pubKeyLabel": "公钥",
+    "selectNeo3AccountTitle": "选择一个 Neo 3 帐户继续",
+    "thereIsNoNeoTitle": "这个 Neo 3 账户里没有 NEO。",
+    "title": "候选人信息",
+    "voteAlreadyCastButtonLabel": "投票已完成",
+    "votesLabel": "总票数"
+  },
+  "neo3VoteConfirmation": {
+    "accountNameLabel": "帐户名称",
+    "addressLabel": "地址",
+    "candidateLabel": "候选人",
+    "confirmationButtonLabel": "确认您的投票",
+    "contributeLabel": "详尽的提案调研和明智的投票实践至关重要。该系统采用可靠的验证机制和清晰的流程，使个人能够为NEO生态系统的增长和发展做出有意义的贡献。",
+    "detailsLabel": "投票详情",
+    "feeLabel": "总费用",
+    "importanceLabel": "作为代币持有者，您可以影响重要的协议决策，从而使网络的发展路径符合社区的利益。",
+    "messages": {
+      "invalidHardwareWallet": "要继续进行此操作，请确保您的硬件钱包已解锁。",
+      "voteError": "投票出错，请重试。"
+    },
+    "notifications": {
+      "voteFailureNotification": {
+        "previewBody": "我们无法核实您的投票是否已完成。",
+        "title": "投票失败"
+      },
+      "voteSuccessNotification": {
+        "previewBody": "您的投票已成功完成。",
+        "title": "投票已完成"
+      }
+    },
+    "pubKeyLabel": "公钥",
+    "title": "请核对您的投票",
+    "voteErrorMessages": {
+      "canNotPayGasFeeLabel": "你无法支付燃气费",
+      "noNeoLabel": "你没有足够的NEO币来使用这个Neo 3账户进行投票。",
+      "watchAccountLabel": "您的 Neo 3 帐户处于观看模式"
+    },
+    "votesLabel": "票数"
+  },
+  "neo3VoteSuccess": {
+    "accountLabel": "帐户名称",
+    "addressLabel": "地址",
+    "listLabel": "你的投票",
+    "nameLabel": "候选人",
+    "publicKeyLabel": "公钥",
+    "subtitle": "您的投票已成功！",
+    "title": "请核对您的投票",
+    "viewTransactionButtonLabel": "查看交易",
+    "votesLabel": "票数"
+  },
+  "neo3VoteSupportUs": {
+    "aboutNeonWalletDescription": "作为 Neon Wallet 用户和代币持有者，您可以影响重要的协议决策，从而使网络的发展路径符合您的利益。",
+    "cozLogoAlt": "COZ标志",
+    "cozTeamLabel": "COZ团队。",
+    "dontShowAgainLabel": "不要再次显示",
+    "hiLabel": "你好呀！",
+    "importantThingsLabel": "详细的提案调研和明智的投票策略至关重要。",
+    "scanOurWebsite": "如果您还不知道我们是谁，请花点时间查看<1>我们的网站</1>。",
+    "skipButtonLabel": "跳过",
+    "thankYouLabel": "谢谢你！",
+    "title": "想支持我们吗？",
+    "voteForCozButtonLabel": "请为 COZ 投票",
+    "youCanSupportUsLabel": "如果您喜欢使用 Neon 或我们的任何其他产品，您可以投票支持我们，以帮助推动我们的发展。"
+  },
   "networkSelection": {
     "addCustomNetworkButtonLabel": "添加自定义网络",
     "editCustomNetworkButtonLabel": "编辑自定义网络",
@@ -677,6 +749,38 @@
     },
     "title": "发起存款"
   },
+  "stellarPersistTrustlines": {
+    "addButtonLabel": "添加信任线",
+    "addDescription": "要添加此信任线，请提供必要信息。",
+    "addErrorToastMessage": "添加信任线失败",
+    "addSuccessToastMessage": "Trustline 已成功添加。",
+    "addTitle": "添加信任线",
+    "editButtonLabel": "保存更改",
+    "editDescription": "如需编辑此信任线，请提供必要信息。",
+    "editErrorToastMessage": "更新信任线失败",
+    "editSuccessToastMessage": "Trustline 已成功编辑",
+    "editTitle": "编辑信任线",
+    "errors": {
+      "invalidLimit": "无效限制",
+      "invalidToken": "无效令牌",
+      "validation": "请提供有效信息以继续。"
+    },
+    "failureNotification": {
+      "previewBody": "我们无法验证您的信任线是否已完成",
+      "title": "更改信任线失败"
+    },
+    "limitLabel": "限制（可选）",
+    "successNotification": {
+      "previewBody": "您的信任线已成功更改",
+      "title": "变更信任线已完成"
+    },
+    "tokenLabel": "令牌"
+  },
+  "stellarTrustlines": {
+    "addTrustlineButtonLabel": "添加信任线",
+    "emptyMessage": "未找到信任线",
+    "title": "信任线"
+  },
   "supportTicket": {
     "cancelButtonLabel": "取消",
     "descriptionLabel": "描述",
@@ -729,77 +833,5 @@
     "copySwapLog": "复制兑换日志到剪贴板",
     "thereIsNoLog": "暂无兑换日志",
     "title": "兑换日志"
-  },
-  "voteNeo3CandidateDetails": {
-    "accountCanNotBeWatchTitle": "请使用非观察模式的Neo 3账户",
-    "castVoteButtonLabel": "为此候选人投票",
-    "descriptionLabel": "简介",
-    "insufficientGasDescription": "请为此账户转入GAS或更换账户后再试。",
-    "insufficientGasTitle": "您的GAS不足以支付投票手续费。",
-    "nameLabel": "候选人",
-    "positionLabel": "当前职位",
-    "pubKeyLabel": "公钥",
-    "selectNeo3AccountTitle": "请选择Neo 3账户以继续",
-    "thereIsNoNeoTitle": "此Neo 3账户中没有NEO",
-    "title": "候选人信息",
-    "voteAlreadyCastButtonLabel": "已投票",
-    "votesLabel": "总票数"
-  },
-  "voteNeo3Confirmation": {
-    "accountNameLabel": "账户名称",
-    "addressLabel": "地址",
-    "candidateLabel": "候选人",
-    "confirmationButtonLabel": "确认投票",
-    "contributeLabel": "详细的提案研究和明智的投票行为非常重要。系统采用可靠的验证和清晰的流程，让个人能为NEO生态系统的成长和发展做出有意义的贡献。",
-    "detailsLabel": "投票详情",
-    "feeLabel": "总手续费",
-    "importanceLabel": "作为代币持有者，您可以影响重要的协议决策，使网络的发展方向符合社区利益。",
-    "messages": {
-      "invalidHardwareWallet": "请确保您的硬件钱包已解锁以继续操作",
-      "voteError": "投票时发生错误，请重试"
-    },
-    "notifications": {
-      "voteFailureNotification": {
-        "previewBody": "我们无法确认您的投票已完成",
-        "title": "投票失败"
-      },
-      "voteSuccessNotification": {
-        "previewBody": "您的投票已成功完成",
-        "title": "投票完成"
-      }
-    },
-    "pubKeyLabel": "公钥",
-    "title": "请审核并确认您的投票",
-    "voteErrorMessages": {
-      "canNotPayGasFeeLabel": "您无法支付GAS手续费",
-      "noNeoLabel": "您的Neo 3账户NEO余额不足，无法投票",
-      "watchAccountLabel": "您的Neo 3账户为观察模式"
-    },
-    "votesLabel": "投票数量"
-  },
-  "voteNeo3Success": {
-    "accountLabel": "账户名称",
-    "addressLabel": "地址",
-    "listLabel": "您的投票",
-    "nameLabel": "候选人",
-    "publicKeyLabel": "公钥",
-    "subtitle": "您的投票已成功提交！",
-    "title": "审核并确认您的投票",
-    "viewTransactionButtonLabel": "查看交易",
-    "votesLabel": "投票数量"
-  },
-  "voteNeo3SupportUs": {
-    "aboutNeonWalletDescription": "作为Neon钱包用户和代币持有者，您可以影响重要的协议决策，使网络的发展方向符合您的利益。",
-    "cozLogoAlt": "COZ标志",
-    "cozTeamLabel": "COZ团队。",
-    "dontShowAgainLabel": "不再显示",
-    "hiLabel": "您好！",
-    "importantThingsLabel": "详细的提案研究和明智的投票行为非常重要。",
-    "scanOurWebsite": "如果您还不了解我们，请花一点时间浏览<1>我们的网站</1>。",
-    "skipButtonLabel": "跳过",
-    "thankYouLabel": "谢谢！",
-    "title": "愿意支持我们吗？",
-    "voteForCozButtonLabel": "为COZ投票",
-    "youCanSupportUsLabel": "如果您喜欢使用Neon或我们的其他产品，欢迎您投票支持我们，助力我们的开发。"
   }
 }

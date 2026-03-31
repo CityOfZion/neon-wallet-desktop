@@ -84,9 +84,9 @@ export const functionsByActionId: TFunctionsByActionId = {
   exportFullTransactions: async ({ modalActions }) => {
     modalActions.modalNavigate('export-full-transactions', { replace: true })
   },
-  voteNeo3: async ({ modalActions, pageNavigate }) => {
+  neo3Vote: async ({ modalActions, pageNavigate }) => {
     modalActions.modalErase()
-    pageNavigate('/vote-neo3')
+    pageNavigate('/neo3-vote')
   },
   neo3NeoXBridge: async ({ modalActions, pageNavigate }) => {
     modalActions.modalErase()

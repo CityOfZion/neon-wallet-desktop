@@ -58,7 +58,7 @@ export const NftList = ({ account, nfts }: TProps) => {
                 <span className="text-blue">{nft.hash}</span>
 
                 <div className="flex items-center gap-1.5">
-                  <BlockchainIcon blockchain={account.blockchain} type="gray" className="size-3 opacity-60" />
+                  <BlockchainIcon blockchain={account.blockchain} className="size-3 text-gray-100 opacity-60" />
                   <span className="text-xs text-gray-300">{tCommonBlockchain(account.blockchain)}</span>
                 </div>
               </div>

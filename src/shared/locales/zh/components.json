@@ -74,9 +74,6 @@
     "noContacts": "没有联系人",
     "search": "搜索"
   },
-  "dragRegion": {
-    "toggleDevToolsMenuLabel": "切换开发者工具"
-  },
   "fieldActionsMenu": {
     "copy": "复制",
     "cut": "剪切",
@@ -123,6 +120,11 @@
     "emptyDate": "--:--",
     "lastUpdated": "最后更新：{{ date }}",
     "refreshLabel": "刷新"
+  },
+  "searchableToken": {
+    "emptyMessage": "输入搜索词条",
+    "notFoundMessage": "未找到令牌",
+    "placeholder": "选择令牌…"
   },
   "sidebar": {
     "buyAndSellTokens": "买卖",
@@ -177,6 +179,10 @@
         "tokenHashLabel": "代币哈希",
         "tokenLabel": "代币"
       },
+      "columnsByKey": {
+        "limit": "限制",
+        "token": "令牌"
+      },
       "copyAddressButtonLabel": "复制地址",
       "copyTxIdLabel": "复制交易 ID",
       "invocationCountLabel": "调用",
@@ -198,10 +204,14 @@
     "title": "交易手续费"
   },
   "transactionsTableEmpty": {
-    "connectDappLabel": "连接 dApp",
-    "importAccountLabel": "导入账户",
-    "subtitle": "您的钱包兼容 Neo、Gas 和以太坊资产",
-    "title": "您的钱包目前为空，何不添加一些资产或连接 dApp？"
+    "connectDappButtonLabel": "连接 dApp",
+    "description": "<1>{{name}}</1> 需要您的许可",
+    "faucetButtonLabel": "龙头",
+    "receiveTokensButtonLabel": "添加令牌",
+    "stellarSubtitle": "要开始使用此账户，请至少充值 1 个 XLM。<1>了解更多关于创建 Stellar 账户的信息</1>",
+    "subtitleNonWatch": "为什么不添加一些资源或者连接一个去中心化应用（dApp）呢？",
+    "subtitleNonWatchWithoutDapp": "为什么不增加一些资产呢？",
+    "title": "您的账户目前为空。"
   },
   "walletAccordionList": {
     "noAccounts": "没有账户"

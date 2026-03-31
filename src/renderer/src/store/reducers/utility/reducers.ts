@@ -2,7 +2,6 @@ import { CaseReducer, PayloadAction } from '@reduxjs/toolkit'
 import { cloneDeep } from 'lodash'
 
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
-import { TokenHelper } from '@renderer/helpers/TokenHelper'
 
 import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { SharedI18nextHelper } from '@shared/helpers/SharedI18nextHelper'
@@ -79,11 +78,12 @@ const setUnlockedSkinIds: CaseReducer<IUtilityReducer, PayloadAction<string[]>> 
 const toggleHiddenToken: CaseReducer<IUtilityReducer, PayloadAction<THiddenTokenParams>> = (state, action) => {
   const { hash, blockchain } = action.payload
 
-  if (TokenHelper.isNativeToken(hash, blockchain)) {
+  const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
+
+  if (service.tokenService.isNativeToken(hash)) {
     throw new AppError(t('errors.unexpectedError'))
   }
 
-  const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
   const normalizedHash = service.tokenService.normalizeHash(hash)
   const hiddenTokens = cloneDeep(state.data.hiddenTokensByBlockchain[blockchain] ?? [])
   const index = hiddenTokens.findIndex(tokenHash => service.tokenService.predicateByHash(normalizedHash, tokenHash))

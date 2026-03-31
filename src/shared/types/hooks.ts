@@ -3,9 +3,6 @@ import { FormEvent, MouseEvent } from 'react'
 import type {
   TGetTransactionsByAddressResponse,
   TTransactionDefault,
-  TTransactionInputOutput,
-  TTransactionNftEvent,
-  TTransactionTokenEvent,
   TTransactionUtxo,
 } from '@cityofzion/blockchain-service'
 import zod from 'zod'
@@ -19,6 +16,7 @@ import {
   type TUseCreateWalletParams,
 } from '@shared/types/blockchain'
 
+import type { TUseBalanceResult } from './query'
 import type { IAccountState, IContactState, TSelectedNetworks, TSwapRecord } from './store'
 
 export type TUseActionsData = Record<string, any>
@@ -66,46 +64,25 @@ export type TUseTransactionsProps = {
   shouldUseFullTransactionsService: boolean
 }
 
-type TUseTransactionsTransactionDefaultEventBase = {
-  fromAccount?: IAccountState
-  toAccount?: IAccountState
-}
-
-export type TUseTransactionsTransactionDefaultEventToken = TTransactionTokenEvent &
-  TUseTransactionsTransactionDefaultEventBase
-
-export type TUseTransactionsTransactionDefaultEventNft = TTransactionNftEvent &
-  TUseTransactionsTransactionDefaultEventBase
-
-export type TUseTransactionsTransactionDefaultEvent =
-  | TUseTransactionsTransactionDefaultEventToken
-  | TUseTransactionsTransactionDefaultEventNft
-
-export type TUseTransactionsTransactionUtxoInputOutput = TTransactionInputOutput & {
-  account?: IAccountState
-}
-
-type TUseTransactionsTransactionBase = {
-  account: IAccountState
-  blockchain: TBlockchainServiceKey
+type TUseTransactionsTransactionBase<N extends TBlockchainServiceKey = TBlockchainServiceKey> = {
+  account: IAccountState<N>
+  blockchain: N
   isPending: boolean
 }
 
-export type TUseTransactionsTransactionDefault = TTransactionDefault<TBlockchainServiceKey> &
-  TUseTransactionsTransactionBase & { events: TUseTransactionsTransactionDefaultEvent[] }
+export type TUseTransactionsTransactionDefault<N extends TBlockchainServiceKey = TBlockchainServiceKey> =
+  TTransactionDefault & TUseTransactionsTransactionBase<N>
 
-export type TUseTransactionsTransactionUtxo = TTransactionUtxo<TBlockchainServiceKey> &
-  TUseTransactionsTransactionBase & {
-    inputs: TUseTransactionsTransactionUtxoInputOutput[]
-    outputs: TUseTransactionsTransactionUtxoInputOutput[]
-  }
+export type TUseTransactionsTransactionUtxo<N extends TBlockchainServiceKey = TBlockchainServiceKey> =
+  TTransactionUtxo & TUseTransactionsTransactionBase<N>
 
-export type TUseTransactionsTransaction = TUseTransactionsTransactionDefault | TUseTransactionsTransactionUtxo
+export type TUseTransactionsTransaction = TBlockchainServiceKey extends infer N
+  ? N extends TBlockchainServiceKey
+    ? TUseTransactionsTransactionDefault<N> | TUseTransactionsTransactionUtxo<N>
+    : never
+  : never
 
-export type TUseTransactionsQueryData = Omit<
-  TGetTransactionsByAddressResponse<TBlockchainServiceKey>,
-  'transactions'
-> & {
+export type TUseTransactionsQueryData = Omit<TGetTransactionsByAddressResponse, 'transactions'> & {
   transactions: Map<string, TUseTransactionsTransaction>
 }
 
@@ -171,4 +148,29 @@ export type TUseNeonBackupGeneratedData = {
   wallets: TCreateWalletAndAccountParam[]
   swapRecords?: TSwapRecord[]
   contacts?: IContactState[]
+}
+
+export type TUseNeo3VoteCalculateVoteFeeParams = {
+  neo3Account?: IAccountState<'neo3'>
+  candidatePubKey: string
+}
+
+export type TUseNeo3VoteValidationsParams = {
+  balanceQuery: TUseBalanceResult
+  gasFee?: string
+}
+
+export type TUseNeo3VoteBuildGetCandidatesToVoteQueryKeyParams = {
+  neo3Network: TNetwork
+}
+
+export type TUseNeo3VoteBuildGetVoteDetailsByAddressQueryKeyParams = {
+  neo3Network: TNetwork
+  address?: string
+}
+
+export type TUseNeo3VoteBuildCalculateVoteFeeQueryKeyParams = {
+  neo3Network: TNetwork
+  candidatePubKey: string
+  neo3Account?: IAccountState
 }

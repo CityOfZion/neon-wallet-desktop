@@ -73,7 +73,7 @@ const MnemonicOrKeyAccountSelectionAccordion = ({
           <Accordion.Trigger className="border-none">
             <div className="flex grow items-center justify-between">
               <div className="flex items-center gap-x-2.5 px-2 text-sm text-white">
-                <BlockchainIcon blockchain={blockchain} type="white" />
+                <BlockchainIcon blockchain={blockchain} className="text-white" />
                 {tCommon(`blockchain.${blockchain}`)}
               </div>
 
