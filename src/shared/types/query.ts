@@ -103,3 +103,14 @@ export type TUseWalletConnectSessionsResult = SessionTypes.Struct & {
   details: TWalletKitHelperSessionDetails
   account: IAccountState
 }
+
+export type TNewsArticle = {
+  id: number
+  title: string
+  body: string
+  is_published: boolean
+  created_at: string
+  updated_at: string
+  // TODO: the property below currently doesn't exist in the response, but is expected to be added, and a default image will be used if it's not present
+  previewImage: string
+}

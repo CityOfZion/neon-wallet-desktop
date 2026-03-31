@@ -597,6 +597,11 @@
     "selectAutomaticallyLabel": "Automatisch auswählen",
     "title": "Netzwerk-URL-Auswahl"
   },
+  "news": {
+    "dontShowAgainLabel": "Nicht mehr anzeigen",
+    "noArticlesMessage": "Es gibt derzeit keine Nachrichtenartikel. Bitte schauen Sie später wieder vorbei!",
+    "title": "Neueste Nachrichten"
+  },
   "nftSelection": {
     "description": "Bitte wählen Sie aus, welches Bild Sie für diese Kontokarte verwenden möchten.",
     "emptyList": "Keine NFTs gefunden",

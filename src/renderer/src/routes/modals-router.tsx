@@ -118,6 +118,7 @@ const SearchModal = lazy(() => import('./modals/Search'))
 const Neo3VoteConfirmationModal = lazy(() => import('./modals/Neo3VoteConfirmation'))
 const Neo3VoteSuccessModal = lazy(() => import('./modals/Neo3VoteSuccess'))
 const Neo3VoteSupportUsModal = lazy(() => import('./modals/Neo3VoteSupportUs'))
+const NewsModal = lazy(() => import('./modals/News'))
 
 const centerModalsRouter: TRoute[] = [
   { name: 'auto-update-completed', element: AutoUpdateCompletedModal },
@@ -136,6 +137,7 @@ const centerModalsRouter: TRoute[] = [
   { name: 'neo3-vote-confirmation', element: Neo3VoteConfirmationModal },
   { name: 'neo3-vote-success', element: Neo3VoteSuccessModal },
   { name: 'neo3-vote-support-us', element: Neo3VoteSupportUsModal },
+  { name: 'news', element: NewsModal },
 ]
 
 export const modalsRouter = [sideModalsRouter, centerModalsRouter]

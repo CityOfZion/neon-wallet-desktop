@@ -11,8 +11,6 @@ import { SettingsLayout } from '@renderer/layouts/Settings'
 
 import TbExternalLink from '@renderer/assets/images/tb-external-link.svg?react'
 
-import 'github-markdown-css/github-markdown.css'
-
 const SettingsReleaseNotesPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'settings.settingsReleaseNotes' })
   const { t: tChangelog } = useTranslation('changelog')

@@ -164,6 +164,10 @@ const setShowSideBar: CaseReducer<ISettingsReducer, PayloadAction<boolean>> = (s
   state.data.showSideBar = action.payload
 }
 
+const setShowNewsModal: CaseReducer<ISettingsReducer, PayloadAction<boolean>> = (state, action) => {
+  state.data.showNewsModal = action.payload
+}
+
 export const settingsSliceReducers = {
   setEncryptedLoginControl,
   setHasPassword,
@@ -181,4 +185,5 @@ export const settingsSliceReducers = {
   setSelectNetworkProfile,
   setCanShowNeo3VoteSupportUsModalAgain,
   setShowSideBar,
+  setShowNewsModal,
 }

@@ -214,6 +214,19 @@
       "thereIsNoNeoLabel": "您的 Neo 3 帐户应该有 NEO"
     }
   },
+  "news": {
+    "articlesTitle": "文章",
+    "noArticlesMessage": "当前没有新闻文章可显示，请稍后再来！",
+    "showModalOnLoginLabel": "登录时显示最新消息",
+    "sortDateAscending": "日期 - 升序",
+    "sortDateDescending": "日期 - 降序",
+    "title": "最新消息",
+    "viewArticle": {
+      "backToNewsButtonLabel": "返回新闻首页",
+      "nextArticleButtonLabel": "下一篇文章",
+      "previousArticleButtonLabel": "上一篇文章"
+    }
+  },
   "portfolio": {
     "allAccounts": "所有账户",
     "allActivity": "所有活动",

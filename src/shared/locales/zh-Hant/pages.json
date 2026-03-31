@@ -214,6 +214,19 @@
       "thereIsNoNeoLabel": "您的 Neo 3 帳戶應該有 NEO"
     }
   },
+  "news": {
+    "articlesTitle": "文章",
+    "noArticlesMessage": "目前沒有新聞文章可顯示，請稍後再來！",
+    "showModalOnLoginLabel": "登入時顯示最新消息",
+    "sortDateAscending": "日期 - 升序",
+    "sortDateDescending": "日期 - 降序",
+    "title": "最新消息",
+    "viewArticle": {
+      "backToNewsButtonLabel": "返回新聞首頁",
+      "nextArticleButtonLabel": "下一篇文章",
+      "previousArticleButtonLabel": "上一篇文章"
+    }
+  },
   "portfolio": {
     "allAccounts": "所有帳戶",
     "allActivity": "所有活動",

@@ -597,6 +597,11 @@
     "selectAutomaticallyLabel": "自動選擇",
     "title": "網路URL選擇"
   },
+  "news": {
+    "dontShowAgainLabel": "不再顯示",
+    "noArticlesMessage": "目前沒有新聞文章可顯示，請稍後再來！",
+    "title": "最新消息"
+  },
   "nftSelection": {
     "description": "請選擇您想用於此帳戶卡片的圖片。",
     "emptyList": "找不到 NFT",

@@ -597,6 +597,11 @@
     "selectAutomaticallyLabel": "Select automatically",
     "title": "Network URL selection"
   },
+  "news": {
+    "dontShowAgainLabel": "Don't show this again",
+    "noArticlesMessage": "There are no news articles to display at the moment. Please check back later!",
+    "title": "Latest news"
+  },
   "nftSelection": {
     "description": "Please select which image you would like to use for this account card.",
     "emptyList": "No NFTs found",

@@ -409,6 +409,7 @@ type TModalRouterCenterRouteTypes = {
   'neo3-vote-support-us': TNeo3VoteSupportUsModalState
   'stellar-trustlines': TStellarTrustlinesModalState
   'stellar-persist-trustlines': TStellarPersistTrustlineModalState
+  news: undefined
 }
 
 export type TModalRouterRouteTypes = TModalRouterSideRouteTypes & TModalRouterCenterRouteTypes
