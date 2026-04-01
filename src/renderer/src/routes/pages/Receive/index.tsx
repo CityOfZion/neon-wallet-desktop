@@ -8,12 +8,12 @@ import { MainLayout } from '@renderer/layouts/Main'
 
 import TbStepInto from '@renderer/assets/images/tb-step-into.svg?react'
 
-import { IAccountState } from '@shared/types/store'
+import { TAccount } from '@shared/types/store'
 
 import { ReceivePageContent } from './ReceivePageContent'
 
 type TLocationState = {
-  account?: IAccountState
+  account?: TAccount
 }
 
 const ReceiveYourAddress = () => {

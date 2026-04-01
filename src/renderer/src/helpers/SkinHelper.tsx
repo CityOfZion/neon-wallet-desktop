@@ -40,7 +40,7 @@ export class SkinHelper {
     const newIndex = index ?? NumberHelper.getRandomNumber(7)
     const skinIds = Array.from(this.accountColorSkins.keys())
 
-    return this.accountColorSkins.get(skinIds[newIndex])?.id ?? this.accountColorSkins.get(skinIds[0])!.id
+    return this.accountColorSkins.get(skinIds[newIndex])?.id || this.accountColorSkins.get(skinIds[0])!.id
   }
 
   static generateColorSkin(colorIndex?: number): TColorSkin {

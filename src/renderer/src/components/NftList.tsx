@@ -6,11 +6,11 @@ import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 
 import TbChevronRight from '@renderer/assets/images/tb-chevron-right.svg?react'
 
-import { IAccountState } from '@shared/types/store'
+import { TAccount } from '@shared/types/store'
 
 type TProps = {
   nfts: TNftResponse[]
-  account: IAccountState
+  account: TAccount
 }
 
 export const NftList = ({ account, nfts }: TProps) => {

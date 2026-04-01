@@ -115,7 +115,7 @@ export const CenterModalLayout = ({
             className
           )}
         >
-          {headerComponent ?? (
+          {headerComponent || (
             <header className={StyleHelper.mergeStyles('flex items-center pt-5 pb-2.5', headerClassName)}>
               <div className="flex grow items-center gap-2.5">
                 {groupIndex > 0 && (

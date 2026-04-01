@@ -14,7 +14,7 @@ import { useNfts } from '@renderer/hooks/useNfts'
 import MdFormatListBulleted from '@renderer/assets/images/md-format-list-bulleted.svg?react'
 import MdGridView from '@renderer/assets/images/md-grid-view.svg?react'
 
-import { IAccountState } from '@shared/types/store'
+import { TAccount } from '@shared/types/store'
 
 import { AccountDetailsLayout } from '../AccountDetailsLayout'
 
@@ -24,7 +24,7 @@ enum ENftViewOption {
 }
 
 type TOutletContext = {
-  account: IAccountState
+  account: TAccount
 }
 
 const AccountNftList = () => {

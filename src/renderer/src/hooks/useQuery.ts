@@ -23,7 +23,7 @@ export function useLastUpdated(filters?: QueryFilters) {
       const queries = queryCache.findAll(filters)
       const sortedQueries = queries.sort((a, b) => b.state.dataUpdatedAt - a.state.dataUpdatedAt)
 
-      return sortedQueries?.[0]?.state?.dataUpdatedAt ?? 0
+      return sortedQueries?.[0]?.state?.dataUpdatedAt || 0
     }
   )
 }

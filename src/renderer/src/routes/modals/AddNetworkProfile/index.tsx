@@ -50,9 +50,9 @@ const AddNetworkProfileModal = () => {
 
     dispatch(
       settingsReducerActions.saveNetworkProfile({
-        id: modalStateProfile?.id ?? UtilsHelper.uuid(),
+        id: modalStateProfile?.id || UtilsHelper.uuid(),
         name: data.name,
-        networkByBlockchain: modalStateProfile?.networkByBlockchain ?? networkByBlockchain,
+        networkByBlockchain: modalStateProfile?.networkByBlockchain || networkByBlockchain,
       })
     )
     modalNavigate(-1)

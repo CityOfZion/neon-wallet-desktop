@@ -1,4 +1,4 @@
-import { IWalletState, TLoginSessionType } from '@shared/types/store'
+import { TLoginSessionType, TWallet } from '@shared/types/store'
 
 import { TApplicationDataByLoginType } from './index'
 
@@ -8,7 +8,7 @@ export function getAuthMigrations() {
       const walletsStore = window.localStorage.getItem('persist:walletReducer')
       const accountsStore = window.localStorage.getItem('persist:accountReducer')
 
-      const passwordWallets: IWalletState[] = []
+      const passwordWallets: TWallet[] = []
       const walletsJSON: any[] = walletsStore ? JSON.parse(JSON.parse(walletsStore).data) : []
       const accountsJSON: any[] = accountsStore ? JSON.parse(JSON.parse(accountsStore).data) : []
 

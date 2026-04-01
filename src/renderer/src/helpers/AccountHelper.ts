@@ -3,7 +3,7 @@ import { BSKeychainHelper, hasLedger, TBSAccount } from '@cityofzion/blockchain-
 import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { SharedI18nextHelper } from '@shared/helpers/SharedI18nextHelper'
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
-import { IAccountState } from '@shared/types/store'
+import type { TAccount } from '@shared/types/store'
 
 import { BlockchainServiceHelper } from './BlockchainServiceHelper'
 import { ReduxHelper } from './ReduxHelper'
@@ -11,7 +11,7 @@ import { ReduxHelper } from './ReduxHelper'
 const { t } = SharedI18nextHelper.get()
 
 export class AccountHelper {
-  static getNextOrderOrMissing(accounts: IAccountState[], blockchain: TBlockchainServiceKey) {
+  static getNextOrderOrMissing(accounts: TAccount[], blockchain: TBlockchainServiceKey) {
     const orders = accounts.filter(account => account.blockchain === blockchain).map(({ order }) => order)
 
     if (orders.length === 0) return 0
@@ -23,7 +23,7 @@ export class AccountHelper {
     return maxOrder + 1
   }
 
-  static async getServiceAccount<T extends TBlockchainServiceKey>(account: IAccountState<T>): Promise<TBSAccount<T>> {
+  static async getServiceAccount<T extends TBlockchainServiceKey>(account: TAccount<T>): Promise<TBSAccount<T>> {
     if (!account.encryptedKey) {
       throw new AppError(t('common:errors.unexpectedError'))
     }
@@ -47,12 +47,15 @@ export class AccountHelper {
 
     if (account.type === 'hardware' && hasLedger(service)) {
       const serviceAccount = await service.generateAccountFromPublicKey(key)
+
       serviceAccount.isHardware = true
       serviceAccount.bipPath = BSKeychainHelper.getBipPath(service.bipDerivationPath, account.order)
+
       return serviceAccount as TBSAccount<T>
     }
 
     const serviceAccount = await service.generateAccountFromKey(key)
+
     return serviceAccount as TBSAccount<T>
   }
 }

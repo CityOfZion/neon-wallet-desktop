@@ -17,7 +17,7 @@ import type {
   TUseNeonBackupDeprecatedData,
   TUseNeonBackupGeneratedData,
 } from '@shared/types/hooks'
-import { IContactState, TContactAddress, TSwapRecord } from '@shared/types/store'
+import { TContact, TContactAddress, TSwapRecord } from '@shared/types/store'
 
 import { useImportAccounts } from './useAccountActions'
 import { useAccountsSelector, useAccountUtils } from './useAccountSelector'
@@ -92,11 +92,11 @@ export const useNeonCreateBackup = () => {
         name: account.name,
         order: account.order,
         type: account.type,
-        key: key ?? undefined,
+        key: key || undefined,
         skin: account.skin,
       }
 
-      const walletAccounts = backupAccountsByWalletId.get(backupAccount.idWallet) ?? []
+      const walletAccounts = backupAccountsByWalletId.get(backupAccount.idWallet) || []
 
       backupAccountsByWalletId.set(backupAccount.idWallet, [...walletAccounts, backupAccount])
     })
@@ -113,13 +113,13 @@ export const useNeonCreateBackup = () => {
         })
       }
 
-      const walletAccounts = backupAccountsByWalletId.get(wallet.id) ?? []
+      const walletAccounts = backupAccountsByWalletId.get(wallet.id) || []
 
       backupFile.wallets.push({
         id: wallet.id,
         name: wallet.name,
         type: wallet.type,
-        mnemonic: mnemonic ?? undefined,
+        mnemonic: mnemonic || undefined,
         accounts: walletAccounts,
       })
     })
@@ -227,7 +227,7 @@ export const useNeonImportBackup = () => {
   }
 
   const handleGenerateData = (data: zod.infer<typeof neonBackupDataSchema>): TUseNeonBackupGeneratedData => {
-    const contactsToCreate: IContactState[] = []
+    const contactsToCreate: TContact[] = []
     const swapRecordsToCreate: TSwapRecord[] = []
     const walletsToCreate: TCreateWalletAndAccountParam[] = []
 

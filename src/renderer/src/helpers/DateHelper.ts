@@ -3,6 +3,8 @@ import * as dateFnsLocales from 'date-fns/locale'
 
 import type { TDateHelperFormatLocalizedOptions } from '@shared/types/helpers'
 
+type TDate = Date | string | number
+
 export class DateHelper {
   static readonly dateFnsLocaleByLanguage: Record<string, dateFns.Locale> = {
     en: dateFnsLocales.enUS,
@@ -12,29 +14,30 @@ export class DateHelper {
     'zh-Hant': dateFnsLocales.zhTW,
   }
 
+  static #fixDate(date: TDate): TDate {
+    if (typeof date === 'string') {
+      return new Date(date)
+    }
+
+    return date
+  }
+
   static getCurrentFullDateString = () => {
     const currentDate = new Date()
     const year = currentDate.getFullYear()
     const month = (currentDate.getMonth() + 1).toString().padStart(2, '0')
     const day = currentDate.getDate().toString().padStart(2, '0')
+
     return `${year}${month}${day}`
   }
 
-  static formatLocalized = (date: Date | string | number, options: TDateHelperFormatLocalizedOptions): string => {
-    if (typeof date === 'string') {
-      date = new Date(date)
-    }
-
-    return dateFns.format(date, options.format, {
+  static formatLocalized = (date: TDate, options: TDateHelperFormatLocalizedOptions): string => {
+    return dateFns.format(this.#fixDate(date), options.format, {
       locale: this.dateFnsLocaleByLanguage[options.language.value],
     })
   }
 
-  static format(date: Date | string | number, formatStr: string): string {
-    if (typeof date === 'string') {
-      date = new Date(date)
-    }
-
-    return dateFns.format(date, formatStr)
+  static format(date: TDate, formatString: string): string {
+    return dateFns.format(this.#fixDate(date), formatString)
   }
 }

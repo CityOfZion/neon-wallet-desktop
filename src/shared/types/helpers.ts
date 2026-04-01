@@ -4,7 +4,7 @@ import type { JSX, ReactNode } from 'react'
 import type { ToastT } from 'sonner'
 
 import { TBlockchainServiceKey } from './blockchain'
-import type { IAccountState, TCurrency, TLanguage } from './store'
+import type { TAccount, TCurrency, TLanguage } from './store'
 
 export type TAccountHelperPredicateParams = {
   address: string
@@ -12,12 +12,12 @@ export type TAccountHelperPredicateParams = {
 }
 
 export type TBuyAndSellTokensHelperGetSellUrlParams = {
-  account?: IAccountState
+  account?: TAccount
   currency: TCurrency
 }
 
 export type TBuyAndSellTokensHelperInitBuyParams = {
-  account?: IAccountState
+  account?: TAccount
   currency: TCurrency
   id: string
 }
@@ -88,9 +88,9 @@ export type TExportTransactionsHelperCalculateDateFromSelectionMaxOneYearRespons
 
 export type TTransactionHelperBuildPendingTransactionParams = {
   transaction: TTransaction
-  account: IAccountState
-  senderAccount?: IAccountState
-  receiverAccounts?: (IAccountState | undefined)[]
+  account: TAccount
+  senderAccount?: TAccount
+  receiverAccounts?: (TAccount | undefined)[]
 }
 
 export type TLoggerHelperOptions = {

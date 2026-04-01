@@ -43,7 +43,7 @@ const StellarPersistTrustlines = () => {
 
   const { actionData, actionState, setDataFromEventWrapper, setData, setError, handleAct } = useActions<TActionsData>({
     token,
-    limit: limit ?? '',
+    limit: limit || '',
   })
 
   const isEditing = !!token

@@ -8,14 +8,14 @@ import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelp
 
 import { useBalances } from '@renderer/hooks/useBalances'
 
-import { IAccountState } from '@shared/types/store'
+import { TAccount } from '@shared/types/store'
 
 import { AccountDetailsLayout } from '../AccountDetailsLayout'
 import { ClaimGasBanner } from '../ClaimGasBanner'
 import { CommonAccountActions } from '../CommonAccountActions'
 
 type TOutletContext = {
-  account: IAccountState
+  account: TAccount
 }
 
 const AccountOverview = () => {

@@ -32,18 +32,18 @@ import { ContentLayout } from '@renderer/layouts/ContentLayout'
 import TbChartBarPopular from '@renderer/assets/images/tb-chart-bar-popular.svg?react'
 import TbSearch from '@renderer/assets/images/tb-search.svg?react'
 
-import { IAccountState } from '@shared/types/store'
+import { TAccount } from '@shared/types/store'
 
 import { Neo3VoteAvailableVotes } from './Neo3VoteAvailableVotes'
 import { Neo3VoteList } from './Neo3VoteList'
 import { Neo3VoteSideBar } from './Neo3VoteSideBar'
 
 type TLocationState = {
-  defaultNeo3Account?: IAccountState<'neo3'>
+  defaultNeo3Account?: TAccount<'neo3'>
 }
 
 type TActionsData = {
-  neo3Account?: IAccountState<'neo3'>
+  neo3Account?: TAccount<'neo3'>
   search: string
 }
 
@@ -97,7 +97,7 @@ const Neo3VotePage = () => {
   const isAccountSelectionDisabled = isLoading || !hasNeo3Accounts || !isMainnet
   const isSearchDisabled = candidatesToVoteQuery.isLoading || !hasNeo3Accounts || !isMainnet
   const isWatchAccount = neo3Account?.type === 'watch'
-  const neoAmount = voteDetailsByAddressQuery.data?.neoBalance ?? 0
+  const neoAmount = voteDetailsByAddressQuery.data?.neoBalance || 0
   const hasNeoAmount = neoAmount > 0
   const canVote = !isLoading && isMainnet && !isWatchAccount && hasNeoAmount && !!hasEnoughGasToPayFee
 
@@ -110,11 +110,12 @@ const Neo3VotePage = () => {
     .otherwise(() => undefined)
 
   const handleGoBack = () => {
-    const account = defaultNeo3Account ?? neo3Account ?? neo3Accounts[0] ?? accounts[0]
+    const account = defaultNeo3Account || neo3Account || neo3Accounts[0] || accounts[0]
+
     navigate('/wallets/overview', { state: { account } })
   }
 
-  const handleChangeNeo3Account = (neo3Account: IAccountState<'neo3'>) => {
+  const handleChangeNeo3Account = (neo3Account: TAccount<'neo3'>) => {
     canOpenNeo3VoteSupportUsModalRef.current = false
     setData({ neo3Account })
   }
@@ -148,7 +149,7 @@ const Neo3VotePage = () => {
       rightComponent={
         <div className="flex items-center gap-x-2">
           <p className="text-sm text-white">
-            {neo3Account?.name ?? t('noAccountSelectedLabel')}
+            {neo3Account?.name || t('noAccountSelectedLabel')}
             {neo3Account && (
               <span className="text-gray-100"> | {StringHelper.truncateStringMiddle(neo3Account.address, 8)}</span>
             )}
@@ -203,7 +204,7 @@ const Neo3VotePage = () => {
               maxLength={100}
               value={search}
               disabled={isSearchDisabled}
-              leftIcon={<TbSearch aria-hidden className="text-neon h-5 max-h-5 min-h-5 w-5 max-w-5 min-w-5" />}
+              leftIcon={<TbSearch aria-hidden className="text-neon max-size-5 min-size-5 size-5" />}
               onChange={setDataFromEventWrapper('search')}
             />
 

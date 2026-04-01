@@ -8,7 +8,7 @@ import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
 
 import { authReducerActions } from '@renderer/store/reducers/auth'
-import type { IWalletState, TNotification } from '@shared/types/store'
+import type { TNotification, TWallet } from '@shared/types/store'
 
 const useBackupReminderNotificationProcess = () => {
   const dispatch = useAppDispatch()
@@ -32,7 +32,7 @@ const useBackupReminderNotificationProcess = () => {
     }
   }
 
-  const processWallet = (wallet: IWalletState) => {
+  const processWallet = (wallet: TWallet) => {
     try {
       if (
         hasUnreadNotification.current ||

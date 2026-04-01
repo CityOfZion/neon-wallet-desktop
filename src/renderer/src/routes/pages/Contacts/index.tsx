@@ -20,20 +20,20 @@ import { MainLayout } from '@renderer/layouts/Main'
 import TbPencil from '@renderer/assets/images/tb-pencil.svg?react'
 import TbPlus from '@renderer/assets/images/tb-plus.svg?react'
 
-import { IContactState } from '@shared/types/store'
+import { TContact } from '@shared/types/store'
 
 const ContactsPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'contacts' })
   const { t: tCommonGeneral } = useTranslation('common', { keyPrefix: 'general' })
   const { modalNavigateWrapper } = useModalNavigate()
   const { contacts } = useContactsSelector()
-  const [selectedContact, setSelectedContact] = useState<IContactState | null>(null)
+  const [selectedContact, setSelectedContact] = useState<TContact | null>(null)
 
   useEffect(() => {
     setSelectedContact(previousSelectedContact => {
       if (!previousSelectedContact) return null
 
-      return contacts.find(({ id }) => id === previousSelectedContact.id) ?? null
+      return contacts.find(({ id }) => id === previousSelectedContact.id) || null
     })
   }, [contacts])
 

@@ -13,17 +13,17 @@ import TbCheck from '@renderer/assets/images/tb-check.svg?react'
 import TbChevronUp from '@renderer/assets/images/tb-chevron-up.svg?react'
 
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
-import { IContactState, TContactAddress } from '@shared/types/store'
+import { TContact, TContactAddress } from '@shared/types/store'
 
 import { BlockchainIcon } from './BlockchainIcon'
 import { Separator } from './Separator'
 
 type TProps = {
-  onContactSelected?: (contact: IContactState | null) => void
+  onContactSelected?: (contact: TContact | null) => void
   onAddressSelected?: (address: TContactAddress | null) => void
-  selectedContact?: IContactState | null
+  selectedContact?: TContact | null
   selectedAddress?: TContactAddress | null
-  contacts: IContactState[]
+  contacts: TContact[]
   showSelectedAddress?: boolean
   blockchainFilter?: TBlockchainServiceKey
   children?: React.ReactNode
@@ -47,12 +47,12 @@ export const ContactList = ({
     onAddressSelected && onAddressSelected(address)
   }
 
-  const handleContactSelected = (contact: IContactState | null) => {
+  const handleContactSelected = (contact: TContact | null) => {
     handleAddressSelected(null)
     onContactSelected && onContactSelected(contact)
   }
 
-  const getInitialsLetters = (contact: IContactState) => {
+  const getInitialsLetters = (contact: TContact) => {
     const splitName = contact.name.trim().split(' ')
     const initials = splitName[0][0] + splitName[splitName.length - 1][0]
     return initials.toUpperCase()
@@ -91,14 +91,14 @@ export const ContactList = ({
 
     const sortedContacts = filteredContacts.sort((a, b) => a.name[0].localeCompare(b.name[0]))
 
-    const groupContactsByFirstLetterMap = new Map<string, IContactState[]>()
+    const groupContactsByFirstLetterMap = new Map<string, TContact[]>()
 
     sortedContacts.forEach(contact => {
       if (!contact.name) return
 
       const key = contact.name[0].toUpperCase()
 
-      const lastContacts = groupContactsByFirstLetterMap.get(key) ?? []
+      const lastContacts = groupContactsByFirstLetterMap.get(key) || []
 
       groupContactsByFirstLetterMap.set(key, [...lastContacts, contact])
     })
@@ -160,7 +160,7 @@ export const ContactList = ({
                       <div className="flex w-full items-center">
                         <div
                           className={StyleHelper.mergeStyles(
-                            'flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gray-300/30 text-xs text-gray-100',
+                            'flex size-6 shrink-0 items-center justify-center rounded-full bg-gray-300/30 text-xs text-gray-100',
                             {
                               'bg-gray-200 text-gray-800': isContactSelected,
                             }
@@ -175,7 +175,7 @@ export const ContactList = ({
                       </div>
 
                       {showSelectedAddress && isContactSelected && (
-                        <TbChevronUp aria-hidden className="mr-3 h-4 w-4 text-gray-300" />
+                        <TbChevronUp aria-hidden className="mr-3 size-4 text-gray-300" />
                       )}
                     </button>
 
@@ -211,7 +211,7 @@ export const ContactList = ({
                                   </div>
                                 </div>
 
-                                {isAddressSelected && <TbCheck aria-hidden className="text-neon mr-3 h-5 w-5" />}
+                                {isAddressSelected && <TbCheck aria-hidden className="text-neon mr-3 size-5" />}
                               </div>
                             </button>
 

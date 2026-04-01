@@ -6,51 +6,44 @@ import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelp
 
 import { TBlockchainServiceKey, TNetwork } from '@shared/types/blockchain'
 import type { DeepPartial } from '@shared/types/global'
-import {
-  IAccountState,
-  IWalletState,
-  TCurrency,
-  TLanguage,
-  TNetworkProfile,
-  TOverTheAirInfo,
-} from '@shared/types/store'
+import { TAccount, TCurrency, TLanguage, TNetworkProfile, TOverTheAirInfo, TWallet } from '@shared/types/store'
 
-import { ISettingsReducer } from './index'
+import { TSettingsReducer } from './index'
 
-const setEncryptedLoginControl: CaseReducer<ISettingsReducer, PayloadAction<string | undefined>> = (state, action) => {
+const setEncryptedLoginControl: CaseReducer<TSettingsReducer, PayloadAction<string | undefined>> = (state, action) => {
   state.data.encryptedLoginControl = action.payload
 }
 
-const setIsFirstTime: CaseReducer<ISettingsReducer, PayloadAction<boolean>> = (state, action) => {
+const setIsFirstTime: CaseReducer<TSettingsReducer, PayloadAction<boolean>> = (state, action) => {
   state.data.isFirstTime = action.payload
 }
 
-const setHasPassword: CaseReducer<ISettingsReducer, PayloadAction<boolean>> = (state, action) => {
+const setHasPassword: CaseReducer<TSettingsReducer, PayloadAction<boolean>> = (state, action) => {
   state.data.hasPassword = action.payload
 }
 
-const setCurrency: CaseReducer<ISettingsReducer, PayloadAction<TCurrency>> = (state, action) => {
+const setCurrency: CaseReducer<TSettingsReducer, PayloadAction<TCurrency>> = (state, action) => {
   state.data.currency = action.payload
 }
 
-const setLanguage: CaseReducer<ISettingsReducer, PayloadAction<TLanguage>> = (state, action) => {
+const setLanguage: CaseReducer<TSettingsReducer, PayloadAction<TLanguage>> = (state, action) => {
   state.data.language = action.payload
 }
 
-const setOverTheAirInfo: CaseReducer<ISettingsReducer, PayloadAction<Partial<TOverTheAirInfo>>> = (state, action) => {
+const setOverTheAirInfo: CaseReducer<TSettingsReducer, PayloadAction<Partial<TOverTheAirInfo>>> = (state, action) => {
   state.data.overTheAirInfo = { ...state.data.overTheAirInfo, ...action.payload }
 }
 
-const setSelectedWallet: CaseReducer<ISettingsReducer, PayloadAction<IWalletState | undefined>> = (state, action) => {
+const setSelectedWallet: CaseReducer<TSettingsReducer, PayloadAction<TWallet | undefined>> = (state, action) => {
   state.data.selectedWallet = action.payload
 }
 
-const setSelectedAccount: CaseReducer<ISettingsReducer, PayloadAction<IAccountState | undefined>> = (state, action) => {
+const setSelectedAccount: CaseReducer<TSettingsReducer, PayloadAction<TAccount | undefined>> = (state, action) => {
   state.data.selectedAccount = action.payload
 }
 
 const saveCustomNetwork: CaseReducer<
-  ISettingsReducer,
+  TSettingsReducer,
   PayloadAction<{ blockchain: TBlockchainServiceKey; network: TNetwork }>
 > = (state, action) => {
   const { blockchain, network } = action.payload
@@ -78,7 +71,7 @@ const saveCustomNetwork: CaseReducer<
 }
 
 const deleteCustomNetwork: CaseReducer<
-  ISettingsReducer,
+  TSettingsReducer,
   PayloadAction<{ blockchain: TBlockchainServiceKey; network: TNetwork }>
 > = (state, action) => {
   const { network, blockchain } = action.payload
@@ -101,7 +94,7 @@ const deleteCustomNetwork: CaseReducer<
   state.data.networkProfiles[profileIndex] = selectedProfile
 }
 
-const saveNetworkProfile: CaseReducer<ISettingsReducer, PayloadAction<TNetworkProfile>> = (state, action) => {
+const saveNetworkProfile: CaseReducer<TSettingsReducer, PayloadAction<TNetworkProfile>> = (state, action) => {
   const profile = action.payload
 
   const findIndex = state.data.networkProfiles.findIndex(it => it.id === profile.id)
@@ -117,7 +110,7 @@ const saveNetworkProfile: CaseReducer<ISettingsReducer, PayloadAction<TNetworkPr
 }
 
 const editNetworkProfile: CaseReducer<
-  ISettingsReducer,
+  TSettingsReducer,
   PayloadAction<DeepPartial<TNetworkProfile> & { id: string }>
 > = (state, action) => {
   const profile = cloneDeep(action.payload)
@@ -135,7 +128,7 @@ const editNetworkProfile: CaseReducer<
   }
 }
 
-const deleteNetworkProfile: CaseReducer<ISettingsReducer, PayloadAction<string>> = (state, action) => {
+const deleteNetworkProfile: CaseReducer<TSettingsReducer, PayloadAction<string>> = (state, action) => {
   const profileId = action.payload
   state.data.networkProfiles = state.data.networkProfiles.filter(profile => profile.id !== profileId)
 
@@ -144,7 +137,7 @@ const deleteNetworkProfile: CaseReducer<ISettingsReducer, PayloadAction<string>>
   }
 }
 
-const setSelectNetworkProfile: CaseReducer<ISettingsReducer, PayloadAction<string>> = (state, action) => {
+const setSelectNetworkProfile: CaseReducer<TSettingsReducer, PayloadAction<string>> = (state, action) => {
   const profileId = action.payload
 
   const profile = state.data.networkProfiles.find(it => it.id === profileId)
@@ -153,15 +146,15 @@ const setSelectNetworkProfile: CaseReducer<ISettingsReducer, PayloadAction<strin
   state.data.selectedNetworkProfile = profile
 }
 
-const setCanShowNeo3VoteSupportUsModalAgain: CaseReducer<ISettingsReducer, PayloadAction<boolean>> = (
+const setCanShowNeo3VoteSupportUsModalAgain: CaseReducer<TSettingsReducer, PayloadAction<boolean>> = (
   state,
   action
 ) => {
   state.data.canShowNeo3VoteSupportUsModal = action.payload
 }
 
-const setShowSideBar: CaseReducer<ISettingsReducer, PayloadAction<boolean>> = (state, action) => {
-  state.data.showSideBar = action.payload
+const setShowSideBar: CaseReducer<TSettingsReducer, PayloadAction<boolean>> = (state, action) => {
+  state.memoryData.showSideBar = action.payload
 }
 
 export const settingsSliceReducers = {

@@ -44,14 +44,14 @@ import { thunks } from '@renderer/store/thunks'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { TUseTransactionsTransaction } from '@shared/types/hooks'
-import { IAccountState } from '@shared/types/store'
+import { TAccount } from '@shared/types/store'
 
 import { SendErrorModalContent } from './SendErrorModalContent'
 import { SendRecipient, TSendRecipient } from './SendRecipient'
 import { SendSuccessModalContent } from './SendSuccessModalContent'
 
 type TActionsData = {
-  selectedAccount?: IAccountState
+  selectedAccount?: TAccount
   recipients: TSendRecipient[]
   fee?: string
   isCalculatingFee: boolean
@@ -65,7 +65,7 @@ type TActionsData = {
 }
 
 type TProps = {
-  account?: IAccountState
+  account?: TAccount
   recipientAddress?: string
 }
 
@@ -188,7 +188,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
     clearErrors(['recipients', 'selectedAccount'])
   }
 
-  const handleSelectAccount = (account?: IAccountState) => {
+  const handleSelectAccount = (account?: TAccount) => {
     handleSetRecipients(() => [{ id: UtilsHelper.uuid(), addressInput: currentRecipientAddress.current }])
     setData({ selectedAccount: account })
   }

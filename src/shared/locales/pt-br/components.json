@@ -66,8 +66,8 @@
     "name": "Nome"
   },
   "contactAddressTable": {
-    "address": "ENDEREÇO",
-    "blockchain": "BLOCKCHAIN",
+    "address": "Endereço",
+    "blockchain": "Blockchain",
     "sendAssets": "Enviar ativos"
   },
   "contacts": {

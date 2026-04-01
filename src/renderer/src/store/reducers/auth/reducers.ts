@@ -4,23 +4,23 @@ import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
 import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { SharedI18nextHelper } from '@shared/helpers/SharedI18nextHelper'
-import { IAccountState, IWalletState, TLoginSession, TNotification, TSaveNotification } from '@shared/types/store'
+import { TAccount, TLoginSession, TNotification, TSaveNotification, TWallet } from '@shared/types/store'
 
-import { IAuthReducer } from '.'
+import { TAuthReducer } from '.'
 
 const { t } = SharedI18nextHelper.get()
 
-const setLoginSession: CaseReducer<IAuthReducer, PayloadAction<TLoginSession | undefined>> = (state, action) => {
+const setLoginSession: CaseReducer<TAuthReducer, PayloadAction<TLoginSession | undefined>> = (state, action) => {
   state.memoryData.loginSession = action.payload
 }
 
-const resetTemporaryApplicationData: CaseReducer<IAuthReducer> = state => {
+const resetTemporaryApplicationData: CaseReducer<TAuthReducer> = state => {
   state.data.applicationDataByLoginType.hardware = { wallets: [], notifications: [] }
   state.data.applicationDataByLoginType.key = { wallets: [], notifications: [] }
 }
 
 // Wallet Reducers
-const saveWallet: CaseReducer<IAuthReducer, PayloadAction<IWalletState>> = (state, action) => {
+const saveWallet: CaseReducer<TAuthReducer, PayloadAction<TWallet>> = (state, action) => {
   const loginSessionType = state.memoryData.loginSession?.type
 
   if (!loginSessionType) {
@@ -40,7 +40,7 @@ const saveWallet: CaseReducer<IAuthReducer, PayloadAction<IWalletState>> = (stat
   applicationData.wallets[walletIndex] = wallet
 }
 
-const deleteWallet: CaseReducer<IAuthReducer, PayloadAction<string>> = (state, action) => {
+const deleteWallet: CaseReducer<TAuthReducer, PayloadAction<string>> = (state, action) => {
   const loginSessionType = state.memoryData.loginSession?.type
 
   if (!loginSessionType) {
@@ -54,7 +54,7 @@ const deleteWallet: CaseReducer<IAuthReducer, PayloadAction<string>> = (state, a
 }
 
 // Account Reducers
-const saveAccount: CaseReducer<IAuthReducer, PayloadAction<IAccountState>> = (state, action) => {
+const saveAccount: CaseReducer<TAuthReducer, PayloadAction<TAccount>> = (state, action) => {
   const loginSessionType = state.memoryData.loginSession?.type
 
   if (!loginSessionType) {
@@ -81,7 +81,7 @@ const saveAccount: CaseReducer<IAuthReducer, PayloadAction<IAccountState>> = (st
   wallet.accounts[accountIndex] = account
 }
 
-const deleteAccount: CaseReducer<IAuthReducer, PayloadAction<IAccountState>> = (state, action) => {
+const deleteAccount: CaseReducer<TAuthReducer, PayloadAction<TAccount>> = (state, action) => {
   const loginSessionType = state.memoryData.loginSession?.type
 
   if (!loginSessionType) {
@@ -101,7 +101,7 @@ const deleteAccount: CaseReducer<IAuthReducer, PayloadAction<IAccountState>> = (
 }
 
 // Notification Reducers
-const saveNotification: CaseReducer<IAuthReducer, PayloadAction<TSaveNotification>> = (state, action) => {
+const saveNotification: CaseReducer<TAuthReducer, PayloadAction<TSaveNotification>> = (state, action) => {
   const loginSessionType = state.memoryData.loginSession?.type
 
   if (!loginSessionType) return

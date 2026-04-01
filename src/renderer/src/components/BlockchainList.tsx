@@ -20,7 +20,7 @@ type TProps = {
 export const BlockchainList = ({ onSelect, selectedBlockchains = [], isMulti, blockchains, className }: TProps) => {
   const { t: tCommonBlockchain } = useTranslation('common', { keyPrefix: 'blockchain' })
 
-  const blockchainsToIterate = blockchains ?? BlockchainServiceHelper.blockchainNames
+  const blockchainsToIterate = blockchains || BlockchainServiceHelper.blockchainNames
 
   const handleSelect = (blockchain: TBlockchainServiceKey) => {
     if (isMulti) {

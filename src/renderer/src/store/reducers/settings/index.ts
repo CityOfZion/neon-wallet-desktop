@@ -8,13 +8,38 @@ import { CurrencyHelper } from '@renderer/helpers/CurrencyHelper'
 import { LanguageHelper } from '@renderer/helpers/LanguageHelper'
 
 import { SharedI18nextHelper } from '@shared/helpers/SharedI18nextHelper'
-import { ISettingsState, type TNetworkProfile, type TSelectedNetworks } from '@shared/types/store'
+import type {
+  TAccount,
+  TCurrency,
+  TCustomNetworks,
+  TLanguage,
+  TNetworkProfile,
+  TOverTheAirInfo,
+  TSelectedNetworks,
+  TWallet,
+} from '@shared/types/store'
 
 import { getSettingsMigrations } from './migrations'
 import { settingsSliceReducers } from './reducers'
 
-export interface ISettingsReducer {
-  data: ISettingsState
+export type TSettingsReducer = {
+  memoryData: {
+    showSideBar: boolean
+  }
+  data: {
+    isFirstTime: boolean
+    hasPassword: boolean
+    currency: TCurrency
+    language: TLanguage
+    overTheAirInfo: TOverTheAirInfo
+    customNetworks: TCustomNetworks
+    networkProfiles: TNetworkProfile[]
+    selectedNetworkProfile: TNetworkProfile
+    canShowNeo3VoteSupportUsModal: boolean
+    encryptedLoginControl?: string
+    selectedWallet?: TWallet
+    selectedAccount?: TAccount
+  }
 }
 
 export let settingsReducerActions: CaseReducerActions<typeof settingsSliceReducers, string>
@@ -55,7 +80,10 @@ export function getSettingsReducer() {
 
   const settingsMigrations = getSettingsMigrations(defaultProfile, testProfile)
 
-  const settingsReducerInitialState: ISettingsReducer = {
+  const settingsReducerInitialState: TSettingsReducer = {
+    memoryData: {
+      showSideBar: true,
+    },
     data: {
       hasPassword: false,
       isFirstTime: true,
@@ -81,16 +109,15 @@ export function getSettingsReducer() {
       canShowNeo3VoteSupportUsModal: true,
       selectedWallet: undefined,
       selectedAccount: undefined,
-      showSideBar: true,
     },
   }
 
-  const settingsReducerConfig: PersistConfig<ISettingsReducer> = {
+  const settingsReducerConfig: PersistConfig<TSettingsReducer> = {
     key: 'settingsReducer',
     storage,
-    version: 14,
+    version: 15,
     migrate: createMigrate(settingsMigrations),
-    blacklist: ['showSideBar'],
+    blacklist: ['memoryData'],
   }
 
   const settingsSlice = createSlice({

@@ -96,7 +96,7 @@ const AddCustomNetwork = () => {
         network: {
           name: trimmedName,
           url: data.url,
-          id: networkToEdit?.id ?? UtilsHelper.uuid(),
+          id: networkToEdit?.id || UtilsHelper.uuid(),
           type: 'custom',
         },
       })

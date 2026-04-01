@@ -1,5 +1,5 @@
 import type { TUseNeonBackupAccount, TUseNeonBackupWallet } from '@shared/types/hooks'
-import type { IAccountState, IWalletState, TAccountType, TSkin } from '@shared/types/store'
+import type { TAccount, TAccountType, TSkin, TWallet } from '@shared/types/store'
 
 import { BlockchainServiceHelper } from './BlockchainServiceHelper'
 import { SkinHelper } from './SkinHelper'
@@ -9,9 +9,7 @@ export class NeonBackupHelper {
   static readonly deprecatedFileExtension = 'neonbkp'
   static readonly backupVersion = 1
 
-  static fixAccountProperties = (
-    backupAccount: TUseNeonBackupAccount
-  ): Omit<IAccountState, 'encryptedKey'> | undefined => {
+  static fixAccountProperties = (backupAccount: TUseNeonBackupAccount): Omit<TAccount, 'encryptedKey'> | undefined => {
     if (!BlockchainServiceHelper.doesBlockchainSupported(backupAccount.blockchain)) return
 
     const type: TAccountType =
@@ -35,7 +33,7 @@ export class NeonBackupHelper {
 
   static fixWalletProperties = (
     backupWallet: TUseNeonBackupWallet
-  ): Omit<IWalletState, 'accounts' | 'encryptedMnemonic' | 'backupStatus'> => {
+  ): Omit<TWallet, 'accounts' | 'encryptedMnemonic' | 'backupStatus'> => {
     const type = backupWallet.type === 'ledger' ? 'hardware' : backupWallet.type
 
     return {

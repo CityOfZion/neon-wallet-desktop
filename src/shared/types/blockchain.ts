@@ -8,7 +8,7 @@ import type { BSNeoX } from '@cityofzion/bs-neox'
 import type { BSSolana } from '@cityofzion/bs-solana'
 import type { BSStellar } from '@cityofzion/bs-stellar'
 
-import { IAccountState, IWalletState, TAccountType, TSkin, TWalletBackupStatus, TWalletType } from './store'
+import { TAccount, TAccountType, TSkin, TWallet, TWalletBackupStatus, TWalletType } from './store'
 
 export type TBlockchainService =
   | BSNeo3
@@ -29,7 +29,7 @@ export type TBSAggregator = BSAggregator<TBlockchainService[], TBSServiceByName<
 export type TUseImportAccountParams = {
   address: string
   blockchain: TBlockchainServiceKey
-  wallet: IWalletState
+  wallet: TWallet
   type: TAccountType
   key?: string
   name?: string
@@ -44,13 +44,13 @@ export type TCreateWalletAndAccountParam = TUseCreateWalletParams & {
 }
 
 export type TUseImportAccountsParams = {
-  wallet: IWalletState
+  wallet: TWallet
   accounts: TAccountsToImport
 }
 
 export type TUseCreateStandardAccountParams = {
   id?: string
-  wallet: IWalletState
+  wallet: TWallet
   name: string
   blockchain: TBlockchainServiceKey
   skin?: TSkin
@@ -69,11 +69,11 @@ export type TNetwork = {
 } & TBSNetwork
 
 export type TUseEditAccountParams = {
-  account: IAccountState
-  data: Partial<Omit<IAccountState, 'address' | 'encryptedKey' | 'id'>> & { key?: string }
+  account: TAccount
+  data: Partial<Omit<TAccount, 'address' | 'encryptedKey' | 'id'>> & { key?: string }
 }
 
 export type TUseEditWalletParams = {
-  wallet: IWalletState
-  data: Partial<Omit<IWalletState, 'id' | 'encryptedMnemonic'>> & { mnemonic?: string }
+  wallet: TWallet
+  data: Partial<Omit<TWallet, 'id' | 'encryptedMnemonic'>> & { mnemonic?: string }
 }

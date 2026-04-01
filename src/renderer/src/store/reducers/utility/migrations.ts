@@ -11,10 +11,10 @@ export function getUtilityMigrations() {
       if (!authStore || !settingsStore) return state
 
       const authStoreJSON = JSON.parse(authStore)
-      const swapRecords = JSON.parse(authStoreJSON.data).swapRecords ?? []
+      const swapRecords = JSON.parse(authStoreJSON.data).swapRecords || []
 
       const settingsStoreJSON = JSON.parse(settingsStore)
-      const unlockedSkinIds = JSON.parse(settingsStoreJSON.data).unlockedSkinIds ?? []
+      const unlockedSkinIds = JSON.parse(settingsStoreJSON.data).unlockedSkinIds || []
 
       return {
         ...state,
@@ -28,7 +28,7 @@ export function getUtilityMigrations() {
     1: (state: any) => {
       const neoLegacyService = BlockchainServiceHelper.bsAggregator.blockchainServicesByName.neoLegacy
 
-      const migrationsNeo3 = Object.entries(state.data.migrationsNeo3 ?? {}).reduce((previous, actual) => {
+      const migrationsNeo3 = Object.entries(state.data.migrationsNeo3 || {}).reduce((previous, actual) => {
         const key = neoLegacyService.tokenService.normalizeHash(actual[0])
 
         previous[key] = actual[1]
@@ -42,7 +42,7 @@ export function getUtilityMigrations() {
           const tokens = actual[1] as string[] | undefined
           const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
 
-          previous[blockchain] = tokens?.map(token => service.tokenService.normalizeHash(token)) ?? []
+          previous[blockchain] = tokens?.map(token => service.tokenService.normalizeHash(token)) || []
 
           return previous
         },

@@ -28,7 +28,7 @@ import TbWallet from '@renderer/assets/images/tb-wallet.svg?react'
 import VscCircleFilled from '@renderer/assets/images/vsc-circle-filled.svg?react'
 
 import { TTokenBalance, TUseBalanceResult } from '@shared/types/query'
-import { IAccountState, TContactAddress } from '@shared/types/store'
+import { TAccount, TContactAddress } from '@shared/types/store'
 
 export type TSendRecipient = {
   id: string
@@ -41,7 +41,7 @@ export type TSendRecipient = {
 
 type TProps = {
   order: number
-  selectedAccount?: IAccountState
+  selectedAccount?: TAccount
   recipient: TSendRecipient
   onUpdateRecipient: (recipient: Partial<TSendRecipient>) => void
   onRemoveRecipient: () => void
@@ -120,7 +120,7 @@ export const SendRecipient = ({
     })
   }
 
-  const handleSelectAccount = (account: IAccountState) => {
+  const handleSelectAccount = (account: TAccount) => {
     onUpdateRecipient({ addressInput: account.address, address: undefined })
   }
 
@@ -210,7 +210,7 @@ export const SendRecipient = ({
         leftIcon={<VscCircleFilled aria-hidden className="size-2 text-gray-300" />}
       >
         <GreyTokenSelect
-          tokens={balance?.data?.tokensBalances.map(tokenBalance => tokenBalance.token) ?? []}
+          tokens={balance?.data?.tokensBalances.map(tokenBalance => tokenBalance.token) || []}
           balance={balance?.data}
           onSelect={handleSelectToken}
           selectedToken={recipient.token?.token}

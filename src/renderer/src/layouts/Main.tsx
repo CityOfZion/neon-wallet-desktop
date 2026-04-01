@@ -2,6 +2,7 @@ import { ComponentProps, type JSX, ReactNode, useLayoutEffect } from 'react'
 
 import { motion } from 'motion/react'
 
+import { ElementHelper } from '@renderer/helpers/ElementHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import { useAppDispatch } from '@renderer/hooks/useRedux'
@@ -46,7 +47,7 @@ export const MainLayout = ({
             headerClassName
           )}
         >
-          {typeof heading === 'string' ? <h1 className="text-sm font-bold">{heading}</h1> : heading}
+          {ElementHelper.isTextContentValid(heading) ? <h1 className="text-sm font-bold">{heading}</h1> : heading}
 
           {rightComponent}
         </header>

@@ -10,7 +10,7 @@ import { WalletKitHelper } from '@renderer/helpers/WalletKitHelper'
 import { authReducerActions } from '@renderer/store/reducers/auth'
 import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { TUseCreateWalletParams, TUseEditWalletParams } from '@shared/types/blockchain'
-import { IWalletState } from '@shared/types/store'
+import { TWallet } from '@shared/types/store'
 
 import { useLoginSessionSelector } from './useAuthSelector'
 import { useAppDispatch } from './useRedux'
@@ -35,9 +35,9 @@ export const useCreateWallet = () => {
         })
       }
 
-      const newWallet: IWalletState = {
+      const newWallet: TWallet = {
         name,
-        id: id ?? UtilsHelper.uuid(),
+        id: id || UtilsHelper.uuid(),
         encryptedMnemonic,
         type: type || 'standard',
         accounts: [],
@@ -58,7 +58,7 @@ export const useDeleteWallet = () => {
   const dispatch = useAppDispatch()
 
   const deleteWallet = useCallback(
-    async (wallet: IWalletState) => {
+    async (wallet: TWallet) => {
       dispatch(authReducerActions.deleteWallet(wallet.id))
 
       const sessions = WalletKitHelper.kit.getActiveSessions()
@@ -112,7 +112,7 @@ export const useEditWallet = () => {
         delete data.mnemonic
       }
 
-      const editedWallet: IWalletState = Object.assign({}, wallet, { ...data, encryptedMnemonic })
+      const editedWallet: TWallet = Object.assign({}, wallet, { ...data, encryptedMnemonic })
 
       dispatch(authReducerActions.saveWallet(editedWallet))
 

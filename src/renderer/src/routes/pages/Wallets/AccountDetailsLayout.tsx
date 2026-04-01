@@ -2,6 +2,7 @@ import { ComponentProps, JSX, ReactNode } from 'react'
 
 import { Separator } from '@renderer/components/Separator'
 
+import { ElementHelper } from '@renderer/helpers/ElementHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 type TProps = {
@@ -16,7 +17,7 @@ export const AccountDetailsLayout = ({ heading, actions, children, className, ..
       {...props}
     >
       <div className="mb-3 flex h-7 max-h-7 min-h-7 items-center justify-between text-sm">
-        {typeof heading === 'string' ? <h1 className="text-sm text-white">{heading}</h1> : heading}
+        {ElementHelper.isTextContentValid(heading) ? <h1 className="text-sm text-white">{heading}</h1> : heading}
 
         {actions}
       </div>

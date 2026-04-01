@@ -9,9 +9,9 @@ import { useMountUnsafe } from '@renderer/hooks/useMount'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
-import { IAccountState } from '@shared/types/store'
+import { TAccount } from '@shared/types/store'
 
-type TProps = { account?: IAccountState; onReady?: (ready: boolean) => void; iframeId: string } & ComponentProps<'div'>
+type TProps = { account?: TAccount; onReady?: (ready: boolean) => void; iframeId: string } & ComponentProps<'div'>
 
 export const BuyAndSellTokensSellIframe = ({ account, onReady, className, iframeId, ...props }: TProps) => {
   const { t } = useTranslation('pages', { keyPrefix: 'buyAndSellTokens' })

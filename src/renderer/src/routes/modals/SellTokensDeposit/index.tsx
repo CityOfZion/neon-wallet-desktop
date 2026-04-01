@@ -45,7 +45,7 @@ import { thunks } from '@renderer/store/thunks'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 import { AppError } from '@shared/helpers/SharedErrorHelper'
 import type { TModalState } from '@shared/types/modal'
-import { IAccountState } from '@shared/types/store'
+import { TAccount } from '@shared/types/store'
 
 import { SellTokensDepositErrorContent } from './SellTokensDepositErrorContent'
 import { SellTokensDepositSuccessContent } from './SellTokensDepositSuccessContent'
@@ -63,7 +63,7 @@ const SellTokensDepositModal = () => {
   const debounceAmount = useDebounceFunction()
 
   const { actionData, actionState, setData, setError, clearErrors, handleAct, reset } = useActions<TDepositActionsData>(
-    depositActionsData ?? {
+    depositActionsData || {
       amount: '',
       isAmountLoading: false,
       address: '',
@@ -132,7 +132,7 @@ const SellTokensDepositModal = () => {
     setDepositActionsData({ ...actionData, fee: undefined, isFeeLoading: false, isAmountLoading: false })
   }
 
-  const handleChangeAccount = (account: IAccountState) => {
+  const handleChangeAccount = (account: TAccount) => {
     setData({
       account,
       ...(account.blockchain !== actionData.account?.blockchain ? { token: undefined, amount: '' } : {}),
@@ -394,7 +394,7 @@ const SellTokensDepositModal = () => {
               >
                 <GreyTokenSelect
                   selectedToken={actionData.token?.token}
-                  tokens={balanceData?.tokensBalances?.map(tokenBalance => tokenBalance.token) ?? []}
+                  tokens={balanceData?.tokensBalances?.map(tokenBalance => tokenBalance.token) || []}
                   balance={balanceData}
                   loading={isBalanceLoading}
                   disabled={isRecipientDisabled}

@@ -19,7 +19,7 @@ import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { authReducerActions } from '@renderer/store/reducers/auth'
 import { utilityReducerActions } from '@renderer/store/reducers/utility'
 import type { TBalance } from '@shared/types/query'
-import type { IAccountState, TNotification } from '@shared/types/store'
+import type { TAccount, TNotification } from '@shared/types/store'
 
 const useFraudulentTokensNotificationProcess = () => {
   const dispatch = useAppDispatch()
@@ -44,7 +44,7 @@ const useFraudulentTokensNotificationProcess = () => {
     }
   }
 
-  const process = (account: IAccountState, balance: TBalance | undefined) => {
+  const process = (account: TAccount, balance: TBalance | undefined) => {
     try {
       if (!balance) return
 
@@ -119,7 +119,7 @@ const useVotingNeo3NotificationProcess = () => {
     }
   }
 
-  const process = async (account: IAccountState) => {
+  const process = async (account: TAccount) => {
     try {
       if (account.blockchain !== 'neo3') return
 
@@ -168,9 +168,9 @@ const useUnlockLocalSkinsProcess = () => {
   const { editAccount } = useEditAccount()
 
   const unlockLocalSkinsSetRef = useRef<Set<string>>(new Set())
-  const accountWithLocalSkinsRef = useRef<IAccountState[]>([])
+  const accountWithLocalSkinsRef = useRef<TAccount[]>([])
 
-  const process = async (account: IAccountState) => {
+  const process = async (account: TAccount) => {
     try {
       if (account.skin.type === 'local') {
         accountWithLocalSkinsRef.current.push(account)

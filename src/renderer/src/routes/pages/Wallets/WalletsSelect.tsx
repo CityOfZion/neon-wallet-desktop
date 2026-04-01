@@ -4,15 +4,15 @@ import { useTranslation } from 'react-i18next'
 
 import { Select } from '@renderer/components/Select'
 
-import { IWalletState } from '@shared/types/store'
+import { TWallet } from '@shared/types/store'
 
 import { WalletSelectItem } from './WalletSelectItem'
 
 type TProps = {
-  value?: IWalletState
+  value?: TWallet
   disabled?: boolean
-  onSelect?: (wallet: IWalletState) => void
-  wallets: IWalletState[]
+  onSelect?: (wallet: TWallet) => void
+  wallets: TWallet[]
 }
 
 export const WalletsSelect = ({ wallets, value, onSelect }: TProps) => {

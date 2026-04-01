@@ -24,7 +24,7 @@ const Neo3VoteSuccess = () => {
   const { neo3Account, candidate } = useModalState<TModalState<'neo3-vote-success'>>()
   const voteDetailsByAddressQuery = useNeo3VoteGetVoteDetailsByAddress(neo3Account.address)
 
-  const neoAmount = voteDetailsByAddressQuery.data?.neoBalance ?? 0
+  const neoAmount = voteDetailsByAddressQuery.data?.neoBalance || 0
 
   return (
     <CenterModalLayout

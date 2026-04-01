@@ -11,16 +11,16 @@ import { useAccountsByWalletIdSelector } from '@renderer/hooks/useAccountSelecto
 import { useBalances } from '@renderer/hooks/useBalances'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 
-import { IAccountState, IWalletState } from '@shared/types/store'
+import { TAccount, TWallet } from '@shared/types/store'
 
 type TProps = {
-  onSelect: (account: IAccountState) => void
-  selectedAccount?: IAccountState | undefined
-  selectedWallet: IWalletState
+  onSelect: (account: TAccount) => void
+  selectedAccount?: TAccount | undefined
+  selectedWallet: TWallet
 }
 
 type TAccountItemProps = {
-  account: IAccountState
+  account: TAccount
   active?: boolean
   onClick?: () => void
 }

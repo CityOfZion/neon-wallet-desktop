@@ -41,7 +41,7 @@ import TbUpload from '@renderer/assets/images/tb-upload.svg?react'
 
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
-import { IAccountState, IWalletState } from '@shared/types/store'
+import { TAccount, TWallet } from '@shared/types/store'
 
 import { AccountList } from './AccountList'
 import { HardwareWalletConnectedBadge } from './HardwareWalletConnectedBadge'
@@ -49,7 +49,7 @@ import { PanelTransition } from './PanelTransition'
 import { WalletsSelect } from './WalletsSelect'
 
 type TLocationState = {
-  account?: IAccountState
+  account?: TAccount
 }
 
 const WalletsPage = () => {
@@ -76,11 +76,11 @@ const WalletsPage = () => {
   const menuLayoutId = `wallets-menu-link-${selectedAccount?.id}`
   const hasNftMenuItem = service && hasNft(service)
 
-  const handleSelectAccount = (selected: IAccountState) => {
+  const handleSelectAccount = (selected: TAccount) => {
     navigate(location.pathname, { state: { account: selected } })
   }
 
-  const handleSelectWallet = (selected: IWalletState) => {
+  const handleSelectWallet = (selected: TWallet) => {
     navigate(location.pathname, { state: { account: selected.accounts[0] } })
   }
 
@@ -137,25 +137,25 @@ const WalletsPage = () => {
       const firstWallet = wallets[0]
 
       if (stateAccount) {
-        return walletsMapRef.current.get(stateAccount.idWallet) ?? firstWallet
+        return walletsMapRef.current.get(stateAccount.idWallet) || firstWallet
       }
 
       if (selectedWallet) {
-        return walletsMapRef.current.get(selectedWallet.id) ?? firstWallet
+        return walletsMapRef.current.get(selectedWallet.id) || firstWallet
       }
 
       return firstWallet
     }
 
-    const getNextSelectedAccount = (nextSelectedWallet: IWalletState) => {
+    const getNextSelectedAccount = (nextSelectedWallet: TWallet) => {
       const firstAccount = nextSelectedWallet.accounts[0]
 
       if (stateAccount?.idWallet === nextSelectedWallet.id) {
-        return accountsMapRef.current.get(SharedAccountHelper.buildAccountKey(stateAccount)) ?? firstAccount
+        return accountsMapRef.current.get(SharedAccountHelper.buildAccountKey(stateAccount)) || firstAccount
       }
 
       if (selectedAccount?.idWallet === nextSelectedWallet.id) {
-        return accountsMapRef.current.get(SharedAccountHelper.buildAccountKey(selectedAccount)) ?? firstAccount
+        return accountsMapRef.current.get(SharedAccountHelper.buildAccountKey(selectedAccount)) || firstAccount
       }
 
       return firstAccount

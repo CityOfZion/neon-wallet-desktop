@@ -1,5 +1,6 @@
 import { cloneElement, type JSX, ReactNode, useLayoutEffect, useRef, useState } from 'react'
 
+import { ElementHelper } from '@renderer/helpers/ElementHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 type TProps = {
@@ -69,18 +70,18 @@ export const ActionStep = ({
           {leftIcon && (
             <div
               className={StyleHelper.mergeStyles(
-                'flex h-6 min-h-6 w-6 min-w-6 items-center justify-center',
+                'min-size-6 flex size-6 items-center justify-center',
                 leftIconContainerClassName
               )}
             >
               {cloneElement(leftIcon, {
                 ...leftIcon.props,
-                className: StyleHelper.mergeStyles('text-blue w-full h-full', leftIcon.props.className),
+                className: StyleHelper.mergeStyles('text-blue size-full', leftIcon.props.className),
               })}
             </div>
           )}
 
-          {typeof title === 'string' ? (
+          {ElementHelper.isTextContentValid(title) ? (
             <span
               ref={titleRef}
               className={StyleHelper.mergeStyles('text-sm whitespace-nowrap text-white', titleClassName)}

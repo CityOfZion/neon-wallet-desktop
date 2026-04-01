@@ -2,19 +2,19 @@ import { CaseReducerActions, createSlice } from '@reduxjs/toolkit'
 import { createMigrate, getStoredState, PersistConfig, PersistedState, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
-import { IWalletState, TLoginSession, TLoginSessionType, TNotification } from '@shared/types/store'
+import { TLoginSession, TLoginSessionType, TNotification, TWallet } from '@shared/types/store'
 
 import { getAuthMigrations } from './migrations'
 import { authSliceReducers } from './reducers'
 
 export type TApplicationDataByLoginType = {
   [K in TLoginSessionType]: {
-    wallets: IWalletState[]
+    wallets: TWallet[]
     notifications: TNotification[]
   }
 }
 
-export interface IAuthReducer {
+export type TAuthReducer = {
   memoryData: {
     loginSession?: TLoginSession
   }
@@ -28,7 +28,7 @@ export let authReducerActions: CaseReducerActions<typeof authSliceReducers, stri
 export function getAuthReducer() {
   const authMigrations = getAuthMigrations()
 
-  const authReducerInitialState: IAuthReducer = {
+  const authReducerInitialState: TAuthReducer = {
     memoryData: {
       loginSession: undefined,
     },
@@ -41,7 +41,7 @@ export function getAuthReducer() {
     },
   }
 
-  const authReducerConfig: PersistConfig<IAuthReducer> = {
+  const authReducerConfig: PersistConfig<TAuthReducer> = {
     key: 'authReducer',
     storage,
     blacklist: ['memoryData'],

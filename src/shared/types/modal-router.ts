@@ -21,7 +21,7 @@ import type {
   TUseNeonMigrateParsedContent,
 } from './hooks'
 import type { TTokenBalance } from './query'
-import type { IAccountState, IContactState, IWalletState, TContactAddress, TNetworkProfile, TSwapRecord } from './store'
+import type { TAccount, TContact, TContactAddress, TNetworkProfile, TSwapRecord, TWallet } from './store'
 
 type TAddAddressModalState = {
   contactName: string
@@ -84,7 +84,7 @@ type TCreateWalletStep4ModalState = {
 }
 
 type TCreateWalletStep5ModalState = {
-  accounts: IAccountState[]
+  accounts: TAccount[]
 }
 
 type TDappDisconnectionModalState = {
@@ -98,7 +98,7 @@ type TDecryptKeyModalState = {
 }
 
 type TDeleteAccountModalState = {
-  account: IAccountState
+  account: TAccount
 }
 
 type TDeleteContactModalState = {
@@ -113,11 +113,11 @@ type TDeleteContactModalState = {
 }
 
 type TDeleteWalletModalState = {
-  wallet: IWalletState
+  wallet: TWallet
 }
 
 type TEditWalletModalState = {
-  wallet: IWalletState
+  wallet: TWallet
 }
 
 type TErrorModalState = {
@@ -129,11 +129,11 @@ type TErrorModalState = {
 }
 
 type TExportKeyModalState = {
-  account: IAccountState
+  account: TAccount
 }
 
 type TExportMnemonicModalState = {
-  wallet: IWalletState
+  wallet: TWallet
 }
 
 type TImportModalState =
@@ -167,7 +167,7 @@ type TNeo3NeoxBridgeConfirmationModalState = {
   onConfirm(): Promise<void>
   tokenToUse: TBridgeToken<TBSBridgeName>
   tokenToReceive: TBridgeToken<TBSBridgeName>
-  accountToUse: IAccountState
+  accountToUse: TAccount
   amountToUse: string
   amountToReceive: string
   addressToReceive: string
@@ -178,7 +178,7 @@ type TNeo3NeoxBridgeConfirmationModalState = {
 type TNeo3NeoxBridgeDetailsModalState = {
   tokenToUse: TBridgeToken<TBSBridgeName>
   tokenToReceive: TBridgeToken<TBSBridgeName>
-  accountToUse: IAccountState
+  accountToUse: TAccount
   amountToUse: string
   amountToReceive: string
   addressToReceive: string
@@ -195,26 +195,26 @@ type TNetworkSelectionModalState = {
 }
 
 type TNftSelectionModalState = {
-  account: IAccountState
+  account: TAccount
   onSelect: (nft: TNftResponse) => void
 }
 
 type TPersistAccountModalState =
   | {
-      account?: IAccountState
-      wallet?: IWalletState
+      account?: TAccount
+      wallet?: TWallet
     }
   | undefined
 
 type TPersistContactModalState =
   | {
-      contact?: IContactState
+      contact?: TContact
       addresses?: TContactAddress[]
     }
   | undefined
 
 type TSelectAccountModalState = {
-  onSelectAccount: (contact: IAccountState) => void
+  onSelectAccount: (contact: TAccount) => void
   title?: string
   buttonLabel?: string
   leftIcon?: JSX.Element
@@ -233,13 +233,13 @@ type TDepositActionsData = {
   isFeeLoading: boolean
   fee?: string
   token?: TTokenBalance
-  account?: IAccountState
+  account?: TAccount
 }
 
 type TSellTokensDepositModalState = {
   depositActionsData: TDepositActionsData | null
   setDepositActionsData: Dispatch<TDepositActionsData | null>
-  account?: IAccountState
+  account?: TAccount
 }
 
 type TSuccessModalState = {
@@ -259,7 +259,7 @@ type TSwapDetailsLogModalState = {
 }
 
 type TNeo3VoteCandidateDetailsModalState = {
-  neo3Account: IAccountState<'neo3'>
+  neo3Account: TAccount<'neo3'>
   candidate: TVoteServiceCandidate
   candidateVotePercentage: string
 }
@@ -318,13 +318,13 @@ type TBuyAndSellTokensLeaveAlertModalState = {
 }
 
 type TDappConnectionModalState = {
-  account: IAccountState
+  account: TAccount
   uri?: string
 }
 
 type TDappConnectionRequestModalState = {
   proposal: ProposalTypes.Struct
-  account: IAccountState
+  account: TAccount
 }
 
 type TDappPermissionContractDetailsModalState = {
@@ -340,7 +340,7 @@ type TDappPermissionModalState = {
   session: SessionTypes.Struct
   request: PendingRequestTypes.Struct
   sessionDetails: TWalletKitHelperSessionDetails
-  sessionAccount: IAccountState
+  sessionAccount: TAccount
   onReject: (reason?: ErrorResponse) => Promise<void>
   onAccept: () => Promise<any>
 }
@@ -354,38 +354,38 @@ type TDappPermissionSignatureScopeModalState = {
 
 type TExportFullTransactionsModalState =
   | {
-      account: IAccountState
+      account: TAccount
       dateFrom?: Date
       dateTo?: Date
     }
   | undefined
 
 type THideFraudulentTokenModalState = {
-  account: IAccountState
+  account: TAccount
   hash: string
 }
 
 type TNeo3VoteConfirmationModalState = {
-  neo3Account: IAccountState<'neo3'>
+  neo3Account: TAccount<'neo3'>
   candidate: TVoteServiceCandidate
 }
 
 type TNeo3VoteSuccessModalState = {
-  neo3Account: IAccountState<'neo3'>
+  neo3Account: TAccount<'neo3'>
   candidate: TVoteServiceCandidate
 }
 
 type TNeo3VoteSupportUsModalState = {
-  neo3Account: IAccountState<'neo3'>
+  neo3Account: TAccount<'neo3'>
   cozCandidate: TVoteServiceCandidate
 }
 
 type TStellarTrustlinesModalState = {
-  stellarAccount: IAccountState<'stellar'>
+  stellarAccount: TAccount<'stellar'>
 }
 
 type TStellarPersistTrustlineModalState = {
-  stellarAccount: IAccountState<'stellar'>
+  stellarAccount: TAccount<'stellar'>
   token?: TBSToken
   limit?: string
 }

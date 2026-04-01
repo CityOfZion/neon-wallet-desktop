@@ -4,7 +4,8 @@ import { TSelectedNetworks } from '@shared/types/store'
 import { useAppSelector } from './useRedux'
 
 export const useSelectedNetworkByBlockchainSelector = () => {
-  const { ref, value } = useAppSelector(state => state.settings.data.selectedNetworkProfile.networkByBlockchain)
+  const { value, ref } = useAppSelector(state => state.settings.data.selectedNetworkProfile.networkByBlockchain)
+
   return {
     networkByBlockchain: value,
     networkByBlockchainRef: ref,
@@ -12,9 +13,10 @@ export const useSelectedNetworkByBlockchainSelector = () => {
 }
 
 export const useSelectedNetworkSelector = <T extends TBlockchainServiceKey>(blockchain: T) => {
-  const { ref, value } = useAppSelector(
+  const { value, ref } = useAppSelector(
     state => state.settings.data.selectedNetworkProfile.networkByBlockchain[blockchain] as TSelectedNetworks[T]
   )
+
   return {
     network: value,
     networkRef: ref,
@@ -22,7 +24,8 @@ export const useSelectedNetworkSelector = <T extends TBlockchainServiceKey>(bloc
 }
 
 export const useNetworkProfilesSelector = () => {
-  const { ref, value } = useAppSelector(state => state.settings.data.networkProfiles)
+  const { value, ref } = useAppSelector(state => state.settings.data.networkProfiles)
+
   return {
     networkProfiles: value,
     networkProfilesRef: ref,
@@ -30,7 +33,8 @@ export const useNetworkProfilesSelector = () => {
 }
 
 export const useSelectedNetworkProfileSelector = () => {
-  const { ref, value } = useAppSelector(state => state.settings.data.selectedNetworkProfile)
+  const { value, ref } = useAppSelector(state => state.settings.data.selectedNetworkProfile)
+
   return {
     selectedNetworkProfile: value,
     selectedNetworkProfileRef: ref,
@@ -38,7 +42,8 @@ export const useSelectedNetworkProfileSelector = () => {
 }
 
 export const useCustomNetworksSelector = () => {
-  const { ref, value } = useAppSelector(state => state.settings.data.customNetworks)
+  const { value, ref } = useAppSelector(state => state.settings.data.customNetworks)
+
   return {
     customNetworks: value,
     customNetworksRef: ref,
@@ -46,7 +51,8 @@ export const useCustomNetworksSelector = () => {
 }
 
 export const useCurrencySelector = () => {
-  const { ref, value } = useAppSelector(state => state.settings.data.currency)
+  const { value, ref } = useAppSelector(state => state.settings.data.currency)
+
   return {
     currency: value,
     currencyRef: ref,
@@ -54,7 +60,7 @@ export const useCurrencySelector = () => {
 }
 
 export const useSelectedWalletSelector = () => {
-  const { ref, value } = useAppSelector(state => state.settings.data.selectedWallet)
+  const { value, ref } = useAppSelector(state => state.settings.data.selectedWallet)
 
   return {
     selectedWallet: value,
@@ -63,7 +69,7 @@ export const useSelectedWalletSelector = () => {
 }
 
 export const useSelectedAccountSelector = () => {
-  const { ref, value } = useAppSelector(state => state.settings.data.selectedAccount)
+  const { value, ref } = useAppSelector(state => state.settings.data.selectedAccount)
 
   return {
     selectedAccount: value,
@@ -72,7 +78,8 @@ export const useSelectedAccountSelector = () => {
 }
 
 export const useLanguageSelector = () => {
-  const { ref, value } = useAppSelector(state => state.settings.data.language)
+  const { value, ref } = useAppSelector(state => state.settings.data.language)
+
   return {
     language: value,
     languageRef: ref,
@@ -80,7 +87,8 @@ export const useLanguageSelector = () => {
 }
 
 export const useLoginControlSelector = () => {
-  const { ref, value } = useAppSelector(state => state.settings.data.encryptedLoginControl)
+  const { value, ref } = useAppSelector(state => state.settings.data.encryptedLoginControl)
+
   return {
     encryptedLoginControl: value,
     encryptedLoginControlRef: ref,
@@ -88,7 +96,8 @@ export const useLoginControlSelector = () => {
 }
 
 export const useHasPasswordSelector = () => {
-  const { ref, value } = useAppSelector(state => state.settings.data.hasPassword)
+  const { value, ref } = useAppSelector(state => state.settings.data.hasPassword)
+
   return {
     hasPassword: value,
     hasPasswordRef: ref,
@@ -96,7 +105,8 @@ export const useHasPasswordSelector = () => {
 }
 
 export const useIsFirstTimeSelector = () => {
-  const { ref, value } = useAppSelector(state => state.settings.data.isFirstTime)
+  const { value, ref } = useAppSelector(state => state.settings.data.isFirstTime)
+
   return {
     isFirstTime: value,
     isFirstTimeRef: ref,
@@ -104,7 +114,8 @@ export const useIsFirstTimeSelector = () => {
 }
 
 export const useOverTheAirInfoSelector = () => {
-  const { ref, value } = useAppSelector(state => state.settings.data.overTheAirInfo)
+  const { value, ref } = useAppSelector(state => state.settings.data.overTheAirInfo)
+
   return {
     overTheAirInfo: value,
     overTheAirInfoRef: ref,
@@ -120,7 +131,7 @@ export const useCanShowNeo3VoteSupportUsModalSelector = () => {
 }
 
 export const useShowSideBarSelector = () => {
-  const { value: showSideBar, ref: showSideBarRef } = useAppSelector(({ settings }) => settings.data.showSideBar)
+  const { value: showSideBar, ref: showSideBarRef } = useAppSelector(({ settings }) => settings.memoryData.showSideBar)
 
   return { showSideBar, showSideBarRef }
 }

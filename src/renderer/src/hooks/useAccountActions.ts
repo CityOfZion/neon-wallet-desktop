@@ -19,7 +19,7 @@ import {
   TUseImportAccountParams,
   TUseImportAccountsParams,
 } from '@shared/types/blockchain'
-import { IAccountState } from '@shared/types/store'
+import { TAccount } from '@shared/types/store'
 
 import { useLoginSessionSelector } from './useAuthSelector'
 import { useAppDispatch } from './useRedux'
@@ -53,12 +53,12 @@ export const useCreateStandardAccount = () => {
         encryptedSecret: loginSessionRef.current.encryptedPassword,
       })
 
-      const newAccount: IAccountState = {
-        id: id ?? UtilsHelper.uuid(),
+      const newAccount: TAccount = {
+        id: id || UtilsHelper.uuid(),
         idWallet: wallet.id,
         name,
         blockchain,
-        skin: skin ?? SkinHelper.generateColorSkin(),
+        skin: skin || SkinHelper.generateColorSkin(),
         address: generatedAccount.address,
         type: 'standard',
         encryptedKey,
@@ -110,12 +110,12 @@ export const useImportAccount = () => {
 
       const accountOrder = order ?? AccountHelper.getNextOrderOrMissing(wallet.accounts, blockchain)
 
-      const newAccount: IAccountState = {
+      const newAccount: TAccount = {
         id: UtilsHelper.uuid(),
         idWallet: wallet.id,
-        name: name ?? t('account.defaultName', { accountNumber: accountOrder + 1 }),
+        name: name || t('account.defaultName', { accountNumber: accountOrder + 1 }),
         blockchain,
-        skin: skin ?? SkinHelper.generateColorSkin(),
+        skin: skin || SkinHelper.generateColorSkin(),
         address,
         type,
         encryptedKey,
@@ -163,7 +163,7 @@ export const useDeleteAccount = () => {
   const dispatch = useAppDispatch()
 
   const deleteAccount = useCallback(
-    async (account: IAccountState) => {
+    async (account: TAccount) => {
       dispatch(authReducerActions.deleteAccount(account))
 
       const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[account.blockchain]
@@ -210,7 +210,7 @@ export const useEditAccount = () => {
         delete data.key
       }
 
-      const editedAccount: IAccountState = Object.assign({}, account, { ...data, encryptedKey })
+      const editedAccount: TAccount = Object.assign({}, account, { ...data, encryptedKey })
 
       dispatch(authReducerActions.saveAccount(editedAccount))
 

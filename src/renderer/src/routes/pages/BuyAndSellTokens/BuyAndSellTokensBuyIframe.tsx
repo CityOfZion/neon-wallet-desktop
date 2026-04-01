@@ -6,9 +6,9 @@ import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { useMountUnsafe } from '@renderer/hooks/useMount'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 
-import type { IAccountState } from '@shared/types/store'
+import type { TAccount } from '@shared/types/store'
 
-type TProps = { account?: IAccountState; onReady?: (ready?: boolean) => void } & ComponentProps<'div'>
+type TProps = { account?: TAccount; onReady?: (ready?: boolean) => void } & ComponentProps<'div'>
 
 const IFRAME_CONTAINER_ID = 'buy-tokens-iframe-container'
 

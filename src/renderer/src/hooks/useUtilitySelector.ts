@@ -3,11 +3,11 @@ import { isClaimable } from '@cityofzion/blockchain-service'
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
-import { IAccountState } from '@shared/types/store'
+import { TAccount } from '@shared/types/store'
 
 import { createAppSelector, useAppSelector } from './useRedux'
 
-const selectHasClaimPendingTransaction = (account: IAccountState) =>
+const selectHasClaimPendingTransaction = (account: TAccount) =>
   createAppSelector([state => state.utility.memoryData.pendingTransactions], pendingTransactions => {
     const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[account.blockchain]
 
@@ -28,8 +28,8 @@ export const usePendingTransactionsSelector = () => {
   }
 }
 
-export const useHasClaimPendingTransactionSelector = (account: IAccountState) => {
-  const { ref, value } = useAppSelector(selectHasClaimPendingTransaction(account))
+export const useHasClaimPendingTransactionSelector = (account: TAccount) => {
+  const { value, ref } = useAppSelector(selectHasClaimPendingTransaction(account))
 
   return {
     hasClaimPendingTransaction: value,
@@ -38,7 +38,7 @@ export const useHasClaimPendingTransactionSelector = (account: IAccountState) =>
 }
 
 export const useSwapRecordsSelector = () => {
-  const { ref, value } = useAppSelector(state => state.utility.data.swapRecords)
+  const { value, ref } = useAppSelector(state => state.utility.data.swapRecords)
 
   return {
     swapRecords: value,
@@ -61,7 +61,7 @@ export const useSwapRecordSelector = (hash: string) => {
 }
 
 export const useLastIndexesByWallet = () => {
-  const { ref, value } = useAppSelector(state => state.utility.data.lastIndexesByWallet)
+  const { value, ref } = useAppSelector(state => state.utility.data.lastIndexesByWallet)
 
   return {
     lastIndexesByWallet: value,
@@ -70,7 +70,7 @@ export const useLastIndexesByWallet = () => {
 }
 
 export const useHiddenTokensByBlockchainSelector = () => {
-  const { ref, value } = useAppSelector(state => state.utility.data.hiddenTokensByBlockchain)
+  const { value, ref } = useAppSelector(state => state.utility.data.hiddenTokensByBlockchain)
 
   return {
     hiddenTokensByBlockchain: value,
@@ -79,7 +79,7 @@ export const useHiddenTokensByBlockchainSelector = () => {
 }
 
 export const useUnlockedSkinIdsSelector = () => {
-  const { ref, value } = useAppSelector(state => state.utility.data.unlockedSkinIds)
+  const { value, ref } = useAppSelector(state => state.utility.data.unlockedSkinIds)
 
   return {
     unlockedSkinIds: value,

@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { Tooltip } from '@renderer/components/Tooltip'
 
 import { ClipboardHelper } from '@renderer/helpers/ClipboardHelper'
+import { ElementHelper } from '@renderer/helpers/ElementHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import MdOutlineContentCopy from '@renderer/assets/images/md-outline-content-copy.svg?react'
@@ -36,7 +37,7 @@ const Header = ({ children, className, leftElement, rightElement, ...props }: TH
         })}
 
       <div className="grow">
-        {typeof children === 'string' ? <span className="text-sm text-white">{children}</span> : children}
+        {ElementHelper.isTextContentValid(children) ? <span className="text-sm text-white">{children}</span> : children}
       </div>
 
       {rightElement}
@@ -81,10 +82,18 @@ const Item = ({ label, children, copyable, className, contentClassName, ...props
   return (
     <div className="group/item ml-3 flex flex-col">
       <div className={StyleHelper.mergeStyles('flex flex-col gap-2.5 py-4', className)} {...props}>
-        {typeof label === 'string' ? <span className="text-xs text-gray-100 uppercase">{label}</span> : label}
+        {ElementHelper.isTextContentValid(label) ? (
+          <span className="text-xs text-gray-100 uppercase">{label}</span>
+        ) : (
+          label
+        )}
 
         <div className={StyleHelper.mergeStyles('flex items-center gap-2.5', contentClassName)}>
-          {typeof children === 'string' ? <span className="text-sm break-all text-white">{children}</span> : children}
+          {ElementHelper.isTextContentValid(children) ? (
+            <span className="text-sm break-all text-white">{children}</span>
+          ) : (
+            children
+          )}
 
           {copyable && (
             <Tooltip title={t('copy')}>

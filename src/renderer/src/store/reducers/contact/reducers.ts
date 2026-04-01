@@ -3,16 +3,17 @@ import { cloneDeep } from 'lodash'
 
 import { ContactsHelper } from '@renderer/helpers/ContactsHelper'
 
-import { IContactState, TContactEncryptedAddress } from '@shared/types/store'
+import { TContact, TContactEncryptedAddress } from '@shared/types/store'
 
-import { IContactReducer } from '.'
+import { TContactReducer } from '.'
 
-const saveContact: CaseReducer<IContactReducer, PayloadAction<IContactState>> = (state, action) => {
+const saveContact: CaseReducer<TContactReducer, PayloadAction<TContact>> = (state, action) => {
   const contact = action.payload
+
   if (!contact.name?.trim() || contact.addresses.length === 0 || !contact.id?.trim()) return
 
-  const encryptedContact: IContactState<TContactEncryptedAddress> = ContactsHelper.encryptContact(cloneDeep(contact))
-  const findIndex = state.data.findIndex(it => it.id === contact.id)
+  const encryptedContact: TContact<TContactEncryptedAddress> = ContactsHelper.encryptContact(cloneDeep(contact))
+  const findIndex = state.data.findIndex(({ id }) => id === contact.id)
 
   if (findIndex < 0) {
     state.data = [...state.data, encryptedContact]
@@ -22,9 +23,10 @@ const saveContact: CaseReducer<IContactReducer, PayloadAction<IContactState>> = 
   state.data[findIndex] = encryptedContact
 }
 
-const deleteContact: CaseReducer<IContactReducer, PayloadAction<string>> = (state, action) => {
-  const idContact = action.payload
-  state.data = state.data.filter(contact => contact.id !== idContact)
+const deleteContact: CaseReducer<TContactReducer, PayloadAction<string>> = (state, action) => {
+  const contactId = action.payload
+
+  state.data = state.data.filter(contact => contact.id !== contactId)
 }
 
 export const contactSliceReducers = {

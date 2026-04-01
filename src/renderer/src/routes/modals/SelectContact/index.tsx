@@ -13,7 +13,7 @@ import { SideModalLayout } from '@renderer/layouts/SideModal'
 import TbStepOut from '@renderer/assets/images/tb-step-out.svg?react'
 
 import type { TModalState } from '@shared/types/modal'
-import { IContactState, TContactAddress } from '@shared/types/store'
+import { TContact, TContactAddress } from '@shared/types/store'
 
 const SelectContact = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'selectContact' })
@@ -21,7 +21,7 @@ const SelectContact = () => {
   const { blockchain, onSelectContact } = useModalState<TModalState<'select-contact'>>()
   const { contacts } = useContactsSelector()
 
-  const [selectedContact, setSelectedContact] = useState<IContactState | null>(null)
+  const [selectedContact, setSelectedContact] = useState<TContact | null>(null)
   const [selectedAddress, setSelectedAddress] = useState<TContactAddress | null>(null)
 
   const selectRecipient = () => {
@@ -47,7 +47,7 @@ const SelectContact = () => {
           className="mt-10 w-[16rem]"
           type="submit"
           label={t('selectRecipient')}
-          disabled={selectedAddress ? false : true}
+          disabled={!selectedAddress}
           onClick={selectRecipient}
         />
       </ContactList>

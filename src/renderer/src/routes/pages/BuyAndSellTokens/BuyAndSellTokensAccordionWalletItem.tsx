@@ -10,12 +10,12 @@ import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 
 import WalletIcon from '@renderer/assets/images/wallet-icon.svg?react'
 
-import { IWalletState } from '@shared/types/store'
+import { TWallet } from '@shared/types/store'
 
 import { BuyAndSellTokensAccordionAccountItem } from './BuyAndSellTokensAccordionAccountItem'
 
 type TProps = {
-  wallet: IWalletState
+  wallet: TWallet
 }
 
 export const BuyAndSellTokensAccordionWalletItem = ({ wallet }: TProps) => {

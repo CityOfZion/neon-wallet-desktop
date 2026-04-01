@@ -43,8 +43,10 @@ const CUSTOM_CONTENT_BY_REQUEST: Partial<
 
 export const DappPermissionModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'dappPermission' })
+
   const { session, request, onAccept, onReject, sessionAccount, sessionDetails } =
     useModalState<TModalState<'dapp-permission'>>()
+
   const { modalErase, modalNavigate } = useModalNavigate()
   const { selectedNetworkProfile } = useSelectedNetworkProfileSelector()
   const { confirmAction } = useConfirmAction()
@@ -54,7 +56,8 @@ export const DappPermissionModal = () => {
 
   const handleReject = async (reason?: ErrorResponse, toastMessage?: string) => {
     await onReject(reason)
-    ToastHelper.error({ message: toastMessage ?? t('errors.cancelled'), id: 'dapp-permission-cancel' })
+
+    ToastHelper.error({ message: toastMessage || t('errors.cancelled'), id: 'dapp-permission-cancel' })
   }
 
   const [isRejecting, startReject] = usePressOnce(async (reason?: ErrorResponse | undefined, toastMessage?: string) => {
@@ -133,7 +136,7 @@ export const DappPermissionModal = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [request.id, t])
 
-  const Content = CUSTOM_CONTENT_BY_REQUEST[blockchain]?.[request.params.request.method] ?? DappPermissionGenericContent
+  const Content = CUSTOM_CONTENT_BY_REQUEST[blockchain]?.[request.params.request.method] || DappPermissionGenericContent
 
   return (
     <CenterModalLayout contentClassName="px-0 flex flex-col pb-5 min-h-0" onErase={handleReject}>

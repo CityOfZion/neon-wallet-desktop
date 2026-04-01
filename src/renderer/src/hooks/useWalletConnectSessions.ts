@@ -8,9 +8,9 @@ import { WalletKitHelper } from '@renderer/helpers/WalletKitHelper'
 
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 import type { TUseWalletConnectSessionsResult } from '@shared/types/query'
-import type { IAccountState } from '@shared/types/store'
+import type { TAccount } from '@shared/types/store'
 
-const buildWalletConnectSessionsQueryKey = (accounts?: IAccountState[]) => {
+const buildWalletConnectSessionsQueryKey = (accounts?: TAccount[]) => {
   const key = ['wallet-connect', 'sessions']
 
   if (accounts) {
@@ -21,13 +21,13 @@ const buildWalletConnectSessionsQueryKey = (accounts?: IAccountState[]) => {
   return key
 }
 
-export const invalidateWalletConnectSessions = (accounts?: IAccountState[]) => {
+export const invalidateWalletConnectSessions = (accounts?: TAccount[]) => {
   return ReactQueryHelper.client.invalidateQueries({
     queryKey: buildWalletConnectSessionsQueryKey(accounts),
   })
 }
 
-const fetchSessions = async (accounts: IAccountState[]): Promise<TUseWalletConnectSessionsResult[]> => {
+const fetchSessions = async (accounts: TAccount[]): Promise<TUseWalletConnectSessionsResult[]> => {
   const sessions: TUseWalletConnectSessionsResult[] = []
 
   for (const session of Object.values(WalletKitHelper.kit.getActiveSessions())) {
@@ -45,7 +45,7 @@ const fetchSessions = async (accounts: IAccountState[]): Promise<TUseWalletConne
   return sessions
 }
 
-export const useWalletConnectSessions = (accounts: IAccountState[]) => {
+export const useWalletConnectSessions = (accounts: TAccount[]) => {
   const query = useQuery({
     queryKey: buildWalletConnectSessionsQueryKey(accounts),
     queryFn: fetchSessions.bind(null, accounts),

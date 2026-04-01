@@ -52,17 +52,17 @@ import VscCircleFilled from '@renderer/assets/images/vsc-circle-filled.svg?react
 
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 import { AppError } from '@shared/helpers/SharedErrorHelper'
-import { IAccountState, TContactAddress } from '@shared/types/store'
+import { TAccount, TContactAddress } from '@shared/types/store'
 
 type TProps = {
-  account?: IAccountState<TBSBridgeName>
+  account?: TAccount<TBSBridgeName>
 }
 
 type TActionsData = {
   availableTokensToUse: TBridgeValue<TBridgeToken<TBSBridgeName>[]>
   tokenToUse: TBridgeValue<TBridgeToken<TBSBridgeName>>
   tokenToUseBalance: TBridgeValue<TBalanceResponse | undefined>
-  accountToUse: TBridgeValue<IAccountState<TBSBridgeName>>
+  accountToUse: TBridgeValue<TAccount<TBSBridgeName>>
   amountToUse: TBridgeValidateValue<string>
   amountToUseMin: TBridgeValue<string>
   amountToUseMax: TBridgeValue<string>
@@ -176,7 +176,7 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
         ? accountsMapRef.current.get(SharedAccountHelper.buildAccountKey(accountToUse.value))
         : undefined
 
-      setData({ accountToUse: { ...accountToUse, value: account ?? null } })
+      setData({ accountToUse: { ...accountToUse, value: account || null } })
     })
 
     neo3NeoXBridgeOrchestrator.eventEmitter.on('amountToUse', amountToUse => {
@@ -223,7 +223,7 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
     await bridgeOrchestratorRef.current.switchTokens()
   }
 
-  const handleSelectAccountToUse = async (account: IAccountState<TBSBridgeName>) => {
+  const handleSelectAccountToUse = async (account: TAccount<TBSBridgeName>) => {
     if (!loginSessionRef.current || !account.encryptedKey) return
 
     const serviceAccount = await AccountHelper.getServiceAccount(account)
@@ -245,7 +245,7 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
     bridgeOrchestratorRef.current.setAddressToReceive(contactAddress.address)
   }
 
-  const handleSelectAccountToReceive = (account: IAccountState) => {
+  const handleSelectAccountToReceive = (account: TAccount) => {
     bridgeOrchestratorRef.current.setAddressToReceive(account.address)
   }
 
@@ -337,7 +337,7 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
     <section className="flex h-full w-full rounded-sm bg-gray-800">
       <div className="flex w-72 max-w-72 min-w-72 flex-col border-r border-gray-300/15 bg-gray-900/50 px-4 pt-1 pb-6">
         <div className="flex h-12 items-center gap-x-2">
-          <MdInfoOutline aria-hidden className="text-green h-6 w-6" />
+          <MdInfoOutline aria-hidden className="text-green size-6" />
           <h2 className="text-sm text-white">{t('explanation.title')}</h2>
         </div>
 
@@ -378,13 +378,13 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
 
               <ActionStep
                 title={t('form.tokenToUseStepTitle')}
-                leftIcon={<VscCircleFilled aria-hidden className="h-2 w-2 text-gray-300" />}
+                leftIcon={<VscCircleFilled aria-hidden className="size-2 text-gray-300" />}
               >
                 <GreyTokenSelect
-                  tokens={actionData.availableTokensToUse.value ?? []}
+                  tokens={actionData.availableTokensToUse.value || []}
                   loading={actionData.availableTokensToUse.loading || actionData.tokenToUse.loading}
                   onSelect={handleSelectTokenToUse}
-                  selectedToken={actionData.tokenToUse.value ?? undefined}
+                  selectedToken={actionData.tokenToUse.value || undefined}
                 />
               </ActionStep>
 
@@ -412,7 +412,7 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
                   disabled
                   tokens={[]}
                   loading={actionData.tokenToReceive.loading}
-                  selectedToken={actionData.tokenToReceive.value ?? undefined}
+                  selectedToken={actionData.tokenToReceive.value || undefined}
                 />
               </ActionStep>
             </div>
@@ -430,7 +430,7 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
 
               <ActionStep
                 title={t('form.accountToUseStepTitle')}
-                leftIcon={<VscCircleFilled aria-hidden className="h-2 w-2 text-gray-300" />}
+                leftIcon={<VscCircleFilled aria-hidden className="size-2 text-gray-300" />}
               >
                 <GreyAccountSelect
                   selectedAccount={actionData.accountToUse.value}
@@ -444,7 +444,7 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
 
               <ActionStep
                 title={t('form.addressToReceiveStepTitle')}
-                leftIcon={<VscCircleFilled aria-hidden className="h-2 w-2 text-gray-300" />}
+                leftIcon={<VscCircleFilled aria-hidden className="size-2 text-gray-300" />}
               >
                 <div className="flex grow items-start gap-3">
                   <Input
@@ -504,12 +504,12 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
 
               <ActionStep
                 title={t('form.amountToUseStepTitle')}
-                leftIcon={<VscCircleFilled aria-hidden className="h-2 w-2 text-gray-300" />}
+                leftIcon={<VscCircleFilled aria-hidden className="size-2 text-gray-300" />}
                 footer={
                   <div className="flex w-full justify-between">
                     <span className="text-xs text-gray-200 italic">{t('form.tokenToUseBalanceStepTitle')}</span>
                     <span className="text-xs text-gray-100 italic">
-                      {actionData.tokenToUseBalance.value?.amount ?? t('form.tokenToUseBalancePlaceholder')}
+                      {actionData.tokenToUseBalance.value?.amount || t('form.tokenToUseBalancePlaceholder')}
                     </span>
                   </div>
                 }
@@ -517,7 +517,7 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
                 <div className="flex gap-2.5">
                   <span className="mt-2 text-xs text-gray-200">
                     {t('form.amountToUseMinimumLabel', {
-                      amount: actionData.amountToUseMin.value ?? t('form.amountToUseMinimumPlaceholder'),
+                      amount: actionData.amountToUseMin.value || t('form.amountToUseMinimumPlaceholder'),
                     })}
                   </span>
 
@@ -553,14 +553,14 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
                     </Trans>
                   </p>
                 }
-                leftIcon={<VscCircleFilled aria-hidden className="h-2 w-2 text-gray-300" />}
+                leftIcon={<VscCircleFilled aria-hidden className="size-2 text-gray-300" />}
               >
                 <GreyAmountInput
                   readOnly
                   className="text-right"
                   contentClassName="px-0 bg-transparent"
                   disabled={isAmountsDisabled}
-                  value={actionData.amountToReceive.value ?? t('form.amountToReceivePlaceholder')}
+                  value={actionData.amountToReceive.value || t('form.amountToReceivePlaceholder')}
                   loading={actionData.amountToReceive.loading}
                   error={!!actionData.amountToReceive.error}
                 />
@@ -570,7 +570,7 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
             {errorMessage && <AlertErrorBanner className="mt-2.5 w-full" message={errorMessage} />}
 
             <TransactionFeeActionStep
-              fee={actionData.bridgeFee?.value ?? undefined}
+              fee={actionData.bridgeFee?.value || undefined}
               isCalculatingFee={actionData.bridgeFee?.loading}
               service={fromService}
               className="mt-2.5"

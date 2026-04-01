@@ -2,6 +2,7 @@ import { ReactNode } from 'react'
 
 import { Link } from 'react-router'
 
+import { ElementHelper } from '@renderer/helpers/ElementHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import { useTransactionActivityList } from '@renderer/hooks/useTransactionActivityList'
@@ -19,7 +20,7 @@ type TProps = {
 }
 
 const Content = ({ data }: TContentProps) =>
-  typeof data === 'string' || typeof data === 'number' ? (
+  ElementHelper.isTextContentValid(data) ? (
     <TransactionActivityListTooltip data={data}>
       <span className="inline-block truncate">{data}</span>
     </TransactionActivityListTooltip>

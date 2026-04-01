@@ -9,7 +9,7 @@ import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import type { TUseTransactionsTransaction } from '@shared/types/hooks'
 import { TSwapRecord } from '@shared/types/store'
 
-import { IUtilityReducer } from './index'
+import { TUtilityReducer } from './index'
 
 type THiddenTokenParams = {
   hash: string
@@ -19,21 +19,21 @@ type THiddenTokenParams = {
 const { t } = SharedI18nextHelper.get()
 
 // Pending Transaction Reducers
-const addPendingTransaction: CaseReducer<IUtilityReducer, PayloadAction<TUseTransactionsTransaction>> = (
+const addPendingTransaction: CaseReducer<TUtilityReducer, PayloadAction<TUseTransactionsTransaction>> = (
   state,
   action
 ) => {
   state.memoryData.pendingTransactions = [...state.memoryData.pendingTransactions, action.payload]
 }
 
-const removePendingTransaction: CaseReducer<IUtilityReducer, PayloadAction<string>> = (state, action) => {
+const removePendingTransaction: CaseReducer<TUtilityReducer, PayloadAction<string>> = (state, action) => {
   state.memoryData.pendingTransactions = state.memoryData.pendingTransactions.filter(
     transaction => transaction.txId !== action.payload
   )
 }
 
 // Swap Reducers
-const persistSwapRecord: CaseReducer<IUtilityReducer, PayloadAction<TSwapRecord>> = (state, action) => {
+const persistSwapRecord: CaseReducer<TUtilityReducer, PayloadAction<TSwapRecord>> = (state, action) => {
   const swapRecord = cloneDeep(action.payload)
 
   // We don't want to save this long information in the storage
@@ -53,7 +53,7 @@ const persistSwapRecord: CaseReducer<IUtilityReducer, PayloadAction<TSwapRecord>
 
 // Last Indexes By Wallet Reducers
 const saveLastIndexByWallet: CaseReducer<
-  IUtilityReducer,
+  TUtilityReducer,
   PayloadAction<{
     index: number
     firstAccountAddress: string
@@ -68,14 +68,14 @@ const saveLastIndexByWallet: CaseReducer<
 }
 
 // Unlocked Skins Reducers
-const setUnlockedSkinIds: CaseReducer<IUtilityReducer, PayloadAction<string[]>> = (state, action) => {
+const setUnlockedSkinIds: CaseReducer<TUtilityReducer, PayloadAction<string[]>> = (state, action) => {
   const { payload: skinIds } = action
 
   state.data.unlockedSkinIds = skinIds
 }
 
 // Hidden Tokens Reducers
-const toggleHiddenToken: CaseReducer<IUtilityReducer, PayloadAction<THiddenTokenParams>> = (state, action) => {
+const toggleHiddenToken: CaseReducer<TUtilityReducer, PayloadAction<THiddenTokenParams>> = (state, action) => {
   const { hash, blockchain } = action.payload
 
   const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
@@ -85,7 +85,7 @@ const toggleHiddenToken: CaseReducer<IUtilityReducer, PayloadAction<THiddenToken
   }
 
   const normalizedHash = service.tokenService.normalizeHash(hash)
-  const hiddenTokens = cloneDeep(state.data.hiddenTokensByBlockchain[blockchain] ?? [])
+  const hiddenTokens = cloneDeep(state.data.hiddenTokensByBlockchain[blockchain] || [])
   const index = hiddenTokens.findIndex(tokenHash => service.tokenService.predicateByHash(normalizedHash, tokenHash))
 
   if (index < 0) {

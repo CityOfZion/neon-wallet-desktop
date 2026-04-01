@@ -11,7 +11,7 @@ import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import { TUseHardwareWalletByUsbStatus } from '@shared/types/hooks'
-import { IAccountState, IWalletState } from '@shared/types/store'
+import { TAccount, TWallet } from '@shared/types/store'
 
 import { useEditAccount, useImportAccount } from './useAccountActions'
 import { useAccountsWithWalletMapSelector } from './useAccountSelector'
@@ -98,11 +98,11 @@ export const useCreateHardwareWallet = () => {
         throw new AppError(tCommon('errors.loginSessionIsNotDefined'))
       }
 
-      const existentWalletsByBlockchain = new Map<TBlockchainServiceKey, IWalletState>()
+      const existentWalletsByBlockchain = new Map<TBlockchainServiceKey, TWallet>()
       const groupedAccountInfosByBlockchain = new Map<
         TBlockchainServiceKey,
         {
-          existentAccount?: IAccountState
+          existentAccount?: TAccount
           account: TBSAccount<TBlockchainServiceKey>
         }[]
       >()
@@ -112,7 +112,7 @@ export const useCreateHardwareWallet = () => {
         const existentAccount = accountsWithWalletMapRef.current.get(SharedAccountHelper.buildAccountKey(account))
         const existentWallet = existentAccount?.wallet
 
-        const groupedInfo = groupedAccountInfosByBlockchain.get(account.blockchain) ?? []
+        const groupedInfo = groupedAccountInfosByBlockchain.get(account.blockchain) || []
         groupedInfo.push({ existentAccount, account })
 
         groupedAccountInfosByBlockchain.set(account.blockchain, groupedInfo)
@@ -123,12 +123,12 @@ export const useCreateHardwareWallet = () => {
         }
       })
 
-      const newAccounts: IAccountState[] = []
+      const newAccounts: TAccount[] = []
 
       for (const [blockchain, accountInfos] of groupedAccountInfosByBlockchain.entries()) {
         const existentWallet = existentWalletsByBlockchain.get(blockchain)
 
-        let wallet: IWalletState
+        let wallet: TWallet
 
         if (!existentWallet) {
           wallet = createWallet({
@@ -146,7 +146,7 @@ export const useCreateHardwareWallet = () => {
         }
 
         for (const info of accountInfos) {
-          let account: IAccountState | undefined
+          let account: TAccount | undefined
 
           if (info.existentAccount) {
             account = editAccount({
@@ -186,7 +186,7 @@ export const useAddAccountHardwareWallet = () => {
   const { t: tCommon } = useTranslation('common')
 
   const addNewHardwareAccount = useCallback(
-    async (wallet: IWalletState, accountName?: string) => {
+    async (wallet: TWallet, accountName?: string) => {
       if (!loginSessionRef.current) {
         throw new AppError(tCommon('errors.loginSessionIsNotDefined'))
       }

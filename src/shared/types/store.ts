@@ -25,7 +25,7 @@ export type TLocalSkin = {
 
 export type TSkin = TColorSkin | TLocalSkin | TNftSkin
 
-export type IAccountState<N extends TBlockchainServiceKey = TBlockchainServiceKey> = N extends TBlockchainServiceKey
+export type TAccount<N extends TBlockchainServiceKey = TBlockchainServiceKey> = N extends TBlockchainServiceKey
   ? {
       id: string
       address: string
@@ -39,17 +39,17 @@ export type IAccountState<N extends TBlockchainServiceKey = TBlockchainServiceKe
     }
   : never
 
-export interface IWalletState {
+export type TWallet = {
   id: string
   name: string
   type: TWalletType
   encryptedMnemonic?: string
-  accounts: IAccountState[]
+  accounts: TAccount[]
   backupStatus: TWalletBackupStatus
 }
 
-export type TAccountWithWallet = IAccountState & {
-  wallet: IWalletState
+export type TAccountWithWallet = TAccount & {
+  wallet: TWallet
 }
 
 export type TLoginSessionType = 'password' | 'hardware' | 'key'
@@ -72,7 +72,7 @@ export type TCurrency = {
   symbol: string
   label: TAvailableCurrency
 }
-export type TCustomNetwork = {
+export type TCustomNetworks = {
   [K in TBlockchainServiceKey]: TNetwork[]
 }
 
@@ -92,23 +92,6 @@ export type TOverTheAirInfo = {
   shouldUpdate: boolean
 }
 
-export interface ISettingsState {
-  isFirstTime: boolean
-  hasPassword: boolean
-  currency: TCurrency
-  language: TLanguage
-  overTheAirInfo: TOverTheAirInfo
-  customNetworks: TCustomNetwork
-  networkProfiles: TNetworkProfile[]
-  selectedNetworkProfile: TNetworkProfile
-  canShowNeo3VoteSupportUsModal: boolean
-  encryptedLoginControl?: string
-  selectedWallet?: IWalletState
-  selectedAccount?: IAccountState
-  showSideBar: boolean
-  lastAccountPanel?: string
-}
-
 export type TContactAddress = {
   address: string
   blockchain: TBlockchainServiceKey
@@ -119,14 +102,14 @@ export type TContactEncryptedAddress = {
   blockchain: TBlockchainServiceKey
 }
 
-export interface IContactState<A = TContactAddress> {
+export type TContact<A = TContactAddress> = {
   id: string
   name: string
   addresses: A[]
 }
 
 export type TSwapRecord = {
-  account: IAccountState
+  account: TAccount
   txFrom?: string
   txTo?: string
   swapProvider: 'simpleswap'

@@ -1,10 +1,14 @@
 import { ContactsHelper } from '@renderer/helpers/ContactsHelper'
+import { SelectorHelper } from '@renderer/helpers/SelectorHelper'
 
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
+import { TContact } from '@shared/types/store'
 
 import { createAppSelector, useAppSelector } from './useRedux'
 
-const selectContacts = createAppSelector([state => state.contact.data], data => ContactsHelper.decryptContacts(data))
+const selectContacts = createAppSelector([state => state.contact.data], data =>
+  SelectorHelper.fallbackToEmptyArray<TContact>(ContactsHelper.decryptContacts(data))
+)
 
 export const useContactsSelector = () => {
   const { value, ref } = useAppSelector(selectContacts)

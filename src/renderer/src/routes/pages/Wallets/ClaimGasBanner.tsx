@@ -17,10 +17,10 @@ import { useUnclaimed, useUnclaimedMutation } from '@renderer/hooks/useUnclaimed
 import TbTransform from '@renderer/assets/images/tb-transform.svg?react'
 
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
-import { IAccountState } from '@shared/types/store'
+import { TAccount } from '@shared/types/store'
 
 type TProps = {
-  account: IAccountState
+  account: TAccount
   blockchainService: IBlockchainService<TBlockchainServiceKey> & IBSWithClaim<TBlockchainServiceKey>
 }
 
@@ -111,7 +111,7 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
           <div className="flex items-center gap-x-5">
             <span className="truncate">
               {t('claimAmount', {
-                amount: unclaimedQuery.data?.unclaimed ?? 0,
+                amount: unclaimedQuery.data?.unclaimed || 0,
                 symbol: claimToken.symbol,
               })}
             </span>

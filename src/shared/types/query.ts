@@ -10,7 +10,7 @@ import type { SessionTypes } from '@walletconnect/types'
 
 import { TBlockchainServiceKey } from './blockchain'
 import type { Optional } from './global'
-import type { IAccountState } from './store'
+import type { TAccount } from './store'
 
 export type TBaseOptions<T = unknown> = Omit<UseQueryOptions<T, unknown, T, QueryKey>, 'queryKey' | 'queryFn'>
 
@@ -101,5 +101,5 @@ export type TPingNetwork = Optional<TPingNetworkResponse, 'height' | 'latency'>
 
 export type TUseWalletConnectSessionsResult = SessionTypes.Struct & {
   details: TWalletKitHelperSessionDetails
-  account: IAccountState
+  account: TAccount
 }

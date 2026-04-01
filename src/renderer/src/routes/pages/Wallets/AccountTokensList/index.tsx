@@ -13,13 +13,13 @@ import { useBalances } from '@renderer/hooks/useBalances'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 
 import { TUseBalanceOptionShowType } from '@shared/types/query'
-import { IAccountState } from '@shared/types/store'
+import { TAccount } from '@shared/types/store'
 
 import { AccountDetailsLayout } from '../AccountDetailsLayout'
 import { CommonAccountActions } from '../CommonAccountActions'
 
 type TOutletContext = {
-  account: IAccountState
+  account: TAccount
 }
 
 const AccountTokensList = () => {
@@ -47,7 +47,7 @@ const AccountTokensList = () => {
             <p className="text-sm text-gray-300">{t('balance')}</p>
 
             {balances.isLoading ? (
-              <Loader className="h-4 w-4" />
+              <Loader className="size-4" />
             ) : (
               <span className="text-sm text-white">{CurrencyHelper.format(balances.exchangeTotal, { currency })}</span>
             )}

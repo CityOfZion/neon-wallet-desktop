@@ -1,5 +1,6 @@
 import { cloneElement, ComponentProps, type JSX, ReactNode } from 'react'
 
+import { ElementHelper } from '@renderer/helpers/ElementHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import { TransactionActivityListTooltip } from './TransactionActivityListTooltip'
@@ -14,10 +15,10 @@ export const TransactionActivityListItemsHeaderDetails = ({ label, data, icon, .
   <div {...props} className={StyleHelper.mergeStyles('flex items-center gap-x-1', props.className)}>
     {cloneElement(icon, {
       ...icon.props,
-      className: StyleHelper.mergeStyles('text-gray-300 w-4 min-w-4 max-w-4 h-4 min-h-4 max-h-4', icon.props.className),
+      className: StyleHelper.mergeStyles('text-gray-300 size-4 min-size-4 max-size-4', icon.props.className),
     })}
 
-    {typeof data !== 'object' ? (
+    {ElementHelper.isTextContentValid(data) ? (
       <TransactionActivityListTooltip data={label || ''}>
         <span className="text-white">{data}</span>
       </TransactionActivityListTooltip>

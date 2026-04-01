@@ -17,7 +17,7 @@ import {
   type TUseTransactionsQueryData,
   type TUseTransactionsTransaction,
 } from '@shared/types/hooks'
-import { IAccountState, TSelectedNetworks } from '@shared/types/store'
+import { TAccount, TSelectedNetworks } from '@shared/types/store'
 
 import { useSelectedNetworkByBlockchainSelector } from './useSettingsSelector'
 import { useHiddenTokensByBlockchainSelector, usePendingTransactionsSelector } from './useUtilitySelector'
@@ -71,7 +71,7 @@ const fetchTransactions = async (
   queryClient: QueryClient,
   dateFrom: Date,
   dateTo: Date,
-  accounts: IAccountState[],
+  accounts: TAccount[],
   networksByBlockchain: TSelectedNetworks,
   page: number,
   shouldUseFullTransactionsService: boolean

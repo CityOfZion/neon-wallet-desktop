@@ -11,13 +11,13 @@ import { TNotification, TSaveNotification } from '@shared/types/store'
 import { authReducerActions } from '../reducers/auth'
 import { utilityReducerActions } from '../reducers/utility'
 
-type TWaitPendingTransactionParams = {
+type TParams = {
   pendingTransaction: TUseTransactionsTransaction
-  successNotification: Pick<TNotification, 'title' | 'previewBody'>
-  failureNotification: Pick<TNotification, 'title' | 'previewBody'>
+  successNotification?: Pick<TNotification, 'title' | 'previewBody'>
+  failureNotification?: Pick<TNotification, 'title' | 'previewBody'>
 }
 
-export const waitPendingTransaction = createAsyncThunk<void, TWaitPendingTransactionParams>(
+export const waitPendingTransaction = createAsyncThunk<void, TParams>(
   'waitPendingTransaction',
   async (params, { getState, dispatch }) => {
     const state = getState() as TRootState
@@ -25,11 +25,16 @@ export const waitPendingTransaction = createAsyncThunk<void, TWaitPendingTransac
     const { txId, account } = pendingTransaction
     const { address, blockchain } = account
     const network = state.settings.data.selectedNetworkProfile.networkByBlockchain[blockchain]
+    const hasNotifications = !!successNotification && !!failureNotification
 
-    const notification: TSaveNotification = {
-      title: failureNotification.title,
-      previewBody: failureNotification.previewBody,
-      related: { address, blockchain },
+    let notification: TSaveNotification | undefined
+
+    if (hasNotifications) {
+      notification = {
+        title: failureNotification.title,
+        previewBody: failureNotification.previewBody,
+        related: { address, blockchain },
+      }
     }
 
     try {
@@ -38,7 +43,7 @@ export const waitPendingTransaction = createAsyncThunk<void, TWaitPendingTransac
       const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
       const isCompleted = await waitForAccountTransaction({ service, txId, address, maxAttempts: 20 })
 
-      if (isCompleted) {
+      if (isCompleted && notification && hasNotifications) {
         notification.title = successNotification.title
         notification.previewBody = successNotification.previewBody
         notification.action = {
@@ -56,7 +61,8 @@ export const waitPendingTransaction = createAsyncThunk<void, TWaitPendingTransac
 
     ReactQueryHelper.invalidateTransactionQueries(account, network)
 
-    dispatch(authReducerActions.saveNotification(notification))
+    if (notification) dispatch(authReducerActions.saveNotification(notification))
+
     dispatch(utilityReducerActions.removePendingTransaction(txId))
   }
 )

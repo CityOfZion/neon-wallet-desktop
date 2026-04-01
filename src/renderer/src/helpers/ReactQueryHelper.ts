@@ -5,7 +5,7 @@ import { buildNeo3VoteGetVoteDetailsByAddressQueryKey } from '@renderer/hooks/us
 import { buildTransactionsAggregatedQueryKey, buildTransactionsQueryKey } from '@renderer/hooks/useTransactions'
 
 import { TNetwork } from '@shared/types/blockchain'
-import { IAccountState } from '@shared/types/store'
+import { TAccount } from '@shared/types/store'
 
 export class ReactQueryHelper {
   static readonly client = new QueryClient({
@@ -20,7 +20,7 @@ export class ReactQueryHelper {
     },
   })
 
-  static invalidateTransactionQueries = (account: IAccountState, network: TNetwork, toAccount?: IAccountState) => {
+  static invalidateTransactionQueries = (account: TAccount, network: TNetwork, toAccount?: TAccount) => {
     const { address, blockchain } = account
 
     this.client.removeQueries({

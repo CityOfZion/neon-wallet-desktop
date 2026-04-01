@@ -57,7 +57,7 @@ export class ToastHelper {
   }
 
   static success({ id, message, ...props }: TToastHelperToastOptions) {
-    const customId = id ?? UtilsHelper.uuid()
+    const customId = id || UtilsHelper.uuid()
 
     sonner.custom(
       sonnerId => (
@@ -77,7 +77,7 @@ export class ToastHelper {
   }
 
   static error({ id, message, ...props }: TToastHelperToastOptions) {
-    const customId = id ?? UtilsHelper.uuid()
+    const customId = id || UtilsHelper.uuid()
 
     sonner.custom(
       sonnerId => (
@@ -97,7 +97,7 @@ export class ToastHelper {
   }
 
   static info({ id, message, ...props }: TToastHelperToastOptions) {
-    const customId = id ?? UtilsHelper.uuid()
+    const customId = id || UtilsHelper.uuid()
 
     sonner.custom(
       sonnerId => (
@@ -117,7 +117,7 @@ export class ToastHelper {
   }
 
   static async loading({ id, message, ...props }: TToastHelperToastOptions) {
-    const customId = id ?? UtilsHelper.uuid()
+    const customId = id || UtilsHelper.uuid()
 
     sonner.custom(
       sonnerId => (

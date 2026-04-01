@@ -112,7 +112,7 @@ export const ModalRouterProvider = ({ router, children }: TModalRouterProviderPr
           {historiesByGroupMap.entries().map(([group, groupHistories], index) => (
             <div
               key={group}
-              className="fixed top-[var(--drag-region-height)] left-0 h-[var(--height-screen-minus-drag-region)] w-screen overflow-hidden"
+              className="fixed top-(--drag-region-height) left-0 h-(--height-screen-minus-drag-region) w-screen overflow-hidden"
               style={{ zIndex: 1000 + index }}
             >
               <motion.div

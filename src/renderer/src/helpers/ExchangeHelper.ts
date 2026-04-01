@@ -20,6 +20,6 @@ export class ExchangeHelper {
     const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
     const exchange = blockchainExchange.get(service.tokenService.normalizeHash(hash))
 
-    return exchange?.convertedPrice ?? 0
+    return exchange?.convertedPrice || 0
   }
 }

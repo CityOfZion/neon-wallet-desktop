@@ -24,12 +24,12 @@ import TbFileExport from '@renderer/assets/images/tb-file-export.svg?react'
 
 import { AppError } from '@shared/helpers/SharedErrorHelper'
 import type { TModalState } from '@shared/types/modal'
-import { IAccountState } from '@shared/types/store'
+import { TAccount } from '@shared/types/store'
 
 import { ExportFullTransactionInfo } from './ExportFullTransactionInfo'
 
 export type TExportFullTransactionsActionData = {
-  account?: IAccountState
+  account?: TAccount
   to: Date
   from: Date
   selectedFolderPath?: string
@@ -52,8 +52,8 @@ const ExportFullTransactionsModal = () => {
 
   const { actionData, actionState, setData, handleAct } = useActions<TExportFullTransactionsActionData>({
     account: modalStateAccount,
-    from: dateFrom ?? dateFns.startOfDay(dateFns.sub(today, { weeks: 1 })),
-    to: dateTo ?? today,
+    from: dateFrom || dateFns.startOfDay(dateFns.sub(today, { weeks: 1 })),
+    to: dateTo || today,
     exported: false,
     selectedFolderPath: undefined,
     filePath: '',
@@ -67,7 +67,7 @@ const ExportFullTransactionsModal = () => {
 
   const isDisabled = !account || !actionData.selectedFolderPath || !service || !hasFullTransactions(service)
 
-  const handleSelectAccount = (account: IAccountState) => {
+  const handleSelectAccount = (account: TAccount) => {
     setData({ account })
   }
 

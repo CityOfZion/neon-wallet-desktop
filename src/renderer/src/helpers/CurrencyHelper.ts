@@ -29,7 +29,7 @@ export class CurrencyHelper {
       maximumFractionDigits = 2,
       showZero = true,
       approximateSymbol = false,
-    } = options ?? {}
+    } = options || {}
 
     const num = Number(input)
     let result = '0'

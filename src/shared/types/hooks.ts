@@ -17,7 +17,7 @@ import {
 } from '@shared/types/blockchain'
 
 import type { TUseBalanceResult } from './query'
-import type { IAccountState, IContactState, TSelectedNetworks, TSwapRecord } from './store'
+import type { TAccount, TContact, TSelectedNetworks, TSwapRecord } from './store'
 
 export type TUseActionsData = Record<string, any>
 
@@ -58,14 +58,14 @@ export type TUseHardwareWalletByUsbStatus = 'searching' | 'connected' | 'not-con
 //* useTransactions types *//
 
 export type TUseTransactionsProps = {
-  accounts: IAccountState[]
+  accounts: TAccount[]
   dateFrom: Date
   dateTo: Date
   shouldUseFullTransactionsService: boolean
 }
 
 type TUseTransactionsTransactionBase<N extends TBlockchainServiceKey = TBlockchainServiceKey> = {
-  account: IAccountState<N>
+  account: TAccount<N>
   blockchain: N
   isPending: boolean
 }
@@ -92,7 +92,7 @@ export type TUseTransactionsGroupedTransactionsByDate = {
 }
 
 export type TUseTransactionsBuildTransactionsQueryKeyParams = {
-  account: IAccountState
+  account: TAccount
   network: TNetwork
   dateFrom?: Date
   dateTo?: Date
@@ -102,7 +102,7 @@ export type TUseTransactionsBuildTransactionsQueryKeyParams = {
 export type TUseTransactionsBuildTransactionsAggregatedQueryKeyParams = {
   dateFrom?: Date
   dateTo?: Date
-  accounts?: IAccountState[]
+  accounts?: TAccount[]
   networksByBlockchain?: TSelectedNetworks
 }
 
@@ -134,7 +134,7 @@ export type TUseNeonMigrateDecryptedAccountSchema = TUseNeonMigrateAccountsSchem
 export type TUseNeonMigrateGeneratedData = {
   walletToCreate: TUseCreateWalletParams
   accountsToCreate: TAccountsToImport
-  contactsToCreate: IContactState[]
+  contactsToCreate: TContact[]
 }
 export type TUseNeonBackupAccount = zod.infer<typeof neonBackupDataSchema>['wallets'][0]['accounts'][0]
 export type TUseNeonBackupWallet = zod.infer<typeof neonBackupDataSchema>['wallets'][0]
@@ -147,11 +147,11 @@ export type TUseNeonBackupDeprecatedData = { content: string; type: 'backup-depr
 export type TUseNeonBackupGeneratedData = {
   wallets: TCreateWalletAndAccountParam[]
   swapRecords?: TSwapRecord[]
-  contacts?: IContactState[]
+  contacts?: TContact[]
 }
 
 export type TUseNeo3VoteCalculateVoteFeeParams = {
-  neo3Account?: IAccountState<'neo3'>
+  neo3Account?: TAccount<'neo3'>
   candidatePubKey: string
 }
 
@@ -172,5 +172,5 @@ export type TUseNeo3VoteBuildGetVoteDetailsByAddressQueryKeyParams = {
 export type TUseNeo3VoteBuildCalculateVoteFeeQueryKeyParams = {
   neo3Network: TNetwork
   candidatePubKey: string
-  neo3Account?: IAccountState
+  neo3Account?: TAccount<'neo3'>
 }

@@ -23,8 +23,7 @@ export class AppError extends Error {
 
   static wrap(error: unknown, defaultMessage?: string | undefined | null) {
     if (error instanceof AppError) {
-      const appError = new AppError(error.displayMessage, undefined, true)
-      return appError
+      return new AppError(error.displayMessage, undefined, true)
     }
 
     if (error instanceof Error) {
@@ -43,7 +42,9 @@ export class AppError extends Error {
         return new AppError(error.message, error, false)
       }
     }
-    const message = defaultMessage ?? t('errors.unexpectedError')
+
+    const message = defaultMessage || t('errors.unexpectedError')
+
     return new AppError(message, error, false)
   }
 }
@@ -59,8 +60,7 @@ export class WalletConnectError extends AppError {
 
   static wrap(error: unknown, defaultMessage?: string | undefined | null) {
     if (error instanceof WalletConnectError) {
-      const walletConnectError = new WalletConnectError(error.displayMessage, error.code, undefined, true)
-      return walletConnectError
+      return new WalletConnectError(error.displayMessage, error.code, undefined, true)
     }
 
     if (error instanceof AppError) {
@@ -69,9 +69,11 @@ export class WalletConnectError extends AppError {
 
     if (error instanceof BSError) {
       const hasTranslation = i18next.exists(`common:walletConnect.errorsByCode.${error.code}`)
+
       const message = hasTranslation
         ? t(`common:walletConnect.errorsByCode.${error.code}`, '')
-        : (defaultMessage ?? t('walletConnect.errorsByCode.UNEXPECTED_ERROR'))
+        : defaultMessage || t('walletConnect.errorsByCode.UNEXPECTED_ERROR')
+
       const code = hasTranslation ? error.code : 'UNEXPECTED_ERROR'
 
       return new WalletConnectError(message, code, undefined, false)
@@ -100,7 +102,8 @@ export class WalletConnectError extends AppError {
       }
     }
 
-    const message = defaultMessage ?? t('walletConnect.errorsByCode.UNEXPECTED_ERROR')
+    const message = defaultMessage || t('walletConnect.errorsByCode.UNEXPECTED_ERROR')
+
     return new WalletConnectError(message, 'UNEXPECTED_ERROR', error, false)
   }
 }

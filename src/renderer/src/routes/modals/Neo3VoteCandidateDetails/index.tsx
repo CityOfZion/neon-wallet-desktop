@@ -41,7 +41,7 @@ const Neo3VoteCandidateDetailsModal = () => {
   const balanceQuery = useBalance(neo3Account)
   const { hasEnoughGasToPayFee } = useNeo3VoteValidations({ balanceQuery, gasFee: calculateVoteFeeQuery.data })
 
-  const neoAmount = voteDetailsByAddressQuery.data?.neoBalance ?? 0
+  const neoAmount = voteDetailsByAddressQuery.data?.neoBalance || 0
   const hasNeoAmount = neoAmount > 0
   const isWatchAccount = neo3Account?.type === 'watch'
   const isCozCandidate = ConstantsHelper.neo3VoteCozPubKey === pubKey

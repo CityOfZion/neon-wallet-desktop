@@ -333,7 +333,6 @@
       "transactionHashLabel": "Transaction hash",
       "transactionNumber": "Transaction {{order}}",
       "transferNumber": "Transfer {{order}}",
-
       "viewStatusButtonLabel": "View status"
     },
     "sendTip": {

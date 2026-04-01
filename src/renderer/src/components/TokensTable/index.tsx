@@ -9,14 +9,14 @@ import { useBalances } from '@renderer/hooks/useBalances'
 
 import { SharedI18nextHelper } from '@shared/helpers/SharedI18nextHelper'
 import { TUseBalanceOptionShowType } from '@shared/types/query'
-import { IAccountState } from '@shared/types/store'
+import { TAccount } from '@shared/types/store'
 
 import { Loader } from '../Loader'
 import { Table } from '../Table'
 import { useColumns } from './columns'
 
 type TProps = {
-  accounts: IAccountState[]
+  accounts: TAccount[]
   className?: string
   containerClassName?: string
   showType?: TUseBalanceOptionShowType

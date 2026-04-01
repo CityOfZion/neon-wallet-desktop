@@ -66,8 +66,8 @@
     "name": "Name"
   },
   "contactAddressTable": {
-    "address": "ADDRESS",
-    "blockchain": "BLOCKCHAIN",
+    "address": "Address",
+    "blockchain": "Blockchain",
     "sendAssets": "Send assets"
   },
   "contacts": {

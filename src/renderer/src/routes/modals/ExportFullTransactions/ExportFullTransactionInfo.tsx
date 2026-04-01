@@ -17,14 +17,14 @@ import TbFileExport from '@renderer/assets/images/tb-file-export.svg?react'
 import TbPackages from '@renderer/assets/images/tb-packages.svg?react'
 import TbWallet from '@renderer/assets/images/tb-wallet.svg?react'
 
-import { IAccountState } from '@shared/types/store'
+import { TAccount } from '@shared/types/store'
 
 type TProps = {
-  account?: IAccountState
+  account?: TAccount
   from: Date
   to: Date
   today: Date
-  onSelectAccount: (account: IAccountState) => void
+  onSelectAccount: (account: TAccount) => void
   onSelectDateFrom: (date: Date) => void
   onSelectDateTo: (date: Date) => void
   readOnly?: boolean
@@ -85,7 +85,7 @@ export const ExportFullTransactionInfo = ({
               )
             }
             titleClassName="text-xs"
-            leftIconContainerClassName="h-5 w-5"
+            leftIconContainerClassName="size-5"
           >
             {account && (
               <span className="text-xs whitespace-nowrap text-gray-100">
@@ -122,7 +122,7 @@ export const ExportFullTransactionInfo = ({
                   </DatePicker.Root>
                 )}
 
-                <TbChevronRight className="text-blue h-4 w-4" aria-hidden />
+                <TbChevronRight className="text-blue size-4" aria-hidden />
 
                 {readOnly ? (
                   <p className="px-2 text-xs text-white">{formattedDateTo}</p>
@@ -152,7 +152,7 @@ export const ExportFullTransactionInfo = ({
             className="min-h-12"
             leftIcon={<MdDateRange aria-hidden />}
             titleClassName="text-xs"
-            leftIconContainerClassName="h-5 w-5"
+            leftIconContainerClassName="size-5"
           >
             {!readOnly && <span className="text-right text-xs text-gray-300">{t('datePickerStepTip')}</span>}
           </ActionStep>
@@ -164,7 +164,7 @@ export const ExportFullTransactionInfo = ({
             leftIcon={<TbPackages aria-hidden />}
             headerClassName="gap-5"
             titleClassName="text-xs"
-            leftIconContainerClassName="h-5 w-5"
+            leftIconContainerClassName="size-5"
           />
         </div>
       </div>
