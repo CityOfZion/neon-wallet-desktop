@@ -10,12 +10,12 @@ import { useWalletConnectSessions } from '@renderer/hooks/useWalletConnectSessio
 import TbPlugX from '@renderer/assets/images/tb-plug-x.svg?react'
 import TbPlus from '@renderer/assets/images/tb-plus.svg?react'
 
-import { IAccountState } from '@shared/types/store'
+import { TAccount } from '@shared/types/store'
 
 import { AccountDetailsLayout } from '../AccountDetailsLayout'
 
 type TOutletContext = {
-  account: IAccountState
+  account: TAccount
 }
 
 const AccountConnections = () => {
@@ -24,7 +24,7 @@ const AccountConnections = () => {
   const { account } = useOutletContext<TOutletContext>()
   const sessionsQuery = useWalletConnectSessions([account])
 
-  const sessions = sessionsQuery.data ?? []
+  const sessions = sessionsQuery.data || []
 
   return (
     <AccountDetailsLayout

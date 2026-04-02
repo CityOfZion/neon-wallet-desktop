@@ -282,5 +282,18 @@ export function getSettingsMigrations(defaultProfile: TNetworkProfile, testProfi
         },
       }
     },
+    15: (state: any) => {
+      const memoryData = state.memoryData || {}
+
+      delete state.data.showSideBar
+
+      return {
+        ...state,
+        memoryData: {
+          ...memoryData,
+          showSideBar: true,
+        },
+      }
+    },
   }
 }

@@ -14,13 +14,13 @@ import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 
 import TbFileExport from '@renderer/assets/images/tb-file-export.svg?react'
 
-import { IAccountState } from '@shared/types/store'
+import { TAccount } from '@shared/types/store'
 
 import { AccountDetailsLayout } from '../AccountDetailsLayout'
 import { CommonAccountActions } from '../CommonAccountActions'
 
 type TOutletContext = {
-  account: IAccountState
+  account: TAccount
 }
 
 type TActionsData = {

@@ -4,13 +4,13 @@ import type { ECharts, EChartsOption, SetOptionOpts } from 'echarts'
 import { init } from 'echarts'
 import type { CSSProperties, JSX } from 'react'
 
-export interface ReactEChartsProps {
+type TProps = {
   option: EChartsOption
   style?: CSSProperties
   settings?: SetOptionOpts
 }
 
-export function EChart({ option, style, settings }: ReactEChartsProps): JSX.Element {
+export function EChart({ option, style, settings }: TProps): JSX.Element {
   const containerRef = useRef<HTMLDivElement>(null)
   const chartRef = useRef<ECharts>(null)
 

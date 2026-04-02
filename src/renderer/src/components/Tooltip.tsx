@@ -16,8 +16,8 @@ type TProps = {
 }
 
 export const Tooltip = ({ children, title, icon, open, delayDuration, variant = 'default', ...props }: TProps) => {
-  const { className: contentClassName, ...contentProps } = props.contentProps ?? {}
-  const { className: arrowClassName, ...arrowProps } = props.arrowProps ?? {}
+  const { className: contentClassName, ...contentProps } = props.contentProps || {}
+  const { className: arrowClassName, ...arrowProps } = props.arrowProps || {}
 
   const isDefaultVariant = variant === 'default'
   const isBlackVariant = variant === 'black'

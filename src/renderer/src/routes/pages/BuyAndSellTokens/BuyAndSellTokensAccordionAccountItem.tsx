@@ -14,10 +14,10 @@ import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 
 import MdOutlineContentCopy from '@renderer/assets/images/md-outline-content-copy.svg?react'
 
-import { IAccountState } from '@shared/types/store'
+import { TAccount } from '@shared/types/store'
 
 type TProps = {
-  account: IAccountState
+  account: TAccount
 }
 
 export const BuyAndSellTokensAccordionAccountItem = ({ account }: TProps) => {
@@ -26,7 +26,7 @@ export const BuyAndSellTokensAccordionAccountItem = ({ account }: TProps) => {
   const { data, isLoading } = useBalance(account)
 
   const { address } = account
-  const total = CurrencyHelper.format(data?.exchangeTotal ?? 0, { currency })
+  const total = CurrencyHelper.format(data?.exchangeTotal || 0, { currency })
 
   return (
     <section className="flex items-center gap-x-3 px-4 py-3">

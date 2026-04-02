@@ -67,7 +67,7 @@ export const DappPermissionInvokeNeo3ContentInvocation = ({
                       hash: invocation.scriptHash,
                       operation: invocation.operation,
                       blockchain: sessionDetails.blockchain,
-                      values: invocation.args?.map(arg => arg.value) ?? [],
+                      values: invocation.args?.map(arg => arg.value) || [],
                       onReject,
                     },
                   })}

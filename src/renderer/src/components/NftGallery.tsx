@@ -5,7 +5,7 @@ import { MasonryPhotoAlbum } from 'react-photo-album'
 
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
-import { IAccountState } from '@shared/types/store'
+import { TAccount } from '@shared/types/store'
 
 import { BlockchainIcon } from './BlockchainIcon'
 
@@ -13,7 +13,7 @@ import 'react-photo-album/masonry.css'
 
 type TProps = {
   nfts: TNftResponse[]
-  account: IAccountState
+  account: TAccount
 }
 
 export const NftGallery = ({ account, nfts }: TProps) => {

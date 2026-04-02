@@ -49,12 +49,12 @@ export const TransactionFeeActionStep = ({
       ? ExchangeHelper.getExchangeConvertedPrice(service.feeToken.hash, service.name, exchange.data)
       : 0
 
-  const fiatFee = NumberHelper.number(fee ?? 0) * feeTokenConvertedPrice
+  const fiatFee = NumberHelper.number(fee || 0) * feeTokenConvertedPrice
 
   return (
     <ActionStep
-      title={title ?? t('title')}
-      leftIcon={<TbReceipt aria-hidden className="h-6 min-h-6 w-6 min-w-6" />}
+      title={title || t('title')}
+      leftIcon={<TbReceipt aria-hidden className="min-size-6 size-6" />}
       className={StyleHelper.mergeStyles('mt-2 min-h-11 rounded-sm bg-gray-700/60 px-4 font-bold', className)}
       titleClassName={StyleHelper.mergeStyles('whitespace-nowrap mr-3 overflow-visible!', titleClassName)}
       headerClassName="gap-4"

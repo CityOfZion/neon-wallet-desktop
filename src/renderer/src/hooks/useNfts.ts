@@ -5,11 +5,11 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 
-import { IAccountState } from '@shared/types/store'
+import { TAccount } from '@shared/types/store'
 
 import { useSelectedNetworkSelector } from './useSettingsSelector'
 
-export const useNfts = (account: IAccountState) => {
+export const useNfts = (account: TAccount) => {
   const { network } = useSelectedNetworkSelector(account.blockchain)
 
   const query = useInfiniteQuery({
@@ -29,7 +29,7 @@ export const useNfts = (account: IAccountState) => {
   })
 
   const aggregatedData = useMemo(() => {
-    return query.data?.pages.flatMap(page => page.items) ?? []
+    return query.data?.pages.flatMap(page => page.items) || []
   }, [query.data])
 
   return { aggregatedData, ...query }

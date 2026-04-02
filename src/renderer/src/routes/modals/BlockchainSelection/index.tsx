@@ -67,7 +67,7 @@ const BlockchainSelectionModal = () => {
         <Button
           className="mt-8"
           type="submit"
-          label={buttonLabel ?? t('buttonContinueLabel')}
+          label={buttonLabel || t('buttonContinueLabel')}
           flat
           disabled={actionData.selectedBlockchains.length === 0}
           {...TestHelper.buildTestObject('blockchain-selection-submit')}

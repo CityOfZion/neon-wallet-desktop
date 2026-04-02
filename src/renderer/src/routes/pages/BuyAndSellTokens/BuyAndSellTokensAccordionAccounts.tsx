@@ -5,13 +5,13 @@ import { Accordion } from '@renderer/components/Accordion'
 
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
 
-import { IAccountState } from '@shared/types/store'
+import { TAccount } from '@shared/types/store'
 
 import { BuyAndSellTokensAccordionWalletItem } from './BuyAndSellTokensAccordionWalletItem'
 
 type TProps = {
   isOpened: boolean
-  account?: IAccountState
+  account?: TAccount
 }
 
 export const BuyAndSellTokensAccordionAccounts = ({ isOpened, account }: TProps) => {

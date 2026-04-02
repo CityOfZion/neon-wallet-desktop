@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router'
 
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 
-import { IAccountState } from '@shared/types/store'
+import { TAccount } from '@shared/types/store'
 
 type TFunctionParams = {
   modalActions: ReturnType<typeof useModalNavigate>
@@ -21,7 +21,7 @@ export const functionsByActionId: TFunctionsByActionId = {
   connect: async ({ modalActions }) => {
     modalActions.modalNavigate('select-account', {
       state: {
-        onSelectAccount: (account: IAccountState) => {
+        onSelectAccount: (account: TAccount) => {
           modalActions.modalNavigate('dapp-connection', { state: { account: account } })
         },
       },

@@ -89,7 +89,7 @@ const MnemonicOrKeyAccountSelectionAccordion = ({
             </div>
             <ul className="flex flex-col gap-2.5 px-4 py-2.5">
               {accounts.map(account => {
-                const isDisabled = onVerifyAccountExistence?.({ ...account, blockchain }) ?? false
+                const isDisabled = onVerifyAccountExistence?.({ ...account, blockchain }) || false
 
                 return (
                   <li

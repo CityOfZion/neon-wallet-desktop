@@ -4,11 +4,11 @@ import { SkinHelper } from '@renderer/helpers/SkinHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
-import { IAccountState, TNftSkin } from '@shared/types/store'
+import { TAccount, TNftSkin } from '@shared/types/store'
 
 import { BlockchainIcon } from './BlockchainIcon'
 type TProps = {
-  account: IAccountState
+  account: TAccount
 } & ComponentProps<'div'>
 
 type TAccountBlockchainCircleProps = {
@@ -16,7 +16,7 @@ type TAccountBlockchainCircleProps = {
 }
 
 const AccountBlockchainCircle = ({ blockchain }: TAccountBlockchainCircleProps) => (
-  <div className="relative flex h-4.5 w-4.5 items-center justify-center">
+  <div className="relative flex size-4.5 items-center justify-center">
     <div className="bg-asphalt absolute h-full w-full rounded-full mix-blend-overlay" />
 
     <BlockchainIcon blockchain={blockchain} className="size-2.5 text-white" />
@@ -30,7 +30,7 @@ const AccountIconColor = ({ account, className, ...props }: TProps) => {
 
   return (
     <div
-      className={StyleHelper.mergeStyles(`relative flex h-full w-full items-center justify-center`, color, className)}
+      className={StyleHelper.mergeStyles(`relative flex size-full items-center justify-center`, color, className)}
       {...props}
     >
       <AccountBlockchainCircle blockchain={account.blockchain} />
@@ -44,7 +44,7 @@ const AccountIconNFT = ({ account }: TProps) => {
   if (!imgUrl) return null
 
   return (
-    <div className="relative flex h-full w-full items-center justify-center bg-gray-300/30">
+    <div className="relative flex size-full items-center justify-center bg-gray-300/30">
       <img aria-hidden src={imgUrl} alt="" className="absolute inset-0 m-auto h-full w-full object-cover" />
 
       <AccountBlockchainCircle blockchain={account.blockchain} />
@@ -57,10 +57,10 @@ const AccountIconLocal = ({ account }: TProps) => {
   if (!component) return null
 
   return (
-    <div className="relative flex h-full w-full items-center justify-center">
+    <div className="relative flex size-full items-center justify-center">
       {cloneElement(component, {
         'aria-hidden': true,
-        className: 'w-full h-full object-cover absolute inset-0 m-auto',
+        className: 'size-full object-cover absolute inset-0 m-auto',
       })}
 
       <AccountBlockchainCircle blockchain={account.blockchain} />

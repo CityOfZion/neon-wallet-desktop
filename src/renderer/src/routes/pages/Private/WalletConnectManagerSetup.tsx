@@ -37,7 +37,7 @@ export const WalletConnectManagerSetup = () => {
         await WalletKitHelper.kit
           .respondSessionRequest({
             topic: request.topic,
-            response: WalletKitHelper.formatRequestError(request, reason ?? WalletKitHelper.getError('USER_REJECTED')),
+            response: WalletKitHelper.formatRequestError(request, reason || WalletKitHelper.getError('USER_REJECTED')),
           })
           .catch(error =>
             LoggerHelper.error(error, { where: 'WalletConnectManagerSetup', operation: 'manualRejectRequest' })

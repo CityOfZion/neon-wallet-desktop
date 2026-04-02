@@ -8,10 +8,10 @@ import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import MdCheck from '@renderer/assets/images/md-check.svg?react'
 import MdOutlineRemoveRedEye from '@renderer/assets/images/md-outline-remove-red-eye.svg?react'
 
-import { IAccountState } from '@shared/types/store'
+import { TAccount } from '@shared/types/store'
 
 type TProps = {
-  accounts: IAccountState[]
+  accounts: TAccount[]
 }
 
 export const SuccessContent = ({ accounts }: TProps) => {
@@ -34,7 +34,7 @@ export const SuccessContent = ({ accounts }: TProps) => {
               <span className="truncate text-xs text-gray-300">{account.address}</span>
             </div>
 
-            <MdCheck aria-hidden className="text-green h-4.5 w-4.5" />
+            <MdCheck aria-hidden className="text-green size-4.5" />
           </div>
         ))}
       </div>

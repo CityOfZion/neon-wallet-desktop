@@ -15,10 +15,10 @@ import TbShoppingBag from '@renderer/assets/images/tb-shopping-bag.svg?react'
 import TbStepInto from '@renderer/assets/images/tb-step-into.svg?react'
 import TbStepOut from '@renderer/assets/images/tb-step-out.svg?react'
 
-import { IAccountState } from '@shared/types/store'
+import { TAccount } from '@shared/types/store'
 
 type TProps = {
-  account: IAccountState
+  account: TAccount
 } & ComponentProps<'div'>
 
 export const CommonAccountActions = ({ account, children, className, ...props }: TProps) => {

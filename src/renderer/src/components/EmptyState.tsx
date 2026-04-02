@@ -14,13 +14,13 @@ import TbDropletDollar from '@renderer/assets/images/tb-droplet-dollar.svg?react
 import TbPlug from '@renderer/assets/images/tb-plug.svg?react'
 import TbStepInto from '@renderer/assets/images/tb-step-into.svg?react'
 
-import { IAccountState } from '@shared/types/store'
+import { TAccount } from '@shared/types/store'
 
 import { BlockchainIcon } from './BlockchainIcon'
 import { Button } from './Button'
 
 type TProps = {
-  account?: IAccountState
+  account?: TAccount
 }
 
 export const EmptyState = ({ account }: TProps) => {

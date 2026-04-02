@@ -9,12 +9,12 @@ import { MainLayout } from '@renderer/layouts/Main'
 
 import TbReplace2 from '@renderer/assets/images/tb-replace-2.svg?react'
 
-import { IAccountState } from '@shared/types/store'
+import { TAccount } from '@shared/types/store'
 
 import { Neo3NeoXBridgeContent } from './Neo3NeoXBridgeContent'
 
 type TLocationState = {
-  account?: IAccountState<TBSBridgeName>
+  account?: TAccount<TBSBridgeName>
 }
 
 const Neo3NeoXBridgePage = () => {

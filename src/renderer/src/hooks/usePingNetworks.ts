@@ -11,7 +11,7 @@ import type { TBaseOptions, TPingNetwork } from '@shared/types/query'
 import { useSelectedNetworkByBlockchainSelector, useSelectedNetworkSelector } from './useSettingsSelector'
 
 const buildPingNetworksQueryKey = (blockchain: TBlockchainServiceKey, id: TBSNetworkId) => {
-  return ['networks', blockchain, id]
+  return ['ping-networks', blockchain, id]
 }
 
 const pingNetworks = async (blockchain: TBlockchainServiceKey): Promise<TPingNetwork[]> => {

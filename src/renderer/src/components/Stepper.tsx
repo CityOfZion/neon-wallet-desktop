@@ -46,7 +46,7 @@ const Root = ({
   const stepperId = useId()
 
   return (
-    <StepperContext.Provider value={{ colorSchema, value, state, id: id ?? stepperId }}>
+    <StepperContext.Provider value={{ colorSchema, value, state, id: id || stepperId }}>
       <div
         data-slot="stepper-root"
         role="group"
@@ -63,11 +63,7 @@ const List = ({ className, children, ...props }: ComponentProps<'div'>) => {
   const stepperContext = useStepperContext()
 
   const validatedChildren = Children.toArray(children).filter((child): child is ReactElement<TStepProps> => {
-    if (isValidElement(child) && child.type === Step) {
-      return true
-    }
-
-    return false
+    return isValidElement(child) && child.type === Step
   })
 
   if (validatedChildren.length !== Children.toArray(children).length) {
@@ -156,11 +152,7 @@ const Content = ({ className, children, ...props }: ComponentProps<'div'>) => {
   const stepperContext = useStepperContext()
 
   const validatedChildren = Children.toArray(children).filter((child): child is ReactElement<TItemProps> => {
-    if (isValidElement(child) && child.type === Item) {
-      return true
-    }
-
-    return false
+    return isValidElement(child) && child.type === Item
   })
 
   if (validatedChildren.length !== Children.toArray(children).length) {

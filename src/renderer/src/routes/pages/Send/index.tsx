@@ -8,12 +8,12 @@ import { MainLayout } from '@renderer/layouts/Main'
 
 import TbStepOut from '@renderer/assets/images/tb-step-out.svg?react'
 
-import { IAccountState } from '@shared/types/store'
+import { TAccount } from '@shared/types/store'
 
 import { SendPageContent } from './SendPageContent'
 
 type TLocationState = {
-  account?: IAccountState
+  account?: TAccount
   recipient?: string
 }
 

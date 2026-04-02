@@ -20,12 +20,12 @@ import { utilityReducerActions } from '@renderer/store/reducers/utility'
 import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 import { TCreateWalletAndAccountParam } from '@shared/types/blockchain'
-import { IContactState, TSwapRecord } from '@shared/types/store'
+import { TContact, TSwapRecord } from '@shared/types/store'
 
 type TLocationState = {
   wallets: TCreateWalletAndAccountParam[]
   swapRecords?: TSwapRecord[]
-  contacts?: IContactState[]
+  contacts?: TContact[]
   password: string
 }
 

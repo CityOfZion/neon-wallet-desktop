@@ -7,10 +7,10 @@ import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import WalletIconHardware from '@renderer/assets/images/wallet-icon-hardware.svg?react'
 import WalletIconStandard from '@renderer/assets/images/wallet-icon-standard.svg?react'
 
-import { IWalletState, TWalletType } from '@shared/types/store'
+import { TWallet, TWalletType } from '@shared/types/store'
 
 type TProps = {
-  wallet: IWalletState
+  wallet: TWallet
 }
 
 const IMAGES_BY_TYPE: Record<TWalletType, JSX.Element> = {

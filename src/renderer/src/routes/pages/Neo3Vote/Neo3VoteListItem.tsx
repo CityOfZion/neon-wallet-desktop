@@ -21,11 +21,11 @@ import MdCircle from '@renderer/assets/images/md-circle.svg?react'
 import MdInfoOutline from '@renderer/assets/images/md-info-outline.svg?react'
 import TbPackages from '@renderer/assets/images/tb-packages.svg?react'
 
-import { IAccountState } from '@shared/types/store'
+import { TAccount } from '@shared/types/store'
 
 type TProps = {
   index: number
-  neo3Account?: IAccountState<'neo3'>
+  neo3Account?: TAccount<'neo3'>
   candidate: TVoteServiceCandidate
   pubKeySize: number
   votesTotal: number

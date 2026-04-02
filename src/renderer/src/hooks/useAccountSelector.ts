@@ -8,18 +8,18 @@ import type { TRootState } from '@renderer/types/redux'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 import type { TBlockchainServiceKey } from '@shared/types/blockchain'
 import type { TAccountHelperPredicateParams } from '@shared/types/helpers'
-import type { IAccountState, TAccountWithWallet } from '@shared/types/store'
+import type { TAccount, TAccountWithWallet } from '@shared/types/store'
 
 import { createAppSelector, useAppSelector } from './useRedux'
 
 export const selectAccounts = createAppSelector(
   [state => state.auth.data.applicationDataByLoginType, state => state.auth.memoryData.loginSession],
   (applicationDataByLoginType, loginSession) => {
-    if (!loginSession?.type) return SelectorHelper.fallbackToEmptyArray<IAccountState>()
+    if (!loginSession?.type) return SelectorHelper.fallbackToEmptyArray<TAccount>()
 
     const accounts = applicationDataByLoginType[loginSession.type].wallets.flatMap(wallet => wallet.accounts)
 
-    return SelectorHelper.fallbackToEmptyArray<IAccountState>(accounts)
+    return SelectorHelper.fallbackToEmptyArray<TAccount>(accounts)
   }
 )
 
@@ -27,13 +27,13 @@ export const selectAccountsByBlockchains = (blockchains: TBlockchainServiceKey[]
   createAppSelector(
     [state => state.auth.data.applicationDataByLoginType, state => state.auth.memoryData.loginSession],
     (applicationDataByLoginType, loginSession) => {
-      if (!loginSession?.type) return SelectorHelper.fallbackToEmptyArray<IAccountState>()
+      if (!loginSession?.type) return SelectorHelper.fallbackToEmptyArray<TAccount>()
 
       const accounts = applicationDataByLoginType[loginSession.type].wallets.flatMap(wallet =>
         wallet.accounts.filter(account => blockchains.some(blockchain => blockchain === account.blockchain))
       )
 
-      return SelectorHelper.fallbackToEmptyArray<IAccountState>(accounts)
+      return SelectorHelper.fallbackToEmptyArray<TAccount>(accounts)
     }
   )
 
@@ -52,13 +52,13 @@ export const selectAccount = (params: TAccountHelperPredicateParams) =>
 const selectOwnAccounts = createAppSelector(
   [state => state.auth.data.applicationDataByLoginType, state => state.auth.memoryData.loginSession],
   (applicationDataByLoginType, loginSession) => {
-    if (!loginSession?.type) return SelectorHelper.fallbackToEmptyArray<IAccountState>()
+    if (!loginSession?.type) return SelectorHelper.fallbackToEmptyArray<TAccount>()
 
     const accounts = applicationDataByLoginType[loginSession.type].wallets.flatMap(wallet =>
       wallet.accounts.filter(account => account.type !== 'watch' || wallet.type === 'hardware')
     )
 
-    return SelectorHelper.fallbackToEmptyArray<IAccountState>(accounts)
+    return SelectorHelper.fallbackToEmptyArray<TAccount>(accounts)
   }
 )
 
@@ -90,11 +90,11 @@ const selectAccountsByWalletId = (walletId: string) =>
   createAppSelector(
     [state => state.auth.data.applicationDataByLoginType, state => state.auth.memoryData.loginSession],
     (applicationDataByLoginType, loginSession) => {
-      if (!loginSession?.type) return SelectorHelper.fallbackToEmptyArray<IAccountState>()
+      if (!loginSession?.type) return SelectorHelper.fallbackToEmptyArray<TAccount>()
 
       const wallet = applicationDataByLoginType[loginSession.type].wallets.find(wallet => wallet.id === walletId)
 
-      return SelectorHelper.fallbackToEmptyArray<IAccountState>(wallet?.accounts)
+      return SelectorHelper.fallbackToEmptyArray<TAccount>(wallet?.accounts)
     }
   )
 
@@ -159,7 +159,7 @@ export const useAccountsWithWalletMapSelector = () => {
 }
 
 export const useAccountsMapSelector = () => {
-  const accountsMapRef = useRef(new Map<string, IAccountState>())
+  const accountsMapRef = useRef(new Map<string, TAccount>())
 
   useSelector((state: TRootState) => {
     const result = selectAccounts(state)

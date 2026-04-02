@@ -38,7 +38,7 @@ const NetworkSelectionModal = () => {
 
   const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
   const options = service.availableNetworks.concat(...customNetworks[blockchain])
-  const selectedNetwork = options.find(option => option.id === selectedNetworkId) ?? options[0]
+  const selectedNetwork = options.find(option => option.id === selectedNetworkId) || options[0]
 
   const onSelectRadioItem = (selectedValue: string) => {
     const network = options.find(network => network.id === selectedValue)
@@ -94,7 +94,7 @@ const NetworkSelectionModal = () => {
             <RadioGroup.Item key={network.id} value={network.id}>
               <div className="flex items-center gap-4">
                 <div
-                  className={StyleHelper.mergeStyles('h-1.5 min-h-1.5 w-1.5 min-w-1.5 rounded-full', {
+                  className={StyleHelper.mergeStyles('min-size-1.5 size-1.5 rounded-full', {
                     'bg-neon': network.type === 'mainnet',
                     'bg-magenta': network.type === 'testnet',
                     'bg-pink': network.type === 'custom',

@@ -81,7 +81,7 @@ export const GreyTokenSelect = <T extends TGreyTokenSelectToken>({
       })
     }
 
-    filtered = filtered.sort((a, b) => NumberHelper.number(a.amount ?? 0) - NumberHelper.number(b.amount ?? 0))
+    filtered = filtered.sort((a, b) => NumberHelper.number(a.amount || 0) - NumberHelper.number(b.amount || 0))
 
     return filtered
   }, [tokens, balance, blockchain])

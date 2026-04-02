@@ -3,6 +3,7 @@ import { cloneElement, Fragment, type JSX } from 'react'
 import { motion } from 'motion/react'
 import { NavLink, type NavLinkProps, useMatch } from 'react-router'
 
+import { ElementHelper } from '@renderer/helpers/ElementHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import MdChevronRight from '@renderer/assets/images/md-chevron-right.svg?react'
@@ -67,10 +68,10 @@ export const MenuLink = ({
               ),
             })}
 
-          {typeof children === 'string' ? (
-            <span className="grow">{children}</span>
-          ) : typeof children === 'function' ? (
+          {typeof children === 'function' ? (
             children(linkState)
+          ) : ElementHelper.isTextContentValid(children) ? (
+            <span className="grow">{children}</span>
           ) : (
             children
           )}

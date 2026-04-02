@@ -19,7 +19,7 @@ import { SideModalLayout } from '@renderer/layouts/SideModal'
 import MdCheck from '@renderer/assets/images/md-check.svg?react'
 
 import type { TModalState } from '@shared/types/modal'
-import { IAccountState, IWalletState } from '@shared/types/store'
+import { TAccount, TWallet } from '@shared/types/store'
 
 const SelectAccountModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'selectAccount' })
@@ -30,8 +30,8 @@ const SelectAccountModal = () => {
   const { accounts } = useAccountsSelector()
   const { wallets } = useWalletsSelector()
 
-  const [selectedWallet, setSelectedWallet] = useState<IWalletState | undefined>(undefined)
-  const [selectedAccount, setSelectedAccount] = useState<IAccountState | undefined>(undefined)
+  const [selectedWallet, setSelectedWallet] = useState<TWallet | undefined>(undefined)
+  const [selectedAccount, setSelectedAccount] = useState<TAccount | undefined>(undefined)
 
   const filteredAccounts = useMemo(
     () => accounts.filter(account => account.type !== 'watch' && (!blockchain || account.blockchain === blockchain)),
@@ -39,7 +39,7 @@ const SelectAccountModal = () => {
   )
 
   const filteredWallets = useMemo(() => {
-    const walletsArray: IWalletState[] = []
+    const walletsArray: TWallet[] = []
 
     wallets.forEach(wallet => {
       if (filteredAccounts.some(account => account.idWallet === wallet.id)) {
@@ -64,7 +64,7 @@ const SelectAccountModal = () => {
     setSelectedAccount(undefined)
   }
 
-  const handleSelectAccount = (account: IAccountState) => {
+  const handleSelectAccount = (account: TAccount) => {
     setSelectedAccount(account)
   }
 
@@ -77,7 +77,7 @@ const SelectAccountModal = () => {
   }
 
   return (
-    <SideModalLayout heading={title ?? t('title')} headingIcon={leftIcon} contentClassName="flex flex-col min-h-0">
+    <SideModalLayout heading={title || t('title')} headingIcon={leftIcon} contentClassName="flex flex-col min-h-0">
       <Select.Root value={selectedWallet?.id} onValueChange={handleSelectWallet}>
         <Select.Trigger
           className={StyleHelper.mergeStyles('bg-asphalt', {
@@ -144,7 +144,7 @@ const SelectAccountModal = () => {
           <Button
             className="w-full px-5"
             type="submit"
-            label={buttonLabel ?? tCommon('general.next')}
+            label={buttonLabel || tCommon('general.next')}
             disabled={!selectedAccount}
             onClick={handleSelectFinish}
           />

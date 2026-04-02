@@ -69,7 +69,7 @@ const Root = ({ value, onValueChange, onSearch, onOpenChange, open, ...props }: 
     onOpenChange?.(isOpen)
   }
 
-  const isOpen = open ?? internalOpen
+  const isOpen = open || internalOpen
 
   return (
     <SearchableTokenContext.Provider
@@ -150,7 +150,7 @@ const Input = (props: ComponentProps<typeof Command.Input>) => {
     debounce(async (text: string) => {
       try {
         const tokens = await onSearch?.(text)
-        onTokensChange(tokens ?? [])
+        onTokensChange(tokens || [])
       } catch (error) {
         LoggerHelper.error(error, { where: 'SearchableTokenSelect' })
       } finally {

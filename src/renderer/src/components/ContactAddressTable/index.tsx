@@ -110,7 +110,7 @@ export const ContactAddressTable = ({ contactAddresses }: TProps) => {
                   sortable={header.column.getCanSort()}
                   sortedBy={header.column.getIsSorted()}
                   onClick={header.column.getToggleSortingHandler()}
-                  className="font-semibold"
+                  className="font-semibold uppercase"
                 >
                   {flexRender(header.column.columnDef.header, header.getContext())}
                 </Table.Head>

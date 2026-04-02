@@ -6,7 +6,7 @@ import { Fragment } from 'react/jsx-runtime'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import { TUseBalancesResult } from '@shared/types/query'
-import { IAccountState } from '@shared/types/store'
+import { TAccount } from '@shared/types/store'
 
 import { BalanceChart } from './BalanceChart'
 import { ChartCardList } from './ChartCardList'
@@ -15,7 +15,7 @@ import { Loader } from './Loader'
 import { Separator } from './Separator'
 
 type TProps = {
-  account?: IAccountState
+  account?: TAccount
   balances: TUseBalancesResult
   balanceChartClassName?: string
   chartCardListClassName?: string
@@ -34,7 +34,7 @@ export const OverviewCharts = ({
   return (
     <div className="flex w-full grow flex-col">
       {balances.isLoading ? (
-        <Loader className="h-10 w-10" containerClassName="mt-12" />
+        <Loader className="size-10" containerClassName="mt-12" />
       ) : balances.groupedTokenBalances.length > 0 ? (
         <Fragment key={account?.address}>
           <BalanceChart

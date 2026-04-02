@@ -9,7 +9,7 @@ import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
 
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 import type { TUseTransactionsTransaction } from '@shared/types/hooks'
-import type { IAccountState } from '@shared/types/store'
+import type { TAccount } from '@shared/types/store'
 
 type TProps = {
   transaction: TUseTransactionsTransaction
@@ -22,10 +22,10 @@ export const SellTokensDepositSuccessContent = ({ transaction }: TProps) => {
   let token: TBSToken | undefined
   let amount: string | undefined
   let receiverAddress: string | undefined
-  let receiverAccount: IAccountState | undefined
+  let receiverAccount: TAccount | undefined
 
   if (transaction.view === 'utxo') {
-    const output = transaction.outputs[0]
+    const output = transaction.outputs.at(-1)!
     token = output.token
     amount = output.amount
     receiverAddress = output.address
@@ -35,7 +35,7 @@ export const SellTokensDepositSuccessContent = ({ transaction }: TProps) => {
         )
       : undefined
   } else {
-    const event = transaction.events[0]
+    const event = transaction.events.at(-1)!
     token = event?.eventType === 'token' ? event.token : undefined
     amount = event?.amount
     receiverAddress = event.to

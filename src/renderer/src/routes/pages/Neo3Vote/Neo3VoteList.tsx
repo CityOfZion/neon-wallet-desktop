@@ -12,14 +12,14 @@ import { useNeo3VoteGetCandidatesToVote } from '@renderer/hooks/useNeo3Vote'
 
 import TbAlertTriangleFilled from '@renderer/assets/images/tb-filled-alert-triangle.svg?react'
 
-import { IAccountState } from '@shared/types/store'
+import { TAccount } from '@shared/types/store'
 
 import { Neo3VoteListItem } from './Neo3VoteListItem'
 import { Neo3VoteNotFound } from './Neo3VoteNotFound'
 import { Neo3VoteSkeleton } from './Neo3VoteSkeleton'
 
 type TProps = {
-  neo3Account?: IAccountState<'neo3'>
+  neo3Account?: TAccount<'neo3'>
   search: string
   voteErrorMessage?: string
   canVote: boolean
@@ -33,7 +33,7 @@ export const Neo3VoteList = ({ neo3Account, search, voteErrorMessage, canVote }:
 
   const candidates = useMemo(
     () =>
-      candidatesToVoteQuery.data?.toSorted(({ pubKey }) => (pubKey === ConstantsHelper.neo3VoteCozPubKey ? -1 : 1)) ??
+      candidatesToVoteQuery.data?.toSorted(({ pubKey }) => (pubKey === ConstantsHelper.neo3VoteCozPubKey ? -1 : 1)) ||
       [],
     [candidatesToVoteQuery.data]
   )
@@ -142,7 +142,7 @@ export const Neo3VoteList = ({ neo3Account, search, voteErrorMessage, canVote }:
                     contentProps={{ className: 'max-w-32' }}
                   >
                     <span>
-                      <TbAlertTriangleFilled aria-hidden className="text-pink h-5 w-5" />
+                      <TbAlertTriangleFilled aria-hidden className="text-pink size-5" />
                     </span>
                   </Tooltip>
                 )}

@@ -7,7 +7,7 @@ import { SelectorHelper } from '@renderer/helpers/SelectorHelper'
 
 import type { TRootState } from '@renderer/types/redux'
 import { AppError } from '@shared/helpers/SharedErrorHelper'
-import type { IWalletState } from '@shared/types/store'
+import type { TWallet } from '@shared/types/store'
 
 import { useLoginSessionSelector } from './useAuthSelector'
 import { createAppSelector, useAppSelector } from './useRedux'
@@ -15,9 +15,9 @@ import { createAppSelector, useAppSelector } from './useRedux'
 const selectWallets = createAppSelector(
   [state => state.auth.data.applicationDataByLoginType, state => state.auth.memoryData.loginSession],
   (applicationDataByLoginType, loginSession) => {
-    if (!loginSession?.type) return SelectorHelper.fallbackToEmptyArray<IWalletState>()
+    if (!loginSession?.type) return SelectorHelper.fallbackToEmptyArray<TWallet>()
 
-    return SelectorHelper.fallbackToEmptyArray<IWalletState>(applicationDataByLoginType[loginSession.type].wallets)
+    return SelectorHelper.fallbackToEmptyArray<TWallet>(applicationDataByLoginType[loginSession.type].wallets)
   }
 )
 
@@ -28,7 +28,7 @@ export const useWalletsSelector = () => {
 }
 
 export const useWalletsMapSelector = () => {
-  const walletsMapRef = useRef<Map<string, IWalletState>>(new Map())
+  const walletsMapRef = useRef<Map<string, TWallet>>(new Map())
 
   useSelector((state: TRootState) => {
     const wallets = selectWallets(state)

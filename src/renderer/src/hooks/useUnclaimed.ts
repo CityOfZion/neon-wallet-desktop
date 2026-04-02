@@ -12,7 +12,7 @@ import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { SharedI18nextHelper } from '@shared/helpers/SharedI18nextHelper'
 import { TNetwork } from '@shared/types/blockchain'
 import { TUseUnclaimedResult } from '@shared/types/query'
-import { IAccountState } from '@shared/types/store'
+import { TAccount } from '@shared/types/store'
 
 import { useLoginSessionSelector } from './useAuthSelector'
 import { useAppDispatch } from './useRedux'
@@ -21,10 +21,10 @@ import { useHasClaimPendingTransactionSelector } from './useUtilitySelector'
 
 const { t } = SharedI18nextHelper.get()
 
-const buildQueryKeyUnclaimed = (account: IAccountState, network: TNetwork) => ['claim', account.address, network]
+const buildQueryKeyUnclaimed = (account: TAccount, network: TNetwork) => ['claim', account.address, network]
 
 const getUnclaimedInfos = async (
-  account: IAccountState,
+  account: TAccount,
   hasClaimPendingTransaction: boolean
 ): Promise<TUseUnclaimedResult> => {
   const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByNameRecord[account.blockchain]
@@ -57,7 +57,7 @@ const getUnclaimedInfos = async (
   return { unclaimed, unclaimedNumber, fee, feeNumber: parseFloat(fee) }
 }
 
-export const useUnclaimed = (account: IAccountState) => {
+export const useUnclaimed = (account: TAccount) => {
   const { hasClaimPendingTransactionRef } = useHasClaimPendingTransactionSelector(account)
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
 
@@ -77,7 +77,7 @@ export const useUnclaimedMutation = () => {
   const dispatch = useAppDispatch()
 
   return useMutation({
-    mutationFn: async (account: IAccountState) => {
+    mutationFn: async (account: TAccount) => {
       if (!loginSessionRef.current) {
         throw new AppError(t('common:errors.loginSessionIsNotDefined'))
       }

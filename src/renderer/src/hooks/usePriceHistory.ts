@@ -48,7 +48,7 @@ export const usePriceHistory = (tokenBalances: TTokenBalance[]): TUsePriceHistor
 
       return {
         queryKey: ['prices', blockchain, tokenBalance.token.symbol, currency, networkByBlockchain[blockchain]],
-        queryFn: fetchTokenData.bind(null, tokenBalance, currencyRatio ?? 0),
+        queryFn: fetchTokenData.bind(null, tokenBalance, currencyRatio || 0),
         enabled: !isCurrencyRatioLoading && typeof currencyRatio === 'number',
       }
     }),

@@ -59,7 +59,7 @@ export const SideModalLayout = ({
 
   const [scope, animate] = useAnimate<HTMLDivElement>()
 
-  const widthBySize = widthBySizes[size] ?? 0
+  const widthBySize = widthBySizes[size] || 0
 
   const [isErasing, startErase] = usePressOnce(async () => {
     if (onErase) {

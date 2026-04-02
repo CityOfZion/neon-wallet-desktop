@@ -53,7 +53,7 @@ export const DappPermissionInvokeNeo3ContentSigner = ({ signer, session, onRejec
                 size="sm"
                 compacted
                 onClick={modalNavigateWrapper('dapp-permission-signature-scope', {
-                  state: { session, scope, allowedList: signer.allowedContracts ?? signer.allowedGroups, onReject },
+                  state: { session, scope, allowedList: signer.allowedContracts || signer.allowedGroups, onReject },
                 })}
               />
             </Tooltip>

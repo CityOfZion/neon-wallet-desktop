@@ -31,14 +31,14 @@ import TbShoppingBag from '@renderer/assets/images/tb-shopping-bag.svg?react'
 
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 import type { TTokenBalance } from '@shared/types/query'
-import { IAccountState } from '@shared/types/store'
+import { TAccount } from '@shared/types/store'
 
 import { BuyAndSellTokensAccordionAccounts } from './BuyAndSellTokensAccordionAccounts'
 import { BuyAndSellTokensBuyIframe } from './BuyAndSellTokensBuyIframe'
 import { BuyAndSellTokensSellIframe } from './BuyAndSellTokensSellIframe'
 
 type TLocationState = {
-  account?: IAccountState
+  account?: TAccount
 }
 
 type TParams = {
@@ -52,7 +52,7 @@ export type TDepositActionsData = {
   isFeeLoading: boolean
   fee?: string
   token?: TTokenBalance
-  account?: IAccountState
+  account?: TAccount
 }
 
 const Layout = (props: ComponentProps<'div'>) => {

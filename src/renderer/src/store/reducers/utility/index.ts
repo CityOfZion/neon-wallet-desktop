@@ -10,7 +10,7 @@ import { THiddenTokenByBlockchain, TLastIndexesByWallet, TSwapRecord } from '@sh
 import { getUtilityMigrations } from './migrations'
 import { utilitySliceReducers } from './reducers'
 
-export interface IUtilityReducer {
+export type TUtilityReducer = {
   memoryData: {
     pendingTransactions: TUseTransactionsTransaction[]
   }
@@ -27,7 +27,7 @@ export let utilityReducerActions: CaseReducerActions<typeof utilitySliceReducers
 export function getUtilityReducer() {
   const utilityMigrations = getUtilityMigrations()
 
-  const utilityReducerInitialState: IUtilityReducer = {
+  const utilityReducerInitialState: TUtilityReducer = {
     memoryData: {
       pendingTransactions: [],
     },
@@ -39,7 +39,7 @@ export function getUtilityReducer() {
     },
   }
 
-  const utilityReducerConfig: PersistConfig<IUtilityReducer> = {
+  const utilityReducerConfig: PersistConfig<TUtilityReducer> = {
     key: 'utilityReducer',
     storage,
     timeout: 0,

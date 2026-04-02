@@ -132,7 +132,7 @@ const NetworkUrlSelection = () => {
                       <span className="min-w-12 text-gray-300">
                         {typeof currentNetwork.latency === 'number'
                           ? t('latency', { latency: currentNetwork.latency })
-                          : '--'}
+                          : tCommonGeneral('emptyColumn')}
                       </span>
                     </div>
 
@@ -147,7 +147,10 @@ const NetworkUrlSelection = () => {
 
                       <span className="text-left text-gray-300">
                         {t('blockHeight', {
-                          height: typeof currentNetwork.height === 'number' ? currentNetwork.height : '--',
+                          height:
+                            typeof currentNetwork.height === 'number'
+                              ? currentNetwork.height
+                              : tCommonGeneral('emptyColumn'),
                         })}
                       </span>
                     </div>

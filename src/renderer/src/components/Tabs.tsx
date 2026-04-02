@@ -28,7 +28,7 @@ const Root = ({ value, className, id, ...props }: ComponentProps<typeof TabsPrim
   const finalValue = value !== undefined ? value : internalValue
 
   return (
-    <TabContext.Provider value={{ value: finalValue, id: id ?? internalId, ...props }}>
+    <TabContext.Provider value={{ value: finalValue, id: id || internalId, ...props }}>
       <TabsPrimitive.Root
         data-slot="tabs-root"
         className={StyleHelper.mergeStyles('relative flex flex-col', className)}

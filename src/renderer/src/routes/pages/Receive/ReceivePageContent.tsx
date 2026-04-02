@@ -18,10 +18,10 @@ import TbQrcode from '@renderer/assets/images/tb-qrcode.svg?react'
 import TbSend from '@renderer/assets/images/tb-send.svg?react'
 import TbStepInto from '@renderer/assets/images/tb-step-into.svg?react'
 
-import { IAccountState } from '@shared/types/store'
+import { TAccount } from '@shared/types/store'
 
 type TProps = {
-  account?: IAccountState
+  account?: TAccount
 }
 
 export const ReceivePageContent = ({ account }: TProps) => {
@@ -55,7 +55,7 @@ export const ReceivePageContent = ({ account }: TProps) => {
           >
             <div className="my-2.5 flex w-full justify-between">
               <div className="flex items-center gap-3">
-                <TbStepInto aria-hidden className="text-blue h-5 w-5" />
+                <TbStepInto aria-hidden className="text-blue size-5" />
                 <span className="font-bold">{t('yourReceivingAddress')}</span>
               </div>
 

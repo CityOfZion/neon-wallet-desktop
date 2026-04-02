@@ -9,10 +9,10 @@ import { useAccountsByWalletIdSelector } from '@renderer/hooks/useAccountSelecto
 import { useBalances } from '@renderer/hooks/useBalances'
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 
-import { IWalletState } from '@shared/types/store'
+import { TWallet } from '@shared/types/store'
 
 type TProps = {
-  wallet: IWalletState
+  wallet: TWallet
 }
 
 export const WalletSelectItem = ({ wallet }: TProps) => {

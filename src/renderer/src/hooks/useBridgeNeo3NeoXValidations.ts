@@ -6,9 +6,9 @@ import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelp
 
 import { useSelectedNetworkByBlockchainSelector } from '@renderer/hooks/useSettingsSelector'
 
-import { IAccountState } from '@shared/types/store'
+import { TAccount } from '@shared/types/store'
 
-export const useBridgeNeo3NeoXValidations = (account?: IAccountState) => {
+export const useBridgeNeo3NeoXValidations = (account?: TAccount) => {
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
 
   const canAccountBridge = useMemo(() => {

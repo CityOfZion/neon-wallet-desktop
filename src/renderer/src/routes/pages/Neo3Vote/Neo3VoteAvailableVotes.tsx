@@ -7,13 +7,13 @@ import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import { useNeo3VoteGetVoteDetailsByAddress } from '@renderer/hooks/useNeo3Vote'
 
-import { IAccountState } from '@shared/types/store'
+import { TAccount } from '@shared/types/store'
 
 type TProps = {
   neoAmount: number
   voteErrorMessage?: string
   hasNeoAmount: boolean
-  neo3Account?: IAccountState
+  neo3Account?: TAccount<'neo3'>
 }
 
 export const Neo3VoteAvailableVotes = ({ neoAmount, voteErrorMessage, hasNeoAmount, neo3Account }: TProps) => {

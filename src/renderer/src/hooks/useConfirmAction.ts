@@ -5,12 +5,12 @@ import { useTranslation } from 'react-i18next'
 import { useLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 
 import { AppError } from '@shared/helpers/SharedErrorHelper'
-import { IAccountState } from '@shared/types/store'
+import { TAccount } from '@shared/types/store'
 
 import { useModalNavigate } from './useModalRouter'
 
 type TConfirmActionParams = {
-  account: IAccountState
+  account: TAccount
 }
 
 export const useConfirmAction = () => {

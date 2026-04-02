@@ -7,7 +7,7 @@ import { WalletKitHelper } from '@renderer/helpers/WalletKitHelper'
 
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 
-import type { IAccountState } from '@shared/types/store'
+import type { TAccount } from '@shared/types/store'
 
 const DeeplinkManagerSetup = () => {
   const { modalNavigate } = useModalNavigate()
@@ -54,7 +54,7 @@ const DeeplinkManagerSetup = () => {
         if (wcUri) {
           modalNavigate('select-account', {
             state: {
-              onSelectAccount: (account: IAccountState) => {
+              onSelectAccount: (account: TAccount) => {
                 modalNavigate('dapp-connection', { state: { account: account, uri: wcUri } })
               },
               title: t('selectAccountModal.title'),

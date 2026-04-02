@@ -24,7 +24,7 @@ import TbPlus from '@renderer/assets/images/tb-plus.svg?react'
 
 import { contactReducerActions } from '@renderer/store/reducers/contact'
 import type { TModalState } from '@shared/types/modal'
-import { IContactState, TContactAddress } from '@shared/types/store'
+import { TContact, TContactAddress } from '@shared/types/store'
 
 type TFormData = {
   name: string
@@ -72,7 +72,7 @@ const PersistContactModal = () => {
       },
     })
 
-  const handleDeleteContact = (contact: IContactState) => {
+  const handleDeleteContact = (contact: TContact) => {
     dispatch(contactReducerActions.deleteContact(contact.id))
     modalNavigate(-1)
   }
@@ -95,7 +95,7 @@ const PersistContactModal = () => {
         contactReducerActions.saveContact({ name: data.name, addresses: data.addresses, id: modalStateContact.id })
       )
     } else {
-      const newContact: IContactState = { name: nameTrimmed, addresses: data.addresses, id: UtilsHelper.uuid() }
+      const newContact: TContact = { name: nameTrimmed, addresses: data.addresses, id: UtilsHelper.uuid() }
       dispatch(contactReducerActions.saveContact(newContact))
     }
 
@@ -138,7 +138,7 @@ const PersistContactModal = () => {
                     </span>
                   </div>
                   <IconButton
-                    icon={<TbPencil aria-hidden className="text-blue h-5 w-5" />}
+                    icon={<TbPencil aria-hidden className="text-blue size-5" />}
                     compacted
                     type="button"
                     onClick={() => openAddAddressModal(address, index)}
@@ -146,7 +146,7 @@ const PersistContactModal = () => {
                     {...TestHelper.buildTestObject('edit-contact-address-button')}
                   />
                   <IconButton
-                    icon={<MdDeleteForever aria-hidden className="text-pink h-5 w-5" />}
+                    icon={<MdDeleteForever aria-hidden className="text-pink size-5" />}
                     compacted
                     type="button"
                     onClick={modalNavigateWrapper('delete-contact', {

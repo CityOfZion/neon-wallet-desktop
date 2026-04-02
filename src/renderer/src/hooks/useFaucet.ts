@@ -9,7 +9,7 @@ import { TransactionHelper } from '@renderer/helpers/TransactionHelper'
 
 import { thunks } from '@renderer/store/thunks'
 import { AppError } from '@shared/helpers/SharedErrorHelper'
-import type { IAccountState } from '@shared/types/store'
+import type { TAccount } from '@shared/types/store'
 
 import { useAppDispatch } from './useRedux'
 
@@ -19,7 +19,7 @@ export const useFaucetMutation = () => {
   const dispatch = useAppDispatch()
 
   return useMutation({
-    mutationFn: async (account: IAccountState) => {
+    mutationFn: async (account: TAccount) => {
       const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByNameRecord[account.blockchain]
       if (!hasFaucet(service)) {
         throw new AppError(tCommon('errors.blockchainDoesNotSupportFaucet'))

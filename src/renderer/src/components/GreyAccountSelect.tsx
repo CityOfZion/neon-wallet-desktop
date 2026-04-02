@@ -11,14 +11,14 @@ import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { useAccountsWithWalletSelector } from '@renderer/hooks/useAccountSelector'
 
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
-import { IAccountState, TAccountType } from '@shared/types/store'
+import { TAccount, TAccountType } from '@shared/types/store'
 
 import { BlockchainIcon } from './BlockchainIcon'
 import { Select } from './Select'
 
 type TProps<T extends TBlockchainServiceKey> = {
-  selectedAccount?: IAccountState<T> | null
-  onSelect: (account: IAccountState<T>) => void
+  selectedAccount?: TAccount<T> | null
+  onSelect: (account: TAccount<T>) => void
   children?: JSX.Element
   blockchains?: T[]
   disabled?: boolean
@@ -61,7 +61,7 @@ export const GreyAccountSelect = <T extends TBlockchainServiceKey>({
     const account = accountsWithWallet.find(account => account.id === value)
     if (!account) return
 
-    onSelect(account as unknown as IAccountState<T>)
+    onSelect(account as unknown as TAccount<T>)
     setOpen(false)
   }
 

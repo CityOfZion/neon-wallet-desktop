@@ -18,14 +18,14 @@ import TbAlertTriangle from '@renderer/assets/images/tb-alert-triangle.svg?react
 import { TransactionActivityListProvider } from '@renderer/contexts/TransactionActivityListContext'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 import { TTransactionActivityListItemColumnSize } from '@shared/types/contexts'
-import { IAccountState } from '@shared/types/store'
+import { TAccount } from '@shared/types/store'
 
 import { TransactionActivityListDateRange } from './TransactionActivityListDateRange'
 import { TransactionActivityListItems } from './TransactionActivityListItems'
 import { TransactionActivityListSkeleton } from './TransactionActivityListSkeleton'
 
 type TProps = {
-  defaultAccounts: IAccountState[]
+  defaultAccounts: TAccount[]
   dateFrom: Date
   dateTo: Date
   onSelectDateFrom: (date: Date) => void
@@ -195,7 +195,7 @@ const Content = ({
         .with({ isLoading: true }, () => <TransactionActivityListSkeleton />)
         .with({ data: [] }, () => (
           <section className="mt-16 flex flex-col items-center text-center">
-            <TbAlertTriangle aria-hidden className="text-blue mb-2 h-16 w-16" />
+            <TbAlertTriangle aria-hidden className="text-blue mb-2 size-16" />
             <h3 className="text-lg text-white">{t('notFoundTitle')}</h3>
             <p className="text-gray-300">{t('notFoundDescription')}</p>
           </section>
