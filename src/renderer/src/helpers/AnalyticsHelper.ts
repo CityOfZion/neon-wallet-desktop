@@ -29,7 +29,7 @@ export class AnalyticsHelper {
       await window.api.sendAsync('analytics:logEvent', {
         eventName,
         clientId: AnalyticsHelper.#getClientId(),
-        params: { ...params, project: name, version },
+        params: { ...params, project: name, platform: 'desktop', version },
       })
     } catch (error) {
       LoggerHelper.sentry(error, { where: 'AnalyticsHelper', operation: 'logEvent' })
