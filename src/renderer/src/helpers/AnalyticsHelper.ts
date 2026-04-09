@@ -1,5 +1,6 @@
 import { SharedEnvHelper } from '@shared/helpers/SharedEnvHelper'
 
+import { name, version } from '../../../../package.json'
 import { LoggerHelper } from './LoggerHelper'
 import { UtilsHelper } from './UtilsHelper'
 
@@ -28,7 +29,7 @@ export class AnalyticsHelper {
       await window.api.sendAsync('analytics:logEvent', {
         eventName,
         clientId: AnalyticsHelper.#getClientId(),
-        params,
+        params: { ...params, project: name, version },
       })
     } catch (error) {
       LoggerHelper.sentry(error, { where: 'AnalyticsHelper', operation: 'logEvent' })
