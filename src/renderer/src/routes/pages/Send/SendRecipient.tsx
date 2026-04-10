@@ -154,7 +154,7 @@ export const SendRecipient = ({
       <Separator />
 
       <div className="my-5 flex w-full flex-col">
-        <div className="flex w-full items-start gap-3">
+        <div className="flex w-full items-start justify-between gap-3">
           <Input
             value={recipient.addressInput || ''}
             onChange={handleChangeAddress}
@@ -185,14 +185,14 @@ export const SendRecipient = ({
 
           <GreyAccountSelect
             onSelect={handleSelectAccount}
-            withoutIndicator
             blockchains={selectedAccount ? [selectedAccount.blockchain] : undefined}
             disabled={isDisabled}
+            placement="dropdownEnd"
           >
             <Button
               disabled={isDisabled}
               variant="text"
-              label={t('myAccountButtonLabel')}
+              label={t('myAccountsButtonLabel')}
               leftIcon={<TbWallet aria-hidden />}
               flat
             />
