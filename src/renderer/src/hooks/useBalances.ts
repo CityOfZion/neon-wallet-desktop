@@ -32,12 +32,17 @@ export function buildQueryKeyBalance(
   address: string,
   blockchain: TBlockchainServiceKey,
   network: TNetwork,
-  currency?: TCurrency
+  currency?: TCurrency,
+  hasCurrencyRatio?: boolean
 ) {
   const key: any[] = ['balance', address, blockchain, network]
 
   if (currency) {
     key.push(currency)
+
+    if (hasCurrencyRatio !== undefined) {
+      key.push(hasCurrencyRatio)
+    }
   }
 
   return key
@@ -142,9 +147,17 @@ export function useBalances(params: TUseBalancesParams[], options?: TUseBalances
   const { currency } = useCurrencySelector()
   const { hiddenTokensByBlockchain } = useHiddenTokensByBlockchainSelector()
 
+  const hasCurrencyRatio = typeof currencyRatio === 'number'
+
   return useQueries({
     queries: params.map(param => ({
-      queryKey: buildQueryKeyBalance(param.address, param.blockchain, networkByBlockchain[param.blockchain], currency),
+      queryKey: buildQueryKeyBalance(
+        param.address,
+        param.blockchain,
+        networkByBlockchain[param.blockchain],
+        currency,
+        hasCurrencyRatio
+      ),
       queryFn: fetchBalance.bind(
         null,
         param,
@@ -153,7 +166,7 @@ export function useBalances(params: TUseBalancesParams[], options?: TUseBalances
         currency,
         currencyRatio || 0
       ),
-      enabled: !isCurrencyRatioLoading && typeof currencyRatio === 'number',
+      enabled: !isCurrencyRatioLoading && hasCurrencyRatio,
       ...queryOptions,
     })),
     combine: results => {
@@ -210,9 +223,16 @@ export function useBalance(
 
   const params = balanceParams || { address: '', blockchain: 'neo3' }
   const { showType = 'active', queryOptions } = options || {}
+  const hasCurrencyRatio = typeof currencyRatio === 'number'
 
   const query = useQuery({
-    queryKey: buildQueryKeyBalance(params.address, params.blockchain, networkByBlockchain[params.blockchain], currency),
+    queryKey: buildQueryKeyBalance(
+      params.address,
+      params.blockchain,
+      networkByBlockchain[params.blockchain],
+      currency,
+      hasCurrencyRatio
+    ),
     queryFn: fetchBalance.bind(
       null,
       params,
@@ -221,7 +241,7 @@ export function useBalance(
       currency,
       currencyRatio || 0
     ),
-    enabled: !!balanceParams && !isCurrencyRatioLoading && typeof currencyRatio === 'number',
+    enabled: !!balanceParams && !isCurrencyRatioLoading && hasCurrencyRatio,
     ...queryOptions,
   })
 
@@ -244,6 +264,8 @@ export function useLazyBalance() {
   const currentRatioQuery = useCurrencyRatio()
   const { hiddenTokensByBlockchain } = useHiddenTokensByBlockchainSelector()
 
+  const hasCurrencyRatio = typeof currentRatioQuery.data === 'number'
+
   const getBalance = useCallback(
     async (params: TUseBalancesParams, options?: TUseBalancesOptions) => {
       const { showType = 'active', queryOptions } = options || {}
@@ -251,14 +273,14 @@ export function useLazyBalance() {
       const network = networkByBlockchain[params.blockchain]
 
       const data = await queryClient.ensureQueryData({
-        queryKey: buildQueryKeyBalance(params.address, params.blockchain, network, currency),
+        queryKey: buildQueryKeyBalance(params.address, params.blockchain, network, currency, hasCurrencyRatio),
         queryFn: fetchBalance.bind(null, params, network, queryClient, currency, currentRatioQuery.data || 0),
         ...queryOptions,
       })
 
       return fixBalanceResult(data, showType, hiddenTokensByBlockchain)
     },
-    [currency, currentRatioQuery.data, hiddenTokensByBlockchain, networkByBlockchain, queryClient]
+    [currency, currentRatioQuery.data, hasCurrencyRatio, hiddenTokensByBlockchain, networkByBlockchain, queryClient]
   )
 
   return {

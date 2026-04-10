@@ -42,14 +42,23 @@ export const usePriceHistory = (tokenBalances: TTokenBalance[]): TUsePriceHistor
   const { isLoading: isCurrencyRatioLoading, data: currencyRatio } = useCurrencyRatio()
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
 
+  const hasCurrencyRatio = typeof currencyRatio === 'number'
+
   return useQueries({
     queries: tokenBalances.map(tokenBalance => {
       const { blockchain } = tokenBalance
 
       return {
-        queryKey: ['prices', blockchain, tokenBalance.token.symbol, currency, networkByBlockchain[blockchain]],
+        queryKey: [
+          'prices',
+          blockchain,
+          tokenBalance.token.symbol,
+          currency,
+          networkByBlockchain[blockchain],
+          hasCurrencyRatio,
+        ],
         queryFn: fetchTokenData.bind(null, tokenBalance, currencyRatio || 0),
-        enabled: !isCurrencyRatioLoading && typeof currencyRatio === 'number',
+        enabled: !isCurrencyRatioLoading && hasCurrencyRatio,
       }
     }),
     combine: results => ({
