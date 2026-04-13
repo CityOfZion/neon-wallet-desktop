@@ -476,18 +476,17 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
                   />
 
                   <GreyAccountSelect
-                    withoutIndicator
                     blockchains={
                       actionData.tokenToReceive.value ? [actionData.tokenToReceive.value.blockchain] : undefined
                     }
                     disabled={!actionData.tokenToReceive.value}
                     onSelect={handleSelectAccountToReceive}
+                    placement="dropdownStart"
                   >
                     <Button
-                      clickableProps={{ className: 'px-3 text-neon' }}
-                      colorSchema="neon"
-                      variant="card"
+                      variant="text"
                       label={t('form.addressToReceiveMyAccountButtonLabel')}
+                      leftIcon={<TbWallet aria-hidden />}
                       flat
                     />
                   </GreyAccountSelect>

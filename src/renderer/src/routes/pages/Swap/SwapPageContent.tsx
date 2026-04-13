@@ -28,7 +28,6 @@ import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelp
 import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
-import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { SwapHelper } from '@renderer/helpers/SwapHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { TransactionHelper } from '@renderer/helpers/TransactionHelper'
@@ -671,21 +670,18 @@ export const SwapPageContent = ({ account }: TProps) => {
                   />
 
                   <GreyAccountSelect
-                    withoutIndicator
                     blockchains={tokenToReceiveBlockchain ? [tokenToReceiveBlockchain] : undefined}
                     disabled={isAccountsSelectionDisabled}
                     onSelect={handleSelectAccountToReceive}
+                    placement="dropdownStart"
                   >
                     <Button
-                      className={StyleHelper.mergeStyles('h-9', {
-                        'opacity-40': isAccountsSelectionDisabled,
-                      })}
-                      clickableProps={{ className: 'px-3 text-neon' }}
                       disabled={isAccountsSelectionDisabled}
-                      colorSchema="neon"
-                      variant="card"
+                      variant="text"
                       label={t('form.myAccountsButtonLabel')}
+                      leftIcon={<TbWallet aria-hidden />}
                       flat
+                      className="h-9"
                     />
                   </GreyAccountSelect>
                 </div>
