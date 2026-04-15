@@ -7,7 +7,7 @@ test.describe('Read contact', () => {
     const window = await launch()
     const contactName = 'My contact name'
     const address = 'NenPXJNsJoVHT9XH78QVCMZiUmx7HetkXY'
-    const blockchainName = 'Neo N3'
+    const blockchainName = 'Neo 3'
 
     await createNewWallet(window)
     await createContact(window, { contactName, address, blockchainName })

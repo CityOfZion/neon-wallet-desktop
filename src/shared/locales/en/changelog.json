@@ -16,7 +16,7 @@
       "changes": [
         "Support for 24 word mnemonic",
         "New Notification: Malicious Token Identified",
-        "Removal of 'claim gas' requirement before enabling Neo Legacy > Neo N3 Migration",
+        "Removal of 'claim gas' requirement before enabling Neo Legacy > Neo 3 Migration",
         "New Feature: Import Mnemonic through deeplinks"
       ],
       "date": "2025-07-29",
@@ -211,7 +211,7 @@
         "Improved input validation to explicitly allow special characters",
         "Stronger backup reminders to help secure user assets",
         "Added buildAddressUrl to ExplorerService to improve routing to external blockchain explorers",
-        "Enhanced WalletConnect stability and improved multi-chain support for Neo N3 and Neo X",
+        "Enhanced WalletConnect stability and improved multi-chain support for Neo 3 and Neo X",
         "DevTools shortcut",
         "Minor bug fixes"
       ],

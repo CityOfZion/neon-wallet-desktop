@@ -27,7 +27,7 @@ test.describe('Edit contact', () => {
     const window = await launch()
     const contactName = 'My contact'
     const [address, updatedAddress] = ADDRESSES
-    const blockchainName = 'Neo N3'
+    const blockchainName = 'Neo 3'
 
     await createNewWallet(window)
     await createContact(window, { contactName, address, blockchainName })
@@ -91,7 +91,7 @@ test.describe('Edit contact', () => {
 
   test('Should add a new contact address', async () => {
     const window = await launch()
-    const blockchainName = 'Neo N3'
+    const blockchainName = 'Neo 3'
     const address = 'NVtKNQ6sniG61h5gnhZSZxdfXRUcEu5WMn'
 
     await createNewWallet(window)

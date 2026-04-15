@@ -1,7 +1,7 @@
 {
   "name": "neon3",
   "version": "3.10.0",
-  "description": "Everything a self-custodial wallet should be with everything you need to explore and make transactions in the Neo N3, Neo Legacy, Neo X, Ethereum, and other networks.",
+  "description": "Everything a self-custodial wallet should be with everything you need to explore and make transactions in the Neo 3, Neo Legacy, Neo X, Bitcoin, Solana, Ethereum, EVMs and other blockchains.",
   "homepage": "https://github.com/CityOfZion/neon-wallet-desktop",
   "author": "COZ",
   "maintainers": [
@@ -70,7 +70,7 @@
     "@tanstack/react-table": "~8.21.3",
     "@tanstack/react-virtual": "~3.13.12",
     "@walletconnect/core": "^2.23.0",
-    "axios": "^1.13.2",
+    "axios": "1.13.5",
     "classnames": "~2.5.1",
     "cmdk": "~1.1.1",
     "compare-versions": "~6.1.1",

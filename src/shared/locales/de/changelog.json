@@ -20,7 +20,7 @@
       "changes": [
         "24-Wort-Mnemonic-Unterstützung",
         "Neue Benachrichtigung: Schädlicher Token erkannt",
-        "Entfernung der 'claim gas'-Anforderung vor der Aktivierung von Neo Legacy > Neo N3 Migration",
+        "Entfernung der 'claim gas'-Anforderung vor der Aktivierung von Neo Legacy > Neo 3 Migration",
         "Neue Funktion: Importieren von Mnemonic über Deeplinks"
       ],
       "date": "2025-07-29",
@@ -224,7 +224,7 @@
         "Verbesserte Eingabevalidierung zur expliziten Zulassung von Sonderzeichen",
         "Verbesserte Backup-Erinnerungen zum Schutz der Benutzerdaten",
         "Die buildAddressUrl wurde zum ExplorerService hinzugefügt, um das Routing zu externen Blockchain-Explorern zu verbessern.",
-        "Verbesserte Stabilität von WalletConnect und optimierte Multi-Chain-Unterstützung für Neo N3 und Neo X",
+        "Verbesserte Stabilität von WalletConnect und optimierte Multi-Chain-Unterstützung für Neo 3 und Neo X",
         "DevTools-Verknüpfung",
         "Kleinere Fehlerbehebungen"
       ],

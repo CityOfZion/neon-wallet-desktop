@@ -16,7 +16,7 @@
       "changes": [
         "Suporte para frasal de 24 palavras",
         "Nova Notificação: Token Malicioso Identificado",
-        "Remoção da exigência de 'claim gas' antes de ativar a migração Neo Legacy > Neo N3",
+        "Remoção da exigência de 'claim gas' antes de ativar a migração Neo Legacy > Neo 3",
         "Nova Funcionalidade: Importar Mnemônico por meio de deeplinks"
       ],
       "date": "2025-07-29",
@@ -220,7 +220,7 @@
         "Validação de entrada aprimorada para permitir explicitamente caracteres especiais.",
         "Lembretes de backup mais robustos para ajudar a proteger os ativos do usuário.",
         "Adicionada a função buildAddressUrl ao ExplorerService para melhorar o roteamento para exploradores de blockchain externos.",
-        "Estabilidade aprimorada do WalletConnect e suporte multichain melhorado para Neo N3 e Neo X.",
+        "Estabilidade aprimorada do WalletConnect e suporte multichain melhorado para Neo 3 e Neo X.",
         "Atalho das Ferramentas de Desenvolvedor",
         "Correções de pequenos erros."
       ],

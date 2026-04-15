@@ -5,7 +5,7 @@ import { ADDRESSES, createNewWallet, launch } from '../index'
 test.describe('Create contact', () => {
   test('Should create a contact', async () => {
     const window = await launch()
-    const blockchainName = 'Neo N3'
+    const blockchainName = 'Neo 3'
     const contactName = 'My first contact'
 
     await createNewWallet(window)
@@ -83,7 +83,7 @@ test.describe('Create contact', () => {
     await expect(window.getByTestId('save-contact-address-button')).toBeDisabled()
 
     await window.getByTestId('contact-blockchain-select').click()
-    await window.getByTestId('contact-blockchain-select-item').filter({ hasText: 'Neo N3' }).click()
+    await window.getByTestId('contact-blockchain-select-item').filter({ hasText: 'Neo 3' }).click()
 
     await expect(window.getByTestId('save-contact-address-button')).toBeDisabled()
 

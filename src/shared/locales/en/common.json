@@ -7,9 +7,9 @@
     "base": "Base",
     "bitcoin": "Bitcoin",
     "ethereum": "Ethereum",
-    "neo3": "Neo N3",
+    "neo3": "Neo 3",
     "neoLegacy": "Neo Legacy",
-    "neox": "NeoX",
+    "neox": "Neo X",
     "polygon": "Polygon",
     "solana": "Solana",
     "stellar": "Stellar"
