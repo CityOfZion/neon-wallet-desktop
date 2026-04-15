@@ -16,7 +16,7 @@
       "changes": [
         "24 個單字助記詞支援",
         "新通知：已識別惡意代幣",
-        "移除「claim gas」要求以啟用 Neo Legacy > Neo N3 迁移",
+        "移除「claim gas」要求以啟用 Neo Legacy > Neo 3 迁移",
         "新功能：透過 deeplink 導入助記詞"
       ],
       "date": "2025-07-29",
@@ -206,7 +206,7 @@
         "改進了輸入驗證，明確允許特殊字符",
         "更強大的備份提醒功能，有助於保護使用者資產。",
         "為 ExplorerService 新增了 buildAddressUrl，以改善外部區塊鏈瀏覽器的路由。",
-        "增強了 WalletConnect 的穩定性，並改善了對 Neo N3 和 Neo X 的多鏈支援。",
+        "增強了 WalletConnect 的穩定性，並改善了對 Neo 3 和 Neo X 的多鏈支援。",
         "開發者工具快捷方式",
         "修復了一些小錯誤"
       ],

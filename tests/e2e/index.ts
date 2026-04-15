@@ -83,7 +83,7 @@ export const startFromScratchAndLogout = async (window: Page) => {
 
 export const createContact = async (
   window: Page,
-  { contactName = 'My contact', address = ADDRESSES[0], blockchainName = 'Neo N3' }: TCreateContact = {}
+  { contactName = 'My contact', address = ADDRESSES[0], blockchainName = 'Neo 3' }: TCreateContact = {}
 ) => {
   const url = window.url()
   if (!url.includes('/contacts')) {
