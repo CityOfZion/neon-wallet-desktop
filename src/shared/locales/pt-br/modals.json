@@ -750,30 +750,13 @@
     "title": "Fazer depósito"
   },
   "stellarPersistTrustlines": {
-    "addButtonLabel": "Adicionar linha de confiança",
-    "addDescription": "Para adicionar esta linha de confiança, forneça as informações necessárias.",
-    "addErrorToastMessage": "Falha ao adicionar linha de confiança",
-    "addSuccessToastMessage": "Trustline adicionado com sucesso",
-    "addTitle": "Adicionar linha de confiança",
-    "editButtonLabel": "Salvar alterações",
-    "editDescription": "Para editar esta declaração de confiança, forneça as informações necessárias.",
-    "editErrorToastMessage": "Falha ao atualizar a linha de confiança",
-    "editSuccessToastMessage": "Trustline editado com sucesso",
-    "editTitle": "Editar linha de confiança",
     "errors": {
-      "invalidLimit": "Limite inválido",
-      "invalidToken": "Token inválido",
-      "validation": "Por favor, forneça informações válidas para prosseguir."
-    },
-    "failureNotification": {
-      "previewBody": "Não foi possível verificar a conclusão da sua linha de confiança.",
-      "title": "A alteração da Trustline falhou"
+      "invalidLimit": "Limite inválido"
     },
     "limitLabel": "Limite (Opcional)",
-    "successNotification": {
-      "previewBody": "Sua linha de confiança foi alterada com sucesso.",
-      "title": "Alterar Trustline concluído"
-    },
+    "limitPlaceholder": "Digite o limite…",
+    "saveButtonLabel": "Salvar",
+    "title": "Trustline",
     "tokenLabel": "Token"
   },
   "stellarTrustlines": {

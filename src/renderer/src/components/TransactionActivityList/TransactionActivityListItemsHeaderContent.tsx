@@ -10,6 +10,7 @@ import { ClipboardHelper } from '@renderer/helpers/ClipboardHelper'
 import { DateHelper } from '@renderer/helpers/DateHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 
+import { useAccountsMapSelector } from '@renderer/hooks/useAccountSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useLanguageSelector } from '@renderer/hooks/useSettingsSelector'
 import { useSwapRecordSelector } from '@renderer/hooks/useUtilitySelector'
@@ -26,6 +27,7 @@ import TbCube from '@renderer/assets/images/tb-cube.svg?react'
 import TbReplace2 from '@renderer/assets/images/tb-replace-2.svg?react'
 import TbTransform from '@renderer/assets/images/tb-transform.svg?react'
 
+import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 import type { TUseTransactionsTransaction } from '@shared/types/hooks'
 
 import { TransactionActivityListItemsHeaderDetails } from './TransactionActivityListItemsHeaderDetails'
@@ -41,6 +43,7 @@ export const TransactionActivityListItemsHeaderContent = ({ transaction }: TProp
   const { modalNavigate } = useModalNavigate()
   const { swapRecord } = useSwapRecordSelector(transaction.txId)
   const { language } = useLanguageSelector()
+  const { accountsMap } = useAccountsMapSelector()
 
   const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[transaction.blockchain]
 
@@ -68,11 +71,22 @@ export const TransactionActivityListItemsHeaderContent = ({ transaction }: TProp
     )
     if (!tokenToReceive) return
 
+    const accountToUse = transaction.relatedAddress
+      ? accountsMap.get(
+          SharedAccountHelper.buildAccountKey({
+            address: transaction.relatedAddress,
+            blockchain: transaction.blockchain,
+          })
+        )
+      : undefined
+
+    if (!accountToUse) return
+
     modalNavigate('neo3-neox-bridge-details', {
       state: {
         tokenToUse: bridgeData.neo3NeoxBridge.tokenToUse,
         tokenToReceive,
-        accountToUse: transaction.account,
+        accountToUse,
         addressToReceive: bridgeData.neo3NeoxBridge.receiverAddress,
         amountToUse: bridgeData.neo3NeoxBridge.amount,
         amountToReceive: bridgeData.neo3NeoxBridge.amount,

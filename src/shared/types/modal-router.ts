@@ -6,7 +6,8 @@ import type {
   TNftResponse,
 } from '@cityofzion/blockchain-service'
 import type { TWalletKitHelperSessionDetails } from '@cityofzion/bs-multichain'
-import type { TVoteServiceCandidate } from '@cityofzion/bs-neo3'
+import type { TBSNeo3Name, TVoteServiceCandidate } from '@cityofzion/bs-neo3'
+import type { TBSStellarName } from '@cityofzion/bs-stellar'
 import type { ErrorResponse } from '@walletconnect/jsonrpc-utils'
 import type { PendingRequestTypes, ProposalTypes, SessionTypes } from '@walletconnect/types'
 import type { Dispatch, JSX } from 'react'
@@ -259,7 +260,7 @@ type TSwapDetailsLogModalState = {
 }
 
 type TNeo3VoteCandidateDetailsModalState = {
-  neo3Account: TAccount<'neo3'>
+  neo3Account: TAccount<TBSNeo3Name>
   candidate: TVoteServiceCandidate
   candidateVotePercentage: string
 }
@@ -366,26 +367,26 @@ type THideFraudulentTokenModalState = {
 }
 
 type TNeo3VoteConfirmationModalState = {
-  neo3Account: TAccount<'neo3'>
+  neo3Account: TAccount<TBSNeo3Name>
   candidate: TVoteServiceCandidate
 }
 
 type TNeo3VoteSuccessModalState = {
-  neo3Account: TAccount<'neo3'>
+  neo3Account: TAccount<TBSNeo3Name>
   candidate: TVoteServiceCandidate
 }
 
 type TNeo3VoteSupportUsModalState = {
-  neo3Account: TAccount<'neo3'>
+  neo3Account: TAccount<TBSNeo3Name>
   cozCandidate: TVoteServiceCandidate
 }
 
 type TStellarTrustlinesModalState = {
-  stellarAccount: TAccount<'stellar'>
+  stellarAccount: TAccount<TBSStellarName>
 }
 
 type TStellarPersistTrustlineModalState = {
-  stellarAccount: TAccount<'stellar'>
+  stellarAccount: TAccount<TBSStellarName>
   token?: TBSToken
   limit?: string
 }

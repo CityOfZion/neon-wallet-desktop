@@ -5,7 +5,6 @@ import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
-import { TransactionHelper } from '@renderer/helpers/TransactionHelper'
 
 import { thunks } from '@renderer/store/thunks'
 import { AppError } from '@shared/helpers/SharedErrorHelper'
@@ -92,14 +91,7 @@ export const useUnclaimedMutation = () => {
       if (!account.encryptedKey) return
 
       const serviceAccount = await AccountHelper.getServiceAccount(account)
-      const transaction = await service.claimService.claim(serviceAccount)
-
-      const pendingTransaction = TransactionHelper.buildPendingTransaction({
-        transaction,
-        account,
-        senderAccount: account,
-        receiverAccounts: [account],
-      })
+      const pendingTransaction = await service.claimService.claim(serviceAccount)
 
       const notificationPrefix = 'hooks:useUnclaimedMutation'
       const notificationSuccessPrefix = `${notificationPrefix}.successNotification`

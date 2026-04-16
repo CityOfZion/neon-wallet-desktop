@@ -51,6 +51,18 @@
       "wrongVersion": "Die Sicherungsdateiversion wird nicht unterstützt. Bitte versuchen Sie, eine neue Sicherung in der neuesten NEON-Version zu erstellen."
     }
   },
+  "usePersistTrustlineMutation": {
+    "errorToastMessage": "Trustline konnte nicht hinzugefügt werden",
+    "failureNotification": {
+      "previewBody": "Wir konnten den Abschluss Ihrer Vertrauenslinie nicht bestätigen.",
+      "title": "Änderung der Trustline fehlgeschlagen"
+    },
+    "successNotification": {
+      "previewBody": "Ihre Vertrauenslinie wurde erfolgreich geändert.",
+      "title": "Trustline-Änderung abgeschlossen"
+    },
+    "successToastMessage": "Trustline erfolgreich hinzugefügt"
+  },
   "useUnclaimedMutation": {
     "errors": {
       "claimError": "Es gab einen Fehler beim Versuch abzurufen. Bitte versuchen Sie es erneut."

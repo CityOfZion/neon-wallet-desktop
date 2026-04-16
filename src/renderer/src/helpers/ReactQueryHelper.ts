@@ -4,8 +4,7 @@ import { buildQueryKeyBalance } from '@renderer/hooks/useBalances'
 import { buildNeo3VoteGetVoteDetailsByAddressQueryKey } from '@renderer/hooks/useNeo3Vote'
 import { buildTransactionsAggregatedQueryKey, buildTransactionsQueryKey } from '@renderer/hooks/useTransactions'
 
-import { TNetwork } from '@shared/types/blockchain'
-import { TAccount } from '@shared/types/store'
+import { type TBlockchainServiceKey, TNetwork } from '@shared/types/blockchain'
 
 export class ReactQueryHelper {
   static readonly client = new QueryClient({
@@ -20,16 +19,14 @@ export class ReactQueryHelper {
     },
   })
 
-  static invalidateTransactionQueries = (account: TAccount, network: TNetwork, toAccount?: TAccount) => {
-    const { address, blockchain } = account
-
+  static invalidateTransactionQueries = (address: string, blockchain: TBlockchainServiceKey, network: TNetwork) => {
     this.client.removeQueries({
       queryKey: buildQueryKeyBalance(address, blockchain, network),
       type: 'all',
     })
 
     this.client.removeQueries({
-      queryKey: buildTransactionsQueryKey({ account, network }),
+      queryKey: buildTransactionsQueryKey({ address, blockchain, network }),
       type: 'all',
     })
 
@@ -42,17 +39,5 @@ export class ReactQueryHelper {
       queryKey: buildNeo3VoteGetVoteDetailsByAddressQueryKey({ neo3Network: network, address }),
       type: 'all',
     })
-
-    if (toAccount) {
-      this.client.removeQueries({
-        queryKey: buildQueryKeyBalance(toAccount.address, toAccount.blockchain, network),
-        type: 'all',
-      })
-
-      this.client.removeQueries({
-        queryKey: buildTransactionsQueryKey({ account: toAccount, network }),
-        type: 'all',
-      })
-    }
   }
 }

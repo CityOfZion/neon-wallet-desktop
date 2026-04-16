@@ -21,10 +21,8 @@ import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
 import { ExchangeHelper } from '@renderer/helpers/ExchangeHelper'
 import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
-import { TransactionHelper } from '@renderer/helpers/TransactionHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
-import { useAccountsMapSelector } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
 import { useLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useBalance } from '@renderer/hooks/useBalances'
@@ -41,9 +39,7 @@ import TbPlus from '@renderer/assets/images/tb-plus.svg?react'
 import TbStepOut from '@renderer/assets/images/tb-step-out.svg?react'
 
 import { thunks } from '@renderer/store/thunks'
-import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 import { AppError } from '@shared/helpers/SharedErrorHelper'
-import { TUseTransactionsTransaction } from '@shared/types/hooks'
 import { TAccount } from '@shared/types/store'
 
 import { SendErrorModalContent } from './SendErrorModalContent'
@@ -74,7 +70,6 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
   const { t: tCommon } = useTranslation('common')
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
   const { loginSessionRef } = useLoginSessionSelector()
-  const { accountsMapRef } = useAccountsMapSelector()
   const { modalNavigate } = useModalNavigate()
   const { confirmAction } = useConfirmAction()
   const dispatch = useAppDispatch()
@@ -314,57 +309,26 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
       await confirmAction({ account })
 
       const { intents, service } = fields
-      const transactions = await service.transfer({ senderAccount: fields.serviceAccount, intents })
-      const pendingTransactions: TUseTransactionsTransaction[] = []
-      const blockchain = service.name
+      const pendingTransactions = await service.transfer({ senderAccount: fields.serviceAccount, intents })
+
       const notificationPrefix = 'pages:send'
       const notificationSuccessPrefix = `${notificationPrefix}.successNotification`
       const notificationFailurePrefix = `${notificationPrefix}.failureNotification`
 
-      const waitTransactionParams = {
-        successNotification: {
-          title: `${notificationSuccessPrefix}.title`,
-          previewBody: `${notificationSuccessPrefix}.previewBody`,
-        },
-        failureNotification: {
-          title: `${notificationFailurePrefix}.title`,
-          previewBody: `${notificationFailurePrefix}.previewBody`,
-        },
-      }
-
-      if (service.isMultiTransferSupported) {
-        const receiverAccounts = intents.map(({ receiverAddress }) =>
-          accountsMapRef.current.get(SharedAccountHelper.buildAccountKey({ address: receiverAddress, blockchain }))
-        )
-
-        const pendingTransaction = TransactionHelper.buildPendingTransaction({
-          transaction: transactions[0],
-          account,
-          senderAccount: account,
-          receiverAccounts,
-        })
-
-        pendingTransactions.push(pendingTransaction)
-      } else {
-        transactions.forEach((transaction, index) => {
-          const intent = intents[index]
-          const receiverAccount = accountsMapRef.current.get(
-            SharedAccountHelper.buildAccountKey({ address: intent?.receiverAddress, blockchain })
-          )
-
-          const pendingTransaction = TransactionHelper.buildPendingTransaction({
-            transaction,
-            account,
-            senderAccount: account,
-            receiverAccounts: receiverAccount ? [receiverAccount] : undefined,
-          })
-
-          pendingTransactions.push(pendingTransaction)
-        })
-      }
-
       pendingTransactions.forEach(pendingTransaction =>
-        dispatch(thunks.waitPendingTransaction({ ...waitTransactionParams, pendingTransaction }))
+        dispatch(
+          thunks.waitPendingTransaction({
+            pendingTransaction,
+            successNotification: {
+              title: `${notificationSuccessPrefix}.title`,
+              previewBody: `${notificationSuccessPrefix}.previewBody`,
+            },
+            failureNotification: {
+              title: `${notificationFailurePrefix}.title`,
+              previewBody: `${notificationFailurePrefix}.previewBody`,
+            },
+          })
+        )
       )
 
       AnalyticsHelper.logEvent('transaction_executed')

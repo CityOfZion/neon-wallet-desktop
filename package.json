@@ -34,16 +34,16 @@
     "icon": "svg-icons"
   },
   "dependencies": {
-    "@cityofzion/blockchain-service": "3.1.6",
-    "@cityofzion/bs-bitcoin": "3.1.6",
-    "@cityofzion/bs-electron": "3.1.6",
-    "@cityofzion/bs-ethereum": "3.1.6",
-    "@cityofzion/bs-multichain": "3.1.6",
-    "@cityofzion/bs-neo-legacy": "3.1.6",
-    "@cityofzion/bs-neo3": "3.1.6",
-    "@cityofzion/bs-neox": "3.1.6",
-    "@cityofzion/bs-solana": "3.1.6",
-    "@cityofzion/bs-stellar": "3.1.6",
+    "@cityofzion/blockchain-service": "3.1.10",
+    "@cityofzion/bs-bitcoin": "3.1.10",
+    "@cityofzion/bs-electron": "3.1.10",
+    "@cityofzion/bs-ethereum": "3.1.10",
+    "@cityofzion/bs-multichain": "3.1.10",
+    "@cityofzion/bs-neo-legacy": "3.1.10",
+    "@cityofzion/bs-neo3": "3.1.10",
+    "@cityofzion/bs-neox": "3.1.10",
+    "@cityofzion/bs-solana": "3.1.10",
+    "@cityofzion/bs-stellar": "3.1.10",
     "@electron-toolkit/preload": "~3.0.2",
     "@electron-toolkit/utils": "~4.0.0",
     "@fingerprintjs/fingerprintjs": "~5.0.1",
@@ -147,5 +147,9 @@
     "vite": "~7.1.12",
     "vite-plugin-node-polyfills": "~0.24.0",
     "vite-plugin-svgr": "~4.5.0"
+  },
+  "overrides": {
+    "@cityofzion/neon-core": "5.8.1",
+    "@cityofzion/neon-js": "5.8.1"
   }
 }

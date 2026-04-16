@@ -1,10 +1,8 @@
 import { FormEvent, MouseEvent } from 'react'
 
-import type {
-  TGetTransactionsByAddressResponse,
-  TTransactionDefault,
-  TTransactionUtxo,
-} from '@cityofzion/blockchain-service'
+import type { TBSToken, TTransactionDefault, TTransactionUtxo } from '@cityofzion/blockchain-service'
+import type { TBSNeo3Name } from '@cityofzion/bs-neo3'
+import type { TBSStellarName } from '@cityofzion/bs-stellar'
 import zod from 'zod'
 
 import type { neonBackupContentSchema, neonBackupDataSchema } from '@shared/schemas/neon-backup'
@@ -64,27 +62,11 @@ export type TUseTransactionsProps = {
   shouldUseFullTransactionsService: boolean
 }
 
-type TUseTransactionsTransactionBase<N extends TBlockchainServiceKey = TBlockchainServiceKey> = {
-  account: TAccount<N>
-  blockchain: N
-  isPending: boolean
-}
-
-export type TUseTransactionsTransactionDefault<N extends TBlockchainServiceKey = TBlockchainServiceKey> =
-  TTransactionDefault & TUseTransactionsTransactionBase<N>
-
-export type TUseTransactionsTransactionUtxo<N extends TBlockchainServiceKey = TBlockchainServiceKey> =
-  TTransactionUtxo & TUseTransactionsTransactionBase<N>
-
 export type TUseTransactionsTransaction = TBlockchainServiceKey extends infer N
   ? N extends TBlockchainServiceKey
-    ? TUseTransactionsTransactionDefault<N> | TUseTransactionsTransactionUtxo<N>
+    ? TTransactionDefault<N> | TTransactionUtxo<N>
     : never
   : never
-
-export type TUseTransactionsQueryData = Omit<TGetTransactionsByAddressResponse, 'transactions'> & {
-  transactions: Map<string, TUseTransactionsTransaction>
-}
 
 export type TUseTransactionsGroupedTransactionsByDate = {
   date: string
@@ -92,7 +74,8 @@ export type TUseTransactionsGroupedTransactionsByDate = {
 }
 
 export type TUseTransactionsBuildTransactionsQueryKeyParams = {
-  account: TAccount
+  address: string
+  blockchain: TBlockchainServiceKey
   network: TNetwork
   dateFrom?: Date
   dateTo?: Date
@@ -151,7 +134,7 @@ export type TUseNeonBackupGeneratedData = {
 }
 
 export type TUseNeo3VoteCalculateVoteFeeParams = {
-  neo3Account?: TAccount<'neo3'>
+  neo3Account?: TAccount<TBSNeo3Name>
   candidatePubKey: string
 }
 
@@ -172,5 +155,11 @@ export type TUseNeo3VoteBuildGetVoteDetailsByAddressQueryKeyParams = {
 export type TUseNeo3VoteBuildCalculateVoteFeeQueryKeyParams = {
   neo3Network: TNetwork
   candidatePubKey: string
-  neo3Account?: TAccount<'neo3'>
+  neo3Account?: TAccount<TBSNeo3Name>
+}
+
+export type TUseStellarPersistTrustlineMutationParams = {
+  stellarAccount: TAccount<TBSStellarName>
+  token: TBSToken
+  limit?: string
 }

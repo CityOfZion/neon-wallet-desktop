@@ -16,7 +16,6 @@ import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
-import { TransactionHelper } from '@renderer/helpers/TransactionHelper'
 
 import { useActions } from '@renderer/hooks/useActions'
 import { useBalance } from '@renderer/hooks/useBalances'
@@ -108,14 +107,9 @@ const Neo3VoteConfirmationModal = () => {
 
       const account = await AccountHelper.getServiceAccount(neo3Account)
 
-      const transaction = await service.voteService.vote({
+      const pendingTransaction = await service.voteService.vote({
         account,
         candidatePubKey: candidate.pubKey,
-      })
-
-      const pendingTransaction = TransactionHelper.buildPendingTransaction({
-        transaction,
-        account: neo3Account,
       })
 
       const notificationPrefix = 'modals:neo3VoteConfirmation.notifications'
