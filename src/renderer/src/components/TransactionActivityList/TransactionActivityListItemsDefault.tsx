@@ -28,6 +28,8 @@ export const TransactionActivityListItemsDefault = ({ transaction }: TProps) => 
 
   const blockchain = transaction.blockchain
 
+  if (transaction.events.length === 0) return null
+
   return (
     <ul className="flex w-full flex-col">
       {transaction.events.map((event, index) => {

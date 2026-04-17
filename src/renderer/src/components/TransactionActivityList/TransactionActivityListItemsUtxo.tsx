@@ -20,39 +20,47 @@ export const TransactionActivityListItemsUtxo = ({ transaction: { blockchain, in
   const { t } = useTranslation('components', { keyPrefix: 'transactionActivityList.items' })
   const { t: tCommonGeneral } = useTranslation('common', { keyPrefix: 'general' })
 
+  const hasInputs = inputs.length > 0
+  const hasOutputs = outputs.length > 0
+  const hasNfts = nfts.length > 0
+
+  if (!hasInputs && !hasOutputs && !hasNfts) return null
+
   return (
     <div className="flex w-full flex-col">
-      <div className="ml-20 grid h-fit grow grid-cols-2 pr-2 pl-4">
-        {inputs.length > 0 && (
-          <ul className="col-start-1 col-end-1 flex flex-col">
-            {inputs.map((input, index) => (
-              <TransactionActivityListItemsUtxoInputOutput
-                key={`${input.address}-${input.amount}-${blockchain}-${index}`}
-                input={input}
-                blockchain={blockchain}
-                index={index}
-                contentClassName="pr-2"
-              />
-            ))}
-          </ul>
-        )}
+      {(hasInputs || hasOutputs) && (
+        <div className="ml-20 grid h-fit grow grid-cols-2 pr-2 pl-4">
+          {hasInputs && (
+            <ul className="col-start-1 col-end-1 flex flex-col">
+              {inputs.map((input, index) => (
+                <TransactionActivityListItemsUtxoInputOutput
+                  key={`${input.address}-${input.amount}-${blockchain}-${index}`}
+                  input={input}
+                  blockchain={blockchain}
+                  index={index}
+                  contentClassName="pr-2"
+                />
+              ))}
+            </ul>
+          )}
 
-        {outputs.length > 0 && (
-          <ul className="col-start-2 col-end-2 flex flex-col">
-            {outputs.map((output, index) => (
-              <TransactionActivityListItemsUtxoInputOutput
-                key={`${output.address}-${output.amount}-${blockchain}-${index}`}
-                output={output}
-                blockchain={blockchain}
-                index={index}
-                contentClassName="pl-2"
-              />
-            ))}
-          </ul>
-        )}
-      </div>
+          {hasOutputs && (
+            <ul className="col-start-2 col-end-2 flex flex-col">
+              {outputs.map((output, index) => (
+                <TransactionActivityListItemsUtxoInputOutput
+                  key={`${output.address}-${output.amount}-${blockchain}-${index}`}
+                  output={output}
+                  blockchain={blockchain}
+                  index={index}
+                  contentClassName="pl-2"
+                />
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
 
-      {nfts.length > 0 && (
+      {hasNfts && (
         <ul className="flex w-full flex-col">
           {nfts.map(nft => {
             const { hash, name, explorerUri, collection } = nft
