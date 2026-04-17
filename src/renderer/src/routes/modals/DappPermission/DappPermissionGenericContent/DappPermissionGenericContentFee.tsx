@@ -29,6 +29,7 @@ export const DappPermissionGenericContentFee = ({
       return await sessionDetails.service.walletConnectService.calculateRequestFee({
         account: serviceAccount,
         params: request.params.request.params,
+        method: request.params.request.method,
       })
     },
     gcTime: 0,

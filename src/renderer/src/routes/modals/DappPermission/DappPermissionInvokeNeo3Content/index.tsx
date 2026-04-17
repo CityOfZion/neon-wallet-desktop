@@ -1,12 +1,12 @@
 import { useEffect } from 'react'
 
-import type { ContractInvocationMulti } from '@cityofzion/bs-neo3'
 import { Trans, useTranslation } from 'react-i18next'
 
 import { Button } from '@renderer/components/Button'
 import { DappHeader } from '@renderer/components/DappHeader'
 import { Details } from '@renderer/components/Details'
 
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 
 import TbArrowsSort from '@renderer/assets/images/tb-arrows-sort.svg?react'
@@ -21,7 +21,11 @@ export const DappPermissionInvokeNeo3Content = (props: TDappPermissionProps) => 
 
   const { t } = useTranslation('modals', { keyPrefix: 'dappPermission' })
 
-  const params = request.params.request.params as ContractInvocationMulti
+  const params = request.params.request.params as Awaited<
+    ReturnType<
+      typeof BlockchainServiceHelper.bsAggregator.blockchainServicesByName.neo3.walletConnectService.handlers.invokeFunction.validate
+    >
+  >
 
   useEffect(() => {
     if (params.extraNetworkFee || params.extraSystemFee || params.systemFeeOverride || params.networkFeeOverride) {

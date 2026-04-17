@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react'
 
-import { BSBigNumberHelper } from '@cityofzion/blockchain-service'
+import { BSBigHumanAmount } from '@cityofzion/blockchain-service'
 import { QueryClient, useQueries, useQuery, useQueryClient } from '@tanstack/react-query'
 import { cloneDeep } from 'lodash'
 import { match } from 'ts-pattern'
@@ -191,9 +191,10 @@ export function useBalances(params: TUseBalancesParams[], options?: TUseBalances
             }
 
             groupedTokenBalance.amountNumber += tokenBalance.amountNumber
-            groupedTokenBalance.amount = BSBigNumberHelper.format(groupedTokenBalance.amountNumber, {
-              decimals: tokenBalance.token.decimals,
-            })
+            groupedTokenBalance.amount = new BSBigHumanAmount(
+              groupedTokenBalance.amountNumber,
+              tokenBalance.token.decimals
+            ).toFormatted()
             groupedTokenBalance.exchangeAmount += tokenBalance.exchangeAmount
           })
         })

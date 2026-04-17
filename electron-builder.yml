@@ -29,13 +29,27 @@ nsis:
   createDesktopShortcut: always
   oneClick: false
   allowToChangeInstallationDirectory: true
+dmg:
+  iconSize: 110
+  iconTextSize: 16
+  window:
+    width: 540
+    height: 380
+  contents:
+    - x: 118
+      y: 216
+      type: file
+    - x: 422
+      y: 216
+      type: link
+      path: /Applications
 afterSign: electron-builder-notarize
 mac:
   artifactName: NeonWallet-${version}-mac.${ext}
   hardenedRuntime: true
   entitlements: build/entitlements.mac.plist
   entitlementsInherit: build/entitlements.mac.plist
-  x64ArchFiles: '**/tiny-secp256k1/build/Release/secp256k1.node'
+  x64ArchFiles: '**/{tiny-secp256k1/build/Release/secp256k1,keccak/prebuilds/darwin-x64/node.napi}.node'
   type: distribution
   target:
     target: default

@@ -74,6 +74,7 @@ const ConfirmActionModal = () => {
               onChange={setDataFromEventWrapper('password')}
               compacted
               type="password"
+              autoFocus
             />
 
             {actionState.errors.password && <AlertErrorBanner message={actionState.errors.password} className="mt-5" />}
