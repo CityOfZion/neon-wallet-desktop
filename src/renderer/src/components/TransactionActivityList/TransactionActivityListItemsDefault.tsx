@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 
-import { type TBSToken, TNftResponse } from '@cityofzion/blockchain-service'
+import { type TBSToken, TNftResponse, type TTransactionDefault } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
 
 import { Separator } from '@renderer/components/Separator'
@@ -10,7 +10,7 @@ import { StringHelper } from '@renderer/helpers/StringHelper'
 import { useAccountsMapSelector } from '@renderer/hooks/useAccountSelector'
 
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
-import { TUseTransactionsTransactionDefault } from '@shared/types/hooks'
+import type { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 import { TransactionActivityListItemsColumn } from './TransactionActivityListItemsColumn'
 import { TransactionActivityListItemsColumnDataAddress } from './TransactionActivityListItemsColumnDataAddress'
@@ -18,7 +18,7 @@ import { TransactionActivityListItemsColumnNftImage } from './TransactionActivit
 import { TransactionActivityListTooltip } from './TransactionActivityListTooltip'
 
 type TProps = {
-  transaction: TUseTransactionsTransactionDefault
+  transaction: TTransactionDefault<TBlockchainServiceKey>
 }
 
 export const TransactionActivityListItemsDefault = ({ transaction }: TProps) => {

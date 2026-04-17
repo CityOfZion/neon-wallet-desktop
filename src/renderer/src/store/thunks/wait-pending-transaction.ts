@@ -22,8 +22,8 @@ export const waitPendingTransaction = createAsyncThunk<void, TParams>(
   async (params, { getState, dispatch }) => {
     const state = getState() as TRootState
     const { pendingTransaction, successNotification, failureNotification } = params
-    const { txId, account } = pendingTransaction
-    const { address, blockchain } = account
+    const { txId, blockchain, relatedAddress } = pendingTransaction
+    const address = relatedAddress!
     const network = state.settings.data.selectedNetworkProfile.networkByBlockchain[blockchain]
     const hasNotifications = !!successNotification && !!failureNotification
 
@@ -59,7 +59,7 @@ export const waitPendingTransaction = createAsyncThunk<void, TParams>(
       /* empty */
     }
 
-    ReactQueryHelper.invalidateTransactionQueries(account, network)
+    ReactQueryHelper.invalidateTransactionQueries(address, blockchain, network)
 
     if (notification) dispatch(authReducerActions.saveNotification(notification))
 

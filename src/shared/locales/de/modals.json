@@ -750,30 +750,13 @@
     "title": "Einzahlung tätigen"
   },
   "stellarPersistTrustlines": {
-    "addButtonLabel": "Trustline hinzufügen",
-    "addDescription": "Um diese Vertrauenslinie hinzuzufügen, geben Sie bitte die erforderlichen Informationen an.",
-    "addErrorToastMessage": "Trustline konnte nicht hinzugefügt werden",
-    "addSuccessToastMessage": "Trustline erfolgreich hinzugefügt",
-    "addTitle": "Trustline hinzufügen",
-    "editButtonLabel": "Änderungen speichern",
-    "editDescription": "Um diese Vertrauenszeile zu bearbeiten, geben Sie bitte die erforderlichen Informationen an.",
-    "editErrorToastMessage": "Aktualisierung der Vertrauenslinie fehlgeschlagen",
-    "editSuccessToastMessage": "Trustline erfolgreich bearbeitet",
-    "editTitle": "Vertrauenslinie bearbeiten",
     "errors": {
-      "invalidLimit": "Ungültiges Limit",
-      "invalidToken": "Ungültiges Token",
-      "validation": "Bitte geben Sie gültige Informationen an, um fortzufahren."
-    },
-    "failureNotification": {
-      "previewBody": "Wir konnten den Abschluss Ihrer Vertrauenslinie nicht bestätigen.",
-      "title": "Änderung der Trustline fehlgeschlagen"
+      "invalidLimit": "Ungültiges Limit"
     },
     "limitLabel": "Limit (optional)",
-    "successNotification": {
-      "previewBody": "Ihre Vertrauenslinie wurde erfolgreich geändert.",
-      "title": "Trustline-Änderung abgeschlossen"
-    },
+    "limitPlaceholder": "Limit eingeben…",
+    "saveButtonLabel": "Speichern",
+    "title": "Trustline",
     "tokenLabel": "Token"
   },
   "stellarTrustlines": {

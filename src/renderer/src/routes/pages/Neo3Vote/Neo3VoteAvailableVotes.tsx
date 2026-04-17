@@ -1,3 +1,4 @@
+import type { TBSNeo3Name } from '@cityofzion/bs-neo3'
 import { useTranslation } from 'react-i18next'
 
 import { Skeleton } from '@renderer/components/Skeleton'
@@ -13,7 +14,7 @@ type TProps = {
   neoAmount: number
   voteErrorMessage?: string
   hasNeoAmount: boolean
-  neo3Account?: TAccount<'neo3'>
+  neo3Account?: TAccount<TBSNeo3Name>
 }
 
 export const Neo3VoteAvailableVotes = ({ neoAmount, voteErrorMessage, hasNeoAmount, neo3Account }: TProps) => {

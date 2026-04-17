@@ -21,9 +21,7 @@ import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
-import { TransactionHelper } from '@renderer/helpers/TransactionHelper'
 
-import { useAccountsMapSelector } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
 import { useLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useBalance } from '@renderer/hooks/useBalances'
@@ -42,7 +40,6 @@ import TbStepOut from '@renderer/assets/images/tb-step-out.svg?react'
 import VscCircleFilled from '@renderer/assets/images/vsc-circle-filled.svg?react'
 
 import { thunks } from '@renderer/store/thunks'
-import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 import { AppError } from '@shared/helpers/SharedErrorHelper'
 import type { TModalState } from '@shared/types/modal'
 import { TAccount } from '@shared/types/store'
@@ -53,7 +50,6 @@ import { SellTokensDepositSuccessContent } from './SellTokensDepositSuccessConte
 const SellTokensDepositModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'sellTokensDeposit' })
   const { loginSessionRef } = useLoginSessionSelector()
-  const { accountsMapRef } = useAccountsMapSelector()
   const { modalNavigate } = useModalNavigate()
   const { currency } = useCurrencySelector()
   const { account, depositActionsData, setDepositActionsData } = useModalState<TModalState<'sell-tokens-deposit'>>()
@@ -177,25 +173,11 @@ const SellTokensDepositModal = () => {
     try {
       await confirmAction({ account })
 
-      const { serviceAccount, intent, address } = transferParams
+      const { serviceAccount, intent } = transferParams
 
-      const [transaction] = await service.transfer({
+      const [pendingTransaction] = await service.transfer({
         senderAccount: serviceAccount,
         intents: [intent],
-      })
-
-      const receiverAccount = accountsMapRef.current.get(
-        SharedAccountHelper.buildAccountKey({
-          address,
-          blockchain: account.blockchain,
-        })
-      )
-
-      const pendingTransaction = TransactionHelper.buildPendingTransaction({
-        transaction,
-        account,
-        senderAccount: account,
-        receiverAccounts: receiverAccount ? [receiverAccount] : undefined,
       })
 
       const notificationPrefix = 'modals:sellTokensDeposit'

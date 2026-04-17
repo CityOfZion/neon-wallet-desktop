@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next'
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
-import { TransactionHelper } from '@renderer/helpers/TransactionHelper'
 
 import { thunks } from '@renderer/store/thunks'
 import { AppError } from '@shared/helpers/SharedErrorHelper'
@@ -25,12 +24,7 @@ export const useFaucetMutation = () => {
         throw new AppError(tCommon('errors.blockchainDoesNotSupportFaucet'))
       }
 
-      const transaction = await service.faucet(account.address)
-      const pendingTransaction = TransactionHelper.buildPendingTransaction({
-        transaction,
-        account,
-        receiverAccounts: [account],
-      })
+      const pendingTransaction = await service.faucet(account.address)
 
       const notificationPrefix = 'hooks:useFaucetMutation'
       const notificationSuccessPrefix = `${notificationPrefix}.successNotification`

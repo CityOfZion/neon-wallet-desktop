@@ -30,7 +30,6 @@ import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { SwapHelper } from '@renderer/helpers/SwapHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
-import { TransactionHelper } from '@renderer/helpers/TransactionHelper'
 
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
@@ -342,13 +341,7 @@ export const SwapPageContent = ({ account }: TProps) => {
       const { id, transaction, log } = await swapOrchestratorRef.current.swap()
 
       if (transaction) {
-        const pendingTransaction = TransactionHelper.buildPendingTransaction({
-          transaction,
-          account,
-          senderAccount: account,
-        })
-
-        dispatch(thunks.waitPendingTransaction({ pendingTransaction }))
+        dispatch(thunks.waitPendingTransaction({ pendingTransaction: transaction }))
       }
 
       swapRecord.swapId = id

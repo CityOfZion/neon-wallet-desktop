@@ -750,30 +750,13 @@
     "title": "進行存款"
   },
   "stellarPersistTrustlines": {
-    "addButtonLabel": "新增信任線",
-    "addDescription": "若要新增此信任線，請提供必要資訊。",
-    "addErrorToastMessage": "新增信任線失敗",
-    "addSuccessToastMessage": "Trustline 已成功新增。",
-    "addTitle": "新增信任線",
-    "editButtonLabel": "儲存變更",
-    "editDescription": "如需編輯此信任線，請提供必要資訊。",
-    "editErrorToastMessage": "更新信任線失敗",
-    "editSuccessToastMessage": "Trustline 已成功編輯",
-    "editTitle": "編輯信任線",
     "errors": {
-      "invalidLimit": "無效限制",
-      "invalidToken": "無效令牌",
-      "validation": "請提供有效資訊以繼續。"
-    },
-    "failureNotification": {
-      "previewBody": "我們無法驗證您的信任線是否已完成",
-      "title": "更改信任線失敗"
+      "invalidLimit": "無效限制"
     },
     "limitLabel": "限制（可選）",
-    "successNotification": {
-      "previewBody": "您的信任線已成功更改",
-      "title": "變更信任線已完成"
-    },
+    "limitPlaceholder": "輸入限制…",
+    "saveButtonLabel": "儲存",
+    "title": "Trustline",
     "tokenLabel": "令牌"
   },
   "stellarTrustlines": {

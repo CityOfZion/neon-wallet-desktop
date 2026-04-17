@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 
+import type { TBSNeo3Name } from '@cityofzion/bs-neo3'
 import { useTranslation } from 'react-i18next'
 import { match, P } from 'ts-pattern'
 
@@ -19,7 +20,7 @@ import { Neo3VoteNotFound } from './Neo3VoteNotFound'
 import { Neo3VoteSkeleton } from './Neo3VoteSkeleton'
 
 type TProps = {
-  neo3Account?: TAccount<'neo3'>
+  neo3Account?: TAccount<TBSNeo3Name>
   search: string
   voteErrorMessage?: string
   canVote: boolean

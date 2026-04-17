@@ -1,6 +1,6 @@
 import { cloneElement, useEffect, useMemo, useRef } from 'react'
 
-import type { TVoteServiceCandidate } from '@cityofzion/bs-neo3'
+import type { TBSNeo3Name, TVoteServiceCandidate } from '@cityofzion/bs-neo3'
 import { useTranslation } from 'react-i18next'
 
 import { Button } from '@renderer/components/Button'
@@ -25,7 +25,7 @@ import { TAccount } from '@shared/types/store'
 
 type TProps = {
   index: number
-  neo3Account?: TAccount<'neo3'>
+  neo3Account?: TAccount<TBSNeo3Name>
   candidate: TVoteServiceCandidate
   pubKeySize: number
   votesTotal: number

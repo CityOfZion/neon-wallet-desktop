@@ -1,4 +1,3 @@
-import { TTransaction } from '@cityofzion/blockchain-service'
 import type { SeverityLevel } from '@sentry/electron'
 import type { JSX, ReactNode } from 'react'
 import type { ToastT } from 'sonner'
@@ -84,13 +83,6 @@ export type TExportTransactionsHelperCalculateDateToSelectionMaxOneYearResponse 
 export type TExportTransactionsHelperCalculateDateFromSelectionMaxOneYearResponse = {
   dateFrom: Date
   dateTo?: Date
-}
-
-export type TTransactionHelperBuildPendingTransactionParams = {
-  transaction: TTransaction
-  account: TAccount
-  senderAccount?: TAccount
-  receiverAccounts?: (TAccount | undefined)[]
 }
 
 export type TLoggerHelperOptions = {

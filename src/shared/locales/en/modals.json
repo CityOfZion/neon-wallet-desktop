@@ -750,30 +750,13 @@
     "title": "Make deposit"
   },
   "stellarPersistTrustlines": {
-    "addButtonLabel": "Add trustline",
-    "addDescription": "In order to add this trustline, please provide the necessary information.",
-    "addErrorToastMessage": "Failed to add trustline",
-    "addSuccessToastMessage": "Trustline added successfully",
-    "addTitle": "Add trustline",
-    "editButtonLabel": "Save changes",
-    "editDescription": "In order to edit this trustline, please provide the necessary information.",
-    "editErrorToastMessage": "Failed to update trustline",
-    "editSuccessToastMessage": "Trustline edited successfully",
-    "editTitle": "Edit trustline",
     "errors": {
-      "invalidLimit": "Invalid limit",
-      "invalidToken": "Invalid token",
-      "validation": "Please provide valid information to proceed"
-    },
-    "failureNotification": {
-      "previewBody": "We couldn't verify the completion of your trustline",
-      "title": "Change Trustline failed"
+      "invalidLimit": "Invalid limit"
     },
     "limitLabel": "Limit (Optional)",
-    "successNotification": {
-      "previewBody": "Your trustline has been changed successfully",
-      "title": "Change Trustline completed"
-    },
+    "limitPlaceholder": "Enter limit…",
+    "saveButtonLabel": "Save",
+    "title": "Trustline",
     "tokenLabel": "Token"
   },
   "stellarTrustlines": {

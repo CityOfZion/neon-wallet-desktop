@@ -1,5 +1,6 @@
 import { useMemo, useRef } from 'react'
 
+import type { TBSNeo3Name } from '@cityofzion/bs-neo3'
 import { useTranslation } from 'react-i18next'
 import { Location, useLocation, useNavigate } from 'react-router'
 import { match, P } from 'ts-pattern'
@@ -39,11 +40,11 @@ import { Neo3VoteList } from './Neo3VoteList'
 import { Neo3VoteSideBar } from './Neo3VoteSideBar'
 
 type TLocationState = {
-  defaultNeo3Account?: TAccount<'neo3'>
+  defaultNeo3Account?: TAccount<TBSNeo3Name>
 }
 
 type TActionsData = {
-  neo3Account?: TAccount<'neo3'>
+  neo3Account?: TAccount<TBSNeo3Name>
   search: string
 }
 
@@ -115,7 +116,7 @@ const Neo3VotePage = () => {
     navigate('/wallets/overview', { state: { account } })
   }
 
-  const handleChangeNeo3Account = (neo3Account: TAccount<'neo3'>) => {
+  const handleChangeNeo3Account = (neo3Account: TAccount<TBSNeo3Name>) => {
     canOpenNeo3VoteSupportUsModalRef.current = false
     setData({ neo3Account })
   }

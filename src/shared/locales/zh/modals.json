@@ -750,30 +750,13 @@
     "title": "发起存款"
   },
   "stellarPersistTrustlines": {
-    "addButtonLabel": "添加信任线",
-    "addDescription": "要添加此信任线，请提供必要信息。",
-    "addErrorToastMessage": "添加信任线失败",
-    "addSuccessToastMessage": "Trustline 已成功添加。",
-    "addTitle": "添加信任线",
-    "editButtonLabel": "保存更改",
-    "editDescription": "如需编辑此信任线，请提供必要信息。",
-    "editErrorToastMessage": "更新信任线失败",
-    "editSuccessToastMessage": "Trustline 已成功编辑",
-    "editTitle": "编辑信任线",
     "errors": {
-      "invalidLimit": "无效限制",
-      "invalidToken": "无效令牌",
-      "validation": "请提供有效信息以继续。"
-    },
-    "failureNotification": {
-      "previewBody": "我们无法验证您的信任线是否已完成",
-      "title": "更改信任线失败"
+      "invalidLimit": "无效限制"
     },
     "limitLabel": "限制（可选）",
-    "successNotification": {
-      "previewBody": "您的信任线已成功更改",
-      "title": "变更信任线已完成"
-    },
+    "limitPlaceholder": "输入限制…",
+    "saveButtonLabel": "保存",
+    "title": "Trustline",
     "tokenLabel": "令牌"
   },
   "stellarTrustlines": {

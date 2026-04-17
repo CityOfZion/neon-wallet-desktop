@@ -51,6 +51,18 @@
       "wrongVersion": "备份文件版本不受支持。请尝试在最新的 NEON 版本中生成新的备份。"
     }
   },
+  "usePersistTrustlineMutation": {
+    "errorToastMessage": "添加信任线失败",
+    "failureNotification": {
+      "previewBody": "我们无法验证您的信任线是否已完成",
+      "title": "更改信任线失败"
+    },
+    "successNotification": {
+      "previewBody": "您的信任线已成功更改",
+      "title": "变更信任线已完成"
+    },
+    "successToastMessage": "Trustline 已成功添加"
+  },
   "useUnclaimedMutation": {
     "errors": {
       "claimError": "领取时出错。请重试。"

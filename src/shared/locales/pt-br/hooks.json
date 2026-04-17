@@ -51,6 +51,18 @@
       "wrongVersion": "A versão do arquivo de backup não é suportada. Por favor, tente gerar um novo backup na versão mais recente da NEON."
     }
   },
+  "usePersistTrustlineMutation": {
+    "errorToastMessage": "Falha ao adicionar linha de confiança",
+    "failureNotification": {
+      "previewBody": "Não foi possível verificar a conclusão da sua linha de confiança.",
+      "title": "A alteração da Trustline falhou"
+    },
+    "successNotification": {
+      "previewBody": "Sua linha de confiança foi alterada com sucesso.",
+      "title": "Alterar Trustline concluído"
+    },
+    "successToastMessage": "Trustline adicionado com sucesso"
+  },
   "useUnclaimedMutation": {
     "errors": {
       "claimError": "Ocorreu um erro ao tentar resgatar. Por favor, tente novamente."
