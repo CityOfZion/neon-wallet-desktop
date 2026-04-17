@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react'
 
-import { BSBigNumberHelper, isCalculableFee, TTransferIntent } from '@cityofzion/blockchain-service'
+import { BSBigHumanAmount, BSBigNumber, isCalculableFee, TTransferIntent } from '@cityofzion/blockchain-service'
 import lte from 'lodash/lte'
 import { AnimatePresence, motion } from 'motion/react'
 import { useTranslation } from 'react-i18next'
@@ -55,7 +55,7 @@ type TActionsData = {
   maxAmountRecipientId?: string
   isTipChecked: boolean
   isTipDisabled: boolean
-  tipAmountBn?: BigNumber
+  tipAmountBn?: BSBigHumanAmount
   tipFiatPriceBn?: BigNumber
   tipError?: string
 }
@@ -167,7 +167,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
         return
       }
 
-      const amountBn = BSBigNumberHelper.fromNumber(recipient.amount)
+      const amountBn = new BSBigHumanAmount(recipient.amount, recipient.token.token.decimals)
 
       const tokenBalance = balanceQuery.data?.tokensBalances?.find(tokenBalance =>
         service?.tokenService?.predicateByHash(recipient.token?.token?.hash || '', tokenBalance.token)
@@ -207,7 +207,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
     }
 
     handleUpdateRecipient(id, {
-      amount: BSBigNumberHelper.format(amount, { decimals }),
+      amount: new BSBigHumanAmount(amount, decimals).toFormatted(),
     })
   }
 
@@ -242,9 +242,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
     if (!isCalculableFee(service)) {
       handleUpdateRecipientAmount(
         recipient.id,
-        BSBigNumberHelper.fromNumber(recipient.token.amount)
-          .minus(actionData.fee || '0')
-          .toNumber(),
+        new BSBigHumanAmount(recipient.token.amount, decimals).minus(actionData.fee || '0').toNumber(),
         decimals
       )
 
@@ -273,7 +271,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
 
       handleUpdateRecipientAmount(
         recipient.id,
-        BSBigNumberHelper.fromNumber(recipient.token.amount).minus(fee).toNumber(),
+        new BSBigHumanAmount(recipient.token.amount, decimals).minus(fee).toNumber(),
         decimals
       )
     } catch (error) {
@@ -393,7 +391,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
 
         setData({ fee })
 
-        let totalFeeAmountBn = BSBigNumberHelper.fromNumber(fee)
+        let totalFeeAmountBn = new BSBigHumanAmount(fee, fields.service.feeToken.decimals)
 
         fields.intents.forEach(intent => {
           if (!fields.service.tokenService.predicateByHash(fields.service.feeToken, intent.token.hash)) return
@@ -445,9 +443,10 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
       return
     }
 
-    let totalFiatPricesBn = BSBigNumberHelper.fromNumber('0')
-    let totalAmountsBn = BSBigNumberHelper.fromNumber(
-      actionData.fee && service.tokenService.predicateByHash(service.feeToken, tipConfig.token) ? actionData.fee : '0'
+    let totalFiatPricesBn = new BSBigNumber('0')
+    let totalAmountsBn = new BSBigHumanAmount(
+      actionData.fee && service.tokenService.predicateByHash(service.feeToken, tipConfig.token) ? actionData.fee : '0',
+      tipConfig.token.decimals
     )
 
     actionData.recipients.forEach(recipient => {
@@ -457,7 +456,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
 
       if (!amount || !token) return
 
-      const amountBn = BSBigNumberHelper.fromNumber(BSBigNumberHelper.format(amount, { decimals: token.decimals }))
+      const amountBn = new BSBigHumanAmount(amount, token.decimals)
 
       totalFiatPricesBn = totalFiatPricesBn.plus(amountBn.multipliedBy(tokenBalance.exchangeConvertedPrice))
 
@@ -503,7 +502,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
     )
 
     let tipFiatPriceBn = totalFiatPricesBn.multipliedBy(ConstantsHelper.tipPercentageBn)
-    let tipAmountBn = tipFiatPriceBn.div(tokenFiatPrice)
+    let tipAmountBn = new BSBigHumanAmount(tipFiatPriceBn.toFixed(), tipConfig.token.decimals).dividedBy(tokenFiatPrice)
 
     if (tipAmountBn.isLessThan(tipConfig.minBn)) {
       tipFiatPriceBn = tipConfig.minBn.multipliedBy(tokenFiatPrice)

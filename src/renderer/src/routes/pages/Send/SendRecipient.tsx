@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect } from 'react'
 
-import { BSBigNumberHelper, TBSToken } from '@cityofzion/blockchain-service'
+import { BSBigHumanAmount, TBSToken } from '@cityofzion/blockchain-service'
 import { useIsPresent } from 'motion/react'
 import { useTranslation } from 'react-i18next'
 
@@ -114,7 +114,7 @@ export const SendRecipient = ({
 
     debounce(() => {
       onUpdateRecipient({
-        amount: BSBigNumberHelper.format(value, { decimals: recipient.token?.token?.decimals }),
+        amount: new BSBigHumanAmount(value, recipient.token?.token?.decimals).toFormatted(),
         isAmountLoading: false,
       })
     })
@@ -245,9 +245,9 @@ export const SendRecipient = ({
         <span className="truncate text-xs text-gray-100 italic">
           {CurrencyHelper.format(
             recipient.amount && recipient.token
-              ? BSBigNumberHelper.fromNumber(recipient.amount)
+              ? new BSBigHumanAmount(recipient.amount, recipient.token.token.decimals)
                   .multipliedBy(recipient.token.exchangeConvertedPrice)
-                  .toFixed()
+                  .toFormatted()
               : 0,
             { currency, maximumFractionDigits: 6 }
           )}

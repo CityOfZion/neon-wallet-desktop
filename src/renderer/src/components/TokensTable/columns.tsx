@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-import { BSBigNumberHelper } from '@cityofzion/blockchain-service'
+import { BSBigHumanAmount } from '@cityofzion/blockchain-service'
 import { createColumnHelper } from '@tanstack/react-table'
 import { useTranslation } from 'react-i18next'
 
@@ -74,7 +74,7 @@ export const useColumns = (showType: TUseBalanceOptionShowType) => {
         cell: info => info.getValue(),
         header: t('token'),
       }),
-      columnHelper.accessor(row => BSBigNumberHelper.format(row.amount, { decimals: row.token.decimals }), {
+      columnHelper.accessor(row => new BSBigHumanAmount(row.amount, row.token.decimals).toFormatted(), {
         cell: info => info.getValue(),
         id: 'holdings',
         header: t('holdings'),

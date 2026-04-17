@@ -1,4 +1,4 @@
-import { BSBigNumber, BSBigNumberHelper, type TBSToken } from '@cityofzion/blockchain-service'
+import { BSBigHumanAmount, type TBSToken } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 
@@ -46,7 +46,7 @@ const StellarPersistTrustlines = () => {
 
     debounce(() => {
       setData({
-        limit: BSBigNumberHelper.format(limit, { decimals: actionData.token?.decimals }),
+        limit: new BSBigHumanAmount(limit, actionData.token?.decimals).toFormatted(),
         isLimitFormatting: false,
       })
     })
@@ -56,8 +56,8 @@ const StellarPersistTrustlines = () => {
     if (!actionData.token) return
 
     if (actionData.limit) {
-      const limitBn = BSBigNumber(actionData.limit)
-      if (limitBn.isNaN() || limitBn.isNegative() || (limit && limitBn.isLessThanOrEqualTo(limit))) {
+      const limitBn = new BSBigHumanAmount(actionData.limit, actionData.token.decimals)
+      if (limit && limitBn.isLessThanOrEqualTo(limit)) {
         setError('limit', t('errors.invalidLimit'))
         return
       }

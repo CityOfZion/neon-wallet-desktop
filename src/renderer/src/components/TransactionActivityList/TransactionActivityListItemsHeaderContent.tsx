@@ -1,6 +1,6 @@
 import React, { MouseEvent } from 'react'
 
-import { BSBigNumberHelper, hasNeo3NeoXBridge } from '@cityofzion/blockchain-service'
+import { BSBigHumanAmount, hasNeo3NeoXBridge } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
 
 import { IconButton } from '@renderer/components/IconButton'
@@ -50,6 +50,9 @@ export const TransactionActivityListItemsHeaderContent = ({ transaction }: TProp
   const bridgeData = hasNeo3NeoXBridge(service)
     ? service.neo3NeoXBridgeService.getTransactionData(transaction)
     : undefined
+
+  const netoworkFeeBn = new BSBigHumanAmount(transaction.networkFeeAmount)
+  const systemFeeBn = new BSBigHumanAmount(transaction.systemFeeAmount)
 
   const handleCancelBubbleEvent = (event: MouseEvent<HTMLDivElement>) => {
     event.preventDefault()
@@ -141,7 +144,7 @@ export const TransactionActivityListItemsHeaderContent = ({ transaction }: TProp
           />
         )}
 
-        {BSBigNumberHelper.fromNumber(transaction.networkFeeAmount).isGreaterThan('0') && (
+        {netoworkFeeBn.isGreaterThan('0') && (
           <TransactionActivityListItemsHeaderDetails
             data={
               <div className="flex items-center whitespace-nowrap">
@@ -151,7 +154,7 @@ export const TransactionActivityListItemsHeaderContent = ({ transaction }: TProp
                   <span className="text-white">{StringHelper.truncateString(transaction.networkFeeAmount!, 12)}</span>
                 </TransactionActivityListTooltip>
 
-                {BSBigNumberHelper.fromNumber(transaction.systemFeeAmount).isGreaterThan('0') && (
+                {systemFeeBn.isGreaterThan('0') && (
                   <TransactionActivityListTooltip
                     data={t('systemFeeAmountLabel', { systemFeeAmount: transaction.systemFeeAmount })}
                   >

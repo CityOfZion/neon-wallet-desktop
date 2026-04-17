@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useMemo } from 'react'
 
-import { BSBigNumberHelper, isCalculableFee, TBSToken, TTransferIntent } from '@cityofzion/blockchain-service'
+import { BSBigHumanAmount, isCalculableFee, TBSToken, TTransferIntent } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
 
 import { ActionStep } from '@renderer/components/ActionStep'
@@ -140,7 +140,7 @@ const SellTokensDepositModal = () => {
 
     debounceAmount(() => {
       setData({
-        amount: BSBigNumberHelper.format(value, { decimals: actionData.token?.token?.decimals }),
+        amount: new BSBigHumanAmount(value, actionData.token?.token?.decimals).toFormatted(),
         isAmountLoading: false,
       })
     })
@@ -279,8 +279,8 @@ const SellTokensDepositModal = () => {
 
         setData({ fee })
 
-        const amountBn = BSBigNumberHelper.fromNumber(intent.amount || '0')
-        let feeTotalBn = BSBigNumberHelper.fromNumber(fee)
+        const amountBn = new BSBigHumanAmount(intent.amount, intent.token.decimals)
+        let feeTotalBn = new BSBigHumanAmount(fee, service.feeToken.decimals)
 
         if (service.tokenService.predicateByHash(service.feeToken, intent.token.hash)) {
           feeTotalBn = feeTotalBn.plus(amountBn)

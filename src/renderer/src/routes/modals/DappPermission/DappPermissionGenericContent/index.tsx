@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 
 import isArray from 'lodash/isArray'
+import isObject from 'lodash/isObject'
 import mapValues from 'lodash/mapValues'
 import { Trans, useTranslation } from 'react-i18next'
 
@@ -28,7 +29,10 @@ export const DappPermissionGenericContent = (props: TDappPermissionProps) => {
 
   const parsedParams = useMemo(() => {
     const params = request.params.request.params
-    return mapValues(isArray(params) && params.length === 1 ? params[0] : params, UtilsHelper.parseJsonSafely)
+    return mapValues(
+      isArray(params) && params.length === 1 && isObject(params[0]) ? params[0] : params,
+      UtilsHelper.parseJsonSafely
+    )
   }, [request.params.request.params])
 
   const isCalculableMethod = sessionDetails.service.walletConnectService.calculableMethods.includes(
