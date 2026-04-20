@@ -13,7 +13,6 @@ asarUnpack:
   - resources/**
 win:
   artifactName: NeonWallet-${version}-win.${ext}
-
   target:
     - target: nsis
       arch:
@@ -49,7 +48,8 @@ mac:
   hardenedRuntime: true
   entitlements: build/entitlements.mac.plist
   entitlementsInherit: build/entitlements.mac.plist
-  x64ArchFiles: '**/{tiny-secp256k1/build/Release/secp256k1,keccak/prebuilds/darwin-x64/node.napi}.node'
+  provisioningProfile: build/neon.provisionprofile
+  x64ArchFiles: '**/{tiny-secp256k1/build/Release/secp256k1,keccak/prebuilds/darwin-x64/node.napi,electron-webauthn-mac/native/webauthn_mac_addon}.node'
   type: distribution
   target:
     target: default

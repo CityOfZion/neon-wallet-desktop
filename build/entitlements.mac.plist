@@ -10,5 +10,11 @@
     <true/>
     <key>com.apple.security.cs.disable-library-validation</key>
     <true/>
+    <key>com.apple.application-identifier</key>
+    <string>5DRRKCU6DK.com.electron.neon3</string>
+    <key>com.apple.developer.associated-domains</key>
+    <array>
+      <string>teressa-overjoyful-contently.ngrok-free.dev</string>
+    </array>
   </dict>
 </plist>
