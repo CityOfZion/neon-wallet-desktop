@@ -29,10 +29,6 @@ SharedEnvHelper.setup()
 MainSentryHelper.setup()
 MainDeeplinkHelper.setupProtocol()
 
-if (process.platform === 'darwin') {
-  app.commandLine.appendSwitch('disable-gpu-sandbox')
-}
-
 function createWindow(): void {
   mainWindow = new BrowserWindow({
     title: `Neon Wallet ${packageJson.version}`,
