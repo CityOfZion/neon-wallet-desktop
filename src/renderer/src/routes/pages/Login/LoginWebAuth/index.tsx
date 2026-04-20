@@ -5,7 +5,7 @@ export const LoginWebAuthTabContent = () => {
     await window.api.sendAsync('webAuth:createCredential', {
       displayName: 'Test da silva',
       name: 'Test',
-      rpId: 'localhost',
+      rpId: 'teressa-overjoyful-contently.ngrok-free.dev',
       userId: 'test',
     })
   }
