@@ -12,9 +12,11 @@
     <true/>
     <key>com.apple.application-identifier</key>
     <string>5DRRKCU6DK.com.electron.neon3</string>
+    <key>com.apple.developer.team-identifier</key>
+    <string>5DRRKCU6DK</string>
     <key>com.apple.developer.associated-domains</key>
     <array>
-      <string>teressa-overjoyful-contently.ngrok-free.dev</string>
+      <string>webcredentials:teressa-overjoyful-contently.ngrok-free.dev</string>
     </array>
   </dict>
 </plist>
