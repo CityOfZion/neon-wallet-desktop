@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from 'react'
 
-import { BSBigNumberHelper } from '@cityofzion/blockchain-service'
+import { BSBigHumanAmount } from '@cityofzion/blockchain-service'
 
 import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
 
@@ -44,7 +44,7 @@ export const GreyTokenSelectItem = ({ token, blockchain }: TProps) => {
       </Tooltip>
 
       {token.amount && (
-        <span className="text-1xs text-neon ml-auto">{BSBigNumberHelper.format(token.amount, { decimals: 6 })}</span>
+        <span className="text-1xs text-neon ml-auto">{new BSBigHumanAmount(token.amount, 6).toFormatted()}</span>
       )}
     </Fragment>
   )

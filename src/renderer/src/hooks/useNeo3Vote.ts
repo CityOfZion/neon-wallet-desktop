@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react'
 
-import { BSBigNumberHelper } from '@cityofzion/blockchain-service'
+import { BSBigHumanAmount } from '@cityofzion/blockchain-service'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
@@ -125,7 +125,7 @@ export const useNeo3VoteValidations = ({ balanceQuery, gasFee }: TUseNeo3VoteVal
 
     if (gasAmountNumber === undefined || gasFee === undefined) return undefined
 
-    return BSBigNumberHelper.fromNumber(gasFee).isLessThanOrEqualTo(gasAmountNumber)
+    return new BSBigHumanAmount(gasFee).isLessThanOrEqualTo(gasAmountNumber)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [balanceQuery.data?.tokensBalances, gasFee])
 

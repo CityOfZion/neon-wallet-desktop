@@ -142,7 +142,7 @@ export function useExchange(params: TUseExchangeParams[]): TUseExchangeResult {
       return {
         queryKey: buildExchangeByBlockchainQueryKey(blockchain, network, currency, hasCurrencyRatio),
         queryFn: fetchExchange.bind(null, blockchain, tokens, network, queryClient, currency, currencyRatio || 0),
-        enabled: !isCurrencyRatioLoading && hasCurrencyRatio,
+        enabled: !isCurrencyRatioLoading && hasCurrencyRatio && network.type === 'mainnet',
       }
     }),
     combine: result => ({

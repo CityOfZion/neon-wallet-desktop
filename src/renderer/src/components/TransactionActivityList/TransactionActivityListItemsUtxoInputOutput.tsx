@@ -1,4 +1,4 @@
-import { BSBigNumberHelper, type TTransactionUtxoInputOutput } from '@cityofzion/blockchain-service'
+import { BSBigHumanAmount, type TTransactionUtxoInputOutput } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
 
 import { IconButton } from '@renderer/components/IconButton'
@@ -57,7 +57,7 @@ export const TransactionActivityListItemsUtxoInputOutput = ({
     exchange && service ? ExchangeHelper.getExchangeConvertedPrice(token.hash, blockchain, exchange.data) : 0
 
   const amountFiat = CurrencyHelper.format(
-    BSBigNumberHelper.fromNumber(amount).multipliedBy(tokenConvertedPrice).toFixed(),
+    new BSBigHumanAmount(amount).multipliedBy(tokenConvertedPrice).toFormatted(),
     { currency }
   )
 

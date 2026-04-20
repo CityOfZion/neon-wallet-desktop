@@ -96,6 +96,7 @@
   --leading-2: 0.625rem;
 
   @keyframes wiggle {
+
     0%,
     100% {
       transform: rotate(-8deg);
@@ -126,6 +127,7 @@
   color utility to any element that depends on these defaults.
 */
 @layer base {
+
   *,
   ::after,
   ::before,

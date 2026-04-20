@@ -1,4 +1,4 @@
-import { BSBigNumberHelper, type TBSToken } from '@cityofzion/blockchain-service'
+import { BSBigHumanAmount, type TBSToken } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
 
 import { Checkbox } from '@renderer/components/Checkbox'
@@ -11,7 +11,7 @@ import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 
 type TProps = {
   className?: string
-  amountBn: BigNumber
+  amountBn: BSBigHumanAmount
   fiatPriceBn: BigNumber
   token: TBSToken
   isChecked: boolean
@@ -51,7 +51,7 @@ export const SendTip = ({
           <Skeleton className="inline-block h-4 max-h-4 min-h-4 w-24 max-w-24 min-w-24 bg-gray-100 align-bottom" />
         ) : (
           <span className="uppercase">
-            {BSBigNumberHelper.format(amountBn, { decimals: token.decimals })} {token.symbol} (
+            {amountBn.toFormatted()} {token.symbol} (
             {CurrencyHelper.format(fiatPriceBn.toFixed(), { currency, maximumFractionDigits: 2 })} {currency.label})
           </span>
         )}{' '}
