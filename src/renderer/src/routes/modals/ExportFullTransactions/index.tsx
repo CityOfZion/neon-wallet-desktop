@@ -95,7 +95,7 @@ const ExportFullTransactionsModal = () => {
         language,
         format,
       })
-      const filename = `NEON3-ACTV-${account.address}-${account.blockchain}-${formattedDateFrom}-${formattedDateTo}.csv`
+      const filename = `NEON-transactions-${account.address}-${account.blockchain}-${formattedDateFrom}-${formattedDateTo}.csv`
       const filePath = `${actionData.selectedFolderPath}/${filename}`
 
       await window.api.sendAsync('window:saveFile', {

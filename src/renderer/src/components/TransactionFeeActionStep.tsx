@@ -66,8 +66,8 @@ export const TransactionFeeActionStep = ({
       ) : (
         <div className={StyleHelper.mergeStyles('flex items-center gap-3 text-sm', textClassName)}>
           <span className="mt-0.5 text-right leading-4 font-normal uppercase">
-            {(!service ? '' : fee) || '0.00'} {service?.feeToken.symbol}{' '}
-            {service ? <span className="text-gray-100">| {tCommonBlockchain(service.name)}</span> : null}
+            {(!service ? '' : fee) || '0.00'} {service?.feeToken.symbol}
+            {service ? <span className="text-gray-100">{` | ${tCommonBlockchain(service.name)}`}</span> : null}
           </span>
 
           <span className={StyleHelper.mergeStyles('whitespace-nowrap text-white', fiatClassName)}>
