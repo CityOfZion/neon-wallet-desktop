@@ -9,7 +9,7 @@ export const useExportMnemonic = () => {
   const { language } = useLanguageSelector()
 
   const saveMnemonicToTextFile = async (mnemonic: string, selectedFilePath: string) => {
-    const fileName = `NEON3-MNEMONIC-${Date.now()}.txt`
+    const fileName = `NEON-mnemonic-${Date.now()}.txt`
     const content = t('fileTemplate', {
       mnemonic,
       generatedAt: DateHelper.formatLocalized(new Date(), { format: 'PPPp', language }),

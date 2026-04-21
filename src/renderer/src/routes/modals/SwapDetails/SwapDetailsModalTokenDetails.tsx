@@ -18,7 +18,7 @@ export const SwapDetailsModalTokenDetails = ({ amount, blockchain, symbol }: TPr
       {blockchain && <BlockchainIcon blockchain={blockchain} />}
       <span className="uppercase">
         {symbol}
-        {blockchain && <span className="text-gray-100"> | {tCommon(`blockchain.${blockchain}`)}</span>}
+        {blockchain && <span className="text-gray-100">{` | ${tCommon(`blockchain.${blockchain}`)}`}</span>}
       </span>
 
       <span className="grow text-end">{amount}</span>

@@ -22,7 +22,7 @@ export const TokenDetails = ({ amount, blockchain, symbol, className, ...props }
       {blockchain && <BlockchainIcon blockchain={blockchain} />}
       <span className="uppercase">
         {symbol}
-        {blockchain && <span className="text-gray-100"> | {tCommon(`blockchain.${blockchain}`)}</span>}
+        {blockchain && <span className="text-gray-100">{` | ${tCommon(`blockchain.${blockchain}`)}`}</span>}
       </span>
 
       {amount && <span className="grow text-end">{amount}</span>}

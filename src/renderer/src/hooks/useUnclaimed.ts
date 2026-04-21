@@ -43,10 +43,10 @@ const getUnclaimedInfos = async (
 
   let fee = '0'
 
-  if (account.type !== 'watch' && unclaimedNumber > 0) {
-    const serviceAccount = await AccountHelper.getServiceAccount(account)
-
+  if (unclaimedNumber > 0) {
     try {
+      const serviceAccount = await AccountHelper.getServiceAccount(account)
+
       fee = await service.claimService.calculateFee(serviceAccount)
     } catch {
       /* empty */
