@@ -1,13 +1,8 @@
-import { TBSAccount } from '@cityofzion/blockchain-service'
-import {
-  type BrowserWindow,
-  type IpcMainEvent,
-  type IpcMainInvokeEvent,
-  type IpcRendererEvent,
-  OpenDialogOptions,
-} from 'electron'
+import type { TBSAccount } from '@cityofzion/blockchain-service'
+import type { BrowserWindow, IpcMainEvent, IpcMainInvokeEvent, IpcRendererEvent, OpenDialogOptions } from 'electron'
+import type { CreateCredentialOptions, RegistrationCredential } from 'electron-webauthn-mac'
 
-import { TBlockchainServiceKey } from './blockchain'
+import type { TBlockchainServiceKey } from './blockchain'
 import type { TLastIndexesByWallet } from './store'
 
 export type TIpcMainBaseOptions<T = any[]> = {
@@ -112,6 +107,8 @@ export type TMainApiListenersAsync = {
     TConnectHardwareWalletParams,
     TBSAccount<TBlockchainServiceKey>[]
   >
+
+  'webAuth:createCredential': TIpcMainAsyncListener<CreateCredentialOptions, RegistrationCredential>
 }
 
 export type TMainApiSend = {

@@ -16,6 +16,7 @@ import { MainHardwareWalletHelper } from './hardware-wallet'
 import { MainMenuHelper } from './menu'
 import { MainSentryHelper } from './sentry'
 import { MainUpdaterHelper } from './updater'
+import { MainWebAuthHelper } from './web-auth'
 import { MainWindowHelper } from './window'
 
 const isLinux = process.platform === 'linux'
@@ -71,7 +72,7 @@ function createWindow(): void {
     if (isLinux && input.key === 'Alt') event.preventDefault()
   })
 
-  if (devRendererUrl) {
+  if (is.dev && devRendererUrl) {
     mainWindow.loadURL(devRendererUrl)
   } else {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
@@ -142,6 +143,8 @@ async function initialize() {
   MainUpdaterHelper.setupHandlers()
   MainHardwareWalletHelper.setupHandlers()
   MainAnalyticsHelper.setupHandlers()
+  MainWebAuthHelper.setupHandlers()
+
   MainMenuHelper.setup()
 
   createWindow()

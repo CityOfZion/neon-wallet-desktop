@@ -10,6 +10,7 @@ import { WelcomeLayout } from '@renderer/layouts/Welcome'
 import { LoginHardwareTabContent } from './LoginHardware'
 import { LoginKeyTabContent } from './LoginKey'
 import { LoginPasswordTabContent } from './LoginPassword'
+import { LoginWebAuthTabContent } from './LoginWebAuth'
 
 type TParams = {
   loginType?: string
@@ -41,6 +42,10 @@ const LoginPage = () => {
           >
             {t('tabs.key')}
           </Tabs.Trigger>
+
+          <Tabs.Trigger value="web-auth" className="uppercase" onClick={() => navigate('/login/web-auth')}>
+            Web Auth
+          </Tabs.Trigger>
         </Tabs.List>
 
         <Tabs.Content>
@@ -54,6 +59,10 @@ const LoginPage = () => {
 
           <Tabs.Item value="key">
             <LoginKeyTabContent />
+          </Tabs.Item>
+
+          <Tabs.Item value="web-auth">
+            <LoginWebAuthTabContent />
           </Tabs.Item>
         </Tabs.Content>
       </Tabs.Root>
