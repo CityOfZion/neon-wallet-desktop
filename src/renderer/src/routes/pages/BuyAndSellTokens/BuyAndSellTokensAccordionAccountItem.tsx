@@ -36,7 +36,7 @@ export const BuyAndSellTokensAccordionAccountItem = ({ account }: TProps) => {
         <h5 className="max-w-41 truncate text-xs font-medium text-white">{account.name}</h5>
 
         <div className="flex items-center gap-1">
-          <p className="text-xs text-gray-300">{StringHelper.truncateStringMiddle(address, 16)}</p>
+          <p className="text-xs text-gray-300">{StringHelper.truncateMiddle(address, 16)}</p>
 
           <Tooltip title={t('copyAddressButtonLabel')}>
             <IconButton

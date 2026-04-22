@@ -69,7 +69,13 @@ export const TransactionActivityListItemsUtxoInputOutput = ({
         <Separator type="vertical" className="bg-gray-600" containerClassName="relative -left-[0.5px] py-1" />
       )}
 
-      <div className={StyleHelper.mergeStyles('flex grow flex-col justify-center truncate', contentClassName)}>
+      <div
+        className={StyleHelper.mergeStyles(
+          'flex h-full grow flex-col justify-center truncate',
+          { 'pb-2': index >= 2 },
+          contentClassName
+        )}
+      >
         <div className="flex items-end gap-x-1">
           <TransactionActivityListItemsColumn
             label={index === 0 ? t(`columns.${hasInput ? 'fromLabel' : 'toLabel'}`) : undefined}
@@ -110,7 +116,8 @@ export const TransactionActivityListItemsUtxoInputOutput = ({
           data={
             <TransactionActivityListTooltip data={`${amountSymbol} | ${amountFiat}`}>
               <span className="inline-block truncate leading-4.25">
-                {amountSymbol} <span className="text-gray-300">| {amountFiat}</span>
+                {amountSymbol}
+                <span className="text-gray-300">{` | ${amountFiat}`}</span>
               </span>
             </TransactionActivityListTooltip>
           }

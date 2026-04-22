@@ -111,39 +111,21 @@ const ExportFullTransactionsModal = () => {
   }
 
   const handleSelectDateFrom = (date: Date) => {
-    const from = dateFns.startOfDay(date)
+    const { dateFrom, dateTo } = DateHelper.calculateDateFromSelectionMaxOneYear({
+      dateFrom: date,
+      dateTo: actionData.to,
+    })
 
-    setData({ from })
-
-    if (actionData.to && dateFns.isAfter(from, actionData.to)) {
-      const to = dateFns.endOfDay(dateFns.min([today, dateFns.add(from, { weeks: 1 })]))
-
-      setData({ to: dateFns.isSameDay(today, to) ? today : to })
-
-      return
-    }
-
-    if (actionData.to && dateFns.differenceInYears(actionData.to, from) > 0) {
-      const to = dateFns.endOfDay(dateFns.add(from, { years: 1, days: -1 }))
-
-      setData({ to: dateFns.isSameDay(today, to) ? today : to })
-    }
+    setData({ from: dateFrom, ...(dateTo ? { to: dateTo } : {}) })
   }
 
   const handleSelectDateTo = (date: Date) => {
-    const to = dateFns.isSameDay(today, date) ? today : dateFns.endOfDay(date)
+    const { dateTo, dateFrom } = DateHelper.calculateDateToSelectionMaxOneYear({
+      dateFrom: actionData.from,
+      dateTo: date,
+    })
 
-    setData({ to })
-
-    if (actionData.from && dateFns.isBefore(to, actionData.from)) {
-      setData({ from: dateFns.startOfDay(dateFns.sub(to, { weeks: 1 })) })
-
-      return
-    }
-
-    if (actionData.from && dateFns.differenceInYears(to, actionData.from) > 0) {
-      setData({ from: dateFns.startOfDay(dateFns.sub(to, { years: 1, days: -1 })) })
-    }
+    setData({ to: dateTo, ...(dateFrom ? { from: dateFrom } : {}) })
   }
 
   const handleReturn = () => {

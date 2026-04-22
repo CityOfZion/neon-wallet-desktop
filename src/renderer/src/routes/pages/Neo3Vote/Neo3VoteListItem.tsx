@@ -164,7 +164,7 @@ export const Neo3VoteListItem = ({
           aria-labelledby="column-pub-key"
         >
           <Tooltip title={pubKey} variant="black" delayDuration={0} contentProps={{ className: 'max-w-64' }}>
-            <span>{StringHelper.truncateStringMiddle(pubKey, pubKeySize)}</span>
+            <span>{StringHelper.truncateMiddle(pubKey, pubKeySize)}</span>
           </Tooltip>
         </p>
 

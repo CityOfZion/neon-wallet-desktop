@@ -206,9 +206,7 @@ export const ContactList = ({
                                       <BlockchainIcon className="size-3 text-white" blockchain={address.blockchain} />
                                     </div>
                                   </div>
-                                  <div className="flex items-center">
-                                    {StringHelper.truncateString(address.address, 20)}
-                                  </div>
+                                  <div className="flex items-center">{StringHelper.truncate(address.address, 20)}</div>
                                 </div>
 
                                 {isAddressSelected && <TbCheck aria-hidden className="text-neon mr-3 size-5" />}

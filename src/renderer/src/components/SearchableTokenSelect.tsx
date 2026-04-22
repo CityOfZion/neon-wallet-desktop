@@ -122,7 +122,7 @@ const Value = () => {
   return (
     <div className="flex h-full w-full min-w-0 items-center gap-2 text-sm text-white">
       <span className="uppercase">{value.symbol}</span>-
-      <span className="text-gray-100">{StringHelper.truncateStringMiddle(value.hash, 20)}</span>
+      <span className="text-gray-100">{StringHelper.truncateMiddle(value.hash, 20)}</span>
     </div>
   )
 }
@@ -225,7 +225,7 @@ const List = ({ className, ...props }: TListProps) => {
                 >
                   <div className="flex h-full w-full min-w-0 items-center gap-2 text-sm text-white">
                     <span className="uppercase">{row.symbol}</span>-
-                    <span className="text-gray-100">{StringHelper.truncateStringMiddle(row.hash, 20)}</span>
+                    <span className="text-gray-100">{StringHelper.truncateMiddle(row.hash, 20)}</span>
                   </div>
 
                   <Separator className="group-last:hidden" />

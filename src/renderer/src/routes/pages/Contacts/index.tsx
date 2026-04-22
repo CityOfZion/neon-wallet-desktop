@@ -72,7 +72,7 @@ const ContactsPage = () => {
                 className="flex h-10 w-full items-center justify-between"
                 {...TestHelper.buildTestObject('contact-name-title')}
               >
-                {StringHelper.truncateStringMiddle(selectedContact.name, 70)}
+                {StringHelper.truncateMiddle(selectedContact.name, 70)}
 
                 <Button
                   leftIcon={<TbPencil className="text-neon" />}

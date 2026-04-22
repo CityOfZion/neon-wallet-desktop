@@ -136,7 +136,7 @@ export const GreyAccountSelect = <T extends TBlockchainServiceKey>({
 
                 <Tooltip title={selectedAccount!.address}>
                   <span className="text-start text-sm text-white">
-                    {StringHelper.truncateStringMiddle(selectedAccount!.address, 8)}
+                    {StringHelper.truncateMiddle(selectedAccount!.address, 8)}
                   </span>
                 </Tooltip>
               </div>
@@ -182,8 +182,8 @@ export const GreyAccountSelect = <T extends TBlockchainServiceKey>({
 
                         <div className="flex min-w-0 grow flex-col gap-0.5">
                           <Tooltip title={account.address}>
-                            <span className="text-sm text-white">
-                              {StringHelper.truncateStringMiddle(account.address, 8)}
+                            <span className="w-fit text-sm text-white">
+                              {StringHelper.truncateMiddle(account.address, 8)}
                             </span>
                           </Tooltip>
 

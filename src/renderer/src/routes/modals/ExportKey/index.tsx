@@ -52,7 +52,7 @@ const ExportKeyModal = () => {
       size="md"
     >
       <div className="flex min-h-8 w-full justify-center rounded-sm bg-gray-300/15 px-3">
-        <p className="p-2 text-center text-xs">{StringHelper.truncateStringMiddle(account.name, 45)}</p>
+        <p className="p-2 text-center text-xs">{StringHelper.truncateMiddle(account.name, 45)}</p>
       </div>
 
       <span className="px-9 pt-4 text-center text-xs text-gray-100">{t('subtitle')}</span>

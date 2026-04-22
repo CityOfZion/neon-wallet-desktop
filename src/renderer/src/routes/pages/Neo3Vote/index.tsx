@@ -152,7 +152,7 @@ const Neo3VotePage = () => {
           <p className="text-sm text-white">
             {neo3Account?.name || t('noAccountSelectedLabel')}
             {neo3Account && (
-              <span className="text-gray-100"> | {StringHelper.truncateStringMiddle(neo3Account.address, 8)}</span>
+              <span className="text-gray-100"> | {StringHelper.truncateMiddle(neo3Account.address, 8)}</span>
             )}
           </p>
 

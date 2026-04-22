@@ -49,7 +49,7 @@ const DeleteAccountModal = () => {
           <p className="pt-7 text-lg text-white">{t('deleteAccount')}</p>
 
           <div className="mt-3 flex min-h-8 w-full items-center justify-center rounded-sm bg-gray-300/15 px-3">
-            <p className="p-2 text-center text-xs">{StringHelper.truncateStringMiddle(account.name, 45)}</p>
+            <p className="p-2 text-center text-xs">{StringHelper.truncateMiddle(account.name, 45)}</p>
           </div>
 
           <span className="px-2 pt-4 text-center text-xs text-gray-100">{t('subtitle')}</span>

@@ -171,14 +171,14 @@ const SwapDetailsModal = () => {
                     <Link
                       to={swapRecord.tokenFrom.txTemplateUrl.replace('{txId}', swapRecord.txFrom)}
                       target="_blank"
-                      label={StringHelper.truncateStringMiddle(swapRecord.txFrom, 20)}
+                      label={StringHelper.truncateMiddle(swapRecord.txFrom, 20)}
                       colorSchema="white"
                       variant="text-slim"
                       textClassName="font-normal"
                       clickableProps={{ className: 'text-xs text-blue underline' }}
                     />
                   ) : (
-                    <span className="text-white">{StringHelper.truncateStringMiddle(swapRecord.txFrom, 20)}</span>
+                    <span className="text-white">{StringHelper.truncateMiddle(swapRecord.txFrom, 20)}</span>
                   )}
                 </div>
               </Details.Item>
@@ -197,14 +197,14 @@ const SwapDetailsModal = () => {
                           <Link
                             to={swapRecord.tokenTo.txTemplateUrl.replace('{txId}', txTo)}
                             target="_blank"
-                            label={StringHelper.truncateStringMiddle(txTo, 20)}
+                            label={StringHelper.truncateMiddle(txTo, 20)}
                             colorSchema="white"
                             variant="text-slim"
                             textClassName="font-normal"
                             clickableProps={{ className: 'text-xs text-blue underline' }}
                           />
                         ) : (
-                          <span className="text-white">{StringHelper.truncateStringMiddle(txTo, 20)}</span>
+                          <span className="text-white">{StringHelper.truncateMiddle(txTo, 20)}</span>
                         )}
                       </div>
                     ))
