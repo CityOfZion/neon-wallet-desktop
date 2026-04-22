@@ -79,13 +79,17 @@ export const TransactionActivityListItemsUtxo = ({ transaction: { blockchain, in
                       label={t('columns.tokenHashLabel')}
                       data={
                         <TransactionActivityListTooltip data={hash}>
-                          <span className="inline-block">{StringHelper.truncateStringMiddle(hash, 8)}</span>
+                          <span className="inline-block">{StringHelper.truncateMiddle(hash, 8)}</span>
                         </TransactionActivityListTooltip>
                       }
                       url={explorerUri}
                     />
 
-                    <TransactionActivityListItemsColumn label={t('columns.nameLabel')} data={name} url={explorerUri} />
+                    <TransactionActivityListItemsColumn
+                      label={t('columns.nameLabel')}
+                      data={name || tCommonGeneral('emptyColumn')}
+                      url={explorerUri}
+                    />
 
                     <TransactionActivityListItemsColumn
                       label={t('columns.collectionNameLabel')}

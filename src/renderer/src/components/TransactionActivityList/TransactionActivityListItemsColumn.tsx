@@ -48,11 +48,11 @@ export const TransactionActivityListItemsColumn = ({ data, label, url, className
       {label && <p className={StyleHelper.mergeStyles('font-medium text-gray-300', labelClassName)}>{label}</p>}
 
       {url ? (
-        <Link to={url} target="_blank" className="text-neon flex">
+        <Link to={url} target="_blank" className="text-neon flex max-w-fit">
           <Content data={data} />
         </Link>
       ) : (
-        <span className="flex text-white">
+        <span className="flex max-w-fit text-white">
           <Content data={data} />
         </span>
       )}

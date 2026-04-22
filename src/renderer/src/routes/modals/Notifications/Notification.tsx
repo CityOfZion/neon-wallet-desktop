@@ -37,7 +37,7 @@ const iconsByPriority: Record<TNotificationPriority, JSX.Element> = {
   medium: <TbAlertSquare className="text-blue" />,
   low: (
     <div className="text-neon flex items-center justify-center">
-      <div className="h-1.5 w-1.5 rounded-full bg-current" />
+      <div className="size-1.5 rounded-full bg-current" />
     </div>
   ),
 }
@@ -164,7 +164,7 @@ export const Notification = ({ notification }: TProps) => {
             )}
 
             <span className="text-1xs text-gray-300">
-              {t('relatedAddressLabel')}: {StringHelper.truncateStringStart(notification.related.address, 10)}
+              {t('relatedAddressLabel')}: {StringHelper.truncateStart(notification.related.address, 10)}
             </span>
           </div>
         )}

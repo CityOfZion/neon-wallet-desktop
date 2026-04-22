@@ -8,7 +8,7 @@ import { Separator } from '@renderer/components/Separator'
 import { TransactionActivityList } from '@renderer/components/TransactionActivityList'
 
 import { CurrencyHelper } from '@renderer/helpers/CurrencyHelper'
-import { ExportTransactionsHelper } from '@renderer/helpers/ExportTransactionsHelper'
+import { DateHelper } from '@renderer/helpers/DateHelper'
 
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
@@ -38,11 +38,11 @@ const PortfolioActivityPage = () => {
   const { dateFrom, dateTo } = actionData
 
   const handleSelectDateFrom = async (dateFrom: Date) => {
-    setData(ExportTransactionsHelper.calculateDateFromSelectionMaxOneYear({ dateFrom, dateTo }))
+    setData(DateHelper.calculateDateFromSelectionMaxOneYear({ dateFrom, dateTo }))
   }
 
   const handleSelectDateTo = async (dateTo: Date) => {
-    setData(ExportTransactionsHelper.calculateDateToSelectionMaxOneYear({ dateFrom, dateTo }))
+    setData(DateHelper.calculateDateToSelectionMaxOneYear({ dateFrom, dateTo }))
   }
 
   return (

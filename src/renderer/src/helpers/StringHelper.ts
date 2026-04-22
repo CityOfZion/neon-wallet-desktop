@@ -1,34 +1,39 @@
 import type { TStringHelperRemoveSpecialCharacterOptions } from '@shared/types/helpers'
 
 export class StringHelper {
-  static truncateString(str: string, maxLength: number) {
-    if (str.length > maxLength) {
-      return str.substring(0, maxLength) + '…'
+  static truncate(text: string, maxLength: number) {
+    if (text.length > maxLength) {
+      return text.substring(0, maxLength) + '…'
     }
-    return str
+
+    return text
   }
 
-  static truncateStringStart(str: string, maxLength: number) {
-    if (str.length > maxLength) {
+  static truncateStart(text: string, maxLength: number) {
+    if (text.length > maxLength) {
       const half = maxLength / 2
-      return '…' + str.substring(str.length - half)
+
+      return '…' + text.substring(text.length - half)
     }
-    return str
+
+    return text
   }
 
-  static truncateStringMiddle(str: string, maxLength: number) {
-    if (str.length > maxLength) {
+  static truncateMiddle(text: string, maxLength: number) {
+    if (text.length > maxLength) {
       const half = maxLength / 2
-      return str.substring(0, half) + '…' + str.substring(str.length - half)
+
+      return text.substring(0, half) + '…' + text.substring(text.length - half)
     }
-    return str
+
+    return text
   }
 
   static normalizeText(text: string) {
     return text.trim().toLowerCase()
   }
 
-  static validateValue(value: string, maxLength: number = 30) {
+  static validateValue(value: string, maxLength: number) {
     const trimmedValue = value.trim()
     const isEmpty = trimmedValue.length === 0
     const isTooLong = trimmedValue.length > maxLength
@@ -57,21 +62,5 @@ export class StringHelper {
     if (options.trimText) text = text.trim()
 
     return text
-  }
-
-  static hasUppercaseChar(text: string) {
-    return /[A-Z]/.test(text)
-  }
-
-  static hasLowercaseChar(text: string) {
-    return /[a-z]/.test(text)
-  }
-
-  static hasNumberChar(text: string) {
-    return /\d/.test(text)
-  }
-
-  static hasSpecialChar(text: string) {
-    return /[^a-zA-Z\d]/.test(text)
   }
 }

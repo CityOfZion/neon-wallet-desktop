@@ -35,7 +35,7 @@ const DeleteContactModal = () => {
 
     if (!truncateFirstName) return text
 
-    return text.length > minTextLength ? StringHelper.truncateStringMiddle(text, minTextLength) : text
+    return text.length > minTextLength ? StringHelper.truncateMiddle(text, minTextLength) : text
   }
 
   return (

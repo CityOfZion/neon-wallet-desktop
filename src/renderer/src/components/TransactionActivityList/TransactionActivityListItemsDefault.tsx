@@ -71,7 +71,7 @@ export const TransactionActivityListItemsDefault = ({ transaction }: TProps) => 
                     tCommonGeneral('emptyColumn')
                   ) : (
                     <TransactionActivityListTooltip data={hash}>
-                      <span className="inline-block">{StringHelper.truncateStringMiddle(hash, 8)}</span>
+                      <span className="inline-block">{StringHelper.truncateMiddle(hash, 8)}</span>
                     </TransactionActivityListTooltip>
                   )
                 }
@@ -128,7 +128,7 @@ export const TransactionActivityListItemsDefault = ({ transaction }: TProps) => 
                           label={t('columns.tokenHashLabel')}
                           data={
                             <TransactionActivityListTooltip data={nft.hash}>
-                              <span className="inline-block">{StringHelper.truncateStringMiddle(nft.hash, 8)}</span>
+                              <span className="inline-block">{StringHelper.truncateMiddle(nft.hash, 8)}</span>
                             </TransactionActivityListTooltip>
                           }
                           url={nft.explorerUri}

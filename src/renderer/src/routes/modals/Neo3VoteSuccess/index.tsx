@@ -70,7 +70,7 @@ const Neo3VoteSuccess = () => {
                   delayDuration={0}
                   contentProps={{ className: 'max-w-56' }}
                 >
-                  <span>{StringHelper.truncateStringMiddle(candidate.pubKey, 28)}</span>
+                  <span>{StringHelper.truncateMiddle(candidate.pubKey, 28)}</span>
                 </Tooltip>
               </li>
               <li className="flex items-center gap-x-3">

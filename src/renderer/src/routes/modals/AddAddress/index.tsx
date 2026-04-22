@@ -71,7 +71,7 @@ const AddAddressModal = () => {
         <div className="flex flex-col gap-y-5">
           <div>
             <div className="pb-2 font-bold text-gray-100">{t('name')}</div>
-            {StringHelper.truncateStringMiddle(contactName, 35)}
+            {StringHelper.truncateMiddle(contactName, 35)}
           </div>
 
           <Separator />

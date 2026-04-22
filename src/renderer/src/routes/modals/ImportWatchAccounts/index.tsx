@@ -87,7 +87,7 @@ const ImportWatchAccountsModal = () => {
   const abbreviateAddress = (address: string): string => {
     if (address.length <= 34) return address
 
-    return StringHelper.truncateStringMiddle(address, 42)
+    return StringHelper.truncateMiddle(address, 42)
   }
 
   const handleChangeAndValidateAddress = (address: string) => {

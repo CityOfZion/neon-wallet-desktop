@@ -64,7 +64,7 @@ export const useColumns = (showType: TUseBalanceOptionShowType) => {
 
           return (
             <Tooltip title={isValidHash ? hash : ''}>
-              <span>{isValidHash ? StringHelper.truncateStringMiddle(hashText, 12) : hashText}</span>
+              <span>{isValidHash ? StringHelper.truncateMiddle(hashText, 12) : hashText}</span>
             </Tooltip>
           )
         },

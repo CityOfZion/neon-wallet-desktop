@@ -46,9 +46,7 @@ const StellarTrustlines = () => {
                   >
                     <p className="flex grow gap-1 truncate text-left text-sm text-white">
                       <span>{trustline.token.symbol}</span>-
-                      <span className="text-gray-100">
-                        {StringHelper.truncateStringMiddle(trustline.token.hash, 10)}
-                      </span>
+                      <span className="text-gray-100">{StringHelper.truncateMiddle(trustline.token.hash, 10)}</span>
                     </p>
 
                     <TbPencil aria-hidden className="size-5" />

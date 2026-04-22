@@ -125,7 +125,7 @@ const SelectAccountModal = () => {
                       <div className="flex flex-col text-left">
                         <span className="truncate text-sm text-white">{account.name}</span>
                         <span className="truncate text-xs text-gray-300">
-                          {StringHelper.truncateStringMiddle(account.address, 22)}
+                          {StringHelper.truncateMiddle(account.address, 22)}
                         </span>
                       </div>
                     </div>

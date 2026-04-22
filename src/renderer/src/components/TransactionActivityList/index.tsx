@@ -7,6 +7,7 @@ import { match, P } from 'ts-pattern'
 import { Separator } from '@renderer/components/Separator'
 
 import { DateHelper } from '@renderer/helpers/DateHelper'
+import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import { useInfiniteScroll } from '@renderer/hooks/useInfiniteScroll'
 import { useLanguageSelector } from '@renderer/hooks/useSettingsSelector'
@@ -94,11 +95,14 @@ const Content = ({
       const { transactions } = data[index] // Get the transactions for the current date group
       const transactionsLength = transactions.length // Number of transactions in this group
 
-      // Base height includes date label, separator, and separator margin
-      let height = heights.DATE + heights.SEPARATOR + heights.SEPARATOR_MARGIN
+      // Base height includes date label and separator
+      let height = heights.DATE + heights.SEPARATOR
 
       // If there aren't transactions, return the base height
       if (transactionsLength === 0) return height
+
+      // Add height for separator margin
+      height += heights.SEPARATOR_MARGIN
 
       // Add height for each header
       height += transactionsLength * heights.HEADER
@@ -205,6 +209,7 @@ const Content = ({
             <ul className="relative flex w-full flex-col" style={{ height: `${virtualizer.getTotalSize()}px` }}>
               {virtualizer.getVirtualItems().map(virtualItem => {
                 const { date, transactions } = data[virtualItem.index]
+                const hasTransactions = transactions.length > 0
 
                 return (
                   <li
@@ -222,9 +227,12 @@ const Content = ({
                       })}
                     </h3>
 
-                    <Separator className="h-px max-h-px min-h-px" containerClassName="mb-2" />
+                    <Separator
+                      className="h-px max-h-px min-h-px"
+                      containerClassName={StyleHelper.mergeStyles({ 'mb-2': hasTransactions })}
+                    />
 
-                    {transactions.length > 0 && (
+                    {hasTransactions && (
                       <ul className="flex flex-col gap-y-4">
                         {transactions.map(transaction => (
                           <TransactionActivityListItems key={transaction.txId} transaction={transaction} />

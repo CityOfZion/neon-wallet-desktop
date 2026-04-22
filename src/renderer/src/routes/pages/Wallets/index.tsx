@@ -269,7 +269,7 @@ const WalletsPage = () => {
                     <div className="flex items-center gap-2 text-sm">
                       <h1 className="pr-3 text-white">{selectedAccount.name}</h1>
                       <p className="text-gray-300">{t('address')}</p>
-                      <p className="text-gray-100">{StringHelper.truncateStringMiddle(selectedAccount.address, 8)}</p>
+                      <p className="text-gray-100">{StringHelper.truncateMiddle(selectedAccount.address, 8)}</p>
                       <IconButton
                         icon={<MdOutlineContentCopy aria-hidden />}
                         colorSchema="neon"

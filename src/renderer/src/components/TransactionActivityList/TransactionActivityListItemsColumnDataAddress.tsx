@@ -23,8 +23,8 @@ export const TransactionActivityListItemsColumnDataAddress = ({
   if (accountName) tooltipLabel += ` (${accountName})`
 
   const textLabel = accountName
-    ? StringHelper.truncateString(accountName, accountNameMaxLength || 10)
-    : StringHelper.truncateStringMiddle(address, addressMaxLength || 8)
+    ? StringHelper.truncate(accountName, accountNameMaxLength || 10)
+    : StringHelper.truncateMiddle(address, addressMaxLength || 8)
 
   return (
     <TransactionActivityListTooltip data={tooltipLabel}>
