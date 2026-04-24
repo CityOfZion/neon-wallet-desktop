@@ -4,6 +4,7 @@ import { ActionPopover } from '@renderer/components/ActionPopover'
 import { IconButton } from '@renderer/components/IconButton'
 
 import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
+import { TestHelper } from '@renderer/helpers/TestHelper'
 
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
@@ -37,31 +38,39 @@ export const NetworkProfileActions = () => {
   return (
     <ActionPopover.Root>
       <ActionPopover.Trigger asChild>
-        <IconButton icon={<TbDotsVertical />} size="md" compacted />
+        <IconButton
+          icon={<TbDotsVertical aria-hidden />}
+          size="md"
+          compacted
+          {...TestHelper.buildTestObject('network-profile-actions-button')}
+        />
       </ActionPopover.Trigger>
 
       <ActionPopover.Content>
         <ActionPopover.Item
-          leftIcon={<MdAdd />}
+          leftIcon={<MdAdd aria-hidden />}
           onClick={modalNavigateWrapper('add-network-profile')}
           label={t('createProfileButtonLabel')}
+          {...TestHelper.buildTestObject('network-profile-actions-create')}
         />
 
         {!isDefaultSelected && (
           <ActionPopover.Item
-            leftIcon={<TbPencil />}
+            leftIcon={<TbPencil aria-hidden />}
             iconsOnEdge={false}
             onClick={modalNavigateWrapper('add-network-profile', { state: { profile: selectedNetworkProfile } })}
             label={t('editProfileButtonLabel')}
+            {...TestHelper.buildTestObject('network-profile-actions-edit')}
           />
         )}
 
         {!isDefaultSelected && (
           <ActionPopover.Item
-            leftIcon={<MdRestartAlt />}
+            leftIcon={<MdRestartAlt aria-hidden />}
             iconsOnEdge={false}
             label={t('resetProfileButtonLabel')}
             onClick={handleReset}
+            {...TestHelper.buildTestObject('network-profile-actions-reset')}
           />
         )}
       </ActionPopover.Content>

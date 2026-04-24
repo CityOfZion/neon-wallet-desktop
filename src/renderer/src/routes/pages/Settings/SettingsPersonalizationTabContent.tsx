@@ -2,6 +2,8 @@ import { useTranslation } from 'react-i18next'
 
 import { MenuLink } from '@renderer/components/MenuLink'
 
+import { TestHelper } from '@renderer/helpers/TestHelper'
+
 import BsCash from '@renderer/assets/images/bs-cash.svg?react'
 import MdOutlineListAlt from '@renderer/assets/images/md-outline-list-alt.svg?react'
 import TbCube3dSphere from '@renderer/assets/images/tb-cube-3d-sphere.svg?react'
@@ -21,6 +23,7 @@ export const SettingsPersonalizationTabContent = () => {
             className="px-3 py-2 text-sm"
             rightElement={null}
             to="/settings/personalisation/network-configuration"
+            {...TestHelper.buildTestObject('settings-network-configuration-link')}
           >
             {t('personalisationOption.networkConfiguration')}
           </MenuLink>

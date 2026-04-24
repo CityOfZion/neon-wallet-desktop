@@ -1,3 +1,5 @@
+import { ComponentProps } from 'react'
+
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import MdChevronRight from '@renderer/assets/images/md-chevron-right.svg?react'
@@ -8,9 +10,9 @@ type TProps = {
   onClick?(): void
   className?: string
   disabled?: boolean
-}
+} & ComponentProps<'button'>
 
-export const BlockchainNetworkButton = ({ label, subLabel, onClick, className, disabled }: TProps) => {
+export const BlockchainNetworkButton = ({ label, subLabel, onClick, className, disabled, ...props }: TProps) => {
   return (
     <button
       aria-disabled={disabled}
@@ -20,6 +22,7 @@ export const BlockchainNetworkButton = ({ label, subLabel, onClick, className, d
         className
       )}
       onClick={onClick}
+      {...props}
     >
       <div className="flex items-center gap-2.5">
         <div className="flex h-6 w-6 items-center justify-center">
@@ -31,7 +34,7 @@ export const BlockchainNetworkButton = ({ label, subLabel, onClick, className, d
 
       <div className="flex items-center gap-5">
         <span className="text-xs text-gray-300">{subLabel}</span>
-        <MdChevronRight className="text-neon size-6" />
+        <MdChevronRight aria-hidden className="text-neon size-6" />
       </div>
     </button>
   )

@@ -1,4 +1,5 @@
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+import { TestHelper } from '@renderer/helpers/TestHelper'
 
 type TProps = {
   title: string
@@ -11,7 +12,9 @@ export const SettingsLayout = ({ children, actions, title, contentClassName }: T
   return (
     <section className="flex h-full w-full flex-col px-5">
       <header className="flex h-13 min-h-13 w-full items-center justify-between border-b border-gray-300/30">
-        <h1 className="text-sm text-white">{title}</h1>
+        <h1 className="text-sm text-white" {...TestHelper.buildTestObject('settings-layout-title')}>
+          {title}
+        </h1>
 
         {actions}
       </header>
