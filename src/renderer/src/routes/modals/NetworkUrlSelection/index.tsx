@@ -11,6 +11,7 @@ import { RadioGroup } from '@renderer/components/RadioGroup'
 import { Separator } from '@renderer/components/Separator'
 
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+import { TestHelper } from '@renderer/helpers/TestHelper'
 
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { usePingNetworks } from '@renderer/hooks/usePingNetworks'
@@ -69,7 +70,9 @@ const NetworkUrlSelection = () => {
       headingIcon={<TbCube3dSphere aria-hidden />}
       contentClassName="px-0 flex flex-col"
     >
-      <p className="px-4 text-xs text-white">{t('description')}</p>
+      <p className="px-4 text-xs text-white" {...TestHelper.buildTestObject('network-url-selection-description')}>
+        {t('description')}
+      </p>
 
       <span className="mt-6 block px-4 font-bold text-gray-100 uppercase">{t('listLabel')}</span>
 
@@ -92,6 +95,7 @@ const NetworkUrlSelection = () => {
             checked={isAutomatic}
             onCheckedChange={handleIsAutomaticallyChange}
             disabled={pingNetworksQuery.isLoading}
+            {...TestHelper.buildTestObject('network-url-selection-auto')}
           />
         </div>
       </div>
@@ -177,7 +181,14 @@ const NetworkUrlSelection = () => {
             colorSchema="gray"
           />
 
-          <Button className="w-full" label={tCommonGeneral('save')} disabled={!selectedUrl} flat onClick={handleSave} />
+          <Button
+            className="w-full"
+            label={tCommonGeneral('save')}
+            disabled={!selectedUrl}
+            flat
+            onClick={handleSave}
+            {...TestHelper.buildTestObject('network-url-selection-save')}
+          />
         </div>
       </div>
     </SideModalLayout>

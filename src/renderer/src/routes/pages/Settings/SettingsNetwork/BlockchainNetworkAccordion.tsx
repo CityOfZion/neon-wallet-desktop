@@ -5,6 +5,7 @@ import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
+import { TestHelper } from '@renderer/helpers/TestHelper'
 
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useSelectedNetworkProfileSelector, useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
@@ -32,7 +33,7 @@ export const BlockchainNetworkAccordion = ({ blockchain }: TProps) => {
 
   return (
     <Accordion.Item value={blockchain}>
-      <Accordion.Trigger>
+      <Accordion.Trigger {...TestHelper.buildTestObject(`blockchain-network-accordion-${blockchain}`)}>
         <div className="flex items-center gap-2.5">
           <div className="flex size-4 items-center justify-center">
             <BlockchainIcon className="text-blue" blockchain={blockchain} />
@@ -47,6 +48,7 @@ export const BlockchainNetworkAccordion = ({ blockchain }: TProps) => {
           subLabel={network.name}
           onClick={modalNavigateWrapper('network-selection', { state: { blockchain } })}
           disabled={isCurrentNetworkDisabled}
+          {...TestHelper.buildTestObject(`blockchain-network-current-${blockchain}`)}
         />
 
         <BlockchainNetworkButton
@@ -55,6 +57,7 @@ export const BlockchainNetworkAccordion = ({ blockchain }: TProps) => {
           subLabel={network.url}
           onClick={modalNavigateWrapper('network-url-selection', { state: { blockchain } })}
           disabled={service.networkUrls.length <= 1}
+          {...TestHelper.buildTestObject(`blockchain-network-url-${blockchain}`)}
         />
       </Accordion.Content>
     </Accordion.Item>

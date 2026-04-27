@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 
+import { TestHelper } from '@renderer/helpers/TestHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
 import { useActions } from '@renderer/hooks/useActions'
@@ -75,6 +76,7 @@ const AddNetworkProfileModal = () => {
           clearable
           compacted
           errorMessage={actionState.errors.name}
+          testId="add-network-profile-name"
         />
 
         <div className="flex gap-x-3">
@@ -87,7 +89,14 @@ const AddNetworkProfileModal = () => {
             colorSchema="gray"
           />
 
-          <Button className="w-full" type="submit" label={tCommon('save')} flat disabled={isDisabled} />
+          <Button
+            className="w-full"
+            type="submit"
+            label={tCommon('save')}
+            flat
+            disabled={isDisabled}
+            {...TestHelper.buildTestObject('add-network-profile-save')}
+          />
         </div>
       </form>
 
@@ -102,6 +111,7 @@ const AddNetworkProfileModal = () => {
           colorSchema="error"
           flat
           iconsOnEdge={false}
+          {...TestHelper.buildTestObject('add-network-profile-delete')}
         />
       )}
     </SideModalLayout>

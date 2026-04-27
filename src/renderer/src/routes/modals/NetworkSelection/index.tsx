@@ -9,6 +9,7 @@ import { Separator } from '@renderer/components/Separator'
 
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+import { TestHelper } from '@renderer/helpers/TestHelper'
 import { WalletKitHelper } from '@renderer/helpers/WalletKitHelper'
 
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
@@ -87,11 +88,20 @@ const NetworkSelectionModal = () => {
       contentClassName="px-0 flex flex-col"
     >
       <div className="min-h-0 grow overflow-auto">
-        <span className="mb-5 block px-4 text-gray-300">{t('selectNetwork')}</span>
+        <span
+          className="mb-5 block px-4 text-gray-300"
+          {...TestHelper.buildTestObject('network-selection-select-network')}
+        >
+          {t('selectNetwork')}
+        </span>
 
         <RadioGroup.Group value={selectedNetworkId} onValueChange={onSelectRadioItem}>
           {options.map(network => (
-            <RadioGroup.Item key={network.id} value={network.id}>
+            <RadioGroup.Item
+              key={network.id}
+              value={network.id}
+              {...TestHelper.buildTestObject('network-selection-item')}
+            >
               <div className="flex items-center gap-4">
                 <div
                   className={StyleHelper.mergeStyles('min-size-1.5 size-1.5 rounded-full', {
@@ -153,7 +163,13 @@ const NetworkSelectionModal = () => {
             colorSchema="gray"
           />
 
-          <Button className="w-full" label={tCommonGeneral('save')} flat onClick={handleSave} />
+          <Button
+            className="w-full"
+            label={tCommonGeneral('save')}
+            flat
+            onClick={handleSave}
+            {...TestHelper.buildTestObject('network-selection-save')}
+          />
         </div>
       </div>
     </SideModalLayout>
