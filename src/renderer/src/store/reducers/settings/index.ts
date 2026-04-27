@@ -115,7 +115,7 @@ export function getSettingsReducer() {
   const settingsReducerConfig: PersistConfig<TSettingsReducer> = {
     key: 'settingsReducer',
     storage,
-    version: 15,
+    version: 14,
     migrate: createMigrate(settingsMigrations),
     blacklist: ['memoryData'],
   }

@@ -94,7 +94,7 @@ export const LoginPasswordImportWalletStep4Content = () => {
 
   return (
     <Fragment>
-      <p className="mt-15 text-sm text-white">{t('title')}</p>
+      <p className="mt-15 text-center text-sm text-white">{t('title')}</p>
 
       <Progress value={progress} className="mt-7" />
 
