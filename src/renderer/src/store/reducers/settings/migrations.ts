@@ -249,16 +249,24 @@ export function getSettingsMigrations(defaultProfile: TNetworkProfile, testProfi
           : BlockchainServiceHelper.bsAggregator.blockchainServicesByName.stellar.defaultNetwork
       }
 
+      const memoryData = state.memoryData || {}
       const canShowNeo3VoteSupportUsModal = state.data.canShowVoteNeo3SupportUsModal
 
+      delete state.data.showSideBar
       delete state.date.canShowVoteNeo3SupportUsModal
 
       return {
         ...state,
+        memoryData: {
+          ...memoryData,
+          showSideBar: true,
+        },
         data: {
           ...state.data,
           customNetworks: {
             ...state.data.customNetworks,
+            ethereum: [],
+            polygon: [],
             bitcoin: [],
             stellar: [],
           },
@@ -266,6 +274,8 @@ export function getSettingsMigrations(defaultProfile: TNetworkProfile, testProfi
             ...profile,
             networkByBlockchain: {
               ...profile.networkByBlockchain,
+              ethereum: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.ethereum.defaultNetwork,
+              polygon: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.polygon.defaultNetwork,
               bitcoin: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.bitcoin.defaultNetwork,
               stellar: getStellarNetwork(profile),
             },
@@ -274,24 +284,13 @@ export function getSettingsMigrations(defaultProfile: TNetworkProfile, testProfi
             ...state.data.selectedNetworkProfile,
             networkByBlockchain: {
               ...state.data.selectedNetworkProfile.networkByBlockchain,
+              ethereum: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.ethereum.defaultNetwork,
+              polygon: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.polygon.defaultNetwork,
               bitcoin: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.bitcoin.defaultNetwork,
               stellar: getStellarNetwork(state.data.selectedNetworkProfile),
             },
           },
           canShowNeo3VoteSupportUsModal,
-        },
-      }
-    },
-    15: (state: any) => {
-      const memoryData = state.memoryData || {}
-
-      delete state.data.showSideBar
-
-      return {
-        ...state,
-        memoryData: {
-          ...memoryData,
-          showSideBar: true,
         },
       }
     },
