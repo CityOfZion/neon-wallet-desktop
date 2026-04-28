@@ -6,11 +6,12 @@ export class SwapHelper {
   static readonly swapNetworkByBlockchainAndNetworkId: Map<string, string[]> = new Map([
     ['neo3-mainnet', ['neo3']],
     ['bitcoin-mainnet', ['btc']],
+    ['stellar-pubnet', ['xlm']],
+    ['solana-mainnet-beta', ['sol']],
     ['ethereum-1', ['eth']],
-    ['neox-47763', ['']],
     ['polygon-137', ['matic']],
     ['base-8453', ['base', 'baseevm']],
-    ['arbitrum-42161', ['arbitrum', 'arbevm', 'arbnova']],
+    ['arbitrum-42161', ['arbitrum', 'arbevm']],
   ])
 
   static getNetwork(blockchain: TBlockchainServiceKey, network: TNetwork) {
