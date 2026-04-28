@@ -145,11 +145,6 @@ export const SwapPageContent = ({ account }: TProps) => {
       !accountsRef.current.some(({ blockchain }) => blockchain === tokenToReceiveBlockchain)
 
   const hasExtraIdToReceive = !!actionData.selectedTokenToReceive.value?.hasExtraId
-
-  const isExtraIdToReceiveInvalid =
-    hasExtraIdToReceive &&
-    (!actionData.selectedExtraIdToReceive.valid || !actionData.selectedExtraIdToReceive.value?.trim())
-
   const isExtraIdToReceiveWrong = hasExtraIdToReceive && actionData.selectedExtraIdToReceive.valid === false
 
   const balanceQuery = useBalance(actionData.selectedAccountToUse.value || undefined)
@@ -318,7 +313,7 @@ export const SwapPageContent = ({ account }: TProps) => {
       !actionData.selectedAddressToReceive.value ||
       !actionData.selectedAddressToReceive.valid ||
       !actionData.selectAmountToUseMinMax.value ||
-      isExtraIdToReceiveInvalid
+      isExtraIdToReceiveWrong
     )
       return
 
@@ -666,7 +661,7 @@ export const SwapPageContent = ({ account }: TProps) => {
                     blockchains={tokenToReceiveBlockchain ? [tokenToReceiveBlockchain] : undefined}
                     disabled={isAccountsSelectionDisabled}
                     onSelect={handleSelectAccountToReceive}
-                    placement="dropdownStart"
+                    placement="dropdownEnd"
                   >
                     <Button
                       disabled={isAccountsSelectionDisabled}
@@ -708,7 +703,7 @@ export const SwapPageContent = ({ account }: TProps) => {
                       className="text-center"
                       contentClassName="px-4 h-9"
                       containerClassName="w-42"
-                      error={actionData.selectedExtraIdToReceive.valid === false}
+                      error={isExtraIdToReceiveWrong}
                       value={actionData.selectedExtraIdToReceive.value || ''}
                       required
                       disabled={!actionData.selectedAccountToUse.value || isAddressesDisabled}
@@ -815,7 +810,7 @@ export const SwapPageContent = ({ account }: TProps) => {
                 !actionData.selectedTokenToReceive.value ||
                 !actionData.selectedAccountToUse.value ||
                 !actionData.selectedAddressToReceive.value ||
-                isExtraIdToReceiveInvalid ||
+                isExtraIdToReceiveWrong ||
                 !service ||
                 (isCalculableFee(service) && !actionData.fee)
               }

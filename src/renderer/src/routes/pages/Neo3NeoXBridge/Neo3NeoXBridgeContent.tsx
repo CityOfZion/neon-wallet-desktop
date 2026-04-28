@@ -481,7 +481,7 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
                     }
                     disabled={!actionData.tokenToReceive.value}
                     onSelect={handleSelectAccountToReceive}
-                    placement="dropdownStart"
+                    placement="dropdownEnd"
                   >
                     <Button
                       variant="text"
