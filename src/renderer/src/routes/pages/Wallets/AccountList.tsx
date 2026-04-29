@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react'
+
 import { motion } from 'motion/react'
 
 import { AccountIcon } from '@renderer/components/AccountIcon'
@@ -26,13 +28,21 @@ type TAccountItemProps = {
 }
 
 const AccountItem = ({ account, onClick, active }: TAccountItemProps) => {
+  const ref = useRef<HTMLDivElement>(null)
   const balance = useBalances([account])
   const { currency } = useCurrencySelector()
 
   const totalExchangeFormatted = CurrencyHelper.format(balance.exchangeTotal, { currency })
 
+  useEffect(() => {
+    if (active) {
+      ref.current?.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
-    <div className="relative">
+    <div ref={ref} className="relative">
       {active && (
         <motion.div
           layoutId="accountActiveIndicator"
