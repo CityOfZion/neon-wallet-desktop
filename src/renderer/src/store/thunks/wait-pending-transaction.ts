@@ -4,6 +4,10 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { ReactQueryHelper } from '@renderer/helpers/ReactQueryHelper'
 
+import { buildQueryKeyBalance } from '@renderer/hooks/useBalances'
+import { buildNeo3VoteGetVoteDetailsByAddressQueryKey } from '@renderer/hooks/useNeo3Vote'
+import { buildTransactionsAggregatedQueryKey, buildTransactionsQueryKey } from '@renderer/hooks/useTransactions'
+
 import type { TRootState } from '@renderer/types/redux'
 import type { TUseTransactionsTransaction } from '@shared/types/hooks'
 import { TNotification, TSaveNotification } from '@shared/types/store'
@@ -59,10 +63,28 @@ export const waitPendingTransaction = createAsyncThunk<void, TParams>(
       /* empty */
     }
 
-    ReactQueryHelper.invalidateTransactionQueries(address, blockchain, network)
+    ReactQueryHelper.client.removeQueries({
+      queryKey: buildQueryKeyBalance(address, blockchain, network),
+      type: 'all',
+    })
 
-    if (notification) dispatch(authReducerActions.saveNotification(notification))
+    ReactQueryHelper.client.removeQueries({
+      queryKey: buildTransactionsQueryKey({ address, blockchain, network }),
+      type: 'all',
+    })
+
+    ReactQueryHelper.client.removeQueries({
+      queryKey: buildTransactionsAggregatedQueryKey(),
+      type: 'all',
+    })
+
+    ReactQueryHelper.client.removeQueries({
+      queryKey: buildNeo3VoteGetVoteDetailsByAddressQueryKey({ neo3Network: network, address }),
+      type: 'all',
+    })
 
     dispatch(utilityReducerActions.removePendingTransaction(txId))
+
+    if (notification) dispatch(authReducerActions.saveNotification(notification))
   }
 )
