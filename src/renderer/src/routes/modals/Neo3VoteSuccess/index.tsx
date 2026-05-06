@@ -29,13 +29,13 @@ const Neo3VoteSuccess = () => {
   return (
     <CenterModalLayout
       heading={t('title')}
-      headerClassName="pt-3"
       headingIcon={<TbChartBarPopular aria-hidden />}
+      headerClassName="pt-3"
       className="overflow-y-auto"
       contentClassName="pb-0 px-4 pt-8 my-0 flex flex-col text-sm text-white"
-      withClose={false}
-      closeOnClickOutside={false}
-      closeOnEsc={false}
+      withErase={false}
+      eraseOnEsc={false}
+      eraseOnClickOutside={false}
     >
       <div className="flex h-full flex-col gap-y-3">
         <TbRosetteDiscountCheck

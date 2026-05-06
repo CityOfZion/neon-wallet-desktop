@@ -49,7 +49,7 @@ export const TransactionActivityListItemsDefault = ({ transaction }: TProps) => 
 
         if (eventType === 'token') {
           token = event.token
-          hash = event.token?.hash
+          hash = token?.hash
           hashUrl = event.tokenUrl
         } else if (eventType === 'nft') {
           hash = nft?.collection?.hash
@@ -157,10 +157,10 @@ export const TransactionActivityListItemsDefault = ({ transaction }: TProps) => 
                     <TransactionActivityListItemsColumn
                       label={t('columns.tokenLabel')}
                       data={
-                        !token ? (
+                        !token?.name && !token?.symbol ? (
                           tCommonGeneral('emptyColumn')
                         ) : (
-                          <TransactionActivityListTooltip data={(token.name || token.symbol)!}>
+                          <TransactionActivityListTooltip data={token.name || token.symbol}>
                             <span className="inline-block truncate">{token.symbol || token.name}</span>
                           </TransactionActivityListTooltip>
                         )

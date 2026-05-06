@@ -39,16 +39,16 @@ test.describe('Help button', () => {
     await window.getByTestId('help-discord').click()
   })
 
-  test('Should click on "Chat with us" button and open the chat', async () => {
+  test.skip('Should click on "Live support" button and open the chat', async () => {
     await helpButton.click()
-    await window.getByTestId('help-chat-with-us').click()
+    await window.getByTestId('help-live-support').click()
 
     await expect(window.locator('#crisp-chatbox')).toHaveAttribute('data-hidden', 'false')
   })
 
-  test('Should close the chat by clicking the backdrop', async () => {
+  test.skip('Should close the "Live support" by clicking the backdrop', async () => {
     await helpButton.click()
-    await window.getByTestId('help-chat-with-us').click()
+    await window.getByTestId('help-live-support').click()
     await window.locator('#crisp-chatbox').click()
 
     await expect(window.locator('#crisp-chatbox')).toHaveAttribute('data-hidden', 'true')

@@ -56,7 +56,7 @@ type TActionsData = {
   isTipChecked: boolean
   isTipDisabled: boolean
   tipAmountBn?: BSBigHumanAmount
-  tipFiatPriceBn?: BigNumber
+  tipFiatPriceBn?: BSBigNumber
   tipError?: string
 }
 
@@ -96,7 +96,10 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
     [actionData.selectedAccount]
   )
 
-  const tipConfig = useMemo(() => ConstantsHelper.tipConfigByBlockchain.get(service?.name || ''), [service])
+  const tipConfig = useMemo(
+    () => (service?.name ? ConstantsHelper.tipConfigByBlockchain.get(service.name) : undefined),
+    [service]
+  )
 
   const exchangeQuery = useExchange(
     service && tipConfig ? [{ blockchain: service.name, tokens: [tipConfig.token] }] : []

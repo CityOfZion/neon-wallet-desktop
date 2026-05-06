@@ -45,7 +45,7 @@ const AccountIconNFT = ({ account }: TProps) => {
 
   return (
     <div className="relative flex size-full items-center justify-center bg-gray-300/30">
-      <img aria-hidden src={imgUrl} alt="" className="absolute inset-0 m-auto h-full w-full object-cover" />
+      <img aria-hidden src={imgUrl} alt="" className="absolute inset-0 m-auto size-full object-cover" />
 
       <AccountBlockchainCircle blockchain={account.blockchain} />
     </div>

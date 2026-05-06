@@ -91,10 +91,12 @@ const ExportFullTransactionsModal = () => {
         language,
         format,
       })
+
       const formattedDateTo = DateHelper.formatLocalized(actionData.to, {
         language,
         format,
       })
+
       const filename = `neon-transactions-${account.address}-${account.blockchain}-${formattedDateFrom}-${formattedDateTo}.csv`
       const filePath = `${actionData.selectedFolderPath}/${filename}`
 

@@ -10,7 +10,7 @@ import { CrispHelper } from './helpers/CrispHelper'
 import { SentryHelper } from './helpers/SentryHelper'
 import { pagesRouter } from './routes/pages-router'
 
-import './assets/css/index.css'
+import './assets/css/styles.css'
 
 SharedEnvHelper.setup()
 SentryHelper.setup()

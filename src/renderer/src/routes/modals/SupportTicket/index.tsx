@@ -72,10 +72,10 @@ const SupportTicketModal = () => {
 
   return (
     <SideModalLayout
-      headingIcon={<HiOutlineTicket aria-hidden />}
       heading={t('title')}
+      headingIcon={<HiOutlineTicket aria-hidden />}
       size="lg"
-      closeOnClickOutside={false}
+      eraseOnClickOutside={false}
     >
       <form onSubmit={handleAct(onSubmit)} className="flex h-full flex-col justify-between gap-y-6 px-6">
         <Input

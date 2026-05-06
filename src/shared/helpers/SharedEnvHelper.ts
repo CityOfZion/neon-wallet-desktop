@@ -26,7 +26,9 @@ class SharedEnvHelperClass {
 
   static setup(): EnvSchema {
     const result = this.extendedSchema.parse(import.meta.env) as EnvSchema
+
     Object.assign(this, result)
+
     return result
   }
 }

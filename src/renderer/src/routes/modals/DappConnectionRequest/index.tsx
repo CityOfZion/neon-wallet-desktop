@@ -112,7 +112,12 @@ const DappConnectionRequestModal = () => {
   }, 1000)
 
   return (
-    <CenterModalLayout onErase={handleRejectSession} contentClassName="items-center flex flex-col">
+    <CenterModalLayout
+      contentClassName="items-center flex flex-col"
+      eraseOnEsc={false}
+      eraseOnClickOutside={false}
+      onErase={handleRejectSession}
+    >
       {isMounting || !proposalDetails ? (
         <ScreenLoader />
       ) : (

@@ -421,7 +421,7 @@
       "currency": "Währung",
       "general": "Allgemein",
       "language": "Sprache",
-      "mobileApp": "Mobile App",
+      "mobileApp": "Mobile app",
       "networkConfiguration": "Netzwerkkonfiguration",
       "releaseNotes": "Versionshinweise",
       "theme": "Design"
@@ -473,10 +473,8 @@
       "currentNetwork": "Aktuelles Netzwerk",
       "editProfileButtonLabel": "Profil bearbeiten",
       "networkUrlSelection": "Netzwerk-URL-Auswahl",
-      "resetProfileButtonLabel": "Profil zurücksetzen",
       "selectProfilePlaceholder": "Profil auswählen…",
-      "title": "Netzwerkkonfiguration",
-      "youAreConnectedNeoAndEth": "Sie sind sowohl mit dem Neo- als auch mit dem Ethereum-Netzwerk verbunden"
+      "title": "Netzwerkkonfiguration"
     },
     "settingsRecoverWallet": {
       "backup": "Backup importieren",

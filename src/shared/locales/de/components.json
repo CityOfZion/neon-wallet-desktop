@@ -43,11 +43,11 @@
     "youHaveUnclaimed": "Sie haben nicht abgerufenes {{symbol}}!"
   },
   "commonScreenActions": {
-    "chatWithUsButtonLabel": "Live-Support",
     "connectButtonLabel": "Verbinden",
     "discordLinkLabel": "Unserem Discord beitreten",
     "helpButtonLabel": "Hilfe",
     "importButtonLabel": "Importieren",
+    "liveSupportButtonLabel": "Live-Support",
     "newWalletButtonLabel": "Neues Wallet",
     "notificationButtonLabel": "Benachrichtigungen",
     "openSupportTicketButtonLabel": "Support-Ticket öffnen",

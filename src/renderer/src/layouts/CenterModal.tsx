@@ -3,6 +3,7 @@ import { cloneElement, ComponentProps, type JSX, type MouseEvent, ReactNode, use
 import { FocusScope } from '@radix-ui/react-focus-scope'
 import { motion, useAnimate } from 'motion/react'
 import { useHotkeys } from 'react-hotkeys-hook'
+import { useTranslation } from 'react-i18next'
 
 import { IconButton } from '@renderer/components/IconButton'
 import { Separator } from '@renderer/components/Separator'
@@ -20,15 +21,15 @@ type TCenterModalSize = 'xs' | 'sm' | 'lg'
 
 type TCenterModalLayoutProps = {
   contentClassName?: string
+  heading?: JSX.Element | string
+  headingIcon?: JSX.Element
   headerClassName?: string
   headerComponent?: ReactNode
-  headingIcon?: JSX.Element
-  heading?: JSX.Element | string
-  onErase?: () => Promise<void> | void
   size?: TCenterModalSize
-  withClose?: boolean
-  closeOnEsc?: boolean
-  closeOnClickOutside?: boolean
+  withErase?: boolean
+  eraseOnEsc?: boolean
+  eraseOnClickOutside?: boolean
+  onErase?: () => Promise<void> | void
 } & ComponentProps<'div'>
 
 const widthBySizes: Record<TCenterModalSize, string> = {
@@ -43,81 +44,85 @@ const heightBySizes: Record<TCenterModalSize, string> = {
   lg: '38.75rem',
 }
 
+const DURATION = 0.2
+
 export const CenterModalLayout = ({
-  children,
-  contentClassName,
   className,
-  headerComponent,
-  headerClassName,
+  contentClassName,
   heading,
   headingIcon,
+  headerClassName,
+  headerComponent,
   size = 'sm',
+  withErase = true,
+  eraseOnEsc = true,
+  eraseOnClickOutside = true,
   onErase,
-  withClose = true,
-  closeOnClickOutside = true,
-  closeOnEsc = true,
+  children,
   ...props
 }: TCenterModalLayoutProps) => {
+  const { t: tCommonGeneral } = useTranslation('common', { keyPrefix: 'general' })
   const { modalNavigateWrapper, modalErase } = useModalNavigate()
   const { groupIndex, isFocused, isGroupFocused } = useModalCurrentHistory()
 
   const [scope, animate] = useAnimate<HTMLDivElement>()
 
   const [isErasing, startErase] = usePressOnce(async () => {
-    if (onErase) {
-      await onErase()
-    }
+    if (onErase) await onErase()
+
     modalErase()
   })
 
-  const withHeading = headingIcon || heading
-  const height = heightBySizes[size || 'xs']
-  const width = widthBySizes[size || 'xs']
+  const withHeading = !!(headingIcon || heading)
+  const height = heightBySizes[size]
+  const width = widthBySizes[size]
 
   const handleClickContent = (event: MouseEvent<HTMLDivElement>) => {
     event.stopPropagation()
   }
 
   const handleClickContainer = () => {
-    if (!closeOnClickOutside) return
+    if (!eraseOnClickOutside) return
+
     startErase()
   }
 
   useLayoutEffect(() => {
-    animate(scope.current, { opacity: isGroupFocused ? 1 : 0 }, { duration: 0.2 })
+    animate(scope.current, { opacity: isGroupFocused ? 1 : 0 }, { duration: DURATION })
   }, [animate, isGroupFocused, scope])
 
-  useHotkeys('esc', startErase, { enableOnFormTags: true, enabled: closeOnEsc && !isErasing && isFocused })
+  useHotkeys('esc', startErase, { enabled: eraseOnEsc && !isErasing && isFocused })
 
   return (
     <FocusScope
       loop
-      className={StyleHelper.mergeStyles('flex h-full w-full items-center justify-center', {
+      className={StyleHelper.mergeStyles('flex size-full items-center justify-center', {
         'pointer-events-none': isErasing,
       })}
       onClick={handleClickContainer}
     >
       <motion.div
-        style={{ width, height }}
-        initial={{ opacity: 0, scale: 0.95, transition: { duration: 0.2 } }}
-        animate={{ opacity: 1, scale: 1, transition: { duration: 0.2 } }}
-        exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.2, delay: 0.1 } }}
         ref={scope}
+        style={{ width, height }}
+        transition={{ duration: DURATION }}
+        initial={{ opacity: 0, scale: 0.95, transition: { duration: DURATION } }}
+        animate={{ opacity: 1, scale: 1, transition: { duration: DURATION } }}
+        exit={{ opacity: 0, scale: 0.95, transition: { duration: DURATION, delay: 0.1 } }}
         onClick={handleClickContent}
-        transition={{ duration: 0.2 }}
       >
         <div
           {...props}
           className={StyleHelper.mergeStyles(
-            'flex h-full w-full flex-col overflow-y-auto rounded-md bg-gray-800 px-4',
+            'flex size-full flex-col overflow-y-auto rounded-md bg-gray-800 px-4',
             className
           )}
         >
           {headerComponent || (
             <header className={StyleHelper.mergeStyles('flex items-center pt-5 pb-2.5', headerClassName)}>
-              <div className="flex grow items-center gap-2.5">
+              <div className="flex grow items-center gap-2">
                 {groupIndex > 0 && (
                   <IconButton
+                    aria-label={tCommonGeneral('back')}
                     icon={<MdKeyboardBackspace aria-hidden className="fill-gray-200" />}
                     size="md"
                     compacted
@@ -126,7 +131,7 @@ export const CenterModalLayout = ({
                 )}
 
                 {withHeading && (
-                  <div className="flex items-center gap-x-2.5">
+                  <div className="flex items-center gap-x-2">
                     {headingIcon &&
                       cloneElement(headingIcon, {
                         className: StyleHelper.mergeStyles('size-6 text-green', headingIcon.props?.className),
@@ -137,14 +142,15 @@ export const CenterModalLayout = ({
                 )}
               </div>
 
-              {withClose && (
+              {withErase && (
                 <IconButton
+                  aria-label={tCommonGeneral('close')}
                   icon={<MdClose aria-hidden className="text-gray-100" />}
                   size="md"
                   compacted
-                  loading={onErase ? isErasing : false}
+                  loading={isErasing}
                   onClick={startErase}
-                  {...TestHelper.buildTestObject('center-modal-close-button')}
+                  {...TestHelper.buildTestObject('center-modal-erase-button')}
                 />
               )}
             </header>

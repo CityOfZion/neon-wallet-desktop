@@ -43,11 +43,11 @@
     "youHaveUnclaimed": "Você tem {{symbol}} não resgatado!"
   },
   "commonScreenActions": {
-    "chatWithUsButtonLabel": "Suporte ao vivo",
     "connectButtonLabel": "Conectar",
     "discordLinkLabel": "Entrar no Discord",
     "helpButtonLabel": "Ajuda",
     "importButtonLabel": "Importar",
+    "liveSupportButtonLabel": "Suporte ao vivo",
     "newWalletButtonLabel": "Nova Carteira",
     "notificationButtonLabel": "Alertas",
     "openSupportTicketButtonLabel": "Abrir ticket de suporte",

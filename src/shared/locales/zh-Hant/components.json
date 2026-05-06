@@ -43,11 +43,11 @@
     "youHaveUnclaimed": "您有未領取的 {{symbol}}！"
   },
   "commonScreenActions": {
-    "chatWithUsButtonLabel": "即時支援",
     "connectButtonLabel": "連接",
     "discordLinkLabel": "加入我們的 Discord",
     "helpButtonLabel": "幫助",
     "importButtonLabel": "匯入",
+    "liveSupportButtonLabel": "即時支援",
     "newWalletButtonLabel": "新錢包",
     "notificationButtonLabel": "通知",
     "openSupportTicketButtonLabel": "打開支援工單",

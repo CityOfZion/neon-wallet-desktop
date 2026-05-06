@@ -16,7 +16,12 @@ export const DappPermissionSignatureScopeModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'dappPermissionSignatureScope' })
 
   return (
-    <CenterModalLayout contentClassName="px-0 flex flex-col pb-5 min-h-0" onErase={onReject}>
+    <CenterModalLayout
+      contentClassName="px-0 flex flex-col pb-5 min-h-0"
+      eraseOnEsc={false}
+      eraseOnClickOutside={false}
+      onErase={onReject}
+    >
       <div className="flex min-h-0 grow flex-col overflow-y-auto pr-2 pl-5">
         <DappHeader proposerUri={session.peer.metadata.icons[0]} proposerName={session.peer.metadata.name} />
 

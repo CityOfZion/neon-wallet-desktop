@@ -43,11 +43,11 @@
     "youHaveUnclaimed": "You have unclaimed {{symbol}}!"
   },
   "commonScreenActions": {
-    "chatWithUsButtonLabel": "Live support",
     "connectButtonLabel": "Connect",
     "discordLinkLabel": "Join our Discord",
     "helpButtonLabel": "Help",
     "importButtonLabel": "Import",
+    "liveSupportButtonLabel": "Live support",
     "newWalletButtonLabel": "New Wallet",
     "notificationButtonLabel": "Alerts",
     "openSupportTicketButtonLabel": "Open support ticket",

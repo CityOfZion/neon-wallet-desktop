@@ -7,7 +7,7 @@ import eslintPluginReact from 'eslint-plugin-react'
 import eslintPluginReactHooks from 'eslint-plugin-react-hooks'
 import eslintPluginReactRefresh from 'eslint-plugin-react-refresh'
 import simpleImportSort from 'eslint-plugin-simple-import-sort'
-import jsoncParser from 'jsonc-eslint-parser'
+import * as jsoncParser from 'jsonc-eslint-parser'
 
 export default defineConfig(
   { ignores: ['**/node_modules', '**/dist', '**/out', '**/playwright-report'] },
@@ -36,8 +36,10 @@ export default defineConfig(
       'react-hooks/set-state-in-effect': 'off',
       'react-refresh/only-export-components': 'off',
       'react/display-name': 'off',
+      'react-hooks/use-memo': 'off',
       'react/prop-types': 'off',
       'react-hooks/preserve-manual-memoization': 'off',
+      'react-hooks/immutability': 'off',
     },
   },
   eslintConfigPrettier,

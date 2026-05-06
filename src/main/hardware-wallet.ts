@@ -18,10 +18,6 @@ import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 import { MainBlockchainServiceHelper } from './blockchain-service'
 
-const NodeHidTransportFixed = (NodeHidTransport as any).default as typeof NodeHidTransport
-
-export let transporter: Transport | undefined
-
 const { t } = SharedI18nextHelper.get()
 
 export class MainHardwareWalletHelper {
@@ -65,7 +61,7 @@ export class MainHardwareWalletHelper {
 
     const device = devices[0]
 
-    const transport = await NodeHidTransportFixed.open(device.path).catch(() => {
+    const transport = await NodeHidTransport.open(device.path).catch(() => {
       throw new AppError(t('hardwareWallet.errors.hardwareWalletNotFound'))
     })
 
