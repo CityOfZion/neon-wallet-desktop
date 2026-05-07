@@ -92,6 +92,7 @@
     "description": "您想导入哪些地址？",
     "importAllButtonLabel": "全部导入",
     "importSelectedButtonLabel": "导入所选",
+    "shouldConfirmActionKeyCheckboxLabel": "请求确认操作",
     "title": "导入地址"
   },
   "loginPassword": {
@@ -398,6 +399,7 @@
     },
     "personalisationOption": {
       "currency": "货币",
+      "general": "常规",
       "language": "语言",
       "mobileApp": "移动应用",
       "networkConfiguration": "网络配置",
@@ -421,6 +423,11 @@
     },
     "settingsCurrency": {
       "title": "货币"
+    },
+    "settingsGeneral": {
+      "shouldConfirmActionKeyCheckbox": "请求确认操作",
+      "shouldConfirmActionPasswordCheckbox": "请求密码以确认操作",
+      "title": "常规"
     },
     "settingsLanguage": {
       "title": "语言"
@@ -602,6 +609,7 @@
       "completedStep": {
         "label": "完成",
         "openWalletButtonLabel": "打开您的钱包",
+        "shouldConfirmActionPasswordCheckboxLabel": "请求密码以确认操作",
         "title": "钱包导入成功！"
       },
       "importStep": {
@@ -635,6 +643,7 @@
         "label": "完成",
         "locateBackupFileButtonLabel": "定位备份文件",
         "openSelectedPathButtonLabel": "打开文件夹",
+        "shouldConfirmActionPasswordCheckboxLabel": "请求密码以确认操作",
         "title": "密码创建成功！"
       },
       "confirmPasswordStep": {

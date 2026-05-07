@@ -8,6 +8,7 @@ import { Button } from '@renderer/components/Button'
 import { Textarea } from '@renderer/components/Textarea'
 
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+import { TestHelper } from '@renderer/helpers/TestHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
 import { TUseBackupOrMigrateActionsData, useBackupOrMigrate } from '@renderer/hooks/useBackupOrMigrate'
@@ -215,6 +216,7 @@ export const LoginPasswordImportWalletStep3Content = () => {
             clearable
             multiline={importActions.actionData.inputType === 'mnemonic'}
             errorMessage={importActions.actionState.errors.text}
+            {...TestHelper.buildTestObject('import-wallet-key-textarea')}
           />
         )}
 
@@ -247,6 +249,7 @@ export const LoginPasswordImportWalletStep3Content = () => {
           type="submit"
           disabled={importActions.actionData.text ? !importActions.actionState.isValid : !fileActions.actionData.path}
           loading={importActions.actionState.isActing || fileActions.actionState.isActing}
+          {...TestHelper.buildTestObject('import-wallet-key-submit')}
         />
       </form>
     </Fragment>

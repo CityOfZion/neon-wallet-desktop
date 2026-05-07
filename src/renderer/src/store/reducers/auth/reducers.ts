@@ -15,8 +15,15 @@ const setLoginSession: CaseReducer<TAuthReducer, PayloadAction<TLoginSession | u
 }
 
 const resetTemporaryApplicationData: CaseReducer<TAuthReducer> = state => {
-  state.data.applicationDataByLoginType.hardware = { wallets: [], notifications: [] }
-  state.data.applicationDataByLoginType.key = { wallets: [], notifications: [] }
+  state.data.applicationDataByLoginType.hardware = { wallets: [], notifications: [], shouldConfirmAction: false }
+  state.data.applicationDataByLoginType.key = { wallets: [], notifications: [], shouldConfirmAction: true }
+}
+
+const setShouldConfirmAction: CaseReducer<TAuthReducer, PayloadAction<boolean>> = (state, action) => {
+  const loginSessionType = state.memoryData.loginSession?.type
+  if (!loginSessionType) return
+
+  state.data.applicationDataByLoginType[loginSessionType].shouldConfirmAction = action.payload
 }
 
 // Wallet Reducers
@@ -149,4 +156,6 @@ export const authSliceReducers = {
   deleteAccount,
 
   saveNotification,
+
+  setShouldConfirmAction,
 }

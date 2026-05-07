@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 
 import { useTranslation } from 'react-i18next'
 
-import { useLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
+import { useLoginSessionSelector, useShouldConfirmActionSelector } from '@renderer/hooks/useAuthSelector'
 
 import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { TAccount } from '@shared/types/store'
@@ -17,6 +17,7 @@ export const useConfirmAction = () => {
   const { modalNavigate } = useModalNavigate()
   const { t } = useTranslation('hooks', { keyPrefix: 'useConfirmAction' })
   const { loginSessionRef } = useLoginSessionSelector()
+  const { shouldConfirmAction } = useShouldConfirmActionSelector()
 
   const confirmAction = useCallback(
     ({ account }: TConfirmActionParams) => {
@@ -29,7 +30,7 @@ export const useConfirmAction = () => {
           return handleReject()
         }
 
-        if (account.type === 'hardware' || loginSessionRef.current?.type === 'hardware') {
+        if (account.type === 'hardware' || loginSessionRef.current?.type === 'hardware' || !shouldConfirmAction) {
           resolve()
           return
         }
@@ -42,7 +43,7 @@ export const useConfirmAction = () => {
         })
       })
     },
-    [loginSessionRef, t, modalNavigate]
+    [loginSessionRef, shouldConfirmAction, modalNavigate, t]
   )
   return { confirmAction }
 }

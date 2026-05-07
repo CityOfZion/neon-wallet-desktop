@@ -92,6 +92,7 @@
     "description": "Quais endereços você gostaria de importar?",
     "importAllButtonLabel": "Importar todos",
     "importSelectedButtonLabel": "Importar selecionados",
+    "shouldConfirmActionKeyCheckboxLabel": "Solicitar confirmação de ações",
     "title": "Importar endereços"
   },
   "loginPassword": {
@@ -398,6 +399,7 @@
     },
     "personalisationOption": {
       "currency": "Moeda",
+      "general": "Geral",
       "language": "Idioma",
       "mobileApp": "Aplicativo Mobile",
       "networkConfiguration": "Configuração de Rede",
@@ -421,6 +423,11 @@
     },
     "settingsCurrency": {
       "title": "Moeda"
+    },
+    "settingsGeneral": {
+      "shouldConfirmActionKeyCheckbox": "Solicitar confirmação de ações",
+      "shouldConfirmActionPasswordCheckbox": "Solicitar senha para confirmar ações",
+      "title": "Geral"
     },
     "settingsLanguage": {
       "title": "Idioma"
@@ -602,6 +609,7 @@
       "completedStep": {
         "label": "Completo",
         "openWalletButtonLabel": "Abra sua wallet",
+        "shouldConfirmActionPasswordCheckboxLabel": "Solicitar senha para confirmar ações",
         "title": "Carteira importada com sucesso!"
       },
       "importStep": {
@@ -635,6 +643,7 @@
         "label": "Complete",
         "locateBackupFileButtonLabel": "Localizar backup",
         "openSelectedPathButtonLabel": "Abrir pasta",
+        "shouldConfirmActionPasswordCheckboxLabel": "Solicitar senha para confirmar ações",
         "title": "Senha criada com sucesso!"
       },
       "confirmPasswordStep": {

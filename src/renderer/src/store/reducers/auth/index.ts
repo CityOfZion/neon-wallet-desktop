@@ -11,6 +11,7 @@ export type TApplicationDataByLoginType = {
   [K in TLoginSessionType]: {
     wallets: TWallet[]
     notifications: TNotification[]
+    shouldConfirmAction: boolean
   }
 }
 
@@ -34,9 +35,9 @@ export function getAuthReducer() {
     },
     data: {
       applicationDataByLoginType: {
-        hardware: { wallets: [], notifications: [] },
-        key: { wallets: [], notifications: [] },
-        password: { wallets: [], notifications: [] },
+        hardware: { wallets: [], notifications: [], shouldConfirmAction: false },
+        key: { wallets: [], notifications: [], shouldConfirmAction: true },
+        password: { wallets: [], notifications: [], shouldConfirmAction: true },
       },
     },
   }
@@ -45,7 +46,7 @@ export function getAuthReducer() {
     key: 'authReducer',
     storage,
     blacklist: ['memoryData'],
-    version: 7,
+    version: 8,
     migrate: createMigrate(authMigrations),
     // It is necessary to check if the stored state is empty, because the redux-persist library does not call the migrate function when the state is empty
     getStoredState: async config => {

@@ -29,6 +29,7 @@ const ChangePasswordStep2Page = lazy(() => import('./pages/Settings/SettingsChan
 const ChangePasswordStep3Page = lazy(() => import('./pages/Settings/SettingsChangePassword/ChangePasswordStep3'))
 const SettingsCurrencyPage = lazy(() => import('./pages/Settings/SettingsCurrency'))
 const SettingsEncryptKeyPage = lazy(() => import('./pages/Settings/SettingsEncryptKey'))
+const SettingsGeneralPage = lazy(() => import('./pages/Settings/SettingsGeneral'))
 const SettingsLanguagePage = lazy(() => import('./pages/Settings/SettingsLanguage'))
 const SettingsMigrateWalletsPage = lazy(() => import('./pages/Settings/SettingsMigrateWallets'))
 const SettingsMobileAppPage = lazy(() => import('./pages/Settings/SettingsMobileApp'))
@@ -162,6 +163,10 @@ export const pagesRouter = createHashRouter([
                   {
                     path: 'language',
                     element: <SettingsLanguagePage />,
+                  },
+                  {
+                    path: 'general',
+                    element: <SettingsGeneralPage />,
                   },
                 ],
               },
