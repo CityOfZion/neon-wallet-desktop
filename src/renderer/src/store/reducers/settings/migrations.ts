@@ -253,7 +253,7 @@ export function getSettingsMigrations(defaultProfile: TNetworkProfile, testProfi
       const canShowNeo3VoteSupportUsModal = state.data.canShowVoteNeo3SupportUsModal
 
       delete state.data.showSideBar
-      delete state.date.canShowVoteNeo3SupportUsModal
+      delete state.data.canShowVoteNeo3SupportUsModal
 
       return {
         ...state,
