@@ -1,9 +1,9 @@
 import { BrowserWindow, Menu, type MenuItemConstructorOptions } from 'electron'
 
-const isMac = process.platform === 'darwin'
-
 export class MainMenuHelper {
   static setup() {
+    const isMac = process.platform === 'darwin'
+
     const template: MenuItemConstructorOptions[] = [
       { role: 'editMenu' },
       {
@@ -12,18 +12,16 @@ export class MainMenuHelper {
           { role: 'reload' },
           { role: 'forceReload' },
           {
-            role: 'toggleDevTools',
-            accelerator: isMac ? 'Command+Option+I' : 'F12',
+            label: 'Toggle DevTools',
+            accelerator: 'F12',
             click: () => {
               const [window] = BrowserWindow.getAllWindows()
               if (!window) return
-
               if (window.webContents.isDevToolsOpened()) {
                 window.webContents.closeDevTools()
-                return
+              } else {
+                window.webContents.openDevTools({ mode: 'detach' })
               }
-
-              window.webContents.openDevTools({ mode: 'detach' })
             },
           },
           {
