@@ -43,8 +43,9 @@
     "youHaveUnclaimed": "You have unclaimed {{symbol}}!"
   },
   "commonScreenActions": {
-    "chatWithUsButtonLabel": "Chat with us",
+    "chatWithUsButtonLabel": "Live support",
     "connectButtonLabel": "Connect",
+    "discordLinkLabel": "Join our Discord",
     "helpButtonLabel": "Help",
     "importButtonLabel": "Import",
     "newWalletButtonLabel": "New Wallet",

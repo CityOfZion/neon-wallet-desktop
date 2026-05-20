@@ -15,8 +15,6 @@ import { usePressOnce } from '@renderer/hooks/usePressOnce'
 import MdClose from '@renderer/assets/images/md-close.svg?react'
 import MdKeyboardBackspace from '@renderer/assets/images/md-keyboard-backspace.svg?react'
 
-import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
-
 export type TSideModalSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '1xl'
 
 export type TSideModalLayoutProps = {
@@ -63,7 +61,7 @@ export const SideModalLayout = ({
 
   const [isErasing, startErase] = usePressOnce(async () => {
     if (onErase) {
-      await Promise.all([onErase(), SharedUtilsHelper.sleep(500)])
+      await onErase()
     }
     modalErase()
   })

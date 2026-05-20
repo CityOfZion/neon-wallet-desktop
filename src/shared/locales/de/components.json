@@ -43,8 +43,9 @@
     "youHaveUnclaimed": "Sie haben nicht abgerufenes {{symbol}}!"
   },
   "commonScreenActions": {
-    "chatWithUsButtonLabel": "Mit uns chatten",
+    "chatWithUsButtonLabel": "Live-Support",
     "connectButtonLabel": "Verbinden",
+    "discordLinkLabel": "Unserem Discord beitreten",
     "helpButtonLabel": "Hilfe",
     "importButtonLabel": "Importieren",
     "newWalletButtonLabel": "Neues Wallet",

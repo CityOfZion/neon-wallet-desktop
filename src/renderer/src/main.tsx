@@ -6,6 +6,7 @@ import { RouterProvider } from 'react-router'
 import { SharedEnvHelper } from '@shared/helpers/SharedEnvHelper'
 
 import { AppBar } from './components/AppBar'
+import { CrispHelper } from './helpers/CrispHelper'
 import { SentryHelper } from './helpers/SentryHelper'
 import { pagesRouter } from './routes/pages-router'
 
@@ -13,6 +14,7 @@ import './assets/css/index.css'
 
 SharedEnvHelper.setup()
 SentryHelper.setup()
+CrispHelper.setup()
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>

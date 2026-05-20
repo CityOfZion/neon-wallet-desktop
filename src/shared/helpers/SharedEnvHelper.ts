@@ -11,6 +11,7 @@ const envSchema = z.object({
   VITE_CLICK_UP_KEY: z.string().nonempty().optional(),
   VITE_CLICK_UP_LIST_ID: z.string().nonempty().optional(),
   VITE_CLICK_UP_ASSIGNEE_ID: z.string().nonempty().optional(),
+  VITE_CRISP_WEBSITE_ID: z.string().nonempty().optional(),
 })
 
 const extendedEnvSchema = envSchema.extend({

@@ -12,7 +12,7 @@ import { Separator } from '@renderer/components/Separator'
 import { Stepper, TStepperState } from '@renderer/components/Stepper'
 
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
-import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
+import { CrispHelper } from '@renderer/helpers/CrispHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
@@ -22,7 +22,7 @@ import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 import MdRefresh from '@renderer/assets/images/md-refresh.svg?react'
 import TbCircleX from '@renderer/assets/images/tb-circle-x.svg?react'
-import TbExternalLink from '@renderer/assets/images/tb-external-link.svg?react'
+import TbMessage from '@renderer/assets/images/tb-message.svg?react'
 import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
 import TbReplace from '@renderer/assets/images/tb-replace.svg?react'
 import TbRosetteDiscountCheck from '@renderer/assets/images/tb-rosette-discount-check.svg?react'
@@ -299,15 +299,14 @@ const SwapDetailsModal = () => {
           onClick={handleGoToSwapLog}
         />
 
-        <Link
+        <Button
           label={t('helpButtonLabel')}
           className="grow"
-          target="_blank"
-          to={ConstantsHelper.cozDiscordUrl}
           flat
           wide
           iconsOnEdge={false}
-          rightIcon={<TbExternalLink aria-hidden />}
+          rightIcon={<TbMessage aria-hidden />}
+          onClick={CrispHelper.open}
         />
       </div>
     </SideModalLayout>
