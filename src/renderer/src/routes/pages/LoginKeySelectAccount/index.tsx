@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import { BSKeychainHelper } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
-import { Location, useLocation, useNavigate } from 'react-router'
+import { Location, useLocation } from 'react-router'
 
 import { Button } from '@renderer/components/Button'
 import { Checkbox } from '@renderer/components/Checkbox'
@@ -15,6 +15,7 @@ import { TestHelper } from '@renderer/helpers/TestHelper'
 
 import { useShouldConfirmActionSelector } from '@renderer/hooks/useAuthSelector'
 import { useLogin } from '@renderer/hooks/useLogin'
+import { useNavigateReset } from '@renderer/hooks/useNavigateReset'
 import { usePressOnce } from '@renderer/hooks/usePressOnce'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 
@@ -39,8 +40,8 @@ const LoginKeySelectAccountPage = () => {
   const [isShouldConfirmAction, setIsShouldConfirmAction] = useState(shouldConfirmAction)
   const { loginWithKey } = useLogin()
 
-  const navigate = useNavigate()
   const dispatch = useAppDispatch()
+  const navigateReset = useNavigateReset()
 
   const [selectedAccounts, setSelectedAccounts] = useState<TMnemonicOrKeyAccountWithBlockchain[]>([])
   const [allAccounts, setAllAccounts] = useState<TMnemonicOrKeyAccountWithBlockchain[]>([])
@@ -63,7 +64,7 @@ const LoginKeySelectAccountPage = () => {
     // It improves the user experience
     await SharedUtilsHelper.sleep(1000)
 
-    navigate('/wallets/overview')
+    navigateReset('/wallets/overview')
   }
 
   const [isImportingSelected, startImportSelected] = usePressOnce(() => handleImport(selectedAccounts))

@@ -12,6 +12,7 @@ import { TestHelper } from '@renderer/helpers/TestHelper'
 
 import { useImportAction } from '@renderer/hooks/useImportAction'
 import { useLogin } from '@renderer/hooks/useLogin'
+import { useNavigateReset } from '@renderer/hooks/useNavigateReset'
 
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 import { TAccountsToImport } from '@shared/types/blockchain'
@@ -20,6 +21,7 @@ export const LoginKeyTabContent = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'loginKey' })
   const { t: tCommon } = useTranslation('common')
   const navigate = useNavigate()
+  const navigateReset = useNavigateReset()
   const { loginWithKey } = useLogin()
 
   const submitKey = async (key: string) => {
@@ -48,7 +50,7 @@ export const LoginKeyTabContent = () => {
       type: 'standard',
     })
 
-    navigate('/wallets/overview')
+    navigateReset('/wallets/overview')
 
     // Improve UX
     await SharedUtilsHelper.sleep(2000)

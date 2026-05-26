@@ -2,7 +2,7 @@ import { ChangeEvent, Fragment } from 'react'
 
 import { BSKeychainHelper } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
-import { Location, useLocation, useNavigate } from 'react-router'
+import { Location, useLocation } from 'react-router'
 
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
@@ -15,6 +15,7 @@ import { useActions } from '@renderer/hooks/useActions'
 import { useExportMnemonic } from '@renderer/hooks/useExportMnemonic'
 import { useSignup } from '@renderer/hooks/useLogin'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+import { useNavigateReset } from '@renderer/hooks/useNavigateReset'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useCreateWallet } from '@renderer/hooks/useWalletActions'
 import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
@@ -41,7 +42,7 @@ export const LoginPasswordSecuritySetupStep2Content = ({ onSubmit }: TProps) => 
   const { state } = useLocation() as Location<TLocationState>
   const { t } = useTranslation('pages', { keyPrefix: 'welcome.securitySetup.confirmPasswordStep' })
   const { t: tCommon } = useTranslation('common')
-  const navigate = useNavigate()
+  const navigateReset = useNavigateReset()
   const { modalNavigate, modalErase } = useModalNavigate()
   const { createStandardAccount } = useCreateStandardAccount()
   const { createWallet } = useCreateWallet()
@@ -116,7 +117,7 @@ export const LoginPasswordSecuritySetupStep2Content = ({ onSubmit }: TProps) => 
 
           AnalyticsHelper.logEvent('onboarding_completed')
           modalErase()
-          navigate('/login-security-setup/3', { state: { selectedFilePath: actionData.selectedFilePath } })
+          navigateReset('/login-security-setup/3', { state: { selectedFilePath: actionData.selectedFilePath } })
         },
       },
     })

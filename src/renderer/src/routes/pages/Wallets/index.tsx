@@ -23,6 +23,7 @@ import { useAccountsMapSelector, useHasHardwareAccountSelector } from '@renderer
 import { useLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useBridgeNeo3NeoXValidations } from '@renderer/hooks/useBridgeNeo3NeoXValidations'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+import { useNavigateReset } from '@renderer/hooks/useNavigateReset'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useSelectedAccountSelector, useSelectedWalletSelector } from '@renderer/hooks/useSettingsSelector'
 import { useWalletsMapSelector, useWalletsSelector } from '@renderer/hooks/useWalletSelector'
@@ -63,6 +64,7 @@ const WalletsPage = () => {
   const { accountsMapRef } = useAccountsMapSelector()
   const { walletsMapRef } = useWalletsMapSelector()
   const navigate = useNavigate()
+  const navigateReset = useNavigateReset()
   const dispatch = useAppDispatch()
   const location = useLocation() as Location<TLocationState>
   const { canAccountBridge } = useBridgeNeo3NeoXValidations(selectedAccount)
@@ -176,9 +178,9 @@ const WalletsPage = () => {
 
   useLayoutEffect(() => {
     if (!hasNftMenuItem && location.pathname.startsWith('/wallets/nfts')) {
-      navigate('/wallets/overview', { state: { account: selectedAccount } })
+      navigateReset('/wallets/overview', { state: { account: selectedAccount } })
     }
-  }, [hasNftMenuItem, navigate, location.pathname, selectedAccount])
+  }, [hasNftMenuItem, navigateReset, location.pathname, selectedAccount])
 
   return (
     <MainLayout

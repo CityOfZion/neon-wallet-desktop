@@ -11,6 +11,7 @@ import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { useImportAccounts } from '@renderer/hooks/useAccountActions'
 import { useCreateContacts } from '@renderer/hooks/useContactActions'
 import { useSignup } from '@renderer/hooks/useLogin'
+import { useNavigateReset } from '@renderer/hooks/useNavigateReset'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useCreateWallet } from '@renderer/hooks/useWalletActions'
 
@@ -32,6 +33,7 @@ type TLocationState = {
 export const LoginPasswordImportWalletStep4Content = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'welcome.importWallet.importStep' })
   const { state } = useLocation() as Location<TLocationState>
+  const navigateReset = useNavigateReset()
   const navigate = useNavigate()
   const { createContacts } = useCreateContacts()
   const { createWallet } = useCreateWallet()
@@ -77,7 +79,7 @@ export const LoginPasswordImportWalletStep4Content = () => {
 
       AnalyticsHelper.logEvent('onboarding_completed')
 
-      navigate('/login-import-wallet-setup/5')
+      navigateReset('/login-import-wallet-setup/5')
     } catch (error) {
       ToastHelper.error({ message: AppError.wrap(error).displayMessage })
       navigate(-1)
