@@ -215,10 +215,10 @@
       "version": "3.10.0"
     },
     {
-      "changes": [],
-      "date": "2026-05-05",
-      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.11.0-rc.0",
-      "version": "3.11.0-rc.0"
+      "changes": ["新网络 - Stellar 支持", "新网络 - Bitcoin 支持", "UX 改进", "小错误修复"],
+      "date": "2026-05-28",
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.11.0",
+      "version": "3.11.0"
     }
   ],
   "versionLabel": "版本 v{{version}}"
