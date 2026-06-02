@@ -56,11 +56,17 @@ export const LoginKeyTabContent = () => {
     await SharedUtilsHelper.sleep(2000)
   }
 
+  const submitEncrypted = async (encryptedKey: string) => {
+    navigate('/login-encrypted-key-select-account', { state: { encryptedKey } })
+    await SharedUtilsHelper.sleep(2000)
+  }
+
   const { actionData, actionState, handleAct, handleChange, handleSubmit } = useImportAction(
     {
       key: submitKey,
       mnemonic: submitMnemonic,
       address: submitAddress,
+      encrypted: submitEncrypted,
     },
     { verifyIfAddressAlreadyExists: false }
   )

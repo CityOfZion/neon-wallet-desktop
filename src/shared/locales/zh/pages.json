@@ -77,6 +77,18 @@
     },
     "title": "欢迎使用Neon钱包"
   },
+  "loginEncryptedKeySelectAccount": {
+    "decryptDescription": "请输入您用于加密密钥的密码：",
+    "errors": {
+      "decrypt": "解密密钥时出现问题",
+      "noEncryptionInterface": "此密钥格式不受支持"
+    },
+    "importAllButtonLabel": "全部导入",
+    "importSelectedButtonLabel": "导入所选",
+    "passwordPlaceholder": "输入您的密码…",
+    "selectDescription": "您想导入哪些地址？",
+    "title": "导入加密密钥"
+  },
   "loginHardware": {
     "connectedMessage": "设备已检测到！正在打开您的钱包…",
     "notConnectedMessage": "未找到硬件钱包！请检查您的连接",

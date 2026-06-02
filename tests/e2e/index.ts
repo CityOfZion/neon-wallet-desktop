@@ -103,6 +103,21 @@ export const loginWithKey = async (window: Page, address: string) => {
   await sleep(1)
 }
 
+export const loginWithEncryptedKey = async (window: Page, encryptedKey: string, password: string) => {
+  await window.getByTestId('welcome-continue').click()
+  await window.getByTestId('welcome-tab-key').click()
+
+  await window.getByTestId('login-key-textarea').fill(encryptedKey)
+  await window.getByTestId('login-key-submit').click()
+
+  await sleep(1)
+
+  await window.getByTestId('login-encrypted-key-password').fill(password)
+  await window.getByTestId('login-encrypted-key-decrypt-submit').click()
+
+  await sleep(5)
+}
+
 export const logout = async (window: Page) => {
   await window.getByTestId('logout-button').click()
   await sleep(1)

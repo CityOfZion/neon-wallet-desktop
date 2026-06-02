@@ -77,6 +77,18 @@
     },
     "title": "Bem-vindo à Neon Wallet"
   },
+  "loginEncryptedKeySelectAccount": {
+    "decryptDescription": "Digite a senha que você usou para criptografar sua chave:",
+    "errors": {
+      "decrypt": "Houve um problema ao descriptografar a chave",
+      "noEncryptionInterface": "Este formato de chave não é suportado"
+    },
+    "importAllButtonLabel": "Importar todos",
+    "importSelectedButtonLabel": "Importar selecionados",
+    "passwordPlaceholder": "Digite sua senha…",
+    "selectDescription": "Quais endereços você gostaria de importar?",
+    "title": "Importar chave criptografada"
+  },
   "loginHardware": {
     "connectedMessage": "Dispositivo detectado! Abrindo sua carteira…",
     "notConnectedMessage": "Nenhuma carteira de hardware encontrada! Verifique sua conexão",
