@@ -92,6 +92,7 @@
     "description": "Which addresses would you like to import?",
     "importAllButtonLabel": "Import all",
     "importSelectedButtonLabel": "Import selected",
+    "shouldConfirmActionKeyCheckboxLabel": "Ask to confirm actions",
     "title": "Import addresses"
   },
   "loginPassword": {
@@ -398,6 +399,7 @@
     },
     "personalisationOption": {
       "currency": "Currency",
+      "general": "General",
       "language": "Language",
       "mobileApp": "Mobile App",
       "networkConfiguration": "Network Configuration",
@@ -421,6 +423,11 @@
     },
     "settingsCurrency": {
       "title": "Currency"
+    },
+    "settingsGeneral": {
+      "shouldConfirmActionKeyCheckbox": "Ask to confirm actions",
+      "shouldConfirmActionPasswordCheckbox": "Ask for password to confirm actions",
+      "title": "General"
     },
     "settingsLanguage": {
       "title": "Language"
@@ -602,6 +609,7 @@
       "completedStep": {
         "label": "Complete",
         "openWalletButtonLabel": "Open your wallet",
+        "shouldConfirmActionPasswordCheckboxLabel": "Ask for password to confirm actions",
         "title": "Wallet imported successfully!"
       },
       "importStep": {
@@ -635,6 +643,7 @@
         "label": "Complete",
         "locateBackupFileButtonLabel": "Locate backup file",
         "openSelectedPathButtonLabel": "Open folder",
+        "shouldConfirmActionPasswordCheckboxLabel": "Ask for password to confirm actions",
         "title": "Password created successfully!"
       },
       "confirmPasswordStep": {

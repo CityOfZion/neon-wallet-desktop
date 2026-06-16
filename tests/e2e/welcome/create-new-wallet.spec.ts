@@ -1,6 +1,13 @@
 import { expect, test } from '@playwright/test'
 
-import { createNewWallet, launch, PASSWORD } from '../index'
+import {
+  createNewWallet,
+  createWalletUntilCompletionStep,
+  importWalletUntilCompletionStep,
+  launch,
+  navigateToGeneralSettings,
+  PASSWORD,
+} from '../index'
 
 test.describe('Create new wallet', () => {
   test('Should create a new wallet when pass in all steps', async () => {
@@ -73,6 +80,96 @@ test.describe('Create new wallet', () => {
     const accountsLength = await window.getByTestId('accounts-wallet-list').locator('> li').count()
 
     expect(accountsLength).toBeGreaterThan(1)
+
+    await window.close()
+  })
+
+  test('Should display the "Ask for password to confirm actions" checkbox on the completion step', async () => {
+    const window = await launch()
+
+    await createWalletUntilCompletionStep(window)
+
+    await expect(window.locator('#should-confirm-action')).toBeVisible()
+
+    await window.close()
+  })
+
+  test('Should have the "Ask for password to confirm actions" checkbox checked by default on the completion step', async () => {
+    const window = await launch()
+
+    await createWalletUntilCompletionStep(window)
+
+    await expect(window.locator('#should-confirm-action')).toBeChecked()
+
+    await window.close()
+  })
+
+  test('Should allow toggling the "Ask for password to confirm actions" checkbox on the completion step', async () => {
+    const window = await launch()
+
+    await createWalletUntilCompletionStep(window)
+
+    const checkbox = window.locator('#should-confirm-action')
+
+    await checkbox.click()
+    await expect(checkbox).not.toBeChecked()
+
+    await checkbox.click()
+    await expect(checkbox).toBeChecked()
+
+    await window.close()
+  })
+})
+
+test.describe('Checkbox "Ask for password to confirm actions" persistence in settings', () => {
+  test('Should persist checked state in settings after importing a wallet', async () => {
+    const window = await launch()
+
+    await importWalletUntilCompletionStep(window)
+    await expect(window.locator('#should-confirm-action')).toBeChecked()
+    await window.getByTestId('import-wallet-open-your-wallet').click()
+    await navigateToGeneralSettings(window)
+
+    await expect(window.locator('#should-confirm-action')).toBeChecked()
+
+    await window.close()
+  })
+
+  test('Should persist checked state in settings after creating a wallet', async () => {
+    const window = await launch()
+
+    await createWalletUntilCompletionStep(window)
+    await expect(window.locator('#should-confirm-action')).toBeChecked()
+    await window.getByTestId('security-setup-open-your-wallet').click()
+    await navigateToGeneralSettings(window)
+
+    await expect(window.locator('#should-confirm-action')).toBeChecked()
+
+    await window.close()
+  })
+
+  test('Should persist unchecked state in settings after importing a wallet', async () => {
+    const window = await launch()
+
+    await importWalletUntilCompletionStep(window)
+    await window.locator('#should-confirm-action').click()
+    await window.getByTestId('import-wallet-open-your-wallet').click()
+    await navigateToGeneralSettings(window)
+
+    await expect(window.locator('#should-confirm-action')).not.toBeChecked()
+
+    await window.close()
+  })
+
+  test('Should persist unchecked state in settings after creating a wallet', async () => {
+    const window = await launch()
+
+    await createWalletUntilCompletionStep(window)
+    await window.locator('#should-confirm-action').click()
+    await window.getByTestId('security-setup-open-your-wallet').click()
+    await navigateToGeneralSettings(window)
+
+    await expect(window.locator('#should-confirm-action')).not.toBeChecked()
 
     await window.close()
   })

@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { Location, useLocation, useNavigate } from 'react-router'
 
 import { Button } from '@renderer/components/Button'
+import { Checkbox } from '@renderer/components/Checkbox'
 import {
   MnemonicOrKeyAccountSelection,
   TMnemonicOrKeyAccountWithBlockchain,
@@ -12,11 +13,14 @@ import {
 
 import { TestHelper } from '@renderer/helpers/TestHelper'
 
+import { useShouldConfirmActionSelector } from '@renderer/hooks/useAuthSelector'
 import { useLogin } from '@renderer/hooks/useLogin'
 import { usePressOnce } from '@renderer/hooks/usePressOnce'
+import { useAppDispatch } from '@renderer/hooks/useRedux'
 
 import { WelcomeLayout } from '@renderer/layouts/Welcome'
 
+import { authReducerActions } from '@renderer/store/reducers/auth'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 import { TAccountsToImport } from '@shared/types/blockchain'
 
@@ -30,11 +34,20 @@ const LoginKeySelectAccountPage = () => {
   } = useLocation() as Location<TLocationState>
   const { t: tCommon } = useTranslation('common')
   const { t } = useTranslation('pages', { keyPrefix: 'loginKeySelectAccountPage' })
+
+  const { shouldConfirmAction } = useShouldConfirmActionSelector('key')
+  const [isShouldConfirmAction, setIsShouldConfirmAction] = useState(shouldConfirmAction)
   const { loginWithKey } = useLogin()
+
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
 
   const [selectedAccounts, setSelectedAccounts] = useState<TMnemonicOrKeyAccountWithBlockchain[]>([])
   const [allAccounts, setAllAccounts] = useState<TMnemonicOrKeyAccountWithBlockchain[]>([])
+
+  const handleIsShouldConfirmActionChange = (value: boolean) => {
+    setIsShouldConfirmAction(value)
+  }
 
   const handleImport = async (accountsToImport: TMnemonicOrKeyAccountWithBlockchain[]) => {
     const isMnemonic = BSKeychainHelper.isValidMnemonic(mnemonicOrKey)
@@ -44,6 +57,8 @@ const LoginKeySelectAccountPage = () => {
       type: 'standard',
       mnemonic: isMnemonic ? mnemonicOrKey : undefined,
     })
+
+    dispatch(authReducerActions.setShouldConfirmAction(isShouldConfirmAction))
 
     // It improves the user experience
     await SharedUtilsHelper.sleep(1000)
@@ -86,6 +101,15 @@ const LoginKeySelectAccountPage = () => {
           onClick={startImportSelected}
           {...TestHelper.buildTestObject('login-key-select-account-import-selected')}
         />
+      </div>
+
+      <div className="flex items-center justify-center gap-2 pt-4 text-white">
+        <Checkbox
+          id="should-confirm-action"
+          checked={isShouldConfirmAction}
+          onCheckedChange={handleIsShouldConfirmActionChange}
+        />
+        <label htmlFor="should-confirm-action">{t('shouldConfirmActionKeyCheckboxLabel')}</label>
       </div>
     </WelcomeLayout>
   )

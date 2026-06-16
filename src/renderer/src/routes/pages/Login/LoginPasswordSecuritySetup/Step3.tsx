@@ -2,12 +2,18 @@ import { useTranslation } from 'react-i18next'
 import { Location, useLocation } from 'react-router'
 
 import { Button } from '@renderer/components/Button'
+import { Checkbox } from '@renderer/components/Checkbox'
 import { Link } from '@renderer/components/Link'
 
 import { TestHelper } from '@renderer/helpers/TestHelper'
 
+import { useShouldConfirmActionSelector } from '@renderer/hooks/useAuthSelector'
+import { useAppDispatch } from '@renderer/hooks/useRedux'
+
 import MdOutlineAutoAwesome from '@renderer/assets/images/md-outline-auto-awesome.svg?react'
 import TbRosetteDiscountCheck from '@renderer/assets/images/tb-rosette-discount-check.svg?react'
+
+import { authReducerActions } from '@renderer/store/reducers/auth'
 
 type TLocationState = {
   selectedFilePath: string
@@ -16,6 +22,12 @@ type TLocationState = {
 export const LoginPasswordSecuritySetupStep3Content = () => {
   const { state } = useLocation() as Location<TLocationState>
   const { t } = useTranslation('pages', { keyPrefix: 'welcome.securitySetup.completedStep' })
+  const { shouldConfirmAction } = useShouldConfirmActionSelector()
+  const dispatch = useAppDispatch()
+
+  const handleIsShouldConfirmActionChange = (value: boolean) => {
+    dispatch(authReducerActions.setShouldConfirmAction(value))
+  }
 
   const handleOpenSelectedFilePath = async () => {
     await window.api.sendAsync('window:openFile', state.selectedFilePath)
@@ -46,6 +58,15 @@ export const LoginPasswordSecuritySetupStep3Content = () => {
           iconsOnEdge={false}
           {...TestHelper.buildTestObject('security-setup-open-your-wallet')}
         />
+      </div>
+
+      <div className="flex items-center justify-center gap-2 pt-2 text-white">
+        <Checkbox
+          id="should-confirm-action"
+          checked={shouldConfirmAction}
+          onCheckedChange={handleIsShouldConfirmActionChange}
+        />
+        <label htmlFor="should-confirm-action">{t('shouldConfirmActionPasswordCheckboxLabel')}</label>
       </div>
     </div>
   )

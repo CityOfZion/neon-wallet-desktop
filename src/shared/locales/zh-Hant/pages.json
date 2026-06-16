@@ -92,6 +92,7 @@
     "description": "您想匯入哪些地址？",
     "importAllButtonLabel": "全部匯入",
     "importSelectedButtonLabel": "匯入所選",
+    "shouldConfirmActionKeyCheckboxLabel": "要求確認操作",
     "title": "匯入地址"
   },
   "loginPassword": {
@@ -398,6 +399,7 @@
     },
     "personalisationOption": {
       "currency": "貨幣",
+      "general": "一般",
       "language": "語言",
       "mobileApp": "行動應用程式",
       "networkConfiguration": "網路設定",
@@ -421,6 +423,11 @@
     },
     "settingsCurrency": {
       "title": "貨幣"
+    },
+    "settingsGeneral": {
+      "shouldConfirmActionKeyCheckbox": "要求確認操作",
+      "shouldConfirmActionPasswordCheckbox": "要求輸入密碼以確認操作",
+      "title": "一般"
     },
     "settingsLanguage": {
       "title": "語言"
@@ -602,6 +609,7 @@
       "completedStep": {
         "label": "完成",
         "openWalletButtonLabel": "打開您的錢包",
+        "shouldConfirmActionPasswordCheckboxLabel": "要求輸入密碼以確認操作",
         "title": "錢包導入成功！"
       },
       "importStep": {
@@ -635,6 +643,7 @@
         "label": "完成",
         "locateBackupFileButtonLabel": "定位備份檔案",
         "openSelectedPathButtonLabel": "開啟資料夾",
+        "shouldConfirmActionPasswordCheckboxLabel": "要求輸入密碼以確認操作",
         "title": "密碼已成功建立！"
       },
       "confirmPasswordStep": {

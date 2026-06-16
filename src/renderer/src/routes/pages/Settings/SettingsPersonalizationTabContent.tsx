@@ -4,7 +4,10 @@ import { MenuLink } from '@renderer/components/MenuLink'
 
 import { TestHelper } from '@renderer/helpers/TestHelper'
 
+import { useLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
+
 import BsCash from '@renderer/assets/images/bs-cash.svg?react'
+import MdOutlineLanguage from '@renderer/assets/images/md-outline-language.svg?react'
 import MdOutlineListAlt from '@renderer/assets/images/md-outline-list-alt.svg?react'
 import TbCube3dSphere from '@renderer/assets/images/tb-cube-3d-sphere.svg?react'
 import TbDeviceMobile from '@renderer/assets/images/tb-device-mobile.svg?react'
@@ -12,6 +15,7 @@ import TbMessage from '@renderer/assets/images/tb-message.svg?react'
 
 export const SettingsPersonalizationTabContent = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'settings' })
+  const { loginSession } = useLoginSessionSelector()
 
   return (
     <nav className="mb-5 flex h-15 w-full flex-row justify-between text-[14px]">
@@ -34,8 +38,23 @@ export const SettingsPersonalizationTabContent = () => {
             layoutId="settings-personalisation"
             className="px-3 py-2 text-sm"
             rightElement={null}
+            iconElement={<MdOutlineLanguage aria-hidden />}
+            to="/settings/personalisation/general"
+            disabled={loginSession?.type === 'hardware'}
+            {...TestHelper.buildTestObject('settings-general-configuration-link')}
+          >
+            {t('personalisationOption.general')}
+          </MenuLink>
+        </li>
+
+        <li>
+          <MenuLink
+            layoutId="settings-personalisation"
+            className="px-3 py-2 text-sm"
+            rightElement={null}
             iconElement={<TbMessage aria-hidden />}
             to="/settings/personalisation/language"
+            {...TestHelper.buildTestObject('settings-language-configuration-link')}
           >
             {t('personalisationOption.language')}
           </MenuLink>

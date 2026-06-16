@@ -34,6 +34,7 @@ export const LoginPasswordWelcomeContent = () => {
 
         <li>
           <LoginPasswordCardLink
+            {...TestHelper.buildTestObject('import-wallet')}
             to="/login-import-wallet-setup/1"
             title={t('cardLinks.importExternalWallet.title')}
             icon={<TbFileImport aria-hidden />}

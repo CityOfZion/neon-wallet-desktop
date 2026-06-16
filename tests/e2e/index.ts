@@ -37,6 +37,13 @@ export const launch = async (shouldResetStorage = true) => {
 export const sleep = (seconds: number): Promise<void> => new Promise(resolve => setTimeout(resolve, seconds * 1000))
 
 export const createNewWallet = async (window: Page) => {
+  await createWalletUntilCompletionStep(window)
+  await window.getByTestId('security-setup-open-your-wallet').click()
+
+  await sleep(1)
+}
+
+export const createWalletUntilCompletionStep = async (window: Page) => {
   await window.getByTestId('welcome-continue').click()
   await window.getByTestId('create-new-wallet').click()
   await window.getByTestId('security-setup-first-password').fill(PASSWORD)
@@ -56,7 +63,32 @@ export const createNewWallet = async (window: Page) => {
   }
 
   await window.getByTestId('blockchain-selection-submit').click()
-  await window.getByTestId('security-setup-open-your-wallet').click()
+}
+
+export const navigateToGeneralSettings = async (window: Page) => {
+  await window.getByTestId('sidebar-settings').click()
+  await window.getByTestId('settings-general-configuration-link').click()
+}
+
+export const importWalletUntilCompletionStep = async (window: Page) => {
+  const mnemonic = process.env.TEST_MNEMONIC
+  if (!mnemonic) {
+    throw new Error('TEST_MNEMONIC is not defined')
+  }
+
+  await window.getByTestId('welcome-continue').click()
+  await window.getByTestId('import-wallet').click()
+  await window.getByTestId('security-setup-first-password').fill(PASSWORD)
+  await window.getByTestId('security-setup-first-submit').click()
+  await window.getByTestId('security-setup-second-password').fill(PASSWORD)
+  await window.getByTestId('security-setup-second-submit').click()
+  await window.getByTestId('import-wallet-key-textarea').fill(mnemonic)
+  await window.getByTestId('import-wallet-key-submit').click()
+}
+
+export const importWallet = async (window: Page) => {
+  await importWalletUntilCompletionStep(window)
+  await window.getByTestId('import-wallet-open-your-wallet').click()
 
   await sleep(1)
 }
