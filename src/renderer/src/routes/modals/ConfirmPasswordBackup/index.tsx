@@ -13,7 +13,7 @@ import { ToastHelper } from '@renderer/helpers/ToastHelper'
 import { useActions } from '@renderer/hooks/useActions'
 import { useLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
-import { useNeonCreateBackup } from '@renderer/hooks/useNeonBackup'
+import { useNeonCreateBackup } from '@renderer/hooks/useNeonBackupFile'
 
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 

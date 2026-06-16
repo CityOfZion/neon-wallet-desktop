@@ -141,7 +141,7 @@
         "BETA Access to Linux Build",
         "Refresh Blockchain Data Button",
         "Enhancement to Neo X Transaction list - Link to XExplorer",
-        "Performance Enhancement when waking up NEON"
+        "Performance Enhancement when waking up Neon"
       ],
       "date": "2024-09-20",
       "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.1.0",
@@ -167,7 +167,7 @@
     },
     {
       "changes": [
-        "The new generation of Neon Wallet 3 has arrived, and our self-custodial wallet is better than ever! Since 2017, our mission is to deliver a smooth and enjoyable experience by combining the most modern technologies with an elegant and functional design. Our philosophy remains the same, but Neon certainly does not. Since its launch, it has undergone numerous improvements, and its third generation is here to show that it is ready for the new era of Web3. Here's what's new in this version:",
+        "The new generation of Neon Wallet has arrived, and our self-custodial wallet is better than ever! Since 2017, our mission is to deliver a smooth and enjoyable experience by combining the most modern technologies with an elegant and functional design. Our philosophy remains the same, but Neon certainly does not. Since its launch, it has undergone numerous improvements, and its third generation is here to show that it is ready for the new era of Web3. Here's what's new in this version:",
         "Ethereum & Neo X support",
         "New product design",
         "Common Platform Code",

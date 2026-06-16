@@ -31,7 +31,7 @@ const SettingsCurrencyPage = lazy(() => import('./pages/Settings/SettingsCurrenc
 const SettingsEncryptKeyPage = lazy(() => import('./pages/Settings/SettingsEncryptKey'))
 const SettingsGeneralPage = lazy(() => import('./pages/Settings/SettingsGeneral'))
 const SettingsLanguagePage = lazy(() => import('./pages/Settings/SettingsLanguage'))
-const SettingsMigrateWalletsPage = lazy(() => import('./pages/Settings/SettingsMigrateWallets'))
+const SettingsNeonMigratePage = lazy(() => import('./pages/Settings/SettingsNeonMigrate'))
 const SettingsMobileAppPage = lazy(() => import('./pages/Settings/SettingsMobileApp'))
 const SettingsNetworkPage = lazy(() => import('./pages/Settings/SettingsNetwork'))
 const SettingsRecoverWalletPage = lazy(() => import('./pages/Settings/SettingsRecoverWallet'))
@@ -205,7 +205,7 @@ export const pagesRouter = createHashRouter([
                   },
                   {
                     path: 'migrate-accounts',
-                    element: <SettingsMigrateWalletsPage />,
+                    element: <SettingsNeonMigratePage />,
                   },
                 ],
               },

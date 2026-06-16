@@ -152,7 +152,7 @@ export const useNeonCreateBackup = () => {
       })
 
       await window.api.sendAsync('window:saveFile', {
-        path: `${selectedFilePath}/NEON-backup-${DateHelper.getCurrentFullDateString()}.${NeonBackupHelper.fileExtension}`,
+        path: `${selectedFilePath}/neon-backup-${DateHelper.getCurrentFullDateString()}.${NeonBackupHelper.fileExtension}`,
         content: JSON.stringify(backupFile),
       })
     } catch (error) {
@@ -165,14 +165,14 @@ export const useNeonCreateBackup = () => {
   }
 }
 
-export const useNeonImportBackup = () => {
-  const { t } = useTranslation('hooks', { keyPrefix: 'useNeonImportBackup' })
+export const useNeonBackupFile = () => {
+  const { t } = useTranslation('hooks', { keyPrefix: 'useNeonBackupFile' })
   const dispatch = useAppDispatch()
   const { importAccounts } = useImportAccounts()
   const { createWallet } = useCreateWallet()
   const { doesAccountExist } = useAccountUtils()
 
-  const validateAndParseFile = async (
+  const validateAndParseBackupFile = async (
     filePath: string,
     fileContent: string
   ): Promise<TUseNeonBackupData | TUseNeonBackupDeprecatedData | undefined> => {
@@ -321,7 +321,7 @@ export const useNeonImportBackup = () => {
   }
 
   return {
-    validateAndParseFile,
+    validateAndParseBackupFile,
     handleImportBackupData,
     handleTryDecryptData,
     handleGenerateData,

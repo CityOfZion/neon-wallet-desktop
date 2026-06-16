@@ -29,9 +29,11 @@ const ExportMnemonicModal = lazy(() => import('./modals/ExportMnemonic'))
 const ImportAccountsSelectionModal = lazy(() => import('./modals/ImportAccountsSelection'))
 const ImportModal = lazy(() => import('./modals/Import'))
 const ImportWatchAccountsModal = lazy(() => import('./modals/ImportWatchAccounts'))
-const MigrateAccountsStep2Modal = lazy(() => import('./modals/MigrateAccountsStep2'))
-const MigrateAccountsStep3Modal = lazy(() => import('./modals/MigrateAccountsStep3'))
-const MigrateAccountsStep4Modal = lazy(() => import('./modals/MigrateAccountsStep4'))
+const NeonMigrateStep2Modal = lazy(() => import('./modals/NeonMigrateStep2'))
+const NeonMigrateStep3Modal = lazy(() => import('./modals/NeonMigrateStep3'))
+const NeonMigrateStep4Modal = lazy(() => import('./modals/NeonMigrateStep4'))
+const Nep6BackupImportStep3Modal = lazy(() => import('./modals/Nep6BackupImportStep3'))
+const Nep6BackupImportStep4Modal = lazy(() => import('./modals/Nep6BackupImportStep4'))
 const Neo3NeoxBridgeConfirmationModal = lazy(() => import('./modals/Neo3NeoxBridgeConfirmation'))
 const Neo3NeoxBridgeDetailsModal = lazy(() => import('./modals/Neo3NeoxBridgeDetails'))
 const NetworkUrlSelectionModal = lazy(() => import('./modals/NetworkUrlSelection'))
@@ -79,9 +81,11 @@ const sideModalsRouter: TRoute[] = [
   { name: 'import', element: ImportModal },
   { name: 'import-accounts-selection', element: ImportAccountsSelectionModal },
   { name: 'import-watch-accounts', element: ImportWatchAccountsModal },
-  { name: 'migrate-accounts-step-2', element: MigrateAccountsStep2Modal },
-  { name: 'migrate-accounts-step-3', element: MigrateAccountsStep3Modal },
-  { name: 'migrate-accounts-step-4', element: MigrateAccountsStep4Modal },
+  { name: 'neon-migrate-step-2', element: NeonMigrateStep2Modal },
+  { name: 'neon-migrate-step-3', element: NeonMigrateStep3Modal },
+  { name: 'neon-migrate-step-4', element: NeonMigrateStep4Modal },
+  { name: 'nep6-backup-import-step-3', element: Nep6BackupImportStep3Modal },
+  { name: 'nep6-backup-import-step-4', element: Nep6BackupImportStep4Modal },
   { name: 'neo3-neox-bridge-confirmation', element: Neo3NeoxBridgeConfirmationModal },
   { name: 'neo3-neox-bridge-details', element: Neo3NeoxBridgeDetailsModal },
   { name: 'network-url-selection', element: NetworkUrlSelectionModal },

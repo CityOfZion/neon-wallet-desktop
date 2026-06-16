@@ -99,6 +99,7 @@
     "firstWalletName": "Mein erstes Wallet",
     "importedName": "Importiertes Wallet",
     "ledgerName": "{{blockchain}} Ledger Wallet",
+    "migratedAccountLabel": "Migriertes Konto",
     "migratedWalletName": "Migriertes Wallet",
     "mnemonicWalletName": "Mnemonic-Wallet",
     "watchAccount": "Konto beobachten"

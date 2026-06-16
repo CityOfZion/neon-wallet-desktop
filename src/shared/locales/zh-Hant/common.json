@@ -99,6 +99,7 @@
     "firstWalletName": "我的第一個錢包",
     "importedName": "已導入錢包",
     "ledgerName": "{{blockchain}} Ledger 錢包",
+    "migratedAccountLabel": "已遷移帳戶",
     "migratedWalletName": "已遷移錢包",
     "mnemonicWalletName": "助記詞錢包",
     "watchAccount": "觀察帳戶"

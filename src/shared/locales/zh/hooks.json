@@ -1,12 +1,4 @@
 {
-  "useBackupOrMigrate": {
-    "defaultAccountLabel": "已迁移账户",
-    "defaultContactName": "已迁移联系人",
-    "error": "无法识别的文件",
-    "filterName": "Neon 备份或迁移文件",
-    "neon2MigrateFileDetected": "检测到 NEON2 迁移文件",
-    "neon3BackupFileDetected": "检测到 NEON3 备份文件"
-  },
   "useConfirmAction": {
     "unauthorizedAction": "未授权。请重试或联系支持。"
   },
@@ -34,6 +26,14 @@
       "mnemonicIncomplete": "助记词不完整"
     }
   },
+  "useImportFromFile": {
+    "error": "无法识别的文件",
+    "filterName": "备份或迁移文件",
+    "migratedContactName": "已迁移联系人",
+    "neon2MigrateFileDetected": "检测到 Neon 2 迁移文件",
+    "neonBackupFileDetected": "检测到 Neon 备份文件",
+    "nep6BackupFileDetected": "检测到 NEP-6 备份文件"
+  },
   "useLogin": {
     "controlIsNotSet": "意外错误。登录控件未设置。",
     "controlIsNotValid": "意外错误。登录控件无效。"
@@ -44,11 +44,11 @@
       "unexpectedError": "意外错误。请重启应用。"
     }
   },
-  "useNeonImportBackup": {
+  "useNeonBackupFile": {
     "errors": {
       "importData": "导入数据时出错（可能已部分导入）。",
       "wrongPassword": "密码错误。请重试。",
-      "wrongVersion": "备份文件版本不受支持。请尝试在最新的 NEON 版本中生成新的备份。"
+      "wrongVersion": "备份文件版本不受支持。请尝试在最新的 Neon 版本中生成新的备份。"
     }
   },
   "usePersistTrustlineMutation": {

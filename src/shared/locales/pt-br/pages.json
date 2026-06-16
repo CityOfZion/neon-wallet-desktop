@@ -115,7 +115,7 @@
         },
         "migrateFromNeon2": {
           "text": "Quero <1>migrar</1> minha carteira Neon 2",
-          "title": "Migrar da NEON 2"
+          "title": "Migrar da Neon 2"
         }
       },
       "text": "O que você gostaria de fazer com a Neon?"
@@ -137,7 +137,7 @@
       "alert": "A COZ não é mantenedora deste processo de bridge - A Neo Global Development é a mantenedora.",
       "description1": "Faça bridge facilmente de seus ativos cripto entre redes, sem nunca sair da sua carteira.",
       "description2": "As blockchains são independentes umas das outras e não podem interagir entre si - É aí que entram as bridges. É semelhante em princípio a fazer câmbio ao viajar para diferentes países, uma bridge permite transferir ativos entre várias blockchains.",
-      "description3": "Fazer bridge de tokens direta e imediatamente na NEON é conveniente e permite economizar tempo e pagar taxas mais baixas.",
+      "description3": "Fazer bridge de tokens direta e imediatamente na Neon é conveniente e permite economizar tempo e pagar taxas mais baixas.",
       "title": "Como funciona?"
     },
     "form": {
@@ -269,7 +269,7 @@
     },
     "walletTasksManagerSetup": {
       "useBackupReminderNotificationProcess": {
-        "notificationDescription": "Recomendamos criar um novo arquivo de backup em \"Configurações > Segurança > Backup NEON\" para proteger suas carteiras. Para segurança adicional, você também pode exportar manualmente seus mnemônicos em \"Carteiras > 3 pontos (Ferramentas) > Exportar\" e chaves privadas em \"Carteiras > 3 pontos > Exportar chave\".",
+        "notificationDescription": "Recomendamos criar um novo arquivo de backup em \"Configurações > Segurança > Backup Neon\" para proteger suas carteiras. Para segurança adicional, você também pode exportar manualmente seus mnemônicos em \"Carteiras > 3 pontos (Ferramentas) > Exportar\" e chaves privadas em \"Carteiras > 3 pontos > Exportar chave\".",
         "notificationTitle": "Crie um novo arquivo de backup!"
       }
     }
@@ -372,7 +372,7 @@
         "subtitle": "Se você perder sua senha, ela não é recuperável."
       },
       "step3": {
-        "subtitle": "Sua senha NEON 3 foi alterada com sucesso!"
+        "subtitle": "Sua senha Neon foi alterada com sucesso!"
       },
       "title": "Alterar Senha"
     },
@@ -411,18 +411,18 @@
       "theme": "Tema"
     },
     "securityOption": {
-      "backupWallet": "Backup NEON",
+      "backupWallet": "Backup Neon",
       "changePassword": "Alterar senha",
       "encryptKey": "Criptografar Chave",
-      "migrateWallets": "Migrar da NEON 2.0",
-      "recoverWallet": "Importar Backup NEON"
+      "migrateWallets": "Migrar da Neon 2",
+      "recoverWallet": "Importar backup"
     },
     "settingsBackupWallet": {
       "backup": "Fazer Backup",
       "browse": "Procurar…",
       "description": "Salve um arquivo de backup em seu computador que permitirá restaurar sua carteira no caso de perder o acesso ou danificar seu dispositivo.",
       "saveBackupLabel": "Onde você gostaria de salvar seu backup?",
-      "title": "Backup NEON",
+      "title": "Backup Neon",
       "warning": "Nota: Este processo fará backup de toda a sua carteira"
     },
     "settingsCurrency": {
@@ -436,14 +436,6 @@
     "settingsLanguage": {
       "title": "Idioma"
     },
-    "settingsMigrateWallets": {
-      "descriptionWhy": "Migrar sua carteira NEON 2 lhe dará acesso a uma gama mais ampla de ativos suportados e uma experiência de usuário mais elegante e melhorada que tornará o gerenciamento de seus ativos muito fácil!",
-      "importButtonLabel": "Importar sua carteira NEON 2",
-      "startProcessButtonLabel": "Iniciar o processo no NEON 2",
-      "subtitleHow": "Como migro da Neon 2?",
-      "subtitleWhy": "Por que migrar para o NEON 3?",
-      "title": "Migrar da NEON 2.0"
-    },
     "settingsMobileApp": {
       "appStoreImageLabel": "Baixe na App Store",
       "descriptionLine1": "Armazene, visualize e gerencie com segurança todos os seus ativos digitais e várias carteiras em um só lugar.",
@@ -451,6 +443,14 @@
       "playStoreImageLabel": "Baixe no Google Play",
       "subtitle": "Sua carteira também está disponível no celular!",
       "title": "Aplicativo Mobile"
+    },
+    "settingsNeonMigrate": {
+      "descriptionWhy": "Migrar sua carteira Neon 2 lhe dará acesso a uma gama mais ampla de ativos suportados e uma experiência de usuário mais elegante e melhorada que tornará o gerenciamento de seus ativos muito fácil!",
+      "importButtonLabel": "Importar sua carteira Neon 2",
+      "startProcessButtonLabel": "Iniciar o processo no Neon 2",
+      "subtitleHow": "Como migro da Neon 2?",
+      "subtitleWhy": "Por que migrar para o Neon?",
+      "title": "Migrar da Neon 2"
     },
     "settingsNetwork": {
       "createProfileButtonLabel": "Criar perfil",
@@ -465,10 +465,10 @@
     "settingsRecoverWallet": {
       "backup": "Importar backup",
       "browse": "Procurar…",
-      "description": "No caso de perder o acesso à sua carteira, você pode importá-la de um arquivo de backup local. Simplesmente localize seu arquivo de backup local e digite a senha que você usou ao criar o arquivo de backup e seu acesso será restaurado.",
-      "nameExtension": "Arquivos de Backup NEON",
+      "description": "Se você perdeu o acesso à sua carteira ou simplesmente deseja abrir uma a partir de um backup, pode importá-la de um arquivo de backup local — incluindo backups da Neon e NEP-6. Basta localizar o arquivo e digitar a senha que você definiu ao criá-lo.",
+      "nameExtension": "Arquivos de backup Neon",
       "saveBackupLabel": "Localize seu arquivo de backup",
-      "title": "Importar Backup NEON"
+      "title": "Importar backup"
     },
     "settingsReleaseNotes": {
       "button": {
@@ -485,7 +485,7 @@
   "swap": {
     "explanation": {
       "description1": "Troque tokens por outros tokens, entre redes, sem usar uma exchange.",
-      "description2": "Fazer swap direta e imediatamente na NEON é conveniente e permite economizar tempo e pagar taxas mais baixas.",
+      "description2": "Fazer swap direta e imediatamente na Neon é conveniente e permite economizar tempo e pagar taxas mais baixas.",
       "title": "Como funciona?",
       "useTitle": "A Neon wallet usa:"
     },

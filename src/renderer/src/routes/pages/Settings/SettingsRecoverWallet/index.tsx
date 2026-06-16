@@ -5,7 +5,7 @@ import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 
-import { TUseBackupOrMigrateActionsData, useBackupOrMigrate } from '@renderer/hooks/useBackupOrMigrate'
+import { TUseImportFromFileActionsData, useImportFromFile } from '@renderer/hooks/useImportFromFile'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 
 import { SettingsLayout } from '@renderer/layouts/Settings'
@@ -14,16 +14,21 @@ import TbReload from '@renderer/assets/images/tb-reload.svg?react'
 
 const SettingsRecoverWallet = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'settings.settingsRecoverWallet' })
-  const { actionData, handleBrowse, actionState, handleAct } = useBackupOrMigrate()
+  const { actionData, handleBrowse, actionState, handleAct } = useImportFromFile()
   const { modalNavigate } = useModalNavigate()
   const navigate = useNavigate()
 
-  const handleSubmit = async (data: TUseBackupOrMigrateActionsData) => {
+  const handleSubmit = async (data: TUseImportFromFileActionsData) => {
     if (!data.content || !data.path || !data.type) return
 
     if (data.type === 'migrate') {
       navigate('/settings/security/migrate-accounts')
-      modalNavigate('migrate-accounts-step-3', { state: { content: data.content } })
+      modalNavigate('neon-migrate-step-3', { state: { content: data.content } })
+      return
+    }
+
+    if (data.type === 'nep6') {
+      modalNavigate('nep6-backup-import-step-3', { state: { content: data.content } })
       return
     }
 

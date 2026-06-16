@@ -14,12 +14,12 @@ import type { Dispatch, JSX } from 'react'
 
 import type { TBlockchainServiceKey, TNetwork } from './blockchain'
 import type {
+  TUseImportSharedAccountsSchema,
+  TUseImportSharedGeneratedData,
+  TUseImportSharedParsedContent,
   TUseNeonBackupData,
   TUseNeonBackupDeprecatedData,
   TUseNeonBackupGeneratedData,
-  TUseNeonMigrateAccountsSchema,
-  TUseNeonMigrateGeneratedData,
-  TUseNeonMigrateParsedContent,
 } from './hooks'
 import type { TTokenBalance } from './query'
 import type { TAccount, TContact, TContactAddress, TNetworkProfile, TSwapRecord, TWallet } from './store'
@@ -153,15 +153,15 @@ type TImportWatchAccountsModalState =
     }
   | undefined
 
-type TMigrateAccountsStep3ModalState = {
-  content: TUseNeonMigrateParsedContent
-  onDecrypt?: (generatedData: TUseNeonMigrateGeneratedData) => void
+type TImportStep3ModalState = {
+  content: TUseImportSharedParsedContent
+  onDecrypt?: (generatedData: TUseImportSharedGeneratedData) => void
 }
 
-type TMigrateAccountsStep4ModalState = {
-  selectedAccountsToMigrate: TUseNeonMigrateAccountsSchema[]
-  content: TUseNeonMigrateParsedContent
-  onDecrypt?: (generatedData: TUseNeonMigrateGeneratedData) => void
+type TImportStep4ModalState = {
+  accounts: TUseImportSharedAccountsSchema[]
+  content?: TUseImportSharedParsedContent
+  onDecrypt?: (generatedData: TUseImportSharedGeneratedData) => void
 }
 
 type TNeo3NeoxBridgeConfirmationModalState = {
@@ -293,9 +293,11 @@ type TModalRouterSideRouteTypes = {
   import: TImportModalState
   'import-accounts-selection': TImportAccountsSelectionModalState
   'import-watch-accounts': TImportWatchAccountsModalState
-  'migrate-accounts-step-2': undefined
-  'migrate-accounts-step-3': TMigrateAccountsStep3ModalState
-  'migrate-accounts-step-4': TMigrateAccountsStep4ModalState
+  'neon-migrate-step-2': undefined
+  'neon-migrate-step-3': TImportStep3ModalState
+  'neon-migrate-step-4': TImportStep4ModalState
+  'nep6-backup-import-step-3': TImportStep3ModalState
+  'nep6-backup-import-step-4': TImportStep4ModalState
   'neo3-neox-bridge-confirmation': TNeo3NeoxBridgeConfirmationModalState
   'neo3-neox-bridge-details': TNeo3NeoxBridgeDetailsModalState
   'network-url-selection': TNetworkUrlSelectionModalState

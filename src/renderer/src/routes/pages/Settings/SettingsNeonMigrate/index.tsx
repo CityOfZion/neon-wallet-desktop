@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 
 import { Button } from '@renderer/components/Button'
-import { MigrateSteps } from '@renderer/components/MigrateSteps'
+import { NeonMigrateSteps } from '@renderer/components/NeonMigrateSteps'
 
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 
@@ -9,8 +9,8 @@ import { SettingsLayout } from '@renderer/layouts/Settings'
 
 import TbExternalLink from '@renderer/assets/images/tb-external-link.svg?react'
 
-const SettingsMigrateWalletsPage = () => {
-  const { t } = useTranslation('pages', { keyPrefix: 'settings.settingsMigrateWallets' })
+const SettingsNeonMigratePage = () => {
+  const { t } = useTranslation('pages', { keyPrefix: 'settings.settingsNeonMigrate' })
   const { modalNavigateWrapper } = useModalNavigate()
 
   const openNeon2Click = () => {
@@ -25,7 +25,7 @@ const SettingsMigrateWalletsPage = () => {
 
         <h2 className="mt-8 text-xs font-bold text-gray-100 uppercase">{t('subtitleHow')}</h2>
 
-        <MigrateSteps className="mt-5" />
+        <NeonMigrateSteps className="mt-5" />
       </div>
 
       <div className="flex gap-2">
@@ -34,7 +34,7 @@ const SettingsMigrateWalletsPage = () => {
           variant="outlined"
           wide
           flat
-          onClick={modalNavigateWrapper('migrate-accounts-step-2')}
+          onClick={modalNavigateWrapper('neon-migrate-step-2')}
         />
         <Button
           label={t('startProcessButtonLabel')}
@@ -49,4 +49,4 @@ const SettingsMigrateWalletsPage = () => {
   )
 }
 
-export default SettingsMigrateWalletsPage
+export default SettingsNeonMigratePage

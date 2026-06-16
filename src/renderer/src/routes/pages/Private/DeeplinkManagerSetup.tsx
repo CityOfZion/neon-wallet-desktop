@@ -27,7 +27,7 @@ const DeeplinkManagerSetup = () => {
 
       if (path.startsWith('migration')) {
         navigate('/settings/security/migrate-accounts')
-        modalNavigate('migrate-accounts-step-2')
+        modalNavigate('neon-migrate-step-2')
         return
       }
 

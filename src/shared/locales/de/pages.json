@@ -137,7 +137,7 @@
       "alert": "COZ ist nicht der Betreuer dieses Bridge-Prozesses - Neo Global Development ist der Betreuer.",
       "description1": "Verbinden Sie Ihre Krypto-Assets einfach zwischen Netzwerken, ohne jemals Ihr Wallet zu verlassen.",
       "description2": "Blockchains sind unabhängig voneinander und können nicht miteinander interagieren - hier kommen Bridges ins Spiel. Es ist im Prinzip ähnlich wie der Geldwechsel beim Reisen in verschiedene Länder, eine Bridge ermöglicht es Ihnen, Assets über verschiedene Blockchains zu übertragen.",
-      "description3": "Das direkte und sofortige Verbinden von Token in NEON ist bequem und ermöglicht es Ihnen, Zeit zu sparen und niedrigere Gebühren zu zahlen.",
+      "description3": "Das direkte und sofortige Verbinden von Token in Neon ist bequem und ermöglicht es Ihnen, Zeit zu sparen und niedrigere Gebühren zu zahlen.",
       "title": "Wie funktioniert es?"
     },
     "form": {
@@ -269,7 +269,7 @@
     },
     "walletTasksManagerSetup": {
       "useBackupReminderNotificationProcess": {
-        "notificationDescription": "Wir empfehlen, eine neue Sicherungsdatei unter \"Einstellungen > Sicherheit > NEON sichern\" zu erstellen, um Ihre Wallets zu schützen. Für zusätzliche Sicherheit können Sie auch Ihre Mnemonics manuell unter \"Wallets > 3 Punkte (Tools) > Exportieren\" und private Schlüssel unter \"Wallets > 3 Punkte > Schlüssel exportieren\" exportieren.",
+        "notificationDescription": "Wir empfehlen, eine neue Sicherungsdatei unter \"Einstellungen > Sicherheit > Neon sichern\" zu erstellen, um Ihre Wallets zu schützen. Für zusätzliche Sicherheit können Sie auch Ihre Mnemonics manuell unter \"Wallets > 3 Punkte (Tools) > Exportieren\" und private Schlüssel unter \"Wallets > 3 Punkte > Schlüssel exportieren\" exportieren.",
         "notificationTitle": "Erstellen Sie eine neue Sicherungsdatei!"
       }
     }
@@ -372,7 +372,7 @@
         "subtitle": "Wenn Sie Ihr Passwort verlieren, kann es nicht wiederhergestellt werden."
       },
       "step3": {
-        "subtitle": "Ihr NEON 3 Passwort wurde erfolgreich geändert!"
+        "subtitle": "Ihr Neon Passwort wurde erfolgreich geändert!"
       },
       "title": "Passwort ändern"
     },
@@ -411,18 +411,18 @@
       "theme": "Design"
     },
     "securityOption": {
-      "backupWallet": "NEON sichern",
+      "backupWallet": "Neon sichern",
       "changePassword": "Passwort ändern",
       "encryptKey": "Schlüssel verschlüsseln",
-      "migrateWallets": "Von NEON 2.0 migrieren",
-      "recoverWallet": "NEON-Backup importieren"
+      "migrateWallets": "Von Neon 2 migrieren",
+      "recoverWallet": "Backup importieren"
     },
     "settingsBackupWallet": {
       "backup": "Sichern",
       "browse": "Durchsuchen…",
       "description": "Speichern Sie eine Sicherungsdatei auf Ihrem Computer, mit der Sie Ihr Wallet wiederherstellen können, falls Sie den Zugriff verlieren oder Ihr Gerät beschädigen.",
       "saveBackupLabel": "Wo möchten Sie Ihre Sicherung speichern?",
-      "title": "NEON sichern",
+      "title": "Neon sichern",
       "warning": "Hinweis: Dieser Vorgang sichert Ihr gesamtes Wallet"
     },
     "settingsCurrency": {
@@ -436,14 +436,6 @@
     "settingsLanguage": {
       "title": "Sprache"
     },
-    "settingsMigrateWallets": {
-      "descriptionWhy": "Die Migration Ihres NEON 2 Wallets gibt Ihnen Zugriff auf eine breitere Palette unterstützter Assets und eine elegantere, verbesserte Benutzererfahrung, die die Verwaltung Ihrer Assets zum Kinderspiel macht!",
-      "importButtonLabel": "NEON 2 Wallet importieren",
-      "startProcessButtonLabel": "Prozess in NEON 2 starten",
-      "subtitleHow": "Wie migriere ich von Neon 2?",
-      "subtitleWhy": "Warum zu NEON 3 migrieren?",
-      "title": "Von NEON 2.0 migrieren"
-    },
     "settingsMobileApp": {
       "appStoreImageLabel": "Im App Store herunterladen",
       "descriptionLine1": "Speichern, betrachten und verwalten Sie sicher alle Ihre digitalen Assets und mehrere Wallets an einem Ort.",
@@ -451,6 +443,14 @@
       "playStoreImageLabel": "Bei Google Play herunterladen",
       "subtitle": "Ihr Wallet ist auch auf dem Handy verfügbar!",
       "title": "Mobile App"
+    },
+    "settingsNeonMigrate": {
+      "descriptionWhy": "Die Migration Ihres Neon 2 Wallets gibt Ihnen Zugriff auf eine breitere Palette unterstützter Assets und eine elegantere, verbesserte Benutzererfahrung, die die Verwaltung Ihrer Assets zum Kinderspiel macht!",
+      "importButtonLabel": "Neon 2 Wallet importieren",
+      "startProcessButtonLabel": "Prozess in Neon 2 starten",
+      "subtitleHow": "Wie migriere ich von Neon 2?",
+      "subtitleWhy": "Warum zu Neon migrieren?",
+      "title": "Von Neon 2 migrieren"
     },
     "settingsNetwork": {
       "createProfileButtonLabel": "Profil erstellen",
@@ -465,10 +465,10 @@
     "settingsRecoverWallet": {
       "backup": "Backup importieren",
       "browse": "Durchsuchen…",
-      "description": "Falls Sie den Zugriff auf Ihr Wallet verlieren, können Sie es aus einer lokalen Sicherungsdatei importieren. Suchen Sie einfach Ihre lokale Sicherungsdatei und geben Sie das Passwort ein, das Sie beim Erstellen der Sicherungsdatei verwendet haben, und Ihr Zugriff wird wiederhergestellt.",
-      "nameExtension": "NEON-Sicherungsdateien",
+      "description": "Ob Sie den Zugriff auf Ihr Wallet verloren haben oder einfach eines aus einer Sicherung öffnen möchten – Sie können es aus einer lokalen Sicherungsdatei importieren, einschließlich Neon- und NEP-6-Sicherungen. Suchen Sie einfach die Datei und geben Sie das Passwort ein, das Sie beim Erstellen festgelegt haben.",
+      "nameExtension": "Neon-Sicherungsdateien",
       "saveBackupLabel": "Sicherungsdatei suchen",
-      "title": "NEON-Backup importieren"
+      "title": "Backup importieren"
     },
     "settingsReleaseNotes": {
       "button": {
@@ -485,7 +485,7 @@
   "swap": {
     "explanation": {
       "description1": "Tauschen Sie Token gegen andere Token, über Chains hinweg, ohne eine Börse zu nutzen.",
-      "description2": " Das direkte und sofortige Tauschen von Token in NEON ist bequem und ermöglicht es Ihnen, Zeit zu sparen und niedrigere Gebühren zu zahlen.",
+      "description2": " Das direkte und sofortige Tauschen von Token in Neon ist bequem und ermöglicht es Ihnen, Zeit zu sparen und niedrigere Gebühren zu zahlen.",
       "title": "Wie funktioniert es?",
       "useTitle": "Neon Wallet nutzt:"
     },

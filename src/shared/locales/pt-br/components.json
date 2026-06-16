@@ -92,22 +92,22 @@
     "empty": "Nenhum token",
     "placeholder": "Selecione token…"
   },
-  "migrateSteps": {
-    "inNeon2": {
-      "label": "Em NEON 2",
-      "step1": "Exporte sua carteira NEON 2"
-    },
-    "inNeon3": {
-      "label": "Em NEON 3",
-      "step2": "Importe suas contas NEON 2",
-      "step3": "Escolha as contas para migrar",
-      "step4": "Digite as senhas de suas contas"
-    }
-  },
   "mnemonicOrKeyAccountSelection": {
     "accountsLength": "{{length}} endereço(s) encontrado(s)",
     "alreadyExists": "Já existe",
     "noAccountsToImport": "Nenhuma conta encontrada ou já existe. Verifique sua entrada e tente novamente mais tarde."
+  },
+  "neonMigrateSteps": {
+    "inNeon": {
+      "label": "Em Neon",
+      "step2": "Importe suas contas Neon 2",
+      "step3": "Escolha as contas para migrar",
+      "step4": "Digite as senhas de suas contas"
+    },
+    "inNeon2": {
+      "label": "Em Neon 2",
+      "step1": "Exporte sua carteira Neon 2"
+    }
   },
   "passwordStrength": {
     "good": "Boa",

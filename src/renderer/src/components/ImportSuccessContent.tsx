@@ -1,4 +1,3 @@
-import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 
 import { Button } from '@renderer/components/Button'
@@ -12,10 +11,10 @@ import { TAccount } from '@shared/types/store'
 
 type TProps = {
   accounts: TAccount[]
+  buttonLabel: string
 }
 
-export const SuccessContent = ({ accounts }: TProps) => {
-  const { t } = useTranslation('modals', { keyPrefix: 'migrateWallets.step4.success' })
+export const ImportSuccessContent = ({ accounts, buttonLabel }: TProps) => {
   const { modalNavigate } = useModalNavigate()
   const navigate = useNavigate()
 
@@ -40,7 +39,7 @@ export const SuccessContent = ({ accounts }: TProps) => {
       </div>
 
       <Button
-        label={t('buttonLabel')}
+        label={buttonLabel}
         iconsOnEdge={false}
         rightIcon={<MdOutlineRemoveRedEye aria-hidden />}
         className="mt-3 px-15"

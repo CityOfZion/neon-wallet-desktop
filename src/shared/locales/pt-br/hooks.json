@@ -1,12 +1,4 @@
 {
-  "useBackupOrMigrate": {
-    "defaultAccountLabel": "Conta migrada",
-    "defaultContactName": "Contato migrado",
-    "error": "Arquivo não reconhecido",
-    "filterName": "Arquivo de backup ou migração Neon",
-    "neon2MigrateFileDetected": "Arquivo de migração NEON2 detectado",
-    "neon3BackupFileDetected": "Arquivo de backup NEON3 detectado"
-  },
   "useConfirmAction": {
     "unauthorizedAction": "Não autorizado. Tente novamente ou entre em contato com o suporte."
   },
@@ -34,6 +26,14 @@
       "mnemonicIncomplete": "Mnemonic incompleto"
     }
   },
+  "useImportFromFile": {
+    "error": "Arquivo não reconhecido",
+    "filterName": "Arquivo de backup ou migração",
+    "migratedContactName": "Contato migrado",
+    "neon2MigrateFileDetected": "Arquivo de migração Neon 2 detectado",
+    "neonBackupFileDetected": "Arquivo de backup Neon detectado",
+    "nep6BackupFileDetected": "Arquivo de backup NEP-6 detectado"
+  },
   "useLogin": {
     "controlIsNotSet": "Erro inesperado. O controle de login não está definido.",
     "controlIsNotValid": "Erro inesperado. O controle de login não é válido."
@@ -44,11 +44,11 @@
       "unexpectedError": "Erro inesperado. Reinicie a aplicação."
     }
   },
-  "useNeonImportBackup": {
+  "useNeonBackupFile": {
     "errors": {
       "importData": "Ocorreu um erro ao importar os dados (pode ter sido importado parcialmente).",
       "wrongPassword": "A senha está incorreta. Por favor, tente novamente.",
-      "wrongVersion": "A versão do arquivo de backup não é suportada. Por favor, tente gerar um novo backup na versão mais recente da NEON."
+      "wrongVersion": "A versão do arquivo de backup não é suportada. Por favor, tente gerar um novo backup na versão mais recente da Neon."
     }
   },
   "usePersistTrustlineMutation": {

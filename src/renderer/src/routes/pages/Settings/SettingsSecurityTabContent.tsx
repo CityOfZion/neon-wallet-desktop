@@ -50,20 +50,6 @@ export const SettingsSecurityTabContent = () => {
         <li>
           <MenuLink
             layoutId="settings-security"
-            iconElement={<TbReload aria-hidden />}
-            className="px-3 py-2 text-sm"
-            rightElement={null}
-            to="/settings/security/recover-wallet"
-            disabled={disabled}
-            {...TestHelper.buildTestObject('settings-recover-wallet-button')}
-          >
-            {t('securityOption.recoverWallet')}
-          </MenuLink>
-        </li>
-
-        <li>
-          <MenuLink
-            layoutId="settings-security"
             iconElement={<MdOutlineSave aria-hidden />}
             className="px-3 py-2 text-sm"
             rightElement={null}
@@ -72,6 +58,20 @@ export const SettingsSecurityTabContent = () => {
             {...TestHelper.buildTestObject('settings-backup-wallet-button')}
           >
             {t('securityOption.backupWallet')}
+          </MenuLink>
+        </li>
+
+        <li>
+          <MenuLink
+            layoutId="settings-security"
+            iconElement={<TbReload aria-hidden />}
+            className="px-3 py-2 text-sm"
+            rightElement={null}
+            to="/settings/security/recover-wallet"
+            disabled={disabled}
+            {...TestHelper.buildTestObject('settings-recover-wallet-button')}
+          >
+            {t('securityOption.recoverWallet')}
           </MenuLink>
         </li>
 

@@ -1,0 +1,17 @@
+{
+  "createWalletModal": {
+    "heading": "Erstellen Sie Ihr neues BIP39-Wallet",
+    "step1Description": "Diese Reihe geheimer Wörter macht es einfach, Ihr Konto zu sichern und wiederherzustellen. Dies macht Ihr Wallet wirklich sicher",
+    "step1Header": "Sicherheitsphrase generieren",
+    "step2Description": "Es ist wirklich wichtig, dass Sie sich Ihre Phrase richtig merken, daher werden wir Ihnen dabei helfen. Wenn Sie es eilig haben, können Sie es ein anderes Mal tun.",
+    "step2Header": "Sicherheitsphrase bestätigen",
+    "step3Description": "Geben Sie Ihrem Wallet einen einprägsamen Namen.",
+    "step3Header": "Geben Sie Ihrem neuen Wallet einen Namen",
+    "step4Description": "Wählen Sie aus, welche Chains Sie für dieses Wallet verwenden möchten, und schon können Sie loslegen!",
+    "step4Header": "Chains auswählen",
+    "title": "Neues Wallet erstellen"
+  },
+  "importModal": {
+    "instructionsTitle": "Anweisungen"
+  }
+}
