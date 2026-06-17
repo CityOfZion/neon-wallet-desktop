@@ -3,11 +3,11 @@ import { Location, useLocation } from 'react-router'
 
 import { Button } from '@renderer/components/Button'
 import { Checkbox } from '@renderer/components/Checkbox'
-import { Link } from '@renderer/components/Link'
 
 import { TestHelper } from '@renderer/helpers/TestHelper'
 
 import { useShouldConfirmActionSelector } from '@renderer/hooks/useAuthSelector'
+import { useNavigateReset } from '@renderer/hooks/useNavigateReset'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 
 import MdOutlineAutoAwesome from '@renderer/assets/images/md-outline-auto-awesome.svg?react'
@@ -24,6 +24,7 @@ export const LoginPasswordSecuritySetupStep3Content = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'welcome.securitySetup.completedStep' })
   const { shouldConfirmAction } = useShouldConfirmActionSelector()
   const dispatch = useAppDispatch()
+  const navigateReset = useNavigateReset()
 
   const handleIsShouldConfirmActionChange = (value: boolean) => {
     dispatch(authReducerActions.setShouldConfirmAction(value))
@@ -31,6 +32,10 @@ export const LoginPasswordSecuritySetupStep3Content = () => {
 
   const handleOpenSelectedFilePath = async () => {
     await window.api.sendAsync('window:openFile', state.selectedFilePath)
+  }
+
+  const handleNavigateToWallet = () => {
+    navigateReset('/wallets/overview')
   }
 
   return (
@@ -50,9 +55,9 @@ export const LoginPasswordSecuritySetupStep3Content = () => {
           type="button"
         />
 
-        <Link
+        <Button
           label={t('buttonContinueLabel')}
-          to="/wallets/overview"
+          onClick={handleNavigateToWallet}
           className="mt-auto w-64"
           rightIcon={<MdOutlineAutoAwesome aria-hidden />}
           iconsOnEdge={false}

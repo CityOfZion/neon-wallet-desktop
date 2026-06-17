@@ -1,7 +1,6 @@
 import { Fragment } from 'react'
 
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router'
 
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { AlertSuccessBanner } from '@renderer/components/AlertSuccessBanner'
@@ -12,13 +11,14 @@ import { TemporaryLimitsBox } from '@renderer/components/TemporaryLimitsBox'
 import { useHardwareWalletByUsb } from '@renderer/hooks/useHardwareWallet'
 import { useLogin } from '@renderer/hooks/useLogin'
 import { useMountUnsafe } from '@renderer/hooks/useMount'
+import { useNavigateReset } from '@renderer/hooks/useNavigateReset'
 
 import TbDeviceUsb from '@renderer/assets/images/tb-device-usb.svg?react'
 import TbX from '@renderer/assets/images/tb-x.svg?react'
 
 export const LoginHardwareTabContent = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'loginHardware' })
-  const navigate = useNavigate()
+  const navigateReset = useNavigateReset()
   const { loginWithHardwareWallet } = useLogin()
 
   const { status, connect } = useHardwareWalletByUsb()
@@ -27,7 +27,7 @@ export const LoginHardwareTabContent = () => {
     const accounts = await connect()
 
     await loginWithHardwareWallet(accounts)
-    navigate('/wallets/overview')
+    navigateReset('/wallets/overview')
   }
 
   useMountUnsafe(() => {

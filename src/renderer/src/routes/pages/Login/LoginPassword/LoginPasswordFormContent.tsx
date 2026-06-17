@@ -1,7 +1,6 @@
 import React from 'react'
 
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router'
 
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
@@ -11,6 +10,7 @@ import { TestHelper } from '@renderer/helpers/TestHelper'
 
 import { useActions } from '@renderer/hooks/useActions'
 import { useLogin } from '@renderer/hooks/useLogin'
+import { useNavigateReset } from '@renderer/hooks/useNavigateReset'
 
 import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
@@ -21,7 +21,7 @@ type TFormData = {
 
 export const LoginPasswordFormContent = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'loginPassword.formContent' })
-  const navigate = useNavigate()
+  const navigateReset = useNavigateReset()
   const { loginWithPassword } = useLogin()
 
   const { actionData, actionState, setData, setError, handleAct } = useActions<TFormData>({
@@ -41,7 +41,7 @@ export const LoginPasswordFormContent = () => {
   const handleSubmit = async (data: TFormData) => {
     try {
       await loginWithPassword(data.password)
-      navigate('/wallets/overview')
+      navigateReset('/wallets/overview')
 
       // Improve UX
       await SharedUtilsHelper.sleep(2000)
