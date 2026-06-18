@@ -57,6 +57,7 @@ export const Sidebar = ({ className, ...props }: TProps) => {
           <SidebarLink to="/send" iconElement={<TbStepOut aria-hidden />}>
             {t('send')}
           </SidebarLink>
+
           <SidebarLink to="/receive" iconElement={<TbStepInto aria-hidden />}>
             {t('receive')}
           </SidebarLink>

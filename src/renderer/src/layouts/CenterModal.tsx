@@ -16,8 +16,6 @@ import { usePressOnce } from '@renderer/hooks/usePressOnce'
 import MdClose from '@renderer/assets/images/md-close.svg?react'
 import MdKeyboardBackspace from '@renderer/assets/images/md-keyboard-backspace.svg?react'
 
-import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
-
 type TCenterModalSize = 'xs' | 'sm' | 'lg'
 
 type TCenterModalLayoutProps = {
@@ -67,7 +65,7 @@ export const CenterModalLayout = ({
 
   const [isErasing, startErase] = usePressOnce(async () => {
     if (onErase) {
-      await Promise.all([onErase(), SharedUtilsHelper.sleep(500)])
+      await onErase()
     }
     modalErase()
   })

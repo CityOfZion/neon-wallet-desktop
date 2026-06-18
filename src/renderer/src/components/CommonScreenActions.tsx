@@ -3,6 +3,7 @@ import { ComponentProps } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
+import { CrispHelper } from '@renderer/helpers/CrispHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 
@@ -12,6 +13,7 @@ import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import HiOutlineTicket from '@renderer/assets/images/hi-outline-ticket.svg?react'
 import MdMoreVert from '@renderer/assets/images/md-more-vert.svg?react'
 import TbBell from '@renderer/assets/images/tb-bell.svg?react'
+import TbBrandDiscord from '@renderer/assets/images/tb-brand-discord.svg?react'
 import TbDeviceUsb from '@renderer/assets/images/tb-device-usb.svg?react'
 import TbFileImport from '@renderer/assets/images/tb-file-import.svg?react'
 import TbHelp from '@renderer/assets/images/tb-help.svg?react'
@@ -88,13 +90,12 @@ export const CommonScreenActions = ({ children, className, ...props }: TProps) =
             {...TestHelper.buildTestObject('help-content')}
           >
             <ActionPopover.Item
-              actionPopoverItemType="link"
+              actionPopoverItemType="button"
               label={t('chatWithUsButtonLabel')}
-              to={ConstantsHelper.cozDiscordUrl}
-              target="_blank"
               colorSchema="white"
               iconsOnEdge={false}
               leftIcon={<TbMessage aria-hidden="true" className="text-yellow" />}
+              onClick={CrispHelper.open}
               {...TestHelper.buildTestObject('help-chat-with-us')}
             />
 
@@ -105,6 +106,17 @@ export const CommonScreenActions = ({ children, className, ...props }: TProps) =
               colorSchema="white"
               iconsOnEdge={false}
               leftIcon={<HiOutlineTicket aria-hidden="true" className="text-yellow" />}
+            />
+
+            <ActionPopover.Item
+              actionPopoverItemType="link"
+              label={t('discordLinkLabel')}
+              to={ConstantsHelper.cozDiscordUrl}
+              target="_blank"
+              colorSchema="white"
+              iconsOnEdge={false}
+              leftIcon={<TbBrandDiscord aria-hidden="true" className="text-yellow" />}
+              {...TestHelper.buildTestObject('help-discord')}
             />
           </ActionPopover.Content>
         </ActionPopover.Root>

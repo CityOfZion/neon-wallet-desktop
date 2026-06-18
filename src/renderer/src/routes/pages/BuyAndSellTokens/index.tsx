@@ -7,12 +7,11 @@ import { Location, useBlocker, useLocation, useNavigate, useParams } from 'react
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Button } from '@renderer/components/Button'
 import { CommonScreenActions } from '@renderer/components/CommonScreenActions'
-import { Link } from '@renderer/components/Link'
 import { ScreenLoader } from '@renderer/components/ScreenLoader'
 import { Separator } from '@renderer/components/Separator'
 import { Tabs } from '@renderer/components/Tabs'
 
-import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
+import { CrispHelper } from '@renderer/helpers/CrispHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
@@ -26,7 +25,7 @@ import MdInfoOutline from '@renderer/assets/images/md-info-outline.svg?react'
 import MdRestartAlt from '@renderer/assets/images/md-restart-alt.svg?react'
 import TbChevronDown from '@renderer/assets/images/tb-chevron-down.svg?react'
 import TbChevronUp from '@renderer/assets/images/tb-chevron-up.svg?react'
-import TbExternalLink from '@renderer/assets/images/tb-external-link.svg?react'
+import TbMessage from '@renderer/assets/images/tb-message.svg?react'
 import TbShoppingBag from '@renderer/assets/images/tb-shopping-bag.svg?react'
 
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
@@ -103,7 +102,9 @@ const BuyAndSellTokensPage = () => {
   useBlocker(({ nextLocation }) => {
     const nextUrl = nextLocation.pathname
 
-    if (shouldSkipBlockerRef.current || nextUrl.includes('/buy-and-sell-tokens')) return false
+    if (shouldSkipBlockerRef.current || nextUrl.includes('/buy-and-sell-tokens') || nextUrl.includes('/login')) {
+      return false
+    }
 
     modalNavigate('buy-and-sell-tokens-leave-alert', {
       state: {
@@ -235,13 +236,12 @@ const BuyAndSellTokensPage = () => {
             </div>
 
             <div className="mx-auto mt-auto">
-              <Link
+              <Button
                 label={t('helpButtonLabel')}
-                to={ConstantsHelper.cozDiscordUrl}
-                target="_blank"
                 colorSchema="neon"
                 variant="outlined"
-                rightIcon={<TbExternalLink aria-hidden />}
+                rightIcon={<TbMessage aria-hidden />}
+                onClick={CrispHelper.open}
               />
             </div>
           </div>

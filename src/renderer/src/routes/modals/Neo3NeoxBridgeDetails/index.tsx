@@ -4,14 +4,14 @@ import { BSError } from '@cityofzion/blockchain-service'
 import { Neo3NeoXBridgeOrchestrator } from '@cityofzion/bs-multichain'
 import { useTranslation } from 'react-i18next'
 
+import { Button } from '@renderer/components/Button'
 import { Details } from '@renderer/components/Details'
-import { Link } from '@renderer/components/Link'
 import { Separator } from '@renderer/components/Separator'
 import { Stepper } from '@renderer/components/Stepper'
 import { TokenDetails } from '@renderer/components/TokenDetails'
 
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
-import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
+import { CrispHelper } from '@renderer/helpers/CrispHelper'
 import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
 
 import { useModalState } from '@renderer/hooks/useModalRouter'
@@ -20,7 +20,7 @@ import { useMountUnsafe } from '@renderer/hooks/useMount'
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 import MdRefresh from '@renderer/assets/images/md-refresh.svg?react'
-import TbExternalLink from '@renderer/assets/images/tb-external-link.svg?react'
+import TbMessage from '@renderer/assets/images/tb-message.svg?react'
 import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
 import TbReplace2 from '@renderer/assets/images/tb-replace-2.svg?react'
 import TbRosetteDiscountCheck from '@renderer/assets/images/tb-rosette-discount-check.svg?react'
@@ -152,15 +152,14 @@ const Neo3NeoxBridgeDetailsModal = () => {
       </Details.Root>
 
       <div className="mt-8 flex w-full items-center gap-2 px-4">
-        <Link
+        <Button
           label={t('helpButtonLabel')}
           className="grow"
-          target="_blank"
-          to={ConstantsHelper.cozDiscordUrl}
           flat
           wide
           iconsOnEdge={false}
-          rightIcon={<TbExternalLink aria-hidden />}
+          rightIcon={<TbMessage aria-hidden />}
+          onClick={CrispHelper.open}
         />
       </div>
     </SideModalLayout>
