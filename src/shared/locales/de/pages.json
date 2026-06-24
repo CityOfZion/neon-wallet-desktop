@@ -240,6 +240,10 @@
   },
   "private": {
     "accountTasksManagerSetup": {
+      "useBNeoShutdownNotificationProcess": {
+        "description": "BNeo wird am 1. August 2026 abgeschaltet. Die GAS-Verteilung wurde bereits eingestellt. Tauschen Sie Ihr BNeo jetzt aus, um den Zugang zu Ihren Geldern nicht zu verlieren.",
+        "title": "BNeo wird abgeschaltet!"
+      },
       "useFraudulentTokensNotificationProcess": {
         "notificationDescription": "Wir haben \"{{ value }}\" identifiziert, der von der Community als betrügerischer Token gekennzeichnet wurde. Wir empfehlen, ihn auszublenden und jede weitere Interaktion damit zu vermeiden.",
         "notificationTitle": "{{ value }}\" ist ein betrügerischer Token!"

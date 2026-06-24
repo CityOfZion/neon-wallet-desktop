@@ -240,6 +240,10 @@
   },
   "private": {
     "accountTasksManagerSetup": {
+      "useBNeoShutdownNotificationProcess": {
+        "description": "BNeo is shutting down on August 1st, 2026. GAS distribution has already stopped. Swap your BNeo now to avoid losing access to your funds.",
+        "title": "BNeo is shutting down!"
+      },
       "useFraudulentTokensNotificationProcess": {
         "notificationDescription": "We've identified \"{{ value }}\" that has been flagged as fraudulent token by the community, we suggest hiding it and avoiding any other kind of interaction with it.",
         "notificationTitle": "{{ value }}\" is a fraudulent token!"

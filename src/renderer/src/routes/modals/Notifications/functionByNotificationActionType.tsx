@@ -83,6 +83,15 @@ export const functionByNotificationActionType: TFunctionByNotificationActionType
         modalActions.modalErase()
         pageNavigate('/settings/security/backup-wallet')
       })
+      .with({ to: 'bneo-shutdown' }, ({ address, blockchain }) => {
+        const account = getAccount({ address, blockchain })
+
+        modalActions.modalErase()
+
+        setTimeout(() => {
+          pageNavigate('/wallets/tokens', { state: { account } })
+        }, 500)
+      })
       .otherwise(() => {
         // No action needed for unhandled navigation types
       })
