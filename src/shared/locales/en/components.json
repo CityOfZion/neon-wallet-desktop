@@ -93,22 +93,22 @@
     "empty": "No tokens",
     "placeholder": "Select token…"
   },
-  "migrateSteps": {
-    "inNeon2": {
-      "label": "In NEON 2",
-      "step1": "Export your NEON 2 wallet"
-    },
-    "inNeon3": {
-      "label": "In NEON 3",
-      "step2": "Import your NEON 2 accounts",
-      "step3": "Choose the accounts to migrate",
-      "step4": "Enter your account passwords"
-    }
-  },
   "mnemonicOrKeyAccountSelection": {
     "accountsLength": "{{length}} address(es) found",
     "alreadyExists": "Already exists",
     "noAccountsToImport": "No accounts found or already exist, check your input and try again later, please."
+  },
+  "neonMigrateSteps": {
+    "inNeon": {
+      "label": "In Neon",
+      "step2": "Import your Neon 2 accounts",
+      "step3": "Choose the accounts to migrate",
+      "step4": "Enter your account passwords"
+    },
+    "inNeon2": {
+      "label": "In Neon 2",
+      "step1": "Export your Neon 2 wallet"
+    }
   },
   "passwordStrength": {
     "good": "Good",

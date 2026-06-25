@@ -104,14 +104,14 @@
   },
   "confirmPasswordBackup": {
     "buttonContinueLabel": "Fazer Backup Agora",
-    "description": "Para criar seu arquivo de backup, forneça sua senha NEON abaixo:",
+    "description": "Para criar seu arquivo de backup, forneça sua senha Neon abaixo:",
     "error": "Senha não reconhecida!",
     "errorBackup": "Houve um erro ao tentar fazer backup. Por favor, tente novamente.",
     "inputPlaceholder": "Digite sua senha…",
     "modalDescription": "Backup criado com sucesso!",
     "returnSettings": "Voltar para Configurações",
-    "subtitle": "Senha NEON Atual",
-    "title": "Backup NEON",
+    "subtitle": "Senha Neon atual",
+    "title": "Backup Neon",
     "warning": "Você precisará desta senha para restaurar sua carteira.",
     "warningHighlighted": "Por favor, mantenha-a segura!"
   },
@@ -122,14 +122,14 @@
     "inputPlaceholder": "Digite a senha…"
   },
   "confirmPasswordRecover": {
-    "buttonContinueLabel": "Importar este backup NEON",
+    "buttonContinueLabel": "Importar este backup",
     "description": "Para importar seu arquivo de backup, forneça a senha que você usou para criar o backup:",
     "error": "Senha não reconhecida!",
     "inputPlaceholder": "Digite sua senha…",
     "modalDescription": "Backup importado com sucesso!",
     "returnSettings": "Voltar para Configurações",
     "subtitle": "Senha do Backup",
-    "title": "Importar Backup NEON"
+    "title": "Importar backup"
   },
   "connectHardwareWallet": {
     "connectedMessage": "Detectamos sua carteira de hardware! Abrindo sua carteira…",
@@ -140,7 +140,6 @@
     "title": "Conecte sua carteira de hardware"
   },
   "createWallet": {
-    "heading": "Criando sua nova carteira BIP39",
     "step1": {
       "backButtonLabel": "Voltar",
       "copyButtonLabel": "Copiar",
@@ -151,8 +150,6 @@
       "title": "Gerar frase de segurança",
       "warning": "Qualquer pessoa com esta frase poderá acessar seus ativos conquistados com tanto esforço e você não poderá recuperá-los!"
     },
-    "step1Description": "Este conjunto de palavras secretas facilita o backup e a restauração da sua conta. Isso torna sua carteira realmente segura",
-    "step1Header": "Gerar frase de segurança",
     "step2": {
       "backButtonLabel": "Voltar",
       "description": "Por favor, selecione cada frase na ordem correta para ter certeza de que você entendeu:",
@@ -162,8 +159,6 @@
       "tryAgain": "Por favor, tente novamente para confirmar seu backup",
       "warning": "Se você não conseguir se lembrar da sua frase de segurança, não se preocupe, você pode encontrá-la na seção 'Configurações' da carteira"
     },
-    "step2Description": "É muito importante que você se lembre da sua frase corretamente, então vamos ajudá-lo com isso. Se você estiver com pressa, pode fazer isso em outro momento.",
-    "step2Header": "Confirmar frase de segurança",
     "step3": {
       "backButtonLabel": "Voltar",
       "description": "Dê à sua carteira um nome memorável, pode ser útil nomeá-la com um rótulo relacionado ao que você deseja usar a carteira (como 'Investimentos' ou 'Carteira de Negociação').",
@@ -177,8 +172,6 @@
       "step3of4": "3 de 4",
       "title": "Dê um nome e senha à sua nova carteira"
     },
-    "step3Description": "Dê à sua carteira um nome memorável.",
-    "step3Header": "Dê um nome à sua nova carteira",
     "step4": {
       "backButtonLabel": "Voltar",
       "createWalletButtonLabel": "Criar carteira",
@@ -186,14 +179,11 @@
       "step4of4": "4 de 4",
       "title": "Selecionar rede"
     },
-    "step4Description": "Selecione quais redes você gostaria de usar para esta carteira e você está pronto para começar!",
-    "step4Header": "Selecionar redes",
     "step5": {
       "description": "Lembre-se de manter sua frase secreta segura, ter vários backups é sempre uma boa ideia. Se você precisar descobrir a frase secreta de uma carteira, pode encontrá-la na página de configurações dessa carteira.",
       "title": "Parabéns, agora você é o orgulhoso proprietário de uma nova carteira!",
       "viewWalletButtonLabel": "Ver carteira"
-    },
-    "title": "Criar nova carteira"
+    }
   },
   "dappConnection": {
     "buttonConnectLabel": "Conectar",
@@ -438,39 +428,6 @@
     "title": "Adicionar uma conta observada",
     "willBeAdded": "Esta conta será adicionada:"
   },
-  "migrateWallets": {
-    "instructionTitle": "Instruções",
-    "step2": {
-      "buttonBrowseLabel": "Procurar…",
-      "buttonImportLabel": "Importar",
-      "description": "Para concluir o processo de migração NEON 2, localize seu arquivo de migração da carteira NEON 2:",
-      "inputLabel": "Localize seu arquivo de migração NEON 2",
-      "title": "Importe suas contas NEON 2"
-    },
-    "step3": {
-      "alreadyImportedLabel": "Importado",
-      "buttonLabel": "Escolher contas selecionadas",
-      "selectAllButtonLabel": "Selecionar todos",
-      "selectLabel": "Contas",
-      "selectTitle": "Selecione quais contas você deseja importar",
-      "selectedQuantity": "{{selected}} de {{total}} contas selecionadas",
-      "title": "Escolha as contas para migrar"
-    },
-    "step4": {
-      "buttonLabel": "Migrar contas",
-      "description": "Digite suas senhas para cada conta que você deseja importar",
-      "inputLabel": "Senha",
-      "inputPlaceholder": "Digite a senha da conta…",
-      "migrateError": "Houve um erro ao tentar migrar. Por favor, tente novamente.",
-      "passwordError": "Senha não reconhecida!",
-      "success": {
-        "buttonLabel": "Ver seu portfólio",
-        "subtitle": "Suas contas NEON 2 foram migradas com sucesso!"
-      },
-      "title": "Digite as senhas das suas contas"
-    },
-    "title": "Migrar da NEON 2"
-  },
   "neo3NeoxBridgeConfirmation": {
     "bridgeDetailsItemLabel": "Você quer fazer bridge de",
     "confirmButtonLabel": "Confirmar",
@@ -580,6 +537,65 @@
     "title": "Gostaria de nos apoiar?",
     "voteForCozButtonLabel": "Vote em COZ",
     "youCanSupportUsLabel": "Se você gosta de usar o Neon ou qualquer um de nossos outros produtos, talvez queira nos apoiar com seu voto para ajudar a impulsionar nosso desenvolvimento."
+  },
+  "neonMigrate": {
+    "step2": {
+      "browseButtonLabel": "Procurar…",
+      "description": "Para importar suas contas Neon 2, localize seu arquivo de migração Neon 2:",
+      "importButtonLabel": "Importar",
+      "inputLabel": "Localize seu arquivo de migração Neon 2",
+      "title": "Importe suas contas Neon 2"
+    },
+    "step3": {
+      "alreadyImportedLabel": "Importado",
+      "buttonLabel": "Escolher contas selecionadas",
+      "selectAllButtonLabel": "Selecionar todas",
+      "selectLabel": "Contas",
+      "selectTitle": "Selecione quais contas você deseja importar",
+      "selectedQuantity_one": "{{selected}} de {{count}} conta selecionada",
+      "selectedQuantity_other": "{{selected}} de {{count}} contas selecionadas",
+      "title": "Escolha as contas para migrar"
+    },
+    "step4": {
+      "buttonLabel": "Migrar contas",
+      "description": "Digite suas senhas para cada conta que você deseja importar",
+      "inputLabel": "Senha",
+      "inputPlaceholder": "Digite a senha da conta…",
+      "migrateError": "Houve um erro ao tentar migrar. Por favor, tente novamente.",
+      "passwordError": "Senha não reconhecida!",
+      "samePasswordLabel": "Usar a mesma senha para todas as contas",
+      "success": {
+        "buttonLabel": "Ver seu portfólio",
+        "subtitle": "Suas contas Neon 2 foram migradas com sucesso!"
+      }
+    },
+    "title": "Migrar da Neon 2"
+  },
+  "nep6BackupImport": {
+    "step3": {
+      "alreadyImportedLabel": "Importado",
+      "buttonLabel": "Escolher contas selecionadas",
+      "selectAllButtonLabel": "Selecionar todas",
+      "selectLabel": "Contas",
+      "selectTitle": "Selecione quais contas você deseja importar",
+      "selectedQuantity_one": "{{selected}} de {{count}} conta selecionada",
+      "selectedQuantity_other": "{{selected}} de {{count}} contas selecionadas",
+      "title": "Escolha as contas para importar"
+    },
+    "step4": {
+      "buttonLabel": "Importar contas",
+      "description": "Digite suas senhas para cada conta que você deseja importar",
+      "importError": "Ocorreu um erro ao tentar importar. Por favor, tente novamente.",
+      "inputLabel": "Senha",
+      "inputPlaceholder": "Digite a senha da conta…",
+      "passwordError": "Senha não reconhecida!",
+      "samePasswordLabel": "Usar a mesma senha para todas as contas",
+      "success": {
+        "buttonLabel": "Ver seu portfólio",
+        "subtitle": "Suas contas foram importadas!"
+      }
+    },
+    "title": "Importar carteira"
   },
   "networkSelection": {
     "addCustomNetworkButtonLabel": "Adicionar rede personalizada",

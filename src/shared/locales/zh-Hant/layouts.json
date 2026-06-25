@@ -1,0 +1,17 @@
+{
+  "createWalletModal": {
+    "heading": "正在建立您的新 BIP39 錢包",
+    "step1Description": "這組秘密詞語可輕鬆備份與還原您的帳戶，讓您的錢包更安全",
+    "step1Header": "產生安全短語",
+    "step2Description": "正確記住短語很重要，我們會協助您確認。如果您趕時間，也可以稍後再做。",
+    "step2Header": "確認安全短語",
+    "step3Description": "給您的錢包取個容易記住的名字。",
+    "step3Header": "為新錢包命名",
+    "step4Description": "選擇您想要用於此錢包的區塊鏈，即可開始！",
+    "step4Header": "選擇區塊鏈",
+    "title": "建立新錢包"
+  },
+  "importModal": {
+    "instructionsTitle": "操作說明"
+  }
+}

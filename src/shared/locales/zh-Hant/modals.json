@@ -104,14 +104,14 @@
   },
   "confirmPasswordBackup": {
     "buttonContinueLabel": "立即備份",
-    "description": "為了建立備份檔案，請輸入您的 NEON 密碼：",
+    "description": "為了建立備份檔案，請輸入您的 Neon 密碼：",
     "error": "密碼不正確！",
     "errorBackup": "備份時發生錯誤，請再試一次。",
     "inputPlaceholder": "輸入您的密碼…",
     "modalDescription": "備份建立成功！",
     "returnSettings": "返回設定",
-    "subtitle": "目前的 NEON 密碼",
-    "title": "備份 NEON",
+    "subtitle": "目前的 Neon 密碼",
+    "title": "備份 Neon",
     "warning": "您需要此密碼來還原錢包。",
     "warningHighlighted": "請妥善保管！"
   },
@@ -122,14 +122,14 @@
     "inputPlaceholder": "輸入密碼…"
   },
   "confirmPasswordRecover": {
-    "buttonContinueLabel": "導入此 NEON 備份",
+    "buttonContinueLabel": "導入此備份",
     "description": "為了導入備份檔案，請輸入您建立備份時使用的密碼：",
     "error": "密碼不正確！",
     "inputPlaceholder": "輸入您的密碼…",
     "modalDescription": "備份導入成功！",
     "returnSettings": "返回設定",
     "subtitle": "備份密碼",
-    "title": "導入 NEON 備份"
+    "title": "導入備份"
   },
   "connectHardwareWallet": {
     "connectedMessage": "已偵測到您的硬體錢包！正在開啟錢包…",
@@ -140,7 +140,6 @@
     "title": "連接您的硬體錢包"
   },
   "createWallet": {
-    "heading": "正在建立您的新 BIP39 錢包",
     "step1": {
       "backButtonLabel": "返回",
       "copyButtonLabel": "複製",
@@ -151,8 +150,6 @@
       "title": "產生安全短語",
       "warning": "擁有這組短語的人將能存取您的資產，且無法追回！"
     },
-    "step1Description": "這組秘密詞語可輕鬆備份與還原您的帳戶，讓您的錢包更安全",
-    "step1Header": "產生安全短語",
     "step2": {
       "backButtonLabel": "返回",
       "description": "請依正確順序選擇每個詞語，以確認您記憶無誤：",
@@ -162,8 +159,6 @@
       "tryAgain": "請再試一次以確認備份",
       "warning": "如果忘記安全短語，別擔心，您可以在錢包「設定」中找到。"
     },
-    "step2Description": "正確記住短語很重要，我們會協助您確認。如果您趕時間，也可以稍後再做。",
-    "step2Header": "確認安全短語",
     "step3": {
       "backButtonLabel": "返回",
       "description": "給您的錢包取個容易記住的名字，建議以用途（如「投資」或「交易錢包」）命名。",
@@ -177,8 +172,6 @@
       "step3of4": "3 / 4",
       "title": "為新錢包命名與設置密碼"
     },
-    "step3Description": "給您的錢包取個容易記住的名字。",
-    "step3Header": "為新錢包命名",
     "step4": {
       "backButtonLabel": "返回",
       "createWalletButtonLabel": "建立錢包",
@@ -186,14 +179,11 @@
       "step4of4": "4 / 4",
       "title": "選擇網路"
     },
-    "step4Description": "選擇您想要用於此錢包的區塊鏈，即可開始！",
-    "step4Header": "選擇區塊鏈",
     "step5": {
       "description": "請妥善保管您的秘密短語，建議多重備份。如需查詢錢包短語，可至設定頁面。",
       "title": "恭喜，您現在擁有全新錢包！",
       "viewWalletButtonLabel": "查看錢包"
-    },
-    "title": "建立新錢包"
+    }
   },
   "dappConnection": {
     "buttonConnectLabel": "連接",
@@ -438,39 +428,6 @@
     "title": "新增觀察帳戶",
     "willBeAdded": "此帳戶將被新增："
   },
-  "migrateWallets": {
-    "instructionTitle": "操作說明",
-    "step2": {
-      "buttonBrowseLabel": "瀏覽…",
-      "buttonImportLabel": "導入",
-      "description": "為了完成 NEON 2 遷移流程，請選擇您的 NEON 2 錢包遷移檔案：",
-      "inputLabel": "選擇您的 NEON 2 遷移檔案",
-      "title": "導入您的 NEON 2 帳戶"
-    },
-    "step3": {
-      "alreadyImportedLabel": "已導入",
-      "buttonLabel": "選擇所選帳戶",
-      "selectAllButtonLabel": "全選",
-      "selectLabel": "帳戶",
-      "selectTitle": "選擇您要導入的帳戶",
-      "selectedQuantity": "已選擇 {{selected}} / {{total}} 個帳戶",
-      "title": "選擇要遷移的帳戶"
-    },
-    "step4": {
-      "buttonLabel": "遷移帳戶",
-      "description": "請為每個要導入的帳戶輸入密碼",
-      "inputLabel": "密碼",
-      "inputPlaceholder": "輸入帳戶密碼…",
-      "migrateError": "遷移時發生錯誤，請再試一次。",
-      "passwordError": "密碼不正確！",
-      "success": {
-        "buttonLabel": "查看您的資產組合",
-        "subtitle": "您的 NEON 2 帳戶已成功遷移！"
-      },
-      "title": "輸入您的帳戶密碼"
-    },
-    "title": "從 NEON 2 遷移"
-  },
   "neo3NeoxBridgeConfirmation": {
     "bridgeDetailsItemLabel": "您想要跨鏈",
     "confirmButtonLabel": "確認",
@@ -580,6 +537,65 @@
     "title": "想支持我們嗎？",
     "voteForCozButtonLabel": "請為 COZ 投票",
     "youCanSupportUsLabel": "如果您喜歡使用 Neon 或我們的任何其他產品，您可以投票支持我們，以幫助推動我們的發展。"
+  },
+  "neonMigrate": {
+    "step2": {
+      "browseButtonLabel": "瀏覽…",
+      "description": "為了匯入您的 Neon 2 帳戶，請選擇您的 Neon 2 遷移檔案：",
+      "importButtonLabel": "導入",
+      "inputLabel": "選擇您的 Neon 2 遷移檔案",
+      "title": "導入您的 Neon 2 帳戶"
+    },
+    "step3": {
+      "alreadyImportedLabel": "已導入",
+      "buttonLabel": "選擇所選帳戶",
+      "selectAllButtonLabel": "全選",
+      "selectLabel": "帳戶",
+      "selectTitle": "選擇您要導入的帳戶",
+      "selectedQuantity_one": "已選擇 {{selected}} / {{count}} 個帳戶",
+      "selectedQuantity_other": "已選擇 {{selected}} / {{count}} 個帳戶",
+      "title": "選擇要遷移的帳戶"
+    },
+    "step4": {
+      "buttonLabel": "遷移帳戶",
+      "description": "請為每個要導入的帳戶輸入密碼",
+      "inputLabel": "密碼",
+      "inputPlaceholder": "輸入帳戶密碼…",
+      "migrateError": "遷移時發生錯誤，請再試一次。",
+      "passwordError": "密碼不正確！",
+      "samePasswordLabel": "對所有帳戶使用相同的密碼",
+      "success": {
+        "buttonLabel": "查看您的資產組合",
+        "subtitle": "您的 Neon 2 帳戶已成功遷移！"
+      }
+    },
+    "title": "從 Neon 2 遷移"
+  },
+  "nep6BackupImport": {
+    "step3": {
+      "alreadyImportedLabel": "已導入",
+      "buttonLabel": "選擇所選帳戶",
+      "selectAllButtonLabel": "全選",
+      "selectLabel": "帳戶",
+      "selectTitle": "選擇您要導入的帳戶",
+      "selectedQuantity_one": "已選擇 {{selected}} / {{count}} 個帳戶",
+      "selectedQuantity_other": "已選擇 {{selected}} / {{count}} 個帳戶",
+      "title": "選擇要匯入的帳戶"
+    },
+    "step4": {
+      "buttonLabel": "匯入帳戶",
+      "description": "請為每個要導入的帳戶輸入密碼",
+      "importError": "匯入時發生錯誤，請再試一次。",
+      "inputLabel": "密碼",
+      "inputPlaceholder": "輸入帳戶密碼…",
+      "passwordError": "密碼不正確！",
+      "samePasswordLabel": "對所有帳戶使用相同的密碼",
+      "success": {
+        "buttonLabel": "查看您的資產組合",
+        "subtitle": "您的帳戶已匯入！"
+      }
+    },
+    "title": "匯入錢包"
   },
   "networkSelection": {
     "addCustomNetworkButtonLabel": "新增自訂網路",

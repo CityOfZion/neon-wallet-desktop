@@ -89,36 +89,45 @@ export type TUseTransactionsBuildTransactionsAggregatedQueryKeyParams = {
   networksByBlockchain?: TSelectedNetworks
 }
 
-//* useNeonMigrate types *//
+//* Backups and migrate types *//
 
-export type TUseNeonMigrateAccountsSchema = {
+export type TUseImportSharedAccountsSchema = {
   address: string
   label: string
   key: string
   blockchain: TBlockchainServiceKey
 }
 
-export type TUseNeonMigrateContactsSchema = {
+export type TUseImportSharedContactsSchema = {
   addresses: { address: string; blockchain: TBlockchainServiceKey }[]
   name: string
 }
 
-export type TUseNeonMigrateParsedContent = {
-  accounts: TUseNeonMigrateAccountsSchema[]
-  contacts: TUseNeonMigrateContactsSchema[]
+export type TUseImportSharedParsedContent = {
+  accounts: TUseImportSharedAccountsSchema[]
+  contacts?: TUseImportSharedContactsSchema[]
 }
 
-export type TUseNeonMigrateData = { content: TUseNeonMigrateParsedContent; type: 'migrate' }
+export type TUseNeonMigrateData = {
+  content: TUseImportSharedParsedContent
+  type: 'migrate'
+}
 
-export type TUseNeonMigrateDecryptedAccountSchema = TUseNeonMigrateAccountsSchema & {
+export type TUseNep6BackupData = {
+  content: TUseImportSharedParsedContent
+  type: 'nep6'
+}
+
+export type TUseImportSharedDecryptedAccountSchema = TUseImportSharedAccountsSchema & {
   decryptedKey: string
 }
 
-export type TUseNeonMigrateGeneratedData = {
+export type TUseImportSharedGeneratedData = {
   walletToCreate: TUseCreateWalletParams
   accountsToCreate: TAccountsToImport
   contactsToCreate: TContact[]
 }
+
 export type TUseNeonBackupAccount = zod.infer<typeof neonBackupDataSchema>['wallets'][0]['accounts'][0]
 export type TUseNeonBackupWallet = zod.infer<typeof neonBackupDataSchema>['wallets'][0]
 

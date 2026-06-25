@@ -1,6 +1,6 @@
 # Neon Wallet Desktop
 
-**Our New NEON Wallet Desktop** is a fast, secure, and user-friendly cryptocurrency wallet, designed to empower users with an enhanced experience for managing their digital assets across multiple blockchains.
+**Our New Neon Wallet Desktop** is a fast, secure, and user-friendly cryptocurrency wallet, designed to empower users with an enhanced experience for managing their digital assets across multiple blockchains.
 
 ## Features
 
@@ -20,11 +20,11 @@
 1. **Download the latest release** from the [Releases](https://github.com/CityOfZion/neon-wallet-desktop/releases/latest) page.
 2. **Install** the application on your platform:
    - **Windows**: Download the `.exe` installer and follow the installation wizard.
-   - **macOS**: Download the `.dmg` file, open it, and drag NEON to your Applications folder (this is an universal build, compatible with both Intel and ARM devices).
+   - **macOS**: Download the `.dmg` file, open it, and drag Neon to your Applications folder (this is an universal build, compatible with both Intel and ARM devices).
    - **Linux**: Download the `.deb` or `.AppImage` installer and follow the installation wizard.
 
 ## Roadmap
-We are continuously working to improve NEON 3 Wallet. Check out our [Roadmap](https://medium.com/proof-of-working/coz-presents-the-neon-wallet-roadmap-0a092742709e) for upcoming features and enhancements.
+We are continuously working to improve Neon Wallet. Check out our [Roadmap](https://medium.com/proof-of-working/coz-presents-the-neon-wallet-roadmap-0a092742709e) for upcoming features and enhancements.
 
 
 ## Community and Support

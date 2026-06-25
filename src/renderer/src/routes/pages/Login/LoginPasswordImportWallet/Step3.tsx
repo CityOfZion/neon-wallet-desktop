@@ -11,15 +11,15 @@ import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelp
 import { TestHelper } from '@renderer/helpers/TestHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
-import { TUseBackupOrMigrateActionsData, useBackupOrMigrate } from '@renderer/hooks/useBackupOrMigrate'
 import { useImportAction } from '@renderer/hooks/useImportAction'
+import { TUseImportFromFileActionsData, useImportFromFile } from '@renderer/hooks/useImportFromFile'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useLastIndexesByWallet } from '@renderer/hooks/useUtilitySelector'
 
 import TbFileImport from '@renderer/assets/images/tb-file-import.svg?react'
 
 import { TAccountsToImport, TBlockchainServiceKey, TUseCreateWalletParams } from '@shared/types/blockchain'
-import type { TUseNeonBackupGeneratedData, TUseNeonMigrateGeneratedData } from '@shared/types/hooks'
+import type { TUseImportSharedGeneratedData, TUseNeonBackupGeneratedData } from '@shared/types/hooks'
 
 type TLocationState = {
   password: string
@@ -131,25 +131,30 @@ export const LoginPasswordImportWalletStep3Content = () => {
     })
   }
 
-  const handleFileSubmit = async (data: TUseBackupOrMigrateActionsData) => {
+  const handleFileSubmit = async (data: TUseImportFromFileActionsData) => {
     if (!data.content || !data.path || !data.type) return
 
-    if (data.type === 'migrate') {
-      modalNavigate('migrate-accounts-step-3', {
-        state: {
-          content: data.content,
-          onDecrypt: ({ accountsToCreate, contactsToCreate, walletToCreate }: TUseNeonMigrateGeneratedData) => {
-            modalErase()
-            navigate('/login-import-wallet-setup/4', {
-              state: {
-                wallets: [{ ...walletToCreate, accounts: accountsToCreate }],
-                password: state.password,
-                contacts: contactsToCreate,
-              },
-            })
+    const isMigrate = data.type === 'migrate'
+    const isNep6 = data.type === 'nep6'
+
+    if (isMigrate || isNep6) {
+      const onDecrypt = ({ accountsToCreate, contactsToCreate, walletToCreate }: TUseImportSharedGeneratedData) => {
+        modalErase()
+        navigate('/login-import-wallet-setup/4', {
+          state: {
+            wallets: [{ ...walletToCreate, accounts: accountsToCreate }],
+            password: state.password,
+            contacts: contactsToCreate,
           },
-        },
-      })
+        })
+      }
+
+      if (isMigrate) {
+        modalNavigate('neon-migrate-step-3', { state: { content: data.content, onDecrypt } })
+      } else if (isNep6) {
+        modalNavigate('nep6-backup-import-step-3', { state: { content: data.content, onDecrypt } })
+      }
+
       return
     }
 
@@ -171,7 +176,7 @@ export const LoginPasswordImportWalletStep3Content = () => {
     address: submitAddress,
   })
 
-  const fileActions = useBackupOrMigrate()
+  const fileActions = useImportFromFile()
 
   useEffect(() => {
     if (!importActions.actionData.text) {

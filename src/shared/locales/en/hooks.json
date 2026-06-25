@@ -1,12 +1,4 @@
 {
-  "useBackupOrMigrate": {
-    "defaultAccountLabel": "Migrated account",
-    "defaultContactName": "Migrated contact",
-    "error": "File not recognised",
-    "filterName": "Neon backup or migration file",
-    "neon2MigrateFileDetected": "NEON2 migrate file detected",
-    "neon3BackupFileDetected": "NEON3 backup file detected"
-  },
   "useConfirmAction": {
     "unauthorizedAction": "Unauthorized. Please try again or contact support."
   },
@@ -34,6 +26,14 @@
       "mnemonicIncomplete": "Mnemonic incomplete"
     }
   },
+  "useImportFromFile": {
+    "error": "File not recognised",
+    "filterName": "Backup or migration file",
+    "migratedContactName": "Migrated contact",
+    "neon2MigrateFileDetected": "Neon 2 migration file detected",
+    "neonBackupFileDetected": "Neon backup file detected",
+    "nep6BackupFileDetected": "NEP-6 backup file detected"
+  },
   "useLogin": {
     "controlIsNotSet": "Unexpected error. Login control is not set.",
     "controlIsNotValid": "Unexpected error. Login control is not valid."
@@ -44,11 +44,11 @@
       "unexpectedError": "Unexpected error. Restart the application."
     }
   },
-  "useNeonImportBackup": {
+  "useNeonBackupFile": {
     "errors": {
       "importData": "There was an error importing the data (It might imported partially).",
       "wrongPassword": "The password is incorrect. Please try again.",
-      "wrongVersion": "The backup file version is not supported. Please try to generate a new backup in the latest NEON version."
+      "wrongVersion": "The backup file version is not supported. Please try to generate a new backup in the latest Neon version."
     }
   },
   "usePersistTrustlineMutation": {

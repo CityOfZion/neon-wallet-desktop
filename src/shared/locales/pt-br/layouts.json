@@ -1,0 +1,17 @@
+{
+  "createWalletModal": {
+    "heading": "Criando sua nova carteira BIP39",
+    "step1Description": "Este conjunto de palavras secretas facilita o backup e a restauração da sua conta. Isso torna sua carteira realmente segura",
+    "step1Header": "Gerar frase de segurança",
+    "step2Description": "É muito importante que você se lembre da sua frase corretamente, então vamos ajudá-lo com isso. Se você estiver com pressa, pode fazer isso em outro momento.",
+    "step2Header": "Confirmar frase de segurança",
+    "step3Description": "Dê à sua carteira um nome memorável.",
+    "step3Header": "Dê um nome à sua nova carteira",
+    "step4Description": "Selecione quais redes você gostaria de usar para esta carteira e você está pronto para começar!",
+    "step4Header": "Selecionar redes",
+    "title": "Criar nova carteira"
+  },
+  "importModal": {
+    "instructionsTitle": "Instruções"
+  }
+}

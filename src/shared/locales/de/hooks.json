@@ -1,12 +1,4 @@
 {
-  "useBackupOrMigrate": {
-    "defaultAccountLabel": "Migriertes Konto",
-    "defaultContactName": "Migrierter Kontakt",
-    "error": "Datei nicht erkannt",
-    "filterName": "Neon-Sicherungs- oder Migrationsdatei",
-    "neon2MigrateFileDetected": "NEON2-Migrationsdatei erkannt",
-    "neon3BackupFileDetected": "NEON3-Sicherungsdatei erkannt"
-  },
   "useConfirmAction": {
     "unauthorizedAction": "Nicht autorisiert. Bitte versuchen Sie es erneut oder kontaktieren Sie den Support."
   },
@@ -34,6 +26,14 @@
       "mnemonicIncomplete": "Mnemonic unvollständig"
     }
   },
+  "useImportFromFile": {
+    "error": "Datei nicht erkannt",
+    "filterName": "Sicherungs- oder Migrationsdatei",
+    "migratedContactName": "Migrierter Kontakt",
+    "neon2MigrateFileDetected": "Neon 2-Migrationsdatei erkannt",
+    "neonBackupFileDetected": "Neon-Sicherungsdatei erkannt",
+    "nep6BackupFileDetected": "NEP-6-Sicherungsdatei erkannt"
+  },
   "useLogin": {
     "controlIsNotSet": "Unerwarteter Fehler. Login-Steuerung ist nicht gesetzt.",
     "controlIsNotValid": "Unerwarteter Fehler. Login-Steuerung ist nicht gültig."
@@ -44,11 +44,11 @@
       "unexpectedError": "Unerwarteter Fehler. Starten Sie die Anwendung neu."
     }
   },
-  "useNeonImportBackup": {
+  "useNeonBackupFile": {
     "errors": {
       "importData": "Es gab einen Fehler beim Importieren der Daten (möglicherweise teilweise importiert).",
       "wrongPassword": "Das Passwort ist falsch. Bitte versuchen Sie es erneut.",
-      "wrongVersion": "Die Sicherungsdateiversion wird nicht unterstützt. Bitte versuchen Sie, eine neue Sicherung in der neuesten NEON-Version zu erstellen."
+      "wrongVersion": "Die Sicherungsdateiversion wird nicht unterstützt. Bitte versuchen Sie, eine neue Sicherung in der neuesten Neon-Version zu erstellen."
     }
   },
   "usePersistTrustlineMutation": {

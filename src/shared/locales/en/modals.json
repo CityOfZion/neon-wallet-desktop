@@ -104,14 +104,14 @@
   },
   "confirmPasswordBackup": {
     "buttonContinueLabel": "Backup Now",
-    "description": "In order to create your backup file, please provide your NEON password below:",
+    "description": "In order to create your backup file, please provide your Neon password below:",
     "error": "Password not recognised!",
     "errorBackup": "There was an error trying to backup. Please, try again.",
     "inputPlaceholder": "Enter your password…",
     "modalDescription": "Backup created successfully!",
     "returnSettings": "Return to Settings",
-    "subtitle": "Current NEON Password",
-    "title": "Backup NEON",
+    "subtitle": "Current Neon password",
+    "title": "Backup Neon",
     "warning": "You’ll need this password to restore your wallet.",
     "warningHighlighted": "Please keep it safe!"
   },
@@ -122,14 +122,14 @@
     "inputPlaceholder": "Enter password…"
   },
   "confirmPasswordRecover": {
-    "buttonContinueLabel": "Import this NEON backup",
+    "buttonContinueLabel": "Import this backup",
     "description": "In order to import your backup file, please provide the password you used to create the backup:",
     "error": "Password not recognised!",
     "inputPlaceholder": "Enter your password…",
     "modalDescription": "Backup imported successfully!",
     "returnSettings": "Return to Settings",
     "subtitle": "Backup Password",
-    "title": "Import NEON Backup"
+    "title": "Import backup"
   },
   "connectHardwareWallet": {
     "connectedMessage": "Detected your hardware wallet! Opening your wallet…",
@@ -140,7 +140,6 @@
     "title": "Connect your hardware wallet"
   },
   "createWallet": {
-    "heading": "Creating your new BIP39 wallet",
     "step1": {
       "backButtonLabel": "Back",
       "copyButtonLabel": "Copy",
@@ -151,8 +150,6 @@
       "title": "Generate security phrase",
       "warning": "Anyone with this phrase will be able to access your hard-earned assets and you won’t be able to get them back!"
     },
-    "step1Description": "This set of secret words make it easy to back up and restore your account. This makes your wallet really secure",
-    "step1Header": "Generate security phrase",
     "step2": {
       "backButtonLabel": "Back",
       "description": "Please select each phrase in the correct order to make sure you’ve got it right:",
@@ -162,8 +159,6 @@
       "tryAgain": "Please try again to confirm your back up",
       "warning": "If you can’t remember your security phrase, don’t worry, you can find it in the ‘Settings’ section of the wallet"
     },
-    "step2Description": "It’s really important you remember your phrase correctly so we will help you with that. If you’re in a rush you can do it another time.",
-    "step2Header": "Confirm security phrase",
     "step3": {
       "backButtonLabel": "Back",
       "description": "Give your wallet a memorable name, it could be helpful to name it with a label related to what you want to use the wallet for (such as ‘Investments’ or ‘Trading Wallet’).",
@@ -177,8 +172,6 @@
       "step3of4": "3 of 4",
       "title": "Give your new wallet a name and passphrase"
     },
-    "step3Description": "Give your wallet a memorable name.",
-    "step3Header": "Give your new wallet a name",
     "step4": {
       "backButtonLabel": "Back",
       "createWalletButtonLabel": "Create wallet",
@@ -186,14 +179,11 @@
       "step4of4": "4 of 4",
       "title": "Select network"
     },
-    "step4Description": "Select which chains you would like to use for this wallet, and you're ready to go!",
-    "step4Header": "Select chains",
     "step5": {
       "description": "Remember to keep your secret phrase safe, having several backups is always a good idea. If you need to find out a wallets secret phrase you can find it in the settings page for that wallet.",
       "title": "Congratulations, you’re now the proud owner of a shiny new wallet!",
       "viewWalletButtonLabel": "View wallet"
-    },
-    "title": "Create new wallet"
+    }
   },
   "dappConnection": {
     "buttonConnectLabel": "Connect",
@@ -438,39 +428,6 @@
     "title": "Add a watch account",
     "willBeAdded": "This account will be added:"
   },
-  "migrateWallets": {
-    "instructionTitle": "Instructions",
-    "step2": {
-      "buttonBrowseLabel": "Browse…",
-      "buttonImportLabel": "Import",
-      "description": "In order to complete the NEON 2 migration process,  please locate your NEON 2 wallet migration file:",
-      "inputLabel": "Locate your NEON 2 migration file",
-      "title": "Import your NEON 2 accounts"
-    },
-    "step3": {
-      "alreadyImportedLabel": "Imported",
-      "buttonLabel": "Choose selected accounts",
-      "selectAllButtonLabel": "Select all",
-      "selectLabel": "Accounts",
-      "selectTitle": "Select which accounts you want to import",
-      "selectedQuantity": "{{selected}} of {{total}} accounts selected",
-      "title": "Choose the accounts to migrate"
-    },
-    "step4": {
-      "buttonLabel": "Migrate accounts",
-      "description": "Enter your passwords for each account you want to import",
-      "inputLabel": "Password",
-      "inputPlaceholder": "Enter account password…",
-      "migrateError": "There was an error trying to migrate. Please, try again.",
-      "passwordError": "Password not recognised!",
-      "success": {
-        "buttonLabel": "View your portfolio",
-        "subtitle": "Your NEON 2 accounts have been successfully migrated!"
-      },
-      "title": "Enter your account passwords"
-    },
-    "title": "Migrate from NEON 2"
-  },
   "neo3NeoxBridgeConfirmation": {
     "bridgeDetailsItemLabel": "You want to bridge",
     "confirmButtonLabel": "Confirm",
@@ -580,6 +537,65 @@
     "title": "Fancy supporting us?",
     "voteForCozButtonLabel": "Cast your vote for COZ",
     "youCanSupportUsLabel": "If you like using Neon or any of our other products, you may want to support us with your vote to help drive our development."
+  },
+  "neonMigrate": {
+    "step2": {
+      "browseButtonLabel": "Browse…",
+      "description": "To import your Neon 2 accounts, please locate your Neon 2 migration file:",
+      "importButtonLabel": "Import",
+      "inputLabel": "Locate your Neon 2 migration file",
+      "title": "Import your Neon 2 accounts"
+    },
+    "step3": {
+      "alreadyImportedLabel": "Imported",
+      "buttonLabel": "Choose selected accounts",
+      "selectAllButtonLabel": "Select all",
+      "selectLabel": "Accounts",
+      "selectTitle": "Select which accounts you want to import",
+      "selectedQuantity_one": "{{selected}} of {{count}} account selected",
+      "selectedQuantity_other": "{{selected}} of {{count}} accounts selected",
+      "title": "Choose the accounts to migrate"
+    },
+    "step4": {
+      "buttonLabel": "Migrate accounts",
+      "description": "Enter your passwords for each account you want to import",
+      "inputLabel": "Password",
+      "inputPlaceholder": "Enter account password…",
+      "migrateError": "There was an error trying to migrate. Please, try again.",
+      "passwordError": "Password not recognised!",
+      "samePasswordLabel": "Use the same password for all accounts",
+      "success": {
+        "buttonLabel": "View your portfolio",
+        "subtitle": "Your Neon 2 accounts have been successfully migrated!"
+      }
+    },
+    "title": "Migrate from Neon 2"
+  },
+  "nep6BackupImport": {
+    "step3": {
+      "alreadyImportedLabel": "Imported",
+      "buttonLabel": "Choose selected accounts",
+      "selectAllButtonLabel": "Select all",
+      "selectLabel": "Accounts",
+      "selectTitle": "Select which accounts you want to import",
+      "selectedQuantity_one": "{{selected}} of {{count}} account selected",
+      "selectedQuantity_other": "{{selected}} of {{count}} accounts selected",
+      "title": "Choose the accounts to import"
+    },
+    "step4": {
+      "buttonLabel": "Import accounts",
+      "description": "Enter your passwords for each account you want to import",
+      "importError": "There was an error trying to import. Please, try again.",
+      "inputLabel": "Password",
+      "inputPlaceholder": "Enter account password…",
+      "passwordError": "Password not recognised!",
+      "samePasswordLabel": "Use the same password for all accounts",
+      "success": {
+        "buttonLabel": "View your portfolio",
+        "subtitle": "Your accounts have been imported!"
+      }
+    },
+    "title": "Import wallet"
   },
   "networkSelection": {
     "addCustomNetworkButtonLabel": "Add custom network",

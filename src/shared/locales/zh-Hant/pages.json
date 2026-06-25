@@ -137,7 +137,7 @@
       "alert": "COZ 不是此跨鏈流程的維護方 —— Neo Global Development 才是維護方。",
       "description1": "輕鬆地在不同網路之間跨鏈您的加密資產，而不需要離開您的錢包。",
       "description2": "區塊鏈彼此獨立，無法互動 —— 這就是跨鏈橋的作用。它類似於在不同國家旅行時兌換貨幣，跨鏈橋允許您在不同區塊鏈之間轉移資產。",
-      "description3": "在 NEON 中直接且即時跨鏈代幣既方便，又能節省時間和支付更低的費用。",
+      "description3": "在 Neon 中直接且即時跨鏈代幣既方便，又能節省時間和支付更低的費用。",
       "title": "它是如何運作的？"
     },
     "form": {
@@ -269,7 +269,7 @@
     },
     "walletTasksManagerSetup": {
       "useBackupReminderNotificationProcess": {
-        "notificationDescription": "我們建議在\"設定 > 安全性 > 備份 NEON\"中建立新的備份檔案以保護您的錢包。為了增強安全性，您還可以在\"錢包 > 三點（工具）> 匯出\"中手動匯出助記詞，並在\"錢包 > 三點 > 匯出金鑰\"中匯出私密金鑰。",
+        "notificationDescription": "我們建議在\"設定 > 安全性 > 備份 Neon\"中建立新的備份檔案以保護您的錢包。為了增強安全性，您還可以在\"錢包 > 三點（工具）> 匯出\"中手動匯出助記詞，並在\"錢包 > 三點 > 匯出金鑰\"中匯出私密金鑰。",
         "notificationTitle": "建立新的備份檔案！"
       }
     }
@@ -372,7 +372,7 @@
         "subtitle": "如果您遺失密碼，將無法找回。"
       },
       "step3": {
-        "subtitle": "您的 NEON 3 密碼已成功更改！"
+        "subtitle": "您的 Neon 密碼已成功更改！"
       },
       "title": "更改密碼"
     },
@@ -411,18 +411,18 @@
       "theme": "主題"
     },
     "securityOption": {
-      "backupWallet": "備份 NEON",
+      "backupWallet": "備份 Neon",
       "changePassword": "更改密碼",
       "encryptKey": "加密金鑰",
-      "migrateWallets": "從 NEON 2.0 遷移",
-      "recoverWallet": "匯入 NEON 備份"
+      "migrateWallets": "從 Neon 2 遷移",
+      "recoverWallet": "匯入備份"
     },
     "settingsBackupWallet": {
       "backup": "備份",
       "browse": "瀏覽…",
       "description": "將備份檔案儲存到您的電腦，若您遺失存取權或裝置損壞時可恢復錢包。",
       "saveBackupLabel": "您想將備份儲存在哪裡？",
-      "title": "備份 NEON",
+      "title": "備份 Neon",
       "warning": "注意：此操作將備份您的整個錢包"
     },
     "settingsCurrency": {
@@ -436,14 +436,6 @@
     "settingsLanguage": {
       "title": "語言"
     },
-    "settingsMigrateWallets": {
-      "descriptionWhy": "遷移您的 NEON 2 錢包將讓您存取更多支援資產，並享受更流暢、改進的用戶體驗，讓資產管理更輕鬆！",
-      "importButtonLabel": "匯入您的 NEON 2 錢包",
-      "startProcessButtonLabel": "在 NEON 2 開始流程",
-      "subtitleHow": "如何從 Neon 2 遷移？",
-      "subtitleWhy": "為什麼要遷移到 NEON 3？",
-      "title": "從 NEON 2.0 遷移"
-    },
     "settingsMobileApp": {
       "appStoreImageLabel": "在 App Store 下載",
       "descriptionLine1": "安全地儲存、查看和管理您的所有數位資產及多個錢包於同一處。",
@@ -451,6 +443,14 @@
       "playStoreImageLabel": "在 Google Play 下載",
       "subtitle": "您的錢包也可在行動裝置上使用！",
       "title": "行動應用程式"
+    },
+    "settingsNeonMigrate": {
+      "descriptionWhy": "遷移您的 Neon 2 錢包將讓您存取更多支援資產，並享受更流暢、改進的用戶體驗，讓資產管理更輕鬆！",
+      "importButtonLabel": "匯入您的 Neon 2 錢包",
+      "startProcessButtonLabel": "在 Neon 2 開始流程",
+      "subtitleHow": "如何從 Neon 2 遷移？",
+      "subtitleWhy": "為什麼要遷移到 Neon？",
+      "title": "從 Neon 2 遷移"
     },
     "settingsNetwork": {
       "createProfileButtonLabel": "建立設定檔",
@@ -465,10 +465,10 @@
     "settingsRecoverWallet": {
       "backup": "匯入備份",
       "browse": "瀏覽…",
-      "description": "若您遺失錢包存取權，可從本地備份檔案匯入。只需找到您的本地備份檔案並輸入建立備份時使用的密碼，即可恢復存取權。",
-      "nameExtension": "NEON 備份檔案",
+      "description": "無論您是遺失了錢包存取權，還是只想從備份開啟錢包，都可以從本地備份檔案匯入——包括 Neon 和 NEP-6 備份。只需找到該檔案並輸入建立備份時設定的密碼即可。",
+      "nameExtension": "Neon 備份檔案",
       "saveBackupLabel": "尋找您的備份檔案",
-      "title": "匯入 NEON 備份"
+      "title": "匯入備份"
     },
     "settingsReleaseNotes": {
       "button": {
@@ -485,7 +485,7 @@
   "swap": {
     "explanation": {
       "description1": "跨鏈兌換代幣，無需使用交易所。",
-      "description2": " 直接且即時在 NEON 兌換代幣，方便又可節省時間與手續費。",
+      "description2": " 直接且即時在 Neon 兌換代幣，方便又可節省時間與手續費。",
       "title": "如何運作？",
       "useTitle": "Neon 錢包使用："
     },

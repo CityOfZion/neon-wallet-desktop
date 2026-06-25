@@ -1,0 +1,17 @@
+{
+  "createWalletModal": {
+    "heading": "Creating your new BIP39 wallet",
+    "step1Description": "This set of secret words make it easy to back up and restore your account. This makes your wallet really secure",
+    "step1Header": "Generate security phrase",
+    "step2Description": "It’s really important you remember your phrase correctly so we will help you with that. If you’re in a rush you can do it another time.",
+    "step2Header": "Confirm security phrase",
+    "step3Description": "Give your wallet a memorable name.",
+    "step3Header": "Give your new wallet a name",
+    "step4Description": "Select which chains you would like to use for this wallet, and you're ready to go!",
+    "step4Header": "Select chains",
+    "title": "Create new wallet"
+  },
+  "importModal": {
+    "instructionsTitle": "Instructions"
+  }
+}

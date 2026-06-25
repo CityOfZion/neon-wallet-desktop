@@ -92,22 +92,22 @@
     "empty": "沒有代幣",
     "placeholder": "選擇代幣…"
   },
-  "migrateSteps": {
-    "inNeon2": {
-      "label": "在 NEON 2",
-      "step1": "匯出您的 NEON 2 錢包"
-    },
-    "inNeon3": {
-      "label": "在 NEON 3",
-      "step2": "匯入您的 NEON 2 帳戶",
-      "step3": "選擇要遷移的帳戶",
-      "step4": "輸入您的帳戶密碼"
-    }
-  },
   "mnemonicOrKeyAccountSelection": {
     "accountsLength": "找到 {{length}} 個地址",
     "alreadyExists": "已存在",
     "noAccountsToImport": "未找到帳戶或帳戶已存在，請檢查您的輸入並稍後再試。"
+  },
+  "neonMigrateSteps": {
+    "inNeon": {
+      "label": "在 Neon",
+      "step2": "匯入您的 Neon 2 帳戶",
+      "step3": "選擇要遷移的帳戶",
+      "step4": "輸入您的帳戶密碼"
+    },
+    "inNeon2": {
+      "label": "在 Neon 2",
+      "step1": "匯出您的 Neon 2 錢包"
+    }
   },
   "passwordStrength": {
     "good": "良好",

@@ -104,14 +104,14 @@
   },
   "confirmPasswordBackup": {
     "buttonContinueLabel": "Jetzt sichern",
-    "description": "Um Ihre Sicherungsdatei zu erstellen, geben Sie bitte unten Ihr NEON-Passwort ein:",
+    "description": "Um Ihre Sicherungsdatei zu erstellen, geben Sie bitte unten Ihr Neon-Passwort ein:",
     "error": "Passwort nicht erkannt!",
     "errorBackup": "Es gab einen Fehler beim Versuch zu sichern. Bitte versuchen Sie es erneut.",
     "inputPlaceholder": "Geben Sie Ihr Passwort ein…",
     "modalDescription": "Sicherung erfolgreich erstellt!",
     "returnSettings": "Zurück zu den Einstellungen",
-    "subtitle": "Aktuelles NEON-Passwort",
-    "title": "NEON sichern",
+    "subtitle": "Aktuelles Neon-Passwort",
+    "title": "Neon sichern",
     "warning": "Sie benötigen dieses Passwort, um Ihr Wallet wiederherzustellen.",
     "warningHighlighted": "Bitte bewahren Sie es sicher auf!"
   },
@@ -122,14 +122,14 @@
     "inputPlaceholder": "Passwort eingeben…"
   },
   "confirmPasswordRecover": {
-    "buttonContinueLabel": "Dieses NEON-Backup importieren",
+    "buttonContinueLabel": "Dieses Backup importieren",
     "description": "Um Ihre Sicherungsdatei zu importieren, geben Sie bitte das Passwort ein, das Sie zum Erstellen der Sicherung verwendet haben:",
     "error": "Passwort nicht erkannt!",
     "inputPlaceholder": "Geben Sie Ihr Passwort ein…",
     "modalDescription": "Backup erfolgreich importiert!",
     "returnSettings": "Zurück zu den Einstellungen",
     "subtitle": "Backup-Passwort",
-    "title": "NEON-Backup importieren"
+    "title": "Backup importieren"
   },
   "connectHardwareWallet": {
     "connectedMessage": "Ihr Hardware Wallet erkannt! Öffne Ihr Wallet…",
@@ -140,7 +140,6 @@
     "title": "Verbinden Sie Ihr Hardware Wallet"
   },
   "createWallet": {
-    "heading": "Erstellen Sie Ihr neues BIP39-Wallet",
     "step1": {
       "backButtonLabel": "Zurück",
       "copyButtonLabel": "Kopieren",
@@ -151,8 +150,6 @@
       "title": "Sicherheitsphrase generieren",
       "warning": "Jeder, der diese Phrase hat, kann auf Ihre hart verdienten Assets zugreifen, und Sie werden sie nicht zurückbekommen können!"
     },
-    "step1Description": "Diese Reihe geheimer Wörter macht es einfach, Ihr Konto zu sichern und wiederherzustellen. Dies macht Ihr Wallet wirklich sicher",
-    "step1Header": "Sicherheitsphrase generieren",
     "step2": {
       "backButtonLabel": "Zurück",
       "description": "Bitte wählen Sie jede Phrase in der richtigen Reihenfolge aus, um sicherzustellen, dass Sie sie richtig haben:",
@@ -162,8 +159,6 @@
       "tryAgain": "Bitte versuchen Sie erneut, Ihre Sicherung zu bestätigen",
       "warning": "Wenn Sie sich nicht an Ihre Sicherheitsphrase erinnern können, keine Sorge, Sie finden sie im Abschnitt 'Einstellungen' des Wallets"
     },
-    "step2Description": "Es ist wirklich wichtig, dass Sie sich Ihre Phrase richtig merken, daher werden wir Ihnen dabei helfen. Wenn Sie es eilig haben, können Sie es ein anderes Mal tun.",
-    "step2Header": "Sicherheitsphrase bestätigen",
     "step3": {
       "backButtonLabel": "Zurück",
       "description": "Geben Sie Ihrem Wallet einen einprägsamen Namen, es könnte hilfreich sein, es mit einem Label zu benennen, das sich auf den Verwendungszweck des Wallets bezieht (z. B. 'Investitionen' oder 'Handels-Wallet').",
@@ -177,8 +172,6 @@
       "step3of4": "3 von 4",
       "title": "Geben Sie Ihrem neuen Wallet einen Namen und eine Passphrase"
     },
-    "step3Description": "Geben Sie Ihrem Wallet einen einprägsamen Namen.",
-    "step3Header": "Geben Sie Ihrem neuen Wallet einen Namen",
     "step4": {
       "backButtonLabel": "Zurück",
       "createWalletButtonLabel": "Wallet erstellen",
@@ -186,14 +179,11 @@
       "step4of4": "4 von 4",
       "title": "Netzwerk auswählen"
     },
-    "step4Description": "Wählen Sie aus, welche Chains Sie für dieses Wallet verwenden möchten, und schon können Sie loslegen!",
-    "step4Header": "Chains auswählen",
     "step5": {
       "description": "Denken Sie daran, Ihre geheime Phrase sicher aufzubewahren, mehrere Sicherungen zu haben ist immer eine gute Idee. Wenn Sie die geheime Phrase eines Wallets herausfinden müssen, finden Sie sie auf der Einstellungsseite dieses Wallets.",
       "title": "Herzlichen Glückwunsch, Sie sind jetzt stolzer Besitzer eines brandneuen Wallets!",
       "viewWalletButtonLabel": "Wallet anzeigen"
-    },
-    "title": "Neues Wallet erstellen"
+    }
   },
   "dappConnection": {
     "buttonConnectLabel": "Verbinden",
@@ -438,39 +428,6 @@
     "title": "Beobachtungskonto hinzufügen",
     "willBeAdded": "Dieses Konto wird hinzugefügt:"
   },
-  "migrateWallets": {
-    "instructionTitle": "Anweisungen",
-    "step2": {
-      "buttonBrowseLabel": "Durchsuchen…",
-      "buttonImportLabel": "Importieren",
-      "description": "Um den NEON 2 Migrationsprozess abzuschließen, suchen Sie bitte Ihre NEON 2 Wallet-Migrationsdatei:",
-      "inputLabel": "Suchen Sie Ihre NEON 2 Migrationsdatei",
-      "title": "Importieren Sie Ihre NEON 2 Konten"
-    },
-    "step3": {
-      "alreadyImportedLabel": "Importiert",
-      "buttonLabel": "Ausgewählte Konten auswählen",
-      "selectAllButtonLabel": "Alle auswählen",
-      "selectLabel": "Konten",
-      "selectTitle": "Wählen Sie aus, welche Konten Sie importieren möchten",
-      "selectedQuantity": "{{selected}} von {{total}} Konten ausgewählt",
-      "title": "Wählen Sie die zu migrierenden Konten aus"
-    },
-    "step4": {
-      "buttonLabel": "Konten migrieren",
-      "description": "Geben Sie Ihre Passwörter für jedes Konto ein, das Sie importieren möchten",
-      "inputLabel": "Passwort",
-      "inputPlaceholder": "Kontopasswort eingeben…",
-      "migrateError": "Es gab einen Fehler beim Versuch zu migrieren. Bitte versuchen Sie es erneut.",
-      "passwordError": "Passwort nicht erkannt!",
-      "success": {
-        "buttonLabel": "Ihr Portfolio anzeigen",
-        "subtitle": "Ihre NEON 2 Konten wurden erfolgreich migriert!"
-      },
-      "title": "Geben Sie Ihre Kontopasswörter ein"
-    },
-    "title": "Von NEON 2 migrieren"
-  },
   "neo3NeoxBridgeConfirmation": {
     "bridgeDetailsItemLabel": "Sie möchten verbinden",
     "confirmButtonLabel": "Bestätigen",
@@ -580,6 +537,65 @@
     "title": "Möchtest du uns unterstützen?",
     "voteForCozButtonLabel": "Geben Sie Ihre Stimme für COZ ab.",
     "youCanSupportUsLabel": "Wenn Ihnen Neon oder eines unserer anderen Produkte gefällt, können Sie uns mit Ihrer Stimme unterstützen und so unsere Weiterentwicklung vorantreiben."
+  },
+  "neonMigrate": {
+    "step2": {
+      "browseButtonLabel": "Durchsuchen…",
+      "description": "Um Ihre Neon 2 Konten zu importieren, suchen Sie bitte Ihre Neon 2 Migrationsdatei:",
+      "importButtonLabel": "Importieren",
+      "inputLabel": "Suchen Sie Ihre Neon 2 Migrationsdatei",
+      "title": "Importieren Sie Ihre Neon 2 Konten"
+    },
+    "step3": {
+      "alreadyImportedLabel": "Importiert",
+      "buttonLabel": "Ausgewählte Konten auswählen",
+      "selectAllButtonLabel": "Alle auswählen",
+      "selectLabel": "Konten",
+      "selectTitle": "Wählen Sie aus, welche Konten Sie importieren möchten",
+      "selectedQuantity_one": "{{selected}} von {{count}} Konto ausgewählt",
+      "selectedQuantity_other": "{{selected}} von {{count}} Konten ausgewählt",
+      "title": "Wählen Sie die zu migrierenden Konten aus"
+    },
+    "step4": {
+      "buttonLabel": "Konten migrieren",
+      "description": "Geben Sie Ihre Passwörter für jedes Konto ein, das Sie importieren möchten",
+      "inputLabel": "Passwort",
+      "inputPlaceholder": "Kontopasswort eingeben…",
+      "migrateError": "Es gab einen Fehler beim Versuch zu migrieren. Bitte versuchen Sie es erneut.",
+      "passwordError": "Passwort nicht erkannt!",
+      "samePasswordLabel": "Dasselbe Passwort für alle Konten verwenden",
+      "success": {
+        "buttonLabel": "Ihr Portfolio anzeigen",
+        "subtitle": "Ihre Neon 2 Konten wurden erfolgreich migriert!"
+      }
+    },
+    "title": "Von Neon 2 migrieren"
+  },
+  "nep6BackupImport": {
+    "step3": {
+      "alreadyImportedLabel": "Importiert",
+      "buttonLabel": "Ausgewählte Konten auswählen",
+      "selectAllButtonLabel": "Alle auswählen",
+      "selectLabel": "Konten",
+      "selectTitle": "Wählen Sie aus, welche Konten Sie importieren möchten",
+      "selectedQuantity_one": "{{selected}} von {{count}} Konto ausgewählt",
+      "selectedQuantity_other": "{{selected}} von {{count}} Konten ausgewählt",
+      "title": "Wählen Sie die zu importierenden Konten aus"
+    },
+    "step4": {
+      "buttonLabel": "Konten importieren",
+      "description": "Geben Sie Ihre Passwörter für jedes Konto ein, das Sie importieren möchten",
+      "importError": "Beim Importieren ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
+      "inputLabel": "Passwort",
+      "inputPlaceholder": "Kontopasswort eingeben…",
+      "passwordError": "Passwort nicht erkannt!",
+      "samePasswordLabel": "Dasselbe Passwort für alle Konten verwenden",
+      "success": {
+        "buttonLabel": "Ihr Portfolio anzeigen",
+        "subtitle": "Ihre Konten wurden importiert!"
+      }
+    },
+    "title": "Wallet importieren"
   },
   "networkSelection": {
     "addCustomNetworkButtonLabel": "Benutzerdefiniertes Netzwerk hinzufügen",

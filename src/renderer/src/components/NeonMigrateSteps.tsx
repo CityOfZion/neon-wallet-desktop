@@ -10,7 +10,7 @@ import MdLooksOne from '@renderer/assets/images/md-looks-one.svg?react'
 import MdLooksTwo from '@renderer/assets/images/md-looks-two.svg?react'
 
 type TProps = ComponentProps<'div'> & {
-  currentStep?: number
+  step?: number
 }
 
 type TStepProps = {
@@ -38,8 +38,8 @@ const Step = ({ icon, colorSchema, label, className, ...props }: TStepProps) => 
   )
 }
 
-export const MigrateSteps = ({ className, currentStep, ...props }: TProps) => {
-  const { t } = useTranslation('components', { keyPrefix: 'migrateSteps' })
+export const NeonMigrateSteps = ({ className, step, ...props }: TProps) => {
+  const { t } = useTranslation('components', { keyPrefix: 'neonMigrateSteps' })
 
   return (
     <div className={StyleHelper.mergeStyles('w-full', className)} {...props}>
@@ -49,31 +49,31 @@ export const MigrateSteps = ({ className, currentStep, ...props }: TProps) => {
         icon={<MdLooksOne aria-hidden />}
         colorSchema="green"
         label={t('inNeon2.step1')}
-        aria-selected={currentStep === 1}
+        aria-selected={step === 1}
       />
 
-      <span className="text-blue mt-5 mb-1 block text-sm font-light">{t('inNeon3.label')}</span>
+      <span className="text-blue mt-5 mb-1 block text-sm font-light">{t('inNeon.label')}</span>
 
       <Step
         icon={<MdLooksTwo />}
         colorSchema="blue"
-        label={t('inNeon3.step2')}
+        label={t('inNeon.step2')}
         className="rounded-b-none"
-        aria-selected={currentStep === 2}
+        aria-selected={step === 2}
       />
       <Step
         icon={<MdLooks3 />}
         colorSchema="blue"
-        label={t('inNeon3.step3')}
+        label={t('inNeon.step3')}
         className="rounded-none"
-        aria-selected={currentStep === 3}
+        aria-selected={step === 3}
       />
       <Step
         icon={<MdLooks4 />}
         colorSchema="blue"
-        label={t('inNeon3.step4')}
+        label={t('inNeon.step4')}
         className="rounded-t-none"
-        aria-selected={currentStep === 4}
+        aria-selected={step === 4}
       />
     </div>
   )

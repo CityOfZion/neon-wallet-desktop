@@ -1,7 +1,5 @@
 import { Fragment } from 'react'
 
-import { useTranslation } from 'react-i18next'
-
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Input } from '@renderer/components/Input'
 
@@ -13,31 +11,31 @@ import MdCheck from '@renderer/assets/images/md-check.svg?react'
 import MdChevronRight from '@renderer/assets/images/md-chevron-right.svg?react'
 import TbAlertTriangle from '@renderer/assets/images/tb-alert-triangle.svg?react'
 
-import { AppError } from '@shared/helpers/SharedErrorHelper'
-import type { TUseNeonMigrateAccountsSchema } from '@shared/types/hooks'
+import type { TUseImportSharedAccountsSchema } from '@shared/types/hooks'
 
 type TProps = {
-  accountToMigrate: TUseNeonMigrateAccountsSchema
-  onSubmit: (accountToMigrate: TUseNeonMigrateAccountsSchema, password: string) => Promise<void>
+  account: TUseImportSharedAccountsSchema
+  inputLabel: string
+  inputPlaceholder: string
+  error: string
+  onSubmit: (account: TUseImportSharedAccountsSchema, password: string) => Promise<void>
 }
 
-type TActionData = {
+type TActionsData = {
   password: string
 }
 
-export const MigrateAccountsStep4Password = ({ accountToMigrate, onSubmit }: TProps) => {
-  const { t } = useTranslation('modals', { keyPrefix: 'migrateWallets.step4' })
-
-  const { actionData, actionState, setDataFromEventWrapper, setError, handleAct } = useActions<TActionData>({
+export const ImportPasswordRow = ({ account, inputLabel, inputPlaceholder, error, onSubmit }: TProps) => {
+  const { actionData, actionState, setDataFromEventWrapper, setError, handleAct } = useActions<TActionsData>({
     password: '',
   })
 
-  const handleSubmit = async (data: TActionData) => {
+  const handleSubmit = async (data: TActionsData) => {
     try {
-      await onSubmit(accountToMigrate, data.password)
-    } catch (error) {
-      LoggerHelper.error(error, { where: 'MigrateAccountsStep4Password', operation: 'submitAccountToMigrate' })
-      setError('password', AppError.wrap(error, t('passwordError')).displayMessage)
+      await onSubmit(account, data.password)
+    } catch (submitError) {
+      LoggerHelper.error(submitError, { where: 'ImportPasswordRow', operation: 'submitAccountPassword' })
+      setError('password', error)
     }
   }
 
@@ -48,13 +46,13 @@ export const MigrateAccountsStep4Password = ({ accountToMigrate, onSubmit }: TPr
       </div>
 
       <div className="flex min-w-0 grow flex-col gap-1">
-        <span className="text-sm text-white">{accountToMigrate.label}</span>
-        <span className="truncate text-xs text-gray-300">{accountToMigrate.address}</span>
+        <span className="text-sm text-white">{account.label}</span>
+        <span className="truncate text-xs text-gray-300">{account.address}</span>
 
         <Input
-          label={t('inputLabel')}
+          label={inputLabel}
           containerClassName="mt-1.5"
-          placeholder={t('inputPlaceholder')}
+          placeholder={inputPlaceholder}
           type="password"
           value={actionData.password}
           onChange={setDataFromEventWrapper('password')}
@@ -65,16 +63,16 @@ export const MigrateAccountsStep4Password = ({ accountToMigrate, onSubmit }: TPr
           readOnly={actionState.hasActed && actionState.isValid}
         />
 
-        {!!actionState.errors.password && <AlertErrorBanner message={actionState.errors.password} className="mt-2.5" />}
+        {!!actionState.errors.password && <AlertErrorBanner message={actionState.errors.password} className="mt-2" />}
       </div>
 
       <div className="flex h-full w-6 items-start">
         {actionState.hasActed && (
           <Fragment>
             {actionState.isValid ? (
-              <MdCheck aria-hidden className="text-green h-6 w-6" />
+              <MdCheck aria-hidden className="text-green size-6" />
             ) : (
-              <TbAlertTriangle aria-hidden className="text-pink h-6 w-6" />
+              <TbAlertTriangle aria-hidden className="text-pink size-6" />
             )}
           </Fragment>
         )}

@@ -15,7 +15,8 @@ import { SideModalLayout, TSideModalLayoutProps } from './SideModal'
 type TProps = TSideModalLayoutProps
 
 export const CreateWalletModalLayout = ({ children, contentClassName, ...props }: TProps) => {
-  const { t } = useTranslation('modals', { keyPrefix: 'createWallet' })
+  const { t } = useTranslation('layouts', { keyPrefix: 'createWalletModal' })
+
   return (
     <SideModalLayout
       heading={t('title')}

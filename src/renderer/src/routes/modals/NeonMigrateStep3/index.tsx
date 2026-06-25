@@ -10,49 +10,55 @@ import { Separator } from '@renderer/components/Separator'
 import { useAccountUtils } from '@renderer/hooks/useAccountSelector'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 
-import { MigrateAccountsModalLayout } from '@renderer/layouts/MigrateAccountsModalLayout'
+import { ImportModalLayout } from '@renderer/layouts/ImportModalLayout'
 
 import MdLooks3 from '@renderer/assets/images/md-looks-3.svg?react'
 
-import type { TUseNeonMigrateAccountsSchema } from '@shared/types/hooks'
+import type { TUseImportSharedAccountsSchema } from '@shared/types/hooks'
 import type { TModalState } from '@shared/types/modal'
 
-const MigrateAccountsStep3Modal = () => {
-  const { t } = useTranslation('modals', { keyPrefix: 'migrateWallets.step3' })
-  const { content, onDecrypt } = useModalState<TModalState<'migrate-accounts-step-3'>>()
+const NeonMigrateStep3Modal = () => {
+  const { t } = useTranslation('modals', { keyPrefix: 'neonMigrate' })
+  const { content, onDecrypt } = useModalState<TModalState<'neon-migrate-step-3'>>()
   const { modalNavigateWrapper } = useModalNavigate()
   const { doesAccountExist } = useAccountUtils()
 
-  const [selectedAccountsToMigrate, setSelectedAccountsToMigrate] = useState<TUseNeonMigrateAccountsSchema[]>([])
+  const [accounts, setAccounts] = useState<TUseImportSharedAccountsSchema[]>([])
 
-  const handleSelect = (wallet: TUseNeonMigrateAccountsSchema) => {
-    setSelectedAccountsToMigrate(prev => {
-      const index = prev.findIndex(prevWallet => prevWallet.address === wallet.address)
+  const handleToggleAccount = (account: TUseImportSharedAccountsSchema) => {
+    setAccounts(previousAccounts => {
+      const index = previousAccounts.findIndex(currentAccount => currentAccount.address === account.address)
 
       if (index === -1) {
-        return [...prev, wallet]
+        return [...previousAccounts, account]
       }
 
-      return prev.filter(prevWallet => prevWallet.address !== wallet.address)
+      return previousAccounts.filter(currentAccount => currentAccount.address !== account.address)
     })
   }
 
-  const handleSelectAll = () => {
-    const filteredContent = content.accounts.filter(account => {
+  const handleSelectAllAccounts = () => {
+    const filteredAccounts = content.accounts.filter(account => {
       return !doesAccountExist(account)
     })
 
-    setSelectedAccountsToMigrate(filteredContent)
+    setAccounts(filteredAccounts)
   }
 
   return (
-    <MigrateAccountsModalLayout currentStep={3} stepIcon={<MdLooks3 />} stepTitle={t('title')} withBackButton>
-      <p className="text-white">{t('selectTitle')}</p>
+    <ImportModalLayout
+      heading={t('title')}
+      size="xl"
+      step={3}
+      stepIcon={<MdLooks3 aria-hidden />}
+      stepTitle={t('step3.title')}
+    >
+      <p className="text-white">{t('step3.selectTitle')}</p>
 
       <div className="mt-8 flex justify-between">
-        <span className="text-gray-100 uppercase">{t('selectLabel')}</span>
+        <span className="text-gray-100 uppercase">{t('step3.selectLabel')}</span>
 
-        <Button label={t('selectAllButtonLabel')} variant="text-slim" flat onClick={handleSelectAll} />
+        <Button label={t('step3.selectAllButtonLabel')} variant="text-slim" flat onClick={handleSelectAllAccounts} />
       </div>
 
       <div className="mt-1 flex min-h-0 w-full grow flex-col overflow-y-auto pr-2">
@@ -68,18 +74,17 @@ const MigrateAccountsStep3Modal = () => {
                   <div className="flex flex-col gap-1">
                     <div className="flex gap-2">
                       <span className="text-sm text-white">{account.label}</span>
-                      {isAccountExist && <span className="text-green text-sm italic">{t('alreadyImportedLabel')}</span>}
+                      {isAccountExist && (
+                        <span className="text-green text-sm italic">{t('step3.alreadyImportedLabel')}</span>
+                      )}
                     </div>
                     <span className="text-xs text-gray-300">{account.address}</span>
                   </div>
                 </div>
 
                 <Checkbox
-                  onClick={handleSelect.bind(null, account)}
-                  checked={
-                    isAccountExist ||
-                    selectedAccountsToMigrate.some(selectWallet => selectWallet.address === account.address)
-                  }
+                  onClick={handleToggleAccount.bind(null, account)}
+                  checked={isAccountExist || accounts.some(selectWallet => selectWallet.address === account.address)}
                   disabled={isAccountExist}
                 />
               </div>
@@ -91,20 +96,20 @@ const MigrateAccountsStep3Modal = () => {
       </div>
 
       <span className="text-blue my-3.5 text-center">
-        {t('selectedQuantity', { selected: selectedAccountsToMigrate.length, total: content.accounts.length })}
+        {t('step3.selectedQuantity', { selected: accounts.length, count: content.accounts.length })}
       </span>
 
       <Button
-        label={t('buttonLabel')}
+        label={t('step3.buttonLabel')}
         flat
         className="px-16"
-        disabled={selectedAccountsToMigrate.length <= 0}
-        onClick={modalNavigateWrapper('migrate-accounts-step-4', {
-          state: { selectedAccountsToMigrate, content, onDecrypt },
+        disabled={accounts.length <= 0}
+        onClick={modalNavigateWrapper('neon-migrate-step-4', {
+          state: { accounts, content, onDecrypt },
         })}
       />
-    </MigrateAccountsModalLayout>
+    </ImportModalLayout>
   )
 }
 
-export default MigrateAccountsStep3Modal
+export default NeonMigrateStep3Modal
