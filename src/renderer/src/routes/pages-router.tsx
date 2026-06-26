@@ -13,6 +13,7 @@ const ForgottenPasswordConfirmPage = lazy(() => import('@renderer/routes/pages/F
 const ContactsPage = lazy(() => import('./pages/Contacts'))
 const ForgottenPasswordSuccessPage = lazy(() => import('./pages/ForgottenPassword/Success'))
 const LoginPage = lazy(() => import('./pages/Login'))
+const LoginEncryptedKeySelectAccountPage = lazy(() => import('./pages/LoginEncryptedKeySelectAccount'))
 const LoginKeySelectAccountPage = lazy(() => import('./pages/LoginKeySelectAccount'))
 const Neo3NeoXBridgePage = lazy(() => import('./pages/Neo3NeoXBridge'))
 const PortfolioPage = lazy(() => import('./pages/Portfolio'))
@@ -236,6 +237,10 @@ export const pagesRouter = createHashRouter([
           {
             path: 'login-key-select-account',
             element: <LoginKeySelectAccountPage />,
+          },
+          {
+            path: 'login-encrypted-key-select-account',
+            element: <LoginEncryptedKeySelectAccountPage />,
           },
           {
             path: 'forgotten-password',
