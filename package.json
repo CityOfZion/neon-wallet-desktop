@@ -150,7 +150,7 @@
     "vite-plugin-svgr": "~4.5.0"
   },
   "overrides": {
-    "@cityofzion/neon-core": "5.8.1",
-    "@cityofzion/neon-js": "5.8.1"
+    "@cityofzion/neon-core@5": "5.8.1",
+    "@cityofzion/neon-js@5": "5.8.1"
   }
 }
