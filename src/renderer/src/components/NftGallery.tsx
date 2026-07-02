@@ -67,7 +67,7 @@ export const NftGallery = ({ account, nfts }: TProps) => {
                     key={photo.key}
                     src={photo.src}
                     alt={photo.title}
-                    className="pointer-events-none block h-full w-full"
+                    className="pointer-events-none block size-full"
                   />
                 </div>
               )}
@@ -82,7 +82,7 @@ export const NftGallery = ({ account, nfts }: TProps) => {
                 {photo.nft.collection?.image && (
                   <div className="min-size-4 mt-0.5 size-4 overflow-hidden rounded-full bg-gray-300/30">
                     <img
-                      className="h-full w-full object-cover"
+                      className="size-full object-cover"
                       src={photo.nft.collection.image}
                       alt={photo.nft.collection.name}
                     />

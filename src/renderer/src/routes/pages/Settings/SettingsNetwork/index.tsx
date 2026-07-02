@@ -25,8 +25,6 @@ const SettingsNetwork = () => {
         </div>
       }
     >
-      <p className="mb-7 text-xs">{t('youAreConnectedNeoAndEth')}</p>
-
       <Accordion.Root type="multiple" defaultValue={['neo3']} className="pb-8">
         {BlockchainServiceHelper.blockchainNames.map(blockchain => (
           <BlockchainNetworkAccordion key={`network-${blockchain}`} blockchain={blockchain as TBlockchainServiceKey} />

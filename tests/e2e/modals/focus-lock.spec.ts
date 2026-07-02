@@ -24,6 +24,6 @@ test.describe('Focus lock', () => {
       playwrightConfig.use!.testIdAttribute!
     )
 
-    expect(testId).toBe('center-modal-close-button')
+    expect(testId).toBe('center-modal-erase-button')
   })
 })

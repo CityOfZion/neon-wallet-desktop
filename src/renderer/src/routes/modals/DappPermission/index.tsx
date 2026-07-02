@@ -139,7 +139,12 @@ export const DappPermissionModal = () => {
   const Content = CUSTOM_CONTENT_BY_REQUEST[blockchain]?.[request.params.request.method] || DappPermissionGenericContent
 
   return (
-    <CenterModalLayout contentClassName="px-0 flex flex-col pb-5 min-h-0" onErase={handleReject}>
+    <CenterModalLayout
+      contentClassName="px-0 flex flex-col pb-5 min-h-0"
+      eraseOnEsc={false}
+      eraseOnClickOutside={false}
+      onErase={handleReject}
+    >
       <Content
         request={request}
         session={session}

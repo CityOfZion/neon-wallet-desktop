@@ -42,7 +42,7 @@ export const Tooltip = ({ children, title, icon, open, delayDuration, variant = 
             {...contentProps}
           >
             {icon}
-            {title}
+            <span className="block">{title}</span>
             <RadixTooltip.Arrow
               className={StyleHelper.mergeStyles(
                 { 'fill-gray-700': isDefaultVariant, 'fill-gray-900': isBlackVariant },

@@ -72,9 +72,6 @@ export const navigateToGeneralSettings = async (window: Page) => {
 
 export const importWalletUntilCompletionStep = async (window: Page) => {
   const mnemonic = process.env.TEST_MNEMONIC
-  if (!mnemonic) {
-    throw new Error('TEST_MNEMONIC is not defined')
-  }
 
   await window.getByTestId('welcome-continue').click()
   await window.getByTestId('import-wallet').click()

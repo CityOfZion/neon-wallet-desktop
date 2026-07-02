@@ -7,6 +7,8 @@ import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { SharedI18nextHelper } from '@shared/helpers/SharedI18nextHelper'
 import type { TBlockchainServiceKey, TBSAggregator } from '@shared/types/blockchain'
 
+import { MainHardwareWalletHelper } from './hardware-wallet'
+
 const { t } = SharedI18nextHelper.get()
 
 export class MainBlockchainServiceHelper {
@@ -14,7 +16,6 @@ export class MainBlockchainServiceHelper {
 
   static async getHardwareWalletTransport(account: TBSAccount<TBlockchainServiceKey>) {
     try {
-      const { MainHardwareWalletHelper } = await import('./hardware-wallet')
       return await MainHardwareWalletHelper.getTransport(account)
     } catch (error) {
       throw new AppError(t('hardwareWallet.errors.hardwareWalletIsNotConnectOrUnlocked'), error)

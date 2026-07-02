@@ -1,7 +1,13 @@
-import { BSBigHumanAmount, BSBigNumber } from '@cityofzion/blockchain-service'
+import { BSBigHumanAmount, BSBigNumber, TBSToken } from '@cityofzion/blockchain-service'
 import { BSNeo3Constants } from '@cityofzion/bs-neo3'
 
 import type { TBlockchainServiceKey } from '@shared/types/blockchain'
+
+type TTipConfig = {
+  address: string
+  token: TBSToken
+  minBn: BSBigHumanAmount
+}
 
 // If you need to add more constants, please verify if they fit better in other helper or in your own helper.
 export class ConstantsHelper {
@@ -28,7 +34,7 @@ export class ConstantsHelper {
   static readonly neo3VoteCozPubKey = '02946248f71bdf14933e6735da9867e81cc9eea0b5895329aa7f71e7745cf40659'
 
   static tipPercentageBn = new BSBigNumber('0.01') // 1%
-  static tipConfigByBlockchain = new Map([
+  static tipConfigByBlockchain = new Map<TBlockchainServiceKey, TTipConfig>([
     [
       'neo3',
       {

@@ -25,7 +25,7 @@ export const NftList = ({ account, nfts }: TProps) => {
           <Fragment>
             {nft.image && (
               <div className="h-14 max-h-14 min-h-14 w-20 max-w-20 min-w-20 overflow-hidden rounded-sm bg-gray-300/30">
-                <img className="pointer-events-none h-full w-full object-cover" src={nft.image} alt={nft.name} />
+                <img className="pointer-events-none size-full object-cover" src={nft.image} alt={nft.name} />
               </div>
             )}
 
@@ -36,11 +36,7 @@ export const NftList = ({ account, nfts }: TProps) => {
                 <div className="flex items-center gap-1.5">
                   {nft.collection?.image && (
                     <div className="min-size-4 size-4 overflow-hidden rounded-full bg-gray-300/30">
-                      <img
-                        className="h-full w-full object-cover"
-                        src={nft.collection.image}
-                        alt={nft.collection.name}
-                      />
+                      <img className="size-full object-cover" src={nft.collection.image} alt={nft.collection.name} />
                     </div>
                   )}
 

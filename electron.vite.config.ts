@@ -1,6 +1,6 @@
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
-import { defineConfig, externalizeDepsPlugin } from 'electron-vite'
+import { defineConfig } from 'electron-vite'
 import { resolve } from 'path'
 import { nodePolyfills } from 'vite-plugin-node-polyfills'
 import svgr from 'vite-plugin-svgr'
@@ -12,7 +12,9 @@ export default defineConfig({
         '@shared': resolve('src/shared'),
       },
     },
-    plugins: [externalizeDepsPlugin()],
+    build: {
+      externalizeDeps: true,
+    },
   },
   preload: {
     resolve: {
@@ -20,7 +22,9 @@ export default defineConfig({
         '@shared': resolve('src/shared'),
       },
     },
-    plugins: [externalizeDepsPlugin()],
+    build: {
+      externalizeDeps: true,
+    },
   },
   renderer: {
     resolve: {

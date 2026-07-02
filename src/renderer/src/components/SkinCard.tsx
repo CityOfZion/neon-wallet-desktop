@@ -28,7 +28,7 @@ export const SkinCard = ({ showCheck, image, color, className, component }: TPro
             aria-hidden
             src={image}
             alt=""
-            className="pointer-events-none absolute inset-0 m-auto h-full w-full object-cover"
+            className="pointer-events-none absolute inset-0 m-auto size-full object-cover"
           />
         ))
         .with({ component: P.when(value => !!value) }, ({ component }) =>

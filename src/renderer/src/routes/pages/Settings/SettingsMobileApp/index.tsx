@@ -39,7 +39,7 @@ const SettingsMobileApp = () => {
             target="_blank"
             rel="noreferrer"
           >
-            <img src={PlayStore} aria-hidden className="w-44 cursor-pointer" />
+            <img src={PlayStore} alt="" aria-hidden className="w-44 cursor-pointer" />
           </a>
         </div>
       </div>

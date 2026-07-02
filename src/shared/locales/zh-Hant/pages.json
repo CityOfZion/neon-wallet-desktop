@@ -473,10 +473,8 @@
       "currentNetwork": "目前網路",
       "editProfileButtonLabel": "編輯設定檔",
       "networkUrlSelection": "網路URL選擇",
-      "resetProfileButtonLabel": "重設設定檔",
       "selectProfilePlaceholder": "選擇設定檔…",
-      "title": "網路設定",
-      "youAreConnectedNeoAndEth": "您已連接至 Neo 和以太坊網路"
+      "title": "網路設定"
     },
     "settingsRecoverWallet": {
       "backup": "匯入備份",

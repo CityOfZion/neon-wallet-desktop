@@ -6,7 +6,7 @@
     "noEmit": true
   },
   "include": [
-    "scripts/**/*.ts",
-    "src/shared/helpers/SharedEnvHelper.ts"
+    "./scripts/**/*.ts",
+    "./src/shared/helpers/SharedEnvHelper.ts"
   ]
 }

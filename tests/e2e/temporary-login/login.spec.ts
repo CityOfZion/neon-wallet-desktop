@@ -23,9 +23,6 @@ test.describe('Temporary Login', () => {
 
   test('Should be able to login using a private key', async () => {
     const key = process.env.TEST_NEO3_KEY
-    if (!key) {
-      throw new Error('TEST_NEO3_KEY is not defined')
-    }
 
     await loginWithKey(window, key)
 
@@ -37,8 +34,8 @@ test.describe('Temporary Login', () => {
   })
 
   test('Should be able to login using an encrypted key (Neo 3)', async () => {
-    const encryptedKey = process.env.TEST_NEO3_ENCRYPTED_KEY!
-    const password = process.env.TEST_ENCRYPTED_KEY_PASSWORD!
+    const encryptedKey = process.env.TEST_NEO3_ENCRYPTED_KEY
+    const password = process.env.TEST_ENCRYPTED_KEY_PASSWORD
 
     await loginWithEncryptedKey(window, encryptedKey, password)
 
@@ -52,8 +49,8 @@ test.describe('Temporary Login', () => {
   })
 
   test('Should be able to import selected accounts from an encrypted key (Neo 3)', async () => {
-    const encryptedKey = process.env.TEST_NEO3_ENCRYPTED_KEY!
-    const password = process.env.TEST_ENCRYPTED_KEY_PASSWORD!
+    const encryptedKey = process.env.TEST_NEO3_ENCRYPTED_KEY
+    const password = process.env.TEST_ENCRYPTED_KEY_PASSWORD
 
     await loginWithEncryptedKey(window, encryptedKey, password)
 
@@ -67,7 +64,7 @@ test.describe('Temporary Login', () => {
   })
 
   test('Should not be able to decrypt when password is wrong (Neo 3)', async () => {
-    const encryptedKey = process.env.TEST_NEO3_ENCRYPTED_KEY!
+    const encryptedKey = process.env.TEST_NEO3_ENCRYPTED_KEY
 
     await window.getByTestId('welcome-continue').click()
     await window.getByTestId('welcome-tab-key').click()
@@ -87,7 +84,7 @@ test.describe('Temporary Login', () => {
   })
 
   test('Should have the decrypt button disabled when password is empty (Neo 3)', async () => {
-    const encryptedKey = process.env.TEST_NEO3_ENCRYPTED_KEY!
+    const encryptedKey = process.env.TEST_NEO3_ENCRYPTED_KEY
 
     await window.getByTestId('welcome-continue').click()
     await window.getByTestId('welcome-tab-key').click()
@@ -101,8 +98,8 @@ test.describe('Temporary Login', () => {
   })
 
   test('Should be able to login using an encrypted key (Ethereum)', async () => {
-    const encryptedKey = process.env.TEST_ETHEREUM_ENCRYPTED_KEY!
-    const password = process.env.TEST_ENCRYPTED_KEY_PASSWORD!
+    const encryptedKey = process.env.TEST_ETHEREUM_ENCRYPTED_KEY
+    const password = process.env.TEST_ENCRYPTED_KEY_PASSWORD
 
     await loginWithEncryptedKey(window, encryptedKey, password)
 
@@ -116,8 +113,8 @@ test.describe('Temporary Login', () => {
   })
 
   test('Should be able to import selected accounts from an encrypted key (Ethereum)', async () => {
-    const encryptedKey = process.env.TEST_ETHEREUM_ENCRYPTED_KEY!
-    const password = process.env.TEST_ENCRYPTED_KEY_PASSWORD!
+    const encryptedKey = process.env.TEST_ETHEREUM_ENCRYPTED_KEY
+    const password = process.env.TEST_ENCRYPTED_KEY_PASSWORD
 
     await loginWithEncryptedKey(window, encryptedKey, password)
 
@@ -131,7 +128,7 @@ test.describe('Temporary Login', () => {
   })
 
   test('Should not be able to decrypt when password is wrong (Ethereum)', async () => {
-    const encryptedKey = process.env.TEST_ETHEREUM_ENCRYPTED_KEY!
+    const encryptedKey = process.env.TEST_ETHEREUM_ENCRYPTED_KEY
 
     await window.getByTestId('welcome-continue').click()
     await window.getByTestId('welcome-tab-key').click()
@@ -151,7 +148,7 @@ test.describe('Temporary Login', () => {
   })
 
   test('Should have the decrypt button disabled when password is empty (Ethereum)', async () => {
-    const encryptedKey = process.env.TEST_ETHEREUM_ENCRYPTED_KEY!
+    const encryptedKey = process.env.TEST_ETHEREUM_ENCRYPTED_KEY
 
     await window.getByTestId('welcome-continue').click()
     await window.getByTestId('welcome-tab-key').click()
@@ -165,8 +162,8 @@ test.describe('Temporary Login', () => {
   })
 
   test('Should be able to login using an encrypted key (Bitcoin)', async () => {
-    const encryptedKey = process.env.TEST_BITCOIN_ENCRYPTED_KEY!
-    const password = process.env.TEST_ENCRYPTED_KEY_PASSWORD!
+    const encryptedKey = process.env.TEST_BITCOIN_ENCRYPTED_KEY
+    const password = process.env.TEST_ENCRYPTED_KEY_PASSWORD
 
     await loginWithEncryptedKey(window, encryptedKey, password)
 
@@ -180,8 +177,8 @@ test.describe('Temporary Login', () => {
   })
 
   test('Should be able to import selected accounts from an encrypted key (Bitcoin)', async () => {
-    const encryptedKey = process.env.TEST_BITCOIN_ENCRYPTED_KEY!
-    const password = process.env.TEST_ENCRYPTED_KEY_PASSWORD!
+    const encryptedKey = process.env.TEST_BITCOIN_ENCRYPTED_KEY
+    const password = process.env.TEST_ENCRYPTED_KEY_PASSWORD
 
     await loginWithEncryptedKey(window, encryptedKey, password)
 
@@ -195,7 +192,7 @@ test.describe('Temporary Login', () => {
   })
 
   test('Should not be able to decrypt when password is wrong (Bitcoin)', async () => {
-    const encryptedKey = process.env.TEST_BITCOIN_ENCRYPTED_KEY!
+    const encryptedKey = process.env.TEST_BITCOIN_ENCRYPTED_KEY
 
     await window.getByTestId('welcome-continue').click()
     await window.getByTestId('welcome-tab-key').click()
@@ -215,7 +212,7 @@ test.describe('Temporary Login', () => {
   })
 
   test('Should have the decrypt button disabled when password is empty (Bitcoin)', async () => {
-    const encryptedKey = process.env.TEST_BITCOIN_ENCRYPTED_KEY!
+    const encryptedKey = process.env.TEST_BITCOIN_ENCRYPTED_KEY
 
     await window.getByTestId('welcome-continue').click()
     await window.getByTestId('welcome-tab-key').click()
@@ -230,9 +227,6 @@ test.describe('Temporary Login', () => {
 
   test('Should be able to login using a mnemonic', async () => {
     const mnemonic = process.env.TEST_MNEMONIC
-    if (!mnemonic) {
-      throw new Error('TEST_MNEMONIC is not defined')
-    }
 
     await loginWithKey(window, mnemonic)
 

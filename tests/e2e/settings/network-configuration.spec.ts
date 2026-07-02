@@ -67,12 +67,11 @@ test.describe('Network Configuration', () => {
     await expect(window.getByTestId('blockchain-network-current-neo3')).toBeDisabled()
   })
 
-  test('Should not show Edit profile and Reset profile options for the default profile', async () => {
+  test('Should not show Edit profile option for the default profile', async () => {
     await window.getByTestId('network-profile-actions-button').click()
 
     await expect(window.getByTestId('network-profile-actions-create')).toBeVisible()
     await expect(window.getByTestId('network-profile-actions-edit')).not.toBeVisible()
-    await expect(window.getByTestId('network-profile-actions-reset')).not.toBeVisible()
   })
 
   test('Should create a new network profile', async () => {
@@ -111,21 +110,6 @@ test.describe('Network Configuration', () => {
     await window.getByTestId('add-network-profile-delete').click()
 
     await expect(window.getByTestId('network-profile-select')).not.toContainText('Test Profile')
-  })
-
-  test('Should reset a custom network profile to default networks', async () => {
-    await createAndSelectProfile(window, 'Test Profile')
-
-    await window.getByTestId('blockchain-network-current-neo3').click()
-    await window.getByText(testnetName).click()
-    await window.getByTestId('network-selection-save').click()
-
-    await expect(window.getByTestId('blockchain-network-current-neo3')).toContainText(testnetName)
-
-    await window.getByTestId('network-profile-actions-button').click()
-    await window.getByTestId('network-profile-actions-reset').click()
-
-    await expect(window.getByTestId('blockchain-network-current-neo3')).not.toContainText(testnetName)
   })
 
   test('Should open the network selection modal for a non-default profile', async () => {

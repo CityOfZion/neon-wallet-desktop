@@ -91,12 +91,12 @@ export const CommonScreenActions = ({ children, className, ...props }: TProps) =
           >
             <ActionPopover.Item
               actionPopoverItemType="button"
-              label={t('chatWithUsButtonLabel')}
+              label={t('liveSupportButtonLabel')}
               colorSchema="white"
               iconsOnEdge={false}
               leftIcon={<TbMessage aria-hidden="true" className="text-yellow" />}
               onClick={CrispHelper.open}
-              {...TestHelper.buildTestObject('help-chat-with-us')}
+              {...TestHelper.buildTestObject('help-live-support')}
             />
 
             <ActionPopover.Item

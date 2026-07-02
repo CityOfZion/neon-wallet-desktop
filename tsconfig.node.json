@@ -1,13 +1,12 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "composite": true,
     "lib": [
       "ESNext"
     ],
     "paths": {
       "@shared/*": [
-        "src/shared/*"
+        "./src/shared/*"
       ],
     },
     "types": [
@@ -17,12 +16,10 @@
   "extends": "@electron-toolkit/tsconfig/tsconfig.node.json",
   "include": [
     "electron.vite.config.*",
-    "src/main/**/*",
-    "src/shared/**/*",
-    "src/shared/**/*.json",
-    "src/preload/**/*",
+    "./src/main/**/*",
+    "./src/shared/**/*",
+    "./src/preload/**/*",
     "sentry.config.ts",
-    "package.json",
-    "tailwind.config.ts"
+    "package.json"
   ]
 }

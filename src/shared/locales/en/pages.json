@@ -421,9 +421,9 @@
       "currency": "Currency",
       "general": "General",
       "language": "Language",
-      "mobileApp": "Mobile App",
-      "networkConfiguration": "Network Configuration",
-      "releaseNotes": "Release Notes",
+      "mobileApp": "Mobile app",
+      "networkConfiguration": "Network configuration",
+      "releaseNotes": "Release notes",
       "theme": "Theme"
     },
     "securityOption": {
@@ -470,13 +470,11 @@
     },
     "settingsNetwork": {
       "createProfileButtonLabel": "Create profile",
-      "currentNetwork": "Current Network",
+      "currentNetwork": "Current network",
       "editProfileButtonLabel": "Edit profile",
       "networkUrlSelection": "Network URL selection",
-      "resetProfileButtonLabel": "Reset profile",
       "selectProfilePlaceholder": "Select a profile…",
-      "title": "Network Configuration",
-      "youAreConnectedNeoAndEth": "You are connected to both the Neo and Ethereum networks"
+      "title": "Network configuration"
     },
     "settingsRecoverWallet": {
       "backup": "Import backup",

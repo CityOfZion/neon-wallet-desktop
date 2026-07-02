@@ -112,7 +112,12 @@ export const DappPermissionContractDetailsModal = () => {
   }, [contractQuery.data, contractQuery.isLoading, operation, values])
 
   return (
-    <CenterModalLayout contentClassName="px-0 flex flex-col pb-5 min-h-0" onErase={onReject}>
+    <CenterModalLayout
+      contentClassName="px-0 flex flex-col pb-5 min-h-0"
+      eraseOnEsc={false}
+      eraseOnClickOutside={false}
+      onErase={onReject}
+    >
       {contractQuery.isLoading ? (
         <ScreenLoader />
       ) : (

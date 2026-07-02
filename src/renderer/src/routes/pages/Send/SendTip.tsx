@@ -1,4 +1,4 @@
-import { BSBigHumanAmount, type TBSToken } from '@cityofzion/blockchain-service'
+import { BSBigHumanAmount, BSBigNumber, type TBSToken } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
 
 import { Checkbox } from '@renderer/components/Checkbox'
@@ -12,7 +12,7 @@ import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 type TProps = {
   className?: string
   amountBn: BSBigHumanAmount
-  fiatPriceBn: BigNumber
+  fiatPriceBn: BSBigNumber
   token: TBSToken
   isChecked: boolean
   isDisabled: boolean
