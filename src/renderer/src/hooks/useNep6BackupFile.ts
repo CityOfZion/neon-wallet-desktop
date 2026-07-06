@@ -1,24 +1,29 @@
 import { useTranslation } from 'react-i18next'
 
-import { AccountHelper } from '@renderer/helpers/AccountHelper'
+import { Nep6Helper } from '@renderer/helpers/Nep6Helper'
 
 import { nep6BackupSchema } from '@shared/schemas/nep6-backup'
 import { TAccountsToImport, TUseCreateWalletParams } from '@shared/types/blockchain'
 import type {
-  TUseImportSharedDecryptedAccountSchema,
-  TUseImportSharedGeneratedData,
-  TUseNep6BackupData,
+  TUseImportNep6Account,
+  TUseImportNep6DecryptedAccount,
+  TUseNep6Data,
+  TUseNep6GeneratedData,
 } from '@shared/types/hooks'
-import { TContact } from '@shared/types/store'
+
+import { useImportAccounts } from './useAccountActions'
+import { useCreateWallet } from './useWalletActions'
 
 const nep6BackupSchemaWithTransform = nep6BackupSchema.transform(data => ({
-  accounts: AccountHelper.transformAccounts(data.accounts),
+  accounts: Nep6Helper.transformAccounts(data.accounts),
 }))
 
 export const useNep6BackupFile = () => {
   const { t: tCommonWallet } = useTranslation('common', { keyPrefix: 'wallet' })
+  const { importAccounts } = useImportAccounts()
+  const { createWallet } = useCreateWallet()
 
-  const validateAndParseBackupFile = async (fileContent: string): Promise<TUseNep6BackupData | undefined> => {
+  const validateAndParseBackupFile = async (fileContent: string): Promise<TUseNep6Data | undefined> => {
     try {
       const parsedContent = JSON.parse(fileContent)
       const validatedContent = await nep6BackupSchemaWithTransform.parseAsync(parsedContent)
@@ -33,10 +38,10 @@ export const useNep6BackupFile = () => {
     return undefined
   }
 
-  const handleGenerateData = (
-    decryptedAccounts: TUseImportSharedDecryptedAccountSchema[]
-  ): TUseImportSharedGeneratedData => {
-    const contactsToCreate: TContact[] = []
+  const handleTryDecryptAccount = (account: TUseImportNep6Account, password: string) =>
+    Nep6Helper.decryptAccount(account, password)
+
+  const handleGenerateData = (decryptedAccounts: TUseImportNep6DecryptedAccount[]): TUseNep6GeneratedData => {
     const walletToCreate: TUseCreateWalletParams = { name: tCommonWallet('importedName'), backupStatus: 'successful' }
     const accountsToCreate: TAccountsToImport = []
 
@@ -49,12 +54,20 @@ export const useNep6BackupFile = () => {
     return {
       walletToCreate,
       accountsToCreate,
-      contactsToCreate,
     }
+  }
+
+  const handleImportBackupData = async (data: TUseNep6GeneratedData) => {
+    const wallet = createWallet(data.walletToCreate)
+    const accounts = await importAccounts({ wallet, accounts: data.accountsToCreate })
+
+    return { wallet, accounts }
   }
 
   return {
     validateAndParseBackupFile,
+    handleTryDecryptAccount,
     handleGenerateData,
+    handleImportBackupData,
   }
 }

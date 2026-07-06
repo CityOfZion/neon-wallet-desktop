@@ -19,7 +19,11 @@ import { useLastIndexesByWallet } from '@renderer/hooks/useUtilitySelector'
 import TbFileImport from '@renderer/assets/images/tb-file-import.svg?react'
 
 import { TAccountsToImport, TBlockchainServiceKey, TUseCreateWalletParams } from '@shared/types/blockchain'
-import type { TUseImportSharedGeneratedData, TUseNeonBackupGeneratedData } from '@shared/types/hooks'
+import type {
+  TUseNeonBackupGeneratedData,
+  TUseNeonMigrateGeneratedData,
+  TUseNep6GeneratedData,
+} from '@shared/types/hooks'
 
 type TLocationState = {
   password: string
@@ -134,11 +138,8 @@ export const LoginPasswordImportWalletStep3Content = () => {
   const handleFileSubmit = async (data: TUseImportFromFileActionsData) => {
     if (!data.content || !data.path || !data.type) return
 
-    const isMigrate = data.type === 'migrate'
-    const isNep6 = data.type === 'nep6'
-
-    if (isMigrate || isNep6) {
-      const onDecrypt = ({ accountsToCreate, contactsToCreate, walletToCreate }: TUseImportSharedGeneratedData) => {
+    if (data.type === 'migrate') {
+      const onDecrypt = ({ accountsToCreate, contactsToCreate, walletToCreate }: TUseNeonMigrateGeneratedData) => {
         modalErase()
         navigate('/login-import-wallet-setup/4', {
           state: {
@@ -149,11 +150,23 @@ export const LoginPasswordImportWalletStep3Content = () => {
         })
       }
 
-      if (isMigrate) {
-        modalNavigate('neon-migrate-step-3', { state: { content: data.content, onDecrypt } })
-      } else if (isNep6) {
-        modalNavigate('nep6-backup-import-step-3', { state: { content: data.content, onDecrypt } })
+      modalNavigate('neon-migrate-step-3', { state: { content: data.content, onDecrypt } })
+
+      return
+    }
+
+    if (data.type === 'nep6') {
+      const onDecrypt = ({ accountsToCreate, walletToCreate }: TUseNep6GeneratedData) => {
+        modalErase()
+        navigate('/login-import-wallet-setup/4', {
+          state: {
+            wallets: [{ ...walletToCreate, accounts: accountsToCreate }],
+            password: state.password,
+          },
+        })
       }
+
+      modalNavigate('nep6-backup-import-step-3', { state: { content: data.content, onDecrypt } })
 
       return
     }

@@ -7,7 +7,7 @@ import type {
   TUseNeonBackupData,
   TUseNeonBackupDeprecatedData,
   TUseNeonMigrateData,
-  TUseNep6BackupData,
+  TUseNep6Data,
 } from '@shared/types/hooks'
 
 import { useActions } from './useActions'
@@ -19,7 +19,7 @@ export type TUseImportFromFileActionsData = {
   path?: string
 } & (
   | TUseNeonMigrateData
-  | TUseNep6BackupData
+  | TUseNep6Data
   | TUseNeonBackupData
   | TUseNeonBackupDeprecatedData
   | { content: undefined; type: undefined }
@@ -27,9 +27,9 @@ export type TUseImportFromFileActionsData = {
 
 export const useImportFromFile = () => {
   const { t } = useTranslation('hooks', { keyPrefix: 'useImportFromFile' })
-  const neonBackupActions = useNeonBackupFile()
-  const neonMigrateActions = useNeonMigrateFile()
-  const nep6BackupActions = useNep6BackupFile()
+  const neonBackupFileActions = useNeonBackupFile()
+  const neonMigrateFileActions = useNeonMigrateFile()
+  const nep6BackupFileActions = useNep6BackupFile()
 
   const { actionData, actionState, handleAct, setData, setError, reset } = useActions<TUseImportFromFileActionsData>({
     content: undefined,
@@ -50,7 +50,7 @@ export const useImportFromFile = () => {
 
     const fileContent = await window.api.sendAsync('window:readFile', filePath)
 
-    const backupContent = await neonBackupActions.validateAndParseBackupFile(filePath, fileContent)
+    const backupContent = await neonBackupFileActions.validateAndParseBackupFile(filePath, fileContent)
 
     if (backupContent) {
       ToastHelper.success({ message: t('neonBackupFileDetected') })
@@ -59,7 +59,7 @@ export const useImportFromFile = () => {
       return
     }
 
-    const nep6BackupContent = await nep6BackupActions.validateAndParseBackupFile(fileContent)
+    const nep6BackupContent = await nep6BackupFileActions.validateAndParseBackupFile(fileContent)
 
     if (nep6BackupContent) {
       ToastHelper.success({ message: t('nep6BackupFileDetected') })
@@ -68,7 +68,7 @@ export const useImportFromFile = () => {
       return
     }
 
-    const migrationContent = await neonMigrateActions.validateAndParseMigrateFile(fileContent)
+    const migrationContent = await neonMigrateFileActions.validateAndParseMigrateFile(fileContent)
 
     if (migrationContent) {
       ToastHelper.success({ message: t('neon2MigrateFileDetected') })

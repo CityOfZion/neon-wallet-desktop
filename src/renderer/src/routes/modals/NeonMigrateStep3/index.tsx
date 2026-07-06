@@ -14,7 +14,7 @@ import { ImportModalLayout } from '@renderer/layouts/ImportModalLayout'
 
 import MdLooks3 from '@renderer/assets/images/md-looks-3.svg?react'
 
-import type { TUseImportSharedAccountsSchema } from '@shared/types/hooks'
+import type { TUseImportNep6Account } from '@shared/types/hooks'
 import type { TModalState } from '@shared/types/modal'
 
 const NeonMigrateStep3Modal = () => {
@@ -23,9 +23,11 @@ const NeonMigrateStep3Modal = () => {
   const { modalNavigateWrapper } = useModalNavigate()
   const { doesAccountExist } = useAccountUtils()
 
-  const [accounts, setAccounts] = useState<TUseImportSharedAccountsSchema[]>([])
+  const [accounts, setAccounts] = useState<TUseImportNep6Account[]>([])
 
-  const handleToggleAccount = (account: TUseImportSharedAccountsSchema) => {
+  const selectableAccounts = content.accounts.filter(account => !doesAccountExist(account))
+
+  const handleToggleAccount = (account: TUseImportNep6Account) => {
     setAccounts(previousAccounts => {
       const index = previousAccounts.findIndex(currentAccount => currentAccount.address === account.address)
 
@@ -38,12 +40,10 @@ const NeonMigrateStep3Modal = () => {
   }
 
   const handleSelectAllAccounts = () => {
-    const filteredAccounts = content.accounts.filter(account => {
-      return !doesAccountExist(account)
-    })
-
-    setAccounts(filteredAccounts)
+    setAccounts(selectableAccounts)
   }
+
+  const isDisabled = selectableAccounts.length === 0
 
   return (
     <ImportModalLayout
@@ -58,7 +58,13 @@ const NeonMigrateStep3Modal = () => {
       <div className="mt-8 flex justify-between">
         <span className="text-gray-100 uppercase">{t('step3.selectLabel')}</span>
 
-        <Button label={t('step3.selectAllButtonLabel')} variant="text-slim" flat onClick={handleSelectAllAccounts} />
+        <Button
+          label={t('step3.selectAllButtonLabel')}
+          variant="text-slim"
+          flat
+          onClick={handleSelectAllAccounts}
+          disabled={isDisabled}
+        />
       </div>
 
       <div className="mt-1 flex min-h-0 w-full grow flex-col overflow-y-auto pr-2">
