@@ -14,12 +14,14 @@ import type { Dispatch, JSX } from 'react'
 
 import type { TBlockchainServiceKey, TNetwork } from './blockchain'
 import type {
-  TUseImportSharedAccountsSchema,
-  TUseImportSharedGeneratedData,
-  TUseImportSharedParsedContent,
+  TUseImportNep6Account,
   TUseNeonBackupData,
   TUseNeonBackupDeprecatedData,
   TUseNeonBackupGeneratedData,
+  TUseNeonMigrateGeneratedData,
+  TUseNeonMigrateParsedContent,
+  TUseNep6GeneratedData,
+  TUseNep6ParsedContent,
 } from './hooks'
 import type { TTokenBalance } from './query'
 import type { TAccount, TContact, TContactAddress, TNetworkProfile, TSwapRecord, TWallet } from './store'
@@ -153,15 +155,25 @@ type TImportWatchAccountsModalState =
     }
   | undefined
 
-type TImportStep3ModalState = {
-  content: TUseImportSharedParsedContent
-  onDecrypt?: (generatedData: TUseImportSharedGeneratedData) => void
+type TNeonMigrateStep3ModalState = {
+  content: TUseNeonMigrateParsedContent
+  onDecrypt?: (generatedData: TUseNeonMigrateGeneratedData) => void
 }
 
-type TImportStep4ModalState = {
-  accounts: TUseImportSharedAccountsSchema[]
-  content?: TUseImportSharedParsedContent
-  onDecrypt?: (generatedData: TUseImportSharedGeneratedData) => void
+type TNeonMigrateStep4ModalState = {
+  accounts: TUseImportNep6Account[]
+  content: TUseNeonMigrateParsedContent
+  onDecrypt?: (generatedData: TUseNeonMigrateGeneratedData) => void
+}
+
+type TNep6BackupImportStep3ModalState = {
+  content: TUseNep6ParsedContent
+  onDecrypt?: (generatedData: TUseNep6GeneratedData) => void
+}
+
+type TNep6BackupImportStep4ModalState = {
+  accounts: TUseImportNep6Account[]
+  onDecrypt?: (generatedData: TUseNep6GeneratedData) => void
 }
 
 type TNeo3NeoxBridgeConfirmationModalState = {
@@ -294,10 +306,10 @@ type TModalRouterSideRouteTypes = {
   'import-accounts-selection': TImportAccountsSelectionModalState
   'import-watch-accounts': TImportWatchAccountsModalState
   'neon-migrate-step-2': undefined
-  'neon-migrate-step-3': TImportStep3ModalState
-  'neon-migrate-step-4': TImportStep4ModalState
-  'nep6-backup-import-step-3': TImportStep3ModalState
-  'nep6-backup-import-step-4': TImportStep4ModalState
+  'neon-migrate-step-3': TNeonMigrateStep3ModalState
+  'neon-migrate-step-4': TNeonMigrateStep4ModalState
+  'nep6-backup-import-step-3': TNep6BackupImportStep3ModalState
+  'nep6-backup-import-step-4': TNep6BackupImportStep4ModalState
   'neo3-neox-bridge-confirmation': TNeo3NeoxBridgeConfirmationModalState
   'neo3-neox-bridge-details': TNeo3NeoxBridgeDetailsModalState
   'network-url-selection': TNetworkUrlSelectionModalState

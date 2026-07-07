@@ -11,14 +11,14 @@ import MdCheck from '@renderer/assets/images/md-check.svg?react'
 import MdChevronRight from '@renderer/assets/images/md-chevron-right.svg?react'
 import TbAlertTriangle from '@renderer/assets/images/tb-alert-triangle.svg?react'
 
-import type { TUseImportSharedAccountsSchema } from '@shared/types/hooks'
+import type { TUseImportNep6Account } from '@shared/types/hooks'
 
 type TProps = {
-  account: TUseImportSharedAccountsSchema
+  account: TUseImportNep6Account
   inputLabel: string
   inputPlaceholder: string
   error: string
-  onSubmit: (account: TUseImportSharedAccountsSchema, password: string) => Promise<void>
+  onSubmit: (account: TUseImportNep6Account, password: string) => Promise<void>
 }
 
 type TActionsData = {

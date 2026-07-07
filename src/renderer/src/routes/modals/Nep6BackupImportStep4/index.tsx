@@ -13,7 +13,6 @@ import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 
 import { useActions } from '@renderer/hooks/useActions'
-import { useImportShared } from '@renderer/hooks/useImportShared'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useNep6BackupFile } from '@renderer/hooks/useNep6BackupFile'
 
@@ -22,19 +21,18 @@ import { ImportModalLayout } from '@renderer/layouts/ImportModalLayout'
 import TbPackageImport from '@renderer/assets/images/tb-package-import.svg?react'
 
 import { AppError } from '@shared/helpers/SharedErrorHelper'
-import type { TUseImportSharedAccountsSchema, TUseImportSharedDecryptedAccountSchema } from '@shared/types/hooks'
+import type { TUseImportNep6Account, TUseImportNep6DecryptedAccount } from '@shared/types/hooks'
 import type { TModalState } from '@shared/types/modal'
 
 type TActionsData = {
-  decryptedAccounts: TUseImportSharedDecryptedAccountSchema[]
+  decryptedAccounts: TUseImportNep6DecryptedAccount[]
 }
 
 const Nep6BackupImportStep4Modal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'nep6BackupImport' })
   const { accounts, onDecrypt } = useModalState<TModalState<'nep6-backup-import-step-4'>>()
   const { modalNavigate, modalErase } = useModalNavigate()
-  const { handleGenerateData } = useNep6BackupFile()
-  const { handleTryDecryptAccount, handleImportBackupData } = useImportShared()
+  const { handleGenerateData, handleTryDecryptAccount, handleImportBackupData } = useNep6BackupFile()
 
   const { actionData, actionState, setData, handleAct } = useActions<TActionsData>({
     decryptedAccounts: [],
@@ -47,7 +45,7 @@ const Nep6BackupImportStep4Modal = () => {
     account => !actionData.decryptedAccounts.some(({ address }) => address === account.address)
   )
 
-  const handlePasswordSubmit = async (account: TUseImportSharedAccountsSchema, password: string) => {
+  const handlePasswordSubmit = async (account: TUseImportNep6Account, password: string) => {
     const decryptedAccount = await handleTryDecryptAccount(account, password)
 
     if (!decryptedAccount) return
@@ -60,7 +58,7 @@ const Nep6BackupImportStep4Modal = () => {
 
   const handleSamePasswordSubmit = async (password: string) => {
     try {
-      const decryptedAccounts: TUseImportSharedDecryptedAccountSchema[] = []
+      const decryptedAccounts: TUseImportNep6DecryptedAccount[] = []
 
       for (const account of accounts) {
         const decryptedAccount = await handleTryDecryptAccount(account, password)
