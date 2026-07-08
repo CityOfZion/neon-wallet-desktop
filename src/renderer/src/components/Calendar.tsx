@@ -226,25 +226,24 @@ const YearGrid = ({ className, displayYears, startMonth, endMonth, setNavView, n
   return (
     <div className={StyleHelper.mergeStyles('mx-auto mt-4 grid grid-cols-4 gap-y-2', className)} {...props}>
       {Array.from({ length: displayYears.to - displayYears.from + 1 }, (_, index) => {
-        const isBefore = differenceInCalendarDays(new Date(displayYears.from + index, 11, 31), startMonth!) < 0
-
-        const isAfter = differenceInCalendarDays(new Date(displayYears.from + index, 0, 0), endMonth!) > 0
-
+        const year = displayYears.from + index
+        const isBefore = differenceInCalendarDays(new Date(year, 11, 31), startMonth!) < 0
+        const isAfter = differenceInCalendarDays(new Date(year, 0, 0), endMonth!) > 0
         const isDisabled = isBefore || isAfter
 
         return (
           <Button
             key={`year-${index}`}
-            label={(displayYears.from + index).toString()}
+            label={year.toString()}
             colorSchema="white"
             variant="text"
-            aria-selected={displayYears.from + index === new Date().getFullYear()}
+            aria-selected={year === new Date().getFullYear()}
             disabled={navView === 'years' ? isDisabled : undefined}
             clickableProps={{ className: 'h-7' }}
             onClick={() => {
               setNavView('days')
 
-              goToMonth(new Date(displayYears.from + index, 0))
+              goToMonth(new Date(year, 0))
             }}
           />
         )

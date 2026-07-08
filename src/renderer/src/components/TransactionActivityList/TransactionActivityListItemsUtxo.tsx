@@ -62,11 +62,11 @@ export const TransactionActivityListItemsUtxo = ({ transaction: { blockchain, in
 
       {hasNfts && (
         <ul className="flex w-full flex-col">
-          {nfts.map(nft => {
+          {nfts.map((nft, index) => {
             const { hash, name, explorerUri, collection } = nft
 
             return (
-              <li key={hash} className="flex h-14 max-h-14 min-h-14 w-full items-center">
+              <li key={`${hash}-${index}`} className="flex h-14 max-h-14 min-h-14 w-full items-center">
                 <div className="flex w-20 max-w-20 min-w-20 items-center justify-center">
                   <div className="text-blue mx-auto rounded-full border border-gray-600 px-4.5 py-1.25 font-medium">
                     {t('nftLabel')}
@@ -78,9 +78,13 @@ export const TransactionActivityListItemsUtxo = ({ transaction: { blockchain, in
                     <TransactionActivityListItemsColumn
                       label={t('columns.tokenHashLabel')}
                       data={
-                        <TransactionActivityListTooltip data={hash}>
-                          <span className="inline-block">{StringHelper.truncateMiddle(hash, 8)}</span>
-                        </TransactionActivityListTooltip>
+                        !hash ? (
+                          tCommonGeneral('emptyColumn')
+                        ) : (
+                          <TransactionActivityListTooltip data={hash}>
+                            <span className="inline-block">{StringHelper.truncateMiddle(hash, 8)}</span>
+                          </TransactionActivityListTooltip>
+                        )
                       }
                       url={explorerUri}
                     />
