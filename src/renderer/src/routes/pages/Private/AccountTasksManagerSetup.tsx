@@ -103,6 +103,8 @@ const useBNeoShutdownNotificationProcess = () => {
 
   const notificationsSetByAddressRef = useRef<Set<string>>(new Set())
 
+  const dateLimit = new Date('2026-08-01T00:00:00Z')
+
   const processNotification = (notification: TNotification) => {
     try {
       const payload = notification.action?.payload
@@ -117,7 +119,7 @@ const useBNeoShutdownNotificationProcess = () => {
 
   const process = (account: TAccount, balance: TBalance | undefined) => {
     try {
-      if (!balance || account.blockchain !== 'neo3') return
+      if (!balance || account.blockchain !== 'neo3' || new Date() >= dateLimit) return
 
       const tokenBalance = balance.tokensBalancesMap.get(ConstantsHelper.bNeoTokenHash)
       if (!tokenBalance || tokenBalance.amountNumber === 0) return
