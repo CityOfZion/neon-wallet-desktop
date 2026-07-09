@@ -1,3 +1,5 @@
+import { ChangeEvent } from 'react'
+
 import { BSBigHumanAmount, type TBSToken } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
@@ -39,12 +41,15 @@ const StellarPersistTrustlines = () => {
     isLimitFormatting: false,
   })
 
-  const handleLimitChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const limit = event.target.value
+  const handleLimitChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const limit = event.target.value.trim()
+    const isLimitFormatting = !!limit
 
-    setData({ limit, isLimitFormatting: true })
+    setData({ limit, isLimitFormatting })
 
     debounce(() => {
+      if (!isLimitFormatting) return
+
       setData({
         limit: new BSBigHumanAmount(limit, actionData.token?.decimals).toFormatted(),
         isLimitFormatting: false,
@@ -99,19 +104,26 @@ const StellarPersistTrustlines = () => {
         <Input
           label={t('limitLabel')}
           placeholder={t('limitPlaceholder')}
-          type="text"
           id="limit"
-          inputMode="decimal"
           name="limit"
-          compacted
-          disabled={!actionData.token || actionState.isActing}
+          type="text"
+          inputMode="decimal"
           value={actionData.limit}
-          onChange={handleLimitChange}
           errorMessage={actionState.errors.limit}
+          compacted
           loading={actionData.isLimitFormatting}
+          disabled={!actionData.token || actionState.isActing}
+          onChange={handleLimitChange}
         />
 
-        <Button type="submit" className="mt-auto" label={t('saveButtonLabel')} loading={actionState.isActing} flat />
+        <Button
+          label={t('saveButtonLabel')}
+          type="submit"
+          className="mt-auto"
+          flat
+          loading={actionState.isActing}
+          disabled={!actionData.token || actionData.isLimitFormatting}
+        />
       </form>
     </SideModalLayout>
   )

@@ -239,7 +239,7 @@ export const useTransactions = ({
     sortedTransactions.forEach(originalTransaction => {
       let transaction = originalTransaction
       const hiddenTokens = hiddenTokensByBlockchain[transaction.blockchain]
-      const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[originalTransaction.blockchain]
+      const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[transaction.blockchain]
 
       if (!!hiddenTokens && hiddenTokens.length > 0) {
         const isHiddenToken = (tokenHash: string) => {

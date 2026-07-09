@@ -135,12 +135,18 @@ const SellTokensDepositModal = () => {
     })
   }
 
-  const handleChangeAmount = (value: string) => {
-    setData({ amount: value, isAmountLoading: true })
+  const handleChangeAmount = (amount: string) => {
+    amount = amount.trim()
+
+    const isAmountLoading = !!amount
+
+    setData({ amount, isAmountLoading })
 
     debounceAmount(() => {
+      if (!isAmountLoading) return
+
       setData({
-        amount: new BSBigHumanAmount(value, actionData.token?.token?.decimals).toFormatted(),
+        amount: new BSBigHumanAmount(amount, actionData.token?.token?.decimals).toFormatted(),
         isAmountLoading: false,
       })
     })
@@ -428,6 +434,7 @@ const SellTokensDepositModal = () => {
               >
                 <GreyAmountInput
                   value={actionData.amount}
+                  maxLength={18}
                   disabled={isRecipientDisabled || !actionData.token}
                   onChangeValue={handleChangeAmount}
                 />

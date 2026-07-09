@@ -45,8 +45,8 @@ type TProps = {
   recipient: TSendRecipient
   onUpdateRecipient: (recipient: Partial<TSendRecipient>) => void
   onRemoveRecipient: () => void
-  removable?: boolean
-  balance?: TUseBalanceResult
+  removable: boolean
+  balance: TUseBalanceResult
   isLoadingMaxAmount: boolean
   isDisabledMaxAmount: boolean
   onMaxAmount: (recipient: TSendRecipient) => void
@@ -106,16 +106,19 @@ export const SendRecipient = ({
     onUpdateRecipient({ token: tokenBalance, amount: undefined })
   }
 
-  const handleChangeAmount = (value: string) => {
-    onUpdateRecipient({
-      amount: value,
-      isAmountLoading: true,
-    })
+  const handleChangeAmount = (amount: string) => {
+    amount = amount.trim()
+
+    const isAmountLoading = !!amount
+
+    onUpdateRecipient({ isAmountLoading, amount })
 
     debounce(() => {
+      if (!isAmountLoading) return
+
       onUpdateRecipient({
-        amount: new BSBigHumanAmount(value, recipient.token?.token?.decimals).toFormatted(),
         isAmountLoading: false,
+        amount: new BSBigHumanAmount(amount, recipient.token?.token?.decimals).toFormatted(),
       })
     })
   }
@@ -126,13 +129,17 @@ export const SendRecipient = ({
 
   useEffect(() => {
     if (recipient.addressInput === undefined || !selectedAccount || !isPresent) return
+
     validateAddressOrNS(recipient.addressInput, selectedAccount.blockchain)
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [recipient.addressInput, selectedAccount, validateAddressOrNS])
 
   useEffect(() => {
     if (!isPresent) return
+
     onUpdateRecipient({ address: validatedAddress })
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [validatedAddress])
 
@@ -142,9 +149,9 @@ export const SendRecipient = ({
         {removable && (
           <Button
             label={tCommon('general.remove')}
-            flat
             variant="text-slim"
             textClassName="text-pink"
+            flat
             disabled={isDisabled}
             onClick={() => onRemoveRecipient()}
           />
@@ -156,45 +163,46 @@ export const SendRecipient = ({
       <div className="my-5 flex w-full flex-col">
         <div className="flex w-full items-start justify-between gap-3">
           <Input
-            value={recipient.addressInput || ''}
-            onChange={handleChangeAddress}
-            compacted
             testId={`send-recipient-address-input-${order}`}
-            className="w-full"
+            value={recipient.addressInput || ''}
             placeholder={t('addressPlaceholder')}
+            className="w-full"
+            errorMessage={isValidAddressOrDomainAddress === false ? t('errors.invalidAddress') : undefined}
             clearable={false}
+            compacted
             pastable
+            loading={isValidatingAddressOrDomainAddress}
+            disabled={isDisabled}
             rightElement={
               <IconButton
-                icon={<TbUsers aria-hidden />}
+                aria-label={t('myContactsButtonLabel')}
                 type="button"
-                onClick={modalNavigateWrapper('select-contact', {
-                  state: {
-                    onSelectContact: handleSelectContact,
-                    blockchain: selectedAccount?.blockchain,
-                  },
-                })}
                 compacted
                 disabled={isDisabled}
+                icon={<TbUsers aria-hidden />}
+                onClick={modalNavigateWrapper('select-contact', {
+                  state: {
+                    blockchain: selectedAccount?.blockchain,
+                    onSelectContact: handleSelectContact,
+                  },
+                })}
               />
             }
-            loading={isValidatingAddressOrDomainAddress}
-            errorMessage={isValidAddressOrDomainAddress === false ? t('errors.invalidAddress') : undefined}
-            disabled={isDisabled}
+            onChange={handleChangeAddress}
           />
 
           <GreyAccountSelect
-            onSelect={handleSelectAccount}
             blockchains={selectedAccount ? [selectedAccount.blockchain] : undefined}
-            disabled={isDisabled}
             placement="dropdownEnd"
+            disabled={isDisabled}
+            onSelect={handleSelectAccount}
           >
             <Button
-              disabled={isDisabled}
-              variant="text"
               label={t('myAccountsButtonLabel')}
-              leftIcon={<TbWallet aria-hidden />}
+              variant="text"
+              disabled={isDisabled}
               flat
+              leftIcon={<TbWallet aria-hidden />}
             />
           </GreyAccountSelect>
         </div>
@@ -210,12 +218,12 @@ export const SendRecipient = ({
         leftIcon={<VscCircleFilled aria-hidden className="size-2 text-gray-300" />}
       >
         <GreyTokenSelect
+          selectedToken={recipient.token?.token}
           tokens={balance?.data?.tokensBalances.map(tokenBalance => tokenBalance.token) || []}
           balance={balance?.data}
-          onSelect={handleSelectToken}
-          selectedToken={recipient.token?.token}
           loading={balance?.isLoading}
           disabled={isDisabled}
+          onSelect={handleSelectToken}
         />
       </ActionStep>
 
@@ -228,21 +236,19 @@ export const SendRecipient = ({
       >
         <GreyAmountInput
           value={recipient.amount || ''}
-          onChangeValue={handleChangeAmount}
           disabled={isAmountDisabled}
           maxButtonProps={{
             loading: isLoadingMaxAmount,
             disabled: isAmountDisabled,
             onClick: () => onMaxAmount(recipient),
           }}
+          onChangeValue={handleChangeAmount}
         />
       </ActionStep>
 
-      <div className="flex w-full justify-between gap-x-4 pb-3 pl-8">
-        <span className="text-xs whitespace-nowrap text-gray-200 italic">
-          {t('fiatLabel', { currency: currency.label })}
-        </span>
-        <span className="truncate text-xs text-gray-100 italic">
+      <div className="flex w-full justify-between gap-x-4 pb-3 pl-8 text-xs text-gray-100 italic">
+        <span className="whitespace-nowrap">{t('fiatLabel', { currency: currency.label })}</span>
+        <span className="truncate">
           {CurrencyHelper.format(
             recipient.amount && recipient.token
               ? new BSBigHumanAmount(recipient.amount, recipient.token.token.decimals)

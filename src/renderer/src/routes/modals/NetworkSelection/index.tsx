@@ -37,6 +37,7 @@ const NetworkSelectionModal = () => {
 
   const [selectedNetworkId, setSelectedNetworkId] = useState<string>()
 
+  const networkId = selectedNetworkProfile.networkByBlockchain[blockchain].id
   const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
   const options = service.availableNetworks.concat(...customNetworks[blockchain])
   const selectedNetwork = options.find(option => option.id === selectedNetworkId) || options[0]
@@ -49,37 +50,40 @@ const NetworkSelectionModal = () => {
   }
 
   const handleSave = async () => {
-    if (hasWalletConnect(service)) {
-      const sessions = WalletKitHelper.kit.getActiveSessions()
-      const filteredSessions = WalletKitHelper.filterSessions(Object.values(sessions), {
-        chains: [service.walletConnectService.chain],
-      })
+    if (selectedNetworkId !== networkId) {
+      if (hasWalletConnect(service)) {
+        const sessions = WalletKitHelper.kit.getActiveSessions()
 
-      Promise.allSettled(
-        filteredSessions.map(session =>
-          WalletKitHelper.kit.disconnectSession({
-            topic: session.topic,
-            reason: WalletKitHelper.getError('USER_DISCONNECTED'),
-          })
-        )
-      ).then(() => invalidateWalletConnectSessions())
+        const filteredSessions = WalletKitHelper.filterSessions(Object.values(sessions), {
+          chains: [service.walletConnectService.chain],
+        })
+
+        Promise.allSettled(
+          filteredSessions.map(session =>
+            WalletKitHelper.kit.disconnectSession({
+              topic: session.topic,
+              reason: WalletKitHelper.getError('USER_DISCONNECTED'),
+            })
+          )
+        ).then(() => invalidateWalletConnectSessions())
+      }
+
+      dispatch(
+        settingsReducerActions.editNetworkProfile({
+          id: selectedNetworkProfile.id,
+          networkByBlockchain: {
+            [blockchain]: selectedNetwork,
+          },
+        })
+      )
     }
-
-    dispatch(
-      settingsReducerActions.editNetworkProfile({
-        id: selectedNetworkProfile.id,
-        networkByBlockchain: {
-          [blockchain]: selectedNetwork,
-        },
-      })
-    )
 
     modalNavigate(-1)
   }
 
   useLayoutEffect(() => {
-    setSelectedNetworkId(selectedNetworkProfile.networkByBlockchain[blockchain].id)
-  }, [blockchain, selectedNetworkProfile.networkByBlockchain])
+    setSelectedNetworkId(networkId)
+  }, [networkId])
 
   return (
     <SideModalLayout

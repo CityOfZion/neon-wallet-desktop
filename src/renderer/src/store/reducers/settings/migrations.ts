@@ -140,6 +140,7 @@ export function getSettingsMigrations(defaultProfile: TNetworkProfile, testProfi
     }),
     8: (state: any) => {
       delete state.data.selectedNetworkByBlockchain
+
       return state
     },
     9: (state: any) => {
