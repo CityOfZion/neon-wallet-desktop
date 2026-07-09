@@ -316,7 +316,7 @@
       "feeError": "Erro ao calcular taxa",
       "hardwareWalletShouldBeValid": "Para prosseguir com esta operação, certifique-se de que sua carteira de hardware está desbloqueada",
       "insufficientFunds": "Fundos insuficientes",
-      "noAmountToTip": "Quantidade insuficiente para pagar a gorjeta",
+      "noAmountToTip": "Saldo insuficiente para pagar a gorjeta",
       "noFiatPriceToTip": "Preço fiduciário não encontrado para a gorjeta",
       "noTokenToTip": "Nenhum token para pagar a gorjeta"
     },
@@ -353,8 +353,10 @@
       "viewStatusButtonLabel": "Ver status"
     },
     "sendTip": {
+      "customAmountLabel": "Quantidade",
       "optionalLabel": "*Opcional",
-      "supportLabel": "Quero apoiar a COZ com uma gorjeta de"
+      "supportCustomLabel": "Quero apoiar a COZ com uma gorjeta de",
+      "supportLabel": "Quero apoiar a COZ com uma gorjeta de {{percentage}}% de"
     },
     "separatelyTransferWarning": "{{blockchain}} não suporta mais de um envio por transação, então enviaremos cada transferência separadamente, o que aumentará drasticamente a taxa.",
     "sourceAccountLabel": "Conta de origem",
