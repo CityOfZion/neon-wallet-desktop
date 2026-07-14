@@ -260,10 +260,6 @@
         "notificationDescription": "我们发现 \"{{ value }}\" 被社区标记为欺诈代币，建议将其隐藏，并避免与其进行任何其他交互。",
         "notificationTitle": "{{ value }}\" 是一个欺诈代币！"
       },
-      "useNeoLegacyMigrationNotificationProcess": {
-        "description": "Neo Legacy 迁移将于 2026 年 7 月 8 日 08:00 UTC 关闭。立即将您的 NEO 和 GAS 迁移到 Neo 3，以避免失去对您资金的访问权限。点击这里了解更多。",
-        "title": "Neo Legacy 迁移即将关闭！"
-      },
       "useVotingNeo3NotificationProcess": {
         "notificationDescription": "点击这里，立即投票",
         "notificationTitle": "你正在错过免费的 GAS！"

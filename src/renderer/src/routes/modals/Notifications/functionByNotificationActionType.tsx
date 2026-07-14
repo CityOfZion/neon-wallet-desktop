@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router'
 import { match } from 'ts-pattern'
 
-import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
 import { ReduxHelper } from '@renderer/helpers/ReduxHelper'
 
 import { selectAccounts } from '@renderer/hooks/useAccountSelector'
@@ -88,16 +87,6 @@ export const functionByNotificationActionType: TFunctionByNotificationActionType
         const account = getAccount({ address, blockchain })
 
         modalActions.modalErase()
-
-        setTimeout(() => {
-          pageNavigate('/wallets/tokens', { state: { account } })
-        }, 500)
-      })
-      .with({ to: 'neo-legacy-migration' }, ({ address, blockchain }) => {
-        const account = getAccount({ address, blockchain })
-        modalActions.modalErase()
-
-        window.open(ConstantsHelper.ngdNeoLegacyMigrationPostUrl, '_blank')
 
         setTimeout(() => {
           pageNavigate('/wallets/tokens', { state: { account } })
