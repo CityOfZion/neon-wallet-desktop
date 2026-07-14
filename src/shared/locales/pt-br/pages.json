@@ -260,10 +260,6 @@
         "notificationDescription": "Identificamos \"{{ value }}\" que foi sinalizado como token fraudulento pela comunidade, sugerimos ocultá-lo e evitar qualquer outro tipo de interação com ele.",
         "notificationTitle": "{{ value }}\" é um token fraudulento!"
       },
-      "useNeoLegacyMigrationNotificationProcess": {
-        "description": "A migração do Neo Legacy será encerrada em 8 de julho de 2026 às 08:00 UTC. Migre seus NEO e GAS para o Neo 3 agora para não perder o acesso aos seus fundos. Toque aqui para saber mais.",
-        "title": "A migração do Neo Legacy está sendo encerrada!"
-      },
       "useVotingNeo3NotificationProcess": {
         "notificationDescription": "Simplesmente toque aqui e vote hoje",
         "notificationTitle": "Você está perdendo GAS grátis!"

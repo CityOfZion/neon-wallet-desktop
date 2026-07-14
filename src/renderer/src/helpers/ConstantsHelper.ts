@@ -29,8 +29,6 @@ export class ConstantsHelper {
     token => token.symbol === 'bNEO'
   )!.hash
 
-  static readonly ngdNeoLegacyMigrationPostUrl = 'https://x.com/ngd_neo/article/2062776789496463787'
-
   static readonly neo3VoteCozPubKey = '02946248f71bdf14933e6735da9867e81cc9eea0b5895329aa7f71e7745cf40659'
 
   static tipPercentageBn = new BSBigNumber('0.01') // 1%

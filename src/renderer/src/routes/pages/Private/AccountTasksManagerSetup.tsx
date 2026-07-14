@@ -1,7 +1,6 @@
 import { useRef } from 'react'
 
 import { hasNft } from '@cityofzion/blockchain-service'
-import { BSNeoLegacyConstants } from '@cityofzion/bs-neo-legacy'
 import intersection from 'lodash/intersection'
 
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
@@ -159,71 +158,6 @@ const useBNeoShutdownNotificationProcess = () => {
   return { process, processNotification, finish }
 }
 
-const useNeoLegacyMigrationNotificationProcess = () => {
-  const dispatch = useAppDispatch()
-
-  const notificationsSetByAddressRef = useRef<Set<string>>(new Set())
-
-  const processNotification = (notification: TNotification) => {
-    try {
-      const payload = notification.action?.payload
-
-      if (payload?.to !== 'neo-legacy-migration') return
-
-      notificationsSetByAddressRef.current.add(payload.address)
-    } catch (error) {
-      LoggerHelper.error(error, {
-        where: 'useNeoLegacyMigrationNotificationProcess',
-        operation: 'processNotification',
-      })
-    }
-  }
-
-  const process = (account: TAccount, balance: TBalance | undefined) => {
-    try {
-      if (!balance || account.blockchain !== 'neoLegacy' || new Date() >= new Date('2026-07-08T08:00:00Z')) return
-
-      const neoBalance = balance.tokensBalancesMap.get(BSNeoLegacyConstants.NEO_ASSET.hash)
-      const gasBalance = balance.tokensBalancesMap.get(BSNeoLegacyConstants.GAS_ASSET.hash)
-
-      const hasAssets = (neoBalance && neoBalance.amountNumber > 0) || (gasBalance && gasBalance.amountNumber > 0)
-      if (!hasAssets) return
-
-      if (notificationsSetByAddressRef.current.has(account.address)) return
-
-      const notificationPrefix = 'pages:private.accountTasksManagerSetup.useNeoLegacyMigrationNotificationProcess'
-
-      dispatch(
-        authReducerActions.saveNotification({
-          title: `${notificationPrefix}.title`,
-          previewBody: `${notificationPrefix}.description`,
-          priority: 'high',
-          action: {
-            type: 'navigate',
-            payload: {
-              to: 'neo-legacy-migration',
-              address: balance.address,
-              blockchain: balance.blockchain,
-            },
-          },
-          related: {
-            address: balance.address,
-            blockchain: balance.blockchain,
-          },
-        })
-      )
-    } catch (error) {
-      LoggerHelper.error(error, { where: 'useNeoLegacyMigrationNotificationProcess', operation: 'process' })
-    }
-  }
-
-  const finish = () => {
-    notificationsSetByAddressRef.current.clear()
-  }
-
-  return { process, processNotification, finish }
-}
-
 const useVotingNeo3NotificationProcess = () => {
   const dispatch = useAppDispatch()
   const { getVoteDetails } = useLazyNeo3VoteGetVoteDetailsByAddress()
@@ -351,7 +285,6 @@ const AccountTasksManagerSetup = () => {
 
   const fraudulentTokenProcess = useFraudulentTokensNotificationProcess()
   const bNeoShutdownProcess = useBNeoShutdownNotificationProcess()
-  const neoLegacyMigrationProcess = useNeoLegacyMigrationNotificationProcess()
   const votingNeo3Process = useVotingNeo3NotificationProcess()
   const unlockLocalSkinsProcess = useUnlockLocalSkinsProcess()
 
@@ -363,7 +296,6 @@ const AccountTasksManagerSetup = () => {
         for (const notification of unreadNotificationsRef.current) {
           fraudulentTokenProcess.processNotification(notification)
           bNeoShutdownProcess.processNotification(notification)
-          neoLegacyMigrationProcess.processNotification(notification)
           votingNeo3Process.processNotification(notification)
         }
 
@@ -376,14 +308,12 @@ const AccountTasksManagerSetup = () => {
 
           fraudulentTokenProcess.process(account, balance)
           bNeoShutdownProcess.process(account, balance)
-          neoLegacyMigrationProcess.process(account, balance)
           await votingNeo3Process.process(account)
           await unlockLocalSkinsProcess.process(account)
         }
 
         fraudulentTokenProcess.finish()
         bNeoShutdownProcess.finish()
-        neoLegacyMigrationProcess.finish()
         votingNeo3Process.finish()
         await unlockLocalSkinsProcess.finish()
       },
