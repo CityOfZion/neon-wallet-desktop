@@ -50,6 +50,12 @@
     "inputLabel": "配置文件名称",
     "title": "添加新网络配置文件"
   },
+  "assistantNewConversationDiscardAlert": {
+    "closeButtonLabel": "不，我想留下",
+    "continueButtonLabel": "是的，继续",
+    "description": "如果您继续，新对话将被丢弃。",
+    "title": "您确定要放弃新对话吗？"
+  },
   "autoUpdate": {
     "completed": {
       "buttonContinueLabel": "开始使用钱包",

@@ -57,7 +57,7 @@ const DeleteContactModal = () => {
         <Button
           label={buttonLabel}
           type="button"
-          leftIcon={<MdDeleteForever />}
+          leftIcon={<MdDeleteForever aria-hidden />}
           variant="outlined"
           colorSchema="error"
           flat

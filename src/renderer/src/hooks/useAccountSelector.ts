@@ -111,6 +111,16 @@ const selectAccountsMap = createAppSelector([selectAccounts], accounts => {
   return map
 })
 
+const selectOwnAccountsMap = createAppSelector([selectOwnAccounts], accounts => {
+  const map = new Map<string, TAccount>()
+
+  accounts.forEach(account => {
+    map.set(SharedAccountHelper.buildAccountKey(account), account)
+  })
+
+  return map
+})
+
 export const useAccountsSelector = () => {
   const { value, ref } = useAppSelector(selectAccounts)
 
@@ -157,11 +167,19 @@ export const useHasHardwareAccountSelector = () => {
 
 export const useAccountsWithWalletMapSelector = () => {
   const { ref: accountsWithWalletMapRef, value: accountsWithWalletMap } = useAppSelector(selectAccountsWithWalletMap)
+
   return { accountsWithWalletMapRef, accountsWithWalletMap }
+}
+
+export const useOwnAccountsMapSelector = () => {
+  const { value: ownAccountsMap, ref: ownAccountsMapRef } = useAppSelector(selectOwnAccountsMap)
+
+  return { ownAccountsMap, ownAccountsMapRef }
 }
 
 export const useAccountsMapSelector = () => {
   const { ref: accountsMapRef, value: accountsMap } = useAppSelector(selectAccountsMap)
+
   return { accountsMapRef, accountsMap }
 }
 

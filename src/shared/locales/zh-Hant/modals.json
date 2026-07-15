@@ -50,6 +50,12 @@
     "inputLabel": "設定檔名稱",
     "title": "新增網路設定檔"
   },
+  "assistantNewConversationDiscardAlert": {
+    "closeButtonLabel": "不，我想留下",
+    "continueButtonLabel": "是的，繼續",
+    "description": "如果您繼續，新對話將被捨棄。",
+    "title": "您確定要捨棄新對話嗎？"
+  },
   "autoUpdate": {
     "completed": {
       "buttonContinueLabel": "開始使用您的錢包",

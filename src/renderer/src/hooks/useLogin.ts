@@ -88,8 +88,11 @@ export const useLogin = () => {
 
   const logout = useCallback(async () => {
     dispatch(authReducerActions.setLoginSession(undefined))
+    dispatch(authReducerActions.clearAllConversationDraftTexts())
+    dispatch(authReducerActions.setLastConversationId(null))
     dispatch(settingsReducerActions.setSelectedWallet(undefined))
     dispatch(settingsReducerActions.setSelectedAccount(undefined))
+
     await window.api.sendAsync('hardwareWallet:disconnect')
   }, [dispatch])
 

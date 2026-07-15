@@ -29,6 +29,7 @@ import { useBalance } from '@renderer/hooks/useBalances'
 import { useConfirmAction } from '@renderer/hooks/useConfirmAction'
 import { useExchange } from '@renderer/hooks/useExchange'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+import { useMount } from '@renderer/hooks/useMount'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useSelectedNetworkByBlockchainSelector } from '@renderer/hooks/useSettingsSelector'
 
@@ -40,6 +41,7 @@ import TbStepOut from '@renderer/assets/images/tb-step-out.svg?react'
 
 import { thunks } from '@renderer/store/thunks'
 import { AppError } from '@shared/helpers/SharedErrorHelper'
+import { TTokenBalance } from '@shared/types/query'
 import { TAccount } from '@shared/types/store'
 
 import { SendErrorModalContent } from './SendErrorModalContent'
@@ -63,9 +65,11 @@ type TActionsData = {
 type TProps = {
   account?: TAccount
   recipientAddress?: string
+  tokenHash?: string
+  amount?: string
 }
 
-export const SendPageContent = ({ account, recipientAddress }: TProps) => {
+export const SendPageContent = ({ account, recipientAddress, tokenHash, amount }: TProps) => {
   const { t } = useTranslation('pages', { keyPrefix: 'send' })
   const { t: tCommon } = useTranslation('common')
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
@@ -75,6 +79,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
   const dispatch = useAppDispatch()
 
   const currentRecipientAddress = useRef(recipientAddress)
+  const triedTokenAndAmountSetRef = useRef(false)
   const isDisabledMaxAmountRef = useRef(false)
 
   const { actionData, actionState, setData, setError, clearErrors, handleAct, reset } = useActions<TActionsData>({
@@ -545,6 +550,47 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account])
+
+  useMount(
+    () => {
+      if (
+        triedTokenAndAmountSetRef.current ||
+        (!tokenHash && !amount) ||
+        balanceQuery.isLoading ||
+        !balanceQuery.data ||
+        !service
+      ) {
+        return
+      }
+
+      triedTokenAndAmountSetRef.current = true
+
+      let token: TTokenBalance | undefined
+
+      if (tokenHash) {
+        token = balanceQuery.data.tokensBalances.find(tokenBalance =>
+          service.tokenService.predicateByHash(tokenHash, tokenBalance.token)
+        )
+      }
+
+      handleSetRecipients(previousRecipients =>
+        previousRecipients.map((recipient, index) => {
+          if (index === 0) {
+            const recipientToken = token || recipient.token
+            const recipientAmount = new BSBigHumanAmount(
+              amount || recipient.amount,
+              recipientToken?.token?.decimals
+            ).toFormatted()
+
+            return { ...recipient, token: recipientToken, amount: recipientAmount }
+          }
+          return recipient
+        })
+      )
+    },
+    [tokenHash, amount, balanceQuery.isLoading, balanceQuery.data, service],
+    0
+  )
 
   return (
     <section className="flex min-h-0 w-full grow flex-col items-center rounded-sm bg-gray-800 px-4 text-sm">
