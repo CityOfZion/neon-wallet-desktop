@@ -73,7 +73,7 @@ const DeleteAccountModal = () => {
               className="w-full"
               variant="outlined"
               label={t('delete')}
-              leftIcon={<TbTrash />}
+              leftIcon={<TbTrash aria-hidden />}
               colorSchema="error"
               onClick={() => handleDelete()}
             />

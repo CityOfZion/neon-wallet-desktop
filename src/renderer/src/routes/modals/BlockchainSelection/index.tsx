@@ -45,18 +45,18 @@ const BlockchainSelectionModal = () => {
   }
 
   return (
-    <SideModalLayout heading={heading} headingIcon={headingIcon} contentClassName="flex flex-col">
+    <SideModalLayout heading={heading} headingIcon={headingIcon} contentClassName="flex flex-col pt-4 pb-6">
       {subtitle && (
         <Fragment>
           <p className="text-xs text-gray-100">{subtitle}</p>
 
-          <Separator className="my-7" />
+          <Separator containerClassName="my-4" />
         </Fragment>
       )}
 
-      <p>{description}</p>
+      {description && <p className="mb-4">{description}</p>}
 
-      <form className="mt-6 flex grow flex-col" onSubmit={handleAct(handleSubmit)}>
+      <form className="flex grow flex-col" onSubmit={handleAct(handleSubmit)}>
         <BlockchainList
           selectedBlockchains={actionData.selectedBlockchains}
           onSelect={handleSelect}

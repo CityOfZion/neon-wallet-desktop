@@ -16,7 +16,7 @@ import HiOutlineTicket from '@renderer/assets/images/hi-outline-ticket.svg?react
 
 import { SupportTicketSuccessContent } from './SupportTicketSuccessContent'
 
-type TActionData = {
+type TActionsData = {
   email: string
   name: string
   description: string
@@ -26,7 +26,7 @@ const SupportTicketModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'supportTicket' })
   const { modalNavigateWrapper, modalNavigate } = useModalNavigate()
 
-  const { actionData, handleAct, actionState, setError, setDataFromEventWrapper } = useActions<TActionData>({
+  const { actionData, handleAct, actionState, setError, setDataFromEventWrapper } = useActions<TActionsData>({
     email: '',
     name: '',
     description: '',
@@ -75,6 +75,7 @@ const SupportTicketModal = () => {
       heading={t('title')}
       headingIcon={<HiOutlineTicket aria-hidden />}
       size="lg"
+      eraseOnEsc={false}
       eraseOnClickOutside={false}
     >
       <form onSubmit={handleAct(onSubmit)} className="flex h-full flex-col justify-between gap-y-6 px-6">

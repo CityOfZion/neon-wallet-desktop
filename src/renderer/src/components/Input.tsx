@@ -201,7 +201,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
 
           {(loading || isTypePassword || pastable || copyable || clearable || rightElement) && (
             <div className={StyleHelper.mergeStyles('flex items-center gap-x-2', actionsClassName)}>
-              {loading && <Loader className="mr-1 h-4 w-4" />}
+              {loading && <Loader className="mr-1 size-4" />}
 
               {isTypePassword && (
                 <IconButton

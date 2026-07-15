@@ -1,4 +1,48 @@
 {
+  "assistant": {
+    "content": {
+      "authorLabels": {
+        "assistant": "Assistent",
+        "user": "Ich"
+      },
+      "briefing": "Neon Wallet ist COZ's Open-Source-Self-Custody-Wallet, das entwickelt wurde, um eine schnelle, sichere und intuitive Verwaltung digitaler Assets in Web3 zu ermöglichen. Mit einer einheitlichen Benutzererfahrung unterstützt es die Verwaltung mehrerer Wallets, sodass mehrere Konten einfach an einem Ort organisiert und aufgerufen werden können. Die Wallet integriert WalletConnect, Hardware-Wallet-Unterstützung, Token-Swaps und Cross-Chain-Bridges und gibt Nutzern die Flexibilität, mit dezentralen Anwendungen und Ökosystemen zu interagieren. Die gemeinsame Architektur sorgt für ein konsistentes und zuverlässiges Erlebnis, während die Sicherheit an erster Stelle steht. Da Nutzer die volle Kontrolle über ihre privaten Schlüssel und Wiederherstellungsphrasen behalten, verwahrt Neon Wallet niemals deren Gelder. Durch die Kombination leistungsstarker Funktionen mit einer benutzerfreundlichen Oberfläche ermächtigt Neon Wallet sowohl neue als auch erfahrene Nutzer, sicher im dezentralen Web zu navigieren.",
+      "editButtonLabel": "Bearbeiten",
+      "errors": {
+        "INVALID_ACTING_ACCOUNT": "Ungültiges ausführendes Konto",
+        "INVALID_PARAMS": "Ungültige Parameter",
+        "INVALID_RESPONSE": "Ungültige Antwort",
+        "SERVICE_ERROR": "Dienstfehler",
+        "UNKNOWN": "Ein unbekannter Fehler ist aufgetreten"
+      },
+      "saveButtonLabel": "Speichern",
+      "sendButtonLabel": "Senden",
+      "textLabel": "Nachricht",
+      "textPlaceholders": {
+        "default": "Nachricht eingeben…",
+        "redirecting": "Weiterleiten…"
+      },
+      "titles": {
+        "default": "Gespräch",
+        "new": "Neues Gespräch"
+      }
+    },
+    "emptyState": {
+      "description": "Wählen oder erstellen Sie ein neues Gespräch, um zu beginnen",
+      "title": "Kein Gespräch"
+    },
+    "sidebar": {
+      "betaBadgeLabel": "Beta",
+      "description": "Beschreiben Sie, was Sie tun möchten, z. B. eine Überweisung. Ihr Gespräch wird lokal gespeichert und nie an unsere Datenbank gesendet.",
+      "listTitle": "Gespräche:",
+      "newConversationButtonLabel": "Neues Gespräch",
+      "notFound": {
+        "description": "Erstellen Sie ein neues Gespräch",
+        "title": "Keine Gespräche"
+      },
+      "title": "Über"
+    },
+    "title": "Assistent"
+  },
   "buyAndSellTokens": {
     "aboutDataButtonLabel": "Über Ihre Daten",
     "buyTokensTabLabel": "Kaufen Sie Tokens",
@@ -593,7 +637,7 @@
     "exportKeyButtonLabel": "Schlüssel exportieren",
     "exportKeyTitle": "Schlüssel exportieren",
     "exportWalletTitle": "Wallet exportieren",
-    "hardwareWalletConnectBadge": "Hardware Wallet verbunden",
+    "hardwareWalletConnectBadgeLabel": "Hardware Wallet verbunden",
     "importButtonLabel": "Importieren",
     "neo3NeoXBridgeButtonLabel": "Bridge",
     "neo3VoteButtonLabel": "Abstimmung",

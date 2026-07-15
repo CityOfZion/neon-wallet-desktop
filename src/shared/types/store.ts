@@ -1,3 +1,4 @@
+import { TChatResponse, TMessage } from '@cityofzion/assistant-engine'
 import { TSwapServiceStatusResponse, TSwapToken } from '@cityofzion/blockchain-service'
 
 import { TBlockchainServiceKey, TNetwork } from './blockchain'
@@ -195,3 +196,14 @@ export type TNotification = {
 export type TSaveNotification = Optional<TNotification, 'id' | 'date' | 'provider' | 'read' | 'priority'>
 
 export type THiddenTokenByBlockchain = Partial<Record<TBlockchainServiceKey, string[]>>
+
+export type TConversationMessage = Pick<TMessage, 'author'> & { date: string | null } & TChatResponse
+
+export type TConversation = {
+  id: string
+  name: string
+  date: string
+  messages: TConversationMessage[]
+}
+
+export type TSaveConversation = Optional<Omit<TConversation, 'date'>, 'name' | 'messages'>

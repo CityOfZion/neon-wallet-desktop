@@ -1,6 +1,10 @@
 import type { TStringHelperRemoveSpecialCharacterOptions } from '@shared/types/helpers'
 
 export class StringHelper {
+  static capitalize(text: string) {
+    return text.charAt(0).toUpperCase() + text.slice(1)
+  }
+
   static truncate(text: string, maxLength: number) {
     if (text.length > maxLength) {
       return text.substring(0, maxLength) + '…'

@@ -76,6 +76,16 @@
     "search": "Search"
   },
 
+  "emptyState": {
+    "connectDappButtonLabel": "Connect dApp",
+    "description": "<1>{{name}}</1> needs your permission",
+    "faucetButtonLabel": "Faucet",
+    "receiveTokensButtonLabel": "Add tokens",
+    "stellarSubtitle": "To start using this account, fund it with at least 1 XLM.<1>Learn more about Stellar account creation</1>",
+    "subtitleNonWatch": "Why not add some assets or connect a dApp?",
+    "subtitleNonWatchWithoutDapp": "Why not add some assets?",
+    "title": "Your account is currently empty."
+  },
   "fieldActionsMenu": {
     "copy": "Copy",
     "cut": "Cut",
@@ -129,6 +139,7 @@
     "placeholder": "Select token…"
   },
   "sidebar": {
+    "assistant": "Assistant",
     "buyAndSellTokens": "Buy + Sell",
     "contacts": "Contacts",
     "logout": "Logout",
@@ -210,16 +221,6 @@
   },
   "transactionFeeActionStep": {
     "title": "Transaction Fee"
-  },
-  "transactionsTableEmpty": {
-    "connectDappButtonLabel": "Connect dApp",
-    "description": "<1>{{name}}</1> needs your permission",
-    "faucetButtonLabel": "Faucet",
-    "receiveTokensButtonLabel": "Add tokens",
-    "stellarSubtitle": "To start using this account, fund it with at least 1 XLM.<1>Learn more about Stellar account creation</1>",
-    "subtitleNonWatch": "Why not add some assets or connect a dApp?",
-    "subtitleNonWatchWithoutDapp": "Why not add some assets?",
-    "title": "Your account is currently empty."
   },
   "walletAccordionList": {
     "noAccounts": "No accounts"
