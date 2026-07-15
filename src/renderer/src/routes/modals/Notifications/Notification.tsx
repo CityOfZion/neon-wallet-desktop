@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 
 import { ActionPopover } from '@renderer/components/ActionPopover'
+import { Badge } from '@renderer/components/Badge'
 import { IconButton } from '@renderer/components/IconButton'
 
 import { DateHelper } from '@renderer/helpers/DateHelper'
@@ -126,13 +127,13 @@ export const Notification = ({ notification }: TProps) => {
           </span>
 
           {notification.provider && (
-            <span
-              className={StyleHelper.mergeStyles('bg-asphalt text-1xs rounded-full px-2 py-0.5 text-gray-300', {
+            <Badge
+              className={StyleHelper.mergeStyles('rounded-full px-2 font-normal text-gray-300 normal-case', {
                 'bg-gray-300/15 text-gray-100/50': notification.read,
               })}
             >
               {t(`providerLabels.${notification.provider}`)}
-            </span>
+            </Badge>
           )}
         </div>
 

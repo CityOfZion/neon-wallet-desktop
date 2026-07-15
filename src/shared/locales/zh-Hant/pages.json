@@ -1,4 +1,48 @@
 {
+  "assistant": {
+    "content": {
+      "authorLabels": {
+        "assistant": "助手",
+        "user": "我"
+      },
+      "briefing": "Neon Wallet 是 COZ 的開源自託管錢包，旨在提供快速、安全且直覺的 Web3 數位資產管理方式。憑藉統一的使用者體驗，它支援多錢包管理，讓使用者能夠在同一處輕鬆管理和存取多個帳戶。該錢包整合了 WalletConnect、硬體錢包支援、代幣兌換和跨鏈橋，賦予使用者與去中心化應用程式和生態系統互動的靈活性。其共享架構在確保一致可靠體驗的同時，將安全性置於首位。由於使用者完全掌控自己的私鑰和助記詞，Neon Wallet 從不託管使用者資金。透過將強大功能與友好介面相結合，Neon Wallet 協助新老使用者自信地探索去中心化網路。",
+      "editButtonLabel": "編輯",
+      "errors": {
+        "INVALID_ACTING_ACCOUNT": "無效的操作帳戶",
+        "INVALID_PARAMS": "參數無效",
+        "INVALID_RESPONSE": "回應無效",
+        "SERVICE_ERROR": "服務錯誤",
+        "UNKNOWN": "發生未知錯誤"
+      },
+      "saveButtonLabel": "儲存",
+      "sendButtonLabel": "發送",
+      "textLabel": "訊息",
+      "textPlaceholders": {
+        "default": "輸入訊息…",
+        "redirecting": "正在跳轉…"
+      },
+      "titles": {
+        "default": "對話",
+        "new": "新對話"
+      }
+    },
+    "emptyState": {
+      "description": "選擇或建立新對話以開始",
+      "title": "無對話"
+    },
+    "sidebar": {
+      "betaBadgeLabel": "Beta",
+      "description": "描述您想要執行的操作，例如進行轉帳。您的對話儲存在本地，永遠不會傳送到我們的資料庫。",
+      "listTitle": "對話：",
+      "newConversationButtonLabel": "新對話",
+      "notFound": {
+        "description": "建立新對話",
+        "title": "無對話"
+      },
+      "title": "關於"
+    },
+    "title": "助手"
+  },
   "buyAndSellTokens": {
     "aboutDataButtonLabel": "關於您的資料",
     "buyTokensTabLabel": "買幣",
@@ -593,7 +637,7 @@
     "exportKeyButtonLabel": "匯出金鑰",
     "exportKeyTitle": "匯出金鑰",
     "exportWalletTitle": "匯出錢包",
-    "hardwareWalletConnectBadge": "已連接硬體錢包",
+    "hardwareWalletConnectBadgeLabel": "已連接硬體錢包",
     "importButtonLabel": "匯入",
     "neo3NeoXBridgeButtonLabel": "跨鏈",
     "neo3VoteButtonLabel": "投票",

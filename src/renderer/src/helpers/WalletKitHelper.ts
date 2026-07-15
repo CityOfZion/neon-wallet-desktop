@@ -5,6 +5,7 @@ import { Core } from '@walletconnect/core'
 
 import pkg from '../../../../package.json'
 import { ConstantsHelper } from './ConstantsHelper'
+import { StringHelper } from './StringHelper'
 
 export class WalletKitHelper extends BSWalletKitHelper {
   static kit: IWalletKit
@@ -20,7 +21,7 @@ export class WalletKitHelper extends BSWalletKitHelper {
     this.kit = await WalletKit.init({
       core,
       metadata: {
-        name: pkg.name.charAt(0).toUpperCase() + pkg.name.slice(1),
+        name: StringHelper.capitalize(pkg.name),
         description: pkg.description,
         url: ConstantsHelper.cozWebsiteUrl,
         icons: [`${ConstantsHelper.neonIconsUrl}/neon-logo/128x128.png`],

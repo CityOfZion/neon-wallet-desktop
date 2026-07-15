@@ -10,7 +10,7 @@ import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 
 import { SettingsLayout } from '@renderer/layouts/Settings'
 
-import MdOutlineSave from '@renderer/assets/images/md-outline-save.svg?react'
+import TbDeviceFloppy from '@renderer/assets/images/tb-device-floppy.svg?react'
 
 const SettingsBackupWallet = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'settings.settingsBackupWallet' })
@@ -42,7 +42,7 @@ const SettingsBackupWallet = () => {
       <div className="flex justify-center">
         <Button
           label={t('backup')}
-          leftIcon={<MdOutlineSave aria-hidden />}
+          leftIcon={<TbDeviceFloppy aria-hidden />}
           iconsOnEdge={false}
           disabled={!selectedFilePath}
           onClick={modalNavigateWrapper('confirm-password-backup', { state: { selectedFilePath } })}

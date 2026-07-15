@@ -8,7 +8,7 @@ import { useLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 
 import MdOutlineKey from '@renderer/assets/images/md-outline-key.svg?react'
 import MdOutlineLock from '@renderer/assets/images/md-outline-lock.svg?react'
-import MdOutlineSave from '@renderer/assets/images/md-outline-save.svg?react'
+import TbDeviceFloppy from '@renderer/assets/images/tb-device-floppy.svg?react'
 import TbPackageImport from '@renderer/assets/images/tb-package-import.svg?react'
 import TbReload from '@renderer/assets/images/tb-reload.svg?react'
 
@@ -50,7 +50,7 @@ export const SettingsSecurityTabContent = () => {
         <li>
           <MenuLink
             layoutId="settings-security"
-            iconElement={<MdOutlineSave aria-hidden />}
+            iconElement={<TbDeviceFloppy aria-hidden />}
             className="px-3 py-2 text-sm"
             rightElement={null}
             to="/settings/security/backup-wallet"

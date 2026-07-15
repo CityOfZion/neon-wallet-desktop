@@ -35,6 +35,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TProps>(
       onChange,
       multiline = true,
       label,
+      disabled,
       ...props
     },
     ref
@@ -91,8 +92,10 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TProps>(
         {label && <label className="mb-2 block text-xs font-bold text-gray-100 uppercase">{label}</label>}
 
         <div
+          aria-disabled={disabled}
           className={StyleHelper.mergeStyles(
             'bg-asphalt flex w-full items-center gap-x-1 rounded-sm px-5 font-medium text-white ring-2 ring-transparent outline-hidden placeholder:text-white/50',
+            'aria-disabled:cursor-not-allowed aria-disabled:opacity-50',
             {
               'py-1.25 text-xs': compacted,
               'py-3 text-sm': !compacted,
@@ -104,13 +107,13 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TProps>(
         >
           <FieldActionsMenu
             value={['string', 'number'].includes(typeof props.value) ? props.value!.toString() : ''}
-            disabled={props.disabled}
+            disabled={disabled}
             readOnly={props.readOnly}
             onChange={setValue}
           >
             <textarea
               className={StyleHelper.mergeStyles(
-                'min-h-4 w-full grow resize-none overflow-hidden bg-transparent outline-hidden',
+                'min-h-4 w-full grow resize-none overflow-hidden bg-transparent outline-hidden disabled:cursor-not-allowed',
                 {
                   'whitespace-nowrap': !multiline,
                 },
@@ -118,6 +121,8 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TProps>(
               )}
               ref={internalRef}
               rows={1}
+              disabled={disabled}
+              aria-disabled={disabled}
               onChange={handleChange}
               onKeyDown={handleKeyDown}
               spellCheck="false"
@@ -131,13 +136,22 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TProps>(
               type="button"
               colorSchema="neon"
               compacted
-              disabled={props.disabled}
+              disabled={disabled}
               icon={<MdContentPasteGo aria-hidden className="text-neon" />}
               onClick={handlePaste}
             />
           )}
 
-          {clearable && <IconButton icon={<MdCancel aria-hidden />} type="button" onClick={clear} compacted />}
+          {clearable && (
+            <IconButton
+              aria-label={tCommonGeneral('clear')}
+              type="button"
+              compacted
+              disabled={disabled}
+              icon={<MdCancel aria-hidden />}
+              onClick={clear}
+            />
+          )}
         </div>
 
         {errorMessage && <span className="text-pink mt-1 block text-xs">{errorMessage}</span>}

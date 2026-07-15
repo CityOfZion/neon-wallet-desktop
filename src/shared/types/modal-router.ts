@@ -328,6 +328,10 @@ type TModalRouterSideRouteTypes = {
   'neo3-vote-candidate-details': TNeo3VoteCandidateDetailsModalState
 }
 
+type TAssistantNewConversationDiscardAlertModalState = {
+  onContinue: () => void
+}
+
 type TBuyAndSellTokensLeaveAlertModalState = {
   onContinue: () => void
 }
@@ -406,6 +410,7 @@ type TStellarPersistTrustlineModalState = {
 }
 
 type TModalRouterCenterRouteTypes = {
+  'assistant-new-conversation-discard-alert': TAssistantNewConversationDiscardAlertModalState
   'auto-update-completed': undefined
   'auto-update-mobile': undefined
   'auto-update-notes': undefined

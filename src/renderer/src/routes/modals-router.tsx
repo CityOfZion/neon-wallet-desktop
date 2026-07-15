@@ -109,6 +109,7 @@ const sideModalsRouter: TRoute[] = [
 const AutoUpdateCompletedModal = lazy(() => import('./modals/AutoUpdateCompleted'))
 const AutoUpdateMobileModal = lazy(() => import('./modals/AutoUpdateMobile'))
 const AutoUpdateNotesModal = lazy(() => import('./modals/AutoUpdateNotes'))
+const AssistantNewConversationDiscardAlertModal = lazy(() => import('./modals/AssistantNewConversationDiscardAlert'))
 const BuyAndSellTokensLeaveAlertModal = lazy(() => import('./modals/BuyAndSellTokensLeaveAlert'))
 const ConnectHardwareWalletModal = lazy(() => import('./modals/ConnectHardwareWallet'))
 const DappConnectionModal = lazy(() => import('./modals/DappConnection'))
@@ -124,6 +125,7 @@ const Neo3VoteSuccessModal = lazy(() => import('./modals/Neo3VoteSuccess'))
 const Neo3VoteSupportUsModal = lazy(() => import('./modals/Neo3VoteSupportUs'))
 
 const centerModalsRouter: TRoute[] = [
+  { name: 'assistant-new-conversation-discard-alert', element: AssistantNewConversationDiscardAlertModal },
   { name: 'auto-update-completed', element: AutoUpdateCompletedModal },
   { name: 'auto-update-mobile', element: AutoUpdateMobileModal },
   { name: 'auto-update-notes', element: AutoUpdateNotesModal },

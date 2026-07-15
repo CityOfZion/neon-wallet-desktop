@@ -50,6 +50,12 @@
     "inputLabel": "Profile name",
     "title": "Add new network profile"
   },
+  "assistantNewConversationDiscardAlert": {
+    "closeButtonLabel": "No, I want to stay",
+    "continueButtonLabel": "Yes, proceed",
+    "description": "Your new conversation will be discarded if you proceed.",
+    "title": "Are you sure you want to discard the new conversation?"
+  },
   "autoUpdate": {
     "completed": {
       "buttonContinueLabel": "Start using your wallet",

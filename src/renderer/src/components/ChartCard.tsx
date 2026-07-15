@@ -31,14 +31,14 @@ export const ChartCard = ({ priceHistory }: TProps) => {
   const { token } = tokenBalance
 
   return (
-    <div className="flex h-[205px] w-full grow flex-col gap-y-1.5 overflow-hidden rounded-sm bg-gray-900 px-3 py-2 text-xs">
+    <div className="flex h-52 w-full grow flex-col gap-y-1.5 overflow-hidden rounded-sm bg-gray-900 px-3 py-2 text-xs">
       <div className="mb-1.5 flex items-center gap-x-2">
         <ImageWithFallback
           src={`${ConstantsHelper.neonIconsUrl}/tokens/${tokenBalance.blockchain}/${token.hash}.png`}
           alt={token.name || token.symbol}
           fallbackSrc={`${ConstantsHelper.neonIconsUrl}/tokens/default-token.png`}
           imgClassName="h-4.5 max-h-4.5 min-h-4.5 w-4.5 max-w-4.5 min-w-4.5 rounded-full"
-          className="h-6 w-6 rounded-full bg-gray-600/50"
+          className="size-6 rounded-full bg-gray-600/50"
         />
 
         <div>{token.name}</div>
