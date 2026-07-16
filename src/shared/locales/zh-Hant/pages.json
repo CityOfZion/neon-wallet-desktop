@@ -316,7 +316,7 @@
       "feeError": "計算手續費時發生錯誤",
       "hardwareWalletShouldBeValid": "請確保您的硬體錢包已解鎖以繼續操作",
       "insufficientFunds": "餘額不足",
-      "noAmountToTip": "金額不足以支付小費",
+      "noAmountToTip": "餘額不足以支付小費",
       "noFiatPriceToTip": "未找到法定貨幣價格以進行打賞",
       "noTokenToTip": "沒有代幣支付小費"
     },
@@ -353,8 +353,10 @@
       "viewStatusButtonLabel": "查看狀態"
     },
     "sendTip": {
+      "customAmountLabel": "金額",
       "optionalLabel": "*可選",
-      "supportLabel": "我想透過小費支持 COZ，金額為"
+      "supportCustomLabel": "我想以小費支持 COZ，金額為",
+      "supportLabel": "我想透過 {{percentage}}% 的小費支持 COZ，金額為"
     },
     "separatelyTransferWarning": "{{blockchain}} 不支援單筆多收件人，將分別發送，這會大幅增加手續費。",
     "sourceAccountLabel": "來源帳戶",
