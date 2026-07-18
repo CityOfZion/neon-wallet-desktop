@@ -3,6 +3,7 @@ import { useCallback, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 
+import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { SelectorHelper } from '@renderer/helpers/SelectorHelper'
 
 import type { TRootState } from '@renderer/types/redux'
@@ -17,7 +18,12 @@ const selectWallets = createAppSelector(
   (applicationDataByLoginType, loginSession) => {
     if (!loginSession?.type) return SelectorHelper.fallbackToEmptyArray<TWallet>()
 
-    return SelectorHelper.fallbackToEmptyArray<TWallet>(applicationDataByLoginType[loginSession.type].wallets)
+    return SelectorHelper.fallbackToEmptyArray<TWallet>(
+      applicationDataByLoginType[loginSession.type].wallets.map(wallet => ({
+        ...wallet,
+        accounts: AccountHelper.orderAccounts(wallet.accounts),
+      }))
+    )
   }
 )
 
