@@ -1,4 +1,5 @@
 import { BSKeychainHelper, hasLedger, TBSAccount } from '@cityofzion/blockchain-service'
+import { orderBy } from 'lodash'
 
 import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { SharedI18nextHelper } from '@shared/helpers/SharedI18nextHelper'
@@ -57,5 +58,13 @@ export class AccountHelper {
     const serviceAccount = await service.generateAccountFromKey(key)
 
     return serviceAccount as TBSAccount<T>
+  }
+
+  static orderAccounts<T extends TAccount = TAccount>(accounts: T[]) {
+    return orderBy(
+      [...accounts],
+      [({ blockchain }) => BlockchainServiceHelper.blockchainNames.indexOf(blockchain), 'order'],
+      ['asc', 'asc']
+    )
   }
 }
