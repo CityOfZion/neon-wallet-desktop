@@ -14,6 +14,7 @@ import { MenuLink } from '@renderer/components/MenuLink'
 import { RefreshAction } from '@renderer/components/RefreshAction'
 import { Separator } from '@renderer/components/Separator'
 
+import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { ClipboardHelper } from '@renderer/helpers/ClipboardHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
@@ -83,7 +84,7 @@ const WalletsPage = () => {
   }
 
   const handleSelectWallet = (selected: TWallet) => {
-    navigate(location.pathname, { state: { account: selected.accounts[0] } })
+    navigate(location.pathname, { state: { account: AccountHelper.orderAccounts(selected.accounts)[0] } })
   }
 
   const handleExportMnemonic = () => {
@@ -150,7 +151,7 @@ const WalletsPage = () => {
     }
 
     const getNextSelectedAccount = (nextSelectedWallet: TWallet) => {
-      const firstAccount = nextSelectedWallet.accounts[0]
+      const firstAccount = AccountHelper.orderAccounts(nextSelectedWallet.accounts)[0]
 
       if (stateAccount?.idWallet === nextSelectedWallet.id) {
         return accountsMapRef.current.get(SharedAccountHelper.buildAccountKey(stateAccount)) || firstAccount
