@@ -550,6 +550,10 @@
         "transactionToLabel": "Transação para"
       },
       "source": "Detalhes da conta",
+      "stellarTrustlineWarnings": {
+        "receiver": "Para receber {{token}} na Stellar, a conta de destino deve ter uma Trustline ativa para este token. Caso contrário o swap falhará. Você pode cadastrar uma Trustline nas configurações da tela de sua conta.",
+        "source": "Para fazer swap de {{token}} na Stellar, a conta de origem deve ter uma Trustline ativa para este token. Caso contrário o swap falhará. Você pode cadastrar uma Trustline nas configurações da tela de sua conta."
+      },
       "submitLabel": "Iniciar swap",
       "title": "Quais tokens você deseja fazer swap?",
       "tokenToReceiveTitle": "Receber token",
