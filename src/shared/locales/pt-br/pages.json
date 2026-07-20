@@ -551,7 +551,11 @@
       "title": "Quais tokens você deseja fazer swap?",
       "tokenToReceiveTitle": "Receber token",
       "tokenToUseTitle": "Fazer swap de",
-      "tooltipTitle": "As taxas de câmbio melhoram com valores de swap maiores!"
+      "tooltipTitle": "As taxas de câmbio melhoram com valores de swap maiores!",
+      "trustlineWarning": {
+        "receiver": "Para receber {{token}} na Stellar, a conta de destino deve ter uma Trustline ativa para este token, caso contrário o swap falhará.",
+        "source": "Para fazer swap de {{token}} na Stellar, a conta de origem deve ter uma Trustline ativa para este token."
+      }
     },
     "title": "Swap tokens"
   },

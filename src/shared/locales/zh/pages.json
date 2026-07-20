@@ -551,7 +551,11 @@
       "title": "您想兑换哪些代币？",
       "tokenToReceiveTitle": "接收此代币",
       "tokenToUseTitle": "兑换此代币",
-      "tooltipTitle": "兑换数量越大，汇率越优惠！"
+      "tooltipTitle": "兑换数量越大，汇率越优惠！",
+      "trustlineWarning": {
+        "receiver": "要在 Stellar 上接收 {{token}}，接收账户必须为此代币设置有效的信任线，否则兑换将失败。",
+        "source": "要在 Stellar 上兑换 {{token}}，源账户必须为此代币设置有效的信任线。"
+      }
     },
     "title": "兑换代币"
   },
