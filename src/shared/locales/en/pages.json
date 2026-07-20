@@ -551,7 +551,11 @@
       "title": "What tokens do you want to swap?",
       "tokenToReceiveTitle": "Receive this",
       "tokenToUseTitle": "Swap this",
-      "tooltipTitle": "Exchange rates get better with higher swap amounts!"
+      "tooltipTitle": "Exchange rates get better with higher swap amounts!",
+      "trustlineWarning": {
+        "receiver": "To receive {{token}} on Stellar, the receiving account must have an active trustline for this token, otherwise the swap will fail.",
+        "source": "To swap {{token}} on Stellar, the source account must have an active trustline for this token."
+      }
     },
     "title": "Swap tokens"
   },
