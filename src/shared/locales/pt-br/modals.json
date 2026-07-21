@@ -717,7 +717,7 @@
       "text": "Desculpe, mas sua transação não pôde ser processada."
     },
     "failureNotification": {
-      "previewBody": "Não foi possível verificar a conclusão da sua transferência de venda",
+      "previewBody": "Não foi possível verificar a conclusão da sua transferência de venda.",
       "title": "Venda falhou"
     },
     "form": {
@@ -760,7 +760,7 @@
       "transactionHash": "Hash da transação"
     },
     "successNotification": {
-      "previewBody": "Sua transferência de venda foi concluída",
+      "previewBody": "Sua transferência de venda foi concluída.",
       "title": "Venda concluída"
     },
     "title": "Fazer depósito"

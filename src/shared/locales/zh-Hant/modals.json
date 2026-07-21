@@ -717,7 +717,7 @@
       "text": "很抱歉，您的交易無法處理。"
     },
     "failureNotification": {
-      "previewBody": "我們無法確認您的出售轉帳已完成",
+      "previewBody": "我們無法確認您的出售轉帳已完成。",
       "title": "出售失敗"
     },
     "form": {
@@ -760,7 +760,7 @@
       "transactionHash": "交易雜湊"
     },
     "successNotification": {
-      "previewBody": "您的出售轉帳已完成",
+      "previewBody": "您的出售轉帳已完成。",
       "title": "出售完成"
     },
     "title": "進行存款"

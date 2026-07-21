@@ -184,7 +184,7 @@ const SearchModal = () => {
         <Fragment>
           <header className="flex items-center justify-between pt-6 pb-2.5">
             <div className="flex items-center gap-2.5">
-              <MdSearch aria-hidden className="text-neon h-6 w-6" />
+              <MdSearch aria-hidden className="text-neon size-6" />
 
               <h1 className="text-sm text-white">{t('title')}</h1>
             </div>

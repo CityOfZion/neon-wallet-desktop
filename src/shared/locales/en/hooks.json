@@ -10,7 +10,7 @@
       "faucetError": "There was an error trying to faucet. Please, try again."
     },
     "failureNotification": {
-      "previewBody": "We couldn't verify the completion of your faucet",
+      "previewBody": "We couldn't verify the completion of your faucet.",
       "title": "Faucet error"
     },
     "successNotification": {
@@ -54,12 +54,12 @@
   "usePersistTrustlineMutation": {
     "errorToastMessage": "Failed to add trustline",
     "failureNotification": {
-      "previewBody": "We couldn't verify the completion of your trustline",
-      "title": "Change Trustline failed"
+      "previewBody": "We couldn't verify the completion of your trustline.",
+      "title": "Change trustline failed"
     },
     "successNotification": {
-      "previewBody": "Your trustline has been changed successfully",
-      "title": "Change Trustline completed"
+      "previewBody": "Your trustline has been changed successfully.",
+      "title": "Change trustline completed"
     },
     "successToastMessage": "Trustline added successfully"
   },
@@ -68,7 +68,7 @@
       "claimError": "There was an error trying to claim. Please, try again."
     },
     "failureNotification": {
-      "previewBody": "We couldn't verify the completion of your claim",
+      "previewBody": "We couldn't verify the completion of your claim.",
       "title": "Claim error"
     },
     "successNotification": {

@@ -717,7 +717,7 @@
       "text": "Es tut mir leid, aber Ihre Transaktion konnte nicht bearbeitet werden."
     },
     "failureNotification": {
-      "previewBody": "Wir konnten den Abschluss Ihrer Verkaufsüberweisung nicht überprüfen",
+      "previewBody": "Wir konnten den Abschluss Ihrer Verkaufsüberweisung nicht überprüfen.",
       "title": "Verkauf fehlgeschlagen"
     },
     "form": {
@@ -760,7 +760,7 @@
       "transactionHash": "Transaktions-Hash"
     },
     "successNotification": {
-      "previewBody": "Ihre Verkaufsüberweisung wurde abgeschlossen",
+      "previewBody": "Ihre Verkaufsüberweisung wurde abgeschlossen.",
       "title": "Verkauf abgeschlossen"
     },
     "title": "Einzahlung tätigen"
