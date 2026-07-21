@@ -15,6 +15,7 @@ import debounce from 'lodash/debounce'
 import { useTranslation } from 'react-i18next'
 import { RemoveScroll } from 'react-remove-scroll'
 
+import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
 import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
@@ -22,6 +23,7 @@ import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import MdSearch from '@renderer/assets/images/md-search.svg?react'
 
 import { Command } from './Command'
+import { ImageWithFallback } from './ImageWithFallback'
 import { Loader } from './Loader'
 import { Popover } from './Popover'
 import { Separator } from './Separator'
@@ -224,6 +226,13 @@ const List = ({ className, ...props }: TListProps) => {
                   }}
                 >
                   <div className="flex h-full w-full min-w-0 items-center gap-2 text-sm text-white">
+                    <ImageWithFallback
+                      src={`${ConstantsHelper.neonIconsUrl}/tokens/stellar/${row.hash}.png`}
+                      alt={row.name || row.symbol}
+                      fallbackSrc={`${ConstantsHelper.neonIconsUrl}/tokens/default-token.png`}
+                      imgClassName="size-4.5 max-size-4.5 min-size-4.5 rounded-full"
+                      className="max-size-6 min-size-6 size-6 rounded-full bg-gray-600/50"
+                    />
                     <span className="uppercase">{row.symbol}</span>-
                     <span className="text-gray-100">{StringHelper.truncateMiddle(row.hash, 20)}</span>
                   </div>
