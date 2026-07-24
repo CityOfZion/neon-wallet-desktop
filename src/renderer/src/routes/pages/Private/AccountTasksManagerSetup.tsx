@@ -7,6 +7,7 @@ import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelp
 import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
 import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
 import { SkinHelper } from '@renderer/helpers/SkinHelper'
+import { TokenHelper } from '@renderer/helpers/TokenHelper'
 
 import { useEditAccount } from '@renderer/hooks/useAccountActions'
 import { useOwnAccountsSelector } from '@renderer/hooks/useAccountSelector'
@@ -48,15 +49,21 @@ const useFraudulentTokensNotificationProcess = () => {
     try {
       if (!balance) return
 
-      const fraudulentHashes = ConstantsHelper.fraudulentTokenHashesByBlockchain.get(account.blockchain)
+      const { blockchain } = account
+      const fraudulentHashes = ConstantsHelper.fraudulentTokenHashesByBlockchain.get(blockchain)
       if (!fraudulentHashes) return
 
-      const fraudulentTokensOwned = new Set(intersection([...fraudulentHashes], [...balance.tokensBalancesMap.keys()]))
+      const fraudulentTokensOwned = new Set(
+        intersection(
+          [...fraudulentHashes].map(hash => TokenHelper.getKey(hash, blockchain)),
+          [...balance.tokensBalancesMap.keys()]
+        )
+      )
 
-      for (const fraudulentHash of fraudulentTokensOwned) {
-        const tokenBalance = balance.tokensBalancesMap.get(fraudulentHash)!
+      for (const key of fraudulentTokensOwned) {
+        const tokenBalance = balance.tokensBalancesMap.get(key)!
 
-        const notificationKey = generateNotificationKey(account.blockchain, account.address, tokenBalance.token.hash)
+        const notificationKey = generateNotificationKey(blockchain, account.address, tokenBalance.token.hash)
 
         if (fraudulentNotificationsSetRef.current.has(notificationKey)) continue
 
@@ -74,13 +81,13 @@ const useFraudulentTokensNotificationProcess = () => {
               payload: {
                 to: 'hide-fraudulent-token',
                 address: balance.address,
-                blockchain: balance.blockchain,
+                blockchain,
                 tokenHash: tokenBalance.token.hash,
               },
             },
             related: {
               address: balance.address,
-              blockchain: balance.blockchain,
+              blockchain,
             },
           })
         )
@@ -118,9 +125,12 @@ const useBNeoShutdownNotificationProcess = () => {
 
   const process = (account: TAccount, balance: TBalance | undefined) => {
     try {
-      if (!balance || account.blockchain !== 'neo3' || new Date() >= dateLimit) return
+      const { blockchain } = account
 
-      const tokenBalance = balance.tokensBalancesMap.get(ConstantsHelper.bNeoTokenHash)
+      if (!balance || blockchain !== 'neo3' || new Date() >= dateLimit) return
+
+      const tokenBalance = balance.tokensBalancesMap.get(TokenHelper.getKey(ConstantsHelper.bNeoTokenHash, blockchain))
+
       if (!tokenBalance || tokenBalance.amountNumber === 0) return
 
       if (notificationsSetByAddressRef.current.has(account.address)) return
@@ -137,12 +147,12 @@ const useBNeoShutdownNotificationProcess = () => {
             payload: {
               to: 'bneo-shutdown',
               address: balance.address,
-              blockchain: balance.blockchain,
+              blockchain,
             },
           },
           related: {
             address: balance.address,
-            blockchain: balance.blockchain,
+            blockchain,
           },
         })
       )
@@ -182,9 +192,11 @@ const useVotingNeo3NotificationProcess = () => {
 
   const process = async (account: TAccount) => {
     try {
-      if (account.blockchain !== 'neo3') return
+      const { blockchain } = account
 
-      const notificationKey = generateNotificationKey(account.blockchain, account.address)
+      if (blockchain !== 'neo3') return
+
+      const notificationKey = generateNotificationKey(blockchain, account.address)
 
       if (votingNotificationsSetRef.current.has(notificationKey)) return
 
@@ -203,12 +215,12 @@ const useVotingNeo3NotificationProcess = () => {
             payload: {
               to: 'neo3-vote',
               address: voteDetails.address,
-              blockchain: 'neo3',
+              blockchain,
             },
           },
           related: {
-            blockchain: 'neo3',
             address: voteDetails.address,
+            blockchain,
           },
         })
       )
@@ -240,9 +252,12 @@ const useUnlockLocalSkinsProcess = () => {
       if (unlockLocalSkinsSetRef.current.size === SkinHelper.localSkins.size) return
 
       for (const [key, skin] of SkinHelper.localSkins) {
-        const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[account.blockchain]
-        if (unlockLocalSkinsSetRef.current.has(key) || account.blockchain !== skin.blockchain || !hasNft(service))
+        const { blockchain } = account
+        const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
+
+        if (unlockLocalSkinsSetRef.current.has(key) || blockchain !== skin.blockchain || !hasNft(service)) {
           continue
+        }
 
         const hasToken = await service.nftDataService.hasToken({
           address: account.address,

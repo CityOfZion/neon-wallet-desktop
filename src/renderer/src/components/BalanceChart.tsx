@@ -45,7 +45,7 @@ export const BalanceChart = ({ balances, sortedBalances, className }: TProps) =>
       const widthPercent = (tokenBalance.exchangeAmount * 100) / balances.exchangeTotal
 
       return {
-        name: tokenBalance.token.name,
+        name: tokenBalance.token.name || tokenBalance.token.symbol || tokenBalance.token.hash,
         value: CurrencyHelper.format(tokenBalance.exchangeAmount, { currency }),
         color,
         widthPercent,
@@ -74,14 +74,14 @@ export const BalanceChart = ({ balances, sortedBalances, className }: TProps) =>
 
   return (
     <div className={StyleHelper.mergeStyles('w-full py-9', className)}>
-      <div className="mr-2 mb-9 flex w-full items-center justify-end gap-2 text-xl">
+      <div className="mb-9 flex w-full items-center justify-end gap-2 pr-1 text-xl">
         <span className="text-gray-300">{t('balance')}</span>
 
         <span className="text-white">{exchangeTotalFormatted}</span>
       </div>
 
       <div className="flex w-full flex-col">
-        <p className="mb-3.5 px-1 text-sm text-gray-100">{t('holdings')}</p>
+        <p className="mb-3 px-1 text-sm text-gray-100">{t('holdings')}</p>
 
         <ul className="flex w-full justify-center">
           {bars.map((bar, index) => (

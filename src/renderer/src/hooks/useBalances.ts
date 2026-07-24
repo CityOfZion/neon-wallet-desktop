@@ -8,6 +8,7 @@ import { match } from 'ts-pattern'
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { ExchangeHelper } from '@renderer/helpers/ExchangeHelper'
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
+import { TokenHelper } from '@renderer/helpers/TokenHelper'
 
 import { useCurrencyRatio } from '@renderer/hooks/useCurrencyRatio'
 
@@ -55,11 +56,13 @@ const fetchBalance = async (
   currency: TCurrency,
   currencyRatio: number
 ): Promise<TUseBalancesFetchResult> => {
+  const { address, blockchain } = param
+
   try {
-    const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[param.blockchain]
-    const balance = await service.blockchainDataService.getBalance(param.address)
+    const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
+    const balance = await service.blockchainDataService.getBalance(address)
     const tokens = balance.map(balance => balance.token)
-    const exchange = await fetchExchange(param.blockchain, tokens, network, queryClient, currency, currencyRatio)
+    const exchange = await fetchExchange(blockchain, tokens, network, queryClient, currency, currencyRatio)
     const tokensBalancesMap: Map<string, TTokenBalance> = new Map()
 
     await Promise.allSettled(
@@ -70,15 +73,15 @@ const fetchBalance = async (
 
         const exchangeConvertedPrice = ExchangeHelper.getExchangeConvertedPrice(
           balance.token.hash,
-          param.blockchain,
+          blockchain,
           exchange
         )
 
         const exchangeAmount = amountNumber * exchangeConvertedPrice
 
-        tokensBalancesMap.set(service.tokenService.normalizeHash(balance.token.hash), {
+        tokensBalancesMap.set(TokenHelper.getKey(balance.token.hash, blockchain), {
           ...balance,
-          blockchain: param.blockchain,
+          blockchain,
           amount: balance.amount,
           amountNumber,
           exchangeAmount,
@@ -88,14 +91,14 @@ const fetchBalance = async (
     )
 
     return {
-      address: param.address,
-      blockchain: param.blockchain,
+      address,
+      blockchain,
       tokensBalancesMap,
     }
   } catch {
     return {
-      address: param.address,
-      blockchain: param.blockchain,
+      address,
+      blockchain,
       tokensBalancesMap: new Map(),
     }
   }
@@ -113,20 +116,28 @@ const fixBalanceResult = (
 
   match(showType)
     .with('active', () => {
-      hiddenTokens?.forEach(tokenHash => {
-        tokensBalancesMapClone.delete(service.tokenService.normalizeHash(tokenHash))
-      })
+      if (hiddenTokens) {
+        for (const [key, { token }] of tokensBalancesMapClone) {
+          const { hash } = token
+
+          if (hiddenTokens.some(tokenHash => service.tokenService.predicateByHash(tokenHash, hash))) {
+            tokensBalancesMapClone.delete(key)
+          }
+        }
+      }
 
       tokensBalances = Array.from(tokensBalancesMapClone.values())
     })
     .otherwise(() => {
-      hiddenTokens?.forEach(tokenHash => {
-        const tokenBalance = tokensBalancesMapClone.get(service.tokenService.normalizeHash(tokenHash))
+      if (hiddenTokens) {
+        for (const [, tokenBalance] of tokensBalancesMapClone) {
+          const tokenHash = tokenBalance.token.hash
 
-        if (!tokenBalance) return
-
-        tokensBalances.push(tokenBalance)
-      })
+          if (hiddenTokens.some(hiddenHash => service.tokenService.predicateByHash(hiddenHash, tokenHash))) {
+            tokensBalances.push(tokenBalance)
+          }
+        }
+      }
     })
 
   return {
@@ -183,17 +194,19 @@ export function useBalances(params: TUseBalancesParams[], options?: TUseBalances
           data.push(balance)
 
           balance.tokensBalances.forEach(tokenBalance => {
-            const groupedTokenBalance = groupedTokenBalances.get(tokenBalance.token.hash)
+            const { token, blockchain } = tokenBalance
+            const groupedTokenBalance = groupedTokenBalances.get(TokenHelper.getKey(token.hash, blockchain))
 
             if (!groupedTokenBalance) {
-              groupedTokenBalances.set(tokenBalance.token.hash, tokenBalance)
+              groupedTokenBalances.set(TokenHelper.getKey(token.hash, blockchain), tokenBalance)
+
               return
             }
 
             groupedTokenBalance.amountNumber += tokenBalance.amountNumber
             groupedTokenBalance.amount = new BSBigHumanAmount(
               groupedTokenBalance.amountNumber,
-              tokenBalance.token.decimals
+              token.decimals
             ).toFormatted()
             groupedTokenBalance.exchangeAmount += tokenBalance.exchangeAmount
           })

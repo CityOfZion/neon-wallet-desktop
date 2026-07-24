@@ -21,9 +21,12 @@ export const ChartCardList = ({ sortedBalances, className }: TProps) => {
   const { t } = useTranslation('components', { keyPrefix: 'chartCardList' })
 
   const priceHistories = usePriceHistory(
-    sortedBalances
-      .slice(0, 4)
-      .filter((item, index, array) => array.findIndex(t => t.token.symbol === item.token.symbol) === index)
+    sortedBalances.filter(
+      (item, index, array) =>
+        array.findIndex(({ token, blockchain }) => {
+          return token.symbol === item.token.symbol && token.hash === item.token.hash && blockchain === item.blockchain
+        }) === index
+    )
   )
 
   if (!priceHistories.isLoading && priceHistories.data.length === 0) return null
@@ -31,15 +34,15 @@ export const ChartCardList = ({ sortedBalances, className }: TProps) => {
   return (
     <div className={StyleHelper.mergeStyles('w-full py-9', className)}>
       {priceHistories.isLoading ? (
-        <Loader className="h-10 w-10" />
+        <Loader className="size-10" />
       ) : (
         <Fragment>
-          <span className="mb-3.5 text-sm text-gray-100">{t('title')}</span>
+          <span className="mb-3 text-sm text-gray-100">{t('title')}</span>
 
-          <div className="flex w-full justify-around gap-1.5">
-            {priceHistories.data.map(
-              item => item && <ChartCard priceHistory={item} key={item.tokenBalance.token.symbol} />
-            )}
+          <div className="flex w-full gap-2">
+            {priceHistories.data
+              .slice(0, 4)
+              .map(item => item && <ChartCard priceHistory={item} key={item.tokenBalance.token.symbol} />)}
           </div>
         </Fragment>
       )}
