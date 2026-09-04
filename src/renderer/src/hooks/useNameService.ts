@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react'
 
 import { hasNameService } from '@cityofzion/blockchain-service'
 import { Query, useQueryClient } from '@tanstack/react-query'
-import { debounce } from 'lodash'
+import debounce from 'lodash/debounce'
 
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 
