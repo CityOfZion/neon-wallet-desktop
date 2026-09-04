@@ -1,5 +1,6 @@
 import { type RefObject, useCallback } from 'react'
 
+import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { SelectorHelper } from '@renderer/helpers/SelectorHelper'
 
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
@@ -16,7 +17,7 @@ export const selectAccounts = createAppSelector(
 
     const accounts = applicationDataByLoginType[loginSession.type].wallets.flatMap(wallet => wallet.accounts)
 
-    return SelectorHelper.fallbackToEmptyArray<TAccount>(accounts)
+    return SelectorHelper.fallbackToEmptyArray<TAccount>(AccountHelper.orderAccounts(accounts))
   }
 )
 
@@ -55,7 +56,7 @@ const selectOwnAccounts = createAppSelector(
       wallet.accounts.filter(account => account.type !== 'watch' || wallet.type === 'hardware')
     )
 
-    return SelectorHelper.fallbackToEmptyArray<TAccount>(accounts)
+    return SelectorHelper.fallbackToEmptyArray<TAccount>(AccountHelper.orderAccounts(accounts))
   }
 )
 
@@ -89,9 +90,10 @@ const selectAccountsByWalletId = (walletId: string) =>
     (applicationDataByLoginType, loginSession) => {
       if (!loginSession?.type) return SelectorHelper.fallbackToEmptyArray<TAccount>()
 
-      const wallet = applicationDataByLoginType[loginSession.type].wallets.find(wallet => wallet.id === walletId)
+      const accounts =
+        applicationDataByLoginType[loginSession.type].wallets.find(wallet => wallet.id === walletId)?.accounts || []
 
-      return SelectorHelper.fallbackToEmptyArray<TAccount>(wallet?.accounts)
+      return SelectorHelper.fallbackToEmptyArray<TAccount>(AccountHelper.orderAccounts(accounts))
     }
   )
 
