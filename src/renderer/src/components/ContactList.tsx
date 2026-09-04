@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
 
-import { cloneDeep } from 'lodash'
+import cloneDeep from 'lodash/cloneDeep'
 import { useTranslation } from 'react-i18next'
 
 import { SearchInput } from '@renderer/components/SearchInput'

@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 
 import { hasWalletConnect } from '@cityofzion/blockchain-service'
-import { cloneDeep } from 'lodash'
+import cloneDeep from 'lodash/cloneDeep'
 import { useTranslation } from 'react-i18next'
 
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
