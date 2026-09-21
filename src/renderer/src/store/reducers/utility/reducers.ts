@@ -85,18 +85,13 @@ const toggleHiddenToken: CaseReducer<TUtilityReducer, PayloadAction<THiddenToken
   }
 
   const normalizedHash = service.tokenService.normalizeHash(hash)
-  const hiddenTokens = cloneDeep(state.data.hiddenTokensByBlockchain[blockchain] || [])
+  const hiddenTokens = (state.data.hiddenTokensByBlockchain[blockchain] ??= [])
   const index = hiddenTokens.findIndex(tokenHash => service.tokenService.predicateByHash(normalizedHash, tokenHash))
 
   if (index < 0) {
     hiddenTokens.push(normalizedHash)
   } else {
     hiddenTokens.splice(index, 1)
-  }
-
-  state.data.hiddenTokensByBlockchain = {
-    ...state.data.hiddenTokensByBlockchain,
-    [blockchain]: hiddenTokens,
   }
 }
 

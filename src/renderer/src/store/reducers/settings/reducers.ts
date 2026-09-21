@@ -47,24 +47,20 @@ const saveCustomNetwork: CaseReducer<
   PayloadAction<{ blockchain: TBlockchainServiceKey; network: TNetwork }>
 > = (state, action) => {
   const { blockchain, network } = action.payload
-  const cloneNetworks = cloneDeep(state.data.customNetworks)
+  const networks = state.data.customNetworks[blockchain]
 
-  const findIndex = cloneNetworks[blockchain].findIndex(it => it.id === network.id)
+  const findIndex = networks.findIndex(it => it.id === network.id)
   if (findIndex < 0) {
-    cloneNetworks[blockchain].push(network)
+    networks.push(network)
   } else {
-    cloneNetworks[blockchain][findIndex] = network
+    networks[findIndex] = network
   }
 
-  state.data.customNetworks = cloneNetworks
-
-  const selectedProfile = cloneDeep(state.data.selectedNetworkProfile)
+  const selectedProfile = state.data.selectedNetworkProfile
 
   if (selectedProfile.networkByBlockchain[blockchain].id === network.id) {
     selectedProfile.networkByBlockchain[blockchain] = network
   }
-
-  state.data.selectedNetworkProfile = selectedProfile
 
   const profileIndex = state.data.networkProfiles.findIndex(it => it.id === selectedProfile.id)
   state.data.networkProfiles[profileIndex] = selectedProfile
@@ -76,12 +72,9 @@ const deleteCustomNetwork: CaseReducer<
 > = (state, action) => {
   const { network, blockchain } = action.payload
 
-  const cloneNetworks = cloneDeep(state.data.customNetworks)
+  state.data.customNetworks[blockchain] = state.data.customNetworks[blockchain].filter(({ id }) => id !== network.id)
 
-  cloneNetworks[blockchain] = cloneNetworks[blockchain].filter(({ id }) => id !== network.id)
-  state.data.customNetworks = cloneNetworks
-
-  const selectedProfile = cloneDeep(state.data.selectedNetworkProfile)
+  const selectedProfile = state.data.selectedNetworkProfile
 
   if (selectedProfile.networkByBlockchain[blockchain].id === network.id) {
     selectedProfile.networkByBlockchain[blockchain] =
@@ -118,10 +111,8 @@ const editNetworkProfile: CaseReducer<
   const findIndex = state.data.networkProfiles.findIndex(it => it.id === profile.id)
   if (findIndex < 0) return
 
-  const currentProfile = cloneDeep(state.data.networkProfiles[findIndex])
+  const currentProfile = state.data.networkProfiles[findIndex]
   merge(currentProfile, profile)
-
-  state.data.networkProfiles[findIndex] = currentProfile
 
   if (state.data.selectedNetworkProfile.id === profile.id) {
     state.data.selectedNetworkProfile = currentProfile
