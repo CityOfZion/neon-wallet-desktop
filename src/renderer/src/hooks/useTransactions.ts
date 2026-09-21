@@ -236,9 +236,10 @@ export const useTransactions = ({
 
     const groupedDataByDates = new Map<string, TUseTransactionsGroupedTransactionsByDate>()
 
-    sortedTransactions.forEach(transaction => {
+    sortedTransactions.forEach(originalTransaction => {
+      let transaction = originalTransaction
       const hiddenTokens = hiddenTokensByBlockchain[transaction.blockchain]
-      const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[transaction.blockchain]
+      const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[originalTransaction.blockchain]
 
       if (!!hiddenTokens && hiddenTokens.length > 0) {
         const isHiddenToken = (tokenHash: string) => {
@@ -246,17 +247,24 @@ export const useTransactions = ({
         }
 
         if (transaction.view === 'utxo') {
-          transaction.inputs = transaction.inputs.filter(({ token }) => !isHiddenToken(token.hash))
-          transaction.outputs = transaction.outputs.filter(({ token }) => !isHiddenToken(token.hash))
+          transaction = {
+            ...transaction,
+            inputs: transaction.inputs.filter(({ token }) => !isHiddenToken(token.hash)),
+            outputs: transaction.outputs.filter(({ token }) => !isHiddenToken(token.hash)),
+          }
         } else {
-          transaction.events = transaction.events.filter(event => {
-            if (event.eventType !== 'token') return true
+          transaction = {
+            ...transaction,
+            events: transaction.events.filter(event => {
+              if (event.eventType !== 'token') return true
 
-            const tokenHash = event.token?.hash
-            if (!tokenHash) return true
+              const tokenHash = event.token?.hash
 
-            return !isHiddenToken(tokenHash)
-          })
+              if (!tokenHash) return true
+
+              return !isHiddenToken(tokenHash)
+            }),
+          }
         }
       }
 

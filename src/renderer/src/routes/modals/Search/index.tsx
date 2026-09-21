@@ -1,7 +1,8 @@
 import { ChangeEvent, useCallback, useMemo } from 'react'
 
 import { search } from 'fast-fuzzy'
-import { debounce, orderBy } from 'lodash'
+import debounce from 'lodash/debounce'
+import orderBy from 'lodash/orderBy'
 import { Fragment } from 'react/jsx-runtime'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'

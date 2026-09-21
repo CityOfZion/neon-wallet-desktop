@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 
-import { cloneDeep } from 'lodash'
+import cloneDeep from 'lodash/cloneDeep'
 import { useTranslation } from 'react-i18next'
 import { Location, useLocation, useNavigate } from 'react-router'
 
