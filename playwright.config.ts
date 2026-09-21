@@ -6,6 +6,7 @@ dotenv.config({ path: ['.env', '.env.test'] })
 export default defineConfig({
   timeout: 40000,
   testDir: './tests',
+  globalSetup: './tests/e2e/global-setup.ts',
   fullyParallel: true,
   forbidOnly: false,
   retries: 0,
