@@ -3,7 +3,6 @@ import { useCallback, useMemo } from 'react'
 import { BSBigHumanAmount } from '@cityofzion/blockchain-service'
 import { QueryClient, useQueries, useQuery, useQueryClient } from '@tanstack/react-query'
 import cloneDeep from 'lodash/cloneDeep'
-import { match } from 'ts-pattern'
 
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { ExchangeHelper } from '@renderer/helpers/ExchangeHelper'
@@ -112,33 +111,20 @@ const fixBalanceResult = (
   const tokensBalancesMapClone = cloneDeep(result.tokensBalancesMap)
   const hiddenTokens = hiddenTokensByBlockchain[result.blockchain]
   const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[result.blockchain]
-  let tokensBalances: TTokenBalance[] = []
 
-  match(showType)
-    .with('active', () => {
-      if (hiddenTokens) {
-        for (const [key, { token }] of tokensBalancesMapClone) {
-          const { hash } = token
+  if (hiddenTokens) {
+    const keepHidden = showType === 'hidden'
 
-          if (hiddenTokens.some(tokenHash => service.tokenService.predicateByHash(tokenHash, hash))) {
-            tokensBalancesMapClone.delete(key)
-          }
-        }
+    for (const [key, { token }] of tokensBalancesMapClone) {
+      const isHidden = hiddenTokens.some(tokenHash => service.tokenService.predicateByHash(tokenHash, token.hash))
+
+      if (isHidden !== keepHidden) {
+        tokensBalancesMapClone.delete(key)
       }
+    }
+  }
 
-      tokensBalances = Array.from(tokensBalancesMapClone.values())
-    })
-    .otherwise(() => {
-      if (hiddenTokens) {
-        for (const [, tokenBalance] of tokensBalancesMapClone) {
-          const tokenHash = tokenBalance.token.hash
-
-          if (hiddenTokens.some(hiddenHash => service.tokenService.predicateByHash(hiddenHash, tokenHash))) {
-            tokensBalances.push(tokenBalance)
-          }
-        }
-      }
-    })
+  const tokensBalances = Array.from(tokensBalancesMapClone.values())
 
   return {
     address: result.address,
