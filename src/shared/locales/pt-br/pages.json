@@ -1,4 +1,48 @@
 {
+  "assistant": {
+    "content": {
+      "authorLabels": {
+        "assistant": "Assistente",
+        "user": "Eu"
+      },
+      "briefing": "A Neon Wallet é a carteira de código aberto e autocustodiante da COZ, criada para oferecer uma maneira rápida, segura e intuitiva de gerenciar ativos digitais na Web3. Projetada com uma experiência de usuário unificada, ela suporta o gerenciamento de múltiplas carteiras, facilitando a organização e o acesso a múltiplas contas em um só lugar. A carteira integra WalletConnect, suporte a carteiras de hardware, swaps de tokens e bridges entre cadeias, dando aos usuários a flexibilidade de interagir com aplicativos descentralizados e ecossistemas. Sua arquitetura compartilhada garante uma experiência consistente e confiável, mantendo a segurança em primeiro plano. Como os usuários mantêm o controle total de suas chaves privadas e frases de recuperação, a Neon Wallet nunca custodia seus fundos. Ao combinar recursos poderosos com uma interface amigável, a Neon Wallet capacita usuários novos e experientes a navegar com confiança na web descentralizada.",
+      "editButtonLabel": "Editar",
+      "errors": {
+        "INVALID_ACTING_ACCOUNT": "Conta de ação inválida",
+        "INVALID_PARAMS": "Parâmetros inválidos",
+        "INVALID_RESPONSE": "Resposta inválida",
+        "SERVICE_ERROR": "Erro de serviço",
+        "UNKNOWN": "Ocorreu um erro desconhecido"
+      },
+      "saveButtonLabel": "Salvar",
+      "sendButtonLabel": "Enviar",
+      "textLabel": "Mensagem",
+      "textPlaceholders": {
+        "default": "Digite uma mensagem…",
+        "redirecting": "Redirecionando…"
+      },
+      "titles": {
+        "default": "Conversa",
+        "new": "Nova conversa"
+      }
+    },
+    "emptyState": {
+      "description": "Selecione ou crie uma nova conversa para começar",
+      "title": "Nenhuma conversa"
+    },
+    "sidebar": {
+      "betaBadgeLabel": "Beta",
+      "description": "Descreva o que você quer fazer, como fazer uma transferência. Sua conversa é armazenada localmente e nunca é enviada para o nosso banco de dados.",
+      "listTitle": "Conversas:",
+      "newConversationButtonLabel": "Nova conversa",
+      "notFound": {
+        "description": "Crie uma nova conversa",
+        "title": "Nenhuma conversa"
+      },
+      "title": "Sobre"
+    },
+    "title": "Assistente"
+  },
   "buyAndSellTokens": {
     "aboutDataButtonLabel": "Sobre seus dados",
     "buyTokensTabLabel": "Comprar tokens",
@@ -593,7 +637,7 @@
     "exportKeyButtonLabel": "Exportar chave",
     "exportKeyTitle": "Exportar Chave",
     "exportWalletTitle": "Exportar Carteira",
-    "hardwareWalletConnectBadge": "Carteira de hardware conectada",
+    "hardwareWalletConnectBadgeLabel": "Carteira de hardware conectada",
     "importButtonLabel": "Importar",
     "neo3NeoXBridgeButtonLabel": "Bridge",
     "neo3VoteButtonLabel": "Voto",

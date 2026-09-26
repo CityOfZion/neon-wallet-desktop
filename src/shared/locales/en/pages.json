@@ -1,4 +1,48 @@
 {
+  "assistant": {
+    "content": {
+      "authorLabels": {
+        "assistant": "Assistant",
+        "user": "Me"
+      },
+      "briefing": "Neon Wallet is COZ’s open-source, self-custodial wallet built to provide a fast, secure, and intuitive way to manage digital assets across Web3. Designed with a unified user experience, it supports multi-wallet management, making it easy to organize and access multiple accounts in one place. The wallet integrates WalletConnect, hardware wallet support, token swaps, and cross-chain bridges, giving users the flexibility to interact with decentralized applications and ecosystems. Its shared architecture ensures a consistent and reliable experience while keeping security at the forefront. Because users retain full control of their private keys and recovery phrases, Neon Wallet never takes custody of their funds. By combining powerful features with a user-friendly interface, Neon Wallet empowers both new and experienced users to confidently navigate the decentralized web.",
+      "editButtonLabel": "Edit",
+      "errors": {
+        "INVALID_ACTING_ACCOUNT": "Invalid acting account",
+        "INVALID_PARAMS": "Invalid parameters",
+        "INVALID_RESPONSE": "Invalid response",
+        "SERVICE_ERROR": "Service error",
+        "UNKNOWN": "An unknown error occurred"
+      },
+      "saveButtonLabel": "Save",
+      "sendButtonLabel": "Send",
+      "textLabel": "Message",
+      "textPlaceholders": {
+        "default": "Type a message…",
+        "redirecting": "Redirecting…"
+      },
+      "titles": {
+        "default": "Conversation",
+        "new": "New conversation"
+      }
+    },
+    "emptyState": {
+      "description": "Select or create a new conversation to get started",
+      "title": "No conversation"
+    },
+    "sidebar": {
+      "betaBadgeLabel": "Beta",
+      "description": "Describe what you want to do, such as making a transfer. Your conversation is stored locally and is never sent to our database.",
+      "listTitle": "Conversations:",
+      "newConversationButtonLabel": "New conversation",
+      "notFound": {
+        "description": "Create a new conversation",
+        "title": "No conversations"
+      },
+      "title": "About"
+    },
+    "title": "Assistant"
+  },
   "buyAndSellTokens": {
     "aboutDataButtonLabel": "About your data",
     "buyTokensTabLabel": "Buy tokens",
@@ -593,7 +637,7 @@
     "exportKeyButtonLabel": "Export key",
     "exportKeyTitle": "Export Key",
     "exportWalletTitle": "Export Wallet",
-    "hardwareWalletConnectBadge": "Hardware wallet connected",
+    "hardwareWalletConnectBadgeLabel": "Hardware wallet connected",
     "importButtonLabel": "Import",
     "neo3NeoXBridgeButtonLabel": "Bridge",
     "neo3VoteButtonLabel": "Vote",

@@ -1,10 +1,18 @@
 import { CaseReducer, PayloadAction } from '@reduxjs/toolkit'
+import { cloneDeep } from 'lodash'
 
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
 import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { SharedI18nextHelper } from '@shared/helpers/SharedI18nextHelper'
-import { TAccount, TLoginSession, TNotification, TSaveNotification, TWallet } from '@shared/types/store'
+import {
+  TAccount,
+  TLoginSession,
+  TNotification,
+  TSaveConversation,
+  TSaveNotification,
+  TWallet,
+} from '@shared/types/store'
 
 import { TAuthReducer } from '.'
 
@@ -15,8 +23,19 @@ const setLoginSession: CaseReducer<TAuthReducer, PayloadAction<TLoginSession | u
 }
 
 const resetTemporaryApplicationData: CaseReducer<TAuthReducer> = state => {
-  state.data.applicationDataByLoginType.hardware = { wallets: [], notifications: [], shouldConfirmAction: false }
-  state.data.applicationDataByLoginType.key = { wallets: [], notifications: [], shouldConfirmAction: true }
+  state.data.applicationDataByLoginType.hardware = {
+    wallets: [],
+    notifications: [],
+    shouldConfirmAction: false,
+    conversations: [],
+  }
+
+  state.data.applicationDataByLoginType.key = {
+    wallets: [],
+    notifications: [],
+    shouldConfirmAction: true,
+    conversations: [],
+  }
 }
 
 const setShouldConfirmAction: CaseReducer<TAuthReducer, PayloadAction<boolean>> = (state, action) => {
@@ -144,6 +163,74 @@ const saveNotification: CaseReducer<TAuthReducer, PayloadAction<TSaveNotificatio
   applicationData.notifications[foundIndex] = notification
 }
 
+// Conversation reducers
+const saveConversation: CaseReducer<TAuthReducer, PayloadAction<TSaveConversation>> = (state, action) => {
+  const loginType = state.memoryData.loginSession?.type
+
+  if (!loginType) return
+
+  const conversationToSave = cloneDeep(action.payload)
+  const { id } = conversationToSave
+  const { conversations } = state.data.applicationDataByLoginType[loginType]
+  const index = conversations.findIndex(conversation => conversation.id === id)
+  const isNew = index === -1
+
+  const conversation = isNew
+    ? { id, name: '', date: new Date().toJSON(), messages: [] }
+    : cloneDeep(conversations[index])
+
+  if (conversationToSave.name) {
+    conversation.name = conversationToSave.name
+  }
+
+  const hasNewMessages = conversationToSave.messages && conversationToSave.messages.length > 0
+
+  if (hasNewMessages) {
+    conversation.messages.push(...conversationToSave.messages!)
+  }
+
+  if (isNew) {
+    conversations.unshift(conversation)
+
+    return
+  }
+
+  if (hasNewMessages) {
+    conversations.splice(index, 1)
+    conversations.unshift(conversation)
+
+    return
+  }
+
+  conversations[index] = conversation
+}
+
+type TSaveConversationDraftTextParams = {
+  id: string
+  text: string
+}
+
+const saveConversationDraftText: CaseReducer<TAuthReducer, PayloadAction<TSaveConversationDraftTextParams>> = (
+  state,
+  action
+) => {
+  const { id, text } = action.payload
+
+  state.memoryData.conversationDraftTexts[id] = text
+}
+
+const clearConversationDraftText: CaseReducer<TAuthReducer, PayloadAction<string>> = (state, action) => {
+  delete state.memoryData.conversationDraftTexts[action.payload]
+}
+
+const clearAllConversationDraftTexts: CaseReducer<TAuthReducer> = state => {
+  state.memoryData.conversationDraftTexts = {}
+}
+
+const setLastConversationId: CaseReducer<TAuthReducer, PayloadAction<string | null>> = (state, action) => {
+  state.memoryData.lastConversationId = action.payload
+}
+
 export const authSliceReducers = {
   setLoginSession,
 
@@ -158,4 +245,10 @@ export const authSliceReducers = {
   saveNotification,
 
   setShouldConfirmAction,
+
+  saveConversation,
+  saveConversationDraftText,
+  clearConversationDraftText,
+  clearAllConversationDraftTexts,
+  setLastConversationId,
 }
