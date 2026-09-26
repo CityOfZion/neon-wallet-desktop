@@ -316,7 +316,7 @@
       "feeError": "Error to calculate fee",
       "hardwareWalletShouldBeValid": "To proceed with this operation, please make sure your hardware wallet is unlocked",
       "insufficientFunds": "Insufficient funds",
-      "noAmountToTip": "No enough amount to pay the tip",
+      "noAmountToTip": "Insufficient balance to pay the tip",
       "noFiatPriceToTip": "Fiat price not found to the tip",
       "noTokenToTip": "No token to pay the tip"
     },
@@ -353,8 +353,10 @@
       "viewStatusButtonLabel": "View status"
     },
     "sendTip": {
+      "customAmountLabel": "Amount",
       "optionalLabel": "*Optional",
-      "supportLabel": "I want to support COZ with a tip of"
+      "supportCustomLabel": "I want to support COZ with a tip of",
+      "supportLabel": "I want to support COZ with a {{percentage}}% tip of"
     },
     "separatelyTransferWarning": "{{blockchain}} does not support more than one send per transaction, so we will send each transfer separately which will drastically increase the fee.",
     "sourceAccountLabel": "Source account",

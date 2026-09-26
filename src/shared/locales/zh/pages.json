@@ -316,7 +316,7 @@
       "feeError": "手续费计算错误",
       "hardwareWalletShouldBeValid": "请确保您的硬件钱包已解锁以继续操作",
       "insufficientFunds": "余额不足",
-      "noAmountToTip": "金额不足以支付小费",
+      "noAmountToTip": "余额不足以支付小费",
       "noFiatPriceToTip": "未找到法定货币价格以进行打赏",
       "noTokenToTip": "没有代币支付小费"
     },
@@ -353,8 +353,10 @@
       "viewStatusButtonLabel": "查看状态"
     },
     "sendTip": {
+      "customAmountLabel": "金额",
       "optionalLabel": "*可选",
-      "supportLabel": "我想通过小费支持 COZ，金额为"
+      "supportCustomLabel": "我想以小费支持 COZ，金额为",
+      "supportLabel": "我想通过 {{percentage}}% 的小费支持 COZ，金额为"
     },
     "separatelyTransferWarning": "{{blockchain}} 不支持每笔交易发送多个转账，因此我们将分别发送每笔转账，这将大幅增加手续费。",
     "sourceAccountLabel": "源账户",

@@ -316,7 +316,7 @@
       "feeError": "Fehler bei der Berechnung der Gebühr",
       "hardwareWalletShouldBeValid": "Um mit diesem Vorgang fortzufahren, stellen Sie bitte sicher, dass Ihr Hardware Wallet entsperrt ist",
       "insufficientFunds": "Unzureichendes Guthaben",
-      "noAmountToTip": "Nicht genug Betrag zum Bezahlen des Trinkgelds",
+      "noAmountToTip": "Unzureichendes Guthaben zum Bezahlen des Trinkgelds",
       "noFiatPriceToTip": "Fiat-Preis für das Trinkgeld nicht gefunden",
       "noTokenToTip": "Kein Token zum Bezahlen des Trinkgelds"
     },
@@ -353,8 +353,10 @@
       "viewStatusButtonLabel": "Status anzeigen"
     },
     "sendTip": {
+      "customAmountLabel": "Betrag",
       "optionalLabel": "*Optional",
-      "supportLabel": "Ich möchte COZ mit einem Trinkgeld unterstützen von"
+      "supportCustomLabel": "Ich möchte COZ mit einem Trinkgeld unterstützen in Höhe von",
+      "supportLabel": "Ich möchte COZ mit einem {{percentage}} %-Trinkgeld unterstützen in Höhe von"
     },
     "separatelyTransferWarning": "{{blockchain}} unterstützt nicht mehr als eine Sendung pro Transaktion, daher werden wir jede Überweisung separat senden, was die Gebühr drastisch erhöht.",
     "sourceAccountLabel": "Quellkonto",
