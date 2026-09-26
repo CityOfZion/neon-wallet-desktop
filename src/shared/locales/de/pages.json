@@ -551,7 +551,11 @@
       "title": "Welche Token möchten Sie tauschen?",
       "tokenToReceiveTitle": "Dies erhalten",
       "tokenToUseTitle": "Dies tauschen",
-      "tooltipTitle": "Wechselkurse werden mit höheren Tauschbeträgen besser!"
+      "tooltipTitle": "Wechselkurse werden mit höheren Tauschbeträgen besser!",
+      "trustlineWarning": {
+        "receiver": "Um {{token}} auf Stellar zu empfangen, muss das empfangende Konto über eine aktive Trustline für dieses Token verfügen, andernfalls schlägt der Swap fehl.",
+        "source": "Um {{token}} auf Stellar zu tauschen, muss das Quellkonto über eine aktive Trustline für dieses Token verfügen."
+      }
     },
     "title": "Token tauschen"
   },
