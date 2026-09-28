@@ -111,7 +111,7 @@ If a commit fails due to typecheck or lint errors, fix the underlying issue — 
 Defined via Vite (`VITE_` prefix). Key ones:
 - `VITE_SENTRY_DSN` — Error tracking
 - `VITE_GA_MEASUREMENT_ID` / `VITE_GA_API_SECRET` — Analytics
-- `VITE_UNLIMIT_MERCHANT_ID` / `VITE_UNLIMIT_BUY_TOKENS_IFRAME_URL` / `VITE_UNLIMIT_SELL_TOKENS_IFRAME_URL` — Fiat on/off-ramp
+- `VITE_MERCURYO_WIDGET_ID` — Fiat on/off-ramp (Mercuryo widget)
 
 ## Node Version
 
