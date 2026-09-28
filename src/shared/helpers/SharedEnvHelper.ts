@@ -3,9 +3,7 @@ import { z } from 'zod'
 
 const envSchema = z.object({
   VITE_SENTRY_DSN: z.url().nonempty().optional(),
-  VITE_UNLIMIT_MERCHANT_ID: z.string().nonempty().optional(),
-  VITE_UNLIMIT_BUY_TOKENS_IFRAME_URL: z.string().nonempty().optional(),
-  VITE_UNLIMIT_SELL_TOKENS_IFRAME_URL: z.string().nonempty().optional(),
+  VITE_MERCURYO_WIDGET_ID: z.string().nonempty().optional(),
   VITE_GA_MEASUREMENT_ID: z.string().nonempty().optional(),
   VITE_GA_API_SECRET: z.string().nonempty().optional(),
   VITE_CLICK_UP_KEY: z.string().nonempty().optional(),

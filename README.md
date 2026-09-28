@@ -43,9 +43,7 @@ Join our community to stay updated with the latest news and developments:
 Create a `.env` file in the project root with the following variables:
 
 ```env
-VITE_UNLIMIT_MERCHANT_ID=your-unlimit-merchant-id
-VITE_UNLIMIT_BUY_TOKENS_IFRAME_URL=your-unlimit-buy-iframe-url
-VITE_UNLIMIT_SELL_TOKENS_IFRAME_URL=your-unlimit-sell-iframe-url
+VITE_MERCURYO_WIDGET_ID=your-mercuryo-widget-id
 
 VITE_CLICK_UP_KEY=your-clickup-api-key
 VITE_CLICK_UP_LIST_ID=your-clickup-list-id

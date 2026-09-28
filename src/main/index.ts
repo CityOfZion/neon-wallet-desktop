@@ -3,6 +3,7 @@ import { app, BrowserWindow, dialog, shell } from 'electron'
 import { join } from 'path'
 
 import { mainApi } from '@shared/api/main'
+import { SharedConstantsHelper } from '@shared/helpers/SharedConstantsHelper'
 import { SharedEnvHelper } from '@shared/helpers/SharedEnvHelper'
 import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 
@@ -21,6 +22,7 @@ import { MainWindowHelper } from './window'
 const isLinux = process.platform === 'linux'
 const isMac = process.platform === 'darwin'
 const devRendererUrl = is.dev ? process.env['ELECTRON_RENDERER_URL'] : undefined
+const allowedWebviewOrigins = [SharedConstantsHelper.BUY_AND_SELL_URL]
 
 let mainWindow: BrowserWindow | null = null
 
@@ -43,6 +45,7 @@ function createWindow(): void {
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false,
+      webviewTag: true,
     },
   })
 
@@ -65,6 +68,27 @@ function createWindow(): void {
       // Invalid URL: ignore
     }
     return { action: 'deny' }
+  })
+
+  mainWindow.webContents.on('will-attach-webview', (event, webPreferences, params) => {
+    delete webPreferences.preload
+    webPreferences.nodeIntegration = false
+    webPreferences.contextIsolation = true
+    webPreferences.sandbox = true
+
+    try {
+      if (!allowedWebviewOrigins.includes(new URL(params.src).origin)) event.preventDefault()
+    } catch {
+      event.preventDefault()
+    }
+  })
+
+  mainWindow.webContents.on('did-attach-webview', (_event, webContents) => {
+    webContents.setWindowOpenHandler(details => {
+      if (details.url.startsWith('https://')) shell.openExternal(details.url)
+
+      return { action: 'deny' }
+    })
   })
 
   mainWindow.webContents.on('before-input-event', (event, input) => {

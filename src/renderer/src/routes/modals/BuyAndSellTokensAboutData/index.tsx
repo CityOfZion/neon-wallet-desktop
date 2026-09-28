@@ -11,9 +11,9 @@ import { BuyAndSellTokensHelper } from '@renderer/helpers/BuyAndSellTokensHelper
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 import MdInfoOutline from '@renderer/assets/images/md-info-outline.svg?react'
+import MercuryoLogo from '@renderer/assets/images/mercuryo-logo.svg?react'
 import SumsubLogo from '@renderer/assets/images/sumsub-logo.svg?react'
 import TbExternalLink from '@renderer/assets/images/tb-external-link.svg?react'
-import UnlimitLogo from '@renderer/assets/images/unlimit-logo.svg?react'
 
 type TLinkItemProps = {
   title: string
@@ -64,10 +64,10 @@ const BuyAndSellTokensAboutDataModal = () => {
         />
 
         <LinkItem
-          title={t('unlimit.title')}
-          to={BuyAndSellTokensHelper.unlimitUseTermsUrl}
-          linkLabel={t('unlimit.link')}
-          svgImage={<UnlimitLogo aria-hidden className="h-full" />}
+          title={t('mercuryo.title')}
+          to={BuyAndSellTokensHelper.mercuryoTermsUrl}
+          linkLabel={t('mercuryo.link')}
+          svgImage={<MercuryoLogo aria-hidden className="h-full" />}
         />
       </ul>
 
