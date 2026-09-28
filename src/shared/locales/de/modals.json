@@ -77,15 +77,15 @@
   "buyAndSellTokensAboutData": {
     "alert": "COZ speichert keine Ihrer Daten!",
     "description": "Unser On/Off-Ramp-Partner speichert nur eine ID-Referenz zu Ihren Daten und verwendet die von Ihnen angegebene E-Mail, um Sie über Ihre Verkäufe und Käufe zu informieren.",
+    "mercuryo": {
+      "link": "Über Mercuryos Dienst",
+      "title": "Alle anderen Daten werden von unserem On/Off-Ramp-Partner verarbeitet:"
+    },
     "sumbsub": {
       "link": "Über Sumsubs Dienst",
       "title": "Ihre KYC-Daten werden verschlüsselt und von unserem KYC-Partner verwendet:"
     },
-    "title": "Über Ihre Daten",
-    "unlimit": {
-      "link": "Über Unlimits Dienst",
-      "title": "Alle anderen Daten werden von unserem On/Off-Ramp-Partner verarbeitet:"
-    }
+    "title": "Über Ihre Daten"
   },
   "buyAndSellTokensLeaveAlert": {
     "buttons": {

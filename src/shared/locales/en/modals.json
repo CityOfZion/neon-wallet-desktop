@@ -77,15 +77,15 @@
   "buyAndSellTokensAboutData": {
     "alert": "COZ doesn't store any of your data!",
     "description": "Our on/off ramp partner only keeps an ID reference to your data and uses the email you provide to update you about your sales and purchases.",
+    "mercuryo": {
+      "link": "About Mercuryo's service",
+      "title": "All other data is handled by our on/off ramp partner:"
+    },
     "sumbsub": {
       "link": "About Sumsub's service",
       "title": "Your KYC data is encrypted and used by our KYC partner:"
     },
-    "title": "About your data",
-    "unlimit": {
-      "link": "About Unlimit's service",
-      "title": "All other data is handled by our on/off ramp partner:"
-    }
+    "title": "About your data"
   },
   "buyAndSellTokensLeaveAlert": {
     "buttons": {
