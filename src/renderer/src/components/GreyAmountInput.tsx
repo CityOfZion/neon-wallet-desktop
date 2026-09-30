@@ -23,7 +23,6 @@ export const GreyAmountInput = forwardRef<HTMLInputElement, TProps>(
         containerClassName={StyleHelper.mergeStyles('w-36', containerClassName)}
         contentClassName={StyleHelper.mergeStyles('bg-gray-300/15 pr-0 pl-3 text-sm', contentClassName)}
         compacted
-        disabled
         placeholder={t('placeholder')}
         rightElement={
           maxButtonProps ? (

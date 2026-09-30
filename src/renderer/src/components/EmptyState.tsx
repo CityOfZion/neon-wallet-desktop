@@ -38,7 +38,9 @@ export const EmptyState = ({ account }: TProps) => {
 
   const handleFaucet = async () => {
     if (!account) return
+
     await faucetMutation.mutateAsync(account)
+
     navigate('/wallets/transactions', { state: { account } })
   }
 

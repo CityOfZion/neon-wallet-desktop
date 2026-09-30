@@ -9,30 +9,28 @@ import TbAlertSmall from '@renderer/assets/images/tb-alert-small.svg?react'
 import TbAlertTriangle from '@renderer/assets/images/tb-alert-triangle.svg?react'
 import TbAlertHexagonFilled from '@renderer/assets/images/tb-filled-alert-hexagon.svg?react'
 
-export type TBannerType = 'info' | 'error' | 'success' | 'warning' | 'warningOrange' | 'alert'
+type TType = 'info' | 'error' | 'success' | 'warning' | 'warningOrange' | 'alert'
 
-export type TBanner = {
-  type: TBannerType
+type TProps = ComponentProps<'div'> & {
+  type: TType
   message: ReactNode
   textClassName?: string
   iconClassName?: string
 }
 
-type TProps = TBanner & ComponentProps<'div'>
-
-const iconByType: Record<TBannerType, JSX.Element> = {
-  error: <TbAlertHexagonFilled aria-hidden className="text-pink h-6 w-6" />,
-  info: <MdInfoOutline aria-hidden className="text-blue h-6 w-6" />,
-  success: <MdVerified aria-hidden className="text-green h-6 w-6" />,
-  warning: <TbAlertTriangle aria-hidden className="text-yellow h-6 w-6" />,
+const iconByType: Record<TType, JSX.Element> = {
+  error: <TbAlertHexagonFilled aria-hidden className="text-pink size-6" />,
+  info: <MdInfoOutline aria-hidden className="text-blue size-6" />,
+  success: <MdVerified aria-hidden className="text-green size-6" />,
+  warning: <TbAlertTriangle aria-hidden className="text-yellow size-6" />,
   warningOrange: (
     <div className="relative flex h-full items-center justify-center">
-      <TbAlertSmall aria-hidden className="text-orange h-6 w-6" />
+      <TbAlertSmall aria-hidden className="text-orange size-6" />
 
-      <div className="border-orange absolute h-4 w-4 rotate-45 rounded-xs border-2" />
+      <div className="border-orange absolute size-4 rotate-45 rounded-xs border-2" />
     </div>
   ),
-  alert: <PiWarningDiamondFill aria-hidden className="text-pink h-6 w-6" />,
+  alert: <PiWarningDiamondFill aria-hidden className="text-pink size-6" />,
 }
 
 export const Banner = ({ message, type, className, textClassName, iconClassName, ...props }: TProps) => {
