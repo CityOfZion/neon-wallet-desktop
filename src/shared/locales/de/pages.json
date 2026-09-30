@@ -321,7 +321,7 @@
       "noTokenToTip": "Kein Token zum Bezahlen des Trinkgelds"
     },
     "failureNotification": {
-      "previewBody": "Wir konnten den Abschluss Ihrer Überweisung nicht überprüfen",
+      "previewBody": "Wir konnten den Abschluss Ihrer Überweisung nicht überprüfen.",
       "title": "Überweisung fehlgeschlagen"
     },
     "recipient": {
@@ -360,7 +360,7 @@
     "sourceAccountLabel": "Quellkonto",
     "subtitle": "Welche Token möchten Sie senden?",
     "successNotification": {
-      "previewBody": "Ihre Überweisung wurde erfolgreich abgeschlossen",
+      "previewBody": "Ihre Überweisung wurde erfolgreich abgeschlossen.",
       "title": "Überweisung abgeschlossen"
     },
     "title": "Token senden"

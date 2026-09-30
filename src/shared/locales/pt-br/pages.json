@@ -321,7 +321,7 @@
       "noTokenToTip": "Nenhum token para pagar a gorjeta"
     },
     "failureNotification": {
-      "previewBody": "Não foi possível verificar a conclusão da sua transferência",
+      "previewBody": "Não foi possível verificar a conclusão da sua transferência.",
       "title": "Transferência falhou"
     },
     "recipient": {
@@ -360,7 +360,7 @@
     "sourceAccountLabel": "Conta de origem",
     "subtitle": "Quais tokens você deseja enviar?",
     "successNotification": {
-      "previewBody": "Sua transferência foi concluída com sucesso",
+      "previewBody": "Sua transferência foi concluída com sucesso.",
       "title": "Transferência concluída"
     },
     "title": "Enviar Tokens"

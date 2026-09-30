@@ -321,7 +321,7 @@
       "noTokenToTip": "沒有代幣支付小費"
     },
     "failureNotification": {
-      "previewBody": "我們無法確認您的轉帳是否完成",
+      "previewBody": "我們無法確認您的轉帳是否完成。",
       "title": "轉帳失敗"
     },
     "recipient": {
@@ -360,7 +360,7 @@
     "sourceAccountLabel": "來源帳戶",
     "subtitle": "您想發送哪些代幣？",
     "successNotification": {
-      "previewBody": "您的轉帳已成功完成",
+      "previewBody": "您的轉帳已成功完成。",
       "title": "轉帳完成"
     },
     "title": "發送代幣"

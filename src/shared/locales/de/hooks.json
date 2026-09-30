@@ -68,7 +68,7 @@
       "claimError": "Es gab einen Fehler beim Versuch abzurufen. Bitte versuchen Sie es erneut."
     },
     "failureNotification": {
-      "previewBody": "Wir konnten den Abschluss Ihres Abrufs nicht überprüfen",
+      "previewBody": "Wir konnten den Abschluss Ihres Abrufs nicht überprüfen.",
       "title": "Abruffehler"
     },
     "successNotification": {

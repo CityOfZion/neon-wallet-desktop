@@ -15,11 +15,14 @@ import debounce from 'lodash/debounce'
 import { useTranslation } from 'react-i18next'
 import { RemoveScroll } from 'react-remove-scroll'
 
+import { TokenItem } from '@renderer/components/TokenItem'
+
 import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
-import { StringHelper } from '@renderer/helpers/StringHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import MdSearch from '@renderer/assets/images/md-search.svg?react'
+
+import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 import { Command } from './Command'
 import { Loader } from './Loader'
@@ -27,6 +30,7 @@ import { Popover } from './Popover'
 import { Separator } from './Separator'
 
 type TSearchableTokenContext = {
+  blockchain: TBlockchainServiceKey
   value?: TBSToken
   onValueChange?: (value: TBSToken) => void
   onSearch: (value: string) => Promise<TBSToken[]>
@@ -54,11 +58,12 @@ const useSearchableTokenContext = () => {
 }
 
 type TRootProps = ComponentProps<typeof Popover.Root> & {
+  blockchain: TBlockchainServiceKey
   value?: TBSToken
   onValueChange?: (value: TBSToken) => void
   onSearch: (value: string) => Promise<TBSToken[]>
 }
-const Root = ({ value, onValueChange, onSearch, onOpenChange, open, ...props }: TRootProps) => {
+const Root = ({ blockchain, value, onValueChange, onSearch, onOpenChange, open, ...props }: TRootProps) => {
   const [internalOpen, setInternalOpen] = useState<boolean>(open ?? false)
   const [isLoading, setIsLoading] = useState(false)
   const [tokens, setTokens] = useState<TBSToken[]>([])
@@ -74,6 +79,7 @@ const Root = ({ value, onValueChange, onSearch, onOpenChange, open, ...props }: 
   return (
     <SearchableTokenContext.Provider
       value={{
+        blockchain,
         value,
         onValueChange,
         onSearch,
@@ -95,11 +101,13 @@ const Root = ({ value, onValueChange, onSearch, onOpenChange, open, ...props }: 
 const Trigger = ({ className, disabled, ...props }: ComponentProps<typeof Popover.Trigger>) => {
   return (
     <Popover.Trigger
-      aria-disabled={disabled}
       className={StyleHelper.mergeStyles(
-        'bg-asphalt aria-expanded:bg-asphalt aria-[disabled=false]:hover:bg-asphalt/60 aria-[disabled=false]:focus:bg-asphalt/60 flex h-8.5 w-32 min-w-3 items-center gap-2 rounded-sm px-4 aria-disabled:cursor-not-allowed',
+        'bg-asphalt aria-expanded:bg-asphalt flex h-9 w-full items-center gap-2 rounded-sm px-2',
+        'aria-[disabled=false]:hover:bg-asphalt/60 aria-[disabled=false]:focus:bg-asphalt/60 aria-[disabled=false]:active:bg-asphalt/40',
+        'aria-disabled:cursor-not-allowed aria-disabled:opacity-50',
         className
       )}
+      aria-disabled={disabled}
       disabled={disabled}
       {...props}
     />
@@ -108,23 +116,18 @@ const Trigger = ({ className, disabled, ...props }: ComponentProps<typeof Popove
 
 const Value = () => {
   const { t } = useTranslation('components', { keyPrefix: 'searchableToken' })
-  const { value } = useSearchableTokenContext()
+  const { blockchain, value } = useSearchableTokenContext()
 
   if (!value) {
     return (
       <div className="flex w-full items-center justify-between text-white/50">
-        <span className="text-left text-sm">{t('placeholder')}</span>
+        <span className="pl-3 text-left text-xs">{t('placeholder')}</span>
         <MdSearch className="size-6" aria-hidden />
       </div>
     )
   }
 
-  return (
-    <div className="flex h-full w-full min-w-0 items-center gap-2 text-sm text-white">
-      <span className="uppercase">{value.symbol}</span>-
-      <span className="text-gray-100">{StringHelper.truncateMiddle(value.hash, 20)}</span>
-    </div>
-  )
+  return <TokenItem blockchain={blockchain} token={value} />
 }
 
 const Content = ({ className, children, ...props }: ComponentProps<typeof Popover.Content>) => {
@@ -150,6 +153,7 @@ const Input = (props: ComponentProps<typeof Command.Input>) => {
     debounce(async (text: string) => {
       try {
         const tokens = await onSearch?.(text)
+
         onTokensChange(tokens || [])
       } catch (error) {
         LoggerHelper.error(error, { where: 'SearchableTokenSelect' })
@@ -172,7 +176,7 @@ const Input = (props: ComponentProps<typeof Command.Input>) => {
 type TListProps = ComponentProps<typeof Command.List>
 const List = ({ className, ...props }: TListProps) => {
   const { t } = useTranslation('components', { keyPrefix: 'searchableToken' })
-  const { isOpen, isLoading, tokens, filter, onValueChange, onOpenChange } = useSearchableTokenContext()
+  const { blockchain, isOpen, isLoading, tokens, filter, onValueChange, onOpenChange } = useSearchableTokenContext()
 
   const parentRef = useRef<HTMLDivElement>(null)
 
@@ -216,17 +220,11 @@ const List = ({ className, ...props }: TListProps) => {
                 <Command.Item
                   key={virtualItem.key}
                   value={value}
+                  className="group absolute top-0 left-0 h-10 w-full cursor-pointer flex-col items-start px-2 data-[selected='true']:bg-gray-800/60"
+                  style={{ height: `${virtualItem.size}px`, transform: `translateY(${virtualItem.start}px)` }}
                   onSelect={handleTokenSelect.bind(null, row)}
-                  className="group absolute top-0 left-0 h-10 w-full cursor-pointer flex-col items-start px-4 data-[selected='true']:bg-gray-800/60"
-                  style={{
-                    height: `${virtualItem.size}px`,
-                    transform: `translateY(${virtualItem.start}px)`,
-                  }}
                 >
-                  <div className="flex h-full w-full min-w-0 items-center gap-2 text-sm text-white">
-                    <span className="uppercase">{row.symbol}</span>-
-                    <span className="text-gray-100">{StringHelper.truncateMiddle(row.hash, 20)}</span>
-                  </div>
+                  <TokenItem blockchain={blockchain} token={row} />
 
                   <Separator className="group-last:hidden" />
                 </Command.Item>

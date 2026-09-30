@@ -321,7 +321,7 @@
       "noTokenToTip": "No token to pay the tip"
     },
     "failureNotification": {
-      "previewBody": "We couldn't verify the completion of your transfer",
+      "previewBody": "We couldn't verify the completion of your transfer.",
       "title": "Transfer failed"
     },
     "recipient": {
@@ -360,7 +360,7 @@
     "sourceAccountLabel": "Source account",
     "subtitle": "What tokens do you want to send?",
     "successNotification": {
-      "previewBody": "Your transfer has been completed successfully",
+      "previewBody": "Your transfer has been completed successfully.",
       "title": "Transfer completed"
     },
     "title": "Send Tokens"

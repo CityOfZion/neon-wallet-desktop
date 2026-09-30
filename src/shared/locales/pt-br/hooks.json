@@ -68,7 +68,7 @@
       "claimError": "Ocorreu um erro ao tentar resgatar. Por favor, tente novamente."
     },
     "failureNotification": {
-      "previewBody": "Não foi possível verificar a conclusão do seu resgate",
+      "previewBody": "Não foi possível verificar a conclusão do seu resgate.",
       "title": "Erro no resgate"
     },
     "successNotification": {

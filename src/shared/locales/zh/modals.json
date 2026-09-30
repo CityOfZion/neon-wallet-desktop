@@ -717,7 +717,7 @@
       "text": "很抱歉，您的交易无法处理。"
     },
     "failureNotification": {
-      "previewBody": "我们无法确认您的出售转账已完成",
+      "previewBody": "我们无法确认您的出售转账已完成。",
       "title": "出售失败"
     },
     "form": {
@@ -760,7 +760,7 @@
       "transactionHash": "交易哈希"
     },
     "successNotification": {
-      "previewBody": "您的出售转账已完成",
+      "previewBody": "您的出售转账已完成。",
       "title": "出售完成"
     },
     "title": "发起存款"

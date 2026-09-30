@@ -321,7 +321,7 @@
       "noTokenToTip": "没有代币支付小费"
     },
     "failureNotification": {
-      "previewBody": "我们无法验证您的转账是否完成",
+      "previewBody": "我们无法验证您的转账是否完成。",
       "title": "转账失败"
     },
     "recipient": {
@@ -360,7 +360,7 @@
     "sourceAccountLabel": "源账户",
     "subtitle": "您想发送哪些代币？",
     "successNotification": {
-      "previewBody": "您的转账已成功完成",
+      "previewBody": "您的转账已成功完成。",
       "title": "转账完成"
     },
     "title": "发送代币"

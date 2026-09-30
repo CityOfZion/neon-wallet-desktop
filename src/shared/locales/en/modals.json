@@ -496,11 +496,11 @@
     },
     "notifications": {
       "voteFailureNotification": {
-        "previewBody": "We couldn't verify the completion of your vote",
+        "previewBody": "We couldn't verify the completion of your vote.",
         "title": "Vote failed"
       },
       "voteSuccessNotification": {
-        "previewBody": "Your vote has been completed successfully",
+        "previewBody": "Your vote has been completed successfully.",
         "title": "Vote completed"
       }
     },
@@ -717,7 +717,7 @@
       "text": "I'm sorry but your transaction could not be processed."
     },
     "failureNotification": {
-      "previewBody": "We couldn't verify the completion of your sell transfer",
+      "previewBody": "We couldn't verify the completion of your sell transfer.",
       "title": "Sell failed"
     },
     "form": {
@@ -760,7 +760,7 @@
       "transactionHash": "Transaction hash"
     },
     "successNotification": {
-      "previewBody": "Your sell transfer has been completed",
+      "previewBody": "Your sell transfer has been completed.",
       "title": "Sell completed"
     },
     "title": "Make deposit"

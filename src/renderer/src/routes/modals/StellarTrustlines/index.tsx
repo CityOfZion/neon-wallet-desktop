@@ -3,8 +3,7 @@ import { match, P } from 'ts-pattern'
 
 import { Button } from '@renderer/components/Button'
 import { Loader } from '@renderer/components/Loader'
-
-import { StringHelper } from '@renderer/helpers/StringHelper'
+import { TokenItem } from '@renderer/components/TokenItem'
 
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useStellarTrustlinesQuery } from '@renderer/hooks/useStellarTruslines'
@@ -18,6 +17,7 @@ import type { TModalState } from '@shared/types/modal'
 
 const StellarTrustlines = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'stellarTrustlines' })
+  const { t: tCommonGeneral } = useTranslation('common', { keyPrefix: 'general' })
   const { stellarAccount } = useModalState<TModalState<'stellar-trustlines'>>()
   const { modalNavigateWrapper } = useModalNavigate()
   const trustlinesQuery = useStellarTrustlinesQuery(stellarAccount)
@@ -28,26 +28,24 @@ const StellarTrustlines = () => {
       contentClassName="flex flex-col text-gray-100"
       headingIcon={<TbShieldCheck aria-hidden />}
     >
-      <div className="flex min-h-0 grow flex-col gap-3.5">
+      <div className="flex min-h-0 grow flex-col">
         {match(trustlinesQuery)
           .with({ isLoading: true }, () => <Loader />)
           .with({ data: P.when(data => !data || data.length === 0) }, () => (
             <p className="text-center text-gray-300">{t('emptyMessage')}</p>
           ))
           .otherwise(() => (
-            <ul className="flex flex-col gap-2 overflow-auto">
+            <ul className="mb-6 flex flex-col gap-2 overflow-auto">
               {trustlinesQuery.data?.map(trustline => (
-                <li key={trustline.token.hash}>
+                <li key={`${trustline.token.symbol || trustline.token.name}-${trustline.token.hash}`}>
                   <button
-                    className="bg-asphalt hover:bg-asphalt/60 flex w-full min-w-0 cursor-pointer items-center gap-2.5 rounded px-4 py-2"
+                    aria-label={tCommonGeneral('edit')}
+                    className="bg-asphalt hover:bg-asphalt/60 focus:bg-asphalt/60 active:bg-asphalt/40 flex w-full min-w-0 cursor-pointer items-center gap-2 rounded p-2"
                     onClick={modalNavigateWrapper('stellar-persist-trustlines', {
                       state: { stellarAccount, token: trustline.token, limit: trustline.limit },
                     })}
                   >
-                    <p className="flex grow gap-1 truncate text-left text-sm text-white">
-                      <span>{trustline.token.symbol}</span>-
-                      <span className="text-gray-100">{StringHelper.truncateMiddle(trustline.token.hash, 10)}</span>
-                    </p>
+                    <TokenItem blockchain={stellarAccount.blockchain} token={trustline.token} />
 
                     <TbPencil aria-hidden className="size-5" />
                   </button>

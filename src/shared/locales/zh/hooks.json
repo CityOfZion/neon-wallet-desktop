@@ -54,11 +54,11 @@
   "usePersistTrustlineMutation": {
     "errorToastMessage": "添加信任线失败",
     "failureNotification": {
-      "previewBody": "我们无法验证您的信任线是否已完成",
+      "previewBody": "我们无法验证您的信任线是否已完成。",
       "title": "更改信任线失败"
     },
     "successNotification": {
-      "previewBody": "您的信任线已成功更改",
+      "previewBody": "您的信任线已成功更改。",
       "title": "变更信任线已完成"
     },
     "successToastMessage": "Trustline 已成功添加"
@@ -68,7 +68,7 @@
       "claimError": "领取时出错。请重试。"
     },
     "failureNotification": {
-      "previewBody": "我们无法确认您的领取是否完成",
+      "previewBody": "我们无法确认您的领取是否完成。",
       "title": "领取错误"
     },
     "successNotification": {

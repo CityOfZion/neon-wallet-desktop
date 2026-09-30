@@ -35,7 +35,7 @@ const StellarPersistTrustlines = () => {
 
   const { actionData, actionState, setData, setError, handleAct } = useActions<TActionsData>({
     token,
-    limit: limit || '',
+    limit: new BSBigHumanAmount(limit).isGreaterThan(0) ? limit! : '',
     isLimitFormatting: false,
   })
 
@@ -57,6 +57,7 @@ const StellarPersistTrustlines = () => {
 
     if (actionData.limit) {
       const limitBn = new BSBigHumanAmount(actionData.limit, actionData.token.decimals)
+
       if (limit && limitBn.isLessThanOrEqualTo(limit)) {
         setError('limit', t('errors.invalidLimit'))
         return
@@ -77,14 +78,21 @@ const StellarPersistTrustlines = () => {
     >
       <form className="flex grow flex-col justify-between gap-5" onSubmit={handleAct(handleSubmit)}>
         <div className="w-full">
-          <label className="mb-2 block text-xs font-bold text-gray-100 uppercase">{t('tokenLabel')}</label>
+          <span id="token" className="mb-2 block text-xs font-bold text-gray-100 uppercase">
+            {t('tokenLabel')}
+          </span>
 
           <SearchableTokenSelect.Root
+            blockchain={stellarAccount.blockchain}
             value={actionData.token}
             onValueChange={token => setData({ token })}
             onSearch={getTrustlinesTokens}
           >
-            <SearchableTokenSelect.Trigger className="w-full" disabled={!!token || actionState.isActing}>
+            <SearchableTokenSelect.Trigger
+              aria-labelledby="token"
+              className="w-full"
+              disabled={!!token || actionState.isActing}
+            >
               <SearchableTokenSelect.Value />
             </SearchableTokenSelect.Trigger>
 
