@@ -324,6 +324,7 @@
       "previewBody": "我們無法確認您的轉帳是否完成。",
       "title": "轉帳失敗"
     },
+    "hardwareMultiTransferWarning": "使用硬體錢包時，不支援在單筆交易中向多個收件人發送。",
     "recipient": {
       "addressPlaceholder": "輸入收件人名稱或地址…",
       "amountLabel": "金額",

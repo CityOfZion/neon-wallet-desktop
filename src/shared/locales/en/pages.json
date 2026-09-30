@@ -324,6 +324,7 @@
       "previewBody": "We couldn't verify the completion of your transfer.",
       "title": "Transfer failed"
     },
+    "hardwareMultiTransferWarning": "Sending to more than one recipient in a single transaction is not supported when using a hardware wallet.",
     "recipient": {
       "addressPlaceholder": "Enter recipient name or address…",
       "amountLabel": "Amount",

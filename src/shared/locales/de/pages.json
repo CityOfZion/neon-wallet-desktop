@@ -324,6 +324,7 @@
       "previewBody": "Wir konnten den Abschluss Ihrer Überweisung nicht überprüfen.",
       "title": "Überweisung fehlgeschlagen"
     },
+    "hardwareMultiTransferWarning": "Das Senden an mehr als einen Empfänger in einer einzigen Transaktion wird bei Verwendung einer Hardware-Wallet nicht unterstützt.",
     "recipient": {
       "addressPlaceholder": "Empfängername oder -adresse eingeben…",
       "amountLabel": "Betrag",

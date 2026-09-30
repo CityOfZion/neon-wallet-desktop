@@ -113,6 +113,8 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
   const isAccountDisabled = !actionData.selectedAccount || isCalculatingForm
   const isAmountsLoading = actionData.recipients.some(recipient => !!recipient.isAmountLoading)
   const isMultiTransfer = actionData.recipients.length > 1
+  const isHardwareMultiTransfer =
+    !!service?.isMultiTransferSupported && isMultiTransfer && actionData.selectedAccount?.type === 'hardware'
 
   const isSubmitDisabled =
     !actionState.isValid ||
@@ -122,7 +124,8 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
     !service ||
     isCalculatingForm ||
     isFeeInvalid ||
-    !!actionData.tipError
+    !!actionData.tipError ||
+    isHardwareMultiTransfer
 
   const errorBannerMessage = actionData.tipError || actionState.errors.fee || actionState.errors.selectedAccount
 
@@ -673,6 +676,10 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
               blockchain: tCommon(`blockchain.${actionData.selectedAccount.blockchain}`),
             })}
           />
+        )}
+
+        {actionData.selectedAccount && isHardwareMultiTransfer && (
+          <Banner type="error" className="mt-2 w-full" message={t('hardwareMultiTransferWarning')} />
         )}
 
         {(!service || (service && isCalculableFee(service))) && (

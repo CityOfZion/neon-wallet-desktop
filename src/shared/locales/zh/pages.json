@@ -324,6 +324,7 @@
       "previewBody": "我们无法验证您的转账是否完成。",
       "title": "转账失败"
     },
+    "hardwareMultiTransferWarning": "使用硬件钱包时，不支持在单笔交易中向多个收款人发送。",
     "recipient": {
       "addressPlaceholder": "输入收款人姓名或地址…",
       "amountLabel": "数量",

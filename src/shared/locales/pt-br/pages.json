@@ -324,6 +324,7 @@
       "previewBody": "Não foi possível verificar a conclusão da sua transferência.",
       "title": "Transferência falhou"
     },
+    "hardwareMultiTransferWarning": "O envio para mais de um destinatário em uma única transação não é suportado ao usar uma carteira de hardware.",
     "recipient": {
       "addressPlaceholder": "Digite o nome ou endereço do destinatário…",
       "amountLabel": "Quantidade",
