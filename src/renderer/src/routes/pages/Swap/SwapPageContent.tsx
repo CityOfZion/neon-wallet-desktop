@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next'
 import { ActionStep } from '@renderer/components/ActionStep'
 import { ActionStepSeparator } from '@renderer/components/ActionStepSeparator'
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
+import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
 import { GreyAccountSelect } from '@renderer/components/GreyAccountSelect'
 import { GreyAmountInput } from '@renderer/components/GreyAmountInput'
@@ -30,6 +31,7 @@ import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 import { SwapHelper } from '@renderer/helpers/SwapHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
+import { TokenHelper } from '@renderer/helpers/TokenHelper'
 
 import { useAccountsSelector } from '@renderer/hooks/useAccountSelector'
 import { useActions } from '@renderer/hooks/useActions'
@@ -782,6 +784,28 @@ export const SwapPageContent = ({ account }: TProps) => {
                 />
               </ActionStep>
             </div>
+
+            {!!actionData.selectedTokenToUse.value &&
+              TokenHelper.isNonNativeStellarToken(actionData.selectedTokenToUse.value) && (
+                <Banner
+                  type="warning"
+                  className="mt-2.5 w-full"
+                  message={t('form.stellarTrustlineWarnings.source', {
+                    token: actionData.selectedTokenToUse.value.symbol.toUpperCase(),
+                  })}
+                />
+              )}
+
+            {!!actionData.selectedTokenToReceive.value &&
+              TokenHelper.isNonNativeStellarToken(actionData.selectedTokenToReceive.value) && (
+                <Banner
+                  type="warning"
+                  className="mt-2.5 w-full"
+                  message={t('form.stellarTrustlineWarnings.receiver', {
+                    token: actionData.selectedTokenToReceive.value.symbol.toUpperCase(),
+                  })}
+                />
+              )}
 
             {errorMessage && <AlertErrorBanner className="mt-2.5 w-full" message={errorMessage} />}
 

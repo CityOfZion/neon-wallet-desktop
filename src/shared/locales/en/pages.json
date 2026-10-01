@@ -550,6 +550,10 @@
         "transactionToLabel": "Transaction to"
       },
       "source": "Account details",
+      "stellarTrustlineWarnings": {
+        "receiver": "To receive {{token}} on Stellar, the receiving account must have an active trustline for this token, otherwise the swap will fail. You can register a trustline in the settings of your account screen.",
+        "source": "To swap {{token}} on Stellar, the source account must have an active trustline for this token, otherwise the swap will fail. You can register a trustline in the settings of your account screen."
+      },
       "submitLabel": "Swap now",
       "title": "What tokens do you want to swap?",
       "tokenToReceiveTitle": "Receive this",

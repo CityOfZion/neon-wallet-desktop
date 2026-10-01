@@ -550,6 +550,10 @@
         "transactionToLabel": "Transaktion an"
       },
       "source": "Kontodetails",
+      "stellarTrustlineWarnings": {
+        "receiver": "Um {{token}} auf Stellar zu empfangen, muss das empfangende Konto über eine aktive Trustline für dieses Token verfügen, andernfalls schlägt der Swap fehl. Sie können eine Trustline in den Einstellungen Ihres Kontobildschirms registrieren.",
+        "source": "Um {{token}} auf Stellar zu tauschen, muss das Quellkonto über eine aktive Trustline für dieses Token verfügen, andernfalls schlägt der Swap fehl. Sie können eine Trustline in den Einstellungen Ihres Kontobildschirms registrieren."
+      },
       "submitLabel": "Jetzt tauschen",
       "title": "Welche Token möchten Sie tauschen?",
       "tokenToReceiveTitle": "Dies erhalten",

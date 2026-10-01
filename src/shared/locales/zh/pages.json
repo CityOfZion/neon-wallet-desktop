@@ -550,6 +550,10 @@
         "transactionToLabel": "接收交易"
       },
       "source": "账户详情",
+      "stellarTrustlineWarnings": {
+        "receiver": "要在 Stellar 上接收 {{token}}，接收账户必须为此代币设置有效的信任线，否则兑换将失败。您可以在账户界面的设置中注册信任线。",
+        "source": "要在 Stellar 上兑换 {{token}}，源账户必须为此代币设置有效的信任线，否则兑换将失败。您可以在账户界面的设置中注册信任线。"
+      },
       "submitLabel": "立即兑换",
       "title": "您想兑换哪些代币？",
       "tokenToReceiveTitle": "接收此代币",
