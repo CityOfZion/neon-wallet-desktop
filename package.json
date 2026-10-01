@@ -46,8 +46,6 @@
     "@cityofzion/bs-stellar": "3.1.18",
     "@electron-toolkit/preload": "~3.0.2",
     "@electron-toolkit/utils": "~4.0.0",
-    "@fingerprintjs/fingerprintjs": "~5.2.0",
-    "@gatefi/js-sdk": "~1.2.0",
     "@ledgerhq/devices": "~8.14.1",
     "@ledgerhq/hw-transport": "~6.35.1",
     "@ledgerhq/hw-transport-node-hid-noevents": "~6.35.1",

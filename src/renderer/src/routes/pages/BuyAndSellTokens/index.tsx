@@ -33,8 +33,7 @@ import type { TTokenBalance } from '@shared/types/query'
 import { TAccount } from '@shared/types/store'
 
 import { BuyAndSellTokensAccordionAccounts } from './BuyAndSellTokensAccordionAccounts'
-import { BuyAndSellTokensBuyIframe } from './BuyAndSellTokensBuyIframe'
-import { BuyAndSellTokensSellIframe } from './BuyAndSellTokensSellIframe'
+import { BuyAndSellTokensIframe } from './BuyAndSellTokensIframe'
 
 type TLocationState = {
   account?: TAccount
@@ -333,7 +332,7 @@ const BuyAndSellTokensPage = () => {
               }
               transition={{ duration: 0.4 }}
             >
-              <BuyAndSellTokensBuyIframe onReady={setIsBuyReady} />
+              <BuyAndSellTokensIframe type="buy" onReady={setIsBuyReady} />
             </motion.div>
 
             <motion.div
@@ -345,7 +344,7 @@ const BuyAndSellTokensPage = () => {
               }
               transition={{ duration: 0.4 }}
             >
-              <BuyAndSellTokensSellIframe iframeId={iframeId} onReady={setIsSellReady} />
+              <BuyAndSellTokensIframe type="sell" onReady={setIsSellReady} />
             </motion.div>
 
             <BuyAndSellTokensAccordionAccounts account={account} isOpened={isAccordionAccountsOpened} />
