@@ -24,7 +24,7 @@ type TProps = {
 }
 
 export const EmptyState = ({ account }: TProps) => {
-  const { t } = useTranslation('components', { keyPrefix: 'transactionsTableEmpty' })
+  const { t } = useTranslation('components', { keyPrefix: 'emptyState' })
   const { modalNavigateWrapper } = useModalNavigate()
   const navigate = useNavigate()
   const faucetMutation = useFaucetMutation()

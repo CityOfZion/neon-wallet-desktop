@@ -136,7 +136,7 @@ const BuyAndSellTokensPage = () => {
           <div className="relative my-7 flex h-full flex-col gap-5">
             <p className="text-xs font-semibold text-white">{t('howItWorks.description')}</p>
 
-            <Separator containerClassName="my-6" />
+            <Separator containerClassName="my-2" />
 
             <div className="relative">
               <AnimatePresence mode="popLayout" initial={false}>

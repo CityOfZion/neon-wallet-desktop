@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { type Location, useLocation, useNavigate, useOutlet } from 'react-router'
 
 import { ActionPopover } from '@renderer/components/ActionPopover'
+import { Badge } from '@renderer/components/Badge'
 import { Button } from '@renderer/components/Button'
 import { CommonScreenActions } from '@renderer/components/CommonScreenActions'
 import { IconButton } from '@renderer/components/IconButton'
@@ -45,7 +46,6 @@ import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 import { TAccount, TWallet } from '@shared/types/store'
 
 import { AccountList } from './AccountList'
-import { HardwareWalletConnectedBadge } from './HardwareWalletConnectedBadge'
 import { PanelTransition } from './PanelTransition'
 import { WalletsSelect } from './WalletsSelect'
 
@@ -187,7 +187,12 @@ const WalletsPage = () => {
       heading={
         <div className="flex items-center gap-2">
           <WalletsSelect wallets={wallets} value={selectedWallet} onSelect={handleSelectWallet} />
-          {hasHardwareAccount && <HardwareWalletConnectedBadge />}
+
+          {hasHardwareAccount && (
+            <Badge className="border-blue/30 text-blue h-min rounded-full border px-4 py-1.5 text-xs font-normal normal-case">
+              {t('hardwareWalletConnectBadgeLabel')}
+            </Badge>
+          )}
         </div>
       }
       rightComponent={

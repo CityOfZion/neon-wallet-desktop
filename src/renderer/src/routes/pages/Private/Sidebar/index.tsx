@@ -13,6 +13,7 @@ import TbHome2 from '@renderer/assets/images/tb-home-2.svg?react'
 import TbReplace from '@renderer/assets/images/tb-replace.svg?react'
 import TbSettings from '@renderer/assets/images/tb-settings.svg?react'
 import TbShoppingBag from '@renderer/assets/images/tb-shopping-bag.svg?react'
+import TbSparkles from '@renderer/assets/images/tb-sparkles.svg?react'
 import TbStepInto from '@renderer/assets/images/tb-step-into.svg?react'
 import TbStepOut from '@renderer/assets/images/tb-step-out.svg?react'
 import TbUsers from '@renderer/assets/images/tb-users.svg?react'
@@ -72,6 +73,10 @@ export const Sidebar = ({ className, ...props }: TProps) => {
             {...TestHelper.buildTestObject('sidebar-link-buy-and-sell-tokens')}
           >
             {t('buyAndSellTokens')}
+          </SidebarLink>
+
+          <SidebarLink to="/assistant" iconElement={<TbSparkles aria-hidden />}>
+            {t('assistant')}
           </SidebarLink>
 
           <SidebarLink

@@ -75,6 +75,16 @@
     "noContacts": "Nenhum contato",
     "search": "Pesquisar"
   },
+  "emptyState": {
+    "connectDappButtonLabel": "Conectar dApp",
+    "description": "<1>{{name}}</1> precisa da sua permissão",
+    "faucetButtonLabel": "Torneira",
+    "receiveTokensButtonLabel": "Adicionar tokens",
+    "stellarSubtitle": "Para começar a usar esta conta, deposite pelo menos 1 XLM nela.<1>Saiba mais sobre como criar uma conta Stellar</1>",
+    "subtitleNonWatch": "Por que não adicionar alguns recursos ou conectar um aplicativo descentralizado (dApp)?",
+    "subtitleNonWatchWithoutDapp": "Por que não adicionar alguns recursos?",
+    "title": "Sua conta está vazia no momento."
+  },
   "fieldActionsMenu": {
     "copy": "Copiar",
     "cut": "Cortar",
@@ -128,6 +138,7 @@
     "placeholder": "Selecione o token…"
   },
   "sidebar": {
+    "assistant": "Assistente",
     "buyAndSellTokens": "Comprar + Vender",
     "contacts": "Contatos",
     "logout": "Sair",
@@ -209,16 +220,6 @@
   },
   "transactionFeeActionStep": {
     "title": "Taxa de Transação"
-  },
-  "transactionsTableEmpty": {
-    "connectDappButtonLabel": "Conectar dApp",
-    "description": "<1>{{name}}</1> precisa da sua permissão",
-    "faucetButtonLabel": "Torneira",
-    "receiveTokensButtonLabel": "Adicionar tokens",
-    "stellarSubtitle": "Para começar a usar esta conta, deposite pelo menos 1 XLM nela.<1>Saiba mais sobre como criar uma conta Stellar</1>",
-    "subtitleNonWatch": "Por que não adicionar alguns recursos ou conectar um aplicativo descentralizado (dApp)?",
-    "subtitleNonWatchWithoutDapp": "Por que não adicionar alguns recursos?",
-    "title": "Sua conta está vazia no momento."
   },
   "walletAccordionList": {
     "noAccounts": "Nenhuma conta"

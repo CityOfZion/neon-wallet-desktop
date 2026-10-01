@@ -9,7 +9,6 @@ import RootPage from './pages/Root'
 const BuyAndSellTokensPage = lazy(() => import('@renderer/routes/pages/BuyAndSellTokens'))
 const ForgottenPasswordPage = lazy(() => import('@renderer/routes/pages/ForgottenPassword'))
 const ForgottenPasswordConfirmPage = lazy(() => import('@renderer/routes/pages/ForgottenPassword/Confirm'))
-
 const ContactsPage = lazy(() => import('./pages/Contacts'))
 const ForgottenPasswordSuccessPage = lazy(() => import('./pages/ForgottenPassword/Success'))
 const LoginPage = lazy(() => import('./pages/Login'))
@@ -48,6 +47,7 @@ const AccountTransactionsListPage = lazy(() => import('./pages/Wallets/AccountTr
 const WelcomePage = lazy(() => import('./pages/Welcome'))
 const LoginPasswordImportWalletPage = lazy(() => import('./pages/Login/LoginPasswordImportWallet'))
 const LoginPasswordSecuritySetupPage = lazy(() => import('./pages/Login/LoginPasswordSecuritySetup'))
+const AssistantPage = lazy(() => import('./pages/Assistant'))
 
 export const pagesRouter = createHashRouter([
   {
@@ -124,6 +124,10 @@ export const pagesRouter = createHashRouter([
           {
             path: 'buy-and-sell-tokens/:tab?',
             element: <BuyAndSellTokensPage />,
+          },
+          {
+            path: 'assistant',
+            element: <AssistantPage />,
           },
           {
             path: 'neo3-vote',
@@ -214,7 +218,6 @@ export const pagesRouter = createHashRouter([
           },
         ],
       },
-
       {
         element: <PublicPage />,
         children: [

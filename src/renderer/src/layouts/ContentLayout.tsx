@@ -2,6 +2,7 @@ import { ComponentProps, type JSX, ReactNode, useLayoutEffect } from 'react'
 import { cloneElement } from 'react'
 
 import { motion } from 'motion/react'
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 
 import { IconButton } from '@renderer/components/IconButton'
@@ -22,6 +23,7 @@ export type TMainLayoutProps = {
   title: string
   titleIcon?: JSX.Element
   contentClassName?: string
+  containerClassName?: string
   headerClassName?: string
   withSeparator?: boolean
   rightComponent?: ReactNode
@@ -33,6 +35,7 @@ export const ContentLayout = ({
   titleIcon,
   children,
   contentClassName,
+  containerClassName,
   headerClassName,
   className,
   rightComponent,
@@ -40,13 +43,14 @@ export const ContentLayout = ({
   withSeparator = true,
   ...props
 }: TMainLayoutProps): JSX.Element => {
+  const { t } = useTranslation('common', { keyPrefix: 'general' })
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const { selectedNetworkProfile } = useSelectedNetworkProfileSelector()
 
   const { className: titleIconClassName = '', ...titleIconProps } = titleIcon ? titleIcon.props : {}
 
-  const hasCustomProfile = selectedNetworkProfile.id !== ConstantsHelper.defaultNetworkProfileId
+  const hasDefaultProfile = selectedNetworkProfile.id === ConstantsHelper.defaultNetworkProfileId
 
   const handleBackClick = () => {
     if (onBackClick) {
@@ -72,14 +76,21 @@ export const ContentLayout = ({
         className={StyleHelper.mergeStyles(
           'bg-asphalt flex h-full min-h-0 w-full min-w-0 flex-col px-14 pb-4 text-white',
           {
-            'pt-10': hasCustomProfile,
-          }
+            'pt-10': !hasDefaultProfile,
+          },
+          containerClassName
         )}
       >
         <header
           className={StyleHelper.mergeStyles('relative flex min-h-16 items-center justify-between', headerClassName)}
         >
-          <IconButton icon={<TbArrowLeft aria-hidden />} size="sm" compacted onClick={handleBackClick} />
+          <IconButton
+            aria-label={t('back')}
+            size="sm"
+            compacted
+            icon={<TbArrowLeft aria-hidden />}
+            onClick={handleBackClick}
+          />
 
           <div
             className={StyleHelper.mergeStyles(
@@ -91,7 +102,7 @@ export const ContentLayout = ({
           >
             {titleIcon &&
               cloneElement(titleIcon, {
-                className: StyleHelper.mergeStyles('text-neon w-6 h-6', titleIconClassName),
+                className: StyleHelper.mergeStyles('text-neon size-6', titleIconClassName),
                 ...titleIconProps,
               })}
 

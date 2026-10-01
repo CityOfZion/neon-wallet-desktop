@@ -61,7 +61,7 @@ const DecryptKeyModal = () => {
     <SideModalLayout heading={t('title')} headingIcon={<TbFileImport aria-hidden />} contentClassName="flex flex-col">
       <p>{t('description')}</p>
 
-      <form className="mt-6 flex grow flex-col justify-between" onSubmit={handleAct(handleSubmit)}>
+      <form className="mt-4 flex grow flex-col justify-between" onSubmit={handleAct(handleSubmit)}>
         <Input
           compacted
           clearable

@@ -75,6 +75,16 @@
     "noContacts": "Keine Kontakte",
     "search": "Suchen"
   },
+  "emptyState": {
+    "connectDappButtonLabel": "Connect dApp",
+    "description": "{{name}} benötigt Ihre Erlaubnis",
+    "faucetButtonLabel": "Wasserhahn",
+    "receiveTokensButtonLabel": "Tokens hinzufügen.",
+    "stellarSubtitle": "Um dieses Konto zu nutzen, laden Sie mindestens 1 XLM darauf auf.<1>Erfahren Sie mehr über die Erstellung eines Stellar-Kontos</1>",
+    "subtitleNonWatch": "Warum nicht einige Assets hinzufügen oder eine dApp verbinden?",
+    "subtitleNonWatchWithoutDapp": "Warum nicht einige Vermögenswerte hinzufügen?",
+    "title": "Ihr Konto ist derzeit leer."
+  },
   "fieldActionsMenu": {
     "copy": "Kopieren",
     "cut": "Ausschneiden",
@@ -128,6 +138,7 @@
     "placeholder": "Token auswählen…"
   },
   "sidebar": {
+    "assistant": "Assistent",
     "buyAndSellTokens": "Kaufen + Verkaufen",
     "contacts": "Kontakte",
     "logout": "Abmelden",
@@ -209,16 +220,6 @@
   },
   "transactionFeeActionStep": {
     "title": "Transaktionsgebühr"
-  },
-  "transactionsTableEmpty": {
-    "connectDappButtonLabel": "Connect dApp",
-    "description": "{{name}} benötigt Ihre Erlaubnis",
-    "faucetButtonLabel": "Wasserhahn",
-    "receiveTokensButtonLabel": "Tokens hinzufügen.",
-    "stellarSubtitle": "Um dieses Konto zu nutzen, laden Sie mindestens 1 XLM darauf auf.<1>Erfahren Sie mehr über die Erstellung eines Stellar-Kontos</1>",
-    "subtitleNonWatch": "Warum nicht einige Assets hinzufügen oder eine dApp verbinden?",
-    "subtitleNonWatchWithoutDapp": "Warum nicht einige Vermögenswerte hinzufügen?",
-    "title": "Ihr Konto ist derzeit leer."
   },
   "walletAccordionList": {
     "noAccounts": "Keine Konten"

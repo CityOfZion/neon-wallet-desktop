@@ -17,7 +17,7 @@ import { useNeonCreateBackup } from '@renderer/hooks/useNeonBackupFile'
 
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 
-import MdOutlineSave from '@renderer/assets/images/md-outline-save.svg?react'
+import TbDeviceFloppy from '@renderer/assets/images/tb-device-floppy.svg?react'
 
 import { AppError } from '@shared/helpers/SharedErrorHelper'
 import type { TModalState } from '@shared/types/modal'
@@ -73,7 +73,7 @@ const ConfirmPasswordBackupModal = () => {
       modalNavigate('success', {
         state: {
           heading: t('title'),
-          headingIcon: <MdOutlineSave aria-hidden className="text-neon" />,
+          headingIcon: <TbDeviceFloppy aria-hidden className="text-neon" />,
           subtitle: t('modalDescription'),
           footer: <SuccessFooter />,
         },
@@ -87,7 +87,7 @@ const ConfirmPasswordBackupModal = () => {
   return (
     <SideModalLayout
       heading={t('title')}
-      headingIcon={<MdOutlineSave aria-hidden className="text-neon" />}
+      headingIcon={<TbDeviceFloppy aria-hidden className="text-neon" />}
       contentClassName="flex flex-col"
     >
       <p className="mb-5 text-xs">{t('description')}</p>
