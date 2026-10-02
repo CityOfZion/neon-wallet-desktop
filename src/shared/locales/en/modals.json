@@ -237,6 +237,7 @@
   },
   "dappPermission": {
     "acceptButtonLabel": "Accept",
+    "antiMevSwitchLabel": "Use Anti-MEV",
     "customContents": {
       "invokeNeo3": {
         "amountDetailsItemLabel": "Amount",

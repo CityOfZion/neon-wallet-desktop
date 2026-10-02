@@ -1,6 +1,5 @@
 import { useState } from 'react'
 
-import { BSNeoXConstants } from '@cityofzion/bs-neox'
 import { useTranslation } from 'react-i18next'
 import { match, P } from 'ts-pattern'
 
@@ -10,6 +9,7 @@ import { Loader } from '@renderer/components/Loader'
 import { RadioGroup } from '@renderer/components/RadioGroup'
 import { Separator } from '@renderer/components/Separator'
 
+import { NetworkHelper } from '@renderer/helpers/NetworkHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 
@@ -106,9 +106,11 @@ const NetworkUrlSelection = () => {
         ) : (
           <RadioGroup.Group value={selectedUrl} onValueChange={handleSelectRadioItem}>
             {pingNetworksQuery.data?.map(currentNetwork => {
-              const isNeoxAntiMev =
-                blockchain === 'neox' &&
-                BSNeoXConstants.ANTI_MEV_RPC_LIST_BY_NETWORK_ID[network.id].some(url => url === currentNetwork.url)
+              const isNeoxAntiMev = NetworkHelper.isNeoxAntiMev({
+                blockchain,
+                networkId: network.id,
+                url: currentNetwork.url,
+              })
 
               return (
                 <RadioGroup.Item key={currentNetwork.url} value={currentNetwork.url} className="h-17 text-xs">
