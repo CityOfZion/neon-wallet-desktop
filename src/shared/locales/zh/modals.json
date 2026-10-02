@@ -237,6 +237,9 @@
   },
   "dappPermission": {
     "acceptButtonLabel": "接受",
+    "antiMevDisableUrlNotFoundError": "无法禁用防MEV：所选网络没有可用的标准 RPC URL",
+    "antiMevEnableUrlNotFoundError": "无法启用防MEV：所选网络没有可用的防MEV RPC URL",
+    "antiMevSwitchLabel": "使用防MEV",
     "customContents": {
       "invokeNeo3": {
         "amountDetailsItemLabel": "金额",

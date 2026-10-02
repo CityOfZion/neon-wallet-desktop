@@ -237,6 +237,9 @@
   },
   "dappPermission": {
     "acceptButtonLabel": "Accept",
+    "antiMevDisableUrlNotFoundError": "Unable to disable Anti-MEV: no standard RPC URL is available for the selected network",
+    "antiMevEnableUrlNotFoundError": "Unable to enable Anti-MEV: no Anti-MEV RPC URL is available for the selected network",
+    "antiMevSwitchLabel": "Use Anti-MEV",
     "customContents": {
       "invokeNeo3": {
         "amountDetailsItemLabel": "Amount",
