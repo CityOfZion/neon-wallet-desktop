@@ -33,7 +33,7 @@ const Header = ({ children, className, leftElement, rightElement, ...props }: TH
       {leftElement &&
         cloneElement(leftElement, {
           'aria-hidden': true,
-          className: StyleHelper.mergeStyles('text-blue size-6', leftElement.props.className),
+          className: StyleHelper.mergeStyles('text-blue size-6 min-size-6', leftElement.props.className),
         })}
 
       <div className="grow">
