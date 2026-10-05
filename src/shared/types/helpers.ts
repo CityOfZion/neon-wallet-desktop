@@ -93,3 +93,9 @@ export type TLoggerHelperOptions = {
 export type TSentryHelperOptions = TLoggerHelperOptions & {
   level: SeverityLevel
 }
+
+export type TNetworkHelperIsNeoxAntiMevParams = {
+  blockchain: TBlockchainServiceKey
+  networkId: string
+  url: string
+}

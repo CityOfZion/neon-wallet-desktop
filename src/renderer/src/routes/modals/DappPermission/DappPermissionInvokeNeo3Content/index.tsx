@@ -11,13 +11,14 @@ import { ToastHelper } from '@renderer/helpers/ToastHelper'
 
 import TbArrowsSort from '@renderer/assets/images/tb-arrows-sort.svg?react'
 
+import { DappPermissionAntiMevSwitch } from '../DappPermissionGenericContent/DappPermissionAntiMevSwitch'
 import { DappPermissionGenericContentFee } from '../DappPermissionGenericContent/DappPermissionGenericContentFee'
 import type { TDappPermissionProps } from '../index'
 import { DappPermissionInvokeNeo3ContentInvocation } from './DappPermissionInvokeNeo3ContentInvocation'
 import { DappPermissionInvokeNeo3ContentSigner } from './DappPermissionInvokeNeo3ContentSigner'
 
 export const DappPermissionInvokeNeo3Content = (props: TDappPermissionProps) => {
-  const { session, onAccept, onReject, isAccepting, isRejecting, request } = props
+  const { session, onAccept, onReject, isAccepting, isRejecting, request, sessionDetails } = props
 
   const { t } = useTranslation('modals', { keyPrefix: 'dappPermission' })
 
@@ -48,7 +49,10 @@ export const DappPermissionInvokeNeo3Content = (props: TDappPermissionProps) => 
       <p className="mt-2 text-center text-sm text-gray-100">{t('description2')}</p>
 
       <Details.Root className="mt-5">
-        <Details.Header leftElement={<TbArrowsSort aria-hidden className="rotate-90" />}>
+        <Details.Header
+          leftElement={<TbArrowsSort aria-hidden className="rotate-90" />}
+          rightElement={<DappPermissionAntiMevSwitch blockchain={sessionDetails.blockchain} />}
+        >
           <span className="text-sm text-white capitalize">{request.params.request.method}</span>
         </Details.Header>
       </Details.Root>
