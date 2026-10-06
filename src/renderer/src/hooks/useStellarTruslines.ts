@@ -77,7 +77,7 @@ export const usePersistTrustlineMutation = () => {
 
       return { transaction, stellarAccount }
     },
-    onSuccess: async ({ transaction, stellarAccount }) => {
+    onSuccess: ({ transaction, stellarAccount }) => {
       ToastHelper.success({ message: t('successToastMessage') })
 
       const notificationPrefix = 'hooks:usePersistTrustlineMutation'
@@ -100,6 +100,7 @@ export const usePersistTrustlineMutation = () => {
 
       queryClient.removeQueries({
         queryKey: buildStellarTrustlinesQueryKey(stellarAccount, networkByBlockchain[stellarAccount.blockchain]),
+        type: 'all',
       })
     },
     onError: error => {
