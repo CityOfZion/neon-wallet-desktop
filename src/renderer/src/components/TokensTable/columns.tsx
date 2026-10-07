@@ -48,7 +48,7 @@ export const useColumns = (showType: TUseBalanceOptionShowType) => {
                 className="h-6 max-h-6 min-h-6 w-6 max-w-6 min-w-6 rounded-full bg-gray-600/50"
               />
 
-              {info.getValue()}
+              <span className="truncate">{info.getValue()}</span>
             </div>
           )
         },

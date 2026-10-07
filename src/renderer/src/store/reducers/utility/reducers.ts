@@ -61,6 +61,7 @@ const saveLastIndexByWallet: CaseReducer<
   }>
 > = (state, action) => {
   const { firstAccountAddress, index, blockchain } = action.payload
+
   state.data.lastIndexesByWallet[blockchain] = {
     ...state.data.lastIndexesByWallet[blockchain],
     [firstAccountAddress]: index,
@@ -85,7 +86,7 @@ const toggleHiddenToken: CaseReducer<TUtilityReducer, PayloadAction<THiddenToken
   }
 
   const normalizedHash = service.tokenService.normalizeHash(hash)
-  const hiddenTokens = (state.data.hiddenTokensByBlockchain[blockchain] ??= [])
+  const hiddenTokens = (state.data.hiddenTokensByBlockchain[blockchain] ||= [])
   const index = hiddenTokens.findIndex(tokenHash => service.tokenService.predicateByHash(normalizedHash, tokenHash))
 
   if (index < 0) {

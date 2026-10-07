@@ -123,6 +123,7 @@ export function useExchange(params: TUseExchangeParams[]): TUseExchangeResult {
       (acc, param) => {
         if (acc[param.blockchain]) {
           const noDuplicates = param.tokens.filter(token => !acc[param.blockchain].some(t => t.hash === token.hash))
+
           acc[param.blockchain].push(...noDuplicates)
         } else {
           acc[param.blockchain] = param.tokens
