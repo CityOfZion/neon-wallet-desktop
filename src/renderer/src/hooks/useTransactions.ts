@@ -212,13 +212,16 @@ export const useTransactions = ({
       allTransactions.map(transaction => [transaction.txId, transaction])
     )
 
+    const dateNow = new Date()
+    const newDateTo = dateFns.isSameDay(dateTo, dateNow) ? dateNow : dateTo
+
     pendingTransactions.forEach(transaction => {
       if (
         transaction.relatedAddress &&
         accounts.some(
           SharedAccountHelper.predicate({ address: transaction.relatedAddress, blockchain: transaction.blockchain })
         ) &&
-        dateFns.isWithinInterval(transaction.date, { start: dateFrom, end: dateTo })
+        dateFns.isWithinInterval(transaction.date, { start: dateFrom, end: newDateTo })
       ) {
         groupedTransactionsMap.set(transaction.txId, transaction)
       }
