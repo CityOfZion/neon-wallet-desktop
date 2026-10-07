@@ -8,6 +8,7 @@ import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
 
 import { useFaucetMutation } from '@renderer/hooks/useFaucet'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
+import { useSelectedNetworkByBlockchainSelector } from '@renderer/hooks/useSettingsSelector'
 
 import TbDiamondOff from '@renderer/assets/images/tb-diamond-off.svg?react'
 import TbDropletDollar from '@renderer/assets/images/tb-droplet-dollar.svg?react'
@@ -24,8 +25,9 @@ type TProps = {
 }
 
 export const EmptyState = ({ account }: TProps) => {
-  const { t } = useTranslation('components', { keyPrefix: 'transactionsTableEmpty' })
+  const { t } = useTranslation('components', { keyPrefix: 'emptyState' })
   const { modalNavigateWrapper } = useModalNavigate()
+  const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
   const navigate = useNavigate()
   const faucetMutation = useFaucetMutation()
 
@@ -34,7 +36,8 @@ export const EmptyState = ({ account }: TProps) => {
     : undefined
 
   const hasAccountWalletConnect = !!account && !!service && hasWalletConnect(service)
-  const hasAccountFaucet = !!account && !!service && hasFaucet(service)
+  const hasAccountFaucet =
+    !!account && !!service && hasFaucet(service) && networkByBlockchain[service.name].type === 'testnet'
 
   const handleFaucet = async () => {
     if (!account) return
@@ -95,27 +98,28 @@ export const EmptyState = ({ account }: TProps) => {
               clickableProps={{ className: 'h-10 text-sm' }}
             />
 
-            {hasAccountFaucet ? (
-              <Button
-                className="w-full min-w-26"
-                label={t('faucetButtonLabel')}
-                colorSchema="blue"
-                leftIcon={<TbDropletDollar aria-hidden />}
-                loading={faucetMutation.isPending}
-                onClick={handleFaucet}
-                clickableProps={{ className: 'h-10 text-sm' }}
-              />
-            ) : (
-              hasAccountWalletConnect && (
+            {match({ hasAccountFaucet, hasAccountWalletConnect })
+              .with({ hasAccountFaucet: true }, () => (
+                <Button
+                  className="w-full min-w-26"
+                  label={t('faucetButtonLabel')}
+                  colorSchema="blue"
+                  leftIcon={<TbDropletDollar aria-hidden />}
+                  loading={faucetMutation.isPending}
+                  onClick={handleFaucet}
+                  clickableProps={{ className: 'h-10 text-sm' }}
+                />
+              ))
+              .with({ hasAccountWalletConnect: true }, () => (
                 <Button
                   className="w-full"
                   label={t('connectDappButtonLabel')}
                   leftIcon={<TbPlug aria-hidden />}
-                  onClick={modalNavigateWrapper('dapp-connection', { state: { account } })}
+                  onClick={modalNavigateWrapper('dapp-connection', { state: { account: account! } })}
                   clickableProps={{ className: 'h-10 text-sm' }}
                 />
-              )
-            )}
+              ))
+              .otherwise(() => null)}
           </div>
         )}
       </div>
