@@ -316,6 +316,7 @@
       "feeError": "Erro ao calcular taxa",
       "hardwareWalletShouldBeValid": "Para prosseguir com esta operação, certifique-se de que sua carteira de hardware está desbloqueada",
       "insufficientFunds": "Fundos insuficientes",
+      "memoRequired": "O destinatário exige um memo, preencha o campo de memo e tente novamente.",
       "noAmountToTip": "Saldo insuficiente para pagar a gorjeta",
       "noFiatPriceToTip": "Preço fiduciário não encontrado para a gorjeta",
       "noTokenToTip": "Nenhum token para pagar a gorjeta"
@@ -345,6 +346,7 @@
     "sendSuccess": {
       "amountLabel": "Quantidade",
       "detailsTitle": "Detalhes da transação",
+      "memoLabel": "Memo",
       "recipientLabel": "Destinatário",
       "saveContactButtonLabel": "Salvar contato",
       "title": "Seus tokens foram enviados com sucesso!",

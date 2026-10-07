@@ -204,6 +204,12 @@
   "transactionFeeActionStep": {
     "title": "交易手續費"
   },
+  "transactionMemoActionStep": {
+    "invalidMemo": "備註過長，超出該區塊鏈的限制",
+    "optionalLabel": "*選填",
+    "placeholder": "輸入備註…",
+    "title": "備註"
+  },
   "transactionsTableEmpty": {
     "connectDappButtonLabel": "連接 dApp",
     "description": "<1>{{name}}</1> 需要您的許可",

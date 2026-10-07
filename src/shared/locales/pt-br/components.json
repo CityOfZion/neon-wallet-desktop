@@ -210,6 +210,12 @@
   "transactionFeeActionStep": {
     "title": "Taxa de Transação"
   },
+  "transactionMemoActionStep": {
+    "invalidMemo": "O memo é muito longo para esta blockchain",
+    "optionalLabel": "*Opcional",
+    "placeholder": "Digite um memo…",
+    "title": "Memo"
+  },
   "transactionsTableEmpty": {
     "connectDappButtonLabel": "Conectar dApp",
     "description": "<1>{{name}}</1> precisa da sua permissão",

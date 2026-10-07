@@ -316,6 +316,7 @@
       "feeError": "計算手續費時發生錯誤",
       "hardwareWalletShouldBeValid": "請確保您的硬體錢包已解鎖以繼續操作",
       "insufficientFunds": "餘額不足",
+      "memoRequired": "收件人要求填寫備註，請填寫備註欄位後再試一次。",
       "noAmountToTip": "餘額不足以支付小費",
       "noFiatPriceToTip": "未找到法定貨幣價格以進行打賞",
       "noTokenToTip": "沒有代幣支付小費"
@@ -345,6 +346,7 @@
     "sendSuccess": {
       "amountLabel": "金額",
       "detailsTitle": "交易詳情",
+      "memoLabel": "備註",
       "recipientLabel": "收件人",
       "saveContactButtonLabel": "儲存聯絡人",
       "title": "您的代幣已成功發送！",

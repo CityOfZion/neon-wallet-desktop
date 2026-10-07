@@ -204,6 +204,12 @@
   "transactionFeeActionStep": {
     "title": "交易手续费"
   },
+  "transactionMemoActionStep": {
+    "invalidMemo": "备注过长，超出该区块链的限制",
+    "optionalLabel": "*可选",
+    "placeholder": "输入备注…",
+    "title": "备注"
+  },
   "transactionsTableEmpty": {
     "connectDappButtonLabel": "连接 dApp",
     "description": "<1>{{name}}</1> 需要您的许可",

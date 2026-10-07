@@ -41,6 +41,8 @@ export const SendSuccessModalContent = ({ transactions, account }: TProps) => {
                 {transaction.txId}
               </Details.Item>
 
+              {transaction.memo && <Details.Item label={t('memoLabel')}>{transaction.memo}</Details.Item>}
+
               {(transaction.view === 'utxo' ? transaction.outputs : transaction.events).map((item, itemIndex) => (
                 <SendSuccessModalContentItem
                   key={`send-success-item-${itemIndex}`}

@@ -316,6 +316,7 @@
       "feeError": "Fehler bei der Berechnung der Gebühr",
       "hardwareWalletShouldBeValid": "Um mit diesem Vorgang fortzufahren, stellen Sie bitte sicher, dass Ihr Hardware Wallet entsperrt ist",
       "insufficientFunds": "Unzureichendes Guthaben",
+      "memoRequired": "Der Empfänger erfordert ein Memo. Bitte füllen Sie das Memo-Feld aus und versuchen Sie es erneut.",
       "noAmountToTip": "Unzureichendes Guthaben zum Bezahlen des Trinkgelds",
       "noFiatPriceToTip": "Fiat-Preis für das Trinkgeld nicht gefunden",
       "noTokenToTip": "Kein Token zum Bezahlen des Trinkgelds"
@@ -345,6 +346,7 @@
     "sendSuccess": {
       "amountLabel": "Betrag",
       "detailsTitle": "Transaktionsdetails",
+      "memoLabel": "Memo",
       "recipientLabel": "Empfänger",
       "saveContactButtonLabel": "Kontakt speichern",
       "title": "Ihre Token wurden erfolgreich gesendet!",
