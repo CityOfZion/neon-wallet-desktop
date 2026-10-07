@@ -57,7 +57,7 @@ const ContactsPage = () => {
     >
       <section className="flex h-full w-full rounded-sm bg-gray-800">
         <div className="flex w-full max-w-[17.188rem] flex-col items-center border-r border-gray-300/15 px-4">
-          <div className="h-[3.25rem]a mt-2 mb-9 flex w-full flex-col gap-y-1">
+          <div className="mt-2 mb-4 flex w-full flex-col gap-y-1">
             <span className="flex h-10 w-full items-center justify-between text-sm">{t('listTitle')}</span>
             <Separator />
           </div>
@@ -67,7 +67,7 @@ const ContactsPage = () => {
 
         {selectedContact && (
           <div className="w-full px-4">
-            <div className="mt-2 mb-5 flex h-13 flex-col gap-y-1">
+            <div className="mt-2 flex flex-col gap-y-1">
               <div
                 className="flex h-10 w-full items-center justify-between"
                 {...TestHelper.buildTestObject('contact-name-title')}

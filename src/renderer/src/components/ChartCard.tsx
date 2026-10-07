@@ -38,7 +38,7 @@ export const ChartCard = ({ priceHistory }: TProps) => {
           alt={token.name || token.symbol}
           fallbackSrc={`${ConstantsHelper.neonIconsUrl}/tokens/default-token.png`}
           imgClassName="h-4.5 max-h-4.5 min-h-4.5 w-4.5 max-w-4.5 min-w-4.5 rounded-full"
-          className="h-6 w-6 rounded-full bg-gray-600/50"
+          className="size-6 rounded-full bg-gray-600/50"
         />
 
         <div>{token.name}</div>

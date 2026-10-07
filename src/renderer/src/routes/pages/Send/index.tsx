@@ -14,16 +14,23 @@ import { SendPageContent } from './SendPageContent'
 
 type TLocationState = {
   account?: TAccount
-  recipient?: string
+  recipientAddress?: string
+  tokenHash?: string
+  amount?: string
 }
 
 const SendPage = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'send' })
   const { state } = useLocation() as Location<TLocationState>
 
-  return state?.account || state?.recipient ? (
-    <ContentLayout title={t('title')} titleIcon={<TbStepOut />} rightComponent={<CommonScreenActions />}>
-      <SendPageContent account={state?.account} recipientAddress={state?.recipient} />
+  return state ? (
+    <ContentLayout title={t('title')} titleIcon={<TbStepOut aria-hidden />} rightComponent={<CommonScreenActions />}>
+      <SendPageContent
+        account={state.account}
+        recipientAddress={state.recipientAddress}
+        tokenHash={state.tokenHash}
+        amount={state.amount}
+      />
     </ContentLayout>
   ) : (
     <MainLayout heading={t('title')} rightComponent={<CommonScreenActions />}>

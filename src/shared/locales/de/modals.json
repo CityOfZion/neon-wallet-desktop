@@ -50,6 +50,12 @@
     "inputLabel": "Profilname",
     "title": "Neues Netzwerkprofil hinzufügen"
   },
+  "assistantNewConversationDiscardAlert": {
+    "closeButtonLabel": "Nein, ich möchte bleiben",
+    "continueButtonLabel": "Ja, fortfahren",
+    "description": "Ihr neues Gespräch wird verworfen, wenn Sie fortfahren.",
+    "title": "Sind Sie sicher, dass Sie das neue Gespräch verwerfen möchten?"
+  },
   "autoUpdate": {
     "completed": {
       "buttonContinueLabel": "Beginnen Sie, Ihr Wallet zu verwenden",

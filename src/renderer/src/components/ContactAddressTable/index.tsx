@@ -71,7 +71,7 @@ export const ContactAddressTable = ({ contactAddresses }: TProps) => {
                 variant="text"
                 label={t('components:contactAddressTable.sendAssets')}
                 leftIcon={<FiSend aria-hidden />}
-                onClick={() => navigate('/send', { state: { recipient: info.row.original.address } })}
+                onClick={() => navigate('/send', { state: { recipientAddress: info.row.original.address } })}
                 flat
                 {...TestHelper.buildTestObject('send-assets-button')}
               />
@@ -99,7 +99,7 @@ export const ContactAddressTable = ({ contactAddresses }: TProps) => {
   })
 
   return (
-    <section className="mt-4 flex min-h-0 w-full min-w-0 grow flex-col overflow-auto pr-1" ref={scrollRef}>
+    <section className="mt-4 flex min-h-0 w-full min-w-0 grow flex-col overflow-auto" ref={scrollRef}>
       <Table.Root>
         <Table.Header className="sticky top-0 bg-gray-800">
           {table.getHeaderGroups().map(headerGroup => (

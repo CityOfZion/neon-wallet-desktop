@@ -50,6 +50,12 @@
     "inputLabel": "Nome do perfil",
     "title": "Adicionar novo perfil de rede"
   },
+  "assistantNewConversationDiscardAlert": {
+    "closeButtonLabel": "Não, quero ficar",
+    "continueButtonLabel": "Sim, prosseguir",
+    "description": "Sua nova conversa será descartada se você prosseguir.",
+    "title": "Tem certeza de que deseja descartar a nova conversa?"
+  },
   "autoUpdate": {
     "completed": {
       "buttonContinueLabel": "Começar a usar sua carteira",
