@@ -75,7 +75,6 @@
     "noContacts": "No contacts",
     "search": "Search"
   },
-
   "fieldActionsMenu": {
     "copy": "Copy",
     "cut": "Cut",
@@ -210,6 +209,12 @@
   },
   "transactionFeeActionStep": {
     "title": "Transaction Fee"
+  },
+  "transactionMemoActionStep": {
+    "invalidMemo": "Memo is too long for this blockchain",
+    "optionalLabel": "*Optional",
+    "placeholder": "Enter a memo…",
+    "title": "Memo"
   },
   "transactionsTableEmpty": {
     "connectDappButtonLabel": "Connect dApp",

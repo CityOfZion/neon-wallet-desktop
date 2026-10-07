@@ -316,6 +316,7 @@
       "feeError": "Error to calculate fee",
       "hardwareWalletShouldBeValid": "To proceed with this operation, please make sure your hardware wallet is unlocked",
       "insufficientFunds": "Insufficient funds",
+      "memoRequired": "The recipient requires a memo, please fill in the memo field and try again.",
       "noAmountToTip": "Insufficient balance to pay the tip",
       "noFiatPriceToTip": "Fiat price not found to the tip",
       "noTokenToTip": "No token to pay the tip"
@@ -345,6 +346,7 @@
     "sendSuccess": {
       "amountLabel": "Amount",
       "detailsTitle": "Transaction details",
+      "memoLabel": "Memo",
       "recipientLabel": "Recipient",
       "saveContactButtonLabel": "Save contact",
       "title": "Your tokens have been sent successfully!",

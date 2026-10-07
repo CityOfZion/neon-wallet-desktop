@@ -1,6 +1,13 @@
 import { useEffect, useMemo, useRef } from 'react'
 
-import { BSBigHumanAmount, BSBigNumber, isCalculableFee, TTransferIntent } from '@cityofzion/blockchain-service'
+import {
+  BSBigHumanAmount,
+  BSBigNumber,
+  BSError,
+  hasMemo,
+  isCalculableFee,
+  TTransferIntent,
+} from '@cityofzion/blockchain-service'
 import lte from 'lodash/lte'
 import { AnimatePresence, motion } from 'motion/react'
 import { useTranslation } from 'react-i18next'
@@ -13,6 +20,7 @@ import { Button } from '@renderer/components/Button'
 import { GreyAccountSelect } from '@renderer/components/GreyAccountSelect'
 import { Separator } from '@renderer/components/Separator'
 import { TransactionFeeActionStep } from '@renderer/components/TransactionFeeActionStep'
+import { TransactionMemoActionStep, TTransactionMemo } from '@renderer/components/TransactionMemoActionStep'
 
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { AnalyticsHelper } from '@renderer/helpers/AnalyticsHelper'
@@ -59,6 +67,7 @@ type TActionsData = {
   tipCustomAmountBn?: BSBigNumber
   tipFiatPriceBn?: BSBigNumber
   tipError?: string
+  memo?: TTransactionMemo
 }
 
 type TProps = {
@@ -122,7 +131,11 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
     !service ||
     isCalculatingForm ||
     isFeeInvalid ||
-    !!actionData.tipError
+    !!actionData.tipError ||
+    (!!actionData.memo && !actionData.memo.isReady) ||
+    !!actionState.errors.memo
+
+  const tipAmount = actionData.tipAmountBn?.toFixed()
 
   const errorBannerMessage = actionData.tipError || actionState.errors.fee || actionState.errors.selectedAccount
 
@@ -155,12 +168,14 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
     }
 
     const serviceAccount = await AccountHelper.getServiceAccount(actionData.selectedAccount)
+    const memo = hasMemo(service) ? actionData.memo?.value : undefined
 
     return {
       service,
       serviceAccount,
       selectedAccount: actionData.selectedAccount,
       intents,
+      memo,
     }
   }
 
@@ -202,7 +217,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
 
   const handleSelectAccount = (account?: TAccount) => {
     handleSetRecipients(() => [{ id: UtilsHelper.uuid(), addressInput: currentRecipientAddress.current }])
-    setData({ selectedAccount: account })
+    setData({ selectedAccount: account, memo: undefined })
   }
 
   const handleRemoveRecipient = (id: string) => {
@@ -339,8 +354,8 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
     try {
       await confirmAction({ account })
 
-      const { intents, service } = fields
-      const pendingTransactions = await service.transfer({ senderAccount: fields.serviceAccount, intents })
+      const { intents, service, memo } = fields
+      const pendingTransactions = await service.transfer({ senderAccount: fields.serviceAccount, intents, memo })
 
       const notificationPrefix = 'pages:send'
       const notificationSuccessPrefix = `${notificationPrefix}.successNotification`
@@ -384,6 +399,12 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
     } catch (error) {
       LoggerHelper.sentry(error, { where: 'SendPageContent', operation: 'submitSend' })
 
+      if (error instanceof BSError && error.code === 'MEMO_REQUIRED') {
+        setError('memo', t('errors.memoRequired'))
+        ToastHelper.error({ message: t('errors.memoRequired') })
+        return
+      }
+
       const appError = AppError.wrap(error, null)
 
       if (appError.fromAppError) {
@@ -420,6 +441,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
         const fee = await fields.service.calculateTransferFee({
           senderAccount: fields.serviceAccount,
           intents: fields.intents,
+          memo: fields.memo,
         })
 
         setData({ fee })
@@ -455,7 +477,7 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
     handleCalculateFee()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [balanceQuery.data, actionData.recipients, actionData.isTipChecked, actionData.tipAmountBn?.toFixed()])
+  }, [balanceQuery.data, actionData.recipients, actionData.isTipChecked, tipAmount, actionData.memo?.value])
 
   useEffect(() => {
     if (!service || !isMainnetNetwork || !tipConfig) {
@@ -664,6 +686,17 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
           leftIcon={<TbPlus aria-hidden />}
           onClick={handleAddRecipient}
         />
+
+        {service && hasMemo(service) && (
+          <TransactionMemoActionStep
+            className="mt-2"
+            service={service}
+            memo={actionData.memo}
+            disabled={isAccountDisabled}
+            errorMessage={actionState.errors.memo}
+            onChange={memo => setData({ memo })}
+          />
+        )}
 
         {actionData.selectedAccount && !service?.isMultiTransferSupported && isMultiTransfer && (
           <Banner
