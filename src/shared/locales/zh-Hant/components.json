@@ -75,6 +75,16 @@
     "noContacts": "沒有聯絡人",
     "search": "搜尋"
   },
+  "emptyState": {
+    "connectDappButtonLabel": "連接 dApp",
+    "description": "<1>{{name}}</1> 需要您的許可",
+    "faucetButtonLabel": "龍頭",
+    "receiveTokensButtonLabel": "添加令牌",
+    "stellarSubtitle": "若要開始使用此帳戶，請至少充值 1 個 XLM。 <1>了解更多關於建立 Stellar 帳戶的資訊</1>",
+    "subtitleNonWatch": "為什麼不增加一些資源或連接一個去中心化應用程式（dApp）呢？",
+    "subtitleNonWatchWithoutDapp": "為什麼不增加一些資產呢？",
+    "title": "您的帳戶目前為空。"
+  },
   "fieldActionsMenu": {
     "copy": "複製",
     "cut": "剪下",
@@ -209,16 +219,6 @@
     "optionalLabel": "*選填",
     "placeholder": "輸入備註…",
     "title": "備註"
-  },
-  "transactionsTableEmpty": {
-    "connectDappButtonLabel": "連接 dApp",
-    "description": "<1>{{name}}</1> 需要您的許可",
-    "faucetButtonLabel": "龍頭",
-    "receiveTokensButtonLabel": "添加令牌",
-    "stellarSubtitle": "若要開始使用此帳戶，請至少充值 1 個 XLM。 <1>了解更多關於建立 Stellar 帳戶的資訊</1>",
-    "subtitleNonWatch": "為什麼不增加一些資源或連接一個去中心化應用程式（dApp）呢？",
-    "subtitleNonWatchWithoutDapp": "為什麼不增加一些資產呢？",
-    "title": "您的帳戶目前為空。"
   },
   "walletAccordionList": {
     "noAccounts": "沒有帳戶"
