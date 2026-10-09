@@ -1,90 +1,63 @@
-import fingerprint from '@fingerprintjs/fingerprintjs'
-import {
-  GateFiDisplayModeEnum,
-  GateFiEventTypes,
-  GateFiLangEnum,
-  GateFiSDK,
-  type GateFiThemeType,
-} from '@gatefi/js-sdk'
-
+import { SharedConstantsHelper } from '@shared/helpers/SharedConstantsHelper'
 import { SharedEnvHelper } from '@shared/helpers/SharedEnvHelper'
-import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 import type {
-  TBuyAndSellTokensHelperGetSellUrlParams,
-  TBuyAndSellTokensHelperInitBuyParams,
+  TBuyAndSellTokensHelperBuildBuyUrlParams,
+  TBuyAndSellTokensHelperBuildSellUrlParams,
 } from '@shared/types/helpers'
 import type { TAvailableCurrency } from '@shared/types/store'
 
-import { StyleHelper } from './StyleHelper'
-
 export class BuyAndSellTokensHelper {
   static readonly sumsubTermsAndConditionsUrl = 'https://sumsub.com/terms-and-conditions'
-  static readonly unlimitUseTermsUrl =
-    'https://cdn.unlimit.com/site-crypto/wp-content/uploads/2023/11/24062357/Unl-Crypto_User-TC_.pdf'
+  static readonly mercuryoTermsUrl = 'https://mercuryo.io/legal/terms'
   static readonly #defaultCurrencyLabel: TAvailableCurrency = 'USD'
-  static readonly #supportedCurrencyLabels: TAvailableCurrency[] = ['USD', 'EUR', 'BRL', 'GBP']
-  static readonly #lang = GateFiLangEnum.en_US
-  static readonly #theme: GateFiThemeType = 'dark'
-  static readonly #hideBrand = true
+  static readonly #supportedBuyCurrencyLabels: TAvailableCurrency[] = [this.#defaultCurrencyLabel, 'EUR', 'BRL', 'GBP']
+  static readonly #supportedSellCurrencyLabels: TAvailableCurrency[] = [this.#defaultCurrencyLabel, 'EUR', 'GBP']
+  static readonly #lang = 'en'
+  static readonly #theme = 'exolix'
+  static readonly #defaultToken = 'BTC'
 
-  static getValidCurrencyLabel(currencyLabel: TAvailableCurrency): TAvailableCurrency {
-    return this.#supportedCurrencyLabels.includes(currencyLabel) ? currencyLabel : this.#defaultCurrencyLabel
+  static getValidCurrencyLabel(
+    currencyLabel: TAvailableCurrency,
+    supportedCurrencyLabels: TAvailableCurrency[]
+  ): TAvailableCurrency {
+    return supportedCurrencyLabels.includes(currencyLabel) ? currencyLabel : this.#defaultCurrencyLabel
   }
 
-  static buildSellUrl({ currency, account }: TBuyAndSellTokensHelperGetSellUrlParams) {
-    if (!SharedEnvHelper.VITE_UNLIMIT_MERCHANT_ID || !SharedEnvHelper.VITE_UNLIMIT_SELL_TOKENS_IFRAME_URL) {
-      return
-    }
+  static buildBuyUrl({ address, currency, merchantTransactionId }: TBuyAndSellTokensHelperBuildBuyUrlParams) {
+    if (!SharedEnvHelper.VITE_MERCURYO_WIDGET_ID) return
+
+    // The wallet address is not sent because Mercuryo requires it to be signed with the widget secret, which can't
+    // be safely stored in the app. The user pastes the destination address in the widget instead.
+    const params = new URLSearchParams({
+      widget_id: SharedEnvHelper.VITE_MERCURYO_WIDGET_ID,
+      type: 'buy',
+      currency: this.#defaultToken,
+      fiat_currency: this.getValidCurrencyLabel(currency.label, this.#supportedBuyCurrencyLabels),
+      lang: this.#lang,
+      theme: this.#theme,
+      merchant_transaction_id: merchantTransactionId,
+    })
+
+    if (address) params.set('address', address)
+
+    return `${SharedConstantsHelper.BUY_AND_SELL_URL}/?${params.toString()}`
+  }
+
+  static buildSellUrl({ currency, refundAddress, merchantTransactionId }: TBuyAndSellTokensHelperBuildSellUrlParams) {
+    if (!SharedEnvHelper.VITE_MERCURYO_WIDGET_ID) return
 
     const params = new URLSearchParams({
-      merchantId: SharedEnvHelper.VITE_UNLIMIT_MERCHANT_ID,
-      fiatCurrency: this.getValidCurrencyLabel(currency.label),
+      widget_id: SharedEnvHelper.VITE_MERCURYO_WIDGET_ID,
+      type: 'sell',
+      currency: this.#defaultToken,
+      fiat_currency: this.getValidCurrencyLabel(currency.label, this.#supportedSellCurrencyLabels),
       lang: this.#lang,
-      themeMode: this.#theme,
-      hideBrand: String(this.#hideBrand),
-      wallet: account?.address || '',
+      theme: this.#theme,
+      merchant_transaction_id: merchantTransactionId,
     })
 
-    return `${SharedEnvHelper.VITE_UNLIMIT_SELL_TOKENS_IFRAME_URL}?${params.toString()}`
-  }
+    if (refundAddress) params.set('refund_address', refundAddress)
 
-  static async initBuy({ currency, account, id }: TBuyAndSellTokensHelperInitBuyParams) {
-    if (!SharedEnvHelper.VITE_UNLIMIT_MERCHANT_ID || !SharedEnvHelper.VITE_UNLIMIT_BUY_TOKENS_IFRAME_URL) {
-      return
-    }
-
-    const loadedFingerprint = await fingerprint.load()
-    const result = await loadedFingerprint.get()
-
-    const [colorNeon, colorAsphalt] = StyleHelper.getTheme('color-neon', 'color-asphalt')
-
-    return await new Promise<() => void>(resolve => {
-      const sdk = new GateFiSDK({
-        merchantId: SharedEnvHelper.VITE_UNLIMIT_MERCHANT_ID!,
-        displayMode: GateFiDisplayModeEnum.Embedded,
-        nodeSelector: `#${id}`,
-        lang: this.#lang,
-        defaultFiat: { currency: BuyAndSellTokensHelper.getValidCurrencyLabel(currency.label) },
-        hideThemeSwitcher: true,
-        hideBrand: this.#hideBrand,
-        fingerprint: result.visitorId,
-        walletAddress: account?.address,
-        styles: {
-          type: this.#theme,
-          primaryColor: colorNeon,
-          primaryBackground: colorAsphalt,
-          primaryTextColor: colorAsphalt,
-          secondaryColor: colorNeon,
-          secondaryBackground: colorAsphalt,
-        },
-      })
-
-      sdk.subscribe(GateFiEventTypes.onLoad, async () => {
-        await SharedUtilsHelper.sleep(500)
-        resolve(() => {
-          sdk.destroy()
-        })
-      })
-    })
+    return `${SharedConstantsHelper.BUY_AND_SELL_URL}/?${params.toString()}`
   }
 }
