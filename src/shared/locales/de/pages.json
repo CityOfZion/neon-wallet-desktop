@@ -258,7 +258,7 @@
       },
       "useFraudulentTokensNotificationProcess": {
         "notificationDescription": "Wir haben \"{{ value }}\" identifiziert, der von der Community als betrügerischer Token gekennzeichnet wurde. Wir empfehlen, ihn auszublenden und jede weitere Interaktion damit zu vermeiden.",
-        "notificationTitle": "{{ value }}\" ist ein betrügerischer Token!"
+        "notificationTitle": "\"{{ value }}\" ist ein betrügerischer Token!"
       },
       "useVotingNeo3NotificationProcess": {
         "notificationDescription": "Tippen Sie einfach hier und geben Sie noch heute Ihre Stimme ab",

@@ -258,7 +258,7 @@
       },
       "useFraudulentTokensNotificationProcess": {
         "notificationDescription": "We've identified \"{{ value }}\" that has been flagged as fraudulent token by the community, we suggest hiding it and avoiding any other kind of interaction with it.",
-        "notificationTitle": "{{ value }}\" is a fraudulent token!"
+        "notificationTitle": "\"{{ value }}\" is a fraudulent token!"
       },
       "useVotingNeo3NotificationProcess": {
         "notificationDescription": "Simply tap here and cast your vote today",
