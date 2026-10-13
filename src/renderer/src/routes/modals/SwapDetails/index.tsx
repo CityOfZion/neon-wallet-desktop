@@ -142,9 +142,12 @@ const SwapDetailsModal = () => {
           {t('detailsHeaderLabel')}
         </Details.Header>
 
+        <Details.HeaderSeparator />
+
         <Details.Body>
           <Details.Panel label={t('statusPanelLabel')}>
             <Stepper.Root
+              className="mt-4 mb-10 px-8"
               value={stepsByStatus[swapRecord.swapStatus]}
               colorSchema="neon"
               state={match({ swapStatus: swapRecord.swapStatus, txFrom: swapRecord.txFrom })
@@ -161,7 +164,7 @@ const SwapDetailsModal = () => {
             </Stepper.Root>
           </Details.Panel>
 
-          <Details.Panel label={t('routingPanelLabel')} className="mt-6">
+          <Details.Panel label={t('routingPanelLabel')}>
             {swapRecord.txFrom && (
               <Details.Item label={t('routingPanelTransactionFromLabel')} copyable={swapRecord.txFrom}>
                 <div className="flex items-center gap-2.5">
