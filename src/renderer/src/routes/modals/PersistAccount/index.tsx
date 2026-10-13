@@ -1,5 +1,6 @@
 import { Fragment } from 'react/jsx-runtime'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router'
 
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
@@ -36,10 +37,11 @@ const MAX_NAME_LENGTH = 50
 
 const PersistAccountModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'persistAccount' })
-  const { modalNavigate } = useModalNavigate()
+  const { modalNavigate, modalErase } = useModalNavigate()
   const modalState = useModalState<TModalState<'persist-account'>>()
   const { createStandardAccount } = useCreateStandardAccount()
   const { addNewHardwareAccount } = useAddAccountHardwareWallet()
+  const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
   const modalStateAccount = modalState?.account
@@ -84,13 +86,15 @@ const PersistAccountModal = () => {
           headingIcon: <TbPlus className="text-neon" />,
           description: t('selectBlockchainDescription'),
           onSelect: async ([blockchain]: TBlockchainServiceKey[]) => {
-            await createStandardAccount({
+            const account = await createStandardAccount({
               wallet: modalStateWallet,
-              blockchain: blockchain,
               name: nameValidation.trimmedValue,
-              skin: skin,
+              blockchain,
+              skin,
             })
-            modalNavigate(-2)
+
+            modalErase()
+            navigate('/wallets/overview', { state: { account } })
           },
         },
       })
@@ -98,8 +102,10 @@ const PersistAccountModal = () => {
       return
     }
 
-    addNewHardwareAccount(modalStateWallet, nameValidation.trimmedValue)
-    modalNavigate(-1)
+    const account = await addNewHardwareAccount(modalStateWallet, nameValidation.trimmedValue)
+
+    modalErase()
+    navigate('/wallets/overview', { state: { account } })
   }
 
   return (

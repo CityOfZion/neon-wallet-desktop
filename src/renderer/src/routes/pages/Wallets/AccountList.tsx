@@ -38,8 +38,7 @@ const AccountItem = ({ account, onClick, active }: TAccountItemProps) => {
     if (active) {
       ref.current?.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [active])
 
   return (
     <div ref={ref} className="relative">
