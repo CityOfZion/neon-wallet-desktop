@@ -98,6 +98,7 @@
   "confirmAction": {
     "confirmButtonLabel": "Confirmar",
     "description": "Para prosseguir com esta ação, por favor confirme:",
+    "inputLabel": "Senha",
     "inputPlaceholder": "Digite a senha…",
     "passwordError": "Senha não reconhecida!",
     "title": "Confirme sua ação"
@@ -119,6 +120,7 @@
     "buttonContinueLabel": "Continuar",
     "description": "Para proteger o acesso aos seus ativos, por favor confirme sua senha",
     "error": "Senha não reconhecida!",
+    "inputLabel": "Senha",
     "inputPlaceholder": "Digite a senha…"
   },
   "confirmPasswordRecover": {
@@ -193,6 +195,7 @@
       "errorToConnect": "Ops! Encontramos um erro. Tente gerar uma nova uri e tente novamente.",
       "timeout": "A solicitação de conexão expirou."
     },
+    "inputLabel": "URL do dApp",
     "inputPlaceholder": "Cole sua URL aqui…",
     "title": "Conectar com um dApp"
   },
@@ -302,6 +305,7 @@
       "decryptError": "Houve um problema ao descriptografar a chave",
       "noEncryptionInterfaceError": "Este blockchain não pode descriptografar a chave"
     },
+    "inputLabel": "Frase secreta",
     "inputPlaceholder": "Digite sua senha…",
     "title": "Importar"
   },
@@ -334,6 +338,7 @@
       "walletNameIsTooLong": "O nome da carteira deve ter no máximo {{amount}} caracteres",
       "walletNameIsTooShort": "O nome da carteira deve ter pelo menos 1 caractere"
     },
+    "inputLabel": "Nome da carteira",
     "inputPlaceholder": "Digite o nome da sua carteira…",
     "noSkinsUnlocked": "Nenhuma aparência desbloqueada",
     "saveButtonLabel": "Salvar",
@@ -403,6 +408,7 @@
       "mnemonicAlreadyExist": "Mnemônico já existe"
     },
     "importEncryptedDescription": "Selecione a blockchain desejada para sua nova conta",
+    "inputLabel": "Endereço ou chave",
     "inputPlaceholder": "Por favor, insira um endereço ou chave…",
     "subtitle": "IMPORTAR",
     "success": {
@@ -427,6 +433,7 @@
       "invalid": "Endereço inválido ou já existe"
     },
     "information": "Você não poderá usar os ativos desta conta!",
+    "inputLabel": "Endereço a observar",
     "inputPlaceholder": "Por favor, insira um endereço",
     "title": "Adicionar uma conta observada",
     "willBeAdded": "Esta conta será adicionada:"
@@ -694,6 +701,7 @@
       "noFunction": "Não há ação disponível para este item. Por favor, entre em contato com nosso suporte."
     },
     "idleResultDescription": "Procurando por algo?",
+    "inputLabel": "Pesquisar",
     "inputPlaceholder": "Digite sua pesquisa…",
     "resultDescription": "Você pode estar interessado nestes tópicos:",
     "title": "Pesquisar Neon"

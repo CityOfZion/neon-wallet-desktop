@@ -31,7 +31,13 @@ const SettingsBackupWallet = () => {
 
       <div className="flex grow flex-col gap-y-10">
         <div className="flex gap-2.5">
-          <Input value={selectedFilePath} compacted readOnly containerClassName="max-w-68" />
+          <Input
+            aria-label={t('saveBackupLabel')}
+            value={selectedFilePath}
+            compacted
+            readOnly
+            containerClassName="max-w-68"
+          />
 
           <Button flat label={t('browse')} onClick={handlePathSelectionButton} className="w-36" />
         </div>

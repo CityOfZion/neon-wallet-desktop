@@ -81,6 +81,7 @@ export const TransactionMemoActionStep = ({ className, service, memo, disabled, 
 
       <div className="my-5 flex w-full flex-col">
         <Input
+          aria-label={t('title')}
           value={value}
           placeholder={t('placeholder')}
           className="w-full"

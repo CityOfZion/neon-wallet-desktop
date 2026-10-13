@@ -39,7 +39,7 @@ export const ContactList = ({
   blockchainFilter,
   children,
 }: TProps) => {
-  const { t: tContact } = useTranslation('components', { keyPrefix: 'contacts' })
+  const { t } = useTranslation('components', { keyPrefix: 'contacts' })
   const [search, setSearch] = useState<string | null>(null)
   const hasAlreadySelectedContact = useRef(false)
 
@@ -123,7 +123,8 @@ export const ContactList = ({
       <div className="flex h-full w-full flex-col items-center">
         <div className="mb-8 w-full">
           <SearchInput
-            placeholder={tContact('search')}
+            aria-label={t('searchLabel')}
+            placeholder={t('searchLabel')}
             onChange={event => setSearch(event.target.value)}
             compacted
             {...TestHelper.buildTestObject('search-contact-input')}
@@ -131,7 +132,7 @@ export const ContactList = ({
         </div>
 
         {groupContactsByFirstLetter.length <= 0 && (
-          <div {...TestHelper.buildTestObject('contacts-not-found')}>{tContact('noContacts')}</div>
+          <div {...TestHelper.buildTestObject('contacts-not-found')}>{t('noContacts')}</div>
         )}
 
         <section

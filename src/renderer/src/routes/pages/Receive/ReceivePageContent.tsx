@@ -69,10 +69,11 @@ export const ReceivePageContent = ({ account }: TProps) => {
             <Separator />
 
             <Input
+              aria-label={t('addressInputLabel')}
               value={selectedAccount?.address || ''}
               compacted
               containerClassName="px-10 mt-4"
-              placeholder={t('addressInputHint')}
+              placeholder={t('addressInputPlaceholder')}
               readOnly
               copyable={!!selectedAccount?.address}
             />

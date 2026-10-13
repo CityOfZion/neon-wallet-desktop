@@ -226,6 +226,7 @@ export const LoginPasswordImportWalletStep3Content = () => {
       >
         {!state.isMigration && (
           <Textarea
+            aria-label={t('inputLabel')}
             placeholder={t('inputPlaceholder')}
             containerClassName="mb-2.5"
             value={importActions.actionData.text}

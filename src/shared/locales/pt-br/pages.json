@@ -85,6 +85,7 @@
     },
     "importAllButtonLabel": "Importar todos",
     "importSelectedButtonLabel": "Importar selecionados",
+    "passwordLabel": "Senha",
     "passwordPlaceholder": "Digite sua senha…",
     "selectDescription": "Quais endereços você gostaria de importar?",
     "title": "Importar chave criptografada"
@@ -98,6 +99,7 @@
   },
   "loginKey": {
     "description": "Digite um endereço, chave ou palavras mnemônicas:",
+    "inputLabel": "Endereço, chave ou mnemônico",
     "inputPlaceholder": "Digite um endereço, chave ou mnemônico…"
   },
   "loginKeySelectAccountPage": {
@@ -112,6 +114,7 @@
       "buttonLoginLabel": "Entrar",
       "forgotPassword": "Esqueceu a senha?",
       "invalidPassword": "Senha inválida",
+      "passwordLabel": "Senha",
       "passwordPlaceholder": "Digite sua senha…",
       "text": "Fazer login na sua carteira"
     },
@@ -159,6 +162,7 @@
       "addressToReceiveInputPlaceholder": "Digite o endereço…",
       "addressToReceiveMyAccountButtonLabel": "Minhas contas",
       "addressToReceiveStepTitle": "Receber em",
+      "amountToReceiveLabel": "Quantidade que você receberá",
       "amountToReceivePlaceholder": "0.00000000",
       "amountToReceiveStepTitle": "Quantidade que você receberá <1>(após taxas)</1>",
       "amountToUseMaxButtonLabel": "Máx",
@@ -287,14 +291,13 @@
     }
   },
   "receive": {
-    "addressInputHint": "Seu endereço de recebimento estará aqui…",
+    "addressInputLabel": "Seu endereço de recebimento",
+    "addressInputPlaceholder": "Seu endereço de recebimento estará aqui…",
     "downloadQRCode": "Baixar Código QR",
     "receivingAccountTitle": "Conta de recebimento",
-    "requestTokenTabTitle": "SOLICITAR TOKENS",
     "selectAccountToGenerateCode": "Selecione uma conta para gerar um código!",
     "sendQRCode": "Enviar Código QR",
     "title": "Receber Tokens",
-    "yourAddressTabTitle": "SEU ENDEREÇO",
     "yourReceivingAddress": "Sua conta de recebimento"
   },
   "root": {
@@ -326,6 +329,7 @@
       "title": "Transferência falhou"
     },
     "recipient": {
+      "addressLabel": "Nome ou endereço do destinatário",
       "addressPlaceholder": "Digite o nome ou endereço do destinatário…",
       "amountLabel": "Quantidade",
       "errors": {
@@ -376,11 +380,11 @@
         "buttonContinue": "Continuar",
         "error": "Senha não reconhecida!",
         "generatePassword": "Gerar senha",
+        "inputCurrentPasswordLabel": "Senha atual",
         "inputCurrentPasswordPlaceholder": "Digite sua senha atual…",
+        "inputNewPasswordLabel": "Nova senha",
         "inputNewPasswordPlaceholder": "Digite uma nova senha…",
-        "subtitle": "Se você deseja criar uma nova senha, simplesmente altere-a aqui e confirme a alteração com sua senha atual!",
-        "titleInput1": "Nova senha",
-        "titleInput2": "Senha atual da Neon"
+        "subtitle": "Se você deseja criar uma nova senha, simplesmente altere-a aqui e confirme a alteração com sua senha atual!"
       },
       "step2": {
         "buttonDownload": "Baixar QR e salvar alterações",
@@ -411,8 +415,9 @@
       "subtitle": "Escolha uma frase secreta para criptografar uma chave existente:",
       "successModal": {
         "description": "Aqui está sua chave criptografada:",
+        "encryptedKeyLabel": "Chave criptografada",
         "subtitle": "Chave privada criptografada com sucesso!",
-        "title": "Chave Criptografada"
+        "title": "Chave criptografada"
       },
       "titleInput1": "Chave privada que você deseja criptografar",
       "titleInput2": "Frase secreta",
@@ -646,6 +651,7 @@
         "importEncryptedTitle": "Importar uma wallet",
         "importError": "Arquivo compatível não reconhecido",
         "importSuccess": "Arquivo compatível identificado!",
+        "inputLabel": "Endereço, chave ou mnemônico",
         "inputPlaceholder": "Digite um endereço, chave ou mnemônico…",
         "invalidAddress": "Endereço inválido",
         "label": "Adicione detalhes ou localize o arquivo",
@@ -674,6 +680,7 @@
         "blockchainSelectionModalTitle": "Selecione blockchains",
         "browseButtonLabel": "Procurar…",
         "confirmPasswordError": "As senhas não coincidem",
+        "confirmPasswordLabel": "Confirme a senha",
         "confirmPasswordPlaceholder": "Confirme sua senha…",
         "formTitleImportWallet": "Por favor, confirme sua senha para continuar",
         "formTitleNewWallet": "Escolha um local para salvar o arquivo contendo seu mnemônico e confirme sua senha para continuar",
@@ -685,6 +692,7 @@
         "formTitle": "Por favor, crie uma senha para proteger sua wallet",
         "label": "Criar senha",
         "passwordError": "A senha deve ter pelo menos {{length}} caracteres",
+        "passwordLabel": "Senha",
         "passwordPlaceholder": "Crie uma senha…"
       },
       "title": "Protegendo sua nova carteira"

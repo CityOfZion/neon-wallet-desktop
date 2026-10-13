@@ -52,6 +52,7 @@ const ConfirmPasswordExportModal = () => {
       <form className="flex grow flex-col justify-between" onSubmit={handleAct(handleSubmit)}>
         <div>
           <Input
+            aria-label={t('inputLabel')}
             placeholder={t('inputPlaceholder')}
             error={!!actionState.errors.password}
             value={actionData.password}

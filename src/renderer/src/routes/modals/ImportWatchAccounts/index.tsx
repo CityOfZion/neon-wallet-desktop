@@ -140,7 +140,13 @@ const ImportWatchAccountsModal = () => {
       <p className="text-xs">{t('description')}</p>
 
       <form className="mt-6 flex min-h-0 grow flex-col" onSubmit={handleSubmit}>
-        <Input value={address} onChange={handleChange} placeholder={t('inputPlaceholder')} errorMessage={error} />
+        <Input
+          aria-label={t('inputLabel')}
+          value={address}
+          onChange={handleChange}
+          placeholder={t('inputPlaceholder')}
+          errorMessage={error}
+        />
 
         <Banner className="mt-5" message={t('information')} type="info" />
 

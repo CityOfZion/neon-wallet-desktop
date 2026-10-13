@@ -62,6 +62,7 @@ const EditWalletModal = () => {
     <SideModalLayout heading={t('title')} headingIcon={<TbPencil aria-hidden />} contentClassName="flex flex-col">
       <form onSubmit={handleAct(handleSubmit)} className="flex grow flex-col">
         <Input
+          aria-label={t('inputLabel')}
           placeholder={t('inputPlaceholder')}
           errorMessage={actionState.errors.name}
           value={actionData.name}

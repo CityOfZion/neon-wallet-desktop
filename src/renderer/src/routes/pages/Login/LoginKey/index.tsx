@@ -77,6 +77,7 @@ export const LoginKeyTabContent = () => {
       <form className="mt-6 flex w-full grow flex-col items-center justify-between" onSubmit={handleAct(handleSubmit)}>
         <div className="flex w-full flex-col items-center">
           <Textarea
+            aria-label={t('inputLabel')}
             placeholder={t('inputPlaceholder')}
             error={!!actionState.errors.text}
             value={actionData.text}

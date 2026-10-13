@@ -85,6 +85,7 @@
     },
     "importAllButtonLabel": "Alle importieren",
     "importSelectedButtonLabel": "Ausgewählte importieren",
+    "passwordLabel": "Passwort",
     "passwordPlaceholder": "Passwort eingeben…",
     "selectDescription": "Welche Adressen möchten Sie importieren?",
     "title": "Verschlüsselten Schlüssel importieren"
@@ -98,6 +99,7 @@
   },
   "loginKey": {
     "description": "Geben Sie eine Adresse, einen Schlüssel oder Mnemonic-Wörter ein:",
+    "inputLabel": "Adresse, Schlüssel oder Mnemonic",
     "inputPlaceholder": "Adresse, Schlüssel oder Mnemonic eingeben…"
   },
   "loginKeySelectAccountPage": {
@@ -112,6 +114,7 @@
       "buttonLoginLabel": "Anmelden",
       "forgotPassword": "Passwort vergessen?",
       "invalidPassword": "Ungültiges Passwort",
+      "passwordLabel": "Passwort",
       "passwordPlaceholder": "Passwort eingeben…",
       "text": "Bei Ihrem Wallet anmelden"
     },
@@ -159,6 +162,7 @@
       "addressToReceiveInputPlaceholder": "Adresse eingeben…",
       "addressToReceiveMyAccountButtonLabel": "Meine Konten",
       "addressToReceiveStepTitle": "Hier empfangen",
+      "amountToReceiveLabel": "Betrag, den Sie erhalten",
       "amountToReceivePlaceholder": "0,00000000",
       "amountToReceiveStepTitle": "Betrag, den Sie erhalten <1>(nach Gebühren)</1>",
       "amountToUseMaxButtonLabel": "Max",
@@ -287,14 +291,13 @@
     }
   },
   "receive": {
-    "addressInputHint": "Ihre Empfangsadresse wird hier sein…",
+    "addressInputLabel": "Ihre Empfangsadresse",
+    "addressInputPlaceholder": "Ihre Empfangsadresse wird hier sein…",
     "downloadQRCode": "QR-Code herunterladen",
     "receivingAccountTitle": "Empfangskonto",
-    "requestTokenTabTitle": "TOKEN ANFORDERN",
     "selectAccountToGenerateCode": "Wählen Sie ein Konto aus, um einen Code zu generieren!",
     "sendQRCode": "QR-Code senden",
     "title": "Token empfangen",
-    "yourAddressTabTitle": "IHRE ADRESSE",
     "yourReceivingAddress": "Ihr Empfangskonto"
   },
   "root": {
@@ -326,6 +329,7 @@
       "title": "Überweisung fehlgeschlagen"
     },
     "recipient": {
+      "addressLabel": "Empfängername oder -adresse",
       "addressPlaceholder": "Empfängername oder -adresse eingeben…",
       "amountLabel": "Betrag",
       "errors": {
@@ -376,11 +380,11 @@
         "buttonContinue": "Weiter",
         "error": "Passwort nicht erkannt!",
         "generatePassword": "Passwort generieren",
+        "inputCurrentPasswordLabel": "Aktuelles Passwort",
         "inputCurrentPasswordPlaceholder": "Aktuelles Passwort eingeben…",
+        "inputNewPasswordLabel": "Neues Passwort",
         "inputNewPasswordPlaceholder": "Neues Passwort eingeben…",
-        "subtitle": "Wenn Sie ein neues Passwort erstellen möchten, ändern Sie es einfach hier und bestätigen Sie die Änderung mit Ihrem aktuellen Passwort!",
-        "titleInput1": "Neues Passwort",
-        "titleInput2": "Aktuelles Neon-Passwort"
+        "subtitle": "Wenn Sie ein neues Passwort erstellen möchten, ändern Sie es einfach hier und bestätigen Sie die Änderung mit Ihrem aktuellen Passwort!"
       },
       "step2": {
         "buttonDownload": "QR herunterladen und Änderungen speichern",
@@ -411,6 +415,7 @@
       "subtitle": "Wählen Sie eine Passphrase, um einen vorhandenen Schlüssel zu verschlüsseln:",
       "successModal": {
         "description": "Hier ist Ihr verschlüsselter Schlüssel:",
+        "encryptedKeyLabel": "Verschlüsselter Schlüssel",
         "subtitle": "Privater Schlüssel erfolgreich verschlüsselt!",
         "title": "Verschlüsselter Schlüssel"
       },
@@ -646,6 +651,7 @@
         "importEncryptedTitle": "Wallet importieren",
         "importError": "Kompatibler Dateityp nicht erkannt",
         "importSuccess": "Datei kompatibel erkannt!",
+        "inputLabel": "Adresse, Schlüssel oder Mnemonic",
         "inputPlaceholder": "Geben Sie eine Adresse, Schlüssel oder Mnemonik ein…",
         "invalidAddress": "Ungültige Adresse",
         "label": "Details hinzufügen oder Datei finden",
@@ -674,6 +680,7 @@
         "blockchainSelectionModalTitle": "Blockchains auswählen",
         "browseButtonLabel": "Durchsuchen…",
         "confirmPasswordError": "Passwörter stimmen nicht überein",
+        "confirmPasswordLabel": "Passwort bestätigen",
         "confirmPasswordPlaceholder": "Bestätigen Sie Ihr Passwort…",
         "formTitleImportWallet": "Bitte bestätigen Sie Ihr Passwort, um fortzufahren",
         "formTitleNewWallet": "Bitte wählen Sie einen Speicherort für die Datei mit Ihrem mnemonischen Code und bestätigen Sie Ihr Passwort, um fortzufahren",
@@ -685,6 +692,7 @@
         "formTitle": "Bitte erstellen Sie ein Passwort, um Ihr Wallet zu sichern",
         "label": "Passwort erstellen",
         "passwordError": "Passwort muss mindestens {{length}} Zeichen lang sein",
+        "passwordLabel": "Passwort",
         "passwordPlaceholder": "Passwort erstellen…"
       },
       "title": "Sichern Sie Ihr neues Wallet"

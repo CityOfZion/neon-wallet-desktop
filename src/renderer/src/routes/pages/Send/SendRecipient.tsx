@@ -163,6 +163,7 @@ export const SendRecipient = ({
       <div className="my-5 flex w-full flex-col">
         <div className="flex w-full items-start justify-between gap-3">
           <Input
+            aria-label={t('addressLabel')}
             testId={`send-recipient-address-input-${order}`}
             value={recipient.addressInput || ''}
             placeholder={t('addressPlaceholder')}
@@ -235,6 +236,7 @@ export const SendRecipient = ({
         leftIcon={<VscCircleFilled aria-hidden className="size-2 text-gray-300" />}
       >
         <GreyAmountInput
+          aria-label={t('amountLabel')}
           value={recipient.amount || ''}
           disabled={isAmountDisabled}
           maxButtonProps={{

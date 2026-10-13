@@ -85,6 +85,7 @@
     },
     "importAllButtonLabel": "全部导入",
     "importSelectedButtonLabel": "导入所选",
+    "passwordLabel": "密码",
     "passwordPlaceholder": "输入您的密码…",
     "selectDescription": "您想导入哪些地址？",
     "title": "导入加密密钥"
@@ -98,6 +99,7 @@
   },
   "loginKey": {
     "description": "请输入地址、密钥或助记词：",
+    "inputLabel": "地址、密钥或助记词",
     "inputPlaceholder": "输入地址、密钥或助记词…"
   },
   "loginKeySelectAccountPage": {
@@ -112,6 +114,7 @@
       "buttonLoginLabel": "登录",
       "forgotPassword": "忘记密码？",
       "invalidPassword": "密码无效",
+      "passwordLabel": "密码",
       "passwordPlaceholder": "请输入您的密码…",
       "text": "登录到您的钱包"
     },
@@ -159,6 +162,7 @@
       "addressToReceiveInputPlaceholder": "输入地址…",
       "addressToReceiveMyAccountButtonLabel": "我的账户",
       "addressToReceiveStepTitle": "接收地址",
+      "amountToReceiveLabel": "您将获得的数量",
       "amountToReceivePlaceholder": "0.00000000",
       "amountToReceiveStepTitle": "您将获得的数量 <1>(扣除费用后)</1>",
       "amountToUseMaxButtonLabel": "最大",
@@ -287,14 +291,13 @@
     }
   },
   "receive": {
-    "addressInputHint": "您的接收地址将在此显示…",
+    "addressInputLabel": "您的接收地址",
+    "addressInputPlaceholder": "您的接收地址将在此显示…",
     "downloadQRCode": "下载二维码",
     "receivingAccountTitle": "接收账户",
-    "requestTokenTabTitle": "请求代币",
     "selectAccountToGenerateCode": "请选择账户以生成二维码！",
     "sendQRCode": "发送二维码",
     "title": "接收代币",
-    "yourAddressTabTitle": "您的地址",
     "yourReceivingAddress": "您的接收账户"
   },
   "root": {
@@ -326,6 +329,7 @@
       "title": "转账失败"
     },
     "recipient": {
+      "addressLabel": "收款人姓名或地址",
       "addressPlaceholder": "输入收款人姓名或地址…",
       "amountLabel": "数量",
       "errors": {
@@ -376,11 +380,11 @@
         "buttonContinue": "继续",
         "error": "密码未识别！",
         "generatePassword": "生成密码",
+        "inputCurrentPasswordLabel": "当前密码",
         "inputCurrentPasswordPlaceholder": "输入当前密码…",
+        "inputNewPasswordLabel": "新密码",
         "inputNewPasswordPlaceholder": "输入新密码…",
-        "subtitle": "如果您想创建新密码，只需在此更改并用当前密码确认即可！",
-        "titleInput1": "新密码",
-        "titleInput2": "当前Neon密码"
+        "subtitle": "如果您想创建新密码，只需在此更改并用当前密码确认即可！"
       },
       "step2": {
         "buttonDownload": "下载二维码并保存更改",
@@ -411,6 +415,7 @@
       "subtitle": "选择密码短语加密现有密钥：",
       "successModal": {
         "description": "这是您的加密密钥：",
+        "encryptedKeyLabel": "加密密钥",
         "subtitle": "私钥加密成功！",
         "title": "加密密钥"
       },
@@ -646,6 +651,7 @@
         "importEncryptedTitle": "导入钱包",
         "importError": "兼容文件未被识别",
         "importSuccess": "已识别兼容文件！",
+        "inputLabel": "地址、密钥或助记词",
         "inputPlaceholder": "请输入一个地址、密钥或助记词…",
         "invalidAddress": "无效地址",
         "label": "添加详细信息或定位文件",
@@ -674,6 +680,7 @@
         "blockchainSelectionModalTitle": "选择区块链",
         "browseButtonLabel": "浏览…",
         "confirmPasswordError": "密码不匹配",
+        "confirmPasswordLabel": "确认密码",
         "confirmPasswordPlaceholder": "确认您的密码…",
         "formTitleImportWallet": "请确认您的密码以继续",
         "formTitleNewWallet": "请选择一个位置以保存包含您的助记词的文件，并确认您的密码以继续",
@@ -685,6 +692,7 @@
         "formTitle": "请创建一个密码以保护您的钱包",
         "label": "创建密码",
         "passwordError": "密码必须至少有 {{length}} 个字符长",
+        "passwordLabel": "密码",
         "passwordPlaceholder": "创建一个密码…"
       },
       "title": "保护您的新钱包"

@@ -73,7 +73,7 @@
   },
   "contacts": {
     "noContacts": "没有联系人",
-    "search": "搜索"
+    "searchLabel": "搜索"
   },
   "emptyState": {
     "connectDappButtonLabel": "连接 dApp",

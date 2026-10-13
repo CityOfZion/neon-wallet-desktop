@@ -163,8 +163,10 @@ const ExportFullTransactionsModal = () => {
           <p className="mt-8 text-lg text-white">{t('exported.description')}</p>
 
           <div className="mt-6 flex w-full flex-col items-center gap-2">
-            <p className="text-xs text-gray-300">{t('exported.selectedFolderPathInputLabel')}</p>
-            <Input readOnly compacted value={actionData.selectedFolderPath} />
+            <label htmlFor="selected-folder-path" className="text-xs text-gray-300">
+              {t('exported.selectedFolderPathInputLabel')}
+            </label>
+            <Input id="selected-folder-path" readOnly compacted value={actionData.selectedFolderPath} />
           </div>
 
           <div className="flex w-full flex-col">

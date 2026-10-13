@@ -98,6 +98,7 @@
   "confirmAction": {
     "confirmButtonLabel": "確認",
     "description": "要繼續此操作，請確認：",
+    "inputLabel": "密碼",
     "inputPlaceholder": "輸入密碼…",
     "passwordError": "密碼不正確！",
     "title": "確認您的操作"
@@ -119,6 +120,7 @@
     "buttonContinueLabel": "繼續",
     "description": "為保護您的資產，請確認密碼",
     "error": "密碼不正確！",
+    "inputLabel": "密碼",
     "inputPlaceholder": "輸入密碼…"
   },
   "confirmPasswordRecover": {
@@ -193,6 +195,7 @@
       "errorToConnect": "哎呀！發生錯誤。請重新產生 URI 並再試一次。",
       "timeout": "連線請求逾時。"
     },
+    "inputLabel": "dApp 網址",
     "inputPlaceholder": "請貼上您的網址…",
     "title": "連接 dApp"
   },
@@ -302,6 +305,7 @@
       "decryptError": "解密密鑰時出現問題",
       "noEncryptionInterfaceError": "此區塊鏈無法解密密鑰"
     },
+    "inputLabel": "密語",
     "inputPlaceholder": "請輸入密碼…",
     "title": "導入"
   },
@@ -334,6 +338,7 @@
       "walletNameIsTooLong": "錢包名稱最多需 {{amount}} 個字元",
       "walletNameIsTooShort": "錢包名稱至少需 1 個字元"
     },
+    "inputLabel": "錢包名稱",
     "inputPlaceholder": "輸入您的錢包名稱…",
     "noSkinsUnlocked": "尚未解鎖任何主題",
     "saveButtonLabel": "儲存",
@@ -403,6 +408,7 @@
       "mnemonicAlreadyExist": "助記詞已存在"
     },
     "importEncryptedDescription": "為您的新帳戶選擇所需的區塊鏈",
+    "inputLabel": "地址或金鑰",
     "inputPlaceholder": "請輸入地址或金鑰…",
     "subtitle": "導入",
     "success": {
@@ -427,6 +433,7 @@
       "invalid": "地址無效或已存在"
     },
     "information": "您將無法使用此帳戶中的資產！",
+    "inputLabel": "要觀察的地址",
     "inputPlaceholder": "請輸入地址",
     "title": "新增觀察帳戶",
     "willBeAdded": "此帳戶將被新增："
@@ -694,6 +701,7 @@
       "noFunction": "此項目沒有可用的操作。如有疑問，請聯絡我們的支援。"
     },
     "idleResultDescription": "正在找什麼嗎？",
+    "inputLabel": "搜尋",
     "inputPlaceholder": "輸入您的搜尋內容…",
     "resultDescription": "您可能對以下主題有興趣：",
     "title": "搜尋 Neon"

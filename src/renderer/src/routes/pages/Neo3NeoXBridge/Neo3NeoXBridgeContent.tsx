@@ -448,6 +448,7 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
               >
                 <div className="flex grow items-start gap-3">
                   <Input
+                    aria-label={t('form.addressToReceiveStepTitle')}
                     value={actionData.addressToReceive.value || ''}
                     onChange={handleChangeAddressToReceive}
                     compacted
@@ -521,6 +522,7 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
                   </span>
 
                   <GreyAmountInput
+                    aria-label={t('form.amountToUseStepTitle')}
                     value={actionData.amountToUse.value || ''}
                     onChangeValue={handleChangeAmountToUse}
                     disabled={isAmountsDisabled}
@@ -555,11 +557,13 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
                 leftIcon={<VscCircleFilled aria-hidden className="size-2 text-gray-300" />}
               >
                 <GreyAmountInput
+                  aria-label={t('form.amountToReceiveLabel')}
                   readOnly
                   className="text-right"
                   contentClassName="px-0 bg-transparent"
                   disabled={isAmountsDisabled}
-                  value={actionData.amountToReceive.value || t('form.amountToReceivePlaceholder')}
+                  placeholder={t('form.amountToReceivePlaceholder')}
+                  value={actionData.amountToReceive.value || ''}
                   loading={actionData.amountToReceive.loading}
                   error={!!actionData.amountToReceive.error}
                 />

@@ -111,6 +111,7 @@ const ImportModal = () => {
       <form className="mt-10 flex grow flex-col justify-between" onSubmit={handleAct(handleSubmit)}>
         <div>
           <Textarea
+            aria-label={t('inputLabel')}
             placeholder={t('inputPlaceholder')}
             error={!!actionState.errors.text}
             value={actionData.text}

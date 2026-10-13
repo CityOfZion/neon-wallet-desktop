@@ -98,6 +98,7 @@
   "confirmAction": {
     "confirmButtonLabel": "Confirm",
     "description": "To proceed with this action, please confirm:",
+    "inputLabel": "Password",
     "inputPlaceholder": "Enter password…",
     "passwordError": "Password not recognised!",
     "title": "Confirm your action"
@@ -119,6 +120,7 @@
     "buttonContinueLabel": "Continue",
     "description": "To protect acess to your assets, please confirm your password",
     "error": "Password not recognised!",
+    "inputLabel": "Password",
     "inputPlaceholder": "Enter password…"
   },
   "confirmPasswordRecover": {
@@ -193,6 +195,7 @@
       "errorToConnect": "Oops! we’ve encountered an error. Try to generate a new uri and try again.",
       "timeout": "The connection request has timed out."
     },
+    "inputLabel": "dApp URL",
     "inputPlaceholder": "Paste your URL here…",
     "title": "Connect with a dApp"
   },
@@ -302,6 +305,7 @@
       "decryptError": "There was a problem to decrypt the key",
       "noEncryptionInterfaceError": "This blockchain can't decrypt the key"
     },
+    "inputLabel": "Passphrase",
     "inputPlaceholder": "Enter your pass phrase…",
     "title": "Import"
   },
@@ -334,6 +338,7 @@
       "walletNameIsTooLong": "Wallet name must be at most {{amount}} characters long",
       "walletNameIsTooShort": "Wallet name must be at least 1 character long"
     },
+    "inputLabel": "Wallet name",
     "inputPlaceholder": "Enter your wallet name…",
     "noSkinsUnlocked": "No skins unlocked",
     "saveButtonLabel": "Save",
@@ -403,6 +408,7 @@
       "mnemonicAlreadyExist": "Mnemonic already exists"
     },
     "importEncryptedDescription": "Select the desired blockchain for your new account",
+    "inputLabel": "Address or key",
     "inputPlaceholder": "Please enter an address or key…",
     "subtitle": "IMPORT",
     "success": {
@@ -427,6 +433,7 @@
       "invalid": "Invalid address or already exists"
     },
     "information": "You won't be able to use the assets in this account!",
+    "inputLabel": "Address to watch",
     "inputPlaceholder": "Please enter an address",
     "title": "Add a watch account",
     "willBeAdded": "This account will be added:"
@@ -694,6 +701,7 @@
       "noFunction": "There is no action available for this item. Please, contact our support."
     },
     "idleResultDescription": "Looking for something?",
+    "inputLabel": "Search",
     "inputPlaceholder": "Enter your search…",
     "resultDescription": "You may be interested in these topics:",
     "title": "Search Neon"

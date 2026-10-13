@@ -78,7 +78,9 @@ const ChangePasswordStep1 = () => {
         <div className="flex grow flex-col justify-between">
           <div className="w-108">
             <div className="mb-2 flex w-full items-center justify-between">
-              <span className="text-xs font-bold text-gray-100 uppercase">{t('titleInput1')}</span>
+              <label htmlFor="new-password" className="text-xs font-bold text-gray-100 uppercase">
+                {t('inputNewPasswordLabel')}
+              </label>
               <Button
                 variant="text"
                 flat
@@ -90,6 +92,7 @@ const ChangePasswordStep1 = () => {
             </div>
             <div className="mb-5 flex flex-col items-center">
               <Input
+                id="new-password"
                 type="password"
                 placeholder={t('inputNewPasswordPlaceholder')}
                 onChange={handlePassword}
@@ -100,10 +103,13 @@ const ChangePasswordStep1 = () => {
             </div>
             <Separator />
             <div className="mt-5 mb-2 flex w-full">
-              <span className="text-xs font-bold text-gray-100 uppercase">{t('titleInput2')}</span>
+              <label htmlFor="current-password" className="text-xs font-bold text-gray-100 uppercase">
+                {t('inputCurrentPasswordLabel')}
+              </label>
             </div>
             <div className="mb-5 flex flex-col items-center">
               <Input
+                id="current-password"
                 type="password"
                 placeholder={t('inputCurrentPasswordPlaceholder')}
                 onChange={setDataFromEventWrapper('currentPassword')}

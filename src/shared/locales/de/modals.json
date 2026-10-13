@@ -98,6 +98,7 @@
   "confirmAction": {
     "confirmButtonLabel": "Bestätigen",
     "description": "Um diese Aktion fortzusetzen, bitte bestätigen Sie:",
+    "inputLabel": "Passwort",
     "inputPlaceholder": "Passwort eingeben…",
     "passwordError": "Passwort nicht erkannt!",
     "title": "Bestätigen Sie Ihre Aktion"
@@ -119,6 +120,7 @@
     "buttonContinueLabel": "Weiter",
     "description": "Um den Zugriff auf Ihre Assets zu schützen, bestätigen Sie bitte Ihr Passwort",
     "error": "Passwort nicht erkannt!",
+    "inputLabel": "Passwort",
     "inputPlaceholder": "Passwort eingeben…"
   },
   "confirmPasswordRecover": {
@@ -193,6 +195,7 @@
       "errorToConnect": "Hoppla! Wir sind auf einen Fehler gestoßen. Versuchen Sie, eine neue URI zu generieren und es erneut zu versuchen.",
       "timeout": "Die Verbindungsanfrage ist abgelaufen."
     },
+    "inputLabel": "dApp-URL",
     "inputPlaceholder": "Fügen Sie Ihre URL hier ein…",
     "title": "Mit einer dApp verbinden"
   },
@@ -302,6 +305,7 @@
       "decryptError": "Es gab ein Problem beim Entschlüsseln des Schlüssels",
       "noEncryptionInterfaceError": "Diese Blockchain kann den Schlüssel nicht entschlüsseln"
     },
+    "inputLabel": "Passphrase",
     "inputPlaceholder": "Geben Sie Ihre Passphrase ein…",
     "title": "Import"
   },
@@ -334,6 +338,7 @@
       "walletNameIsTooLong": "Wallet-Name darf maximal {{amount}} Zeichen lang sein",
       "walletNameIsTooShort": "Wallet-Name muss mindestens 1 Zeichen lang sein"
     },
+    "inputLabel": "Wallet-Name",
     "inputPlaceholder": "Geben Sie Ihren Wallet-Namen ein…",
     "noSkinsUnlocked": "Keine Designs freigeschaltet",
     "saveButtonLabel": "Speichern",
@@ -403,6 +408,7 @@
       "mnemonicAlreadyExist": "Mnemonic existiert bereits"
     },
     "importEncryptedDescription": "Wählen Sie die gewünschte Blockchain für Ihr neues Konto aus",
+    "inputLabel": "Adresse oder Schlüssel",
     "inputPlaceholder": "Bitte geben Sie eine Adresse oder einen Schlüssel ein…",
     "subtitle": "IMPORT",
     "success": {
@@ -427,6 +433,7 @@
       "invalid": "Ungültige Adresse oder existiert bereits"
     },
     "information": "Sie können die Assets in diesem Konto nicht verwenden!",
+    "inputLabel": "Zu beobachtende Adresse",
     "inputPlaceholder": "Bitte geben Sie eine Adresse ein",
     "title": "Beobachtungskonto hinzufügen",
     "willBeAdded": "Dieses Konto wird hinzugefügt:"
@@ -694,6 +701,7 @@
       "noFunction": "Für dieses Element ist keine Aktion verfügbar. Bitte kontaktieren Sie unseren Support."
     },
     "idleResultDescription": "Suchen Sie nach etwas?",
+    "inputLabel": "Suchen",
     "inputPlaceholder": "Geben Sie Ihre Suche ein…",
     "resultDescription": "Diese Themen könnten Sie interessieren:",
     "title": "Neon durchsuchen"

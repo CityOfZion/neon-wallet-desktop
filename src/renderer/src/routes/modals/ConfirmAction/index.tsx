@@ -68,6 +68,7 @@ const ConfirmActionModal = () => {
         {shouldPromptPassword && (
           <Fragment>
             <Input
+              aria-label={t('inputLabel')}
               placeholder={t('inputPlaceholder')}
               error={!!actionState.errors.password}
               value={actionData.password}

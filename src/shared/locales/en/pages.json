@@ -85,6 +85,7 @@
     },
     "importAllButtonLabel": "Import all",
     "importSelectedButtonLabel": "Import selected",
+    "passwordLabel": "Password",
     "passwordPlaceholder": "Enter your password…",
     "selectDescription": "Which addresses would you like to import?",
     "title": "Import encrypted key"
@@ -98,6 +99,7 @@
   },
   "loginKey": {
     "description": "Enter an address, key or mnemonic words:",
+    "inputLabel": "Address, key or mnemonic",
     "inputPlaceholder": "Enter an address, key or mnemonic…"
   },
   "loginKeySelectAccountPage": {
@@ -112,6 +114,7 @@
       "buttonLoginLabel": "Login",
       "forgotPassword": "Forgot password?",
       "invalidPassword": "Invalid password",
+      "passwordLabel": "Password",
       "passwordPlaceholder": "Enter your password…",
       "text": "Login to your wallet"
     },
@@ -159,6 +162,7 @@
       "addressToReceiveInputPlaceholder": "Enter address…",
       "addressToReceiveMyAccountButtonLabel": "My accounts",
       "addressToReceiveStepTitle": "Receive here",
+      "amountToReceiveLabel": "Amount you’ll get",
       "amountToReceivePlaceholder": "0.00000000",
       "amountToReceiveStepTitle": "Amount you’ll get <1>(after fees)</1>",
       "amountToUseMaxButtonLabel": "Max",
@@ -287,14 +291,13 @@
     }
   },
   "receive": {
-    "addressInputHint": "Your receiving address will be here…",
+    "addressInputLabel": "Your receiving address",
+    "addressInputPlaceholder": "Your receiving address will be here…",
     "downloadQRCode": "Download QR Code",
     "receivingAccountTitle": "Receiving account",
-    "requestTokenTabTitle": "REQUEST TOKENS",
     "selectAccountToGenerateCode": "Select an account to generate a code!",
     "sendQRCode": "Send QR Code",
     "title": "Receive Tokens",
-    "yourAddressTabTitle": "YOUR ADDRESS",
     "yourReceivingAddress": "Your receiving account"
   },
   "root": {
@@ -326,6 +329,7 @@
       "title": "Transfer failed"
     },
     "recipient": {
+      "addressLabel": "Recipient name or address",
       "addressPlaceholder": "Enter recipient name or address…",
       "amountLabel": "Amount",
       "errors": {
@@ -376,11 +380,11 @@
         "buttonContinue": "Continue",
         "error": "Password not recognised!",
         "generatePassword": "Generate password",
+        "inputCurrentPasswordLabel": "Current password",
         "inputCurrentPasswordPlaceholder": "Enter your current password…",
+        "inputNewPasswordLabel": "New password",
         "inputNewPasswordPlaceholder": "Enter a new password…",
-        "subtitle": "If you’d like to create a new password, simply change it here and confirm the change with your current password!",
-        "titleInput1": "New password",
-        "titleInput2": "Current Neon password"
+        "subtitle": "If you’d like to create a new password, simply change it here and confirm the change with your current password!"
       },
       "step2": {
         "buttonDownload": "Download QR and save changes",
@@ -411,8 +415,9 @@
       "subtitle": "Choose a passphrase to encrypt an existing key:",
       "successModal": {
         "description": "Here’s your encrypted key:",
-        "subtitle": "Private Key encrypted successfully!",
-        "title": "Encrypted Key"
+        "encryptedKeyLabel": "Encrypted key",
+        "subtitle": "Private key encrypted successfully!",
+        "title": "Encrypted key"
       },
       "titleInput1": "Private key that you want to encrypt",
       "titleInput2": "Passphrase",
@@ -646,6 +651,7 @@
         "importEncryptedTitle": "Import a wallet",
         "importError": "Compatible file not recognised",
         "importSuccess": "Compatible file identified!",
+        "inputLabel": "Address, key or mnemonic",
         "inputPlaceholder": "Enter an address, key or mnemonic…",
         "invalidAddress": "Invalid address",
         "label": "Add details or locate file",
@@ -674,6 +680,7 @@
         "blockchainSelectionModalTitle": "Select blockchains",
         "browseButtonLabel": "Browse…",
         "confirmPasswordError": "Passwords do not match",
+        "confirmPasswordLabel": "Confirm password",
         "confirmPasswordPlaceholder": "Confirm your password…",
         "formTitleImportWallet": "Please confirm your password to proceed",
         "formTitleNewWallet": "Please choose a location to save the file containing your mnemonic and confirm your password to proceed",
@@ -685,6 +692,7 @@
         "formTitle": "Please create a password to secure your wallet",
         "label": "Create Password",
         "passwordError": "Password must be at least {{length}} characters long",
+        "passwordLabel": "Password",
         "passwordPlaceholder": "Create a password…"
       },
       "title": "Securing your new wallet"

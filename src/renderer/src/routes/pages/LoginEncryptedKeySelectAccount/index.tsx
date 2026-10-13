@@ -116,6 +116,7 @@ const LoginEncryptedKeySelectAccountPage = () => {
           onSubmit={handleAct(startDecrypt)}
         >
           <Input
+            aria-label={t('passwordLabel')}
             clearable
             autoFocus
             className="w-full"
