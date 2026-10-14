@@ -85,6 +85,7 @@
     },
     "importAllButtonLabel": "全部匯入",
     "importSelectedButtonLabel": "匯入所選",
+    "passwordLabel": "密碼",
     "passwordPlaceholder": "輸入您的密碼…",
     "selectDescription": "您想匯入哪些地址？",
     "title": "匯入加密金鑰"
@@ -98,6 +99,7 @@
   },
   "loginKey": {
     "description": "輸入地址、金鑰或助記詞：",
+    "inputLabel": "地址、金鑰或助記詞",
     "inputPlaceholder": "輸入地址、金鑰或助記詞…"
   },
   "loginKeySelectAccountPage": {
@@ -112,6 +114,7 @@
       "buttonLoginLabel": "登入",
       "forgotPassword": "忘記密碼？",
       "invalidPassword": "密碼無效",
+      "passwordLabel": "密碼",
       "passwordPlaceholder": "輸入您的密碼…",
       "text": "登入您的錢包"
     },
@@ -159,6 +162,7 @@
       "addressToReceiveInputPlaceholder": "輸入地址…",
       "addressToReceiveMyAccountButtonLabel": "我的帳戶",
       "addressToReceiveStepTitle": "接收地址",
+      "amountToReceiveLabel": "您將獲得的數量",
       "amountToReceivePlaceholder": "0.00000000",
       "amountToReceiveStepTitle": "您將獲得的數量 <1>(扣除費用後)</1>",
       "amountToUseMaxButtonLabel": "最大",
@@ -287,14 +291,13 @@
     }
   },
   "receive": {
-    "addressInputHint": "您的接收地址將顯示於此…",
+    "addressInputLabel": "您的接收地址",
+    "addressInputPlaceholder": "您的接收地址將顯示於此…",
     "downloadQRCode": "下載 QR 碼",
     "receivingAccountTitle": "接收帳戶",
-    "requestTokenTabTitle": "請求代幣",
     "selectAccountToGenerateCode": "請選擇帳戶以產生 QR 碼！",
     "sendQRCode": "發送 QR 碼",
     "title": "接收代幣",
-    "yourAddressTabTitle": "您的地址",
     "yourReceivingAddress": "您的接收帳戶"
   },
   "root": {
@@ -326,6 +329,7 @@
       "title": "轉帳失敗"
     },
     "recipient": {
+      "addressLabel": "收件人名稱或地址",
       "addressPlaceholder": "輸入收件人名稱或地址…",
       "amountLabel": "金額",
       "errors": {
@@ -376,11 +380,11 @@
         "buttonContinue": "繼續",
         "error": "密碼不正確！",
         "generatePassword": "產生密碼",
+        "inputCurrentPasswordLabel": "目前密碼",
         "inputCurrentPasswordPlaceholder": "輸入目前密碼…",
+        "inputNewPasswordLabel": "新密碼",
         "inputNewPasswordPlaceholder": "輸入新密碼…",
-        "subtitle": "若您想建立新密碼，只需在此更改並以目前密碼確認即可！",
-        "titleInput1": "新密碼",
-        "titleInput2": "目前 Neon 密碼"
+        "subtitle": "若您想建立新密碼，只需在此更改並以目前密碼確認即可！"
       },
       "step2": {
         "buttonDownload": "下載 QR 並儲存變更",
@@ -411,6 +415,7 @@
       "subtitle": "選擇密語來加密現有金鑰：",
       "successModal": {
         "description": "這是您的加密金鑰：",
+        "encryptedKeyLabel": "加密金鑰",
         "subtitle": "私鑰加密成功！",
         "title": "加密金鑰"
       },
@@ -646,6 +651,7 @@
         "importEncryptedTitle": "匯入錢包",
         "importError": "相容的檔案未被識別",
         "importSuccess": "已辨識出相容檔案！",
+        "inputLabel": "地址、金鑰或助記詞",
         "inputPlaceholder": "輸入一個地址、金鑰或助記詞…",
         "invalidAddress": "無效的地址",
         "label": "新增詳細資訊或定位檔案",
@@ -674,6 +680,7 @@
         "blockchainSelectionModalTitle": "選擇區塊鏈",
         "browseButtonLabel": "瀏覽…",
         "confirmPasswordError": "密碼不匹配",
+        "confirmPasswordLabel": "確認密碼",
         "confirmPasswordPlaceholder": "確認您的密碼…",
         "formTitleImportWallet": "請確認您的密碼以繼續",
         "formTitleNewWallet": "請選擇位置以保存包含您的助記詞的檔案，並確認您的密碼以繼續",
@@ -685,6 +692,7 @@
         "formTitle": "請建立一個密碼以保護您的 wallet",
         "label": "建立密碼",
         "passwordError": "密碼必須至少 {{length}} 個字元長",
+        "passwordLabel": "密碼",
         "passwordPlaceholder": "建立密碼…"
       },
       "title": "保護您的新錢包"

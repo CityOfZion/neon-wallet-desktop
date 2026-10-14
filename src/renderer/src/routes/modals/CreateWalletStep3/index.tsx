@@ -69,6 +69,7 @@ const CreateWalletStep3Modal = () => {
           <div className="flex flex-col gap-2.5 px-28">
             <div className="text-xs font-bold text-gray-300 uppercase">{t('inputLabel')}</div>
             <Input
+              aria-label={t('inputLabel')}
               placeholder={t('inputPlaceholder')}
               errorMessage={actionState.errors.name}
               value={actionData.name}

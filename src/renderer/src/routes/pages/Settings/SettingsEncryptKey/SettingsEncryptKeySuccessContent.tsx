@@ -9,13 +9,14 @@ type TProps = {
 }
 
 export const SettingsEncryptKeySuccessContent = ({ encryptedKey }: TProps) => {
-  const { t } = useTranslation('pages', { keyPrefix: 'settings.encryptKey' })
+  const { t } = useTranslation('pages', { keyPrefix: 'settings.encryptKey.successModal' })
 
   return (
     <div className="mt-8 flex w-full flex-col items-center justify-center gap-y-4">
-      <p className="text-gray-300">{t('successModal.description')}</p>
+      <p className="text-gray-300">{t('description')}</p>
 
       <Input
+        aria-label={t('encryptedKeyLabel')}
         leftIcon={<MdLock aria-hidden className="h-6 w-6 text-gray-300/50" />}
         value={encryptedKey}
         copyable

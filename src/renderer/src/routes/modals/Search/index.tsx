@@ -205,6 +205,7 @@ const SearchModal = () => {
       {...TestHelper.buildTestObject('search-modal')}
     >
       <Input
+        aria-label={t('inputLabel')}
         placeholder={t('inputPlaceholder')}
         className="placeholder:text-gray-100"
         contentClassName="bg-gray-300/30 mb-7"

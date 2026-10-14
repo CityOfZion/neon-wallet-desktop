@@ -610,6 +610,7 @@ export const SwapPageContent = ({ account }: TProps) => {
               >
                 <div className="flex grow gap-3">
                   <Input
+                    aria-label={t('form.receiveHere')}
                     value={actionData.selectedAddressToReceive.value || ''}
                     onChange={handleChangeAddressToReceive}
                     compacted
@@ -747,6 +748,7 @@ export const SwapPageContent = ({ account }: TProps) => {
                     contentProps={{ side: 'top', className: 'text-center' }}
                   >
                     <GreyAmountInput
+                      aria-label={t('form.amountToUseTitle')}
                       ref={amountInputRef}
                       value={actionData.selectedAmountToUse.value || ''}
                       onChangeValue={handleChangeAmountToUse}
@@ -776,6 +778,7 @@ export const SwapPageContent = ({ account }: TProps) => {
                 leftIcon={<VscCircleFilled aria-hidden className="size-2 text-gray-300" />}
               >
                 <GreyAmountInput
+                  aria-label={t('form.amountToReceiveTitle')}
                   disabled={isAmountsDisabled}
                   readOnly
                   className="bg-transparent"

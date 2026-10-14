@@ -41,11 +41,19 @@ const SettingsRecoverWallet = () => {
         <div className="h-full">
           <p className="mb-7 text-xs">{t('description')}</p>
 
-          <p className="mb-3.5 text-xs font-bold text-gray-100 uppercase">{t('saveBackupLabel')}</p>
+          <label htmlFor="save-backup-input" className="mb-3.5 block text-xs font-bold text-gray-100 uppercase">
+            {t('saveBackupLabel')}
+          </label>
 
           <div className="w-fit">
             <div className="flex gap-2.5">
-              <Input value={actionData?.path || ''} compacted readOnly containerClassName="w-68" />
+              <Input
+                id="save-backup-input"
+                value={actionData?.path || ''}
+                compacted
+                readOnly
+                containerClassName="w-68"
+              />
 
               <Button flat label={t('browse')} type="button" onClick={handleBrowse} className="h-fit w-36" />
             </div>

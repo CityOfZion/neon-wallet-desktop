@@ -73,7 +73,7 @@
   },
   "contacts": {
     "noContacts": "沒有聯絡人",
-    "search": "搜尋"
+    "searchLabel": "搜尋"
   },
   "emptyState": {
     "connectDappButtonLabel": "連接 dApp",

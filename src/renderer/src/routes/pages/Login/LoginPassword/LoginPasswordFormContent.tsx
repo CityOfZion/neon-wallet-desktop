@@ -61,6 +61,7 @@ export const LoginPasswordFormContent = () => {
           <p className="text-center text-sm text-white">{t('text')}</p>
 
           <Input
+            aria-label={t('passwordLabel')}
             testId="login-password-input"
             type="password"
             value={actionData.password}

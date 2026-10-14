@@ -100,6 +100,7 @@ const DappConnectionModal = () => {
 
       <form className="mt-6 flex grow flex-col items-center justify-between" onSubmit={handleAct(handleSubmit)}>
         <Input
+          aria-label={t('inputLabel')}
           placeholder={t('inputPlaceholder')}
           clearable
           pastable

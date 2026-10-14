@@ -73,7 +73,7 @@
   },
   "contacts": {
     "noContacts": "Keine Kontakte",
-    "search": "Suchen"
+    "searchLabel": "Suchen"
   },
   "emptyState": {
     "connectDappButtonLabel": "dApp verbinden",

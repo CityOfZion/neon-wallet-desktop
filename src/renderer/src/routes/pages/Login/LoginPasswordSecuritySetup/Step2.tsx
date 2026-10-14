@@ -129,6 +129,7 @@ export const LoginPasswordSecuritySetupStep2Content = ({ onSubmit }: TProps) => 
 
       <form className="mt-6 flex w-full grow flex-col items-center gap-y-4" onSubmit={handleAct(handleSubmit)}>
         <Input
+          aria-label={t('confirmPasswordLabel')}
           testId="security-setup-second-password"
           type="password"
           value={actionData.confirmPassword}

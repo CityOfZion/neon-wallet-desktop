@@ -110,8 +110,11 @@ const PersistContactModal = () => {
       <form onSubmit={handleAct(handleSubmit)} className="flex h-full min-h-0 flex-col justify-between">
         <div className="flex min-h-0 flex-col gap-y-6">
           <div>
-            <div className="pb-2 font-bold text-gray-100">{t('name')}</div>
+            <label htmlFor="input-contact-name" className="block pb-2 font-bold text-gray-100">
+              {t('name')}
+            </label>
             <Input
+              id="input-contact-name"
               testId="input-contact-name"
               placeholder={t('enterAName')}
               value={actionData.name}

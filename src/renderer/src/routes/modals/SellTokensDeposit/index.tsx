@@ -433,6 +433,7 @@ const SellTokensDepositModal = () => {
                 }
               >
                 <GreyAmountInput
+                  aria-label={t('form.amount.label')}
                   value={actionData.amount}
                   maxLength={18}
                   disabled={isRecipientDisabled || !actionData.token}

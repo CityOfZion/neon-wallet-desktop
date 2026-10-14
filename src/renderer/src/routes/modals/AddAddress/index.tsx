@@ -92,6 +92,7 @@ const AddAddressModal = () => {
 
           <Input
             id="addressOrDomain"
+            aria-label={t('addressOrDomain')}
             testId="contact-address-or-domain-input"
             value={actionData.address}
             onChange={handleChange}

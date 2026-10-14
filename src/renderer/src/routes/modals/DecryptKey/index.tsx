@@ -63,6 +63,7 @@ const DecryptKeyModal = () => {
 
       <form className="mt-6 flex grow flex-col justify-between" onSubmit={handleAct(handleSubmit)}>
         <Input
+          aria-label={t('inputLabel')}
           compacted
           clearable
           placeholder={t('inputPlaceholder')}

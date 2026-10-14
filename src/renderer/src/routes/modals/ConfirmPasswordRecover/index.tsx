@@ -89,6 +89,7 @@ const ConfirmPasswordRecoverModal = () => {
       <form className="flex grow flex-col justify-between" onSubmit={handleAct(handleSubmit)}>
         <div>
           <Input
+            aria-label={t('subtitle')}
             placeholder={t('inputPlaceholder')}
             error={!!actionState.errors.password}
             value={actionData.password}

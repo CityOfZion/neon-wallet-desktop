@@ -118,10 +118,13 @@ const PersistAccountModal = () => {
         <div>
           <div className="mb-2.5 flex flex-col gap-6 text-xs text-gray-100">
             {!modalStateAccount && <p>{t('subtitleCreate')}</p>}
-            <p className="font-bold uppercase">{t('inputLabel')}</p>
+            <label htmlFor="name-input" className="font-bold uppercase">
+              {t('inputLabel')}
+            </label>
           </div>
 
           <Input
+            id="name-input"
             compacted
             placeholder={t('inputPlaceholder')}
             value={actionData.name}
