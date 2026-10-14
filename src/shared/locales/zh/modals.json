@@ -77,15 +77,15 @@
   "buyAndSellTokensAboutData": {
     "alert": "COZ 不会存储您的任何数据！",
     "description": "我们的法币通道合作伙伴只保留您的数据ID引用，并使用您提供的电子邮件来通知您的买卖进度。",
+    "mercuryo": {
+      "link": "关于Mercuryo服务",
+      "title": "所有其他数据由我们的法币通道合作伙伴处理："
+    },
     "sumbsub": {
       "link": "关于Sumsub服务",
       "title": "您的KYC数据已加密并由我们的KYC合作伙伴处理："
     },
-    "title": "关于您的数据",
-    "unlimit": {
-      "link": "关于Unlimit服务",
-      "title": "所有其他数据由我们的法币通道合作伙伴处理："
-    }
+    "title": "关于您的数据"
   },
   "buyAndSellTokensLeaveAlert": {
     "buttons": {

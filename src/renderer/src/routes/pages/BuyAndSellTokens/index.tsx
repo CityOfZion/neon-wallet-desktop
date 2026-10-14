@@ -33,8 +33,7 @@ import type { TTokenBalance } from '@shared/types/query'
 import { TAccount } from '@shared/types/store'
 
 import { BuyAndSellTokensAccordionAccounts } from './BuyAndSellTokensAccordionAccounts'
-import { BuyAndSellTokensBuyIframe } from './BuyAndSellTokensBuyIframe'
-import { BuyAndSellTokensSellIframe } from './BuyAndSellTokensSellIframe'
+import { BuyAndSellTokensIframe } from './BuyAndSellTokensIframe'
 
 type TLocationState = {
   account?: TAccount
@@ -90,6 +89,10 @@ const BuyAndSellTokensPage = () => {
 
   const handleToggleAccordionAccounts = () => {
     setIsAccordionAccountsOpened(previousValue => !previousValue)
+  }
+
+  const handleChangeTab = (newTab: TParams['tab']) => {
+    navigate(`/buy-and-sell-tokens/${newTab}`, account ? { state: { account } } : undefined)
   }
 
   const handleRestart = () => {
@@ -289,11 +292,11 @@ const BuyAndSellTokensPage = () => {
 
             <Tabs.Root value={tab}>
               <Tabs.List className="w-full">
-                <Tabs.Trigger value="buy" className="py-4.5" onClick={() => navigate('/buy-and-sell-tokens/buy')}>
+                <Tabs.Trigger value="buy" className="py-4.5" onClick={() => handleChangeTab('buy')}>
                   {t('buyTokensTabLabel')}
                 </Tabs.Trigger>
 
-                <Tabs.Trigger value="sell" className="py-4.5" onClick={() => navigate('/buy-and-sell-tokens/sell')}>
+                <Tabs.Trigger value="sell" className="py-4.5" onClick={() => handleChangeTab('sell')}>
                   {t('sellTokensTabLabel')}
                 </Tabs.Trigger>
               </Tabs.List>
@@ -333,7 +336,7 @@ const BuyAndSellTokensPage = () => {
               }
               transition={{ duration: 0.4 }}
             >
-              <BuyAndSellTokensBuyIframe onReady={setIsBuyReady} />
+              <BuyAndSellTokensIframe type="buy" account={account} onReady={setIsBuyReady} />
             </motion.div>
 
             <motion.div
@@ -345,7 +348,7 @@ const BuyAndSellTokensPage = () => {
               }
               transition={{ duration: 0.4 }}
             >
-              <BuyAndSellTokensSellIframe iframeId={iframeId} onReady={setIsSellReady} />
+              <BuyAndSellTokensIframe type="sell" account={account} onReady={setIsSellReady} />
             </motion.div>
 
             <BuyAndSellTokensAccordionAccounts account={account} isOpened={isAccordionAccountsOpened} />

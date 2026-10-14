@@ -77,15 +77,15 @@
   "buyAndSellTokensAboutData": {
     "alert": "COZ 不會儲存您的任何資料！",
     "description": "我們的 on/off ramp 合作夥伴僅保留您的資料 ID 參考，並使用您提供的電子郵件來通知您的買賣進度。",
+    "mercuryo": {
+      "link": "關於 Mercuryo 的服務",
+      "title": "所有其他資料由我們的 on/off ramp 合作夥伴處理："
+    },
     "sumbsub": {
       "link": "關於 Sumsub 的服務",
       "title": "您的 KYC 資料已加密並由我們的 KYC 合作夥伴處理："
     },
-    "title": "關於您的資料",
-    "unlimit": {
-      "link": "關於 Unlimit 的服務",
-      "title": "所有其他資料由我們的 on/off ramp 合作夥伴處理："
-    }
+    "title": "關於您的資料"
   },
   "buyAndSellTokensLeaveAlert": {
     "buttons": {
