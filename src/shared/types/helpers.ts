@@ -3,18 +3,20 @@ import type { JSX, ReactNode } from 'react'
 import type { ToastT } from 'sonner'
 
 import { TBlockchainServiceKey } from './blockchain'
-import type { TCurrency, TLanguage } from './store'
+import { TCurrency, TLanguage } from './store'
 
 export type TAccountHelperPredicateParams = {
   address: string
   blockchain: TBlockchainServiceKey
 }
 
+export type TBuyAndSellTokensHelperType = 'buy' | 'sell'
+
 export type TBuyAndSellTokensHelperBuildUrlParams = {
-  merchantTransactionId: string
+  type: TBuyAndSellTokensHelperType
   currency: TCurrency
+  merchantTransactionId: string
   address?: string
-  type: 'buy' | 'sell'
   refundAddress?: string
 }
 

@@ -29,6 +29,7 @@ import TbChevronUp from '@renderer/assets/images/tb-chevron-up.svg?react'
 import TbMessage from '@renderer/assets/images/tb-message.svg?react'
 import TbShoppingBag from '@renderer/assets/images/tb-shopping-bag.svg?react'
 
+import { TBuyAndSellTokensHelperType } from '@shared/types/helpers'
 import type { TTokenBalance } from '@shared/types/query'
 import { TAccount } from '@shared/types/store'
 
@@ -40,7 +41,7 @@ type TLocationState = {
 }
 
 type TParams = {
-  tab?: 'buy' | 'sell'
+  tab?: TBuyAndSellTokensHelperType
 }
 
 export type TDepositActionsData = {
@@ -113,7 +114,9 @@ const BuyAndSellTokensPage = () => {
       state: {
         onContinue: async () => {
           shouldSkipBlockerRef.current = true
+
           await BSUtilsHelper.wait(500)
+
           navigate(nextUrl)
         },
       },

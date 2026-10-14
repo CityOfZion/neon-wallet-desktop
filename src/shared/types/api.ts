@@ -36,11 +36,6 @@ export type TIpcRendererSendArgs<T> =
 export type TIpcRendererSendResponse<T> =
   T extends TIpcMainAsyncListener<any, infer U> ? U : T extends TIpcMainSyncListener<any, infer A> ? A : never
 
-export type TAddHardwareWalletAccountParams = {
-  index: number
-  blockchain: TBlockchainServiceKey
-}
-
 export type TConnectHardwareWalletParams = {
   lastIndexesByWallet: TLastIndexesByWallet
 }

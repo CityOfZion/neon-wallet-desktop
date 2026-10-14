@@ -4,6 +4,7 @@ import { BSBigHumanAmount } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
 
 import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
+import { StringHelper } from '@renderer/helpers/StringHelper'
 
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
@@ -44,7 +45,7 @@ export const GreyTokenSelectItem = ({ token, blockchain }: TProps) => {
         contentProps={{ className: 'uppercase' }}
       >
         <span className="flex w-fit min-w-0 items-center gap-1">
-          <span className="text-left text-sm text-white uppercase">{token.symbol}</span>
+          <span className="text-left text-sm text-white uppercase">{StringHelper.truncate(token.symbol, 4)}</span>
           {blockchainName && <span className="truncate text-sm text-gray-100 uppercase">{` | ${blockchainName}`}</span>}
         </span>
       </Tooltip>
