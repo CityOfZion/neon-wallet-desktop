@@ -121,7 +121,7 @@ export const ContactList = ({
   return (
     <Fragment>
       <div className="flex h-full w-full flex-col items-center">
-        <div className="mb-8 w-full">
+        <div className="mb-4 w-full">
           <SearchInput
             aria-label={t('searchLabel')}
             placeholder={t('searchLabel')}

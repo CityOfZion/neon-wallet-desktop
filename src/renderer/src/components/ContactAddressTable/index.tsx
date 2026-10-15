@@ -99,7 +99,7 @@ export const ContactAddressTable = ({ contactAddresses }: TProps) => {
   })
 
   return (
-    <section className="mt-4 flex min-h-0 w-full min-w-0 grow flex-col overflow-auto pr-1" ref={scrollRef}>
+    <section className="flex min-h-0 w-full min-w-0 grow flex-col overflow-auto pr-1" ref={scrollRef}>
       <Table.Root>
         <Table.Header className="sticky top-0 bg-gray-800">
           {table.getHeaderGroups().map(headerGroup => (
