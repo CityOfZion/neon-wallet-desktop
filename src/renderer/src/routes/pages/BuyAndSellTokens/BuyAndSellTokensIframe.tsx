@@ -10,12 +10,17 @@ import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 
+import { TBuyAndSellTokensHelperType } from '@shared/types/helpers'
 import type { TAccount } from '@shared/types/store'
 
 // React doesn't render boolean attributes it doesn't know, so the attribute is passed as a string
 const WEBVIEW_ALLOW_POPUPS_ATTRIBUTE = { allowpopups: 'true' } as unknown as { allowpopups: boolean }
 
-type TProps = { type: 'buy' | 'sell'; account?: TAccount; onReady: (ready?: boolean) => void } & ComponentProps<'div'>
+type TProps = {
+  type: TBuyAndSellTokensHelperType
+  account?: TAccount
+  onReady: (ready?: boolean) => void
+} & ComponentProps<'div'>
 
 export const BuyAndSellTokensIframe = ({ type, account, onReady, className, ...props }: TProps) => {
   const { t } = useTranslation('pages', { keyPrefix: 'buyAndSellTokens' })
@@ -47,6 +52,7 @@ export const BuyAndSellTokensIframe = ({ type, account, onReady, className, ...p
 
     const handleLoad = async () => {
       await BSUtilsHelper.wait(500)
+
       onReady?.(true)
     }
 
@@ -78,7 +84,9 @@ export const BuyAndSellTokensIframe = ({ type, account, onReady, className, ...p
       {...props}
     >
       {hasError ? (
-        <p className="mx-auto w-full p-4 text-center text-xl text-white">{t('widgetError')}</p>
+        <p className="flex size-full items-center justify-center p-4 text-center text-2xl text-white">
+          {t('widgetError')}
+        </p>
       ) : (
         // The Mercuryo widget refuses to be framed by the app, so a webview (a separate page) is used instead of an iframe
         <webview

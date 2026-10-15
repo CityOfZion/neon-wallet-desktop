@@ -67,7 +67,7 @@ const BuyAndSellTokensAboutDataModal = () => {
           title={t('mercuryo.title')}
           to={BuyAndSellTokensHelper.mercuryoTermsUrl}
           linkLabel={t('mercuryo.link')}
-          svgImage={<MercuryoLogo aria-hidden className="h-full" />}
+          svgImage={<MercuryoLogo aria-hidden className="relative top-1 h-6 max-h-6 min-h-6 w-auto" />}
         />
       </ul>
 

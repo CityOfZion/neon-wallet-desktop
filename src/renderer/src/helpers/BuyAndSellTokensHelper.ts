@@ -1,19 +1,20 @@
 import { SharedConstantsHelper } from '@shared/helpers/SharedConstantsHelper'
 import { SharedEnvHelper } from '@shared/helpers/SharedEnvHelper'
-import type { TBuyAndSellTokensHelperBuildUrlParams } from '@shared/types/helpers'
+import type { TBuyAndSellTokensHelperBuildUrlParams, TBuyAndSellTokensHelperType } from '@shared/types/helpers'
 import type { TAvailableCurrency } from '@shared/types/store'
 
 export class BuyAndSellTokensHelper {
+  static readonly #defaultCurrencyLabel: TAvailableCurrency = 'USD'
+
+  static readonly #supportedCurrencyLabelsByType: Record<TBuyAndSellTokensHelperType, TAvailableCurrency[]> = {
+    buy: [this.#defaultCurrencyLabel, 'EUR', 'BRL', 'GBP'],
+    sell: [this.#defaultCurrencyLabel, 'EUR', 'GBP'],
+  }
+
   static readonly sumsubTermsAndConditionsUrl = 'https://sumsub.com/terms-and-conditions'
   static readonly mercuryoTermsUrl = 'https://mercuryo.io/legal/terms'
-  static readonly #defaultCurrencyLabel: TAvailableCurrency = 'USD'
-  static readonly #supportedBuyCurrencyLabels: TAvailableCurrency[] = [this.#defaultCurrencyLabel, 'EUR', 'BRL', 'GBP']
-  static readonly #supportedSellCurrencyLabels: TAvailableCurrency[] = [this.#defaultCurrencyLabel, 'EUR', 'GBP']
-  static readonly #lang = 'en'
-  static readonly #theme = 'exolix'
-  static readonly #defaultToken = 'BTC'
 
-  static getValidCurrencyLabel(
+  static #getValidCurrencyLabel(
     currencyLabel: TAvailableCurrency,
     supportedCurrencyLabels: TAvailableCurrency[]
   ): TAvailableCurrency {
@@ -21,26 +22,21 @@ export class BuyAndSellTokensHelper {
   }
 
   static buildUrl({
-    address,
+    type,
     currency,
     merchantTransactionId,
-    type,
+    address,
     refundAddress,
   }: TBuyAndSellTokensHelperBuildUrlParams) {
-    if (!SharedEnvHelper.VITE_MERCURYO_WIDGET_ID) return
+    if (!SharedEnvHelper.VITE_MERCURYO_WIDGET_ID) return ''
 
-    // The wallet address is not sent because Mercuryo requires it to be signed with the widget secret, which can't
-    // be safely stored in the app. The user pastes the destination address in the widget instead.
     const params = new URLSearchParams({
       widget_id: SharedEnvHelper.VITE_MERCURYO_WIDGET_ID,
       type,
-      currency: this.#defaultToken,
-      fiat_currency: this.getValidCurrencyLabel(
-        currency.label,
-        type === 'buy' ? this.#supportedBuyCurrencyLabels : this.#supportedSellCurrencyLabels
-      ),
-      lang: this.#lang,
-      theme: this.#theme,
+      currency: 'BTC',
+      fiat_currency: this.#getValidCurrencyLabel(currency.label, this.#supportedCurrencyLabelsByType[type]),
+      lang: 'en',
+      theme: 'exolix',
       merchant_transaction_id: merchantTransactionId,
     })
 
@@ -52,6 +48,6 @@ export class BuyAndSellTokensHelper {
       params.set('refund_address', refundAddress)
     }
 
-    return `${SharedConstantsHelper.BUY_AND_SELL_URL}/?${params.toString()}`
+    return `${SharedConstantsHelper.BUY_AND_SELL_URL}?${params.toString()}`
   }
 }
