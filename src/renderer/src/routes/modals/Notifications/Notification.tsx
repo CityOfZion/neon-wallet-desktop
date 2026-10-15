@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router'
 
 import { ActionPopover } from '@renderer/components/ActionPopover'
 import { IconButton } from '@renderer/components/IconButton'
+import { Tooltip } from '@renderer/components/Tooltip'
 
 import { DateHelper } from '@renderer/helpers/DateHelper'
 import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
@@ -172,14 +173,16 @@ export const Notification = ({ notification }: TProps) => {
 
       <div className="flex items-center">
         <ActionPopover.Root>
-          <ActionPopover.Trigger asChild>
-            <IconButton
-              aria-label={t('actionsButtonLabel')}
-              compacted
-              icon={<MdMoreVert aria-hidden className="h-6 min-h-6 w-6 min-w-6 text-gray-300" />}
-              onClick={handleStopPropagation}
-            />
-          </ActionPopover.Trigger>
+          <Tooltip title={t('actionsButtonLabel')}>
+            <ActionPopover.Trigger asChild>
+              <IconButton
+                aria-label={t('actionsButtonLabel')}
+                compacted
+                icon={<MdMoreVert aria-hidden className="h-6 min-h-6 w-6 min-w-6 text-gray-300" />}
+                onClick={handleStopPropagation}
+              />
+            </ActionPopover.Trigger>
+          </Tooltip>
 
           <ActionPopover.Content side="bottom" align="end" onClick={handleStopPropagation}>
             <ActionPopover.Item

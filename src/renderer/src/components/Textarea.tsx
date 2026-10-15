@@ -10,6 +10,7 @@ import MdCancel from '@renderer/assets/images/md-cancel.svg?react'
 import MdContentPasteGo from '@renderer/assets/images/md-content-paste-go.svg?react'
 
 import { IconButton } from './IconButton'
+import { Tooltip } from './Tooltip'
 
 type TProps = React.ComponentProps<'textarea'> & {
   containerClassName?: string
@@ -35,6 +36,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TProps>(
       onChange,
       multiline = true,
       label,
+      disabled,
       ...props
     },
     ref
@@ -104,7 +106,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TProps>(
         >
           <FieldActionsMenu
             value={['string', 'number'].includes(typeof props.value) ? props.value!.toString() : ''}
-            disabled={props.disabled}
+            disabled={disabled}
             readOnly={props.readOnly}
             onChange={setValue}
           >
@@ -121,23 +123,36 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TProps>(
               onChange={handleChange}
               onKeyDown={handleKeyDown}
               spellCheck="false"
+              disabled={disabled}
               {...props}
             />
           </FieldActionsMenu>
 
           {pastable && (
-            <IconButton
-              aria-label={tCommonGeneral('pasteFromClipboard')}
-              type="button"
-              colorSchema="neon"
-              compacted
-              disabled={props.disabled}
-              icon={<MdContentPasteGo aria-hidden className="text-neon" />}
-              onClick={handlePaste}
-            />
+            <Tooltip title={disabled ? '' : tCommonGeneral('pasteFromClipboard')}>
+              <IconButton
+                aria-label={tCommonGeneral('pasteFromClipboard')}
+                type="button"
+                colorSchema="neon"
+                compacted
+                disabled={disabled}
+                icon={<MdContentPasteGo aria-hidden className="text-neon" />}
+                onClick={handlePaste}
+              />
+            </Tooltip>
           )}
 
-          {clearable && <IconButton icon={<MdCancel aria-hidden />} type="button" onClick={clear} compacted />}
+          {clearable && (
+            <Tooltip title={tCommonGeneral('clear')}>
+              <IconButton
+                aria-label={tCommonGeneral('clear')}
+                icon={<MdCancel aria-hidden />}
+                type="button"
+                onClick={clear}
+                compacted
+              />
+            </Tooltip>
+          )}
         </div>
 
         {errorMessage && <span className="text-pink mt-1 block text-xs">{errorMessage}</span>}

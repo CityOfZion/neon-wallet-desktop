@@ -16,6 +16,7 @@ import { IconButton } from '@renderer/components/IconButton'
 import { Input } from '@renderer/components/Input'
 import { Loader } from '@renderer/components/Loader'
 import { Separator } from '@renderer/components/Separator'
+import { Tooltip } from '@renderer/components/Tooltip'
 
 import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
 import { SynonymsHelper } from '@renderer/helpers/SynonymsHelper'
@@ -190,13 +191,15 @@ const SearchModal = () => {
               <h1 className="text-sm text-white">{t('title')}</h1>
             </div>
 
-            <IconButton
-              aria-label={t('closeButtonLabel')}
-              icon={<MdClose aria-hidden className="fill-gray-100" />}
-              size="md"
-              compacted
-              onClick={modalEraseWrapper()}
-            />
+            <Tooltip title={t('closeButtonLabel')}>
+              <IconButton
+                aria-label={t('closeButtonLabel')}
+                icon={<MdClose aria-hidden className="fill-gray-100" />}
+                size="md"
+                compacted
+                onClick={modalEraseWrapper()}
+              />
+            </Tooltip>
           </header>
 
           <Separator />

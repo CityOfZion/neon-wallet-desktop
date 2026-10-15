@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
 
 import { IconButton } from '@renderer/components/IconButton'
+import { Tooltip } from '@renderer/components/Tooltip'
 
 import { DateHelper } from '@renderer/helpers/DateHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
@@ -26,15 +27,17 @@ export const RefreshAction = () => {
         </p>
       )}
 
-      <IconButton
-        aria-label={t('refreshLabel')}
-        size="sm"
-        colorSchema="neon"
-        compacted
-        disabled={isRefetching}
-        icon={<TbRefresh className={StyleHelper.mergeStyles({ 'animate-spin': isRefetching })} />}
-        onClick={refetch}
-      />
+      <Tooltip title={isRefetching ? '' : t('refreshLabel')}>
+        <IconButton
+          aria-label={t('refreshLabel')}
+          size="sm"
+          colorSchema="neon"
+          compacted
+          disabled={isRefetching}
+          icon={<TbRefresh className={StyleHelper.mergeStyles({ 'animate-spin': isRefetching })} />}
+          onClick={refetch}
+        />
+      </Tooltip>
     </div>
   )
 }

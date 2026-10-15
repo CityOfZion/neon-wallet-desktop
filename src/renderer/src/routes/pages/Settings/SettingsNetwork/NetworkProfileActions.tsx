@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 
 import { ActionPopover } from '@renderer/components/ActionPopover'
 import { IconButton } from '@renderer/components/IconButton'
+import { Tooltip } from '@renderer/components/Tooltip'
 
 import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
@@ -22,14 +23,17 @@ export const NetworkProfileActions = () => {
 
   return (
     <ActionPopover.Root>
-      <ActionPopover.Trigger asChild>
-        <IconButton
-          icon={<TbDotsVertical aria-hidden />}
-          size="md"
-          compacted
-          {...TestHelper.buildTestObject('network-profile-actions-button')}
-        />
-      </ActionPopover.Trigger>
+      <Tooltip title={t('actionsButtonLabel')}>
+        <ActionPopover.Trigger asChild>
+          <IconButton
+            aria-label={t('actionsButtonLabel')}
+            icon={<TbDotsVertical aria-hidden />}
+            size="md"
+            compacted
+            {...TestHelper.buildTestObject('network-profile-actions-button')}
+          />
+        </ActionPopover.Trigger>
+      </Tooltip>
 
       <ActionPopover.Content>
         <ActionPopover.Item

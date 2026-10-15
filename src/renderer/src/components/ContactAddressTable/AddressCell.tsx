@@ -1,5 +1,7 @@
 import { useEffect } from 'react'
 
+import { useTranslation } from 'react-i18next'
+
 import { ClipboardHelper } from '@renderer/helpers/ClipboardHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 
@@ -11,8 +13,10 @@ import { TContactAddress } from '@shared/types/store'
 
 import { IconButton } from '../IconButton'
 import { Loader } from '../Loader'
+import { Tooltip } from '../Tooltip'
 
 export const AddressCell = ({ address, blockchain }: TContactAddress) => {
+  const { t: tCommonGeneral } = useTranslation('common', { keyPrefix: 'general' })
   const { validatedAddress, isNameService, validateAddressOrNS, isValidatingAddressOrDomainAddress } = useNameService(0)
 
   useEffect(() => {
@@ -28,11 +32,14 @@ export const AddressCell = ({ address, blockchain }: TContactAddress) => {
           <Loader containerClassName="justify-start w-min ml-1" className="h-4 w-4" />
         )}
 
-        <IconButton
-          icon={<MdOutlineContentCopy className="text-neon" />}
-          onClick={() => ClipboardHelper.write(address)}
-          {...TestHelper.buildTestObject('copy-address-button')}
-        />
+        <Tooltip title={tCommonGeneral('copy')}>
+          <IconButton
+            aria-label={tCommonGeneral('copy')}
+            icon={<MdOutlineContentCopy className="text-neon" />}
+            onClick={() => ClipboardHelper.write(address)}
+            {...TestHelper.buildTestObject('copy-address-button')}
+          />
+        </Tooltip>
       </div>
       {isNameService && <span className="text-gray-300">{validatedAddress}</span>}
     </div>

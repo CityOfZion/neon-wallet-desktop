@@ -12,6 +12,7 @@ import { GreyTokenSelect } from '@renderer/components/GreyTokenSelect'
 import { IconButton } from '@renderer/components/IconButton'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
+import { Tooltip } from '@renderer/components/Tooltip'
 
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { CurrencyHelper } from '@renderer/helpers/CurrencyHelper'
@@ -175,19 +176,21 @@ export const SendRecipient = ({
             loading={isValidatingAddressOrDomainAddress}
             disabled={isDisabled}
             rightElement={
-              <IconButton
-                aria-label={t('myContactsButtonLabel')}
-                type="button"
-                compacted
-                disabled={isDisabled}
-                icon={<TbUsers aria-hidden />}
-                onClick={modalNavigateWrapper('select-contact', {
-                  state: {
-                    blockchain: selectedAccount?.blockchain,
-                    onSelectContact: handleSelectContact,
-                  },
-                })}
-              />
+              <Tooltip title={isDisabled ? '' : t('myContactsButtonLabel')}>
+                <IconButton
+                  aria-label={t('myContactsButtonLabel')}
+                  type="button"
+                  compacted
+                  disabled={isDisabled}
+                  icon={<TbUsers aria-hidden />}
+                  onClick={modalNavigateWrapper('select-contact', {
+                    state: {
+                      blockchain: selectedAccount?.blockchain,
+                      onSelectContact: handleSelectContact,
+                    },
+                  })}
+                />
+              </Tooltip>
             }
             onChange={handleChangeAddress}
           />

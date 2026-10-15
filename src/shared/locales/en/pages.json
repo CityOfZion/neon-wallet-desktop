@@ -475,6 +475,7 @@
       "title": "Migrate from Neon 2"
     },
     "settingsNetwork": {
+      "actionsButtonLabel": "Actions",
       "createProfileButtonLabel": "Create profile",
       "currentNetwork": "Current network",
       "editProfileButtonLabel": "Edit profile",
@@ -511,6 +512,7 @@
     },
     "form": {
       "accountToUseTitle": "Send from here",
+      "addressToReceiveContactButtonLabel": "My contacts",
       "addressToReceivePlaceholder": "Enter address…",
       "amountToReceiveTitle": "Amount you'll get",
       "amountToReceiveTitleComplement": "(after fees)",
@@ -599,8 +601,10 @@
       "title": "Transactions"
     },
     "accounts": "Accounts",
+    "actionsButtonLabel": "Actions",
     "addAccountButtonLabel": "Add Account",
     "address": "Address",
+    "copyAddressButtonLabel": "Copy address",
     "editAccountButton": "Edit account",
     "editWalletButtonLabel": "Edit",
     "exportButtonLabel": "Export",
