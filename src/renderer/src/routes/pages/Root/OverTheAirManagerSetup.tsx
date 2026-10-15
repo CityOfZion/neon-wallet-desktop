@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 
+import { BSUtilsHelper } from '@cityofzion/blockchain-service'
 import { compareVersions } from 'compare-versions'
 import { Trans, useTranslation } from 'react-i18next'
 
@@ -14,7 +15,6 @@ import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useOverTheAirInfoSelector } from '@renderer/hooks/useSettingsSelector'
 
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
-import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 
 const OverTheAirManagerSetup = () => {
   const { overTheAirInfoRef } = useOverTheAirInfoSelector()
@@ -41,7 +41,7 @@ const OverTheAirManagerSetup = () => {
 
       ToastHelper.success({ message: t('downloaded'), duration: 5000 })
 
-      await SharedUtilsHelper.sleep(1000)
+      await BSUtilsHelper.wait(1000)
 
       window.api.sendAsync('updater:quitAndInstall')
     })

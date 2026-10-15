@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useRef, useState } from 'react'
 
+import { BSUtilsHelper } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
 import { Location, useLocation, useNavigate } from 'react-router'
 
@@ -19,7 +20,6 @@ import NeonWalletLogo from '@renderer/assets/images/neon-wallet-compact.svg?reac
 
 import { utilityReducerActions } from '@renderer/store/reducers/utility'
 import { AppError } from '@shared/helpers/SharedErrorHelper'
-import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 import { TCreateWalletAndAccountParam } from '@shared/types/blockchain'
 import { TContact, TSwapRecord } from '@shared/types/store'
 
@@ -57,7 +57,7 @@ export const LoginPasswordImportWalletStep4Content = () => {
       if (swapRecords) swapRecords.forEach(swapRecord => dispatch(utilityReducerActions.persistSwapRecord(swapRecord)))
       if (contacts) createContacts(contacts)
 
-      await SharedUtilsHelper.sleep(250)
+      await BSUtilsHelper.wait(250)
 
       setProgress(progress => progress + progressByStep)
 
@@ -66,16 +66,16 @@ export const LoginPasswordImportWalletStep4Content = () => {
 
         await importAccounts({ accounts, wallet })
 
-        await SharedUtilsHelper.sleep(250)
+        await BSUtilsHelper.wait(250)
 
         setProgress(progress => progress + progressByStep)
       }
 
-      await SharedUtilsHelper.sleep(250)
+      await BSUtilsHelper.wait(250)
 
       setProgress(progress => progress + progressByStep)
 
-      await SharedUtilsHelper.sleep(250)
+      await BSUtilsHelper.wait(250)
 
       AnalyticsHelper.logEvent('onboarding_completed')
 

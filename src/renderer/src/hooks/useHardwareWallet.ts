@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-import { BSKeychainHelper, TBSAccount } from '@cityofzion/blockchain-service'
+import { BSKeychainHelper, BSUtilsHelper, TBSAccount } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
 
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
@@ -8,7 +8,6 @@ import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { utilityReducerActions } from '@renderer/store/reducers/utility'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 import { AppError } from '@shared/helpers/SharedErrorHelper'
-import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import { TUseHardwareWalletByUsbStatus } from '@shared/types/hooks'
 import { TAccount, TWallet } from '@shared/types/store'
@@ -39,11 +38,11 @@ export const useHardwareWalletByUsb = () => {
     await window.api.sendAsync('hardwareWallet:disconnect')
 
     // Prevent a UI freeze when connecting the hardware wallet
-    await SharedUtilsHelper.sleep(1000)
+    await BSUtilsHelper.wait(1000)
 
     for (let index = 0; index < CONNECT_MAX_ATTEMPTS; index++) {
       if (index > 0) {
-        await SharedUtilsHelper.sleep(2000)
+        await BSUtilsHelper.wait(2000)
       }
 
       if (abortControllerRef.current.signal.aborted) {
@@ -62,7 +61,7 @@ export const useHardwareWalletByUsb = () => {
 
         setStatus('connected')
         // Improve the UX
-        await SharedUtilsHelper.sleep(1000)
+        await BSUtilsHelper.wait(1000)
 
         return info
       } catch {

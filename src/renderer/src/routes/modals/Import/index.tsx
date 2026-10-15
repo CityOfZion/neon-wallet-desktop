@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 
+import { BSUtilsHelper } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 
@@ -21,7 +22,6 @@ import { SideModalLayout } from '@renderer/layouts/SideModal'
 import TbFileImport from '@renderer/assets/images/tb-file-import.svg?react'
 
 import { AppError } from '@shared/helpers/SharedErrorHelper'
-import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import type { TModalState } from '@shared/types/modal'
 
@@ -94,7 +94,7 @@ const ImportModal = () => {
 
       handleChange(modalStateText)
 
-      await SharedUtilsHelper.sleep(500)
+      await BSUtilsHelper.wait(500)
 
       handleSubmit(actionDataRef.current)
     }

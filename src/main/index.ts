@@ -1,3 +1,4 @@
+import { BSUtilsHelper } from '@cityofzion/blockchain-service'
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import { app, BrowserWindow, dialog, shell } from 'electron'
 import { join } from 'path'
@@ -5,7 +6,6 @@ import { join } from 'path'
 import { mainApi } from '@shared/api/main'
 import { SharedConstantsHelper } from '@shared/helpers/SharedConstantsHelper'
 import { SharedEnvHelper } from '@shared/helpers/SharedEnvHelper'
-import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 
 import * as packageJson from '../../package.json'
 import icon from '../../resources/icon.png?asset'
@@ -50,7 +50,7 @@ function createWindow(): void {
   })
 
   mainWindow.on('ready-to-show', async () => {
-    await SharedUtilsHelper.sleep(500)
+    await BSUtilsHelper.wait(500)
     mainWindow?.show()
   })
 

@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 
+import { BSUtilsHelper } from '@cityofzion/blockchain-service'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import { useTranslation } from 'react-i18next'
 import { match, P } from 'ts-pattern'
@@ -17,7 +18,6 @@ import { useTransactions } from '@renderer/hooks/useTransactions'
 import TbAlertTriangle from '@renderer/assets/images/tb-alert-triangle.svg?react'
 
 import { TransactionActivityListProvider } from '@renderer/contexts/TransactionActivityListContext'
-import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 import { TTransactionActivityListItemColumnSize } from '@shared/types/contexts'
 import { TAccount } from '@shared/types/store'
 
@@ -72,7 +72,7 @@ const Content = ({
   const handleScrollToTop = async () => {
     scrollRef.current?.scroll({ top: 0, behavior: 'instant' })
 
-    await SharedUtilsHelper.sleep(200)
+    await BSUtilsHelper.wait(200)
   }
 
   const handleSelectDateFrom = async (date: Date) => {
