@@ -1,5 +1,6 @@
 import { ComponentProps, useEffect, useMemo, useRef, useState } from 'react'
 
+import { BSUtilsHelper } from '@cityofzion/blockchain-service'
 import type { WebviewTag } from 'electron'
 import { useTranslation } from 'react-i18next'
 
@@ -9,7 +10,6 @@ import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
 import { useCurrencySelector } from '@renderer/hooks/useSettingsSelector'
 
-import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 import type { TAccount } from '@shared/types/store'
 
 // React doesn't render boolean attributes it doesn't know, so the attribute is passed as a string
@@ -46,7 +46,7 @@ export const BuyAndSellTokensIframe = ({ type, account, onReady, className, ...p
     onReady?.(undefined)
 
     const handleLoad = async () => {
-      await SharedUtilsHelper.sleep(500)
+      await BSUtilsHelper.wait(500)
       onReady?.(true)
     }
 

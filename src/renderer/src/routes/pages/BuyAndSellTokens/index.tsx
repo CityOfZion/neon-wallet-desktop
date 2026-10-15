@@ -1,5 +1,6 @@
 import { type ComponentProps, Fragment, useRef, useState } from 'react'
 
+import { BSUtilsHelper } from '@cityofzion/blockchain-service'
 import { AnimatePresence, motion } from 'motion/react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Location, useBlocker, useLocation, useNavigate, useParams } from 'react-router'
@@ -28,7 +29,6 @@ import TbChevronUp from '@renderer/assets/images/tb-chevron-up.svg?react'
 import TbMessage from '@renderer/assets/images/tb-message.svg?react'
 import TbShoppingBag from '@renderer/assets/images/tb-shopping-bag.svg?react'
 
-import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 import type { TTokenBalance } from '@shared/types/query'
 import { TAccount } from '@shared/types/store'
 
@@ -113,7 +113,7 @@ const BuyAndSellTokensPage = () => {
       state: {
         onContinue: async () => {
           shouldSkipBlockerRef.current = true
-          await SharedUtilsHelper.sleep(500)
+          await BSUtilsHelper.wait(500)
           navigate(nextUrl)
         },
       },

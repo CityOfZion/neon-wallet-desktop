@@ -1,6 +1,6 @@
 import { ChangeEvent, Fragment, useState } from 'react'
 
-import { hasEncryption } from '@cityofzion/blockchain-service'
+import { BSUtilsHelper, hasEncryption } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
 import { Location, useLocation } from 'react-router'
 
@@ -23,7 +23,6 @@ import { usePressOnce } from '@renderer/hooks/usePressOnce'
 
 import { WelcomeLayout } from '@renderer/layouts/Welcome'
 
-import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 import { TAccountsToImport } from '@shared/types/blockchain'
 
 type TLocationState = {
@@ -98,7 +97,7 @@ const LoginEncryptedKeySelectAccountPage = () => {
       type: 'standard',
     })
 
-    await SharedUtilsHelper.sleep(1000)
+    await BSUtilsHelper.wait(1000)
 
     navigateReset('/wallets/overview')
   }

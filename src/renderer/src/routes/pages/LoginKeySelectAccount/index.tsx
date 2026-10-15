@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { BSKeychainHelper } from '@cityofzion/blockchain-service'
+import { BSKeychainHelper, BSUtilsHelper } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
 import { Location, useLocation } from 'react-router'
 
@@ -22,7 +22,6 @@ import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { WelcomeLayout } from '@renderer/layouts/Welcome'
 
 import { authReducerActions } from '@renderer/store/reducers/auth'
-import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 import { TAccountsToImport } from '@shared/types/blockchain'
 
 type TLocationState = {
@@ -62,7 +61,7 @@ const LoginKeySelectAccountPage = () => {
     dispatch(authReducerActions.setShouldConfirmAction(isShouldConfirmAction))
 
     // It improves the user experience
-    await SharedUtilsHelper.sleep(1000)
+    await BSUtilsHelper.wait(1000)
 
     navigateReset('/wallets/overview')
   }

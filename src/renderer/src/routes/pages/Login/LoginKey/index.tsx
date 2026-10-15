@@ -1,5 +1,6 @@
 import { Fragment } from 'react'
 
+import { BSUtilsHelper } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 
@@ -14,7 +15,6 @@ import { useImportAction } from '@renderer/hooks/useImportAction'
 import { useLogin } from '@renderer/hooks/useLogin'
 import { useNavigateReset } from '@renderer/hooks/useNavigateReset'
 
-import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 import { TAccountsToImport } from '@shared/types/blockchain'
 
 export const LoginKeyTabContent = () => {
@@ -27,14 +27,14 @@ export const LoginKeyTabContent = () => {
   const submitKey = async (key: string) => {
     navigate('/login-key-select-account', { state: { mnemonicOrKey: key } })
     // Improve UX
-    await SharedUtilsHelper.sleep(2000)
+    await BSUtilsHelper.wait(2000)
   }
 
   const submitMnemonic = async (mnemonic: string) => {
     navigate('/login-key-select-account', { state: { mnemonicOrKey: mnemonic } })
 
     // Improve UX
-    await SharedUtilsHelper.sleep(2000)
+    await BSUtilsHelper.wait(2000)
   }
 
   const submitAddress = async (address: string) => {
@@ -53,12 +53,12 @@ export const LoginKeyTabContent = () => {
     navigateReset('/wallets/overview')
 
     // Improve UX
-    await SharedUtilsHelper.sleep(2000)
+    await BSUtilsHelper.wait(2000)
   }
 
   const submitEncrypted = async (encryptedKey: string) => {
     navigate('/login-encrypted-key-select-account', { state: { encryptedKey } })
-    await SharedUtilsHelper.sleep(2000)
+    await BSUtilsHelper.wait(2000)
   }
 
   const { actionData, actionState, handleAct, handleChange, handleSubmit } = useImportAction(

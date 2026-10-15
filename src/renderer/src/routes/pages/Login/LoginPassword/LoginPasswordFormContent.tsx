@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { BSUtilsHelper } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
 
 import { Button } from '@renderer/components/Button'
@@ -13,7 +14,6 @@ import { useLogin } from '@renderer/hooks/useLogin'
 import { useNavigateReset } from '@renderer/hooks/useNavigateReset'
 
 import { AppError } from '@shared/helpers/SharedErrorHelper'
-import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 
 type TFormData = {
   password: string
@@ -44,7 +44,7 @@ export const LoginPasswordFormContent = () => {
       navigateReset('/wallets/overview')
 
       // Improve UX
-      await SharedUtilsHelper.sleep(2000)
+      await BSUtilsHelper.wait(2000)
     } catch (error) {
       setError('password', AppError.wrap(error, t('invalidPassword')).displayMessage)
     }

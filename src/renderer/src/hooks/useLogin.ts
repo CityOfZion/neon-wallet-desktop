@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { TBSAccount } from '@cityofzion/blockchain-service'
+import { BSUtilsHelper, TBSAccount } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
 
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
@@ -8,7 +8,6 @@ import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { authReducerActions } from '@renderer/store/reducers/auth'
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
 import { AppError } from '@shared/helpers/SharedErrorHelper'
-import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 import { TAccountsToImport, TBlockchainServiceKey, TUseCreateWalletParams } from '@shared/types/blockchain'
 
 import { useImportAccounts } from './useAccountActions'
@@ -62,7 +61,7 @@ export const useLogin = () => {
       dispatch(authReducerActions.setLoginSession({ type: 'hardware', encryptedPassword }))
 
       // Prevent the login session from being not set within createHardwareWallet
-      await SharedUtilsHelper.sleep(500)
+      await BSUtilsHelper.wait(500)
 
       await createHardwareWallet(accounts)
     },

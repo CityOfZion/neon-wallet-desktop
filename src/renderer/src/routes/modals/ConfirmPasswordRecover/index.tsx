@@ -1,3 +1,4 @@
+import { BSUtilsHelper } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
 
 import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
@@ -14,7 +15,6 @@ import { SideModalLayout } from '@renderer/layouts/SideModal'
 import TbReload from '@renderer/assets/images/tb-reload.svg?react'
 
 import { AppError } from '@shared/helpers/SharedErrorHelper'
-import { SharedUtilsHelper } from '@shared/helpers/SharedUtilsHelper'
 import type { TModalState } from '@shared/types/modal'
 
 type TFormData = {
@@ -60,7 +60,7 @@ const ConfirmPasswordRecoverModal = () => {
 
       await handleImportBackupData(generatedData)
 
-      await SharedUtilsHelper.sleep(2000)
+      await BSUtilsHelper.wait(2000)
 
       modalNavigate('success', {
         state: {
