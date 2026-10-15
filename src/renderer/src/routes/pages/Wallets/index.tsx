@@ -13,6 +13,7 @@ import { IconButton } from '@renderer/components/IconButton'
 import { MenuLink } from '@renderer/components/MenuLink'
 import { RefreshAction } from '@renderer/components/RefreshAction'
 import { Separator } from '@renderer/components/Separator'
+import { Tooltip } from '@renderer/components/Tooltip'
 
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { ClipboardHelper } from '@renderer/helpers/ClipboardHelper'
@@ -272,21 +273,31 @@ const WalletsPage = () => {
                       <h1 className="pr-3 text-white">{selectedAccount.name}</h1>
                       <p className="text-gray-300">{t('address')}</p>
                       <p className="text-gray-100">{StringHelper.truncateMiddle(selectedAccount.address, 8)}</p>
-                      <IconButton
-                        icon={<MdOutlineContentCopy aria-hidden />}
-                        colorSchema="neon"
-                        compacted
-                        onClick={ClipboardHelper.write.bind(null, selectedAccount.address)}
-                      />
+                      <Tooltip title={t('copyAddressButtonLabel')}>
+                        <IconButton
+                          aria-label={t('copyAddressButtonLabel')}
+                          icon={<MdOutlineContentCopy aria-hidden />}
+                          colorSchema="neon"
+                          compacted
+                          onClick={ClipboardHelper.write.bind(null, selectedAccount.address)}
+                        />
+                      </Tooltip>
                     </div>
 
                     <div className="flex gap-2">
                       <RefreshAction />
 
                       <ActionPopover.Root>
-                        <ActionPopover.Trigger asChild>
-                          <IconButton icon={<TbDotsVertical aria-hidden />} size="md" compacted />
-                        </ActionPopover.Trigger>
+                        <Tooltip title={t('actionsButtonLabel')}>
+                          <ActionPopover.Trigger asChild>
+                            <IconButton
+                              aria-label={t('actionsButtonLabel')}
+                              icon={<TbDotsVertical aria-hidden />}
+                              size="md"
+                              compacted
+                            />
+                          </ActionPopover.Trigger>
+                        </Tooltip>
 
                         <ActionPopover.Content side="bottom" sideOffset={-8} align="end">
                           <ActionPopover.Item

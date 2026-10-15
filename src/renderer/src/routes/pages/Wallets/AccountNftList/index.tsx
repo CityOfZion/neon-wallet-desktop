@@ -7,6 +7,7 @@ import { IconButton } from '@renderer/components/IconButton'
 import { Loader } from '@renderer/components/Loader'
 import { NftGallery } from '@renderer/components/NftGallery'
 import { NftList } from '@renderer/components/NftList'
+import { Tooltip } from '@renderer/components/Tooltip'
 
 import { useInfiniteScroll } from '@renderer/hooks/useInfiniteScroll'
 import { useNfts } from '@renderer/hooks/useNfts'
@@ -50,23 +51,27 @@ const AccountNftList = () => {
         ) : (
           <Fragment>
             <div className="my-5 flex items-center justify-start gap-1">
-              <IconButton
-                aria-selected={selectedViewOption === ENftViewOption.LIST}
-                aria-label={t('listLabel')}
-                icon={<MdFormatListBulleted aria-hidden />}
-                colorSchema={selectedViewOption === ENftViewOption.LIST ? 'neon' : 'gray'}
-                onClick={() => setSelectedViewOption(ENftViewOption.LIST)}
-                size="md"
-              />
+              <Tooltip title={t('listLabel')}>
+                <IconButton
+                  aria-selected={selectedViewOption === ENftViewOption.LIST}
+                  aria-label={t('listLabel')}
+                  icon={<MdFormatListBulleted aria-hidden />}
+                  colorSchema={selectedViewOption === ENftViewOption.LIST ? 'neon' : 'gray'}
+                  onClick={() => setSelectedViewOption(ENftViewOption.LIST)}
+                  size="md"
+                />
+              </Tooltip>
 
-              <IconButton
-                aria-selected={selectedViewOption === ENftViewOption.GALLERY}
-                aria-label={t('gridLabel')}
-                icon={<MdGridView aria-hidden />}
-                colorSchema={selectedViewOption === ENftViewOption.GALLERY ? 'neon' : 'gray'}
-                onClick={() => setSelectedViewOption(ENftViewOption.GALLERY)}
-                size="md"
-              />
+              <Tooltip title={t('gridLabel')}>
+                <IconButton
+                  aria-selected={selectedViewOption === ENftViewOption.GALLERY}
+                  aria-label={t('gridLabel')}
+                  icon={<MdGridView aria-hidden />}
+                  colorSchema={selectedViewOption === ENftViewOption.GALLERY ? 'neon' : 'gray'}
+                  onClick={() => setSelectedViewOption(ENftViewOption.GALLERY)}
+                  size="md"
+                />
+              </Tooltip>
 
               <p className="ml-2 text-sm text-gray-300">{t('total', { length: aggregatedData.length })}</p>
             </div>

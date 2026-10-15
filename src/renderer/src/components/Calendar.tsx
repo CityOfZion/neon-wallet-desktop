@@ -14,6 +14,7 @@ import TbChevronRight from '@renderer/assets/images/tb-chevron-right.svg?react'
 
 import { Button } from './Button'
 import { IconButton } from './IconButton'
+import { Tooltip } from './Tooltip'
 
 export type TCalendarProps = DayPickerProps & {
   yearRange?: number
@@ -124,39 +125,42 @@ const Nav = ({
     onNextClick?.(nextMonth)
   }
 
+  const previousButtonLabel = isYearsView
+    ? t('previousYearButtonLabel', { years: displayYears.to - displayYears.from + 1 })
+    : labelPrevious(previousMonth)
+  const nextButtonLabel = isYearsView
+    ? t('nextYearButtonLabel', { years: displayYears.to - displayYears.from + 1 })
+    : labelNext(nextMonth)
+
   return (
     <nav className={StyleHelper.mergeStyles('flex items-start', className)}>
-      <IconButton
-        aria-label={
-          isYearsView
-            ? t('previousYearButtonLabel', { years: displayYears.to - displayYears.from + 1 })
-            : labelPrevious(previousMonth)
-        }
-        type="button"
-        className="absolute left-0 h-7 w-7 bg-transparent p-0 opacity-80 hover:opacity-100"
-        variant="outline"
-        size="xs"
-        tabIndex={isPreviousDisabled ? undefined : -1}
-        disabled={isPreviousDisabled}
-        icon={<TbChevronLeft aria-hidden />}
-        onClick={handlePreviousClick}
-      />
+      <Tooltip title={previousButtonLabel}>
+        <IconButton
+          aria-label={previousButtonLabel}
+          type="button"
+          className="absolute left-0 h-7 w-7 bg-transparent p-0 opacity-80 hover:opacity-100"
+          variant="outline"
+          size="xs"
+          tabIndex={isPreviousDisabled ? undefined : -1}
+          disabled={isPreviousDisabled}
+          icon={<TbChevronLeft aria-hidden />}
+          onClick={handlePreviousClick}
+        />
+      </Tooltip>
 
-      <IconButton
-        aria-label={
-          isYearsView
-            ? t('nextYearButtonLabel', { years: displayYears.to - displayYears.from + 1 })
-            : labelNext(nextMonth)
-        }
-        type="button"
-        className="absolute right-0 h-7 w-7 bg-transparent p-0 opacity-80 hover:opacity-100"
-        variant="outline"
-        size="xs"
-        tabIndex={isNextDisabled ? undefined : -1}
-        disabled={isNextDisabled}
-        icon={<TbChevronRight aria-hidden />}
-        onClick={handleNextClick}
-      />
+      <Tooltip title={nextButtonLabel}>
+        <IconButton
+          aria-label={nextButtonLabel}
+          type="button"
+          className="absolute right-0 h-7 w-7 bg-transparent p-0 opacity-80 hover:opacity-100"
+          variant="outline"
+          size="xs"
+          tabIndex={isNextDisabled ? undefined : -1}
+          disabled={isNextDisabled}
+          icon={<TbChevronRight aria-hidden />}
+          onClick={handleNextClick}
+        />
+      </Tooltip>
     </nav>
   )
 }

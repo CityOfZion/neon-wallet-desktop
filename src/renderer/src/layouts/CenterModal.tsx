@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 
 import { IconButton } from '@renderer/components/IconButton'
 import { Separator } from '@renderer/components/Separator'
+import { Tooltip } from '@renderer/components/Tooltip'
 
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
@@ -121,13 +122,15 @@ export const CenterModalLayout = ({
             <header className={StyleHelper.mergeStyles('flex items-center pt-5 pb-2.5', headerClassName)}>
               <div className="flex grow items-center gap-2">
                 {groupIndex > 0 && (
-                  <IconButton
-                    aria-label={tCommonGeneral('back')}
-                    icon={<MdKeyboardBackspace aria-hidden className="fill-gray-200" />}
-                    size="md"
-                    compacted
-                    onClick={modalNavigateWrapper(-1)}
-                  />
+                  <Tooltip title={tCommonGeneral('back')}>
+                    <IconButton
+                      aria-label={tCommonGeneral('back')}
+                      icon={<MdKeyboardBackspace aria-hidden className="fill-gray-200" />}
+                      size="md"
+                      compacted
+                      onClick={modalNavigateWrapper(-1)}
+                    />
+                  </Tooltip>
                 )}
 
                 {withHeading && (
@@ -143,15 +146,17 @@ export const CenterModalLayout = ({
               </div>
 
               {withErase && (
-                <IconButton
-                  aria-label={tCommonGeneral('close')}
-                  icon={<MdClose aria-hidden className="text-gray-100" />}
-                  size="md"
-                  compacted
-                  loading={isErasing}
-                  onClick={startErase}
-                  {...TestHelper.buildTestObject('center-modal-erase-button')}
-                />
+                <Tooltip title={tCommonGeneral('close')}>
+                  <IconButton
+                    aria-label={tCommonGeneral('close')}
+                    icon={<MdClose aria-hidden className="text-gray-100" />}
+                    size="md"
+                    compacted
+                    loading={isErasing}
+                    onClick={startErase}
+                    {...TestHelper.buildTestObject('center-modal-erase-button')}
+                  />
+                </Tooltip>
               )}
             </header>
           )}

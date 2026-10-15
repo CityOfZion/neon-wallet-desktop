@@ -619,31 +619,36 @@ export const SwapPageContent = ({ account }: TProps) => {
                     clearable={false}
                     rightElement={
                       <Fragment>
-                        <IconButton
-                          aria-label={tCommonGeneral('pasteFromClipboard')}
-                          colorSchema="neon"
-                          type="button"
-                          compacted
-                          disabled={
-                            !actionData.selectedAccountToUse.value || isAddressesDisabled || isPastingAddressToReceive
-                          }
-                          icon={<MdContentPasteGo aria-hidden className="min-size-4 size-4" />}
-                          onClick={startPasteAddressToReceive}
-                        />
+                        <Tooltip title={tCommonGeneral('pasteFromClipboard')}>
+                          <IconButton
+                            aria-label={tCommonGeneral('pasteFromClipboard')}
+                            colorSchema="neon"
+                            type="button"
+                            compacted
+                            disabled={
+                              !actionData.selectedAccountToUse.value || isAddressesDisabled || isPastingAddressToReceive
+                            }
+                            icon={<MdContentPasteGo aria-hidden className="min-size-4 size-4" />}
+                            onClick={startPasteAddressToReceive}
+                          />
+                        </Tooltip>
 
-                        <IconButton
-                          icon={<TbUsers aria-hidden className="min-size-4 size-4" />}
-                          colorSchema="neon"
-                          type="button"
-                          onClick={modalNavigateWrapper('select-contact', {
-                            state: {
-                              onSelectContact: handleSelectContactToReceive,
-                              blockchain: tokenToReceiveBlockchain,
-                            },
-                          })}
-                          compacted
-                          disabled={isContactsAndAccountsSelectionDisabled || !hasContactsByBlockchain}
-                        />
+                        <Tooltip title={t('form.addressToReceiveContactButtonLabel')}>
+                          <IconButton
+                            aria-label={t('form.addressToReceiveContactButtonLabel')}
+                            icon={<TbUsers aria-hidden className="min-size-4 size-4" />}
+                            colorSchema="neon"
+                            type="button"
+                            onClick={modalNavigateWrapper('select-contact', {
+                              state: {
+                                onSelectContact: handleSelectContactToReceive,
+                                blockchain: tokenToReceiveBlockchain,
+                              },
+                            })}
+                            compacted
+                            disabled={isContactsAndAccountsSelectionDisabled || !hasContactsByBlockchain}
+                          />
+                        </Tooltip>
                       </Fragment>
                     }
                     loading={actionData.selectedAddressToReceive.loading}
@@ -687,14 +692,16 @@ export const SwapPageContent = ({ account }: TProps) => {
                       <div className="flex items-center gap-2">
                         <p>{t('form.extraIdToReceive')}</p>
 
-                        <IconButton
-                          aria-label={t('form.openAboutExtraIdToReceiveModal')}
-                          colorSchema="neon"
-                          type="button"
-                          compacted
-                          icon={<TbHelp aria-hidden className="min-size-5 size-5" />}
-                          onClick={modalNavigateWrapper('about-extra-id-to-receive')}
-                        />
+                        <Tooltip title={t('form.openAboutExtraIdToReceiveModal')}>
+                          <IconButton
+                            aria-label={t('form.openAboutExtraIdToReceiveModal')}
+                            colorSchema="neon"
+                            type="button"
+                            compacted
+                            icon={<TbHelp aria-hidden className="min-size-5 size-5" />}
+                            onClick={modalNavigateWrapper('about-extra-id-to-receive')}
+                          />
+                        </Tooltip>
                       </div>
                     }
                     leftIcon={<VscCircleFilled aria-hidden className="size-2 text-gray-300" />}

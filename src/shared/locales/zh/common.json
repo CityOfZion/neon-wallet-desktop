@@ -28,6 +28,7 @@
     "bridgeNeo3NeoX": "桥接",
     "buyAndSellTokens": "买卖",
     "cancel": "取消",
+    "clear": "清除",
     "close": "关闭",
     "continue": "继续",
     "copy": "复制",
@@ -36,6 +37,7 @@
     "downloadQRCodePassword": "下载密码二维码",
     "edit": "编辑",
     "emptyColumn": "--",
+    "hidePassword": "隐藏密码",
     "logo": "Neon 钱包标志",
     "next": "下一步",
     "passwordNEONQRCode": "二维码",
@@ -46,6 +48,7 @@
     "reset": "重置",
     "save": "保存",
     "send": "发送",
+    "showPassword": "显示密码",
     "successfullyCopied": "已成功复制到剪贴板",
     "swap": "兑换",
     "test": "测试"

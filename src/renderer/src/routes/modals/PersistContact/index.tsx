@@ -8,6 +8,7 @@ import { Button } from '@renderer/components/Button'
 import { IconButton } from '@renderer/components/IconButton'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
+import { Tooltip } from '@renderer/components/Tooltip'
 
 import { TestHelper } from '@renderer/helpers/TestHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
@@ -140,33 +141,39 @@ const PersistContactModal = () => {
                       {address.address}
                     </span>
                   </div>
-                  <IconButton
-                    icon={<TbPencil aria-hidden className="text-blue size-5" />}
-                    compacted
-                    type="button"
-                    onClick={() => openAddAddressModal(address, index)}
-                    className="items-center"
-                    {...TestHelper.buildTestObject('edit-contact-address-button')}
-                  />
-                  <IconButton
-                    icon={<MdDeleteForever aria-hidden className="text-pink size-5" />}
-                    compacted
-                    type="button"
-                    onClick={modalNavigateWrapper('delete-contact', {
-                      state: {
-                        firstName: address.address,
-                        secondName: modalStateContact?.name,
-                        onButtonClick: () => handleDeleteAddress(index),
-                        modalTitle: t('deleteAddress.title'),
-                        warningText: t('deleteAddress.warningText'),
-                        warningDescription: t('deleteAddress.warningDescription'),
-                        buttonLabel: t('deleteAddress.buttonDeleteLabel'),
-                        truncateFirstName: true,
-                      },
-                    })}
-                    className="items-center"
-                    {...TestHelper.buildTestObject('delete-contact-address-button')}
-                  />
+                  <Tooltip title={tCommon('edit')}>
+                    <IconButton
+                      aria-label={tCommon('edit')}
+                      icon={<TbPencil aria-hidden className="text-blue size-5" />}
+                      compacted
+                      type="button"
+                      onClick={() => openAddAddressModal(address, index)}
+                      className="items-center"
+                      {...TestHelper.buildTestObject('edit-contact-address-button')}
+                    />
+                  </Tooltip>
+                  <Tooltip title={tCommon('remove')}>
+                    <IconButton
+                      aria-label={tCommon('remove')}
+                      icon={<MdDeleteForever aria-hidden className="text-pink size-5" />}
+                      compacted
+                      type="button"
+                      onClick={modalNavigateWrapper('delete-contact', {
+                        state: {
+                          firstName: address.address,
+                          secondName: modalStateContact?.name,
+                          onButtonClick: () => handleDeleteAddress(index),
+                          modalTitle: t('deleteAddress.title'),
+                          warningText: t('deleteAddress.warningText'),
+                          warningDescription: t('deleteAddress.warningDescription'),
+                          buttonLabel: t('deleteAddress.buttonDeleteLabel'),
+                          truncateFirstName: true,
+                        },
+                      })}
+                      className="items-center"
+                      {...TestHelper.buildTestObject('delete-contact-address-button')}
+                    />
+                  </Tooltip>
                 </div>
               ))}
             </div>
