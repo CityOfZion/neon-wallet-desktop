@@ -62,7 +62,12 @@ export const usePriceHistory = (tokenBalances: TTokenBalance[]): TUsePriceHistor
       }
     }),
     combine: results => ({
-      data: results.map(result => result.data).filter((data): data is TPriceHistory => !!data),
+      data: results
+        .map(result => result.data)
+        .filter(
+          (data): data is TPriceHistory =>
+            !!data && !!data.dailyVariation && data.sortedPrices.length > 1 && data.sortedPricesByTimestamp.length > 1
+        ),
       isLoading: isCurrencyRatioLoading || results.some(result => result.isLoading),
     }),
   })

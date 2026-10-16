@@ -30,7 +30,7 @@
     "variation": "{{variationType}}{{variation}}%"
   },
   "chartCardList": {
-    "title": "Preço dos Tokens"
+    "title": "Preço dos tokens"
   },
   "claimGasButton": {
     "balanceLessFee": "Não é possível resgatar porque o saldo não cobrirá as taxas de rede!",

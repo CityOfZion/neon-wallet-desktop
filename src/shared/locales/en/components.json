@@ -30,7 +30,7 @@
     "variation": "{{variationType}}{{variation}}%"
   },
   "chartCardList": {
-    "title": "Token Pricing"
+    "title": "Token pricing"
   },
   "claimGasButton": {
     "balanceLessFee": "Can't claim because balance will not cover network fees!",
