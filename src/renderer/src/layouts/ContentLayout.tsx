@@ -2,10 +2,12 @@ import { ComponentProps, type JSX, ReactNode, useLayoutEffect } from 'react'
 import { cloneElement } from 'react'
 
 import { motion } from 'motion/react'
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 
 import { IconButton } from '@renderer/components/IconButton'
 import { Separator } from '@renderer/components/Separator'
+import { Tooltip } from '@renderer/components/Tooltip'
 
 import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
@@ -40,6 +42,7 @@ export const ContentLayout = ({
   withSeparator = true,
   ...props
 }: TMainLayoutProps): JSX.Element => {
+  const { t: tCommonGeneral } = useTranslation('common', { keyPrefix: 'general' })
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const { selectedNetworkProfile } = useSelectedNetworkProfileSelector()
@@ -79,7 +82,15 @@ export const ContentLayout = ({
         <header
           className={StyleHelper.mergeStyles('relative flex min-h-16 items-center justify-between', headerClassName)}
         >
-          <IconButton icon={<TbArrowLeft aria-hidden />} size="sm" compacted onClick={handleBackClick} />
+          <Tooltip title={tCommonGeneral('back')}>
+            <IconButton
+              aria-label={tCommonGeneral('back')}
+              icon={<TbArrowLeft aria-hidden />}
+              size="sm"
+              compacted
+              onClick={handleBackClick}
+            />
+          </Tooltip>
 
           <div
             className={StyleHelper.mergeStyles(

@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 
 import { IconButton } from '@renderer/components/IconButton'
 import { Separator } from '@renderer/components/Separator'
+import { Tooltip } from '@renderer/components/Tooltip'
 
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
@@ -115,14 +116,16 @@ export const SideModalLayout = ({
           <header className="flex flex-col px-4">
             <div className="flex items-center justify-between py-2.5">
               {groupIndex > 0 && (
-                <IconButton
-                  aria-label={tCommonGeneral('back')}
-                  icon={<MdKeyboardBackspace aria-hidden className="fill-gray-200" />}
-                  size="md"
-                  compacted
-                  loading={isBacking}
-                  onClick={startBack}
-                />
+                <Tooltip title={tCommonGeneral('back')}>
+                  <IconButton
+                    aria-label={tCommonGeneral('back')}
+                    icon={<MdKeyboardBackspace aria-hidden className="fill-gray-200" />}
+                    size="md"
+                    compacted
+                    loading={isBacking}
+                    onClick={startBack}
+                  />
+                </Tooltip>
               )}
 
               <div className="flex items-center gap-x-2">
@@ -135,14 +138,16 @@ export const SideModalLayout = ({
               </div>
 
               {withErase && (
-                <IconButton
-                  aria-label={tCommonGeneral('close')}
-                  icon={<MdClose aria-hidden className="fill-white" />}
-                  size="md"
-                  compacted
-                  loading={isErasing}
-                  onClick={startErase}
-                />
+                <Tooltip title={tCommonGeneral('close')}>
+                  <IconButton
+                    aria-label={tCommonGeneral('close')}
+                    icon={<MdClose aria-hidden className="fill-white" />}
+                    size="md"
+                    compacted
+                    loading={isErasing}
+                    onClick={startErase}
+                  />
+                </Tooltip>
               )}
             </div>
 

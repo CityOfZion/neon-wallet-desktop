@@ -475,6 +475,7 @@
       "title": "从Neon 2迁移"
     },
     "settingsNetwork": {
+      "actionsButtonLabel": "操作",
       "createProfileButtonLabel": "创建配置文件",
       "currentNetwork": "当前网络",
       "editProfileButtonLabel": "编辑配置文件",
@@ -511,6 +512,7 @@
     },
     "form": {
       "accountToUseTitle": "从此处发送",
+      "addressToReceiveContactButtonLabel": "我的联系人",
       "addressToReceivePlaceholder": "输入地址…",
       "amountToReceiveTitle": "您将获得的数量",
       "amountToReceiveTitleComplement": "（扣除手续费后）",
@@ -599,8 +601,10 @@
       "title": "交易"
     },
     "accounts": "账户",
+    "actionsButtonLabel": "操作",
     "addAccountButtonLabel": "添加账户",
     "address": "地址",
+    "copyAddressButtonLabel": "复制地址",
     "editAccountButton": "编辑账户",
     "editWalletButtonLabel": "编辑",
     "exportButtonLabel": "导出",
