@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { Loader } from '@renderer/components/Loader'
 
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
+import { TokenHelper } from '@renderer/helpers/TokenHelper'
 
 import { usePriceHistory } from '@renderer/hooks/usePriceHistory'
 
@@ -40,9 +41,12 @@ export const ChartCardList = ({ sortedBalances, className }: TProps) => {
           <span className="mb-3 text-sm text-gray-100">{t('title')}</span>
 
           <div className="flex w-full gap-2">
-            {priceHistories.data
-              .slice(0, 4)
-              .map(item => item && <ChartCard priceHistory={item} key={item.tokenBalance.token.symbol} />)}
+            {priceHistories.data.slice(0, 4).map(item => (
+              <ChartCard
+                key={TokenHelper.getKey(item.tokenBalance.token.hash, item.tokenBalance.blockchain)}
+                priceHistory={item}
+              />
+            ))}
           </div>
         </Fragment>
       )}
