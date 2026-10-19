@@ -22,6 +22,7 @@ import { GreyTokenSelect } from '@renderer/components/GreyTokenSelect'
 import { IconButton } from '@renderer/components/IconButton'
 import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
+import { Tooltip } from '@renderer/components/Tooltip'
 import { TransactionFeeActionStep } from '@renderer/components/TransactionFeeActionStep'
 
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
@@ -389,17 +390,19 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
               </ActionStep>
 
               <div className="relative z-10 w-full">
-                <IconButton
-                  aria-label={t('form.switchTokensButtonLabel')}
-                  variant="contained"
-                  onClick={handleSwitchTokens}
-                  colorSchema="neon"
-                  compacted
-                  rounded
-                  size="sm"
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-                  icon={<TbArrowsSort aria-hidden />}
-                />
+                <Tooltip title={t('form.switchTokensButtonLabel')}>
+                  <IconButton
+                    aria-label={t('form.switchTokensButtonLabel')}
+                    variant="contained"
+                    onClick={handleSwitchTokens}
+                    colorSchema="neon"
+                    compacted
+                    rounded
+                    size="sm"
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                    icon={<TbArrowsSort aria-hidden />}
+                  />
+                </Tooltip>
 
                 <Separator />
               </div>
@@ -459,20 +462,28 @@ export const Neo3NeoXBridgeContent = ({ account }: TProps) => {
                     pastable
                     error={!!actionData.addressToReceive.error || actionData.addressToReceive.valid === false}
                     rightElement={
-                      <IconButton
-                        aria-label={t('form.addressToReceiveContactButtonLabel')}
-                        icon={<TbUsers aria-hidden className="h-4 min-h-4 w-4 min-w-4" />}
-                        colorSchema="neon"
-                        type="button"
-                        onClick={modalNavigateWrapper('select-contact', {
-                          state: {
-                            onSelectContact: handleSelectContactToReceive,
-                            blockchain: actionData.tokenToReceive.value?.blockchain,
-                          },
-                        })}
-                        compacted
-                        disabled={isAddressesDisabled || !actionData.tokenToReceive.value}
-                      />
+                      <Tooltip
+                        title={
+                          isAddressesDisabled || !actionData.tokenToReceive.value
+                            ? ''
+                            : t('form.addressToReceiveContactButtonLabel')
+                        }
+                      >
+                        <IconButton
+                          aria-label={t('form.addressToReceiveContactButtonLabel')}
+                          icon={<TbUsers aria-hidden className="h-4 min-h-4 w-4 min-w-4" />}
+                          colorSchema="neon"
+                          type="button"
+                          onClick={modalNavigateWrapper('select-contact', {
+                            state: {
+                              onSelectContact: handleSelectContactToReceive,
+                              blockchain: actionData.tokenToReceive.value?.blockchain,
+                            },
+                          })}
+                          compacted
+                          disabled={isAddressesDisabled || !actionData.tokenToReceive.value}
+                        />
+                      </Tooltip>
                     }
                   />
 

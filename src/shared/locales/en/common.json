@@ -28,6 +28,7 @@
     "bridgeNeo3NeoX": "Bridge",
     "buyAndSellTokens": "Buy + Sell",
     "cancel": "Cancel",
+    "clear": "Clear",
     "close": "Close",
     "continue": "Continue",
     "copy": "Copy",
@@ -36,6 +37,7 @@
     "downloadQRCodePassword": "Download password QR code",
     "edit": "Edit",
     "emptyColumn": "--",
+    "hidePassword": "Hide password",
     "logo": "Neon Wallet's logo",
     "next": "Next",
     "passwordNEONQRCode": "QRCode",
@@ -46,6 +48,7 @@
     "reset": "Reset",
     "save": "Save",
     "send": "Send",
+    "showPassword": "Show password",
     "successfullyCopied": "Successfully copied to clipboard",
     "swap": "Swap",
     "test": "Test"

@@ -1,9 +1,11 @@
 import { ComponentProps, type ReactNode } from 'react'
 
 import { motion } from 'motion/react'
+import { useTranslation } from 'react-i18next'
 import { useLocation, useNavigate } from 'react-router'
 
 import { IconButton } from '@renderer/components/IconButton'
+import { Tooltip } from '@renderer/components/Tooltip'
 
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
@@ -13,6 +15,7 @@ import NeonWalletFull from '@renderer/assets/images/neon-wallet-full.svg?react'
 type Props = { heading: string; withBackButton?: boolean; children?: ReactNode } & ComponentProps<typeof motion.div>
 
 export const WelcomeLayout = ({ children, heading, withBackButton, className, ...props }: Props) => {
+  const { t: tCommonGeneral } = useTranslation('common', { keyPrefix: 'general' })
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -33,12 +36,15 @@ export const WelcomeLayout = ({ children, heading, withBackButton, className, ..
       {...props}
     >
       {withBackButton && location.key !== 'default' && (
-        <IconButton
-          icon={<MdArrowBack aria-hidden />}
-          className="absolute top-5 left-5"
-          size="md"
-          onClick={handleBack}
-        />
+        <Tooltip title={tCommonGeneral('back')}>
+          <IconButton
+            aria-label={tCommonGeneral('back')}
+            icon={<MdArrowBack aria-hidden />}
+            className="absolute top-5 left-5"
+            size="md"
+            onClick={handleBack}
+          />
+        </Tooltip>
       )}
 
       <NeonWalletFull className="min-h-14" />

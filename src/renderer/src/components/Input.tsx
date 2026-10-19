@@ -26,6 +26,7 @@ import MdVisibilityOff from '@renderer/assets/images/md-visibility-off.svg?react
 
 import { IconButton } from './IconButton'
 import { Loader } from './Loader'
+import { Tooltip } from './Tooltip'
 
 export type TInputProps = Omit<React.ComponentProps<'input'>, 'type' | 'ref'> & {
   containerClassName?: string
@@ -80,6 +81,8 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
     const internalRef = useRef<HTMLInputElement>(null)
     const [hidden, setHidden] = useState(isTypePassword)
     const realType = isTypePassword ? (hidden ? 'password' : 'text') : type
+
+    const toggleHiddenButtonLabel = hidden ? tCommonGeneral('showPassword') : tCommonGeneral('hidePassword')
 
     const toggleHidden: React.MouseEventHandler<HTMLButtonElement> = event => {
       event.stopPropagation()
@@ -204,46 +207,57 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
               {loading && <Loader className="mr-1 h-4 w-4" />}
 
               {isTypePassword && (
-                <IconButton
-                  icon={hidden ? <MdVisibility aria-hidden /> : <MdVisibilityOff aria-hidden />}
-                  onClick={toggleHidden}
-                  type="button"
-                  disabled={disabled}
-                  compacted
-                />
+                <Tooltip title={disabled ? '' : toggleHiddenButtonLabel}>
+                  <IconButton
+                    aria-label={toggleHiddenButtonLabel}
+                    icon={hidden ? <MdVisibility aria-hidden /> : <MdVisibilityOff aria-hidden />}
+                    onClick={toggleHidden}
+                    type="button"
+                    disabled={disabled}
+                    compacted
+                  />
+                </Tooltip>
               )}
 
               {pastable && (
-                <IconButton
-                  aria-label={tCommonGeneral('pasteFromClipboard')}
-                  icon={<MdContentPasteGo aria-hidden />}
-                  onClick={handlePaste}
-                  colorSchema="neon"
-                  type="button"
-                  disabled={disabled}
-                  compacted
-                />
+                <Tooltip title={disabled ? '' : tCommonGeneral('pasteFromClipboard')}>
+                  <IconButton
+                    aria-label={tCommonGeneral('pasteFromClipboard')}
+                    icon={<MdContentPasteGo aria-hidden />}
+                    onClick={handlePaste}
+                    colorSchema="neon"
+                    type="button"
+                    disabled={disabled}
+                    compacted
+                  />
+                </Tooltip>
               )}
 
               {copyable && (
-                <IconButton
-                  icon={<MdContentCopy aria-hidden />}
-                  onClick={handleCopyInput}
-                  colorSchema="neon"
-                  type="button"
-                  compacted
-                  disabled={disabled}
-                />
+                <Tooltip title={disabled ? '' : tCommonGeneral('copy')}>
+                  <IconButton
+                    aria-label={tCommonGeneral('copy')}
+                    icon={<MdContentCopy aria-hidden />}
+                    onClick={handleCopyInput}
+                    colorSchema="neon"
+                    type="button"
+                    compacted
+                    disabled={disabled}
+                  />
+                </Tooltip>
               )}
 
               {clearable && (
-                <IconButton
-                  icon={<MdCancel aria-hidden />}
-                  type="button"
-                  onClick={clear}
-                  compacted
-                  disabled={disabled}
-                />
+                <Tooltip title={disabled ? '' : tCommonGeneral('clear')}>
+                  <IconButton
+                    aria-label={tCommonGeneral('clear')}
+                    icon={<MdCancel aria-hidden />}
+                    type="button"
+                    onClick={clear}
+                    compacted
+                    disabled={disabled}
+                  />
+                </Tooltip>
               )}
 
               {rightElement}
