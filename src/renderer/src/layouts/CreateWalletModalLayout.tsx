@@ -26,7 +26,7 @@ export const CreateWalletModalLayout = ({ children, contentClassName, ...props }
       {...props}
     >
       <section className="flex min-h-0 w-full grow flex-row">
-        <div className="max-w-88 min-w-88 border-r border-gray-300/30 pr-5 print:hidden">
+        <div className="max-w-88 min-w-88 overflow-y-auto border-r border-gray-300/30 pr-5 print:hidden">
           <h2 className="py-4 text-sm">{t('heading')}</h2>
           <Separator className="min-h-px" />
           <div className="flex flex-col gap-11 pt-11">
@@ -61,7 +61,12 @@ export const CreateWalletModalLayout = ({ children, contentClassName, ...props }
           </div>
         </div>
 
-        <section className={StyleHelper.mergeStyles('flex h-full grow flex-col px-9 pt-2.5 pb-10', contentClassName)}>
+        <section
+          className={StyleHelper.mergeStyles(
+            'flex h-full grow flex-col overflow-y-auto px-9 pt-2.5 pb-10',
+            contentClassName
+          )}
+        >
           {children}
         </section>
       </section>

@@ -17,6 +17,7 @@ import TbArrowRight from '@renderer/assets/images/tb-arrow-right.svg?react'
 import WalletConnectLogo from '@renderer/assets/images/wallet-connect-logo.svg?react'
 
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
+import { SharedConstantsHelper } from '@shared/helpers/SharedConstantsHelper'
 
 import { WelcomeCard } from './WelcomeCard'
 
@@ -29,7 +30,10 @@ const WelcomePage = () => {
   }, [dispatch])
 
   return (
-    <WelcomeLayout heading={t('title')} className="relative max-w-none px-10">
+    <WelcomeLayout
+      heading={t('title', { appName: SharedConstantsHelper.APP_NAME })}
+      className="relative max-w-none px-10"
+    >
       <ul className="mt-14 flex grow gap-x-12">
         <li>
           <WelcomeCard image={<NeonPageImage />} title={t('card1.title')} description={t('card1.description')} />

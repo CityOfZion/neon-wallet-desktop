@@ -7,6 +7,8 @@ import { TestHelper } from '@renderer/helpers/TestHelper'
 
 import { WelcomeLayout } from '@renderer/layouts/Welcome'
 
+import { SharedConstantsHelper } from '@shared/helpers/SharedConstantsHelper'
+
 import { LoginHardwareTabContent } from './LoginHardware'
 import { LoginKeyTabContent } from './LoginKey'
 import { LoginPasswordTabContent } from './LoginPassword'
@@ -22,7 +24,7 @@ const LoginPage = () => {
   const { loginType } = useParams<TParams>()
 
   return (
-    <WelcomeLayout heading={t('title')}>
+    <WelcomeLayout heading={t('title', { appName: SharedConstantsHelper.APP_NAME })}>
       <Tabs.Root value={loginType || 'password'} className="w-full grow">
         <Tabs.List className="mt-6 mb-9 w-full">
           <Tabs.Trigger value="password" className="uppercase" onClick={() => navigate('/login/password')}>

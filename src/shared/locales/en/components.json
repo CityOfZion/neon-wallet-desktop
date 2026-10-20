@@ -1,4 +1,23 @@
 {
+  "appBar": {
+    "copy": "Copy",
+    "cut": "Cut",
+    "delete": "Delete",
+    "edit": "Edit",
+    "forceReload": "Force reload",
+    "paste": "Paste",
+    "redo": "Redo",
+    "reload": "Reload",
+    "resetZoom": "Actual size",
+    "selectAll": "Select all",
+    "toggleAlwaysOnTop": "Toggle always on top",
+    "toggleDevTools": "Toggle DevTools",
+    "toggleFullScreen": "Toggle full screen",
+    "undo": "Undo",
+    "view": "View",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out"
+  },
   "balanceChart": {
     "balance": "Balance",
     "holdings": "Holdings",

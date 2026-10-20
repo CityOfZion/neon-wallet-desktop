@@ -73,6 +73,18 @@ export const Neo3VoteList = ({ neo3Account, search, voteErrorMessage, canVote }:
       setPubKeySize(
         match(entry.contentRect.width)
           .with(
+            P.when(value => value <= 700),
+            () => 8
+          )
+          .with(
+            P.when(value => value <= 800),
+            () => 16
+          )
+          .with(
+            P.when(value => value <= 900),
+            () => 24
+          )
+          .with(
             P.when(value => value <= 1000),
             () => 30
           )
@@ -113,7 +125,7 @@ export const Neo3VoteList = ({ neo3Account, search, voteErrorMessage, canVote }:
                 {t('nameColumnLabel')}
               </p>
 
-              <p className="grow" id="column-pub-key" role="columnheader">
+              <p className="min-w-0 grow" id="column-pub-key" role="columnheader">
                 {t('pubKeyColumnLabel')}
               </p>
 

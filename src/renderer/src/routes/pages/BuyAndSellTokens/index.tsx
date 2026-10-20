@@ -131,7 +131,7 @@ const BuyAndSellTokensPage = () => {
         className="flex min-h-0 grow rounded-sm bg-gray-700/60"
         {...TestHelper.buildTestObject('buy-tokens-content')}
       >
-        <div className="flex w-[27%] max-w-88 flex-col border-r border-gray-300/15 bg-gray-900/50 px-4">
+        <div className="flex w-[27%] max-w-88 flex-col overflow-x-hidden overflow-y-auto border-r border-gray-300/15 bg-gray-900/50 px-4">
           <div className="flex h-13 items-center gap-2.5">
             <MdInfoOutline aria-hidden className="text-green size-6" />
             <h2 className="text-sm text-white">{t('howItWorks.title')}</h2>
@@ -139,20 +139,20 @@ const BuyAndSellTokensPage = () => {
 
           <Separator />
 
-          <div className="relative my-7 flex h-full flex-col gap-5">
+          <div className="my-7 flex grow flex-col gap-5">
             <p className="text-xs font-semibold text-white">{t('howItWorks.description')}</p>
 
             <Separator containerClassName="my-6" />
 
-            <div className="relative">
-              <AnimatePresence mode="popLayout" initial={false}>
+            <div className="grid">
+              <AnimatePresence initial={false}>
                 <motion.div
                   key={tab}
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 10 }}
                   transition={{ duration: 0.2 }}
-                  className="absolute inset-0 flex h-full flex-col gap-5"
+                  className="col-start-1 row-start-1 flex flex-col gap-5"
                 >
                   {tab === 'buy' ? (
                     <Fragment>

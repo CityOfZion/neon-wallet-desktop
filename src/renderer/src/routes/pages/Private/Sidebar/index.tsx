@@ -7,7 +7,7 @@ import { TestHelper } from '@renderer/helpers/TestHelper'
 
 import { useLogin } from '@renderer/hooks/useLogin'
 
-import NeonLogoIcon from '@renderer/assets/images/neon-wallet-compact.svg?react'
+import NeonWalletCompactLogo from '@renderer/assets/images/neon-wallet-compact.svg?react'
 import TbDoorExit from '@renderer/assets/images/tb-door-exit.svg?react'
 import TbHome2 from '@renderer/assets/images/tb-home-2.svg?react'
 import TbReplace from '@renderer/assets/images/tb-replace.svg?react'
@@ -17,6 +17,8 @@ import TbStepInto from '@renderer/assets/images/tb-step-into.svg?react'
 import TbStepOut from '@renderer/assets/images/tb-step-out.svg?react'
 import TbUsers from '@renderer/assets/images/tb-users.svg?react'
 import WalletIcon from '@renderer/assets/images/wallet-icon.svg?react'
+
+import { SharedConstantsHelper } from '@shared/helpers/SharedConstantsHelper'
 
 import { SidebarLink } from './SidebarLink'
 
@@ -33,11 +35,14 @@ export const Sidebar = ({ className, ...props }: TProps) => {
       animate={{ x: 0, opacity: 1 }}
       exit={{ opacity: 0, width: 0, x: -64, minWidth: 0 }}
       transition={{ duration: 0.3 }}
-      className={StyleHelper.mergeStyles('flex h-full w-16 min-w-16 flex-col bg-gray-800 drop-shadow-lg', className)}
+      className={StyleHelper.mergeStyles(
+        'flex h-full w-16 max-w-16 min-w-16 flex-col overflow-y-auto bg-gray-800 drop-shadow-lg [scrollbar-width:none]',
+        className
+      )}
       {...props}
     >
       <div className="flex justify-center py-4" {...TestHelper.buildTestObject('neon-wallet-logo')}>
-        <NeonLogoIcon title={tCommon('logo')} />
+        <NeonWalletCompactLogo title={tCommon('logo', { appName: SharedConstantsHelper.APP_NAME })} />
       </div>
 
       <nav className="grow">

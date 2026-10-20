@@ -159,7 +159,7 @@ export const Neo3VoteListItem = ({
         </p>
 
         <p
-          className="flex h-full grow items-center border-b-2 border-gray-300/15 pr-2 whitespace-nowrap"
+          className="flex h-full min-w-0 grow items-center border-b-2 border-gray-300/15 pr-2 whitespace-nowrap"
           role="cell"
           aria-labelledby="column-pub-key"
         >

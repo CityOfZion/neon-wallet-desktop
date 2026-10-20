@@ -69,7 +69,7 @@ const CreateWalletStep2Modal = () => {
 
       <Separator className="mb-9 min-h-px" />
 
-      <div className="flex h-[84%] w-full flex-col items-center justify-between">
+      <div className="flex w-full grow flex-col items-center justify-between">
         <div className="flex w-full flex-col gap-6">
           <div className="text-xs text-gray-100">{t('description')}</div>
           <div className="mx-5 grid min-h-24 grid-cols-4 justify-center gap-x-8 gap-y-4 rounded-sm px-5 py-5">

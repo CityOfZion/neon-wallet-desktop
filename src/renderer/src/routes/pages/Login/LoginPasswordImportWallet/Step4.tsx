@@ -16,7 +16,7 @@ import { useNavigateReset } from '@renderer/hooks/useNavigateReset'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 import { useCreateWallet } from '@renderer/hooks/useWalletActions'
 
-import NeonWalletLogo from '@renderer/assets/images/neon-wallet-compact.svg?react'
+import NeonWalletCompactLogo from '@renderer/assets/images/neon-wallet-compact.svg?react'
 
 import { utilityReducerActions } from '@renderer/store/reducers/utility'
 import { AppError } from '@shared/helpers/SharedErrorHelper'
@@ -100,7 +100,7 @@ export const LoginPasswordImportWalletStep4Content = () => {
 
       <Progress value={progress} className="mt-7" />
 
-      <NeonWalletLogo aria-hidden className="absolute -bottom-11 -left-11 h-50 w-55 fill-gray-700/30" />
+      <NeonWalletCompactLogo aria-hidden className="absolute -bottom-11 -left-11 h-50 w-55 fill-gray-700/30" />
     </Fragment>
   )
 }

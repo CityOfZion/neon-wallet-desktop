@@ -7,11 +7,13 @@ import { match } from 'ts-pattern'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { Button } from '@renderer/components/Button'
 import { Loader } from '@renderer/components/Loader'
+import { Tooltip } from '@renderer/components/Tooltip'
 
 import { LoggerHelper } from '@renderer/helpers/LoggerHelper'
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 
 import { useBalance } from '@renderer/hooks/useBalances'
+import { useIsTruncated } from '@renderer/hooks/useIsTruncated'
 import { useUnclaimed, useUnclaimedMutation } from '@renderer/hooks/useUnclaimed'
 
 import TbTransform from '@renderer/assets/images/tb-transform.svg?react'
@@ -50,6 +52,8 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
   const isWatchAccount = account.type === 'watch'
   const claimToken = blockchainService.claimService.claimToken
 
+  const { ref: messageRef, isTruncated: isMessageTruncated } = useIsTruncated<HTMLSpanElement>()
+
   useEffect(() => {
     if (!unclaimedQuery.error) return
 
@@ -62,9 +66,9 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
       {unclaimedQuery.isLoading || balance.isLoading ? (
         <Loader />
       ) : (
-        <div className="flex h-full w-full items-center justify-between px-4">
-          <div className="flex items-center gap-x-2">
-            <div className="flex items-center gap-x-1.5">
+        <div className="flex h-full w-full items-center justify-between gap-x-4 px-4">
+          <div className="flex min-w-0 items-center gap-x-2">
+            <div className="flex shrink-0 items-center gap-x-1.5">
               <BlockchainIcon className="text-green" blockchain={account.blockchain} />
               {claimToken.symbol}
             </div>
@@ -75,40 +79,80 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
               unclaimedNumber: unclaimedQuery.data?.unclaimedNumber,
             })
               .with({ unclaimedNumber: 0 }, () => (
-                <span className="text-gray-300">
-                  {t('youDoNotHaveUnclaimed', {
-                    symbol: claimToken.symbol,
-                  })}
-                </span>
+                <Tooltip
+                  title={t('youDoNotHaveUnclaimed', { symbol: claimToken.symbol })}
+                  open={isMessageTruncated ? undefined : false}
+                  variant="black"
+                  delayDuration={0}
+                  contentProps={{ className: 'max-w-64' }}
+                >
+                  <span ref={messageRef} className="truncate text-gray-300">
+                    {t('youDoNotHaveUnclaimed', { symbol: claimToken.symbol })}
+                  </span>
+                </Tooltip>
               ))
               .with({ feeIsLessThanUnclaimed: false }, () => (
-                <span className="text-gray-300">{t('unclaimedLessFee')}</span>
-              ))
-              .with({ feeIsLessThanBalance: false }, () => <span className="text-gray-300">{t('balanceLessFee')}</span>)
-              .with({ feeIsLessThanBalance: true }, () => (
-                <div className="flex gap-x-1">
-                  <span className="text-gray-100">
-                    {t('youHaveUnclaimed', {
-                      symbol: claimToken.symbol,
-                    })}
+                <Tooltip
+                  title={t('unclaimedLessFee')}
+                  open={isMessageTruncated ? undefined : false}
+                  variant="black"
+                  delayDuration={0}
+                  contentProps={{ className: 'max-w-64' }}
+                >
+                  <span ref={messageRef} className="truncate text-gray-300">
+                    {t('unclaimedLessFee')}
                   </span>
+                </Tooltip>
+              ))
+              .with({ feeIsLessThanBalance: false }, () => (
+                <Tooltip
+                  title={t('balanceLessFee')}
+                  open={isMessageTruncated ? undefined : false}
+                  variant="black"
+                  delayDuration={0}
+                  contentProps={{ className: 'max-w-64' }}
+                >
+                  <span ref={messageRef} className="truncate text-gray-300">
+                    {t('balanceLessFee')}
+                  </span>
+                </Tooltip>
+              ))
+              .with({ feeIsLessThanBalance: true }, () => (
+                <Tooltip
+                  title={
+                    isWatchAccount
+                      ? t('youHaveUnclaimed', { symbol: claimToken.symbol })
+                      : `${t('youHaveUnclaimed', { symbol: claimToken.symbol })} ${t('feeToClaim', {
+                          fee: unclaimedQuery.data?.fee,
+                          symbol: claimToken.symbol,
+                        })}`
+                  }
+                  open={isMessageTruncated ? undefined : false}
+                  variant="black"
+                  delayDuration={0}
+                  contentProps={{ className: 'max-w-64' }}
+                >
+                  <span ref={messageRef} className="truncate">
+                    <span className="text-gray-100">{t('youHaveUnclaimed', { symbol: claimToken.symbol })}</span>
 
-                  {!isWatchAccount && (
-                    <span className="text-gray-300">
-                      {t('feeToClaim', {
-                        fee: unclaimedQuery.data?.fee,
-                        symbol: claimToken.symbol,
-                      })}
-                    </span>
-                  )}
-                </div>
+                    {!isWatchAccount && (
+                      <span className="text-gray-300">
+                        {' '}
+                        {t('feeToClaim', {
+                          fee: unclaimedQuery.data?.fee,
+                          symbol: claimToken.symbol,
+                        })}
+                      </span>
+                    )}
+                  </span>
+                </Tooltip>
               ))
               .otherwise(() => (
                 <Fragment />
               ))}
           </div>
 
-          <div className="flex items-center gap-x-5">
+          <div className="flex shrink-0 items-center gap-x-5">
             <span className="truncate">
               {t('claimAmount', {
                 amount: unclaimedQuery.data?.unclaimed || 0,

@@ -64,7 +64,7 @@ const ExportKeyModal = () => {
 
       <Separator className="my-8" />
 
-      <div className="flex w-full min-w-[200px] flex-col overflow-hidden rounded-sm bg-gray-900 px-3 py-2.5 text-sm">
+      <div className="flex w-full min-w-[200px] shrink-0 flex-col overflow-hidden rounded-sm bg-gray-900 px-3 py-2.5 text-sm">
         <div className="mb-2.5 flex items-center gap-x-2">
           <TbReceipt aria-hidden className="text-blue h-6 w-6" />
 

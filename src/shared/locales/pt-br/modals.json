@@ -178,6 +178,8 @@
       "backButtonLabel": "Voltar",
       "createWalletButtonLabel": "Criar carteira",
       "description": "Por favor, selecione quais redes você gostaria de usar para esta carteira.",
+      "deselectAllButtonLabel": "Desmarcar todas",
+      "selectAllButtonLabel": "Selecionar todas",
       "step4of4": "4 de 4",
       "title": "Selecionar rede"
     },
@@ -535,7 +537,7 @@
     "votesLabel": "Número de votos"
   },
   "neo3VoteSupportUs": {
-    "aboutNeonWalletDescription": "Como usuário e detentor de tokens da Neon Wallet, você pode influenciar decisões importantes do protocolo, garantindo que a rede tenha um caminho de desenvolvimento que corresponda aos seus interesses.",
+    "aboutNeonWalletDescription": "Como usuário e detentor de tokens da {{appName}}, você pode influenciar decisões importantes do protocolo, garantindo que a rede tenha um caminho de desenvolvimento que corresponda aos seus interesses.",
     "cozLogoAlt": "Logotipo COZ",
     "cozTeamLabel": "A Equipe COZ.",
     "dontShowAgainLabel": "Não mostrar novamente",

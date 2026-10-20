@@ -1,4 +1,23 @@
 {
+  "appBar": {
+    "copy": "Copiar",
+    "cut": "Recortar",
+    "delete": "Excluir",
+    "edit": "Editar",
+    "forceReload": "Forçar recarregamento",
+    "paste": "Colar",
+    "redo": "Refazer",
+    "reload": "Recarregar",
+    "resetZoom": "Tamanho real",
+    "selectAll": "Selecionar tudo",
+    "toggleAlwaysOnTop": "Alternar sempre visível",
+    "toggleDevTools": "Alternar DevTools",
+    "toggleFullScreen": "Alternar tela cheia",
+    "undo": "Desfazer",
+    "view": "Exibir",
+    "zoomIn": "Aumentar zoom",
+    "zoomOut": "Diminuir zoom"
+  },
   "balanceChart": {
     "balance": "Saldo",
     "holdings": "Saldos",

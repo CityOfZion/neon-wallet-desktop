@@ -112,8 +112,11 @@ export const TransactionActivityListItemsHeaderContent = ({ transaction }: TProp
   }
 
   return (
-    <div className="bg-asphalt flex h-full w-full items-center justify-between gap-x-2 rounded-sm px-1">
-      <div className="flex items-center gap-x-2 truncate whitespace-nowrap" onClick={handleCancelBubbleEvent}>
+    <div className="bg-asphalt @container flex size-full min-w-0 items-center justify-between gap-x-2 rounded-sm px-1">
+      <div
+        className="flex min-w-0 items-center gap-x-2 overflow-hidden whitespace-nowrap"
+        onClick={handleCancelBubbleEvent}
+      >
         <TransactionActivityListItemsHeaderContentDetails
           label={DateHelper.formatLocalized(transaction.date, { format: 'Pp', language })}
           data={DateHelper.formatLocalized(transaction.date, { format: 'p', language })}
@@ -122,6 +125,7 @@ export const TransactionActivityListItemsHeaderContent = ({ transaction }: TProp
 
         {typeof transaction.notificationCount === 'number' && (
           <TransactionActivityListItemsHeaderContentDetails
+            className="hidden @2xl:flex"
             label={t('notificationCountLabel')}
             data={transaction.notificationCount}
             icon={<TbBell aria-hidden />}
@@ -130,6 +134,7 @@ export const TransactionActivityListItemsHeaderContent = ({ transaction }: TProp
 
         {typeof transaction.invocationCount === 'number' && (
           <TransactionActivityListItemsHeaderContentDetails
+            className="hidden @2xl:flex"
             label={t('invocationCountLabel')}
             data={transaction.invocationCount}
             icon={<TbCodeCircle aria-hidden />}
@@ -146,6 +151,7 @@ export const TransactionActivityListItemsHeaderContent = ({ transaction }: TProp
 
         {netoworkFeeBn.isGreaterThan('0') && (
           <TransactionActivityListItemsHeaderContentDetails
+            className="hidden @xl:flex"
             data={
               <div className="flex items-center whitespace-nowrap">
                 <TransactionActivityListTooltip
@@ -188,7 +194,7 @@ export const TransactionActivityListItemsHeaderContent = ({ transaction }: TProp
         )}
       </div>
 
-      <div className="flex items-center gap-x-2 truncate whitespace-nowrap">
+      <div className="flex shrink-0 items-center gap-x-2 whitespace-nowrap">
         {(swapRecord || bridgeData) && (
           <div className="flex items-center gap-x-2" onClick={handleCancelBubbleEvent}>
             {swapRecord && (

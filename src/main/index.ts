@@ -32,13 +32,17 @@ MainDeeplinkHelper.setupProtocol()
 
 function createWindow(): void {
   mainWindow = new BrowserWindow({
-    title: `Neon Wallet ${packageJson.version}`,
+    title: `${SharedConstantsHelper.APP_NAME} ${packageJson.version}`,
     width: 1350,
     height: 800,
     minWidth: 1350,
     minHeight: 800,
-    titleBarStyle: isMac ? 'hidden' : 'default',
+    titleBarStyle: 'hidden',
     trafficLightPosition: isMac ? { x: 12, y: 8 } : undefined,
+    // Must match the AppBar colors (gray-800 and gray-100)
+    titleBarOverlay: isMac
+      ? undefined
+      : { color: '#293139', symbolColor: '#b0c0c8', height: SharedConstantsHelper.TITLE_BAR_HEIGHT },
     show: false,
     backgroundColor: '#1a2026',
     ...(isLinux ? { icon } : {}),
@@ -48,6 +52,8 @@ function createWindow(): void {
       webviewTag: true,
     },
   })
+
+  if (!isMac) mainWindow.setMenuBarVisibility(false)
 
   mainWindow.on('ready-to-show', async () => {
     await BSUtilsHelper.wait(500)
@@ -149,13 +155,15 @@ async function initialize() {
   })
 
   app.on('browser-window-created', (_, window) => {
-    optimizer.watchWindowShortcuts(window)
+    optimizer.watchWindowShortcuts(window, { zoom: true })
+
+    if (!isMac) MainMenuHelper.setupZoomShortcuts(window)
   })
 
   await Promise.all([MainBlockchainServiceHelper.setup(), app.whenReady()]).catch(error => {
     dialog.showErrorBox(
       'Initialization Error',
-      `Failed to start Neon Wallet: ${error instanceof Error ? error.message : 'Unknown error'}\n\nPlease restart the application or contact support.`
+      `Failed to start ${SharedConstantsHelper.APP_NAME}:${error instanceof Error ? error.message : 'Unknown error'}\n\nPlease restart the application or contact support.`
     )
     app.quit()
   })
