@@ -559,6 +559,7 @@
     "step3": {
       "alreadyImportedLabel": "Importado",
       "buttonLabel": "Escolher contas selecionadas",
+      "deselectAllButtonLabel": "Desmarcar todas",
       "selectAllButtonLabel": "Selecionar todas",
       "selectLabel": "Contas",
       "selectTitle": "Selecione quais contas você deseja importar",
@@ -585,6 +586,7 @@
     "step3": {
       "alreadyImportedLabel": "Importado",
       "buttonLabel": "Escolher contas selecionadas",
+      "deselectAllButtonLabel": "Desmarcar todas",
       "selectAllButtonLabel": "Selecionar todas",
       "selectLabel": "Contas",
       "selectTitle": "Selecione quais contas você deseja importar",

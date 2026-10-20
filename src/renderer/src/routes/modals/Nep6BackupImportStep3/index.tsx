@@ -7,11 +7,14 @@ import { Button } from '@renderer/components/Button'
 import { Checkbox } from '@renderer/components/Checkbox'
 import { Separator } from '@renderer/components/Separator'
 
+import { StyleHelper } from '@renderer/helpers/StyleHelper'
+
 import { useAccountUtils } from '@renderer/hooks/useAccountSelector'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 
 import { ImportModalLayout } from '@renderer/layouts/ImportModalLayout'
 
+import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 import type { TUseImportNep6Account } from '@shared/types/hooks'
 import type { TModalState } from '@shared/types/modal'
 
@@ -27,21 +30,22 @@ const Nep6BackupImportStep3Modal = () => {
 
   const handleToggleAccount = (account: TUseImportNep6Account) => {
     setAccounts(previousAccounts => {
-      const index = previousAccounts.findIndex(currentAccount => currentAccount.address === account.address)
-
-      if (index === -1) {
+      if (!previousAccounts.some(SharedAccountHelper.predicate(account))) {
         return [...previousAccounts, account]
       }
 
-      return previousAccounts.filter(currentAccount => currentAccount.address !== account.address)
+      return previousAccounts.filter(SharedAccountHelper.predicateNot(account))
     })
   }
 
-  const handleSelectAllAccounts = () => {
-    setAccounts(selectableAccounts)
-  }
-
   const isDisabled = selectableAccounts.length === 0
+
+  const areAllAccountsSelected =
+    !isDisabled && selectableAccounts.every(account => accounts.some(SharedAccountHelper.predicate(account)))
+
+  const handleToggleAllAccounts = () => {
+    setAccounts(areAllAccountsSelected ? [] : selectableAccounts)
+  }
 
   return (
     <ImportModalLayout heading={t('title')} size="md">
@@ -51,10 +55,10 @@ const Nep6BackupImportStep3Modal = () => {
         <span className="text-gray-100 uppercase">{t('step3.selectLabel')}</span>
 
         <Button
-          label={t('step3.selectAllButtonLabel')}
+          label={areAllAccountsSelected ? t('step3.deselectAllButtonLabel') : t('step3.selectAllButtonLabel')}
           variant="text-slim"
           flat
-          onClick={handleSelectAllAccounts}
+          onClick={handleToggleAllAccounts}
           disabled={isDisabled}
         />
       </div>
@@ -62,11 +66,17 @@ const Nep6BackupImportStep3Modal = () => {
       <div className="mt-1 flex min-h-0 w-full grow flex-col overflow-y-auto pr-2">
         {content.accounts.map((account, index) => {
           const isAccountExist = doesAccountExist(account)
+          const checkboxId = `nep6-backup-import-account-${SharedAccountHelper.buildAccountKey(account)}`
 
           return (
-            <Fragment key={account.address}>
-              <div className="flex items-center justify-between py-4">
-                <div className="flex items-center">
+            <Fragment key={SharedAccountHelper.buildAccountKey(account)}>
+              <div className="flex items-center justify-between gap-x-2 py-4">
+                <label
+                  htmlFor={checkboxId}
+                  className={StyleHelper.mergeStyles('flex grow cursor-pointer items-center', {
+                    'cursor-not-allowed': isAccountExist,
+                  })}
+                >
                   <BlockchainIcon className="mr-2 text-gray-100" blockchain={account.blockchain} />
 
                   <div className="flex flex-col gap-1">
@@ -78,11 +88,12 @@ const Nep6BackupImportStep3Modal = () => {
                     </div>
                     <span className="text-xs text-gray-300">{account.address}</span>
                   </div>
-                </div>
+                </label>
 
                 <Checkbox
+                  id={checkboxId}
                   onClick={handleToggleAccount.bind(null, account)}
-                  checked={isAccountExist || accounts.some(selectWallet => selectWallet.address === account.address)}
+                  checked={accounts.some(SharedAccountHelper.predicate(account))}
                   disabled={isAccountExist}
                 />
               </div>

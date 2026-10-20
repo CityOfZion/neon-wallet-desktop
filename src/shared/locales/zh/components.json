@@ -105,7 +105,9 @@
   "mnemonicOrKeyAccountSelection": {
     "accountsLength": "找到 {{length}} 个地址",
     "alreadyExists": "已存在",
-    "noAccountsToImport": "未找到账户或已存在，请检查您的输入并稍后再试。"
+    "deselectAllButtonLabel": "取消全选",
+    "noAccountsToImport": "未找到账户或已存在，请检查您的输入并稍后再试。",
+    "selectAllButtonLabel": "全选"
   },
   "neonMigrateSteps": {
     "inNeon": {

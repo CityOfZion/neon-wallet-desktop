@@ -81,6 +81,8 @@ export const importWalletUntilCompletionStep = async (window: Page) => {
   await window.getByTestId('security-setup-second-submit').click()
   await window.getByTestId('import-wallet-key-textarea').fill(mnemonic)
   await window.getByTestId('import-wallet-key-submit').click()
+  await window.getByTestId('mnemonic-or-key-account-selection-toggle-all').click()
+  await window.getByTestId('import-accounts-selection-submit').click()
 }
 
 export const importWallet = async (window: Page) => {
