@@ -29,7 +29,9 @@ const PortfolioOverviewPage = () => {
 
       <Separator />
 
-      <OverviewCharts balances={balances} balanceChartClassName="px-7" chartCardListClassName="px-7" />
+      <div className="flex min-h-0 grow flex-col overflow-y-auto">
+        <OverviewCharts balances={balances} balanceChartClassName="px-7" chartCardListClassName="px-7" />
+      </div>
     </Fragment>
   )
 }

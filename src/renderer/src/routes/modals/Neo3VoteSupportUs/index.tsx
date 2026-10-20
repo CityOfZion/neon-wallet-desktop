@@ -17,6 +17,7 @@ import TbCheckbox from '@renderer/assets/images/tb-checkbox.svg?react'
 import TbHeartHandshake from '@renderer/assets/images/tb-heart-handshake.svg?react'
 
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
+import { SharedConstantsHelper } from '@shared/helpers/SharedConstantsHelper'
 import type { TModalState } from '@shared/types/modal'
 
 type TActionsData = {
@@ -64,7 +65,9 @@ const Neo3VoteSupportUs = () => {
 
         <p>{t('hiLabel')}</p>
 
-        <strong className="font-bold">{t('aboutNeonWalletDescription')}</strong>
+        <strong className="font-bold">
+          {t('aboutNeonWalletDescription', { appName: SharedConstantsHelper.APP_NAME })}
+        </strong>
 
         <p>{t('importantThingsLabel')}</p>
 

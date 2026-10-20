@@ -139,20 +139,20 @@ const BuyAndSellTokensPage = () => {
 
           <Separator />
 
-          <div className="relative my-7 flex h-full flex-col gap-5">
+          <div className="relative my-7 flex min-h-0 grow flex-col gap-5 overflow-x-hidden overflow-y-auto">
             <p className="text-xs font-semibold text-white">{t('howItWorks.description')}</p>
 
             <Separator containerClassName="my-6" />
 
-            <div className="relative">
-              <AnimatePresence mode="popLayout" initial={false}>
+            <div className="grid">
+              <AnimatePresence initial={false}>
                 <motion.div
                   key={tab}
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 10 }}
                   transition={{ duration: 0.2 }}
-                  className="absolute inset-0 flex h-full flex-col gap-5"
+                  className="col-start-1 row-start-1 flex flex-col gap-5"
                 >
                   {tab === 'buy' ? (
                     <Fragment>

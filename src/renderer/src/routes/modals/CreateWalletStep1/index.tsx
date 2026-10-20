@@ -42,7 +42,7 @@ const CreateWalletStep1Modal = () => {
 
       <Separator className="mb-9 min-h-px" />
 
-      <div className="flex h-[84%] w-full flex-col items-center justify-between">
+      <div className="flex w-full grow flex-col items-center justify-between">
         <div className="flex w-full flex-col gap-6" ref={ref}>
           <div className="text-xs text-gray-100 print:hidden">{t('description')}</div>
           <div className="bg-asphalt mx-5 flex min-h-24 flex-wrap justify-center gap-x-4 gap-y-2 rounded-sm px-10 py-5">

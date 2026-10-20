@@ -105,6 +105,7 @@ export const CenterModalLayout = ({
       <motion.div
         ref={scope}
         style={{ width, height }}
+        className="max-h-[calc(100%-2rem)] max-w-[calc(100%-2rem)]"
         transition={{ duration: DURATION }}
         initial={{ opacity: 0, scale: 0.95, transition: { duration: DURATION } }}
         animate={{ opacity: 1, scale: 1, transition: { duration: DURATION } }}

@@ -1,4 +1,23 @@
 {
+  "appBar": {
+    "copy": "Kopieren",
+    "cut": "Ausschneiden",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "forceReload": "Neu laden erzwingen",
+    "paste": "Einfügen",
+    "redo": "Wiederholen",
+    "reload": "Neu laden",
+    "resetZoom": "Originalgröße",
+    "selectAll": "Alles auswählen",
+    "toggleAlwaysOnTop": "Immer im Vordergrund umschalten",
+    "toggleDevTools": "Entwicklertools umschalten",
+    "toggleFullScreen": "Vollbild umschalten",
+    "undo": "Rückgängig",
+    "view": "Ansicht",
+    "zoomIn": "Vergrößern",
+    "zoomOut": "Verkleinern"
+  },
   "balanceChart": {
     "balance": "Guthaben",
     "holdings": "Bestände",

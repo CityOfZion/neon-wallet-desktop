@@ -75,7 +75,7 @@
       "key": "Endereço ou chave",
       "password": "Conta Neon"
     },
-    "title": "Bem-vindo à Neon Wallet"
+    "title": "Bem-vindo à {{appName}}"
   },
   "loginEncryptedKeySelectAccount": {
     "decryptDescription": "Digite a senha que você usou para criptografar sua chave:",
@@ -507,8 +507,7 @@
     "explanation": {
       "description1": "Troque tokens por outros tokens, entre redes, sem usar uma exchange.",
       "description2": "Fazer swap direta e imediatamente na Neon é conveniente e permite economizar tempo e pagar taxas mais baixas.",
-      "title": "Como funciona?",
-      "useTitle": "A Neon wallet usa:"
+      "title": "Como funciona?"
     },
     "form": {
       "accountToUseTitle": "Enviar de",
@@ -701,6 +700,6 @@
       },
       "title": "Protegendo sua nova carteira"
     },
-    "title": "Bem-vindo à Neon Wallet"
+    "title": "Bem-vindo à {{appName}}"
   }
 }

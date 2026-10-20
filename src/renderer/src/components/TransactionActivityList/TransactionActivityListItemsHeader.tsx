@@ -28,7 +28,7 @@ export const TransactionActivityListItemsHeader = ({ transaction }: TProps) => {
       </TransactionActivityListTooltip>
 
       {transaction.txIdUrl ? (
-        <Link to={transaction.txIdUrl} target="_blank" className="block h-full w-full cursor-pointer">
+        <Link to={transaction.txIdUrl} target="_blank" className="block h-full w-full min-w-0 cursor-pointer">
           <TransactionActivityListItemsHeaderContent transaction={transaction} />
         </Link>
       ) : (

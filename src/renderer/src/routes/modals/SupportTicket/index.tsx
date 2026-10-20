@@ -77,7 +77,7 @@ const SupportTicketModal = () => {
       size="lg"
       eraseOnClickOutside={false}
     >
-      <form onSubmit={handleAct(onSubmit)} className="flex h-full flex-col justify-between gap-y-6 px-6">
+      <form onSubmit={handleAct(onSubmit)} className="flex min-h-full flex-col justify-between gap-y-6 px-6">
         <Input
           label={t('nameLabel')}
           maxLength={50}

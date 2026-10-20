@@ -1,4 +1,23 @@
 {
+  "appBar": {
+    "copy": "复制",
+    "cut": "剪切",
+    "delete": "删除",
+    "edit": "编辑",
+    "forceReload": "强制重新加载",
+    "paste": "粘贴",
+    "redo": "重做",
+    "reload": "重新加载",
+    "resetZoom": "实际大小",
+    "selectAll": "全选",
+    "toggleAlwaysOnTop": "切换窗口置顶",
+    "toggleDevTools": "切换开发者工具",
+    "toggleFullScreen": "切换全屏",
+    "undo": "撤销",
+    "view": "视图",
+    "zoomIn": "放大",
+    "zoomOut": "缩小"
+  },
   "balanceChart": {
     "balance": "余额",
     "holdings": "持有量",

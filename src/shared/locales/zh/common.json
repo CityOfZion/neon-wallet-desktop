@@ -38,7 +38,7 @@
     "edit": "编辑",
     "emptyColumn": "--",
     "hidePassword": "隐藏密码",
-    "logo": "Neon 钱包标志",
+    "logo": "{{appName}} 标志",
     "next": "下一步",
     "passwordNEONQRCode": "二维码",
     "pasteFromClipboard": "从剪贴板粘贴",
