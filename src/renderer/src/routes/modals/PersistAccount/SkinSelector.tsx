@@ -18,10 +18,15 @@ export const SkinSelector = ({ label, selectedSkin, account, onSelectSkin }: TPr
 
   return (
     <div>
-      <div className="mt-4 mb-4 text-xs font-bold text-gray-300 uppercase">{label}</div>
+      <div className="my-4 text-xs font-bold text-gray-300 uppercase">{label}</div>
       <div className="grid grid-cols-4 flex-wrap gap-4">
         {Array.from(SkinHelper.accountColorSkins.values()).map(skin => (
-          <button key={skin.id} onClick={() => onSelectSkin({ id: skin.id, type: 'color' })} type="button">
+          <button
+            key={skin.id}
+            className="w-fit"
+            onClick={() => onSelectSkin({ id: skin.id, type: 'color' })}
+            type="button"
+          >
             <SkinCard showCheck={selectedSkin.id === skin.id} color={skin.color} />
           </button>
         ))}
