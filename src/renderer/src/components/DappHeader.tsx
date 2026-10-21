@@ -15,7 +15,7 @@ type TProps = {
 
 export const DappHeader = ({ proposerUri, proposerName, className, ...props }: TProps) => {
   return (
-    <div className={StyleHelper.mergeStyles('mt-8 flex flex-col items-center gap-6', className)} {...props}>
+    <div className={StyleHelper.mergeStyles('mt-4 flex flex-col items-center gap-6', className)} {...props}>
       <div className="flex w-full items-center gap-x-12">
         <NeonWalletLogo aria-hidden className="h-min w-full" />
         <WalletConnectLogo aria-hidden className="h-min w-full text-white opacity-60" />

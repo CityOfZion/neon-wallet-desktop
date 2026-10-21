@@ -97,12 +97,12 @@ export const DappPermissionGenericContent = (props: TDappPermissionProps) => {
 
       {isCalculableMethod && <DappPermissionGenericContentFee {...props} />}
 
-      <div className="mt-3 flex gap-2.5">
+      <div className="mt-auto flex gap-2.5 pt-3">
         <Button
           label={t('rejectButtonLabel')}
           loading={isRejecting}
           disabled={isAccepting}
-          className="w-25"
+          className="min-25 w-25 max-w-25"
           colorSchema="gray"
           onClick={() => onReject()}
         />

@@ -56,9 +56,9 @@ export const useColumns = (withAddress: boolean) => {
           const value = info.getValue()
 
           return (
-            <div className="flex">
+            <div className="flex items-center gap-1.5">
               <BlockchainIcon blockchain={value} />
-              <span className="ml-2">{tCommonBlockchain(value)}</span>
+              <span className="relative bottom-px">{tCommonBlockchain(value)}</span>
             </div>
           )
         },
