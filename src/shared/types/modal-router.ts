@@ -12,7 +12,7 @@ import type { ErrorResponse } from '@walletconnect/jsonrpc-utils'
 import type { PendingRequestTypes, ProposalTypes, SessionTypes } from '@walletconnect/types'
 import type { Dispatch, JSX } from 'react'
 
-import type { TBlockchainServiceKey, TNetwork } from './blockchain'
+import type { TAccountsToImport, TBlockchainServiceKey, TNetwork } from './blockchain'
 import type {
   TUseImportNep6Account,
   TUseNeonBackupData,
@@ -147,6 +147,7 @@ type TImportModalState =
 
 type TImportAccountsSelectionModalState = {
   mnemonicOrKey: string
+  onImport?: (accounts: TAccountsToImport) => void
 }
 
 type TImportWatchAccountsModalState =

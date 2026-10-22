@@ -9,12 +9,10 @@ import { Textarea } from '@renderer/components/Textarea'
 
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
-import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
 import { useImportAction } from '@renderer/hooks/useImportAction'
 import { TUseImportFromFileActionsData, useImportFromFile } from '@renderer/hooks/useImportFromFile'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
-import { useLastIndexesByWallet } from '@renderer/hooks/useUtilitySelector'
 
 import TbFileImport from '@renderer/assets/images/tb-file-import.svg?react'
 
@@ -36,7 +34,6 @@ export const LoginPasswordImportWalletStep3Content = () => {
   const navigate = useNavigate()
   const { state } = useLocation() as Location<TLocationState>
   const { modalErase, modalNavigate } = useModalNavigate()
-  const { lastIndexesByWalletRef } = useLastIndexesByWallet()
 
   const submitAddress = async (address: string) => {
     const wallet: TUseCreateWalletParams = {
@@ -54,51 +51,26 @@ export const LoginPasswordImportWalletStep3Content = () => {
     })
   }
 
-  const submitKey = async (key: string) => {
-    const accounts: TAccountsToImport = []
-
-    await UtilsHelper.promiseAll(
-      Object.values(BlockchainServiceHelper.bsAggregator.blockchainServicesByName),
-      async service => {
-        const account = await service.generateAccountFromKey(key)
-        accounts.push({ address: account.address, blockchain: service.name, key, type: 'standard' })
-      }
-    )
-
-    const wallet: TUseCreateWalletParams = {
-      name: tCommon('wallet.encryptedName'),
-    }
-
-    navigate('/login-import-wallet-setup/4', {
-      state: { wallets: [{ ...wallet, accounts }], password: state.password },
+  const openAccountsSelection = (mnemonicOrKey: string, wallet: TUseCreateWalletParams) => {
+    modalNavigate('import-accounts-selection', {
+      state: {
+        mnemonicOrKey,
+        onImport: (accounts: TAccountsToImport) => {
+          modalErase()
+          navigate('/login-import-wallet-setup/4', {
+            state: { wallets: [{ ...wallet, accounts }], password: state.password },
+          })
+        },
+      },
     })
   }
 
+  const submitKey = async (key: string) => {
+    openAccountsSelection(key, { name: tCommon('wallet.importedName') })
+  }
+
   const submitMnemonic = async (mnemonic: string) => {
-    const mnemonicAccounts = await BlockchainServiceHelper.bsAggregator.generateAccountsFromMnemonic(
-      mnemonic,
-      lastIndexesByWalletRef.current
-    )
-
-    const accounts = Array.from(mnemonicAccounts.entries())
-      .map<TAccountsToImport>(([blockchain, accounts]) => {
-        return accounts.map(account => ({
-          address: account.address,
-          blockchain,
-          key: account.key,
-          type: 'standard',
-        }))
-      })
-      .flat()
-
-    const wallet: TUseCreateWalletParams = {
-      name: tCommon('wallet.mnemonicWalletName'),
-      mnemonic,
-    }
-
-    navigate('/login-import-wallet-setup/4', {
-      state: { wallets: [{ ...wallet, accounts }], password: state.password },
-    })
+    openAccountsSelection(mnemonic, { name: tCommon('wallet.mnemonicWalletName'), mnemonic })
   }
 
   const submitEncryptedKey = async (input: string) => {

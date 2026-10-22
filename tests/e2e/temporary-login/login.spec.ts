@@ -56,6 +56,10 @@ test.describe('Temporary Login', () => {
 
     const importSelectedButton = window.getByTestId('login-encrypted-key-import-selected')
 
+    await expect(importSelectedButton).toBeDisabled()
+
+    await window.getByTestId('mnemonic-or-key-account-selection-toggle-all').click()
+
     await expect(importSelectedButton).not.toBeDisabled()
 
     await importSelectedButton.click()
@@ -120,6 +124,10 @@ test.describe('Temporary Login', () => {
 
     const importSelectedButton = window.getByTestId('login-encrypted-key-import-selected')
 
+    await expect(importSelectedButton).toBeDisabled()
+
+    await window.getByTestId('mnemonic-or-key-account-selection-toggle-all').click()
+
     await expect(importSelectedButton).not.toBeDisabled()
 
     await importSelectedButton.click()
@@ -183,6 +191,10 @@ test.describe('Temporary Login', () => {
     await loginWithEncryptedKey(window, encryptedKey, password)
 
     const importSelectedButton = window.getByTestId('login-encrypted-key-import-selected')
+
+    await expect(importSelectedButton).toBeDisabled()
+
+    await window.getByTestId('mnemonic-or-key-account-selection-toggle-all').click()
 
     await expect(importSelectedButton).not.toBeDisabled()
 

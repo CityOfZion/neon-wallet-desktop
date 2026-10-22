@@ -11,6 +11,7 @@ import {
 } from '@renderer/components/MnemonicOrKeyAccountSelection'
 
 import { AnalyticsHelper } from '@renderer/helpers/AnalyticsHelper'
+import { TestHelper } from '@renderer/helpers/TestHelper'
 
 import { useImportAccounts } from '@renderer/hooks/useAccountActions'
 import { useAccountUtils } from '@renderer/hooks/useAccountSelector'
@@ -26,7 +27,7 @@ import { TAccountsToImport } from '@shared/types/blockchain'
 import type { TModalState } from '@shared/types/modal'
 
 const ImportAccountsSelectionModal = () => {
-  const { mnemonicOrKey } = useModalState<TModalState<'import-accounts-selection'>>()
+  const { mnemonicOrKey, onImport } = useModalState<TModalState<'import-accounts-selection'>>()
   const { createWallet } = useCreateWallet()
   const { importAccounts } = useImportAccounts()
   const { t: tCommon } = useTranslation('common')
@@ -38,19 +39,25 @@ const ImportAccountsSelectionModal = () => {
   const [selectedAccounts, setSelectedAccounts] = useState<TMnemonicOrKeyAccountWithBlockchain[]>([])
 
   const [isImporting, startImport] = usePressOnce(async () => {
+    const accountsToImport: TAccountsToImport = selectedAccounts.map(({ address, blockchain, key, order }) => ({
+      address,
+      blockchain,
+      key,
+      order,
+      type: 'standard',
+    }))
+
+    if (onImport) {
+      onImport(accountsToImport)
+      return
+    }
+
     const isMnemonic = BSKeychainHelper.isValidMnemonic(mnemonicOrKey)
 
     const wallet = createWallet({
       name: isMnemonic ? tCommon('wallet.mnemonicWalletName') : tCommon('wallet.importedName'),
       mnemonic: isMnemonic ? mnemonicOrKey : undefined,
     })
-
-    const accountsToImport: TAccountsToImport = selectedAccounts.map(({ address, blockchain, key }) => ({
-      address,
-      blockchain,
-      key,
-      type: 'standard',
-    }))
 
     const accounts = await importAccounts({
       accounts: accountsToImport,
@@ -89,6 +96,7 @@ const ImportAccountsSelectionModal = () => {
         loading={isImporting}
         disabled={selectedAccounts.length === 0}
         flat
+        {...TestHelper.buildTestObject('import-accounts-selection-submit')}
       />
     </SideModalLayout>
   )

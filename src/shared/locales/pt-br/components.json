@@ -105,7 +105,9 @@
   "mnemonicOrKeyAccountSelection": {
     "accountsLength": "{{length}} endereço(s) encontrado(s)",
     "alreadyExists": "Já existe",
-    "noAccountsToImport": "Nenhuma conta encontrada ou já existe. Verifique sua entrada e tente novamente mais tarde."
+    "deselectAllButtonLabel": "Desmarcar todos",
+    "noAccountsToImport": "Nenhuma conta encontrada ou já existe. Verifique sua entrada e tente novamente mais tarde.",
+    "selectAllButtonLabel": "Selecionar todos"
   },
   "neonMigrateSteps": {
     "inNeon": {
