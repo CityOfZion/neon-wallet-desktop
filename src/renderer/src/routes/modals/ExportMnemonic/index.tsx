@@ -65,8 +65,8 @@ const ExportMnemonic = () => {
 
             <div className="flex flex-wrap justify-center gap-2 px-10 py-5">
               {words.split(' ').map((word, index) => (
-                <span className="text-lg text-white" key={index}>
-                  {word}
+                <span className="text-lg text-white" key={`${word}-${index}`}>
+                  {index + 1}. {word}
                 </span>
               ))}
             </div>
