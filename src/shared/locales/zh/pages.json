@@ -75,7 +75,7 @@
       "key": "地址或密钥",
       "password": "Neon账户"
     },
-    "title": "欢迎使用Neon钱包"
+    "title": "欢迎使用{{appName}}"
   },
   "loginEncryptedKeySelectAccount": {
     "decryptDescription": "请输入您用于加密密钥的密码：",
@@ -507,8 +507,7 @@
     "explanation": {
       "description1": "无需交易所即可跨链兑换代币。",
       "description2": " 直接且即时地在Neon中兑换代币，方便快捷，节省时间和手续费。",
-      "title": "它是如何工作的？",
-      "useTitle": "Neon钱包使用："
+      "title": "它是如何工作的？"
     },
     "form": {
       "accountToUseTitle": "从此处发送",
@@ -701,6 +700,6 @@
       },
       "title": "保护您的新钱包"
     },
-    "title": "欢迎使用Neon钱包"
+    "title": "欢迎使用{{appName}}"
   }
 }

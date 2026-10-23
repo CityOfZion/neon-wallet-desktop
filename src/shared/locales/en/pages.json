@@ -75,7 +75,7 @@
       "key": "Address or key",
       "password": "Neon Account"
     },
-    "title": "Welcome to Neon Wallet"
+    "title": "Welcome to {{appName}}"
   },
   "loginEncryptedKeySelectAccount": {
     "decryptDescription": "Enter the password you used to encrypt your key:",
@@ -507,8 +507,7 @@
     "explanation": {
       "description1": "Exchange tokens for other token, across chains, without using an exchange.",
       "description2": " Directly and immediately exchanging tokens in Neon is convenient and allows you to save time and pay lower fees.",
-      "title": "How does it work?",
-      "useTitle": "Neon wallet uses:"
+      "title": "How does it work?"
     },
     "form": {
       "accountToUseTitle": "Send from here",
@@ -701,6 +700,6 @@
       },
       "title": "Securing your new wallet"
     },
-    "title": "Welcome to Neon Wallet"
+    "title": "Welcome to {{appName}}"
   }
 }

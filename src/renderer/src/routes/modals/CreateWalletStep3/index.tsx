@@ -82,7 +82,14 @@ const CreateWalletStep3Modal = () => {
         </div>
 
         <div className="flex gap-2">
-          <Button label={t('backButtonLabel')} colorSchema="gray" flat wide onClick={modalNavigateWrapper(-1)} />
+          <Button
+            label={t('backButtonLabel')}
+            colorSchema="gray"
+            type="button"
+            flat
+            wide
+            onClick={modalNavigateWrapper(-1)}
+          />
 
           <Button className="w-48" type="submit" label={t('nextButtonLabel')} flat disabled={isDisabled} />
         </div>

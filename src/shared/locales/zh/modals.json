@@ -178,6 +178,8 @@
       "backButtonLabel": "返回",
       "createWalletButtonLabel": "创建钱包",
       "description": "请选择您想用于此钱包的链。",
+      "deselectAllButtonLabel": "取消全选",
+      "selectAllButtonLabel": "全选",
       "step4of4": "第4步，共4步",
       "title": "选择网络"
     },
@@ -535,7 +537,7 @@
     "votesLabel": "票数"
   },
   "neo3VoteSupportUs": {
-    "aboutNeonWalletDescription": "作为 Neon Wallet 用户和代币持有者，您可以影响重要的协议决策，从而使网络的发展路径符合您的利益。",
+    "aboutNeonWalletDescription": "作为 {{appName}} 用户和代币持有者，您可以影响重要的协议决策，从而使网络的发展路径符合您的利益。",
     "cozLogoAlt": "COZ标志",
     "cozTeamLabel": "COZ团队。",
     "dontShowAgainLabel": "不要再次显示",

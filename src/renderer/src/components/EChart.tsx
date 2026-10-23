@@ -40,5 +40,5 @@ export function EChart({ option, style, settings }: TProps): JSX.Element {
     }
   }, [option, settings])
 
-  return <div ref={containerRef} style={{ width: '100%', height: '100%', ...style }} />
+  return <div ref={containerRef} style={{ width: '100%', height: '100%', contain: 'inline-size', ...style }} />
 }
