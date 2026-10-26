@@ -38,7 +38,7 @@
     "edit": "Bearbeiten",
     "emptyColumn": "--",
     "hidePassword": "Passwort ausblenden",
-    "logo": "Neon Wallet Logo",
+    "logo": "{{appName}} Logo",
     "next": "Weiter",
     "passwordNEONQRCode": "QR-Code",
     "pasteFromClipboard": "Aus Zwischenablage einfügen",

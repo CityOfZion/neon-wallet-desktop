@@ -75,7 +75,7 @@
       "key": "地址或金鑰",
       "password": "Neon 帳戶"
     },
-    "title": "歡迎使用 Neon 錢包"
+    "title": "歡迎使用 {{appName}}"
   },
   "loginEncryptedKeySelectAccount": {
     "decryptDescription": "請輸入您用於加密金鑰的密碼：",
@@ -507,8 +507,7 @@
     "explanation": {
       "description1": "跨鏈兌換代幣，無需使用交易所。",
       "description2": " 直接且即時在 Neon 兌換代幣，方便又可節省時間與手續費。",
-      "title": "如何運作？",
-      "useTitle": "Neon 錢包使用："
+      "title": "如何運作？"
     },
     "form": {
       "accountToUseTitle": "從這裡發送",
@@ -701,6 +700,6 @@
       },
       "title": "保護您的新錢包"
     },
-    "title": "歡迎使用 Neon 錢包"
+    "title": "歡迎使用 {{appName}}"
   }
 }

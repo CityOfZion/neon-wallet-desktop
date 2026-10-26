@@ -22,7 +22,7 @@ export const Neo3VoteAvailableVotes = ({ neoAmount, voteErrorMessage, hasNeoAmou
   const voteDetailsByAddressQuery = useNeo3VoteGetVoteDetailsByAddress(neo3Account?.address)
 
   return (
-    <p className="flex items-center gap-x-4 text-lg">
+    <p className="flex shrink-0 items-center gap-x-4 text-lg whitespace-nowrap">
       {t('availableVotesLabel')}{' '}
       {voteDetailsByAddressQuery.isLoading ? (
         <Skeleton className="h-7 w-24" />

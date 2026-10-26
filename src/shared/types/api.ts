@@ -61,6 +61,23 @@ export type TDecryptBasedEncryptedSecretParams = TEncryptBasedEncryptedSecretPar
 
 export type TSaveFileOptions = { path: string; content: string }
 
+export type TMenuCommand =
+  | 'undo'
+  | 'redo'
+  | 'cut'
+  | 'copy'
+  | 'paste'
+  | 'delete'
+  | 'selectAll'
+  | 'reload'
+  | 'forceReload'
+  | 'toggleDevTools'
+  | 'toggleAlwaysOnTop'
+  | 'resetZoom'
+  | 'zoomIn'
+  | 'zoomOut'
+  | 'toggleFullScreen'
+
 export type TAnalyticsLogEventParams = {
   eventName: string
   clientId: string
@@ -75,6 +92,7 @@ export type TMainApiListenersSync = {
   'encryption:decryptBasedOSSync': TIpcMainSyncListener<string, string>
   'encryption:generateRandomHexSync': TIpcMainSyncListener<number | undefined, string>
   'window:getVersion': TIpcMainSyncListener<undefined, string>
+  'menu:getZoomFactor': TIpcMainSyncListener<undefined, number>
 }
 
 export type TMainApiListenersAsync = {
@@ -84,6 +102,7 @@ export type TMainApiListenersAsync = {
   'window:openFile': TIpcMainAsyncListener<string, void>
   'window:setTitleBarOverlay': TIpcMainAsyncListener<Electron.TitleBarOverlay, void>
   'window:setWindowButtonPosition': TIpcMainAsyncListener<Electron.Point, void>
+  'menu:runCommand': TIpcMainAsyncListener<TMenuCommand, void>
 
   'updater:checkForUpdates': TIpcMainAsyncListener<undefined, boolean>
   'updater:quitAndInstall': TIpcMainAsyncListener<undefined, void>
@@ -113,6 +132,7 @@ export type TMainApiSend = {
   'updater:updateCompleted': undefined
   'updater:updateError': string
   'deeplink:connection': string
+  'menu:zoomFactorChanged': number
 
   // Hardware wallet
   'hardwareWallet:onDisconnect': undefined

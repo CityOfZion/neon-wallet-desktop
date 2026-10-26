@@ -187,7 +187,7 @@ const Neo3VotePage = () => {
       <section className="flex h-full min-h-0 w-full rounded-sm bg-gray-800">
         <Neo3VoteSideBar />
 
-        <div className="flex h-full min-h-0 w-full flex-col gap-y-6 px-4 pt-1 pb-6">
+        <div className="flex h-full min-h-0 w-full min-w-0 flex-col gap-y-6 px-4 pt-1 pb-6">
           <div className="flex w-full flex-col">
             <h2 className="flex h-12 w-full items-center text-sm text-white">{t('subtitle')}</h2>
 

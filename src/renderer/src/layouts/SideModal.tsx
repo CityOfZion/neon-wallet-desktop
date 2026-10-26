@@ -154,7 +154,9 @@ export const SideModalLayout = ({
             <Separator />
           </header>
 
-          <main className={StyleHelper.mergeStyles('min-size-0 grow px-4 py-8', contentClassName)}>{children}</main>
+          <main className={StyleHelper.mergeStyles('min-size-0 grow overflow-y-auto px-4 py-8', contentClassName)}>
+            {children}
+          </main>
         </div>
       </motion.div>
     </FocusScope>

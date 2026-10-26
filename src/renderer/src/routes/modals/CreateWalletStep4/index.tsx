@@ -32,10 +32,14 @@ const CreateWalletStep4Modal = () => {
   const { createWallet } = useCreateWallet()
 
   const { actionData, actionState, setData, handleAct } = useActions<TFormData>({
-    selectedBlockchains: BlockchainServiceHelper.blockchainNames,
+    selectedBlockchains: [],
   })
 
   const isDisabled = actionData.selectedBlockchains.length === 0
+
+  const areAllBlockchainsSelected = BlockchainServiceHelper.blockchainNames.every(blockchain =>
+    actionData.selectedBlockchains.includes(blockchain)
+  )
 
   const handleSubmit = async () => {
     const wallet = createWallet({
@@ -63,6 +67,10 @@ const CreateWalletStep4Modal = () => {
     setData({ selectedBlockchains: blockchains })
   }
 
+  const handleToggleAllBlockchains = () => {
+    setData({ selectedBlockchains: areAllBlockchainsSelected ? [] : BlockchainServiceHelper.blockchainNames })
+  }
+
   return (
     <CreateWalletModalLayout
       className={StyleHelper.mergeStyles({
@@ -86,13 +94,26 @@ const CreateWalletStep4Modal = () => {
           <div className="text-xs text-gray-100">{t('description')}</div>
           <Separator />
 
-          <BlockchainList selectedBlockchains={actionData.selectedBlockchains} onSelect={handleSelect} isMulti />
+          <div className="flex min-h-0 grow flex-col gap-y-3">
+            <div className="mx-auto flex w-1/2 justify-end">
+              <Button
+                label={areAllBlockchainsSelected ? t('deselectAllButtonLabel') : t('selectAllButtonLabel')}
+                type="button"
+                variant="text-slim"
+                flat
+                onClick={handleToggleAllBlockchains}
+              />
+            </div>
+
+            <BlockchainList selectedBlockchains={actionData.selectedBlockchains} onSelect={handleSelect} isMulti />
+          </div>
         </div>
 
         <div className="flex gap-2">
           <Button
             label={t('backButtonLabel')}
             colorSchema="gray"
+            type="button"
             flat
             wide
             disabled={actionState.isActing}
