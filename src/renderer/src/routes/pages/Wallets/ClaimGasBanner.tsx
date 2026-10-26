@@ -132,17 +132,16 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
                   delayDuration={0}
                   contentProps={{ className: 'max-w-64' }}
                 >
-                  <span ref={messageRef} className="truncate">
+                  <span ref={messageRef} className="truncate text-gray-300">
                     <span className="text-gray-100">{t('youHaveUnclaimed', { symbol: claimToken.symbol })}</span>
 
                     {!isWatchAccount && (
-                      <span className="text-gray-300">
-                        {' '}
-                        {t('feeToClaim', {
+                      <Fragment>
+                        {` ${t('feeToClaim', {
                           fee: unclaimedQuery.data?.fee,
                           symbol: claimToken.symbol,
-                        })}
-                      </span>
+                        })}`}
+                      </Fragment>
                     )}
                   </span>
                 </Tooltip>
