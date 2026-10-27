@@ -95,7 +95,7 @@ const CreateWalletStep4Modal = () => {
           <Separator />
 
           <div className="flex min-h-0 grow flex-col gap-y-3">
-            <div className="mx-auto flex w-1/2 justify-end">
+            <div className="mx-auto flex w-1/2 justify-end pr-2">
               <Button
                 label={areAllBlockchainsSelected ? t('deselectAllButtonLabel') : t('selectAllButtonLabel')}
                 type="button"

@@ -70,8 +70,14 @@ const MnemonicOrKeyAccountSelectionAccordion = ({
     )
   }
 
+  const [firstMnemonicAccount] = mnemonicAccounts
+
   return (
-    <Accordion.Root className="flex flex-col gap-2.5" type="multiple">
+    <Accordion.Root
+      className="flex flex-col gap-2.5"
+      type="multiple"
+      defaultValue={firstMnemonicAccount ? [firstMnemonicAccount[0]] : []}
+    >
       {mnemonicAccounts.map(([blockchain, accounts]) => (
         <Accordion.Item key={blockchain} value={blockchain} className="bg-asphalt rounded-sm">
           <Accordion.Trigger className="border-none">
@@ -182,6 +188,12 @@ export const MnemonicOrKeyAccountSelection = ({
       )
     }
 
+    mnemonicAccountsArray.sort(
+      ([blockchainA], [blockchainB]) =>
+        BlockchainServiceHelper.blockchainNames.indexOf(blockchainA) -
+        BlockchainServiceHelper.blockchainNames.indexOf(blockchainB)
+    )
+
     mnemonicAccountsArray.forEach(([blockchain, accounts]) => {
       accounts.forEach(account => {
         if (onVerifyAccountExistence && onVerifyAccountExistence({ ...account, blockchain })) return
@@ -202,16 +214,17 @@ export const MnemonicOrKeyAccountSelection = ({
         <Loader className="text-white" />
       ) : mnemonicAccounts.length > 0 ? (
         <Fragment>
-          <Button
-            className="self-end"
-            type="button"
-            label={areAllAccountsSelected ? t('deselectAllButtonLabel') : t('selectAllButtonLabel')}
-            variant="text-slim"
-            flat
-            onClick={handleToggleAll}
-            disabled={selectableAccounts.length === 0}
-            {...TestHelper.buildTestObject('mnemonic-or-key-account-selection-toggle-all')}
-          />
+          <div className="flex self-end pr-2">
+            <Button
+              type="button"
+              label={areAllAccountsSelected ? t('deselectAllButtonLabel') : t('selectAllButtonLabel')}
+              variant="text-slim"
+              flat
+              onClick={handleToggleAll}
+              disabled={selectableAccounts.length === 0}
+              {...TestHelper.buildTestObject('mnemonic-or-key-account-selection-toggle-all')}
+            />
+          </div>
 
           <MnemonicOrKeyAccountSelectionAccordion
             mnemonicAccounts={mnemonicAccounts}
