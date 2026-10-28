@@ -72,7 +72,9 @@
     }
   },
   "blockchainSelection": {
-    "buttonContinueLabel": "Next"
+    "buttonContinueLabel": "Next",
+    "deselectAllButtonLabel": "Deselect all",
+    "selectAllButtonLabel": "Select all"
   },
   "buyAndSellTokensAboutData": {
     "alert": "COZ doesn't store any of your data!",

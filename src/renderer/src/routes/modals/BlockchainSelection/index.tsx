@@ -6,6 +6,7 @@ import { BlockchainList } from '@renderer/components/BlockchainList'
 import { Button } from '@renderer/components/Button'
 import { Separator } from '@renderer/components/Separator'
 
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 
 import { useActions } from '@renderer/hooks/useActions'
@@ -40,6 +41,14 @@ const BlockchainSelectionModal = () => {
     setData({ selectedBlockchains: blockchains })
   }
 
+  const areAllBlockchainsSelected = BlockchainServiceHelper.blockchainNames.every(blockchain =>
+    actionData.selectedBlockchains.includes(blockchain)
+  )
+
+  const handleToggleAllBlockchains = () => {
+    setData({ selectedBlockchains: areAllBlockchainsSelected ? [] : BlockchainServiceHelper.blockchainNames })
+  }
+
   const handleSubmit = () => {
     onSelect(actionData.selectedBlockchains)
   }
@@ -57,6 +66,18 @@ const BlockchainSelectionModal = () => {
       <p>{description}</p>
 
       <form className="mt-6 flex grow flex-col" onSubmit={handleAct(handleSubmit)}>
+        {isMulti && (
+          <div className="flex justify-end pr-2 pb-3">
+            <Button
+              label={areAllBlockchainsSelected ? t('deselectAllButtonLabel') : t('selectAllButtonLabel')}
+              type="button"
+              variant="text-slim"
+              flat
+              onClick={handleToggleAllBlockchains}
+            />
+          </div>
+        )}
+
         <BlockchainList
           selectedBlockchains={actionData.selectedBlockchains}
           onSelect={handleSelect}

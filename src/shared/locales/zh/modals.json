@@ -72,7 +72,9 @@
     }
   },
   "blockchainSelection": {
-    "buttonContinueLabel": "下一步"
+    "buttonContinueLabel": "下一步",
+    "deselectAllButtonLabel": "取消全选",
+    "selectAllButtonLabel": "全选"
   },
   "buyAndSellTokensAboutData": {
     "alert": "COZ 不会存储您的任何数据！",
