@@ -13,8 +13,6 @@ const fetchTokenData = async (tokenBalance: TTokenBalance, currencyRatio: number
     const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[tokenBalance.blockchain]
     const prices = await service.exchangeDataService.getTokenPriceHistory({
       token: tokenBalance.token,
-      limit: 24,
-      type: 'hour',
     })
 
     const convertedAndSortedPricesByTimestamp = prices
