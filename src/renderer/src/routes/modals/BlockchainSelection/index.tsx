@@ -1,5 +1,6 @@
 import { Fragment } from 'react'
 
+import { BSUtilsHelper } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
 
 import { BlockchainList } from '@renderer/components/BlockchainList'
@@ -33,7 +34,7 @@ const BlockchainSelectionModal = () => {
     isMulti = false,
   } = useModalState<TModalState<'blockchain-selection'>>()
 
-  const { actionData, setData, handleAct } = useActions<TActionData>({
+  const { actionData, setData, handleAct, actionState } = useActions<TActionData>({
     selectedBlockchains: ['neo3'],
   })
 
@@ -49,8 +50,10 @@ const BlockchainSelectionModal = () => {
     setData({ selectedBlockchains: areAllBlockchainsSelected ? [] : BlockchainServiceHelper.blockchainNames })
   }
 
-  const handleSubmit = () => {
-    onSelect(actionData.selectedBlockchains)
+  const handleSubmit = async () => {
+    await onSelect(actionData.selectedBlockchains)
+
+    await BSUtilsHelper.wait(1000)
   }
 
   return (
@@ -91,6 +94,7 @@ const BlockchainSelectionModal = () => {
           label={buttonLabel || t('buttonContinueLabel')}
           flat
           disabled={actionData.selectedBlockchains.length === 0}
+          loading={actionState.isActing}
           {...TestHelper.buildTestObject('blockchain-selection-submit')}
         />
       </form>
