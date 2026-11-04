@@ -109,6 +109,7 @@
   },
   "walletConnect": {
     "errorsByCode": {
+      "NO_ACCOUNTS": "找不到此連線的帳戶。請選擇有效的帳戶後重試。",
       "NO_SERVICE": "該 dApp 嘗試連接到與所選區區塊鏈或網路不同的區塊鏈或網路。",
       "UNEXPECTED_ERROR": "發生意外錯誤。請重試或聯絡客服。"
     }

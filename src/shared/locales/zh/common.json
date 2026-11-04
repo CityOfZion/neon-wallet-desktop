@@ -109,6 +109,7 @@
   },
   "walletConnect": {
     "errorsByCode": {
+      "NO_ACCOUNTS": "未找到此连接的账户。请选择有效的账户后重试。",
       "NO_SERVICE": "该 dApp 尝试连接到与所选区块链或网络不同的区块链或网络。",
       "UNEXPECTED_ERROR": "发生意外错误。请重试或联系客服。"
     }

@@ -8,7 +8,6 @@ import type {
 import type { TWalletKitHelperSessionDetails } from '@cityofzion/bs-multichain'
 import type { TBSNeo3Name, TVoteServiceCandidate } from '@cityofzion/bs-neo3'
 import type { TBSStellarName } from '@cityofzion/bs-stellar'
-import type { ErrorResponse } from '@walletconnect/jsonrpc-utils'
 import type { PendingRequestTypes, ProposalTypes, SessionTypes } from '@walletconnect/types'
 import type { Dispatch, JSX } from 'react'
 
@@ -357,7 +356,7 @@ type TDappPermissionModalState = {
   request: PendingRequestTypes.Struct
   sessionDetails: TWalletKitHelperSessionDetails
   sessionAccount: TAccount
-  onReject: (reason?: ErrorResponse) => Promise<void>
+  onReject: (error?: unknown) => Promise<void>
   onAccept: () => Promise<any>
 }
 

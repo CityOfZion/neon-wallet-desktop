@@ -109,6 +109,7 @@
   },
   "walletConnect": {
     "errorsByCode": {
+      "NO_ACCOUNTS": "No account was found for this connection. Please select a valid account and try again.",
       "NO_SERVICE": "The dApp is trying to connect to a different blockchain or network than the one selected.",
       "UNEXPECTED_ERROR": "An unexpected error occurred. Please try again or contact support."
     }
