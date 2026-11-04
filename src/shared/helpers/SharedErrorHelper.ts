@@ -106,4 +106,53 @@ export class WalletConnectError extends AppError {
 
     return new WalletConnectError(message, 'UNEXPECTED_ERROR', error, false)
   }
+
+  /**
+   * Builds the error response sent to the dApp. It is always in English, regardless of the wallet language,
+   * because it is consumed by the dApp developer (logs, error trackers), not by the wallet user.
+   * A JSON-RPC error response (e.g. from `getSdkError`) is returned as is.
+   */
+  static toDappError(error: unknown): { code: number; message: string } {
+    if (WalletConnectError.#isErrorResponse(error)) return error
+
+    return { code: -32000, message: WalletConnectError.#getDappMessage(error) }
+  }
+
+  static #isErrorResponse(error: unknown): error is { code: number; message: string } {
+    return (
+      typeof error === 'object' &&
+      error !== null &&
+      !(error instanceof Error) &&
+      typeof (error as any).code === 'number' &&
+      typeof (error as any).message === 'string'
+    )
+  }
+
+  static #getDappMessage(error: unknown): string {
+    const translateToEnglish = (code: string) => t(`common:walletConnect.errorsByCode.${code}`, '', { lng: 'en' })
+
+    if (error instanceof BSError) {
+      return i18next.exists(`common:walletConnect.errorsByCode.${error.code}`)
+        ? translateToEnglish(error.code)
+        : error.message
+    }
+
+    if (error instanceof WalletConnectError) return translateToEnglish(error.code)
+
+    // AppError messages are translated to the wallet language when thrown, so the English original is not available
+    if (error instanceof AppError) return translateToEnglish('UNEXPECTED_ERROR')
+
+    if (error instanceof Error) {
+      try {
+        const parsed = JSON.parse(error.message)
+        if (parsed?.name === 'AppError') return translateToEnglish('UNEXPECTED_ERROR')
+      } catch {
+        // Empty
+      }
+
+      if (error.message) return error.message
+    }
+
+    return translateToEnglish('UNEXPECTED_ERROR')
+  }
 }
