@@ -116,3 +116,7 @@ Defined via Vite (`VITE_` prefix). Key ones:
 ## Node Version
 
 22.14.0 (see `.github/workflows/` for CI reference)
+
+## ClickUp Tasks
+
+Follow the `clickup-task` skill (`.claude/skills/clickup-task/SKILL.md`) when creating or editing ClickUp tasks.
