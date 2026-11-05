@@ -47,7 +47,7 @@ const CreateWalletStep1Modal = () => {
           <div className="text-xs text-gray-100 print:hidden">{t('description')}</div>
           <div className="bg-asphalt mx-5 flex min-h-24 flex-wrap justify-center gap-x-4 gap-y-2 rounded-sm px-10 py-5">
             {words.map((word, index) => (
-              <span className="text-lg text-white" key={word}>
+              <span key={`${word}-${index}`} className="text-lg text-white">
                 {index + 1}. {word}
               </span>
             ))}
