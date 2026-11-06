@@ -19,8 +19,11 @@ const SettingsBackupWallet = () => {
   const [selectedFilePath, setSelectedFilePath] = useState<string>('')
 
   const handlePathSelectionButton = async () => {
-    const result = await window.api.sendAsync('window:openDialog', { properties: ['openDirectory', 'createDirectory'] })
-    setSelectedFilePath(result[0])
+    const [result] = await window.api.sendAsync('window:openDialog', {
+      properties: ['openDirectory', 'createDirectory'],
+    })
+
+    setSelectedFilePath(result)
   }
 
   return (
@@ -29,8 +32,8 @@ const SettingsBackupWallet = () => {
 
       <p className="mb-3.5 text-xs font-bold text-gray-100 uppercase">{t('saveBackupLabel')}</p>
 
-      <div className="flex grow flex-col gap-y-10">
-        <div className="flex gap-2.5">
+      <div className="flex grow flex-col gap-y-6">
+        <div className="flex gap-2">
           <Input
             aria-label={t('saveBackupLabel')}
             value={selectedFilePath}
@@ -42,17 +45,17 @@ const SettingsBackupWallet = () => {
           <Button flat label={t('browse')} onClick={handlePathSelectionButton} className="w-36" />
         </div>
 
-        <Banner type="info" message={t('warning')} />
+        <Banner type="info" message={t('warning')} className="w-fit" />
       </div>
 
       <div className="flex justify-center">
         <Button
           label={t('backup')}
-          leftIcon={<MdOutlineSave aria-hidden />}
+          className="w-52"
           iconsOnEdge={false}
           disabled={!selectedFilePath}
           onClick={modalNavigateWrapper('confirm-password-backup', { state: { selectedFilePath } })}
-          className="w-52"
+          leftIcon={<MdOutlineSave aria-hidden />}
         />
       </div>
     </SettingsLayout>

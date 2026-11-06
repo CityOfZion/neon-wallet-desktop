@@ -648,12 +648,11 @@
         "title": "Bitte haben Sie Geduld, wir erstellen gerade Ihr Wallet"
       },
       "keyStep": {
+        "fileSelected": "Datei ausgewählt",
         "formTitle": "Geben Sie eine Adresse, verschlüsselte Schlüssel, private Schlüssel, mnemonische Phrase oder lokalisieren Sie die Backup-Datei ein",
         "importEncryptedDescription": "Wählen Sie die gewünschte Blockchain für Ihr neues Konto",
         "importEncryptedSubtitle": "Ihre verschlüsselte Schlüssel wurden erkannt, bitte füllen Sie die untenstehenden Felder aus, um fortzufahren.",
         "importEncryptedTitle": "Wallet importieren",
-        "importError": "Kompatibler Dateityp nicht erkannt",
-        "importSuccess": "Datei kompatibel erkannt!",
         "inputLabel": "Adresse, Schlüssel oder Mnemonic",
         "inputPlaceholder": "Geben Sie eine Adresse, Schlüssel oder Mnemonik ein…",
         "invalidAddress": "Ungültige Adresse",

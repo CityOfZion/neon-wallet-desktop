@@ -29,10 +29,7 @@
   "useImportFromFile": {
     "error": "Datei nicht erkannt",
     "filterName": "Sicherungs- oder Migrationsdatei",
-    "migratedContactName": "Migrierter Kontakt",
-    "neon2MigrateFileDetected": "Neon 2-Migrationsdatei erkannt",
-    "neonBackupFileDetected": "Neon-Sicherungsdatei erkannt",
-    "nep6BackupFileDetected": "NEP-6-Sicherungsdatei erkannt"
+    "migratedContactName": "Migrierter Kontakt"
   },
   "useLogin": {
     "controlIsNotSet": "Unerwarteter Fehler. Login-Steuerung ist nicht gesetzt.",

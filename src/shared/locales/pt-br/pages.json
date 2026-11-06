@@ -648,12 +648,11 @@
         "title": "Por favor, seja paciente, estamos configurando sua wallet agora"
       },
       "keyStep": {
+        "fileSelected": "Arquivo selecionado",
         "formTitle": "Digite um endereço, chave criptografada, chave privada, mnemonic ou localize o arquivo de backup",
         "importEncryptedDescription": "Selecione a blockchain desejada para sua nova conta",
         "importEncryptedSubtitle": "Sua chave criptografada foi reconhecida, por favor, complete os campos abaixo para continuar.",
         "importEncryptedTitle": "Importar uma wallet",
-        "importError": "Arquivo compatível não reconhecido",
-        "importSuccess": "Arquivo compatível identificado!",
         "inputLabel": "Endereço, chave ou mnemônico",
         "inputPlaceholder": "Digite um endereço, chave ou mnemônico…",
         "invalidAddress": "Endereço inválido",

@@ -47,7 +47,7 @@
     "links": {
       "continue": "Continue"
     },
-    "text": "If you’ve forgotten your password, you’ll need to reset Neon.",
+    "text": "If you've forgotten your password, you'll need to reset Neon.",
     "title": "Forgotten password"
   },
   "forgottenPasswordConfirm": {
@@ -648,12 +648,11 @@
         "title": "Please be patient, we are now setting up your wallet"
       },
       "keyStep": {
+        "fileSelected": "File selected",
         "formTitle": "Enter an address, encrypted key, private key, mnemonic or locate backup file",
         "importEncryptedDescription": "Select the desired blockchain for your new account",
         "importEncryptedSubtitle": "Your encrypted key has been recognised, please complete the below fields to continue.",
         "importEncryptedTitle": "Import a wallet",
-        "importError": "Compatible file not recognised",
-        "importSuccess": "Compatible file identified!",
         "inputLabel": "Address, key or mnemonic",
         "inputPlaceholder": "Enter an address, key or mnemonic…",
         "invalidAddress": "Invalid address",

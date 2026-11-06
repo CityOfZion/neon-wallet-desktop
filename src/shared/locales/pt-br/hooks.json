@@ -29,10 +29,7 @@
   "useImportFromFile": {
     "error": "Arquivo não reconhecido",
     "filterName": "Arquivo de backup ou migração",
-    "migratedContactName": "Contato migrado",
-    "neon2MigrateFileDetected": "Arquivo de migração Neon 2 detectado",
-    "neonBackupFileDetected": "Arquivo de backup Neon detectado",
-    "nep6BackupFileDetected": "Arquivo de backup NEP-6 detectado"
+    "migratedContactName": "Contato migrado"
   },
   "useLogin": {
     "controlIsNotSet": "Erro inesperado. O controle de login não está definido.",
