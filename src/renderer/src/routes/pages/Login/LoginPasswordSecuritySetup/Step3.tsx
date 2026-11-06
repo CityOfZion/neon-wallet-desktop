@@ -58,7 +58,7 @@ export const LoginPasswordSecuritySetupStep3Content = () => {
         <Button
           label={t('buttonContinueLabel')}
           onClick={handleNavigateToWallet}
-          className="mt-auto w-64"
+          className="mt-auto w-52"
           rightIcon={<MdOutlineAutoAwesome aria-hidden />}
           iconsOnEdge={false}
           {...TestHelper.buildTestObject('security-setup-open-your-wallet')}

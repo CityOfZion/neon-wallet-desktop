@@ -34,12 +34,12 @@ export const LoginPasswordImportWalletStep5Content = () => {
   return (
     <Fragment>
       <div className="flex grow flex-col items-center">
-        <p className="mt-15 text-sm text-white">{t('title')}</p>
+        <p className="mt-10 text-sm text-white">{t('title')}</p>
 
         <TbRosetteDiscountCheck aria-hidden className="text-blue mt-3 h-25 w-25 stroke-1" />
       </div>
 
-      <div className="mt-2 flex flex-col gap-3 px-4">
+      <div className="mt-4 flex flex-col gap-4 px-4">
         <ButtonDownloadPasswordQRCode />
 
         <Button
