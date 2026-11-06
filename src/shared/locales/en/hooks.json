@@ -29,10 +29,7 @@
   "useImportFromFile": {
     "error": "File not recognised",
     "filterName": "Backup or migration file",
-    "migratedContactName": "Migrated contact",
-    "neon2MigrateFileDetected": "Neon 2 migration file detected",
-    "neonBackupFileDetected": "Neon backup file detected",
-    "nep6BackupFileDetected": "NEP-6 backup file detected"
+    "migratedContactName": "Migrated contact"
   },
   "useLogin": {
     "controlIsNotSet": "Unexpected error. Login control is not set.",

@@ -29,10 +29,7 @@
   "useImportFromFile": {
     "error": "无法识别的文件",
     "filterName": "备份或迁移文件",
-    "migratedContactName": "已迁移联系人",
-    "neon2MigrateFileDetected": "检测到 Neon 2 迁移文件",
-    "neonBackupFileDetected": "检测到 Neon 备份文件",
-    "nep6BackupFileDetected": "检测到 NEP-6 备份文件"
+    "migratedContactName": "已迁移联系人"
   },
   "useLogin": {
     "controlIsNotSet": "意外错误。登录控件未设置。",

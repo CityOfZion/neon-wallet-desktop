@@ -1,11 +1,13 @@
-import { Fragment, useEffect } from 'react'
+import { Fragment, useEffect, useMemo } from 'react'
 
 import { useTranslation } from 'react-i18next'
 import { Location, useLocation, useNavigate } from 'react-router'
 
 import { Banner } from '@renderer/components/Banner'
 import { Button } from '@renderer/components/Button'
+import { IconButton } from '@renderer/components/IconButton'
 import { Textarea } from '@renderer/components/Textarea'
+import { Tooltip } from '@renderer/components/Tooltip'
 
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
@@ -14,6 +16,7 @@ import { useImportAction } from '@renderer/hooks/useImportAction'
 import { TUseImportFromFileActionsData, useImportFromFile } from '@renderer/hooks/useImportFromFile'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 
+import MdClose from '@renderer/assets/images/md-close.svg?react'
 import TbFileImport from '@renderer/assets/images/tb-file-import.svg?react'
 
 import { TAccountsToImport, TBlockchainServiceKey, TUseCreateWalletParams } from '@shared/types/blockchain'
@@ -163,6 +166,11 @@ export const LoginPasswordImportWalletStep3Content = () => {
 
   const fileActions = useImportFromFile()
 
+  const fileName = useMemo(
+    () => fileActions.actionData.path?.split(/[\\/]/).filter(Boolean).pop(),
+    [fileActions.actionData.path]
+  )
+
   useEffect(() => {
     if (!importActions.actionData.text) {
       return
@@ -186,6 +194,7 @@ export const LoginPasswordImportWalletStep3Content = () => {
       <p className="mt-10 text-center text-sm text-white">
         {!state.isMigration ? t('formTitle') : t('migrationFormTitle')}
       </p>
+
       <form
         className="mt-6 flex w-full grow flex-col items-center"
         onSubmit={
@@ -200,48 +209,68 @@ export const LoginPasswordImportWalletStep3Content = () => {
           <Textarea
             aria-label={t('inputLabel')}
             placeholder={t('inputPlaceholder')}
-            containerClassName="mb-2.5"
+            containerClassName="mb-3"
             value={importActions.actionData.text}
             onChange={importActions.handleChange}
             pastable
             clearable
             multiline={importActions.actionData.inputType === 'mnemonic'}
             errorMessage={importActions.actionState.errors.text}
+            disabled={!!fileName}
             {...TestHelper.buildTestObject('import-wallet-key-textarea')}
           />
         )}
 
-        <Button
-          label={t('locateFileButtonLabel')}
-          type="button"
-          className="w-64"
-          variant="outlined"
-          clickableProps={{
-            className: 'px-5',
-          }}
-          onClick={fileActions.handleBrowse}
-        />
+        {fileName ? (
+          <div className="bg-asphalt ring-neon/40 flex w-full items-center justify-between gap-2 rounded-sm p-3 ring-1">
+            <div className="flex min-w-0 items-center gap-2">
+              <div className="bg-neon/10 min-size-9 max-size-9 flex size-9 shrink-0 items-center justify-center rounded-sm">
+                <TbFileImport aria-hidden className="text-neon min-size-5 max-size-5 size-5" />
+              </div>
+
+              <div className="flex min-w-0 flex-col">
+                <Tooltip title={fileName}>
+                  <span className="truncate text-sm font-medium text-white">{fileName}</span>
+                </Tooltip>
+                <span className="text-xs text-gray-300">{t('fileSelected')}</span>
+              </div>
+            </div>
+
+            <Tooltip title={tCommon('general.remove')}>
+              <IconButton
+                aria-label={tCommon('general.remove')}
+                type="button"
+                compacted
+                icon={<MdClose aria-hidden />}
+                onClick={fileActions.reset}
+              />
+            </Tooltip>
+          </div>
+        ) : (
+          <Button
+            label={t('locateFileButtonLabel')}
+            type="button"
+            className="w-64"
+            variant="outlined"
+            clickableProps={{ className: 'px-5' }}
+            onClick={fileActions.handleBrowse}
+          />
+        )}
 
         {state.isMigration && !fileActions.actionData.path && !fileActions.actionState.errors.path && (
-          <Banner type="warning" message={t('neon2Warning')} className="mt-9" />
+          <Banner type="warning" message={t('neon2Warning')} className="mt-5" />
         )}
 
-        {state.isMigration && fileActions.actionState.errors.path && (
-          <Banner type="warning" message={t('importError')} className="mt-10" />
-        )}
-
-        {state.isMigration && fileActions.actionData.path && !fileActions.actionState.errors.path && (
-          <Banner type="success" message={t('importSuccess')} className="mt-10" />
-        )}
-
-        <Button
-          label={tCommon('general.next')}
-          className="mt-auto w-64"
-          type="submit"
-          disabled={importActions.actionData.text ? !importActions.actionState.isValid : !fileActions.actionData.path}
-          loading={importActions.actionState.isActing || fileActions.actionState.isActing}
-          {...TestHelper.buildTestObject('import-wallet-key-submit')}
-        />
+        <div className="mt-auto flex w-full justify-center">
+          <Button
+            label={tCommon('general.next')}
+            className="mt-5 w-64"
+            type="submit"
+            disabled={importActions.actionData.text ? !importActions.actionState.isValid : !fileActions.actionData.path}
+            loading={importActions.actionState.isActing || fileActions.actionState.isActing}
+            {...TestHelper.buildTestObject('import-wallet-key-submit')}
+          />
+        </div>
       </form>
     </Fragment>
   )

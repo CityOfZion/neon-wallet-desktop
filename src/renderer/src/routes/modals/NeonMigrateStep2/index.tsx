@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 
-import { AlertErrorBanner } from '@renderer/components/AlertErrorBanner'
 import { Button } from '@renderer/components/Button'
 import { Input } from '@renderer/components/Input'
 
@@ -14,7 +13,7 @@ import MdLooksTwo from '@renderer/assets/images/md-looks-two.svg?react'
 
 const NeonMigrateStep2Modal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'neonMigrate' })
-  const { actionData, actionState, handleAct, handleBrowse } = useImportFromFile()
+  const { actionData, handleAct, handleBrowse } = useImportFromFile()
   const navigate = useNavigate()
   const { modalNavigate } = useModalNavigate()
 
@@ -56,8 +55,6 @@ const NeonMigrateStep2Modal = () => {
             readOnly
             containerClassName="mt-5"
           />
-
-          {actionState.errors.path && <AlertErrorBanner message={actionState.errors.path} className="mt-3 w-full" />}
 
           <Button
             type="button"

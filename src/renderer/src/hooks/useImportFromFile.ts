@@ -49,31 +49,27 @@ export const useImportFromFile = () => {
     })
 
     const fileContent = await window.api.sendAsync('window:readFile', filePath)
-
     const backupContent = await neonBackupFileActions.validateAndParseBackupFile(filePath, fileContent)
 
     if (backupContent) {
-      ToastHelper.success({ message: t('neonBackupFileDetected') })
-
       setData({ ...backupContent, path: filePath })
+
       return
     }
 
     const nep6BackupContent = await nep6BackupFileActions.validateAndParseBackupFile(fileContent)
 
     if (nep6BackupContent) {
-      ToastHelper.success({ message: t('nep6BackupFileDetected') })
-
       setData({ ...nep6BackupContent, path: filePath })
+
       return
     }
 
     const migrationContent = await neonMigrateFileActions.validateAndParseMigrateFile(fileContent)
 
     if (migrationContent) {
-      ToastHelper.success({ message: t('neon2MigrateFileDetected') })
-
       setData({ ...migrationContent, path: filePath })
+
       return
     }
 
