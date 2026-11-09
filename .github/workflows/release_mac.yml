@@ -18,9 +18,6 @@ jobs:
       DEBUG: ${{ secrets.DEBUG }}
       VITE_SENTRY_DSN: ${{ secrets.VITE_SENTRY_DSN }}
       VITE_MERCURYO_WIDGET_ID: ${{ secrets.VITE_MERCURYO_WIDGET_ID }}
-      VITE_CLICK_UP_KEY: ${{ secrets.VITE_CLICK_UP_KEY }}
-      VITE_CLICK_UP_LIST_ID: ${{ secrets.VITE_CLICK_UP_LIST_ID }}
-      VITE_CLICK_UP_ASSIGNEE_ID: ${{ secrets.VITE_CLICK_UP_ASSIGNEE_ID }}
       NODE_OPTIONS: ${{ secrets.NODE_OPTIONS }}
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
       VITE_GA_MEASUREMENT_ID: ${{ secrets.VITE_GA_MEASUREMENT_ID }}

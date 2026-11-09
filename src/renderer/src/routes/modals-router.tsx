@@ -46,7 +46,6 @@ const SelectAccountModal = lazy(() => import('./modals/SelectAccount'))
 const SelectContactModal = lazy(() => import('./modals/SelectContact'))
 const SellTokensDepositModal = lazy(() => import('./modals/SellTokensDeposit/index'))
 const SuccessModal = lazy(() => import('./modals/Success'))
-const SupportTicketModal = lazy(() => import('./modals/SupportTicket'))
 const SwapDetailsLogModal = lazy(() => import('./modals/SwapDetailsLog'))
 const SwapDetailsModal = lazy(() => import('./modals/SwapDetails'))
 const Neo3VoteCandidateDetailsModal = lazy(() => import('./modals/Neo3VoteCandidateDetails'))
@@ -98,7 +97,6 @@ const sideModalsRouter: TRoute[] = [
   { name: 'select-contact', element: SelectContactModal },
   { name: 'sell-tokens-deposit', element: SellTokensDepositModal },
   { name: 'success', element: SuccessModal },
-  { name: 'support-ticket', element: SupportTicketModal },
   { name: 'swap-details', element: SwapDetailsModal },
   { name: 'swap-details-log', element: SwapDetailsLogModal },
   { name: 'neo3-vote-candidate-details', element: Neo3VoteCandidateDetailsModal },

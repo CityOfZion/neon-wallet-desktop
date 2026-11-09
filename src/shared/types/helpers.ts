@@ -63,12 +63,6 @@ export type TToastHelperToastProps = {
   closeable?: boolean
 }
 
-export type TClickupHelperCreateSupportTicketParams = {
-  name: string
-  email: string
-  description: string
-}
-
 export type TDateHelperCalculateDateSelectionMaxOneYearParams = {
   dateFrom: Date
   dateTo: Date

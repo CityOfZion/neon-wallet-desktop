@@ -322,7 +322,6 @@ type TModalRouterSideRouteTypes = {
   'select-contact': TSelectContactModalState
   'sell-tokens-deposit': TSellTokensDepositModalState
   success: TSuccessModalState
-  'support-ticket': undefined
   'swap-details': TSwapDetailsModalState
   'swap-details-log': TSwapDetailsLogModalState
   'neo3-vote-candidate-details': TNeo3VoteCandidateDetailsModalState
