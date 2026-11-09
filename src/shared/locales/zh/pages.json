@@ -648,12 +648,11 @@
         "title": "请稍等，我们现在正在为您设置钱包"
       },
       "keyStep": {
+        "fileSelected": "已选择文件",
         "formTitle": "请输入一个地址、加密密钥、私钥、助记词或定位备份文件",
         "importEncryptedDescription": "选择您新账户的所需区块链",
         "importEncryptedSubtitle": "您的加密密钥已识别，请填写以下字段以继续。",
         "importEncryptedTitle": "导入钱包",
-        "importError": "兼容文件未被识别",
-        "importSuccess": "已识别兼容文件！",
         "inputLabel": "地址、密钥或助记词",
         "inputPlaceholder": "请输入一个地址、密钥或助记词…",
         "invalidAddress": "无效地址",
