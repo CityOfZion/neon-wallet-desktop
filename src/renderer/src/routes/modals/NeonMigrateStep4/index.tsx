@@ -152,11 +152,11 @@ const NeonMigrateStep4Modal = () => {
 
       <Button
         label={t('step4.buttonLabel')}
+        className="mx-auto w-52"
         flat
-        className="px-16"
-        onClick={handleAct(handleMigrate)}
         loading={actionState.isActing}
         disabled={isDisabled}
+        onClick={handleAct(handleMigrate)}
       />
     </ImportModalLayout>
   )

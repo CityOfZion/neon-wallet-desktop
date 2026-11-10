@@ -79,11 +79,12 @@ const CreateWalletStep4Modal = () => {
     >
       <header className="flex items-center justify-between py-2.5">
         <div className="flex items-center gap-x-2.5">
-          <MdLooks4 className="text-blue h-4.5 w-4.5" aria-hidden />
+          <MdLooks4 className="text-blue size-4.5" aria-hidden />
           <h2 className="text-sm">{t('title')}</h2>
         </div>
         <div className="text-blue text-sm">{t('step4of4')}</div>
       </header>
+
       <Separator className="mb-9 min-h-px" />
 
       <form

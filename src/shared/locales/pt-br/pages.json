@@ -444,6 +444,7 @@
       "browse": "Procurar…",
       "description": "Salve um arquivo de backup em seu computador que permitirá restaurar sua carteira no caso de perder o acesso ou danificar seu dispositivo.",
       "saveBackupLabel": "Onde você gostaria de salvar seu backup?",
+      "saveBackupPlaceholder": "Procure onde salvar seu backup…",
       "title": "Backup Neon",
       "warning": "Nota: Este processo fará backup de toda a sua carteira"
     },
@@ -487,8 +488,9 @@
       "backup": "Importar backup",
       "browse": "Procurar…",
       "description": "Se você perdeu o acesso à sua carteira ou simplesmente deseja abrir uma a partir de um backup, pode importá-la de um arquivo de backup local — incluindo backups da Neon e NEP-6. Basta localizar o arquivo e digitar a senha que você definiu ao criá-lo.",
+      "locateBackupLabel": "Localize seu arquivo de backup",
+      "locateBackupPlaceholder": "Procure para localizar seu arquivo de backup…",
       "nameExtension": "Arquivos de backup Neon",
-      "saveBackupLabel": "Localize seu arquivo de backup",
       "title": "Importar backup"
     },
     "settingsReleaseNotes": {

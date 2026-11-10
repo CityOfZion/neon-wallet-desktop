@@ -21,6 +21,7 @@ const SettingsNeonMigratePage = () => {
     <SettingsLayout title={t('title')} contentClassName="items-center">
       <div className="flex max-w-132 grow flex-col">
         <h2 className="text-xs font-bold text-gray-100 uppercase">{t('subtitleWhy')}</h2>
+
         <p className="mt-3 text-xs text-gray-100">{t('descriptionWhy')}</p>
 
         <h2 className="mt-8 text-xs font-bold text-gray-100 uppercase">{t('subtitleHow')}</h2>
@@ -28,7 +29,7 @@ const SettingsNeonMigratePage = () => {
         <NeonMigrateSteps className="mt-5" />
       </div>
 
-      <div className="flex gap-2">
+      <div className="flex gap-4">
         <Button
           label={t('importButtonLabel')}
           variant="outlined"
@@ -36,13 +37,14 @@ const SettingsNeonMigratePage = () => {
           flat
           onClick={modalNavigateWrapper('neon-migrate-step-2')}
         />
+
         <Button
           label={t('startProcessButtonLabel')}
-          rightIcon={<TbExternalLink />}
-          onClick={openNeon2Click}
           iconsOnEdge={false}
           wide
           flat
+          rightIcon={<TbExternalLink aria-hidden />}
+          onClick={openNeon2Click}
         />
       </div>
     </SettingsLayout>

@@ -4,6 +4,7 @@ import {
   forwardRef,
   type JSX,
   MouseEvent,
+  useId,
   useImperativeHandle,
   useRef,
   useState,
@@ -51,6 +52,7 @@ export type TInputProps = Omit<React.ComponentProps<'input'>, 'type' | 'ref'> & 
 export const Input = forwardRef<HTMLInputElement, TInputProps>(
   (
     {
+      id,
       className,
       containerClassName,
       contentClassName,
@@ -77,9 +79,13 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
     ref
   ) => {
     const { t: tCommonGeneral } = useTranslation('common', { keyPrefix: 'general' })
-    const isTypePassword = type === 'password'
     const internalRef = useRef<HTMLInputElement>(null)
+    const generatedId = useId()
+    const internalId = id || generatedId
+    const isTypePassword = type === 'password'
+
     const [hidden, setHidden] = useState(isTypePassword)
+
     const realType = isTypePassword ? (hidden ? 'password' : 'text') : type
 
     const toggleHiddenButtonLabel = hidden ? tCommonGeneral('showPassword') : tCommonGeneral('hidePassword')
@@ -146,7 +152,11 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
 
     return (
       <div className={StyleHelper.mergeStyles('relative w-full', containerClassName)}>
-        {label && <label className="mb-2 block text-xs font-bold text-gray-100 uppercase">{label}</label>}
+        {label && (
+          <label htmlFor={internalId} className="mb-2 block text-xs font-bold text-gray-100 uppercase">
+            {label}
+          </label>
+        )}
 
         <div
           aria-disabled={disabled}
@@ -185,6 +195,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
           >
             <input
               ref={internalRef}
+              id={internalId}
               className={StyleHelper.mergeStyles(
                 'w-full grow [appearance:textfield] bg-transparent outline-hidden disabled:cursor-not-allowed [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none',
                 className
@@ -204,7 +215,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
 
           {(loading || isTypePassword || pastable || copyable || clearable || rightElement) && (
             <div className={StyleHelper.mergeStyles('flex items-center gap-x-2', actionsClassName)}>
-              {loading && <Loader className="mr-1 h-4 w-4" />}
+              {loading && <Loader className="mr-1 size-4" />}
 
               {isTypePassword && (
                 <Tooltip title={disabled ? '' : toggleHiddenButtonLabel}>

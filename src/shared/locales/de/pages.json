@@ -444,6 +444,7 @@
       "browse": "Durchsuchen…",
       "description": "Speichern Sie eine Sicherungsdatei auf Ihrem Computer, mit der Sie Ihr Wallet wiederherstellen können, falls Sie den Zugriff verlieren oder Ihr Gerät beschädigen.",
       "saveBackupLabel": "Wo möchten Sie Ihre Sicherung speichern?",
+      "saveBackupPlaceholder": "Durchsuchen, wo Ihre Sicherung gespeichert werden soll…",
       "title": "Neon sichern",
       "warning": "Hinweis: Dieser Vorgang sichert Ihr gesamtes Wallet"
     },
@@ -487,8 +488,9 @@
       "backup": "Backup importieren",
       "browse": "Durchsuchen…",
       "description": "Ob Sie den Zugriff auf Ihr Wallet verloren haben oder einfach eines aus einer Sicherung öffnen möchten – Sie können es aus einer lokalen Sicherungsdatei importieren, einschließlich Neon- und NEP-6-Sicherungen. Suchen Sie einfach die Datei und geben Sie das Passwort ein, das Sie beim Erstellen festgelegt haben.",
+      "locateBackupLabel": "Sicherungsdatei suchen",
+      "locateBackupPlaceholder": "Durchsuchen, um Ihre Sicherungsdatei zu finden…",
       "nameExtension": "Neon-Sicherungsdateien",
-      "saveBackupLabel": "Sicherungsdatei suchen",
       "title": "Backup importieren"
     },
     "settingsReleaseNotes": {

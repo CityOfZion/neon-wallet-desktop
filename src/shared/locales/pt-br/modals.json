@@ -106,14 +106,14 @@
     "title": "Confirme sua ação"
   },
   "confirmPasswordBackup": {
-    "buttonContinueLabel": "Fazer Backup Agora",
+    "buttonContinueLabel": "Fazer backup agora",
     "description": "Para criar seu arquivo de backup, forneça sua senha Neon abaixo:",
     "error": "Senha não reconhecida!",
     "errorBackup": "Houve um erro ao tentar fazer backup. Por favor, tente novamente.",
+    "inputLabel": "Senha Neon atual",
     "inputPlaceholder": "Digite sua senha…",
     "modalDescription": "Backup criado com sucesso!",
     "returnSettings": "Voltar para Configurações",
-    "subtitle": "Senha Neon atual",
     "title": "Backup Neon",
     "warning": "Você precisará desta senha para restaurar sua carteira.",
     "warningHighlighted": "Por favor, mantenha-a segura!"
@@ -129,10 +129,10 @@
     "buttonContinueLabel": "Importar este backup",
     "description": "Para importar seu arquivo de backup, forneça a senha que você usou para criar o backup:",
     "error": "Senha não reconhecida!",
+    "inputLabel": "Senha do backup",
     "inputPlaceholder": "Digite sua senha…",
     "modalDescription": "Backup importado com sucesso!",
     "returnSettings": "Voltar para Configurações",
-    "subtitle": "Senha do Backup",
     "title": "Importar backup"
   },
   "connectHardwareWallet": {
@@ -558,6 +558,7 @@
       "description": "Para importar suas contas Neon 2, localize seu arquivo de migração Neon 2:",
       "importButtonLabel": "Importar",
       "inputLabel": "Localize seu arquivo de migração Neon 2",
+      "inputPlaceholder": "Procure para localizar seu arquivo de migração Neon 2…",
       "title": "Importe suas contas Neon 2"
     },
     "step3": {
@@ -566,14 +567,14 @@
       "deselectAllButtonLabel": "Desmarcar todas",
       "selectAllButtonLabel": "Selecionar todas",
       "selectLabel": "Contas",
-      "selectTitle": "Selecione quais contas você deseja importar",
+      "selectTitle": "Selecione quais contas você deseja importar.",
       "selectedQuantity_one": "{{selected}} de {{count}} conta selecionada",
       "selectedQuantity_other": "{{selected}} de {{count}} contas selecionadas",
       "title": "Escolha as contas para migrar"
     },
     "step4": {
       "buttonLabel": "Migrar contas",
-      "description": "Digite suas senhas para cada conta que você deseja importar",
+      "description": "Digite suas senhas para cada conta que você deseja importar.",
       "inputLabel": "Senha",
       "inputPlaceholder": "Digite a senha da conta…",
       "migrateError": "Houve um erro ao tentar migrar. Por favor, tente novamente.",
@@ -593,14 +594,14 @@
       "deselectAllButtonLabel": "Desmarcar todas",
       "selectAllButtonLabel": "Selecionar todas",
       "selectLabel": "Contas",
-      "selectTitle": "Selecione quais contas você deseja importar",
+      "selectTitle": "Selecione quais contas você deseja importar.",
       "selectedQuantity_one": "{{selected}} de {{count}} conta selecionada",
       "selectedQuantity_other": "{{selected}} de {{count}} contas selecionadas",
       "title": "Escolha as contas para importar"
     },
     "step4": {
       "buttonLabel": "Importar contas",
-      "description": "Digite suas senhas para cada conta que você deseja importar",
+      "description": "Digite suas senhas para cada conta que você deseja importar.",
       "importError": "Ocorreu um erro ao tentar importar. Por favor, tente novamente.",
       "inputLabel": "Senha",
       "inputPlaceholder": "Digite a senha da conta…",

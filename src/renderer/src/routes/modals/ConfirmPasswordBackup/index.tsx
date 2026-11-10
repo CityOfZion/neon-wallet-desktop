@@ -33,17 +33,19 @@ const SuccessFooter = () => {
   return (
     <div className="flex w-full grow flex-col items-center justify-end gap-7">
       <ButtonDownloadPasswordQRCode />
+
       <Separator />
-      <Button label={t('returnSettings')} onClick={modalNavigateWrapper(-1)} className="w-full px-9" />
+
+      <Button label={t('returnSettings')} className="w-56" onClick={modalNavigateWrapper(-1)} />
     </div>
   )
 }
 
 const ConfirmPasswordBackupModal = () => {
-  const { loginSessionRef } = useLoginSessionSelector()
   const { t } = useTranslation('modals', { keyPrefix: 'confirmPasswordBackup' })
   const { t: tCommon } = useTranslation('common')
-  const { selectedFilePath } = useModalState<TModalState<'confirm-password-backup'>>()
+  const { loginSessionRef } = useLoginSessionSelector()
+  const { selectedFilePath, onSuccess } = useModalState<TModalState<'confirm-password-backup'>>()
   const { modalNavigate } = useModalNavigate()
   const { handleCreateBackup } = useNeonCreateBackup()
 
@@ -70,6 +72,7 @@ const ConfirmPasswordBackupModal = () => {
 
       AnalyticsHelper.logEvent('backup_done')
 
+      onSuccess()
       modalNavigate('success', {
         state: {
           heading: t('title'),
@@ -91,12 +94,11 @@ const ConfirmPasswordBackupModal = () => {
       contentClassName="flex flex-col"
     >
       <p className="mb-5 text-xs">{t('description')}</p>
-      <p className="mb-3.5 font-bold text-gray-300 uppercase">{t('subtitle')}</p>
 
       <form className="flex grow flex-col justify-between" onSubmit={handleAct(handleSubmit)}>
-        <div>
+        <div className="flex flex-col gap-y-3">
           <Input
-            aria-label={t('subtitle')}
+            label={t('inputLabel')}
             placeholder={t('inputPlaceholder')}
             error={!!actionState.errors.password}
             value={actionData.password}
@@ -105,9 +107,7 @@ const ConfirmPasswordBackupModal = () => {
             type="password"
           />
 
-          <div className="mt-5">
-            {actionState.errors.password && <AlertErrorBanner message={actionState.errors.password} />}
-          </div>
+          {actionState.errors.password && <AlertErrorBanner message={actionState.errors.password} />}
         </div>
 
         <div className="flex w-full flex-col items-center">
@@ -115,19 +115,14 @@ const ConfirmPasswordBackupModal = () => {
             type="warningOrange"
             message={
               <span>
-                {t('warning')}
-                <span className="text-orange pl-0.75">{t('warningHighlighted')}</span>
+                {t('warning')} <span className="text-orange">{t('warningHighlighted')}</span>
               </span>
             }
           />
+
           <Separator className="my-7" />
-          <Button
-            className="w-full px-9"
-            type="submit"
-            label={t('buttonContinueLabel')}
-            loading={actionState.isActing}
-            flat
-          />
+
+          <Button type="submit" label={t('buttonContinueLabel')} className="w-52" loading={actionState.isActing} flat />
         </div>
       </form>
     </SideModalLayout>

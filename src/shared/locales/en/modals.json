@@ -106,14 +106,14 @@
     "title": "Confirm your action"
   },
   "confirmPasswordBackup": {
-    "buttonContinueLabel": "Backup Now",
+    "buttonContinueLabel": "Backup now",
     "description": "In order to create your backup file, please provide your Neon password below:",
     "error": "Password not recognised!",
     "errorBackup": "There was an error trying to backup. Please, try again.",
+    "inputLabel": "Current Neon password",
     "inputPlaceholder": "Enter your password…",
     "modalDescription": "Backup created successfully!",
     "returnSettings": "Return to Settings",
-    "subtitle": "Current Neon password",
     "title": "Backup Neon",
     "warning": "You’ll need this password to restore your wallet.",
     "warningHighlighted": "Please keep it safe!"
@@ -129,10 +129,10 @@
     "buttonContinueLabel": "Import this backup",
     "description": "In order to import your backup file, please provide the password you used to create the backup:",
     "error": "Password not recognised!",
+    "inputLabel": "Backup password",
     "inputPlaceholder": "Enter your password…",
     "modalDescription": "Backup imported successfully!",
     "returnSettings": "Return to Settings",
-    "subtitle": "Backup Password",
     "title": "Import backup"
   },
   "connectHardwareWallet": {
@@ -558,6 +558,7 @@
       "description": "To import your Neon 2 accounts, please locate your Neon 2 migration file:",
       "importButtonLabel": "Import",
       "inputLabel": "Locate your Neon 2 migration file",
+      "inputPlaceholder": "Browse your Neon 2 migration file…",
       "title": "Import your Neon 2 accounts"
     },
     "step3": {
@@ -566,14 +567,14 @@
       "deselectAllButtonLabel": "Deselect all",
       "selectAllButtonLabel": "Select all",
       "selectLabel": "Accounts",
-      "selectTitle": "Select which accounts you want to import",
+      "selectTitle": "Select which accounts you want to import.",
       "selectedQuantity_one": "{{selected}} of {{count}} account selected",
       "selectedQuantity_other": "{{selected}} of {{count}} accounts selected",
       "title": "Choose the accounts to migrate"
     },
     "step4": {
       "buttonLabel": "Migrate accounts",
-      "description": "Enter your passwords for each account you want to import",
+      "description": "Enter your passwords for each account you want to import.",
       "inputLabel": "Password",
       "inputPlaceholder": "Enter account password…",
       "migrateError": "There was an error trying to migrate. Please, try again.",
@@ -593,14 +594,14 @@
       "deselectAllButtonLabel": "Deselect all",
       "selectAllButtonLabel": "Select all",
       "selectLabel": "Accounts",
-      "selectTitle": "Select which accounts you want to import",
+      "selectTitle": "Select which accounts you want to import.",
       "selectedQuantity_one": "{{selected}} of {{count}} account selected",
       "selectedQuantity_other": "{{selected}} of {{count}} accounts selected",
       "title": "Choose the accounts to import"
     },
     "step4": {
       "buttonLabel": "Import accounts",
-      "description": "Enter your passwords for each account you want to import",
+      "description": "Enter your passwords for each account you want to import.",
       "importError": "There was an error trying to import. Please, try again.",
       "inputLabel": "Password",
       "inputPlaceholder": "Enter account password…",

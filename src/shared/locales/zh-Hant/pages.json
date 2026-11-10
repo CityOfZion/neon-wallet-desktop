@@ -444,6 +444,7 @@
       "browse": "瀏覽…",
       "description": "將備份檔案儲存到您的電腦，若您遺失存取權或裝置損壞時可恢復錢包。",
       "saveBackupLabel": "您想將備份儲存在哪裡？",
+      "saveBackupPlaceholder": "瀏覽以選擇備份儲存位置…",
       "title": "備份 Neon",
       "warning": "注意：此操作將備份您的整個錢包"
     },
@@ -487,8 +488,9 @@
       "backup": "匯入備份",
       "browse": "瀏覽…",
       "description": "無論您是遺失了錢包存取權，還是只想從備份開啟錢包，都可以從本地備份檔案匯入——包括 Neon 和 NEP-6 備份。只需找到該檔案並輸入建立備份時設定的密碼即可。",
+      "locateBackupLabel": "尋找您的備份檔案",
+      "locateBackupPlaceholder": "瀏覽以尋找您的備份檔案…",
       "nameExtension": "Neon 備份檔案",
-      "saveBackupLabel": "尋找您的備份檔案",
       "title": "匯入備份"
     },
     "settingsReleaseNotes": {

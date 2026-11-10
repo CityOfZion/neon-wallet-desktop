@@ -110,10 +110,10 @@
     "description": "要创建备份文件，请在下方输入您的Neon密码：",
     "error": "密码不正确！",
     "errorBackup": "备份时发生错误，请重试。",
+    "inputLabel": "当前Neon密码",
     "inputPlaceholder": "输入您的密码…",
     "modalDescription": "备份创建成功！",
     "returnSettings": "返回设置",
-    "subtitle": "当前Neon密码",
     "title": "备份Neon",
     "warning": "您需要此密码来恢复钱包。",
     "warningHighlighted": "请妥善保管！"
@@ -129,10 +129,10 @@
     "buttonContinueLabel": "导入此备份",
     "description": "要导入备份文件，请输入创建备份时使用的密码：",
     "error": "密码不正确！",
+    "inputLabel": "备份密码",
     "inputPlaceholder": "输入您的密码…",
     "modalDescription": "备份导入成功！",
     "returnSettings": "返回设置",
-    "subtitle": "备份密码",
     "title": "导入备份"
   },
   "connectHardwareWallet": {
@@ -558,6 +558,7 @@
       "description": "为导入您的Neon 2账户，请定位您的Neon 2迁移文件：",
       "importButtonLabel": "导入",
       "inputLabel": "定位您的Neon 2迁移文件",
+      "inputPlaceholder": "浏览以定位您的Neon 2迁移文件…",
       "title": "导入您的Neon 2账户"
     },
     "step3": {
@@ -566,14 +567,14 @@
       "deselectAllButtonLabel": "取消全选",
       "selectAllButtonLabel": "全选",
       "selectLabel": "账户",
-      "selectTitle": "选择您要导入的账户",
+      "selectTitle": "选择您要导入的账户。",
       "selectedQuantity_one": "已选择{{selected}}个，共{{count}}个账户",
       "selectedQuantity_other": "已选择{{selected}}个，共{{count}}个账户",
       "title": "选择要迁移的账户"
     },
     "step4": {
       "buttonLabel": "迁移账户",
-      "description": "为每个要导入的账户输入密码",
+      "description": "为每个要导入的账户输入密码。",
       "inputLabel": "密码",
       "inputPlaceholder": "输入账户密码…",
       "migrateError": "迁移时发生错误，请重试。",
@@ -593,14 +594,14 @@
       "deselectAllButtonLabel": "取消全选",
       "selectAllButtonLabel": "全选",
       "selectLabel": "账户",
-      "selectTitle": "选择您要导入的账户",
+      "selectTitle": "选择您要导入的账户。",
       "selectedQuantity_one": "已选择{{selected}}个，共{{count}}个账户",
       "selectedQuantity_other": "已选择{{selected}}个，共{{count}}个账户",
       "title": "选择要导入的账户"
     },
     "step4": {
       "buttonLabel": "导入账户",
-      "description": "为每个要导入的账户输入密码",
+      "description": "为每个要导入的账户输入密码。",
       "importError": "导入时发生错误，请重试。",
       "inputLabel": "密码",
       "inputPlaceholder": "输入账户密码…",

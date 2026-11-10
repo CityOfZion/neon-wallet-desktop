@@ -43,8 +43,9 @@ Join our community to stay updated with the latest news and developments:
 Create a `.env` file in the project root with the following variables:
 
 ```env
-VITE_MERCURYO_WIDGET_ID=your-mercuryo-widget-id
+VITE_SENTRY_DSN=your-sentry-dsn
 
+VITE_MERCURYO_WIDGET_ID=your-mercuryo-widget-id
 
 VITE_GA_MEASUREMENT_ID=your-google-analytics-measurement-id
 VITE_GA_API_SECRET=your-google-analytics-api-secret

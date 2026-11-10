@@ -42,7 +42,7 @@ export const ImportSuccessContent = ({ accounts, buttonLabel }: TProps) => {
         label={buttonLabel}
         iconsOnEdge={false}
         rightIcon={<MdOutlineRemoveRedEye aria-hidden />}
-        className="mt-3 px-15"
+        className="mx-auto mt-3 w-64"
         onClick={handleView}
       />
     </div>

@@ -20,13 +20,18 @@ import type { TModalState } from '@shared/types/modal'
 
 const Nep6BackupImportStep3Modal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'nep6BackupImport' })
-  const { content, onDecrypt } = useModalState<TModalState<'nep6-backup-import-step-3'>>()
+  const { content, onDecrypt, onSuccess } = useModalState<TModalState<'nep6-backup-import-step-3'>>()
   const { modalNavigateWrapper } = useModalNavigate()
   const { doesAccountExist } = useAccountUtils()
 
   const [accounts, setAccounts] = useState<TUseImportNep6Account[]>([])
 
   const selectableAccounts = content.accounts.filter(account => !doesAccountExist(account))
+
+  const isDisabled = selectableAccounts.length === 0
+
+  const areAllAccountsSelected =
+    !isDisabled && selectableAccounts.every(account => accounts.some(SharedAccountHelper.predicate(account)))
 
   const handleToggleAccount = (account: TUseImportNep6Account) => {
     setAccounts(previousAccounts => {
@@ -37,11 +42,6 @@ const Nep6BackupImportStep3Modal = () => {
       return previousAccounts.filter(SharedAccountHelper.predicateNot(account))
     })
   }
-
-  const isDisabled = selectableAccounts.length === 0
-
-  const areAllAccountsSelected =
-    !isDisabled && selectableAccounts.every(account => accounts.some(SharedAccountHelper.predicate(account)))
 
   const handleToggleAllAccounts = () => {
     setAccounts(areAllAccountsSelected ? [] : selectableAccounts)
@@ -82,6 +82,7 @@ const Nep6BackupImportStep3Modal = () => {
                   <div className="flex flex-col gap-1">
                     <div className="flex gap-2">
                       <span className="text-sm text-white">{account.label}</span>
+
                       {isAccountExist && (
                         <span className="text-green text-sm italic">{t('step3.alreadyImportedLabel')}</span>
                       )}
@@ -110,11 +111,11 @@ const Nep6BackupImportStep3Modal = () => {
 
       <Button
         label={t('step3.buttonLabel')}
+        className="mx-auto w-56"
         flat
-        className="px-16"
         disabled={accounts.length <= 0}
         onClick={modalNavigateWrapper('nep6-backup-import-step-4', {
-          state: { accounts, onDecrypt },
+          state: { accounts, onDecrypt, onSuccess },
         })}
       />
     </ImportModalLayout>

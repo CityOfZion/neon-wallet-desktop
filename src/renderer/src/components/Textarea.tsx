@@ -1,4 +1,4 @@
-import { ChangeEventHandler, forwardRef, useEffect, useImperativeHandle, useRef } from 'react'
+import { ChangeEventHandler, forwardRef, useEffect, useId, useImperativeHandle, useRef } from 'react'
 
 import { useTranslation } from 'react-i18next'
 
@@ -26,6 +26,7 @@ type TProps = React.ComponentProps<'textarea'> & {
 export const Textarea = forwardRef<HTMLTextAreaElement, TProps>(
   (
     {
+      id,
       className,
       containerClassName,
       errorMessage,
@@ -43,6 +44,8 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TProps>(
   ) => {
     const { t: tCommonGeneral } = useTranslation('common', { keyPrefix: 'general' })
     const internalRef = useRef<HTMLTextAreaElement>(null)
+    const generatedId = useId()
+    const internalId = id || generatedId
 
     const setValue = (value: string) => {
       if (!internalRef.current) return
@@ -90,11 +93,16 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TProps>(
 
     return (
       <div className={StyleHelper.mergeStyles('w-full', containerClassName)}>
-        {label && <label className="mb-2 block text-xs font-bold text-gray-100 uppercase">{label}</label>}
+        {label && (
+          <label htmlFor={internalId} className="mb-2 block text-xs font-bold text-gray-100 uppercase">
+            {label}
+          </label>
+        )}
 
         <div
+          aria-disabled={disabled}
           className={StyleHelper.mergeStyles(
-            'bg-asphalt flex w-full items-center gap-x-1 rounded-sm px-5 font-medium text-white ring-2 ring-transparent outline-hidden placeholder:text-white/50',
+            'bg-asphalt flex w-full items-center gap-x-1 rounded-sm px-5 font-medium text-white ring-2 ring-transparent outline-hidden placeholder:text-white/50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50',
             {
               'py-1.25 text-xs': compacted,
               'py-3 text-sm': !compacted,
@@ -111,8 +119,9 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TProps>(
             onChange={setValue}
           >
             <textarea
+              id={internalId}
               className={StyleHelper.mergeStyles(
-                'min-h-4 w-full grow resize-none overflow-hidden bg-transparent outline-hidden',
+                'min-h-4 w-full grow resize-none overflow-hidden bg-transparent outline-hidden disabled:cursor-not-allowed',
                 {
                   'whitespace-nowrap': !multiline,
                 },

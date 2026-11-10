@@ -9,7 +9,7 @@ import { usePressOnce } from '@renderer/hooks/usePressOnce'
 
 import { Button } from './Button'
 
-type Props = {
+type TProps = {
   value: string
   disabled?: boolean
   readOnly?: boolean
@@ -17,10 +17,12 @@ type Props = {
   children: ReactNode
 }
 
-export const FieldActionsMenu = ({ value, disabled = false, readOnly = false, onChange, children }: Props) => {
+export const FieldActionsMenu = ({ value, disabled = false, readOnly = false, onChange, children }: TProps) => {
   const { t } = useTranslation('components', { keyPrefix: 'fieldActionsMenu' })
+
   const [isCutting, startCut] = usePressOnce(async () => {
     await ClipboardHelper.write(value)
+
     onChange?.('')
   })
 
@@ -30,6 +32,7 @@ export const FieldActionsMenu = ({ value, disabled = false, readOnly = false, on
 
   const [isPasting, startPaste] = usePressOnce(async () => {
     const text = await ClipboardHelper.read()
+
     onChange?.(`${value}${text}`)
   })
 
