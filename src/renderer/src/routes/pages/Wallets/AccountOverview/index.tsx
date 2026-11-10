@@ -13,6 +13,7 @@ import { TAccount } from '@shared/types/store'
 import { AccountDetailsLayout } from '../AccountDetailsLayout'
 import { ClaimGasBanner } from '../ClaimGasBanner'
 import { CommonAccountActions } from '../CommonAccountActions'
+import { StellarTrustlineBanner } from '../StellarTrustlineBanner'
 
 type TOutletContext = {
   account: TAccount
@@ -33,6 +34,7 @@ const AccountOverview = () => {
       <div className="flex w-full grow flex-col items-center justify-center">
         <OverviewCharts balances={balances} account={account}>
           {isClaimable(blockchainService) && <ClaimGasBanner blockchainService={blockchainService} account={account} />}
+          {account.blockchain === 'stellar' && <StellarTrustlineBanner account={account} />}
         </OverviewCharts>
       </div>
     </AccountDetailsLayout>
