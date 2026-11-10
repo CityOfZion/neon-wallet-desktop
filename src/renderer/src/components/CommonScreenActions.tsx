@@ -10,7 +10,6 @@ import { TestHelper } from '@renderer/helpers/TestHelper'
 import { useHasNewNotificationsSelector, useLoginSessionSelector } from '@renderer/hooks/useAuthSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 
-import HiOutlineTicket from '@renderer/assets/images/hi-outline-ticket.svg?react'
 import MdMoreVert from '@renderer/assets/images/md-more-vert.svg?react'
 import TbBell from '@renderer/assets/images/tb-bell.svg?react'
 import TbBrandDiscord from '@renderer/assets/images/tb-brand-discord.svg?react'
@@ -97,15 +96,6 @@ export const CommonScreenActions = ({ children, className, ...props }: TProps) =
               leftIcon={<TbMessage aria-hidden="true" className="text-yellow" />}
               onClick={CrispHelper.open}
               {...TestHelper.buildTestObject('help-live-support')}
-            />
-
-            <ActionPopover.Item
-              actionPopoverItemType="button"
-              label={t('openSupportTicketButtonLabel')}
-              onClick={modalNavigateWrapper('support-ticket')}
-              colorSchema="white"
-              iconsOnEdge={false}
-              leftIcon={<HiOutlineTicket aria-hidden="true" className="text-yellow" />}
             />
 
             <ActionPopover.Item

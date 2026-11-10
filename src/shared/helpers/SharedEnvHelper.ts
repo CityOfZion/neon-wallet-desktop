@@ -6,9 +6,6 @@ const envSchema = z.object({
   VITE_MERCURYO_WIDGET_ID: z.string().nonempty().optional(),
   VITE_GA_MEASUREMENT_ID: z.string().nonempty().optional(),
   VITE_GA_API_SECRET: z.string().nonempty().optional(),
-  VITE_CLICK_UP_KEY: z.string().nonempty().optional(),
-  VITE_CLICK_UP_LIST_ID: z.string().nonempty().optional(),
-  VITE_CLICK_UP_ASSIGNEE_ID: z.string().nonempty().optional(),
   VITE_CRISP_WEBSITE_ID: z.string().nonempty().optional(),
 })
 

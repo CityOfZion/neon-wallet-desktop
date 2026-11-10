@@ -45,9 +45,6 @@ Create a `.env` file in the project root with the following variables:
 ```env
 VITE_MERCURYO_WIDGET_ID=your-mercuryo-widget-id
 
-VITE_CLICK_UP_KEY=your-clickup-api-key
-VITE_CLICK_UP_LIST_ID=your-clickup-list-id
-VITE_CLICK_UP_ASSIGNEE_ID=your-clickup-assignee-id
 
 VITE_GA_MEASUREMENT_ID=your-google-analytics-measurement-id
 VITE_GA_API_SECRET=your-google-analytics-api-secret
