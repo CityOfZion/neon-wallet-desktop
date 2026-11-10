@@ -25,17 +25,31 @@ export type TUseImportFromFileActionsData = {
   | { content: undefined; type: undefined }
 )
 
-export const useImportFromFile = () => {
+const defaultInitialActionsData: TUseImportFromFileActionsData = {
+  content: undefined,
+  type: undefined,
+  path: undefined,
+}
+
+export const useImportFromFile = (initialActionsData?: TUseImportFromFileActionsData) => {
   const { t } = useTranslation('hooks', { keyPrefix: 'useImportFromFile' })
   const neonBackupFileActions = useNeonBackupFile()
   const neonMigrateFileActions = useNeonMigrateFile()
   const nep6BackupFileActions = useNep6BackupFile()
 
-  const { actionData, actionState, handleAct, setData, setError, reset } = useActions<TUseImportFromFileActionsData>({
-    content: undefined,
-    type: undefined,
-    path: undefined,
-  })
+  const {
+    actionData,
+    actionState,
+    setData,
+    setError,
+    reset: actionsReset,
+    handleAct,
+  } = useActions<TUseImportFromFileActionsData>(initialActionsData || defaultInitialActionsData)
+
+  const reset = () => {
+    actionsReset()
+    setData(defaultInitialActionsData)
+  }
 
   const handleBrowse = async () => {
     const [filePath] = await window.api.sendAsync('window:openDialog', {
@@ -80,8 +94,8 @@ export const useImportFromFile = () => {
   return {
     actionData,
     actionState,
+    reset,
     handleAct,
     handleBrowse,
-    reset,
   }
 }

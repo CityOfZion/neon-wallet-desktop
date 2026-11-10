@@ -30,7 +30,7 @@ type TActionsData = {
 
 const Nep6BackupImportStep4Modal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'nep6BackupImport' })
-  const { accounts, onDecrypt } = useModalState<TModalState<'nep6-backup-import-step-4'>>()
+  const { accounts, onDecrypt, onSuccess } = useModalState<TModalState<'nep6-backup-import-step-4'>>()
   const { modalNavigate, modalErase } = useModalNavigate()
   const { handleGenerateData, handleTryDecryptAccount, handleImportBackupData } = useNep6BackupFile()
 
@@ -91,6 +91,7 @@ const Nep6BackupImportStep4Modal = () => {
     try {
       const { accounts } = await handleImportBackupData(generatedData)
 
+      onSuccess?.()
       modalErase()
       modalNavigate('success', {
         state: {
@@ -145,11 +146,11 @@ const Nep6BackupImportStep4Modal = () => {
 
       <Button
         label={t('step4.buttonLabel')}
+        className="mx-auto w-52"
         flat
-        className="px-16"
-        onClick={handleAct(handleImport)}
         loading={actionState.isActing}
         disabled={isDisabled}
+        onClick={handleAct(handleImport)}
       />
     </ImportModalLayout>
   )

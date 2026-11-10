@@ -59,6 +59,7 @@ type TConfirmActionModalState = {
 
 type TConfirmPasswordBackupModalState = {
   selectedFilePath: string
+  onSuccess: () => void
 }
 
 type TConfirmPasswordExportModalState = {
@@ -70,6 +71,7 @@ type TConfirmPasswordExportModalState = {
 type TConfirmPasswordRecoverModalState = {
   data: TUseNeonBackupData | TUseNeonBackupDeprecatedData
   onDecrypt?: (data: TUseNeonBackupGeneratedData) => void
+  onSuccess?: () => void
 }
 
 type TCreateWalletStep2ModalState = {
@@ -169,11 +171,13 @@ type TNeonMigrateStep4ModalState = {
 type TNep6BackupImportStep3ModalState = {
   content: TUseNep6ParsedContent
   onDecrypt?: (generatedData: TUseNep6GeneratedData) => void
+  onSuccess?: () => void
 }
 
 type TNep6BackupImportStep4ModalState = {
   accounts: TUseImportNep6Account[]
   onDecrypt?: (generatedData: TUseNep6GeneratedData) => void
+  onSuccess?: () => void
 }
 
 type TNeo3NeoxBridgeConfirmationModalState = {

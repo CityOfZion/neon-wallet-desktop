@@ -87,6 +87,8 @@ Locale files live in `src/shared/locales/` with 5 languages: `en`, `de`, `pt-br`
 - **Prettier**: single quotes, no semicolons, 120-char line width, 2-space indent
 - **Imports**: sorted via `eslint-plugin-simple-import-sort` with custom groups
 - **Pattern matching**: use `ts-pattern` instead of long if/else or switch chains
+- **Type names**: prefix type aliases with `T` (e.g. `TProps`, `TUseImportFromFileActionsData`)
+- **DOM ids**: use React `useId()` with an optional `id` prop fallback (`id || generatedId`), not `useState` + `UtilsHelper.uuid()`
 - Tailwind CSS classes are auto-sorted by prettier-plugin-tailwindcss
 
 ## Pre-commit Hooks
@@ -112,6 +114,9 @@ Defined via Vite (`VITE_` prefix). Key ones:
 - `VITE_SENTRY_DSN` — Error tracking
 - `VITE_GA_MEASUREMENT_ID` / `VITE_GA_API_SECRET` — Analytics
 - `VITE_MERCURYO_WIDGET_ID` — Fiat on/off-ramp (Mercuryo widget)
+- `VITE_CRISP_WEBSITE_ID` — Crisp support chat
+
+All are optional and validated in `src/shared/helpers/SharedEnvHelper.ts`.
 
 ## Node Version
 

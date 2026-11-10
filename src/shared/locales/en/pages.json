@@ -444,6 +444,7 @@
       "browse": "Browse…",
       "description": "Save a backup file to your computer that will allow you to restore your wallet in the event that you lose access or damage your device.",
       "saveBackupLabel": "Where would you like to save your backup?",
+      "saveBackupPlaceholder": "Browse where to save your backup…",
       "title": "Backup Neon",
       "warning": "Note: This process will back up your entire wallet"
     },
@@ -487,8 +488,9 @@
       "backup": "Import backup",
       "browse": "Browse…",
       "description": "Whether you've lost access to your wallet or simply want to open one from a backup, you can import it from a local backup file — including Neon and NEP-6 backups. Just locate the file and enter the password you set when creating it.",
+      "locateBackupLabel": "Locate your backup file",
+      "locateBackupPlaceholder": "Browse to locate your backup file…",
       "nameExtension": "Neon backup files",
-      "saveBackupLabel": "Locate your backup file",
       "title": "Import backup"
     },
     "settingsReleaseNotes": {

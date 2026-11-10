@@ -28,18 +28,18 @@ const SuccessFooter = () => {
   return (
     <div className="flex w-full grow flex-col items-center justify-end gap-7">
       <Separator />
-      <Button label={t('returnSettings')} onClick={modalNavigateWrapper(-1)} className="w-full px-9" />
+      <Button label={t('returnSettings')} className="w-56" onClick={modalNavigateWrapper(-1)} />
     </div>
   )
 }
 
 const ConfirmPasswordRecoverModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'confirmPasswordRecover' })
-  const { data, onDecrypt } = useModalState<TModalState<'confirm-password-recover'>>()
+  const { data, onDecrypt, onSuccess } = useModalState<TModalState<'confirm-password-recover'>>()
   const { modalNavigate } = useModalNavigate()
   const { handleImportBackupData, handleTryDecryptData, handleGenerateData } = useNeonBackupFile()
 
-  const { actionData, actionState, handleAct, setDataFromEventWrapper, setError, reset } = useActions<TFormData>({
+  const { actionData, actionState, setDataFromEventWrapper, setError, handleAct } = useActions<TFormData>({
     password: '',
   })
 
@@ -62,17 +62,17 @@ const ConfirmPasswordRecoverModal = () => {
 
       await BSUtilsHelper.wait(2000)
 
+      onSuccess?.()
       modalNavigate('success', {
         state: {
           heading: t('title'),
-          headingIcon: <TbReload className="text-neon" />,
+          headingIcon: <TbReload aria-hidden className="text-neon" />,
           subtitle: t('modalDescription'),
           footer: <SuccessFooter />,
         },
         replace: true,
       })
     } catch (error) {
-      reset()
       setError('password', AppError.wrap(error, t('error')).displayMessage)
     }
   }
@@ -84,12 +84,11 @@ const ConfirmPasswordRecoverModal = () => {
       contentClassName="flex flex-col"
     >
       <p className="mb-5 text-xs">{t('description')}</p>
-      <p className="mb-3.5 font-bold text-gray-300 uppercase">{t('subtitle')}</p>
 
       <form className="flex grow flex-col justify-between" onSubmit={handleAct(handleSubmit)}>
-        <div>
+        <div className="flex flex-col gap-y-3">
           <Input
-            aria-label={t('subtitle')}
+            label={t('inputLabel')}
             placeholder={t('inputPlaceholder')}
             error={!!actionState.errors.password}
             value={actionData.password}
@@ -98,9 +97,7 @@ const ConfirmPasswordRecoverModal = () => {
             type="password"
           />
 
-          <div className="mt-5">
-            {actionState.errors.password && <AlertErrorBanner message={actionState.errors.password} />}
-          </div>
+          {actionState.errors.password && <AlertErrorBanner message={actionState.errors.password} />}
         </div>
 
         <div className="flex w-full flex-col items-center">

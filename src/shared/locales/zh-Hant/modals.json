@@ -110,10 +110,10 @@
     "description": "為了建立備份檔案，請輸入您的 Neon 密碼：",
     "error": "密碼不正確！",
     "errorBackup": "備份時發生錯誤，請再試一次。",
+    "inputLabel": "目前的 Neon 密碼",
     "inputPlaceholder": "輸入您的密碼…",
     "modalDescription": "備份建立成功！",
     "returnSettings": "返回設定",
-    "subtitle": "目前的 Neon 密碼",
     "title": "備份 Neon",
     "warning": "您需要此密碼來還原錢包。",
     "warningHighlighted": "請妥善保管！"
@@ -129,10 +129,10 @@
     "buttonContinueLabel": "導入此備份",
     "description": "為了導入備份檔案，請輸入您建立備份時使用的密碼：",
     "error": "密碼不正確！",
+    "inputLabel": "備份密碼",
     "inputPlaceholder": "輸入您的密碼…",
     "modalDescription": "備份導入成功！",
     "returnSettings": "返回設定",
-    "subtitle": "備份密碼",
     "title": "導入備份"
   },
   "connectHardwareWallet": {
@@ -558,6 +558,7 @@
       "description": "為了匯入您的 Neon 2 帳戶，請選擇您的 Neon 2 遷移檔案：",
       "importButtonLabel": "導入",
       "inputLabel": "選擇您的 Neon 2 遷移檔案",
+      "inputPlaceholder": "瀏覽以選擇您的 Neon 2 遷移檔案…",
       "title": "導入您的 Neon 2 帳戶"
     },
     "step3": {
@@ -566,14 +567,14 @@
       "deselectAllButtonLabel": "取消全選",
       "selectAllButtonLabel": "全選",
       "selectLabel": "帳戶",
-      "selectTitle": "選擇您要導入的帳戶",
+      "selectTitle": "選擇您要導入的帳戶。",
       "selectedQuantity_one": "已選擇 {{selected}} / {{count}} 個帳戶",
       "selectedQuantity_other": "已選擇 {{selected}} / {{count}} 個帳戶",
       "title": "選擇要遷移的帳戶"
     },
     "step4": {
       "buttonLabel": "遷移帳戶",
-      "description": "請為每個要導入的帳戶輸入密碼",
+      "description": "請為每個要導入的帳戶輸入密碼。",
       "inputLabel": "密碼",
       "inputPlaceholder": "輸入帳戶密碼…",
       "migrateError": "遷移時發生錯誤，請再試一次。",
@@ -593,14 +594,14 @@
       "deselectAllButtonLabel": "取消全選",
       "selectAllButtonLabel": "全選",
       "selectLabel": "帳戶",
-      "selectTitle": "選擇您要導入的帳戶",
+      "selectTitle": "選擇您要導入的帳戶。",
       "selectedQuantity_one": "已選擇 {{selected}} / {{count}} 個帳戶",
       "selectedQuantity_other": "已選擇 {{selected}} / {{count}} 個帳戶",
       "title": "選擇要匯入的帳戶"
     },
     "step4": {
       "buttonLabel": "匯入帳戶",
-      "description": "請為每個要導入的帳戶輸入密碼",
+      "description": "請為每個要導入的帳戶輸入密碼。",
       "importError": "匯入時發生錯誤，請再試一次。",
       "inputLabel": "密碼",
       "inputPlaceholder": "輸入帳戶密碼…",

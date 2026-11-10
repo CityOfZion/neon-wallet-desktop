@@ -110,10 +110,10 @@
     "description": "Um Ihre Sicherungsdatei zu erstellen, geben Sie bitte unten Ihr Neon-Passwort ein:",
     "error": "Passwort nicht erkannt!",
     "errorBackup": "Es gab einen Fehler beim Versuch zu sichern. Bitte versuchen Sie es erneut.",
+    "inputLabel": "Aktuelles Neon-Passwort",
     "inputPlaceholder": "Geben Sie Ihr Passwort ein…",
     "modalDescription": "Sicherung erfolgreich erstellt!",
     "returnSettings": "Zurück zu den Einstellungen",
-    "subtitle": "Aktuelles Neon-Passwort",
     "title": "Neon sichern",
     "warning": "Sie benötigen dieses Passwort, um Ihr Wallet wiederherzustellen.",
     "warningHighlighted": "Bitte bewahren Sie es sicher auf!"
@@ -129,10 +129,10 @@
     "buttonContinueLabel": "Dieses Backup importieren",
     "description": "Um Ihre Sicherungsdatei zu importieren, geben Sie bitte das Passwort ein, das Sie zum Erstellen der Sicherung verwendet haben:",
     "error": "Passwort nicht erkannt!",
+    "inputLabel": "Backup-Passwort",
     "inputPlaceholder": "Geben Sie Ihr Passwort ein…",
     "modalDescription": "Backup erfolgreich importiert!",
     "returnSettings": "Zurück zu den Einstellungen",
-    "subtitle": "Backup-Passwort",
     "title": "Backup importieren"
   },
   "connectHardwareWallet": {
@@ -558,6 +558,7 @@
       "description": "Um Ihre Neon 2 Konten zu importieren, suchen Sie bitte Ihre Neon 2 Migrationsdatei:",
       "importButtonLabel": "Importieren",
       "inputLabel": "Suchen Sie Ihre Neon 2 Migrationsdatei",
+      "inputPlaceholder": "Durchsuchen, um Ihre Neon 2 Migrationsdatei zu finden…",
       "title": "Importieren Sie Ihre Neon 2 Konten"
     },
     "step3": {
@@ -566,14 +567,14 @@
       "deselectAllButtonLabel": "Alle abwählen",
       "selectAllButtonLabel": "Alle auswählen",
       "selectLabel": "Konten",
-      "selectTitle": "Wählen Sie aus, welche Konten Sie importieren möchten",
+      "selectTitle": "Wählen Sie aus, welche Konten Sie importieren möchten.",
       "selectedQuantity_one": "{{selected}} von {{count}} Konto ausgewählt",
       "selectedQuantity_other": "{{selected}} von {{count}} Konten ausgewählt",
       "title": "Wählen Sie die zu migrierenden Konten aus"
     },
     "step4": {
       "buttonLabel": "Konten migrieren",
-      "description": "Geben Sie Ihre Passwörter für jedes Konto ein, das Sie importieren möchten",
+      "description": "Geben Sie Ihre Passwörter für jedes Konto ein, das Sie importieren möchten.",
       "inputLabel": "Passwort",
       "inputPlaceholder": "Kontopasswort eingeben…",
       "migrateError": "Es gab einen Fehler beim Versuch zu migrieren. Bitte versuchen Sie es erneut.",
@@ -593,14 +594,14 @@
       "deselectAllButtonLabel": "Alle abwählen",
       "selectAllButtonLabel": "Alle auswählen",
       "selectLabel": "Konten",
-      "selectTitle": "Wählen Sie aus, welche Konten Sie importieren möchten",
+      "selectTitle": "Wählen Sie aus, welche Konten Sie importieren möchten.",
       "selectedQuantity_one": "{{selected}} von {{count}} Konto ausgewählt",
       "selectedQuantity_other": "{{selected}} von {{count}} Konten ausgewählt",
       "title": "Wählen Sie die zu importierenden Konten aus"
     },
     "step4": {
       "buttonLabel": "Konten importieren",
-      "description": "Geben Sie Ihre Passwörter für jedes Konto ein, das Sie importieren möchten",
+      "description": "Geben Sie Ihre Passwörter für jedes Konto ein, das Sie importieren möchten.",
       "importError": "Beim Importieren ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
       "inputLabel": "Passwort",
       "inputPlaceholder": "Kontopasswort eingeben…",

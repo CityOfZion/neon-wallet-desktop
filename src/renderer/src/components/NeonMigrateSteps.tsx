@@ -13,11 +13,11 @@ type TProps = ComponentProps<'div'> & {
   step?: number
 }
 
-type TStepProps = {
+type TStepProps = ComponentProps<'div'> & {
   icon: JSX.Element
   colorSchema?: 'green' | 'blue'
   label: string
-} & ComponentProps<'div'>
+}
 
 const Step = ({ icon, colorSchema, label, className, ...props }: TStepProps) => {
   return (
@@ -32,7 +32,7 @@ const Step = ({ icon, colorSchema, label, className, ...props }: TStepProps) => 
         className
       )}
     >
-      {cloneElement(icon, { className: 'w-6 h-6' })}
+      {cloneElement(icon, { className: 'size-6' })}
       <span className="text-sm text-white">{label}</span>
     </div>
   )
@@ -55,21 +55,23 @@ export const NeonMigrateSteps = ({ className, step, ...props }: TProps) => {
       <span className="text-blue mt-5 mb-1 block text-sm font-light">{t('inNeon.label')}</span>
 
       <Step
-        icon={<MdLooksTwo />}
+        icon={<MdLooksTwo aria-hidden />}
         colorSchema="blue"
         label={t('inNeon.step2')}
         className="rounded-b-none"
         aria-selected={step === 2}
       />
+
       <Step
-        icon={<MdLooks3 />}
+        icon={<MdLooks3 aria-hidden />}
         colorSchema="blue"
         label={t('inNeon.step3')}
         className="rounded-none"
         aria-selected={step === 3}
       />
+
       <Step
-        icon={<MdLooks4 />}
+        icon={<MdLooks4 aria-hidden />}
         colorSchema="blue"
         label={t('inNeon.step4')}
         className="rounded-t-none"

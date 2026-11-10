@@ -118,8 +118,8 @@ const NeonMigrateStep3Modal = () => {
 
       <Button
         label={t('step3.buttonLabel')}
+        className="mx-auto w-56"
         flat
-        className="px-16"
         disabled={accounts.length <= 0}
         onClick={modalNavigateWrapper('neon-migrate-step-4', {
           state: { accounts, content, onDecrypt },
