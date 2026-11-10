@@ -615,6 +615,11 @@
     "neo3NeoXBridgeButtonLabel": "Bridge",
     "neo3VoteButtonLabel": "Vote",
     "newWalletButtonLabel": "New Wallet",
+    "stellarTrustlineBanner": {
+      "addButtonLabel": "Add {{symbol}}",
+      "message_one": "Add a {{symbols}} trustline to receive and hold this token",
+      "message_other": "Add {{symbols}} trustlines to receive and hold these tokens"
+    },
     "stellarTrustlineButtonLabel": "Trustline",
     "title": "Wallets"
   },

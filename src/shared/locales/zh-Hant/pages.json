@@ -615,6 +615,11 @@
     "neo3NeoXBridgeButtonLabel": "跨鏈",
     "neo3VoteButtonLabel": "投票",
     "newWalletButtonLabel": "新錢包",
+    "stellarTrustlineBanner": {
+      "addButtonLabel": "新增 {{symbol}}",
+      "message_one": "新增 {{symbols}} 信任線以接收和持有此代幣",
+      "message_other": "新增 {{symbols}} 信任線以接收和持有這些代幣"
+    },
     "stellarTrustlineButtonLabel": "信任線",
     "title": "錢包"
   },

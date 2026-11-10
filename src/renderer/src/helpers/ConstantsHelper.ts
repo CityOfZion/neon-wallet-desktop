@@ -1,5 +1,6 @@
-import { BSBigHumanAmount, BSBigNumber, TBSToken } from '@cityofzion/blockchain-service'
+import { BSBigHumanAmount, BSBigNumber, TBSNetworkType, TBSToken } from '@cityofzion/blockchain-service'
 import { BSNeo3Constants } from '@cityofzion/bs-neo3'
+import { BSStellarConstants } from '@cityofzion/bs-stellar'
 
 import type { TBlockchainServiceKey } from '@shared/types/blockchain'
 
@@ -45,6 +46,37 @@ export class ConstantsHelper {
 
   static readonly stellarCreateAccountDocumentationUrl =
     'https://developers.stellar.org/docs/build/guides/transactions/create-account#create-account'
+
+  static readonly stellarRecommendedTrustlineTokensByNetworkType: Partial<Record<TBSNetworkType, TBSToken[]>> = {
+    mainnet: [
+      {
+        symbol: 'USDC',
+        name: 'USDC',
+        hash: 'GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN',
+        decimals: BSStellarConstants.SAC_TOKEN_DECIMALS,
+      },
+      {
+        symbol: 'EURC',
+        name: 'EURC',
+        hash: 'GDHU6WRG4IEQXM5NZ4BMPKOXHW76MZM4Y2IEMFDVXBSDP6SJY4ITNPP2',
+        decimals: BSStellarConstants.SAC_TOKEN_DECIMALS,
+      },
+    ],
+    testnet: [
+      {
+        symbol: 'USDC',
+        name: 'USDC',
+        hash: 'GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5',
+        decimals: BSStellarConstants.SAC_TOKEN_DECIMALS,
+      },
+      {
+        symbol: 'EURC',
+        name: 'EURC',
+        hash: 'GB3Q6QDZYTHWT7E5PVS3W7FUT5GVAFC5KSZFFLPU25GO7VTC3NM2ZTVO',
+        decimals: BSStellarConstants.SAC_TOKEN_DECIMALS,
+      },
+    ],
+  }
 
   static readonly isLinux = window.electron.process.platform === 'linux'
   static readonly isMac = window.electron.process.platform === 'darwin'
