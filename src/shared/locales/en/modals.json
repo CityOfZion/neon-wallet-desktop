@@ -21,7 +21,7 @@
     "editTitle": "Edit address",
     "errorNoBlockchainSelected": "No blockchain selected",
     "invalidAddress": "Invalid address or NS domain",
-    "name": "NAME",
+    "name": "Name",
     "nnsComplete": "NS domain found!",
     "saveAddress": "Save address",
     "title": "Add address"
@@ -414,7 +414,7 @@
     "importEncryptedDescription": "Select the desired blockchain for your new account",
     "inputLabel": "Address or key",
     "inputPlaceholder": "Please enter an address or key…",
-    "subtitle": "IMPORT",
+    "subtitle": "Import",
     "success": {
       "address": "Address complete!",
       "encrypted": "Encrypted key complete!",
@@ -633,7 +633,7 @@
   "nftSelection": {
     "description": "Please select which image you would like to use for this account card.",
     "emptyList": "No NFTs found",
-    "selectTitle": "SELECT AN NFT",
+    "selectTitle": "Select an NFT",
     "title": "Theme with an NFT image"
   },
   "notifications": {
@@ -679,7 +679,7 @@
   "persistContact": {
     "addAddress": "Add address",
     "addContact": "Add Contact",
-    "addresses": "ADDRESSES",
+    "addresses": "Addresses",
     "deleteAddress": {
       "buttonDeleteLabel": "Delete this address",
       "title": "Delete address",
@@ -696,7 +696,7 @@
     "emptyAddresses": "No address added",
     "enterAName": "Enter a name…",
     "invalidName": "Invalid name",
-    "name": "NAME",
+    "name": "Name",
     "noAddressesFound": "No addresses found",
     "saveContact": "Save contact"
   },

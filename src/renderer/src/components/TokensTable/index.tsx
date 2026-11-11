@@ -56,7 +56,7 @@ export const TokensTable = forwardRef<HTMLDivElement, TProps>(
                 {table.getHeaderGroups().map(headerGroup => (
                   <Table.HeaderRow key={headerGroup.id}>
                     {headerGroup.headers.map(header => (
-                      <Table.Head key={header.id}>
+                      <Table.Head key={header.id} className="uppercase">
                         {flexRender(header.column.columnDef.header, header.getContext())}
                       </Table.Head>
                     ))}

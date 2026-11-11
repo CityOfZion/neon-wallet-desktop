@@ -26,9 +26,9 @@
   },
   "blockchainDataPanel": {
     "tabs": {
-      "nfts": "NFTS",
-      "tokens": "TOKENS",
-      "transactions": "TRANSAKTIONEN"
+      "nfts": "NFTs",
+      "tokens": "Tokens",
+      "transactions": "Transaktionen"
     },
     "title": "Alle Konten"
   },
@@ -190,14 +190,14 @@
   },
   "tokensTable": {
     "empty": "Keine Token zum Anzeigen",
-    "hash": "HASH",
+    "hash": "Hash",
     "hideTokenLabel": "Token ausblenden",
-    "holdings": "BESTÄNDE",
-    "price": "PREIS",
+    "holdings": "Bestände",
+    "price": "Preis",
     "showTokenLabel": "Token anzeigen",
-    "ticker": "KÜRZEL",
-    "token": "TOKEN",
-    "value": "WERT"
+    "ticker": "Kürzel",
+    "token": "Token",
+    "value": "Wert"
   },
   "transactionActivityList": {
     "dateRange": {
