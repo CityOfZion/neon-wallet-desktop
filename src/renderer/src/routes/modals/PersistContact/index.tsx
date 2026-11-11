@@ -111,7 +111,7 @@ const PersistContactModal = () => {
       <form onSubmit={handleAct(handleSubmit)} className="flex h-full min-h-0 flex-col justify-between">
         <div className="flex min-h-0 flex-col gap-y-6">
           <div>
-            <label htmlFor="input-contact-name" className="block pb-2 font-bold text-gray-100">
+            <label htmlFor="input-contact-name" className="block pb-2 font-bold text-gray-100 uppercase">
               {t('name')}
             </label>
             <Input
@@ -127,7 +127,7 @@ const PersistContactModal = () => {
           </div>
 
           <div className="flex min-h-0 flex-col">
-            <div className="pb-4 font-bold text-gray-100">{t('addresses')}</div>
+            <div className="pb-4 font-bold text-gray-100 uppercase">{t('addresses')}</div>
 
             <div className="min-h-0 overflow-y-auto">
               {actionData.addresses.map((address, index) => (

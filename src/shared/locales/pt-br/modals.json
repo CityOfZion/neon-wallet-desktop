@@ -21,7 +21,7 @@
     "editTitle": "Editar endereço",
     "errorNoBlockchainSelected": "Nenhum blockchain selecionado",
     "invalidAddress": "Endereço ou domínio NS inválido",
-    "name": "NOME",
+    "name": "Nome",
     "nnsComplete": "Domínio NS encontrado!",
     "saveAddress": "Salvar endereço",
     "title": "Adicionar endereço"
@@ -414,7 +414,7 @@
     "importEncryptedDescription": "Selecione a blockchain desejada para sua nova conta",
     "inputLabel": "Endereço ou chave",
     "inputPlaceholder": "Por favor, insira um endereço ou chave…",
-    "subtitle": "IMPORTAR",
+    "subtitle": "Importar",
     "success": {
       "address": "Endereço completo!",
       "encrypted": "Chave criptografada completa!",
@@ -633,7 +633,7 @@
   "nftSelection": {
     "description": "Por favor, selecione qual imagem você gostaria de usar para este cartão de conta.",
     "emptyList": "Nenhum NFT encontrado",
-    "selectTitle": "SELECIONE UM NFT",
+    "selectTitle": "Selecione um NFT",
     "title": "Tema com uma imagem NFT"
   },
   "notifications": {
@@ -679,7 +679,7 @@
   "persistContact": {
     "addAddress": "Adicionar endereço",
     "addContact": "Adicionar Contato",
-    "addresses": "ENDEREÇOS",
+    "addresses": "Endereços",
     "deleteAddress": {
       "buttonDeleteLabel": "Excluir este endereço",
       "title": "Excluir endereço",
@@ -696,7 +696,7 @@
     "emptyAddresses": "Nenhum endereço adicionado",
     "enterAName": "Digite um nome…",
     "invalidName": "Nome inválido",
-    "name": "NOME",
+    "name": "Nome",
     "noAddressesFound": "Nenhum endereço encontrado",
     "saveContact": "Salvar contato"
   },

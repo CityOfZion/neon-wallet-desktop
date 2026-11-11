@@ -70,7 +70,7 @@ const AddAddressModal = () => {
       <form className="flex h-full flex-col justify-between gap-y-5" onSubmit={handleAct(handleSubmit)}>
         <div className="flex flex-col gap-y-5">
           <div>
-            <div className="pb-2 font-bold text-gray-100">{t('name')}</div>
+            <div className="pb-2 font-bold text-gray-100 uppercase">{t('name')}</div>
             {StringHelper.truncateMiddle(contactName, 35)}
           </div>
 
