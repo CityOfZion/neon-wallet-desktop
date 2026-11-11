@@ -32,7 +32,12 @@ export const BuyAndSellTokensIframe = ({ type, account, onReady, className, ...p
     () => {
       const merchantTransactionId = UtilsHelper.uuid()
 
-      return BuyAndSellTokensHelper.buildUrl({ type, currency, refundAddress: account?.address, merchantTransactionId })
+      return BuyAndSellTokensHelper.buildUrl({
+        type,
+        currency,
+        merchantTransactionId,
+        ...(type === 'buy' ? { address: account?.address } : { refundAddress: account?.address }),
+      })
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
@@ -51,7 +56,7 @@ export const BuyAndSellTokensIframe = ({ type, account, onReady, className, ...p
     onReady?.(undefined)
 
     const handleLoad = async () => {
-      await BSUtilsHelper.wait(500)
+      await BSUtilsHelper.wait(2000)
 
       onReady?.(true)
     }
