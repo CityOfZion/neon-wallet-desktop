@@ -1,5 +1,6 @@
 import { ChangeEvent, useEffect, useState } from 'react'
 
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 
@@ -23,7 +24,7 @@ import MdAdd from '@renderer/assets/images/md-add.svg?react'
 import TbEyePlus from '@renderer/assets/images/tb-eye-plus.svg?react'
 
 import { AppError } from '@shared/helpers/SharedErrorHelper'
-import { TAccountsToImport, TBlockchainServiceKey } from '@shared/types/blockchain'
+import { TAccountsToImport } from '@shared/types/blockchain'
 import type { TModalState } from '@shared/types/modal'
 
 import { BlockchainIcon } from '../../../components/BlockchainIcon'
@@ -31,7 +32,7 @@ import { BlockchainIcon } from '../../../components/BlockchainIcon'
 type TValidatedAddress = {
   address: string
   abbreviatedAddress: string
-  blockchain: TBlockchainServiceKey
+  blockchain: TBSServiceName
 }
 
 const ImportWatchAccountsModal = () => {

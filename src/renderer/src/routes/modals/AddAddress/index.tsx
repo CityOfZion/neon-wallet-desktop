@@ -1,5 +1,6 @@
 import { ChangeEvent, Fragment } from 'react'
 
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
 import { useTranslation } from 'react-i18next'
 
 import { Banner } from '@renderer/components/Banner'
@@ -17,12 +18,11 @@ import { useNameService } from '@renderer/hooks/useNameService'
 
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 
-import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import type { TModalState } from '@shared/types/modal'
 
 type TActionData = {
   address: string
-  blockchain?: TBlockchainServiceKey
+  blockchain?: TBSServiceName
 }
 
 const AddAddressModal = () => {
@@ -49,7 +49,7 @@ const AddAddressModal = () => {
     validateAddressOrNS(fixedValue, actionData.blockchain)
   }
 
-  const handleSelectBlockchain = (blockchain: TBlockchainServiceKey) => {
+  const handleSelectBlockchain = (blockchain: TBSServiceName) => {
     setData({ blockchain })
 
     const { address } = actionData

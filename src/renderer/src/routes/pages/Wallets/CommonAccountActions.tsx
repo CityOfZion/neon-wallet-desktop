@@ -1,12 +1,13 @@
 import { ComponentProps, Fragment } from 'react'
 
+import { SwapHelper } from '@cityofzion/bs-multichain'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 
 import { Button } from '@renderer/components/Button'
 
+import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
-import { SwapHelper } from '@renderer/helpers/SwapHelper'
 
 import { useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
 
@@ -26,7 +27,8 @@ export const CommonAccountActions = ({ account, children, className, ...props }:
   const { network } = useSelectedNetworkSelector(account.blockchain)
   const { t } = useTranslation('common', { keyPrefix: 'general' })
 
-  const isSwapAvailable = !!SwapHelper.getNetwork(account.blockchain, network)
+  const isSwapAvailable =
+    !!network && SwapHelper.isBlockchainSupported(account.blockchain, BlockchainServiceHelper.bsAggregator)
 
   const isWatchAccount = account.type === 'watch'
 

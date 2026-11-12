@@ -1,13 +1,12 @@
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
 import { useTranslation } from 'react-i18next'
-
-import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 import { BlockchainIcon } from './BlockchainIcon'
 import { Checkbox } from './Checkbox'
 import { Separator } from './Separator'
 
 type TRootProps = {
-  blockchain: TBlockchainServiceKey
+  blockchain: TBSServiceName
   children: React.ReactNode
 }
 

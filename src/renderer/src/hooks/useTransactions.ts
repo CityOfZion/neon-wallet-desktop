@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 
 import { hasFullTransactions, type TGetTransactionsByAddressResponse } from '@cityofzion/blockchain-service'
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
 import { Query, QueryClient, useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
 import * as dateFns from 'date-fns'
 
@@ -8,7 +9,6 @@ import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelp
 import { DateHelper } from '@renderer/helpers/DateHelper'
 
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
-import type { TBlockchainServiceKey } from '@shared/types/blockchain'
 import {
   type TUseTransactionsBuildTransactionsAggregatedQueryKeyParams,
   type TUseTransactionsBuildTransactionsQueryKeyParams,
@@ -92,7 +92,7 @@ const fetchTransactions = async (
       page,
     })
     const defaultedQueryOptions = queryClient.defaultQueryOptions({ queryKey })
-    const query = queryCache.find<TGetTransactionsByAddressResponse<TBlockchainServiceKey>>({ queryKey })
+    const query = queryCache.find<TGetTransactionsByAddressResponse<TBSServiceName>>({ queryKey })
 
     // It means that the query isn't stale, and we can return the data
     if (query && !query.isStaleByTime(Number(defaultedQueryOptions.staleTime))) {
@@ -104,7 +104,7 @@ const fetchTransactions = async (
       return
     }
 
-    const previousQuery = queryCache.find<TGetTransactionsByAddressResponse<TBlockchainServiceKey>>({
+    const previousQuery = queryCache.find<TGetTransactionsByAddressResponse<TBSServiceName>>({
       queryKey: buildTransactionsQueryKey({
         address: account.address,
         blockchain,
@@ -122,11 +122,11 @@ const fetchTransactions = async (
 
     const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
 
-    let queryDataTransactions: TGetTransactionsByAddressResponse<TBlockchainServiceKey>['transactions'] = []
-    let queryDataNextPageParams: TGetTransactionsByAddressResponse<TBlockchainServiceKey>['nextPageParams'] = undefined
+    let queryDataTransactions: TGetTransactionsByAddressResponse<TBSServiceName>['transactions'] = []
+    let queryDataNextPageParams: TGetTransactionsByAddressResponse<TBSServiceName>['nextPageParams'] = undefined
 
     try {
-      let response: TGetTransactionsByAddressResponse<TBlockchainServiceKey>
+      let response: TGetTransactionsByAddressResponse<TBSServiceName>
 
       if (hasFullTransactions(service) && shouldUseFullTransactionsService) {
         const dateNow = new Date()
@@ -153,9 +153,9 @@ const fetchTransactions = async (
     }
 
     const newQuery = queryCache.build(queryClient, defaultedQueryOptions) as Query<
-      TGetTransactionsByAddressResponse<TBlockchainServiceKey>,
+      TGetTransactionsByAddressResponse<TBSServiceName>,
       Error,
-      TGetTransactionsByAddressResponse<TBlockchainServiceKey>,
+      TGetTransactionsByAddressResponse<TBSServiceName>,
       string[]
     >
 

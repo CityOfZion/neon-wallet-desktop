@@ -1,10 +1,11 @@
 import { type RefObject, useCallback } from 'react'
 
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
+
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { SelectorHelper } from '@renderer/helpers/SelectorHelper'
 
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
-import type { TBlockchainServiceKey } from '@shared/types/blockchain'
 import type { TAccountHelperPredicateParams } from '@shared/types/helpers'
 import type { TAccount, TAccountWithWallet } from '@shared/types/store'
 
@@ -21,7 +22,7 @@ export const selectAccounts = createAppSelector(
   }
 )
 
-export const selectAccountsByBlockchains = (blockchains: TBlockchainServiceKey[]) =>
+export const selectAccountsByBlockchains = (blockchains: TBSServiceName[]) =>
   createAppSelector(
     [state => state.auth.data.applicationDataByLoginType, state => state.auth.memoryData.loginSession],
     (applicationDataByLoginType, loginSession) => {
@@ -119,7 +120,7 @@ export const useAccountsSelector = () => {
   return { accounts: value, accountsRef: ref }
 }
 
-export const useAccountsByBlockchainsSelector = (blockchains: TBlockchainServiceKey[]) => {
+export const useAccountsByBlockchainsSelector = (blockchains: TBSServiceName[]) => {
   const { value: accountsByBlockchains, ref: accountsByBlockchainsRef } = useAppSelector(
     selectAccountsByBlockchains(blockchains)
   )

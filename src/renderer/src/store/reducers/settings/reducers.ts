@@ -1,10 +1,11 @@
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
 import { CaseReducer, PayloadAction } from '@reduxjs/toolkit'
 import cloneDeep from 'lodash/cloneDeep'
 import merge from 'lodash/merge'
 
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 
-import { TBlockchainServiceKey, TNetwork } from '@shared/types/blockchain'
+import { TNetwork } from '@shared/types/blockchain'
 import type { DeepPartial } from '@shared/types/global'
 import { TAccount, TCurrency, TLanguage, TNetworkProfile, TOverTheAirInfo, TWallet } from '@shared/types/store'
 
@@ -44,7 +45,7 @@ const setSelectedAccount: CaseReducer<TSettingsReducer, PayloadAction<TAccount |
 
 const saveCustomNetwork: CaseReducer<
   TSettingsReducer,
-  PayloadAction<{ blockchain: TBlockchainServiceKey; network: TNetwork }>
+  PayloadAction<{ blockchain: TBSServiceName; network: TNetwork }>
 > = (state, action) => {
   const { blockchain, network } = action.payload
   const networks = state.data.customNetworks[blockchain]
@@ -68,7 +69,7 @@ const saveCustomNetwork: CaseReducer<
 
 const deleteCustomNetwork: CaseReducer<
   TSettingsReducer,
-  PayloadAction<{ blockchain: TBlockchainServiceKey; network: TNetwork }>
+  PayloadAction<{ blockchain: TBSServiceName; network: TNetwork }>
 > = (state, action) => {
   const { network, blockchain } = action.payload
 

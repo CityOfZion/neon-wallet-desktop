@@ -1,3 +1,4 @@
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
 import { Fragment } from 'react/jsx-runtime'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
@@ -22,7 +23,6 @@ import TbPencil from '@renderer/assets/images/tb-pencil.svg?react'
 import TbPlus from '@renderer/assets/images/tb-plus.svg?react'
 
 import { authReducerActions } from '@renderer/store/reducers/auth'
-import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import type { TModalState } from '@shared/types/modal'
 import { TSkin } from '@shared/types/store'
 
@@ -85,7 +85,7 @@ const PersistAccountModal = () => {
           heading: t('titleCreate'),
           headingIcon: <TbPlus className="text-neon" />,
           description: t('selectBlockchainDescription'),
-          onSelect: async ([blockchain]: TBlockchainServiceKey[]) => {
+          onSelect: async ([blockchain]: TBSServiceName[]) => {
             const account = await createStandardAccount({
               wallet: modalStateWallet,
               name: nameValidation.trimmedValue,

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import { useTranslation } from 'react-i18next'
 import { RemoveScroll } from 'react-remove-scroll'
@@ -13,7 +14,6 @@ import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelp
 import { NumberHelper } from '@renderer/helpers/NumberHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
-import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import { TBalance } from '@shared/types/query'
 
 import { Command } from '../Command'
@@ -24,7 +24,7 @@ export type TGreyTokenSelectToken = {
   imageUrl?: string
   hash?: string
   network?: string
-  blockchain?: TBlockchainServiceKey
+  blockchain?: TBSServiceName
   amount?: string
 }
 
@@ -35,7 +35,7 @@ type TProps<T extends TGreyTokenSelectToken> = {
   loading?: boolean
   balance?: TBalance
   disabled?: boolean
-  blockchain?: TBlockchainServiceKey
+  blockchain?: TBSServiceName
   triggerClassName?: string
 }
 

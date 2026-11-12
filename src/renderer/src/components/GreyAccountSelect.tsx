@@ -1,5 +1,6 @@
 import { type JSX, useEffect, useMemo, useRef, useState } from 'react'
 
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import { useTranslation } from 'react-i18next'
 import { RemoveScroll } from 'react-remove-scroll'
@@ -14,7 +15,6 @@ import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import { useAccountsWithWalletSelector } from '@renderer/hooks/useAccountSelector'
 
-import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import { TAccount, TAccountType, TAccountWithWallet } from '@shared/types/store'
 
 import { BlockchainIcon } from './BlockchainIcon'
@@ -23,7 +23,7 @@ import { Tooltip } from './Tooltip'
 
 type TPlacement = 'overlap' | 'dropdownEnd' | 'dropdownStart'
 
-type TProps<T extends TBlockchainServiceKey> = {
+type TProps<T extends TBSServiceName> = {
   selectedAccount?: TAccount<T> | null
   onSelect: (account: TAccount<T>) => void
   children?: JSX.Element
@@ -41,7 +41,7 @@ const placementProps: Record<TPlacement, Pick<TPopoverContentProps, 'align' | 's
   dropdownStart: { align: 'start', sideOffset: 8 },
 }
 
-export const GreyAccountSelect = <T extends TBlockchainServiceKey>({
+export const GreyAccountSelect = <T extends TBSServiceName>({
   onSelect,
   selectedAccount,
   blockchains,

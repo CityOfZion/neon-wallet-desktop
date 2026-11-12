@@ -1,6 +1,7 @@
 import { useCallback } from 'react'
 
 import { BSUtilsHelper, TBSAccount } from '@cityofzion/blockchain-service'
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
 import { useTranslation } from 'react-i18next'
 
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
@@ -8,7 +9,7 @@ import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 import { authReducerActions } from '@renderer/store/reducers/auth'
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
 import { AppError } from '@shared/helpers/SharedErrorHelper'
-import { TAccountsToImport, TBlockchainServiceKey, TUseCreateWalletParams } from '@shared/types/blockchain'
+import { TAccountsToImport, TUseCreateWalletParams } from '@shared/types/blockchain'
 
 import { useImportAccounts } from './useAccountActions'
 import { useCreateHardwareWallet } from './useHardwareWallet'
@@ -54,7 +55,7 @@ export const useLogin = () => {
   )
 
   const loginWithHardwareWallet = useCallback(
-    async (accounts: TBSAccount<TBlockchainServiceKey>[]) => {
+    async (accounts: TBSAccount<TBSServiceName>[]) => {
       const randomPassword = UtilsHelper.uuid()
       const encryptedPassword = await window.api.sendAsync('encryption:encryptBasedOS', randomPassword)
 

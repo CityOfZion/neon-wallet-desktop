@@ -1,19 +1,17 @@
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
 import { CaseReducer, PayloadAction } from '@reduxjs/toolkit'
-import cloneDeep from 'lodash/cloneDeep'
 
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 
 import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { SharedI18nextHelper } from '@shared/helpers/SharedI18nextHelper'
-import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import type { TUseTransactionsTransaction } from '@shared/types/hooks'
-import { TSwapRecord } from '@shared/types/store'
 
 import { TUtilityReducer } from './index'
 
 type THiddenTokenParams = {
   hash: string
-  blockchain: TBlockchainServiceKey
+  blockchain: TBSServiceName
 }
 
 const { t } = SharedI18nextHelper.get()
@@ -32,32 +30,13 @@ const removePendingTransaction: CaseReducer<TUtilityReducer, PayloadAction<strin
   )
 }
 
-// Swap Reducers
-const persistSwapRecord: CaseReducer<TUtilityReducer, PayloadAction<TSwapRecord>> = (state, action) => {
-  const swapRecord = cloneDeep(action.payload)
-
-  // We don't want to save this long information in the storage
-  swapRecord.log = undefined
-
-  const index = state.data.swapRecords.findIndex(
-    it => it.swapId === swapRecord.swapId && it.swapProvider === swapRecord.swapProvider
-  )
-
-  if (index === -1) {
-    state.data.swapRecords = [...state.data.swapRecords, swapRecord]
-    return
-  }
-
-  state.data.swapRecords[index] = swapRecord
-}
-
 // Last Indexes By Wallet Reducers
 const saveLastIndexByWallet: CaseReducer<
   TUtilityReducer,
   PayloadAction<{
     index: number
     firstAccountAddress: string
-    blockchain: TBlockchainServiceKey
+    blockchain: TBSServiceName
   }>
 > = (state, action) => {
   const { firstAccountAddress, index, blockchain } = action.payload
@@ -99,7 +78,6 @@ const toggleHiddenToken: CaseReducer<TUtilityReducer, PayloadAction<THiddenToken
 export const utilitySliceReducers = {
   addPendingTransaction,
   removePendingTransaction,
-  persistSwapRecord,
   saveLastIndexByWallet,
   toggleHiddenToken,
   setUnlockedSkinIds,

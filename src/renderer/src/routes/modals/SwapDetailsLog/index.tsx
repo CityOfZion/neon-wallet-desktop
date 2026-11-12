@@ -1,7 +1,5 @@
 import { Fragment } from 'react'
 
-import { SimpleSwapService } from '@cityofzion/bs-multichain'
-import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { match, P } from 'ts-pattern'
 
@@ -12,6 +10,7 @@ import { Tooltip } from '@renderer/components/Tooltip'
 import { ClipboardHelper } from '@renderer/helpers/ClipboardHelper'
 
 import { useModalState } from '@renderer/hooks/useModalRouter'
+import { useSwapOrder } from '@renderer/hooks/useSwapOrder'
 
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 
@@ -20,30 +19,12 @@ import TbList from '@renderer/assets/images/tb-list.svg?react'
 
 import type { TModalState } from '@shared/types/modal'
 
-const swapService = new SimpleSwapService()
-
 const SwapDetailsLogModal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'swapDetailsLog' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'general' })
-  const modalState = useModalState<TModalState<'swap-details-log'>>()
+  const { orderId } = useModalState<TModalState<'swap-details-log'>>()
 
-  const {
-    swapRecord: { swapId, ...swapRecord },
-  } = modalState
-
-  const { isLoading, data: log } = useQuery({
-    queryKey: ['swap-details-log', swapId, swapRecord.txFrom, swapRecord.txTo],
-    queryFn: async () => {
-      let finalLog = swapRecord.log
-
-      if (!finalLog) {
-        const response = await swapService.getStatus(swapId!)
-        if (response.log) finalLog = response.log
-      }
-
-      return JSON.stringify(JSON.parse(finalLog || ''), null, 4)
-    },
-  })
+  const swapOrderQuery = useSwapOrder(orderId)
 
   return (
     <SideModalLayout
@@ -52,9 +33,9 @@ const SwapDetailsLogModal = () => {
       contentClassName="flex flex-col pt-6"
       size="lg"
     >
-      {match({ isLoading, log })
+      {match(swapOrderQuery)
         .with({ isLoading: true }, () => <Loader className="h-8 w-8" />)
-        .with({ log: P.when(value => !!value && typeof value === 'string') }, () => (
+        .with({ data: P.select({ log: P.string }) }, ({ log }) => (
           <Fragment>
             <div className="flex w-full items-center justify-between gap-2">
               <p className="text-sm font-medium text-gray-300">{t('copySwapLog')}</p>
@@ -65,7 +46,7 @@ const SwapDetailsLogModal = () => {
                   size="sm"
                   compacted
                   icon={<MdOutlineContentCopy aria-hidden className="text-neon" />}
-                  onClick={ClipboardHelper.write.bind(null, log!)}
+                  onClick={ClipboardHelper.write.bind(null, log)}
                 />
               </Tooltip>
             </div>

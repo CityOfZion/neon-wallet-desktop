@@ -806,6 +806,7 @@
     "exchangeStatusStepLabel": "交易所",
     "extraIdToLabel": "目标标签/备注",
     "helpButtonLabel": "需要帮助？在线支持",
+    "notFound": "无法加载此兑换的详情",
     "receivePanelAddressLabel": "接收地址",
     "receivePanelLabel": "您将收到",
     "receivePanelTokenLabel": "代币",

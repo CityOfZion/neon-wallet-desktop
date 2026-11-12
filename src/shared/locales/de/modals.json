@@ -806,6 +806,7 @@
     "exchangeStatusStepLabel": "Tausch",
     "extraIdToLabel": "Ziel-Tag/Memo",
     "helpButtonLabel": "Brauchen Sie Hilfe? Live-Support",
+    "notFound": "Wir konnten die Details dieses Swaps nicht laden",
     "receivePanelAddressLabel": "Empfangsadresse",
     "receivePanelLabel": "Sie werden erhalten",
     "receivePanelTokenLabel": "Token",

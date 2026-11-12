@@ -1,6 +1,7 @@
 import React, { MouseEvent } from 'react'
 
 import { BSBigHumanAmount, hasNeo3NeoXBridge } from '@cityofzion/blockchain-service'
+import type { TSwapApiOrderSummary } from '@cityofzion/bs-multichain'
 import { useTranslation } from 'react-i18next'
 
 import { IconButton } from '@renderer/components/IconButton'
@@ -13,7 +14,6 @@ import { StringHelper } from '@renderer/helpers/StringHelper'
 import { useAccountsMapSelector } from '@renderer/hooks/useAccountSelector'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useLanguageSelector } from '@renderer/hooks/useSettingsSelector'
-import { useSwapRecordSelector } from '@renderer/hooks/useUtilitySelector'
 
 import MdOutlineContentCopy from '@renderer/assets/images/md-outline-content-copy.svg?react'
 import TbBell from '@renderer/assets/images/tb-bell.svg?react'
@@ -35,13 +35,13 @@ import { TransactionActivityListTooltip } from './TransactionActivityListTooltip
 
 type TProps = {
   transaction: TUseTransactionsTransaction
+  swapOrders: TSwapApiOrderSummary[]
 }
 
-export const TransactionActivityListItemsHeaderContent = ({ transaction }: TProps) => {
+export const TransactionActivityListItemsHeaderContent = ({ transaction, swapOrders }: TProps) => {
   const { t } = useTranslation('components', { keyPrefix: 'transactionActivityList.items' })
   const { t: tCommonGeneral } = useTranslation('common', { keyPrefix: 'general' })
   const { modalNavigate } = useModalNavigate()
-  const { swapRecord } = useSwapRecordSelector(transaction.txId)
   const { language } = useLanguageSelector()
   const { accountsMap } = useAccountsMapSelector()
 
@@ -54,13 +54,16 @@ export const TransactionActivityListItemsHeaderContent = ({ transaction }: TProp
   const netoworkFeeBn = new BSBigHumanAmount(transaction.networkFeeAmount)
   const systemFeeBn = new BSBigHumanAmount(transaction.systemFeeAmount)
 
+  const swapOrder = swapOrders.find(({ sourceTxHash }) => sourceTxHash && sourceTxHash === transaction.txId)
+
   const handleCancelBubbleEvent = (event: MouseEvent<HTMLDivElement>) => {
     event.preventDefault()
     event.stopPropagation()
   }
 
   const handleGoToSwapDetails = () => {
-    modalNavigate('swap-details', { state: { swapRecord: swapRecord! } })
+    if (!swapOrder) return
+    modalNavigate('swap-details', { state: { orderId: swapOrder.orderId } })
   }
 
   const handleGoToBridgeNeo3NeoXDetails = () => {
@@ -195,9 +198,9 @@ export const TransactionActivityListItemsHeaderContent = ({ transaction }: TProp
       </div>
 
       <div className="flex shrink-0 items-center gap-x-2 whitespace-nowrap">
-        {(swapRecord || bridgeData) && (
+        {(swapOrder || bridgeData) && (
           <div className="flex items-center gap-x-2" onClick={handleCancelBubbleEvent}>
-            {swapRecord && (
+            {swapOrder && (
               <TransactionActivityListItemsHeaderContentDetails
                 role="button"
                 tabIndex={0}

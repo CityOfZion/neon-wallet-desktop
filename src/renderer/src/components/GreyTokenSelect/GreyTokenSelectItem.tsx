@@ -1,19 +1,18 @@
 import { Fragment, useEffect, useState } from 'react'
 
 import { BSBigHumanAmount } from '@cityofzion/blockchain-service'
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
 import { useTranslation } from 'react-i18next'
 
 import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
-
-import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 import { Tooltip } from '../Tooltip'
 import { TGreyTokenSelectToken } from '.'
 
 type TProps = {
   token: TGreyTokenSelectToken
-  blockchain?: TBlockchainServiceKey
+  blockchain?: TBSServiceName
 }
 
 const defaultTokenImageUrl = `${ConstantsHelper.neonIconsUrl}/tokens/default-token.png`

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { BSKeychainHelper, BSUtilsHelper, TBSAccount } from '@cityofzion/blockchain-service'
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
 import { useTranslation } from 'react-i18next'
 
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
@@ -8,7 +9,6 @@ import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { utilityReducerActions } from '@renderer/store/reducers/utility'
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
 import { AppError } from '@shared/helpers/SharedErrorHelper'
-import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import { TUseHardwareWalletByUsbStatus } from '@shared/types/hooks'
 import { TAccount, TWallet } from '@shared/types/store'
 
@@ -92,17 +92,17 @@ export const useCreateHardwareWallet = () => {
   const { accountsWithWalletMapRef } = useAccountsWithWalletMapSelector()
 
   const createHardwareWallet = useCallback(
-    async (accounts: TBSAccount<TBlockchainServiceKey>[]) => {
+    async (accounts: TBSAccount<TBSServiceName>[]) => {
       if (!loginSessionRef.current) {
         throw new AppError(tCommon('errors.loginSessionIsNotDefined'))
       }
 
-      const existentWalletsByBlockchain = new Map<TBlockchainServiceKey, TWallet>()
+      const existentWalletsByBlockchain = new Map<TBSServiceName, TWallet>()
       const groupedAccountInfosByBlockchain = new Map<
-        TBlockchainServiceKey,
+        TBSServiceName,
         {
           existentAccount?: TAccount
-          account: TBSAccount<TBlockchainServiceKey>
+          account: TBSAccount<TBSServiceName>
         }[]
       >()
 

@@ -506,70 +506,56 @@
     "title": "Configurações"
   },
   "swap": {
-    "explanation": {
-      "description1": "Troque tokens por outros tokens, entre redes, sem usar uma exchange.",
-      "description2": "Fazer swap direta e imediatamente na Neon é conveniente e permite economizar tempo e pagar taxas mais baixas.",
-      "title": "Como funciona?"
-    },
-    "form": {
-      "accountToUseTitle": "Enviar de",
-      "addressToReceiveContactButtonLabel": "Meus contatos",
-      "addressToReceivePlaceholder": "Digite o endereço…",
+    "amountsCard": {
       "amountToReceiveTitle": "Quantidade que você receberá",
       "amountToReceiveTitleComplement": "(após taxas)",
       "amountToUseTitle": "Quantidade",
       "amounts": "Valores",
-      "assets": "Ativos",
       "balanceLabel": "Saldo",
       "balancePlaceholder": "0.00",
+      "tooltipTitle": "As taxas de câmbio melhoram com valores de swap maiores!"
+    },
+    "assetsCard": {
+      "addressToReceivePlaceholder": "Digite o endereço…",
+      "assets": "Ativos",
       "errors": {
-        "amountMax": "A quantidade é muito alta. A quantidade máxima é {{amount}}",
-        "amountMin": "A quantidade é muito baixa. A quantidade mínima é {{amount}}",
-        "hardwareWalletNotConnectedOrLocked": "A carteira de hardware não está conectada ou está bloqueada, verifique seu dispositivo e tente novamente",
-        "insufficientFunds": "Você não tem saldo suficiente",
-        "insufficientFundsFee": "Você não tem saldo suficiente para pagar a taxa",
-        "invalidAddress": "Endereço inválido",
-        "invalidExtraIdToReceive": "Tag/memo de destino inválido"
+        "invalidAddress": "Endereço inválido"
       },
       "extraIdToReceive": "Tag/memo de destino",
       "extraIdToReceivePlaceholder": "Digite tag/memo…",
       "hints": {
         "enterValidAddress": "Digite um endereço válido"
       },
-      "max": "Máx",
-      "minimumAmountToUseLabel": "Mínimo {{amount}}",
-      "minimumAmountToUsePlaceholder": "0.00000000",
       "myAccountsButtonLabel": "Minhas contas",
       "openAboutExtraIdToReceiveModal": "Abrir modal sobre tag/memo de destino",
       "receiveHere": "Receber em",
-      "restart": "Reiniciar",
-      "sendError": {
-        "description": "Por favor, tente novamente mais tarde",
-        "subtitle": "Ops! Encontramos um erro."
-      },
-      "sendSuccess": {
-        "amountFrom": "Quantidade de",
-        "amountTo": "Quantidade para",
-        "detailsTitle": "Detalhes do swap",
-        "feeLabel": "Taxa da transação de origem",
-        "recipientLabel": "Destinatário",
-        "statusLabel": "Status",
-        "subtitle": "Seu swap foi iniciado com sucesso!",
-        "transactionAux": "Transação aux",
-        "transactionFromLabel": "Transação de",
-        "transactionToLabel": "Transação para"
-      },
-      "source": "Detalhes da conta",
-      "stellarTrustlineWarnings": {
-        "receiver": "Para receber {{token}} na Stellar, a conta de destino deve ter uma Trustline ativa para este token. Caso contrário o swap falhará. Você pode cadastrar uma Trustline nas configurações da tela de sua conta.",
-        "source": "Para fazer swap de {{token}} na Stellar, a conta de origem deve ter uma Trustline ativa para este token. Caso contrário o swap falhará. Você pode cadastrar uma Trustline nas configurações da tela de sua conta."
-      },
-      "submitLabel": "Iniciar swap",
-      "title": "Quais tokens você deseja fazer swap?",
       "tokenToReceiveTitle": "Receber token",
-      "tokenToUseTitle": "Fazer swap de",
-      "tooltipTitle": "As taxas de câmbio melhoram com valores de swap maiores!"
+      "tokenToUseTitle": "Fazer swap de"
     },
+    "errors": {
+      "amountMax": "A quantidade é muito alta, a quantidade máxima é {{amount}}",
+      "amountMin": "A quantidade é muito baixa, a quantidade mínima é {{amount}}",
+      "amountZero": "A quantidade deve ser maior que zero",
+      "insufficientFunds": "Você não tem saldo suficiente",
+      "insufficientFundsFee": "Você não tem saldo suficiente para pagar a taxa",
+      "noQuotesAvailable": "Nenhuma cotação disponível para este swap. Tente uma quantidade ou token diferente"
+    },
+    "explanation": {
+      "description1": "Troque tokens por outros tokens, entre redes, sem usar uma exchange.",
+      "description2": "Fazer swap direta e imediatamente na Neon é conveniente e permite economizar tempo e pagar taxas mais baixas.",
+      "title": "Como funciona?"
+    },
+    "formTitle": "Quais tokens você deseja fazer swap?",
+    "restart": "Reiniciar",
+    "sourceCard": {
+      "accountToUseTitle": "Enviar de",
+      "source": "Detalhes da conta"
+    },
+    "stellarTrustlineWarnings": {
+      "receiver": "Para receber {{token}} na Stellar, a conta de destino deve ter uma Trustline ativa para este token. Caso contrário o swap falhará. Você pode cadastrar uma Trustline nas configurações da tela de sua conta.",
+      "source": "Para fazer swap de {{token}} na Stellar, a conta de origem deve ter uma Trustline ativa para este token. Caso contrário o swap falhará. Você pode cadastrar uma Trustline nas configurações da tela de sua conta."
+    },
+    "submitLabel": "Iniciar swap",
     "title": "Swap tokens"
   },
   "wallets": {

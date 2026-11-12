@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 
 import { BSUtilsHelper } from '@cityofzion/blockchain-service'
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 
@@ -22,7 +23,6 @@ import { SideModalLayout } from '@renderer/layouts/SideModal'
 import TbFileImport from '@renderer/assets/images/tb-file-import.svg?react'
 
 import { AppError } from '@shared/helpers/SharedErrorHelper'
-import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import type { TModalState } from '@shared/types/modal'
 
 const ImportModal = () => {
@@ -51,7 +51,7 @@ const ImportModal = () => {
         heading: t('title'),
         headingIcon: <TbFileImport aria-hidden />,
         description: t('importEncryptedDescription'),
-        onSelect: ([blockchain]: TBlockchainServiceKey[]) => {
+        onSelect: ([blockchain]: TBSServiceName[]) => {
           modalNavigate('decrypt-key', {
             state: {
               encryptedKey,

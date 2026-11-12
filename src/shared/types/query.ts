@@ -4,11 +4,10 @@ import {
   type TPingNetworkResponse,
   TTokenPricesResponse,
 } from '@cityofzion/blockchain-service'
-import type { TWalletKitHelperSessionDetails } from '@cityofzion/bs-multichain'
+import type { TBSServiceName, TWalletKitHelperSessionDetails } from '@cityofzion/bs-multichain'
 import { QueryKey, UseQueryOptions } from '@tanstack/react-query'
 import type { SessionTypes } from '@walletconnect/types'
 
-import { TBlockchainServiceKey } from './blockchain'
 import type { Optional } from './global'
 import type { TAccount } from './store'
 
@@ -17,7 +16,7 @@ export type TBaseOptions<T = unknown> = Omit<UseQueryOptions<T, unknown, T, Quer
 export type TExchange = TTokenPricesResponse & {
   convertedPrice: number
 }
-export type TMultiExchange = Record<TBlockchainServiceKey, Map<string, TExchange>>
+export type TMultiExchange = Record<TBSServiceName, Map<string, TExchange>>
 export type TUseExchangeResult = {
   data: TMultiExchange | undefined
   isLoading: boolean
@@ -29,14 +28,14 @@ export type TUseCurrencyRatioResult = {
 }
 
 export type TTokenBalance = TBalanceResponse & {
-  blockchain: TBlockchainServiceKey
+  blockchain: TBSServiceName
   amountNumber: number
   exchangeConvertedPrice: number
   exchangeAmount: number
 }
 export type TBalance = {
   address: string
-  blockchain: TBlockchainServiceKey
+  blockchain: TBSServiceName
   tokensBalances: TTokenBalance[]
   tokensBalancesMap: Map<string, TTokenBalance>
   exchangeTotal: number
@@ -44,7 +43,7 @@ export type TBalance = {
 
 export type TUseBalancesFetchResult = {
   address: string
-  blockchain: TBlockchainServiceKey
+  blockchain: TBSServiceName
   tokensBalancesMap: Map<string, TTokenBalance>
 }
 
@@ -62,7 +61,7 @@ export type TUseBalanceResult = {
 
 export type TUseBalancesParams = {
   address: string
-  blockchain: TBlockchainServiceKey
+  blockchain: TBSServiceName
 }
 
 export type TUseBalanceOptionShowType = 'hidden' | 'active'
@@ -87,7 +86,7 @@ export type TUsePriceHistoryResult = {
 
 export type TUseExchangeParams = {
   tokens: TBSToken[]
-  blockchain: TBlockchainServiceKey
+  blockchain: TBSServiceName
 }
 
 export type TUseUnclaimedResult = {

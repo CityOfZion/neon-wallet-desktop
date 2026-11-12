@@ -1,19 +1,18 @@
 import { Fragment } from 'react'
 
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
 import { useTranslation } from 'react-i18next'
 
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 
-import { TBlockchainServiceKey } from '@shared/types/blockchain'
-
 import { BlockchainIcon } from './BlockchainIcon'
 import { Select } from './Select'
 
 type TProps = {
-  value?: TBlockchainServiceKey | undefined
-  onSelect?: (blockchain: TBlockchainServiceKey) => void
+  value?: TBSServiceName | undefined
+  onSelect?: (blockchain: TBSServiceName) => void
   testId?: string
 }
 
@@ -21,7 +20,7 @@ export const BlockchainSelect = ({ value, onSelect, testId }: TProps) => {
   const { t } = useTranslation('components', { keyPrefix: 'blockchainSelect' })
   const { t: tCommonBlockchain } = useTranslation('common', { keyPrefix: 'blockchain' })
 
-  const options = Object.keys(BlockchainServiceHelper.bsAggregator.blockchainServicesByName) as TBlockchainServiceKey[]
+  const options = Object.keys(BlockchainServiceHelper.bsAggregator.blockchainServicesByName) as TBSServiceName[]
 
   return (
     <Select.Root value={value} onValueChange={onSelect}>

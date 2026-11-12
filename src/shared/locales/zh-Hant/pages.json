@@ -506,70 +506,56 @@
     "title": "設定"
   },
   "swap": {
-    "explanation": {
-      "description1": "跨鏈兌換代幣，無需使用交易所。",
-      "description2": " 直接且即時在 Neon 兌換代幣，方便又可節省時間與手續費。",
-      "title": "如何運作？"
-    },
-    "form": {
-      "accountToUseTitle": "從這裡發送",
-      "addressToReceiveContactButtonLabel": "我的聯絡人",
-      "addressToReceivePlaceholder": "輸入地址…",
+    "amountsCard": {
       "amountToReceiveTitle": "您將收到的金額",
       "amountToReceiveTitleComplement": "（扣除手續費後）",
       "amountToUseTitle": "金額",
       "amounts": "金額",
-      "assets": "資產",
       "balanceLabel": "餘額",
       "balancePlaceholder": "0.00",
+      "tooltipTitle": "兌換金額越高，匯率越優惠！"
+    },
+    "assetsCard": {
+      "addressToReceivePlaceholder": "輸入地址…",
+      "assets": "資產",
       "errors": {
-        "amountMax": "金額過高。最大金額為 {{amount}}",
-        "amountMin": "金額過低。最小金額為 {{amount}}",
-        "hardwareWalletNotConnectedOrLocked": "硬體錢包未連接或已鎖定，請檢查裝置後再試",
-        "insufficientFunds": "餘額不足",
-        "insufficientFundsFee": "餘額不足以支付手續費",
-        "invalidAddress": "無效的地址",
-        "invalidExtraIdToReceive": "無效的目的標籤/備註"
+        "invalidAddress": "無效的地址"
       },
       "extraIdToReceive": "目的標籤/備註",
       "extraIdToReceivePlaceholder": "輸入標籤/備註…",
       "hints": {
         "enterValidAddress": "請輸入有效地址"
       },
-      "max": "最大",
-      "minimumAmountToUseLabel": "最小 {{amount}}",
-      "minimumAmountToUsePlaceholder": "0.00000000",
       "myAccountsButtonLabel": "我的帳戶",
       "openAboutExtraIdToReceiveModal": "開啟目的標籤/備註說明",
       "receiveHere": "接收於此",
-      "restart": "重新開始",
-      "sendError": {
-        "description": "請稍後再試",
-        "subtitle": "糟糕！發生錯誤。"
-      },
-      "sendSuccess": {
-        "amountFrom": "發送金額",
-        "amountTo": "接收金額",
-        "detailsTitle": "兌換詳情",
-        "feeLabel": "發送交易手續費",
-        "recipientLabel": "收件人",
-        "statusLabel": "狀態",
-        "subtitle": "您的兌換已成功啟動！",
-        "transactionAux": "輔助交易",
-        "transactionFromLabel": "發送交易",
-        "transactionToLabel": "接收交易"
-      },
-      "source": "帳戶詳情",
-      "stellarTrustlineWarnings": {
-        "receiver": "若要在 Stellar 上接收 {{token}}，接收帳戶必須為此代幣設定有效的信任線，否則兌換將會失敗。您可以在帳戶畫面的設定中註冊信任線。",
-        "source": "若要在 Stellar 上兌換 {{token}}，來源帳戶必須為此代幣設定有效的信任線，否則兌換將會失敗。您可以在帳戶畫面的設定中註冊信任線。"
-      },
-      "submitLabel": "立即兌換",
-      "title": "您想兌換哪些代幣？",
       "tokenToReceiveTitle": "接收此代幣",
-      "tokenToUseTitle": "兌換此代幣",
-      "tooltipTitle": "兌換金額越高，匯率越優惠！"
+      "tokenToUseTitle": "兌換此代幣"
     },
+    "errors": {
+      "amountMax": "金額過高，最大金額為 {{amount}}",
+      "amountMin": "金額過低，最小金額為 {{amount}}",
+      "amountZero": "金額必須大於零",
+      "insufficientFunds": "餘額不足",
+      "insufficientFundsFee": "餘額不足以支付手續費",
+      "noQuotesAvailable": "此兌換目前沒有可用報價。請嘗試其他金額或代幣"
+    },
+    "explanation": {
+      "description1": "跨鏈兌換代幣，無需使用交易所。",
+      "description2": " 直接且即時在 Neon 兌換代幣，方便又可節省時間與手續費。",
+      "title": "如何運作？"
+    },
+    "formTitle": "您想兌換哪些代幣？",
+    "restart": "重新開始",
+    "sourceCard": {
+      "accountToUseTitle": "從這裡發送",
+      "source": "帳戶詳情"
+    },
+    "stellarTrustlineWarnings": {
+      "receiver": "若要在 Stellar 上接收 {{token}}，接收帳戶必須為此代幣設定有效的信任線，否則兌換將會失敗。您可以在帳戶畫面的設定中註冊信任線。",
+      "source": "若要在 Stellar 上兌換 {{token}}，來源帳戶必須為此代幣設定有效的信任線，否則兌換將會失敗。您可以在帳戶畫面的設定中註冊信任線。"
+    },
+    "submitLabel": "立即兌換",
     "title": "兌換代幣"
   },
   "wallets": {

@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
 
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
 import cloneDeep from 'lodash/cloneDeep'
 import { useTranslation } from 'react-i18next'
 
@@ -12,7 +13,6 @@ import { TestHelper } from '@renderer/helpers/TestHelper'
 import TbCheck from '@renderer/assets/images/tb-check.svg?react'
 import TbChevronUp from '@renderer/assets/images/tb-chevron-up.svg?react'
 
-import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import { TContact, TContactAddress } from '@shared/types/store'
 
 import { BlockchainIcon } from './BlockchainIcon'
@@ -25,7 +25,7 @@ type TProps = {
   selectedAddress?: TContactAddress | null
   contacts: TContact[]
   showSelectedAddress?: boolean
-  blockchainFilter?: TBlockchainServiceKey
+  blockchainFilter?: TBSServiceName
   children?: React.ReactNode
 }
 

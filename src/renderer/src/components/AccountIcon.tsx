@@ -1,9 +1,10 @@
 import { cloneElement, type ComponentProps } from 'react'
 
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
+
 import { SkinHelper } from '@renderer/helpers/SkinHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
-import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import { TAccount, TNftSkin } from '@shared/types/store'
 
 import { BlockchainIcon } from './BlockchainIcon'
@@ -12,7 +13,7 @@ type TProps = {
 } & ComponentProps<'div'>
 
 type TAccountBlockchainCircleProps = {
-  blockchain: TBlockchainServiceKey
+  blockchain: TBSServiceName
 }
 
 const AccountBlockchainCircle = ({ blockchain }: TAccountBlockchainCircleProps) => (

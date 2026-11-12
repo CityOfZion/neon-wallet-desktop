@@ -506,70 +506,56 @@
     "title": "设置"
   },
   "swap": {
-    "explanation": {
-      "description1": "无需交易所即可跨链兑换代币。",
-      "description2": " 直接且即时地在Neon中兑换代币，方便快捷，节省时间和手续费。",
-      "title": "它是如何工作的？"
-    },
-    "form": {
-      "accountToUseTitle": "从此处发送",
-      "addressToReceiveContactButtonLabel": "我的联系人",
-      "addressToReceivePlaceholder": "输入地址…",
+    "amountsCard": {
       "amountToReceiveTitle": "您将获得的数量",
       "amountToReceiveTitleComplement": "（扣除手续费后）",
       "amountToUseTitle": "数量",
       "amounts": "数量",
-      "assets": "资产",
       "balanceLabel": "余额",
       "balancePlaceholder": "0.00",
+      "tooltipTitle": "兑换数量越大，汇率越优惠！"
+    },
+    "assetsCard": {
+      "addressToReceivePlaceholder": "输入地址…",
+      "assets": "资产",
       "errors": {
-        "amountMax": "金额太高。最大金额为{{amount}}",
-        "amountMin": "金额太低。最小金额为{{amount}}",
-        "hardwareWalletNotConnectedOrLocked": "硬件钱包未连接或已锁定，请检查设备后重试",
-        "insufficientFunds": "余额不足",
-        "insufficientFundsFee": "余额不足以支付手续费",
-        "invalidAddress": "无效地址",
-        "invalidExtraIdToReceive": "无效的目标标签/备注"
+        "invalidAddress": "无效地址"
       },
       "extraIdToReceive": "目标标签/备注",
       "extraIdToReceivePlaceholder": "输入标签/备注…",
       "hints": {
         "enterValidAddress": "请输入有效地址"
       },
-      "max": "最大",
-      "minimumAmountToUseLabel": "最小 {{amount}}",
-      "minimumAmountToUsePlaceholder": "0.00000000",
       "myAccountsButtonLabel": "我的账户",
       "openAboutExtraIdToReceiveModal": "打开目标标签/备注说明",
       "receiveHere": "接收至此",
-      "restart": "重新开始",
-      "sendError": {
-        "description": "请稍后再试",
-        "subtitle": "哎呀！我们遇到了一个错误。"
-      },
-      "sendSuccess": {
-        "amountFrom": "发送数量",
-        "amountTo": "接收数量",
-        "detailsTitle": "兑换详情",
-        "feeLabel": "发起交易手续费",
-        "recipientLabel": "收款人",
-        "statusLabel": "状态",
-        "subtitle": "您的兑换已成功发起！",
-        "transactionAux": "辅助交易",
-        "transactionFromLabel": "发起交易",
-        "transactionToLabel": "接收交易"
-      },
-      "source": "账户详情",
-      "stellarTrustlineWarnings": {
-        "receiver": "要在 Stellar 上接收 {{token}}，接收账户必须为此代币设置有效的信任线，否则兑换将失败。您可以在账户界面的设置中注册信任线。",
-        "source": "要在 Stellar 上兑换 {{token}}，源账户必须为此代币设置有效的信任线，否则兑换将失败。您可以在账户界面的设置中注册信任线。"
-      },
-      "submitLabel": "立即兑换",
-      "title": "您想兑换哪些代币？",
       "tokenToReceiveTitle": "接收此代币",
-      "tokenToUseTitle": "兑换此代币",
-      "tooltipTitle": "兑换数量越大，汇率越优惠！"
+      "tokenToUseTitle": "兑换此代币"
     },
+    "errors": {
+      "amountMax": "金额太高，最大金额为{{amount}}",
+      "amountMin": "金额太低，最小金额为{{amount}}",
+      "amountZero": "金额必须大于零",
+      "insufficientFunds": "余额不足",
+      "insufficientFundsFee": "余额不足以支付手续费",
+      "noQuotesAvailable": "此兑换暂无可用报价。请尝试其他金额或代币"
+    },
+    "explanation": {
+      "description1": "无需交易所即可跨链兑换代币。",
+      "description2": " 直接且即时地在Neon中兑换代币，方便快捷，节省时间和手续费。",
+      "title": "它是如何工作的？"
+    },
+    "formTitle": "您想兑换哪些代币？",
+    "restart": "重新开始",
+    "sourceCard": {
+      "accountToUseTitle": "从此处发送",
+      "source": "账户详情"
+    },
+    "stellarTrustlineWarnings": {
+      "receiver": "要在 Stellar 上接收 {{token}}，接收账户必须为此代币设置有效的信任线，否则兑换将失败。您可以在账户界面的设置中注册信任线。",
+      "source": "要在 Stellar 上兑换 {{token}}，源账户必须为此代币设置有效的信任线，否则兑换将失败。您可以在账户界面的设置中注册信任线。"
+    },
+    "submitLabel": "立即兑换",
     "title": "兑换代币"
   },
   "wallets": {

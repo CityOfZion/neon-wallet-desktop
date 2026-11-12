@@ -1,3 +1,4 @@
+import type { TSwapApiOrderSummary } from '@cityofzion/bs-multichain'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 
@@ -10,9 +11,10 @@ import { TransactionActivityListTooltip } from './TransactionActivityListTooltip
 
 type TProps = {
   transaction: TUseTransactionsTransaction
+  swapOrders: TSwapApiOrderSummary[]
 }
 
-export const TransactionActivityListItemsHeader = ({ transaction }: TProps) => {
+export const TransactionActivityListItemsHeader = ({ transaction, swapOrders }: TProps) => {
   const { t: tCommonBlockchain } = useTranslation('common', { keyPrefix: 'blockchain' })
 
   const blockchainName = tCommonBlockchain(transaction.blockchain)
@@ -29,10 +31,10 @@ export const TransactionActivityListItemsHeader = ({ transaction }: TProps) => {
 
       {transaction.txIdUrl ? (
         <Link to={transaction.txIdUrl} target="_blank" className="block h-full w-full min-w-0 cursor-pointer">
-          <TransactionActivityListItemsHeaderContent transaction={transaction} />
+          <TransactionActivityListItemsHeaderContent transaction={transaction} swapOrders={swapOrders} />
         </Link>
       ) : (
-        <TransactionActivityListItemsHeaderContent transaction={transaction} />
+        <TransactionActivityListItemsHeaderContent transaction={transaction} swapOrders={swapOrders} />
       )}
     </div>
   )

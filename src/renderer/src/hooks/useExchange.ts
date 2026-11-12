@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 
 import { TBSToken, TTokenPricesResponse } from '@cityofzion/blockchain-service'
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
 import { Query, QueryClient, useQueries, useQueryClient } from '@tanstack/react-query'
 import lodash from 'lodash'
 
@@ -8,13 +9,13 @@ import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelp
 
 import { useCurrencyRatio } from '@renderer/hooks/useCurrencyRatio'
 
-import { TBlockchainServiceKey, TNetwork } from '@shared/types/blockchain'
+import { TNetwork } from '@shared/types/blockchain'
 import { TExchange, TMultiExchange, TUseExchangeParams, TUseExchangeResult } from '@shared/types/query'
 import { TCurrency } from '@shared/types/store'
 
 import { useCurrencySelector, useSelectedNetworkByBlockchainSelector } from './useSettingsSelector'
 
-function buildQueryKey(blockchain: TBlockchainServiceKey, network: TNetwork, currency: TCurrency, token?: TBSToken) {
+function buildQueryKey(blockchain: TBSServiceName, network: TNetwork, currency: TCurrency, token?: TBSToken) {
   const queryKey = ['exchange', blockchain, network, currency]
 
   if (token) {
@@ -27,7 +28,7 @@ function buildQueryKey(blockchain: TBlockchainServiceKey, network: TNetwork, cur
 }
 
 function buildExchangeByBlockchainQueryKey(
-  blockchain: TBlockchainServiceKey,
+  blockchain: TBSServiceName,
   network: TNetwork,
   currency: TCurrency,
   hasCurrencyRatio: boolean
@@ -36,7 +37,7 @@ function buildExchangeByBlockchainQueryKey(
 }
 
 export async function fetchExchange(
-  blockchain: TBlockchainServiceKey,
+  blockchain: TBSServiceName,
   tokens: TBSToken[],
   network: TNetwork,
   queryClient: QueryClient,
@@ -131,13 +132,13 @@ export function useExchange(params: TUseExchangeParams[]): TUseExchangeResult {
 
         return acc
       },
-      {} as Record<TBlockchainServiceKey, TBSToken[]>
+      {} as Record<TBSServiceName, TBSToken[]>
     )
   }, [params])
 
   return useQueries({
     queries: Object.entries(tokensToFetchByBlockchain || {}).map(([key, tokens]) => {
-      const blockchain = key as TBlockchainServiceKey
+      const blockchain = key as TBSServiceName
       const network = networkByBlockchain[blockchain]
 
       return {

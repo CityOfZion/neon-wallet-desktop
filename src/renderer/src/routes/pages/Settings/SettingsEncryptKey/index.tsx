@@ -1,6 +1,7 @@
 import { ChangeEvent } from 'react'
 
 import { hasEncryption } from '@cityofzion/blockchain-service'
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
 import { useTranslation } from 'react-i18next'
 
 import { Button } from '@renderer/components/Button'
@@ -19,7 +20,6 @@ import { SettingsLayout } from '@renderer/layouts/Settings'
 import MdOutlineKey from '@renderer/assets/images/md-outline-key.svg?react'
 
 import { AppError } from '@shared/helpers/SharedErrorHelper'
-import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 import { SettingsEncryptInputStep } from './SettingsEncryptInputStep'
 import { SettingsEncryptKeySuccessContent } from './SettingsEncryptKeySuccessContent'
@@ -79,7 +79,7 @@ const SettingsEncryptKeyPage = () => {
     validatePassphraseField(event.target.value, 'confirmationPassphrase', 'passphrase')
   }
 
-  const handleSelect = async ([blockchain]: TBlockchainServiceKey[]) => {
+  const handleSelect = async ([blockchain]: TBSServiceName[]) => {
     modalNavigate(-1)
 
     try {

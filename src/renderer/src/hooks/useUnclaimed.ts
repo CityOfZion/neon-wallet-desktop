@@ -64,7 +64,6 @@ export const useUnclaimed = (account: TAccount) => {
     queryKey: buildQueryKeyUnclaimed(account, networkByBlockchain[account.blockchain]),
     staleTime: 0,
     gcTime: 0,
-    retry: false,
     queryFn: getUnclaimedInfos.bind(null, account, hasClaimPendingTransactionRef.current),
   })
 }

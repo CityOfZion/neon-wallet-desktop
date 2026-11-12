@@ -806,6 +806,7 @@
     "exchangeStatusStepLabel": "Troca",
     "extraIdToLabel": "Tag/memo de destino",
     "helpButtonLabel": "Precisa de ajuda? Suporte ao vivo",
+    "notFound": "Não foi possível carregar os detalhes deste swap",
     "receivePanelAddressLabel": "Endereço de recebimento",
     "receivePanelLabel": "Você receberá",
     "receivePanelTokenLabel": "Token",

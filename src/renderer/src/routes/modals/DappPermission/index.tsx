@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
 import type { WalletKitTypes } from '@reown/walletkit'
 import type { JSX } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -16,7 +17,6 @@ import { useSelectedNetworkProfileSelector } from '@renderer/hooks/useSettingsSe
 import { CenterModalLayout } from '@renderer/layouts/CenterModal'
 
 import { WalletConnectError } from '@shared/helpers/SharedErrorHelper'
-import type { TBlockchainServiceKey } from '@shared/types/blockchain'
 import type { TModalState } from '@shared/types/modal'
 
 import { DappPermissionErrorContent } from './DappPermissionErrorContent'
@@ -32,7 +32,7 @@ export type TDappPermissionProps = Omit<TModalState<'dapp-permission'>, 'onAccep
 }
 
 const CUSTOM_CONTENT_BY_REQUEST: Partial<
-  Record<TBlockchainServiceKey, Record<string, (props: TDappPermissionProps) => JSX.Element>>
+  Record<TBSServiceName, Record<string, (props: TDappPermissionProps) => JSX.Element>>
 > = {
   neo3: {
     invokeFunction: DappPermissionInvokeNeo3Content,
