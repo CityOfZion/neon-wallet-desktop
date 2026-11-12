@@ -56,7 +56,7 @@ const ImportAccountsSelectionModal = () => {
 
     const wallet = createWallet({
       name: isMnemonic ? tCommon('wallet.mnemonicWalletName') : tCommon('wallet.importedName'),
-      mnemonic: isMnemonic ? mnemonicOrKey : undefined,
+      mnemonic: isMnemonic ? BSKeychainHelper.normalizeMnemonic(mnemonicOrKey) : undefined,
     })
 
     const accounts = await importAccounts({
