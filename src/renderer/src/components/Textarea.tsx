@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 
 import { FieldActionsMenu } from '@renderer/components/FieldActionsMenu'
 
+import { ClipboardHelper } from '@renderer/helpers/ClipboardHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import MdCancel from '@renderer/assets/images/md-cancel.svg?react'
@@ -61,7 +62,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TProps>(
     }
 
     const handlePaste = async () => {
-      setValue(await navigator.clipboard.readText())
+      setValue(await ClipboardHelper.read())
     }
 
     const clear = () => {

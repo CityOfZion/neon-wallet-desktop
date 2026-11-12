@@ -1,6 +1,7 @@
 import { Fragment, useEffect, useMemo } from 'react'
 
 import { IBlockchainService, IBSWithClaim } from '@cityofzion/blockchain-service'
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
 import { useTranslation } from 'react-i18next'
 import { match } from 'ts-pattern'
 
@@ -18,12 +19,11 @@ import { useUnclaimed, useUnclaimedMutation } from '@renderer/hooks/useUnclaimed
 
 import TbTransform from '@renderer/assets/images/tb-transform.svg?react'
 
-import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import { TAccount } from '@shared/types/store'
 
 type TProps = {
   account: TAccount
-  blockchainService: IBlockchainService<TBlockchainServiceKey> & IBSWithClaim<TBlockchainServiceKey>
+  blockchainService: IBlockchainService<TBSServiceName> & IBSWithClaim<TBSServiceName>
 }
 
 export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {

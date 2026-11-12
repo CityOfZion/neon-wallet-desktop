@@ -1,8 +1,10 @@
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
+
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 
-import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import type { THiddenTokenByBlockchain } from '@shared/types/store'
 
+// TODO: Remove swap records from storage in the next version (https://app.clickup.com/t/17twvjx2xgh)
 export function getUtilityMigrations() {
   return {
     0: (state: any) => {
@@ -39,7 +41,7 @@ export function getUtilityMigrations() {
 
       const hiddenTokensByBlockchain = Object.entries(state.data.hiddenTokensByBlockchain).reduce(
         (previous, actual) => {
-          const blockchain = actual[0] as TBlockchainServiceKey
+          const blockchain = actual[0] as TBSServiceName
           const tokens = actual[1] as string[] | undefined
           const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
 

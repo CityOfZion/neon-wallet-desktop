@@ -1,8 +1,7 @@
-import { BSBigHumanAmount, BSBigNumber, TBSNetworkType, TBSToken } from '@cityofzion/blockchain-service'
+import { BSBigHumanAmount, BSBigNumber, type TBSNetworkType, TBSToken } from '@cityofzion/blockchain-service'
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
 import { BSNeo3Constants } from '@cityofzion/bs-neo3'
 import { BSStellarConstants } from '@cityofzion/bs-stellar'
-
-import type { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 type TTipConfig = {
   address: string
@@ -22,7 +21,7 @@ export class ConstantsHelper {
   static readonly defaultNetworkProfileId = 'default'
   static readonly testNetworkProfileId = 'test'
 
-  static readonly fraudulentTokenHashesByBlockchain: Map<TBlockchainServiceKey, Set<string>> = new Map([
+  static readonly fraudulentTokenHashesByBlockchain: Map<TBSServiceName, Set<string>> = new Map([
     ['neo3', new Set(['0x42e6b0379e39a428362e08cf9d7e40903cdb0fe7', '0x90591dbfddd3c5a8e8fd0b5c8eb4a904e13a4c32'])],
   ])
 
@@ -33,7 +32,7 @@ export class ConstantsHelper {
   static readonly neo3VoteCozPubKey = '02946248f71bdf14933e6735da9867e81cc9eea0b5895329aa7f71e7745cf40659'
 
   static tipPercentageBn = new BSBigNumber('0.01') // 1%
-  static tipConfigByBlockchain = new Map<TBlockchainServiceKey, TTipConfig>([
+  static tipConfigByBlockchain = new Map<TBSServiceName, TTipConfig>([
     [
       'neo3',
       {

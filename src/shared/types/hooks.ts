@@ -1,6 +1,7 @@
 import { FormEvent, MouseEvent } from 'react'
 
 import type { TBSToken, TTransactionDefault, TTransactionUtxo } from '@cityofzion/blockchain-service'
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
 import type { TBSNeo3Name } from '@cityofzion/bs-neo3'
 import type { TBSStellarName } from '@cityofzion/bs-stellar'
 import zod from 'zod'
@@ -8,14 +9,13 @@ import zod from 'zod'
 import type { neonBackupContentSchema, neonBackupDataSchema } from '@shared/schemas/neon-backup'
 import {
   type TAccountsToImport,
-  TBlockchainServiceKey,
   type TCreateWalletAndAccountParam,
   type TNetwork,
   type TUseCreateWalletParams,
 } from '@shared/types/blockchain'
 
 import type { TUseBalanceResult } from './query'
-import type { TAccount, TContact, TSelectedNetworks, TSwapRecord } from './store'
+import type { TAccount, TContact, TSelectedNetworks } from './store'
 
 export type TUseActionsData = Record<string, any>
 
@@ -62,8 +62,8 @@ export type TUseTransactionsProps = {
   shouldUseFullTransactionsService: boolean
 }
 
-export type TUseTransactionsTransaction = TBlockchainServiceKey extends infer N
-  ? N extends TBlockchainServiceKey
+export type TUseTransactionsTransaction = TBSServiceName extends infer N
+  ? N extends TBSServiceName
     ? TTransactionDefault<N> | TTransactionUtxo<N>
     : never
   : never
@@ -75,7 +75,7 @@ export type TUseTransactionsGroupedTransactionsByDate = {
 
 export type TUseTransactionsBuildTransactionsQueryKeyParams = {
   address: string
-  blockchain: TBlockchainServiceKey
+  blockchain: TBSServiceName
   network: TNetwork
   dateFrom?: Date
   dateTo?: Date
@@ -95,7 +95,7 @@ export type TUseImportNep6Account = {
   address: string
   label: string
   key: string
-  blockchain: TBlockchainServiceKey
+  blockchain: TBSServiceName
 }
 
 export type TUseImportNep6DecryptedAccount = TUseImportNep6Account & {
@@ -103,7 +103,7 @@ export type TUseImportNep6DecryptedAccount = TUseImportNep6Account & {
 }
 
 export type TUseNeonMigrateContacts = {
-  addresses: { address: string; blockchain: TBlockchainServiceKey }[]
+  addresses: { address: string; blockchain: TBSServiceName }[]
   name: string
 }
 
@@ -147,7 +147,6 @@ export type TUseNeonBackupDeprecatedData = { content: string; type: 'backup-depr
 
 export type TUseNeonBackupGeneratedData = {
   wallets: TCreateWalletAndAccountParam[]
-  swapRecords?: TSwapRecord[]
   contacts?: TContact[]
 }
 

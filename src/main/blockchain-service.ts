@@ -1,11 +1,12 @@
 import { TBSAccount } from '@cityofzion/blockchain-service'
 import { BSBitcoinConstants } from '@cityofzion/bs-bitcoin'
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
 
 import { exposeApiToRenderer } from '@cityofzion/bs-electron/dist/main'
 import { SharedEnvHelper } from '@shared/helpers/SharedEnvHelper'
 import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { SharedI18nextHelper } from '@shared/helpers/SharedI18nextHelper'
-import type { TBlockchainServiceKey, TBSAggregator } from '@shared/types/blockchain'
+import type { TBSAggregator } from '@shared/types/blockchain'
 
 import { MainHardwareWalletHelper } from './hardware-wallet'
 
@@ -14,7 +15,7 @@ const { t } = SharedI18nextHelper.get()
 export class MainBlockchainServiceHelper {
   static bsAggregator: TBSAggregator
 
-  static async getHardwareWalletTransport(account: TBSAccount<TBlockchainServiceKey>) {
+  static async getHardwareWalletTransport(account: TBSAccount<TBSServiceName>) {
     try {
       return await MainHardwareWalletHelper.getTransport(account)
     } catch (error) {

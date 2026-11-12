@@ -1,7 +1,8 @@
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
+
 import { ContactsHelper } from '@renderer/helpers/ContactsHelper'
 import { SelectorHelper } from '@renderer/helpers/SelectorHelper'
 
-import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import { TContact } from '@shared/types/store'
 
 import { createAppSelector, useAppSelector } from './useRedux'
@@ -19,14 +20,14 @@ export const useContactsSelector = () => {
   }
 }
 
-const hasContactsByBlockchainSelector = (blockchain?: TBlockchainServiceKey) =>
+const hasContactsByBlockchainSelector = (blockchain?: TBSServiceName) =>
   createAppSelector([state => state.contact.data], data => {
     if (!blockchain) return false
 
     return data.flatMap(contact => contact.addresses.map(address => address.blockchain)).includes(blockchain)
   })
 
-export const useHasContactsByBlockchain = (blockchain?: TBlockchainServiceKey) => {
+export const useHasContactsByBlockchain = (blockchain?: TBSServiceName) => {
   const { value: hasContactsByBlockchain } = useAppSelector(hasContactsByBlockchainSelector(blockchain))
 
   return { hasContactsByBlockchain }

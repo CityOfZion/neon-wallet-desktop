@@ -6,7 +6,6 @@ import { DateHelper } from '@renderer/helpers/DateHelper'
 import { NeonBackupHelper } from '@renderer/helpers/NeonBackupHelper'
 
 import { contactReducerActions } from '@renderer/store/reducers/contact'
-import { utilityReducerActions } from '@renderer/store/reducers/utility'
 import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { neonBackupContentSchema, neonBackupDataSchema } from '@shared/schemas/neon-backup'
 import { TAccountsToImport, TCreateWalletAndAccountParam } from '@shared/types/blockchain'
@@ -17,20 +16,18 @@ import type {
   TUseNeonBackupDeprecatedData,
   TUseNeonBackupGeneratedData,
 } from '@shared/types/hooks'
-import { TContact, TContactAddress, TSwapRecord } from '@shared/types/store'
+import { TContact, TContactAddress } from '@shared/types/store'
 
 import { useImportAccounts } from './useAccountActions'
 import { useAccountsSelector, useAccountUtils } from './useAccountSelector'
 import { useLoginSessionSelector } from './useAuthSelector'
 import { useContactsSelector } from './useContactSelector'
 import { useAppDispatch } from './useRedux'
-import { useSwapRecordsSelector } from './useUtilitySelector'
 import { useCreateWallet, useEditWallet } from './useWalletActions'
 import { useWalletsSelector } from './useWalletSelector'
 
 export const useNeonCreateBackup = () => {
   const { t } = useTranslation('hooks', { keyPrefix: 'useNeonBackup' })
-  const { swapRecords } = useSwapRecordsSelector()
   const { wallets } = useWalletsSelector()
   const { accounts } = useAccountsSelector()
   const { contacts } = useContactsSelector()
@@ -47,29 +44,12 @@ export const useNeonCreateBackup = () => {
     const backupFile: zod.infer<typeof neonBackupDataSchema> = {
       wallets: [],
       contacts: [],
-      swapRecords: [],
     }
 
     backupFile.contacts = contacts.map(contact => ({
       id: contact.id,
       name: contact.name,
       addresses: contact.addresses.map(address => ({ address: address.address, blockchain: address.blockchain })),
-    }))
-
-    backupFile.swapRecords = swapRecords.map(swap => ({
-      account: swap.account,
-      swapId: swap.swapId,
-      addressTo: swap.addressTo,
-      extraIdTo: swap.extraIdTo,
-      amountFrom: swap.amountFrom,
-      amountTo: swap.amountTo,
-      swapProvider: swap.swapProvider,
-      swapStatus: swap.swapStatus,
-      tokenFrom: swap.tokenFrom,
-      tokenTo: swap.tokenTo,
-      fee: swap.fee,
-      txFrom: swap.txFrom,
-      txTo: swap.txTo,
     }))
 
     const backupAccountsByWalletId = new Map<string, TUseNeonBackupAccount[]>()
@@ -228,29 +208,7 @@ export const useNeonBackupFile = () => {
 
   const handleGenerateData = (data: zod.infer<typeof neonBackupDataSchema>): TUseNeonBackupGeneratedData => {
     const contactsToCreate: TContact[] = []
-    const swapRecordsToCreate: TSwapRecord[] = []
     const walletsToCreate: TCreateWalletAndAccountParam[] = []
-
-    data.swapRecords?.forEach(swap => {
-      const account = NeonBackupHelper.fixAccountProperties(swap.account)
-      if (!account) return
-
-      swapRecordsToCreate.push({
-        addressTo: swap.addressTo,
-        extraIdTo: swap.extraIdTo,
-        amountFrom: swap.amountFrom,
-        amountTo: swap.amountTo,
-        fee: swap.fee,
-        swapId: swap.swapId,
-        swapProvider: swap.swapProvider,
-        tokenFrom: swap.tokenFrom,
-        tokenTo: swap.tokenTo,
-        txFrom: swap.txFrom,
-        swapStatus: swap.swapStatus,
-        txTo: swap.txTo,
-        account,
-      })
-    })
 
     data.contacts.forEach(contact => {
       const addresses: TContactAddress[] = []
@@ -294,16 +252,11 @@ export const useNeonBackupFile = () => {
     return {
       wallets: walletsToCreate,
       contacts: contactsToCreate,
-      swapRecords: swapRecordsToCreate,
     }
   }
 
   const handleImportBackupData = async (generatedData: TUseNeonBackupGeneratedData) => {
     try {
-      generatedData.swapRecords?.forEach(swap => {
-        dispatch(utilityReducerActions.persistSwapRecord(swap))
-      })
-
       generatedData.contacts?.forEach(contact => {
         dispatch(contactReducerActions.saveContact(contact))
       })

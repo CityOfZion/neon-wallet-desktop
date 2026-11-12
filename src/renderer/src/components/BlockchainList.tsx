@@ -1,28 +1,27 @@
 import { ReactNode } from 'react'
 
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
 import { useTranslation } from 'react-i18next'
 
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 
-import { TBlockchainServiceKey } from '@shared/types/blockchain'
-
 import { BlockchainIcon } from './BlockchainIcon'
 import { Checkbox } from './Checkbox'
 import { RadioGroup } from './RadioGroup'
 
 type TItemProps = {
-  blockchain: TBlockchainServiceKey
+  blockchain: TBSServiceName
   children: ReactNode
 }
 
 type TProps = {
-  selectedBlockchains?: TBlockchainServiceKey[]
+  selectedBlockchains?: TBSServiceName[]
   isMulti?: boolean
-  blockchains?: TBlockchainServiceKey[]
+  blockchains?: TBSServiceName[]
   className?: string
-  onSelect: (blockchains: TBlockchainServiceKey[]) => void
+  onSelect: (blockchains: TBSServiceName[]) => void
 }
 
 const Item = ({ blockchain, children }: TItemProps) => {
@@ -45,7 +44,7 @@ export const BlockchainList = ({ onSelect, selectedBlockchains = [], isMulti, bl
     className
   )
 
-  const handleSelect = (blockchain: TBlockchainServiceKey) => {
+  const handleSelect = (blockchain: TBSServiceName) => {
     if (isMulti) {
       onSelect(
         selectedBlockchains.includes(blockchain)
@@ -81,7 +80,7 @@ export const BlockchainList = ({ onSelect, selectedBlockchains = [], isMulti, bl
   ) : (
     <RadioGroup.Group
       value={selectedBlockchains[0]}
-      onValueChange={value => handleSelect(value as TBlockchainServiceKey)}
+      onValueChange={value => handleSelect(value as TBSServiceName)}
       className={internalClassName}
       {...TestHelper.buildTestObject('blockchains-list')}
     >

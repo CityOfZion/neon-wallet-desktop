@@ -1,6 +1,6 @@
-import { Fragment, useEffect, useRef, useState } from 'react'
+import { Fragment } from 'react'
 
-import { SimpleSwapService } from '@cityofzion/bs-multichain'
+import type { TSwapResult } from '@cityofzion/bs-multichain'
 import { useTranslation } from 'react-i18next'
 import { match, P } from 'ts-pattern'
 
@@ -8,6 +8,7 @@ import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 import { Button } from '@renderer/components/Button'
 import { Details } from '@renderer/components/Details'
 import { Link } from '@renderer/components/Link'
+import { Loader } from '@renderer/components/Loader'
 import { Separator } from '@renderer/components/Separator'
 import { Stepper, TStepperState } from '@renderer/components/Stepper'
 
@@ -16,7 +17,7 @@ import { CrispHelper } from '@renderer/helpers/CrispHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
-import { useAppDispatch } from '@renderer/hooks/useRedux'
+import { PENDING_SWAP_STATUSES, useSwapOrder } from '@renderer/hooks/useSwapOrder'
 
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 
@@ -27,15 +28,11 @@ import TbReceipt from '@renderer/assets/images/tb-receipt.svg?react'
 import TbReplace from '@renderer/assets/images/tb-replace.svg?react'
 import TbRosetteDiscountCheck from '@renderer/assets/images/tb-rosette-discount-check.svg?react'
 
-import { utilityReducerActions } from '@renderer/store/reducers/utility'
 import type { TModalState } from '@shared/types/modal'
-import { TSwapRecord } from '@shared/types/store'
 
 import { SwapDetailsModalTokenDetails } from './SwapDetailsModalTokenDetails'
 
-const swapService = new SimpleSwapService()
-
-const stepsByStatus: Record<TSwapRecord['swapStatus'], number> = {
+const stepsByStatus: Record<TSwapResult['status'], number> = {
   confirming: 2,
   exchanging: 3,
   finished: 4,
@@ -43,68 +40,27 @@ const stepsByStatus: Record<TSwapRecord['swapStatus'], number> = {
   refunded: 2,
 }
 
-const SwapDetailsModal = () => {
-  const modalState = useModalState<TModalState<'swap-details'>>()
-  const dispatch = useAppDispatch()
+type TContentProps = {
+  orderId: string
+  swapResult: TSwapResult
+}
+
+const SwapDetailsModalContent = ({ orderId, swapResult }: TContentProps) => {
   const { t } = useTranslation('modals', { keyPrefix: 'swapDetails' })
   const { modalNavigate } = useModalNavigate()
 
-  const [swapRecord, setSwapRecord] = useState<TSwapRecord>(modalState.swapRecord)
+  const blockchainFrom = swapResult.tokenFrom.blockchain!
 
-  const timeoutRef = useRef<NodeJS.Timeout>(undefined)
-
-  const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[swapRecord.account.blockchain]
+  const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchainFrom]
 
   const handleGoToSwapLog = () => {
-    modalNavigate('swap-details-log', { state: { swapRecord } })
+    modalNavigate('swap-details-log', { state: { orderId } })
   }
 
-  useEffect(() => {
-    const getStatus = async () => {
-      if (!swapRecord.swapId || !['confirming', 'exchanging'].includes(swapRecord.swapStatus)) return
-
-      try {
-        const response = await swapService.getStatus(swapRecord.swapId)
-        const { status, log } = response
-        let { txFrom, txTo } = response
-
-        if (!txFrom) txFrom = swapRecord.txFrom
-        if (!txTo) txTo = swapRecord.txTo
-
-        const updatedSwapRecord: TSwapRecord = { ...swapRecord, txFrom, txTo, swapStatus: status, log }
-
-        setSwapRecord(updatedSwapRecord)
-        dispatch(utilityReducerActions.persistSwapRecord(updatedSwapRecord))
-
-        if (status === 'finished') {
-          clearTimeout(timeoutRef.current)
-
-          return
-        }
-      } catch {
-        // Empty block
-      }
-
-      timeoutRef.current = setTimeout(getStatus, 2000)
-    }
-
-    timeoutRef.current = setTimeout(getStatus, 100)
-
-    return () => {
-      clearTimeout(timeoutRef.current)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
   return (
-    <SideModalLayout
-      heading={t('title')}
-      headingIcon={<TbReplace aria-hidden />}
-      contentClassName="flex flex-col items-center overflow-auto"
-      size="lg"
-    >
+    <Fragment>
       <div className="bg-asphalt flex h-28 w-28 items-center rounded-full p-2">
-        {swapRecord.swapStatus === 'failed' || swapRecord.swapStatus === 'refunded' ? (
+        {swapResult.status === 'failed' || swapResult.status === 'refunded' ? (
           <TbCircleX aria-hidden className="text-pink h-28 w-28 stroke-1" />
         ) : (
           <TbRosetteDiscountCheck aria-hidden className="text-blue h-28 w-28 stroke-1" />
@@ -112,7 +68,7 @@ const SwapDetailsModal = () => {
       </div>
 
       <div className="mt-9 flex flex-col items-center gap-2.5">
-        {match({ swapStatus: swapRecord.swapStatus, txFrom: swapRecord.txFrom })
+        {match({ swapStatus: swapResult.status, txFrom: swapResult.txIdFrom })
           .with({ swapStatus: P.union('refunded', 'failed'), txFrom: P.nullish }, () => (
             <p className="text-sm text-gray-300">{t('transferErrorMessage')}</p>
           ))
@@ -124,7 +80,7 @@ const SwapDetailsModal = () => {
           ))}
 
         <p className="text-xl text-white">
-          {match({ swapStatus: swapRecord.swapStatus })
+          {match({ swapStatus: swapResult.status })
             .with({ swapStatus: 'refunded' }, () => t('refundedSubtitle'))
             .otherwise(() => t('subtitle'))}
         </p>
@@ -147,13 +103,16 @@ const SwapDetailsModal = () => {
         <Details.Body>
           <Details.Panel label={t('statusPanelLabel')}>
             <Stepper.Root
-              className="mt-4 mb-10 px-8"
-              value={stepsByStatus[swapRecord.swapStatus]}
+              className="my-4"
+              value={stepsByStatus[swapResult.status]}
               colorSchema="neon"
-              state={match({ swapStatus: swapRecord.swapStatus, txFrom: swapRecord.txFrom })
+              state={match({ swapStatus: swapResult.status, txFrom: swapResult.txIdFrom })
                 .returnType<TStepperState>()
                 .with({ swapStatus: P.union('failed', 'refunded') }, () => 'error')
-                .with({ txFrom: P.nullish }, () => 'error')
+                .with(
+                  { swapStatus: P.when(status => !PENDING_SWAP_STATUSES.includes(status)), txFrom: P.nullish },
+                  () => 'error'
+                )
                 .otherwise(() => 'success')}
             >
               <Stepper.List>
@@ -164,41 +123,51 @@ const SwapDetailsModal = () => {
             </Stepper.Root>
           </Details.Panel>
 
-          <Details.Panel label={t('routingPanelLabel')}>
-            {swapRecord.txFrom && (
-              <Details.Item label={t('routingPanelTransactionFromLabel')} copyable={swapRecord.txFrom}>
+          <Details.Panel label={t('routingPanelLabel')} className="mt-6">
+            {swapResult.txIdFrom && (
+              <Details.Item label={t('routingPanelTransactionFromLabel')} copyable={swapResult.txIdFrom}>
                 <div className="flex items-center gap-2.5">
-                  <BlockchainIcon blockchain={swapRecord.tokenFrom.blockchain!} />
+                  <BlockchainIcon blockchain={blockchainFrom} />
 
-                  {swapRecord.tokenFrom.txTemplateUrl ? (
+                  {swapResult.tokenFrom.txTemplateUrl ? (
                     <Link
-                      to={swapRecord.tokenFrom.txTemplateUrl.replace('{txId}', swapRecord.txFrom)}
+                      to={swapResult.tokenFrom.txTemplateUrl.replace('{txId}', swapResult.txIdFrom)}
                       target="_blank"
-                      label={StringHelper.truncateMiddle(swapRecord.txFrom, 20)}
+                      label={StringHelper.truncateMiddle(swapResult.txIdFrom, 20)}
                       colorSchema="white"
                       variant="text-slim"
                       textClassName="font-normal"
                       clickableProps={{ className: 'text-xs text-blue underline' }}
                     />
                   ) : (
-                    <span className="text-white">{StringHelper.truncateMiddle(swapRecord.txFrom, 20)}</span>
+                    <span className="text-white">{StringHelper.truncateMiddle(swapResult.txIdFrom, 20)}</span>
                   )}
                 </div>
               </Details.Item>
             )}
 
-            {swapRecord.txFrom &&
-              (swapRecord.txTo ||
-                (swapRecord.swapStatus !== 'refunded' && swapRecord.swapStatus !== 'failed' && !swapRecord.txTo)) && (
-                <Details.Item label={t('routingPanelTransactionToLabel')} copyable={swapRecord.txTo}>
-                  {match({ txTo: swapRecord.txTo })
+            {!swapResult.txIdFrom && PENDING_SWAP_STATUSES.includes(swapResult.status) && (
+              <Details.Item label={t('routingPanelTransactionFromLabel')}>
+                <div className="text-orange flex items-center gap-1.5">
+                  <span className="text-sm">{t('routingPanelTransactionToLabelPending')}</span>
+
+                  <MdRefresh aria-hidden className="min-size-6 max-size-6 size-6 animate-spin" />
+                </div>
+              </Details.Item>
+            )}
+
+            {swapResult.txIdFrom &&
+              (swapResult.txIdTo ||
+                (swapResult.status !== 'refunded' && swapResult.status !== 'failed' && !swapResult.txIdTo)) && (
+                <Details.Item label={t('routingPanelTransactionToLabel')} copyable={swapResult.txIdTo}>
+                  {match({ txTo: swapResult.txIdTo })
                     .with({ txTo: P.string }, ({ txTo }) => (
                       <div className="flex items-center gap-2.5">
-                        {swapRecord.tokenTo.blockchain && <BlockchainIcon blockchain={swapRecord.tokenTo.blockchain} />}
+                        {swapResult.tokenTo.blockchain && <BlockchainIcon blockchain={swapResult.tokenTo.blockchain} />}
 
-                        {swapRecord.tokenTo.txTemplateUrl ? (
+                        {swapResult.tokenTo.txTemplateUrl ? (
                           <Link
-                            to={swapRecord.tokenTo.txTemplateUrl.replace('{txId}', txTo)}
+                            to={swapResult.tokenTo.txTemplateUrl.replace('{txId}', txTo)}
                             target="_blank"
                             label={StringHelper.truncateMiddle(txTo, 20)}
                             colorSchema="white"
@@ -221,11 +190,11 @@ const SwapDetailsModal = () => {
                 </Details.Item>
               )}
 
-            {swapRecord.fee && (
+            {swapResult.fee && (
               <Details.Item label={t('routingPanelTransactionFeeLabel')}>
                 <SwapDetailsModalTokenDetails
-                  blockchain={swapRecord.account.blockchain}
-                  amount={swapRecord.fee}
+                  blockchain={blockchainFrom}
+                  amount={swapResult.fee}
                   symbol={service.feeToken.symbol}
                 />
               </Details.Item>
@@ -239,25 +208,25 @@ const SwapDetailsModal = () => {
           <Details.Panel label={t('sentPanelLabel')}>
             <Details.Item label={t('sentPanelTokenLabel')}>
               <SwapDetailsModalTokenDetails
-                blockchain={swapRecord.tokenFrom.blockchain!}
-                amount={swapRecord.amountFrom}
-                symbol={swapRecord.tokenFrom.symbol}
+                blockchain={blockchainFrom}
+                amount={swapResult.amountFrom}
+                symbol={swapResult.tokenFrom.symbol}
               />
             </Details.Item>
 
             <Details.Item label={t('sentPanelAddressLabel')}>
-              {swapRecord.tokenFrom.addressTemplateUrl ? (
+              {swapResult.tokenFrom.addressTemplateUrl ? (
                 <Link
-                  to={swapRecord.tokenFrom.addressTemplateUrl.replace('{address}', swapRecord.account.address)}
+                  to={swapResult.tokenFrom.addressTemplateUrl.replace('{address}', swapResult.addressFrom)}
                   target="_blank"
-                  label={swapRecord.account.address}
+                  label={swapResult.addressFrom}
                   colorSchema="white"
                   variant="text-slim"
                   textClassName="font-normal"
                   clickableProps={{ className: 'text-blue underline' }}
                 />
               ) : (
-                swapRecord.account.address
+                swapResult.addressFrom
               )}
             </Details.Item>
           </Details.Panel>
@@ -265,29 +234,29 @@ const SwapDetailsModal = () => {
           <Details.Panel label={t('receivePanelLabel')}>
             <Details.Item label={t('receivePanelTokenLabel')}>
               <SwapDetailsModalTokenDetails
-                blockchain={swapRecord.tokenTo.blockchain}
-                amount={swapRecord.amountTo}
-                symbol={swapRecord.tokenTo.symbol}
+                blockchain={swapResult.tokenTo.blockchain}
+                amount={swapResult.amountTo}
+                symbol={swapResult.tokenTo.symbol}
               />
             </Details.Item>
 
             <Details.Item label={t('receivePanelAddressLabel')}>
-              {swapRecord.tokenTo.addressTemplateUrl ? (
+              {swapResult.tokenTo.addressTemplateUrl ? (
                 <Link
-                  to={swapRecord.tokenTo.addressTemplateUrl.replace('{address}', swapRecord.addressTo)}
+                  to={swapResult.tokenTo.addressTemplateUrl.replace('{address}', swapResult.addressTo)}
                   target="_blank"
-                  label={swapRecord.addressTo}
+                  label={swapResult.addressTo}
                   colorSchema="white"
                   variant="text-slim"
                   textClassName="font-normal"
                   clickableProps={{ className: 'text-blue underline' }}
                 />
               ) : (
-                swapRecord.addressTo
+                swapResult.addressTo
               )}
             </Details.Item>
 
-            {swapRecord.extraIdTo && <Details.Item label={t('extraIdToLabel')}>{swapRecord.extraIdTo}</Details.Item>}
+            {swapResult.extraIdTo && <Details.Item label={t('extraIdToLabel')}>{swapResult.extraIdTo}</Details.Item>}
           </Details.Panel>
         </Details.Body>
       </Details.Root>
@@ -312,6 +281,29 @@ const SwapDetailsModal = () => {
           onClick={CrispHelper.open}
         />
       </div>
+    </Fragment>
+  )
+}
+
+const SwapDetailsModal = () => {
+  const { t } = useTranslation('modals', { keyPrefix: 'swapDetails' })
+  const { orderId } = useModalState<TModalState<'swap-details'>>()
+
+  const swapOrderQuery = useSwapOrder(orderId)
+
+  return (
+    <SideModalLayout
+      heading={t('title')}
+      headingIcon={<TbReplace aria-hidden />}
+      contentClassName="flex flex-col items-center overflow-auto"
+      size="lg"
+    >
+      {match(swapOrderQuery)
+        .with({ isLoading: true }, () => <Loader className="min-size-8 max-size-8 size-8" />)
+        .with({ data: P.nonNullable }, ({ data }) => <SwapDetailsModalContent orderId={orderId} swapResult={data} />)
+        .otherwise(() => (
+          <p className="w-full text-center text-lg font-medium text-gray-300">{t('notFound')}</p>
+        ))}
     </SideModalLayout>
   )
 }

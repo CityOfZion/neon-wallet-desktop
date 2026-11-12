@@ -1,6 +1,7 @@
 import { Fragment, useState } from 'react'
 
 import { BSKeychainHelper } from '@cityofzion/blockchain-service'
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
 import { useTranslation } from 'react-i18next'
 
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
@@ -12,7 +13,6 @@ import { useMount } from '@renderer/hooks/useMount'
 import { useLastIndexesByWallet } from '@renderer/hooks/useUtilitySelector'
 
 import { SharedAccountHelper } from '@shared/helpers/SharedAccountHelper'
-import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 import { Accordion } from './Accordion'
 import { BlockchainIcon } from './BlockchainIcon'
@@ -27,7 +27,7 @@ export type TMnemonicOrKeyAccountWithBlockchain = {
   key: string
   derivationPath?: string
   order?: number
-  blockchain: TBlockchainServiceKey
+  blockchain: TBSServiceName
 }
 
 export type TMnemonicOrKeyAccount = {
@@ -37,7 +37,7 @@ export type TMnemonicOrKeyAccount = {
   order?: number
 }
 
-type TMnemonicAccounts = [TBlockchainServiceKey, TMnemonicOrKeyAccount[]][]
+type TMnemonicAccounts = [TBSServiceName, TMnemonicOrKeyAccount[]][]
 
 type TProps = {
   mnemonicOrKey: string

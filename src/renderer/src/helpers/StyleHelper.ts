@@ -1,7 +1,6 @@
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
 import classNames, { ArgumentArray } from 'classnames'
 import { twMerge } from 'tailwind-merge'
-
-import type { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 import { BlockchainServiceHelper } from './BlockchainServiceHelper'
 
@@ -42,7 +41,7 @@ export class StyleHelper {
     return propertyNames.map(propertyName => root.getPropertyValue(`--${propertyName}`).trim())
   }
 
-  static generateTokenColor(hash: string, blockchain: TBlockchainServiceKey) {
+  static generateTokenColor(hash: string, blockchain: TBSServiceName) {
     if (hash.length === 0) {
       return this.availableRandomColors[0]
     }

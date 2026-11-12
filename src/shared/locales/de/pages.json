@@ -506,70 +506,56 @@
     "title": "Einstellungen"
   },
   "swap": {
-    "explanation": {
-      "description1": "Tauschen Sie Token gegen andere Token, über Chains hinweg, ohne eine Börse zu nutzen.",
-      "description2": " Das direkte und sofortige Tauschen von Token in Neon ist bequem und ermöglicht es Ihnen, Zeit zu sparen und niedrigere Gebühren zu zahlen.",
-      "title": "Wie funktioniert es?"
-    },
-    "form": {
-      "accountToUseTitle": "Von hier senden",
-      "addressToReceiveContactButtonLabel": "Meine Kontakte",
-      "addressToReceivePlaceholder": "Adresse eingeben…",
+    "amountsCard": {
       "amountToReceiveTitle": "Betrag, den Sie erhalten",
       "amountToReceiveTitleComplement": "(nach Gebühren)",
       "amountToUseTitle": "Betrag",
       "amounts": "Beträge",
-      "assets": "Assets",
       "balanceLabel": "Guthaben",
       "balancePlaceholder": "0,00",
+      "tooltipTitle": "Wechselkurse werden mit höheren Tauschbeträgen besser!"
+    },
+    "assetsCard": {
+      "addressToReceivePlaceholder": "Adresse eingeben…",
+      "assets": "Assets",
       "errors": {
-        "amountMax": "Betrag ist zu hoch. Maximalbetrag ist {{amount}}",
-        "amountMin": "Betrag ist zu niedrig. Mindestbetrag ist {{amount}}",
-        "hardwareWalletNotConnectedOrLocked": "Hardware Wallet ist nicht verbunden oder gesperrt, überprüfen Sie Ihr Gerät und versuchen Sie es erneut",
-        "insufficientFunds": "Sie haben nicht genügend Guthaben",
-        "insufficientFundsFee": "Sie haben nicht genügend Guthaben, um die Gebühr zu bezahlen",
-        "invalidAddress": "Ungültige Adresse",
-        "invalidExtraIdToReceive": "Ungültiger Ziel-Tag/Memo"
+        "invalidAddress": "Ungültige Adresse"
       },
       "extraIdToReceive": "Ziel-Tag/Memo",
       "extraIdToReceivePlaceholder": "Tag/Memo eingeben…",
       "hints": {
         "enterValidAddress": "Gültige Adresse eingeben"
       },
-      "max": "Max",
-      "minimumAmountToUseLabel": "Minimum {{amount}}",
-      "minimumAmountToUsePlaceholder": "0,00000000",
       "myAccountsButtonLabel": "Meine Konten",
       "openAboutExtraIdToReceiveModal": "Info-Modal für Ziel-Tag/Memo öffnen",
       "receiveHere": "Hier empfangen",
-      "restart": "Neu starten",
-      "sendError": {
-        "description": "Bitte versuchen Sie es später erneut",
-        "subtitle": "Hoppla! Wir sind auf einen Fehler gestoßen."
-      },
-      "sendSuccess": {
-        "amountFrom": "Betrag von",
-        "amountTo": "Betrag an",
-        "detailsTitle": "Tauschdetails",
-        "feeLabel": "Gebühr für Transaktion von",
-        "recipientLabel": "Empfänger",
-        "statusLabel": "Status",
-        "subtitle": "Ihr Tausch wurde erfolgreich initiiert!",
-        "transactionAux": "Hilfstransaktion",
-        "transactionFromLabel": "Transaktion von",
-        "transactionToLabel": "Transaktion an"
-      },
-      "source": "Kontodetails",
-      "stellarTrustlineWarnings": {
-        "receiver": "Um {{token}} auf Stellar zu empfangen, muss das empfangende Konto über eine aktive Trustline für dieses Token verfügen, andernfalls schlägt der Swap fehl. Sie können eine Trustline in den Einstellungen Ihres Kontobildschirms registrieren.",
-        "source": "Um {{token}} auf Stellar zu tauschen, muss das Quellkonto über eine aktive Trustline für dieses Token verfügen, andernfalls schlägt der Swap fehl. Sie können eine Trustline in den Einstellungen Ihres Kontobildschirms registrieren."
-      },
-      "submitLabel": "Jetzt tauschen",
-      "title": "Welche Token möchten Sie tauschen?",
       "tokenToReceiveTitle": "Dies erhalten",
-      "tokenToUseTitle": "Dies tauschen",
-      "tooltipTitle": "Wechselkurse werden mit höheren Tauschbeträgen besser!"
+      "tokenToUseTitle": "Dies tauschen"
     },
+    "errors": {
+      "amountMax": "Betrag ist zu hoch, Maximalbetrag ist {{amount}}",
+      "amountMin": "Betrag ist zu niedrig, Mindestbetrag ist {{amount}}",
+      "amountZero": "Betrag muss größer als null sein",
+      "insufficientFunds": "Sie haben nicht genügend Guthaben",
+      "insufficientFundsFee": "Sie haben nicht genügend Guthaben, um die Gebühr zu bezahlen",
+      "noQuotesAvailable": "Für diesen Swap sind keine Angebote verfügbar. Versuchen Sie einen anderen Betrag oder Token"
+    },
+    "explanation": {
+      "description1": "Tauschen Sie Token gegen andere Token, über Chains hinweg, ohne eine Börse zu nutzen.",
+      "description2": " Das direkte und sofortige Tauschen von Token in Neon ist bequem und ermöglicht es Ihnen, Zeit zu sparen und niedrigere Gebühren zu zahlen.",
+      "title": "Wie funktioniert es?"
+    },
+    "formTitle": "Welche Token möchten Sie tauschen?",
+    "restart": "Neu starten",
+    "sourceCard": {
+      "accountToUseTitle": "Von hier senden",
+      "source": "Kontodetails"
+    },
+    "stellarTrustlineWarnings": {
+      "receiver": "Um {{token}} auf Stellar zu empfangen, muss das empfangende Konto über eine aktive Trustline für dieses Token verfügen, andernfalls schlägt der Swap fehl. Sie können eine Trustline in den Einstellungen Ihres Kontobildschirms registrieren.",
+      "source": "Um {{token}} auf Stellar zu tauschen, muss das Quellkonto über eine aktive Trustline für dieses Token verfügen, andernfalls schlägt der Swap fehl. Sie können eine Trustline in den Einstellungen Ihres Kontobildschirms registrieren."
+    },
+    "submitLabel": "Jetzt tauschen",
     "title": "Token tauschen"
   },
   "wallets": {

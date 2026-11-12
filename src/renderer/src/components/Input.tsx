@@ -113,7 +113,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(
     }
 
     const handlePaste = async () => {
-      setValue(await navigator.clipboard.readText())
+      setValue(await ClipboardHelper.read())
     }
 
     const clear = () => {

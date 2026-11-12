@@ -1,15 +1,14 @@
 import { ComponentProps } from 'react'
 
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
 import { useTranslation } from 'react-i18next'
 
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
-import { TBlockchainServiceKey } from '@shared/types/blockchain'
-
 type TProps = {
-  blockchain?: TBlockchainServiceKey
+  blockchain?: TBSServiceName
   symbol: string
   amount?: string
 } & ComponentProps<'div'>

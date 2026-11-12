@@ -1,7 +1,7 @@
 import type { TBSNetwork } from '@cityofzion/blockchain-service'
 import type { BSBitcoin } from '@cityofzion/bs-bitcoin'
 import type { BSEthereum } from '@cityofzion/bs-ethereum'
-import type { BSAggregator, TBSServiceByName } from '@cityofzion/bs-multichain'
+import type { BSAggregator, TBSServiceByName, TBSServiceName } from '@cityofzion/bs-multichain'
 import type { BSNeoLegacy } from '@cityofzion/bs-neo-legacy'
 import type { BSNeo3 } from '@cityofzion/bs-neo3'
 import type { BSNeoX } from '@cityofzion/bs-neox'
@@ -22,13 +22,11 @@ export type TBlockchainService =
   | BSStellar
   | BSBitcoin
 
-export type TBlockchainServiceKey = TBlockchainService['name']
-
 export type TBSAggregator = BSAggregator<TBlockchainService[], TBSServiceByName<TBlockchainService[]>>
 
 export type TUseImportAccountParams = {
   address: string
-  blockchain: TBlockchainServiceKey
+  blockchain: TBSServiceName
   wallet: TWallet
   type: TAccountType
   key?: string
@@ -52,7 +50,7 @@ export type TUseCreateStandardAccountParams = {
   id?: string
   wallet: TWallet
   name: string
-  blockchain: TBlockchainServiceKey
+  blockchain: TBSServiceName
   skin?: TSkin
 }
 

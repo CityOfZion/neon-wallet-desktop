@@ -12,6 +12,7 @@ import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import { useInfiniteScroll } from '@renderer/hooks/useInfiniteScroll'
 import { useLanguageSelector } from '@renderer/hooks/useSettingsSelector'
+import { useSwapOrdersByAddresses } from '@renderer/hooks/useSwapOrdersByAddresses'
 import { useTransactionActivityList } from '@renderer/hooks/useTransactionActivityList'
 import { useTransactions } from '@renderer/hooks/useTransactions'
 
@@ -58,16 +59,20 @@ const Content = ({
 
   const dateNow = new Date()
 
-  const { data, isLoading, fetchNextPage } = useTransactions({
+  const transactionsQuery = useTransactions({
     accounts: defaultAccounts,
     dateFrom,
     dateTo,
     shouldUseFullTransactionsService,
   })
 
-  const { handleScroll, ref: scrollRef } = useInfiniteScroll<HTMLDivElement>(fetchNextPage)
+  const swapOrdersByAddressesQuery = useSwapOrdersByAddresses({
+    addresses: defaultAccounts.map(account => account.address),
+  })
 
-  const isDateDisabled = isLoading ? true : { after: dateNow }
+  const { handleScroll, ref: scrollRef } = useInfiniteScroll<HTMLDivElement>(transactionsQuery.fetchNextPage)
+
+  const isDateDisabled = transactionsQuery.isLoading || swapOrdersByAddressesQuery.isLoading ? true : { after: dateNow }
 
   const handleScrollToTop = async () => {
     scrollRef.current?.scroll({ top: 0, behavior: 'instant' })
@@ -88,11 +93,11 @@ const Content = ({
   }
 
   const virtualizer = useVirtualizer({
-    count: data.length,
+    count: transactionsQuery.data.length,
     gap: heights.DATE_GAP,
     getScrollElement: () => scrollRef.current,
     estimateSize: index => {
-      const { transactions } = data[index] // Get the transactions for the current date group
+      const { transactions } = transactionsQuery.data[index] // Get the transactions for the current date group
       const transactionsLength = transactions.length // Number of transactions in this group
 
       // Base height includes date label and separator
@@ -140,7 +145,7 @@ const Content = ({
     virtualizer.measure()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data])
+  }, [transactionsQuery.data])
 
   useEffect(() => {
     const scrollElement = scrollRef.current
@@ -195,20 +200,22 @@ const Content = ({
         </div>
       )}
 
-      {match({ isLoading, data })
-        .with({ isLoading: true }, () => <TransactionActivityListSkeleton />)
-        .with({ data: [] }, () => (
+      {match({ transactionsQuery, swapOrdersByAddressesQuery })
+        .with({ transactionsQuery: { isLoading: true } }, { swapOrdersByAddressesQuery: { isLoading: true } }, () => (
+          <TransactionActivityListSkeleton />
+        ))
+        .with({ transactionsQuery: { data: [] } }, () => (
           <section className="mt-16 flex flex-col items-center text-center">
             <TbAlertTriangle aria-hidden className="text-blue mb-2 size-16" />
             <h3 className="text-lg text-white">{t('notFoundTitle')}</h3>
             <p className="text-gray-300">{t('notFoundDescription')}</p>
           </section>
         ))
-        .otherwise(() => (
+        .otherwise(({ transactionsQuery, swapOrdersByAddressesQuery }) => (
           <div className="min-h-0 w-full overflow-x-hidden overflow-y-auto" ref={scrollRef} onScroll={handleScroll}>
             <ul className="relative flex w-full flex-col" style={{ height: `${virtualizer.getTotalSize()}px` }}>
               {virtualizer.getVirtualItems().map(virtualItem => {
-                const { date, transactions } = data[virtualItem.index]
+                const { date, transactions } = transactionsQuery.data[virtualItem.index]
                 const hasTransactions = transactions.length > 0
 
                 return (
@@ -235,7 +242,11 @@ const Content = ({
                     {hasTransactions && (
                       <ul className="flex flex-col gap-y-4">
                         {transactions.map(transaction => (
-                          <TransactionActivityListItems key={transaction.txId} transaction={transaction} />
+                          <TransactionActivityListItems
+                            key={transaction.txId}
+                            transaction={transaction}
+                            swapOrders={swapOrdersByAddressesQuery.data || []}
+                          />
                         ))}
                       </ul>
                     )}

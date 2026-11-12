@@ -1,5 +1,7 @@
 import { memo } from 'react'
 
+import type { TSwapApiOrderSummary } from '@cityofzion/bs-multichain'
+
 import type { TUseTransactionsTransaction } from '@shared/types/hooks'
 
 import { TransactionActivityListItemsDefault } from './TransactionActivityListItemsDefault'
@@ -8,13 +10,14 @@ import { TransactionActivityListItemsUtxo } from './TransactionActivityListItems
 
 type TProps = {
   transaction: TUseTransactionsTransaction
+  swapOrders: TSwapApiOrderSummary[]
 }
 
 export const TransactionActivityListItems = memo(
-  ({ transaction }: TProps) => {
+  ({ transaction, swapOrders }: TProps) => {
     return (
       <li className="flex w-full flex-col">
-        <TransactionActivityListItemsHeader transaction={transaction} />
+        <TransactionActivityListItemsHeader transaction={transaction} swapOrders={swapOrders} />
 
         {transaction.view === 'utxo' ? (
           <TransactionActivityListItemsUtxo transaction={transaction} />

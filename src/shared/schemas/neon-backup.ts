@@ -39,26 +39,9 @@ const neonBackupWalletSchema = zod.object({
   accounts: zod.array(neonBackupAccountSchema),
 })
 
-const neonBackupSwapSchema = zod.object({
-  account: neonBackupAccountSchema,
-  txFrom: zod.string().optional(),
-  txTo: zod.string().optional(),
-  swapProvider: zod.literal('simpleswap'),
-  swapId: zod.string().optional(),
-  swapStatus: zod.any(),
-  tokenFrom: zod.any(),
-  tokenTo: zod.any(),
-  amountFrom: zod.string(),
-  amountTo: zod.string(),
-  addressTo: zod.string(),
-  extraIdTo: zod.string().optional(),
-  fee: zod.string().optional(),
-})
-
 export const neonBackupDataSchema = zod.object({
   wallets: zod.array(neonBackupWalletSchema),
   contacts: zod.array(neonBackupContactSchema),
-  swapRecords: zod.array(neonBackupSwapSchema).optional(),
 })
 
 export const neonBackupContentSchema = zod.object({

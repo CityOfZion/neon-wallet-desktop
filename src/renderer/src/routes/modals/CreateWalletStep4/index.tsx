@@ -1,3 +1,4 @@
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
 import { useTranslation } from 'react-i18next'
 
 import { BlockchainList } from '@renderer/components/BlockchainList'
@@ -16,11 +17,10 @@ import { CreateWalletModalLayout } from '@renderer/layouts/CreateWalletModalLayo
 
 import MdLooks4 from '@renderer/assets/images/md-looks-4.svg?react'
 
-import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import type { TModalState } from '@shared/types/modal'
 
 type TFormData = {
-  selectedBlockchains: TBlockchainServiceKey[]
+  selectedBlockchains: TBSServiceName[]
 }
 
 const CreateWalletStep4Modal = () => {
@@ -63,7 +63,7 @@ const CreateWalletStep4Modal = () => {
     modalNavigate('create-wallet-step-5', { state: { accounts: createdAccounts } })
   }
 
-  const handleSelect = (blockchains: TBlockchainServiceKey[]) => {
+  const handleSelect = (blockchains: TBSServiceName[]) => {
     setData({ selectedBlockchains: blockchains })
   }
 

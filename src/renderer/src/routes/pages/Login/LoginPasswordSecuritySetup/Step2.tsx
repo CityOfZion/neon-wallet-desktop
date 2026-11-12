@@ -1,6 +1,7 @@
 import { ChangeEvent, Fragment } from 'react'
 
 import { BSKeychainHelper } from '@cityofzion/blockchain-service'
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
 import { useTranslation } from 'react-i18next'
 import { Location, useLocation } from 'react-router'
 
@@ -23,7 +24,6 @@ import { useWalletsSelector } from '@renderer/hooks/useWalletSelector'
 import TbWallet from '@renderer/assets/images/tb-wallet.svg?react'
 
 import { authReducerActions } from '@renderer/store/reducers/auth'
-import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 type TFormData = {
   confirmPassword: string
@@ -89,7 +89,7 @@ export const LoginPasswordSecuritySetupStep2Content = ({ onSubmit }: TProps) => 
         headingIcon: <TbWallet aria-hidden />,
         description: t('blockchainSelectionModalDescription'),
         isMulti: true,
-        onSelect: async (blockchains: TBlockchainServiceKey[]) => {
+        onSelect: async (blockchains: TBSServiceName[]) => {
           await signup(data.confirmPassword)
 
           const mnemonic = BSKeychainHelper.generateMnemonic()

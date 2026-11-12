@@ -1,13 +1,13 @@
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
 import type { SeverityLevel } from '@sentry/electron'
 import type { JSX, ReactNode } from 'react'
 import type { ToastT } from 'sonner'
 
-import { TBlockchainServiceKey } from './blockchain'
-import { TCurrency, TLanguage } from './store'
+import type { TCurrency, TLanguage } from './store'
 
 export type TAccountHelperPredicateParams = {
   address: string
-  blockchain: TBlockchainServiceKey
+  blockchain: TBSServiceName
 }
 
 export type TBuyAndSellTokensHelperType = 'buy' | 'sell'
@@ -34,7 +34,7 @@ export type TSkinHelperColorSkin = {
 }
 
 export type TSkinHelperLocalSkin = {
-  blockchain: TBlockchainServiceKey
+  blockchain: TBSServiceName
   collectionHash: string
   component: JSX.Element
 }
@@ -88,7 +88,7 @@ export type TSentryHelperOptions = TLoggerHelperOptions & {
 }
 
 export type TNetworkHelperIsNeoxAntiMevParams = {
-  blockchain: TBlockchainServiceKey
+  blockchain: TBSServiceName
   networkId: string
   url: string
 }

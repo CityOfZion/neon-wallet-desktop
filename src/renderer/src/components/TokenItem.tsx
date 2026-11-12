@@ -1,4 +1,5 @@
 import { TBSToken } from '@cityofzion/blockchain-service'
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
 
 import { ImageWithFallback } from '@renderer/components/ImageWithFallback'
 import { Tooltip } from '@renderer/components/Tooltip'
@@ -6,10 +7,8 @@ import { Tooltip } from '@renderer/components/Tooltip'
 import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
 import { StringHelper } from '@renderer/helpers/StringHelper'
 
-import { TBlockchainServiceKey } from '@shared/types/blockchain'
-
 type TProps = {
-  blockchain: TBlockchainServiceKey
+  blockchain: TBSServiceName
   token: TBSToken
 }
 

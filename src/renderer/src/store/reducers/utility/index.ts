@@ -5,7 +5,7 @@ import getStoredState from 'redux-persist/es/getStoredState'
 import storage from 'redux-persist/lib/storage'
 
 import { type TUseTransactionsTransaction } from '@shared/types/hooks'
-import { THiddenTokenByBlockchain, TLastIndexesByWallet, TSwapRecord } from '@shared/types/store'
+import { THiddenTokenByBlockchain, TLastIndexesByWallet } from '@shared/types/store'
 
 import { getUtilityMigrations } from './migrations'
 import { utilitySliceReducers } from './reducers'
@@ -16,7 +16,6 @@ export type TUtilityReducer = {
   }
   data: {
     unlockedSkinIds: string[]
-    swapRecords: TSwapRecord[]
     lastIndexesByWallet: TLastIndexesByWallet
     hiddenTokensByBlockchain: THiddenTokenByBlockchain
   }
@@ -32,7 +31,6 @@ export function getUtilityReducer() {
       pendingTransactions: [],
     },
     data: {
-      swapRecords: [],
       unlockedSkinIds: [],
       lastIndexesByWallet: {},
       hiddenTokensByBlockchain: {},

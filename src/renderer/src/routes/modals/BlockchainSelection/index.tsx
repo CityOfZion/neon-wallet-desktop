@@ -1,6 +1,7 @@
 import { Fragment } from 'react'
 
 import { BSUtilsHelper } from '@cityofzion/blockchain-service'
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
 import { useTranslation } from 'react-i18next'
 
 import { BlockchainList } from '@renderer/components/BlockchainList'
@@ -15,11 +16,10 @@ import { useModalState } from '@renderer/hooks/useModalRouter'
 
 import { SideModalLayout } from '@renderer/layouts/SideModal'
 
-import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import type { TModalState } from '@shared/types/modal'
 
 type TActionData = {
-  selectedBlockchains: TBlockchainServiceKey[]
+  selectedBlockchains: TBSServiceName[]
 }
 
 const BlockchainSelectionModal = () => {
@@ -38,7 +38,7 @@ const BlockchainSelectionModal = () => {
     selectedBlockchains: ['neo3'],
   })
 
-  const handleSelect = (blockchains: TBlockchainServiceKey[]) => {
+  const handleSelect = (blockchains: TBSServiceName[]) => {
     setData({ selectedBlockchains: blockchains })
   }
 

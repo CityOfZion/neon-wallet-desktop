@@ -40,29 +40,6 @@ export const useHasClaimPendingTransactionSelector = (account: TAccount) => {
   }
 }
 
-export const useSwapRecordsSelector = () => {
-  const { value, ref } = useAppSelector(state => state.utility.data.swapRecords)
-
-  return {
-    swapRecords: value,
-    swapRecordsRef: ref,
-  }
-}
-
-export const useSwapRecordSelector = (hash: string) => {
-  const { value: swapRecord, ref: swapRecordRef } = useAppSelector(({ utility }) =>
-    utility.data.swapRecords.find(({ txFrom, account }) => {
-      const service = account
-        ? BlockchainServiceHelper.bsAggregator.blockchainServicesByName[account.blockchain]
-        : undefined
-
-      return !!txFrom && !!service && service.tokenService.predicateByHash(hash, txFrom)
-    })
-  )
-
-  return { swapRecord, swapRecordRef }
-}
-
 export const useLastIndexesByWallet = () => {
   const { value, ref } = useAppSelector(state => state.utility.data.lastIndexesByWallet)
 

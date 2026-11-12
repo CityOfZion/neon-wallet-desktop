@@ -1,5 +1,6 @@
 import { Fragment, useEffect } from 'react'
 
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
 import { useTranslation } from 'react-i18next'
 import { Location, useLocation, useNavigate } from 'react-router'
 
@@ -19,7 +20,7 @@ import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import MdClose from '@renderer/assets/images/md-close.svg?react'
 import TbFileImport from '@renderer/assets/images/tb-file-import.svg?react'
 
-import { TAccountsToImport, TBlockchainServiceKey, TUseCreateWalletParams } from '@shared/types/blockchain'
+import { TAccountsToImport, TUseCreateWalletParams } from '@shared/types/blockchain'
 import type {
   TUseNeonBackupGeneratedData,
   TUseNeonMigrateGeneratedData,
@@ -76,7 +77,7 @@ export const LoginPasswordImportWalletStep3Content = () => {
   }
 
   const submitEncryptedKey = async (input: string) => {
-    const handleDecrypt = async (key: string, address: string, blockchain: TBlockchainServiceKey) => {
+    const handleDecrypt = async (key: string, address: string, blockchain: TBSServiceName) => {
       modalNavigate(-2)
 
       const wallet: TUseCreateWalletParams = { name: tCommon('wallet.encryptedName') }
@@ -87,7 +88,7 @@ export const LoginPasswordImportWalletStep3Content = () => {
       })
     }
 
-    const handleSelect = async ([blockchain]: TBlockchainServiceKey[]) => {
+    const handleSelect = async ([blockchain]: TBSServiceName[]) => {
       modalNavigate('decrypt-key', {
         state: {
           encryptedKey: input,

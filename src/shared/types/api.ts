@@ -1,4 +1,5 @@
 import { TBSAccount } from '@cityofzion/blockchain-service'
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
 import {
   type BrowserWindow,
   type IpcMainEvent,
@@ -7,7 +8,6 @@ import {
   OpenDialogOptions,
 } from 'electron'
 
-import { TBlockchainServiceKey } from './blockchain'
 import type { TLastIndexesByWallet } from './store'
 
 export type TIpcMainBaseOptions<T = any[]> = {
@@ -42,7 +42,7 @@ export type TConnectHardwareWalletParams = {
 
 export type TGetAccountHardwareWalletGenericParams = {
   index: number
-  blockchain: TBlockchainServiceKey
+  blockchain: TBSServiceName
 }
 
 export type TEncryptBasedSecretParams = {
@@ -118,14 +118,8 @@ export type TMainApiListenersAsync = {
 
   // Hardware wallet
   'hardwareWallet:disconnect': TIpcMainAsyncListener<undefined, void>
-  'hardwareWallet:getAccount': TIpcMainAsyncListener<
-    TGetAccountHardwareWalletGenericParams,
-    TBSAccount<TBlockchainServiceKey>
-  >
-  'hardwareWallet:connectByUsb': TIpcMainAsyncListener<
-    TConnectHardwareWalletParams,
-    TBSAccount<TBlockchainServiceKey>[]
-  >
+  'hardwareWallet:getAccount': TIpcMainAsyncListener<TGetAccountHardwareWalletGenericParams, TBSAccount<TBSServiceName>>
+  'hardwareWallet:connectByUsb': TIpcMainAsyncListener<TConnectHardwareWalletParams, TBSAccount<TBSServiceName>[]>
 }
 
 export type TMainApiSend = {

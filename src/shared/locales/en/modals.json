@@ -806,6 +806,7 @@
     "exchangeStatusStepLabel": "Exchange",
     "extraIdToLabel": "Destination tag/memo",
     "helpButtonLabel": "Need help? Live support",
+    "notFound": "We couldn't load the details of this swap",
     "receivePanelAddressLabel": "Receiving address",
     "receivePanelLabel": "You’ll receive",
     "receivePanelTokenLabel": "Token",

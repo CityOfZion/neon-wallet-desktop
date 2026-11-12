@@ -1,3 +1,4 @@
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
 import { useTranslation } from 'react-i18next'
 
 import { Accordion } from '@renderer/components/Accordion'
@@ -10,12 +11,10 @@ import { TestHelper } from '@renderer/helpers/TestHelper'
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
 import { useSelectedNetworkProfileSelector, useSelectedNetworkSelector } from '@renderer/hooks/useSettingsSelector'
 
-import { TBlockchainServiceKey } from '@shared/types/blockchain'
-
 import { BlockchainNetworkButton } from './BlockchainNetworkButton'
 
 type TProps = {
-  blockchain: TBlockchainServiceKey
+  blockchain: TBSServiceName
 }
 
 export const BlockchainNetworkAccordion = ({ blockchain }: TProps) => {

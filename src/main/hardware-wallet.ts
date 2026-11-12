@@ -1,4 +1,5 @@
 import { BSKeychainHelper, hasLedger, TBSAccount } from '@cityofzion/blockchain-service'
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
 import { ledgerUSBVendorId } from '@ledgerhq/devices'
 import type Transport from '@ledgerhq/hw-transport'
 import NodeHidTransport, { getDevices } from '@ledgerhq/hw-transport-node-hid-noevents'
@@ -14,7 +15,6 @@ import type {
   TGetAccountHardwareWalletGenericParams,
   TIpcMainBaseOptions,
 } from '@shared/types/api'
-import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 import { MainBlockchainServiceHelper } from './blockchain-service'
 
@@ -25,9 +25,9 @@ export class MainHardwareWalletHelper {
 
   static async #connect(
     transport: Transport,
-    lastIndexesByWallet: Partial<Record<TBlockchainServiceKey, Record<string, number>>>
+    lastIndexesByWallet: Partial<Record<TBSServiceName, Record<string, number>>>
   ) {
-    const accounts: TBSAccount<TBlockchainServiceKey>[] = []
+    const accounts: TBSAccount<TBSServiceName>[] = []
 
     const services = Object.values(MainBlockchainServiceHelper.bsAggregator.blockchainServicesByName)
 
@@ -106,7 +106,7 @@ export class MainHardwareWalletHelper {
     usb.unrefHotplugEvents()
   }
 
-  static async getTransport(account: TBSAccount<TBlockchainServiceKey>): Promise<Transport> {
+  static async getTransport(account: TBSAccount<TBSServiceName>): Promise<Transport> {
     if (!this.#transport) throw new AppError(t('hardwareWallet.errors.hardwareWalletNotFound'))
 
     if (!account.bipPath) throw new AppError(t('hardwareWallet.errors.missingBipPath'))

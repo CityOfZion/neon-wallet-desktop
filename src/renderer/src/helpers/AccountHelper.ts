@@ -1,9 +1,9 @@
 import { BSKeychainHelper, hasLedger, TBSAccount } from '@cityofzion/blockchain-service'
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
 import orderBy from 'lodash/orderBy'
 
 import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { SharedI18nextHelper } from '@shared/helpers/SharedI18nextHelper'
-import { TBlockchainServiceKey } from '@shared/types/blockchain'
 import type { TAccount } from '@shared/types/store'
 
 import { BlockchainServiceHelper } from './BlockchainServiceHelper'
@@ -12,7 +12,7 @@ import { ReduxHelper } from './ReduxHelper'
 const { t } = SharedI18nextHelper.get()
 
 export class AccountHelper {
-  static getNextOrderOrMissing(accounts: TAccount[], blockchain: TBlockchainServiceKey) {
+  static getNextOrderOrMissing(accounts: TAccount[], blockchain: TBSServiceName) {
     const orders = accounts.filter(account => account.blockchain === blockchain).map(({ order }) => order)
 
     if (orders.length === 0) return 0
@@ -24,7 +24,7 @@ export class AccountHelper {
     return maxOrder + 1
   }
 
-  static async getServiceAccount<T extends TBlockchainServiceKey>(account: TAccount<T>): Promise<TBSAccount<T>> {
+  static async getServiceAccount<T extends TBSServiceName>(account: TAccount<T>): Promise<TBSAccount<T>> {
     if (!account.encryptedKey) {
       throw new AppError(t('common:errors.unexpectedError'))
     }

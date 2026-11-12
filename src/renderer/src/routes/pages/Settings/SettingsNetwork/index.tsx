@@ -1,3 +1,4 @@
+import type { TBSServiceName } from '@cityofzion/bs-multichain'
 import { useTranslation } from 'react-i18next'
 
 import { Accordion } from '@renderer/components/Accordion'
@@ -5,8 +6,6 @@ import { Accordion } from '@renderer/components/Accordion'
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
 
 import { SettingsLayout } from '@renderer/layouts/Settings'
-
-import { TBlockchainServiceKey } from '@shared/types/blockchain'
 
 import { BlockchainNetworkAccordion } from './BlockchainNetworkAccordion'
 import { NetworkProfileActions } from './NetworkProfileActions'
@@ -27,7 +26,7 @@ const SettingsNetwork = () => {
     >
       <Accordion.Root type="multiple" defaultValue={['neo3']} className="pb-8">
         {BlockchainServiceHelper.blockchainNames.map(blockchain => (
-          <BlockchainNetworkAccordion key={`network-${blockchain}`} blockchain={blockchain as TBlockchainServiceKey} />
+          <BlockchainNetworkAccordion key={`network-${blockchain}`} blockchain={blockchain as TBSServiceName} />
         ))}
       </Accordion.Root>
     </SettingsLayout>
