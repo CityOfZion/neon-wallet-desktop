@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "deny": [
+      "mcp__clickup__clickup_delete_task",
+      "mcp__clickup__clickup_delete_comment",
+      "mcp__clickup__clickup_delete_chat_message",
+      "mcp__clickup__clickup_merge_tasks"
+    ],
+    "ask": ["mcp__clickup__clickup_execute_operator"]
+  }
+}
