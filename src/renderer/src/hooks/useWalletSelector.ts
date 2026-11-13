@@ -1,16 +1,13 @@
-import { useCallback, useRef } from 'react'
+import { useRef } from 'react'
 
-import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 
 import { AccountHelper } from '@renderer/helpers/AccountHelper'
 import { SelectorHelper } from '@renderer/helpers/SelectorHelper'
 
 import type { TRootState } from '@renderer/types/redux'
-import { AppError } from '@shared/helpers/SharedErrorHelper'
 import type { TWallet } from '@shared/types/store'
 
-import { useLoginSessionSelector } from './useAuthSelector'
 import { createAppSelector, useAppSelector } from './useRedux'
 
 const selectWallets = createAppSelector(
@@ -47,34 +44,4 @@ export const useWalletsMapSelector = () => {
   })
 
   return { walletsMapRef }
-}
-
-export const useWalletsUtils = () => {
-  const { t } = useTranslation('common')
-  const { walletsRef } = useWalletsSelector()
-  const { loginSessionRef } = useLoginSessionSelector()
-
-  const doesMnemonicExist = useCallback(
-    async (mnemonic: string) => {
-      if (!loginSessionRef.current) {
-        throw new AppError(t('errors.loginSessionIsNotDefined'))
-      }
-
-      for (const wallet of walletsRef.current) {
-        if (!wallet.encryptedMnemonic) continue
-
-        const walletMnemonic = await window.api.sendAsync('encryption:decryptBasedEncryptedSecret', {
-          value: wallet.encryptedMnemonic,
-          encryptedSecret: loginSessionRef.current.encryptedPassword,
-        })
-
-        if (walletMnemonic === mnemonic) return true
-      }
-
-      return false
-    },
-    [loginSessionRef, t, walletsRef]
-  )
-
-  return { doesMnemonicExist }
 }

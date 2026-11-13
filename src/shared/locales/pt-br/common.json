@@ -65,10 +65,6 @@
       "walletIsNotHardware": "A carteira selecionada não é uma carteira de hardware."
     }
   },
-  "networkTypeLabel": {
-    "mainnet": "Rede Principal",
-    "testnet": "Rede de Teste"
-  },
   "synonyms": {
     "acquire": ["obter", "conseguir"],
     "add": ["adicionar", "incluir", "aumentar", "somar"],

@@ -1,6 +1,6 @@
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
-import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
 import { LanguageHelper } from '@renderer/helpers/LanguageHelper'
+import { NetworkHelper } from '@renderer/helpers/NetworkHelper'
 
 import { type TNetworkProfile } from '@shared/types/store'
 
@@ -243,7 +243,7 @@ export function getSettingsMigrations(defaultProfile: TNetworkProfile, testProfi
     },
     14: (state: any) => {
       function getStellarNetwork(profile: TNetworkProfile) {
-        return profile.id === ConstantsHelper.testNetworkProfileId
+        return profile.id === NetworkHelper.testNetworkProfileId
           ? BlockchainServiceHelper.bsAggregator.blockchainServicesByName.stellar.availableNetworks.find(
               ({ type }) => type === 'testnet'
             ) || BlockchainServiceHelper.bsAggregator.blockchainServicesByName.stellar.defaultNetwork
@@ -295,5 +295,34 @@ export function getSettingsMigrations(defaultProfile: TNetworkProfile, testProfi
         },
       }
     },
+    15: (state: any) => ({
+      ...state,
+      data: {
+        ...state.data,
+        customNetworks: {
+          ...state.data.customNetworks,
+          neo3: [
+            NetworkHelper.defaultCozNeo3CustomNetwork,
+            ...(state.data.customNetworks?.neo3 || []).filter(
+              (network: any) => network.id !== NetworkHelper.defaultCozNeo3CustomNetwork.id
+            ),
+          ],
+        },
+        networkProfiles: state.data.networkProfiles.map((profile: any) => ({
+          ...profile,
+          networkByBlockchain: {
+            ...profile.networkByBlockchain,
+            bitcoin: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.bitcoin.defaultNetwork,
+          },
+        })),
+        selectedNetworkProfile: {
+          ...state.data.selectedNetworkProfile,
+          networkByBlockchain: {
+            ...state.data.selectedNetworkProfile.networkByBlockchain,
+            bitcoin: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.bitcoin.defaultNetwork,
+          },
+        },
+      },
+    }),
   }
 }

@@ -1,3 +1,5 @@
+import { ChangeEvent } from 'react'
+
 import { useTranslation } from 'react-i18next'
 
 import { Banner } from '@renderer/components/Banner'
@@ -9,6 +11,7 @@ import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelp
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
 import { useActions } from '@renderer/hooks/useActions'
+import { useDebounceFunction } from '@renderer/hooks/useDebounceFunction'
 import { useModalNavigate, useModalState } from '@renderer/hooks/useModalRouter'
 import { useAppDispatch } from '@renderer/hooks/useRedux'
 
@@ -20,7 +23,7 @@ import { settingsReducerActions } from '@renderer/store/reducers/settings'
 import { AppError } from '@shared/helpers/SharedErrorHelper'
 import type { TModalState } from '@shared/types/modal'
 
-type TActionData = {
+type TActionsData = {
   name: string
   url: string
   validating: boolean
@@ -33,9 +36,10 @@ const AddCustomNetwork = () => {
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
   const { blockchain, network: networkToEdit } = useModalState<TModalState<'add-custom-network'>>()
   const dispatch = useAppDispatch()
+  const debounce = useDebounceFunction()
 
   const { actionData, actionState, setDataFromEventWrapper, setData, handleAct, setError, clearErrors } =
-    useActions<TActionData>({
+    useActions<TActionsData>({
       name: networkToEdit?.name || '',
       url: networkToEdit?.url || '',
       validating: false,
@@ -45,30 +49,36 @@ const AddCustomNetwork = () => {
   const trimmedName = actionData.name.trim()
   const isNameEmpty = trimmedName.length === 0
   const isNameTooLong = trimmedName.length > 10
-  const isDisabled = isNameEmpty || isNameTooLong || !actionData.isValid
 
-  const handleUrlBlur = async () => {
-    setData({ isValid: false })
+  const handleUrlChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const url = event.target.value.trim()
+    const validating = !!url
 
-    if (!UtilsHelper.validateURL(actionData.url)) {
-      setError('url', t('errors.invalidURL'))
-      return
-    }
+    clearErrors('url')
+    setData({ url, isValid: false, validating })
 
-    setData({ validating: true })
+    debounce(async () => {
+      if (!validating) return
 
-    try {
-      const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
+      if (!UtilsHelper.validateURL(url)) {
+        setError('url', t('errors.invalidURL'))
+        setData({ validating: false })
 
-      await service.pingNetwork(actionData.url)
+        return
+      }
 
-      clearErrors('url')
-      setData({ isValid: true })
-    } catch (error) {
-      setError('url', AppError.wrap(error, t('errors.notConnect')).displayMessage)
-    } finally {
-      setData({ validating: false })
-    }
+      try {
+        const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
+
+        await service.pingNetwork(url)
+
+        setData({ isValid: true })
+      } catch (error) {
+        setError('url', AppError.wrap(error, t('errors.notConnect')).displayMessage)
+      } finally {
+        setData({ validating: false })
+      }
+    })
   }
 
   const handleDelete = () => {
@@ -79,7 +89,7 @@ const AddCustomNetwork = () => {
     modalNavigate(-1)
   }
 
-  const handleSubmit = (data: TActionData) => {
+  const handleSubmit = (data: TActionsData) => {
     if (isNameEmpty) {
       setError('name', t('errors.networkNameIsRequired'))
       return
@@ -105,9 +115,9 @@ const AddCustomNetwork = () => {
   }
 
   return (
-    <SideModalLayout heading={t('title')} headingIcon={<TbCube3dSphere />} contentClassName="flex flex-col">
-      <form className="flex grow flex-col" onSubmit={handleAct(handleSubmit)}>
-        <div className="flex grow flex-col gap-6">
+    <SideModalLayout heading={t('title')} headingIcon={<TbCube3dSphere aria-hidden />} contentClassName="flex flex-col">
+      <form className="flex grow flex-col gap-y-4" onSubmit={handleAct(handleSubmit)}>
+        <div className="flex grow flex-col gap-y-4">
           <Input
             compacted
             placeholder={t('namePlaceholder')}
@@ -117,25 +127,25 @@ const AddCustomNetwork = () => {
             onChange={setDataFromEventWrapper('name')}
           />
 
-          <Input
-            compacted
-            placeholder={t('urlPlaceholder')}
-            label={t('urlLabel')}
-            pastable
-            value={actionData.url}
-            onChange={setDataFromEventWrapper('url')}
-            loading={actionData.validating}
-            errorMessage={actionState.errors.url}
-            onBlur={handleUrlBlur}
-          />
+          <div className="flex flex-col gap-y-2">
+            <Input
+              compacted
+              placeholder={t('urlPlaceholder')}
+              label={t('urlLabel')}
+              pastable
+              value={actionData.url}
+              onChange={handleUrlChange}
+              loading={actionData.validating}
+              errorMessage={actionState.errors.url}
+            />
 
-          {actionData.isValid && <Banner message={t('successUrl')} type="success" />}
+            {actionData.isValid && <Banner message={t('successUrl')} type="success" />}
+          </div>
         </div>
 
         {networkToEdit && (
           <Button
             label={t('deleteButtonLabel')}
-            className="mb-2.5"
             flat
             variant="outlined"
             colorSchema="error"
@@ -157,7 +167,13 @@ const AddCustomNetwork = () => {
               colorSchema="gray"
             />
 
-            <Button className="w-full" type="submit" label={tCommonGeneral('save')} flat disabled={isDisabled} />
+            <Button
+              className="w-full"
+              type="submit"
+              label={tCommonGeneral('save')}
+              flat
+              disabled={!actionData.isValid}
+            />
           </div>
         </div>
       </form>

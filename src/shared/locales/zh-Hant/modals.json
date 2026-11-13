@@ -34,8 +34,8 @@
       "networkNameIsTooLong": "網路名稱過長",
       "notConnect": "無法連接到此網路"
     },
-    "nameLabel": "網路名稱",
-    "namePlaceholder": "輸入網路名稱",
+    "nameLabel": "名稱",
+    "namePlaceholder": "輸入名稱",
     "successUrl": "成功連接到網路",
     "title": "新增自訂網路",
     "urlLabel": "URL",

@@ -9,7 +9,7 @@ import { useAppDispatch } from '@renderer/hooks/useRedux'
 
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
 
-export type TMainLayoutProps = {
+type TProps = {
   children?: ReactNode
   heading: JSX.Element | string
   rightComponent?: JSX.Element
@@ -25,7 +25,7 @@ export const MainLayout = ({
   className,
   rightComponent,
   ...props
-}: TMainLayoutProps): JSX.Element => {
+}: TProps): JSX.Element => {
   const dispatch = useAppDispatch()
 
   useLayoutEffect(() => {

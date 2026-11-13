@@ -3,6 +3,7 @@ import { expect, Page, test } from '@playwright/test'
 import { createNewWallet, launch } from '../index'
 
 const testnetName = 'Testnet'
+const cozNetworkName = 'COZ'
 
 const createAndSelectProfile = async (window: Page, profileName: string) => {
   await window.getByTestId('network-profile-actions-button').click()
@@ -75,9 +76,9 @@ test.describe('Network Configuration', () => {
   })
 
   test('Should create a new network profile', async () => {
-    await createAndSelectProfile(window, 'Test Profile')
+    await createAndSelectProfile(window, 'Test profile')
 
-    await expect(window.getByTestId('network-profile-select')).toContainText('Test Profile')
+    await expect(window.getByTestId('network-profile-select')).toContainText('Test profile')
   })
 
   test('Should keep the Save button disabled while the profile name is empty', async () => {
@@ -88,7 +89,7 @@ test.describe('Network Configuration', () => {
   })
 
   test('Should edit a custom network profile name', async () => {
-    await createAndSelectProfile(window, 'Test Profile')
+    await createAndSelectProfile(window, 'Test profile')
 
     const updatedName = 'Updated Profile'
 
@@ -103,17 +104,17 @@ test.describe('Network Configuration', () => {
   })
 
   test('Should delete a custom network profile', async () => {
-    await createAndSelectProfile(window, 'Test Profile')
+    await createAndSelectProfile(window, 'Test profile')
 
     await window.getByTestId('network-profile-actions-button').click()
     await window.getByTestId('network-profile-actions-edit').click()
     await window.getByTestId('add-network-profile-delete').click()
 
-    await expect(window.getByTestId('network-profile-select')).not.toContainText('Test Profile')
+    await expect(window.getByTestId('network-profile-select')).not.toContainText('Test profile')
   })
 
   test('Should open the network selection modal for a non-default profile', async () => {
-    await createAndSelectProfile(window, 'My Profile')
+    await createAndSelectProfile(window, 'My profile')
 
     await window.getByTestId('blockchain-network-current-neo3').click()
 
@@ -122,7 +123,7 @@ test.describe('Network Configuration', () => {
   })
 
   test('Should save a selected network', async () => {
-    await createAndSelectProfile(window, 'My Profile')
+    await createAndSelectProfile(window, 'My profile')
 
     await window.getByTestId('blockchain-network-current-neo3').click()
 
@@ -130,6 +131,34 @@ test.describe('Network Configuration', () => {
     await window.getByTestId('network-selection-save').click()
 
     await expect(window.getByTestId('blockchain-network-current-neo3')).toContainText(testnetName)
+  })
+
+  test('Should display the default COZ custom network', async () => {
+    await createAndSelectProfile(window, 'My profile')
+
+    await window.getByTestId('blockchain-network-current-neo3').click()
+
+    await expect(window.getByTestId('network-selection-item').filter({ hasText: cozNetworkName })).toBeVisible()
+  })
+
+  test('Should not allow editing the default COZ custom network', async () => {
+    await createAndSelectProfile(window, 'My profile')
+
+    await window.getByTestId('blockchain-network-current-neo3').click()
+    await window.getByTestId('network-selection-item').filter({ hasText: cozNetworkName }).click()
+
+    await expect(window.getByTestId('network-selection-edit-custom-network')).toHaveCount(0)
+    await expect(window.getByTestId('network-selection-add-custom-network')).toBeVisible()
+  })
+
+  test('Should save the default COZ custom network', async () => {
+    await createAndSelectProfile(window, 'My profile')
+
+    await window.getByTestId('blockchain-network-current-neo3').click()
+    await window.getByTestId('network-selection-item').filter({ hasText: cozNetworkName }).click()
+    await window.getByTestId('network-selection-save').click()
+
+    await expect(window.getByTestId('blockchain-network-current-neo3')).toContainText(cozNetworkName)
   })
 
   test('Should open the network URL selection modal', async () => {

@@ -34,8 +34,8 @@
       "networkNameIsTooLong": "Nome da rede é muito longo",
       "notConnect": "Não é possível conectar a esta rede"
     },
-    "nameLabel": "Nome da rede",
-    "namePlaceholder": "Digite o nome da rede",
+    "nameLabel": "Nome",
+    "namePlaceholder": "Digite o nome",
     "successUrl": "Conectado com sucesso à rede",
     "title": "Adicionar rede personalizada",
     "urlLabel": "URL",

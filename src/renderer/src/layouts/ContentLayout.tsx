@@ -9,7 +9,7 @@ import { IconButton } from '@renderer/components/IconButton'
 import { Separator } from '@renderer/components/Separator'
 import { Tooltip } from '@renderer/components/Tooltip'
 
-import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
+import { NetworkHelper } from '@renderer/helpers/NetworkHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import { useAppDispatch } from '@renderer/hooks/useRedux'
@@ -19,7 +19,7 @@ import TbArrowLeft from '@renderer/assets/images/tb-arrow-left.svg?react'
 
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
 
-export type TMainLayoutProps = {
+type TProps = {
   children?: ReactNode
   title: string
   titleIcon?: JSX.Element
@@ -41,7 +41,7 @@ export const ContentLayout = ({
   onBackClick,
   withSeparator = true,
   ...props
-}: TMainLayoutProps): JSX.Element => {
+}: TProps): JSX.Element => {
   const { t: tCommonGeneral } = useTranslation('common', { keyPrefix: 'general' })
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
@@ -49,7 +49,7 @@ export const ContentLayout = ({
 
   const { className: titleIconClassName = '', ...titleIconProps } = titleIcon ? titleIcon.props : {}
 
-  const hasCustomProfile = selectedNetworkProfile.id !== ConstantsHelper.defaultNetworkProfileId
+  const hasCustomProfile = selectedNetworkProfile.id !== NetworkHelper.defaultNetworkProfileId
 
   const handleBackClick = () => {
     if (onBackClick) {
@@ -102,7 +102,7 @@ export const ContentLayout = ({
           >
             {titleIcon &&
               cloneElement(titleIcon, {
-                className: StyleHelper.mergeStyles('text-neon w-6 h-6', titleIconClassName),
+                className: StyleHelper.mergeStyles('text-neon size-6', titleIconClassName),
                 ...titleIconProps,
               })}
 

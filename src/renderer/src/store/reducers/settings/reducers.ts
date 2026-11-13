@@ -4,6 +4,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import merge from 'lodash/merge'
 
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+import { NetworkHelper } from '@renderer/helpers/NetworkHelper'
 
 import { TNetwork } from '@shared/types/blockchain'
 import type { DeepPartial } from '@shared/types/global'
@@ -48,6 +49,9 @@ const saveCustomNetwork: CaseReducer<
   PayloadAction<{ blockchain: TBSServiceName; network: TNetwork }>
 > = (state, action) => {
   const { blockchain, network } = action.payload
+
+  if (NetworkHelper.isDefaultCustomNetwork(network)) return
+
   const networks = state.data.customNetworks[blockchain]
 
   const findIndex = networks.findIndex(it => it.id === network.id)
@@ -72,6 +76,8 @@ const deleteCustomNetwork: CaseReducer<
   PayloadAction<{ blockchain: TBSServiceName; network: TNetwork }>
 > = (state, action) => {
   const { network, blockchain } = action.payload
+
+  if (NetworkHelper.isDefaultCustomNetwork(network)) return
 
   state.data.customNetworks[blockchain] = state.data.customNetworks[blockchain].filter(({ id }) => id !== network.id)
 

@@ -90,12 +90,17 @@ const Nav = ({
       (endMonth && differenceInCalendarDays(new Date(displayYears.to + 1, 0, 1), endMonth) > 0)
     : !nextMonth
 
+  const capitalizeLabel = (label: string) => {
+    return `${label.charAt(0).toUpperCase()}${label.slice(1).toLowerCase()}`
+  }
+
   const previousButtonLabel = isYearsView
     ? t('previousYearButtonLabel', { years: displayYears.to - displayYears.from + 1 })
-    : labelPrevious(previousMonth)
+    : capitalizeLabel(labelPrevious(previousMonth))
+
   const nextButtonLabel = isYearsView
     ? t('nextYearButtonLabel', { years: displayYears.to - displayYears.from + 1 })
-    : labelNext(nextMonth)
+    : capitalizeLabel(labelNext(nextMonth))
 
   const handlePreviousClick = () => {
     if (!previousMonth) return
@@ -134,11 +139,11 @@ const Nav = ({
 
   return (
     <nav className={StyleHelper.mergeStyles('flex items-start', className)}>
-      <Tooltip title={isPreviousDisabled ? '' : previousButtonLabel}>
+      <Tooltip title={isPreviousDisabled ? '' : previousButtonLabel} contentProps={{ className: 'mx-4' }}>
         <IconButton
           aria-label={previousButtonLabel}
           type="button"
-          className="absolute left-0 h-7 w-7 bg-transparent p-0 opacity-80 hover:opacity-100"
+          className="absolute left-0 size-7 bg-transparent p-0 opacity-80 hover:opacity-100 focus:opacity-100"
           variant="outline"
           size="xs"
           tabIndex={isPreviousDisabled ? undefined : -1}
@@ -148,11 +153,11 @@ const Nav = ({
         />
       </Tooltip>
 
-      <Tooltip title={isNextDisabled ? '' : nextButtonLabel}>
+      <Tooltip title={isNextDisabled ? '' : nextButtonLabel} contentProps={{ className: 'mx-4' }}>
         <IconButton
           aria-label={nextButtonLabel}
           type="button"
-          className="absolute right-0 h-7 w-7 bg-transparent p-0 opacity-80 hover:opacity-100"
+          className="absolute right-0 size-7 bg-transparent p-0 opacity-80 hover:opacity-100 focus:opacity-100"
           variant="outline"
           size="xs"
           tabIndex={isNextDisabled ? undefined : -1}

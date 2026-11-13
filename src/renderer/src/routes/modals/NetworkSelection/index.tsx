@@ -1,4 +1,4 @@
-import { Fragment, useLayoutEffect, useState } from 'react'
+import { useLayoutEffect, useState } from 'react'
 
 import { hasWalletConnect } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
@@ -8,6 +8,7 @@ import { RadioGroup } from '@renderer/components/RadioGroup'
 import { Separator } from '@renderer/components/Separator'
 
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+import { NetworkHelper } from '@renderer/helpers/NetworkHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 import { WalletKitHelper } from '@renderer/helpers/WalletKitHelper'
@@ -44,6 +45,7 @@ const NetworkSelectionModal = () => {
 
   const onSelectRadioItem = (selectedValue: string) => {
     const network = options.find(network => network.id === selectedValue)
+
     if (!network) return
 
     setSelectedNetworkId(network.id)
@@ -91,70 +93,73 @@ const NetworkSelectionModal = () => {
       headingIcon={<TbCube3dSphere aria-hidden />}
       contentClassName="px-0 flex flex-col"
     >
-      <div className="min-h-0 grow overflow-auto">
-        <span
-          className="mb-5 block px-4 text-gray-300"
-          {...TestHelper.buildTestObject('network-selection-select-network')}
-        >
+      <div className="flex grow flex-col gap-y-3">
+        <span className="block px-4 text-gray-300" {...TestHelper.buildTestObject('network-selection-select-network')}>
           {t('selectNetwork')}
         </span>
 
         <RadioGroup.Group value={selectedNetworkId} onValueChange={onSelectRadioItem}>
-          {options.map(network => (
-            <RadioGroup.Item
-              key={network.id}
-              value={network.id}
-              {...TestHelper.buildTestObject('network-selection-item')}
-            >
-              <div className="flex items-center gap-4">
-                <div
-                  className={StyleHelper.mergeStyles('min-size-1.5 size-1.5 rounded-full', {
-                    'bg-neon': network.type === 'mainnet',
-                    'bg-magenta': network.type === 'testnet',
-                    'bg-pink': network.type === 'custom',
-                  })}
-                />
-                <label>{network.name}</label>
-              </div>
+          {options.map(network => {
+            const isDefaultCustomNetwork = NetworkHelper.isDefaultCustomNetwork(network)
+            const isCustomNetwork = network.type === 'custom'
 
-              <RadioGroup.Indicator />
-            </RadioGroup.Item>
-          ))}
+            return (
+              <RadioGroup.Item
+                key={network.id}
+                value={network.id}
+                {...TestHelper.buildTestObject('network-selection-item')}
+              >
+                <div className="flex items-center gap-4">
+                  <div
+                    className={StyleHelper.mergeStyles('min-size-1.5 size-1.5 rounded-full', {
+                      'bg-neon': network.type === 'mainnet',
+                      'bg-magenta': network.type === 'testnet',
+                      'bg-blue': isDefaultCustomNetwork,
+                      'bg-pink': isCustomNetwork && !isDefaultCustomNetwork,
+                    })}
+                  />
+                  <span>{network.name}</span>
+                </div>
+
+                <RadioGroup.Indicator />
+              </RadioGroup.Item>
+            )
+          })}
         </RadioGroup.Group>
       </div>
 
       {service.isCustomNetworkSupported && (
-        <Fragment>
-          {selectedNetwork.type === 'custom' && (
+        <div className="mt-4 flex w-full flex-col gap-y-2 px-4">
+          {selectedNetwork.type === 'custom' && !NetworkHelper.isDefaultCustomNetwork(selectedNetwork) && (
             <Button
               label={t('editCustomNetworkButtonLabel')}
-              rightIcon={<TbPencil aria-hidden />}
-              className="mb-2.5 px-4"
-              flat
-              colorSchema="gray"
               variant="outlined"
+              colorSchema="gray"
+              flat
               iconsOnEdge={false}
+              rightIcon={<TbPencil aria-hidden />}
               onClick={modalNavigateWrapper('add-custom-network', {
                 state: { blockchain, network: selectedNetwork },
               })}
+              {...TestHelper.buildTestObject('network-selection-edit-custom-network')}
             />
           )}
 
           <Button
             label={t('addCustomNetworkButtonLabel')}
-            rightIcon={<TbPlus aria-hidden />}
-            className="mb-2.5 px-4"
-            flat
             variant="outlined"
+            flat
             iconsOnEdge={false}
+            rightIcon={<TbPlus aria-hidden />}
             onClick={modalNavigateWrapper('add-custom-network', {
               state: { blockchain },
             })}
+            {...TestHelper.buildTestObject('network-selection-add-custom-network')}
           />
-        </Fragment>
+        </div>
       )}
 
-      <div className="flex flex-col gap-y-8 px-4">
+      <div className="mt-4 flex flex-col gap-y-8 px-4">
         <Separator />
 
         <div className="flex gap-x-3 px-5">

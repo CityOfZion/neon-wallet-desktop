@@ -36,31 +36,31 @@ export const CommonScreenActions = ({ children, className, ...props }: TProps) =
   const isPasswordLogin = loginSession?.type === 'password'
 
   return (
-    <div className={StyleHelper.mergeStyles('flex h-full', className)} {...props}>
-      <div className="flex h-full gap-x-2">
-        <Button
-          variant="card"
-          leftIcon={<TbSearch aria-hidden />}
-          label={t('searchButtonLabel')}
-          className="my-auto h-fit"
-          colorSchema="neon"
-          onClick={modalNavigateWrapper('search')}
-          {...TestHelper.buildTestObject('search-button')}
-        />
+    <div className={StyleHelper.mergeStyles('flex h-full gap-x-2', className)} {...props}>
+      <Button
+        variant="card"
+        leftIcon={<TbSearch aria-hidden />}
+        label={t('searchButtonLabel')}
+        className="my-auto h-fit"
+        colorSchema="neon"
+        onClick={modalNavigateWrapper('search')}
+        {...TestHelper.buildTestObject('search-button')}
+      />
 
+      <div className="flex h-full">
         <IconButton
           text={t('notificationButtonLabel')}
-          size="sm"
+          size="md"
           fullHeight
           className="min-w-16"
           icon={
-            <div className="relative h-6 w-6">
-              <TbBell className="h-6 w-6" aria-hidden />
+            <div className="min-size-6 max-size-6 relative size-6">
+              <TbBell className="min-size-6 max-size-6 size-6" aria-hidden />
 
               {hasNewNotifications && (
                 <div
                   aria-label={t('unreadNotificationsIconLabel')}
-                  className="border-asphalt bg-pink absolute top-0.5 right-0.5 box-content h-1 w-1 rounded-full border-2"
+                  className="border-asphalt bg-pink max-size-1 min-size-1 absolute top-0.5 right-0.5 box-content size-1 rounded-full border-2"
                 />
               )}
             </div>
@@ -110,58 +110,58 @@ export const CommonScreenActions = ({ children, className, ...props }: TProps) =
             />
           </ActionPopover.Content>
         </ActionPopover.Root>
+
+        <Separator type="vertical" />
+
+        <ActionPopover.Root>
+          <ActionPopover.Trigger asChild>
+            <IconButton
+              icon={<MdMoreVert aria-hidden />}
+              text={t('toolsButtonLabel')}
+              size="md"
+              fullHeight
+              className="w-16"
+              {...TestHelper.buildTestObject('more-button')}
+            />
+          </ActionPopover.Trigger>
+
+          <ActionPopover.Content side="bottom" sideOffset={-10} align="end">
+            {children}
+
+            <ActionPopover.Item
+              actionPopoverItemType="button"
+              leftIcon={<TbPlus aria-hidden className="text-neon" />}
+              label={t('newWalletButtonLabel')}
+              onClick={modalNavigateWrapper('create-wallet-step-1')}
+              disabled={!isPasswordLogin}
+              colorSchema="white"
+              {...TestHelper.buildTestObject('new-wallet-button')}
+            />
+
+            <ActionPopover.Separator />
+
+            <ActionPopover.Item
+              actionPopoverItemType="button"
+              leftIcon={<TbFileImport aria-hidden className="text-neon" />}
+              label={t('importButtonLabel')}
+              colorSchema="white"
+              onClick={modalNavigateWrapper('import')}
+              disabled={!isPasswordLogin}
+            />
+
+            <ActionPopover.Separator />
+
+            <ActionPopover.Item
+              actionPopoverItemType="button"
+              leftIcon={<TbDeviceUsb aria-hidden className="text-neon rotate-45" />}
+              label={t('connectButtonLabel')}
+              colorSchema="white"
+              onClick={modalNavigateWrapper('connect-hardware-wallet')}
+              {...TestHelper.buildTestObject('connect-hardware-wallet-button')}
+            />
+          </ActionPopover.Content>
+        </ActionPopover.Root>
       </div>
-
-      <Separator type="vertical" />
-
-      <ActionPopover.Root>
-        <ActionPopover.Trigger asChild>
-          <IconButton
-            icon={<MdMoreVert aria-hidden />}
-            text={t('toolsButtonLabel')}
-            size="md"
-            fullHeight
-            className="w-16"
-            {...TestHelper.buildTestObject('more-button')}
-          />
-        </ActionPopover.Trigger>
-
-        <ActionPopover.Content side="bottom" sideOffset={-10} align="end">
-          {children}
-
-          <ActionPopover.Item
-            actionPopoverItemType="button"
-            leftIcon={<TbPlus aria-hidden className="text-neon" />}
-            label={t('newWalletButtonLabel')}
-            onClick={modalNavigateWrapper('create-wallet-step-1')}
-            disabled={!isPasswordLogin}
-            colorSchema="white"
-            {...TestHelper.buildTestObject('new-wallet-button')}
-          />
-
-          <ActionPopover.Separator />
-
-          <ActionPopover.Item
-            actionPopoverItemType="button"
-            leftIcon={<TbFileImport aria-hidden className="text-neon" />}
-            label={t('importButtonLabel')}
-            colorSchema="white"
-            onClick={modalNavigateWrapper('import')}
-            disabled={!isPasswordLogin}
-          />
-
-          <ActionPopover.Separator />
-
-          <ActionPopover.Item
-            actionPopoverItemType="button"
-            leftIcon={<TbDeviceUsb aria-hidden className="text-neon rotate-45" />}
-            label={t('connectButtonLabel')}
-            colorSchema="white"
-            onClick={modalNavigateWrapper('connect-hardware-wallet')}
-            {...TestHelper.buildTestObject('connect-hardware-wallet-button')}
-          />
-        </ActionPopover.Content>
-      </ActionPopover.Root>
     </div>
   )
 }
