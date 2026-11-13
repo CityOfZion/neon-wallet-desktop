@@ -52,6 +52,7 @@ const LoginKeySelectAccountPage = () => {
   const handleImport = async (accountsToImport: TMnemonicOrKeyAccountWithBlockchain[]) => {
     const isMnemonic = BSKeychainHelper.isValidMnemonic(mnemonicOrKey)
     const accounts: TAccountsToImport = accountsToImport.map(account => ({ ...account, type: 'standard' }))
+
     await loginWithKey(accounts, {
       name: isMnemonic ? tCommon('wallet.mnemonicWalletName') : tCommon('wallet.importedName'),
       type: 'standard',

@@ -34,8 +34,8 @@
       "networkNameIsTooLong": "Network name is too long",
       "notConnect": "Can't connect to this network"
     },
-    "nameLabel": "Network name",
-    "namePlaceholder": "Enter network name",
+    "nameLabel": "Name",
+    "namePlaceholder": "Enter name",
     "successUrl": "Successfully connected to the network",
     "title": "Add custom network",
     "urlLabel": "URL",

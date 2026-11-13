@@ -4,7 +4,7 @@ import { ActionPopover } from '@renderer/components/ActionPopover'
 import { IconButton } from '@renderer/components/IconButton'
 import { Tooltip } from '@renderer/components/Tooltip'
 
-import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
+import { NetworkHelper } from '@renderer/helpers/NetworkHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
@@ -19,7 +19,7 @@ export const NetworkProfileActions = () => {
   const { modalNavigateWrapper } = useModalNavigate()
   const { selectedNetworkProfile } = useSelectedNetworkProfileSelector()
 
-  const isDefaultSelected = selectedNetworkProfile.id === ConstantsHelper.defaultNetworkProfileId
+  const isDefaultSelected = selectedNetworkProfile.id === NetworkHelper.defaultNetworkProfileId
 
   return (
     <ActionPopover.Root>

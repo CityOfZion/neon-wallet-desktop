@@ -78,7 +78,9 @@ export const useImportAction = (
       const validationByInputType: Partial<Record<TUseImportActionInputType, (value: string) => void>> = {
         mnemonic: validateMnemonic,
       }
+
       const validateFunc = validationByInputType[inputType]
+
       validateFunc?.(value)
 
       clearErrors()

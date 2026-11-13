@@ -34,8 +34,8 @@
       "networkNameIsTooLong": "Netzwerkname ist zu lang",
       "notConnect": "Verbindung zu diesem Netzwerk nicht möglich"
     },
-    "nameLabel": "Netzwerkname",
-    "namePlaceholder": "Netzwerknamen eingeben",
+    "nameLabel": "Name",
+    "namePlaceholder": "Namen eingeben",
     "successUrl": "Erfolgreich mit dem Netzwerk verbunden",
     "title": "Benutzerdefiniertes Netzwerk hinzufügen",
     "urlLabel": "URL",

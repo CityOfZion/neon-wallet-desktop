@@ -1,4 +1,4 @@
-import type { TStringHelperRemoveSpecialCharacterOptions } from '@shared/types/helpers'
+import type { TStringHelperCapitalizeOptions, TStringHelperRemoveSpecialCharacterOptions } from '@shared/types/helpers'
 
 export class StringHelper {
   static truncate(text: string, maxLength: number) {
@@ -27,6 +27,12 @@ export class StringHelper {
     }
 
     return text
+  }
+
+  static capitalize(text: string, { preserveRest = true }: TStringHelperCapitalizeOptions = {}) {
+    const rest = text.slice(1)
+
+    return `${text.charAt(0).toUpperCase()}${preserveRest ? rest : rest.toLowerCase()}`
   }
 
   static normalizeText(text: string) {

@@ -76,7 +76,7 @@ const NetworkUrlSelection = () => {
 
       <span className="mt-6 block px-4 font-bold text-gray-100 uppercase">{t('listLabel')}</span>
 
-      <div className="bg-asphalt mt-4 flex justify-between px-4 py-3.5">
+      <div className="bg-asphalt/80 mt-3 flex justify-between px-4 py-3.5">
         <Button
           label={t('refreshButtonLabel')}
           leftIcon={<TbRefresh aria-hidden className="text-neon" />}
@@ -100,9 +100,9 @@ const NetworkUrlSelection = () => {
         </div>
       </div>
 
-      <div className="mt-3.5 grow overflow-auto">
+      <div className="grow overflow-auto">
         {pingNetworksQuery.isLoading ? (
-          <Loader />
+          <Loader containerClassName="mt-4" />
         ) : (
           <RadioGroup.Group value={selectedUrl} onValueChange={handleSelectRadioItem}>
             {pingNetworksQuery.data?.map(currentNetwork => {

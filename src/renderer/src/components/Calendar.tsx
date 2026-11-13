@@ -5,6 +5,7 @@ import { DayPicker, type DayPickerProps, labelNext, labelPrevious, useDayPicker 
 import { useTranslation } from 'react-i18next'
 
 import { DateHelper } from '@renderer/helpers/DateHelper'
+import { StringHelper } from '@renderer/helpers/StringHelper'
 import { StyleHelper } from '@renderer/helpers/StyleHelper'
 
 import { useLanguageSelector } from '@renderer/hooks/useSettingsSelector'
@@ -92,10 +93,11 @@ const Nav = ({
 
   const previousButtonLabel = isYearsView
     ? t('previousYearButtonLabel', { years: displayYears.to - displayYears.from + 1 })
-    : labelPrevious(previousMonth)
+    : StringHelper.capitalize(labelPrevious(previousMonth), { preserveRest: false })
+
   const nextButtonLabel = isYearsView
     ? t('nextYearButtonLabel', { years: displayYears.to - displayYears.from + 1 })
-    : labelNext(nextMonth)
+    : StringHelper.capitalize(labelNext(nextMonth), { preserveRest: false })
 
   const handlePreviousClick = () => {
     if (!previousMonth) return
@@ -134,11 +136,11 @@ const Nav = ({
 
   return (
     <nav className={StyleHelper.mergeStyles('flex items-start', className)}>
-      <Tooltip title={isPreviousDisabled ? '' : previousButtonLabel}>
+      <Tooltip title={isPreviousDisabled ? '' : previousButtonLabel} contentProps={{ className: 'mx-4' }}>
         <IconButton
           aria-label={previousButtonLabel}
           type="button"
-          className="absolute left-0 h-7 w-7 bg-transparent p-0 opacity-80 hover:opacity-100"
+          className="absolute left-0 size-7 bg-transparent p-0 opacity-80 hover:opacity-100 focus:opacity-100"
           variant="outline"
           size="xs"
           tabIndex={isPreviousDisabled ? undefined : -1}
@@ -148,11 +150,11 @@ const Nav = ({
         />
       </Tooltip>
 
-      <Tooltip title={isNextDisabled ? '' : nextButtonLabel}>
+      <Tooltip title={isNextDisabled ? '' : nextButtonLabel} contentProps={{ className: 'mx-4' }}>
         <IconButton
           aria-label={nextButtonLabel}
           type="button"
-          className="absolute right-0 h-7 w-7 bg-transparent p-0 opacity-80 hover:opacity-100"
+          className="absolute right-0 size-7 bg-transparent p-0 opacity-80 hover:opacity-100 focus:opacity-100"
           variant="outline"
           size="xs"
           tabIndex={isNextDisabled ? undefined : -1}

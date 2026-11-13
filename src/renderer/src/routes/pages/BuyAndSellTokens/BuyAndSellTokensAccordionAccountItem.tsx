@@ -51,7 +51,7 @@ export const BuyAndSellTokensAccordionAccountItem = ({ account }: TProps) => {
       </div>
 
       {isLoading ? (
-        <Loader className="h-4 w-4 text-white" containerClassName="w-fit" />
+        <Loader className="min-size-4 max-size-4 size-4 text-white" containerClassName="w-fit" />
       ) : (
         <Tooltip title={total}>
           <p className="truncate text-xs whitespace-nowrap text-white">{total}</p>

@@ -45,6 +45,10 @@ export type TStringHelperRemoveSpecialCharacterOptions = {
   trimText?: boolean
 }
 
+export type TStringHelperCapitalizeOptions = {
+  preserveRest?: boolean
+}
+
 export type TDateHelperFormatLocalizedOptions = {
   format: string
   language: TLanguage
