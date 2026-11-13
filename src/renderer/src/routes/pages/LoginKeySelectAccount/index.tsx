@@ -55,7 +55,7 @@ const LoginKeySelectAccountPage = () => {
     await loginWithKey(accounts, {
       name: isMnemonic ? tCommon('wallet.mnemonicWalletName') : tCommon('wallet.importedName'),
       type: 'standard',
-      mnemonic: isMnemonic ? mnemonicOrKey : undefined,
+      mnemonic: isMnemonic ? BSKeychainHelper.normalizeMnemonic(mnemonicOrKey) : undefined,
     })
 
     dispatch(authReducerActions.setShouldConfirmAction(isShouldConfirmAction))

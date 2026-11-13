@@ -1,5 +1,6 @@
 import { Fragment, useEffect } from 'react'
 
+import { BSKeychainHelper } from '@cityofzion/blockchain-service'
 import type { TBSServiceName } from '@cityofzion/bs-multichain'
 import { useTranslation } from 'react-i18next'
 import { Location, useLocation, useNavigate } from 'react-router'
@@ -73,7 +74,10 @@ export const LoginPasswordImportWalletStep3Content = () => {
   }
 
   const submitMnemonic = async (mnemonic: string) => {
-    openAccountsSelection(mnemonic, { name: tCommon('wallet.mnemonicWalletName'), mnemonic })
+    openAccountsSelection(mnemonic, {
+      name: tCommon('wallet.mnemonicWalletName'),
+      mnemonic: BSKeychainHelper.normalizeMnemonic(mnemonic),
+    })
   }
 
   const submitEncryptedKey = async (input: string) => {

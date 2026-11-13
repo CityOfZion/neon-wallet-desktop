@@ -170,7 +170,7 @@ export const MnemonicOrKeyAccountSelection = ({
 
     if (BSKeychainHelper.isValidMnemonic(mnemonicOrKey)) {
       const accountFromMnemonicMap = await BlockchainServiceHelper.bsAggregator.generateAccountsFromMnemonic(
-        mnemonicOrKey,
+        BSKeychainHelper.normalizeMnemonic(mnemonicOrKey),
         lastIndexesByWallet
       )
 
