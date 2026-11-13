@@ -3,9 +3,9 @@ import { createMigrate, PersistConfig, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
-import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
 import { CurrencyHelper } from '@renderer/helpers/CurrencyHelper'
 import { LanguageHelper } from '@renderer/helpers/LanguageHelper'
+import { NetworkHelper } from '@renderer/helpers/NetworkHelper'
 
 import { SharedI18nextHelper } from '@shared/helpers/SharedI18nextHelper'
 import type {
@@ -48,7 +48,7 @@ export function getSettingsReducer() {
   const { t } = SharedI18nextHelper.get()
 
   const defaultProfile: TNetworkProfile = {
-    id: ConstantsHelper.defaultNetworkProfileId,
+    id: NetworkHelper.defaultNetworkProfileId,
     name: t('common:general.default'),
     networkByBlockchain: {
       arbitrum: BlockchainServiceHelper.bsAggregator.blockchainServicesByName.arbitrum.defaultNetwork,
@@ -65,7 +65,7 @@ export function getSettingsReducer() {
   }
 
   const testProfile: TNetworkProfile = {
-    id: ConstantsHelper.testNetworkProfileId,
+    id: NetworkHelper.testNetworkProfileId,
     name: t('common:general.test'),
     networkByBlockchain: Object.values(BlockchainServiceHelper.bsAggregator.blockchainServicesByName).reduce(
       (accumulator, service) => {
@@ -95,7 +95,7 @@ export function getSettingsReducer() {
       customNetworks: {
         bitcoin: [],
         ethereum: [],
-        neo3: [],
+        neo3: [NetworkHelper.defaultCozNeo3CustomNetwork],
         neoLegacy: [],
         neox: [],
         polygon: [],
@@ -115,7 +115,7 @@ export function getSettingsReducer() {
   const settingsReducerConfig: PersistConfig<TSettingsReducer> = {
     key: 'settingsReducer',
     storage,
-    version: 14,
+    version: 15,
     migrate: createMigrate(settingsMigrations),
     blacklist: ['memoryData'],
   }

@@ -5,7 +5,7 @@ import { Accordion } from '@renderer/components/Accordion'
 import { BlockchainIcon } from '@renderer/components/BlockchainIcon'
 
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
-import { ConstantsHelper } from '@renderer/helpers/ConstantsHelper'
+import { NetworkHelper } from '@renderer/helpers/NetworkHelper'
 import { TestHelper } from '@renderer/helpers/TestHelper'
 
 import { useModalNavigate } from '@renderer/hooks/useModalRouter'
@@ -27,7 +27,7 @@ export const BlockchainNetworkAccordion = ({ blockchain }: TProps) => {
   const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
 
   const isCurrentNetworkDisabled =
-    selectedNetworkProfile.id === ConstantsHelper.defaultNetworkProfileId ||
+    selectedNetworkProfile.id === NetworkHelper.defaultNetworkProfileId ||
     (service.availableNetworks.length <= 1 && !service.isCustomNetworkSupported)
 
   return (

@@ -65,10 +65,6 @@
       "walletIsNotHardware": "所选钱包不是硬件钱包。"
     }
   },
-  "networkTypeLabel": {
-    "mainnet": "主网",
-    "testnet": "测试网"
-  },
   "synonyms": {
     "acquire": ["获得", "得到"],
     "add": ["追加", "包括", "增加", "总和"],

@@ -21,14 +21,16 @@ const CreateWalletStep2Modal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'createWallet.step2' })
   const { words } = useModalState<TModalState<'create-wallet-step-2'>>()
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
+
   const nextButtonRef = useRef<HTMLButtonElement>(null)
 
-  const shuffledWords = useMemo(() => _.shuffle(words), [words])
   const [pressedWordsIndex, setPressedWordsIndex] = useState<number[]>([])
 
-  const isActive = (wordIndex: number) => pressedWordsIndex.some(pressedWord => pressedWord === wordIndex)
+  const shuffledWords = useMemo(() => _.shuffle(words), [words])
 
-  const isDisabled = () => pressedWordsIndex.length !== shuffledWords.length
+  const isDisabled = pressedWordsIndex.length !== shuffledWords.length
+
+  const isActive = (wordIndex: number) => pressedWordsIndex.some(pressedWord => pressedWord === wordIndex)
 
   const handlePress = (wordIndex: number) => {
     const isWordActive = isActive(wordIndex)
@@ -61,7 +63,7 @@ const CreateWalletStep2Modal = () => {
     <CreateWalletModalLayout>
       <header className="flex items-center justify-between py-2.5">
         <div className="flex items-center gap-x-2.5">
-          <MdLooksTwo aria-hidden className="text-blue h-4.5 w-4.5" />
+          <MdLooksTwo aria-hidden className="text-blue size-4.5" />
           <h2 className="text-sm">{t('title')}</h2>
         </div>
         <div className="text-blue text-sm">{t('step2of4')}</div>
@@ -69,10 +71,11 @@ const CreateWalletStep2Modal = () => {
 
       <Separator className="mb-9 min-h-px" />
 
-      <div className="flex w-full grow flex-col items-center justify-between">
-        <div className="flex w-full flex-col gap-6">
-          <div className="text-xs text-gray-100">{t('description')}</div>
-          <div className="mx-5 grid min-h-24 grid-cols-4 justify-center gap-x-8 gap-y-4 rounded-sm px-5 py-5">
+      <div className="flex w-full grow flex-col items-center justify-between gap-y-8">
+        <div className="flex w-full flex-col gap-10">
+          <span className="text-xs text-gray-100">{t('description')}</span>
+
+          <div className="mx-5 grid min-h-24 grid-cols-4 justify-center gap-4 rounded-sm px-5">
             {shuffledWords.map((word, index) => (
               <Button
                 clickableProps={{
@@ -87,6 +90,7 @@ const CreateWalletStep2Modal = () => {
               />
             ))}
           </div>
+
           <Banner type="info" message={t('warning')} className="mx-10" />
         </div>
 
@@ -94,12 +98,12 @@ const CreateWalletStep2Modal = () => {
           <Button label={t('backButtonLabel')} colorSchema="gray" flat wide onClick={modalNavigateWrapper(-1)} />
 
           <Button
-            className="w-48"
-            label={t('nextButtonLabel')}
-            flat
-            disabled={isDisabled()}
-            onClick={validateAndNext}
             ref={nextButtonRef}
+            label={t('nextButtonLabel')}
+            className="w-48"
+            flat
+            disabled={isDisabled}
+            onClick={validateAndNext}
           />
         </div>
       </div>

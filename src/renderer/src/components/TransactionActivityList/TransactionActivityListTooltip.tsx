@@ -21,10 +21,10 @@ export const TransactionActivityListTooltip = ({ data, className, children }: TP
     <Tooltip
       title={title}
       delayDuration={0}
+      variant="black"
       contentProps={{
-        className: StyleHelper.mergeStyles('text-center inline-block max-w-44 wrap-break-word bg-gray-900', className),
+        className: StyleHelper.mergeStyles('inline-block max-w-44', className),
       }}
-      arrowProps={{ className: 'fill-gray-900' }}
     >
       {children}
     </Tooltip>

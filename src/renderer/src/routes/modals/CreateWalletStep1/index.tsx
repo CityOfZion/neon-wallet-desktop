@@ -26,15 +26,15 @@ const CreateWalletStep1Modal = () => {
   const { t } = useTranslation('modals', { keyPrefix: 'createWallet.step1' })
   const { modalNavigate } = useModalNavigate()
 
-  const words = useMemo(() => {
-    return BSKeychainHelper.generateMnemonic().split(' ')
-  }, [])
+  const mnemonic = useMemo(() => BSKeychainHelper.generateMnemonic(), [])
+
+  const words = mnemonic.split(' ')
 
   return (
     <CreateWalletModalLayout {...TestHelper.buildTestObject('create-wallet-step1-modal')}>
       <header className="flex items-center justify-between py-2.5 print:hidden">
         <div className="flex items-center gap-x-2.5">
-          <MdLooksOne aria-hidden className="text-blue h-4.5 w-4.5" />
+          <MdLooksOne aria-hidden className="text-blue size-4.5" />
           <h2 className="text-sm">{t('title')}</h2>
         </div>
         <div className="text-blue text-sm">{t('step1of4')}</div>
@@ -59,7 +59,7 @@ const CreateWalletStep1Modal = () => {
               variant="text"
               leftIcon={<MdContentCopy aria-hidden />}
               label={t('copyButtonLabel')}
-              onClick={ClipboardHelper.write.bind(null, words.join(' '))}
+              onClick={ClipboardHelper.write.bind(null, mnemonic)}
               flat
             />
 

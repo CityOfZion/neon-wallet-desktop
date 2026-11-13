@@ -18,9 +18,6 @@ export class ConstantsHelper {
   static readonly cozDiscordUrl = 'https://discord.gg/M7jGtEpjH4'
   static readonly neonIconsUrl = 'https://raw.githubusercontent.com/CityOfZion/neon-icons/main'
 
-  static readonly defaultNetworkProfileId = 'default'
-  static readonly testNetworkProfileId = 'test'
-
   static readonly fraudulentTokenHashesByBlockchain: Map<TBSServiceName, Set<string>> = new Map([
     ['neo3', new Set(['0x42e6b0379e39a428362e08cf9d7e40903cdb0fe7', '0x90591dbfddd3c5a8e8fd0b5c8eb4a904e13a4c32'])],
   ])

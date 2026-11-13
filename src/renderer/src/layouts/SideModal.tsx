@@ -95,7 +95,7 @@ export const SideModalLayout = ({
   return (
     <FocusScope
       loop
-      className={StyleHelper.mergeStyles('flex h-full w-full justify-end', {
+      className={StyleHelper.mergeStyles('flex size-full justify-end', {
         'pointer-events-none': isErasing,
       })}
       onClick={handleClickContainer}
@@ -114,15 +114,15 @@ export const SideModalLayout = ({
           {...props}
         >
           <header className="flex flex-col px-4">
-            <div className="flex items-center justify-between py-2.5">
+            <div className="flex items-center justify-between gap-x-4 py-2.5">
               {groupIndex > 0 && (
                 <Tooltip title={isBacking ? '' : tCommonGeneral('back')}>
                   <IconButton
                     aria-label={tCommonGeneral('back')}
-                    icon={<MdKeyboardBackspace aria-hidden className="fill-gray-200" />}
                     size="md"
                     compacted
                     loading={isBacking}
+                    icon={<MdKeyboardBackspace aria-hidden className="fill-gray-200" />}
                     onClick={startBack}
                   />
                 </Tooltip>
@@ -141,10 +141,10 @@ export const SideModalLayout = ({
                 <Tooltip title={isErasing ? '' : tCommonGeneral('close')}>
                   <IconButton
                     aria-label={tCommonGeneral('close')}
-                    icon={<MdClose aria-hidden className="fill-white" />}
                     size="md"
                     compacted
                     loading={isErasing}
+                    icon={<MdClose aria-hidden className="fill-white" />}
                     onClick={startErase}
                   />
                 </Tooltip>

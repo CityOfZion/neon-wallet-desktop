@@ -101,7 +101,7 @@ export const useColumns = (showType: TUseBalanceOptionShowType) => {
 
           return (
             <div className="flex justify-end">
-              <Tooltip title={tooltipTitle} delayDuration={0} contentProps={{ className: 'text-center' }}>
+              <Tooltip title={tooltipTitle} delayDuration={0}>
                 <IconButton
                   aria-label={label}
                   size="sm"

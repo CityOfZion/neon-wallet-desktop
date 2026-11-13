@@ -68,6 +68,10 @@ src/renderer/src/
 - **TanStack React Query** — Server/async state (blockchain data, balances)
 - **Zod** — Runtime validation of schemas (`src/shared/schemas/`)
 
+When changing the shape or defaults of a persisted reducer (e.g. `customNetworks`, network profiles), add a migration in `store/reducers/<reducer>/migrations.ts` and bump `version` in its persist config so existing users' data is preserved. Neo 3 ships a default custom network (`NetworkHelper.defaultCozNeo3CustomNetwork`) that is always first and can't be edited or deleted.
+
+Network-related constants and helpers (profile ids `defaultNetworkProfileId` / `testNetworkProfileId`, default custom networks, `isDefaultCustomNetwork`) live in `NetworkHelper` (`src/renderer/src/helpers/NetworkHelper.ts`), not `ConstantsHelper`.
+
 ### Path Aliases
 
 - `@shared/*` → `src/shared/*`

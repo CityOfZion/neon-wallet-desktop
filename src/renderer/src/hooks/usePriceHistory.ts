@@ -11,9 +11,7 @@ import { useCurrencySelector, useSelectedNetworkByBlockchainSelector } from './u
 const fetchTokenData = async (tokenBalance: TTokenBalance, currencyRatio: number): Promise<TPriceHistory | null> => {
   try {
     const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[tokenBalance.blockchain]
-    const prices = await service.exchangeDataService.getTokenPriceHistory({
-      token: tokenBalance.token,
-    })
+    const prices = await service.exchangeDataService.getTokenPriceHistory({ token: tokenBalance.token })
 
     const convertedAndSortedPricesByTimestamp = prices
       .map(item => ({ ...item, currencyPrice: item.usdPrice * currencyRatio }))
