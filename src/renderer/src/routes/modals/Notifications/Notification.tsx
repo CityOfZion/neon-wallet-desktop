@@ -178,7 +178,7 @@ export const Notification = ({ notification }: TProps) => {
               <IconButton
                 aria-label={t('actionsButtonLabel')}
                 compacted
-                icon={<MdMoreVert aria-hidden className="h-6 min-h-6 w-6 min-w-6 text-gray-300" />}
+                icon={<MdMoreVert aria-hidden className="min-size-6 max-size-6 size-6 text-gray-300" />}
                 onClick={handleStopPropagation}
               />
             </ActionPopover.Trigger>

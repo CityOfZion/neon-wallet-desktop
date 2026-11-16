@@ -25,6 +25,8 @@ const devRendererUrl = is.dev ? process.env['ELECTRON_RENDERER_URL'] : undefined
 const allowedWebviewOrigins = [SharedConstantsHelper.BUY_AND_SELL_URL]
 
 let mainWindow: BrowserWindow | null = null
+const width = 1356
+const height = 800
 
 SharedEnvHelper.setup()
 MainSentryHelper.setup()
@@ -33,10 +35,10 @@ MainDeeplinkHelper.setupProtocol()
 function createWindow(): void {
   mainWindow = new BrowserWindow({
     title: `${SharedConstantsHelper.APP_NAME} ${packageJson.version}`,
-    width: 1350,
-    height: 800,
-    minWidth: 1350,
-    minHeight: 800,
+    width,
+    height,
+    minWidth: width,
+    minHeight: height,
     titleBarStyle: 'hidden',
     trafficLightPosition: isMac ? { x: 12, y: 8 } : undefined,
     // Must match the AppBar colors (gray-800 and gray-100)
@@ -57,11 +59,12 @@ function createWindow(): void {
 
   mainWindow.on('ready-to-show', async () => {
     await BSUtilsHelper.wait(500)
+
     mainWindow?.show()
   })
 
-  mainWindow.on('page-title-updated', function (e) {
-    e.preventDefault()
+  mainWindow.on('page-title-updated', function (event) {
+    event.preventDefault()
   })
 
   mainWindow.webContents.setWindowOpenHandler(details => {
@@ -78,6 +81,7 @@ function createWindow(): void {
 
   mainWindow.webContents.on('will-attach-webview', (event, webPreferences, params) => {
     delete webPreferences.preload
+
     webPreferences.nodeIntegration = false
     webPreferences.contextIsolation = true
     webPreferences.sandbox = true
@@ -123,7 +127,7 @@ async function initialize() {
   }
 
   app.on('second-instance', (_event, commandLine) => {
-    // The commandLine is an array of strings, where the last element is the deep link URL.
+    // The commandLine is an array of strings, where the last element is the deep link URL
     const deeplinkUrl = commandLine.pop()
 
     if (!mainWindow) {
@@ -149,8 +153,7 @@ async function initialize() {
   })
 
   app.on('activate', function () {
-    // On macOS it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
+    // On macOS, it's common to re-create a window in the app when the dock icon is clicked and there are no other windows open
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
 
@@ -165,6 +168,7 @@ async function initialize() {
       'Initialization Error',
       `Failed to start ${SharedConstantsHelper.APP_NAME}:${error instanceof Error ? error.message : 'Unknown error'}\n\nPlease restart the application or contact support.`
     )
+
     app.quit()
   })
 

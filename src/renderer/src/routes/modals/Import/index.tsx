@@ -108,7 +108,7 @@ const ImportModal = () => {
     <SideModalLayout heading={t('title')} headingIcon={<TbFileImport aria-hidden />} contentClassName="flex flex-col">
       <p className="text-xs">{t('description')}</p>
 
-      <form className="mt-10 flex grow flex-col justify-between" onSubmit={handleAct(handleSubmit)}>
+      <form className="mt-6 flex grow flex-col justify-between" onSubmit={handleAct(handleSubmit)}>
         <div>
           <Textarea
             aria-label={t('inputLabel')}

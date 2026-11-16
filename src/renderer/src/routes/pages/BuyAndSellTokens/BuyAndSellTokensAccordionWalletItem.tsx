@@ -39,10 +39,10 @@ export const BuyAndSellTokensAccordionWalletItem = ({ wallet }: TProps) => {
         <h4 className="grow text-left text-xs font-semibold text-white">{wallet.name}</h4>
 
         {balances.isLoading ? (
-          <Loader className="h-4 w-4 text-gray-300" containerClassName="w-fit" />
+          <Loader className="min-size-4 max-size-4 size-4 text-gray-300" containerClassName="w-fit" />
         ) : (
           <Tooltip title={total}>
-            <span className="max-w-[100px] truncate text-right text-xs whitespace-nowrap text-gray-300 uppercase">
+            <span className="max-w-25 truncate text-right text-xs whitespace-nowrap text-gray-300 uppercase">
               {total}
             </span>
           </Tooltip>

@@ -65,10 +65,6 @@
       "walletIsNotHardware": "The selected wallet is not a hardware wallet"
     }
   },
-  "networkTypeLabel": {
-    "mainnet": "MainNet",
-    "testnet": "TestNet"
-  },
   "synonyms": {
     "acquire": ["obtain", "get"],
     "add": ["append", "include", "increase", "sum"],

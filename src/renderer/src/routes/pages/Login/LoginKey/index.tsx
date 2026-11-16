@@ -26,6 +26,7 @@ export const LoginKeyTabContent = () => {
 
   const submitKey = async (key: string) => {
     navigate('/login-key-select-account', { state: { mnemonicOrKey: key } })
+
     // Improve UX
     await BSUtilsHelper.wait(2000)
   }
