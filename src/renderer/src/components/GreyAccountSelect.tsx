@@ -122,7 +122,7 @@ export const GreyAccountSelect = <T extends TBSServiceName>({
             'bg-asphalt aria-expanded:bg-asphalt flex h-8.5 max-w-36 min-w-36 items-center gap-2.5 rounded-sm px-2',
             {
               'aria-[disabled=false]:hover:bg-asphalt/60': !selectedAccount && !isDisabled,
-              'max-w-32 min-w-32 bg-gray-300/15 aria-[disabled=false]:hover:bg-gray-300/30': selectedAccount,
+              'bg-gray-300/15 aria-[disabled=false]:hover:bg-gray-300/30': selectedAccount,
               'opacity-50': isDisabled,
             },
             triggerClassName
