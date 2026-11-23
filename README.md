@@ -51,6 +51,8 @@ VITE_GA_MEASUREMENT_ID=your-google-analytics-measurement-id
 VITE_GA_API_SECRET=your-google-analytics-api-secret
 
 VITE_CRISP_WEBSITE_ID=your-crisp-website-id
+
+VITE_WALLET_CONNECT_PROJECT_ID=your-reown-project-id
 ```
 
 ## Translation

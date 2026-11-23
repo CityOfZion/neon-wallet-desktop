@@ -119,8 +119,9 @@ Defined via Vite (`VITE_` prefix). Key ones:
 - `VITE_GA_MEASUREMENT_ID` / `VITE_GA_API_SECRET` — Analytics
 - `VITE_MERCURYO_WIDGET_ID` — Fiat on/off-ramp (Mercuryo widget)
 - `VITE_CRISP_WEBSITE_ID` — Crisp support chat
+- `VITE_WALLET_CONNECT_PROJECT_ID` — Reown/WalletConnect project id (**required**)
 
-All are optional and validated in `src/shared/helpers/SharedEnvHelper.ts`.
+All others are optional and validated in `src/shared/helpers/SharedEnvHelper.ts`.
 
 ## Node Version
 
