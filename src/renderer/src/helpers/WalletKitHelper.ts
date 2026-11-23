@@ -3,6 +3,8 @@ import type { IWalletKit } from '@reown/walletkit'
 import { WalletKit } from '@reown/walletkit'
 import { Core } from '@walletconnect/core'
 
+import { SharedEnvHelper } from '@shared/helpers/SharedEnvHelper'
+
 import pkg from '../../../../package.json'
 import { ConstantsHelper } from './ConstantsHelper'
 
@@ -13,7 +15,7 @@ export class WalletKitHelper extends BSWalletKitHelper {
     if (this.kit) return
 
     const core = new Core({
-      projectId: '92546a82a052e0a70f22d57fd5764125',
+      projectId: SharedEnvHelper.VITE_WALLET_CONNECT_PROJECT_ID,
       logger: 'silent',
     })
 

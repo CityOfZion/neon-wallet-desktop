@@ -7,6 +7,7 @@ const envSchema = z.object({
   VITE_GA_MEASUREMENT_ID: z.string().nonempty().optional(),
   VITE_GA_API_SECRET: z.string().nonempty().optional(),
   VITE_CRISP_WEBSITE_ID: z.string().nonempty().optional(),
+  VITE_WALLET_CONNECT_PROJECT_ID: z.string().nonempty(),
 })
 
 const extendedEnvSchema = envSchema.extend({
