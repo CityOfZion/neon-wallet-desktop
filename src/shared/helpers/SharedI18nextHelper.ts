@@ -1,5 +1,4 @@
 import i18n from 'i18next'
-import { initReactI18next } from 'react-i18next'
 
 import { deResources } from '@shared/locales/de'
 import { enResources } from '@shared/locales/en'
@@ -10,7 +9,7 @@ import { zhHantResources } from '@shared/locales/zh-Hant'
 export class SharedI18nextHelper {
   static setup = () => {
     if (!i18n.isInitialized) {
-      i18n.use(initReactI18next).init({
+      i18n.init({
         resources: {
           en: enResources,
           de: deResources,

@@ -1,8 +1,8 @@
-import { getI18n } from 'react-i18next'
-
 import { ToastHelper } from '@renderer/helpers/ToastHelper'
 
-const { t } = getI18n()
+import { SharedI18nextHelper } from '@shared/helpers/SharedI18nextHelper'
+
+const { t } = SharedI18nextHelper.get()
 
 export class ClipboardHelper {
   static async write(text: string) {
