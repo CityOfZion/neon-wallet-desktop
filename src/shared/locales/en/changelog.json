@@ -229,6 +229,12 @@
       "date": "2026-05-28",
       "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.11.0",
       "version": "3.11.0"
+    },
+    {
+      "changes": ["Update WalletConnect project ID"],
+      "date": "2026-11-24",
+      "url": "https://github.com/CityOfZion/neon-wallet-desktop/releases/tag/v3.11.1",
+      "version": "3.11.1"
     }
   ],
   "versionLabel": "Version v{{version}}"

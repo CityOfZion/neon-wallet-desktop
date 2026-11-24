@@ -13,7 +13,7 @@ export class WalletKitHelper extends BSWalletKitHelper {
     if (this.kit) return
 
     const core = new Core({
-      projectId: '92546a82a052e0a70f22d57fd5764125',
+      projectId: '5de9f0dd59571bdf3b1418df89e8ee49',
       logger: 'silent',
     })
 
