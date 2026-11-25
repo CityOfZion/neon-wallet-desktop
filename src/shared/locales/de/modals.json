@@ -57,18 +57,20 @@
       "description": "Neon-Updates bieten Ihrem Wallet neue und verbesserte Sicherheit und Funktionalität und beheben gleichzeitig bestehende Probleme wie Fehler und Abstürze",
       "title": "Ihr Wallet wurde aktualisiert!"
     },
-    "mobile": {
-      "buttonContinueLabel": "Weiter zu Ihrem Wallet",
-      "description": "Speichern, betrachten und verwalten Sie sicher alle Ihre digitalen Assets und mehrere Wallets an einem Ort. Nutzen Sie die zusätzlichen Sicherheitsoptionen auf Ihrem Gerät, um Ihre Assets sicher zu halten",
-      "downloadForAndroid": "Für Android herunterladen",
-      "downloadForIOS": "Für iOS herunterladen",
-      "title": "Ihr Wallet ist auch auf dem Handy verfügbar!"
-    },
     "notes": {
       "buttonContinueLabel": "Beginnen Sie, Ihr Wallet zu verwenden",
       "buttonLearnMoreLabel": "Mehr erfahren",
       "subtitle": "Versionshinweise",
       "title": "Ihr Wallet ist gerade leistungsfähiger geworden!"
+    },
+    "platforms": {
+      "buttonContinueLabel": "Weiter zu Ihrem Wallet",
+      "description": "Speichern, betrachten und verwalten Sie sicher alle Ihre digitalen Assets und mehrere Wallets an einem Ort, auf Ihrem Handy oder in Ihrem Browser. Nutzen Sie die zusätzlichen Sicherheitsoptionen auf Ihrem Gerät, um Ihre Assets sicher zu halten",
+      "downloadForAndroid": "Für Android herunterladen",
+      "downloadForBrowser": "Für Browser herunterladen",
+      "downloadForIOS": "Für iOS herunterladen",
+      "extensionButtonLabel": "Erweiterung holen",
+      "title": "Ihr Wallet ist auch auf dem Handy und im Browser verfügbar!"
     }
   },
   "blockchainSelection": {

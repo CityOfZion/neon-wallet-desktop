@@ -63,7 +63,7 @@ const AutoUpdateNotes = () => {
           to={ConstantsHelper.latestReleaseUrl}
           target="_blank"
           label={t('buttonLearnMoreLabel')}
-          rightIcon={<TbExternalLink />}
+          rightIcon={<TbExternalLink aria-hidden />}
           colorSchema="gray"
           wide
           iconsOnEdge={false}
@@ -72,8 +72,8 @@ const AutoUpdateNotes = () => {
           label={t('buttonContinueLabel')}
           iconsOnEdge={false}
           wide
-          rightIcon={<MdOutlineAutoAwesome />}
-          onClick={modalNavigateWrapper('auto-update-mobile')}
+          rightIcon={<MdOutlineAutoAwesome aria-hidden />}
+          onClick={modalNavigateWrapper('auto-update-platforms')}
         />
       </div>
     </CenterModalLayout>

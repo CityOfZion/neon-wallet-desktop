@@ -57,18 +57,20 @@
       "description": "As atualizações da Neon fornecem à sua carteira segurança e funcionalidade novas e aprimoradas, ao mesmo tempo em que abordam problemas existentes, como bugs e travamentos",
       "title": "Sua carteira foi atualizada!"
     },
-    "mobile": {
-      "buttonContinueLabel": "Continuar para sua carteira",
-      "description": "Armazene, visualize e gerencie com segurança todos os seus ativos digitais e várias carteiras em um só lugar. Aproveite as opções de segurança adicionais do seu dispositivo para manter seus ativos seguros",
-      "downloadForAndroid": "Baixar para Android",
-      "downloadForIOS": "Baixar para iOS",
-      "title": "Sua carteira também está disponível no celular!"
-    },
     "notes": {
       "buttonContinueLabel": "Começar a usar sua carteira",
       "buttonLearnMoreLabel": "Saiba mais",
       "subtitle": "Notas de Lançamento",
       "title": "Sua carteira ficou mais poderosa!"
+    },
+    "platforms": {
+      "buttonContinueLabel": "Continuar para sua carteira",
+      "description": "Armazene, visualize e gerencie com segurança todos os seus ativos digitais e várias carteiras em um só lugar, no seu celular ou no seu navegador. Aproveite as opções de segurança adicionais do seu dispositivo para manter seus ativos seguros",
+      "downloadForAndroid": "Baixar para Android",
+      "downloadForBrowser": "Baixar para navegador",
+      "downloadForIOS": "Baixar para iOS",
+      "extensionButtonLabel": "Obter a extensão",
+      "title": "Sua carteira também está disponível no celular e no navegador!"
     }
   },
   "blockchainSelection": {
