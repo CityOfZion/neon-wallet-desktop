@@ -1,6 +1,6 @@
 import { BSUtilsHelper } from '@cityofzion/blockchain-service'
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
-import { app, BrowserWindow, dialog, shell } from 'electron'
+import { app, BrowserWindow, dialog, session, shell } from 'electron'
 import { join } from 'path'
 
 import { mainApi } from '@shared/api/main'
@@ -61,6 +61,11 @@ function createWindow(): void {
     await BSUtilsHelper.wait(500)
 
     mainWindow?.show()
+  })
+
+  // Chromium commits localStorage (redux-persist) to disk lazily, so writes made right before closing can be lost
+  mainWindow.on('close', () => {
+    mainWindow?.webContents.session.flushStorageData()
   })
 
   mainWindow.on('page-title-updated', function (event) {
@@ -144,6 +149,10 @@ async function initialize() {
     if (deeplinkUrl) {
       mainApi.send('deeplink:connection', deeplinkUrl)
     }
+  })
+
+  app.on('before-quit', () => {
+    session.defaultSession.flushStorageData()
   })
 
   app.on('window-all-closed', () => {
