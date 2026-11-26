@@ -4,7 +4,6 @@ import type { TRoute } from '@shared/types/modal'
 
 const AboutExtraIdToReceiveModal = lazy(() => import('./modals/AboutExtraIdToReceive'))
 const AddAddressModal = lazy(() => import('./modals/AddAddress'))
-const AddCustomNetworkModal = lazy(() => import('./modals/AddCustomNetwork'))
 const AddNetworkProfileModal = lazy(() => import('./modals/AddNetworkProfile'))
 const BlockchainSelectionModal = lazy(() => import('./modals/BlockchainSelection'))
 const BuyAndSellTokensAboutDataModal = lazy(() => import('./modals/BuyAndSellTokensAboutData'))
@@ -42,6 +41,7 @@ const NFTSelectionModal = lazy(() => import('./modals/NftSelection'))
 const NotificationsModal = lazy(() => import('./modals/Notifications'))
 const PersistAccountModal = lazy(() => import('./modals/PersistAccount'))
 const PersistContactModal = lazy(() => import('./modals/PersistContact'))
+const SaveCustomNetworkModal = lazy(() => import('./modals/SaveCustomNetwork'))
 const SelectAccountModal = lazy(() => import('./modals/SelectAccount'))
 const SelectContactModal = lazy(() => import('./modals/SelectContact'))
 const SellTokensDepositModal = lazy(() => import('./modals/SellTokensDeposit/index'))
@@ -55,7 +55,6 @@ const StellarPersistTrustlineModal = lazy(() => import('./modals/StellarPersistT
 const sideModalsRouter: TRoute[] = [
   { name: 'about-extra-id-to-receive', element: AboutExtraIdToReceiveModal },
   { name: 'add-address', element: AddAddressModal },
-  { name: 'add-custom-network', element: AddCustomNetworkModal },
   { name: 'add-network-profile', element: AddNetworkProfileModal },
   { name: 'blockchain-selection', element: BlockchainSelectionModal },
   { name: 'buy-and-sell-tokens-about-data', element: BuyAndSellTokensAboutDataModal },
@@ -93,6 +92,7 @@ const sideModalsRouter: TRoute[] = [
   { name: 'notifications', element: NotificationsModal },
   { name: 'persist-account', element: PersistAccountModal },
   { name: 'persist-contact', element: PersistContactModal },
+  { name: 'save-custom-network', element: SaveCustomNetworkModal },
   { name: 'select-account', element: SelectAccountModal },
   { name: 'select-contact', element: SelectContactModal },
   { name: 'sell-tokens-deposit', element: SellTokensDepositModal },

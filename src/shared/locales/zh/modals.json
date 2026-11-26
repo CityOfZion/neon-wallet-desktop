@@ -26,21 +26,6 @@
     "saveAddress": "保存地址",
     "title": "添加地址"
   },
-  "addCustomNetwork": {
-    "deleteButtonLabel": "删除网络",
-    "errors": {
-      "invalidURL": "无效的URL",
-      "networkNameIsRequired": "网络名称为必填项",
-      "networkNameIsTooLong": "网络名称过长",
-      "notConnect": "无法连接到此网络"
-    },
-    "nameLabel": "名称",
-    "namePlaceholder": "输入名称",
-    "successUrl": "成功连接到网络",
-    "title": "添加自定义网络",
-    "urlLabel": "URL",
-    "urlPlaceholder": "例如: 'http://127.0.0.1:50012"
-  },
   "addNetworkProfile": {
     "deleteButtonLabel": "删除配置文件",
     "errors": {
@@ -699,6 +684,21 @@
     "name": "姓名",
     "noAddressesFound": "未找到地址",
     "saveContact": "保存联系人"
+  },
+  "saveCustomNetwork": {
+    "deleteNetworkButtonLabel": "删除网络",
+    "errors": {
+      "invalidURL": "无效的URL",
+      "networkNameIsRequired": "网络名称为必填项",
+      "networkNameIsTooLong": "网络名称过长",
+      "notConnect": "无法连接到此网络"
+    },
+    "nameLabel": "名称",
+    "namePlaceholder": "输入名称",
+    "successUrl": "成功连接到网络",
+    "title": "添加自定义网络",
+    "urlLabel": "URL",
+    "urlPlaceholder": "例如: http://127.0.0.1:50012"
   },
   "search": {
     "closeButtonLabel": "关闭",

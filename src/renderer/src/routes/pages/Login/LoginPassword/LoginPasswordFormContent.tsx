@@ -85,7 +85,7 @@ export const LoginPasswordFormContent = () => {
 
       <Button
         label={t('buttonLoginLabel')}
-        className="mt-auto w-[250px]"
+        className="mt-auto w-62.5"
         variant="contained"
         type="submit"
         disabled={!actionState.isValid || actionState.isActing}

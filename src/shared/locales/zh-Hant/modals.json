@@ -26,21 +26,6 @@
     "saveAddress": "儲存地址",
     "title": "新增地址"
   },
-  "addCustomNetwork": {
-    "deleteButtonLabel": "刪除網路",
-    "errors": {
-      "invalidURL": "無效的網址",
-      "networkNameIsRequired": "必須輸入網路名稱",
-      "networkNameIsTooLong": "網路名稱過長",
-      "notConnect": "無法連接到此網路"
-    },
-    "nameLabel": "名稱",
-    "namePlaceholder": "輸入名稱",
-    "successUrl": "成功連接到網路",
-    "title": "新增自訂網路",
-    "urlLabel": "URL",
-    "urlPlaceholder": "範例：'http://127.0.0.1:50012"
-  },
   "addNetworkProfile": {
     "deleteButtonLabel": "刪除設定檔",
     "errors": {
@@ -699,6 +684,21 @@
     "name": "名稱",
     "noAddressesFound": "找不到地址",
     "saveContact": "儲存聯絡人"
+  },
+  "saveCustomNetwork": {
+    "deleteNetworkButtonLabel": "刪除網路",
+    "errors": {
+      "invalidURL": "無效的網址",
+      "networkNameIsRequired": "必須輸入網路名稱",
+      "networkNameIsTooLong": "網路名稱過長",
+      "notConnect": "無法連接到此網路"
+    },
+    "nameLabel": "名稱",
+    "namePlaceholder": "輸入名稱",
+    "successUrl": "成功連接到網路",
+    "title": "新增自訂網路",
+    "urlLabel": "URL",
+    "urlPlaceholder": "範例：http://127.0.0.1:50012"
   },
   "search": {
     "closeButtonLabel": "關閉",

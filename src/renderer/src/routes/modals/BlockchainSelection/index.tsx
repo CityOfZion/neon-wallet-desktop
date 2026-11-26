@@ -18,7 +18,7 @@ import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 import type { TModalState } from '@shared/types/modal'
 
-type TActionData = {
+type TActionsData = {
   selectedBlockchains: TBSServiceName[]
 }
 
@@ -34,7 +34,7 @@ const BlockchainSelectionModal = () => {
     isMulti = false,
   } = useModalState<TModalState<'blockchain-selection'>>()
 
-  const { actionData, setData, handleAct, actionState } = useActions<TActionData>({
+  const { actionData, setData, handleAct, actionState } = useActions<TActionsData>({
     selectedBlockchains: ['neo3'],
   })
 

@@ -20,7 +20,7 @@ import { SideModalLayout } from '@renderer/layouts/SideModal'
 
 import type { TModalState } from '@shared/types/modal'
 
-type TActionData = {
+type TActionsData = {
   address: string
   blockchain?: TBSServiceName
 }
@@ -38,7 +38,7 @@ const AddAddressModal = () => {
     validatedAddress,
   } = useNameService()
 
-  const { actionData, setData, handleAct } = useActions<TActionData>({
+  const { actionData, setData, handleAct } = useActions<TActionsData>({
     address: address?.address || '',
     blockchain: address?.blockchain,
   })
@@ -57,7 +57,7 @@ const AddAddressModal = () => {
     if (address) validateAddressOrNS(address, blockchain)
   }
 
-  const handleSubmit = async ({ blockchain, address }: TActionData) => {
+  const handleSubmit = async ({ blockchain, address }: TActionsData) => {
     if (!blockchain || !address) return
 
     await handleAddAddress({ blockchain, address }, index)
