@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 
 import { BSUtilsHelper } from '@cityofzion/blockchain-service'
 import { compareVersions } from 'compare-versions'
@@ -22,6 +22,10 @@ const OverTheAirManagerSetup = () => {
   const dispatch = useAppDispatch()
   const { t } = useTranslation('pages', { keyPrefix: 'root.overTheAirManagerSetup' })
 
+  // Keep latest `t` in a ref so changing the language doesn't re-run the effects (and re-trigger the update check)
+  const tRef = useRef(t)
+  tRef.current = t
+
   useEffect(() => {
     if (!overTheAirInfoRef.current.shouldUpdate || overTheAirInfoRef.current.hasUpdated) {
       return
@@ -39,7 +43,7 @@ const OverTheAirManagerSetup = () => {
         })
       )
 
-      ToastHelper.success({ message: t('downloaded'), duration: 5000 })
+      ToastHelper.success({ message: tRef.current('downloaded'), duration: 5000 })
 
       await BSUtilsHelper.wait(1000)
 
@@ -48,7 +52,7 @@ const OverTheAirManagerSetup = () => {
 
     const removeUpdateErrorListener = window.api.listen('updater:updateError', error => {
       ToastHelper.dismiss('auto-update-downloading')
-      ToastHelper.error({ message: t('error'), duration: 5000 })
+      ToastHelper.error({ message: tRef.current('error'), duration: 5000 })
       LoggerHelper.sentry(error, { where: 'OverTheAirManagerSetup', operation: 'downloadUpdate' })
     })
 
@@ -57,7 +61,7 @@ const OverTheAirManagerSetup = () => {
 
       ToastHelper.loading({
         message: (
-          <Trans t={t} i18nKey="downloading">
+          <Trans t={tRef.current} i18nKey="downloading">
             start
             <span className="inline-block">middle</span>
             <Link
@@ -79,7 +83,7 @@ const OverTheAirManagerSetup = () => {
       removeUpdateErrorListener()
       removeUpdateCompletedListener()
     }
-  }, [dispatch, overTheAirInfoRef, t])
+  }, [dispatch, overTheAirInfoRef])
 
   useEffect(() => {
     const { lastAppVersion, hasUpdated } = overTheAirInfoRef.current
@@ -89,7 +93,7 @@ const OverTheAirManagerSetup = () => {
 
     if (compareVersions(currentAppVersion, lastAppVersion) === 0) {
       if (hasUpdated) {
-        ToastHelper.info({ message: t('installError') })
+        ToastHelper.info({ message: tRef.current('installError') })
       }
 
       dispatch(settingsReducerActions.setOverTheAirInfo({ shouldUpdate: false, hasUpdated: false }))
@@ -107,7 +111,7 @@ const OverTheAirManagerSetup = () => {
         lastAppVersion: undefined,
       })
     )
-  }, [overTheAirInfoRef, modalNavigate, dispatch, t])
+  }, [overTheAirInfoRef, modalNavigate, dispatch])
 
   return null
 }

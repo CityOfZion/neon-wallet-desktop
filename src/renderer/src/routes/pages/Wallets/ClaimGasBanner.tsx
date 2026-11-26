@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useMemo } from 'react'
+import { Fragment, useEffect, useMemo, useRef } from 'react'
 
 import { IBlockchainService, IBSWithClaim } from '@cityofzion/blockchain-service'
 import type { TBSServiceName } from '@cityofzion/bs-multichain'
@@ -29,6 +29,10 @@ type TProps = {
 export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
   const { t } = useTranslation('components', { keyPrefix: 'claimGasButton' })
 
+  // Keep latest `t` in a ref so changing the language doesn't re-run the error effect
+  const tRef = useRef(t)
+  tRef.current = t
+
   const balance = useBalance(account)
 
   const unclaimedQuery = useUnclaimed(account)
@@ -57,9 +61,9 @@ export const ClaimGasBanner = ({ account, blockchainService }: TProps) => {
   useEffect(() => {
     if (!unclaimedQuery.error) return
 
-    ToastHelper.error({ message: t('errorToGetUnclaimed') })
+    ToastHelper.error({ message: tRef.current('errorToGetUnclaimed') })
     LoggerHelper.error(unclaimedQuery.error, { where: 'ClaimGasBanner', operation: 'getUnclaimed' })
-  }, [t, unclaimedQuery.error])
+  }, [unclaimedQuery.error])
 
   return (
     <div className="bg-asphalt mb-5 flex h-13.75 w-full items-center justify-center rounded-sm text-sm">
