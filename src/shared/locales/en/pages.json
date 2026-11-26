@@ -536,6 +536,7 @@
       "amountMax": "Amount is too high, maximum amount is {{amount}}",
       "amountMin": "Amount is too low, minimum amount is {{amount}}",
       "amountZero": "Amount must be greater than zero",
+      "generic": "Unable to prepare this swap. Try increasing the amount, choosing a different token, or try again later",
       "insufficientFunds": "You don't have enough balance",
       "insufficientFundsFee": "You don't have enough balance to pay the fee",
       "noQuotesAvailable": "No quotes available for this swap, try a different amount or token"

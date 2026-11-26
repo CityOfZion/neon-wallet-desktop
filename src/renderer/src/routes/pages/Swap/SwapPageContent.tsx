@@ -82,7 +82,7 @@ export const SwapPageContent = ({ account }: TProps) => {
       .with('AMOUNT_EXCEEDS_BALANCE', () => t('errors.insufficientFunds'))
       .with('FEE_EXCEEDS_BALANCE', 'FEE_CALCULATION_FAILED', () => t('errors.insufficientFundsFee'))
       .with('NO_QUOTES_AVAILABLE', () => t('errors.noQuotesAvailable'))
-      .otherwise(() => error.message)
+      .otherwise(() => t('errors.generic'))
   }
 
   const isLoadingOrValidating = Object.values(state).some(

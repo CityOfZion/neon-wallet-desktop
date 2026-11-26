@@ -536,6 +536,7 @@
       "amountMax": "A quantidade é muito alta, a quantidade máxima é {{amount}}",
       "amountMin": "A quantidade é muito baixa, a quantidade mínima é {{amount}}",
       "amountZero": "A quantidade deve ser maior que zero",
+      "generic": "Não foi possível preparar este swap. Tente aumentar a quantidade, escolher outro token ou tente novamente mais tarde",
       "insufficientFunds": "Você não tem saldo suficiente",
       "insufficientFundsFee": "Você não tem saldo suficiente para pagar a taxa",
       "noQuotesAvailable": "Nenhuma cotação disponível para este swap. Tente uma quantidade ou token diferente"
