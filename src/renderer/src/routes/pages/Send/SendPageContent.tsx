@@ -201,6 +201,13 @@ export const SendPageContent = ({ account, recipientAddress }: TProps) => {
 
       const amountBn = new BSBigHumanAmount(recipient.amount, recipient.token.token.decimals)
 
+      if (amountBn.isNaN() || amountBn.isLessThanOrEqualTo(0)) {
+        clearErrors('selectedAccount')
+        setError('recipients', '')
+
+        return
+      }
+
       const tokenBalance = balanceQuery.data?.tokensBalances?.find(tokenBalance =>
         service?.tokenService?.predicateByHash(recipient.token?.token?.hash || '', tokenBalance.token)
       )
