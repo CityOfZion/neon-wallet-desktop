@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
@@ -13,6 +13,10 @@ const DeeplinkManagerSetup = () => {
   const { modalNavigate } = useModalNavigate()
   const navigate = useNavigate()
   const { t } = useTranslation('pages', { keyPrefix: 'private.deeplinkManagerSetup' })
+
+  // Keep latest `t` in a ref so changing the language doesn't re-run the effect
+  const tRef = useRef(t)
+  tRef.current = t
 
   useEffect(() => {
     const handleDeeplink = async (uri?: string) => {
@@ -57,8 +61,8 @@ const DeeplinkManagerSetup = () => {
               onSelectAccount: (account: TAccount) => {
                 modalNavigate('dapp-connection', { state: { account: account, uri: wcUri } })
               },
-              title: t('selectAccountModal.title'),
-              buttonLabel: t('selectAccountModal.selectSourceAccount'),
+              title: tRef.current('selectAccountModal.title'),
+              buttonLabel: tRef.current('selectAccountModal.selectSourceAccount'),
             },
           })
         }
@@ -74,7 +78,7 @@ const DeeplinkManagerSetup = () => {
     return () => {
       removeDeeplinkListener()
     }
-  }, [t, modalNavigate, navigate])
+  }, [modalNavigate, navigate])
 
   return null
 }

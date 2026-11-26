@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 
 import { useTranslation } from 'react-i18next'
 
@@ -10,6 +10,10 @@ const DeeplinkManagerSetup = () => {
   const { loginSessionRef } = useLoginSessionSelector()
   const { t } = useTranslation('pages', { keyPrefix: 'root.deeplinkManagerSetup' })
 
+  // Keep latest `t` in a ref so changing the language doesn't re-run the effect
+  const tRef = useRef(t)
+  tRef.current = t
+
   useEffect(() => {
     const handleDeeplink = async (uri?: string) => {
       if (!uri) return
@@ -18,7 +22,7 @@ const DeeplinkManagerSetup = () => {
 
       if (!loginSessionRef.current)
         ToastHelper.info({
-          message: t('pleaseLogin'),
+          message: tRef.current('pleaseLogin'),
         })
     }
 
@@ -28,7 +32,7 @@ const DeeplinkManagerSetup = () => {
     return () => {
       removeListener()
     }
-  }, [loginSessionRef, t])
+  }, [loginSessionRef])
 
   return null
 }
