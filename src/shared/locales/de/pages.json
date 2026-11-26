@@ -536,6 +536,7 @@
       "amountMax": "Betrag ist zu hoch, Maximalbetrag ist {{amount}}",
       "amountMin": "Betrag ist zu niedrig, Mindestbetrag ist {{amount}}",
       "amountZero": "Betrag muss größer als null sein",
+      "generic": "Dieser Swap kann nicht vorbereitet werden. Versuche, den Betrag zu erhöhen, einen anderen Token zu wählen, oder versuche es später erneut",
       "insufficientFunds": "Sie haben nicht genügend Guthaben",
       "insufficientFundsFee": "Sie haben nicht genügend Guthaben, um die Gebühr zu bezahlen",
       "noQuotesAvailable": "Für diesen Swap sind keine Angebote verfügbar. Versuchen Sie einen anderen Betrag oder Token"

@@ -536,6 +536,7 @@
       "amountMax": "金额太高，最大金额为{{amount}}",
       "amountMin": "金额太低，最小金额为{{amount}}",
       "amountZero": "金额必须大于零",
+      "generic": "无法准备此兑换。请尝试增加金额、选择其他代币，或稍后重试",
       "insufficientFunds": "余额不足",
       "insufficientFundsFee": "余额不足以支付手续费",
       "noQuotesAvailable": "此兑换暂无可用报价。请尝试其他金额或代币"
