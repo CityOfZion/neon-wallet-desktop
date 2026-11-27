@@ -42,18 +42,20 @@
       "description": "Neon更新为您的钱包带来新的安全性和功能改进，同时修复现有问题，如漏洞和崩溃",
       "title": "您的钱包已更新！"
     },
-    "mobile": {
-      "buttonContinueLabel": "继续进入钱包",
-      "description": "安全存储、查看和管理您的所有数字资产和多个钱包于一处。利用设备的额外安全选项保障资产安全",
-      "downloadForAndroid": "下载Android版",
-      "downloadForIOS": "下载iOS版",
-      "title": "您的钱包也可在移动端使用！"
-    },
     "notes": {
       "buttonContinueLabel": "开始使用钱包",
       "buttonLearnMoreLabel": "了解更多",
       "subtitle": "版本说明",
       "title": "您的钱包更强大了！"
+    },
+    "platforms": {
+      "buttonContinueLabel": "继续进入钱包",
+      "description": "无论在手机上还是浏览器中，都能在一处安全存储、查看和管理您的所有数字资产和多个钱包。利用设备的额外安全选项保障资产安全",
+      "downloadForAndroid": "下载Android版",
+      "downloadForBrowser": "下载浏览器版",
+      "downloadForIOS": "下载iOS版",
+      "extensionButtonLabel": "获取扩展程序",
+      "title": "您的钱包也可在移动端和浏览器中使用！"
     }
   },
   "blockchainSelection": {

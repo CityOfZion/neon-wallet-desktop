@@ -42,18 +42,20 @@
       "description": "Neon updates provide your wallet with new and improved security and functionality while addressing existing issues, such as bugs and crashes",
       "title": "Your wallet has been updated!"
     },
-    "mobile": {
-      "buttonContinueLabel": "Continue to your wallet",
-      "description": "Safely store, view and manage all of your digital assets and multiple wallets in one place. Take advantage of the additional security options on your device to keep your assets safe",
-      "downloadForAndroid": "Download for Android",
-      "downloadForIOS": "Download for iOS",
-      "title": "Your wallet is available on mobile too!"
-    },
     "notes": {
       "buttonContinueLabel": "Start using your wallet",
       "buttonLearnMoreLabel": "Learn more",
       "subtitle": "Release Notes",
       "title": "Your wallet just got more powerful!"
+    },
+    "platforms": {
+      "buttonContinueLabel": "Continue to your wallet",
+      "description": "Safely store, view and manage all of your digital assets and multiple wallets in one place, on your phone or in your browser. Take advantage of the additional security options on your device to keep your assets safe",
+      "downloadForAndroid": "Download for Android",
+      "downloadForBrowser": "Download for browser",
+      "downloadForIOS": "Download for iOS",
+      "extensionButtonLabel": "Get the extension",
+      "title": "Your wallet is available on mobile and browser too!"
     }
   },
   "blockchainSelection": {

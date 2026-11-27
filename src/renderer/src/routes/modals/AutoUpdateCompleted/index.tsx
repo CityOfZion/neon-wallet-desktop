@@ -32,7 +32,7 @@ const AutoUpdateCompleted = () => {
       <div className="flex w-full justify-center gap-x-2">
         <Button
           label={t('buttonPatchNotesLabel')}
-          rightIcon={<TbNotes />}
+          rightIcon={<TbNotes aria-hidden />}
           colorSchema="gray"
           wide
           iconsOnEdge={false}
@@ -42,8 +42,8 @@ const AutoUpdateCompleted = () => {
           label={t('buttonContinueLabel')}
           iconsOnEdge={false}
           wide
-          rightIcon={<MdOutlineAutoAwesome />}
-          onClick={modalNavigateWrapper('auto-update-mobile')}
+          rightIcon={<MdOutlineAutoAwesome aria-hidden />}
+          onClick={modalNavigateWrapper('auto-update-platforms')}
         />
       </div>
     </CenterModalLayout>

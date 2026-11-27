@@ -42,18 +42,20 @@
       "description": "Neon 更新為您的錢包帶來全新且更安全的功能，並修復現有問題，例如錯誤和閃退",
       "title": "您的錢包已更新！"
     },
-    "mobile": {
-      "buttonContinueLabel": "繼續使用您的錢包",
-      "description": "安全儲存、查看並管理所有數位資產與多個錢包於一處。善用裝置的額外安全選項，保障您的資產安全",
-      "downloadForAndroid": "下載 Android 版",
-      "downloadForIOS": "下載 iOS 版",
-      "title": "您的錢包也可在行動裝置上使用！"
-    },
     "notes": {
       "buttonContinueLabel": "開始使用您的錢包",
       "buttonLearnMoreLabel": "了解更多",
       "subtitle": "版本說明",
       "title": "您的錢包變得更強大了！"
+    },
+    "platforms": {
+      "buttonContinueLabel": "繼續使用您的錢包",
+      "description": "無論在手機上或瀏覽器中，都能於一處安全儲存、查看並管理所有數位資產與多個錢包。善用裝置的額外安全選項，保障您的資產安全",
+      "downloadForAndroid": "下載 Android 版",
+      "downloadForBrowser": "下載瀏覽器版",
+      "downloadForIOS": "下載 iOS 版",
+      "extensionButtonLabel": "取得擴充功能",
+      "title": "您的錢包也可在行動裝置和瀏覽器上使用！"
     }
   },
   "blockchainSelection": {

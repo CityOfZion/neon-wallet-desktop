@@ -105,8 +105,8 @@ const sideModalsRouter: TRoute[] = [
 ]
 
 const AutoUpdateCompletedModal = lazy(() => import('./modals/AutoUpdateCompleted'))
-const AutoUpdateMobileModal = lazy(() => import('./modals/AutoUpdateMobile'))
 const AutoUpdateNotesModal = lazy(() => import('./modals/AutoUpdateNotes'))
+const AutoUpdatePlatformsModal = lazy(() => import('./modals/AutoUpdatePlatforms'))
 const BuyAndSellTokensLeaveAlertModal = lazy(() => import('./modals/BuyAndSellTokensLeaveAlert'))
 const ConnectHardwareWalletModal = lazy(() => import('./modals/ConnectHardwareWallet'))
 const DappConnectionModal = lazy(() => import('./modals/DappConnection'))
@@ -123,8 +123,8 @@ const Neo3VoteSupportUsModal = lazy(() => import('./modals/Neo3VoteSupportUs'))
 
 const centerModalsRouter: TRoute[] = [
   { name: 'auto-update-completed', element: AutoUpdateCompletedModal },
-  { name: 'auto-update-mobile', element: AutoUpdateMobileModal },
   { name: 'auto-update-notes', element: AutoUpdateNotesModal },
+  { name: 'auto-update-platforms', element: AutoUpdatePlatformsModal },
   { name: 'buy-and-sell-tokens-leave-alert', element: BuyAndSellTokensLeaveAlertModal },
   { name: 'connect-hardware-wallet', element: ConnectHardwareWalletModal },
   { name: 'dapp-connection', element: DappConnectionModal },

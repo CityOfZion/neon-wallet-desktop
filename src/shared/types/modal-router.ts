@@ -410,8 +410,8 @@ type TStellarPersistTrustlineModalState = {
 
 type TModalRouterCenterRouteTypes = {
   'auto-update-completed': undefined
-  'auto-update-mobile': undefined
   'auto-update-notes': undefined
+  'auto-update-platforms': undefined
   'buy-and-sell-tokens-leave-alert': TBuyAndSellTokensLeaveAlertModalState
   'connect-hardware-wallet': undefined
   'dapp-connection': TDappConnectionModalState
