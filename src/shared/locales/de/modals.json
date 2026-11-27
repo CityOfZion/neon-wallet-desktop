@@ -26,21 +26,6 @@
     "saveAddress": "Adresse speichern",
     "title": "Adresse hinzufügen"
   },
-  "addCustomNetwork": {
-    "deleteButtonLabel": "Netzwerk löschen",
-    "errors": {
-      "invalidURL": "Ungültige URL",
-      "networkNameIsRequired": "Netzwerkname ist erforderlich",
-      "networkNameIsTooLong": "Netzwerkname ist zu lang",
-      "notConnect": "Verbindung zu diesem Netzwerk nicht möglich"
-    },
-    "nameLabel": "Name",
-    "namePlaceholder": "Namen eingeben",
-    "successUrl": "Erfolgreich mit dem Netzwerk verbunden",
-    "title": "Benutzerdefiniertes Netzwerk hinzufügen",
-    "urlLabel": "URL",
-    "urlPlaceholder": "Beispiel: 'http://127.0.0.1:50012"
-  },
   "addNetworkProfile": {
     "deleteButtonLabel": "Profil löschen",
     "errors": {
@@ -699,6 +684,21 @@
     "name": "Name",
     "noAddressesFound": "Keine Adressen gefunden",
     "saveContact": "Kontakt speichern"
+  },
+  "saveCustomNetwork": {
+    "deleteNetworkButtonLabel": "Netzwerk löschen",
+    "errors": {
+      "invalidURL": "Ungültige URL",
+      "networkNameIsRequired": "Netzwerkname ist erforderlich",
+      "networkNameIsTooLong": "Netzwerkname ist zu lang",
+      "notConnect": "Verbindung zu diesem Netzwerk nicht möglich"
+    },
+    "nameLabel": "Name",
+    "namePlaceholder": "Namen eingeben",
+    "successUrl": "Erfolgreich mit dem Netzwerk verbunden",
+    "title": "Benutzerdefiniertes Netzwerk hinzufügen",
+    "urlLabel": "URL",
+    "urlPlaceholder": "Beispiel: http://127.0.0.1:50012"
   },
   "search": {
     "closeButtonLabel": "Schließen",

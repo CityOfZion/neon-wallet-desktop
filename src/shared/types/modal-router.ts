@@ -32,11 +32,6 @@ type TAddAddressModalState = {
   handleAddAddress: (contactAddress: TContactAddress, index?: number) => void
 }
 
-type TAddCustomNetworkModalState = {
-  blockchain: TBSServiceName
-  network?: TNetwork
-}
-
 type TAddNetworkProfileModalState = {
   profile: TNetworkProfile
 }
@@ -230,6 +225,11 @@ type TPersistContactModalState =
     }
   | undefined
 
+type TSaveCustomNetworkModalState = {
+  blockchain: TBSServiceName
+  network?: TNetwork
+}
+
 type TSelectAccountModalState = {
   onSelectAccount: (contact: TAccount) => void
   title?: string
@@ -284,7 +284,6 @@ type TNeo3VoteCandidateDetailsModalState = {
 type TModalRouterSideRouteTypes = {
   'about-extra-id-to-receive': undefined
   'add-address': TAddAddressModalState
-  'add-custom-network': TAddCustomNetworkModalState
   'add-network-profile': TAddNetworkProfileModalState | undefined
   'blockchain-selection': TBlockchainSelectionModalState
   'buy-and-sell-tokens-about-data': undefined
@@ -322,6 +321,7 @@ type TModalRouterSideRouteTypes = {
   notifications: undefined
   'persist-account': TPersistAccountModalState
   'persist-contact': TPersistContactModalState
+  'save-custom-network': TSaveCustomNetworkModalState
   'select-account': TSelectAccountModalState
   'select-contact': TSelectContactModalState
   'sell-tokens-deposit': TSellTokensDepositModalState

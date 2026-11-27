@@ -47,7 +47,7 @@ type TItem = {
   nonVerbsMatchedQuantity: number
 }
 
-type TActionData = {
+type TActionsData = {
   isSearching: boolean
   foundActions?: TSearchAction[]
   search: string
@@ -68,7 +68,7 @@ const SearchModal = () => {
   const modalActions = useModalNavigate()
   const pageNavigate = useNavigate()
 
-  const { actionData, setData } = useActions<TActionData>({ isSearching: false, search: '', foundActions: undefined })
+  const { actionData, setData } = useActions<TActionsData>({ isSearching: false, search: '', foundActions: undefined })
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const searchActions = useMemo<TSearchAction[]>(() => tSearch('actions', { returnObjects: true }), [])

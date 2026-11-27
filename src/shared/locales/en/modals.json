@@ -26,21 +26,6 @@
     "saveAddress": "Save address",
     "title": "Add address"
   },
-  "addCustomNetwork": {
-    "deleteButtonLabel": "Delete network",
-    "errors": {
-      "invalidURL": "Invalid URL",
-      "networkNameIsRequired": "Network name is required",
-      "networkNameIsTooLong": "Network name is too long",
-      "notConnect": "Can't connect to this network"
-    },
-    "nameLabel": "Name",
-    "namePlaceholder": "Enter name",
-    "successUrl": "Successfully connected to the network",
-    "title": "Add custom network",
-    "urlLabel": "URL",
-    "urlPlaceholder": "Example: 'http://127.0.0.1:50012"
-  },
   "addNetworkProfile": {
     "deleteButtonLabel": "Delete profile",
     "errors": {
@@ -699,6 +684,21 @@
     "name": "Name",
     "noAddressesFound": "No addresses found",
     "saveContact": "Save contact"
+  },
+  "saveCustomNetwork": {
+    "deleteNetworkButtonLabel": "Delete network",
+    "errors": {
+      "invalidURL": "Invalid URL",
+      "networkNameIsRequired": "Network name is required",
+      "networkNameIsTooLong": "Network name is too long",
+      "notConnect": "Can't connect to this network"
+    },
+    "nameLabel": "Name",
+    "namePlaceholder": "Enter the name",
+    "successUrl": "Successfully connected to the network",
+    "title": "Add custom network",
+    "urlLabel": "URL",
+    "urlPlaceholder": "Example: http://127.0.0.1:50012"
   },
   "search": {
     "closeButtonLabel": "Close",

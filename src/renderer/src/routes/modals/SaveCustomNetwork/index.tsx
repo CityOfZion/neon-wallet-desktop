@@ -1,4 +1,4 @@
-import { ChangeEvent } from 'react'
+import { useEffect } from 'react'
 
 import { useTranslation } from 'react-i18next'
 
@@ -8,6 +8,7 @@ import { Input } from '@renderer/components/Input'
 import { Separator } from '@renderer/components/Separator'
 
 import { BlockchainServiceHelper } from '@renderer/helpers/BlockchainServiceHelper'
+import { StringHelper } from '@renderer/helpers/StringHelper'
 import { UtilsHelper } from '@renderer/helpers/UtilsHelper'
 
 import { useActions } from '@renderer/hooks/useActions'
@@ -30,28 +31,31 @@ type TActionsData = {
   isValid: boolean
 }
 
-const AddCustomNetwork = () => {
-  const { t } = useTranslation('modals', { keyPrefix: 'addCustomNetwork' })
+const NAME_MAX_LENGTH = 10
+
+const SaveCustomNetwork = () => {
+  const { t } = useTranslation('modals', { keyPrefix: 'saveCustomNetwork' })
   const { t: tCommonGeneral } = useTranslation('common', { keyPrefix: 'general' })
   const { modalNavigate, modalNavigateWrapper } = useModalNavigate()
-  const { blockchain, network: networkToEdit } = useModalState<TModalState<'add-custom-network'>>()
+  const { blockchain, network } = useModalState<TModalState<'save-custom-network'>>()
   const dispatch = useAppDispatch()
   const debounce = useDebounceFunction()
 
   const { actionData, actionState, setDataFromEventWrapper, setData, handleAct, setError, clearErrors } =
     useActions<TActionsData>({
-      name: networkToEdit?.name || '',
-      url: networkToEdit?.url || '',
+      name: network?.name || '',
+      url: network?.url || '',
       validating: false,
-      isValid: !!networkToEdit,
+      isValid: false,
     })
 
   const trimmedName = actionData.name.trim()
   const isNameEmpty = trimmedName.length === 0
-  const isNameTooLong = trimmedName.length > 10
+  const isNameTooLong = trimmedName.length > NAME_MAX_LENGTH
 
-  const handleUrlChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const url = event.target.value.trim()
+  const handleUrlChange = (url: string) => {
+    url = StringHelper.normalizeText(url)
+
     const validating = !!url
 
     clearErrors('url')
@@ -82,9 +86,9 @@ const AddCustomNetwork = () => {
   }
 
   const handleDelete = () => {
-    if (!networkToEdit) return
+    if (!network) return
 
-    dispatch(settingsReducerActions.deleteCustomNetwork({ blockchain, network: networkToEdit }))
+    dispatch(settingsReducerActions.deleteCustomNetwork({ blockchain, network }))
 
     modalNavigate(-1)
   }
@@ -106,13 +110,22 @@ const AddCustomNetwork = () => {
         network: {
           name: trimmedName,
           url: data.url,
-          id: networkToEdit?.id || UtilsHelper.uuid(),
+          id: network?.id || UtilsHelper.uuid(),
           type: 'custom',
         },
       })
     )
+
     modalNavigate(-1)
   }
+
+  useEffect(() => {
+    if (network) {
+      handleUrlChange(network.url)
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [network])
 
   return (
     <SideModalLayout heading={t('title')} headingIcon={<TbCube3dSphere aria-hidden />} contentClassName="flex flex-col">
@@ -123,6 +136,7 @@ const AddCustomNetwork = () => {
             placeholder={t('namePlaceholder')}
             label={t('nameLabel')}
             value={actionData.name}
+            maxLength={NAME_MAX_LENGTH}
             errorMessage={actionState.errors.name}
             onChange={setDataFromEventWrapper('name')}
           />
@@ -134,22 +148,22 @@ const AddCustomNetwork = () => {
               label={t('urlLabel')}
               pastable
               value={actionData.url}
-              onChange={handleUrlChange}
               loading={actionData.validating}
               errorMessage={actionState.errors.url}
+              onChange={event => handleUrlChange(event.target.value)}
             />
 
             {actionData.isValid && <Banner message={t('successUrl')} type="success" />}
           </div>
         </div>
 
-        {networkToEdit && (
+        {network && (
           <Button
-            label={t('deleteButtonLabel')}
-            flat
+            label={t('deleteNetworkButtonLabel')}
+            type="button"
             variant="outlined"
             colorSchema="error"
-            type="button"
+            flat
             onClick={handleDelete}
           />
         )}
@@ -159,18 +173,18 @@ const AddCustomNetwork = () => {
 
           <div className="flex gap-x-3 px-5">
             <Button
-              className="w-full"
-              type="button"
-              onClick={modalNavigateWrapper(-1)}
               label={tCommonGeneral('cancel')}
-              flat
+              type="button"
               colorSchema="gray"
+              className="w-full"
+              flat
+              onClick={modalNavigateWrapper(-1)}
             />
 
             <Button
-              className="w-full"
-              type="submit"
               label={tCommonGeneral('save')}
+              type="submit"
+              className="w-full"
               flat
               disabled={!actionData.isValid}
             />
@@ -181,4 +195,4 @@ const AddCustomNetwork = () => {
   )
 }
 
-export default AddCustomNetwork
+export default SaveCustomNetwork

@@ -18,7 +18,7 @@ import TbAlertTriangle from '@renderer/assets/images/tb-alert-triangle.svg?react
 import { AppError } from '@shared/helpers/SharedErrorHelper'
 import { TModalState } from '@shared/types/modal'
 
-type TActionData = {
+type TActionsData = {
   password: string
 }
 
@@ -29,7 +29,7 @@ const ConfirmActionModal = () => {
   const { onSuccess, onCancel } = useModalState<TModalState<'confirm-action'>>()
   const { modalErase } = useModalNavigate()
 
-  const { actionData, actionState, handleAct, setError, setDataFromEventWrapper } = useActions<TActionData>({
+  const { actionData, actionState, handleAct, setError, setDataFromEventWrapper } = useActions<TActionsData>({
     password: '',
   })
 

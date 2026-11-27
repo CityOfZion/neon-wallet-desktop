@@ -30,6 +30,7 @@ export class SharedI18nextHelper {
 
   static get = () => {
     SharedI18nextHelper.setup()
+
     return i18n
   }
 }

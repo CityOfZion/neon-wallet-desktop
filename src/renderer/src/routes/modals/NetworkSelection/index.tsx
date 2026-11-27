@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { hasWalletConnect } from '@cityofzion/blockchain-service'
 import { useTranslation } from 'react-i18next'
@@ -36,12 +36,13 @@ const NetworkSelectionModal = () => {
   const { customNetworks } = useCustomNetworksSelector()
   const dispatch = useAppDispatch()
 
-  const [selectedNetworkId, setSelectedNetworkId] = useState<string>()
+  const network = selectedNetworkProfile.networkByBlockchain[blockchain]
 
-  const networkId = selectedNetworkProfile.networkByBlockchain[blockchain].id
+  const [selectedNetworkId, setSelectedNetworkId] = useState(network.id)
+
   const service = BlockchainServiceHelper.bsAggregator.blockchainServicesByName[blockchain]
   const options = service.availableNetworks.concat(...customNetworks[blockchain])
-  const selectedNetwork = options.find(option => option.id === selectedNetworkId) || options[0]
+  const selectedNetwork = options.find(option => option.id === selectedNetworkId) || network
 
   const onSelectRadioItem = (selectedValue: string) => {
     const network = options.find(network => network.id === selectedValue)
@@ -52,7 +53,7 @@ const NetworkSelectionModal = () => {
   }
 
   const handleSave = async () => {
-    if (selectedNetworkId !== networkId) {
+    if (selectedNetwork.id !== network.id) {
       if (hasWalletConnect(service)) {
         const sessions = WalletKitHelper.kit.getActiveSessions()
 
@@ -83,10 +84,6 @@ const NetworkSelectionModal = () => {
     modalNavigate(-1)
   }
 
-  useLayoutEffect(() => {
-    setSelectedNetworkId(networkId)
-  }, [networkId])
-
   return (
     <SideModalLayout
       heading={t('title')}
@@ -98,7 +95,7 @@ const NetworkSelectionModal = () => {
           {t('selectNetwork')}
         </span>
 
-        <RadioGroup.Group value={selectedNetworkId} onValueChange={onSelectRadioItem}>
+        <RadioGroup.Group value={selectedNetwork.id} onValueChange={onSelectRadioItem}>
           {options.map(network => {
             const isDefaultCustomNetwork = NetworkHelper.isDefaultCustomNetwork(network)
             const isCustomNetwork = network.type === 'custom'
@@ -138,7 +135,7 @@ const NetworkSelectionModal = () => {
               flat
               iconsOnEdge={false}
               rightIcon={<TbPencil aria-hidden />}
-              onClick={modalNavigateWrapper('add-custom-network', {
+              onClick={modalNavigateWrapper('save-custom-network', {
                 state: { blockchain, network: selectedNetwork },
               })}
               {...TestHelper.buildTestObject('network-selection-edit-custom-network')}
@@ -151,7 +148,7 @@ const NetworkSelectionModal = () => {
             flat
             iconsOnEdge={false}
             rightIcon={<TbPlus aria-hidden />}
-            onClick={modalNavigateWrapper('add-custom-network', {
+            onClick={modalNavigateWrapper('save-custom-network', {
               state: { blockchain },
             })}
             {...TestHelper.buildTestObject('network-selection-add-custom-network')}

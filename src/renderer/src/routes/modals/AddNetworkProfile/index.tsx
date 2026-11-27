@@ -18,7 +18,7 @@ import MdDeleteForever from '@renderer/assets/images/md-delete-forever.svg?react
 import { settingsReducerActions } from '@renderer/store/reducers/settings'
 import type { TModalState } from '@shared/types/modal'
 
-type TActionData = {
+type TActionsData = {
   name: string
 }
 
@@ -30,7 +30,7 @@ const AddNetworkProfileModal = () => {
   const dispatch = useAppDispatch()
   const { networkByBlockchain } = useSelectedNetworkByBlockchainSelector()
 
-  const { actionData, actionState, setDataFromEventWrapper, setError, handleAct } = useActions<TActionData>({
+  const { actionData, actionState, setDataFromEventWrapper, setError, handleAct } = useActions<TActionsData>({
     name: modalState?.profile?.name || '',
   })
 
@@ -38,7 +38,7 @@ const AddNetworkProfileModal = () => {
 
   const isDisabled = actionData.name.trim().length === 0
 
-  const handleSubmit = (data: TActionData) => {
+  const handleSubmit = (data: TActionsData) => {
     if (isDisabled) {
       setError('name', t('errors.profileNameIsRequired'))
       return
